@@ -1,15 +1,21 @@
 /******************************************************************************
- * The contents of this file are subject to the   Compiere License  Version 1.1
- * ("License"); You may not use this file except in compliance with the License
- * You may obtain a copy of the License at http://www.compiere.org/license.html
- * Software distributed under the License is distributed on an  "AS IS"  basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- * The Original Code is Compiere ERP & CRM Smart Business Solution. The Initial
- * Developer of the Original Code is Jorg Janke. Portions created by Jorg Janke
- * are Copyright (C) 1999-2005 Jorg Janke.
- * All parts are Copyright (C) 1999-2005 ComPiere, Inc.  All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Carlos Ruiz - globalqss                                    *
+ *                 Teo Sarca                                                  *
+ *                 Trifon Trifonov                                            *
  *****************************************************************************/
 package org.adempiere.util;
 
@@ -55,7 +61,26 @@ public class GenerateModelTrifon
 		// Save
 		writeToFile (sb, directory + tableName + ".java");
 	}
-
+	
+	/** File Header			*/
+	public static final String COPY = 
+		 "/******************************************************************************\n"
+		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
+		+" * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *\n"
+		+" * This program is free software; you can redistribute it and/or modify it    *\n"
+		+" * under the terms version 2 of the GNU General Public License as published   *\n"
+		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
+		+" * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *\n"
+		+" * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *\n"
+		+" * See the GNU General Public License for more details.                       *\n"
+		+" * You should have received a copy of the GNU General Public License along    *\n"
+		+" * with this program; if not, write to the Free Software Foundation, Inc.,    *\n"
+		+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
+		+" * For the text or an alternative of this public license, you may reach us    *\n"
+		+" * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *\n"
+		+" * or via info@compiere.org or http://www.compiere.org/license.html           *\n"
+		+" *****************************************************************************/\n";
+	
 	/**	Generated on					*/
 	private Timestamp 		s_run = new Timestamp(System.currentTimeMillis());
 	
@@ -108,65 +133,94 @@ public class GenerateModelTrifon
 		if (tableName == null)
 			throw new RuntimeException ("TableName not found for ID=" + AD_Table_ID);
 		//
+		String accessLevelInfo = accessLevel + " ";
+		if (accessLevel >= 4 )
+			accessLevelInfo += "- System ";
+		if (accessLevel == 2 || accessLevel == 3 || accessLevel == 6 || accessLevel == 7)
+			accessLevelInfo += "- Client ";
+		if (accessLevel == 1 || accessLevel == 3 || accessLevel == 5 || accessLevel == 7)
+			accessLevelInfo += "- Org ";
+		
+		//
 		String keyColumn = tableName + "_ID";
 		String className = "X_" + tableName;
 		//
 		StringBuffer start = new StringBuffer ()
-			.append (
-			"/** Generated Model - DO NOT CHANGE - Copyright (C) 1999-2005 Jorg Janke */\n"
-			+ "package " + packageName + ";");
+			.append (COPY)
+			.append ("/** Generated Model - DO NOT CHANGE */\n")
+			.append("package " + packageName + ";")
+		;
 		if (!packageName.equals("org.compiere.model"))
-			start.append("import org.compiere.model.*;");	
-		start.append("import java.util.*;"
-			+ "import java.sql.*;"
-			+ "import java.math.*;"
-			+ "import java.lang.reflect.Constructor;"
-			+ "import java.util.logging.Level;"
-			+ "import org.compiere.util.*;"
+			start.append("import org.compiere.model.*;");
+		
+		start.append("import java.util.*;")
+			 .append("import java.sql.*;")
+			 .append("import java.math.*;")
+			 .append("import java.lang.reflect.Constructor;")
+			 .append("import java.util.logging.Level;")
+			 .append("import org.compiere.util.*;")
 			//	Class
-			+ "/** Generated Model for ").append(tableName).append("\n"
-			+ " *  @author Trifon Trifonov (generated) \n"
-			+ " *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append(" */\n"
-			+ "public class ").append(className).append(" extends PO implements I_" +tableName
-			+ "{"
+			 .append("/** Generated Model for ").append(tableName).append("\n")
+			 .append(" *  @author Adempiere (generated) \n")
+			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */\n")
+			 .append("public class ").append(className).append(" extends PO implements I_").append(tableName)
+			 .append("{")
 			//	Standard Constructor
-			+ "/** Standard Constructor */\n"
-			+ "public ").append(className).append(" (Properties ctx, int ").append(keyColumn)
-				.append(", String trxName)"
-			+ "{"
-			+ "super (ctx, ").append(keyColumn).append(", trxName);"
-			+ "/** if (").append(keyColumn).append(" == 0)"
-			+ "{").append(mandatory).append("} */\n"
-			+ "}"	//	Constructor End
+			 .append("    /** Standard Constructor */\n")
+			 .append("    public ").append(className).append(" (Properties ctx, int ").append(keyColumn).append(", String trxName)")
+			 .append("    {")
+			 .append("      super (ctx, ").append(keyColumn).append(", trxName);")
+			 .append("      /** if (").append(keyColumn).append(" == 0)")
+			 .append("        {").append(mandatory).append("} */\n")
+			 .append("    }")
+			//	Constructor End
 			
 			//	Load Constructor
-			+ "/** Load Constructor */\n"
-			+ "public ").append(className).append(" (Properties ctx, ResultSet rs, String trxName)"
-			+ "{"
-			+ "super (ctx, rs, trxName);"
-			+ "}"	//	Load Constructor End
+			 .append("    /** Load Constructor */\n")
+			 .append("    public ").append(className).append(" (Properties ctx, ResultSet rs, String trxName)")
+			 .append("    {")
+			 .append("      super (ctx, rs, trxName);")
+			 .append("    }")
+			//	Load Constructor End
 			
-			//
-			+ "/** AD_Table_ID=").append(AD_Table_ID).append(" */\n"
-			+ "public static final int Table_ID=").append(AD_Table_ID).append(";\n"
-			+ "/** TableName=").append(tableName).append(" */\n"
-			+ "public static final String Table_Name=\"").append(tableName).append("\";\n"
-			+ "protected static KeyNamePair Model = new KeyNamePair(").append(AD_Table_ID).append(",\"").append(tableName).append("\");" 
-			+ "protected static BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n"
-			+ "/** Load Meta Data */\n"
-			+ "public POInfo initPO (Properties ctx)"
-			+ "{"
-			+ "POInfo poi = POInfo.getPOInfo (ctx, Table_ID);"
-			+ "return poi;"
-			+ "}"		//	initPO
+			// TableName
+			 .append("    /** TableName=").append(tableName).append(" */\n")
+			 .append("    public static final String Table_Name = \"").append(tableName).append("\";\n")
+			 
+			// AD_Table_ID		
+			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */\n")
+			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);\n")
+			 
+			// KeyNamePair
+			 .append("    protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
+			 
+			// accessLevel
+			 .append("    protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");")
+			 .append("    /** AccessLevel\n")
+			 .append("      * @return ").append(accessLevelInfo).append("\n")
+			 .append("      */\n")
+			 .append("    protected int get_AccessLevel()")
+			 .append("    {")
+			 .append("      return accessLevel.intValue();")
+			 .append("    }")
+
+			 // initPO
+			 .append("    /** Load Meta Data */\n")
+			 .append("    protected POInfo initPO (Properties ctx)")
+			 .append("    {")
+			 .append("      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);")
+			 .append("      return poi;")
+			 .append("    }")
+			// initPO
 			
-			//
-			+ "public String toString()"
-			+ "{"
-			+ "    StringBuffer sb = new StringBuffer (\"").append(className).append("[\")"
-			+ "      .append(getID()).append(\"]\");"
-			+ "    return sb.toString();"
-			+ "}");
+			// toString()
+			 .append("    public String toString()")
+			 .append("    {")
+			 .append("      StringBuffer sb = new StringBuffer (\"").append(className).append("[\")")
+			 .append("        .append(get_ID()).append(\"]\");")
+			 .append("      return sb.toString();")
+			 .append("    }")
+		;
 
 		StringBuffer end = new StringBuffer ("}");
 		//
@@ -347,7 +401,7 @@ public class GenerateModelTrifon
 				.append("() {")
 				//	.append(" return null; };")
 				;
-				sb.append("Class clazz = M_Table.getClass("+referenceClassName+".Table_Name);")
+				sb.append("Class clazz = MTable.getClass("+referenceClassName+".Table_Name);")
 					.append(referenceClassName).append(" result = null;")
 					.append("try	{")
 					.append("	Constructor constructor = null;")
@@ -635,8 +689,8 @@ public class GenerateModelTrifon
 		String method = "get" + columnName + "()";
 		if (displayType != DisplayType.String)
 			method = "String.valueOf(" + method + ")";
-		StringBuffer sb = new StringBuffer("public KeyNamePair getKeyNamePair() "
-			+ "{return new KeyNamePair(getID(), ").append(method).append(");}");
+		StringBuffer sb = new StringBuffer("    public KeyNamePair getKeyNamePair() ")
+			.append("    {return new KeyNamePair(get_ID(), ").append(method).append(");}");
 		return sb;
 	}	//	createKeyNamePair
 

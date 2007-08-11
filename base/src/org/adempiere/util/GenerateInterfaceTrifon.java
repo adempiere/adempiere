@@ -167,6 +167,7 @@ public class GenerateInterfaceTrifon {
 		}
 		
 		start.append("import java.util.*;")
+			 .append("import java.sql.Timestamp;")
 			 .append("import java.math.*;")
 			 .append("import org.compiere.util.*;")
 			 .append("\n")
@@ -193,7 +194,7 @@ public class GenerateInterfaceTrifon {
 			 
 			 .append("    /** Load Meta Data */\n")
 			 //.append("    protected POInfo initPO (Properties ctx);")
-			 .append("    POInfo initPO (Properties ctx);") // TODO - Should this be here???
+			 //.append("    POInfo initPO (Properties ctx);") // TODO - Should this be here???
 		;
 
 		StringBuffer end = new StringBuffer("}");
