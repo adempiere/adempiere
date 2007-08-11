@@ -31,6 +31,8 @@ package test.functional;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
+import org.compiere.model.I_AD_Alert;
+import org.compiere.model.I_AD_AlertProcessor;
 import org.compiere.model.MAlert;
 import org.compiere.model.X_AD_Alert;
 import org.compiere.util.CLogMgt;
@@ -76,13 +78,13 @@ public class AlertTest implements Runnable
 		// New way:
 /*		I_AD_Alert alert = new MAlert(Env.getCtx(), 1000000, trx.getTrxName());
 		
-		boolean resultSave = alert.save();
+		boolean resultSave = ((X_AD_Alert) alert).save();
 		log.info(alert.toString());
 				
 		//
 		System.out.println("Trifon - alert.getAD_AlertProcessor_ID = " + alert.getAD_AlertProcessor_ID());
 		
-		I_AD_AlertProcessor alertProcessor = ((X_AD_Alert) alert).getI_AD_AlertProcessor();
+		I_AD_AlertProcessor alertProcessor = alert.getI_AD_AlertProcessor();
 		System.out.println("Trifon - I_AD_AlertProcessor.getAD_AlertProcessor_ID = " + alertProcessor.getAD_AlertProcessor_ID());
 */
 		trx.commit();
