@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -75,7 +77,7 @@ public class ReportStarter implements ProcessCall {
 
         String reportPath = System.getProperty("org.compiere.report.path");
         if (reportPath == null) {
-        	REPORT_HOME = new File(System.getProperty("ADEMPIERE_HOME") + "/reports");
+        	REPORT_HOME = new File(Ini.getAdempiereHome() + File.separator + "reports");
         } else {
 			REPORT_HOME = new File(reportPath);
         }
@@ -570,6 +572,13 @@ public class ReportStarter implements ProcessCall {
 			reportFile = downloadAttachment(reportPath);
 		} else if(reportPath.startsWith("/")) {
 			reportFile = new File(reportPath);
+		} else if (reportPath.startsWith("file:/")) {
+			try {
+				reportFile = new File(new URI(reportPath));
+			} catch (URISyntaxException e) {
+				log.warning(e.getLocalizedMessage());
+				reportFile = null;
+			}
 		} else {
 			reportFile = new File(REPORT_HOME, reportPath);
 		}
