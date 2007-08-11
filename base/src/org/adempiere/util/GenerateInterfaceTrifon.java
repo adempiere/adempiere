@@ -217,7 +217,7 @@ public class GenerateInterfaceTrifon {
 		String sql = "SELECT c.ColumnName, c.IsUpdateable, c.IsMandatory," // 1..3
 				+ " c.AD_Reference_ID, c.AD_Reference_Value_ID, DefaultValue, SeqNo, " // 4..7
 				+ " c.FieldLength, c.ValueMin, c.ValueMax, c.VFormat, c.Callout, " // 8..12
-				+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted "
+				+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted, c.IsKey "   // 13..17
 				+ "FROM AD_Column c "
 				+ "WHERE c.AD_Table_ID=?"
 				+ " AND c.ColumnName <> 'AD_Client_ID'"
@@ -250,6 +250,7 @@ public class GenerateInterfaceTrifon {
 				boolean virtualColumn = ColumnSQL != null
 						&& ColumnSQL.length() > 0;
 				boolean IsEncrypted = "Y".equals(rs.getString(16));
+				boolean IsKey = "Y".equals(rs.getString(17));
 				
 				// Create COLUMNNAME_ property (teo_sarca, [ 1662447 ])
 				sb.append("\n")
@@ -262,7 +263,7 @@ public class GenerateInterfaceTrifon {
 						isUpdateable, isMandatory, displayType,
 						AD_Reference_Value_ID, fieldLength, defaultValue,
 						ValueMin, ValueMax, VFormat, Callout, Name,
-						Description, virtualColumn, IsEncrypted));
+						Description, virtualColumn, IsEncrypted, IsKey));
 			}
 			rs.close();
 			pstmt.close();
@@ -306,7 +307,7 @@ public class GenerateInterfaceTrifon {
 			int displayType, int AD_Reference_ID, int fieldLength,
 			String defaultValue, String ValueMin, String ValueMax,
 			String VFormat, String Callout, String Name, String Description,
-			boolean virtualColumn, boolean IsEncrypted) {
+			boolean virtualColumn, boolean IsEncrypted, boolean IsKey) {
 		Class clazz = DisplayType.getClass(displayType, true);
 		if (defaultValue == null)
 			defaultValue = "";
@@ -362,6 +363,19 @@ public class GenerateInterfaceTrifon {
 			sb.append(" get").append(columnName);
 		sb.append("();");
 		//
+		
+		if (DisplayType.isID(displayType) && !IsKey) {
+			if (displayType == DisplayType.TableDir) {
+				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
+				
+				sb.append("\n")
+				  .append("\tpublic "+referenceClassName+" get").append(referenceClassName).append("();")
+				;
+			} else {
+				// TODO - Handle other types
+				//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");
+			}
+		}
 		return sb.toString();
 	}
 

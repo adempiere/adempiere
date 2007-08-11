@@ -401,6 +401,7 @@ public class GenerateModelTrifon
 				.append("() {")
 				//	.append(" return null; };")
 				;
+				// TODO - here we can implement Lazy loading or Cache of class
 				sb.append("Class clazz = MTable.getClass("+referenceClassName+".Table_Name);")
 					.append(referenceClassName).append(" result = null;")
 					.append("try	{")
@@ -410,6 +411,7 @@ public class GenerateModelTrifon
 					.append("	} catch (NoSuchMethodException e) {")
 					.append("		log.warning(\"No transaction Constructor for \" + clazz + \" Exception[\" + e.toString() + \"]\");")
 					.append("	}")
+					// TODO - here we can implemnt Lazy loading or Cache of record. Like in Hibernate, objects can be loaded on demand or when master object is loaded.
 					.append("	result = ("+referenceClassName+")constructor.newInstance(new Object[] {getCtx(), new Integer(get"+columnName+"()), get_TrxName()});")
 					.append("	return result;")
 					.append("} catch (Exception e) {")
