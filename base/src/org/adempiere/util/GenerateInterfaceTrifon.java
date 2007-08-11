@@ -131,23 +131,24 @@ public class GenerateInterfaceTrifon {
 			 .append("import org.compiere.util.*;")
 			 .append("\n")
 				// Class
-			 .append("/** Generated Model for ").append(tableName).append("\n")
-			 .append(" *  @author Trifon Trifonov (generated) \n")
-			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append(" */\n")
-			 .append("public interface ").append(className).append(" {").append("\n")
+			 .append("    /** Generated Model for ").append(tableName).append("\n")
+			 .append("     *  @author Trifon Trifonov (generated) \n")
+			 .append("     *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append("\n")
+			 .append("     */\n")
+			 .append("    public interface ").append(className).append(" {").append("\n")
 			 
-			 .append("/** AD_Table_ID=").append(AD_Table_ID).append(" */\n")
-			 .append("public static final int Table_ID=").append(AD_Table_ID).append(";\n")
+			 .append("    /** TableName=").append(tableName).append(" */\n")
+			 .append("    public static final String Table_Name=\"").append(tableName).append("\";\n")
 			 
-			 .append("/** TableName=") .append(tableName).append(" */\n")
-			 .append("public static final String Table_Name=\"").append(tableName).append("\";\n")
+			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */\n")
+			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);\n")
 			 
-			 .append("public KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
+			 .append("    public KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
 			 
-			 .append("public BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
+			 .append("    public BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
 			 
-			 .append("/** Load Meta Data */\n")
-			 .append(" POInfo initPO (Properties ctx);")
+			 .append("    /** Load Meta Data */\n")
+			 .append("    POInfo initPO (Properties ctx);")
 		;
 
 		StringBuffer end = new StringBuffer("}");
@@ -203,6 +204,13 @@ public class GenerateInterfaceTrifon {
 				boolean virtualColumn = ColumnSQL != null
 						&& ColumnSQL.length() > 0;
 				boolean IsEncrypted = "Y".equals(rs.getString(16));
+				
+				// Create COLUMNNAME_ property (teo_sarca, [ 1662447 ])
+				sb.append("\n")
+				  .append("    /** Column name ").append(columnName).append(" */\n")
+				  .append("    public static final String COLUMNNAME_").append(columnName)
+				  .append(" = \"").append(columnName).append("\";");
+
 				//
 				sb.append(createColumnMethods(mandatory, columnName,
 						isUpdateable, isMandatory, displayType,
@@ -312,12 +320,14 @@ public class GenerateInterfaceTrifon {
 	} // createColumnMethods
 
 	// ****** Set/Get Comment ******
-	public void generateJavaComment(String startOfComment, String propertyName,
-			String description, StringBuffer result) {
-		result.append("\t/** ").append(startOfComment).append(" ").append(
-				propertyName);
+	public void generateJavaComment(String startOfComment, String propertyName,	String description, StringBuffer result) {
+		result.append("\n")
+			  .append("\t/** ").append(startOfComment).append(" ")
+			  .append(propertyName);
+		
 		if (description != null && description.length() > 0)
-			result.append(".\n\t\t").append(description).append(Env.NL);
+			result.append(".\n\t  * ").append(description).append(Env.NL);
+		
 		result.append("\t  */\n");
 	}
 
