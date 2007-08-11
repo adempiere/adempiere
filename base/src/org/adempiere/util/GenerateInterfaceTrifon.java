@@ -114,6 +114,15 @@ public class GenerateInterfaceTrifon {
 		if (tableName == null)
 			throw new RuntimeException("TableName not found for ID=" + AD_Table_ID);
 		//
+		String accessLevelInfo = accessLevel + " ";
+		if (accessLevel >= 4 )
+			accessLevelInfo += "- System ";
+		if (accessLevel == 2 || accessLevel == 3 || accessLevel == 6 || accessLevel == 7)
+			accessLevelInfo += "- Client ";
+		if (accessLevel == 1 || accessLevel == 3 || accessLevel == 5 || accessLevel == 7)
+			accessLevelInfo += "- Org ";
+		
+		//
 		String className = "I_" + tableName;
 		//
 		StringBuffer start = new StringBuffer()
@@ -126,29 +135,33 @@ public class GenerateInterfaceTrifon {
 		}
 		
 		start.append("import java.util.*;")
-			 .append("import java.sql.*;")
 			 .append("import java.math.*;")
 			 .append("import org.compiere.util.*;")
 			 .append("\n")
-				// Class
-			 .append("    /** Generated Model for ").append(tableName).append("\n")
+				// Interface
+			 .append("    /** Generated Interface for ").append(tableName).append("\n")
 			 .append("     *  @author Trifon Trifonov (generated) \n")
 			 .append("     *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append("\n")
 			 .append("     */\n")
 			 .append("    public interface ").append(className).append(" {").append("\n")
 			 
 			 .append("    /** TableName=").append(tableName).append(" */\n")
-			 .append("    public static final String Table_Name=\"").append(tableName).append("\";\n")
+			 .append("    public static final String Table_Name = \"").append(tableName).append("\";\n")
 			 
 			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */\n")
 			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);\n")
 			 
-			 .append("    public KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
+			 //.append("    protected KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
+			 .append("    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n") // TODO - Should this be here???
 			 
-			 .append("    public BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
+			 .append("    /** AccessLevel = ").append(accessLevelInfo).append("\n")
+			 .append("     */\n")
+			 //.append("    protected BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
+			 .append("    BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n") // TODO - Should this be here???
 			 
 			 .append("    /** Load Meta Data */\n")
-			 .append("    POInfo initPO (Properties ctx);")
+			 //.append("    protected POInfo initPO (Properties ctx);")
+			 .append("    POInfo initPO (Properties ctx);") // TODO - Should this be here???
 		;
 
 		StringBuffer end = new StringBuffer("}");
