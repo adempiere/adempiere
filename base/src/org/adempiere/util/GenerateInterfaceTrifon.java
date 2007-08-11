@@ -51,6 +51,44 @@ public class GenerateInterfaceTrifon {
 	
 	private String packageName = "";
 	
+	/** File Header			*/
+	public static final String COPY = 
+		 "/**********************************************************************\n"
+	   + " * This file is part of Adempiere ERP Bazaar                          *\n"
+	   + " * http://www.adempiere.org                                           *\n"
+	   + " *                                                                    *\n"
+	   + " * Copyright (C) Trifon Trifonov.                                     *\n"
+	   + " * Copyright (C) Contributors                                         *\n"
+	   + " *                                                                    *\n"
+	   + " * This program is free software; you can redistribute it and/or      *\n"
+	   + " * modify it under the terms of the GNU General Public License        *\n"
+	   + " * as published by the Free Software Foundation; either version 2     *\n"
+	   + " * of the License, or (at your option) any later version.             *\n"
+	   + " *                                                                    *\n"
+	   + " * This program is distributed in the hope that it will be useful,    *\n"
+	   + " * but WITHOUT ANY WARRANTY; without even the implied warranty of     *\n"
+	   + " * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *\n"
+	   + " * GNU General Public License for more details.                       *\n"
+	   + " *                                                                    *\n"
+	   + " * You should have received a copy of the GNU General Public License  *\n"
+	   + " * along with this program; if not, write to the Free Software        *\n"
+	   + " * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *\n"
+	   + " * MA 02110-1301, USA.                                                *\n"
+	   + " *                                                                    *\n"
+	   + " * Contributors:                                                      *\n"
+	   + " * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *\n"
+	   + " *                                                                    *\n"
+	   + " * Sponsors:                                                          *\n"
+	   + " * - Company (http://www.site.com)                                    *\n"
+	   + " **********************************************************************/\n";
+	
+	/** Generated on */
+	private Timestamp s_run = new Timestamp(System.currentTimeMillis());
+
+	/** Logger */
+	private static CLogger log = CLogger.getCLogger(GenerateInterfaceTrifon.class);
+
+
 	public GenerateInterfaceTrifon(int AD_Table_ID, String directory, String packageName) {
 		this.packageName = packageName;
 		// create column access methods
@@ -69,12 +107,6 @@ public class GenerateInterfaceTrifon {
 		}
 		writeToFile(sb, directory + tableName + ".java");
 	}
-
-	/** Generated on */
-	private Timestamp s_run = new Timestamp(System.currentTimeMillis());
-
-	/** Logger */
-	private static CLogger log = CLogger.getCLogger(GenerateInterfaceTrifon.class);
 
 	/**
 	 * Add Header info to buffer
@@ -126,7 +158,7 @@ public class GenerateInterfaceTrifon {
 		String className = "I_" + tableName;
 		//
 		StringBuffer start = new StringBuffer()
-			.append("/** Generated Model - DO NOT CHANGE - Copyright (C) 2006-2007 Adempiere */\n")
+			.append (COPY)
 			.append("package ").append(packageName).append(";").append(Env.NL)
 		;
 		
@@ -330,7 +362,7 @@ public class GenerateInterfaceTrifon {
 		sb.append("();");
 		//
 		return sb.toString();
-	} // createColumnMethods
+	}
 
 	// ****** Set/Get Comment ******
 	public void generateJavaComment(String startOfComment, String propertyName,	String description, StringBuffer result) {
