@@ -277,7 +277,7 @@ public class WFActivity extends CPanel
 			+ " a.AD_User_ID=?"	//	#1
 			//	Invoker (if no invoker = all)
 			+ " OR EXISTS (SELECT * FROM AD_WF_Responsible r WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID"
-			+ " AND COALESCE(r.AD_User_ID,0)=0 AND (a.AD_User_ID=? OR a.AD_User_ID IS NULL))"	//	#2
+			+ " AND COALESCE(r.AD_User_ID,0)=0 AND COALESCE(r.AD_Role_ID,0)=0 AND (a.AD_User_ID=? OR a.AD_User_ID IS NULL))"	//	#2
 			// Responsible User
 			+ " OR EXISTS (SELECT * FROM AD_WF_Responsible r WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID"
 			+ " AND r.AD_User_ID=?)"		//	#3
