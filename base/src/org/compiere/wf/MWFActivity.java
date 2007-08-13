@@ -236,7 +236,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			
 			//	Inform Process
 			if (m_process == null)
-				m_process = new MWFProcess (getCtx(), getAD_WF_Process_ID(), null);
+				m_process = new MWFProcess (getCtx(), getAD_WF_Process_ID(), 
+					m_trx == null ? null : m_trx.getTrxName());
 			m_process.checkActivities(m_trx == null ? null : m_trx.getTrxName());
 		}
 		else
@@ -674,7 +675,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					}
 				}
 			}	//	No Supervisor
-			
+			//ownDocument should always be false for the next user
+			ownDocument = false;
 		}	//	while there is a user to approve
 		
 		log.fine("No user found"); 
@@ -755,7 +757,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			addTextMsg(e);
 			setWFState (StateEngine.STATE_Terminated);	//	unlocks
 			//	Set Document Status 
-			if (m_po != null && m_docStatus != null)
+			if (m_po != null && m_po instanceof DocAction && m_docStatus != null)
 			{
 				m_po.load(null);
 				DocAction doc = (DocAction)m_po;
@@ -855,6 +857,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			log.fine("Report:AD_Process_ID=" + m_node.getAD_Process_ID());
 			//	Process
 			MProcess process = MProcess.get(getCtx(), m_node.getAD_Process_ID());
+			process.set_TrxName(trx != null ? trx.getTrxName() : null);
 			if (!process.isReport() || process.getAD_ReportView_ID() == 0)
 				throw new IllegalStateException("Not a Report AD_Process_ID=" + m_node.getAD_Process_ID());
 			//
@@ -863,6 +866,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			pi.setAD_User_ID(getAD_User_ID());
 			pi.setAD_Client_ID(getAD_Client_ID());
 			MPInstance pInstance = new MPInstance(process, getRecord_ID());
+			pInstance.set_TrxName(trx != null ? trx.getTrxName() : null);
 			fillParameter(pInstance, trx);
 			pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
 			//	Report
@@ -937,7 +941,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				+ " to " +  value);
 			MColumn column = m_node.getColumn();
 			int dt = column.getAD_Reference_ID();
-			return setVariable (value, dt, null);
+			return setVariable (value, dt, null, trx);
 		}	//	SetVariable
 		
 		/******	TODO Start WF Instance		******/
@@ -953,7 +957,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			log.fine("UserChoice:AD_Column_ID=" + m_node.getAD_Column_ID());
 			//	Approval
 			if (m_node.isUserApproval() 
-				&& getPO() instanceof DocAction)
+				&& getPO(trx) instanceof DocAction)
 			{
 				DocAction doc = (DocAction)m_po;
 				boolean autoApproval = false;
@@ -1011,10 +1015,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 *	@return true if set
 	 *	@throws Exception if error
 	 */
-	private boolean setVariable(String value, int displayType, String textMsg) throws Exception
+	private boolean setVariable(String value, int displayType, String textMsg, Trx trx) throws Exception
 	{
 		m_newValue = null;
-		getPO();
+		getPO(trx);
 		if (m_po == null)
 			throw new Exception("Persistent Object not found - AD_Table_ID=" 
 				+ getAD_Table_ID() + ", Record_ID=" + getRecord_ID());
@@ -1030,7 +1034,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			dbValue = value;
 		m_po.set_ValueOfColumn(getNode().getAD_Column_ID(), dbValue);
 		m_po.save();
-		if (!dbValue.equals(m_po.get_ValueOfColumn(getNode().getAD_Column_ID())))
+		if (dbValue != null && !dbValue.equals(m_po.get_ValueOfColumn(getNode().getAD_Column_ID())))
 			throw new Exception("Persistent Object not updated - AD_Table_ID=" 
 				+ getAD_Table_ID() + ", Record_ID=" + getRecord_ID() 
 				+ " - Should=" + value + ", Is=" + m_po.get_ValueOfColumn(m_node.getAD_Column_ID()));
@@ -1056,6 +1060,19 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		String textMsg) throws Exception
 	{
 		//	Check if user approves own document when a role is reponsible
+		/*
+		 * 2007-06-08, matthiasO.
+		 * The following sequence makes sure that only users in roles which
+		 * have the 'Approve own document flag' set can set the user choice
+		 * of 'Y' (approve) or 'N' (reject).
+		 * IMHO this is against the meaning of 'Approve own document': Why
+		 * should a user who is faced with the task of approving documents
+		 * generally be required to have the ability to approve his OWN
+		 * documents? If the document to approve really IS his own document
+		 * this will be respected when trying to find an approval user in
+		 * the call to getApprovalUser(...) below.
+		*/
+		/*
 		if (getNode().isUserApproval() && getPO() instanceof DocAction)
 		{
 			DocAction doc = (DocAction)m_po;
@@ -1077,17 +1094,18 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				log.fine(info);
 				return false;		//	ignore
 			}
-		}
+		}*/
 		
 		setWFState (StateEngine.STATE_Running);
 		setAD_User_ID(AD_User_ID);
-		boolean ok = setVariable (value, displayType, textMsg);
+		Trx trx = ( get_TrxName() != null ) ? Trx.get(get_TrxName(), false) : null;
+		boolean ok = setVariable (value, displayType, textMsg, trx);
 		if (!ok)
 			return false;
 
 		String newState = StateEngine.STATE_Completed;
 		//	Approval
-		if (getNode().isUserApproval() && getPO() instanceof DocAction)
+		if (getNode().isUserApproval() && getPO(trx) instanceof DocAction)
 		{
 			DocAction doc = (DocAction)m_po;
 			try
@@ -1156,16 +1174,23 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 						|| MUser.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType)) {
 					MClient client = MClient.get(getCtx(), doc.getAD_Client_ID());
 					client.sendEMail(doc.getDoc_User_ID(), Msg.getMsg(getCtx(), "NotApproved")
-							+ ": " + doc.getDocumentNo(), doc.getSummary() + "\n"
-							+ doc.getProcessMsg() + "\n" + getTextMsg(), null);
+							+ ": " + doc.getDocumentNo(), 
+							(doc.getSummary() != null ? doc.getSummary() + "\n" : "" )
+							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + "\n" : "") 
+							+ (getTextMsg() != null ? getTextMsg() : ""), null);
 				}
 
 				// Send Note
 				if (MUser.NOTIFICATIONTYPE_Notice.equals(NotificationType)
 						|| MUser.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType)) {
 					MNote note = new MNote(getCtx(), "NotApproved", doc.getDoc_User_ID(), null);
-					note.setTextMsg(doc.getSummary() + "\n" + doc.getProcessMsg() + "\n"
-							+ getTextMsg());
+					note.setTextMsg((doc.getSummary() != null ? doc.getSummary() + "\n" : "" )
+							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + "\n" : "") 
+							+ (getTextMsg() != null ? getTextMsg() : ""));
+					// 2007-06-08, matthiasO.
+					// Add record information to the note, so that the user receiving the
+					// note can jump to the doc easily
+					note.setRecord(m_po.get_Table_ID(), m_po.get_ID());
 					note.save();
 				}
 			}

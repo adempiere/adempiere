@@ -654,19 +654,35 @@ public class MUser extends X_AD_User
 			return m_roles;
 		
 		ArrayList<MRole> list = new ArrayList<MRole>();
+		// 2007-06-08, matthiasO.
+		// Extension of sql query so that not only roles with org acces for this user
+		// are found but also roles which delegate org access to the user level where
+		// this user has access to the org in question
 		String sql = "SELECT * FROM AD_Role r " 
 			+ "WHERE r.IsActive='Y'" 
-			+ " AND EXISTS (SELECT * FROM AD_Role_OrgAccess ro"
-				+ " WHERE r.AD_Role_ID=ro.AD_Role_ID AND ro.IsActive='Y' AND ro.AD_Org_ID=?)" 
 			+ " AND EXISTS (SELECT * FROM AD_User_Roles ur" 
-				+ " WHERE r.AD_Role_ID=ur.AD_Role_ID AND ur.IsActive='Y' AND ur.AD_User_ID=?) "
+			+ " WHERE r.AD_Role_ID=ur.AD_Role_ID AND ur.IsActive='Y' AND ur.AD_User_ID=?) "
+			+ " AND ("
+			+ " ("
+			+ " r.IsUseUserOrgAccess <> 'Y'"
+			+ " AND EXISTS (SELECT * FROM AD_Role_OrgAccess ro"
+			+ " WHERE r.AD_Role_ID=ro.AD_Role_ID AND ro.IsActive='Y' AND ro.AD_Org_ID=?)" 
+			+ " ) OR "
+			+ " ("
+			+ " r.IsUseUserOrgAccess = 'Y'"
+			+ " AND EXISTS (SELECT * FROM AD_User_OrgAccess uo"
+			+ " WHERE uo.AD_User_ID=? AND uo.IsActive='Y' AND uo.AD_Org_ID=?)" 
+			+ " )"
+			+ " ) "
 			+ "ORDER BY AD_Role_ID";
 		PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, AD_Org_ID);
-			pstmt.setInt (2, getAD_User_ID());
+			pstmt.setInt (1, getAD_User_ID());
+			pstmt.setInt (2, AD_Org_ID);
+			pstmt.setInt (3, getAD_User_ID());
+			pstmt.setInt (4, AD_Org_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MRole(getCtx(), rs, get_TrxName()));

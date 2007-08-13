@@ -141,11 +141,13 @@ public class MWFResponsible extends X_AD_WF_Responsible
 			return false;
 		}
 		//	User not used
-		if (!RESPONSIBLETYPE_Human.equals(getResponsibleType()) && getAD_User_ID() == 0)
+		if (!RESPONSIBLETYPE_Human.equals(getResponsibleType()) && getAD_User_ID() > 0)
 			setAD_User_ID(0);
+		
 		//	Role not used
-		if (!RESPONSIBLETYPE_Role.equals(getResponsibleType()) && getAD_Role_ID() == 0)
+		if (!RESPONSIBLETYPE_Role.equals(getResponsibleType()) && getAD_Role_ID() > 0)
 			setAD_Role_ID(0);
+		
 		return true;
 	}	//	beforeSave
 	

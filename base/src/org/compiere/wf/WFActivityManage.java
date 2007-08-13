@@ -77,6 +77,10 @@ public class WFActivityManage extends SvrProcess
 			String msg = user.getName() + ": Abort";
 			activity.setTextMsg(msg);
 			activity.setAD_User_ID(getAD_User_ID());
+			// 2007-06-14, matthiasO.
+			// Set the 'processed'-flag when an activity is aborted; not setting this flag
+			// will leave the activity in an "unmanagable" state
+			activity.setProcessed(true);
 			activity.setWFState(StateEngine.STATE_Aborted);
 			return msg;
 		}
