@@ -31,8 +31,8 @@ package test.functional;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.model.I_AD_Alert;
-import org.compiere.model.I_AD_AlertProcessor;
+//import org.compiere.model.I_AD_Alert;
+//import org.compiere.model.I_AD_AlertProcessor;
 import org.compiere.model.MAlert;
 import org.compiere.model.X_AD_Alert;
 import org.compiere.util.CLogMgt;
