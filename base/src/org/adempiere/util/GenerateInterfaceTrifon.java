@@ -185,16 +185,16 @@ public class GenerateInterfaceTrifon {
 			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);\n")
 			 
 			 //.append("    protected KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
-			 .append("    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n") // TODO - Should this be here???
+			 .append("    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n") // INFO - Should this be here???
 			 
 			 .append("    /** AccessLevel = ").append(accessLevelInfo).append("\n")
 			 .append("     */\n")
 			 //.append("    protected BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
-			 .append("    BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n") // TODO - Should this be here???
+			 .append("    BigDecimal accessLevel = new BigDecimal(").append(accessLevel).append(");\n") // INFO - Should this be here???
 			 
 			 .append("    /** Load Meta Data */\n")
 			 //.append("    protected POInfo initPO (Properties ctx);")
-			 //.append("    POInfo initPO (Properties ctx);") // TODO - Should this be here???
+			 //.append("    POInfo initPO (Properties ctx);") // INFO - Should this be here???
 		;
 
 		StringBuffer end = new StringBuffer("}");
@@ -308,7 +308,7 @@ public class GenerateInterfaceTrifon {
 			String defaultValue, String ValueMin, String ValueMax,
 			String VFormat, String Callout, String Name, String Description,
 			boolean virtualColumn, boolean IsEncrypted, boolean IsKey) {
-		Class clazz = DisplayType.getClass(displayType, true);
+		Class<?> clazz = DisplayType.getClass(displayType, true);
 		if (defaultValue == null)
 			defaultValue = "";
 		// Handle Posted
@@ -326,14 +326,15 @@ public class GenerateInterfaceTrifon {
 		// String Key
 		else if (columnName.equalsIgnoreCase("AD_Language")) {
 			clazz = String.class;
+		// String Key
+		} else if (columnName.equalsIgnoreCase("EntityType")) {
+			clazz = String.class;
 		}
 		// Data Type
 		String dataType = clazz.getName();
 		dataType = dataType.substring(dataType.lastIndexOf('.') + 1);
-		if (dataType.equals("Boolean"))
+		if (dataType.equals("Boolean")) {
 			dataType = "boolean";
-		else if (DisplayType.isID(displayType)) { // Added by @Trifon
-			dataType = "int";
 		} else if (dataType.equals("Integer"))
 			dataType = "int";
 		else if (displayType == DisplayType.Binary
@@ -369,7 +370,7 @@ public class GenerateInterfaceTrifon {
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
 				
 				sb.append("\n")
-				  .append("\tpublic "+referenceClassName+" get").append(referenceClassName).append("();")
+				  .append("\tpublic "+referenceClassName+" get").append(referenceClassName).append("() throws Exception;")
 				;
 			} else {
 				// TODO - Handle other types
@@ -492,11 +493,18 @@ public class GenerateInterfaceTrifon {
 				entityType).append(")");
 		log.info(sql.toString());
 		log.info("----------------------------------");
-
+		
+		// Table name like
+		String tableLike = "'%'";	//	All tables
+		if (args.length > 3)
+			tableLike = args[3];
+		log.info("Table Like: " + tableLike);
+		
 		// complete sql
 		sql.insert(0, "SELECT AD_Table_ID " + "FROM AD_Table "
 				+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')" // special views
 				+ " OR IsView='N')" + " AND TableName NOT LIKE '%_Trl' AND ");
+		sql.append(" AND TableName LIKE ").append(tableLike);
 		sql.append(" ORDER BY TableName");
 
 		//

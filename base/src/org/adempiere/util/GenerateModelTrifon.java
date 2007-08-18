@@ -147,79 +147,99 @@ public class GenerateModelTrifon
 		//
 		StringBuffer start = new StringBuffer ()
 			.append (COPY)
-			.append ("/** Generated Model - DO NOT CHANGE */\n")
-			.append("package " + packageName + ";")
+			.append ("/** Generated Model - DO NOT CHANGE */").append(Env.NL)
+			.append("package " + packageName + ";").append(Env.NL)
+			.append(Env.NL)
 		;
 		if (!packageName.equals("org.compiere.model"))
-			start.append("import org.compiere.model.*;");
+			start.append("import org.compiere.model.*;").append(Env.NL);
 		
-		start.append("import java.util.*;")
-			 .append("import java.sql.*;")
-			 .append("import java.math.*;")
-			 .append("import java.lang.reflect.Constructor;")
-			 .append("import java.util.logging.Level;")
-			 .append("import org.compiere.util.*;")
+		start.append("import java.util.*;").append(Env.NL)
+			 .append("import java.sql.*;").append(Env.NL)
+			 .append("import java.math.*;").append(Env.NL)
+			 .append("import java.lang.reflect.Constructor;").append(Env.NL)
+			 .append("import java.util.logging.Level;").append(Env.NL)
+			 .append("import org.compiere.util.*;").append(Env.NL)
+			 .append(Env.NL)
 			//	Class
-			 .append("/** Generated Model for ").append(tableName).append("\n")
-			 .append(" *  @author Adempiere (generated) \n")
-			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */\n")
-			 .append("public class ").append(className).append(" extends PO implements I_").append(tableName)
-			 .append("{")
+			 .append("/** Generated Model for ").append(tableName).append(Env.NL)
+			 .append(" *  @author Adempiere (generated) ").append(Env.NL)
+			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */").append(Env.NL)
+			 .append("public class ").append(className).append(" extends PO implements I_").append(tableName).append(Env.NL)
+			 .append("{").append(Env.NL)
+			
+			 // serialVersionUID
+			 .append(Env.NL)
+			 .append("\t/**").append(Env.NL)
+			 .append("\t *").append(Env.NL)
+			 .append("\t */").append(Env.NL)
+			 //.append("\tprivate static final long serialVersionUID = ").append(Adempiere.MAIN_VERSION.substring(8)).append(";").append(Env.NL)
+			 .append("\tprivate static final long serialVersionUID = 1L;").append(Env.NL)
+			
 			//	Standard Constructor
-			 .append("    /** Standard Constructor */\n")
-			 .append("    public ").append(className).append(" (Properties ctx, int ").append(keyColumn).append(", String trxName)")
-			 .append("    {")
-			 .append("      super (ctx, ").append(keyColumn).append(", trxName);")
+			 .append(Env.NL)
+			 .append("    /** Standard Constructor */").append(Env.NL)
+			 .append("    public ").append(className).append(" (Properties ctx, int ").append(keyColumn).append(", String trxName)").append(Env.NL)
+			 .append("    {").append(Env.NL)
+			 .append("      super (ctx, ").append(keyColumn).append(", trxName);").append(Env.NL)
 			 .append("      /** if (").append(keyColumn).append(" == 0)")
-			 .append("        {").append(mandatory).append("} */\n")
-			 .append("    }")
+			 .append("        {").append(mandatory).append("} */").append(Env.NL)
+			 .append("    }").append(Env.NL)
 			//	Constructor End
 			
 			//	Load Constructor
-			 .append("    /** Load Constructor */\n")
-			 .append("    public ").append(className).append(" (Properties ctx, ResultSet rs, String trxName)")
-			 .append("    {")
-			 .append("      super (ctx, rs, trxName);")
-			 .append("    }")
+			 .append(Env.NL)
+			 .append("    /** Load Constructor */").append(Env.NL)
+			 .append("    public ").append(className).append(" (Properties ctx, ResultSet rs, String trxName)").append(Env.NL)
+			 .append("    {").append(Env.NL)
+			 .append("      super (ctx, rs, trxName);").append(Env.NL)
+			 .append("    }").append(Env.NL)
 			//	Load Constructor End
 			
 			// TableName
-			 .append("    /** TableName=").append(tableName).append(" */\n")
-			 .append("    public static final String Table_Name = \"").append(tableName).append("\";\n")
+//			 .append(Env.NL)
+//			 .append("    /** TableName=").append(tableName).append(" */").append(Env.NL)
+//			 .append("    public static final String Table_Name = \"").append(tableName).append("\";").append(Env.NL)
 			 
-			// AD_Table_ID		
-			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */\n")
-			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);\n")
+			// AD_Table_ID
+//			 .append(Env.NL)
+//			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */").append(Env.NL)
+//			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);").append(Env.NL)
 			 
 			// KeyNamePair
-			 .append("    protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);\n")
+//			 .append(Env.NL)
+//			 .append("    protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);").append(Env.NL)
 			 
 			// accessLevel
-			 .append("    protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");")
-			 .append("    /** AccessLevel\n")
-			 .append("      * @return ").append(accessLevelInfo).append("\n")
-			 .append("      */\n")
-			 .append("    protected int get_AccessLevel()")
-			 .append("    {")
-			 .append("      return accessLevel.intValue();")
-			 .append("    }")
+//			 .append(Env.NL)
+//			 .append("    protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");").append(Env.NL)
+			 .append(Env.NL)
+			 .append("    /** AccessLevel").append(Env.NL)
+			 .append("      * @return ").append(accessLevelInfo).append(Env.NL)
+			 .append("      */").append(Env.NL)
+			 .append("    protected int get_AccessLevel()").append(Env.NL)
+			 .append("    {").append(Env.NL)
+			 .append("      return accessLevel.intValue();").append(Env.NL)
+			 .append("    }").append(Env.NL)
 
 			 // initPO
-			 .append("    /** Load Meta Data */\n")
-			 .append("    protected POInfo initPO (Properties ctx)")
-			 .append("    {")
-			 .append("      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);")
-			 .append("      return poi;")
-			 .append("    }")
+			 .append(Env.NL)
+			 .append("    /** Load Meta Data */").append(Env.NL)
+			 .append("    protected POInfo initPO (Properties ctx)").append(Env.NL)
+			 .append("    {").append(Env.NL)
+			 .append("      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);").append(Env.NL)
+			 .append("      return poi;").append(Env.NL)
+			 .append("    }").append(Env.NL)
 			// initPO
 			
 			// toString()
-			 .append("    public String toString()")
-			 .append("    {")
-			 .append("      StringBuffer sb = new StringBuffer (\"").append(className).append("[\")")
-			 .append("        .append(get_ID()).append(\"]\");")
-			 .append("      return sb.toString();")
-			 .append("    }")
+			 .append(Env.NL)
+			 .append("    public String toString()").append(Env.NL)
+			 .append("    {").append(Env.NL)
+			 .append("      StringBuffer sb = new StringBuffer (\"").append(className).append("[\")").append(Env.NL)
+			 .append("        .append(get_ID()).append(\"]\");").append(Env.NL)
+			 .append("      return sb.toString();").append(Env.NL)
+			 .append("    }").append(Env.NL)
 		;
 
 		StringBuffer end = new StringBuffer ("}");
@@ -338,9 +358,12 @@ public class GenerateModelTrifon
 		String Callout, String Name, String Description, 
 		boolean virtualColumn, boolean IsEncrypted, boolean IsKey)
 	{
-		Class clazz = DisplayType.getClass(displayType, true);
+		Class<?> clazz = DisplayType.getClass(displayType, true);
 		if (defaultValue == null)
 			defaultValue = "";
+		if (DisplayType.isLOB(displayType))		//	No length check for LOBs
+			fieldLength = 0;
+
 		//	Handle Posted
 		if (columnName.equalsIgnoreCase("Posted") 
 			|| columnName.equalsIgnoreCase("Processed")
@@ -356,27 +379,24 @@ public class GenerateModelTrifon
 			AD_Reference_ID = 0;
 		}
 		//	String Key
-		else if (columnName.equalsIgnoreCase("AD_Language"))
+		else if (columnName.equalsIgnoreCase("AD_Language")
+			|| columnName.equalsIgnoreCase("EntityType"))
 		{
 			clazz = String.class;
 		}	
 		//	Data Type
 		String dataType = clazz.getName();
 		dataType = dataType.substring(dataType.lastIndexOf('.')+1);
-		if (dataType.equals("Boolean"))
+		if (dataType.equals("Boolean")) {
 			dataType = "boolean";
-		else if (DisplayType.isID(displayType)) { // TODO - Added by @Trifon
+		} else if (dataType.equals("Integer")) {
 			dataType = "int";
-			
-		}
-		else if (dataType.equals("Integer"))
-			dataType = "int";
-		else if (displayType == DisplayType.Binary || displayType == DisplayType.Image)
+		} else if (displayType == DisplayType.Binary || displayType == DisplayType.Image) {
 			dataType = "byte[]";
+		}
 
 		//	Set	********
 		String setValue = "\t\tset_Value";
-		// Handle IsEncrypted
 		if (IsEncrypted)
 			setValue = "\t\tset_ValueE";
 		// Handle isUpdateable
@@ -389,45 +409,48 @@ public class GenerateModelTrifon
 
 		StringBuffer sb = new StringBuffer();
 		
-		// Create Java Comment
-		generateJavaComment("Set", Name, Description, sb);
 		// TODO - New functionality
 		// 1) Must understand which class to reference
 		if (DisplayType.isID(displayType) && !IsKey) {
 			if (displayType == DisplayType.TableDir) {
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
 				
-				sb.append("\tpublic "+referenceClassName+" get").append(referenceClassName)
-				.append("() {")
-				//	.append(" return null; };")
-				;
+				sb.append(Env.NL)
+					.append("\tpublic "+referenceClassName+" get").append(referenceClassName).append("() throws Exception ").append(Env.NL)
+					.append("    {").append(Env.NL)
 				// TODO - here we can implement Lazy loading or Cache of class
-				sb.append("Class clazz = MTable.getClass("+referenceClassName+".Table_Name);")
-					.append(referenceClassName).append(" result = null;")
-					.append("try	{")
-					.append("	Constructor constructor = null;")
-					.append("	try	{")
-					.append("		constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});")
-					.append("	} catch (NoSuchMethodException e) {")
-					.append("		log.warning(\"No transaction Constructor for \" + clazz + \" Exception[\" + e.toString() + \"]\");")
-					.append("	}")
-					// TODO - here we can implemnt Lazy loading or Cache of record. Like in Hibernate, objects can be loaded on demand or when master object is loaded.
-					.append("	result = ("+referenceClassName+")constructor.newInstance(new Object[] {getCtx(), new Integer(get"+columnName+"()), get_TrxName()});")
-					.append("	return result;")
-					.append("} catch (Exception e) {")
-					.append("	log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);")
-					.append("	log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);")
-					.append("}")
-					.append("return result;}")
+					.append("        Class<?> clazz = MTable.getClass("+referenceClassName+".Table_Name);").append(Env.NL)
+					.append("        ").append(referenceClassName).append(" result = null;").append(Env.NL)
+					.append("        try	{").append(Env.NL)
+					.append("	        Constructor<?> constructor = null;").append(Env.NL)
+//					.append("    	    try	{").append(Env.NL)
+					.append("	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});").append(Env.NL)
+//					.append("	        } catch (NoSuchMethodException e) {").append(Env.NL)
+//					.append("		        log.warning(\"No transaction Constructor for \" + clazz + \" Exception[\" + e.toString() + \"]\");").append(Env.NL)
+//					.append("        	}").append(Env.NL)
+					// TODO - here we can implement Lazy loading or Cache of record. Like in Hibernate, objects can be loaded on demand or when master object is loaded.
+					.append("    	    result = ("+referenceClassName+")constructor.newInstance(new Object[] {getCtx(), new Integer(get"+columnName+"()), get_TrxName()});").append(Env.NL)
+					.append("        } catch (Exception e) {").append(Env.NL)
+					.append("	        log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);").append(Env.NL)
+					.append("	        log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);").append(Env.NL)
+					.append("           throw e;").append(Env.NL)					
+					.append("        }").append(Env.NL)
+					.append("        return result;").append(Env.NL)
+					.append("    }").append(Env.NL)
 				;
 			} else {
 				// TODO - Handle other types
 				//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");
 			}
 		}
+
+		// Create Java Comment
+		generateJavaSetComment(columnName, Name, Description, sb);
+
 		//	public void setColumn (xxx variable)
-		sb.append("\tpublic void set").append(columnName).append(" (").append(dataType).append(" ").append(columnName).append(")"
-			+ "\t{");
+		sb.append("\tpublic void set").append(columnName).append(" (").append(dataType).append(" ").append(columnName).append(")").append(Env.NL)
+			.append("\t{").append(Env.NL)
+		;
 		//	List Validation
 		if (AD_Reference_ID != 0)
 		{
@@ -437,48 +460,66 @@ public class GenerateModelTrifon
 		//	setValue ("ColumnName", xx);
 		if (virtualColumn)
 		{
-			sb.append ("throw new IllegalArgumentException (\"").append(columnName).append(" is virtual column\");");
+			sb.append ("\t\tthrow new IllegalArgumentException (\"").append(columnName).append(" is virtual column\");");
 		}
+		//	Integer
 		else if (clazz.equals(Integer.class))
 		{
 			if (columnName.endsWith("_ID"))
 			{
-				if (!isMandatory)	//	set optional _ID to null if 0
-					sb.append("if (").append (columnName).append (" <= 0) ")
-						.append(setValue).append(" (\"").append(columnName).append("\", null); else \n");
+				if (isMandatory)	//	check mandatory ID
+				{
+					int firstOK = 1;	//	Valid ID 0
+					if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID") 
+						|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
+						|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
+						|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
+						firstOK = 0;
+					sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(")").append(Env.NL)
+						.append("\t\t\t throw new IllegalArgumentException (\"").append(columnName).append(" is mandatory.\");").append(Env.NL);
+				}
+				else				//	set optional _ID to null if 0
+					sb.append("\t\tif (").append (columnName).append (" <= 0) ")
+						.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", null);").append(Env.NL)
+						.append(" else ").append(Env.NL);
 			}
-			sb.append(setValue).append(" (\"").append(columnName).append("\", new Integer(").append(columnName).append("));");
+			sb.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", Integer.valueOf(").append(columnName).append("));").append(Env.NL);
 		}
+//		Boolean
 		else if (clazz.equals(Boolean.class))
-			sb.append(setValue).append(" (\"").append(columnName).append("\", new Boolean(").append(columnName).append("));");
+			sb.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", Boolean.valueOf(").append(columnName).append("));").append(Env.NL);
 		else
 		{
-			if (isMandatory)	//	does not apply to int/boolean
-				sb.append ("if (").append (columnName).append (" == null)"
-				  + " throw new IllegalArgumentException (\"").append(columnName).append(" is mandatory\");");
+			if (isMandatory && AD_Reference_ID == 0)	//	does not apply to int/boolean
+			{
+				sb.append("\t\tif (").append(columnName).append (" == null)").append(Env.NL)
+					.append("\t\t\tthrow new IllegalArgumentException (\"")
+				  	.append(columnName).append(" is mandatory.\");").append(Env.NL);
+			}
 			// String length check
 			if (clazz.equals(String.class) && fieldLength > 0)
 			{
-				sb.append ("if (");
+				sb.append ("\t\tif (");
 				if (!isMandatory)
 					sb.append(columnName).append(" != null && ");
-				sb.append(columnName).append(".length() > ").append(fieldLength)
-					.append("){log.warning(\"Length > ")
-					.append(fieldLength).append(" - truncated\");")
-					.append(columnName).append(" = ")
-					.append(columnName).append(".substring(0,").append(fieldLength-1).append(");}");
+				sb.append(columnName).append(".length() > ").append(fieldLength).append(")").append(Env.NL)
+					.append("\t\t{").append(Env.NL)
+					.append("\t\t\tlog.warning(\"Length > ").append(fieldLength).append(" - truncated\");").append(Env.NL)
+					.append("\t\t\t").append(columnName).append(" = ").append(columnName).append(".substring(0, ").append(fieldLength-1).append(");").append(Env.NL)
+					.append("\t\t}").append(Env.NL)
+				;
 			}
 					  
 			//
-			sb.append (setValue).append(" (\"").append (columnName).append ("\", ")
-				.append (columnName).append (");");
+			sb.append(setValue).append(" (").append ("COLUMNNAME_").append (columnName).append (", ")
+				.append(columnName).append (");").append(Env.NL);
 		}
-		sb.append("}");
-
+		sb.append("\t}").append(Env.NL);
+		
 		//	Mandatory call in constructor
 		if (isMandatory)
 		{
-			mandatory.append("\tset").append(columnName).append(" (");
+			mandatory.append("\t\t\tset").append(columnName).append(" (");
 			if (clazz.equals(Integer.class))
 				mandatory.append("0");
 			else if (clazz.equals(Boolean.class))
@@ -494,19 +535,19 @@ public class GenerateModelTrifon
 				mandatory.append("new Timestamp(System.currentTimeMillis())");
 			else
 				mandatory.append("null");
-			mandatory.append(");");
+			mandatory.append(");").append(Env.NL);
 			if (defaultValue.length() > 0)
 				mandatory.append("// ").append(defaultValue).append(Env.NL);
 		}
 
 
 		//	****** Get Comment ****** 
-		generateJavaComment("Get", Name, Description, sb);
+		generateJavaGetComment(Name, Description, sb);
 		
 		//	Get	********
-		String getValue = "\tget_Value";
+		String getValue = "get_Value";
 		if (IsEncrypted)
-			getValue = "\tget_ValueE";
+			getValue = "get_ValueE";
 		
 		sb.append("\tpublic ").append(dataType);
 		if (clazz.equals(Boolean.class))
@@ -516,45 +557,71 @@ public class GenerateModelTrifon
 				sb.append(columnName.substring(2));
 			else
 				sb.append(columnName);
-		}
-		else
+		} else {
 			sb.append(" get").append(columnName);
-		sb.append("() {");
+		}
+		sb.append(" () ").append(Env.NL)
+			.append("\t{").append(Env.NL)
+			.append("\t\t");
 		if (clazz.equals(Integer.class))
-			sb.append("Integer ii = (Integer)")
-				.append(getValue).append("(\"").append(columnName).append("\");"
-				+ "if (ii == null)"
-				+ " return 0;"
-				+ "return ii.intValue();");
+			sb.append("Integer ii = (Integer)").append(getValue).append("(").append ("COLUMNNAME_").append(columnName).append(");").append(Env.NL)
+				.append("\t\tif (ii == null)").append(Env.NL)
+				.append("\t\t\t return 0;").append(Env.NL)
+				.append("\t\treturn ii.intValue();").append(Env.NL);
 		else if (clazz.equals(BigDecimal.class))
-			sb.append("BigDecimal bd = (BigDecimal)").append(getValue)
-				.append("(\"").append(columnName).append("\");"
-				+ "if (bd == null)"
-				+ " return Env.ZERO;"
-				+ "return bd;");
+			sb.append("BigDecimal bd = (BigDecimal)").append(getValue).append("(").append ("COLUMNNAME_").append(columnName).append(");").append(Env.NL)
+				.append("\t\tif (bd == null)").append(Env.NL)
+				.append("\t\t\t return Env.ZERO;").append(Env.NL)
+				.append("\t\treturn bd;").append(Env.NL);
 		else if (clazz.equals(Boolean.class))
-			sb.append("Object oo = ").append(getValue)
-				.append("(\"").append(columnName).append("\");"
-				+ "if (oo != null) { if (oo instanceof Boolean) return ((Boolean)oo).booleanValue(); return \"Y\".equals(oo);}"
-				+ "return false;");
+			sb.append("Object oo = ").append(getValue).append("(").append ("COLUMNNAME_").append(columnName).append(");").append(Env.NL)
+				.append("\t\tif (oo != null) ").append(Env.NL)
+				.append("\t\t{").append(Env.NL)
+				.append("\t\t\t if (oo instanceof Boolean) ").append(Env.NL)
+				.append("\t\t\t\t return ((Boolean)oo).booleanValue(); ").append(Env.NL)
+				.append("\t\t\treturn \"Y\".equals(oo);").append(Env.NL)
+				.append("\t\t}").append(Env.NL)
+				.append("\t\treturn false;").append(Env.NL);
 		else if (dataType.equals("Object"))
-			sb.append("return ").append(getValue)
-				.append("(\"").append(columnName).append("\");");
+			sb.append("\t\treturn ").append(getValue)
+				.append("(").append ("COLUMNNAME_").append(columnName).append(");").append(Env.NL);
 		else
 			sb.append("return (").append(dataType).append(")").append(getValue)
-				.append("(\"").append(columnName).append("\");");
-		sb.append("}");
+				.append("(").append ("COLUMNNAME_").append(columnName).append(");").append(Env.NL);
+		sb.append("\t}").append(Env.NL);
 		//
 		return sb.toString();
 	}	//	createColumnMethods
 
 
-	//	****** Set/Get Comment ******
-	public void generateJavaComment(String startOfComment, String propertyName, String description, StringBuffer result) {
-		result.append("\t/** ").append(startOfComment).append(" ").append(propertyName);
-		if (description != null && description.length() > 0)
-			result.append(".\n\t\t").append(description).append(Env.NL);
-		result.append("\t  */\n");
+	//	****** Set Comment ******
+	public void generateJavaSetComment(String columnName, String propertyName, String description, StringBuffer result) {
+		
+		result.append(Env.NL)
+			.append("\t/** Set ").append(propertyName).append(".").append(Env.NL)
+			.append("\t\t@param ").append(columnName).append(" ")
+		;
+		if (description != null && description.length() > 0) {
+			result.append(Env.NL)
+				.append("\t\t").append(description).append(Env.NL);
+		} else {
+			result.append(propertyName);
+		}
+		result.append("\t  */").append(Env.NL);
+	}
+
+	//	****** Get Comment ******
+	public void generateJavaGetComment(String propertyName, String description, StringBuffer result) {
+		
+		result.append(Env.NL)
+			.append("\t/** Get ").append(propertyName);
+		if (description != null && description.length() > 0) {
+			result.append(".").append(Env.NL)
+				.append("\t\t@return ").append(description).append(Env.NL);
+		} else {
+			result.append(".\n@return ").append(propertyName);
+		}
+		result.append("\t  */").append(Env.NL);
 	}
 
 
@@ -575,7 +642,8 @@ public class GenerateModelTrifon
 		String columnName, boolean nullable)
 	{
 		StringBuffer retValue = new StringBuffer();
-		retValue.append("public static final int ").append(columnName.toUpperCase())
+		retValue.append("\n/** ").append(columnName).append(" AD_Reference_ID=").append(AD_Reference_ID) .append(" */\n")
+			.append("public static final int ").append(columnName.toUpperCase())
 			.append("_AD_Reference_ID=").append(AD_Reference_ID).append(";");
 		//
 		boolean found = false;
@@ -584,7 +652,7 @@ public class GenerateModelTrifon
 		StringBuffer statement = new StringBuffer();
 		if (nullable)
 			statement.append("if (").append(columnName).append(" == null");
-		
+		//
 		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=?";
 		PreparedStatement pstmt = null;
 		try
@@ -602,7 +670,18 @@ public class GenerateModelTrifon
 				else
 					statement.append(" || ").append(columnName)
 						.append(".equals(\"").append(value).append("\")");
-				found = true;
+				//
+				if (!found)
+				{
+					found = true;
+					if (!nullable)
+						sb.append("if (")
+							.append (columnName).append (" == null)"
+							+ " throw new IllegalArgumentException (\"")
+							.append(columnName).append(" is mandatory\");");
+				}
+				
+				
 				//	Name (SmallTalkNotation)
 				String name = rs.getString(2);
 				char[] nameArray = name.toCharArray();
@@ -673,9 +752,10 @@ public class GenerateModelTrifon
 			+ "; "
 			+ "else "
 			+ "throw new IllegalArgumentException (\"").append(columnName)
-			.append(" Invalid value - ").append(values).append("\");");
+			.append(" Invalid value - \" + ").append(columnName)
+			.append(" + \" - ").append(values).append("\");");
 		//
-		if (found)
+		if (found && !columnName.equals("EntityType"))
 			sb.append (statement);
 		return retValue.toString();
 	}	//	addListValidation
@@ -691,8 +771,16 @@ public class GenerateModelTrifon
 		String method = "get" + columnName + "()";
 		if (displayType != DisplayType.String)
 			method = "String.valueOf(" + method + ")";
-		StringBuffer sb = new StringBuffer("    public KeyNamePair getKeyNamePair() ")
-			.append("    {return new KeyNamePair(get_ID(), ").append(method).append(");}");
+		
+		StringBuffer sb = new StringBuffer(Env.NL)
+			.append("    /** Get Record ID/ColumnName").append(Env.NL)
+			.append("        @return ID/ColumnName pair").append(Env.NL)
+			.append("      */").append(Env.NL)
+			.append("    public KeyNamePair getKeyNamePair() ").append(Env.NL)
+			.append("    {").append(Env.NL)
+			.append("        return new KeyNamePair(get_ID(), ").append(method).append(");").append(Env.NL)
+			.append("    }").append(Env.NL)
+		;
 		return sb;
 	}	//	createKeyNamePair
 
@@ -715,17 +803,18 @@ public class GenerateModelTrifon
 				if (c == ';' || c == '}')
 				{
 					fw.write (c);
-					if (sb.substring(i+1).startsWith("//"))
-						fw.write('\t');
-					else
-						fw.write(Env.NL);
+					if (sb.substring(i+1).startsWith("//")) {
+						//fw.write('\t');
+					} else {
+						//fw.write(Env.NL);
+					}
 				}
 				//	before & after
 				else if (c == '{')
 				{
-					fw.write(Env.NL);
+					//fw.write(Env.NL);
 					fw.write (c);
-					fw.write(Env.NL);
+					//fw.write(Env.NL);
 				}
 				else
 					fw.write (c);
@@ -748,10 +837,9 @@ public class GenerateModelTrifon
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer ("GenerateModel[")
-			.append("]");
+		StringBuffer sb = new StringBuffer ("GenerateModel[").append("]");
 		return sb.toString();
-	}	//	toString
+	}
 
 
 
@@ -810,12 +898,19 @@ public class GenerateModelTrifon
 		log.info(sql.toString());
 		log.info("----------------------------------");
 		
+		String tableLike = "'%'";	//	All tables
+		if (args.length > 3)
+			tableLike = args[3];
+		log.info("Table Like: " + tableLike);
+
 		//	complete sql
 		sql.insert(0, "SELECT AD_Table_ID "
 			+ "FROM AD_Table "
 			+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')"	//	special views
 			+ " OR IsView='N')"
 			+ " AND TableName NOT LIKE '%_Trl' AND ");
+		sql.append(" AND TableName LIKE ").append(tableLike);
+
 		sql.append(" ORDER BY TableName");
 		
 		//
