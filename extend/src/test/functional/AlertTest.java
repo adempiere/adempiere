@@ -31,6 +31,8 @@ package test.functional;
 //import org.compiere.model.I_AD_Alert;
 //import org.compiere.model.I_AD_AlertProcessor;
 import org.compiere.model.MAlert;
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_Alert;
 import org.compiere.model.X_AD_AlertProcessor;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -59,6 +61,7 @@ public class AlertTest extends AdempiereTestCase
 		Trx trx = Trx.get(Trx.createTrxName("Test"), true);
 		trx.start();
 		log.info("trx = " + trx.toString());
+		boolean resultSave = false;
 		
 		//----- Old way:
 		MAlert alertOldWay = new MAlert(Env.getCtx(), 100, trx.getTrxName());
@@ -67,19 +70,29 @@ public class AlertTest extends AdempiereTestCase
 		X_AD_AlertProcessor alertProcessorOldWay = new X_AD_AlertProcessor(Env.getCtx(), alertOldWay.getAD_AlertProcessor_ID(), trx.getTrxName());
 		log.info("alertProcessorOldWay.getAD_AlertProcessor_ID = " + alertProcessorOldWay.getAD_AlertProcessor_ID());
 		
-/*		//----- New way:
-		I_AD_Alert alert = new MAlert(Env.getCtx(), 100, trx.getTrxName());
+		alertOldWay.setDescription("Trifon test");
+		resultSave = alertOldWay.save();
+		log.info("resultSave = " + resultSave);
+		
+		System.out.println("New value of Description = " + alertOldWay.getDescription());
+		
+		//----- New way:
+/*		I_AD_Alert alert = new MAlert(Env.getCtx(), 100, trx.getTrxName());
 		log.info(alert.toString());
 				
 		I_AD_AlertProcessor alertProcessor = alert.getI_AD_AlertProcessor();
 		log.info("I_AD_AlertProcessor.getAD_AlertProcessor_ID = " + alertProcessor.getAD_AlertProcessor_ID());
 
 		log.info("alert.getAD_AlertProcessor_ID = " + alert.getAD_AlertProcessor_ID());
-*/
 		
+		alert.setDescription("Trifon test");
 		//--- Save; TODO - Must be refactored. PO.save must be static method!!!
-		//boolean resultSave = ((X_AD_Alert) alert).save();
-
+		//resultSave = ((X_AD_Alert) alert).save();
+		resultSave = PO.save(alert);
+		log.info("resultSave = " + resultSave);
+				
+		System.out.println("New value of Description = " + alert.getDescription());
+*/
 		trx.commit();
 		trx.close();
 	}
