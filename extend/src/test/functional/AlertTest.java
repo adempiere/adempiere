@@ -71,6 +71,7 @@ public class AlertTest extends AdempiereTestCase
 		log.info("alertProcessorOldWay.getAD_AlertProcessor_ID = " + alertProcessorOldWay.getAD_AlertProcessor_ID());
 		
 		alertOldWay.setDescription("Trifon test");
+		//--- Save; 
 		resultSave = alertOldWay.save();
 		log.info("resultSave = " + resultSave);
 		
@@ -85,14 +86,15 @@ public class AlertTest extends AdempiereTestCase
 
 		log.info("alert.getAD_AlertProcessor_ID = " + alert.getAD_AlertProcessor_ID());
 		
-		alert.setDescription("Trifon test");
-		//--- Save; TODO - Must be refactored. PO.save must be static method!!!
-		//resultSave = ((X_AD_Alert) alert).save();
-		resultSave = PO.save(alert);
+		alert.setDescription("Trifon Description modified!");
+		//--- Save; PO.save(PO) must be static method!!! Two way of usage: PO.save(Object) or PO.save(PO)
+		//resultSave = PO.save((PO)alert); 
+		resultSave = PO.save(alert);  // Overloaded save method; For simple usage!
 		log.info("resultSave = " + resultSave);
 				
 		System.out.println("New value of Description = " + alert.getDescription());
 */
+		
 		trx.commit();
 		trx.close();
 	}
