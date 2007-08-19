@@ -30,7 +30,10 @@ package test.functional;
 
 //import org.compiere.model.I_AD_Alert;
 //import org.compiere.model.I_AD_AlertProcessor;
+import org.compiere.model.MAlert;
+import org.compiere.model.X_AD_AlertProcessor;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 import org.compiere.util.Trx;
 
 import test.AdempiereTestCase;
@@ -57,21 +60,26 @@ public class AlertTest extends AdempiereTestCase
 		trx.start();
 		log.info("trx = " + trx.toString());
 		
-		// Old way:
-		//MAlert alert = new MAlert(Env.getCtx(), 100, trx.getTrxName());
+		//----- Old way:
+		MAlert alertOldWay = new MAlert(Env.getCtx(), 100, trx.getTrxName());
+		log.info(alertOldWay.toString());
 		
-		// New way:
-/*		I_AD_Alert alert = new MAlert(Env.getCtx(), 100, trx.getTrxName());
+		X_AD_AlertProcessor alertProcessorOldWay = new X_AD_AlertProcessor(Env.getCtx(), alertOldWay.getAD_AlertProcessor_ID(), trx.getTrxName());
+		log.info("alertProcessorOldWay.getAD_AlertProcessor_ID = " + alertProcessorOldWay.getAD_AlertProcessor_ID());
 		
-		boolean resultSave = ((X_AD_Alert) alert).save();
+/*		//----- New way:
+		I_AD_Alert alert = new MAlert(Env.getCtx(), 100, trx.getTrxName());
 		log.info(alert.toString());
 				
-		//
-		log.info("alert.getAD_AlertProcessor_ID = " + alert.getAD_AlertProcessor_ID());
-		
 		I_AD_AlertProcessor alertProcessor = alert.getI_AD_AlertProcessor();
 		log.info("I_AD_AlertProcessor.getAD_AlertProcessor_ID = " + alertProcessor.getAD_AlertProcessor_ID());
+
+		log.info("alert.getAD_AlertProcessor_ID = " + alert.getAD_AlertProcessor_ID());
 */
+		
+		//--- Save; TODO - Must be refactored. PO.save must be static method!!!
+		//boolean resultSave = ((X_AD_Alert) alert).save();
+
 		trx.commit();
 		trx.close();
 	}
