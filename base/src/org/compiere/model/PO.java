@@ -816,6 +816,19 @@ public abstract class PO
 		return set_ValueNoCheckE (ColumnName, value);
 	}	//	set_ValueNoCheckE
 
+	/**
+	 * Set value of Column
+	 * @param columnName
+	 * @param value
+	 */
+	public final void set_ValueOfColumn(String columnName, Object value)
+	{
+		int AD_Column_ID = p_info.getAD_Column_ID(columnName);
+		if (AD_Column_ID > 0) 
+		{
+			set_ValueOfColumn(AD_Column_ID, value);
+		}
+	}
 	
 	/**
 	 *  Set Value of Column

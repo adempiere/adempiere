@@ -265,6 +265,20 @@ public class POInfo implements Serializable
 		}
 		return -1;
 	}   //  getColumnIndex
+	
+	/**
+	 * @param columnName
+	 * @return AD_Column_ID if found, -1 if not found
+	 */
+	public int getAD_Column_ID(String columnName) 
+	{
+		for (int i = 0; i < m_columns.length; i++)
+		{
+			if (m_columns[i].ColumnName.equals(columnName))
+				return m_columns[i].AD_Column_ID;
+		}
+		return -1;
+	}
 
 	/**
 	 *  Get Column
