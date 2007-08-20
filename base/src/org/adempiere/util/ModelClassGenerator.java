@@ -41,7 +41,7 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: GenerateModel.java,v 1.42 2005/05/08 15:16:56 jjanke Exp $
  */
-public class GenerateModelTrifon
+public class ModelClassGenerator
 {
 	/**
 	 * 	Generate PO Class
@@ -49,7 +49,7 @@ public class GenerateModelTrifon
 	 * 	@param directory directory with \ or / at the end.
 	 * 	@param packageName package name
 	 */
-	public GenerateModelTrifon (int AD_Table_ID, String directory, String packageName)
+	public ModelClassGenerator (int AD_Table_ID, String directory, String packageName)
 	{
 		//	create column access methods
 		StringBuffer mandatory = new StringBuffer();
@@ -82,10 +82,10 @@ public class GenerateModelTrifon
 		+" *****************************************************************************/\n";
 	
 	/**	Generated on					*/
-	private Timestamp 		s_run = new Timestamp(System.currentTimeMillis());
+//	private Timestamp 		s_run = new Timestamp(System.currentTimeMillis());
 	
 	/**	Logger			*/
-	private static CLogger	log	= CLogger.getCLogger (GenerateModelTrifon.class);
+	private static CLogger	log	= CLogger.getCLogger (ModelClassGenerator.class);
 	
 	/**
 	 * 	Add Header info to buffer
@@ -922,7 +922,8 @@ public class GenerateModelTrifon
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				new GenerateModelTrifon(rs.getInt(1), directory, packageName);
+				new ModelInterfaceGenerator(rs.getInt(1), directory, packageName);
+				new ModelClassGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}
 			rs.close();

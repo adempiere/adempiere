@@ -47,7 +47,7 @@ import org.compiere.util.Env;
  *	@author Trifon Trifonov
  *	@version $Id$
  */
-public class GenerateInterfaceTrifon {
+public class ModelInterfaceGenerator {
 	
 	private String packageName = "";
 	
@@ -86,10 +86,10 @@ public class GenerateInterfaceTrifon {
 	private Timestamp s_run = new Timestamp(System.currentTimeMillis());
 
 	/** Logger */
-	private static CLogger log = CLogger.getCLogger(GenerateInterfaceTrifon.class);
+	private static CLogger log = CLogger.getCLogger(ModelInterfaceGenerator.class);
 
 
-	public GenerateInterfaceTrifon(int AD_Table_ID, String directory, String packageName) {
+	public ModelInterfaceGenerator(int AD_Table_ID, String directory, String packageName) {
 		this.packageName = packageName;
 		// create column access methods
 		StringBuffer mandatory = new StringBuffer();
@@ -514,7 +514,7 @@ public class GenerateInterfaceTrifon {
 			pstmt = DB.prepareStatement(sql.toString(), null);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				new GenerateInterfaceTrifon(rs.getInt(1), directory, packageName);
+				new ModelInterfaceGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}
 			rs.close();
