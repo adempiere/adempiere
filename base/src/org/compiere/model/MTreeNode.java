@@ -243,8 +243,10 @@ public final class MTreeNode extends DefaultMutableTreeNode
 			imageIndex = TYPE_PROCESS;
 		else if (imageIndicator.equals(MWFNode.ACTION_SubWorkflow))		//	WorkFlow
 			imageIndex = TYPE_WORKFLOW;
+		/*
 		else if (imageIndicator.equals(MWFNode.ACTION_UserWorkbench))	//	Workbench
 			imageIndex = TYPE_WORKBENCH;
+		*/
 		else if (imageIndicator.equals(MWFNode.ACTION_SetVariable))		//	Set Variable
 			imageIndex = TYPE_SETVARIABLE;
 		else if (imageIndicator.equals(MWFNode.ACTION_UserChoice))		//	User Choice
