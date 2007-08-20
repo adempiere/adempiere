@@ -816,11 +816,16 @@ public class ReportStarter implements ProcessCall {
 		
 		if(jasperreportsAbsolutePath != null && !jasperreportsAbsolutePath.trim().equals(""))
 		{
-			System.setProperty("java.class.path",
-					System.getProperty("java.class.path") +
-					System.getProperty("path.separator") +
-					jasperreportsAbsolutePath);
-			log.info("Classpath has been corrected to " + System.getProperty("java.class.path"));
+			// Check whether the current CLASSPATH already contains our
+			// jasper libraries and dependencies or not.
+			if(System.getProperty("java.class.path").indexOf(jasperreportsAbsolutePath) < 0)
+			{
+                System.setProperty("java.class.path",
+                        System.getProperty("java.class.path") +
+                        System.getProperty("path.separator") +
+                        jasperreportsAbsolutePath);
+                log.info("Classpath has been corrected to " + System.getProperty("java.class.path"));
+			}
 		}
     }
 	
