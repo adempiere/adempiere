@@ -320,8 +320,9 @@ public class MWFNode extends X_AD_WF_Node
 			return "Workflow:AD_Workflow_ID=" + getAD_Workflow_ID();
 		else if (ACTION_UserChoice.equals(action))
 			return "UserChoice:AD_Column_ID=" + getAD_Column_ID();
+		/*
 		else if (ACTION_UserWorkbench.equals(action))
-			return "Workbench:?";
+			return "Workbench:?";*/
 		else if (ACTION_UserForm.equals(action))
 			return "Form:AD_Form_ID=" + getAD_Form_ID();
 		else if (ACTION_UserWindow.equals(action))
@@ -392,7 +393,7 @@ public class MWFNode extends X_AD_WF_Node
 	{
 		if (ACTION_UserForm.equals(getAction())
 			|| ACTION_UserWindow.equals(getAction())
-			|| ACTION_UserWorkbench.equals(getAction()))
+			/*|| ACTION_UserWorkbench.equals(getAction())*/)
 			return true;
 		return false;
 	}	//	isUserManual
