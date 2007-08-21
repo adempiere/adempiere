@@ -165,7 +165,11 @@ public class ModelClassGenerator
 			 .append("/** Generated Model for ").append(tableName).append(Env.NL)
 			 .append(" *  @author Adempiere (generated) ").append(Env.NL)
 			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - $Id$ */").append(Env.NL)
-			 .append("public class ").append(className).append(" extends PO implements I_").append(tableName).append(Env.NL)
+			 .append("public class ").append(className)
+			 	.append(" extends PO")
+			 	.append(" implements I_").append(tableName)
+			 	.append(" implements I_Persistent ")
+			 	.append(Env.NL)
 			 .append("{").append(Env.NL)
 			
 			 // serialVersionUID
@@ -922,7 +926,6 @@ public class ModelClassGenerator
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				new ModelInterfaceGenerator(rs.getInt(1), directory, packageName);
 				new ModelClassGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}

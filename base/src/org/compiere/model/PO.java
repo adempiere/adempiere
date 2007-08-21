@@ -1770,84 +1770,83 @@ public abstract class PO
 		return true;
 	}	//	is_new
 	
-	public boolean save() {
-		return PO.save(this);
-	}
-	
-	public static boolean save(Object po) {
-		return save((PO) po);
-		
-	}
+	/*
+	 * Classes which override save() method:
+	 * org.compiere.process.DocActionTemplate
+	 * org.compiere.model.MClient
+	 * org.compiere.model.MClientInfo
+	 * org.compiere.model.MSystem
+	 */
 	/**************************************************************************
 	 *  Update Value or create new record.
 	 * 	To reload call load() - not updated
 	 *  @return true if saved
 	 */
-	public static boolean save(PO po)
+	public boolean save()
 	{
 		CLogger.resetLast();
-		boolean newRecord = po.is_new();	//	save locally as load resets
-		if (!newRecord && !po.is_Changed())
+		boolean newRecord = is_new();	//	save locally as load resets
+		if (!newRecord && !is_Changed())
 		{
-			po.log.fine("Nothing changed - " + po.p_info.getTableName());
+			log.fine("Nothing changed - " + p_info.getTableName());
 			return true;
 		}
 
 		//	Organization Check
-		if (po.getAD_Org_ID() == 0 
-			&& (po.get_AccessLevel() == ACCESSLEVEL_ORG
-				|| (po.get_AccessLevel() == ACCESSLEVEL_CLIENTORG 
-					&& MClientShare.isOrgLevelOnly(po.getAD_Client_ID(), po.get_Table_ID()))))
+		if (getAD_Org_ID() == 0 
+			&& (get_AccessLevel() == ACCESSLEVEL_ORG
+				|| (get_AccessLevel() == ACCESSLEVEL_CLIENTORG 
+					&& MClientShare.isOrgLevelOnly(getAD_Client_ID(), get_Table_ID()))))
 		{
-			po.log.saveError("FillMandatory", Msg.getElement(po.getCtx(), "AD_Org_ID"));
+			log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Org_ID"));
 			return false;
 		}
 		//	Should be Org 0
-		if (po.getAD_Org_ID() != 0)
+		if (getAD_Org_ID() != 0)
 		{
-			boolean reset = po.get_AccessLevel() == ACCESSLEVEL_SYSTEM;
-			if (!reset && MClientShare.isClientLevelOnly(po.getAD_Client_ID(), po.get_Table_ID()))
+			boolean reset = get_AccessLevel() == ACCESSLEVEL_SYSTEM;
+			if (!reset && MClientShare.isClientLevelOnly(getAD_Client_ID(), get_Table_ID()))
 			{
-				reset = po.get_AccessLevel() == ACCESSLEVEL_CLIENT
-					|| po.get_AccessLevel() == ACCESSLEVEL_SYSTEMCLIENT
-					|| po.get_AccessLevel() == ACCESSLEVEL_CLIENTORG; 
+				reset = get_AccessLevel() == ACCESSLEVEL_CLIENT
+					|| get_AccessLevel() == ACCESSLEVEL_SYSTEMCLIENT
+					|| get_AccessLevel() == ACCESSLEVEL_CLIENTORG; 
 			}
 			if (reset)
 			{
-				po.log.warning("Set Org to 0");
-				po.setAD_Org_ID(0);
+				log.warning("Set Org to 0");
+				setAD_Org_ID(0);
 			}
 		}
 		//	Before Save
 		try
 		{
-			if (!po.beforeSave(newRecord))
+			if (!beforeSave(newRecord))
 			{
-				po.log.warning("beforeSave failed - " + po.toString());
+				log.warning("beforeSave failed - " + toString());
 				return false;
 			}
 		}
 		catch (Exception e)
 		{
-			po.log.log(Level.WARNING, "beforeSave - " + po.toString(), e);
-			po.log.saveError("Error", e.toString(), false);
+			log.log(Level.WARNING, "beforeSave - " + toString(), e);
+			log.saveError("Error", e.toString(), false);
 		//	throw new DBException(e);
 			return false;
 		}
 		// Call ModelValidators TYPE_NEW/TYPE_CHANGE
 		String errorMsg = ModelValidationEngine.get().fireModelChange
-			(po, newRecord ? ModelValidator.TYPE_NEW : ModelValidator.TYPE_CHANGE);
+			(this, newRecord ? ModelValidator.TYPE_NEW : ModelValidator.TYPE_CHANGE);
 		if (errorMsg != null)
 		{
-			po.log.warning("Validation failed - " + errorMsg);
-			po.log.saveError("Error", errorMsg);
+			log.warning("Validation failed - " + errorMsg);
+			log.saveError("Error", errorMsg);
 			return false;
 		}
 		//	Save
 		if (newRecord)
-			return po.saveNew();
+			return saveNew();
 		else
-			return po.saveUpdate();
+			return saveUpdate();
 	}	//	save
 	
 	/**
