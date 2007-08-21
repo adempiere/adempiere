@@ -377,11 +377,12 @@ public class EMailDialog extends CDialog
 					email.addTo(st.nextToken());
 				// cc
 				StringTokenizer stcc = new StringTokenizer(getCc(), " ,;", false);
-				String cc = stcc.nextToken();
-				if (cc != null && cc.length() > 0)
-					email.addCc(cc);
 				while (stcc.hasMoreTokens())
-					email.addCc(stcc.nextToken());
+				{
+					String cc = stcc.nextToken();
+					if (cc != null && cc.length() > 0)
+                        email.addCc(cc);
+				}
 				//	Attachment
 				if (m_attachFile != null && m_attachFile.exists())
 					email.addAttachment(m_attachFile);
