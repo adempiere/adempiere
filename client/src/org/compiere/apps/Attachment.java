@@ -504,7 +504,9 @@ public final class Attachment extends CDialog
         
         try 
         {
-            String fileName = System.getProperty("java.io.tmpdir") + m_attachment.getEntryName(index);
+            String fileName = System.getProperty("java.io.tmpdir") +
+					System.getProperty("file.separator") +
+					m_attachment.getEntryName(index);
             File tempFile = new File(fileName);
             m_attachment.getEntryFile(index, tempFile);
         
