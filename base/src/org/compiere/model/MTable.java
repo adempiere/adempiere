@@ -22,6 +22,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
+import org.adempiere.model.GenericPO;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.*;
@@ -134,7 +135,8 @@ public class MTable extends X_AD_Table
 	/**	Packages for Model Classes	*/
 	private static final String[]	s_packages = new String[] {
 		"compiere.model",			//	globalqss allow compatibility with other plugins 	
-		"adempiere.model",			//	Extensions	
+		"adempiere.model",			//	Extensions
+		"org.adempiere.model",
 		"org.compiere.model", "org.compiere.wf", 
 		"org.compiere.print", "org.compiere.impexp"
 	};
@@ -178,7 +180,7 @@ public class MTable extends X_AD_Table
 		Class cache = s_classCache.get(tableName);
 		if (cache != null) 
 		{
-			//Object.class indicate no PO class for tableName
+			//Object.class indicate no generated PO class for tableName
 			if (cache.equals(Object.class))
 				return null;
 			else
@@ -440,9 +442,13 @@ public class MTable extends X_AD_Table
 		Class clazz = getClass(tableName);
 		if (clazz == null)
 		{
-			log.log(Level.WARNING, "(id) - Class not found for " + tableName);
-			return null;
+			//log.log(Level.WARNING, "(id) - Class not found for " + tableName);
+			//return null;
+			log.log(Level.INFO, "Using GenericPO for " + tableName);
+			GenericPO po = new GenericPO(tableName, getCtx(), new Integer(Record_ID), trxName);
+			return po;
 		}
+		
 		boolean errorLogged = false;
 		try
 		{
@@ -501,9 +507,13 @@ public class MTable extends X_AD_Table
 		Class clazz = getClass(tableName);
 		if (clazz == null)
 		{
-			log.log(Level.SEVERE, "(rs) - Class not found for " + tableName);
-			return null;
+			//log.log(Level.SEVERE, "(rs) - Class not found for " + tableName);
+			//return null;
+			log.log(Level.INFO, "Using GenericPO for " + tableName);
+			GenericPO po = new GenericPO(tableName, getCtx(), rs, trxName);
+			return po;
 		}
+		
 		boolean errorLogged = false;
 		try
 		{

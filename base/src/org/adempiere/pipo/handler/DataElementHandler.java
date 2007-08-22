@@ -30,9 +30,9 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.model.GenericPO;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
-import org.adempiere.pipo.GenericPO;
 import org.adempiere.pipo.IDFinder;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.POInfo;
@@ -95,11 +95,11 @@ public class DataElementHandler extends AbstractElementHandler {
 			Attributes atts = element.attributes;
 			log.info(elementValue+" "+atts.getValue("name"));
 			String d_rowname = atts.getValue("name");
-			ctx.setProperty("adempieredataTable_ID", String.valueOf(get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename)));	   	    
+				   	    
 			// name can be null if there are keyXname attributes.
 			if (!d_rowname.equals("")){
 				int id = get_ID(ctx, d_tablename, d_rowname);
-				genericPO = new GenericPO(ctx, id, getTrxName(ctx));
+				genericPO = new GenericPO(d_tablename, ctx, id, getTrxName(ctx));
 				if (id > 0){
 					AD_Backup_ID = copyRecord(ctx,d_tablename,genericPO);
 					objectStatus = "Update";			
@@ -130,13 +130,13 @@ public class DataElementHandler extends AbstractElementHandler {
 					ResultSet rs = pstmt.executeQuery();
 					if (rs.next()) {
 						objectStatus = "Update";	
-						genericPO = new GenericPO(ctx, rs, getTrxName(ctx));
+						genericPO = new GenericPO(d_tablename, ctx, rs, getTrxName(ctx));
 						rs.close();
 						pstmt.close();
 						pstmt = null;
 					}
 					else {
-						genericPO = new GenericPO(ctx, 0, getTrxName(ctx));
+						genericPO = new GenericPO(d_tablename, ctx, 0, getTrxName(ctx));
 						rs.close();
 						pstmt.close();
 						pstmt = null;
@@ -144,11 +144,11 @@ public class DataElementHandler extends AbstractElementHandler {
 						// set keyXname.
 						CURRENT_KEY = "key1name";
 						if (!atts.getValue(CURRENT_KEY).equals("")) {
-							genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
+							genericPO.set_ValueOfColumn(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
 						}
 						CURRENT_KEY = "key2name";
 						if (!atts.getValue(CURRENT_KEY).equals("")) {
-							genericPO.setValueNoCheck(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
+							genericPO.set_ValueOfColumn(atts.getValue(CURRENT_KEY), atts.getValue("lookup"+CURRENT_KEY));
 						}
 					}
 					
@@ -157,8 +157,7 @@ public class DataElementHandler extends AbstractElementHandler {
 					log.info ("keyXname attribute. init from rs error."+e);
 				}
 			}
-			// reset Table ID for GenericPO.
-			ctx.setProperty("adempieredataTable_ID", "0");
+			
 			// for debug GenericPO.
 			if (false) {
 				POInfo poInfo = POInfo.getPOInfo(ctx, get_ID(ctx, "AD_Table", d_tablename));
@@ -170,11 +169,11 @@ public class DataElementHandler extends AbstractElementHandler {
 			}
 			// globalqss: set AD_Client_ID to the client setted in adempieredata
 			if (getClientId(ctx) > 0 && genericPO.getAD_Client_ID() != getClientId(ctx))
-				genericPO.setValue("AD_Client_ID", getClientId(ctx));
+				genericPO.set_ValueOfColumn("AD_Client_ID", getClientId(ctx));
 			// if new. TODO: no defaults for keyXname.
 			if (!d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
 				log.info("new genericPO, table: "+d_tablename+" name:"+d_rowname);
-				genericPO.setValue("Name", d_rowname);
+				genericPO.set_ValueOfColumn("Name", d_rowname);
 				// Set defaults.
 				//TODO: get defaults from configuration
 				HashMap defaults = new HashMap();
@@ -185,11 +184,11 @@ public class DataElementHandler extends AbstractElementHandler {
 					while (iter.hasNext()) {
 						thisValue = (ArrayList)iter.next();
 						if (((String)(thisValue.get(2))).equals("String"))
-							genericPO.setValue((String)thisValue.get(0), (String)thisValue.get(1));
+							genericPO.set_ValueOfColumn((String)thisValue.get(0), (String)thisValue.get(1));
 						else if (((String)(thisValue.get(2))).equals("Integer"))
-							genericPO.setValue((String)thisValue.get(0), Integer.valueOf((String)thisValue.get(1)));
+							genericPO.set_ValueOfColumn((String)thisValue.get(0), Integer.valueOf((String)thisValue.get(1)));
 						else if (((String)(thisValue.get(2))).equals("Boolean"))
-							genericPO.setValue((String)thisValue.get(0), new Boolean(((String)thisValue.get(1)).equals("true") ? true : false));
+							genericPO.set_ValueOfColumn((String)thisValue.get(0), new Boolean(((String)thisValue.get(1)).equals("true") ? true : false));
 					}
 				}
 			}
@@ -235,31 +234,31 @@ public class DataElementHandler extends AbstractElementHandler {
 							|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
 							|| atts.getValue("class").equals("Button")
 							|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
-						genericPO.setValue(atts.getValue("name").toString(), atts.getValue("value").toString());
+						genericPO.set_ValueOfColumn(atts.getValue("name").toString(), atts.getValue("value").toString());
 					}
 					else if (atts.getValue("class").equals("Number") || atts.getValue("class").equals("Amount")
 							|| atts.getValue("class").equals("Quantity")|| atts.getValue("class").equals("Costs+Prices")){
-						genericPO.setValue(atts.getValue("name").toString(), new BigDecimal(atts.getValue("value")));
+						genericPO.set_ValueOfColumn(atts.getValue("name").toString(), new BigDecimal(atts.getValue("value")));
 					}
 					else if (atts.getValue("class").equals("Integer") || atts.getValue("class").equals("ID")
 							|| atts.getValue("class").equals("Table Direct")|| atts.getValue("class").equals("Table")
 							|| atts.getValue("class").equals("Location (Address)")|| atts.getValue("class").equals("Account")
 							|| atts.getValue("class").equals("Color)")|| atts.getValue("class").equals("Search")						
 							|| atts.getValue("class").equals("Locator (WH)")|| atts.getValue("class").equals("Product Attribute")) {
-						genericPO.setValue(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
+						genericPO.set_ValueOfColumn(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
 					}	
 					else if (atts.getValue("class").equals("Boolean")) {
-						genericPO.setValue(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
+						genericPO.set_ValueOfColumn(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
 					}
 					else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
 							|| atts.getValue("class").equals("Time")) {
-						genericPO.setValue(atts.getValue("name").toString(), Timestamp.valueOf(atts.getValue("value")));
+						genericPO.set_ValueOfColumn(atts.getValue("name").toString(), Timestamp.valueOf(atts.getValue("value")));
 					}//Binary,  Radio, RowID, Image not supported
 				} else { // value is null 
 					if (atts.getValue("lookupname") != null && !"".equals(atts.getValue("lookupname"))) {
 						// globalqss - bring support from XML2AD to lookupname
 						String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
-						genericPO.setValue(atts.getValue("name"), new Integer(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"))));
+						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"))));
 					}
 				}
 			}

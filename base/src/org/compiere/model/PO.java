@@ -1048,7 +1048,7 @@ public abstract class PO
 	 * 	@param from old, existing & unchanged PO
 	 *  @param to new, not saved PO
 	 */
-	protected static void copyValues (PO from, PO to)
+	public static void copyValues (PO from, PO to)
 	{
 		s_log.fine("From ID=" + from.get_ID() + " - To ID=" + to.get_ID());
 		//	Different Classes
