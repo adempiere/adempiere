@@ -727,6 +727,17 @@ public class MTable extends X_AD_Table
 		}
 		return retValue;
 	}
+	
+	/**
+	 * Create query to retrieve one or more PO.
+	 * @param whereClause
+	 * @param trxName
+	 * @return Query
+	 */
+	public Query createQuery(String whereClause, String trxName) 
+	{
+		return new Query(this, whereClause, trxName);
+	}
 
 	/**
 	 * 	String Representation
