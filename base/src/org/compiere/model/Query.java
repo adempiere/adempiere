@@ -19,6 +19,7 @@ package org.compiere.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -42,6 +43,7 @@ public class Query {
 	private String orderBy = null;
 	private String trxName = null;
 	private Object[] parameters = null;
+	private boolean applyAccessFilter = false;
 	
 	/**
 	 * 
@@ -72,10 +74,19 @@ public class Query {
 	}
 	
 	/**
+	 * Turn on/off the addition of data access filter
+	 * @param flag
+	 */
+	public void setApplyAccessFilter(boolean flag) {
+		applyAccessFilter = flag;
+	}
+	
+	/**
 	 * Return a list of all po that match the query criteria.
 	 * @return List
+	 * @throws SQLException 
 	 */
-	public List<PO> list() {
+	public List<PO> list() throws SQLException {
 		List<PO> list = new ArrayList<PO>();
 		
 		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID());
@@ -86,6 +97,10 @@ public class Query {
 		if (orderBy != null && orderBy.trim().length() > 0)
 			sqlBuffer.append(" Order By ").append(orderBy);
 		String sql = sqlBuffer.toString();
+		if (applyAccessFilter) {
+			MRole role = MRole.getDefault();
+			sql = role.addAccessSQL(sql, table.get_TableName(), true, false);
+		}
 		
 		PreparedStatement pstmt = null;
 		try
@@ -108,19 +123,16 @@ public class Query {
 			pstmt.close ();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			log.saveError("Error", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			throw e;
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close ();				
+			}
+			catch (Exception e){}
 			pstmt = null;
 		}
 		return list;
@@ -131,8 +143,9 @@ public class Query {
 	 * all IDS that match the query criteria and issue sql query to fetch the PO when caller want to
 	 * fetch the next PO. This minimize memory usage but it is slower than the list method.
 	 * @return Iterator
+	 * @throws SQLException 
 	 */
-	public Iterator iterate() {
+	public Iterator iterate() throws SQLException {
 		String[] keys = table.get_KeyColumns();
 		StringBuffer sqlBuffer = new StringBuffer(" SELECT ");
 		for (int i = 0; i < keys.length; i++) {
@@ -145,7 +158,11 @@ public class Query {
 			sqlBuffer.append(" WHERE ").append(whereClause);
 		if (orderBy != null && orderBy.trim().length() > 0)
 			sqlBuffer.append(" Order By ").append(orderBy);
-		String sql = sqlBuffer.toString();		
+		String sql = sqlBuffer.toString();
+		if (applyAccessFilter) {
+			MRole role = MRole.getDefault();
+			sql = role.addAccessSQL(sql, table.get_TableName(), true, false);
+		}
 		PreparedStatement pstmt = null;
 		List<Object[]> idList = new ArrayList<Object[]>();
 		try
@@ -171,19 +188,16 @@ public class Query {
 			pstmt.close ();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			log.saveError("Error", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			throw e;
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close ();
+			}
+			catch (Exception e) {}
 			pstmt = null;
 		}
 		return new POIterator(table, idList, trxName);
@@ -193,8 +207,9 @@ public class Query {
 	 * Return a simple wrapper over a jdbc resultset. It is the caller responsibility to
 	 * call the close method to release the underlying database resources.
 	 * @return POResultSet
+	 * @throws SQLException 
 	 */
-	public POResultSet scroll() {
+	public POResultSet scroll() throws SQLException {
 		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID());
 		if (info == null) return null;
 		StringBuffer sqlBuffer = info.buildSelect();
@@ -203,6 +218,10 @@ public class Query {
 		if (orderBy != null && orderBy.trim().length() > 0)
 			sqlBuffer.append(" Order By ").append(orderBy);
 		String sql = sqlBuffer.toString();
+		if (applyAccessFilter) {
+			MRole role = MRole.getDefault();
+			sql = role.addAccessSQL(sql, table.get_TableName(), true, false);
+		}
 		
 		PreparedStatement pstmt = null;
 		try
@@ -218,11 +237,10 @@ public class Query {
 			ResultSet rs = pstmt.executeQuery ();
 			return new POResultSet(table, pstmt, rs, trxName);
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			log.saveError("Error", e);
+			throw e;
 		}
-		return null;
 	}
 }
