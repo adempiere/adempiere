@@ -129,7 +129,7 @@
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- 2pack packages -->
-			<zipgroupfileset dir="packages/**/lib" includes="*.jar">
+			<zipgroupfileset dir="packages" includes="**/lib/*.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipgroupfileset>
 			<zipfileset src="lib/Adempiere.jar" >
