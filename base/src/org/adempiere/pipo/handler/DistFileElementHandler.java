@@ -87,10 +87,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 			}
 			
 			//Correct target directory for proper file seperator
-			String fullTargetPath =
-				fileName.endsWith(".jar") 
-				 		 ? packagePath + targetDirectory
-						 : adempiereSourcePath+targetDirectory;
+			String fullTargetPath = adempiereSourcePath+targetDirectory;
 			char slash1 = '\\'; 
 			char slash2 = '/';
 			if (File.separator.equals("/"))			
