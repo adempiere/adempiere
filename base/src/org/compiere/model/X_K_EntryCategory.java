@@ -1,147 +1,181 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+/** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-/** Generated Model - DO NOT CHANGE */
 import java.util.*;
 import java.sql.*;
 import java.math.*;
+import java.lang.reflect.Constructor;
+import java.util.logging.Level;
 import org.compiere.util.*;
+
 /** Generated Model for K_EntryCategory
  *  @author Adempiere (generated) 
  *  @version Release 3.3.0 - $Id$ */
-public class X_K_EntryCategory extends PO
+public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persistent 
 {
-/** Standard Constructor
-@param ctx context
-@param K_EntryCategory_ID id
-@param trxName transaction
-*/
-public X_K_EntryCategory (Properties ctx, int K_EntryCategory_ID, String trxName)
-{
-super (ctx, K_EntryCategory_ID, trxName);
-/** if (K_EntryCategory_ID == 0)
-{
-setK_CategoryValue_ID (0);
-setK_Category_ID (0);
-setK_Entry_ID (0);
-}
- */
-}
-/** Load Constructor 
-@param ctx context
-@param rs result set 
-@param trxName transaction
-*/
-public X_K_EntryCategory (Properties ctx, ResultSet rs, String trxName)
-{
-super (ctx, rs, trxName);
-}
-/** TableName=K_EntryCategory */
-public static final String Table_Name="K_EntryCategory";
 
-/** AD_Table_ID=611 */
-public static final int Table_ID=MTable.getTable_ID(Table_Name);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    /** Standard Constructor */
+    public X_K_EntryCategory (Properties ctx, int K_EntryCategory_ID, String trxName)
+    {
+      super (ctx, K_EntryCategory_ID, trxName);
+      /** if (K_EntryCategory_ID == 0)        {			setK_CategoryValue_ID (0);
+			setK_Category_ID (0);
+			setK_Entry_ID (0);
+} */
+    }
 
-protected BigDecimal accessLevel = BigDecimal.valueOf(3);
-/** AccessLevel
-@return 3 - Client - Org 
-*/
-protected int get_AccessLevel()
-{
-return accessLevel.intValue();
-}
-/** Load Meta Data
-@param ctx context
-@return PO Info
-*/
-protected POInfo initPO (Properties ctx)
-{
-POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
-return poi;
-}
-/** Info
-@return info
-*/
-public String toString()
-{
-StringBuffer sb = new StringBuffer ("X_K_EntryCategory[").append(get_ID()).append("]");
-return sb.toString();
-}
-/** Set Category Value.
-@param K_CategoryValue_ID The value of the category */
-public void setK_CategoryValue_ID (int K_CategoryValue_ID)
-{
-if (K_CategoryValue_ID < 1) throw new IllegalArgumentException ("K_CategoryValue_ID is mandatory.");
-set_Value ("K_CategoryValue_ID", Integer.valueOf(K_CategoryValue_ID));
-}
-/** Get Category Value.
-@return The value of the category */
-public int getK_CategoryValue_ID() 
-{
-Integer ii = (Integer)get_Value("K_CategoryValue_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Get Record ID/ColumnName
-@return ID/ColumnName pair
-*/public KeyNamePair getKeyNamePair() 
-{
-return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
-}
-/** Column name K_CategoryValue_ID */
-public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
-/** Set Knowledge Category.
-@param K_Category_ID Knowledge Category */
-public void setK_Category_ID (int K_Category_ID)
-{
-if (K_Category_ID < 1) throw new IllegalArgumentException ("K_Category_ID is mandatory.");
-set_Value ("K_Category_ID", Integer.valueOf(K_Category_ID));
-}
-/** Get Knowledge Category.
-@return Knowledge Category */
-public int getK_Category_ID() 
-{
-Integer ii = (Integer)get_Value("K_Category_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name K_Category_ID */
-public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
-/** Set Entry.
-@param K_Entry_ID Knowledge Entry */
-public void setK_Entry_ID (int K_Entry_ID)
-{
-if (K_Entry_ID < 1) throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-set_ValueNoCheck ("K_Entry_ID", Integer.valueOf(K_Entry_ID));
-}
-/** Get Entry.
-@return Knowledge Entry */
-public int getK_Entry_ID() 
-{
-Integer ii = (Integer)get_Value("K_Entry_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name K_Entry_ID */
-public static final String COLUMNNAME_K_Entry_ID = "K_Entry_ID";
+    /** Load Constructor */
+    public X_K_EntryCategory (Properties ctx, ResultSet rs, String trxName)
+    {
+      super (ctx, rs, trxName);
+    }
+
+    /** AccessLevel
+      * @return 3 - Client - Org 
+      */
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
+
+    /** Load Meta Data */
+    protected POInfo initPO (Properties ctx)
+    {
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      return poi;
+    }
+
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("X_K_EntryCategory[")
+        .append(get_ID()).append("]");
+      return sb.toString();
+    }
+
+	public I_K_CategoryValue getI_K_CategoryValue() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_K_CategoryValue.Table_Name);
+        I_K_CategoryValue result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_K_CategoryValue)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_CategoryValue_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Category Value.
+		@param K_CategoryValue_ID 
+		The value of the category
+	  */
+	public void setK_CategoryValue_ID (int K_CategoryValue_ID)
+	{
+		if (K_CategoryValue_ID < 1)
+			 throw new IllegalArgumentException ("K_CategoryValue_ID is mandatory.");
+		set_Value (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
+	}
+
+	/** Get Category Value.
+		@return The value of the category
+	  */
+	public int getK_CategoryValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_CategoryValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
+    }
+
+	public I_K_Category getI_K_Category() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_K_Category.Table_Name);
+        I_K_Category result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_K_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Category_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Knowledge Category.
+		@param K_Category_ID 
+		Knowledge Category
+	  */
+	public void setK_Category_ID (int K_Category_ID)
+	{
+		if (K_Category_ID < 1)
+			 throw new IllegalArgumentException ("K_Category_ID is mandatory.");
+		set_Value (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
+	}
+
+	/** Get Knowledge Category.
+		@return Knowledge Category
+	  */
+	public int getK_Category_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Entry.
+		@param K_Entry_ID 
+		Knowledge Entry
+	  */
+	public void setK_Entry_ID (int K_Entry_ID)
+	{
+		if (K_Entry_ID < 1)
+			 throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
+	}
+
+	/** Get Entry.
+		@return Knowledge Entry
+	  */
+	public int getK_Entry_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_Entry_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

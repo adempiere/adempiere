@@ -1,199 +1,216 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+/** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-/** Generated Model - DO NOT CHANGE */
 import java.util.*;
 import java.sql.*;
 import java.math.*;
+import java.lang.reflect.Constructor;
+import java.util.logging.Level;
 import org.compiere.util.*;
+
 /** Generated Model for CM_ChatType
  *  @author Adempiere (generated) 
  *  @version Release 3.3.0 - $Id$ */
-public class X_CM_ChatType extends PO
+public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent 
 {
-/** Standard Constructor
-@param ctx context
-@param CM_ChatType_ID id
-@param trxName transaction
-*/
-public X_CM_ChatType (Properties ctx, int CM_ChatType_ID, String trxName)
-{
-super (ctx, CM_ChatType_ID, trxName);
-/** if (CM_ChatType_ID == 0)
-{
-setAD_Table_ID (0);
-setCM_ChatType_ID (0);
-setName (null);
-}
- */
-}
-/** Load Constructor 
-@param ctx context
-@param rs result set 
-@param trxName transaction
-*/
-public X_CM_ChatType (Properties ctx, ResultSet rs, String trxName)
-{
-super (ctx, rs, trxName);
-}
-/** TableName=CM_ChatType */
-public static final String Table_Name="CM_ChatType";
 
-/** AD_Table_ID=874 */
-public static final int Table_ID=MTable.getTable_ID(Table_Name);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    /** Standard Constructor */
+    public X_CM_ChatType (Properties ctx, int CM_ChatType_ID, String trxName)
+    {
+      super (ctx, CM_ChatType_ID, trxName);
+      /** if (CM_ChatType_ID == 0)        {			setAD_Table_ID (0);
+			setCM_ChatType_ID (0);
+			setName (null);
+} */
+    }
 
-protected BigDecimal accessLevel = BigDecimal.valueOf(6);
-/** AccessLevel
-@return 6 - System - Client 
-*/
-protected int get_AccessLevel()
-{
-return accessLevel.intValue();
-}
-/** Load Meta Data
-@param ctx context
-@return PO Info
-*/
-protected POInfo initPO (Properties ctx)
-{
-POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
-return poi;
-}
-/** Info
-@return info
-*/
-public String toString()
-{
-StringBuffer sb = new StringBuffer ("X_CM_ChatType[").append(get_ID()).append("]");
-return sb.toString();
-}
-/** Set Table.
-@param AD_Table_ID Database Table information */
-public void setAD_Table_ID (int AD_Table_ID)
-{
-if (AD_Table_ID < 1) throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-set_Value ("AD_Table_ID", Integer.valueOf(AD_Table_ID));
-}
-/** Get Table.
-@return Database Table information */
-public int getAD_Table_ID() 
-{
-Integer ii = (Integer)get_Value("AD_Table_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name AD_Table_ID */
-public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
-/** Set Chat Type.
-@param CM_ChatType_ID Type of discussion / chat */
-public void setCM_ChatType_ID (int CM_ChatType_ID)
-{
-if (CM_ChatType_ID < 1) throw new IllegalArgumentException ("CM_ChatType_ID is mandatory.");
-set_ValueNoCheck ("CM_ChatType_ID", Integer.valueOf(CM_ChatType_ID));
-}
-/** Get Chat Type.
-@return Type of discussion / chat */
-public int getCM_ChatType_ID() 
-{
-Integer ii = (Integer)get_Value("CM_ChatType_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name CM_ChatType_ID */
-public static final String COLUMNNAME_CM_ChatType_ID = "CM_ChatType_ID";
-/** Set Description.
-@param Description Optional short description of the record */
-public void setDescription (String Description)
-{
-if (Description != null && Description.length() > 255)
-{
-log.warning("Length > 255 - truncated");
-Description = Description.substring(0,254);
-}
-set_Value ("Description", Description);
-}
-/** Get Description.
-@return Optional short description of the record */
-public String getDescription() 
-{
-return (String)get_Value("Description");
-}
-/** Column name Description */
-public static final String COLUMNNAME_Description = "Description";
+    /** Load Constructor */
+    public X_CM_ChatType (Properties ctx, ResultSet rs, String trxName)
+    {
+      super (ctx, rs, trxName);
+    }
+
+    /** AccessLevel
+      * @return 6 - System - Client 
+      */
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
+
+    /** Load Meta Data */
+    protected POInfo initPO (Properties ctx)
+    {
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      return poi;
+    }
+
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("X_CM_ChatType[")
+        .append(get_ID()).append("]");
+      return sb.toString();
+    }
+
+	public I_AD_Table getI_AD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Table.
+		@param AD_Table_ID 
+		Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID)
+	{
+		if (AD_Table_ID < 1)
+			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
+		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+	}
+
+	/** Get Table.
+		@return Database Table information
+	  */
+	public int getAD_Table_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Chat Type.
+		@param CM_ChatType_ID 
+		Type of discussion / chat
+	  */
+	public void setCM_ChatType_ID (int CM_ChatType_ID)
+	{
+		if (CM_ChatType_ID < 1)
+			 throw new IllegalArgumentException ("CM_ChatType_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, Integer.valueOf(CM_ChatType_ID));
+	}
+
+	/** Get Chat Type.
+		@return Type of discussion / chat
+	  */
+	public int getCM_ChatType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		if (Description != null && Description.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			Description = Description.substring(0, 254);
+		}
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
 
 /** ModerationType AD_Reference_ID=395 */
-public static final int MODERATIONTYPE_AD_Reference_ID=395;
-/** After Publishing = A */
-public static final String MODERATIONTYPE_AfterPublishing = "A";
-/** Before Publishing = B */
-public static final String MODERATIONTYPE_BeforePublishing = "B";
-/** Not moderated = N */
+public static final int MODERATIONTYPE_AD_Reference_ID=395;/** After Publishing = A */
+public static final String MODERATIONTYPE_AfterPublishing = "A";/** Before Publishing = B */
+public static final String MODERATIONTYPE_BeforePublishing = "B";/** Not moderated = N */
 public static final String MODERATIONTYPE_NotModerated = "N";
-/** Set Moderation Type.
-@param ModerationType Type of moderation */
-public void setModerationType (String ModerationType)
-{
-if (ModerationType == null || ModerationType.equals("A") || ModerationType.equals("B") || ModerationType.equals("N"));
- else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - A - B - N");
-if (ModerationType != null && ModerationType.length() > 1)
-{
-log.warning("Length > 1 - truncated");
-ModerationType = ModerationType.substring(0,0);
-}
-set_Value ("ModerationType", ModerationType);
-}
-/** Get Moderation Type.
-@return Type of moderation */
-public String getModerationType() 
-{
-return (String)get_Value("ModerationType");
-}
-/** Column name ModerationType */
-public static final String COLUMNNAME_ModerationType = "ModerationType";
-/** Set Name.
-@param Name Alphanumeric identifier of the entity */
-public void setName (String Name)
-{
-if (Name == null) throw new IllegalArgumentException ("Name is mandatory.");
-if (Name.length() > 120)
-{
-log.warning("Length > 120 - truncated");
-Name = Name.substring(0,119);
-}
-set_Value ("Name", Name);
-}
-/** Get Name.
-@return Alphanumeric identifier of the entity */
-public String getName() 
-{
-return (String)get_Value("Name");
-}
-/** Get Record ID/ColumnName
-@return ID/ColumnName pair
-*/public KeyNamePair getKeyNamePair() 
-{
-return new KeyNamePair(get_ID(), getName());
-}
-/** Column name Name */
-public static final String COLUMNNAME_Name = "Name";
+	/** Set Moderation Type.
+		@param ModerationType 
+		Type of moderation
+	  */
+	public void setModerationType (String ModerationType)
+	{
+if (ModerationType == null || ModerationType.equals("A") || ModerationType.equals("B") || ModerationType.equals("N")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - A - B - N");		if (ModerationType != null && ModerationType.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			ModerationType = ModerationType.substring(0, 0);
+		}
+		set_Value (COLUMNNAME_ModerationType, ModerationType);
+	}
+
+	/** Get Moderation Type.
+		@return Type of moderation
+	  */
+	public String getModerationType () 
+	{
+		return (String)get_Value(COLUMNNAME_ModerationType);
+	}
+
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name)
+	{
+		if (Name == null)
+			throw new IllegalArgumentException ("Name is mandatory.");
+		if (Name.length() > 120)
+		{
+			log.warning("Length > 120 - truncated");
+			Name = Name.substring(0, 119);
+		}
+		set_Value (COLUMNNAME_Name, Name);
+	}
+
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
+	  */
+	public String getName () 
+	{
+		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
 }

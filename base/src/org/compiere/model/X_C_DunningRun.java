@@ -1,224 +1,247 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+/** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-/** Generated Model - DO NOT CHANGE */
 import java.util.*;
 import java.sql.*;
 import java.math.*;
+import java.lang.reflect.Constructor;
+import java.util.logging.Level;
 import org.compiere.util.*;
+
 /** Generated Model for C_DunningRun
  *  @author Adempiere (generated) 
  *  @version Release 3.3.0 - $Id$ */
-public class X_C_DunningRun extends PO
+public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent 
 {
-/** Standard Constructor
-@param ctx context
-@param C_DunningRun_ID id
-@param trxName transaction
-*/
-public X_C_DunningRun (Properties ctx, int C_DunningRun_ID, String trxName)
-{
-super (ctx, C_DunningRun_ID, trxName);
-/** if (C_DunningRun_ID == 0)
-{
-setC_DunningLevel_ID (0);
-setC_DunningRun_ID (0);
-setDunningDate (new Timestamp(System.currentTimeMillis()));	// @#Date@
-setProcessed (false);
-}
- */
-}
-/** Load Constructor 
-@param ctx context
-@param rs result set 
-@param trxName transaction
-*/
-public X_C_DunningRun (Properties ctx, ResultSet rs, String trxName)
-{
-super (ctx, rs, trxName);
-}
-/** TableName=C_DunningRun */
-public static final String Table_Name="C_DunningRun";
 
-/** AD_Table_ID=526 */
-public static final int Table_ID=MTable.getTable_ID(Table_Name);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    /** Standard Constructor */
+    public X_C_DunningRun (Properties ctx, int C_DunningRun_ID, String trxName)
+    {
+      super (ctx, C_DunningRun_ID, trxName);
+      /** if (C_DunningRun_ID == 0)        {			setC_DunningLevel_ID (0);
+			setC_DunningRun_ID (0);
+			setDunningDate (new Timestamp(System.currentTimeMillis()));
+// @#Date@
+			setProcessed (false);
+} */
+    }
 
-protected BigDecimal accessLevel = BigDecimal.valueOf(3);
-/** AccessLevel
-@return 3 - Client - Org 
-*/
-protected int get_AccessLevel()
-{
-return accessLevel.intValue();
-}
-/** Load Meta Data
-@param ctx context
-@return PO Info
-*/
-protected POInfo initPO (Properties ctx)
-{
-POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
-return poi;
-}
-/** Info
-@return info
-*/
-public String toString()
-{
-StringBuffer sb = new StringBuffer ("X_C_DunningRun[").append(get_ID()).append("]");
-return sb.toString();
-}
-/** Set Dunning Level.
-@param C_DunningLevel_ID Dunning Level */
-public void setC_DunningLevel_ID (int C_DunningLevel_ID)
-{
-if (C_DunningLevel_ID < 1) throw new IllegalArgumentException ("C_DunningLevel_ID is mandatory.");
-set_ValueNoCheck ("C_DunningLevel_ID", Integer.valueOf(C_DunningLevel_ID));
-}
-/** Get Dunning Level.
-@return Dunning Level */
-public int getC_DunningLevel_ID() 
-{
-Integer ii = (Integer)get_Value("C_DunningLevel_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name C_DunningLevel_ID */
-public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
-/** Set Dunning Run.
-@param C_DunningRun_ID Dunning Run */
-public void setC_DunningRun_ID (int C_DunningRun_ID)
-{
-if (C_DunningRun_ID < 1) throw new IllegalArgumentException ("C_DunningRun_ID is mandatory.");
-set_ValueNoCheck ("C_DunningRun_ID", Integer.valueOf(C_DunningRun_ID));
-}
-/** Get Dunning Run.
-@return Dunning Run */
-public int getC_DunningRun_ID() 
-{
-Integer ii = (Integer)get_Value("C_DunningRun_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name C_DunningRun_ID */
-public static final String COLUMNNAME_C_DunningRun_ID = "C_DunningRun_ID";
-/** Set Description.
-@param Description Optional short description of the record */
-public void setDescription (String Description)
-{
-if (Description != null && Description.length() > 255)
-{
-log.warning("Length > 255 - truncated");
-Description = Description.substring(0,254);
-}
-set_Value ("Description", Description);
-}
-/** Get Description.
-@return Optional short description of the record */
-public String getDescription() 
-{
-return (String)get_Value("Description");
-}
-/** Column name Description */
-public static final String COLUMNNAME_Description = "Description";
-/** Set Dunning Date.
-@param DunningDate Date of Dunning */
-public void setDunningDate (Timestamp DunningDate)
-{
-if (DunningDate == null) throw new IllegalArgumentException ("DunningDate is mandatory.");
-set_Value ("DunningDate", DunningDate);
-}
-/** Get Dunning Date.
-@return Date of Dunning */
-public Timestamp getDunningDate() 
-{
-return (Timestamp)get_Value("DunningDate");
-}
-/** Get Record ID/ColumnName
-@return ID/ColumnName pair
-*/public KeyNamePair getKeyNamePair() 
-{
-return new KeyNamePair(get_ID(), String.valueOf(getDunningDate()));
-}
-/** Column name DunningDate */
-public static final String COLUMNNAME_DunningDate = "DunningDate";
-/** Set Processed.
-@param Processed The document has been processed */
-public void setProcessed (boolean Processed)
-{
-set_Value ("Processed", Boolean.valueOf(Processed));
-}
-/** Get Processed.
-@return The document has been processed */
-public boolean isProcessed() 
-{
-Object oo = get_Value("Processed");
-if (oo != null) 
-{
- if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
- return "Y".equals(oo);
-}
-return false;
-}
-/** Column name Processed */
-public static final String COLUMNNAME_Processed = "Processed";
-/** Set Process Now.
-@param Processing Process Now */
-public void setProcessing (boolean Processing)
-{
-set_Value ("Processing", Boolean.valueOf(Processing));
-}
-/** Get Process Now.
-@return Process Now */
-public boolean isProcessing() 
-{
-Object oo = get_Value("Processing");
-if (oo != null) 
-{
- if (oo instanceof Boolean) return ((Boolean)oo).booleanValue();
- return "Y".equals(oo);
-}
-return false;
-}
-/** Column name Processing */
-public static final String COLUMNNAME_Processing = "Processing";
-/** Set Send.
-@param SendIt Send */
-public void setSendIt (String SendIt)
-{
-if (SendIt != null && SendIt.length() > 1)
-{
-log.warning("Length > 1 - truncated");
-SendIt = SendIt.substring(0,0);
-}
-set_Value ("SendIt", SendIt);
-}
-/** Get Send.
-@return Send */
-public String getSendIt() 
-{
-return (String)get_Value("SendIt");
-}
-/** Column name SendIt */
-public static final String COLUMNNAME_SendIt = "SendIt";
+    /** Load Constructor */
+    public X_C_DunningRun (Properties ctx, ResultSet rs, String trxName)
+    {
+      super (ctx, rs, trxName);
+    }
+
+    /** AccessLevel
+      * @return 3 - Client - Org 
+      */
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
+
+    /** Load Meta Data */
+    protected POInfo initPO (Properties ctx)
+    {
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      return poi;
+    }
+
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("X_C_DunningRun[")
+        .append(get_ID()).append("]");
+      return sb.toString();
+    }
+
+	public I_C_DunningLevel getI_C_DunningLevel() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_DunningLevel.Table_Name);
+        I_C_DunningLevel result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_DunningLevel)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DunningLevel_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Dunning Level.
+		@param C_DunningLevel_ID Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
+	{
+		if (C_DunningLevel_ID < 1)
+			 throw new IllegalArgumentException ("C_DunningLevel_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
+	}
+
+	/** Get Dunning Level.
+@return Dunning Level	  */
+	public int getC_DunningLevel_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Dunning Run.
+		@param C_DunningRun_ID 
+		Dunning Run
+	  */
+	public void setC_DunningRun_ID (int C_DunningRun_ID)
+	{
+		if (C_DunningRun_ID < 1)
+			 throw new IllegalArgumentException ("C_DunningRun_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_DunningRun_ID, Integer.valueOf(C_DunningRun_ID));
+	}
+
+	/** Get Dunning Run.
+		@return Dunning Run
+	  */
+	public int getC_DunningRun_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningRun_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		if (Description != null && Description.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			Description = Description.substring(0, 254);
+		}
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Dunning Date.
+		@param DunningDate 
+		Date of Dunning
+	  */
+	public void setDunningDate (Timestamp DunningDate)
+	{
+		if (DunningDate == null)
+			throw new IllegalArgumentException ("DunningDate is mandatory.");
+		set_Value (COLUMNNAME_DunningDate, DunningDate);
+	}
+
+	/** Get Dunning Date.
+		@return Date of Dunning
+	  */
+	public Timestamp getDunningDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DunningDate);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getDunningDate()));
+    }
+
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Send.
+		@param SendIt Send	  */
+	public void setSendIt (String SendIt)
+	{
+		if (SendIt != null && SendIt.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			SendIt = SendIt.substring(0, 0);
+		}
+		set_Value (COLUMNNAME_SendIt, SendIt);
+	}
+
+	/** Get Send.
+@return Send	  */
+	public String getSendIt () 
+	{
+		return (String)get_Value(COLUMNNAME_SendIt);
+	}
 }

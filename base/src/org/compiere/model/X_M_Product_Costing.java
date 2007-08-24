@@ -1,375 +1,453 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
+/** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-/** Generated Model - DO NOT CHANGE */
 import java.util.*;
 import java.sql.*;
 import java.math.*;
+import java.lang.reflect.Constructor;
+import java.util.logging.Level;
 import org.compiere.util.*;
+
 /** Generated Model for M_Product_Costing
  *  @author Adempiere (generated) 
  *  @version Release 3.3.0 - $Id$ */
-public class X_M_Product_Costing extends PO
+public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Persistent 
 {
-/** Standard Constructor
-@param ctx context
-@param M_Product_Costing_ID id
-@param trxName transaction
-*/
-public X_M_Product_Costing (Properties ctx, int M_Product_Costing_ID, String trxName)
-{
-super (ctx, M_Product_Costing_ID, trxName);
-/** if (M_Product_Costing_ID == 0)
-{
-setC_AcctSchema_ID (0);
-setCostAverage (Env.ZERO);
-setCostAverageCumAmt (Env.ZERO);
-setCostAverageCumQty (Env.ZERO);
-setCostStandard (Env.ZERO);
-setCostStandardCumAmt (Env.ZERO);
-setCostStandardCumQty (Env.ZERO);
-setCostStandardPOAmt (Env.ZERO);
-setCostStandardPOQty (Env.ZERO);
-setCurrentCostPrice (Env.ZERO);
-setFutureCostPrice (Env.ZERO);
-setM_Product_ID (0);
-setPriceLastInv (Env.ZERO);
-setPriceLastPO (Env.ZERO);
-setTotalInvAmt (Env.ZERO);
-setTotalInvQty (Env.ZERO);
-}
- */
-}
-/** Load Constructor 
-@param ctx context
-@param rs result set 
-@param trxName transaction
-*/
-public X_M_Product_Costing (Properties ctx, ResultSet rs, String trxName)
-{
-super (ctx, rs, trxName);
-}
-/** TableName=M_Product_Costing */
-public static final String Table_Name="M_Product_Costing";
 
-/** AD_Table_ID=327 */
-public static final int Table_ID=MTable.getTable_ID(Table_Name);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+    /** Standard Constructor */
+    public X_M_Product_Costing (Properties ctx, int M_Product_Costing_ID, String trxName)
+    {
+      super (ctx, M_Product_Costing_ID, trxName);
+      /** if (M_Product_Costing_ID == 0)        {			setC_AcctSchema_ID (0);
+			setCostAverage (Env.ZERO);
+			setCostAverageCumAmt (Env.ZERO);
+			setCostAverageCumQty (Env.ZERO);
+			setCostStandard (Env.ZERO);
+			setCostStandardCumAmt (Env.ZERO);
+			setCostStandardCumQty (Env.ZERO);
+			setCostStandardPOAmt (Env.ZERO);
+			setCostStandardPOQty (Env.ZERO);
+			setCurrentCostPrice (Env.ZERO);
+			setFutureCostPrice (Env.ZERO);
+			setM_Product_ID (0);
+			setPriceLastInv (Env.ZERO);
+			setPriceLastPO (Env.ZERO);
+			setTotalInvAmt (Env.ZERO);
+			setTotalInvQty (Env.ZERO);
+} */
+    }
 
-protected BigDecimal accessLevel = BigDecimal.valueOf(3);
-/** AccessLevel
-@return 3 - Client - Org 
-*/
-protected int get_AccessLevel()
-{
-return accessLevel.intValue();
-}
-/** Load Meta Data
-@param ctx context
-@return PO Info
-*/
-protected POInfo initPO (Properties ctx)
-{
-POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
-return poi;
-}
-/** Info
-@return info
-*/
-public String toString()
-{
-StringBuffer sb = new StringBuffer ("X_M_Product_Costing[").append(get_ID()).append("]");
-return sb.toString();
-}
-/** Set Accounting Schema.
-@param C_AcctSchema_ID Rules for accounting */
-public void setC_AcctSchema_ID (int C_AcctSchema_ID)
-{
-if (C_AcctSchema_ID < 1) throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-set_ValueNoCheck ("C_AcctSchema_ID", Integer.valueOf(C_AcctSchema_ID));
-}
-/** Get Accounting Schema.
-@return Rules for accounting */
-public int getC_AcctSchema_ID() 
-{
-Integer ii = (Integer)get_Value("C_AcctSchema_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name C_AcctSchema_ID */
-public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
-/** Set Average Cost.
-@param CostAverage Weighted average costs */
-public void setCostAverage (BigDecimal CostAverage)
-{
-if (CostAverage == null) throw new IllegalArgumentException ("CostAverage is mandatory.");
-set_ValueNoCheck ("CostAverage", CostAverage);
-}
-/** Get Average Cost.
-@return Weighted average costs */
-public BigDecimal getCostAverage() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostAverage");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostAverage */
-public static final String COLUMNNAME_CostAverage = "CostAverage";
-/** Set Average Cost Amount Sum.
-@param CostAverageCumAmt Cumulative average cost amounts (internal) */
-public void setCostAverageCumAmt (BigDecimal CostAverageCumAmt)
-{
-if (CostAverageCumAmt == null) throw new IllegalArgumentException ("CostAverageCumAmt is mandatory.");
-set_ValueNoCheck ("CostAverageCumAmt", CostAverageCumAmt);
-}
-/** Get Average Cost Amount Sum.
-@return Cumulative average cost amounts (internal) */
-public BigDecimal getCostAverageCumAmt() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostAverageCumAmt");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostAverageCumAmt */
-public static final String COLUMNNAME_CostAverageCumAmt = "CostAverageCumAmt";
-/** Set Average Cost Quantity Sum.
-@param CostAverageCumQty Cumulative average cost quantities (internal) */
-public void setCostAverageCumQty (BigDecimal CostAverageCumQty)
-{
-if (CostAverageCumQty == null) throw new IllegalArgumentException ("CostAverageCumQty is mandatory.");
-set_ValueNoCheck ("CostAverageCumQty", CostAverageCumQty);
-}
-/** Get Average Cost Quantity Sum.
-@return Cumulative average cost quantities (internal) */
-public BigDecimal getCostAverageCumQty() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostAverageCumQty");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostAverageCumQty */
-public static final String COLUMNNAME_CostAverageCumQty = "CostAverageCumQty";
-/** Set Standard Cost.
-@param CostStandard Standard Costs */
-public void setCostStandard (BigDecimal CostStandard)
-{
-if (CostStandard == null) throw new IllegalArgumentException ("CostStandard is mandatory.");
-set_ValueNoCheck ("CostStandard", CostStandard);
-}
-/** Get Standard Cost.
-@return Standard Costs */
-public BigDecimal getCostStandard() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostStandard");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostStandard */
-public static final String COLUMNNAME_CostStandard = "CostStandard";
-/** Set Std Cost Amount Sum.
-@param CostStandardCumAmt Standard Cost Invoice Amount Sum (internal) */
-public void setCostStandardCumAmt (BigDecimal CostStandardCumAmt)
-{
-if (CostStandardCumAmt == null) throw new IllegalArgumentException ("CostStandardCumAmt is mandatory.");
-set_ValueNoCheck ("CostStandardCumAmt", CostStandardCumAmt);
-}
-/** Get Std Cost Amount Sum.
-@return Standard Cost Invoice Amount Sum (internal) */
-public BigDecimal getCostStandardCumAmt() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostStandardCumAmt");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostStandardCumAmt */
-public static final String COLUMNNAME_CostStandardCumAmt = "CostStandardCumAmt";
-/** Set Std Cost Quantity Sum.
-@param CostStandardCumQty Standard Cost Invoice Quantity Sum (internal) */
-public void setCostStandardCumQty (BigDecimal CostStandardCumQty)
-{
-if (CostStandardCumQty == null) throw new IllegalArgumentException ("CostStandardCumQty is mandatory.");
-set_ValueNoCheck ("CostStandardCumQty", CostStandardCumQty);
-}
-/** Get Std Cost Quantity Sum.
-@return Standard Cost Invoice Quantity Sum (internal) */
-public BigDecimal getCostStandardCumQty() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostStandardCumQty");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostStandardCumQty */
-public static final String COLUMNNAME_CostStandardCumQty = "CostStandardCumQty";
-/** Set Std PO Cost Amount Sum.
-@param CostStandardPOAmt Standard Cost Purchase Order Amount Sum (internal) */
-public void setCostStandardPOAmt (BigDecimal CostStandardPOAmt)
-{
-if (CostStandardPOAmt == null) throw new IllegalArgumentException ("CostStandardPOAmt is mandatory.");
-set_ValueNoCheck ("CostStandardPOAmt", CostStandardPOAmt);
-}
-/** Get Std PO Cost Amount Sum.
-@return Standard Cost Purchase Order Amount Sum (internal) */
-public BigDecimal getCostStandardPOAmt() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostStandardPOAmt");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostStandardPOAmt */
-public static final String COLUMNNAME_CostStandardPOAmt = "CostStandardPOAmt";
-/** Set Std PO Cost Quantity Sum.
-@param CostStandardPOQty Standard Cost Purchase Order Quantity Sum (internal) */
-public void setCostStandardPOQty (BigDecimal CostStandardPOQty)
-{
-if (CostStandardPOQty == null) throw new IllegalArgumentException ("CostStandardPOQty is mandatory.");
-set_ValueNoCheck ("CostStandardPOQty", CostStandardPOQty);
-}
-/** Get Std PO Cost Quantity Sum.
-@return Standard Cost Purchase Order Quantity Sum (internal) */
-public BigDecimal getCostStandardPOQty() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CostStandardPOQty");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CostStandardPOQty */
-public static final String COLUMNNAME_CostStandardPOQty = "CostStandardPOQty";
-/** Set Current Cost Price.
-@param CurrentCostPrice The currently used cost price */
-public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
-{
-if (CurrentCostPrice == null) throw new IllegalArgumentException ("CurrentCostPrice is mandatory.");
-set_Value ("CurrentCostPrice", CurrentCostPrice);
-}
-/** Get Current Cost Price.
-@return The currently used cost price */
-public BigDecimal getCurrentCostPrice() 
-{
-BigDecimal bd = (BigDecimal)get_Value("CurrentCostPrice");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name CurrentCostPrice */
-public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
-/** Set Future Cost Price.
-@param FutureCostPrice Future Cost Price */
-public void setFutureCostPrice (BigDecimal FutureCostPrice)
-{
-if (FutureCostPrice == null) throw new IllegalArgumentException ("FutureCostPrice is mandatory.");
-set_Value ("FutureCostPrice", FutureCostPrice);
-}
-/** Get Future Cost Price.
-@return Future Cost Price */
-public BigDecimal getFutureCostPrice() 
-{
-BigDecimal bd = (BigDecimal)get_Value("FutureCostPrice");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name FutureCostPrice */
-public static final String COLUMNNAME_FutureCostPrice = "FutureCostPrice";
-/** Set Product.
-@param M_Product_ID Product, Service, Item */
-public void setM_Product_ID (int M_Product_ID)
-{
-if (M_Product_ID < 1) throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-set_ValueNoCheck ("M_Product_ID", Integer.valueOf(M_Product_ID));
-}
-/** Get Product.
-@return Product, Service, Item */
-public int getM_Product_ID() 
-{
-Integer ii = (Integer)get_Value("M_Product_ID");
-if (ii == null) return 0;
-return ii.intValue();
-}
-/** Column name M_Product_ID */
-public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-/** Set Last Invoice Price.
-@param PriceLastInv Price of the last invoice for the product */
-public void setPriceLastInv (BigDecimal PriceLastInv)
-{
-if (PriceLastInv == null) throw new IllegalArgumentException ("PriceLastInv is mandatory.");
-set_ValueNoCheck ("PriceLastInv", PriceLastInv);
-}
-/** Get Last Invoice Price.
-@return Price of the last invoice for the product */
-public BigDecimal getPriceLastInv() 
-{
-BigDecimal bd = (BigDecimal)get_Value("PriceLastInv");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name PriceLastInv */
-public static final String COLUMNNAME_PriceLastInv = "PriceLastInv";
-/** Set Last PO Price.
-@param PriceLastPO Price of the last purchase order for the product */
-public void setPriceLastPO (BigDecimal PriceLastPO)
-{
-if (PriceLastPO == null) throw new IllegalArgumentException ("PriceLastPO is mandatory.");
-set_ValueNoCheck ("PriceLastPO", PriceLastPO);
-}
-/** Get Last PO Price.
-@return Price of the last purchase order for the product */
-public BigDecimal getPriceLastPO() 
-{
-BigDecimal bd = (BigDecimal)get_Value("PriceLastPO");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name PriceLastPO */
-public static final String COLUMNNAME_PriceLastPO = "PriceLastPO";
-/** Set Total Invoice Amount.
-@param TotalInvAmt Cumulative total lifetime invoice amount */
-public void setTotalInvAmt (BigDecimal TotalInvAmt)
-{
-if (TotalInvAmt == null) throw new IllegalArgumentException ("TotalInvAmt is mandatory.");
-set_ValueNoCheck ("TotalInvAmt", TotalInvAmt);
-}
-/** Get Total Invoice Amount.
-@return Cumulative total lifetime invoice amount */
-public BigDecimal getTotalInvAmt() 
-{
-BigDecimal bd = (BigDecimal)get_Value("TotalInvAmt");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name TotalInvAmt */
-public static final String COLUMNNAME_TotalInvAmt = "TotalInvAmt";
-/** Set Total Invoice Quantity.
-@param TotalInvQty Cumulative total lifetime invoice quantity */
-public void setTotalInvQty (BigDecimal TotalInvQty)
-{
-if (TotalInvQty == null) throw new IllegalArgumentException ("TotalInvQty is mandatory.");
-set_ValueNoCheck ("TotalInvQty", TotalInvQty);
-}
-/** Get Total Invoice Quantity.
-@return Cumulative total lifetime invoice quantity */
-public BigDecimal getTotalInvQty() 
-{
-BigDecimal bd = (BigDecimal)get_Value("TotalInvQty");
-if (bd == null) return Env.ZERO;
-return bd;
-}
-/** Column name TotalInvQty */
-public static final String COLUMNNAME_TotalInvQty = "TotalInvQty";
+    /** Load Constructor */
+    public X_M_Product_Costing (Properties ctx, ResultSet rs, String trxName)
+    {
+      super (ctx, rs, trxName);
+    }
+
+    /** AccessLevel
+      * @return 3 - Client - Org 
+      */
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
+
+    /** Load Meta Data */
+    protected POInfo initPO (Properties ctx)
+    {
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      return poi;
+    }
+
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("X_M_Product_Costing[")
+        .append(get_ID()).append("]");
+      return sb.toString();
+    }
+
+	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
+        I_C_AcctSchema result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Accounting Schema.
+		@param C_AcctSchema_ID 
+		Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
+	{
+		if (C_AcctSchema_ID < 1)
+			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+	}
+
+	/** Get Accounting Schema.
+		@return Rules for accounting
+	  */
+	public int getC_AcctSchema_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Average Cost.
+		@param CostAverage 
+		Weighted average costs
+	  */
+	public void setCostAverage (BigDecimal CostAverage)
+	{
+		if (CostAverage == null)
+			throw new IllegalArgumentException ("CostAverage is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostAverage, CostAverage);
+	}
+
+	/** Get Average Cost.
+		@return Weighted average costs
+	  */
+	public BigDecimal getCostAverage () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAverage);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Average Cost Amount Sum.
+		@param CostAverageCumAmt 
+		Cumulative average cost amounts (internal)
+	  */
+	public void setCostAverageCumAmt (BigDecimal CostAverageCumAmt)
+	{
+		if (CostAverageCumAmt == null)
+			throw new IllegalArgumentException ("CostAverageCumAmt is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostAverageCumAmt, CostAverageCumAmt);
+	}
+
+	/** Get Average Cost Amount Sum.
+		@return Cumulative average cost amounts (internal)
+	  */
+	public BigDecimal getCostAverageCumAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAverageCumAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Average Cost Quantity Sum.
+		@param CostAverageCumQty 
+		Cumulative average cost quantities (internal)
+	  */
+	public void setCostAverageCumQty (BigDecimal CostAverageCumQty)
+	{
+		if (CostAverageCumQty == null)
+			throw new IllegalArgumentException ("CostAverageCumQty is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostAverageCumQty, CostAverageCumQty);
+	}
+
+	/** Get Average Cost Quantity Sum.
+		@return Cumulative average cost quantities (internal)
+	  */
+	public BigDecimal getCostAverageCumQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAverageCumQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		if (CostStandard == null)
+			throw new IllegalArgumentException ("CostStandard is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostStandard, CostStandard);
+	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Std Cost Amount Sum.
+		@param CostStandardCumAmt 
+		Standard Cost Invoice Amount Sum (internal)
+	  */
+	public void setCostStandardCumAmt (BigDecimal CostStandardCumAmt)
+	{
+		if (CostStandardCumAmt == null)
+			throw new IllegalArgumentException ("CostStandardCumAmt is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostStandardCumAmt, CostStandardCumAmt);
+	}
+
+	/** Get Std Cost Amount Sum.
+		@return Standard Cost Invoice Amount Sum (internal)
+	  */
+	public BigDecimal getCostStandardCumAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandardCumAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Std Cost Quantity Sum.
+		@param CostStandardCumQty 
+		Standard Cost Invoice Quantity Sum (internal)
+	  */
+	public void setCostStandardCumQty (BigDecimal CostStandardCumQty)
+	{
+		if (CostStandardCumQty == null)
+			throw new IllegalArgumentException ("CostStandardCumQty is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostStandardCumQty, CostStandardCumQty);
+	}
+
+	/** Get Std Cost Quantity Sum.
+		@return Standard Cost Invoice Quantity Sum (internal)
+	  */
+	public BigDecimal getCostStandardCumQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandardCumQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Std PO Cost Amount Sum.
+		@param CostStandardPOAmt 
+		Standard Cost Purchase Order Amount Sum (internal)
+	  */
+	public void setCostStandardPOAmt (BigDecimal CostStandardPOAmt)
+	{
+		if (CostStandardPOAmt == null)
+			throw new IllegalArgumentException ("CostStandardPOAmt is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostStandardPOAmt, CostStandardPOAmt);
+	}
+
+	/** Get Std PO Cost Amount Sum.
+		@return Standard Cost Purchase Order Amount Sum (internal)
+	  */
+	public BigDecimal getCostStandardPOAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandardPOAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Std PO Cost Quantity Sum.
+		@param CostStandardPOQty 
+		Standard Cost Purchase Order Quantity Sum (internal)
+	  */
+	public void setCostStandardPOQty (BigDecimal CostStandardPOQty)
+	{
+		if (CostStandardPOQty == null)
+			throw new IllegalArgumentException ("CostStandardPOQty is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CostStandardPOQty, CostStandardPOQty);
+	}
+
+	/** Get Std PO Cost Quantity Sum.
+		@return Standard Cost Purchase Order Quantity Sum (internal)
+	  */
+	public BigDecimal getCostStandardPOQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandardPOQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Current Cost Price.
+		@param CurrentCostPrice 
+		The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
+	{
+		if (CurrentCostPrice == null)
+			throw new IllegalArgumentException ("CurrentCostPrice is mandatory.");
+		set_Value (COLUMNNAME_CurrentCostPrice, CurrentCostPrice);
+	}
+
+	/** Get Current Cost Price.
+		@return The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPrice);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Future Cost Price.
+		@param FutureCostPrice Future Cost Price	  */
+	public void setFutureCostPrice (BigDecimal FutureCostPrice)
+	{
+		if (FutureCostPrice == null)
+			throw new IllegalArgumentException ("FutureCostPrice is mandatory.");
+		set_Value (COLUMNNAME_FutureCostPrice, FutureCostPrice);
+	}
+
+	/** Get Future Cost Price.
+@return Future Cost Price	  */
+	public BigDecimal getFutureCostPrice () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPrice);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1)
+			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Last Invoice Price.
+		@param PriceLastInv 
+		Price of the last invoice for the product
+	  */
+	public void setPriceLastInv (BigDecimal PriceLastInv)
+	{
+		if (PriceLastInv == null)
+			throw new IllegalArgumentException ("PriceLastInv is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PriceLastInv, PriceLastInv);
+	}
+
+	/** Get Last Invoice Price.
+		@return Price of the last invoice for the product
+	  */
+	public BigDecimal getPriceLastInv () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceLastInv);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Last PO Price.
+		@param PriceLastPO 
+		Price of the last purchase order for the product
+	  */
+	public void setPriceLastPO (BigDecimal PriceLastPO)
+	{
+		if (PriceLastPO == null)
+			throw new IllegalArgumentException ("PriceLastPO is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PriceLastPO, PriceLastPO);
+	}
+
+	/** Get Last PO Price.
+		@return Price of the last purchase order for the product
+	  */
+	public BigDecimal getPriceLastPO () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceLastPO);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Total Invoice Amount.
+		@param TotalInvAmt 
+		Cumulative total lifetime invoice amount
+	  */
+	public void setTotalInvAmt (BigDecimal TotalInvAmt)
+	{
+		if (TotalInvAmt == null)
+			throw new IllegalArgumentException ("TotalInvAmt is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_TotalInvAmt, TotalInvAmt);
+	}
+
+	/** Get Total Invoice Amount.
+		@return Cumulative total lifetime invoice amount
+	  */
+	public BigDecimal getTotalInvAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TotalInvAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Total Invoice Quantity.
+		@param TotalInvQty 
+		Cumulative total lifetime invoice quantity
+	  */
+	public void setTotalInvQty (BigDecimal TotalInvQty)
+	{
+		if (TotalInvQty == null)
+			throw new IllegalArgumentException ("TotalInvQty is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_TotalInvQty, TotalInvQty);
+	}
+
+	/** Get Total Invoice Quantity.
+		@return Cumulative total lifetime invoice quantity
+	  */
+	public BigDecimal getTotalInvQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TotalInvQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 }
