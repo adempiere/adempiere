@@ -23,21 +23,19 @@
 /*
  * Loops recursively through BOM and returns BOM's total limit price.
  */
-CREATE OR REPLACE FUNCTION bompricelimit(
-    IN NUMERIC, -- $1 product id
-    IN NUMERIC  -- $2 pricelist version id
-) RETURNS NUMERIC AS 
-$$
+CREATE OR REPLACE FUNCTION bompricelimit("numeric", "numeric")
+  RETURNS "numeric" AS
+$BODY$
   DECLARE
     price        NUMERIC;
     productprice NUMERIC;
     boms         RECORD;
   BEGIN
-    SELECT COALESCE(t.PriceLimit,0) INTO price FROM m_productprice as t
+    SELECT COALESCE(t.PriceLimit,0) INTO price FROM m_productprice t
       WHERE t.m_pricelist_version_id = $2 AND t.m_product_id = $1;
     IF price = 0 THEN
       FOR boms IN SELECT t.m_productbom_id, t.bomqty 
-          FROM t.m_product_bom 
+          FROM m_product_bom t
           WHERE t.m_product_id = $1
           LOOP
         productprice := bompricelimit(boms.m_productbom_id, $2);
@@ -46,4 +44,5 @@ $$
     END IF;
     return price;
   END;
-$$ LANGUAGE plpgsql STABLE STRICT;
+$BODY$
+  LANGUAGE 'plpgsql' STABLE STRICT;
