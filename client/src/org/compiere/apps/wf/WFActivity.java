@@ -419,8 +419,9 @@ public class WFActivity extends CPanel
 			fAnswerButton.setToolTipText(node.getDescription());
 			fAnswerButton.setVisible(true);
 		}
+		/*
 		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))
-			log.log(Level.SEVERE, "Workflow Action not implemented yet");
+			log.log(Level.SEVERE, "Workflow Action not implemented yet");*/
 		else
 			log.log(Level.SEVERE, "Unknown Node Action: " + node.getAction());
 		//
@@ -526,10 +527,11 @@ public class WFActivity extends CPanel
 			AEnv.addToWindowManager(ff);
 			AEnv.showCenterScreen(ff);
 		}
+		/*
 		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))
 		{
 			
-		}
+		}*/
 		else
 			log.log(Level.SEVERE, "No User Action:" + node.getAction());
 	}	//	cmd_button
