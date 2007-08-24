@@ -51,17 +51,17 @@ public class DistFileElementHandler extends AbstractElementHandler {
 		//log.info(Compiere.MAIN_VERSION);
 		//Check Release Number
 		if(releaseNumber==null||Adempiere.MAIN_VERSION.equals(releaseNumber)||releaseNumber.equals("all")){			
-			String sourceName = atts.getValue("name");
+			String fileName = atts.getValue("name");
 			String sourceDirectory = atts.getValue("sourceDirectory");
 			String targetDirectory = atts.getValue("targetDirectory");
 			
 			Object_Status = "New";
 			int idDetail=0;
-			InputStream source;  // Stream for reading from the source file.
-			OutputStream copy;   // Stream for writing the copy.       
+			InputStream inputStream;  // Stream for reading from the source file.
+			OutputStream outputStream;   // Stream for writing the copy.       
 			
 			String packagePath=null;       
-			String sourcePath=null; 
+			String adempiereSourcePath=null; 
 			
 			//get adempiere-all directory
 			try {
@@ -71,7 +71,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 					parentDirectory = parentDirectory.getParentFile();        				
 				}
 				parentDirectory = parentDirectory.getParentFile();        				
-				sourcePath = parentDirectory.getCanonicalPath();
+				adempiereSourcePath = parentDirectory.getCanonicalPath();
 			} catch (IOException e1) {
 				System.out.println("Can't find adempiere-all directory.");			
 			}        
@@ -86,18 +86,19 @@ public class DistFileElementHandler extends AbstractElementHandler {
 				}
 			}
 			
-			
 			//Correct target directory for proper file seperator
-			String fullDirectory = sourcePath+targetDirectory;
-			String targetDirectoryModified=null;
+			String fullTargetPath =
+				fileName.endsWith(".jar") 
+				 		 ? packagePath + targetDirectory
+						 : adempiereSourcePath+targetDirectory;
 			char slash1 = '\\'; 
 			char slash2 = '/';
 			if (File.separator.equals("/"))			
-				targetDirectoryModified = fullDirectory.replace(slash1,slash2);		
+				fullTargetPath = fullTargetPath.replace(slash1,slash2);		
 			else
-				targetDirectoryModified = fullDirectory.replace(slash2,slash1);	
+				fullTargetPath = fullTargetPath.replace(slash2,slash1);	
 			
-			File file = new File(targetDirectoryModified+sourceName);
+			File file = new File(fullTargetPath+fileName);
 			//TODO: derive force from user parameter
 			boolean force = true;
 			String fileDate = null;
@@ -110,48 +111,48 @@ public class DistFileElementHandler extends AbstractElementHandler {
 			//backup file to package directory
 			else if (file.exists() && force == true) {
 				Object_Status = "Update";			
-				log.info("Target Backup:"+targetDirectoryModified+sourceName);
-				source = OpenInputfile(targetDirectoryModified+sourceName);
+				log.info("Target Backup:"+fullTargetPath+fileName);
+				inputStream = OpenInputfile(fullTargetPath+fileName);
 				SimpleDateFormat formatter_file = new SimpleDateFormat("yyMMddHHmmssSSSSZ");	    	
 				Date today = new Date();
 				fileDate = formatter_file.format(today);
-				copy = OpenOutputfile(packagePath+File.separator+"backup"+File.separator+fileDate+"_"+sourceName);
-				log.info("Source Backup:"+packagePath+File.separator+"backup"+File.separator+fileDate+"_"+sourceName);
-				copyFile (source,copy);
+				outputStream = OpenOutputfile(packagePath+File.separator+"backup"+File.separator+fileDate+"_"+fileName);
+				log.info("Source Backup:"+packagePath+File.separator+"backup"+File.separator+fileDate+"_"+fileName);
+				copyFile (inputStream, outputStream);
 				log.info("Backup Complete");
 			}		
 			
 //			Correct dist directory for proper file seperator
-			String distDirectoryModified=null;		
+			String fullSourcePath=null;		
 			if (File.separator.equals("/"))			
-				distDirectoryModified = sourceDirectory.replace(slash1,slash2);
+				fullSourcePath = sourceDirectory.replace(slash1,slash2);
 			else
-				distDirectoryModified = sourceDirectory.replace(slash2,slash1);		
-			source = OpenInputfile(packagePath+distDirectoryModified+sourceName);
+				fullSourcePath = sourceDirectory.replace(slash2,slash1);		
+			inputStream = OpenInputfile(packagePath+fullSourcePath+fileName);
 			
 //			Create Target directory if required		
-			File targetDir = new File(targetDirectoryModified);				
+			File targetDir = new File(fullTargetPath);				
 			if (!targetDir.exists()){
-				boolean success = (new File(targetDirectoryModified)).mkdirs();
+				boolean success = (new File(fullTargetPath)).mkdirs();
 				if (!success) {
 					log.info("Target directory creation failed");
 				}
 			}		
-			copy = OpenOutputfile(targetDirectoryModified+sourceName);
+			outputStream = OpenOutputfile(fullTargetPath+fileName);
 			//Copy File
-			int success = copyFile (source,copy);        
+			int success = copyFile (inputStream,outputStream);        
 			//Record in log
 			int idBackup = MSequence.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
 			if (success != -1){
 				try {				
-					idDetail = record_log (ctx, 1, sourceName,"file", 0,0, Object_Status,sourceName,0);
+					idDetail = record_log (ctx, 1, fileName,"file", 0,0, Object_Status,fileName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}           		        		
 			}
 			else{
 				try {
-					idDetail = record_log (ctx, 0, sourceName,"file", 0,0, Object_Status,sourceName,0);
+					idDetail = record_log (ctx, 0, fileName,"file", 0,0, Object_Status,fileName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}
@@ -169,8 +170,8 @@ public class DistFileElementHandler extends AbstractElementHandler {
 					.append( ", " + idBackup )
 					.append( ", " + idDetail )
 					.append( ", " + getPackageImpId(ctx) )
-					.append( ", '" + targetDirectoryModified+sourceName )
-					.append( "', '" + packagePath+File.separator+"backup"+File.separator+fileDate+"_"+sourceName )
+					.append( ", '" + fullTargetPath+fileName )
+					.append( "', '" + packagePath+File.separator+"backup"+File.separator+fileDate+"_"+fileName )
 					.append( "')");
 			
 			int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
