@@ -142,7 +142,7 @@
 	<mkdir dir="${build.dir}"/>
 	<mkdir dir="${build.dir}/Adempiere"/>
 	<mkdir dir="${build.dir}/Adempiere/images"/>
-
+  	<mkdir dir="${build.dir}/Adempiere/packages"/>
 
 	<!-- Base Directory			-->
 	<copy todir="${build.dir}/Adempiere">

@@ -128,6 +128,10 @@
 			<zipfileset src="lib/patches.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
+			<!-- 2pack packages -->
+			<zipgroupfileset dir="packages/**/lib" includes="*.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipgroupfileset>
 			<zipfileset src="lib/Adempiere.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
