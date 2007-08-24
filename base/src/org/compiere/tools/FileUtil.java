@@ -17,7 +17,8 @@
 package org.compiere.tools;
 
 import java.io.*;
-import org.compiere.util.*;
+
+import org.compiere.util.Util;
 
 /**
  *  File Utilities
@@ -27,6 +28,22 @@ import org.compiere.util.*;
  */
 public class FileUtil
 {
+	/** License Header			*/
+	public static final String COPYRIGHT =
+	 "/******************************************************************************\n"
+	+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
+	+" * Copyright (C) 1999-2007 Adempiere, Inc. All Rights Reserved.               *\n"
+	+" * This program is free software; you can redistribute it and/or modify it    *\n"
+	+" * under the terms version 2 of the GNU General Public License as published   *\n"
+	+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
+	+" * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *\n"
+	+" * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *\n"
+	+" * See the GNU General Public License for more details.                       *\n"
+	+" * You should have received a copy of the GNU General Public License along    *\n"
+	+" * with this program; if not, write to the Free Software Foundation, Inc.,    *\n"
+	+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
+	+" ******************************************************************************/\n";
+	   
 	/**
 	 *	File Utility
 	 * 	@param file input file or directory
@@ -276,7 +293,7 @@ public class FileUtil
 		File tmpFile = new File(fileName + ".tmp");
 		BufferedWriter out = new BufferedWriter (new FileWriter(tmpFile, false));
 
-		out.write(GenerateModel.COPY);
+		out.write(COPYRIGHT);
 		boolean found = false;
 
 		String line = null;
