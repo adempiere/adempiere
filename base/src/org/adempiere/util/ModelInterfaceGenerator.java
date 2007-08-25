@@ -30,10 +30,14 @@
 package org.adempiere.util;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
@@ -41,15 +45,22 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 /**
  *	@author Trifon Trifonov
  *	@version $Id$
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1781629 ] Don't use Env.NL in model class/interface generators
+ * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
+ * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
+ * 				<li>better formating of generated source  
  */
 public class ModelInterfaceGenerator {
 	
 	private String packageName = "";
+	
+	public static final String NL = "\n";
 	
 	/** File Header			*/
 	public static final String COPY = 
@@ -159,24 +170,22 @@ public class ModelInterfaceGenerator {
 		//
 		StringBuffer start = new StringBuffer()
 			.append (COPY)
-			.append("package ").append(packageName).append(";").append(Env.NL)
+			.append("package ").append(packageName).append(";").append(NL)
 		;
 		
 		if (!packageName.equals("org.compiere.model")) {
-			start.append("import org.compiere.model.*;");
+			addImportClass("org.compiere.model.*");
 		}
+		addImportClass(java.math.BigDecimal.class);
+		addImportClass(org.compiere.util.KeyNamePair.class);
 		
-		start.append("import java.util.*;")
-			 .append("import java.sql.Timestamp;")
-			 .append("import java.math.*;")
-			 .append("import org.compiere.util.*;")
-			 .append("\n")
-				// Interface
-			 .append("    /** Generated Interface for ").append(tableName).append("\n")
-			 .append("     *  @author Trifon Trifonov (generated) \n")
-			 .append("     *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append("\n")
-			 .append("     */\n")
-			 .append("    public interface ").append(className).append(" {").append("\n")
+		createImports(start);
+		// Interface
+		start.append("/** Generated Interface for ").append(tableName).append("\n")
+			 .append(" *  @author Trifon Trifonov (generated) \n")
+			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append("\n")
+			 .append(" */\n")
+			 .append("public interface ").append(className).append(" {").append("\n")
 			 
 			 .append("    /** TableName=").append(tableName).append(" */\n")
 			 .append("    public static final String Table_Name = \"").append(tableName).append("\";\n")
@@ -190,7 +199,7 @@ public class ModelInterfaceGenerator {
 			 .append("    /** AccessLevel = ").append(accessLevelInfo).append("\n")
 			 .append("     */\n")
 			 //.append("    protected BigDecimal AccessLevel = new BigDecimal(").append(accessLevel).append(");\n")
-			 .append("    BigDecimal accessLevel = new BigDecimal(").append(accessLevel).append(");\n") // INFO - Should this be here???
+			 .append("    BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");\n") // INFO - Should this be here???
 			 
 			 .append("    /** Load Meta Data */\n")
 			 //.append("    protected POInfo initPO (Properties ctx);")
@@ -377,6 +386,7 @@ public class ModelInterfaceGenerator {
 				//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");
 			}
 		}
+		addImportClass(clazz);
 		return sb.toString();
 	}
 
@@ -387,7 +397,7 @@ public class ModelInterfaceGenerator {
 			  .append(propertyName);
 		
 		if (description != null && description.length() > 0)
-			result.append(".\n\t  * ").append(description).append(Env.NL);
+			result.append(".\n\t  * ").append(description).append(NL);
 		
 		result.append("\t  */\n");
 	}
@@ -401,7 +411,7 @@ public class ModelInterfaceGenerator {
 	private void writeToFile(StringBuffer sb, String fileName) {
 		try {
 			File out = new File(fileName);
-			FileWriter fw = new FileWriter(out);
+			Writer fw = new OutputStreamWriter(new FileOutputStream(out, false), "UTF-8"); 
 			for (int i = 0; i < sb.length(); i++) {
 				char c = sb.charAt(i);
 				// after
@@ -410,13 +420,13 @@ public class ModelInterfaceGenerator {
 					if (sb.substring(i + 1).startsWith("//"))
 						fw.write('\t');
 					else
-						fw.write(Env.NL);
+						fw.write(NL);
 				}
 				// before & after
 				else if (c == '{') {
-					fw.write(Env.NL);
+					fw.write(NL);
 					fw.write(c);
-					fw.write(Env.NL);
+					fw.write(NL);
 				} else
 					fw.write(c);
 			}
@@ -428,6 +438,49 @@ public class ModelInterfaceGenerator {
 		} catch (Exception ex) {
 			log.log(Level.SEVERE, fileName, ex);
 		}
+	}
+	
+	/** Import classes */
+	private Collection<String> s_importClasses = new TreeSet<String>();
+	/**
+	 * Add class name to class import list 
+	 * @param className
+	 */
+	private void addImportClass(String className) {
+		if (className == null
+				|| (className.startsWith("java.lang.") && !className.startsWith("java.lang.reflect."))
+				|| className.startsWith(packageName+"."))
+			return;
+		for(String name : s_importClasses) {
+			if (className.equals(name))
+				return;
+		}
+		if (className.equals("byte[]")) {
+			System.out.println("ERROR");
+		}
+		s_importClasses.add(className);
+	}
+	/**
+	 * Add class to class import list 
+	 * @param cl
+	 */
+	private void addImportClass(Class cl) {
+		if (cl.isArray()) {
+			cl = cl.getComponentType();
+		}
+		if (cl.isPrimitive())
+			return;
+		addImportClass(cl.getCanonicalName());
+	}
+	/**
+	 * Generate java imports 
+	 * @param sb
+	 */
+	private void createImports(StringBuffer sb) {
+		for (String name : s_importClasses) {
+			sb.append("import ").append(name).append(";"); //.append(NL);
+		}
+		sb.append(NL);
 	}
 
 	/**
