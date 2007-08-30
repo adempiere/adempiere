@@ -32,10 +32,14 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
+import org.compiere.model.MEntityType;
+import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *  Generate Model Classes extending PO.
@@ -48,7 +52,9 @@ import org.compiere.util.DisplayType;
  * 				<li>BF [ 1781629 ] Don't use Env.NL in model class/interface generators
  * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
- * 				<li>better formating of generated source  
+ * 				<li>better formating of generated source 
+ * @author Victor Perez, e-Evolution
+ * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
 public class ModelClassGenerator
 {
@@ -102,6 +108,10 @@ public class ModelClassGenerator
 	
 	/** Package Name */
 	private String packageName = "";
+	
+	/** EntityType */
+	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
+
 	
 	/**
 	 * 	Add Header info to buffer
@@ -431,10 +441,31 @@ public class ModelClassGenerator
 		// 1) Must understand which class to reference
 		if (DisplayType.isID(displayType) && !IsKey) {
 			if (displayType == DisplayType.TableDir) {
+				
+				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd 
+				String tableName = columnName.substring(0, columnName.length()-3);
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
 				
+				MTable table = MTable.get(Env.getCtx(), tableName);
+				String entityType = table.getEntityType();
+				if (!"D".equals(entityType))
+				{	
+					for (int i = 0; i < entityTypes.length; i++)
+					{
+						if (entityTypes[i].getEntityType().equals(entityType))
+						{
+							String modelpackage = entityTypes[i].getModelPackage(); 
+							if (modelpackage != null)
+							{						
+								referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
+							    break; 
+							}
+						}
+					}
+				}	
+				//end [ 1785001 ]				
 				sb.append(NL)
-					.append("\tpublic "+referenceClassName+" get").append(referenceClassName).append("() throws Exception ").append(NL)
+					.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws Exception ").append(NL)
 					.append("    {").append(NL)
 				// TODO - here we can implement Lazy loading or Cache of class
 					.append("        Class<?> clazz = MTable.getClass("+referenceClassName+".Table_Name);").append(NL)
@@ -934,7 +965,8 @@ public class ModelClassGenerator
 		log.info("Generate Model   $Revision: 1.42 $");
 		log.info("----------------------------------");
 		//	first parameter
-		String directory = "C:\\Compiere\\compiere-all\\extend\\src\\compiere\\model\\";
+		//String directory = "/Users/Horus/Documents/adempiere/clientes/adempiere_trunk/base/src/org/compiere/model/";
+		String directory = "/Users/Horus/Documents/adempiere/clientes/libero/src/org/eevolution/model/";
 		if (args.length > 0)
 			directory = args[0];
 		if (directory == null || directory.length() == 0)
@@ -945,7 +977,7 @@ public class ModelClassGenerator
 		log.info("Directory: " + directory);
 		
 		//	second parameter
-		String packageName = "compiere.model";
+		String packageName = "org.eevolution.model";
 		if (args.length > 1)
 			packageName = args[1]; 
 		if (packageName == null || packageName.length() == 0)
@@ -956,7 +988,8 @@ public class ModelClassGenerator
 		log.info("Package:   " + packageName);
 		
 		//	third parameter
-		String entityType = "'U','A'";	//	User, Application
+		//String entityType = "'U','A','D','EE01'";	//	User, Application
+		String entityType = "'EE01'";	//	User, Application
 		if (args.length > 2)
 			entityType = args[2]; 
 		if (entityType == null || entityType.length() == 0)

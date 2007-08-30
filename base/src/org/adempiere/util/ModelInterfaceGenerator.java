@@ -41,10 +41,13 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
+import org.compiere.model.MEntityType;
+import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *	@author Trifon Trifonov
@@ -55,6 +58,8 @@ import org.compiere.util.DisplayType;
  * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
  * 				<li>better formating of generated source  
+ * @author Victor Perez, e-Evolution
+ * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
 public class ModelInterfaceGenerator {
 	
@@ -98,6 +103,10 @@ public class ModelInterfaceGenerator {
 
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ModelInterfaceGenerator.class);
+	
+	/** EntityType */
+	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
+
 
 
 	public ModelInterfaceGenerator(int AD_Table_ID, String directory, String packageName) {
@@ -377,9 +386,30 @@ public class ModelInterfaceGenerator {
 		if (DisplayType.isID(displayType) && !IsKey) {
 			if (displayType == DisplayType.TableDir) {
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
+				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd 
+				String tableName = columnName.substring(0, columnName.length()-3);
+				
+				MTable table = MTable.get(Env.getCtx(), tableName);
+				String entityType = table.getEntityType();
+				if (!"D".equals(entityType))
+				{	
+					for (int i = 0; i < entityTypes.length; i++)
+					{
+						if (entityTypes[i].getEntityType().equals(entityType))
+						{
+							String modelpackage = entityTypes[i].getModelPackage(); 
+							if (modelpackage != null)
+							{						
+								referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
+							    break; 
+							}
+						}
+					}
+				}	
+				//end [ 1785001 ]
 				
 				sb.append("\n")
-				  .append("\tpublic "+referenceClassName+" get").append(referenceClassName).append("() throws Exception;")
+				  .append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws Exception;")
 				;
 			} else {
 				// TODO - Handle other types
@@ -515,7 +545,8 @@ public class ModelInterfaceGenerator {
 		log.info("Generate Interface   $Revision: 1.0 $");
 		log.info("----------------------------------");
 		// first parameter
-		String directory = "C:\\extend\\src\\compiere\\model\\";
+		//String directory = "/Users/Horus/Documents/adempiere/clientes/adempiere_trunk/base/src/org/compiere/model/";
+		String directory = "/Users/Horus/Documents/adempiere/clientes/libero/src/org/eevolution/model/";
 		if (args.length > 0)
 			directory = args[0];
 		if (directory == null || directory.length() == 0) {
@@ -525,7 +556,8 @@ public class ModelInterfaceGenerator {
 		log.info("Directory: " + directory);
 
 		// second parameter
-		String packageName = "compiere.model";
+		//String packageName = "org.compiere.model";
+		String packageName = "org.eevolution.model";
 		if (args.length > 1)
 			packageName = args[1];
 		if (packageName == null || packageName.length() == 0) {
@@ -535,7 +567,8 @@ public class ModelInterfaceGenerator {
 		log.info("Package:   " + packageName);
 
 		// third parameter
-		String entityType = "'U','A'"; // User, Application
+		//String entityType = "'U','A','EE01','D'"; // User, Application
+		String entityType = "'EE01'"; // User, Application
 		if (args.length > 2)
 			entityType = args[2];
 		if (entityType == null || entityType.length() == 0) {
