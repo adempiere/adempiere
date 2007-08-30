@@ -34,7 +34,9 @@ import org.compiere.util.*;
  * <ul>
  * <li>2007-02-01 - teo_sarca - [ 1648850 ] MTable.getClass works incorrect for table "Fact_Acct"
  * </ul>
- *	
+ * <ul>
+ * <li>2007-08-30 - vpj-cd - [ 1784588 ] Use ModelPackage of EntityType to Find Model Class
+ * </ul>
  *  @author Jorg Janke
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
@@ -134,11 +136,12 @@ public class MTable extends X_AD_Table
 	
 	/**	Packages for Model Classes	*/
 	private static final String[]	s_packages = new String[] {
+
+		"org.compiere.model", "org.compiere.wf", 
+		"org.compiere.print", "org.compiere.impexp",
 		"compiere.model",			//	globalqss allow compatibility with other plugins 	
 		"adempiere.model",			//	Extensions
-		"org.adempiere.model",
-		"org.compiere.model", "org.compiere.wf", 
-		"org.compiere.print", "org.compiere.impexp"
+		"org.adempiere.model"
 	};
 	
 	/**	Special Classes				*/
@@ -154,6 +157,9 @@ public class MTable extends X_AD_Table
 		"C_Task", "org.compiere.model.MProjectTypeTask"
 	//	AD_Attribute_Value, AD_TreeNode
 	};
+	
+	/** EntityType */
+	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
 
 	/**
 	 * 	Get Persistency Class for Table
@@ -176,6 +182,8 @@ public class MTable extends X_AD_Table
 			return null;
 		}
 			
+
+		
 		//check cache
 		Class cache = s_classCache.get(tableName);
 		if (cache != null) 
@@ -202,6 +210,31 @@ public class MTable extends X_AD_Table
 			}
 		}
 		
+		//begin [ 1784588 ] Use ModelPackage of EntityType to Find Model Class - vpj-cd 
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		String entityType = table.getEntityType();
+		if (!MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
+		{	
+			for (int i = 0; i < entityTypes.length; i++)
+			{
+				if (entityTypes[i].getEntityType().equals(entityType))
+				{
+					String modelpackage = entityTypes[i].getModelPackage(); 
+					if (modelpackage != null)
+					{						
+						Class clazz = getPOclass(entityTypes[i].getModelPackage() + ".M" + Util.replace(tableName, "_", ""));
+						if (clazz != null)
+							return clazz;
+						clazz = getPOclass(entityTypes[i].getModelPackage() + ".X_" + tableName);
+						if (clazz != null)
+							return clazz;
+						s_log.warning("No class for table with it entity: " + tableName);					
+					}
+				}
+			}
+		}	
+		//end [ 1784588 ] 
+
 		//	Strip table name prefix (e.g. AD_) Customizations are 3/4
 		String className = tableName;
 		int index = className.indexOf('_');
@@ -232,7 +265,8 @@ public class MTable extends X_AD_Table
 				return clazz;
 			}
 		}
-
+		
+		
 		//	Adempiere Extension
 		Class clazz = getPOclass("adempiere.model.X_" + tableName);
 		if (clazz != null)
