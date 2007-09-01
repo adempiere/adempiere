@@ -32,20 +32,20 @@ public final class ALoginRes_sv extends ListResourceBundle
 	static final Object[][] contents = new String[][]
 	{
 	{ "Connection",         "Anslutning" },
-	{ "Defaults",           "Standardinst√§llningar" },
+	{ "Defaults",           "Standardinst‰llningar" },
 	{ "Login",              "Adempiere inloggning" },
 	{ "File",               "Fil" },
 	{ "Exit",               "Avsluta" },
-	{ "Help",               "Hj√§lp" },
+	{ "Help",               "Hj‰lp" },
 	{ "About",              "Om" },
-	{ "Host",               "V√§rddator" },
+	{ "Host",               "V‰rddator" },
 	{ "Database",           "Databas" },
-	{ "User",               "Anv√§ndarnamn" },
-	{ "EnterUser",          "Ange anv√§ndarnamn" },
-	{ "Password",           "L√∂senord" },
-	{ "EnterPassword",      "Ange l√∂senord" },
-	{ "Language",           "Spr√•k" },
-	{ "SelectLanguage",     "V√§lj spr√•k" },
+	{ "User",               "Anv‰ndarnamn" },
+	{ "EnterUser",          "Ange anv‰ndarnamn" },
+	{ "Password",           "Lˆsenord" },
+	{ "EnterPassword",      "Ange lˆsenord" },
+	{ "Language",           "SprÂk" },
+	{ "SelectLanguage",     "V‰lj sprÂk" },
 	{ "Role",               "Roll" },
 	{ "Client",             "Klient" },
 	{ "Organization",       "Organisation" },
@@ -55,14 +55,14 @@ public final class ALoginRes_sv extends ListResourceBundle
 	{ "Connected",          "Ansluten" },
 	{ "NotConnected",       "Ej ansluten" },
 	{ "DatabaseNotFound",   "Hittade inte databasen" },
-	{ "UserPwdError",       "Felaktig anv√§ndare/l√∂senord" },
+	{ "UserPwdError",       "Felaktig anv‰ndare/lˆsenord" },
 	{ "RoleNotFound",       "Hittade inte rollen" },
 	{ "Authorized",         "Auktoriserad" },
 	{ "Ok",                 "Ok" },
 	{ "Cancel",             "Avbryt" },
 	{ "VersionConflict",    "Versionskonflikt:" },
 	{ "VersionInfo",        "Server <> Klient" },
-	{ "PleaseUpgrade",      "Uppgradering n√∂dv√§ndig" }
+	{ "PleaseUpgrade",      "Uppgradering nˆdv‰ndig" }
 	};
 
 	/**
