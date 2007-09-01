@@ -29,29 +29,29 @@ public class DBRes_sv extends ListResourceBundle
 	/** Data        */
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Adempiere anslutning" },
+	{ "CConnectionDialog",  "Anslutning till Adempiere" },
 	{ "Name",               "Namn" },
-	{ "AppsHost",           "Program vï¿½rddator" },
-	{ "AppsPort",           "Program port" },
-	{ "TestApps",           "Test program" },
-	{ "DBHost",             "Databas vï¿½rddator" },
-	{ "DBPort",             "Databas port" },
-	{ "DBName",             "Databas namn" },
-	{ "DBUidPwd",           "Anvï¿½ndarnamn / lï¿½senord" },
-	{ "ViaFirewall",        "via Firewall" },
-	{ "FWHost",             "Firewall vï¿½rddator" },
-	{ "FWPort",             "Firewall port" },
-	{ "TestConnection",     "Test databas" },
-	{ "Type",               "Databas typ" },
-	{ "BequeathConnection", "Efterlï¿½mna anslutning" },
-	{ "Overwrite",          "Skriv ï¿½ver" },
-	{ "ConnectionProfile",	"Connection" },
+	{ "AppsHost",           "Applikationsserver" },
+	{ "AppsPort",           "Serverport" },
+	{ "TestApps",           "Testa anslutning" },
+	{ "DBHost",             "Databasserver" },
+	{ "DBPort",             "Databasport" },
+	{ "DBName",             "Databasnamn" },
+	{ "DBUidPwd",           "Användarnamn / lösenord" },
+	{ "ViaFirewall",        "Via brandvägg" },
+	{ "FWHost",             "Adress brandvägg" },
+	{ "FWPort",             "Port på brandvägg" },
+	{ "TestConnection",     "Testa databasanslutning" },
+	{ "Type",               "Databastyp" },
+	{ "BequeathConnection", "Efterlämna anslutning" },
+	{ "Overwrite",          "Skriv över" },
+	{ "ConnectionProfile",	"Anslutningstyp" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
 	{ "ConnectionError",    "Anslutningsfel" },
-	{ "ServerNotActive",    "Server ej activ" }
+	{ "ServerNotActive",    "Server ej aktiv" }
 	};
 
 	/**
