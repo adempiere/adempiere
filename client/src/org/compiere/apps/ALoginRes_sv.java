@@ -32,20 +32,20 @@ public final class ALoginRes_sv extends ListResourceBundle
 	static final Object[][] contents = new String[][]
 	{
 	{ "Connection",         "Anslutning" },
-	{ "Defaults",           "Standardinställningar" },
+	{ "Defaults",           "Standardinst\u00e4llningar" },
 	{ "Login",              "Adempiere inloggning" },
 	{ "File",               "Fil" },
 	{ "Exit",               "Avsluta" },
-	{ "Help",               "Hjälp" },
+	{ "Help",               "Hj\u00e4lp" },
 	{ "About",              "Om" },
-	{ "Host",               "Värddator" },
+	{ "Host",               "V\u00e4rddator" },
 	{ "Database",           "Databas" },
-	{ "User",               "Användarnamn" },
-	{ "EnterUser",          "Ange användarnamn" },
-	{ "Password",           "Lösenord" },
-	{ "EnterPassword",      "Ange lösenord" },
-	{ "Language",           "Språk" },
-	{ "SelectLanguage",     "Välj språk" },
+	{ "User",               "Anv\u00e4ndarnamn" },
+	{ "EnterUser",          "Ange anv\u00e4ndarnamn" },
+	{ "Password",           "L\u00f6senord" },
+	{ "EnterPassword",      "Ange l\u00f6senord" },
+	{ "Language",           "Spr\u00e5k" },
+	{ "SelectLanguage",     "V\u00e4lj spr\u00e5k" },
 	{ "Role",               "Roll" },
 	{ "Client",             "Klient" },
 	{ "Organization",       "Organisation" },
@@ -55,14 +55,14 @@ public final class ALoginRes_sv extends ListResourceBundle
 	{ "Connected",          "Ansluten" },
 	{ "NotConnected",       "Ej ansluten" },
 	{ "DatabaseNotFound",   "Hittade inte databasen" },
-	{ "UserPwdError",       "Felaktig användare/lösenord" },
+	{ "UserPwdError",       "Felaktig anv\u00e4ndare/l\u00f6senord" },
 	{ "RoleNotFound",       "Hittade inte rollen" },
 	{ "Authorized",         "Auktoriserad" },
 	{ "Ok",                 "Ok" },
 	{ "Cancel",             "Avbryt" },
 	{ "VersionConflict",    "Versionskonflikt:" },
 	{ "VersionInfo",        "Server <> Klient" },
-	{ "PleaseUpgrade",      "Uppgradering nödvändig" }
+	{ "PleaseUpgrade",      "Uppgradering n\u00f6dv\u00e4ndig" }
 	};
 
 	/**
