@@ -965,8 +965,7 @@ public class ModelClassGenerator
 		log.info("Generate Model   $Revision: 1.42 $");
 		log.info("----------------------------------");
 		//	first parameter
-		//String directory = "/Users/Horus/Documents/adempiere/clientes/adempiere_trunk/base/src/org/compiere/model/";
-		String directory = "/Users/Horus/Documents/adempiere/clientes/libero/src/org/eevolution/model/";
+		String directory = "C:\\Adempiere\\adempiere-all\\extend\\src\\compiere\\model\\";
 		if (args.length > 0)
 			directory = args[0];
 		if (directory == null || directory.length() == 0)
@@ -977,7 +976,7 @@ public class ModelClassGenerator
 		log.info("Directory: " + directory);
 		
 		//	second parameter
-		String packageName = "org.eevolution.model";
+		String packageName = "compiere.model";
 		if (args.length > 1)
 			packageName = args[1]; 
 		if (packageName == null || packageName.length() == 0)
@@ -988,8 +987,7 @@ public class ModelClassGenerator
 		log.info("Package:   " + packageName);
 		
 		//	third parameter
-		//String entityType = "'U','A','D','EE01'";	//	User, Application
-		String entityType = "'EE01'";	//	User, Application
+		String entityType = "'U','A'";	//	User, Application		
 		if (args.length > 2)
 			entityType = args[2]; 
 		if (entityType == null || entityType.length() == 0)
