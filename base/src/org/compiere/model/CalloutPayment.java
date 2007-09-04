@@ -270,9 +270,21 @@ public class CalloutPayment extends CalloutEngine
 					return "PaymentDocTypeInvoiceInconsistent";
 			}
 		}
+
+		// globalqss - Allow prepayment to Purchase Orders
 		//	Order Waiting Payment (can only be SO)
-		if (C_Order_ID != 0 && dt != null && !dt.isSOTrx())
+		// if (C_Order_ID != 0 && dt != null && !dt.isSOTrx())
+			// return "PaymentDocTypeInvoiceInconsistent";
+		//	Order
+		if (C_Order_ID != 0)
+		{
+			MOrder ord = new MOrder (ctx, C_Order_ID, null);
+			if (dt != null)
+			{
+				if (ord.isSOTrx() != dt.isSOTrx())
 			return "PaymentDocTypeInvoiceInconsistent";
+			}
+		}
 		
 		return "";
 	}	//	docType
