@@ -35,7 +35,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -58,6 +57,7 @@ import org.compiere.util.Env;
  * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
  * 				<li>better formating of generated source  
+ * 				<li>BF [ 1787833 ] ModelInterfaceGenerator: don't write timestamp
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
@@ -98,9 +98,6 @@ public class ModelInterfaceGenerator {
 	   + " * - Company (http://www.site.com)                                    *\n"
 	   + " **********************************************************************/\n";
 	
-	/** Generated on */
-	private Timestamp s_run = new Timestamp(System.currentTimeMillis());
-
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ModelInterfaceGenerator.class);
 	
@@ -192,7 +189,7 @@ public class ModelInterfaceGenerator {
 		// Interface
 		start.append("/** Generated Interface for ").append(tableName).append("\n")
 			 .append(" *  @author Trifon Trifonov (generated) \n")
-			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append("\n")
+			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(NL) //.append(" - ").append(s_run).append("\n")
 			 .append(" */\n")
 			 .append("public interface ").append(className).append(" {").append("\n")
 			 

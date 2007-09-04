@@ -53,6 +53,7 @@ import org.compiere.util.Util;
  * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
  * 				<li>better formating of generated source 
+ * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
@@ -714,7 +715,7 @@ public class ModelClassGenerator
 		if (nullable)
 			statement.append("\n\t\tif (").append(columnName).append(" == null");
 		//
-		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=?";
+		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=? ORDER BY AD_Ref_List_ID";
 		PreparedStatement pstmt = null;
 		try
 		{
