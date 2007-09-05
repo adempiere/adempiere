@@ -299,7 +299,8 @@ public class ModelClassGenerator
 			+ " AND c.ColumnName <> 'IsActive'"
 			+ " AND c.ColumnName NOT LIKE 'Created%'"
 			+ " AND c.ColumnName NOT LIKE 'Updated%' "
-			+ "ORDER BY c.ColumnName";
+			+ " AND c.IsActive='Y'"
+			+ " ORDER BY c.ColumnName";
 		PreparedStatement pstmt = null;
 		try
 		{

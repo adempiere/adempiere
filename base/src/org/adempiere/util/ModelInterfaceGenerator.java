@@ -240,7 +240,8 @@ public class ModelInterfaceGenerator {
 				+ " AND c.ColumnName <> 'IsActive'"
 				+ " AND c.ColumnName NOT LIKE 'Created%'"
 				+ " AND c.ColumnName NOT LIKE 'Updated%' "
-				+ "ORDER BY c.ColumnName";
+				+ " AND c.IsActive='Y'"
+				+ " ORDER BY c.ColumnName";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = DB.prepareStatement(sql, null);
@@ -483,7 +484,8 @@ public class ModelInterfaceGenerator {
 				return;
 		}
 		if (className.equals("byte[]")) {
-			System.out.println("ERROR");
+			log.warning("Invalid type - "+className);
+			return;
 		}
 		s_importClasses.add(className);
 	}
