@@ -9,7 +9,9 @@
 @Rem Must have parameter: userAccount
 @if (%1) == () goto usage
 
+@set PGPASSWORD=%2
 pg_dump -U %1 %ADEMPIERE_DB_NAME% > %ADEMPIERE_HOME%\data\ExpDat.dmp
+@set PGPASSWORD=
 
 @cd %ADEMPIERE_HOME%\Data
 @jar cvfM ExpDat.jar ExpDat.dmp
