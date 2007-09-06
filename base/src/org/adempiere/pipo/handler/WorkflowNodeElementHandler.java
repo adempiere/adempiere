@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ * Contributor(s): Victor Perez. victor.perez@e-evolution.com [Bugs-1789058 ]
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -24,6 +25,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -161,6 +163,22 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				if (id > 0)
 					m_WFNode.setAD_WF_Block_ID(id);
 			}
+			
+			//[Bugs-1789058 ]
+			name = atts.getValue("WorkflowNameID");
+			if (name != null && name.trim().length() > 0) {
+				id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
+				//TODO: export and import of ad_workflow
+				
+				if (id <= 0) {
+					element.defer = true;
+					element.unresolved = "Sub Workflow: " + name;
+					return;
+				}
+				if (id > 0)
+					m_WFNode.setWorkflow_ID(id);
+			}
+			
 			/*
 			 * FIXME: Do we need TaskName ? if
 			 * (atts.getValue("ADTaskNameID")!=null){ String name =
@@ -303,7 +321,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADWorkflowBlockNameID", "CDATA", "");
-		
+
 		if (m_WF_Node.getAD_WF_Responsible_ID() > 0) {
 			sql = "SELECT Name FROM AD_WF_Responsible WHERE AD_WF_Responsible_ID=?";
 			name = DB.getSQLValueString(null, sql, m_WF_Node
@@ -324,6 +342,19 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		} else {
 			atts.addAttribute("", "", "ADImageNameID", "CDATA", "");
 		}
+		
+		//[Bugs-1789058 ]
+		if (m_WF_Node.getWorkflow_ID() > 0) {
+			sql = "SELECT Name FROM AD_Workflow WHERE AD_Workflow_ID=?";
+			name = DB.getSQLValueString(null, sql, m_WF_Node.getWorkflow_ID());
+			if (name != null)
+				atts.addAttribute("", "", "WorkflowNameID", "CDATA", name);
+			else
+				atts.addAttribute("", "", "WorkflowNameID", "CDATA", "");
+		} else {
+			atts.addAttribute("", "", "WorkflowNameID", "CDATA", "");
+		}
+		
 		
 		if (m_WF_Node.getAD_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
