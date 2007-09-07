@@ -20,10 +20,13 @@ import java.math.*;
 import org.compiere.util.*;
 
 /**
- *	Print Data Function
+ * Print Data Function
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: PrintDataFunction.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * @author 	Jorg Janke
+ * @version $Id: PrintDataFunction.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1789279 ] DisplayType for group columns are incorect
  */
 public class PrintDataFunction
 {
@@ -211,18 +214,19 @@ public class PrintDataFunction
 	}	//	getFunctionName
 
 	/**
-	 * 	Get Funcuion Name of function
-	 * 	@param function function
-	 * 	@return function name
+	 * Get DisplayType of function
+	 * @param function function
+	 * @param displayType columns display type
+	 * @return function name
 	 */
-	static public int getFunctionDisplayType (char function)
+	static public int getFunctionDisplayType (char function, int displayType)
 	{
 		if (function == F_SUM || function == F_MIN || function == F_MAX)
-			return DisplayType.Amount;
+			return displayType;
 		if (function == F_COUNT)
 			return DisplayType.Integer;
 		//	Mean, Variance, Std. Deviation 
 		return DisplayType.Number;
-	}	//	getFunctionName
+	}
 
 }	//	PrintDataFunction

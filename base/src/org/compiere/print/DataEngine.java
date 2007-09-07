@@ -738,7 +738,7 @@ public class DataEngine
 										pd.addNode(new PrintDataElement(pdc.getColumnName(),
 											m_group.getValue(group_pdc.getColumnName(), 
 												pdc.getColumnName(), functions[f]), 
-											PrintDataFunction.getFunctionDisplayType(functions[f]), 
+											PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), 
 												false, pdc.isPageBreak()));
 									}
 								}	//	 for all columns
@@ -920,7 +920,7 @@ public class DataEngine
 								pd.addNode(new PrintDataElement(pdc.getColumnName(),
 									m_group.getValue(group_pdc.getColumnName(), 
 										pdc.getColumnName(), functions[f]),
-									PrintDataFunction.getFunctionDisplayType(functions[f])));
+									PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType())));
 							}
 						}
 					}	//	for all functions
@@ -954,7 +954,7 @@ public class DataEngine
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
 							m_group.getValue(PrintDataGroup.TOTAL, 
 								pdc.getColumnName(), functions[f]),
-							PrintDataFunction.getFunctionDisplayType(functions[f])));
+							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType())));
 					}
 				}	//	for all columns
 			}	//	for all functions
@@ -1011,7 +1011,7 @@ public class DataEngine
 				{
 					pd.addNode(new PrintDataElement(pdc.getColumnName(),
 						m_group.getValue(PrintDataGroup.TOTAL, pdc.getColumnName(), PrintDataFunction.F_SUM),
-						PrintDataFunction.getFunctionDisplayType(PrintDataFunction.F_SUM), false, false));
+						PrintDataFunction.getFunctionDisplayType(PrintDataFunction.F_SUM, pdc.getDisplayType()), false, false));
 				}
 			}	//	for all sum columns
 		}	//	 two lines
