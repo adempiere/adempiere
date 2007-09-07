@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,7 +26,7 @@ import org.compiere.util.*;
  *	Import Invoice from I_Invoice
  *
  * 	@author 	Jorg Janke
- * 	@version 	$Id: ImportInvoice.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ * 	@version 	$Id: ImportInvoice.java,v 1.1 2007/09/05 09:27:31 cruiz Exp $
  */
 public class ImportInvoice extends SvrProcess
 {
@@ -244,6 +244,52 @@ public class ImportInvoice extends SvrProcess
 		if (no != 0)
 			log.warning ("No PaymentTerm=" + no);
 
+		// globalqss - Add project and activity
+		//	Project
+		sql = new StringBuffer ("UPDATE I_Invoice o "
+			  + "SET C_Project_ID=(SELECT C_Project_ID FROM C_Project p"
+			  + " WHERE o.ProjectValue=p.Value AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "WHERE C_Project_ID IS NULL AND ProjectValue IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Project=" + no);
+		sql = new StringBuffer ("UPDATE I_Invoice "
+				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Project, ' "
+				  + "WHERE C_Project_ID IS NULL AND (ProjectValue IS NOT NULL)"
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning ("Invalid Project=" + no);
+		//	Activity
+		sql = new StringBuffer ("UPDATE I_Invoice o "
+			  + "SET C_Activity_ID=(SELECT C_Activity_ID FROM C_Activity p"
+			  + " WHERE o.ActivityValue=p.Value AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "WHERE C_Activity_ID IS NULL AND ActivityValue IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Activity=" + no);
+		sql = new StringBuffer ("UPDATE I_Invoice "
+				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Activity, ' "
+				  + "WHERE C_Activity_ID IS NULL AND (ActivityValue IS NOT NULL)"
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning ("Invalid Activity=" + no);
+		// globalqss - add charge
+		//	Charge
+		sql = new StringBuffer ("UPDATE I_Invoice o "
+			  + "SET C_Charge_ID=(SELECT C_Charge_ID FROM C_Charge p"
+			  + " WHERE o.ChargeName=p.Name AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "WHERE C_Charge_ID IS NULL AND ChargeName IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Charge=" + no);
+		sql = new StringBuffer ("UPDATE I_Invoice "
+				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Charge, ' "
+				  + "WHERE C_Charge_ID IS NULL AND (ChargeName IS NOT NULL)"
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning ("Invalid Charge=" + no);
+		//
+		
 		//	BP from EMail
 		sql = new StringBuffer ("UPDATE I_Invoice o "
 			  + "SET (C_BPartner_ID,AD_User_ID)=(SELECT C_BPartner_ID,AD_User_ID FROM AD_User u"
@@ -394,7 +440,16 @@ public class ImportInvoice extends SvrProcess
 		if (no != 0)
 			log.warning ("Invalid Product=" + no);
 
-		//	Tax
+		// globalqss - charge and product are exclusive
+		sql = new StringBuffer ("UPDATE I_Invoice "
+				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Product and Charge, ' "
+				  + "WHERE M_Product_ID IS NOT NULL AND C_Charge_ID IS NOT NULL "
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning ("Invalid Product and Charge exclusive=" + no);
+
+			//	Tax
 		sql = new StringBuffer ("UPDATE I_Invoice o "
 			  + "SET C_Tax_ID=(SELECT MAX(C_Tax_ID) FROM C_Tax t"
 			  + " WHERE o.TaxIndicator=t.TaxIndicator AND o.AD_Client_ID=t.AD_Client_ID) "
@@ -637,6 +692,10 @@ public class ImportInvoice extends SvrProcess
 				lineNo += 10;
 				if (imp.getM_Product_ID() != 0)
 					line.setM_Product_ID(imp.getM_Product_ID(), true);
+				// globalqss - import invoice with charges
+				if (imp.getC_Charge_ID() != 0)
+					line.setC_Charge_ID(imp.getC_Charge_ID());
+				//
 				line.setQty(imp.getQtyOrdered());
 				line.setPrice();
 				BigDecimal price = imp.getPriceActual();

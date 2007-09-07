@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for I_Invoice
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.046
-     */
-    public interface I_I_Invoice 
+/** Generated Interface for I_Invoice
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_I_Invoice 
 {
 
     /** TableName=I_Invoice */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -84,7 +83,16 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
+
+    /** Column name ActivityValue */
+    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
+
+	/** Set ActivityValue	  */
+	public void setActivityValue (String ActivityValue);
+
+	/** Get ActivityValue	  */
+	public String getActivityValue();
 
     /** Column name Address1 */
     public static final String COLUMNNAME_Address1 = "Address1";
@@ -138,7 +146,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -166,7 +174,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -181,7 +189,22 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
+
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public I_C_Charge getC_Charge() throws Exception;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -196,7 +219,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getI_C_Country() throws Exception;
+	public I_C_Country getC_Country() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -211,7 +234,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -226,7 +249,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getI_C_DocType() throws Exception;
+	public I_C_DocType getC_DocType() throws Exception;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -280,7 +303,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception;
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -308,7 +331,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getI_C_Region() throws Exception;
+	public I_C_Region getC_Region() throws Exception;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -323,7 +346,20 @@ import org.compiere.util.*;
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getI_C_Tax() throws Exception;
+	public I_C_Tax getC_Tax() throws Exception;
+
+    /** Column name ChargeName */
+    public static final String COLUMNNAME_ChargeName = "ChargeName";
+
+	/** Set Charge Name.
+	  * Name of the Charge
+	  */
+	public void setChargeName (String ChargeName);
+
+	/** Get Charge Name.
+	  * Name of the Charge
+	  */
+	public String getChargeName();
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -520,7 +556,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getI_M_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -634,6 +670,19 @@ import org.compiere.util.*;
 	  * Key of the Product
 	  */
 	public String getProductValue();
+
+    /** Column name ProjectValue */
+    public static final String COLUMNNAME_ProjectValue = "ProjectValue";
+
+	/** Set Project Key.
+	  * Key of the Project
+	  */
+	public void setProjectValue (String ProjectValue);
+
+	/** Get Project Key.
+	  * Key of the Project
+	  */
+	public String getProjectValue();
 
     /** Column name QtyOrdered */
     public static final String COLUMNNAME_QtyOrdered = "QtyOrdered";
