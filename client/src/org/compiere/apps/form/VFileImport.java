@@ -38,7 +38,11 @@ import org.compiere.util.*;
  *  @author 	Jorg Janke
  *  @version 	$Id: VFileImport.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  *  
- *  @author 	Teo Sarca, FR [ 1658127 ], BF [ 1619158 ], BF [ 1738641 ] 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1658127 ] Select charset encoding on import
+ * 			<li>BF [ 1619158 ] Import is not working with UTF-8
+ * 			<li>BF [ 1738641 ] Import Formats are accesible for all tenants
+ *			<li>BF [ 1778356 ] VFileImport: IndexOfBound exp if the file is not loaded
  */
 public class VFileImport extends CPanel
 	implements FormPanel, ActionListener
@@ -371,7 +375,7 @@ public class VFileImport extends CPanel
 	 */
 	private void cmd_applyFormat (boolean next)
 	{
-		if (m_format == null)
+		if (m_format == null || m_data.size() == 0)
 			return;
 
 		//	set position
