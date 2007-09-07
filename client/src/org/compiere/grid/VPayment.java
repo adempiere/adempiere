@@ -60,7 +60,9 @@ import org.compiere.util.*;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VPayment.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1763488 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1763488 ] Error on cash payment
+ * 				<li>BF [ 1789949 ] VPayment: is displaying just "CashNotCreated"
  */
 public class VPayment extends CDialog
 	implements ActionListener
@@ -1035,7 +1037,7 @@ public class VPayment extends CDialog
 					else	//	Default
 						cash = MCash.get (Env.getCtx(), m_AD_Org_ID, newDateAcct, C_Currency_ID, null);
 					if (cash == null || cash.get_ID() == 0)
-						ADialog.error(m_WindowNo, this, "PaymentError", "CashNotCreated");
+						ADialog.error(m_WindowNo, this, "PaymentError", CLogger.retrieveErrorString("CashNotCreated"));
 					else
 					{
 						MCashLine cl = new MCashLine (cash);

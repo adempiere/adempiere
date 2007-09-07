@@ -149,6 +149,20 @@ public class CLogger extends Logger implements Serializable
 		s_lastError = null;
 		return vp;
 	}   //  retrieveError
+	
+	/**
+	 * Get Error message from stack
+	 * @param defaultMsg default message (used when there are no errors on stack)
+	 * @return error message, or defaultMsg if there is not error message saved
+	 * @see #retrieveError()
+	 * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+	 */
+	public static String retrieveErrorString(String defaultMsg) {
+		ValueNamePair vp = retrieveError();
+		if (vp == null)
+			return defaultMsg;
+		return vp.getName();
+	}
 
 	/**
 	 *  Get Error from Stack
