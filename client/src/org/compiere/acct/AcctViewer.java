@@ -38,6 +38,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: AcctViewer.java,v 1.3 2006/08/10 01:00:27 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			BF [ 1778534 ] Info Account: can't find product
  */
 public class AcctViewer extends CFrame 
 	implements ActionListener, ChangeListener
@@ -639,7 +642,7 @@ public class AcctViewer extends CFrame
 	{
 		String keyColumn = button.getActionCommand();
 		log.info(keyColumn);
-		String whereClause = "IsSummary='N'";
+		String whereClause = "(IsSummary='N' OR IsSummary IS NULL)";
 		String lookupColumn = keyColumn;
 		if (keyColumn.equals("Account_ID"))
 		{
