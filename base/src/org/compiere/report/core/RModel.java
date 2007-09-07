@@ -26,6 +26,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: RModel.java,v 1.2 2006/07/30 00:51:06 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1778373 ] AcctViewer: data is not sorted proper
  */
 public class RModel implements Serializable
 {
@@ -64,6 +67,24 @@ public class RModel implements Serializable
 			throw new java.lang.IllegalArgumentException("Column invalid");
 		return (RColumn)m_data.cols.get(col);
 	}   //  getRColumn
+	
+	/**
+	 * Get column by column name
+	 * @param columnName
+	 * @return column or null if not found
+	 * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+	 */
+	public RColumn getRColumn (String columnName)
+	{
+		if (columnName == null)
+			return null;
+		for (RColumn col : m_data.cols) {
+			if (columnName.equals(col.getColumnName())) {
+				return col;
+			}
+		}
+		return null;
+	}
 
 	
 	/**************************************************************************

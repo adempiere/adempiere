@@ -32,7 +32,9 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version  $Id: AcctViewerData.java,v 1.3 2006/08/10 01:00:27 jjanke Exp $
  *  
- *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1748449 ] Info Account - Posting Type is not translated
+ * 				<li>BF [ 1778373 ] AcctViewer: data is not sorted proper
  */
 class AcctViewerData
 {
@@ -326,32 +328,50 @@ class AcctViewerData
 			}
 		}
 
+		RModel rm = getRModel();
+		
 		//  Set Order By Clause
 		StringBuffer orderClause = new StringBuffer();
 		if (sortBy1.length() > 0)
-			orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy1);
+		{
+			RColumn col = rm.getRColumn(sortBy1);
+			if (col != null)
+				orderClause.append(col.getDisplaySQL());
+			else
+				orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy1);
+		}
 		if (sortBy2.length() > 0)
 		{
 			if (orderClause.length() > 0)
 				orderClause.append(",");
-			orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy2);
+			RColumn col = rm.getRColumn(sortBy2);
+			if (col != null)
+				orderClause.append(col.getDisplaySQL());
+			else
+				orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy2);
 		}
 		if (sortBy3.length() > 0)
 		{
 			if (orderClause.length() > 0)
 				orderClause.append(",");
-			orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy3);
+			RColumn col = rm.getRColumn(sortBy3);
+			if (col != null)
+				orderClause.append(col.getDisplaySQL());
+			else
+				orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy3);
 		}
 		if (sortBy4.length() > 0)
 		{
 			if (orderClause.length() > 0)
 				orderClause.append(",");
-			orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy4);
+			RColumn col = rm.getRColumn(sortBy4);
+			if (col != null)
+				orderClause.append(col.getDisplaySQL());
+			else
+				orderClause.append(RModel.TABLE_ALIAS).append(".").append(sortBy4);
 		}
 		if (orderClause.length() == 0)
 			orderClause.append(RModel.TABLE_ALIAS).append(".Fact_Acct_ID");
-
-		RModel rm = getRModel();
 
 		//  Groups
 		if (group1 && sortBy1.length() > 0)

@@ -27,6 +27,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: RColumn.java,v 1.3 2006/08/10 01:00:13 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1778373 ] AcctViewer: data is not sorted proper
  */
 public class RColumn
 {
@@ -78,6 +81,7 @@ public class RColumn
 	public RColumn (Properties ctx, String columnName, int displayType, 
 		String sql,	int AD_Reference_Value_ID, String refColumnName)
 	{
+		m_columnName = columnName;
 		m_colHeader = Msg.translate(ctx, columnName);
 		if (refColumnName != null)
 			m_colHeader = Msg.translate(ctx, refColumnName);
@@ -118,6 +122,7 @@ public class RColumn
 			Language language = Language.getLanguage(Env.getAD_Language(ctx));
 			m_colSQL = "(" + MLookupFactory.getLookup_ListEmbed(
 				language, AD_Reference_Value_ID, columnName) + ")";
+			m_displaySQL = m_colSQL;
 			m_colClass = String.class;
 			m_isIDcol = false;
 		}
@@ -138,32 +143,37 @@ public class RColumn
 			if (columnName.equals("Account_ID") 
 				|| columnName.equals("User1_ID") || columnName.equals("User2_ID"))
 			{
-				m_colSQL += ",(" + MLookupFactory.getLookup_TableDirEmbed(
+				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
 					language, "C_ElementValue_ID", RModel.TABLE_ALIAS, columnName) + ")";
+				m_colSQL += "," + m_displaySQL;
 				m_isIDcol = true;
 			}
 			else if (columnName.startsWith("UserElement") && refColumnName != null)
 			{
-				m_colSQL += ",(" + MLookupFactory.getLookup_TableDirEmbed(
+				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
 					language, refColumnName, RModel.TABLE_ALIAS, columnName) + ")";
+				m_colSQL += "," + m_displaySQL;
 				m_isIDcol = true;
 			}
 			else if (columnName.equals("C_LocFrom_ID") || columnName.equals("C_LocTo_ID"))
 			{
-				m_colSQL += ",(" + MLookupFactory.getLookup_TableDirEmbed(
+				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
 					language, "C_Location_ID", RModel.TABLE_ALIAS, columnName) + ")";
+				m_colSQL += "," + m_displaySQL;
 				m_isIDcol = true;
 			}
 			else if (columnName.equals("AD_OrgTrx_ID"))
 			{
-				m_colSQL += ",(" + MLookupFactory.getLookup_TableDirEmbed(
+				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
 					language, "AD_Org_ID", RModel.TABLE_ALIAS, columnName) + ")";
+				m_colSQL += "," + m_displaySQL;
 				m_isIDcol = true;
 			}
 			else if (displayType == DisplayType.TableDir)
 			{
-				m_colSQL += ",(" + MLookupFactory.getLookup_TableDirEmbed(
+				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
 					language, columnName, RModel.TABLE_ALIAS) + ")";
+				m_colSQL += "," + m_displaySQL;
 				m_isIDcol = true;
 			}
 		}
@@ -184,10 +194,14 @@ public class RColumn
 	}   //  RColumn
 
 
+	/** Column Name                 */
+	private String		m_columnName;
 	/** Column Header               */
 	private String      m_colHeader;
 	/** Column SQL                  */
 	private String      m_colSQL;
+	/** Column Display SQL          */
+	private String      m_displaySQL;
 	/** Column Display Class        */
 	private Class       m_colClass;
 
@@ -201,6 +215,12 @@ public class RColumn
 	private boolean     m_isIDcol = false;
 
 
+	/**
+	 * @return Column Name
+	 */
+	public String getColumnName() {
+		return m_columnName;
+	}
 	/**
 	 *  Column Header
 	 */
@@ -223,6 +243,13 @@ public class RColumn
 	public void setColSQL(String colSQL)
 	{
 		m_colSQL = colSQL;
+	}
+	/**
+	 *  Column Display SQL
+	 */
+	public String getDisplaySQL()
+	{
+		return m_displaySQL;
 	}
 	/**
 	 *  This column is an ID Column (i.e. two values - int & String are read)
