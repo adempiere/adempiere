@@ -26,6 +26,9 @@ import org.compiere.util.*;
  *
  *	@author Jorg Janke
  *	@version $Id: MPeriod.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
+ *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1779438 ] Minor auto period control bug
  */
 public class MPeriod extends X_C_Period
 {
@@ -353,7 +356,7 @@ public class MPeriod extends X_C_Period
 		{
 		//	if (as.getC_Period_ID() == getC_Period_ID())
 		//		return true;
-			Timestamp today = new Timestamp (System.currentTimeMillis());
+			Timestamp today = TimeUtil.trunc(new Timestamp (System.currentTimeMillis()), TimeUtil.TRUNC_DAY);
 			Timestamp first = TimeUtil.addDays(today, - as.getPeriod_OpenHistory()); 
 			Timestamp last = TimeUtil.addDays(today, as.getPeriod_OpenFuture());
 			if (today.before(first))
