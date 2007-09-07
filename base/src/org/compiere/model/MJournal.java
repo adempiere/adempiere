@@ -26,13 +26,13 @@ import org.compiere.util.*;
 
 /**
  *  GL Journal Model
- * <p>Change log:
- * <ul>
- * <li>2007-02-26 - teo_sarca - [ 1619150 ] Usability/Consistency: reversed gl journal description
- * </ul>
  *
  *	@author Jorg Janke
  *	@version $Id: MJournal.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1619150 ] Usability/Consistency: reversed gl journal description
+ * 				<li>BF [ 1775358 ] GL Journal DateAcct/C_Period_ID issue
  */
 public class MJournal extends X_GL_Journal implements DocAction
 {
@@ -307,6 +307,15 @@ public class MJournal extends X_GL_Journal implements DocAction
 		}
 		if (getDateAcct() == null)
 			setDateAcct(getDateDoc());
+		
+		// Update DateAcct on lines - teo_sarca BF [ 1775358 ]
+		if (is_ValueChanged(COLUMNNAME_DateAcct)) {
+			int no = DB.executeUpdate(
+					"UPDATE GL_JournalLine SET "+MJournalLine.COLUMNNAME_DateAcct+"=? WHERE GL_Journal_ID=?",
+					new Object[]{getDateAcct(), getGL_Journal_ID()},
+					false, get_TrxName());
+			log.finest("Updated GL_JournalLine.DateAcct #" + no);
+		}
 		return true;
 	}	//	beforeSave
 	
