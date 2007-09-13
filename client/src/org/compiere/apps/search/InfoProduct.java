@@ -424,7 +424,7 @@ public final class InfoProduct extends Info implements ActionListener
 		//	=> Vendor
 		String vendor = fieldVendor.getText().toUpperCase();
 		if (!(vendor.equals("") || vendor.equals("%")))
-			where.append(" AND UPPER(bp.Name) LIKE ?");
+			where.append(" AND UPPER(bp.Name) LIKE ? AND ppo.IsCurrentVendor='Y'");
 		
 		return where.toString();
 	}	//	getSQLWhere
