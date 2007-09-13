@@ -479,7 +479,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			if (((Boolean) model.getValueAt(i, 0)).booleanValue())
 				count++;
 		}
-		statusBar.setStatusLine(String.valueOf(count));
+		setStatusLine(count, null);
 	} // info
 
 	/**

@@ -211,7 +211,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 				count++;
 			}
 		}
-		statusBar.setStatusLine(String.valueOf(count) + " - " + Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+		setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
 	}   //  infoStatement
 
 	/**

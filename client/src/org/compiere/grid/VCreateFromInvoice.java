@@ -266,7 +266,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
 				count++;
 		}
-		statusBar.setStatusLine(String.valueOf(count));
+		setStatusLine(count, null);
 	}   //  infoInvoice
 
 	/**

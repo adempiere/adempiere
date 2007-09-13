@@ -37,6 +37,9 @@ import org.compiere.util.*;
  *
  *  @author  Jorg Janke
  *  @version $Id: VCreateFrom.java,v 1.4 2006/10/11 09:52:23 comdivision Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
  */
 public abstract class VCreateFrom extends CDialog
 	implements ActionListener, TableModelListener
@@ -134,7 +137,7 @@ public abstract class VCreateFrom extends CDialog
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
-	protected StatusBar statusBar = new StatusBar();
+	private StatusBar statusBar = new StatusBar();
 	protected MiniTable dataTable = new MiniTable();
 	protected JLabel locatorLabel = new JLabel();
 	protected VLocator locatorField = new VLocator();
@@ -514,5 +517,21 @@ public abstract class VCreateFrom extends CDialog
 		//  Table UI
 		dataTable.autoSize();
 	}   //  loadOrder
+	
+	/**
+	 * Set form status line.
+	 * Please note, will enable/disable the OK button if the selectedRowCount > 0.
+	 * @param selectedRowCount number of selected lines
+	 * @param text additional text
+	 */
+	protected void setStatusLine(int selectedRowCount, String text) {
+		StringBuffer sb = new StringBuffer(String.valueOf(selectedRowCount));
+		if (text != null && text.trim().length() > 0) {
+			sb.append(" - ").append(text);
+		}
+		statusBar.setStatusLine(sb.toString());
+		//
+		confirmPanel.getOKButton().setEnabled(selectedRowCount > 0);
+	}
 
 }   //  VCreateFrom
