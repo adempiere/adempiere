@@ -26,6 +26,11 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: ModelValidationEngine.java,v 1.2 2006/07/30 00:58:38 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>FR [ 1670025 ] ModelValidator.afterLoadPreferences will be useful
+ * 				<li>BF [ 1679692 ] fireDocValidate doesn't treat exceptions as errors
+ * 				<li>FR [ 1724662 ] Support Email should contain model validators info
  */
 public class ModelValidationEngine 
 {
@@ -310,6 +315,49 @@ public class ModelValidationEngine
 			.append("]");
 		return sb.toString();
 	}	//	toString
+	
+	/**
+	 *  Create Model Validators Info
+	 *  @param sb optional string buffer
+	 *  @param ctx context
+	 *  @return Model Validators Info
+	 *  
+	 *  @author Teo Sarca, FR [ 1724662 ]
+	 */
+	public StringBuffer getInfoDetail(StringBuffer sb, Properties ctx) {
+		if (sb == null)
+			sb = new StringBuffer();
+		sb.append("=== ModelValidationEngine ===").append(Env.NL);
+		sb.append("Validators #").append(m_validators.size()).append(Env.NL);
+		for (ModelValidator mv : m_validators) {
+			sb.append(mv.toString()).append(Env.NL);
+		}
+		sb.append(Env.NL).append(Env.NL);
+		//
+		sb.append("ModelChange #").append(m_modelChangeListeners.size()).append(Env.NL);
+		Iterator<String> it = m_modelChangeListeners.keySet().iterator();
+		while(it.hasNext()) {
+			String key = it.next();
+			ArrayList<ModelValidator> list = m_modelChangeListeners.get(key);
+			for (ModelValidator mv : list) {
+				sb.append(key).append(": ").append(mv.toString()).append(Env.NL);
+			}
+		}
+		sb.append(Env.NL).append(Env.NL);
+		//
+		sb.append("DocValidate #").append(m_docValidateListeners.size()).append(Env.NL);
+		it = m_docValidateListeners.keySet().iterator();
+		while(it.hasNext()) {
+			String key = it.next();
+			ArrayList<ModelValidator> list = m_docValidateListeners.get(key);
+			for (ModelValidator mv : list) {
+				sb.append(key).append(": ").append(mv.toString()).append(Env.NL);
+			}
+		}
+		sb.append(Env.NL).append(Env.NL);
+		//
+		return sb;
+	}
 	
 	/**
 	 * After Load Preferences into Context for selected client.

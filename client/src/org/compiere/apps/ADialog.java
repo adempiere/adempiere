@@ -378,10 +378,10 @@ public final class ADialog
 	/*************************************************************************
 
 	/**
-	 *	Create Support EMail
-	 *	@param owner owner
-	 *  @param subject subkect
-	 *  @param message message
+	 * Create Support EMail
+	 * @param owner owner
+	 * @param subject subkect
+	 * @param message message
 	 */
 	public static void createSupportEMail(Dialog owner, String subject, String message)
 	{
@@ -393,6 +393,7 @@ public final class ADialog
 		myMessage.append("\n");
 		CLogMgt.getInfo(myMessage);
 		CLogMgt.getInfoDetail(myMessage, Env.getCtx());
+		ModelValidationEngine.get().getInfoDetail(myMessage, Env.getCtx()); // teo_sarca - FR [ 1724662 ]
 
 		EMailDialog emd = new EMailDialog(owner,
 			Msg.getMsg(Env.getCtx(), "EMailSupport"),
@@ -415,6 +416,7 @@ public final class ADialog
 		myMessage.append("\n");
 		CLogMgt.getInfo(myMessage);
 		CLogMgt.getInfoDetail(myMessage, Env.getCtx());
+		ModelValidationEngine.get().getInfoDetail(myMessage, Env.getCtx()); // teo_sarca - FR [ 1724662 ]
 
 		EMailDialog emd = new EMailDialog(owner,
 			Msg.getMsg(Env.getCtx(), "EMailSupport"),
