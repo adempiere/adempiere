@@ -121,6 +121,22 @@ public class WindowMenu extends JMenu {
         	closeOthers.setEnabled(false);
         }
         	
+        if ( !(frame instanceof AMenu) ) {
+        	JFrame frame = Env.getWindow(0);
+        	if (frame != null && frame instanceof AMenu) {
+        		menu = new ChildMenuItem((AMenu)frame);
+                menu.setState(false);
+                menu.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        CFrame frame = ((ChildMenuItem)ae.getSource()).getWindow();
+                        AEnv.showWindow(frame);
+                    }
+                });
+        		add(menu);
+        		addSeparator();
+        	}
+        }
+        
         for (i = 0; i < array.length; i++) {
             menu = new ChildMenuItem(array[i]);
             menu.setState(array[i].equals(frame));
