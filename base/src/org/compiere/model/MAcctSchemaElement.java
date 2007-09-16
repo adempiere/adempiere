@@ -26,13 +26,16 @@ import org.compiere.util.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: MAcctSchemaElement.java,v 1.4 2006/08/10 01:00:44 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1795817 ] Acct Schema Elements "Account" and "Org" should be mandatory
  */
 public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 {
 	/**
-	 *  Factory: Return ArrayList of Account Schema Elements
-	 * 	@param as Accounting Schema
-	 *  @return ArrayList with Elements
+	 * Factory: Return ArrayList of Account Schema Elements
+	 * @param as Accounting Schema
+	 * @return ArrayList with Elements
 	 */
 	public static MAcctSchemaElement[] getAcctSchemaElements (MAcctSchema as)
 	{
@@ -76,50 +79,50 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}   //  getAcctSchemaElements
 
 	/**
-	 *  Get Column Name of ELEMENTTYPE 
-	 * 	@param elementType ELEMENTTYPE 
-	 *  @return column name
+	 * Get Column Name of ELEMENTTYPE 
+	 * @param elementType ELEMENTTYPE 
+	 * @return column name or "" if not found
 	 */
 	public static String getColumnName(String elementType)
 	{
 		if (elementType.equals(ELEMENTTYPE_Organization))
 			return "AD_Org_ID";
 		else if (elementType.equals(ELEMENTTYPE_Account))
-			return "Account_ID";
+			return I_C_ValidCombination.COLUMNNAME_Account_ID;
 		else if (elementType.equals(ELEMENTTYPE_BPartner))
-			return "C_BPartner_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_BPartner_ID;
 		else if (elementType.equals(ELEMENTTYPE_Product))
-			return "M_Product_ID";
+			return I_C_ValidCombination.COLUMNNAME_M_Product_ID;
 		else if (elementType.equals(ELEMENTTYPE_Activity))
-			return "C_Activity_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_Activity_ID;
 		else if (elementType.equals(ELEMENTTYPE_LocationFrom))
-			return "C_LocFrom_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_LocFrom_ID;
 		else if (elementType.equals(ELEMENTTYPE_LocationTo))
-			return "C_LocTo_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_LocTo_ID;
 		else if (elementType.equals(ELEMENTTYPE_Campaign))
-			return "C_Campaign_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_Campaign_ID;
 		else if (elementType.equals(ELEMENTTYPE_OrgTrx))
-			return "AD_OrgTrx_ID";
+			return I_C_ValidCombination.COLUMNNAME_AD_OrgTrx_ID;
 		else if (elementType.equals(ELEMENTTYPE_Project))
-			return "C_Project_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_Project_ID;
 		else if (elementType.equals(ELEMENTTYPE_SalesRegion))
-			return "C_SalesRegion_ID";
+			return I_C_ValidCombination.COLUMNNAME_C_SalesRegion_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserList1))
-			return "User1_ID";
+			return I_C_ValidCombination.COLUMNNAME_User1_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserList2))
-			return "User2_ID";
+			return I_C_ValidCombination.COLUMNNAME_User2_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserElement1))
-			return "UserElement1_ID";
+			return I_C_ValidCombination.COLUMNNAME_UserElement1_ID;
 		else if (elementType.equals(ELEMENTTYPE_UserElement2))
-			return "UserElement2_ID";
+			return I_C_ValidCombination.COLUMNNAME_UserElement2_ID;
 		//
 		return "";
 	}   //  getColumnName
 
 	/**
-	 *  Get Value Query for ELEMENTTYPE Type
-	 * 	@param elementType ELEMENTTYPE type
-	 *  @return query "SELECT Value,Name FROM Table WHERE ID="
+	 * Get Value Query for ELEMENTTYPE Type
+	 * @param elementType ELEMENTTYPE type
+	 * @return query "SELECT Value,Name FROM Table WHERE ID=" or "" if not found
 	 */
 	public static String getValueQuery (String elementType)
 	{
@@ -168,10 +171,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	
 	
 	/*************************************************************************
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param C_AcctSchema_Element_ID id
-	 *	@param trxName transaction
+	 * Standard Constructor
+	 * @param ctx context
+	 * @param C_AcctSchema_Element_ID id
+	 * @param trxName transaction
 	 */
 	public MAcctSchemaElement (Properties ctx, int C_AcctSchema_Element_ID, String trxName)
 	{
@@ -191,10 +194,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	MAcctSchemaElement
 
 	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
-	 *	@param trxName transaction
+	 * Load Constructor
+	 * @param ctx context
+	 * @param rs result set
+	 * @param trxName transaction
 	 */	
 	public MAcctSchemaElement (Properties ctx, ResultSet rs, String trxName)
 	{
@@ -202,8 +205,8 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	MAcctSchemaElement
 
 	/**
-	 * 	Parent Constructor
-	 *	@param as accounting schema
+	 * Parent Constructor
+	 * @param as accounting schema
 	 */
 	public MAcctSchemaElement (MAcctSchema as)
 	{
@@ -222,10 +225,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	private String		m_ColumnName = null;
 	
 	/**
-	 * 	Set Organization Type
-	 *	@param SeqNo sequence
-	 *	@param Name name 
-	 *	@param Org_ID id
+	 * Set Organization Type
+	 * @param SeqNo sequence
+	 * @param Name name 
+	 * @param Org_ID id
 	 */
 	public void setTypeOrg (int SeqNo, String Name, int Org_ID)
 	{
@@ -236,11 +239,11 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	setTypeOrg
 
 	/**
-	 * 	Set Type Account
-	 *	@param SeqNo squence
-	 *	@param Name name
-	 *	@param C_Element_ID element
-	 *	@param C_ElementValue_ID element value
+	 * Set Type Account
+	 * @param SeqNo squence
+	 * @param Name name
+	 * @param C_Element_ID element
+	 * @param C_ElementValue_ID element value
 	 */
 	public void setTypeAccount (int SeqNo, String Name, int C_Element_ID, int C_ElementValue_ID)
 	{
@@ -252,10 +255,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	setTypeAccount
 
 	/**
-	 * 	Set Type BPartner
-	 *	@param SeqNo sequence
-	 *	@param Name name
-	 *	@param C_BPartner_ID id
+	 * Set Type BPartner
+	 * @param SeqNo sequence
+	 * @param Name name
+	 * @param C_BPartner_ID id
 	 */
 	public void setTypeBPartner (int SeqNo, String Name, int C_BPartner_ID)
 	{
@@ -266,10 +269,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	setTypeBPartner
 
 	/**
-	 * 	Set Type Product
-	 *	@param SeqNo sequence
-	 *	@param Name name
-	 *	@param M_Product_ID id
+	 * Set Type Product
+	 * @param SeqNo sequence
+	 * @param Name name
+	 * @param M_Product_ID id
 	 */
 	public void setTypeProduct (int SeqNo, String Name, int M_Product_ID)
 	{
@@ -280,10 +283,10 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	setTypeProduct
 	
 	/**
-	 * 	Set Type Project
-	 *	@param SeqNo sequence
-	 *	@param Name name
-	 *	@param C_Project_ID id
+	 * Set Type Project
+	 * @param SeqNo sequence
+	 * @param Name name
+	 * @param C_Project_ID id
 	 */
 	public void setTypeProject (int SeqNo, String Name, int C_Project_ID)
 	{
@@ -294,9 +297,9 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	setTypeProject
 
 	/**
-	 *  Is Element Type
-	 *  @param elementType type
-	 *	@return ELEMENTTYPE type
+	 * Is Element Type
+	 * @param elementType type
+	 * @return ELEMENTTYPE type
 	 */
 	public boolean isElementType (String elementType)
 	{
@@ -306,8 +309,8 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}   //  isElementType
 
 	/**
-	 * 	Get Default element value
-	 *	@return default
+	 * Get Default element value
+	 * @return default
 	 */
 	public int getDefaultValue()
 	{
@@ -348,8 +351,8 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 
 
 	/**
-	 *  Get Acct Fact ColumnName
-	 *  @return column name
+	 * Get Acct Fact ColumnName
+	 * @return column name
 	 */
 	public String getColumnName()
 	{
@@ -358,8 +361,8 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	getColumnName
 
 	/**
-	 *  Get Display ColumnName
-	 *  @return column name
+	 * Get Display ColumnName
+	 * @return column name
 	 */
 	public String getDisplayColumnName()
 	{
@@ -375,8 +378,8 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 
 	
 	/**
-	 *  String representation
-	 *  @return info
+	 * String representation
+	 * @return info
 	 */
 	public String toString()
 	{
@@ -389,10 +392,11 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	
 	
 	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true if it can be saved
+	 * Before Save
+	 * @param newRecord new
+	 * @return true if it can be saved
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (getAD_Org_ID() != 0)
@@ -402,31 +406,39 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 			(ELEMENTTYPE_UserList1.equals(et) || ELEMENTTYPE_UserList2.equals(et)
 			|| ELEMENTTYPE_UserElement1.equals(et) || ELEMENTTYPE_UserElement2.equals(et)))
 			setIsMandatory(false);
+		// Acct Schema Elements "Account" and "Org" should be mandatory - teo_sarca BF [ 1795817 ]
+		if (ELEMENTTYPE_Account.equals(et) || ELEMENTTYPE_Organization.equals(et)) {
+			if (!isMandatory())
+				setIsMandatory(true);
+			if (!isActive())
+				setIsActive(true);
+		}
+		//
 		else if (isMandatory())
 		{
 			String errorField = null;
 			if (ELEMENTTYPE_Account.equals(et) && getC_ElementValue_ID() == 0)
-				errorField = "C_ElementValue_ID";
+				errorField = COLUMNNAME_C_ElementValue_ID;
 			else if (ELEMENTTYPE_Activity.equals(et) && getC_Activity_ID() == 0)
-				errorField = "C_Activity_ID";
+				errorField = COLUMNNAME_C_Activity_ID;
 			else if (ELEMENTTYPE_BPartner.equals(et) && getC_BPartner_ID() == 0)
-				errorField = "C_BPartner_ID";
+				errorField = COLUMNNAME_C_BPartner_ID;
 			else if (ELEMENTTYPE_Campaign.equals(et) && getC_Campaign_ID() == 0)
-				errorField = "C_Campaign_ID";
+				errorField = COLUMNNAME_C_Campaign_ID;
 			else if (ELEMENTTYPE_LocationFrom.equals(et) && getC_Location_ID() == 0)
-				errorField = "C_Location_ID";
+				errorField = COLUMNNAME_C_Location_ID;
 			else if (ELEMENTTYPE_LocationTo.equals(et) && getC_Location_ID() == 0)
-				errorField = "C_Location_ID";
+				errorField = COLUMNNAME_C_Location_ID;
 			else if (ELEMENTTYPE_Organization.equals(et) && getOrg_ID() == 0)
-				errorField = "Org_ID";
+				errorField = COLUMNNAME_Org_ID;
 			else if (ELEMENTTYPE_OrgTrx.equals(et) && getOrg_ID() == 0)
-				errorField = "Org_ID";
+				errorField = COLUMNNAME_Org_ID;
 			else if (ELEMENTTYPE_Product.equals(et) && getM_Product_ID() == 0)
-				errorField = "M_Product_ID";
+				errorField = COLUMNNAME_M_Product_ID;
 			else if (ELEMENTTYPE_Project.equals(et) && getC_Project_ID() == 0)
-				errorField = "C_Project_ID";
+				errorField = COLUMNNAME_C_Project_ID;
 			else if (ELEMENTTYPE_SalesRegion.equals(et) && getC_SalesRegion_ID() == 0)
-				errorField = "C_SalesRegion_ID";
+				errorField = COLUMNNAME_C_SalesRegion_ID;
 			if (errorField != null)
 			{
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@IsMandatory@: @" + errorField + "@"));
@@ -444,27 +456,28 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	beforeSave
 	
 	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
+	 * After Save
+	 * @param newRecord new
+	 * @param success success
+	 * @return success
 	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		//	Default Value
-		if (isMandatory() && is_ValueChanged("IsMandatory"))
+		if (isMandatory() && is_ValueChanged(COLUMNNAME_IsMandatory))
 		{
 			if (ELEMENTTYPE_Activity.equals(getElementType()))
-				updateData ("C_Activity_ID", getC_Activity_ID());
+				updateData (COLUMNNAME_C_Activity_ID, getC_Activity_ID());
 			else if (ELEMENTTYPE_BPartner.equals(getElementType()))
-				updateData ("C_BPartner_ID", getC_BPartner_ID());
+				updateData (COLUMNNAME_C_BPartner_ID, getC_BPartner_ID());
 			else if (ELEMENTTYPE_Product.equals(getElementType()))
-				updateData ("M_Product_ID", getM_Product_ID());
+				updateData (COLUMNNAME_M_Product_ID, getM_Product_ID());
 			else if (ELEMENTTYPE_Project.equals(getElementType()))
-				updateData ("C_Project_ID", getC_Project_ID());
+				updateData (COLUMNNAME_C_Project_ID, getC_Project_ID());
 		}
 		//	Resequence
-		if (newRecord || is_ValueChanged("SeqNo"))
+		if (newRecord || is_ValueChanged(COLUMNNAME_SeqNo))
 			MAccount.updateValueDescription(getCtx(), 
 				"AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 		//	Clear Cache
@@ -473,9 +486,9 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 	}	//	afterSave
 	
 	/**
-	 * 	Update ValidCombination and Fact with mandatory value
-	 *	@param element element
-	 *	@param id new default
+	 * Update ValidCombination and Fact with mandatory value
+	 * @param element element
+	 * @param id new default
 	 */
 	private void updateData (String element, int id)
 	{
@@ -493,13 +506,24 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 		log.fine("ValidCombination=" + noC + ", Fact=" + noF);
 	}	//	updateData
 	
-	
+	@Override
+	protected boolean beforeDelete ()
+	{
+		String et = getElementType();
+		// Acct Schema Elements "Account" and "Org" should be mandatory - teo_sarca BF [ 1795817 ] 
+		if (ELEMENTTYPE_Account.equals(et) || ELEMENTTYPE_Organization.equals(et)) {
+			log.saveError("Error", Msg.parseTranslation(getCtx(), "@DeleteError@ @IsMandatory@"));
+			return false;
+		}
+		return true;
+	}
 	
 	/**
-	 * 	After Delete
-	 *	@param success success
-	 *	@return success
+	 * After Delete
+	 * @param success success
+	 * @return success
 	 */
+	@Override
 	protected boolean afterDelete (boolean success)
 	{
 		//	Update Account Info
