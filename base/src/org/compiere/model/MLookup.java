@@ -65,10 +65,10 @@ public final class MLookup extends Lookup implements Serializable
 			return;						//	required when parent needs to be selected (e.g. price from product)
 		}
 		//
-		m_loader = new MLoader();
+		//m_loader = new MLoader();
 	//	if (TabNo != 0)
 	//		m_loader.setPriority(Thread.NORM_PRIORITY - 1);
-		m_loader.start();
+		//m_loader.start();
 		//m_loader.run();		//	test sync call
 	}	//	MLookup
 
@@ -154,13 +154,17 @@ public final class MLookup extends Lookup implements Serializable
 		if (key == null || MINUS_ONE.equals(key))	//	indicator for null
 			return null;
 
-		if (m_info.IsParent && m_nextRead < System.currentTimeMillis())
+		//auto refresh parent lookup
+		if (m_info.IsParent )
 		{
-			m_lookup.clear();
-			if (m_lookupDirect != null)
-				m_lookupDirect.clear();
-			m_nextRead = System.currentTimeMillis() + 500;	//	1/2 sec
-		}
+			if (m_nextRead > 0 && m_nextRead < System.currentTimeMillis()) 
+			{
+				m_lookup.clear();
+				if (m_lookupDirect != null)
+					m_lookupDirect.clear();				
+			}			
+			m_nextRead = System.currentTimeMillis() + 5000;	//	5 sec
+		} 
 		
 		//	try cache
 		NamePair retValue = (NamePair)m_lookup.get(key);
@@ -179,6 +183,7 @@ public final class MLookup extends Lookup implements Serializable
 		}
 
 		//  Always check for parents - not if we SQL was validated and completely loaded
+		/*
 		if (!m_info.IsParent && m_info.IsValidated && m_allLoaded)
 		{
 			log.finer(m_info.KeyColumn + ": <NULL> - " + key // + "(" + key.getClass()
@@ -186,12 +191,13 @@ public final class MLookup extends Lookup implements Serializable
 		//	log.finest( m_lookup.keySet().toString(), "ContainsKey = " + m_lookup.containsKey(key));
 			//  also for new values and inactive ones
 			return getDirect(key, false, true);		//	cache locally    
-		}
+		}*/
 
 		log.finest (m_info.KeyColumn + ": " + key
 				+ "; Size=" + m_lookup.size() + "; Validated=" + m_info.IsValidated
 				+ "; All Loaded=" + m_allLoaded + "; HasInactive=" + m_hasInactive);
 		//	never loaded
+		/*
 		if (!m_allLoaded 
 			&& m_lookup.size() == 0 
 			&& !m_info.IsCreadedUpdatedBy
@@ -203,7 +209,7 @@ public final class MLookup extends Lookup implements Serializable
 			retValue = (NamePair)m_lookup.get(key);
 			if (retValue != null)
 				return retValue;
-		}
+		}*/
 		//	Try to get it directly
 		boolean cacheLocal = m_info.IsValidated ; 
 		return getDirect(key, false, cacheLocal);	//	do NOT cache	
@@ -557,8 +563,12 @@ public final class MLookup extends Lookup implements Serializable
 			return 0;
 		//  Don't load Search or CreatedBy/UpdatedBy
 		if (m_info.DisplayType == DisplayType.Search 
-			|| m_info.IsCreadedUpdatedBy)
+			|| m_info.IsCreadedUpdatedBy) 
+		{
+			//clear direct cache
+			removeAllElements();
 			return 0;
+		}
 		
 		m_refreshing = true;
 		//force refresh
