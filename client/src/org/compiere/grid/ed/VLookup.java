@@ -179,8 +179,9 @@ public class VLookup extends JComponent
 		//	*** VComboBox	***
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	//	No Search
 		{
-			//  Memory Leak after executing the next two lines ??
-			m_lookup.fillComboBox (isMandatory(), true, true, false);
+			//  Don't have to fill up combobox if it is readonly
+			if (!isReadOnly && isUpdateable)
+				m_lookup.fillComboBox (isMandatory(), true, true, false);
 			m_combo.setModel(m_lookup);
 			//
 			AutoCompletion.enable(m_combo);
@@ -1339,6 +1340,13 @@ public class VLookup extends JComponent
 	{
 		if (m_lookup == null)
 			return -1;
+		
+		//no need to refresh readonly lookup, just remove direct cache
+		if (!isReadWrite()) {
+			m_lookup.removeAllElements();
+			return 0;
+		}
+		
 		return m_lookup.refresh();
 	}	//	refresh
 
