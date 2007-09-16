@@ -1205,10 +1205,23 @@ public class VLookup extends JComponent
 		//
 		Object obj = m_combo.getSelectedItem();
 		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + obj);
-		m_lookup.refresh();
-		m_lookup.fillComboBox(isMandatory(), true, true, false);
-		m_combo.setSelectedItem(obj);
-	//	m_combo.revalidate();
+		//no need to refresh readonly lookup, just remove direct cache
+		if (!isReadWrite()) 
+		{
+			m_settingValue = true;		//	disable actions
+			m_lookup.removeAllElements();
+			m_lastDisplay = m_lookup.getDisplay(m_value);
+			m_text.setText(m_lastDisplay);
+			m_text.setCaretPosition(0);
+			m_settingValue = false;
+		} 
+		else
+		{
+			m_lookup.refresh();
+			m_lookup.fillComboBox(isMandatory(), true, true, false);		
+			m_combo.setSelectedItem(obj);
+			//m_combo.revalidate();
+		}
 		//
 		setCursor(Cursor.getDefaultCursor());
 		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + m_combo.getSelectedItem());
