@@ -48,6 +48,8 @@ import org.compiere.util.*;
  */
 public class StatusBean implements SessionBean
 {
+	private static final String ALLOW_CLIENT_QUERY_DB_PWD = "adempiere.client.getDBPwd";
+	
 	/**	Context				*/
 	private SessionContext 	m_Context;
 	/**	Logging				*/
@@ -151,6 +153,10 @@ public class StatusBean implements SessionBean
 	 */
 	public String getDbPwd()
 	{
+		String f = System.getProperty(ALLOW_CLIENT_QUERY_DB_PWD);
+		if ("false".equalsIgnoreCase(f)) 
+			return "";
+		
 		return CConnection.get().getDbPwd();
 	}   //  getDbPWD
 
