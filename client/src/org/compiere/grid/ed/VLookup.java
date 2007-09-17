@@ -354,6 +354,11 @@ public class VLookup extends JComponent
 		{
 			m_combo.setReadWrite(rw);
 			setUI (false);
+			if (value && m_comboActive) {
+				m_settingValue = true;		//	disable actions
+				refresh();
+				m_settingValue = false;
+			}
 			if (m_comboActive)
 				setValue (m_value);
 		}
