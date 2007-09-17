@@ -166,7 +166,63 @@ public class Scheduler extends AdempiereServer
 		pi.setAD_User_ID(m_model.getUpdatedBy());
 		pi.setAD_Client_ID(m_model.getAD_Client_ID());
 		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
-		process.processIt(pi, m_trx);
+		//notify supervisor if error
+		if ( !process.processIt(pi, m_trx) ) 
+		{
+			int supervisor = m_model.getSupervisor_ID();
+			if (supervisor > 0) 
+			{
+				MUser user = new MUser(getCtx(), supervisor, null);
+				String type = user.getNotificationType();
+				boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
+					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+				boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
+					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+				if (email) 
+				{
+					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
+					client.sendEMail(supervisor, process.getName(), pi.getSummary(), null);
+				}
+				if (notice) {
+					int AD_Message_ID = 442; //ProcessRunError
+					MNote note = new MNote(getCtx(), 
+							AD_Message_ID, supervisor, m_trx.getTrxName());
+					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+					note.setTextMsg(pi.getSummary());
+					//note.setDescription();
+					note.setRecord(X_AD_PInstance.Table_ID, pi.getAD_PInstance_ID());
+					note.save();
+				}
+			}
+		} 
+		else 
+		{
+			Integer[] userIDs = m_model.getRecipientAD_User_IDs();
+			for (int i = 0; i < userIDs.length; i++) 
+			{
+				MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
+				String type = user.getNotificationType();
+				boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
+					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+				boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
+					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+				if (email) 
+				{
+					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
+					client.sendEMail(userIDs[i].intValue(), process.getName(), pi.getSummary(), null);
+				}
+				if (notice) {
+					int AD_Message_ID = 441; //ProcessOK
+					MNote note = new MNote(getCtx(), 
+							AD_Message_ID, userIDs[i].intValue(), m_trx.getTrxName());
+					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+					note.setTextMsg(pi.getSummary());
+					//note.setDescription();
+					note.setRecord(X_AD_PInstance.Table_ID, pi.getAD_PInstance_ID());
+					note.save();
+				}
+			}
+		}
 		return pi.getSummary();
 	}	//	runProcess
 	
