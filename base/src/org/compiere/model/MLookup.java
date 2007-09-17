@@ -239,7 +239,15 @@ public final class MLookup extends Lookup implements Serializable
 	 */
 	public boolean containsKey (Object key)
 	{
-		return m_lookup.containsKey(key);
+		//should check direct too
+		if (m_lookup.containsKey(key))
+			return true;
+		else {
+			if (m_lookup.size() > 0)
+				return false;
+			else
+				return ( get(key) != null );			
+		}
 	}   //  containsKey
 
 	/**
