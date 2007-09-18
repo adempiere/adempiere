@@ -4,11 +4,11 @@
  @version $Id$
 -->
 <application version="1.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd">
-	<display-name>webCM</display-name>
-	<description>Adempiere Web CM</description>
+	<display-name>Posterita POS</display-name>
+	<description>Adempiere Web POS</description>
 	<module>
 		<web>
-			<web-uri>adempiereWebCM.war</web-uri>
+			<web-uri>posterita.war</web-uri>
 			<context-root>/</context-root>
 		</web>
 	</module>
