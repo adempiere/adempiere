@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+  "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+	<icon>
+		<large-icon>/C32.gif</large-icon>
+	</icon>
+	
+	<display-name>Tamak ICT Enterprise Software Platform</display-name>
+	<description>$Id: web.xml,v 1.18 2006/10/16 13:34:18 ashley Exp $</description>
+	<!--Standard Parameters - if 0 first non-demo client is used-->
+	<context-param>
+		<param-name>#AD_Client_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#AD_Language</param-name>
+		<param-value>en_US</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#AD_Org_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#AD_User_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#C_BankAccount_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#SalesRep_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#AD_Role_ID</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>#W_Store_ID</param-name>
+		<param-value>1000000</param-value>
+	</context-param>
+	<context-param>
+		<param-name>REPORT_DIRECTORY</param-name>
+		<param-value>/config/reports/</param-value>
+	</context-param>
+	
+  
+  <!-- Standard Action Servlet Configuration (with debugging) -->
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>detail</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>DisplayChart</servlet-name>
+    <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>DisplayReportServlet</servlet-name>
+    <servlet-class>org.posterita.core.utils.DisplayReportServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- JFreeChart servlet -->
+  
+  <servlet-mapping>
+	<servlet-name>DisplayChart</servlet-name>
+	 <url-pattern>/servlet/DisplayChart</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+	<servlet-name>DisplayReportServlet</servlet-name>
+	 <url-pattern>/servlet/DisplayReportServlet/*</url-pattern>
+  </servlet-mapping>
+
+
+
+    <!-- Session Config -->
+  <session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+  <!-- Standard Action Servlet Mapping -->
+
+  
+
+  <!-- The Usual Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+
+
+  <!-- Struts Tag Library Descriptors -->
+  <taglib>
+    <taglib-uri>/tags/struts-bean</taglib-uri>
+    <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-html</taglib-uri>
+    <taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-logic</taglib-uri>
+    <taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-nested</taglib-uri>
+    <taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-tiles</taglib-uri>
+    <taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+  </taglib>
+ 
+  <!-- Compiere Taglib -->
+  
+  <!--
+  	<taglib>
+		<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+		<taglib-location>/WEB-INF/c.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>http://java.sun.com/jstl/fmt</taglib-uri>
+		<taglib-location>/WEB-INF/fmt.tld</taglib-location>
+	</taglib>
+	
+	
+	<taglib>
+		<taglib-uri>http://java.sun.com/jstl/sql</taglib-uri>
+		<taglib-location>/WEB-INF/sql.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>http://java.sun.com/jstl/xml</taglib-uri>
+		<taglib-location>/WEB-INF/x.tld</taglib-location>
+	</taglib>
+	<taglib>
+		<taglib-uri>webStore.tld</taglib-uri>
+		<taglib-location>/WEB-INF/webStore.tld</taglib-location>
+	</taglib>
+	-->
+	
+</web-app>
