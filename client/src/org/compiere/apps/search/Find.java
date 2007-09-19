@@ -38,6 +38,9 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: Find.java,v 1.3 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1797687 ] Find Form: boolean is not working ok
  */
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
@@ -725,12 +728,10 @@ public final class Find extends CDialog
 			
 			//	Value	******
 			Object value = advancedTable.getValueAt(row, INDEX_VALUE);
-			if (value == null)
-				continue;
 			Object parsedValue = parseValue(field, value);
 			if (parsedValue == null)
 				continue;
-			String infoDisplay = value.toString();
+			String infoDisplay = value != null ? value.toString() : parsedValue.toString();
 			if (field.isLookup())
 				infoDisplay = field.getLookup().getDisplay(value);
 			else if (field.getDisplayType() == DisplayType.YesNo)
@@ -739,12 +740,10 @@ public final class Find extends CDialog
 			if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
 			{
 				Object value2 = advancedTable.getValueAt(row, INDEX_VALUE2);
-				if (value2 == null)
-					continue;
 				Object parsedValue2 = parseValue(field, value2);
-				String infoDisplay_to = value2.toString();
 				if (parsedValue2 == null)
 					continue;
+				String infoDisplay_to = value2 != null ? value2.toString() : parsedValue2.toString();
 				m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
 					infoName, infoDisplay, infoDisplay_to);
 			}
@@ -752,9 +751,7 @@ public final class Find extends CDialog
 				if (!(parsedValue instanceof Integer)) {
 					continue;
 				}
-				m_query
-
-				.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
+				m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
 			}
 			else
 				m_query.addRestriction(ColumnSQL, Operator, parsedValue,
@@ -868,8 +865,6 @@ public final class Find extends CDialog
 	 */
 	private Object parseValue (GridField field, Object in)
 	{
-		if (in == null)
-			return null;
 		int dt = field.getDisplayType();
 		try
 		{
@@ -877,6 +872,8 @@ public final class Find extends CDialog
 			if (dt == DisplayType.Integer
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
+				if (in == null)
+					return null;
 				if (in instanceof Integer)
 					return in;
 				int i = Integer.parseInt(in.toString());
@@ -885,6 +882,8 @@ public final class Find extends CDialog
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
 			{
+				if (in == null)
+					return null;
 				if (in instanceof BigDecimal)
 					return in;
 				return DisplayType.getNumberFormat(dt).parse(in.toString());
@@ -892,6 +891,8 @@ public final class Find extends CDialog
 			//	Return Timestamp
 			else if (DisplayType.isDate(dt))
 			{
+				if (in == null)
+					return null;
 				if (in instanceof Timestamp)
 					return in;
 				long time = 0;
@@ -908,8 +909,13 @@ public final class Find extends CDialog
 				return new Timestamp(time);
 			}
 			//	Return Y/N for Boolean
-			else if (in instanceof Boolean)
-				return ((Boolean)in).booleanValue() ? "Y" : "N";
+			else if (DisplayType.YesNo == dt)
+			{
+				if (in == null)
+					return "N";
+				else if (in instanceof Boolean)
+					return ((Boolean)in).booleanValue() ? "Y" : "N";
+			}
 		}
 		catch (Exception ex)
 		{
