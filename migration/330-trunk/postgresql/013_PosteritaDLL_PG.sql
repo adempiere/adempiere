@@ -1,5 +1,4 @@
--- Migration Script from Adempiere 3.2.0 to PosteritaAdempiere 3.2.0
--- Migration scripts for PostgrSQL
+-- Posterita SQL Scripts for PostgreSQL
 ---------------------------
 --   SCRIPT STARTS HERE!
 ---------------------------
