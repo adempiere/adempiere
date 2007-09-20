@@ -12,6 +12,7 @@
 	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
 	<classpathentry kind="src" path="interfaces/src"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
+	<classpathentry kind="src" path="posterita/src/main"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar"/>
@@ -45,6 +46,8 @@
 	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/postgresql.jar"/>
+	<classpathentry kind="lib" path="posterita/src/web/WEB-INF/lib/struts.jar"/>
+	<classpathentry kind="lib" path="posterita/src/web/WEB-INF/lib/barcode4j.jar"/>
 	<classpathentry kind="src" path="tools/src"/>
 	<classpathentry kind="lib" path="tools/lib/looks-2.0.4.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>

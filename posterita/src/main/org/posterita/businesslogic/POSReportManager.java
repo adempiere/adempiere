@@ -70,8 +70,6 @@ import org.posterita.order.UDIOrderTypes;
 import org.posterita.util.PathInfo;
 import org.posterita.util.TmkPrinterConstants;
 
-import sun.security.krb5.internal.ccache.ap;
-
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
