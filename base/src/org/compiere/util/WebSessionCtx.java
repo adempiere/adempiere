@@ -216,8 +216,14 @@ public class WebSessionCtx implements Serializable
 		}
 		if ("/adempiere".equals(contextPath))	//	HTML UI
 			return;
-		//
-		wstore = MStore.get(ctx, contextPath);
+		
+		// Modifications for POSterita
+		if(wstore == null)
+		{
+			wstore = MStore.get(ctx, contextPath);
+		}
+		// End Modifications for Posterita 
+		
 		if (wstore == null)
 			throw new IllegalStateException("No Web Store found - " + contextPath);
 	}	//	setWStore
