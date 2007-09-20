@@ -1,0 +1,167 @@
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
+/** Generated Model - DO NOT CHANGE */
+package org.compiere.model;
+
+import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+/** Generated Model for U_RoleMenu
+ *  @author Adempiere (generated) 
+ *  @version Release 3.3.0 - $Id$ */
+public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent 
+{
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+    /** Standard Constructor */
+    public X_U_RoleMenu (Properties ctx, int U_RoleMenu_ID, String trxName)
+    {
+      super (ctx, U_RoleMenu_ID, trxName);
+      /** if (U_RoleMenu_ID == 0)
+        {
+			setAD_Role_ID (0);
+			setU_Menu_ID (0);
+			setU_RoleMenu_ID (0);
+        } */
+    }
+
+    /** Load Constructor */
+    public X_U_RoleMenu (Properties ctx, ResultSet rs, String trxName)
+    {
+      super (ctx, rs, trxName);
+    }
+
+    /** AccessLevel
+      * @return 3 - Client - Org 
+      */
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
+
+    /** Load Meta Data */
+    protected POInfo initPO (Properties ctx)
+    {
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      return poi;
+    }
+
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("X_U_RoleMenu[")
+        .append(get_ID()).append("]");
+      return sb.toString();
+    }
+
+	public I_AD_Role getAD_Role() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
+        I_AD_Role result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Role.
+		@param AD_Role_ID 
+		Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID)
+	{
+		if (AD_Role_ID < 0)
+			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
+		set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+	}
+
+	/** Get Role.
+		@return Responsibility Role
+	  */
+	public int getAD_Role_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_U_Menu getU_Menu() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_U_Menu.Table_Name);
+        I_U_Menu result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_U_Menu)constructor.newInstance(new Object[] {getCtx(), new Integer(getU_Menu_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set U_Menu_ID.
+		@param U_Menu_ID U_Menu_ID	  */
+	public void setU_Menu_ID (int U_Menu_ID)
+	{
+		if (U_Menu_ID < 1)
+			 throw new IllegalArgumentException ("U_Menu_ID is mandatory.");
+		set_Value (COLUMNNAME_U_Menu_ID, Integer.valueOf(U_Menu_ID));
+	}
+
+	/** Get U_Menu_ID.
+		@return U_Menu_ID	  */
+	public int getU_Menu_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_U_Menu_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set U_RoleMenu_ID.
+		@param U_RoleMenu_ID U_RoleMenu_ID	  */
+	public void setU_RoleMenu_ID (int U_RoleMenu_ID)
+	{
+		if (U_RoleMenu_ID < 1)
+			 throw new IllegalArgumentException ("U_RoleMenu_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_U_RoleMenu_ID, Integer.valueOf(U_RoleMenu_ID));
+	}
+
+	/** Get U_RoleMenu_ID.
+		@return U_RoleMenu_ID	  */
+	public int getU_RoleMenu_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_U_RoleMenu_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+}
