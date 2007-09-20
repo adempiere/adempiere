@@ -823,6 +823,9 @@ public final class Env
 
 	/** Context Language identifier */
 	static public final String      LANGUAGE = "#AD_Language";
+	
+	/** Context for POS ID */
+	static public final String		POS_ID = "#POS_ID";
 
 	/**
 	 *  Check Base Language
