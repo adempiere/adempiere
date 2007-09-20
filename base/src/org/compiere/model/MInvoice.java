@@ -1647,8 +1647,30 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		//	Create Cash
 		if (PAYMENTRULE_Cash.equals(getPaymentRule()))
 		{
-			MCash cash = MCash.get (getCtx(), getAD_Org_ID(), 
+			// Modifications for POSterita
+			/*
+			 	MCash cash = MCash.get (getCtx(), getAD_Org_ID(), 
 				getDateInvoiced(), getC_Currency_ID(), get_TrxName());
+			*/
+			
+			MCash cash;
+            
+            int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
+            
+            if (posId != 0)
+            {
+                MPOS pos = new MPOS(getCtx(),posId,get_TrxName());
+                int cashBookId = pos.getC_CashBook_ID();
+                cash = MCash.get(getCtx(),cashBookId,getDateInvoiced(),get_TrxName());
+            }
+            else
+            {
+                cash = MCash.get (getCtx(), getAD_Org_ID(), 
+                        getDateInvoiced(), getC_Currency_ID(), get_TrxName());
+            }
+            
+            // End Posterita Modifications
+			
 			if (cash == null || cash.get_ID() == 0)
 			{
 				m_processMsg = "@NoCashBook@";
