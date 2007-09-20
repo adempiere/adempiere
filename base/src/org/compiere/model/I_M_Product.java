@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_Product
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.312
-     */
-    public interface I_M_Product 
+/** Generated Interface for M_Product
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_M_Product 
 {
 
     /** TableName=M_Product */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_RevenueRecognition_ID();
 
-	public I_C_RevenueRecognition getI_C_RevenueRecognition() throws Exception;
+	public I_C_RevenueRecognition getC_RevenueRecognition() throws Exception;
 
     /** Column name C_SubscriptionType_ID */
     public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
@@ -99,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_TaxCategory_ID();
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception;
+	public I_C_TaxCategory getC_TaxCategory() throws Exception;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -114,7 +113,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getI_C_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";
@@ -194,18 +193,23 @@ import org.compiere.util.*;
 	  */
 	public String getDocumentNote();
 
-    /** Column name DownloadURL */
-    public static final String COLUMNNAME_DownloadURL = "DownloadURL";
+    /** Column name Group1 */
+    public static final String COLUMNNAME_Group1 = "Group1";
 
-	/** Set Download URL.
-	  * URL of the Download files
-	  */
-	public void setDownloadURL (String DownloadURL);
+	/** Set Group1	  */
+	public void setGroup1 (String Group1);
 
-	/** Get Download URL.
-	  * URL of the Download files
-	  */
-	public String getDownloadURL();
+	/** Get Group1	  */
+	public String getGroup1();
+
+    /** Column name Group2 */
+    public static final String COLUMNNAME_Group2 = "Group2";
+
+	/** Set Group2	  */
+	public void setGroup2 (String Group2);
+
+	/** Get Group2	  */
+	public String getGroup2();
 
     /** Column name GuaranteeDays */
     public static final String COLUMNNAME_GuaranteeDays = "GuaranteeDays";
@@ -441,7 +445,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_AttributeSet_ID();
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception;
+	public I_M_AttributeSet getM_AttributeSet() throws Exception;
 
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
@@ -456,7 +460,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_FreightCategory_ID();
 
-	public I_M_FreightCategory getI_M_FreightCategory() throws Exception;
+	public I_M_FreightCategory getM_FreightCategory() throws Exception;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -484,7 +488,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception;
+	public I_M_Product_Category getM_Product_Category() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -547,7 +551,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getI_R_MailText() throws Exception;
+	public I_R_MailText getR_MailText() throws Exception;
 
     /** Column name SKU */
     public static final String COLUMNNAME_SKU = "SKU";
@@ -575,7 +579,7 @@ import org.compiere.util.*;
 	  */
 	public int getS_ExpenseType_ID();
 
-	public I_S_ExpenseType getI_S_ExpenseType() throws Exception;
+	public I_S_ExpenseType getS_ExpenseType() throws Exception;
 
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
@@ -590,7 +594,7 @@ import org.compiere.util.*;
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getI_S_Resource() throws Exception;
+	public I_S_Resource getS_Resource() throws Exception;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

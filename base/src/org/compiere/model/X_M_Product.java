@@ -17,12 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
@@ -39,7 +41,9 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
     public X_M_Product (Properties ctx, int M_Product_ID, String trxName)
     {
       super (ctx, M_Product_ID, trxName);
-      /** if (M_Product_ID == 0)        {			setC_TaxCategory_ID (0);
+      /** if (M_Product_ID == 0)
+        {
+			setC_TaxCategory_ID (0);
 			setC_UOM_ID (0);
 			setIsBOM (false);
 // N
@@ -67,7 +71,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 			setProductType (null);
 // I
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -98,7 +102,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition getI_C_RevenueRecognition() throws Exception 
+	public I_C_RevenueRecognition getC_RevenueRecognition() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RevenueRecognition.Table_Name);
         I_C_RevenueRecognition result = null;
@@ -120,9 +124,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 	{
-		if (C_RevenueRecognition_ID <= 0) 		set_Value (COLUMNNAME_C_RevenueRecognition_ID, null);
- else 
-		set_Value (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
+		if (C_RevenueRecognition_ID <= 0) 
+			set_Value (COLUMNNAME_C_RevenueRecognition_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
 	}
 
 	/** Get Revenue Recognition.
@@ -142,9 +147,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 	{
-		if (C_SubscriptionType_ID <= 0) 		set_Value (COLUMNNAME_C_SubscriptionType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
+		if (C_SubscriptionType_ID <= 0) 
+			set_Value (COLUMNNAME_C_SubscriptionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
 	}
 
 	/** Get Subscription Type.
@@ -158,7 +164,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -196,7 +202,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -240,6 +246,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setClassification (String Classification)
 	{
+
 		if (Classification != null && Classification.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
@@ -262,6 +269,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -284,6 +292,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
+
 		if (DescriptionURL != null && DescriptionURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
@@ -347,6 +356,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
+
 		if (DocumentNote != null && DocumentNote.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
@@ -363,26 +373,44 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNote);
 	}
 
-	/** Set Download URL.
-		@param DownloadURL 
-		URL of the Download files
-	  */
-	public void setDownloadURL (String DownloadURL)
+	/** Set Group1.
+		@param Group1 Group1	  */
+	public void setGroup1 (String Group1)
 	{
-		if (DownloadURL != null && DownloadURL.length() > 120)
+
+		if (Group1 != null && Group1.length() > 255)
 		{
-			log.warning("Length > 120 - truncated");
-			DownloadURL = DownloadURL.substring(0, 119);
+			log.warning("Length > 255 - truncated");
+			Group1 = Group1.substring(0, 254);
 		}
-		set_Value (COLUMNNAME_DownloadURL, DownloadURL);
+		set_Value (COLUMNNAME_Group1, Group1);
 	}
 
-	/** Get Download URL.
-		@return URL of the Download files
-	  */
-	public String getDownloadURL () 
+	/** Get Group1.
+		@return Group1	  */
+	public String getGroup1 () 
 	{
-		return (String)get_Value(COLUMNNAME_DownloadURL);
+		return (String)get_Value(COLUMNNAME_Group1);
+	}
+
+	/** Set Group2.
+		@param Group2 Group2	  */
+	public void setGroup2 (String Group2)
+	{
+
+		if (Group2 != null && Group2.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			Group2 = Group2.substring(0, 254);
+		}
+		set_Value (COLUMNNAME_Group2, Group2);
+	}
+
+	/** Get Group2.
+		@return Group2	  */
+	public String getGroup2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Group2);
 	}
 
 	/** Set Guarantee Days.
@@ -431,6 +459,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
@@ -453,6 +482,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setImageURL (String ImageURL)
 	{
+
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
@@ -779,7 +809,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception 
+	public I_M_AttributeSet getM_AttributeSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
         I_M_AttributeSet result = null;
@@ -801,9 +831,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_AttributeSet_ID <= 0) 		set_Value (COLUMNNAME_M_AttributeSet_ID, null);
- else 
-		set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+		if (M_AttributeSet_ID <= 0) 
+			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
 	}
 
 	/** Get Attribute Set.
@@ -817,7 +848,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_FreightCategory getI_M_FreightCategory() throws Exception 
+	public I_M_FreightCategory getM_FreightCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_FreightCategory.Table_Name);
         I_M_FreightCategory result = null;
@@ -839,9 +870,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 	{
-		if (M_FreightCategory_ID <= 0) 		set_Value (COLUMNNAME_M_FreightCategory_ID, null);
- else 
-		set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+		if (M_FreightCategory_ID <= 0) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
 	}
 
 	/** Get Freight Category.
@@ -861,9 +893,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 		set_Value (COLUMNNAME_M_Locator_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID <= 0) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -877,9 +910,9 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-/** M_Product_Category_ID AD_Reference_ID=163 */
-public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	/** M_Product_Category_ID AD_Reference_ID=163 */
+	public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -947,6 +980,7 @@ public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -979,7 +1013,7 @@ public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -992,20 +1026,27 @@ public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
 		return false;
 	}
 
-/** ProductType AD_Reference_ID=270 */
-public static final int PRODUCTTYPE_AD_Reference_ID=270;/** Expense type = E */
-public static final String PRODUCTTYPE_ExpenseType = "E";/** Item = I */
-public static final String PRODUCTTYPE_Item = "I";/** Online = O */
-public static final String PRODUCTTYPE_Online = "O";/** Resource = R */
-public static final String PRODUCTTYPE_Resource = "R";/** Service = S */
-public static final String PRODUCTTYPE_Service = "S";
+	/** ProductType AD_Reference_ID=270 */
+	public static final int PRODUCTTYPE_AD_Reference_ID=270;
+	/** Item = I */
+	public static final String PRODUCTTYPE_Item = "I";
+	/** Service = S */
+	public static final String PRODUCTTYPE_Service = "S";
+	/** Resource = R */
+	public static final String PRODUCTTYPE_Resource = "R";
+	/** Expense type = E */
+	public static final String PRODUCTTYPE_ExpenseType = "E";
+	/** Online = O */
+	public static final String PRODUCTTYPE_Online = "O";
 	/** Set Product Type.
 		@param ProductType 
 		Type of product
 	  */
 	public void setProductType (String ProductType)
 	{
-if (ProductType == null) throw new IllegalArgumentException ("ProductType is mandatory");if (ProductType.equals("E") || ProductType.equals("I") || ProductType.equals("O") || ProductType.equals("R") || ProductType.equals("S")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - E - I - O - R - S");		if (ProductType.length() > 1)
+		if (ProductType == null) throw new IllegalArgumentException ("ProductType is mandatory");
+		if (ProductType.equals("I") || ProductType.equals("S") || ProductType.equals("R") || ProductType.equals("E") || ProductType.equals("O")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - I - S - R - E - O");
+		if (ProductType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			ProductType = ProductType.substring(0, 0);
@@ -1021,7 +1062,7 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 		return (String)get_Value(COLUMNNAME_ProductType);
 	}
 
-	public I_R_MailText getI_R_MailText() throws Exception 
+	public I_R_MailText getR_MailText() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
         I_R_MailText result = null;
@@ -1043,9 +1084,10 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 	  */
 	public void setR_MailText_ID (int R_MailText_ID)
 	{
-		if (R_MailText_ID <= 0) 		set_Value (COLUMNNAME_R_MailText_ID, null);
- else 
-		set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
+		if (R_MailText_ID <= 0) 
+			set_Value (COLUMNNAME_R_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
 	}
 
 	/** Get Mail Template.
@@ -1065,6 +1107,7 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 	  */
 	public void setSKU (String SKU)
 	{
+
 		if (SKU != null && SKU.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
@@ -1081,7 +1124,7 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
-	public I_S_ExpenseType getI_S_ExpenseType() throws Exception 
+	public I_S_ExpenseType getS_ExpenseType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_ExpenseType.Table_Name);
         I_S_ExpenseType result = null;
@@ -1103,9 +1146,10 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 	  */
 	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
 	{
-		if (S_ExpenseType_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
+		if (S_ExpenseType_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
 	}
 
 	/** Get Expense Type.
@@ -1119,7 +1163,7 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 		return ii.intValue();
 	}
 
-	public I_S_Resource getI_S_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -1141,9 +1185,10 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 	  */
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (S_Resource_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+		if (S_Resource_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
 	/** Get Resource.
@@ -1157,17 +1202,18 @@ if (ProductType == null) throw new IllegalArgumentException ("ProductType is man
 		return ii.intValue();
 	}
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 		set_Value (COLUMNNAME_SalesRep_ID, null);
- else 
-		set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID <= 0) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
@@ -1247,6 +1293,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setUPC (String UPC)
 	{
+
 		if (UPC != null && UPC.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
@@ -1291,6 +1338,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -1313,6 +1361,7 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setVersionNo (String VersionNo)
 	{
+
 		if (VersionNo != null && VersionNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");

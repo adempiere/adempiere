@@ -17,12 +17,11 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormat
  *  @author Adempiere (generated) 
@@ -39,7 +38,9 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
     public X_AD_PrintFormat (Properties ctx, int AD_PrintFormat_ID, String trxName)
     {
       super (ctx, AD_PrintFormat_ID, trxName);
-      /** if (AD_PrintFormat_ID == 0)        {			setAD_PrintColor_ID (0);
+      /** if (AD_PrintFormat_ID == 0)
+        {
+			setAD_PrintColor_ID (0);
 			setAD_PrintFont_ID (0);
 			setAD_PrintFormat_ID (0);
 // 0
@@ -54,7 +55,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 			setIsTableBased (true);
 // Y
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,7 +86,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -123,7 +124,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getI_AD_PrintFont() throws Exception 
+	public I_AD_PrintFont getAD_PrintFont() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFont.Table_Name);
         I_AD_PrintFont result = null;
@@ -183,7 +184,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintPaper getI_AD_PrintPaper() throws Exception 
+	public I_AD_PrintPaper getAD_PrintPaper() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintPaper.Table_Name);
         I_AD_PrintPaper result = null;
@@ -221,7 +222,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintTableFormat getI_AD_PrintTableFormat() throws Exception 
+	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintTableFormat.Table_Name);
         I_AD_PrintTableFormat result = null;
@@ -243,9 +244,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_PrintTableFormat_ID (int AD_PrintTableFormat_ID)
 	{
-		if (AD_PrintTableFormat_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintTableFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintTableFormat_ID, Integer.valueOf(AD_PrintTableFormat_ID));
+		if (AD_PrintTableFormat_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintTableFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintTableFormat_ID, Integer.valueOf(AD_PrintTableFormat_ID));
 	}
 
 	/** Get Print Table Format.
@@ -259,7 +261,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getI_AD_ReportView() throws Exception 
+	public I_AD_ReportView getAD_ReportView() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
         I_AD_ReportView result = null;
@@ -281,9 +283,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
+		if (AD_ReportView_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
 	}
 
 	/** Get Report View.
@@ -297,7 +300,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -335,10 +338,51 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Args.
+		@param Args Args	  */
+	public void setArgs (String Args)
+	{
+
+		if (Args != null && Args.length() > 510)
+		{
+			log.warning("Length > 510 - truncated");
+			Args = Args.substring(0, 509);
+		}
+		set_Value (COLUMNNAME_Args, Args);
+	}
+
+	/** Get Args.
+		@return Args	  */
+	public String getArgs () 
+	{
+		return (String)get_Value(COLUMNNAME_Args);
+	}
+
+	/** Set ClassName.
+		@param ClassName ClassName	  */
+	public void setClassName (String ClassName)
+	{
+
+		if (ClassName != null && ClassName.length() > 240)
+		{
+			log.warning("Length > 240 - truncated");
+			ClassName = ClassName.substring(0, 239);
+		}
+		set_Value (COLUMNNAME_ClassName, ClassName);
+	}
+
+	/** Get ClassName.
+		@return ClassName	  */
+	public String getClassName () 
+	{
+		return (String)get_Value(COLUMNNAME_ClassName);
+	}
+
 	/** Set Create Copy.
 		@param CreateCopy Create Copy	  */
 	public void setCreateCopy (String CreateCopy)
 	{
+
 		if (CreateCopy != null && CreateCopy.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
@@ -348,7 +392,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	}
 
 	/** Get Create Copy.
-@return Create Copy	  */
+		@return Create Copy	  */
 	public String getCreateCopy () 
 	{
 		return (String)get_Value(COLUMNNAME_CreateCopy);
@@ -360,6 +404,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -512,17 +557,18 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return false;
 	}
 
-/** JasperProcess_ID AD_Reference_ID=400 */
-public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
+	/** JasperProcess_ID AD_Reference_ID=400 */
+	public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
 	/** Set Jasper Process.
 		@param JasperProcess_ID 
 		The Jasper Process used by the printengine if any process defined
 	  */
 	public void setJasperProcess_ID (int JasperProcess_ID)
 	{
-		if (JasperProcess_ID <= 0) 		set_Value (COLUMNNAME_JasperProcess_ID, null);
- else 
-		set_Value (COLUMNNAME_JasperProcess_ID, Integer.valueOf(JasperProcess_ID));
+		if (JasperProcess_ID <= 0) 
+			set_Value (COLUMNNAME_JasperProcess_ID, null);
+		else 
+			set_Value (COLUMNNAME_JasperProcess_ID, Integer.valueOf(JasperProcess_ID));
 	}
 
 	/** Get Jasper Process.
@@ -544,6 +590,7 @@ public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -574,6 +621,7 @@ public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
 	  */
 	public void setPrinterName (String PrinterName)
 	{
+
 		if (PrinterName != null && PrinterName.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");

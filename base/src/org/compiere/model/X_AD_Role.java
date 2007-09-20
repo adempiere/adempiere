@@ -17,12 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Role
  *  @author Adempiere (generated) 
@@ -39,7 +40,9 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
     public X_AD_Role (Properties ctx, int AD_Role_ID, String trxName)
     {
       super (ctx, AD_Role_ID, trxName);
-      /** if (AD_Role_ID == 0)        {			setAD_Role_ID (0);
+      /** if (AD_Role_ID == 0)
+        {
+			setAD_Role_ID (0);
 			setConfirmQueryRecords (0);
 // 0
 			setIsAccessAllOrgs (false);
@@ -69,7 +72,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 // O
 			setUserLevel (null);
 // O
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -122,17 +125,18 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_Tree_Menu_ID AD_Reference_ID=184 */
-public static final int AD_TREE_MENU_ID_AD_Reference_ID=184;
+	/** AD_Tree_Menu_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_MENU_ID_AD_Reference_ID=184;
 	/** Set Menu Tree.
 		@param AD_Tree_Menu_ID 
 		Tree of the menu
 	  */
 	public void setAD_Tree_Menu_ID (int AD_Tree_Menu_ID)
 	{
-		if (AD_Tree_Menu_ID <= 0) 		set_Value (COLUMNNAME_AD_Tree_Menu_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Tree_Menu_ID, Integer.valueOf(AD_Tree_Menu_ID));
+		if (AD_Tree_Menu_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Tree_Menu_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Menu_ID, Integer.valueOf(AD_Tree_Menu_ID));
 	}
 
 	/** Get Menu Tree.
@@ -146,17 +150,18 @@ public static final int AD_TREE_MENU_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_Org_ID AD_Reference_ID=184 */
-public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
+	/** AD_Tree_Org_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
 		Tree to determine organizational hierarchy
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 	{
-		if (AD_Tree_Org_ID <= 0) 		set_Value (COLUMNNAME_AD_Tree_Org_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Tree_Org_ID, Integer.valueOf(AD_Tree_Org_ID));
+		if (AD_Tree_Org_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Tree_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Org_ID, Integer.valueOf(AD_Tree_Org_ID));
 	}
 
 	/** Get Organization Tree.
@@ -178,7 +183,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Account.
-@return Allow Info Account	  */
+		@return Allow Info Account	  */
 	public boolean isAllow_Info_Account () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Account);
@@ -199,7 +204,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Asset.
-@return Allow Info Asset	  */
+		@return Allow Info Asset	  */
 	public boolean isAllow_Info_Asset () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Asset);
@@ -220,7 +225,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info BPartner.
-@return Allow Info BPartner	  */
+		@return Allow Info BPartner	  */
 	public boolean isAllow_Info_BPartner () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_BPartner);
@@ -241,7 +246,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info CashJournal.
-@return Allow Info CashJournal	  */
+		@return Allow Info CashJournal	  */
 	public boolean isAllow_Info_CashJournal () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_CashJournal);
@@ -262,7 +267,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info InOut.
-@return Allow Info InOut	  */
+		@return Allow Info InOut	  */
 	public boolean isAllow_Info_InOut () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_InOut);
@@ -283,7 +288,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Invoice.
-@return Allow Info Invoice	  */
+		@return Allow Info Invoice	  */
 	public boolean isAllow_Info_Invoice () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Invoice);
@@ -304,7 +309,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Order.
-@return Allow Info Order	  */
+		@return Allow Info Order	  */
 	public boolean isAllow_Info_Order () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Order);
@@ -325,7 +330,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Payment.
-@return Allow Info Payment	  */
+		@return Allow Info Payment	  */
 	public boolean isAllow_Info_Payment () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Payment);
@@ -346,7 +351,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Product.
-@return Allow Info Product	  */
+		@return Allow Info Product	  */
 	public boolean isAllow_Info_Product () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Product);
@@ -367,7 +372,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Resource.
-@return Allow Info Resource	  */
+		@return Allow Info Resource	  */
 	public boolean isAllow_Info_Resource () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Resource);
@@ -388,7 +393,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	}
 
 	/** Get Allow Info Schedule.
-@return Allow Info Schedule	  */
+		@return Allow Info Schedule	  */
 	public boolean isAllow_Info_Schedule () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_Schedule);
@@ -421,7 +426,7 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 		return bd;
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -443,9 +448,10 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -479,19 +485,25 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** ConnectionProfile AD_Reference_ID=364 */
-public static final int CONNECTIONPROFILE_AD_Reference_ID=364;/** LAN = L */
-public static final String CONNECTIONPROFILE_LAN = "L";/** Terminal Server = T */
-public static final String CONNECTIONPROFILE_TerminalServer = "T";/** VPN = V */
-public static final String CONNECTIONPROFILE_VPN = "V";/** WAN = W */
-public static final String CONNECTIONPROFILE_WAN = "W";
+	/** ConnectionProfile AD_Reference_ID=364 */
+	public static final int CONNECTIONPROFILE_AD_Reference_ID=364;
+	/** LAN = L */
+	public static final String CONNECTIONPROFILE_LAN = "L";
+	/** Terminal Server = T */
+	public static final String CONNECTIONPROFILE_TerminalServer = "T";
+	/** VPN = V */
+	public static final String CONNECTIONPROFILE_VPN = "V";
+	/** WAN = W */
+	public static final String CONNECTIONPROFILE_WAN = "W";
 	/** Set Connection Profile.
 		@param ConnectionProfile 
 		How a Java Client connects to the server(s)
 	  */
 	public void setConnectionProfile (String ConnectionProfile)
 	{
-if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
+
+		if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");
+		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			ConnectionProfile = ConnectionProfile.substring(0, 0);
@@ -513,6 +525,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -797,6 +810,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -845,19 +859,25 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 		return false;
 	}
 
-/** PreferenceType AD_Reference_ID=330 */
-public static final int PREFERENCETYPE_AD_Reference_ID=330;/** Client = C */
-public static final String PREFERENCETYPE_Client = "C";/** None = N */
-public static final String PREFERENCETYPE_None = "N";/** Organization = O */
-public static final String PREFERENCETYPE_Organization = "O";/** User = U */
-public static final String PREFERENCETYPE_User = "U";
+	/** PreferenceType AD_Reference_ID=330 */
+	public static final int PREFERENCETYPE_AD_Reference_ID=330;
+	/** Client = C */
+	public static final String PREFERENCETYPE_Client = "C";
+	/** Organization = O */
+	public static final String PREFERENCETYPE_Organization = "O";
+	/** User = U */
+	public static final String PREFERENCETYPE_User = "U";
+	/** None = N */
+	public static final String PREFERENCETYPE_None = "N";
 	/** Set Preference Level.
 		@param PreferenceType 
 		Determines what preferences the user can set
 	  */
 	public void setPreferenceType (String PreferenceType)
 	{
-if (PreferenceType == null) throw new IllegalArgumentException ("PreferenceType is mandatory");if (PreferenceType.equals("C") || PreferenceType.equals("N") || PreferenceType.equals("O") || PreferenceType.equals("U")); else throw new IllegalArgumentException ("PreferenceType Invalid value - " + PreferenceType + " - Reference_ID=330 - C - N - O - U");		if (PreferenceType.length() > 1)
+		if (PreferenceType == null) throw new IllegalArgumentException ("PreferenceType is mandatory");
+		if (PreferenceType.equals("C") || PreferenceType.equals("O") || PreferenceType.equals("U") || PreferenceType.equals("N")); else throw new IllegalArgumentException ("PreferenceType Invalid value - " + PreferenceType + " - Reference_ID=330 - C - O - U - N");
+		if (PreferenceType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			PreferenceType = PreferenceType.substring(0, 0);
@@ -873,17 +893,18 @@ if (PreferenceType == null) throw new IllegalArgumentException ("PreferenceType 
 		return (String)get_Value(COLUMNNAME_PreferenceType);
 	}
 
-/** Supervisor_ID AD_Reference_ID=286 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=286;
+	/** Supervisor_ID AD_Reference_ID=286 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 		set_Value (COLUMNNAME_Supervisor_ID, null);
- else 
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID <= 0) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.
@@ -897,19 +918,42 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 		return ii.intValue();
 	}
 
-/** UserLevel AD_Reference_ID=226 */
-public static final int USERLEVEL_AD_Reference_ID=226;/** Organization =   O */
-public static final String USERLEVEL_Organization = "  O";/** Client =  C  */
-public static final String USERLEVEL_Client = " C ";/** Client+Organization =  CO */
-public static final String USERLEVEL_ClientPlusOrganization = " CO";/** System = S   */
-public static final String USERLEVEL_System = "S  ";
+	/** Set UserDiscount.
+		@param UserDiscount UserDiscount	  */
+	public void setUserDiscount (BigDecimal UserDiscount)
+	{
+		set_Value (COLUMNNAME_UserDiscount, UserDiscount);
+	}
+
+	/** Get UserDiscount.
+		@return UserDiscount	  */
+	public BigDecimal getUserDiscount () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UserDiscount);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** UserLevel AD_Reference_ID=226 */
+	public static final int USERLEVEL_AD_Reference_ID=226;
+	/** System = S   */
+	public static final String USERLEVEL_System = "S  ";
+	/** Client =  C  */
+	public static final String USERLEVEL_Client = " C ";
+	/** Organization =   O */
+	public static final String USERLEVEL_Organization = "  O";
+	/** Client+Organization =  CO */
+	public static final String USERLEVEL_ClientPlusOrganization = " CO";
 	/** Set User Level.
 		@param UserLevel 
 		System Client Organization
 	  */
 	public void setUserLevel (String UserLevel)
 	{
-if (UserLevel == null) throw new IllegalArgumentException ("UserLevel is mandatory");if (UserLevel.equals("  O") || UserLevel.equals(" C ") || UserLevel.equals(" CO") || UserLevel.equals("S  ")); else throw new IllegalArgumentException ("UserLevel Invalid value - " + UserLevel + " - Reference_ID=226 -   O -  C  -  CO - S  ");		if (UserLevel.length() > 3)
+		if (UserLevel == null) throw new IllegalArgumentException ("UserLevel is mandatory");
+		if (UserLevel.equals("S  ") || UserLevel.equals(" C ") || UserLevel.equals("  O") || UserLevel.equals(" CO")); else throw new IllegalArgumentException ("UserLevel Invalid value - " + UserLevel + " - Reference_ID=226 - S   -  C  -   O -  CO");
+		if (UserLevel.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
 			UserLevel = UserLevel.substring(0, 2);

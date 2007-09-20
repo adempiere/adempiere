@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_User
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:29.625
-     */
-    public interface I_AD_User 
+/** Generated Interface for AD_User
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_AD_User 
 {
 
     /** TableName=AD_User */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -123,7 +122,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -138,7 +137,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getI_C_Greeting() throws Exception;
+	public I_C_Greeting getC_Greeting() throws Exception;
 
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
@@ -153,7 +152,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Job_ID();
 
-	public I_C_Job getI_C_Job() throws Exception;
+	public I_C_Job getC_Job() throws Exception;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -423,6 +422,15 @@ import org.compiere.util.*;
 	  * Name this entity is referred to as
 	  */
 	public String getTitle();
+
+    /** Column name UserPIN */
+    public static final String COLUMNNAME_UserPIN = "UserPIN";
+
+	/** Set UserPIN	  */
+	public void setUserPIN (String UserPIN);
+
+	/** Get UserPIN	  */
+	public String getUserPIN();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

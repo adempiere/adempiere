@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Role
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.421
-     */
-    public interface I_AD_Role 
+/** Generated Interface for AD_Role
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_AD_Role 
 {
 
     /** TableName=AD_Role */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -222,7 +220,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name ConfirmQueryRecords */
     public static final String COLUMNNAME_ConfirmQueryRecords = "ConfirmQueryRecords";
@@ -457,6 +455,15 @@ import org.compiere.util.*;
 	  * Supervisor for this user/organization - used for escalation and approval
 	  */
 	public int getSupervisor_ID();
+
+    /** Column name UserDiscount */
+    public static final String COLUMNNAME_UserDiscount = "UserDiscount";
+
+	/** Set UserDiscount	  */
+	public void setUserDiscount (BigDecimal UserDiscount);
+
+	/** Get UserDiscount	  */
+	public BigDecimal getUserDiscount();
 
     /** Column name UserLevel */
     public static final String COLUMNNAME_UserLevel = "UserLevel";

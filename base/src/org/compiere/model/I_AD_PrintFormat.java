@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_PrintFormat
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:25.484
-     */
-    public interface I_AD_PrintFormat 
+/** Generated Interface for AD_PrintFormat
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_AD_PrintFormat 
 {
 
     /** TableName=AD_PrintFormat */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception;
+	public I_AD_PrintColor getAD_PrintColor() throws Exception;
 
     /** Column name AD_PrintFont_ID */
     public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFont_ID();
 
-	public I_AD_PrintFont getI_AD_PrintFont() throws Exception;
+	public I_AD_PrintFont getAD_PrintFont() throws Exception;
 
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintPaper_ID();
 
-	public I_AD_PrintPaper getI_AD_PrintPaper() throws Exception;
+	public I_AD_PrintPaper getAD_PrintPaper() throws Exception;
 
     /** Column name AD_PrintTableFormat_ID */
     public static final String COLUMNNAME_AD_PrintTableFormat_ID = "AD_PrintTableFormat_ID";
@@ -129,7 +127,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintTableFormat_ID();
 
-	public I_AD_PrintTableFormat getI_AD_PrintTableFormat() throws Exception;
+	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws Exception;
 
     /** Column name AD_ReportView_ID */
     public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
@@ -144,7 +142,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_ReportView_ID();
 
-	public I_AD_ReportView getI_AD_ReportView() throws Exception;
+	public I_AD_ReportView getAD_ReportView() throws Exception;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -159,7 +157,25 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
+
+    /** Column name Args */
+    public static final String COLUMNNAME_Args = "Args";
+
+	/** Set Args	  */
+	public void setArgs (String Args);
+
+	/** Get Args	  */
+	public String getArgs();
+
+    /** Column name ClassName */
+    public static final String COLUMNNAME_ClassName = "ClassName";
+
+	/** Set ClassName	  */
+	public void setClassName (String ClassName);
+
+	/** Get ClassName	  */
+	public String getClassName();
 
     /** Column name CreateCopy */
     public static final String COLUMNNAME_CreateCopy = "CreateCopy";

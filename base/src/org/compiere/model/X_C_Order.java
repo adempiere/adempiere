@@ -17,12 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Order
  *  @author Adempiere (generated) 
@@ -39,7 +41,9 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
     public X_C_Order (Properties ctx, int C_Order_ID, String trxName)
     {
       super (ctx, C_Order_ID, trxName);
-      /** if (C_Order_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_Order_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
@@ -96,7 +100,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			setSalesRep_ID (0);
 			setSendEMail (false);
 			setTotalLines (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -127,17 +131,18 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
       return sb.toString();
     }
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -151,7 +156,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -173,9 +178,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -189,17 +195,52 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-/** Bill_BPartner_ID AD_Reference_ID=138 */
-public static final int BILL_BPARTNER_ID_AD_Reference_ID=138;
+	/** Set AmountRefunded.
+		@param AmountRefunded AmountRefunded	  */
+	public void setAmountRefunded (BigDecimal AmountRefunded)
+	{
+		set_Value (COLUMNNAME_AmountRefunded, AmountRefunded);
+	}
+
+	/** Get AmountRefunded.
+		@return AmountRefunded	  */
+	public BigDecimal getAmountRefunded () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmountRefunded);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set AmountTendered.
+		@param AmountTendered AmountTendered	  */
+	public void setAmountTendered (BigDecimal AmountTendered)
+	{
+		set_Value (COLUMNNAME_AmountTendered, AmountTendered);
+	}
+
+	/** Get AmountTendered.
+		@return AmountTendered	  */
+	public BigDecimal getAmountTendered () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AmountTendered);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Bill_BPartner_ID AD_Reference_ID=138 */
+	public static final int BILL_BPARTNER_ID_AD_Reference_ID=138;
 	/** Set Invoice Partner.
 		@param Bill_BPartner_ID 
 		Business Partner to be invoiced
 	  */
 	public void setBill_BPartner_ID (int Bill_BPartner_ID)
 	{
-		if (Bill_BPartner_ID <= 0) 		set_Value (COLUMNNAME_Bill_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_Bill_BPartner_ID, Integer.valueOf(Bill_BPartner_ID));
+		if (Bill_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_Bill_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Bill_BPartner_ID, Integer.valueOf(Bill_BPartner_ID));
 	}
 
 	/** Get Invoice Partner.
@@ -213,17 +254,18 @@ public static final int BILL_BPARTNER_ID_AD_Reference_ID=138;
 		return ii.intValue();
 	}
 
-/** Bill_Location_ID AD_Reference_ID=159 */
-public static final int BILL_LOCATION_ID_AD_Reference_ID=159;
+	/** Bill_Location_ID AD_Reference_ID=159 */
+	public static final int BILL_LOCATION_ID_AD_Reference_ID=159;
 	/** Set Invoice Location.
 		@param Bill_Location_ID 
 		Business Partner Location for invoicing
 	  */
 	public void setBill_Location_ID (int Bill_Location_ID)
 	{
-		if (Bill_Location_ID <= 0) 		set_Value (COLUMNNAME_Bill_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_Bill_Location_ID, Integer.valueOf(Bill_Location_ID));
+		if (Bill_Location_ID <= 0) 
+			set_Value (COLUMNNAME_Bill_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_Bill_Location_ID, Integer.valueOf(Bill_Location_ID));
 	}
 
 	/** Get Invoice Location.
@@ -237,17 +279,18 @@ public static final int BILL_LOCATION_ID_AD_Reference_ID=159;
 		return ii.intValue();
 	}
 
-/** Bill_User_ID AD_Reference_ID=110 */
-public static final int BILL_USER_ID_AD_Reference_ID=110;
+	/** Bill_User_ID AD_Reference_ID=110 */
+	public static final int BILL_USER_ID_AD_Reference_ID=110;
 	/** Set Invoice Contact.
 		@param Bill_User_ID 
 		Business Partner Contact for invoicing
 	  */
 	public void setBill_User_ID (int Bill_User_ID)
 	{
-		if (Bill_User_ID <= 0) 		set_Value (COLUMNNAME_Bill_User_ID, null);
- else 
-		set_Value (COLUMNNAME_Bill_User_ID, Integer.valueOf(Bill_User_ID));
+		if (Bill_User_ID <= 0) 
+			set_Value (COLUMNNAME_Bill_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_Bill_User_ID, Integer.valueOf(Bill_User_ID));
 	}
 
 	/** Get Invoice Contact.
@@ -261,7 +304,7 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -283,9 +326,10 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -321,7 +365,7 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -359,7 +403,7 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -381,9 +425,10 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -403,9 +448,10 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID <= 0) 		set_Value (COLUMNNAME_C_CashLine_ID, null);
- else 
-		set_Value (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
+		if (C_CashLine_ID <= 0) 
+			set_Value (COLUMNNAME_C_CashLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
 	}
 
 	/** Get Cash Journal Line.
@@ -419,17 +465,18 @@ public static final int BILL_USER_ID_AD_Reference_ID=110;
 		return ii.intValue();
 	}
 
-/** C_Charge_ID AD_Reference_ID=200 */
-public static final int C_CHARGE_ID_AD_Reference_ID=200;
+	/** C_Charge_ID AD_Reference_ID=200 */
+	public static final int C_CHARGE_ID_AD_Reference_ID=200;
 	/** Set Charge.
 		@param C_Charge_ID 
 		Additional document charges
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 		set_Value (COLUMNNAME_C_Charge_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID <= 0) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -443,7 +490,7 @@ public static final int C_CHARGE_ID_AD_Reference_ID=200;
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -465,9 +512,10 @@ public static final int C_CHARGE_ID_AD_Reference_ID=200;
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 		set_Value (COLUMNNAME_C_ConversionType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID <= 0) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -481,7 +529,7 @@ public static final int C_CHARGE_ID_AD_Reference_ID=200;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -519,8 +567,8 @@ public static final int C_CHARGE_ID_AD_Reference_ID=200;
 		return ii.intValue();
 	}
 
-/** C_DocTypeTarget_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPETARGET_ID_AD_Reference_ID=170;
+	/** C_DocTypeTarget_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPETARGET_ID_AD_Reference_ID=170;
 	/** Set Target Document Type.
 		@param C_DocTypeTarget_ID 
 		Target document type for conversing documents
@@ -543,9 +591,9 @@ public static final int C_DOCTYPETARGET_ID_AD_Reference_ID=170;
 		return ii.intValue();
 	}
 
-/** C_DocType_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
-	public I_C_DocType getI_C_DocType() throws Exception 
+	/** C_DocType_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -605,7 +653,43 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_POS getC_POS() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_POS.Table_Name);
+        I_C_POS result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_POS)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_POS_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set C_POS_ID.
+		@param C_POS_ID C_POS_ID	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID <= 0) 
+			set_Value (COLUMNNAME_C_POS_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get C_POS_ID.
+		@return C_POS_ID	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -649,9 +733,10 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_Value (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -665,7 +750,7 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -687,9 +772,10 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -729,6 +815,7 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 	  */
 	public void setCopyFrom (String CopyFrom)
 	{
+
 		if (CopyFrom != null && CopyFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
@@ -819,21 +906,29 @@ public static final int C_DOCTYPE_ID_AD_Reference_ID=170;
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
-/** DeliveryRule AD_Reference_ID=151 */
-public static final int DELIVERYRULE_AD_Reference_ID=151;/** Availability = A */
-public static final String DELIVERYRULE_Availability = "A";/** Force = F */
-public static final String DELIVERYRULE_Force = "F";/** Complete Line = L */
-public static final String DELIVERYRULE_CompleteLine = "L";/** Manual = M */
-public static final String DELIVERYRULE_Manual = "M";/** Complete Order = O */
-public static final String DELIVERYRULE_CompleteOrder = "O";/** After Receipt = R */
-public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** DeliveryRule AD_Reference_ID=151 */
+	public static final int DELIVERYRULE_AD_Reference_ID=151;
+	/** After Receipt = R */
+	public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** Availability = A */
+	public static final String DELIVERYRULE_Availability = "A";
+	/** Complete Line = L */
+	public static final String DELIVERYRULE_CompleteLine = "L";
+	/** Complete Order = O */
+	public static final String DELIVERYRULE_CompleteOrder = "O";
+	/** Force = F */
+	public static final String DELIVERYRULE_Force = "F";
+	/** Manual = M */
+	public static final String DELIVERYRULE_Manual = "M";
 	/** Set Delivery Rule.
 		@param DeliveryRule 
 		Defines the timing of Delivery
 	  */
 	public void setDeliveryRule (String DeliveryRule)
 	{
-if (DeliveryRule == null) throw new IllegalArgumentException ("DeliveryRule is mandatory");if (DeliveryRule.equals("A") || DeliveryRule.equals("F") || DeliveryRule.equals("L") || DeliveryRule.equals("M") || DeliveryRule.equals("O") || DeliveryRule.equals("R")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - A - F - L - M - O - R");		if (DeliveryRule.length() > 1)
+		if (DeliveryRule == null) throw new IllegalArgumentException ("DeliveryRule is mandatory");
+		if (DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");
+		if (DeliveryRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			DeliveryRule = DeliveryRule.substring(0, 0);
@@ -849,18 +944,23 @@ if (DeliveryRule == null) throw new IllegalArgumentException ("DeliveryRule is m
 		return (String)get_Value(COLUMNNAME_DeliveryRule);
 	}
 
-/** DeliveryViaRule AD_Reference_ID=152 */
-public static final int DELIVERYVIARULE_AD_Reference_ID=152;/** Delivery = D */
-public static final String DELIVERYVIARULE_Delivery = "D";/** Pickup = P */
-public static final String DELIVERYVIARULE_Pickup = "P";/** Shipper = S */
-public static final String DELIVERYVIARULE_Shipper = "S";
+	/** DeliveryViaRule AD_Reference_ID=152 */
+	public static final int DELIVERYVIARULE_AD_Reference_ID=152;
+	/** Pickup = P */
+	public static final String DELIVERYVIARULE_Pickup = "P";
+	/** Delivery = D */
+	public static final String DELIVERYVIARULE_Delivery = "D";
+	/** Shipper = S */
+	public static final String DELIVERYVIARULE_Shipper = "S";
 	/** Set Delivery Via.
 		@param DeliveryViaRule 
 		How the order will be delivered
 	  */
 	public void setDeliveryViaRule (String DeliveryViaRule)
 	{
-if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRule is mandatory");if (DeliveryViaRule.equals("D") || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - D - P - S");		if (DeliveryViaRule.length() > 1)
+		if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRule is mandatory");
+		if (DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");
+		if (DeliveryViaRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			DeliveryViaRule = DeliveryViaRule.substring(0, 0);
@@ -882,6 +982,7 @@ if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRul
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -898,29 +999,45 @@ if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRul
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DocAction AD_Reference_ID=135 */
-public static final int DOCACTION_AD_Reference_ID=135;/** <None> = -- */
-public static final String DOCACTION_None = "--";/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";/** Close = CL */
-public static final String DOCACTION_Close = "CL";/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";/** Post = PO */
-public static final String DOCACTION_Post = "PO";/** Prepare = PR */
-public static final String DOCACTION_Prepare = "PR";/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";/** Void = VO */
-public static final String DOCACTION_Void = "VO";/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";/** Unlock = XL */
-public static final String DOCACTION_Unlock = "XL";
+	/** DocAction AD_Reference_ID=135 */
+	public static final int DOCACTION_AD_Reference_ID=135;
+	/** Complete = CO */
+	public static final String DOCACTION_Complete = "CO";
+	/** Approve = AP */
+	public static final String DOCACTION_Approve = "AP";
+	/** Reject = RJ */
+	public static final String DOCACTION_Reject = "RJ";
+	/** Post = PO */
+	public static final String DOCACTION_Post = "PO";
+	/** Void = VO */
+	public static final String DOCACTION_Void = "VO";
+	/** Close = CL */
+	public static final String DOCACTION_Close = "CL";
+	/** Reverse - Correct = RC */
+	public static final String DOCACTION_Reverse_Correct = "RC";
+	/** Reverse - Accrual = RA */
+	public static final String DOCACTION_Reverse_Accrual = "RA";
+	/** Invalidate = IN */
+	public static final String DOCACTION_Invalidate = "IN";
+	/** Re-activate = RE */
+	public static final String DOCACTION_Re_Activate = "RE";
+	/** <None> = -- */
+	public static final String DOCACTION_None = "--";
+	/** Prepare = PR */
+	public static final String DOCACTION_Prepare = "PR";
+	/** Unlock = XL */
+	public static final String DOCACTION_Unlock = "XL";
+	/** Wait Complete = WC */
+	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
 		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
 	{
-if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");		if (DocAction.length() > 2)
+		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+		if (DocAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
 			DocAction = DocAction.substring(0, 1);
@@ -936,27 +1053,41 @@ if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandato
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
 
-/** DocStatus AD_Reference_ID=131 */
-public static final int DOCSTATUS_AD_Reference_ID=131;/** Unknown = ?? */
-public static final String DOCSTATUS_Unknown = "??";/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";/** In Progress = IP */
-public static final String DOCSTATUS_InProgress = "IP";/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";/** Waiting Confirmation = WC */
-public static final String DOCSTATUS_WaitingConfirmation = "WC";/** Waiting Payment = WP */
-public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** DocStatus AD_Reference_ID=131 */
+	public static final int DOCSTATUS_AD_Reference_ID=131;
+	/** Drafted = DR */
+	public static final String DOCSTATUS_Drafted = "DR";
+	/** Completed = CO */
+	public static final String DOCSTATUS_Completed = "CO";
+	/** Approved = AP */
+	public static final String DOCSTATUS_Approved = "AP";
+	/** Not Approved = NA */
+	public static final String DOCSTATUS_NotApproved = "NA";
+	/** Voided = VO */
+	public static final String DOCSTATUS_Voided = "VO";
+	/** Invalid = IN */
+	public static final String DOCSTATUS_Invalid = "IN";
+	/** Reversed = RE */
+	public static final String DOCSTATUS_Reversed = "RE";
+	/** Closed = CL */
+	public static final String DOCSTATUS_Closed = "CL";
+	/** Unknown = ?? */
+	public static final String DOCSTATUS_Unknown = "??";
+	/** In Progress = IP */
+	public static final String DOCSTATUS_InProgress = "IP";
+	/** Waiting Payment = WP */
+	public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** Waiting Confirmation = WC */
+	public static final String DOCSTATUS_WaitingConfirmation = "WC";
 	/** Set Document Status.
 		@param DocStatus 
 		The current status of the document
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");		if (DocStatus.length() > 2)
+		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+		if (DocStatus.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
 			DocStatus = DocStatus.substring(0, 1);
@@ -980,6 +1111,7 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
@@ -1026,19 +1158,25 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 		return bd;
 	}
 
-/** FreightCostRule AD_Reference_ID=153 */
-public static final int FREIGHTCOSTRULE_AD_Reference_ID=153;/** Calculated = C */
-public static final String FREIGHTCOSTRULE_Calculated = "C";/** Fix price = F */
-public static final String FREIGHTCOSTRULE_FixPrice = "F";/** Freight included = I */
-public static final String FREIGHTCOSTRULE_FreightIncluded = "I";/** Line = L */
-public static final String FREIGHTCOSTRULE_Line = "L";
+	/** FreightCostRule AD_Reference_ID=153 */
+	public static final int FREIGHTCOSTRULE_AD_Reference_ID=153;
+	/** Freight included = I */
+	public static final String FREIGHTCOSTRULE_FreightIncluded = "I";
+	/** Fix price = F */
+	public static final String FREIGHTCOSTRULE_FixPrice = "F";
+	/** Calculated = C */
+	public static final String FREIGHTCOSTRULE_Calculated = "C";
+	/** Line = L */
+	public static final String FREIGHTCOSTRULE_Line = "L";
 	/** Set Freight Cost Rule.
 		@param FreightCostRule 
 		Method for charging Freight
 	  */
 	public void setFreightCostRule (String FreightCostRule)
 	{
-if (FreightCostRule == null) throw new IllegalArgumentException ("FreightCostRule is mandatory");if (FreightCostRule.equals("C") || FreightCostRule.equals("F") || FreightCostRule.equals("I") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - C - F - I - L");		if (FreightCostRule.length() > 1)
+		if (FreightCostRule == null) throw new IllegalArgumentException ("FreightCostRule is mandatory");
+		if (FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");
+		if (FreightCostRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			FreightCostRule = FreightCostRule.substring(0, 0);
@@ -1076,19 +1214,25 @@ if (FreightCostRule == null) throw new IllegalArgumentException ("FreightCostRul
 		return bd;
 	}
 
-/** InvoiceRule AD_Reference_ID=150 */
-public static final int INVOICERULE_AD_Reference_ID=150;/** After Delivery = D */
-public static final String INVOICERULE_AfterDelivery = "D";/** Immediate = I */
-public static final String INVOICERULE_Immediate = "I";/** After Order delivered = O */
-public static final String INVOICERULE_AfterOrderDelivered = "O";/** Customer Schedule after Delivery = S */
-public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** InvoiceRule AD_Reference_ID=150 */
+	public static final int INVOICERULE_AD_Reference_ID=150;
+	/** After Order delivered = O */
+	public static final String INVOICERULE_AfterOrderDelivered = "O";
+	/** After Delivery = D */
+	public static final String INVOICERULE_AfterDelivery = "D";
+	/** Customer Schedule after Delivery = S */
+	public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** Immediate = I */
+	public static final String INVOICERULE_Immediate = "I";
 	/** Set Invoice Rule.
 		@param InvoiceRule 
 		Frequency and method of invoicing 
 	  */
 	public void setInvoiceRule (String InvoiceRule)
 	{
-if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is mandatory");if (InvoiceRule.equals("D") || InvoiceRule.equals("I") || InvoiceRule.equals("O") || InvoiceRule.equals("S")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - D - I - O - S");		if (InvoiceRule.length() > 1)
+		if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is mandatory");
+		if (InvoiceRule.equals("O") || InvoiceRule.equals("D") || InvoiceRule.equals("S") || InvoiceRule.equals("I")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - O - D - S - I");
+		if (InvoiceRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			InvoiceRule = InvoiceRule.substring(0, 0);
@@ -1160,7 +1304,7 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 	}
 
 	/** Get Delivered.
-@return Delivered	  */
+		@return Delivered	  */
 	public boolean isDelivered () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDelivered);
@@ -1301,7 +1445,7 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 	}
 
 	/** Get Selected.
-@return Selected	  */
+		@return Selected	  */
 	public boolean isSelected () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSelected);
@@ -1386,7 +1530,7 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 		return false;
 	}
 
-	public I_M_PriceList getI_M_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -1424,7 +1568,7 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getI_M_Shipper() throws Exception 
+	public I_M_Shipper getM_Shipper() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -1446,9 +1590,10 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID <= 0) 		set_Value (COLUMNNAME_M_Shipper_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+		if (M_Shipper_ID <= 0) 
+			set_Value (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
 	/** Get Shipper.
@@ -1462,7 +1607,7 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -1500,12 +1645,33 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 		return ii.intValue();
 	}
 
+	/** Set OrderType.
+		@param OrderType OrderType	  */
+	public void setOrderType (String OrderType)
+	{
+
+		if (OrderType != null && OrderType.length() > 510)
+		{
+			log.warning("Length > 510 - truncated");
+			OrderType = OrderType.substring(0, 509);
+		}
+		set_Value (COLUMNNAME_OrderType, OrderType);
+	}
+
+	/** Get OrderType.
+		@return OrderType	  */
+	public String getOrderType () 
+	{
+		return (String)get_Value(COLUMNNAME_OrderType);
+	}
+
 	/** Set Order Reference.
 		@param POReference 
 		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
 	public void setPOReference (String POReference)
 	{
+
 		if (POReference != null && POReference.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
@@ -1528,9 +1694,10 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 	  */
 	public void setPay_BPartner_ID (int Pay_BPartner_ID)
 	{
-		if (Pay_BPartner_ID <= 0) 		set_Value (COLUMNNAME_Pay_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_Pay_BPartner_ID, Integer.valueOf(Pay_BPartner_ID));
+		if (Pay_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_Pay_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Pay_BPartner_ID, Integer.valueOf(Pay_BPartner_ID));
 	}
 
 	/** Get Payment BPartner.
@@ -1550,9 +1717,10 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 	  */
 	public void setPay_Location_ID (int Pay_Location_ID)
 	{
-		if (Pay_Location_ID <= 0) 		set_Value (COLUMNNAME_Pay_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_Pay_Location_ID, Integer.valueOf(Pay_Location_ID));
+		if (Pay_Location_ID <= 0) 
+			set_Value (COLUMNNAME_Pay_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_Pay_Location_ID, Integer.valueOf(Pay_Location_ID));
 	}
 
 	/** Get Payment Location.
@@ -1566,21 +1734,29 @@ if (InvoiceRule == null) throw new IllegalArgumentException ("InvoiceRule is man
 		return ii.intValue();
 	}
 
-/** PaymentRule AD_Reference_ID=195 */
-public static final int PAYMENTRULE_AD_Reference_ID=195;/** Cash = B */
-public static final String PAYMENTRULE_Cash = "B";/** Direct Debit = D */
-public static final String PAYMENTRULE_DirectDebit = "D";/** Credit Card = K */
-public static final String PAYMENTRULE_CreditCard = "K";/** On Credit = P */
-public static final String PAYMENTRULE_OnCredit = "P";/** Check = S */
-public static final String PAYMENTRULE_Check = "S";/** Direct Deposit = T */
-public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");if (PaymentRule.equals("B") || PaymentRule.equals("D") || PaymentRule.equals("K") || PaymentRule.equals("P") || PaymentRule.equals("S") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - D - K - P - S - T");		if (PaymentRule.length() > 1)
+		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
+		if (PaymentRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			PaymentRule = PaymentRule.substring(0, 0);
@@ -1620,20 +1796,27 @@ if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is man
 		return false;
 	}
 
-/** PriorityRule AD_Reference_ID=154 */
-public static final int PRIORITYRULE_AD_Reference_ID=154;/** Urgent = 1 */
-public static final String PRIORITYRULE_Urgent = "1";/** High = 3 */
-public static final String PRIORITYRULE_High = "3";/** Medium = 5 */
-public static final String PRIORITYRULE_Medium = "5";/** Low = 7 */
-public static final String PRIORITYRULE_Low = "7";/** Minor = 9 */
-public static final String PRIORITYRULE_Minor = "9";
+	/** PriorityRule AD_Reference_ID=154 */
+	public static final int PRIORITYRULE_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYRULE_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYRULE_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYRULE_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYRULE_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYRULE_Minor = "9";
 	/** Set Priority.
 		@param PriorityRule 
 		Priority of a document
 	  */
 	public void setPriorityRule (String PriorityRule)
 	{
-if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");if (PriorityRule.equals("1") || PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");		if (PriorityRule.length() > 1)
+		if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");
+		if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
+		if (PriorityRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			PriorityRule = PriorityRule.substring(0, 0);
@@ -1681,7 +1864,7 @@ if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is m
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -1694,17 +1877,18 @@ if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is m
 		return false;
 	}
 
-/** Ref_Order_ID AD_Reference_ID=290 */
-public static final int REF_ORDER_ID_AD_Reference_ID=290;
+	/** Ref_Order_ID AD_Reference_ID=290 */
+	public static final int REF_ORDER_ID_AD_Reference_ID=290;
 	/** Set Referenced Order.
 		@param Ref_Order_ID 
 		Reference to corresponding Sales/Purchase Order
 	  */
 	public void setRef_Order_ID (int Ref_Order_ID)
 	{
-		if (Ref_Order_ID <= 0) 		set_Value (COLUMNNAME_Ref_Order_ID, null);
- else 
-		set_Value (COLUMNNAME_Ref_Order_ID, Integer.valueOf(Ref_Order_ID));
+		if (Ref_Order_ID <= 0) 
+			set_Value (COLUMNNAME_Ref_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ref_Order_ID, Integer.valueOf(Ref_Order_ID));
 	}
 
 	/** Get Referenced Order.
@@ -1718,8 +1902,8 @@ public static final int REF_ORDER_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
@@ -1788,17 +1972,18 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 		return bd;
 	}
 
-/** User1_ID AD_Reference_ID=134 */
-public static final int USER1_ID_AD_Reference_ID=134;
+	/** User1_ID AD_Reference_ID=134 */
+	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 		set_Value (COLUMNNAME_User1_ID, null);
- else 
-		set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		if (User1_ID <= 0) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
 	}
 
 	/** Get User List 1.
@@ -1812,17 +1997,18 @@ public static final int USER1_ID_AD_Reference_ID=134;
 		return ii.intValue();
 	}
 
-/** User2_ID AD_Reference_ID=137 */
-public static final int USER2_ID_AD_Reference_ID=137;
+	/** User2_ID AD_Reference_ID=137 */
+	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 		set_Value (COLUMNNAME_User2_ID, null);
- else 
-		set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		if (User2_ID <= 0) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
 	}
 
 	/** Get User List 2.

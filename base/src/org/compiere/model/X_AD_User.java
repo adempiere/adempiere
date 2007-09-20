@@ -17,12 +17,12 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
@@ -39,13 +39,15 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
     {
       super (ctx, AD_User_ID, trxName);
-      /** if (AD_User_ID == 0)        {			setAD_User_ID (0);
+      /** if (AD_User_ID == 0)
+        {
+			setAD_User_ID (0);
 			setIsFullBPAccess (true);
 // Y
 			setName (null);
 			setNotificationType (null);
 // E
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,17 +78,18 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
       return sb.toString();
     }
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -145,9 +148,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -161,7 +165,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -183,9 +187,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -199,7 +204,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getI_C_Greeting() throws Exception 
+	public I_C_Greeting getC_Greeting() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Greeting.Table_Name);
         I_C_Greeting result = null;
@@ -221,9 +226,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Greeting_ID (int C_Greeting_ID)
 	{
-		if (C_Greeting_ID <= 0) 		set_Value (COLUMNNAME_C_Greeting_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
+		if (C_Greeting_ID <= 0) 
+			set_Value (COLUMNNAME_C_Greeting_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
 	}
 
 	/** Get Greeting.
@@ -237,7 +243,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Job getI_C_Job() throws Exception 
+	public I_C_Job getC_Job() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
         I_C_Job result = null;
@@ -259,9 +265,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Job_ID (int C_Job_ID)
 	{
-		if (C_Job_ID <= 0) 		set_Value (COLUMNNAME_C_Job_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
+		if (C_Job_ID <= 0) 
+			set_Value (COLUMNNAME_C_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
 	}
 
 	/** Get Position.
@@ -281,6 +288,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setComments (String Comments)
 	{
+
 		if (Comments != null && Comments.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
@@ -297,19 +305,25 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return (String)get_Value(COLUMNNAME_Comments);
 	}
 
-/** ConnectionProfile AD_Reference_ID=364 */
-public static final int CONNECTIONPROFILE_AD_Reference_ID=364;/** LAN = L */
-public static final String CONNECTIONPROFILE_LAN = "L";/** Terminal Server = T */
-public static final String CONNECTIONPROFILE_TerminalServer = "T";/** VPN = V */
-public static final String CONNECTIONPROFILE_VPN = "V";/** WAN = W */
-public static final String CONNECTIONPROFILE_WAN = "W";
+	/** ConnectionProfile AD_Reference_ID=364 */
+	public static final int CONNECTIONPROFILE_AD_Reference_ID=364;
+	/** LAN = L */
+	public static final String CONNECTIONPROFILE_LAN = "L";
+	/** Terminal Server = T */
+	public static final String CONNECTIONPROFILE_TerminalServer = "T";
+	/** VPN = V */
+	public static final String CONNECTIONPROFILE_VPN = "V";
+	/** WAN = W */
+	public static final String CONNECTIONPROFILE_WAN = "W";
 	/** Set Connection Profile.
 		@param ConnectionProfile 
 		How a Java Client connects to the server(s)
 	  */
 	public void setConnectionProfile (String ConnectionProfile)
 	{
-if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
+
+		if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");
+		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			ConnectionProfile = ConnectionProfile.substring(0, 0);
@@ -331,6 +345,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -353,6 +368,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -375,6 +391,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setEMailUser (String EMailUser)
 	{
+
 		if (EMailUser != null && EMailUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -397,6 +414,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setEMailUserPW (String EMailUserPW)
 	{
+
 		if (EMailUserPW != null && EMailUserPW.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
@@ -419,6 +437,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setEMailVerify (String EMailVerify)
 	{
+
 		if (EMailVerify != null && EMailVerify.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -458,6 +477,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setFax (String Fax)
 	{
+
 		if (Fax != null && Fax.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -504,6 +524,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setLDAPUser (String LDAPUser)
 	{
+
 		if (LDAPUser != null && LDAPUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -543,6 +564,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	  */
 	public void setLastResult (String LastResult)
 	{
+
 		if (LastResult != null && LastResult.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -567,6 +589,7 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -591,19 +614,25 @@ if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProf
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** NotificationType AD_Reference_ID=344 */
-public static final int NOTIFICATIONTYPE_AD_Reference_ID=344;/** EMail+Notice = B */
-public static final String NOTIFICATIONTYPE_EMailPlusNotice = "B";/** EMail = E */
-public static final String NOTIFICATIONTYPE_EMail = "E";/** Notice = N */
-public static final String NOTIFICATIONTYPE_Notice = "N";/** None = X */
-public static final String NOTIFICATIONTYPE_None = "X";
+	/** NotificationType AD_Reference_ID=344 */
+	public static final int NOTIFICATIONTYPE_AD_Reference_ID=344;
+	/** EMail = E */
+	public static final String NOTIFICATIONTYPE_EMail = "E";
+	/** Notice = N */
+	public static final String NOTIFICATIONTYPE_Notice = "N";
+	/** None = X */
+	public static final String NOTIFICATIONTYPE_None = "X";
+	/** EMail+Notice = B */
+	public static final String NOTIFICATIONTYPE_EMailPlusNotice = "B";
 	/** Set Notification Type.
 		@param NotificationType 
 		Type of Notifications
 	  */
 	public void setNotificationType (String NotificationType)
 	{
-if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");if (NotificationType.equals("B") || NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - B - E - N - X");		if (NotificationType.length() > 1)
+		if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");
+		if (NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X") || NotificationType.equals("B")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - E - N - X - B");
+		if (NotificationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			NotificationType = NotificationType.substring(0, 0);
@@ -625,6 +654,7 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 	  */
 	public void setPassword (String Password)
 	{
+
 		if (Password != null && Password.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -647,6 +677,7 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 	  */
 	public void setPhone (String Phone)
 	{
+
 		if (Phone != null && Phone.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -669,6 +700,7 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 	  */
 	public void setPhone2 (String Phone2)
 	{
+
 		if (Phone2 != null && Phone2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -693,7 +725,7 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -706,17 +738,18 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 		return false;
 	}
 
-/** Supervisor_ID AD_Reference_ID=110 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=110;
+	/** Supervisor_ID AD_Reference_ID=110 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 		set_Value (COLUMNNAME_Supervisor_ID, null);
- else 
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID <= 0) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.
@@ -736,6 +769,7 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	  */
 	public void setTitle (String Title)
 	{
+
 		if (Title != null && Title.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -752,12 +786,33 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 		return (String)get_Value(COLUMNNAME_Title);
 	}
 
+	/** Set UserPIN.
+		@param UserPIN UserPIN	  */
+	public void setUserPIN (String UserPIN)
+	{
+
+		if (UserPIN != null && UserPIN.length() > 20)
+		{
+			log.warning("Length > 20 - truncated");
+			UserPIN = UserPIN.substring(0, 19);
+		}
+		set_Value (COLUMNNAME_UserPIN, UserPIN);
+	}
+
+	/** Get UserPIN.
+		@return UserPIN	  */
+	public String getUserPIN () 
+	{
+		return (String)get_Value(COLUMNNAME_UserPIN);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique
 	  */
 	public void setValue (String Value)
 	{
+
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
