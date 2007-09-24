@@ -13,32 +13,6 @@
   <enforce-ejb-restrictions>false</enforce-ejb-restrictions>
 
   <!-- start heng sin modification -->
-  <enterprise-beans>
-        <session>
-            <ejb-name>adempiere/Status</ejb-name>
-            <jndi-name>adempiere/Status</jndi-name>
-            <invoker-bindings>
-                <invoker>
-                    <invoker-proxy-binding-name>
-                        stateless-http-invoker
-                    </invoker-proxy-binding-name>
-                </invoker>
-            </invoker-bindings>
-        </session>
-	   <session>
-            <ejb-name>adempiere/Server</ejb-name>
-            <jndi-name>adempiere/Server</jndi-name>
-            <invoker-bindings>
-                <invoker>
-                    <invoker-proxy-binding-name>
-                        stateless-http-invoker
-                    </invoker-proxy-binding-name>
-                </invoker>
-            </invoker-bindings>
-        </session>
-
-  </enterprise-beans>
-
   <invoker-proxy-bindings>
   	<!-- A custom invoker for RMI/HTTP -->
       <invoker-proxy-binding>
