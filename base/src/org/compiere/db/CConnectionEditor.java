@@ -274,7 +274,8 @@ public class CConnectionEditor extends JComponent
 			//
 			CConnectionDialog cd = new CConnectionDialog(m_value);
 			setValue(cd.getConnection());
-			fireActionPerformed();
+			if (!cd.isCancel())
+				fireActionPerformed();
 			//
 			setCursor(Cursor.getDefaultCursor());
 			m_active = false;

@@ -126,6 +126,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 	private CLabel connectionProfileLabel = new CLabel();
 	private CComboBox connectionProfileField = new CComboBox(CConnection.CONNECTIONProfiles);
 
+	private boolean isCancel = true;
 
 	/**
 	 *  Static Layout
@@ -293,7 +294,12 @@ public class CConnectionDialog extends CDialog implements ActionListener
 			m_cc.setName();
 		}
 		//	Should copy values
-		m_ccResult = m_cc;
+		try {
+			m_ccResult = (CConnection)m_cc.clone();
+		} catch (CloneNotSupportedException e) {
+			// should not happen
+			e.printStackTrace();
+		}
 		//
 		String type = m_cc.getType();
 		if (type == null || type.length() == 0)
@@ -327,6 +333,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 			m_cc.setName();
 			m_ccResult = m_cc;
 			dispose();
+			isCancel = false;
 			return;
 		}
 		else if (src == bCancel)
@@ -354,8 +361,11 @@ public class CConnectionDialog extends CDialog implements ActionListener
 
 		if (Ini.isClient())
 		{
-			m_cc.setAppsHost(appsHostField.getText());
-			m_cc.setAppsPort(appsPortField.getText());
+			//hengsin: avoid unnecessary requery of application server status
+			if (!appsHostField.getText().equals(m_cc.getAppsHost()))
+				m_cc.setAppsHost(appsHostField.getText());
+			if (!appsPortField.getText().equals(Integer.toString(m_cc.getAppsPort())))
+				m_cc.setAppsPort(appsPortField.getText());
 		}
 		else
 			m_cc.setAppsHost("localhost");
@@ -510,5 +520,9 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		}
 		setBusy (false);
 	}   //  cmd_testApps
+
+	public boolean isCancel() {
+		return isCancel;
+	}
 
 }   //  CConnectionDialog

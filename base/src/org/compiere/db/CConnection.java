@@ -37,7 +37,7 @@ import org.jboss.security.SimplePrincipal;
  *  @author     Marek Mosiewicz<marek.mosiewicz@jotel.com.pl> - support for RMI over HTTP
  *  @version    $Id: CConnection.java,v 1.5 2006/07/30 00:55:13 jjanke Exp $
  */
-public class CConnection implements Serializable
+public class CConnection implements Serializable, Cloneable
 {
 	/** Connection      */
 	private static CConnection	s_cc = null;
@@ -1679,6 +1679,16 @@ public class CConnection implements Serializable
 		m_server = null;
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		CConnection c = (CConnection)super.clone();
+		String[] info = new String[2];
+		info[0] = m_info[0];
+		info[1] = m_info[1];
+		c.m_info = info;
+		return c;
+	}
+	
 	/**************************************************************************
 	 *  Testing
 	 *  @param args ignored
@@ -1708,5 +1718,7 @@ public class CConnection implements Serializable
 						 Connection.TRANSACTION_READ_COMMITTED);
 		new CConnectionDialog(cc);
 	}	//	main
+
+	
 
 }	//  CConnection
