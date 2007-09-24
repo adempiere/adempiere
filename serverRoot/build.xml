@@ -107,6 +107,34 @@
       	destdir="${build.dir}/META-INF"/>
       <deploymentdescriptor destdir="${build.dir}/META-INF"/>
     </ejbdoclet>
+  	
+  	<replace file="${build.dir}/META-INF/jboss.xml">
+  		<replacetoken><![CDATA[<local-jndi-name>adempiere/ServerLocal</local-jndi-name>]]></replacetoken>
+  		<replacevalue><![CDATA[
+  			<local-jndi-name>adempiere/ServerLocal</local-jndi-name>
+  			<invoker-bindings>
+  			    <invoker>
+  			        <invoker-proxy-binding-name>
+  			            stateless-http-invoker
+  			        </invoker-proxy-binding-name>
+  			    </invoker>
+  			</invoker-bindings>
+  		]]></replacevalue>
+  	</replace>
+  	
+  	<replace file="${build.dir}/META-INF/jboss.xml">
+  		<replacetoken><![CDATA[<local-jndi-name>adempiere/StatusLocal</local-jndi-name>]]></replacetoken>
+  		<replacevalue><![CDATA[
+  			<local-jndi-name>adempiere/StatusLocal</local-jndi-name>
+  			<invoker-bindings>
+  			    <invoker>
+  			        <invoker-proxy-binding-name>
+  			            stateless-http-invoker
+  			        </invoker-proxy-binding-name>
+  			    </invoker>
+  			</invoker-bindings>
+  		]]></replacevalue>
+  	</replace>
   </target>
 
 
