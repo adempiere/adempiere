@@ -327,7 +327,7 @@ public class Doc_Allocation extends Doc
 				{
 					if (!createTaxCorrection(as, fact, line, 
 						getAccount(invoice.isSOTrx() ? Doc.ACCTTYPE_DiscountExp : Doc.ACCTTYPE_DiscountRev, as), 
-						getAccount(Doc.ACCTTYPE_WriteOff, as)))
+						getAccount(Doc.ACCTTYPE_WriteOff, as), invoice.isSOTrx()))
 					{
 						p_Error = "Cannot create Tax correction";
 						return null;
@@ -641,7 +641,7 @@ public class Doc_Allocation extends Doc
 	 */
 	private boolean createTaxCorrection (MAcctSchema as, Fact fact, 
 		DocLine_Allocation line,
-		MAccount DiscountAccount, MAccount WriteOffAccoint)
+		MAccount DiscountAccount, MAccount WriteOffAccoint, boolean isSOTrx)
 	{
 		log.info (line.toString());
 		BigDecimal discount = Env.ZERO;
@@ -652,7 +652,7 @@ public class Doc_Allocation extends Doc
 			writeOff = line.getWriteOffAmt();
 		
 		Doc_AllocationTax tax = new Doc_AllocationTax (
-			DiscountAccount, discount, 	WriteOffAccoint, writeOff);
+			DiscountAccount, discount, 	WriteOffAccoint, writeOff, isSOTrx);
 		
 		//	Get Source Amounts with account
 		String sql = "SELECT * "
@@ -718,12 +718,13 @@ class Doc_AllocationTax
 	 *	@param WriteOffAmt write off amt
 	 */
 	public Doc_AllocationTax (MAccount DiscountAccount, BigDecimal DiscountAmt,
-		MAccount WriteOffAccount, BigDecimal WriteOffAmt)
+		MAccount WriteOffAccount, BigDecimal WriteOffAmt, boolean isSOTrx)
 	{
 		m_DiscountAccount = DiscountAccount;
 		m_DiscountAmt = DiscountAmt;
 		m_WriteOffAccount = WriteOffAccount;
 		m_WriteOffAmt = WriteOffAmt;
+		m_IsSOTrx = isSOTrx;
 	}	//	Doc_AllocationTax
 
 	private CLogger				log = CLogger.getCLogger(getClass());
@@ -732,6 +733,7 @@ class Doc_AllocationTax
 	private BigDecimal 			m_DiscountAmt;
 	private MAccount			m_WriteOffAccount;
 	private BigDecimal 			m_WriteOffAmt;
+	private boolean 			m_IsSOTrx;
 
 	private ArrayList<MFactAcct>	m_facts  = new ArrayList<MFactAcct>();
 	private int					m_totalIndex = 0;
@@ -801,7 +803,7 @@ class Doc_AllocationTax
 			}
 			
 			
-			//	Discount Amount	
+//			Discount Amount	
 			if (m_DiscountAmt.signum() != 0)
 			{
 				//	Original Tax is DR - need to correct it CR
@@ -811,10 +813,20 @@ class Doc_AllocationTax
 						total, m_DiscountAmt, precision);
 					if (amount.signum() != 0)
 					{
-						fact.createLine (line, m_DiscountAccount,
-							as.getC_Currency_ID(), amount, null);
-						fact.createLine (line, taxAcct,
-							as.getC_Currency_ID(), null, amount);
+						//for sales actions
+						if (m_IsSOTrx) {
+							fact.createLine (line, m_DiscountAccount,
+								as.getC_Currency_ID(), amount, null);
+							fact.createLine (line, taxAcct,
+								as.getC_Currency_ID(), null, amount);
+						} else {
+						//for purchase actions
+							fact.createLine (line, m_DiscountAccount,
+								as.getC_Currency_ID(), amount.negate(), null);
+							fact.createLine (line, taxAcct,
+								as.getC_Currency_ID(), null, amount.negate());
+						}
+						
 					}
 				}
 				//	Original Tax is CR - need to correct it DR
@@ -824,10 +836,18 @@ class Doc_AllocationTax
 						total, m_DiscountAmt, precision);
 					if (amount.signum() != 0)
 					{
-						fact.createLine (line, taxAcct,
-							as.getC_Currency_ID(), amount, null);
-						fact.createLine (line, m_DiscountAccount,
-							as.getC_Currency_ID(), null, amount);
+//						for sales actions
+						if (m_IsSOTrx) {
+							fact.createLine (line, taxAcct,
+								as.getC_Currency_ID(), amount, null);
+							fact.createLine (line, m_DiscountAccount,
+								as.getC_Currency_ID(), null, amount);
+						} else {
+							fact.createLine (line, taxAcct,
+								as.getC_Currency_ID(), amount.negate(), null);
+							fact.createLine (line, m_DiscountAccount,
+								as.getC_Currency_ID(), null, amount.negate());
+						}
 					}
 				}
 			}	//	Discount
