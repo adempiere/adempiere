@@ -818,6 +818,7 @@ public final class APanel extends CPanel
 		if (m_curTab != null && m_curTab.isQueryActive())
 			dbInfo = "[ " + dbInfo + " ]";
 		statusBar.setStatusDB(dbInfo, e);
+		m_window.setTitle(getTitle());
 
 		//	Set Message / Info
 		if (e.getAD_Message() != null || e.getInfo() != null)

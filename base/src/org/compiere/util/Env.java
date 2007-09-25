@@ -1045,8 +1045,21 @@ public final class Env
 	public static String getHeader(Properties ctx, int WindowNo)
 	{
 		StringBuffer sb = new StringBuffer();
-		if (WindowNo > 0)
+		if (WindowNo > 0){
 			sb.append(getContext(ctx, WindowNo, "WindowName", false)).append("  ");
+			final String documentNo = getContext(ctx, WindowNo, "DocumentNo", false);
+			final String value = getContext(ctx, WindowNo, "Value", false);
+			final String name = getContext(ctx, WindowNo, "Name", false);
+			if(!"".equals(documentNo)) {
+				sb.append(documentNo).append("  ");
+			}
+			if(!"".equals(value)) {
+				sb.append(value).append("  ");
+			}
+			if(!"".equals(name)) {
+				sb.append(name).append("  ");
+			}
+		}
 		sb.append(getContext(ctx, "#AD_User_Name")).append("@")
 			.append(getContext(ctx, "#AD_Client_Name")).append(".")
 			.append(getContext(ctx, "#AD_Org_Name"))
