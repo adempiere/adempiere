@@ -120,7 +120,7 @@
 
 	<!-- rebuild Adempiere.jar to include possible customization and patches -->
 	<target name="setupALib" depends="setupInit">
-		<jar jarfile="lib/Adempiere1.jar" index="yes" duplicate="preserve">
+		<jar jarfile="lib/Adempiere1.jar" index="yes">
 			<!-- pack patches.jar and customization.jar into Adempiere.jar -->
 			<zipfileset src="lib/customization.jar" >
 				<patternset refid="manifest.exclude"/>
