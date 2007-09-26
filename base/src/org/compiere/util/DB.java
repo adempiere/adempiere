@@ -600,33 +600,7 @@ public final class DB
 	{
 		if (SQL == null || SQL.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + SQL);
-		//
-		String sql = getDatabase().convertStatement(SQL);
-		try
-		{
-			Connection conn = null;
-			Trx trx = trxName == null ? null : Trx.get(trxName, true);
-			if (trx != null)
-				conn = trx.getConnection();
-			else
-			{
-				if (resultSetConcurrency == ResultSet.CONCUR_UPDATABLE)
-					conn = DB.getConnectionRW ();
-				else
-					conn = DB.getConnectionRO();
-			}
-			if (conn == null)
-				throw new DBException("No Connection");
-			
-			return conn.prepareCall
-				(sql, ResultSet.TYPE_FORWARD_ONLY, resultSetConcurrency);
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		//	throw new DBException(e);
-		}
-		return null;
+		return new CCallableStatement(ResultSet.TYPE_FORWARD_ONLY, resultSetConcurrency, SQL, trxName);
 	}	//	prepareCall
 
 	
