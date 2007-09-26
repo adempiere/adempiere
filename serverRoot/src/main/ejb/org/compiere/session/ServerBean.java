@@ -143,7 +143,23 @@ public class ServerBean implements SessionBean
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CPreparedStatement pstmt = new CPreparedStatement(info);
-		return pstmt.getRowSet();
+		RowSet rowset = null;
+		try
+		{
+			rowset =  pstmt.getRowSet();
+		}
+		finally
+		{
+			try
+			{
+				pstmt.close();
+			}
+			catch (Exception ex)
+			{
+				log.log(Level.SEVERE, "Could not close prepared statement", ex);
+			}
+		}
+		return rowset;
 	}	//	pstmt_getRowSet
 
 	/**
@@ -162,7 +178,23 @@ public class ServerBean implements SessionBean
 		log.finer("[" + m_no + "]");
 		m_stmt_rowSetCount++;
 		CStatement stmt = new CStatement(info);
-		return stmt.getRowSet();
+		RowSet rowset = null;
+		try
+		{
+			rowset = stmt.getRowSet();
+		}
+		finally
+		{
+			try
+			{
+				stmt.close();
+			}
+			catch (Exception ex)
+			{
+				log.log(Level.SEVERE, "Could not close statement", ex);
+			}
+		}
+		return rowset;
 	}	//	stmt_getRowSet
 
 	/**
@@ -180,13 +212,36 @@ public class ServerBean implements SessionBean
 		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
 		log.finer("[" + m_no + "]");
 		m_stmt_updateCount++;
+		CStatement stmt = null;
+		int retVal = -1;
 		if (info.getParameterCount() == 0)
 		{
-			CStatement stmt = new CStatement(info);
-			return stmt.remote_executeUpdate();
+			stmt = new CStatement(info);
 		}
-		CPreparedStatement pstmt = new CPreparedStatement(info);
-		return pstmt.remote_executeUpdate();
+		else 
+		{
+			stmt = new CPreparedStatement(info);
+		}
+		        
+		try
+		{
+			retVal = stmt.remote_executeUpdate();
+		}
+		finally
+		{
+			if (stmt != null)
+			{
+				try
+				{
+					stmt.close();
+				}
+				catch (Exception ex)
+				{
+					log.log(Level.SEVERE, "Could not close statement", ex);
+				}
+			}
+		}
+		return retVal;
 	}	//	stmt_executeUpdate
 
 	/*************************************************************************
