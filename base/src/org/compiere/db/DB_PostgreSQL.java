@@ -35,16 +35,25 @@ import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_PostgreSQL;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Ini;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  *  PostgreSQL Database Port
  *
  *  @author      @author     Jorg Janke, Victor P�rez 
  *  @version    $Id: DB_PostgreSQL.java,v 1.23 2005/03/11 20:29:01 jjanke Exp $
+ *  ---
+ *  Modifications: removed static references to database connection and instead always
+ *  get a new connection from database pool manager which manages all connections
+ *                 set rw/ro properties for the connection accordingly.
+ *  @author Ashley Ramdass (Posterita) 
  */
 public class DB_PostgreSQL implements AdempiereDatabase
 {
-	public Convert getConvert() {
+
+    public Convert getConvert() {
 		return m_convert;
 	}
 
@@ -57,12 +66,15 @@ public class DB_PostgreSQL implements AdempiereDatabase
 
 	/** Driver                  */
 	private org.postgresql.Driver   s_driver = null;
+    
+    /** Driver class            */
+    public static final String DRIVER = "org.postgresql.Driver";
 
 	/** Default Port            */
 	public static final int         DEFAULT_PORT = 5432;
 	
 	/** Data Source				*/
-	private org.postgresql.ds.PGPoolingDataSource m_ds = null;
+	private ComboPooledDataSource m_ds = null;
 
 	/** Statement Converter     */
 	private Convert_PostgreSQL         m_convert = new Convert_PostgreSQL();
@@ -79,6 +91,8 @@ public class DB_PostgreSQL implements AdempiereDatabase
             
 	/**	Logger			*/
 	private static CLogger			log	= CLogger.getCLogger (DB_PostgreSQL.class);
+    
+     private static int              m_maxbusyconnections = 0;
 
 	/**
 	 *  Get Database Name
@@ -220,9 +234,21 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("DB_PostgreSQL[");
-		sb.append(m_connection)
-			.append("]");
-		return sb.toString();
+        sb.append(m_connectionURL);
+        try
+        {
+            StringBuffer logBuffer = new StringBuffer(50);
+            logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
+            logBuffer.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
+            logBuffer.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
+            logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+        }
+        catch (Exception e)
+        {
+            sb.append("=").append(e.getLocalizedMessage());
+        }
+        sb.append("]");
+        return sb.toString();
 	}   //  toString
 
 	/**
@@ -231,7 +257,22 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 */
 	public String getStatus()
 	{
-		return "";
+        if (m_ds == null)
+        {
+            return null;
+        }
+
+        StringBuffer sb = new StringBuffer();
+        try
+        {
+            sb.append("# Connections: ").append(m_ds.getNumConnections());
+            sb.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
+            sb.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
+            sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+        }
+        catch (Exception e)
+        {}
+        return sb.toString();
 	}	//	getStatus
 
 	/*************************************************************************
@@ -482,20 +523,50 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		if (m_ds != null)
 			return m_ds;
 		
-		//org.postgresql.ds.PGPoolingDataSource ds = new org.postgresql.ds.PGPoolingDataSource();
-		org.postgresql.jdbc3.Jdbc3PoolingDataSource ds = new org.postgresql.jdbc3.Jdbc3PoolingDataSource();
-		
-		ds.setDataSourceName("AdempiereDS");
-		ds.setServerName(connection.getDbHost());
-		ds.setDatabaseName(connection.getDbName());
-		ds.setUser(connection.getDbUid());
-		ds.setPassword(connection.getDbPwd());
-		ds.setPortNumber(connection.getDbPort());
-		ds.setMaxConnections(50);
-		ds.setInitialConnections(0);
-		
-		//new InitialContext().rebind("DataSource", source);		
-		m_ds = ds;
+        try
+        {
+            System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
+            ComboPooledDataSource cpds = new ComboPooledDataSource();
+            cpds.setDataSourceName("AdempiereDS");
+            cpds.setDriverClass(DRIVER);
+            //loads the jdbc driver
+            cpds.setJdbcUrl(getConnectionURL(connection));
+            cpds.setUser(connection.getDbUid());
+            cpds.setPassword(connection.getDbPwd());
+            cpds.setPreferredTestQuery(DEFAULT_CONN_TEST_SQL);
+            cpds.setIdleConnectionTestPeriod(120);
+            cpds.setAcquireRetryAttempts(5);
+            //cpds.setCheckoutTimeout(60);
+
+            if (Ini.isClient())
+            {
+                cpds.setInitialPoolSize(1);
+                cpds.setMinPoolSize(1);
+                cpds.setMaxPoolSize(15);
+                cpds.setMaxIdleTimeExcessConnections(1200);
+                cpds.setMaxIdleTime(600);
+                m_maxbusyconnections = 12;
+            }
+            else
+            {
+                cpds.setInitialPoolSize(10);
+                cpds.setMinPoolSize(5);
+                cpds.setMaxPoolSize(150);
+                cpds.setMaxIdleTimeExcessConnections(1200);
+                cpds.setMaxIdleTime(900);
+                m_maxbusyconnections = 120;
+            }
+
+            cpds.setUnreturnedConnectionTimeout(1200);
+            cpds.setDebugUnreturnedConnectionStackTraces(true);
+
+            m_ds = cpds;
+        }
+        catch (Exception ex)
+        {
+            m_ds = null;
+            log.log(Level.SEVERE, "Could not initialise C3P0 Datasource", ex);
+        }
 		
 		return m_ds;
 	}

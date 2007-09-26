@@ -275,7 +275,11 @@ public interface AdempiereDatabase
 	 */
 //	public String getDataType (int displayType, int precision,
 //		boolean defaultValue)
-        
+      
+	/**
+	 * Default sql use to test whether a connection is still valid
+	 */
+	public final static String DEFAULT_CONN_TEST_SQL = "SELECT Version FROM AD_System";
 	
 }   //  AdempiereDatabase
 

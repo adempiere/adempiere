@@ -23,9 +23,9 @@ import java.sql.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.sql.*;
 import javax.swing.*;
-import oracle.jdbc.*;
 //
 import org.compiere.*;
 import org.compiere.db.*;
@@ -43,6 +43,11 @@ import org.compiere.process.*;
  * 
  *  @author     Jorg Janke
  *  @version    $Id: DB.java,v 1.8 2006/10/09 00:22:29 jjanke Exp $
+ *  ---
+ *  Modifications: removed static references to database connection and instead always
+ *  get a new connection from database pool manager which manages all connections
+ *                 set rw/ro properties for the connection accordingly.
+ *  @author Ashley Ramdass (Posterita) 
  */
 public final class DB
 {
@@ -83,34 +88,28 @@ public final class DB
 		log.info("Role");
 		String sql = "SELECT * FROM AD_Role";
 		PreparedStatement pstmt = null;
+        ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MRole role = new MRole (ctx, rs, null);
 				role.updateAccessRecords();
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+			}			
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "(1)", e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }		
 		//	Release Specif stuff & Print Format
 		try
 		{
@@ -232,10 +231,7 @@ public final class DB
 		//
 		synchronized(s_ccLock)
 		{
-			s_cc = cc;
-			s_connections = null;
-			s_connectionRW = null;
-			s_connectionID = null;
+			s_cc = cc;			
 		}
 		if ( isRemoteObjects() == false)
 			s_cc.setDataSource();
@@ -260,14 +256,31 @@ public final class DB
 		//direct connection
 		boolean success =false;
 		try 
+		{ 
+            Connection connRW = getConnectionRW();
+            if (connRW != null)
+            {
+                s_cc.readInfo(connRW);
+                connRW.close();
+            }
+            
+            Connection connRO = getConnectionRO();
+            if (connRO != null)
+            {
+                connRO.close();
+            }
+            
+            Connection connID = getConnectionID();
+            if (connID != null)
+            {
+                connID.close();
+            }
+            success = ((connRW != null) && (connRO != null) && (connID != null));
+		} 
+        catch (Exception e)
 		{
-			success = getConnectionRW() != null;
-			if (success) success = getConnectionRO() != null;
-			if (success) success = getConnectionID() != null;
-			s_cc.readInfo(getConnectionRW());
-		} catch (Exception e)
-		{
-			success = false;
+            log.log(Level.SEVERE, "Could not connect to DB", e);
+            success = false;
 		}
 		return success;
 	}
@@ -307,7 +320,12 @@ public final class DB
 			eb = null;	//	don't reset
 		try
 		{
-			success = getConnectionRW(createNew) != null;	//	try to get a connection
+            Connection conn = getConnectionRW(createNew);   //  try to get a connection
+            if (conn != null)
+            {
+                conn.close();
+            }
+            success = (conn != null);
 		}
 		catch (Exception e)
 		{
@@ -334,49 +352,7 @@ public final class DB
 	 */
 	public static Connection getConnectionRW (boolean createNew)
 	{
-		//wan profile
-		if (CConnection.get().isRMIoverHTTP()) return null;
-		
-		//	check health of connection
-		try
-		{
-			if (s_connectionRW == null)
-				;
-			else if (s_connectionRW.isClosed())
-			{
-				log.finest("Closed");
-				s_connectionRW = null;
-			}
-			else if (s_connectionRW instanceof OracleConnection && ((OracleConnection)s_connectionRW).pingDatabase(1) < 0)
-			{
-				log.warning("No ping");
-				s_connectionRW = null;
-			}
-			else
-			{
-				if (s_connectionRW.getTransactionIsolation() != Connection.TRANSACTION_READ_COMMITTED)
-					s_connectionRW.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-			}
-		}
-		catch (Exception e)
-		{
-			s_connectionRW = null;
-		}
-		//	Get new
-		if (s_connectionRW == null)
-		{
-			if (createNew)
-			{
-				s_connectionRW = s_cc.getConnection (true, Connection.TRANSACTION_READ_COMMITTED);
-				log.finest("Con=" + s_connectionRW);
-			}
-		}
-		if (s_connectionRW == null && createNew)
-			throw new UnsupportedOperationException("No DBConnection");
-		//
-	//	System.err.println ("DB.getConnectionRW - " + s_connectionRW); 
-	//	Trace.printStack();
-		return s_connectionRW;
+        return createConnection(true, false, Connection.TRANSACTION_READ_COMMITTED);
 	}   //  getConnectionRW
 
 	/**
@@ -386,29 +362,7 @@ public final class DB
 	 */
 	public static Connection getConnectionID ()
 	{
-		//wan profile
-		if (CConnection.get().isRMIoverHTTP()) return null;
-		
-		if (s_connectionID != null)
-		{
-			try
-			{
-				if (s_connectionID.isClosed())
-					s_connectionID = null;
-			}
-			catch (Exception e)
-			{
-				s_connectionID = null;
-			}
-		}
-		if (s_connectionID == null)
-		{
-			s_connectionID = s_cc.getConnection (false, Connection.TRANSACTION_READ_COMMITTED);
-		}
-		if (s_connectionID == null)
-			throw new UnsupportedOperationException("No DBConnection");
-		log.log(Level.ALL, s_connectionID.toString());
-		return s_connectionID;
+        return createConnection(false, false, Connection.TRANSACTION_READ_COMMITTED);
 	}   //  getConnectionID
 
 	/**
@@ -417,75 +371,7 @@ public final class DB
 	 */
 	public static Connection getConnectionRO ()
 	{
-		//wan profile
-		if (CConnection.get().isRMIoverHTTP()) return null;
-		
-		try
-		{
-			synchronized(s_ccLock)
-			{
-				if (s_connections == null)
-					s_connections = createConnections (Connection.TRANSACTION_READ_COMMITTED);     //  see below
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "RO", e);
-		}
-
-		//  check health of connection
-		int pos = s_conCount++;
-		int connectionNo = pos % s_conCacheSize;
-		Connection connection = s_connections[connectionNo];
-		try
-		{
-			if (connection == null)
-				;
-			else if (connection.isClosed())
-			{
-			//	RowSet.close also closes connection!
-			//	System.out.println("DB.getConnectionRO - closed #" + connectionNo);
-				connection = null;
-			}
-			else if (connection instanceof OracleConnection && ((OracleConnection)connection).pingDatabase(1) < 0)
-			{
-				log.warning("No ping #" + connectionNo);
-				connection = null;
-			}
-			else
-			{
-				if (!connection.isReadOnly())
-					connection.setReadOnly(true);
-				if (connection.getTransactionIsolation() != Connection.TRANSACTION_READ_COMMITTED)
-					connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-			}
-		}
-		catch (Exception e)
-		{
-			log.severe("#" + connectionNo + " - " + e.toString());
-			connection = null;
-		}
-		//	Get new
-		if (connection == null)
-		{
-			log.finest("Replacing connection #" + connectionNo);
-			connection = s_cc.getConnection (true, Connection.TRANSACTION_READ_COMMITTED); //  see above
-			try
-			{
-				if (connection != null)
-					connection.setReadOnly(true);
-			}
-			catch (Exception e)
-			{
-				log.severe("Cannot set to R/O - " + e);
-			} 
-			s_connections[connectionNo] = connection;
-		}
-		if (connection == null)
-			throw new UnsupportedOperationException("DB.getConnectionRO - @NoDBConnection@");
-		log.log(Level.ALL, "#" + connectionNo + " - " + connection);
-	//	System.err.println ("DB.getConnectionRO - " + connection); 
-		return connection;
+        return createConnection(true, true, Connection.TRANSACTION_READ_COMMITTED);     //  see below
 	}	//	getConnectionRO
 
 	/**
@@ -520,34 +406,41 @@ public final class DB
 		return conn;
 	}	//	createConnection
 
-	/**
-	 *	Create new set of r/o Connections.
-	 *  R/O connection might not be supported by DB
-	 *
-	 *  @param trxLevel - Connection.TRANSACTION_READ_UNCOMMITTED, Connection.TRANSACTION_READ_COMMITTED, Connection.TRANSACTION_REPEATABLE_READ, or Connection.TRANSACTION_READ_COMMITTED.
-	 *  @return Array of Connections (size based on s_conCacheSize)
-	 */
-	private static Connection[] createConnections (int trxLevel)
-	{
-		log.finest("(" + s_conCacheSize + ") " + s_cc.getConnectionURL()
-			+ ", UserID=" + s_cc.getDbUid() 
-			+ ", TrxLevel=" + CConnection.getTransactionIsolationInfo(trxLevel));
-		Connection cons[] = new Connection[s_conCacheSize];
-		try
-		{
-			for (int i = 0; i < s_conCacheSize; i++)
-			{
-				cons[i] = s_cc.getConnection (true, trxLevel);  //  auto commit
-				if (cons[i] == null)
-					log.warning("Connection is NULL");	//	don't use log
-			}
-		}
-		catch (Exception e)
-		{
-			log.severe(e.getMessage());
-		}
-		return cons;
-	}	//	createConnections
+    /**
+     *  Create new Connection.
+     *  The connection must be closed explicitly by the application
+     *
+     *  @param autoCommit auto commit
+     *  @param trxLevel - Connection.TRANSACTION_READ_UNCOMMITTED, Connection.TRANSACTION_READ_COMMITTED, Connection.TRANSACTION_REPEATABLE_READ, or Connection.TRANSACTION_READ_COMMITTED.
+     *  @return Connection connection
+     */
+    public static Connection createConnection (boolean autoCommit, boolean readOnly, int trxLevel)
+    {
+        //wan profile
+        if (CConnection.get().isRMIoverHTTP()) return null;
+
+        Connection conn = s_cc.getConnection (autoCommit, trxLevel);
+
+        if (conn != null)
+        {
+            try
+            {
+                conn.setReadOnly(readOnly);
+            }
+            catch (SQLException ex)
+            {
+                conn = null;
+                log.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+
+        if (conn == null)
+        {
+            throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@");
+        }
+
+        return conn;
+    }   //  createConnection
 
 	/**
 	 *  Get Database Driver.
@@ -618,45 +511,52 @@ public final class DB
 	 */
 	public static boolean isDatabaseOK (Properties ctx)
 	{
-		//  Check Version
-		String version = "?";
-		String sql = "SELECT Version FROM AD_System";
-		try
-		{
-			PreparedStatement pstmt = prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				version = rs.getString(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, "Problem with AD_System Table - Run system.sql script - " + e.toString());
-			return false;
-		}
-		log.info("DB_Version=" + version);
-		//  Identical DB version
-		if (Adempiere.DB_VERSION.equals(version))
-			return true;
+//    Check Version
+        String version = "?";
+        String sql = "SELECT Version FROM AD_System";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, null);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                version = rs.getString(1);
+        }
+        catch (SQLException e)
+        {
+            log.log(Level.SEVERE, "Problem with AD_System Table - Run system.sql script - " + e.toString());
+            return false;
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        log.info("DB_Version=" + version);
+        //  Identical DB version
+        if (Adempiere.DB_VERSION.equals(version))
+            return true;
 
-		String AD_Message = "DatabaseVersionError";
-		String title = org.compiere.Adempiere.getName() + " " +  Msg.getMsg(ctx, AD_Message, true);
-		//	Code assumes Database version {0}, but Database has Version {1}.
-		String msg = Msg.getMsg(ctx, AD_Message);	//	complete message
-		msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
-		Object[] options = { UIManager.get("OptionPane.noButtonText"), "Migrate" };
-		int no = JOptionPane.showOptionDialog (null, msg,
-			title, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-			UIManager.getIcon("OptionPane.errorIcon"), options, options[0]);
-		if (no == 1)
-		{
-			JOptionPane.showMessageDialog (null,
-				"Start RUN_Migrate (in utils)\nSee: http://www.adempiere.com/maintain",
-				title, JOptionPane.INFORMATION_MESSAGE);
-			Env.exitEnv(1);
-		}
-		return false;
+        String AD_Message = "DatabaseVersionError";
+        String title = org.compiere.Adempiere.getName() + " " +  Msg.getMsg(ctx, AD_Message, true);
+        //  Code assumes Database version {0}, but Database has Version {1}.
+        String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
+        msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
+        Object[] options = { UIManager.get("OptionPane.noButtonText"), "Migrate" };
+        int no = JOptionPane.showOptionDialog (null, msg,
+            title, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+            UIManager.getIcon("OptionPane.errorIcon"), options, options[0]);
+        if (no == 1)
+        {
+            JOptionPane.showMessageDialog (null,
+                "Start RUN_Migrate (in utils)\nSee: http://www.adempiere.com/maintain",
+                title, JOptionPane.INFORMATION_MESSAGE);
+            Env.exitEnv(1);
+        }
+        return false;
 	}   //  isDatabaseOK
 
 	
@@ -665,66 +565,18 @@ public final class DB
 	 */
 	public static void closeTarget()
 	{
-		boolean closed = false;
-		//	RO connection
-		if (s_connections != null)
-		{
-			for (int i = 0; i < s_conCacheSize; i++)
-			{
-				try
-				{
-					if (s_connections[i] != null)
-					{
-						closed = true;
-						s_connections[i].close();
-					}
-				}
-				catch (SQLException e)
-				{
-					log.warning("#" + i + " - " + e.getMessage());
-				}
-				s_connections[i] = null;
-			}
-		}
-		s_connections = null;
-		
-		//	RW connection
-		try
-		{
-			if (s_connectionRW != null)
-			{
-				closed = true;
-				s_connectionRW.close();
-			}
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, "R/W", e);
-		}
-		s_connectionRW = null;
-		
-		//ID Connection
-		try 
-		{
-			if (s_connectionID != null)
-			{
-				s_connectionID.close();
-			}
-		} catch (SQLException e)
-		{
-			log.log(Level.SEVERE, "Id", e);
-		}
-		s_connectionID = null;
-		
-		//	CConnection
-		if (s_cc != null)
-		{
-			closed = true;
-			s_cc.setDataSource(null);
-		}
-		s_cc = null;
-		if (closed)
-			log.fine("closed");
+
+        boolean closed = false;
+
+        //  CConnection
+        if (s_cc != null)
+        {
+            closed = true;
+            s_cc.setDataSource(null);
+        }
+        s_cc = null;
+        if (closed)
+            log.fine("closed");
 	}	//	closeTarget
 
 	/**************************************************************************
@@ -1080,18 +932,28 @@ public final class DB
 	 *  @return true if not needed or success
 	 *  @throws SQLException
 	 */
-	public static boolean commit (boolean throwException, String trxName) throws SQLException
+	public static boolean commit (boolean throwException, String trxName) throws SQLException,IllegalStateException
 	{
+        // Not on transaction scope, Connection are thus auto commit
+        if (trxName == null)
+        {
+            return true;
+        }
+        
 		try
 		{
-			Connection conn = null;
-			Trx trx = trxName == null ? null : Trx.get(trxName, true);
+			Trx trx = Trx.get(trxName, false);
 			if (trx != null)
 				return trx.commit(true);
-			else
-				conn = DB.getConnectionRW ();
-			if (conn != null && !conn.getAutoCommit())
-				conn.commit();
+            
+            if (throwException)
+            {
+                throw new IllegalStateException("Could not load transation with identifier: " + trxName);
+            }
+            else
+            {
+                return false;
+            }
 		}
 		catch (SQLException e)
 		{
@@ -1099,8 +961,7 @@ public final class DB
 			if (throwException)
 				throw e;
 			return false;
-		}
-		return true;
+		}        
 	}	//	commit
 
 	/**
@@ -1156,304 +1017,261 @@ public final class DB
 		return retValue;
 	}	//	getRowSet
 
-	/**
-	 * 	Get Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@return first value or -1
-	 */
-	public static int getSQLValue (String trxName, String sql)
-	{
-		int retValue = -1;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			else
-				log.fine("No Value " + sql);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValue
+    /**
+     *  Get Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @return first value or -1
+     */
+    public static int getSQLValue (String trxName, String sql)
+    {
+        int retValue = -1;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getInt(1);
+            else
+                log.fine("No Value " + sql);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValue
 
-	/**
-	 * 	Get Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@param int_param1 parameter 1
-	 * 	@return first value or -1
-	 */
-	public static int getSQLValue (String trxName, String sql, int int_param1)
-	{
-		int retValue = -1;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			pstmt.setInt(1, int_param1);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			else
-				log.config("No Value " + sql + " - Param1=" + int_param1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + " [" + trxName + "]", e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValue
+    /**
+     *  Get Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @param int_param1 parameter 1
+     *  @return first value or -1
+     */
+    public static int getSQLValue (String trxName, String sql, int int_param1)
+    {
+        int retValue = -1;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            pstmt.setInt(1, int_param1);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getInt(1);
+            else
+                log.config("No Value " + sql + " - Param1=" + int_param1);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + " [" + trxName + "]", e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValue
 
-	/**
-	 * 	Get Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@param int_param1 parameter 1
-	 * 	@param int_param2 parameter 2
-	 * 	@return first value or -1
-	 */
-	public static int getSQLValue (String trxName, String sql, int int_param1, int int_param2)
-	{
-		int retValue = -1;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			pstmt.setInt(1, int_param1);
-			pstmt.setInt(2, int_param2);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			else
-				log.info("No Value " + sql 
-					+ " - Param1=" + int_param1 + ",Param2=" + int_param2);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + ",Param2=" + int_param2 
-				+ " [" + trxName + "]", e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValue
+    /**
+     *  Get Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @param int_param1 parameter 1
+     *  @param int_param2 parameter 2
+     *  @return first value or -1
+     */
+    public static int getSQLValue (String trxName, String sql, int int_param1, int int_param2)
+    {
+        int retValue = -1;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            pstmt.setInt(1, int_param1);
+            pstmt.setInt(2, int_param2);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getInt(1);
+            else
+                log.info("No Value " + sql
+                    + " - Param1=" + int_param1 + ",Param2=" + int_param2);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + ",Param2=" + int_param2
+                + " [" + trxName + "]", e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValue
 
-	/**
-	 * 	Get Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@param str_param1 parameter 1
-	 * 	@return first value or -1
-	 */
-	public static int getSQLValue (String trxName, String sql, String str_param1)
-	{
-		int retValue = -1;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			pstmt.setString(1, str_param1);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			else
-				log.info("No Value " + sql + " - Param1=" + str_param1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql + " - Param1=" + str_param1, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValue
+    /**
+     *  Get Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @param str_param1 parameter 1
+     *  @return first value or -1
+     */
+    public static int getSQLValue (String trxName, String sql, String str_param1)
+    {
+        int retValue = -1;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            pstmt.setString(1, str_param1);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getInt(1);
+            else
+                log.info("No Value " + sql + " - Param1=" + str_param1);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql + " - Param1=" + str_param1, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValue
 
-	/**
-	 * 	Get Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@param int_param1 parameter 1
-	 * 	@param s_param2 parameter 2
-	 * 	@return first value or -1
-	 */
-	public static int getSQLValue (String trxName, String sql, int int_param1, String s_param2)
-	{
-		int retValue = -1;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			pstmt.setInt(1, int_param1);
-			pstmt.setString(2, s_param2);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			else
-				log.info("No Value: " + sql + " - Param1=" + int_param1 + ",Param2=" + s_param2);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + ",Param2=" + s_param2, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValue
+    /**
+     *  Get Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @param int_param1 parameter 1
+     *  @param s_param2 parameter 2
+     *  @return first value or -1
+     */
+    public static int getSQLValue (String trxName, String sql, int int_param1, String s_param2)
+    {
+        int retValue = -1;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            pstmt.setInt(1, int_param1);
+            pstmt.setString(2, s_param2);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getInt(1);
+            else
+                log.info("No Value: " + sql + " - Param1=" + int_param1 + ",Param2=" + s_param2);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + ",Param2=" + s_param2, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValue
 
-	/**
-	 * 	Get String Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@param int_param1 parameter 1
-	 * 	@return first value or null
-	 */
-	public static String getSQLValueString (String trxName, String sql, int int_param1)
-	{
-		String retValue = null;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			pstmt.setInt(1, int_param1);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getString(1);
-			else
-				log.info("No Value " + sql + " - Param1=" + int_param1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql + " - Param1=" + int_param1, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValueString
+    /**
+     *  Get String Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @param int_param1 parameter 1
+     *  @return first value or null
+     */
+    public static String getSQLValueString (String trxName, String sql, int int_param1)
+    {
+        String retValue = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            pstmt.setInt(1, int_param1);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getString(1);
+            else
+                log.info("No Value " + sql + " - Param1=" + int_param1);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql + " - Param1=" + int_param1, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValueString
 
-	/**
-	 * 	Get BigDecimal Value from sql
-	 * 	@param trxName trx
-	 * 	@param sql sql
-	 * 	@param int_param1 parameter 1
-	 * 	@return first value or null
-	 */
-	public static BigDecimal getSQLValueBD (String trxName, String sql, int int_param1)
-	{
-		BigDecimal retValue = null;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = prepareStatement(sql, trxName);
-			pstmt.setInt(1, int_param1);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getBigDecimal(1);
-			else
-				log.info("No Value " + sql + " - Param1=" + int_param1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + " [" + trxName + "]", e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		return retValue;
-	}	//	getSQLValueBD
-
+    /**
+     *  Get BigDecimal Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @param int_param1 parameter 1
+     *  @return first value or null
+     */
+    public static BigDecimal getSQLValueBD (String trxName, String sql, int int_param1)
+    {
+        BigDecimal retValue = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            pstmt.setInt(1, int_param1);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getBigDecimal(1);
+            else
+                log.info("No Value " + sql + " - Param1=" + int_param1);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + " [" + trxName + "]", e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValueBD
 	
 	/**
 	 * 	Get Array of Key Name Pairs
@@ -1463,38 +1281,33 @@ public final class DB
 	 */
 	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional)
 	{
-		PreparedStatement pstmt = null;
-		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
-		if (optional)
-			list.add (new KeyNamePair(-1, ""));
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		KeyNamePair[] retValue = new KeyNamePair[list.size()];
-		list.toArray(retValue);
-	//	s_log.fine("getKeyNamePairs #" + retValue.length);
-		return retValue;		
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
+        if (optional)
+            list.add (new KeyNamePair(-1, ""));
+        try
+        {
+            pstmt = DB.prepareStatement(sql, null);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        KeyNamePair[] retValue = new KeyNamePair[list.size()];
+        list.toArray(retValue);
+    //  s_log.fine("getKeyNamePairs #" + retValue.length);
+        return retValue;
 	}	//	getKeyNamePairs
 	
 	/**
@@ -1506,83 +1319,72 @@ public final class DB
 	 */
 	public static boolean isSOTrx (String TableName, String whereClause)
 	{
-		if (TableName == null || TableName.length() == 0)
-		{
-			log.severe("No TableName");
-			return true;
-		}
-		if (whereClause == null || whereClause.length() == 0)
-		{
-			log.severe("No Where Clause");
-			return true;
-		}
-		//
-		boolean isSOTrx = true;
-		String sql = "SELECT IsSOTrx FROM " + TableName 
-			+ " WHERE " + whereClause;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				isSOTrx = "Y".equals(rs.getString(1));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			if (TableName.endsWith("Line"))
-			{
-				String hdr = TableName.substring(0, TableName.indexOf("Line"));
-				sql = "SELECT IsSOTrx FROM " + hdr 
-					+ " h WHERE EXISTS (SELECT * FROM " + TableName 
-					+ " l WHERE h." + hdr + "_ID=l." + hdr + "_ID AND "
-					+ whereClause + ")";
-				PreparedStatement pstmt2 = null;
-				try
-				{
-					pstmt2 = DB.prepareStatement (sql, null);
-					ResultSet rs2 = pstmt2.executeQuery ();
-					if (rs2.next ())
-						isSOTrx = "Y".equals(rs2.getString(1));
-					rs2.close ();
-					pstmt2.close ();
-					pstmt2 = null;
-				}
-				catch (Exception ee)
-				{
-					log.finest(sql + " - " + e.getMessage());
-				}
-				try
-				{
-					if (pstmt2 != null)
-						pstmt2.close ();
-					pstmt2 = null;
-				}
-				catch (Exception ee)
-				{
-					pstmt2 = null;
-				}
-			}
-			else
-			{
-				log.finest(TableName + " - No SOTrx");
-			//	log.finest(sql + " - " + e.getMessage());
-			}
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		return isSOTrx;
+        if (TableName == null || TableName.length() == 0)
+        {
+            log.severe("No TableName");
+            return true;
+        }
+        if (whereClause == null || whereClause.length() == 0)
+        {
+            log.severe("No Where Clause");
+            return true;
+        }
+        //
+        boolean isSOTrx = true;
+        String sql = "SELECT IsSOTrx FROM " + TableName
+            + " WHERE " + whereClause;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = DB.prepareStatement (sql, null);
+            rs = pstmt.executeQuery ();
+            if (rs.next ())
+                isSOTrx = "Y".equals(rs.getString(1));
+        }
+        catch (Exception e)
+        {
+            if (TableName.endsWith("Line"))
+            {
+                String hdr = TableName.substring(0, TableName.indexOf("Line"));
+                sql = "SELECT IsSOTrx FROM " + hdr
+                    + " h WHERE EXISTS (SELECT * FROM " + TableName
+                    + " l WHERE h." + hdr + "_ID=l." + hdr + "_ID AND "
+                    + whereClause + ")";
+                PreparedStatement pstmt2 = null;
+                ResultSet rs2 = null;
+                try
+                {
+                    pstmt2 = DB.prepareStatement (sql, null);
+                    rs2 = pstmt2.executeQuery ();
+                    if (rs2.next ())
+                        isSOTrx = "Y".equals(rs2.getString(1));
+                }
+                catch (Exception ee)
+                {
+                    log.log(Level.FINEST, sql + " - " + e.getMessage(), ee);
+                }
+                finally
+                {
+                    close(rs2);
+                    close(pstmt2);
+                    rs= null;
+                    pstmt = null;
+                }
+            }
+            else
+            {
+                log.log(Level.FINEST, TableName + " - No SOTrx", e);
+            }
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return isSOTrx;
 	}	//	isSOTrx
 	
 	
@@ -1610,32 +1412,8 @@ public final class DB
 	 *  @return next no
 	 */
 	public static int getNextID (int AD_Client_ID, String TableName, String trxName)
-	{
-		if (isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					int id = server.getNextID(AD_Client_ID, TableName, trxName);
-					log.finest("server => " + id);
-					if (id < 0)
-						throw new DBException("No NextID");
-					return id;
-				}
-				log.log(Level.SEVERE, "AppsServer not found - " + TableName); 
-			}
-			catch (RemoteException ex)
-			{
-				log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-			//	Try locally
-		}
-		int id = MSequence.getNextID (AD_Client_ID, TableName, trxName);	//	tries 3 times
-	//	if (id <= 0)
-	//		throw new DBException("No NextID (" + id + ")");
-		return id;
+	{		
+		return MSequence.getNextID (AD_Client_ID, TableName, trxName);	
 	}	//	getNextID
 		
 	/**
@@ -1646,32 +1424,7 @@ public final class DB
 	 */
 	public static String getDocumentNo(int C_DocType_ID, String trxName)
 	{
-		if (isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					String dn = server.getDocumentNo (C_DocType_ID, trxName);
-					log.finest("Server => " + dn);
-					if (dn != null)
-						return dn;
-				}
-				log.log(Level.SEVERE, "AppsServer not found - " + C_DocType_ID); 
-			}
-			catch (RemoteException ex)
-			{
-				log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-		}
-		//	fallback
-		String dn = MSequence.getDocumentNo (C_DocType_ID, trxName);
-		if (dn == null)		//	try again
-			dn = MSequence.getDocumentNo (C_DocType_ID, trxName);
-	//	if (dn == null)
-	//		throw new DBException ("No DocumentNo");
-		return dn;
+		return MSequence.getDocumentNo (C_DocType_ID, trxName);
 	}	//	getDocumentNo
 
 
@@ -1684,29 +1437,7 @@ public final class DB
 	 */
 	public static String getDocumentNo (int AD_Client_ID, String TableName, String trxName)
 	{
-		if (isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					String dn = server.getDocumentNo (AD_Client_ID, TableName, trxName);
-					log.finest("Server => " + dn);
-					if (dn != null)
-						return dn;
-				}
-				log.log(Level.SEVERE, "AppsServer not found - " + TableName); 
-			}
-			catch (RemoteException ex)
-			{
-				log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-		}
-		//	fallback
 		String dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName);
-		if (dn == null)		//	try again
-			dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName);
 		if (dn == null)
 			throw new DBException ("No DocumentNo");
 		return dn;
@@ -1898,6 +1629,30 @@ public final class DB
 		return out.toString();
 	}	//	TO_STRING
 
+	/**
+	 * convenient method to close result set
+	 * @param rs
+	 */
+	public static void close( ResultSet rs) {
+        try {
+            if (rs!=null) rs.close();
+        } catch (SQLException e) {
+            ;
+        }
+    }
+	
+	/**
+	 * convenient method to close statement
+	 * @param st
+	 */
+    public static void close( Statement st) {
+        try {
+            if (st!=null) st.close();
+        } catch (SQLException e) {
+            ;
+        }
+    }
+    
 	/** Quote			*/
 	private static final char QUOTE = '\'';
 	

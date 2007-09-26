@@ -16,9 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
 import org.compiere.util.*;
 
 /**
@@ -37,6 +41,7 @@ public class MSequence extends X_AD_Sequence
 	/** Log Level for Next ID Call					*/
 	private static final Level LOGLEVEL = Level.ALL;
 	
+	
 	/**
 	 *	Get next number for Key column = 0 is Error.
 	 *  @param AD_Client_ID client
@@ -48,6 +53,30 @@ public class MSequence extends X_AD_Sequence
 	{
 		if (TableName == null || TableName.length() == 0)
 			throw new IllegalArgumentException("TableName missing");
+		
+		//get from server
+		if (DB.isRemoteObjects())
+		{
+			Server server = CConnection.get().getServer();
+			try
+			{
+				if (server != null)
+				{	//	See ServerBean
+					int id = server.getNextID(AD_Client_ID, TableName, trxName);
+					s_log.finest("server => " + id);
+					if (id < 0)
+						throw new DBException("No NextID");
+					return id;
+				}
+				s_log.log(Level.SEVERE, "AppsServer not found - " + TableName); 
+			}
+			catch (RemoteException ex)
+			{
+				s_log.log(Level.SEVERE, "AppsServer error", ex);
+			}
+			//	Try locally
+		}
+		
 		int retValue = -1;
 
 		//	Check AdempiereSys
@@ -146,7 +175,8 @@ public class MSequence extends X_AD_Sequence
 				pstmt = null;
 				conn.setAutoCommit(autocommit); //jz set back
 				//
-			//	conn.close();
+				if (trx == null && conn != null)
+					conn.close();
 				conn = null;
 				//
 				break;		//	EXIT
@@ -241,6 +271,28 @@ public class MSequence extends X_AD_Sequence
 		if (TableName == null || TableName.length() == 0)
 			throw new IllegalArgumentException("TableName missing");
 
+		//get from server
+		if (DB.isRemoteObjects())
+		{
+			Server server = CConnection.get().getServer();
+			try
+			{
+				if (server != null)
+				{	//	See ServerBean
+					String dn = server.getDocumentNo (AD_Client_ID, TableName, trxName);
+					s_log.finest("Server => " + dn);
+					if (dn != null)
+						return dn;
+				}
+				s_log.log(Level.SEVERE, "AppsServer not found - " + TableName); 
+			}
+			catch (RemoteException ex)
+			{
+				s_log.log(Level.SEVERE, "AppsServer error", ex);
+			}
+		}
+		
+		//local
 		//	Check AdempiereSys
 		boolean adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
 		if (adempiereSys && AD_Client_ID > 11)
@@ -344,7 +396,7 @@ public class MSequence extends X_AD_Sequence
 			if (trx == null)
 			{
 				conn.commit();
-			//	conn.close();
+				conn.close();
 			}
 			conn = null;
 		}
@@ -359,8 +411,8 @@ public class MSequence extends X_AD_Sequence
 			if (pstmt != null)
 				pstmt.close();
 			pstmt = null;
-		//	if (conn != null && trx == null)
-		//		conn.close();
+			if (trx == null && conn != null)
+				conn.close();
 			conn = null;
 		}
 		catch (Exception e)
@@ -398,6 +450,29 @@ public class MSequence extends X_AD_Sequence
 			s_log.severe ("C_DocType_ID=0");
 			return null;
 		}
+		
+		//get from server
+		if (DB.isRemoteObjects())
+		{
+			Server server = CConnection.get().getServer();
+			try
+			{
+				if (server != null)
+				{	//	See ServerBean
+					String dn = server.getDocumentNo (C_DocType_ID, trxName);
+					s_log.finest("Server => " + dn);
+					if (dn != null)
+						return dn;
+				}
+				s_log.log(Level.SEVERE, "AppsServer not found - " + C_DocType_ID); 
+			}
+			catch (RemoteException ex)
+			{
+				s_log.log(Level.SEVERE, "AppsServer error", ex);
+			}
+		}
+		
+		//local
 		MDocType dt = MDocType.get (Env.getCtx(), C_DocType_ID);	//	wrong for SERVER, but r/o
 		if (dt != null && !dt.isDocNoControlled())
 		{
@@ -504,7 +579,7 @@ public class MSequence extends X_AD_Sequence
 			if (trx == null)
 			{
 				conn.commit();
-			//	conn.close();
+				conn.close();
 			}
 			conn = null;
 		}
@@ -519,8 +594,8 @@ public class MSequence extends X_AD_Sequence
 			if (pstmt != null)
 				pstmt.close();
 			pstmt = null;
-		//	if (conn != null && trx == null)
-		//		conn.close();
+			if (trx == null && conn != null)
+				conn.close();
 			conn = null;
 		}
 		catch (Exception e)

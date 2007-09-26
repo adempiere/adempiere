@@ -21,7 +21,6 @@ import java.util.logging.*;
 
 import javax.sql.*;
 
-import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 
@@ -30,6 +29,12 @@ import org.compiere.interfaces.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: CStatement.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
+ *  ---
+ *  Modifications: Handle connections properly
+ *                 Close the associated connection when the statement is closed 
+ *  Reason       : Due to changes brought in the connection pooling whereby the system 
+ *                 no more relies upon abandoned connections.
+ *  @author Ashley Ramdass (Posterita)
  */
 public class CStatement implements Statement
 {
@@ -742,8 +747,16 @@ public class CStatement implements Statement
 	 */
 	public void close () throws SQLException
 	{
-		if (p_stmt != null)
-			p_stmt.close();
+        if (p_stmt != null)
+        {
+            Connection conn = p_stmt.getConnection();
+            p_stmt.close();
+            
+            if (!conn.isClosed() && conn.getAutoCommit())
+            {
+                conn.close();
+            }
+        }
 	}	//	close
 
 	/*************************************************************************
@@ -770,15 +783,25 @@ public class CStatement implements Statement
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
 		} 
-		finally {
-			if (pstmt != null)
-			{
-				try 
-				{
-					pstmt.close();
-				} catch (SQLException e){}
-				pstmt = null;
-			}
+		finally
+        {
+            if (pstmt != null)
+            {
+                try 
+                {
+                    Connection conn = pstmt.getConnection();
+                    pstmt.close();
+                    if (p_vo.getTrxName() == null && !conn.isClosed())
+                    {
+                        conn.close();
+                    }
+                }
+                catch (SQLException e)
+                {
+                    log.log(Level.SEVERE, e.getMessage(), e);
+                }
+                pstmt = null;
+            }
 		}
 	}	//	remote_executeUpdate
 
@@ -811,15 +834,30 @@ public class CStatement implements Statement
 		catch (SQLException ex)
 		{
 			log.log(Level.SEVERE, "local", ex);
-			try
-			{
-				if (stmt != null)
-					stmt.close();
-				stmt = null;
-			}
-			catch (SQLException ex1)
-			{
-			}
+            if (stmt != null)
+            {
+                try
+                {
+                    stmt.close();
+                }
+                catch (Exception e)
+                {
+                    log.log(Level.SEVERE, "Could not close statement", e);
+                }
+                stmt = null;
+            }
+            
+            if (conn != null && p_vo.getTrxName() == null)
+            {
+                try
+                {
+                    conn.close();
+                }
+                catch (Exception e)
+                {
+                    log.log(Level.SEVERE, "Could not close connection", e);
+                }
+            }
 		}
 		return stmt;
 	}	//	local_getStatement
@@ -925,18 +963,7 @@ public class CStatement implements Statement
 		{
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
-		}
-		//	Close Cursor
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "close pstmt", e);
-		}
+		}		
 		return rowSet;
 	}	//	local_getRowSet
         

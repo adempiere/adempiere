@@ -22,9 +22,9 @@ import java.net.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.sql.*;
 
-import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 
@@ -33,6 +33,11 @@ import org.compiere.interfaces.*;
  *
  *  @author Jorg Janke
  *  @version $Id: CPreparedStatement.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
+ *  ---
+ *   Modifications: Handle connections properly
+ *   Reason       : Due to changes brought in the connection pooling whereby the system 
+ *                 no more relies upon abandoned connections.
+ *  @author Ashley Ramdass (Posterita)
  */
 public class CPreparedStatement extends CStatement implements PreparedStatement
 {
@@ -844,22 +849,48 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 					pstmt.setBigDecimal(i+1, (BigDecimal)o);
 					log.finest("#" + (i+1) + " - BigDecimal=" + o);
 				}
+                else if (o instanceof java.util.Date)
+                {
+                    pstmt.setTimestamp(i+1, new Timestamp(((java.util.Date)o).getTime()));
+                    log.finest("#" + (i+1) + " - Date=" + o);
+                }
+                else if (o instanceof java.sql.Date)
+                {
+                    pstmt.setTimestamp(i+1, new Timestamp(((java.sql.Date)o).getTime()));
+                    log.finest("#" + (i+1) + " - Date=" + o);
+                }
 				else
 					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
 			}
 		}
 		catch (SQLException ex)
 		{
-			log.log(Level.SEVERE, "local", ex);
-			try
-			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (SQLException ex1)
-			{
-			}
+            log.log(Level.SEVERE, "local", ex);
+            if (pstmt != null)
+            {
+                try
+                {
+                    pstmt.close();
+                }
+                catch (Exception e)
+                {
+                    log.log(Level.SEVERE, "Could not close prepared statement", e);
+                }
+            }
+            
+            if (conn != null && p_vo.getTrxName() == null)
+            {
+                try
+                {
+                    conn.close();
+                }
+                catch (Exception e)
+                {
+                    log.log(Level.SEVERE, "Could not close connection", e);
+                }
+            }
+            
+            pstmt = null;
 		}
 		return pstmt;
 	}	//	local_getPreparedStatement
@@ -969,32 +1000,29 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 					pstmt.setBigDecimal(i+1, (BigDecimal)o);
 					log.finest("#" + (i+1) + " - BigDecimal=" + o);
 				}
+                else if (o instanceof java.util.Date)
+                {
+                    pstmt.setTimestamp(i+1, new Timestamp(((java.util.Date)o).getTime()));
+                    log.finest("#" + (i+1) + " - Date=" + o);
+                }
+                else if (o instanceof java.sql.Date)
+                {
+                    pstmt.setTimestamp(i+1, new Timestamp(((java.sql.Date)o).getTime()));
+                    log.finest("#" + (i+1) + " - Date=" + o);
+                }
 				else
 					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
 			}
 			//
 			ResultSet rs = pstmt.executeQuery();
 			rowSet = CCachedRowSet.getRowSet(rs);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+			rs.close();			
 		}
 		catch (Exception ex)
 		{
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
-		}
-		//	Close Cursor
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "close", e);
-		}
+		}		
 		return rowSet;
 	}	//	local_getRowSet
 
@@ -1022,13 +1050,25 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
 		}
-		finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {}
-				pstmt = null;
-			}
+		finally 
+        {
+            if (pstmt != null) 
+            {
+                try 
+                {
+                    Connection conn = pstmt.getConnection();
+                    pstmt.close();
+                    if (p_vo.getTrxName() == null && !conn.isClosed())
+                    {
+                        conn.close();
+                    }
+                } 
+                catch (SQLException e) 
+                {
+                    log.log(Level.SEVERE, e.getMessage(), e);
+                }
+                pstmt = null;
+            }
 		}
 	}	//	remote_executeUpdate
         

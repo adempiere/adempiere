@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
