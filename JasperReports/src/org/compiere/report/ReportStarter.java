@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,11 +45,13 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.compiere.db.CConnection;
+import org.compiere.db.ServerConnection;
 import org.compiere.interfaces.MD5;
 import org.compiere.interfaces.MD5Home;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttachmentEntry;
 import org.compiere.model.MProcess;
+import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -63,8 +66,12 @@ import org.compiere.utils.DigestOfFile;
 /**
  * @author rlemeill
  * originaly coming from an application note from compiere.co.uk
-*/
-public class ReportStarter implements ProcessCall {
+ * ---
+ * Modifications: Allow Jasper Reports to be able to be run on VPN profile (i.e: no direct connection to DB).
+ *                Implemented ClientProcess for it to run on client.
+ * @author Ashley Ramdass 
+ */
+public class ReportStarter implements ProcessCall, ClientProcess {
 //logger
 	private static CLogger log = CLogger.getCLogger(ReportStarter.class);
 	private static File REPORT_HOME = null;
@@ -328,6 +335,29 @@ public class ReportStarter implements ProcessCall {
     }
     
     /**
+     * Returns the Server Connection if direct connection is not available
+     * (VPN, WAN, Terminal) and thus query has to be run on server only else return
+     * a direct connection to DB.
+     * 
+     * Notes: Need to refactor and integrate in DB if confirmed to be working as
+     * expected.
+     * 
+     * @author Ashley Ramdass
+     * @return Connection DB Connection
+     */
+    protected Connection getConnection()
+    {
+    	if (DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false))
+    	{
+    		return new ServerConnection();
+    	}
+    	else 
+    	{
+    		return DB.getConnectionRW();
+    	}
+    }
+    
+    /**
 	 *  Start the process.
 	 *  Called then pressing the Process button in R_Request.
 	 *  It should only return false, if the function could not be performed
@@ -465,7 +495,7 @@ public class ReportStarter implements ProcessCall {
 
                 try {
                     //JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
-                    JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
+                    JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, getConnection());
                     if (reportData.isDirectPrint()) {
                         log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                         JasperPrintManager.printReport( jasperPrint, false);
@@ -820,11 +850,11 @@ public class ReportStarter implements ProcessCall {
 			// jasper libraries and dependencies or not.
 			if(System.getProperty("java.class.path").indexOf(jasperreportsAbsolutePath) < 0)
 			{
-                System.setProperty("java.class.path",
-                        System.getProperty("java.class.path") +
-                        System.getProperty("path.separator") +
-                        jasperreportsAbsolutePath);
-                log.info("Classpath has been corrected to " + System.getProperty("java.class.path"));
+			System.setProperty("java.class.path",
+					System.getProperty("java.class.path") +
+					System.getProperty("path.separator") +
+					jasperreportsAbsolutePath);
+			log.info("Classpath has been corrected to " + System.getProperty("java.class.path"));
 			}
 		}
     }
