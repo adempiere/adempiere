@@ -115,20 +115,6 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		ps.setIsApproved (true);
 		ps.save();
 		
-		//	Create new PaySelection Line
-		MPaySelectionLine psl = null;
-		if (payment.getC_Invoice_ID() != 0)
-		{
-			psl = new MPaySelectionLine (ps, 10, PaymentRule);
-			psl.setC_Invoice_ID(payment.getC_Invoice_ID());
-			psl.setIsSOTrx (payment.isReceipt());
-			psl.setOpenAmt(payment.getPayAmt().add(payment.getDiscountAmt()));
-			psl.setPayAmt (payment.getPayAmt());
-			psl.setDiscountAmt(payment.getDiscountAmt());
-			psl.setDifferenceAmt (Env.ZERO);
-			psl.save();
-		}
-		
 		//	Create new PaySelection Check
 		MPaySelectionCheck psc = new MPaySelectionCheck(ps, PaymentRule);
 		psc.setC_BPartner_ID (payment.getC_BPartner_ID());
@@ -141,12 +127,50 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		psc.setProcessed(true);
 		psc.save();
 		
-		//	Update optional Line
-		if (psl != null)
+		//	Create new PaySelection Line
+		MPaySelectionLine psl = null;
+		if (payment.getC_Invoice_ID() != 0)
 		{
+			psl = new MPaySelectionLine (ps, 10, PaymentRule);
+			psl.setC_Invoice_ID(payment.getC_Invoice_ID());
+			psl.setIsSOTrx (payment.isReceipt());
+			psl.setOpenAmt(payment.getPayAmt().add(payment.getDiscountAmt()));
+			psl.setPayAmt (payment.getPayAmt());
+			psl.setDiscountAmt(payment.getDiscountAmt());
+			psl.setDifferenceAmt (Env.ZERO);
 			psl.setC_PaySelectionCheck_ID(psc.getC_PaySelectionCheck_ID());
 			psl.setProcessed(true);
 			psl.save();
+		} else {
+			// globalqss - CarlosRuiz - fix bug [ 1803054 ] Empty Remittance lines on payments
+			// look for existance of C_PaymentAllocate records
+			//	Allocate to multiple Payments based on entry
+			MPaymentAllocate[] pAllocs = MPaymentAllocate.get(payment);
+			if (pAllocs.length != 0) {
+				int numInv = 0;
+				for (int i = 0; i < pAllocs.length; i++) {
+					MPaymentAllocate pAlloc = pAllocs[i];
+					if (pAlloc.getC_Invoice_ID() != 0)
+					{
+						MPaySelectionLine psla = null;
+						psla = new MPaySelectionLine (ps, 10 * (i+1), PaymentRule);
+						psla.setC_Invoice_ID(pAlloc.getC_Invoice_ID());
+						psla.setIsSOTrx (payment.isReceipt());
+						psla.setOpenAmt(pAlloc.getAmount().add(pAlloc.getDiscountAmt()));
+						psla.setPayAmt (pAlloc.getAmount());
+						psla.setDiscountAmt(pAlloc.getDiscountAmt());
+						psla.setDifferenceAmt (Env.ZERO);
+						psla.setC_PaySelectionCheck_ID(psc.getC_PaySelectionCheck_ID());
+						psla.setProcessed(true);
+						psla.save();
+						numInv++;
+					}
+				}
+				if (numInv > 0) {
+					psc.setQty (numInv);
+					psc.save();
+				}
+			}
 		}
 		
 		//	Indicate Done
