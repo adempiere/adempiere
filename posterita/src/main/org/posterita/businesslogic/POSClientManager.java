@@ -260,7 +260,7 @@ public class POSClientManager extends ClientManager
 			UDIU_Menu udiMenu = (UDIU_Menu)posMFactory.get(nCtx, key);
 			MRoleMenu roleMenu = new MRoleMenu(ctx, 0, trxName);
 			roleMenu.setAD_Role_ID(role.get_ID());
-			roleMenu.setU_Menu_ID(udiMenu.getID());
+			roleMenu.setU_WebMenu_ID(udiMenu.getID());
 			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}

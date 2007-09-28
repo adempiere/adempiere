@@ -406,7 +406,7 @@ public class RoleManager
 		{
 			MRoleMenu roleMenu = new MRoleMenu(ctx, 0, trxName);
 			roleMenu.setAD_Role_ID(role.get_ID());
-			roleMenu.setU_Menu_ID(menuId[i]);
+			roleMenu.setU_WebMenu_ID(menuId[i]);
 			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
@@ -417,7 +417,7 @@ public class RoleManager
 		{
 			MRoleMenu roleMenu = new MRoleMenu(ctx, 0, trxName);
 			roleMenu.setAD_Role_ID(role.get_ID());
-			roleMenu.setU_Menu_ID(defMenuIds[i]);
+			roleMenu.setU_WebMenu_ID(defMenuIds[i]);
 			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}

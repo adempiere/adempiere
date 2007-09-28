@@ -51,7 +51,7 @@ public class RoleMenuManager
 		
 		roleMenu = new MRoleMenu(ctx, 0, trxName);
 		roleMenu.setAD_Role_ID(roleId);
-		roleMenu.setU_Menu_ID(menuId);
+		roleMenu.setU_WebMenu_ID(menuId);
 		
 		UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
 		udiRoleMenu.save();
