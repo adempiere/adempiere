@@ -44,7 +44,7 @@ import org.posterita.util.PathInfo;
 public class InitWebEnv implements PlugIn 
 {
   
-    public static final String applicationType = UDIFilePropertiesManager.getProperty().get(new Properties(), PropertiesConstant.APPLICATION_TYPE);
+    //public static final String applicationType = UDIFilePropertiesManager.getProperty().get(new Properties(), PropertiesConstant.APPLICATION_TYPE);
     
 	
 	public void init(ActionServlet servlet, ModuleConfig config) throws ServletException

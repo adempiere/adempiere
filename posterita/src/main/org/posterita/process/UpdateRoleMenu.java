@@ -58,7 +58,7 @@ public class UpdateRoleMenu extends SvrProcess
 		}
 		
 		roleMenu.setAD_Role_ID(roleId);
-		roleMenu.setU_Menu_ID(menuId);
+		roleMenu.setU_WebMenu_ID(menuId);
 		roleMenu.setIsActive(active);
 		
 		if (!roleMenu.save())

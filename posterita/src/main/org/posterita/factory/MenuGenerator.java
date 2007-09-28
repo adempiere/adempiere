@@ -44,7 +44,7 @@ public class MenuGenerator
 			X_U_RoleMenu roleMenu = new X_U_RoleMenu(ctx, 0, null);
 			
 			roleMenu.setAD_Role_ID(roleId);
-			roleMenu.setU_Menu_ID(menuIds[i]);
+			roleMenu.setU_WebMenu_ID(menuIds[i]);
 			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
@@ -85,7 +85,7 @@ public class MenuGenerator
 			X_U_RoleMenu roleMenu = new X_U_RoleMenu(ctx, 0, null);
 			
 			roleMenu.setAD_Role_ID(roleId);
-			roleMenu.setU_Menu_ID(menuIds[i]);
+			roleMenu.setU_WebMenu_ID(menuIds[i]);
 			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
 			udiRoleMenu.save(); 
 		}
