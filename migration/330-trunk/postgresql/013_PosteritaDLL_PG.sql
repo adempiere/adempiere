@@ -32,7 +32,7 @@ CREATE TABLE U_RoleMenu
     Updated        TIMESTAMP           DEFAULT NOW() NOT NULL,
     UpdatedBy      INTEGER        NOT NULL,
     AD_Role_ID     NUMERIC(10,0)   NOT NULL,
-    U_Menu_ID      NUMERIC(10,0)   NOT NULL,
+    U_WebMenu_ID      NUMERIC(10,0)   NOT NULL,
     primary key(U_RoleMenu_ID),
     CHECK(IsActive IN ('Y', 'N'))
   );
