@@ -1684,8 +1684,10 @@ public final class APanel extends CPanel
 			setStatusLine(Msg.getMsg(m_ctx, "SaveIgnored"), true);
 		}
 		m_curGC.rowChanged(true, m_curTab.getRecord_ID());
-		if (manualCmd)
+		if (manualCmd) {
 			m_curGC.dynamicDisplay(0);
+			m_window.setTitle(getTitle());
+		}
 		return retValue;
 	}   //  cmd_save
 
