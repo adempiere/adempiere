@@ -1,6 +1,6 @@
 /*
 *
-* Copyright (c) 2007 Tamak ICT Ltd. All Rights Reserved.
+* Copyright (c) 2007 Posterita Ltd. All Rights Reserved.
 *
 * This software is the confidential and proprietary information of
 * Tamak ICT Ltd. ("Confidential Information").  You shall not
@@ -46,8 +46,8 @@ public class RegenerateModels
     
     static
     {
-        tables.add("U_MENU");
-        tables.add("U_ROLE_MENU");
+        tables.add("U_WebMENU");
+        tables.add("U_RoleMenu");
         tables.add("U_WEB_PROPERTIES");
         tables.add("U_BlackListCheque");
         tables.add("C_ORDER");
