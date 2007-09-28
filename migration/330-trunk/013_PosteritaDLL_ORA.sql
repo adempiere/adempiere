@@ -35,7 +35,7 @@ CREATE TABLE U_RoleMenu
     Updated        DATE           DEFAULT SYSDATE NOT NULL,
     UpdatedBy      INTEGER        NOT NULL,
     AD_Role_ID     NUMBER(10,0)   NOT NULL,
-    U_Menu_ID      NUMBER(10,0)   NOT NULL,
+    U_WebMenu_ID      NUMBER(10,0)   NOT NULL,
     primary key(U_RoleMenu_ID),
     CHECK(IsActive IN ('Y', 'N'))
   );
@@ -44,7 +44,7 @@ CREATE TABLE U_RoleMenu
 
 CREATE TABLE U_WebMenu
   (
-    U_WEBMENU_ID      NUMBER(10,0)      NOT NULL  ,
+    U_WEBMENU_ID   NUMBER(10,0)      NOT NULL  ,
     AD_Client_ID   NUMBER(10,0)      NOT NULL  ,
     AD_Org_ID      NUMBER(10,0)      NOT NULL  ,
     IsActive       CHAR(1)           DEFAULT 'Y' NOT NULL  ,
