@@ -58,6 +58,7 @@ import org.compiere.util.Env;
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
  * 				<li>better formating of generated source  
  * 				<li>BF [ 1787833 ] ModelInterfaceGenerator: don't write timestamp
+ * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
@@ -382,7 +383,9 @@ public class ModelInterfaceGenerator {
 		//
 		
 		if (DisplayType.isID(displayType) && !IsKey) {
-			if (displayType == DisplayType.TableDir) {
+			if (displayType == DisplayType.TableDir
+					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
+			{
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
 				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd 
 				String tableName = columnName.substring(0, columnName.length()-3);

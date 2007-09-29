@@ -54,6 +54,7 @@ import org.compiere.util.Util;
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
  * 				<li>better formating of generated source 
  * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
+ * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
@@ -442,8 +443,9 @@ public class ModelClassGenerator
 		// TODO - New functionality
 		// 1) Must understand which class to reference
 		if (DisplayType.isID(displayType) && !IsKey) {
-			if (displayType == DisplayType.TableDir) {
-				
+			if (displayType == DisplayType.TableDir
+					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
+			{	
 				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd 
 				String tableName = columnName.substring(0, columnName.length()-3);
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
