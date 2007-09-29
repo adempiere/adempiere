@@ -40,8 +40,8 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
       /** if (U_RoleMenu_ID == 0)
         {
 			setAD_Role_ID (0);
-			setU_Menu_ID (0);
 			setU_RoleMenu_ID (0);
+			setU_WebMenu_ID (0);
         } */
     }
 
@@ -111,41 +111,6 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_U_Menu getU_Menu() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_U_Menu.Table_Name);
-        I_U_Menu result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_U_Menu)constructor.newInstance(new Object[] {getCtx(), new Integer(getU_Menu_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set U_Menu_ID.
-		@param U_Menu_ID U_Menu_ID	  */
-	public void setU_Menu_ID (int U_Menu_ID)
-	{
-		if (U_Menu_ID < 1)
-			 throw new IllegalArgumentException ("U_Menu_ID is mandatory.");
-		set_Value (COLUMNNAME_U_Menu_ID, Integer.valueOf(U_Menu_ID));
-	}
-
-	/** Get U_Menu_ID.
-		@return U_Menu_ID	  */
-	public int getU_Menu_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_U_Menu_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set U_RoleMenu_ID.
 		@param U_RoleMenu_ID U_RoleMenu_ID	  */
 	public void setU_RoleMenu_ID (int U_RoleMenu_ID)
@@ -160,6 +125,41 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 	public int getU_RoleMenu_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_U_RoleMenu_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_U_WebMenu getU_WebMenu() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_U_WebMenu.Table_Name);
+        I_U_WebMenu result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_U_WebMenu)constructor.newInstance(new Object[] {getCtx(), new Integer(getU_WebMenu_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set U_WebMenu_ID.
+		@param U_WebMenu_ID U_WebMenu_ID	  */
+	public void setU_WebMenu_ID (int U_WebMenu_ID)
+	{
+		if (U_WebMenu_ID < 1)
+			 throw new IllegalArgumentException ("U_WebMenu_ID is mandatory.");
+		set_Value (COLUMNNAME_U_WebMenu_ID, Integer.valueOf(U_WebMenu_ID));
+	}
+
+	/** Get U_WebMenu_ID.
+		@return U_WebMenu_ID	  */
+	public int getU_WebMenu_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_U_WebMenu_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
