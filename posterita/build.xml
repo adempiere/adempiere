@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- Posterita Web POS Application                           -->
+<!-- ======================================================== -->
+
+<project name="posterita" default="main" basedir=".">
+
+  <!--<property environment="env"/>-->
+  <import file="../utils_dev/properties.xml"/>
+
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="src.main.dir" value="${src.dir}/main"/>
+  <property name="src.web.dir" value="${src.dir}/web"/>
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.deploy.dir" value="${build.dir}/deploy"/>
+
+	
+	<path id="compile.classpath">				
+		<pathelement path="${adempiere.base}/lib/Adempiere.jar"/>			
+	</path>
+
+  <target name="init">
+    <echo message="=========== Build Posterita POS ==========="/>
+    <tstamp/>
+    <mkdir dir="${build.deploy.dir}"/>
+  	
+  	<!-- Delete old posterita.jar -->  	
+  	<delete file="${src.web.dir}/WEB-INF/lib/posterita.jar" failonerror="false"/>
+  	  	
+  </target>
+
+  <!-- Creating new posterita.jar -->
+	<target name="compile" depends="init">
+	    <!-- compile the java code from ${src} into ${build.dir} -->
+	    <javac srcdir="${src.main.dir}" destdir="${build.dir}" deprecation="on" source="1.5" target="1.5" debug="on">
+	      <classpath>
+		      <fileset dir="${src.web.dir}/WEB-INF/lib/">
+				<include name="*.jar"/>
+			</fileset>
+	      	<fileset dir="${adempiere.base}/lib/">
+	      						<include name="*.jar"/>
+	      					</fileset>
+	      </classpath>
+	    </javac>
+		<jar destfile="${build.dir}/posterita.jar" basedir="${build.dir}">
+			<include name="org/**"/>
+		</jar>
+		<copy file="${build.dir}/posterita.jar" tofile="${src.web.dir}/WEB-INF/lib/posterita.jar" overwrite="true"/>
+	  </target>		
+	
+  <!-- =================================================================== -->
+  <!-- Creates the war archives                                            -->
+  <!-- =================================================================== -->
+  <target name="war" depends="compile">
+    <war
+	  warfile="${build.deploy.dir}/posterita.war"
+	  webxml="${src.web.dir}/WEB-INF/web.xml">
+      <fileset dir="${src.web.dir}" excludes="**/web.xml,**/classes/org/compiere/**"/>
+      <manifest>
+		<attribute name="Specification-Title" value="Posterita POS"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere, Inc."/>
+		<attribute name="Implementation-Title" value="Posterita POS ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.posterita.org"/>
+		<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar adempiereApps.jar"/>
+      </manifest>
+    </war>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the server binary                                           -->
+  <!-- =================================================================== -->
+  <target name="deploy-server" depends="war">
+	<copy file="src/ear/application.xml" tofile="../lib/posterita.xml"/>
+    <copy todir="../lib">
+      <fileset dir="${build.deploy.dir}" includes="*.jar,*.war,*.ear"/>
+    </copy>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Creates the binary structure                                        -->
+  <!-- =================================================================== -->
+  <target name="main" depends="deploy-server">
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Cleans up the current build                                         -->
+  <!-- =================================================================== -->
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete file="../lib/posterita.war" failonerror="false"/>
+    <delete file="../lib/posterita.xml"/>
+  </target>
+  
+</project>
