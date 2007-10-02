@@ -42,4 +42,10 @@
 			<context-root>/</context-root>
 		</web>
 	</module>
+	<module>
+		<web>
+			<web-uri>posterita.war</web-uri>
+			<context-root>/posterita</context-root>
+		</web>
+	</module>
 </application>
