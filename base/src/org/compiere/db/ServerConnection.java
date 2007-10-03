@@ -224,7 +224,7 @@ public class ServerConnection implements Connection
 	    throw new java.lang.UnsupportedOperationException ("Method setTypeMap() not yet implemented.");
 	}
 
-	/* Java 6 support - teo_sarca BF [ 1806700 ] */
+	/* Java 6 support - teo_sarca BF [ 1806700 ] *
 	public java.sql.Array createArrayOf(String typeName, Object[] elements) throws SQLException {
 	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
 	}
