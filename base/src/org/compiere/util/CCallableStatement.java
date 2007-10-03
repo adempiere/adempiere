@@ -39,6 +39,8 @@ import java.util.logging.Level;
  *  Adempiere Callable Statement
  *
  *  @author Ashley Ramdass
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1806700 ] Compile error on JAVA 6
  */
 public class CCallableStatement extends CPreparedStatement implements CallableStatement
 {
@@ -976,4 +978,402 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
             throw new java.lang.UnsupportedOperationException ("Method wasNull() not yet implemented.");  
         } 
     }
+
+
+	/* Java 6 support - teo_sarca BF [ 1806700 ] *
+	public Reader getCharacterStream(int parameterIndex) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getCharacterStream(parameterIndex);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public Reader getCharacterStream(String parameterName) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getCharacterStream(parameterName);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public Reader getNCharacterStream(int parameterIndex) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getNCharacterStream(parameterIndex);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public Reader getNCharacterStream(String parameterName) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getNCharacterStream(parameterName);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public java.sql.NClob getNClob(int parameterIndex) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getNClob(parameterIndex);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public java.sql.NClob getNClob(String parameterName) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getNClob(parameterName);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public String getNString(int parameterIndex) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getNString(parameterIndex);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public String getNString(String parameterName) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getNString(parameterName);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public java.sql.RowId getRowId(int parameterIndex) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getRowId(parameterIndex);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public java.sql.RowId getRowId(String parameterName) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getRowId(parameterName);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public java.sql.SQLXML getSQLXML(int parameterIndex) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getSQLXML(parameterIndex);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public java.sql.SQLXML getSQLXML(String parameterName) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).getSQLXML(parameterName);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setAsciiStream(String parameterName, InputStream x) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setAsciiStream(parameterName, x);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setAsciiStream(String parameterName, InputStream x, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setAsciiStream(parameterName, x, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setBinaryStream(String parameterName, InputStream x) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setBinaryStream(parameterName, x);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setBinaryStream(String parameterName, InputStream x, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setBinaryStream(parameterName, x, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setBlob(String parameterName, Blob x) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setBlob(parameterName, x);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setBlob(String parameterName, InputStream inputStream) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setBlob(parameterName, inputStream);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setBlob(String parameterName, InputStream inputStream, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setBlob(parameterName, inputStream, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setCharacterStream(String parameterName, Reader reader) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setCharacterStream(parameterName, reader);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setCharacterStream(String parameterName, Reader reader, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setCharacterStream(parameterName, reader, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setClob(String parameterName, Clob x) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setClob(parameterName, x);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setClob(String parameterName, Reader reader) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setClob(parameterName, reader);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setClob(String parameterName, Reader reader, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setClob(parameterName, reader, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setNCharacterStream(String parameterName, Reader value) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setNCharacterStream(parameterName, value);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setNCharacterStream(String parameterName, Reader value, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setNCharacterStream(parameterName, value, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setNClob(String parameterName, java.sql.NClob value) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setNClob(parameterName, value);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setNClob(String parameterName, Reader reader) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setNCharacterStream(parameterName, reader);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setNClob(String parameterName, Reader reader, long length) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setNClob(parameterName, reader, length);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setNString(String parameterName, String value) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setNString(parameterName, value);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setRowId(String parameterName, java.sql.RowId x) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setRowId(parameterName, x);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public void setSQLXML(String parameterName, java.sql.SQLXML xmlObject) throws SQLException {
+        if (p_stmt != null)
+        {
+            ((CallableStatement)p_stmt).setSQLXML(parameterName, xmlObject);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+
+
+	public boolean isWrapperFor(Class iface) throws SQLException {
+        if (p_stmt != null)
+        {
+            return ((CallableStatement)p_stmt).isWrapperFor(iface);
+        }
+        else
+        {
+            throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");  
+        } 
+	}
+	/* Java 6 support - teo_sarca BF [ 1806700 ] */
 }

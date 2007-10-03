@@ -38,6 +38,8 @@ import org.compiere.util.DB;
  * Need for Jasper Report processes as the Jasper Manager uses a connection
  *  
  * @author Ashley G Ramdass 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1806700 ] Compile error on JAVA 6
  */
 public class ServerConnection implements Connection
 {
@@ -222,4 +224,55 @@ public class ServerConnection implements Connection
 	    throw new java.lang.UnsupportedOperationException ("Method setTypeMap() not yet implemented.");
 	}
 
+	/* Java 6 support - teo_sarca BF [ 1806700 ] */
+	public java.sql.Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public java.sql.Blob createBlob() throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public java.sql.Clob createClob() throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public java.sql.NClob createNClob() throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public java.sql.SQLXML createSQLXML() throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public java.sql.Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public java.util.Properties getClientInfo() throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public String getClientInfo(String name) throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public boolean isValid(int timeout) throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public void setClientInfo(java.util.Properties properties) throws java.sql.SQLClientInfoException {
+	}
+
+	public void setClientInfo(String name, String value) throws java.sql.SQLClientInfoException {
+	}
+
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+
+	public <T> T unwrap(Class<T> iface) throws SQLException {
+	    throw new java.lang.UnsupportedOperationException ("Method not yet implemented.");
+	}
+	/* Java 6 support - teo_sarca BF [ 1806700 ] */
 }
