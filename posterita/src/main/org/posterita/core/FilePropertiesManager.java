@@ -49,7 +49,7 @@ public abstract class  FilePropertiesManager implements WebProperties
         
         ClassLoader loader = obj.getClass().getClassLoader();
         
-        InputStream stream = loader.getResourceAsStream("Udi.properties");
+        InputStream stream = loader.getResourceAsStream("posterita.properties");
         
         Properties prop2 = new Properties();
         try 
