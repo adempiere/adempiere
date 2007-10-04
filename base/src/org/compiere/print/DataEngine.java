@@ -29,7 +29,9 @@ import org.compiere.util.*;
  * @author 	Jorg Janke
  * @version 	$Id: DataEngine.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1761891 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1761891 ] Included print format with report view attached issue
+ * 				<li>BF [ 1807368 ] DataEngine does not close DB connection
  */
 public class DataEngine
 {
@@ -198,11 +200,13 @@ public class DataEngine
 			+ "WHERE pf.AD_PrintFormat_ID=?"					//	#1
 			+ " AND pfi.IsActive='Y' AND (pfi.IsPrinted='Y' OR c.IsKey='Y' OR pfi.SortNo > 0) "
 			+ "ORDER BY pfi.IsPrinted DESC, pfi.SeqNo";			//	Functions are put in first column
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, format.get_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			m_synonym = "A";		//	synonym
 			while (rs.next())
@@ -518,6 +522,12 @@ public class DataEngine
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "SQL=" + sql + " - ID=" + format.get_ID(), e);
+		}
+		finally {
+			DB.close(rs);
+			DB.close(pstmt);
+			rs = null;
+			pstmt = null;
 		}
 
 		if (columns.size() == 0)
