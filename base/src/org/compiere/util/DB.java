@@ -988,6 +988,10 @@ public final class DB
                 // End add vpj-cd e-evolution
 		CPreparedStatement stmt = new CPreparedStatement(info);
 		retValue = stmt.getRowSet();
+		try {
+			stmt.close();
+		} catch (SQLException e) {
+		}
 		return retValue;
 	}	//	getRowSet
 
