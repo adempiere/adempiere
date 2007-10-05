@@ -493,9 +493,11 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                     }
                 }
 
+                Connection conn = null;
                 try {
                     //JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
-                    JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, getConnection());
+                	conn = getConnection();
+                    JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
                     if (reportData.isDirectPrint()) {
                         log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                         JasperPrintManager.printReport( jasperPrint, false);
@@ -509,6 +511,12 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                     }
                 } catch (JRException e) {
                     log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
+                } finally {
+                	if (conn != null)
+						try {
+							conn.close();
+						} catch (SQLException e) {
+						}
                 }
             }
 
