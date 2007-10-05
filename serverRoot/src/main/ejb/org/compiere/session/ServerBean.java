@@ -119,6 +119,11 @@ public class ServerBean implements SessionBean
 		int AD_Client_ID, int AD_Table_ID, int Record_ID, boolean force, String trxName)
 	{
 		log.info ("[" + m_no + "] Table=" + AD_Table_ID + ", Record=" + Record_ID);
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		m_postCount++;
 		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, AD_Client_ID);
 		return Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, trxName);
@@ -138,9 +143,12 @@ public class ServerBean implements SessionBean
 	{
 		
 		validateSecurityToken(token);
-		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
-			
-		log.finer("[" + m_no + "]");
+		
+		if (info.getTrxName() != null) {
+			if (Trx.get(info.getTrxName(), false) == null)
+				throw new RuntimeException("Transaction lost - " + info.getTrxName());
+		}
+		
 		m_stmt_rowSetCount++;
 		CPreparedStatement pstmt = new CPreparedStatement(info);
 		RowSet rowset = null;
@@ -174,8 +182,10 @@ public class ServerBean implements SessionBean
 	{
 		validateSecurityToken(token);
 		
-		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
-		log.finer("[" + m_no + "]");
+		if (info.getTrxName() != null) {
+			if (Trx.get(info.getTrxName(), false) == null)
+				throw new RuntimeException("Transaction lost - " + info.getTrxName());
+		}
 		m_stmt_rowSetCount++;
 		CStatement stmt = new CStatement(info);
 		RowSet rowset = null;
@@ -209,8 +219,11 @@ public class ServerBean implements SessionBean
 	{
 		validateSecurityToken(token);
 		
-		//log.finer(m_Context.getCallerPrincipal().getName() + " - " + info.getSql());
-		log.finer("[" + m_no + "]");
+		if (info.getTrxName() != null) {
+			if (Trx.get(info.getTrxName(), false) == null)
+				throw new RuntimeException("Transaction lost - " + info.getTrxName());
+		}
+		
 		m_stmt_updateCount++;
 		CStatement stmt = null;
 		int retVal = -1;
@@ -255,6 +268,11 @@ public class ServerBean implements SessionBean
 	 */
 	public int getNextID (int AD_Client_ID, String TableName, String trxName)
 	{
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		int retValue = MSequence.getNextID (AD_Client_ID, TableName, trxName);
 		log.finer("[" + m_no + "] " + TableName + " = " + retValue);
 		m_nextSeqCount++;
@@ -272,6 +290,11 @@ public class ServerBean implements SessionBean
 	 */
 	public String getDocumentNo (int AD_Client_ID, String TableName, String trxName)
 	{
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		m_nextSeqCount++;
 		String dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName);
 		if (dn == null)		//	try again
@@ -289,6 +312,11 @@ public class ServerBean implements SessionBean
 	 */
 	public String getDocumentNo (int C_DocType_ID, String trxName)
 	{
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		m_nextSeqCount++;
 		String dn = MSequence.getDocumentNo (C_DocType_ID, trxName);
 		if (dn == null)		//	try again
@@ -307,10 +335,16 @@ public class ServerBean implements SessionBean
 	 */
 	public ProcessInfo process (Properties ctx, ProcessInfo pi)
 	{
+		
 		m_processCount++;
 		
 		//	Start Process
 		String trxName = pi.getTransactionName();
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		if (trxName == null) trxName = Trx.createTrxName("ServerPrc"); 
 		Trx trx = Trx.get(trxName, true);
 		ProcessUtil.startJavaProcess(ctx, pi, trx);
@@ -348,6 +382,11 @@ public class ServerBean implements SessionBean
 	public boolean paymentOnline (Properties ctx, 
 		int C_Payment_ID, int C_PaymentProcessor_ID, String trxName)
 	{
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		MPayment payment = new MPayment (ctx, C_Payment_ID, trxName);
 		MPaymentProcessor mpp = new MPaymentProcessor (ctx, C_PaymentProcessor_ID, null);
 		log.info ("[" + m_no + "] " + payment + " - " + mpp);
@@ -568,6 +607,56 @@ public class ServerBean implements SessionBean
 
 
 	/**
+	 * Set savepoint
+	 * @ejb.interface-method view-type="both"
+	 * @param trxName
+	 * @param savePointName
+	 * @return true if success, false otherwise
+	 */
+	public SavepointVO setSavepoint(String trxName, String savePointName)
+	{
+		Trx trx = Trx.get(trxName, false);
+		if (trx != null) 
+		{
+			try 
+			{
+				Savepoint sp = null;
+				if (savePointName != null)
+					sp = trx.getConnection().setSavepoint(savePointName);
+				else
+					sp = trx.getConnection().setSavepoint();
+				return new SavepointVO(sp);
+			} 
+			catch (SQLException e) 
+			{
+				throw new RuntimeException(e);
+			} 
+		}
+		return null;
+	}
+	
+	/**
+	 * Start remote transaction
+	 * @ejb.interface-method view-type="both"
+	 * @param trxName
+	 */
+	public void startTransaction(String trxName) {
+		Trx trx = Trx.get(trxName, true);
+		trx.start();
+	}
+	
+	/**
+	 * Close remote transaction
+	 * @ejb.interface-method view-type="both"
+	 * @param trxName
+	 */
+	public void closeTransaction(String trxName) {
+		Trx trx = Trx.get(trxName, false);
+		if (trx != null)
+			trx.close();
+	}
+	
+	/**
 	 * Commit the named transaction on server
 	 * @ejb.interface-method view-type="both"
 	 * @param trxName
@@ -624,6 +713,35 @@ public class ServerBean implements SessionBean
 	}
 	
 	/**
+	 * Rollback the named transaction on server
+	 * @ejb.interface-method view-type="both"
+	 * @param trxName
+	 * @return true if success, false otherwise
+	 */
+	public boolean rollback(String trxName, SavepointVO savePoint)
+	{
+		boolean success = false;
+		Trx trx = Trx.get(trxName, false);
+		if (trx != null)
+		{
+			try 
+			{
+				trx.getConnection().rollback(savePoint);
+				success = true;
+			} 
+			catch (SQLException e) 
+			{
+				throw new RuntimeException(e);
+			}
+			finally 
+			{
+				trx.close();
+			}
+		}
+		return success;
+	}
+	
+	/**
 	 * Execute db proces on server
 	 * @ejb.interface-method view-type="both"
 	 * @param processInfo
@@ -636,8 +754,12 @@ public class ServerBean implements SessionBean
 		validateSecurityToken(token);
 		
 		Trx trx = null;
-		if (trxName != null)
-			trx = Trx.get(trxName, true);
+		if (trxName != null) {
+			trx = Trx.get(trxName, false);
+			if (trx == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
 		ProcessUtil.startDatabaseProcedure(processInfo, procedureName, trx);
 		return processInfo;
 	}
