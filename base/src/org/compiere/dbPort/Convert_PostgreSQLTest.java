@@ -28,6 +28,25 @@ public final class Convert_PostgreSQLTest extends TestCase{
 	
 	public Convert_PostgreSQLTest() {}
 	
+	public void test1807657() {
+		sql = "UPDATE A_Asset a "
+			+ "SET (Name, Description)="
+			+ "(SELECT SUBSTR((SELECT bp.Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=a.C_BPartner_ID) || ' - ' || p.Name,1,60), p.Description "
+			+ "FROM M_Product p "
+			+ "WHERE p.M_Product_ID=a.M_Product_ID) "
+			+ "WHERE IsActive='Y' "
+			+ "AND M_Product_ID=0";
+		
+		sqe = "UPDATE A_Asset " 
+			+ "SET Name=SUBSTR((SELECT bp.Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=A_Asset.C_BPartner_ID) || ' - ' || p.Name,1,60),"
+			+ "Description=p.Description " 
+			+ "FROM M_Product p " 
+			+ "WHERE p.M_Product_ID=A_Asset.M_Product_ID " 
+			+ "AND A_Asset.IsActive='Y' AND A_Asset.M_Product_ID=0";
+		
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+	}
 	public void test1751966() {
 		sql = "UPDATE I_ReportLine i "
 			+ "SET (Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PostingType)="

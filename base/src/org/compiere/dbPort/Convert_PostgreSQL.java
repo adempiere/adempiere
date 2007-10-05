@@ -507,12 +507,13 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			String joinFields = null;
 			String joinFromClause = null;
 			int joinFromClauseStart = 0;
+			open = -1;
 			for (int i = 0; i < subQuery.length(); i++)
 			{
 				char c = subQuery.charAt(i);
 				if (Character.isWhitespace(c))
 				{
-					if (token.length() > 0)
+					if (token.length() > 0 && open < 0)
 					{
 						if ("FROM".equalsIgnoreCase(previousToken))
 						{
@@ -546,6 +547,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 							  (previousToken != null && previousToken.toUpperCase().endsWith("SELECT")))) 
 							joinFieldsBegin = i;
 					}
+					else if (c == '(')
+						open++;
+					else if (c == ')')
+						open--;
 					token.append(c);
 				}
 			}
