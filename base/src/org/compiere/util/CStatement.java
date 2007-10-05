@@ -165,7 +165,7 @@ public class CStatement implements Statement
 				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP())
+		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
 		{
 			log.warning("execute locally");
 			p_stmt = local_getStatement (false, null);	// shared connection
@@ -224,7 +224,7 @@ public class CStatement implements Statement
 				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP())
+		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
 		{
 			log.warning("execute locally");
 			p_stmt = local_getStatement (false, null);	//	shared connection
@@ -928,7 +928,7 @@ public class CStatement implements Statement
 				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP())
+		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
 		{
 			log.warning("Execute locally");
 			p_stmt = local_getStatement(false, null);	// shared connection

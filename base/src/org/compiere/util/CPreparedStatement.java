@@ -153,7 +153,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP())
+		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
 		{
 			log.warning("Execute locally");
 			p_stmt = local_getPreparedStatement (false, null);	// shared connection
@@ -223,7 +223,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP())
+		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
 		{
 			log.warning("execute locally");
 			p_stmt = local_getPreparedStatement (false, null);	//	shared connection
@@ -941,7 +941,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				throw new RuntimeException(ex);
 		}
 		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP())
+		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
 		{
 			log.warning("Execute locally");
 			p_stmt = local_getPreparedStatement (false, null);	// shared connection

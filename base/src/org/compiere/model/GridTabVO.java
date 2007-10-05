@@ -252,19 +252,12 @@ public class GridTabVO implements Evaluatee, Serializable
 		if (DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false))
 		{
 			remoteCreateFields(mTabVO);
-			if (CConnection.get().isRMIoverHTTP())
-			{
-				return mTabVO.initFields;
-			}
-			else
-			{
-				if (mTabVO.initFields) return true;
-			}
+			return mTabVO.initFields;
 		}
 		
-		if (CConnection.get().isRMIoverHTTP())
+		if (CConnection.get().isRMIoverHTTP() || CConnection.get().getDatabase().getStatus() == null)
 		{
-			CLogger.get().log(Level.SEVERE, "WAN - Application server not available.");
+			CLogger.get().log(Level.SEVERE, "Application server not available.");
 			return false;
 		}
 		

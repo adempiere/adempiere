@@ -385,7 +385,8 @@ public final class DB
 	public static Connection createConnection (boolean autoCommit, int trxLevel)
 	{
 		//wan profile
-		if (CConnection.get().isRMIoverHTTP()) return null;
+		if (CConnection.get().isRMIoverHTTP() || CConnection.get().getDatabase().getStatus() == null) 
+        	return new ServerConnection();
 		
 		Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 		if (CLogMgt.isLevelFinest())
@@ -417,7 +418,8 @@ public final class DB
     public static Connection createConnection (boolean autoCommit, boolean readOnly, int trxLevel)
     {
         //wan profile
-        if (CConnection.get().isRMIoverHTTP()) return null;
+        if (CConnection.get().isRMIoverHTTP() || CConnection.get().getDatabase().getStatus() == null) 
+        	return new ServerConnection();
 
         Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 

@@ -23,6 +23,7 @@ import java.util.UUID;
 import java.util.logging.*;
 
 import org.compiere.db.CConnection;
+import org.compiere.db.ServerConnection;
 import org.compiere.interfaces.Server;
 
 /**
@@ -82,6 +83,8 @@ public class Trx implements VetoableChangeListener
 		if (prefix == null || prefix.length() == 0)
 			prefix = "Trx";
 		prefix += "_" + UUID.randomUUID(); //System.currentTimeMillis();
+		//create transaction entry
+		Trx.get(prefix, true);
 		return prefix;
 	}	//	createTrxName
 
@@ -107,13 +110,16 @@ public class Trx implements VetoableChangeListener
 	/**
 	 * 	Transaction Constructor
 	 * 	@param trxName unique name
-	@param con optional connection
+	 *  @param con optional connection ( ignore for remote transaction )
 	 * 	 */
 	private Trx (String trxName, Connection con)
 	{
 	//	log.info (trxName);
 		setTrxName (trxName);
 		setConnection (con);
+		//create remote transaction immediately
+		if (DB.isRemoteObjects())
+			this.start();
 	}	//	Trx
 
 	/** Logger					*/
@@ -121,7 +127,6 @@ public class Trx implements VetoableChangeListener
 	
 	private	Connection 	m_connection = null;
 	private	String 		m_trxName = null;
-	//private Savepoint	m_savepoint = null;
 	private boolean		m_active = false;
 
 	/**
@@ -132,14 +137,13 @@ public class Trx implements VetoableChangeListener
 	{
 		log.log(Level.ALL, "Active=" + isActive() + ", Connection=" + m_connection);
 		//wan profile
-		if (DB.isRemoteObjects()) return null;
+		if (DB.isRemoteObjects()) 
+			return new ServerConnection(getTrxName());
 		
 		if (m_connection == null)	//	get new Connection
 			setConnection(DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED));
 		if (!isActive())
 			start();
-	//	System.err.println ("Trx.getConnection - " + m_name + ": "+ m_connection); 
-	//	Trace.printStack();
 		return m_connection;
 	}	//	getConnection
 
@@ -189,40 +193,35 @@ public class Trx implements VetoableChangeListener
 	 */
 	public boolean start()
 	{
-		if (/*m_savepoint != null || */m_active)
+		if (m_active)
 		{
-			log.warning("Trx in progress " + m_trxName /*+ " - " + m_savepoint*/);
+			log.warning("Trx in progress " + m_trxName);
 			return false;
+		}
+		if (DB.isRemoteObjects()) {
+			startRemoteTransaction();
 		}
 		m_active = true;
-		/*
-		try
-		{
-			if (m_connection != null)
-			{
-				//m_savepoint = m_connection.setSavepoint(m_trxName);
-				log.info("**** " + getTrxName());
-			}
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, m_trxName, e);
-			//m_savepoint = null;
-			return false;
-		}*/
 		return true;
 	}	//	startTrx
 
-	/**
-	 * 	Get Savepoint
-	 *	@return savepoint or null
-	 */
-	/*
-	public Savepoint getSavepoint()
-	{
-		return m_savepoint;
-	}	//	getSavepoint*/
-	
+	private void startRemoteTransaction() {
+		Server server = CConnection.get().getServer();
+		try
+		{
+			if (server != null)
+			{	//	See ServerBean
+				server.startTransaction(getTrxName());
+			}
+			log.log(Level.WARNING, "AppsServer not found");
+		}
+		catch (RemoteException ex)
+		{
+			log.log(Level.SEVERE, "AppsServer error", ex);
+		}
+		
+	}
+
 	/**
 	 * 	Transaction is Active
 	 *	@return true if transaction active  
@@ -250,14 +249,8 @@ public class Trx implements VetoableChangeListener
 		{
 			if (m_connection != null)
 			{
-				/*
-				if (m_savepoint == null)
-					m_connection.rollback();
-				else
-					m_connection.rollback(m_savepoint);*/
 				m_connection.rollback();
 				log.info ("**** " + m_trxName);
-				//m_savepoint = null;
 				m_active = false;
 				return true;
 			}
@@ -267,12 +260,10 @@ public class Trx implements VetoableChangeListener
 			log.log(Level.SEVERE, m_trxName, e);
 			if (throwException)
 			{
-				//m_savepoint = null;
 				m_active = false;
 				throw e;
 			}
 		}		
-		//m_savepoint = null;
 		m_active = false;
 		return false;
 	}	//	rollback
@@ -290,6 +281,37 @@ public class Trx implements VetoableChangeListener
 		}
 	}
 
+	/**
+	 * 	Rollback
+	 *  @param throwException if true, re-throws exception
+	 *	@return true if success, false if failed or transaction already rollback
+	 */
+	public boolean rollback(Savepoint savepoint) throws SQLException
+	{
+		//remote
+		if (DB.isRemoteObjects())
+		{
+			return remote_rollback(savepoint);
+		}
+		
+		//local
+		try
+		{
+			if (m_connection != null)
+			{
+				m_connection.rollback(savepoint);
+				log.info ("**** " + m_trxName);
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, m_trxName, e);
+			throw e;
+		}		
+		return false;
+	}	//	rollback
+	
 	/**
 	 * Rollback a remote transaction
 	 * @param throwException
@@ -334,31 +356,47 @@ public class Trx implements VetoableChangeListener
 	}
 	
 	/**
-	 * 	Release savepoint
-	 *	@return true if released
-	 *
-	public boolean release()
+	 * Rollback a remote transaction
+	 * @param throwException
+	 * @return true if success, false otherwise
+	 * @throws SQLException
+	 */
+	private boolean remote_rollback(Savepoint savepoint) throws SQLException
 	{
-		if (m_connection == null)
-			return false;
-		m_active = false;
-		if (m_savepoint == null)
-			return true;
+		Server server = CConnection.get().getServer();
 		try
 		{
-			getConnection().releaseSavepoint(m_savepoint);
-			log.fine("release **** " + getName());
-			m_savepoint = null;
+			if (server != null)
+			{	
+				SavepointVO sp = null;
+				if (savepoint instanceof SavepointVO)
+					sp = (SavepointVO)savepoint;
+				else
+					sp = new SavepointVO(savepoint);
+				return server.rollback(m_trxName, sp);
+			}
+			log.log(Level.SEVERE, "AppsServer not found");
+			throw new SQLException("AppsServer not found");
 		}
-		catch (SQLException e)
+		catch (RemoteException ex)
 		{
-			log.log(Level.SEVERE, "release ****", e);
-			m_savepoint = null;
-			return false;
+			log.log(Level.SEVERE, "AppsServer error", ex);
+			if (ex.getCause() instanceof RuntimeException)
+			{
+				RuntimeException r = (RuntimeException)ex.getCause();
+				if (r.getCause() instanceof SQLException)
+					throw (SQLException)r.getCause();
+				else if ( r.getCause() != null )
+					throw new SQLException("Application server exception - " + r.getCause().getMessage());
+				else
+					throw new SQLException("Application server exception - " + r.getMessage());
+			}
+			else
+			{
+					throw new SQLException("Application server exception - " + ex.getMessage());
+			}
 		}
-		return true;
-	}	//	release
-
+	}
 	/**
 	 * Commit
 	 * @param throwException if true, re-throws exception
@@ -379,7 +417,6 @@ public class Trx implements VetoableChangeListener
 			{
 				m_connection.commit();
 				log.info ("**** " + m_trxName);
-				//m_savepoint = null;
 				m_active = false;
 				return true;
 			}
@@ -389,12 +426,10 @@ public class Trx implements VetoableChangeListener
 			log.log(Level.SEVERE, m_trxName, e);
 			if (throwException) 
 			{
-				//m_savepoint = null;
 				m_active = false;
 				throw e;
 			}
 		}
-		//m_savepoint = null;
 		m_active = false;
 		return false;
 	}	//	commit
@@ -467,11 +502,19 @@ public class Trx implements VetoableChangeListener
 	{
 		if (s_cache != null)
 			s_cache.remove(getTrxName());
-		//
+		
+		//remote
+		if (DB.isRemoteObjects()) {
+			closeRemoteTransaction();
+			m_active = false;
+			return true;
+		}
+		
+		//local
 		if (m_connection == null)
 			return true;
 		
-		if (/*m_savepoint != null || */isActive())
+		if (isActive())
 			commit();
 			
 		//	Close Connection
@@ -483,13 +526,78 @@ public class Trx implements VetoableChangeListener
 		{
 			log.log(Level.SEVERE, m_trxName, e);
 		}
-		//m_savepoint = null;
 		m_connection = null;
 		m_active = false;
 		log.config(m_trxName);
 		return true;
 	}	//	close
 	
+	private void closeRemoteTransaction() {
+		Server server = CConnection.get().getServer();
+		try
+		{
+			if (server != null)
+			{	//	See ServerBean
+				server.closeTransaction(getTrxName());
+			}
+			log.log(Level.WARNING, "AppsServer not found");
+		}
+		catch (RemoteException ex)
+		{
+			log.log(Level.SEVERE, "AppsServer error", ex);
+		}
+		
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
+	public Savepoint setSavepoint(String name) throws SQLException {
+		//remote
+		if (DB.isRemoteObjects())
+		{
+			return setRemoteSavepoint(name);
+		}
+		
+		if(m_connection != null) {
+			return m_connection.setSavepoint(name);
+		} else {
+			return null;
+		}
+	}
+	
+	private Savepoint setRemoteSavepoint(String name) throws SQLException {
+		Server server = CConnection.get().getServer();
+		try
+		{
+			if (server != null)
+			{	//	See ServerBean
+				return server.setSavepoint(m_trxName, name);
+			}
+			log.log(Level.SEVERE, "AppsServer not found");
+			throw new SQLException("AppsServer not found");
+		}
+		catch (RemoteException ex)
+		{
+			log.log(Level.SEVERE, "AppsServer error", ex);
+			if (ex.getCause() instanceof RuntimeException)
+			{
+				RuntimeException r = (RuntimeException)ex.getCause();
+				if (r.getCause() instanceof SQLException)
+					throw (SQLException)r.getCause();
+				else if ( r.getCause() != null )
+					throw new SQLException("Application server exception - " + r.getCause().getMessage());
+				else
+					throw new SQLException("Application server exception - " + r.getMessage());
+			}
+			else
+				throw new SQLException("Application server exception - " + ex.getMessage());
+		}
+	}
+
 	/**
 	 * 	String Representation
 	 *	@return info

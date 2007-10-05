@@ -950,7 +950,7 @@ public class CConnection implements Serializable, Cloneable
 	public Exception testDatabase(boolean retest)
 	{
 		//	At this point Application Server Connection is tested.
-		if (isRMIoverHTTP())
+		if (DB.isRemoteObjects() || isRMIoverHTTP())
 			return null;
 		if (!retest && m_ds != null && m_okDB)
 			return null;
@@ -1211,7 +1211,7 @@ public class CConnection implements Serializable, Cloneable
 	                     } 	 
 	             }
 		         //hengsin, don't test datasource for wan profile
-		         if (!isRMIoverHTTP())
+		         if (!DB.isRemoteObjects() && !isRMIoverHTTP())
 		         {
 			         if (m_db != null)		//	test class loader ability
 			        	 m_db.getDataSource(this);
@@ -1602,7 +1602,7 @@ public class CConnection implements Serializable, Cloneable
 		setDbPort (svr.getDbPort ());
 		setDbName (svr.getDbName ());
 		setDbUid (svr.getDbUid ());
-		if (isRMIoverHTTP())
+		if (isRMIoverHTTP() || DB.isRemoteObjects())
 			setDbPwd ("");
 		else
 			setDbPwd (svr.getDbPwd ());

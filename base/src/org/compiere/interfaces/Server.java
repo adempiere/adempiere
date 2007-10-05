@@ -164,6 +164,26 @@ public interface Server
       throws java.rmi.RemoteException;
 
    /**
+    * Set savepoint
+    * @param trxName
+    * @param savePointName
+    * @return true if success, false otherwise    */
+   public org.compiere.util.SavepointVO setSavepoint( java.lang.String trxName,java.lang.String savePointName )
+      throws java.rmi.RemoteException;
+
+   /**
+    * Start remote transaction
+    * @param trxName    */
+   public void startTransaction( java.lang.String trxName )
+      throws java.rmi.RemoteException;
+
+   /**
+    * Close remote transaction
+    * @param trxName    */
+   public void closeTransaction( java.lang.String trxName )
+      throws java.rmi.RemoteException;
+
+   /**
     * Commit the named transaction on server
     * @param trxName
     * @return true if success, false otherwise    */
@@ -175,6 +195,13 @@ public interface Server
     * @param trxName
     * @return true if success, false otherwise    */
    public boolean rollback( java.lang.String trxName )
+      throws java.rmi.RemoteException;
+
+   /**
+    * Rollback the named transaction on server
+    * @param trxName
+    * @return true if success, false otherwise    */
+   public boolean rollback( java.lang.String trxName,org.compiere.util.SavepointVO savePoint )
       throws java.rmi.RemoteException;
 
    /**

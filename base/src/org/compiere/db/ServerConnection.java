@@ -32,18 +32,26 @@ import java.sql.Statement;
 import java.util.Map;
 
 import org.compiere.util.DB;
+import org.compiere.util.Trx;
 
 /**
  * Connection that is used to execute query on Server for Client processes
  * Need for Jasper Report processes as the Jasper Manager uses a connection
  *  
  * @author Ashley G Ramdass 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- *  			<li>BF [ 1806700 ] Compile error on JAVA 6
  */
 public class ServerConnection implements Connection
 {
+	
+	private String trxName = null;
 
+	public ServerConnection() {		
+	}
+	
+	public ServerConnection(String trxName) {
+		this.trxName = trxName;
+	}
+	
 	public void clearWarnings() throws SQLException
 	{
 		throw new java.lang.UnsupportedOperationException ("Method clearWarnings() not yet implemented.");
@@ -51,12 +59,21 @@ public class ServerConnection implements Connection
 
 	public void close() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method close() not yet implemented.");
+		if (trxName != null) {
+	    	Trx trx = Trx.get(trxName, false);
+	    	if (trx != null)
+	    		trx.close();
+	    	trxName = null;
+	    }
 	}
 
 	public void commit() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method commit() not yet implemented.");
+	    if (trxName != null) {
+	    	Trx trx = Trx.get(trxName, false);
+	    	if (trx != null)
+	    		trx.commit(true);
+	    }
 	}
 
 	public Statement createStatement() throws SQLException
@@ -66,7 +83,7 @@ public class ServerConnection implements Connection
 
 	public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException
 	{
-		return DB.createStatement(resultSetType, resultSetConcurrency, null);
+		return DB.createStatement(resultSetType, resultSetConcurrency, trxName);
 	}
 
 	public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
@@ -76,7 +93,7 @@ public class ServerConnection implements Connection
 
 	public boolean getAutoCommit() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method getAutoCommit() not yet implemented.");
+	    return (trxName != null);
 	}
 
 	public String getCatalog() throws SQLException
@@ -96,7 +113,7 @@ public class ServerConnection implements Connection
 
 	public int getTransactionIsolation() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method getTransactionIsolation() not yet implemented.");
+	    return Connection.TRANSACTION_READ_COMMITTED;
 	}
 
 	public Map<String, Class<?>> getTypeMap() throws SQLException
@@ -106,17 +123,17 @@ public class ServerConnection implements Connection
 
 	public SQLWarning getWarnings() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method getWarnings() not yet implemented.");
+	    return null;
 	}
 
 	public boolean isClosed() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method isClosed() not yet implemented.");
+	    return false;
 	}
 
 	public boolean isReadOnly() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method isReadOnly() not yet implemented.");
+	    return false;
 	}
 
 	public String nativeSQL(String sql) throws SQLException
@@ -131,12 +148,12 @@ public class ServerConnection implements Connection
 
 	public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException
 	{
-		return DB.prepareCall(sql, resultSetConcurrency, null);
+		return DB.prepareCall(sql, resultSetConcurrency, trxName);
 	}
 
 	public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException
 	{
-		return DB.prepareCall(sql, resultSetConcurrency, null);
+		return DB.prepareCall(sql, resultSetConcurrency, trxName);
 	}
 
 	public PreparedStatement prepareStatement(String sql) throws SQLException
@@ -176,7 +193,11 @@ public class ServerConnection implements Connection
 
 	public void rollback() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method rollback() not yet implemented.");
+	    if (trxName != null) {
+	    	Trx trx = Trx.get(trxName, false);
+	    	if (trx != null)
+	    		trx.rollback(true);
+	    }
 	}
 
 	public void rollback(Savepoint savepoint) throws SQLException
@@ -186,7 +207,17 @@ public class ServerConnection implements Connection
 
 	public void setAutoCommit(boolean autoCommit) throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method setAutoCommit() not yet implemented.");
+	    if (autoCommit) {
+	    	if (trxName != null) {
+	    		Trx trx = Trx.get(trxName, false);
+	    		if (trx != null)
+	    			trx.close();
+	    	}
+	    } else {
+	    	if (trxName == null) {
+	    		trxName = Trx.createTrxName();
+	    	}
+	    }
 	}
 
 	public void setCatalog(String catalog) throws SQLException
@@ -201,22 +232,24 @@ public class ServerConnection implements Connection
 
 	public void setReadOnly(boolean readOnly) throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method setReadOnly() not yet implemented.");
 	}
 
 	public Savepoint setSavepoint() throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method setSavepoint() not yet implemented.");
+    	return setSavepoint(null);
 	}
 
 	public Savepoint setSavepoint(String name) throws SQLException
 	{
-	    throw new java.lang.UnsupportedOperationException ("Method setSavepoint() not yet implemented.");
+		if (trxName == null) {
+	    	trxName = Trx.createTrxName();
+	    }
+	    Trx trx = Trx.get(trxName, false);
+    	return trx.setSavepoint(name);
 	}
 
 	public void setTransactionIsolation(int level) throws SQLException
-	{
-	    throw new java.lang.UnsupportedOperationException ("Method setTransactionIsolation() not yet implemented.");
+	{	    
 	}
 
 	public void setTypeMap(Map<String, Class<?>> arg0) throws SQLException

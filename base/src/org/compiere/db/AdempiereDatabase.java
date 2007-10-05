@@ -257,7 +257,7 @@ public interface AdempiereDatabase
 
 	/**
 	 * 	Get Status
-	 * 	@return status info
+	 * 	@return status info or null if no local datasource available
 	 */
 	public String getStatus();
 
