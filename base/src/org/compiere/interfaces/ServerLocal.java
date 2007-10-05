@@ -151,7 +151,7 @@ public interface ServerLocal
     * @param trxName
     * @param savePointName
     * @return true if success, false otherwise    */
-   public org.compiere.util.CSavePoint setSavepoint( java.lang.String trxName,java.lang.String savePointName ) ;
+   public org.compiere.util.SavepointVO setSavepoint( java.lang.String trxName,java.lang.String savePointName ) ;
 
    /**
     * Start remote transaction
@@ -179,7 +179,7 @@ public interface ServerLocal
     * Rollback the named transaction on server
     * @param trxName
     * @return true if success, false otherwise    */
-   public boolean rollback( java.lang.String trxName,org.compiere.util.CSavePoint savePoint ) ;
+   public boolean rollback( java.lang.String trxName,org.compiere.util.SavepointVO savePoint ) ;
 
    /**
     * Execute db proces on server
