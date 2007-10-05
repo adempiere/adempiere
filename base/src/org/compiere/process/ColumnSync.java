@@ -70,71 +70,81 @@ public class ColumnSync extends SvrProcess
 			throw new AdempiereUserError("@NotFound@ @AD_Table_ID@ " + column.getAD_Table_ID());
 		
 		//	Find Column in Database
-		DatabaseMetaData md = DB.getConnectionRO().getMetaData();
-		String catalog = DB.getDatabase().getCatalog();
-		String schema = DB.getDatabase().getSchema();
-		String tableName = table.getTableName();
-		if (DB.isOracle())
-			tableName = tableName.toUpperCase();
-                
-                // begin vpj-cd e-evolution 08/01/2005 PostgreSQL
-                if (DB.isPostgreSQL())                
-			tableName = tableName.toLowerCase();
-                // end vpj-cd e-evolution 08/01/2005 PostgreSQL 
-                
-		int noColumns = 0;
-		String sql = null;
-		//
-		ResultSet rs = md.getColumns(catalog, schema, tableName, null);
-		while (rs.next())
-		{
-			noColumns++;
-			String columnName = rs.getString ("COLUMN_NAME");
-			if (!columnName.equalsIgnoreCase(column.getColumnName()))
-				continue;
-			
-			//	update existing column
-			boolean notNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
-			sql = column.getSQLModify(table, column.isMandatory() != notNull);
-			break;
-		}
-		rs.close();
-		rs = null;
-		
-		//	No Table
-		if (noColumns == 0)
-			sql = table.getSQLCreate ();
-		//	No existing column
-		else if (sql == null)
-			sql = column.getSQLAdd(table);
-		
-		int no = 0;
-		if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
-		{
-			no = DB.executeUpdate(sql, false, get_TrxName());
-			addLog (0, null, new BigDecimal(no), sql);
-		}
-		else
-		{
-			String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
-			for (int i = 0; i < statements.length; i++)
+		Connection conn = null;
+		try {
+			conn = DB.getConnectionRO();
+			DatabaseMetaData md = conn.getMetaData();
+			String catalog = DB.getDatabase().getCatalog();
+			String schema = DB.getDatabase().getSchema();
+			String tableName = table.getTableName();
+			if (DB.isOracle())
+				tableName = tableName.toUpperCase();
+	                
+	                // begin vpj-cd e-evolution 08/01/2005 PostgreSQL
+	                if (DB.isPostgreSQL())                
+				tableName = tableName.toLowerCase();
+	                // end vpj-cd e-evolution 08/01/2005 PostgreSQL 
+	                
+			int noColumns = 0;
+			String sql = null;
+			//
+			ResultSet rs = md.getColumns(catalog, schema, tableName, null);
+			while (rs.next())
 			{
-				int count = DB.executeUpdate(statements[i], false, get_TrxName());
-				addLog (0, null, new BigDecimal(count), statements[i]);
-				no += count;
+				noColumns++;
+				String columnName = rs.getString ("COLUMN_NAME");
+				if (!columnName.equalsIgnoreCase(column.getColumnName()))
+					continue;
+				
+				//	update existing column
+				boolean notNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
+				sql = column.getSQLModify(table, column.isMandatory() != notNull);
+				break;
+			}
+			rs.close();
+			rs = null;
+		
+			//	No Table
+			if (noColumns == 0)
+				sql = table.getSQLCreate ();
+			//	No existing column
+			else if (sql == null)
+				sql = column.getSQLAdd(table);
+			
+			int no = 0;
+			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
+			{
+				no = DB.executeUpdate(sql, false, get_TrxName());
+				addLog (0, null, new BigDecimal(no), sql);
+			}
+			else
+			{
+				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
+				for (int i = 0; i < statements.length; i++)
+				{
+					int count = DB.executeUpdate(statements[i], false, get_TrxName());
+					addLog (0, null, new BigDecimal(count), statements[i]);
+					no += count;
+				}
+			}
+	
+			if (no == -1)
+			{
+				String msg = "@Error@ ";
+				ValueNamePair pp = CLogger.retrieveError();
+				if (pp != null)
+					msg = pp.getName() + " - ";
+				msg += sql;
+				throw new AdempiereUserError (msg);
+			}
+			return sql;
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {}
 			}
 		}
-
-		if (no == -1)
-		{
-			String msg = "@Error@ ";
-			ValueNamePair pp = CLogger.retrieveError();
-			if (pp != null)
-				msg = pp.getName() + " - ";
-			msg += sql;
-			throw new AdempiereUserError (msg);
-		}
-		return sql;		
 	}	//	doIt
 
 }	//	ColumnSync

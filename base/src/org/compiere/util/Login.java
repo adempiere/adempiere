@@ -152,11 +152,17 @@ public class Login
 		Env.setContext(m_ctx, "#Host", cc.getAppsHost());
 		Env.setContext(m_ctx, "#Database", cc.getDbName());
 		
-		if (DB.getConnectionRO() == null)
+		Connection conn = DB.getConnectionRO(); 
+		if (conn == null)
 		{
 			log.saveError("NoDatabase", "");
 			return null;
 		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+		}
+		
 		if (app_pwd == null)
 			return null;
 		//

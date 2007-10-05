@@ -97,6 +97,7 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 					m_Reportview.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_Reportview", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_Reportview"));
+			element.recordId = m_Reportview.getAD_ReportView_ID();
 		} else {
 			record_log(ctx, 0, m_Reportview.getName(), "Reportview",
 					m_Reportview.get_ID(), AD_Backup_ID, Object_Status,

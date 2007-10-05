@@ -17,6 +17,7 @@
 package org.adempiere.pipo.handler;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ import org.compiere.model.X_AD_Column;
 import org.compiere.model.X_AD_Element;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -219,9 +221,9 @@ public class ColumnElementHandler extends AbstractElementHandler {
 					recreateColumn = false;
 			}
 
-			if (tableName.equals("A_Depreciation") && columnName.equals("Processed")) {
+			/*if (tableName.equals("A_Depreciation") && columnName.equals("Processed")) {
 				System.out.println("A_Depreciation.Processed: " + recreateColumn);
-			}
+			}*/
 			
 			if (m_Column.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Column.getName(), "Column", m_Column
@@ -281,9 +283,15 @@ public class ColumnElementHandler extends AbstractElementHandler {
 		String sql = null;
 		ResultSet rst = null;
 		ResultSet rsc = null;
+		Connection conn = null;
+		Trx trx = Trx.get(getTrxName(ctx), true);
+		if (!trx.commit())
+			return 0;
+		
 		try {
 			// Find Column in Database
-			DatabaseMetaData md = DB.getConnectionRO().getMetaData();
+			conn = trx.getConnection();
+			DatabaseMetaData md = conn.getMetaData();
 			String catalog = DB.getDatabase().getCatalog();
 			String schema = DB.getDatabase().getSchema();
 			String tableName = table.getTableName();
@@ -327,14 +335,16 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				log.info(sql);
 	
 				if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1) {
-					no = DB.executeUpdate(sql, false, getTrxName(ctx));
+					System.out.println(sql);
+					no = DB.executeUpdate(sql, false, trx.getTrxName());
 					if (no == -1)
 						return 0;
 				} else {
 					String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
 					for (int i = 0; i < statements.length; i++) {
+						System.out.println(statements[i]);
 						int count = DB.executeUpdate(statements[i], false,
-								getTrxName(ctx));
+								trx.getTrxName());
 						if (count == -1) {
 							return 0;
 						}
@@ -342,6 +352,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 					}
 				}
 			}
+			trx.commit(true);
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			if (rsc != null) {
@@ -358,18 +369,9 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				}
 				rst = null;
 			}
+			trx.rollback();
 			return 0;
-		}
-
-		// postgres requires commit on DDL (ALTER,CREATE)
-		if (DB.isPostgreSQL()) {
-			try {
-				DB.commit(true, getTrxName(ctx));
-			} catch (SQLException e) {
-				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				return 0;
-			}
-		}
+		} 
 
 		return 1;
 	}

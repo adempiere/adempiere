@@ -45,7 +45,13 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 		
 		if (isProcessElement(ctx, entitytype)) {
 			String name = atts.getValue("ADReportviewNameID");
-			int AD_ReportView_ID = get_IDWithColumn(ctx, "AD_ReportView", "Name", name);
+			int AD_ReportView_ID = 0;
+			if (element.parent != null && element.parent.getElementValue().equals("reportview") &&
+				element.parent.recordId > 0) {
+				AD_ReportView_ID = element.parent.recordId;
+			} else {
+				AD_ReportView_ID = get_IDWithColumn(ctx, "AD_ReportView", "Name", name);
+			}
 			if (AD_ReportView_ID <= 0) {
 				element.defer = true;
 				return;

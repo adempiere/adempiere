@@ -60,12 +60,16 @@ public class SQLStatementElementHandler extends AbstractElementHandler {
 				// pstmt.executeUpdate();
 				//
 				Connection m_con = DB.getConnectionRW(true);
-				Statement stmt = m_con.createStatement();
-				int n = stmt.executeUpdate (atts.getValue("statement"));
-				log.info("Executed SQL Statement for PostgreSQL: "+ atts.getValue("statement"));
-				// Postgres needs to commit DDL statements
-				if (m_con != null && !m_con.getAutoCommit())
-					m_con.commit();
+				try {
+					Statement stmt = m_con.createStatement();
+					int n = stmt.executeUpdate (atts.getValue("statement"));
+					log.info("Executed SQL Statement for PostgreSQL: "+ atts.getValue("statement"));
+					// Postgres needs to commit DDL statements
+					if (m_con != null && !m_con.getAutoCommit())
+						m_con.commit();
+				} finally {
+					m_con.close();
+				}
 			}
 			/*			else if(DB.isSybase() == true && DBType.equals("Sybase")){
 			 pstmt.executeUpdate();

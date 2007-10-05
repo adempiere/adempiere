@@ -81,32 +81,42 @@ public class TableCreateColumns extends SvrProcess
 			+ ", AllTables=" + p_AllTables
 			+ ", AD_Table_ID=" + p_AD_Table_ID);
 		//
-		Connection conn = DB.getConnectionRO();
-		AdempiereDatabase db = DB.getDatabase();
-		DatabaseMetaData md = conn.getMetaData();
-		String catalog = db.getCatalog();
-		String schema = db.getSchema();
+		Connection conn = null;
 		
-		if (p_AllTables)
-			addTable (md, catalog, schema);
-		else
-		{
-			MTable table = new MTable (getCtx(), p_AD_Table_ID, get_TrxName());
-			if (table == null || table.get_ID() == 0)
-				throw new AdempiereSystemError("@NotFound@ @AD_Table_ID@ " + p_AD_Table_ID);
-			log.info(table.getTableName() + ", EntityType=" + p_EntityType);
-			String tableName = table.getTableName();
-			if (DB.isOracle())
-				tableName = tableName.toUpperCase();
-            // globalqss 2005-10-24
-			if (DB.isPostgreSQL())
-			    tableName = tableName.toLowerCase();
-			// end globalqss 2005-10-24
-			ResultSet rs = md.getColumns(catalog, schema, tableName, null);
-			addTableColumn(rs, table);
+		try {
+			conn = DB.getConnectionRO();
+			AdempiereDatabase db = DB.getDatabase();
+			DatabaseMetaData md = conn.getMetaData();
+			String catalog = db.getCatalog();
+			String schema = db.getSchema();
+			
+			if (p_AllTables)
+				addTable (md, catalog, schema);
+			else
+			{
+				MTable table = new MTable (getCtx(), p_AD_Table_ID, get_TrxName());
+				if (table == null || table.get_ID() == 0)
+					throw new AdempiereSystemError("@NotFound@ @AD_Table_ID@ " + p_AD_Table_ID);
+				log.info(table.getTableName() + ", EntityType=" + p_EntityType);
+				String tableName = table.getTableName();
+				if (DB.isOracle())
+					tableName = tableName.toUpperCase();
+	            // globalqss 2005-10-24
+				if (DB.isPostgreSQL())
+				    tableName = tableName.toLowerCase();
+				// end globalqss 2005-10-24
+				ResultSet rs = md.getColumns(catalog, schema, tableName, null);
+				addTableColumn(rs, table);
+			}
+			
+			return "#" + m_count;
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {}
+			}
 		}
-		
-		return "#" + m_count;
 	}	//	doIt
 
 	/**

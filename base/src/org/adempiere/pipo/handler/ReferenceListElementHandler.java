@@ -48,8 +48,15 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 			}
 			String name = atts.getValue("Name");
 			String value = atts.getValue("Value");
-			int AD_Reference_ID = get_IDWithColumn(ctx, "AD_Reference", "Name",
-					atts.getValue("ADRefenceNameID"));
+			int AD_Reference_ID = 0;
+			if (element.parent != null && element.parent.getElementValue().equals("reference") &&
+				element.parent.recordId > 0) {
+				AD_Reference_ID = element.parent.recordId;
+			} else {
+				AD_Reference_ID = get_IDWithColumn(ctx, "AD_Reference", "Name",
+						atts.getValue("ADRefenceNameID"));
+			}
+			
 			int AD_Ref_List_ID = get_IDWithMasterAndColumn(ctx, "AD_Ref_List", "Value", value, "AD_Reference", AD_Reference_ID);
 			X_AD_Ref_List m_Ref_List = new X_AD_Ref_List(ctx, AD_Ref_List_ID,
 					getTrxName(ctx));

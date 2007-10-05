@@ -54,12 +54,19 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				return;
 			}
 			
-			StringBuffer sqlB = new StringBuffer(
+			int AD_Reference_ID = 0;
+			if (element.parent != null && element.parent.getElementValue().equals("reference") &&
+				element.parent.recordId > 0) {
+				AD_Reference_ID = element.parent.recordId;
+			} else {
+				StringBuffer sqlB = new StringBuffer(
 					"SELECT AD_Reference_ID FROM AD_Reference WHERE Name= ?");
-			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), name);
-			sqlB = new StringBuffer(
+				AD_Reference_ID = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), name);
+			}
+			
+			StringBuffer sqlB = new StringBuffer(
 					"SELECT Count(*) FROM AD_Ref_Table WHERE AD_Reference_ID= ?");
-			int count = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), id);
+			int count = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), AD_Reference_ID);
 			int tableId = get_IDWithColumn(ctx, "AD_Table", "TableName", atts
 					.getValue("ADTableNameID"));
 			if (tableId == 0) {
@@ -141,17 +148,17 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 						"', OrderByClause = '" + OrderByClause).append(
 						"', EntityType ='" + entityType).append(
 						"', WhereClause = '" + WhereClause).append(
-						"' WHERE AD_Reference_ID = " + id);
+						"' WHERE AD_Reference_ID = " + AD_Reference_ID);
 
 				int no = DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
 				if (no > 0) {
 					record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
-							"Reference Table", id, 0, "Update", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 				} else {
 					record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
-							"Reference Table", id, 0, "Update", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 					throw new POSaveFailedException("ReferenceTable");
@@ -165,7 +172,7 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 						.append(
 								",entityType, isValueDisplayed, OrderByClause, ")
 						.append(" WhereClause )").append(
-								"VALUES(0, 0, 0, 0, " + id).append(
+								"VALUES(0, 0, 0, 0, " + AD_Reference_ID).append(
 								", " + tableId).append(", " + DisplayId)
 						.append(", " + keyId).append(", '" + entityType)
 						.append("', '" + isValueDisplayed).append(
@@ -175,12 +182,12 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				int no = DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
 				if (no > 0) {
 					record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
-							"Reference Table", id, 0, "New", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "New", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 				} else {
 					record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
-							"Reference Table", id, 0, "New", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "New", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 					throw new POSaveFailedException("ReferenceTable");

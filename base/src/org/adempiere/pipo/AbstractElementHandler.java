@@ -287,7 +287,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		fileTarget = new FileInputStream(filePath);
     	}
     	catch (FileNotFoundException e ) {
-    		System.out.println("Can't find file ");
+    		System.out.println("File not found: " + filePath);
     		
     		return null;
     	}
@@ -308,7 +308,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		fileTarget = new FileOutputStream(filePath);
     	}
     	catch (FileNotFoundException e ) {
-    		System.out.println("Can't find file ");
+    		System.out.println("File not found: " + filePath);
     		
     		return null;
     	}

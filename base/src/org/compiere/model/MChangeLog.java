@@ -141,10 +141,10 @@ public class MChangeLog extends X_AD_ChangeLog
 		int AD_Client_ID, int AD_Org_ID,
 		Object OldValue, Object NewValue)
 	{
-		this (ctx, 0, null);	//	 out of trx
+		this (ctx, 0, TrxName);	
 		if (AD_ChangeLog_ID == 0)
 		{
-			AD_ChangeLog_ID = DB.getNextID (AD_Client_ID, Table_Name, null);
+			AD_ChangeLog_ID = DB.getNextID (AD_Client_ID, Table_Name, TrxName);
 			if (AD_ChangeLog_ID <= 0)
 				log.severe("No NextID (" + AD_ChangeLog_ID + ")");
 		}

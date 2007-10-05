@@ -694,7 +694,20 @@ public abstract class PO
 			// although is ID (integer) in database
 			else if (value.getClass() == Integer.class 
 					&& p_info.getColumnClass(index) == String.class)
-					m_newValues[index] = value;			
+					m_newValues[index] = value;		
+			else if (value.getClass() == String.class 
+					&& p_info.getColumnClass(index) == Integer.class)
+				try 
+				{
+					m_newValues[index] = new Integer((String)value);
+				} 
+				catch (NumberFormatException e)
+				{
+					log.log(Level.SEVERE, ColumnName
+						+ " - Class invalid: " + value.getClass().toString()
+						+ ", Should be " + p_info.getColumnClass(index).toString() + ": " + value);
+					return false;
+				}
 			else
 			{
 				log.log(Level.SEVERE, ColumnName
@@ -1817,12 +1830,24 @@ public abstract class PO
 				setAD_Org_ID(0);
 			}
 		}
+		
+		Trx localTrx = null;
+		if (m_trxName == null) {
+			m_trxName = Trx.createTrxName("POSave");
+			localTrx = Trx.get(m_trxName, true);
+		}
+		
 		//	Before Save
 		try
 		{
 			if (!beforeSave(newRecord))
 			{
 				log.warning("beforeSave failed - " + toString());
+				if (localTrx != null) {
+					localTrx.rollback();
+					localTrx.close();
+					m_trxName = null;
+				}
 				return false;
 			}
 		}
@@ -1830,23 +1855,70 @@ public abstract class PO
 		{
 			log.log(Level.WARNING, "beforeSave - " + toString(), e);
 			log.saveError("Error", e.toString(), false);
-		//	throw new DBException(e);
+			if (localTrx != null) {
+				localTrx.rollback();
+				localTrx.close();
+				m_trxName = null;
+			}
 			return false;
 		}
-		// Call ModelValidators TYPE_NEW/TYPE_CHANGE
-		String errorMsg = ModelValidationEngine.get().fireModelChange
-			(this, newRecord ? ModelValidator.TYPE_NEW : ModelValidator.TYPE_CHANGE);
-		if (errorMsg != null)
-		{
-			log.warning("Validation failed - " + errorMsg);
-			log.saveError("Error", errorMsg);
-			return false;
+		
+		try {
+			// Call ModelValidators TYPE_NEW/TYPE_CHANGE
+			String errorMsg = ModelValidationEngine.get().fireModelChange
+				(this, newRecord ? ModelValidator.TYPE_NEW : ModelValidator.TYPE_CHANGE);
+			if (errorMsg != null)
+			{
+				log.warning("Validation failed - " + errorMsg);
+				log.saveError("Error", errorMsg);
+				if (localTrx != null) {
+					localTrx.rollback();
+					m_trxName = null;
+				}
+				return false;
+			}
+			//	Save
+			if (newRecord) 
+			{
+				boolean b = saveNew();
+				if (b)
+				{
+					if (localTrx != null)
+						return localTrx.commit();
+					else
+						return b;
+				}
+				else
+				{
+					if (localTrx != null)
+						localTrx.rollback();
+					return b;
+				}
+			}
+			else
+			{
+				boolean b = saveUpdate();
+				if (b)
+				{
+					if (localTrx != null)
+						return localTrx.commit();
+					else
+						return b;
+				}
+				else
+				{
+					if (localTrx != null)
+						localTrx.rollback();
+					return b;
+				}
+			}
+		} finally {
+			if (localTrx != null)
+			{
+				localTrx.close();
+				m_trxName = null;
+			}
 		}
-		//	Save
-		if (newRecord)
-			return saveNew();
-		else
-			return saveUpdate();
 	}	//	save
 	
 	/**

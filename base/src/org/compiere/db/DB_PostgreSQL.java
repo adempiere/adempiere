@@ -504,6 +504,9 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			getDataSource(connection);
 		//
 		Connection conn = m_ds.getConnection();
+		ComboPooledDataSource cpds = (ComboPooledDataSource)m_ds;
+		//System.out.println("Num Connections: " + cpds.getNumConnections() + ", Busy Connections: "
+			//	+ cpds.getNumBusyConnections());
 	//	Connection conn = getDriverConnection(connection);
 		//
 		conn.setAutoCommit(autoCommit);
@@ -519,13 +522,13 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 */
 	public DataSource getDataSource(CConnection connection)
 	{
-		//throw new UnsupportedOperationException("Not supported/implemented");
 		if (m_ds != null)
 			return m_ds;
 		
         try
         {
             System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
+            //System.setProperty("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "ALL");
             ComboPooledDataSource cpds = new ComboPooledDataSource();
             cpds.setDataSourceName("AdempiereDS");
             cpds.setDriverClass(DRIVER);
@@ -534,7 +537,9 @@ public class DB_PostgreSQL implements AdempiereDatabase
             cpds.setUser(connection.getDbUid());
             cpds.setPassword(connection.getDbPwd());
             cpds.setPreferredTestQuery(DEFAULT_CONN_TEST_SQL);
-            cpds.setIdleConnectionTestPeriod(120);
+            cpds.setIdleConnectionTestPeriod(1200);
+            //cpds.setTestConnectionOnCheckin(true);
+            //cpds.setTestConnectionOnCheckout(true);
             cpds.setAcquireRetryAttempts(5);
             //cpds.setCheckoutTimeout(60);
 
@@ -544,7 +549,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
                 cpds.setMinPoolSize(1);
                 cpds.setMaxPoolSize(15);
                 cpds.setMaxIdleTimeExcessConnections(1200);
-                cpds.setMaxIdleTime(600);
+                cpds.setMaxIdleTime(900);
                 m_maxbusyconnections = 12;
             }
             else
@@ -553,12 +558,13 @@ public class DB_PostgreSQL implements AdempiereDatabase
                 cpds.setMinPoolSize(5);
                 cpds.setMaxPoolSize(150);
                 cpds.setMaxIdleTimeExcessConnections(1200);
-                cpds.setMaxIdleTime(900);
+                cpds.setMaxIdleTime(1200);
                 m_maxbusyconnections = 120;
             }
 
-            cpds.setUnreturnedConnectionTimeout(1200);
-            cpds.setDebugUnreturnedConnectionStackTraces(true);
+            //the following sometimes kill active connection!
+            //cpds.setUnreturnedConnectionTimeout(1200);
+            //cpds.setDebugUnreturnedConnectionStackTraces(true);
 
             m_ds = cpds;
         }

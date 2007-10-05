@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -66,6 +67,7 @@ public class IDFinder {
 		}
 		catch (Exception e) {
 			log.info ("get_ID:"+e);
+			throw new DatabaseAccessException(e);
 		}
 		return id;
 	}
@@ -113,7 +115,8 @@ public class IDFinder {
 			pstmt = null;
 		}
 		catch (Exception e) {
-			log.info ("get_ID:"+e);
+			log.info ("get_IDWithColumn:"+e);
+			throw new DatabaseAccessException(e);
 		}
 		return id;
 	}
@@ -154,6 +157,7 @@ public class IDFinder {
 		}
 		catch (Exception e) {
 			log.info ("get_IDWithMaster:"+e);
+			throw new DatabaseAccessException(e);
 		}
 		return id;
 	}
@@ -196,6 +200,7 @@ public class IDFinder {
 		}
 		catch (Exception e) {
 			log.info ("get_IDWithMasterAndColumn:"+e);
+			throw new DatabaseAccessException(e);
 		}
 		return id;
 	}
@@ -232,6 +237,7 @@ public class IDFinder {
 		}
 		catch (Exception e) {
 			log.info ("get_IDWithMasterID:"+e);
+			throw new DatabaseAccessException(e);
 		}
 		return id;
 	}
@@ -269,7 +275,8 @@ public class IDFinder {
 			pstmt = null;
 		}
 		catch (Exception e) {
-			log.log(Level.SEVERE, "getID:"+e);
+			log.log(Level.SEVERE, "getIDbyName:"+e);
+			throw new DatabaseAccessException(e);
 		}
 		return id;
 	}

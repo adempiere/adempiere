@@ -90,6 +90,7 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 						"AD_Reference", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Reference"));
 				references.add(m_Reference.getAD_Reference_ID());
+				element.recordId = m_Reference.getAD_Reference_ID();
 			} else {
 				record_log(ctx, 0, m_Reference.getName(), "Reference",
 						m_Reference.get_ID(), AD_Backup_ID, Object_Status,

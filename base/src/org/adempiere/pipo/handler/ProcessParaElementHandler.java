@@ -41,10 +41,38 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 
 		String entitytype = atts.getValue("EntityType");
 		if (isProcessElement(ctx, entitytype)) {
+			if (element.parent != null && element.parent.getElementValue().equals("process") &&
+				element.parent.defer) {
+				element.defer = true;
+				return;
+			}
+			
 			String name = atts.getValue("Name");
 
-			int id = get_IDWithMaster(ctx, "AD_Process_Para", name,
-					"AD_Process", atts.getValue("ADProcessNameID"));
+			int id = 0;
+			int masterId = 0;
+			String processValue = "";
+			if (element.parent != null && element.parent.getElementValue().equals("process") &&
+				element.parent.recordId > 0) {
+				masterId = element.parent.recordId;
+			} else {
+				processValue =  atts.getValue("ADProcessValueID");
+				if (processValue != null && processValue.trim().length() > 0) {
+					masterId = get_IDWithColumn(ctx, "AD_Process", "Value", processValue);					
+				} else {
+					//for backward compatibility
+					processValue = atts.getValue("ADProcessNameID");
+					masterId = get_IDWithColumn(ctx, "AD_Process", "Name", processValue);
+				}				
+			}
+			if (masterId <= 0) {
+				element.defer = true;
+				element.unresolved = "AD_Process: " + processValue;
+				return;
+			}
+			id = get_IDWithMasterAndColumn(ctx, "AD_Process_Para", "Name", 
+					name, "AD_Process", masterId);
+			
 			X_AD_Process_Para m_Process_para = new X_AD_Process_Para(ctx, id,
 					getTrxName(ctx));
 			int AD_Backup_ID = -1;
@@ -58,14 +86,8 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 				AD_Backup_ID = 0;
 			}
 			m_Process_para.setName(atts.getValue("Name"));
-			name = atts.getValue("ADProcessNameID");
-			id = get_IDWithColumn(ctx, "AD_Process", "Name", name);
-			if (id <= 0) {
-				element.defer = true;
-				element.unresolved = "AD_Process: " + name;
-				return;
-			}
-			m_Process_para.setAD_Process_ID(id);
+			
+			m_Process_para.setAD_Process_ID(masterId);
 			
 			m_Process_para.setColumnName(atts.getValue("ColumnName"));
 			m_Process_para.setEntityType(atts.getValue("EntityType"));
@@ -200,12 +222,12 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 						(m_Processpara.getName() != null ? m_Processpara
 								.getName() : ""));
 		if (m_Processpara.getAD_Process_ID() > 0) {
-			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";
+			sql = "SELECT Value FROM AD_Process WHERE AD_Process_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Processpara
 					.getAD_Process_ID());
-			atts.addAttribute("", "", "ADProcessNameID", "CDATA", name);
+			atts.addAttribute("", "", "ADProcessValueID", "CDATA", name);
 		} else
-			atts.addAttribute("", "", "ADProcessNameID", "CDATA", "");
+			atts.addAttribute("", "", "ADProcessValueID", "CDATA", "");
 		if (m_Processpara.getAD_Process_Para_ID() > 0) {
 			sql = "SELECT Name FROM AD_Process_Para WHERE AD_Process_Para_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Processpara

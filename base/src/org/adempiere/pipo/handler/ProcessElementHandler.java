@@ -142,6 +142,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Process",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Process"));
+				element.recordId = m_Process.getAD_Process_ID();
 			} else {
 				record_log(ctx, 0, m_Process.getName(), "Process", m_Process
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Process",
