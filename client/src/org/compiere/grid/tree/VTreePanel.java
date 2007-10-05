@@ -505,7 +505,7 @@ public final class VTreePanel extends CPanel
 
 		//	***	Save changes to disk
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		Trx trx = Trx.get ("VTreePanel", true);
+		Trx trx = Trx.get (Trx.createTrxName("VTreePanel"), true);
 		try
 		{
 			 //begin vpj-cd e-evolution 07/12/2005 PostgreSQL
