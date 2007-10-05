@@ -43,6 +43,16 @@ public class AmtInWords_ES implements AmtInWords
 		" QUINTILL\u00d3N"  
 		};
 
+	private static final String[]	majorNamesPlural	= {
+		"", 
+		" MIL", 
+		" MILLONES",
+		" BILLONES", 
+		" TRILLONES", 
+		" CUATRILLONES", 
+		" QUINTILLONES"  
+		};
+
 	private static final String[]	tensNames	= { 
 		"", 
 		" DIEZ", 
@@ -158,8 +168,13 @@ public class AmtInWords_ES implements AmtInWords
 				{
 					soFar = majorNames[place] + soFar;
 				}
-				else
+				else {
+					if (n > 1) {
+						soFar = s + majorNamesPlural[place] + soFar;
+					} else {
 					soFar = s + majorNames[place] + soFar;
+			}
+				}
 			}
 			place++;
 			number /= 1000;
@@ -210,5 +225,12 @@ public class AmtInWords_ES implements AmtInWords
 		}
 		return sb.toString ();
 	}	//	getAmtInWords
+
+	public static void main(String[] args) throws Exception {
+		AmtInWords_ES aiw = new AmtInWords_ES();
+		// for (int i=0; i<=2147000000; i++)
+			// System.out.println(aiw.getAmtInWords(i+",00"));	
+		System.out.println(aiw.getAmtInWords("2147483647,99"));
+	}
 	
 }	//	AmtInWords_ES
