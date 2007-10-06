@@ -53,25 +53,23 @@ public class MPackageExpDetail extends X_AD_Package_Exp_Detail
 		
 	}	//	MPackageExp
 	
-		
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
-	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		
-		X_AD_Package_Exp_Detail PackDetail =new X_AD_Package_Exp_Detail(Env.getCtx(), getAD_Package_Exp_Detail_ID(), null);
-		String sql = "SELECT max(Line) FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = ?";
-		int lineNo = DB.getSQLValue(null, sql,getAD_Package_Exp_ID());		
-		
-		if(PackDetail.getLine()==0){					
-				PackDetail.setLine(lineNo+10);
-				PackDetail.save();}			
-		
-		return true;
-	}	//	afterSave
+
 	
+	/* (non-Javadoc)
+	 * @see org.compiere.model.PO#beforeSave(boolean)
+	 */
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if (getLine() == 0) {
+			final String sql = "SELECT max("+COLUMNNAME_Line+")"
+								+ "FROM "+Table_Name
+								+ " WHERE "+COLUMNNAME_AD_Package_Exp_ID+"=?"
+									+" AND "+COLUMNNAME_AD_Package_Exp_Detail_ID+"<>?";
+			int lineNo = DB.getSQLValue(get_TrxName(), sql, getAD_Package_Exp_ID(), getAD_Package_Exp_Detail_ID());
+			if (lineNo >= 0)
+				setLine(lineNo+10);
+		}
+		//
+		return true;
+	}
 }	//	MMenu
