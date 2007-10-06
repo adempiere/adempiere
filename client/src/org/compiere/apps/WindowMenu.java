@@ -33,6 +33,9 @@ import org.compiere.util.Msg;
  * 
  * @author Low Heng Sin
  * @version 2006/11/20
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1808617 ] Close Windows from "Viewer" (report) is not working
  */
 public class WindowMenu extends JMenu {
     private WindowManager windowManager;
@@ -82,7 +85,7 @@ public class WindowMenu extends JMenu {
         setEnvText(closeAll, "CloseAllWindows");
         closeOthers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                WindowMenu.this.windowManager.closeOthers((AWindow)WindowMenu.this.frame);
+                WindowMenu.this.windowManager.closeOthers((CFrame)WindowMenu.this.frame);
             }
         });
         setEnvText(closeOthers, "CloseOtherWindows");
