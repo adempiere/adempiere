@@ -42,7 +42,9 @@ import org.compiere.wf.*;
  *  - Added support for having description and parameter in one dialog
  *  - Added support to run db process remotely on server
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1757523 ] Server Processes are using Server's context
+ * 				<li>FR [ 1807922 ] Pocess threads should have a better name
  */
 public class ProcessCtl implements Runnable
 {
@@ -234,7 +236,11 @@ public class ProcessCtl implements Runnable
 	 */
 	public void start()
 	{
-		new Thread(this).start();
+		Thread thread = new Thread(this);
+		// Set thread name - teo_sarca FR [ 1807922 ]
+		if (m_pi != null)
+			thread.setName(m_pi.getTitle()+"-"+m_pi.getAD_PInstance_ID());
+		thread.start();
 	}
 	
 	/**
