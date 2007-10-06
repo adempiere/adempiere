@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, SC ARHIPAC SERVICE SRL
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -198,7 +199,7 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 				document.startElement("", "", "printformat", atts);
 
 				String sql2 = "SELECT * FROM AD_PrintFormatItem WHERE AD_PrintFormat_ID= "
-						+ AD_PrintFormat_ID;
+						+ m_Printformat.getAD_PrintFormat_ID();
 				PreparedStatement pstmt2 = null;
 				pstmt2 = DB.prepareStatement(sql2, getTrxName(ctx));
 				try {
