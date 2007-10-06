@@ -227,6 +227,7 @@ public class AmtInWords_MY implements AmtInWords
 		aiw.print ("12,345.78");
 		aiw.print ("123,457.89");
 		aiw.print ("1,234,578.90");
+		aiw.print ("100.00");
 	}	//	main
 	
 }	//	AmtInWords_EN
