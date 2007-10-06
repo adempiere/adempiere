@@ -35,8 +35,9 @@ package org.compiere.util;
 	12,345.78 = RINGGIT Dua Belas Ribu, Tiga Ratus Empat Puluh Lima dan SEN Tujuh Puluh Lapan
 	123,457.89 = RINGGIT Satu Ratus Dua Puluh Tiga Ribu, Empat Ratus Lima Puluh Tujuh dan SEN Lapan Puluh Sembilan
 	1,234,578.90 = RINGGIT Satu Juta, Dua Ratus Tiga Puluh Empat Ribu, Lima Ratus Tujuh Puluh Lapan dan SEN Sembilan Puluh
+	100.00 = RINGGIT Satu Ratus dan SEN Kosong
  *  END TEST
- *  @version $Id: AmtInWords_EN.java,v 1.3 2006/07/30 00:54:35 jjanke Exp $
+ *  @version $Id: AmtInWords_MY.java,v 1.3 2006/07/30 00:54:35 jjanke Exp $
  */
 public class AmtInWords_MY implements AmtInWords
 {
@@ -230,4 +231,4 @@ public class AmtInWords_MY implements AmtInWords
 		aiw.print ("100.00");
 	}	//	main
 	
-}	//	AmtInWords_EN
+}	//	AmtInWords_MY
