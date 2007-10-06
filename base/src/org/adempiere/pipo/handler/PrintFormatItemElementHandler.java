@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, SC ARHIPAC SERVICE SRL
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -212,6 +213,10 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 				atts.getValue("isVarianceCalc")).booleanValue());
 		m_PrintFormatItem.setIsDeviationCalc(Boolean.valueOf(
 				atts.getValue("isDeviationCalc")).booleanValue());
+		
+		// BarCode Type
+		String barCodeType = atts.getValue(X_AD_PrintFormatItem.COLUMNNAME_BarcodeType);
+		m_PrintFormatItem.setBarcodeType(barCodeType);
 
 		if (m_PrintFormatItem.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_PrintFormatItem.getName(), "PrintFormatItem",
@@ -425,6 +430,10 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 				.addAttribute("", "", "isDeviationCalc", "CDATA",
 						(m_PrintformatItem.isDeviationCalc() == true ? "true"
 								: "false"));
+		// BarCode Type
+		if (m_PrintformatItem.getBarcodeType() != null)
+			atts.addAttribute("", "", X_AD_PrintFormatItem.COLUMNNAME_BarcodeType, "CDATA",
+					m_PrintformatItem.getBarcodeType());
 
 		return atts;
 	}
