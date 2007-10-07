@@ -67,10 +67,10 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 			m_ValRule.setType(atts.getValue("Type"));		        
 			m_ValRule.setCode(atts.getValue("Code"));		        
 			if (m_ValRule.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_ValRule.getName(),"Task", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Val_Rule", "Name", "AD_Val_Rule"));           		        		
+				record_log (ctx, 1, m_ValRule.getName(),"Task", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Val_Rule"));           		        		
 			}
 			else{
-				record_log (ctx, 0, m_ValRule.getName(),"Task", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Val_Rule", "Name", "AD_Val_Rule"));
+				record_log (ctx, 0, m_ValRule.getName(),"Task", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Val_Rule"));
 				throw new POSaveFailedException("Failed to save dynamic validation rule.");
 			}
 		} else {

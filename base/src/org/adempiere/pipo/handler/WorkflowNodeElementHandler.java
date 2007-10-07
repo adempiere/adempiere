@@ -224,13 +224,13 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				log.info("m_WFNode save success");
 				record_log(ctx, 1, m_WFNode.getName(), "WFNode", m_WFNode
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_WF_Node",
-						get_IDWithColumn(ctx, "AD_WF_Node", "Name",
+						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_WF_Node"));
 			} else {
 				log.info("m_WFNode save failure");
 				record_log(ctx, 0, m_WFNode.getName(), "WFNode", m_WFNode
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_WF_Node",
-						get_IDWithColumn(ctx, "AD_WF_Node", "Name",
+						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_WF_Node"));
 				throw new POSaveFailedException("WorkflowNode");
 			}

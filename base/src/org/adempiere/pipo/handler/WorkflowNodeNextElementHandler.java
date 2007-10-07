@@ -96,11 +96,13 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			log.info("about to execute m_WFNodeNext.save");
 			if (m_WFNodeNext.save(getTrxName(ctx)) == true){		    	
 				log.info("m_WFNodeNext save success");
-				record_log (ctx, 1, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",get_IDWithColumn(ctx, "AD_WF_NodeNext", "ad_wf_nodenext_id", "AD_WF_NodeNext"));           		        		
+				record_log (ctx, 1, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",
+							get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_WF_NodeNext"));           		        		
 			}
 			else{
 				log.info("m_WFNodeNext save failure");
-				record_log (ctx, 0, String.valueOf(m_WFNodeNext.get_ID()),"WFNode", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",get_IDWithColumn(ctx, "AD_WF_NodeNext", "ad_wf_nodenext_id", "AD_WF_NodeNext"));
+				record_log (ctx, 0, String.valueOf(m_WFNodeNext.get_ID()),"WFNode", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",
+							get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_WF_NodeNext"));
 				throw new POSaveFailedException("WorkflowNodeNext");
 			}            
 		} else {

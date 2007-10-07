@@ -136,8 +136,8 @@ public class WorkflowNodeNextConditionElementHandler extends
 						AD_Backup_ID,
 						Object_Status,
 						"AD_WF_NextCondition",
-						get_IDWithColumn(ctx, "AD_WF_NextCondition",
-								"ad_wf_nextcondition_id", "AD_WF_NextCondition"));
+						get_IDWithColumn(ctx, "AD_Table",
+								"TableName", "AD_WF_NextCondition"));
 			} else {
 				log.info("m_WFNodeNextCondition save failure");
 				record_log(
@@ -149,8 +149,8 @@ public class WorkflowNodeNextConditionElementHandler extends
 						AD_Backup_ID,
 						Object_Status,
 						"AD_WF_NextCondition",
-						get_IDWithColumn(ctx, "AD_WF_NextCondition",
-								"ad_wf_nextcondition_id", "AD_WF_NextCondition"));
+						get_IDWithColumn(ctx, "AD_Table",
+								"TableName", "AD_WF_NextCondition"));
 				throw new POSaveFailedException("WorkflowNodeNextCondition");
 			}
 		} else {

@@ -146,7 +146,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				log.info("m_Workflow save success");
 				record_log(ctx, 1, m_Workflow.getName(), "Workflow", m_Workflow
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
-						get_IDWithColumn(ctx, "AD_Workflow", "Name",
+						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Workflow"));
 				workflows.add(m_Workflow.getAD_Workflow_ID());
 				element.recordId = m_Workflow.getAD_Workflow_ID();
@@ -154,7 +154,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				log.info("m_Workflow save failure");
 				record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
-						get_IDWithColumn(ctx, "AD_Workflow", "Name",
+						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Workflow"));
 				throw new POSaveFailedException("MWorkflow");
 			}
