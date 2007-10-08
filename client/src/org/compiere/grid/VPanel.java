@@ -13,12 +13,14 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *****************************************************************************/
 package org.compiere.grid;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import java.util.*;
 //
 import org.compiere.grid.ed.*;
@@ -51,17 +53,23 @@ import org.compiere.util.*;
  *  </pre>
  *  @author 	Jorg Janke
  *  @version 	$Id: VPanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  */
-public final class VPanel extends CPanel
+public final class VPanel extends CTabbedPane
 {
+	
 	/**
 	 *	Constructor
 	 */
-	public VPanel()
+	public VPanel(String Name)
 	{
-		super(new GridBagLayout());
-		setName("VPanel");
-		setBorder(null);
+        //[ 1757088 ]	
+		CTabbedPane T = new CTabbedPane();
+		m_main.setName(Name);
+		m_main.setLayout(new GridBagLayout());
+		m_tablist.put("main", m_main);
+		this.setBorder(marginBorder);
+		this.add(m_main);		
 
 		//	Set initial values of constraint
 		m_gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -95,6 +103,12 @@ public final class VPanel extends CPanel
 	private boolean 			m_hGapAdded = false;					//	only once
 	/** Previous Field Group Header     */
 	private String              m_oldFieldGroup = null;
+	//[ 1757088 ]  	
+	private java.util.Hashtable m_tablist = new java.util.Hashtable();
+	private java.util.Hashtable m_tabincludelist = new java.util.Hashtable();
+	private CPanel m_main = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());		
+	private int typeGroup = 3;
+	private org.jdesktop.swingx.border.DropShadowBorder marginBorder = new org.jdesktop.swingx.border.DropShadowBorder();
 
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (VPanel.class);
@@ -134,13 +148,49 @@ public final class VPanel extends CPanel
 	 */
 	public void addField (VEditor editor, GridField mField)
 	{
+		  //[ 1757088 ]
+		  int AD_Tab_ID = mField.getIncluded_Tab_ID();
+		  if(AD_Tab_ID != 0 )
+		  {
+		  m_gbc.gridx = 0;
+		  m_gbc.gridy = m_line++;
+		  m_gbc.gridwidth = 4;		  		
+		  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();	
+		  org.jdesktop.swingx.JXTaskPane m_tab = new org.jdesktop.swingx.JXTaskPane();		
+		  m_tab.setLayout(new BorderLayout());
+		  GroupPaneContainer.setBackground(org.compiere.plaf.CompiereColor.getDefaultBackground().getFlatColor());
+		  GroupPaneContainer.add(m_tab);
+		  m_tabincludelist.put(AD_Tab_ID, m_tab);
+		  m_gbc.anchor = GridBagConstraints.NORTHWEST;
+		  m_gbc.gridx = 0;
+		  m_gbc.gridheight = 1;
+		  m_gbc.insets = new Insets(2,12,0,0);
+		  m_gbc.gridy = m_line++;
+		  m_gbc.gridwidth = 4;
+		  m_gbc.fill = GridBagConstraints.HORIZONTAL;
+		  m_gbc.weightx = 0;			  
+		  m_gbc.ipadx = 0;					  			  
+		  m_main.add(GroupPaneContainer,m_gbc);
+		  return;
+		  }		  
 		CLabel label = VEditorFactory.getLabel(mField); 
 		if (label == null && editor == null)
 			return;
 
 		boolean sameLine = mField.isSameLine();
-		if (addGroup(mField.getFieldGroup()))               		//	sets top
-			sameLine = false;
+		//[ 1757088 ]              		//	sets top
+		String fieldGroup = mField.getFieldGroup();
+		if (fieldGroup == "")
+		{	
+			fieldGroup = m_oldFieldGroup;
+		}	
+		
+		if (addGroup(fieldGroup))               		//	sets top														
+			sameLine = false;		
+		else
+		{
+			fieldGroup = m_oldFieldGroup;
+		}
 
 		if (sameLine)    							//	Set line #
 			m_gbc.gridy = m_line-1;
@@ -164,7 +214,23 @@ public final class VPanel extends CPanel
 			if (mField.isCreateMnemonic())
 				setMnemonic(label, mField.getMnemonic());
 			//  Add Label
-			this.add(label, m_gbc);
+			//[ 1757088 ]
+			//this.add(label, m_gbc);
+			if (typeGroup == 1)
+			{
+				CPanel m_tab = (CPanel)m_tablist.get(fieldGroup);	
+				m_tab.add(label, m_gbc);	
+				
+			}			
+			else if (typeGroup == 2)
+			{
+				org.jdesktop.swingx.JXTaskPane m_tab = (org.jdesktop.swingx.JXTaskPane)m_tablist.get(fieldGroup);					
+				m_tab.add(label, m_gbc);			
+			}
+			else if (typeGroup == 3)
+			{	
+			m_main.add(label, m_gbc);
+			}
 		}
 
 		//	*** The Field ***
@@ -184,7 +250,21 @@ public final class VPanel extends CPanel
 			//	Weight factor for Fields
 			m_gbc.weightx = 1;
 			//	Add Field
-			this.add(field, m_gbc);
+			//[ 1757088 ]
+			if (typeGroup == 1)
+			{
+				CPanel m_tab = (CPanel)m_tablist.get(fieldGroup);	
+				m_tab.add(field, m_gbc);				
+			}			
+			else if (typeGroup == 2)
+			{
+				org.jdesktop.swingx.JXTaskPane m_tab = (org.jdesktop.swingx.JXTaskPane)m_tablist.get(fieldGroup);					
+				m_tab.add(field, m_gbc);			
+			}
+			else if (typeGroup == 3)
+			{								
+				m_main.add(field, m_gbc);
+			}	
 			//	Link Label to Field
 			if (label != null)
 				label.setLabelFor(field);
@@ -208,19 +288,84 @@ public final class VPanel extends CPanel
 		}
 
 		if (fieldGroup == null || fieldGroup.length() == 0 || fieldGroup.equals(m_oldFieldGroup))
+				return false;
+		
+        //[ 1757088 ]
+		if (m_tablist.get(fieldGroup) != null)
+		{
 			return false;
-		m_oldFieldGroup = fieldGroup;
+		}
 
-		CPanel group = new CPanel();
-		group.setBorder(new VLine(fieldGroup));
-		group.add(Box.createVerticalStrut(VLine.SPACE));
-		m_gbc.gridx = 0;
-		m_gbc.gridy = m_line++;
-		m_gbc.gridwidth = 4;
-		this.add(group, m_gbc);
+		//[ 1757088 ]
+		if (fieldGroup != null)
+		{	
+			if (Env.getContext(Env.getCtx(),"#AD_Language").equals("en_US"))
+			{
+				typeGroup  = DB.getSQLValue(null,"SELECT CASE WHEN  FieldGroupType  = 'T' THEN 1 WHEN  FieldGroupType  = 'C' THEN 2 WHEN  FieldGroupType  = 'L' THEN 3 END AS Type  FROM AD_FieldGroup  fg WHERE fg.Name= ? ", fieldGroup);
+			}
+			else
+			{
+				typeGroup = DB.getSQLValue(null,"SELECT CASE WHEN  FieldGroupType  = 'T' THEN 1 WHEN  FieldGroupType  = 'C' THEN 2 WHEN  FieldGroupType  = 'L' THEN 3 END AS Type  FROM AD_FieldGroup  fg INNER JOIN AD_FieldGroup_Trl fgtrl ON ( fg.AD_FieldGroup_ID =  fgtrl.AD_FieldGroup_ID) WHERE fgtrl.Name= ? ", fieldGroup);
+			}
+		}
+		if(typeGroup < 1 )
+		{
+		   typeGroup = 3;
+		}
+		
+		if (typeGroup == 1)
+		{
+			   
+			  CPanel m_tab = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());
+			  m_tab.setLayout(new GridBagLayout());
+			  m_tab.setName(fieldGroup);
+			  this.add(m_tab);			  
+			  m_tablist.put(fieldGroup, m_tab);
+			  m_oldFieldGroup= fieldGroup;
+			  return true;
+			  
+		}
+		else if (typeGroup == 2)
+		{				  
+			  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();			  
+			  org.jdesktop.swingx.JXTaskPane m_tab = new org.jdesktop.swingx.JXTaskPane();		
+			  GroupPaneContainer.setBackground(org.compiere.plaf.CompiereColor.getDefaultBackground().getFlatColor());
+			  
+			  m_tab.setLayout(new GridBagLayout());
+			  m_tab.setTitle(fieldGroup);		
+			  m_tab.setName(fieldGroup);
+			  m_tab.setAnimated(true);
+			  GroupPaneContainer.add(m_tab);
+			  m_gbc.anchor = GridBagConstraints.NORTHWEST;
+				//m_gbc.gridy = 0;			//	line
+			  m_gbc.gridx = 0;
+			  m_gbc.gridheight = 1;
+			  m_gbc.insets = new Insets(2,12,0,0);
+			  m_gbc.gridy = m_line++;
+			  m_gbc.gridwidth = 4;
+			  m_gbc.fill = GridBagConstraints.HORIZONTAL;
+			  m_gbc.weightx = 0;			  
+			  m_gbc.ipadx = 0;					  			  
+			  m_main.add(GroupPaneContainer,m_gbc);
+			  m_tablist.put(fieldGroup, m_tab);
+			  m_oldFieldGroup = fieldGroup;
+			  return true;
+		}									
+		else if (typeGroup == 3)
+		{
+			 CPanel group = new CPanel();
+			 group.setBorder(new VLine(fieldGroup));
+			 group.add(Box.createVerticalStrut(VLine.SPACE));
+			 m_gbc.gridx = 0;
+			 m_gbc.gridy = m_line++;
+			 m_gbc.gridwidth = 4;
+			 m_main.add(group, m_gbc);
 		//	reset
-		m_gbc.gridwidth = 1;
+			m_gbc.gridwidth = 1;
+			m_oldFieldGroup = fieldGroup;
 		return true;
+		}
+	return false;
 	}	//	addGroup
 
 	/**
@@ -230,14 +375,15 @@ public final class VPanel extends CPanel
 	{
 		//	Top Gap
 		m_gbc.gridy = m_line++;
-		this.add(Box.createVerticalStrut(10), m_gbc);    	//	top gap
+        //[ 1757088 ]
+		m_main.add(Box.createVerticalStrut(10), m_gbc);    	//	top gap
 		//	Right gap
 		m_gbc.gridx = 4;									//	5th column
 		m_gbc.gridwidth = 1;
 		m_gbc.weightx = 0;
 		m_gbc.insets = m_zeroInset;
 		m_gbc.fill = GridBagConstraints.NONE;
-		this.add(Box.createHorizontalStrut(12), m_gbc);
+		m_main.add(Box.createHorizontalStrut(12), m_gbc);
 	}	//	addTop
 
 	/**
@@ -252,7 +398,8 @@ public final class VPanel extends CPanel
 		m_gbc.fill = GridBagConstraints.HORIZONTAL;
 		m_gbc.weightx = 0;
 		//
-		this.add(Box.createVerticalStrut(9), m_gbc);		//	botton gap
+        //[ 1757088 ]
+		m_main.add(Box.createVerticalStrut(9), m_gbc);
 	}	//	addEnd
 
 	/**
@@ -451,5 +598,57 @@ public final class VPanel extends CPanel
 	public void setBackground (int AD_Color_ID)
 	{
 	}   //  setBackground
+	//[ 1757088 ]
+	public org.jdesktop.swingx.JXTaskPane getTaskPane(int AD_Tab_ID)
+	{	
+	  return (org.jdesktop.swingx.JXTaskPane)m_tabincludelist.get(AD_Tab_ID);
+	}  	
 	
+	//[ 1757088 ]
+    public Component[] getComponents()
+    {
+            java.util.ArrayList list = new java.util.ArrayList();       
+            
+            for (int i = 0; i < this.getTabCount(); i++)
+            {
+                list.add(this.getComponentAt(i));
+                if (this.getComponentAt(i) instanceof CPanel) 
+                {    
+                    CPanel tab = (CPanel)this.getComponentAt(i);                    
+                    Component[] comp = tab.getComponents();
+
+                    for (int c = 0; c < comp.length; c++)
+                    {
+                    	  
+                    	  if ( comp [c] instanceof org.jdesktop.swingx.JXTaskPaneContainer)
+                          {
+                          	  org.jdesktop.swingx.JXTaskPaneContainer panetaskcontainer = (org.jdesktop.swingx.JXTaskPaneContainer)comp [c];     
+                          	  
+                              Component[] comppanetask = panetaskcontainer.getComponents();
+                              
+                              for (int y = 0; y < comppanetask.length; y++)
+                              {
+                            	  
+                            	  if (  comppanetask [y] instanceof org.jdesktop.swingx.JXTaskPane)
+                                  {                        		  
+	                              	  org.jdesktop.swingx.JXTaskPane tabtask = (org.jdesktop.swingx.JXTaskPane)comppanetask[y]; 
+	                              	  Component[] comptabtask  = tabtask.getContentPane().getComponents();
+	                              	  
+	                              	  for (int x = 0; x < comptabtask.length; x++)
+	                                  {
+		                                	  list.add(comptabtask[x]);
+	                                  }
+                                  }
+                              } 
+                     }
+                    	
+                    	list.add(comp[c]);
+                    } 
+                }
+            }       
+            
+            Component[] result = new Component[list.size ()];
+            list.toArray (result);             
+     return result;
+    } 
 }	//	VPanel

@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *****************************************************************************/
 package org.compiere.model;
 
@@ -51,6 +52,7 @@ import org.compiere.util.*;
  *  @version 	$Id: GridTab.java,v 1.10 2006/10/02 05:18:39 jjanke Exp $
  *  
  *  @author Teo Sarca - BF [ 1742159 ]
+ *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ] 
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -270,6 +272,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			{
 				GridField field = new GridField (voF);
 				String columnName = field.getColumnName();
+				//FR [ 1757088 ] 
+				if(this.isReadOnly()) {
+				   voF.IsReadOnly = true;
+				}
 				//	Record Info
 				if (field.isKey())
 					m_keyColumnName = columnName;

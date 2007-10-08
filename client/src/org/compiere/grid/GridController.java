@@ -13,6 +13,8 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ * @contributor fer_luck @ centuryon
  *****************************************************************************/
 package org.compiere.grid;
 
@@ -96,6 +98,8 @@ import org.compiere.util.*;
  * @version $Id: GridController.java,v 1.8 2006/09/25 00:59:52 jjanke Exp $
  * 
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ * @contributor fer_luck @ centuryon  FR [ 1757088 ]
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -139,12 +143,15 @@ public class GridController extends CPanel
 	private CardLayout cardLayout = new CardLayout();
 	private JSplitPane srPane = new JSplitPane();
 	private JScrollPane vPane = new JScrollPane();
-	private GridController vIncludedGC = null;
+	//FR [ 1757088 ]
+	private GridController detail = null;
 	private CScrollPane mrPane = new CScrollPane();
 	private CPanel xPanel = new CPanel();
 	private FlowLayout xLayout = new FlowLayout();
 	private VTable vTable = new VTable();
-	private VPanel vPanel = new VPanel();
+    //FR [ 1757088 ]
+	private VPanel vPanel = null; 
+	private boolean detailGrid = false;
 
 	/**
 	 *  Static Layout init
@@ -174,10 +181,8 @@ public class GridController extends CPanel
 		srPane.add(vPane, JSplitPane.TOP);
 		srPane.setTopComponent(vPane);
 		srPane.setBottomComponent(null);	//	otherwise a button is created/displayed
-		//
-		vPane.getViewport().add(xPanel, null);
-		xPanel.add(vPanel);
-		vPane.setBorder(null);
+		//FR [ 1757088 ] vPane.getViewport().add(xPanel, null);
+		//FR [ 1757088 ] xPanel.add(vPanel);
 		xPanel.setLayout(xLayout);
 		xPanel.setName("gc_xPanel");
 		xLayout.setAlignment(FlowLayout.LEFT);
@@ -206,7 +211,7 @@ public class GridController extends CPanel
 			if (m_mTab.needSave(true, false))
 				m_mTab.dataIgnore();
 		}
-		vIncludedGC = null;
+		//FR [ 1757088 ] vIncludedGC = null;
 
 		//  Listeners
 		if (m_mTab.isLoadComplete())
@@ -295,6 +300,10 @@ public class GridController extends CPanel
 		m_onlyMultiRow = onlyMultiRow;
 		m_aPanel = aPanel;
 		setName("GC-" + mTab);
+		//FR [ 1757088 ]
+		vPanel = new VPanel(mWindow.getName());
+		vPane.getViewport().add(xPanel, null);
+		xPanel.add(vPanel);
 
 		setTabLevel(m_mTab.getTabLevel());
 		
@@ -414,60 +423,68 @@ public class GridController extends CPanel
 	 * 	@param gc grod controller to add
 	 * 	@return true if included
 	 */
-	public boolean includeTab (GridController gc)
-	{
-		GridTab imcludedMTab = gc.getMTab();
-		if (m_mTab.getIncluded_Tab_ID () != imcludedMTab.getAD_Tab_ID())
-			return false;
-		//
-		vIncludedGC = gc;
-		vIncludedGC.switchMultiRow();
-		//
-		Dimension size = getPreferredSize();
-		srPane.setResizeWeight(.75);	//	top part gets 75%
-		srPane.add(vIncludedGC, JSplitPane.BOTTOM);
-		srPane.setBottomComponent(vIncludedGC);
-		srPane.setDividerSize (5);
-		//
-		int height = 150;
-		vIncludedGC.setPreferredSize(new Dimension(600, height));
-		setPreferredSize(new Dimension(size.width, size.height+height));
-		srPane.setDividerLocation (size.height);
-		//
-		imcludedMTab.setIncluded (true);
-		imcludedMTab.query (false, 0, 0);
-		//
+	//FR [ 1757088 ]
+	public boolean includeTab (GridController gc , APanel aPanel)
+	{	
+		detail = gc;
+	    int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 630;
+	    // Set screen dimension
+	    detail.setPreferredSize(new Dimension(screenWidth, 250));
+		ArrayList parents = detail.getMTab().getParentColumnNames();
+		//	No Parent - no link
+		if (parents.size() == 0)
+			;
+		//	Standard case
+		else if (parents.size() == 1)
+		detail.getMTab().setLinkColumnName((String)parents.get(0));
+		detail.getMTab().query(false, 0, 0);
+		int c = VTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
+		vTable.getInputMap(c).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), aPanel.aSave.getName());
+		vTable.getActionMap().put(aPanel.aSave.getName(), aPanel.aSave);
+		org.jdesktop.swingx.JXTaskPane taskpanetab = vPanel.getTaskPane(detail.getMTab().getAD_Tab_ID());
+		gc.isDetailGrid(true);	
+		
+			if(taskpanetab != null)
+			{	
+				APanel painel = new APanel(gc);
+				String name = detail.getMTab().getName() + "";		
+				taskpanetab.setTitle(name);
+				painel.add(detail);
+				taskpanetab.add(painel);
+			}
+		
 		JRootPane rt = SwingUtilities.getRootPane(this);
 		if (rt == null)
 			System.out.println("Root pane null");
 		else
 		{
 			System.out.println("Root=" + rt);
-			rt.addMouseListener(vIncludedGC);
+			rt.addMouseListener(detail);
 			Component gp = rt.getGlassPane();
 			if (gp == null)
 				System.out.println("No Glass Pane");
 			else
 			{
 				System.out.println("Glass=" + gp);
-				gp.addMouseListener(vIncludedGC);
+				gp.addMouseListener(detail);
 			}
 
 		}
 
 
-
-		vIncludedGC.addMouseListener(vIncludedGC);
-		vIncludedGC.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
-		/**
-		vIncludedGC.splitPane.addMouseListener(vIncludedGC);
-		vIncludedGC.cardPanel.addMouseListener(vIncludedGC);
-		vIncludedGC.mrPane.addMouseListener(vIncludedGC);
-		vIncludedGC.vTable.addMouseListener(vIncludedGC);
-		**/
+		detail.addMouseListener(detail);
+		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
 		return true;
 	}	//	IncludeTab
 
+	//FR [ 1757088 ]
+	public void isDetailGrid(boolean value){
+		detailGrid = value;
+	}
+	
+	public boolean isDetailGrid(){
+		return detailGrid;
+	}
 	/**
 	 * 	Get Title
 	 *	@return title
@@ -731,7 +748,16 @@ public class GridController extends CPanel
 		int rowTable = vTable.getSelectedRow();
 		int rowCurrent = m_mTab.getCurrentRow();
 		log.config("(" + m_mTab.toString() + ") Row in Table=" + rowTable + ", in Model=" + rowCurrent);
-
+		// FR [ 1757088 ]
+		if(rowCurrent + 1 == vTable.getRowCount() && !isSingleRow() && Env.isAutoNew(Env.getCtx()) && m_mTab.getRecord_ID() != -1)
+		{
+		  //stopEditor(true);
+		  vTable.getSelectionModel().removeListSelectionListener(this);
+		  m_mTab.dataNew(false);
+		  dynamicDisplay(0);
+		  vTable.getSelectionModel().addListSelectionListener(this);
+		  return;
+		 }
 		if (rowTable == -1)  //  nothing selected
 		{
 			if (rowCurrent >= 0)
@@ -754,9 +780,10 @@ public class GridController extends CPanel
 	//	log.config( "GridController.valueChanged (" + m_mTab.toString() + ") - fini",
 	//		"Row in Table=" + rowTable + ", in Model=" + rowCurrent);
 
+		// FR [ 1757088 ]
 		//	Query Included Tab
-		if (vIncludedGC != null)
-			vIncludedGC.getMTab().query(false, 0, 0);
+		if (detail != null)
+			detail.getMTab().query(false, 0, 0);
 	}   //  valueChanged
 
 	/**
@@ -1151,4 +1178,10 @@ public class GridController extends CPanel
 	{
 		return m_mTab != null ? m_mTab.isCurrent() : false;
 	}
+	
+     //FR [ 1757088 ]
+	 public VPanel getvPanel()
+	 {
+	 return vPanel;
+	 }
 }   //  GridController

@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *****************************************************************************/
 package org.compiere.model;
 
@@ -27,6 +28,7 @@ import org.compiere.util.*;
  *  Field Model Value Object
  *
  *  @author Jorg Janke
+ *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -150,6 +152,9 @@ public class GridFieldVO implements Serializable
 					vo.ValidationCode = rs.getString(i);
 				else if (columnName.equalsIgnoreCase("ColumnSQL"))
 					vo.ColumnSQL = rs.getString(i);
+				//Feature Request FR [ 1757088 ]
+				else if (columnName.equalsIgnoreCase("Included_Tab_ID"))
+					vo.Included_Tab_ID = rs.getInt(i);
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -400,6 +405,10 @@ public class GridFieldVO implements Serializable
 
 	/** Lookup Value Object     */
 	public MLookupInfo  lookupInfo = null;
+	
+	
+	//*  Feature Request FR [ 1757088 ]
+	public int          Included_Tab_ID = 0;
 
 	
 	/**

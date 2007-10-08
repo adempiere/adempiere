@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *****************************************************************************/
 package org.compiere.apps;
 
@@ -47,6 +48,8 @@ import org.compiere.util.*;
  * 	@version 	$Id: APanel.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
  * 
  *  Colin Rooney 2007/03/20 RFE#1670185 & related BUG#1684142 - Extend Sec to Info Queries
+ *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ *  @contributor fer_luck@centuryon.com , FR [ 1757088 ]
  */
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
@@ -55,6 +58,27 @@ public final class APanel extends CPanel
 	 * Constructs a new instance.
 	 * Need to call initPanel for dynamic initialization
 	 */
+	//FR [ 1757088 ]
+	public APanel(GridController gc){
+		super();
+		m_ctx = Env.getCtx();
+		try{
+			m_curGC = gc;
+			m_curTab = gc.getMTab();
+			Component tabElement = null;
+			tabElement = gc;
+			VTabbedPane tabPane = new VTabbedPane(false);
+			tabPane.addTab(m_curTab.getName().toString(), m_curTab, tabElement);
+			m_curWinTab = tabPane;
+			jbInit();
+			initSwitchLineAction();
+		}
+		catch(Exception e){
+			log.log(Level.SEVERE, "", e);
+		}
+		createMenu();
+	}
+	
 	public APanel(AWindow window)
 	{
 		super();
@@ -330,11 +354,15 @@ public final class APanel extends CPanel
 		toolBar.add(aChat.getButton());
 		toolBar.add(aMulti.getButton());
 		toolBar.addSeparator();
-		toolBar.add(aHistory.getButton());		//	F9
-		toolBar.add(aHome.getButton());			//	F10 is Windows Menu Key
-		toolBar.add(aParent.getButton());
-		toolBar.add(aDetail.getButton());
-		toolBar.addSeparator();
+		//FR [ 1757088 ]
+		if((m_curGC == null) || (m_curGC != null && !m_curGC.isDetailGrid())){
+			toolBar.add(aHistory.getButton());		//	F9
+			toolBar.add(aHome.getButton()); //	F10 is Windows Menu Key
+			toolBar.add(aParent.getButton());
+			toolBar.add(aDetail.getButton());
+			toolBar.addSeparator();
+		}
+
 		toolBar.add(aFirst.getButton());
 		toolBar.add(aPrevious.getButton());
 		toolBar.add(aNext.getButton());
@@ -344,19 +372,23 @@ public final class APanel extends CPanel
 		toolBar.add(aArchive.getButton());
 		toolBar.add(aPrintPreview.getButton());
 		toolBar.add(aPrint.getButton());
-		toolBar.addSeparator();
-		if (m_isPersonalLock)
-			toolBar.add(aLock.getButton());
-		toolBar.add(aZoomAcross.getButton());
-		if (aWorkflow != null)
-			toolBar.add(aWorkflow.getButton());
-		toolBar.add(aRequest.getButton());
-		if (MRole.getDefault().isAllow_Info_Product())
-		{
-			toolBar.add(aProduct.getButton());
+		// FR [ 1757088 ]
+		if((m_curGC == null) || (m_curGC != null && !m_curGC.isDetailGrid())){
+			toolBar.addSeparator();
+			if (m_isPersonalLock)
+				toolBar.add(aLock.getButton());
+			toolBar.add(aZoomAcross.getButton());
+			if (aWorkflow != null)
+				toolBar.add(aWorkflow.getButton());
+			toolBar.add(aRequest.getButton());
+			if (MRole.getDefault().isAllow_Info_Product())
+			{
+				toolBar.add(aProduct.getButton());
+			}
+			toolBar.addSeparator();
+			toolBar.add(aEnd.getButton());
 		}
-		toolBar.addSeparator();
-		toolBar.add(aEnd.getButton());
+
 		//
 		if (CLogMgt.isLevelAll())
 			Util.printActionInputMap(this);
@@ -625,10 +657,18 @@ public final class APanel extends CPanel
 						//	If we have a zoom query, switch to single row
 						if (tab == 0 && goSingleRow)
 							gc.switchSingleRow();
-
-						//	Store GC if it has a included Tab
-						if (gTab.getIncluded_Tab_ID() != 0)
-							includedMap.put(new Integer(gTab.getIncluded_Tab_ID()), gc);
+						
+                        // FR [ 1757088 ]
+						GridField[] fields = gc.getMTab().getFields();
+						int m_tab_id = 0;
+						for(int f =0 ; f < fields.length ; f ++)
+						{
+						  m_tab_id = fields[f].getIncluded_Tab_ID();						  
+						  if ( m_tab_id != 0)
+						  {
+						  includedMap.put(m_tab_id, gc);
+						  }
+						}  
 
 						//	Is this tab included?
 						if (includedMap.size() > 0)
@@ -636,7 +676,24 @@ public final class APanel extends CPanel
 							GridController parent = (GridController)includedMap.get(new Integer(gTab.getAD_Tab_ID()));
 							if (parent != null)
 							{
-								included = parent.includeTab(gc);
+								// FR [ 1757088 ]
+								gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, false);  //  will set color on Tab level
+								included = parent.includeTab(gc,this);
+								TabSwitcher ts = new TabSwitcher(parent, this);
+								Component[] comp = parent.getvPanel().getComponents();
+								for (int i = 0; i < comp.length; i++)
+								{
+								  ts.addTabSwitchingSupport((JComponent)comp[i]);
+								}
+								  ts = new TabSwitcher(gc, this);
+								  comp = gc.getvPanel().getComponents();
+								for (int i = 0; i < comp.length; i++)
+								{
+								  ts.addTabSwitchingSupport((JComponent)comp[i]);
+								}
+								  ts = new TabSwitcher(gc, this);
+								  ts.addTabSwitchingSupport((JComponent)gc.getTable());		
+								  						  
 								if (!included)
 									log.log(Level.SEVERE, "Not Included = " + gc);
 							}
@@ -2444,5 +2501,51 @@ public final class APanel extends CPanel
 				aSwitchLinesUpAction.getName());
 		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
 	}
+	
+    //FR [ 1757088 ]
+	public void dispatchTabSwitch(GridController gc)
+	{
+	 	log.info("Current Grid " + gc.getName());
+	 	if(gc == null || gc.equals(m_curGC)) 
+	 	{
+		 	return;
+	 	}
+	 
+	 	if(m_curTab.getRecord_ID() == -1 )
+	 	{
+	 		gc.getMTab().navigateCurrent();
+	 		gc.dynamicDisplay(0);
+	 		gc.getMTab().dataRefresh();
+	 		return;
+	 	}
+	 
+	 	gc.getMTab().dataSave(true);
+	 	m_curGC = gc;
+	 	m_curGC.activate();
+	 	m_curTab = gc.getMTab();
+	 	aDetail.setEnabled(m_curTabIndex != m_curWinTab.getTabCount()-1);
+	 	aParent.setEnabled(m_curTabIndex != 0 && m_curWinTab.getTabCount() > 1);
+	  
+	 	if (m_mWorkbench.getMWindow(getWindowIndex()).isTransaction()) { 
+	 		aHistory.setEnabled(isFirstTab());
+	 	}
+	 	else 
+	 	{	  
+	 		aHistory.setPressed(false);
+	 		aHistory.setEnabled(false);
+	 	}
+	 
+	 	aPrint.setEnabled(m_curTab.isPrinted());
+	 	aFind.setPressed(m_curTab.isQueryActive());
+	 
+	 	aMulti.setEnabled(true);
+	 	aMulti.setPressed(!m_curGC.isSingleRow());
+	 	aFind.setEnabled(true);
+	 	aRefresh.setEnabled(true);
+	 	aAttachment.setEnabled(true);
+	 
+	 	m_curWinTab.requestFocusInWindow();
+	 	setBusy(false,true);  
+	 }
 
 }	//	APanel

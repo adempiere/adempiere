@@ -318,6 +318,9 @@
       <zipfileset src="lib/itext-1.4.8.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
+      <zipfileset src="lib/swinglabs-0.8.0.jar" >
+    	<patternset refid="manifest.exclude"/>
+      </zipfileset>
       <!-- C3P0 connection pool -->
       <zipfileset src="lib/c3p0-0.9.1.2.jar" >
 			<patternset refid="manifest.exclude"/>

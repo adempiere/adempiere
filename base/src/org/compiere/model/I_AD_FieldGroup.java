@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_FieldGroup
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:21.984
-     */
-    public interface I_AD_FieldGroup 
+/** Generated Interface for AD_FieldGroup
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_AD_FieldGroup 
 {
 
     /** TableName=AD_FieldGroup */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -85,6 +83,19 @@ import org.compiere.util.*;
  Determines ownership and synchronization
 	  */
 	public String getEntityType();
+
+    /** Column name FieldGroupType */
+    public static final String COLUMNNAME_FieldGroupType = "FieldGroupType";
+
+	/** Set Field Group Type.
+	  * Field Group
+	  */
+	public void setFieldGroupType (String FieldGroupType);
+
+	/** Get Field Group Type.
+	  * Field Group
+	  */
+	public String getFieldGroupType();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -32,6 +32,7 @@
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../extend/Extend.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
+  	<pathelement path="../tools/lib/swinglabs-0.8.0.jar"/>  	
   </path>
 
 

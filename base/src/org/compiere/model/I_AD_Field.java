@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Field
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:21.921
-     */
-    public interface I_AD_Field 
+/** Generated Interface for AD_Field
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_AD_Field 
 {
 
     /** TableName=AD_Field */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_FieldGroup_ID */
     public static final String COLUMNNAME_AD_FieldGroup_ID = "AD_FieldGroup_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_FieldGroup_ID();
 
-	public I_AD_FieldGroup getI_AD_FieldGroup() throws Exception;
+	public I_AD_FieldGroup getAD_FieldGroup() throws Exception;
 
     /** Column name AD_Field_ID */
     public static final String COLUMNNAME_AD_Field_ID = "AD_Field_ID";
@@ -127,7 +125,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Tab_ID();
 
-	public I_AD_Tab getI_AD_Tab() throws Exception;
+	public I_AD_Tab getAD_Tab() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

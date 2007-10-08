@@ -13,6 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Contributor(s): Victor Perez e-Evolution victor.perez@e-evolution.com      *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -37,6 +38,7 @@ import org.compiere.util.*;
  *  Usually editors listen to their fields.
  *
  *  @author Jorg Janke
+ *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -1568,4 +1570,14 @@ public class GridField
 		m_vo.VFormat = strNewFormat;
 	} //setVFormat
 	
+	
+	/**
+    *  Feature Request FR [ 1757088 ]
+	*  Get the id tab include
+	*  @return id Tab
+	*/
+	public int getIncluded_Tab_ID ()
+	{	 
+	 return m_vo.Included_Tab_ID;
+	}
 }   //  MField
