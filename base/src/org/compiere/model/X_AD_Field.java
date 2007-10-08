@@ -17,12 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
@@ -39,7 +40,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
     {
       super (ctx, AD_Field_ID, trxName);
-      /** if (AD_Field_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_Field_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_Field_ID (0);
 			setAD_Tab_ID (0);
 			setEntityType (null);
@@ -54,7 +57,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 			setIsReadOnly (false);
 			setIsSameLine (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,7 +88,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -123,7 +126,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_FieldGroup getI_AD_FieldGroup() throws Exception 
+	public I_AD_FieldGroup getAD_FieldGroup() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_FieldGroup.Table_Name);
         I_AD_FieldGroup result = null;
@@ -145,9 +148,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setAD_FieldGroup_ID (int AD_FieldGroup_ID)
 	{
-		if (AD_FieldGroup_ID <= 0) 		set_Value (COLUMNNAME_AD_FieldGroup_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_FieldGroup_ID, Integer.valueOf(AD_FieldGroup_ID));
+		if (AD_FieldGroup_ID <= 0) 
+			set_Value (COLUMNNAME_AD_FieldGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_FieldGroup_ID, Integer.valueOf(AD_FieldGroup_ID));
 	}
 
 	/** Get Field Group.
@@ -183,17 +187,18 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_Reference_ID AD_Reference_ID=1 */
-public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
+	/** AD_Reference_ID AD_Reference_ID=1 */
+	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID <= 0) 		set_Value (COLUMNNAME_AD_Reference_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -207,7 +212,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getI_AD_Tab() throws Exception 
+	public I_AD_Tab getAD_Tab() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
         I_AD_Tab result = null;
@@ -251,6 +256,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
@@ -293,6 +299,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	  */
 	public void setDisplayLogic (String DisplayLogic)
 	{
+
 		if (DisplayLogic != null && DisplayLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
@@ -309,14 +316,15 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 		return (String)get_Value(COLUMNNAME_DisplayLogic);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
@@ -339,6 +347,7 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
@@ -475,17 +484,21 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return false;
 	}
 
-/** IsMandatory AD_Reference_ID=319 */
-public static final int ISMANDATORY_AD_Reference_ID=319;/** No = N */
-public static final String ISMANDATORY_No = "N";/** Yes = Y */
-public static final String ISMANDATORY_Yes = "Y";
+	/** IsMandatory AD_Reference_ID=319 */
+	public static final int ISMANDATORY_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISMANDATORY_Yes = "Y";
+	/** No = N */
+	public static final String ISMANDATORY_No = "N";
 	/** Set Mandatory.
 		@param IsMandatory 
 		Data entry is required in this column
 	  */
 	public void setIsMandatory (String IsMandatory)
 	{
-if (IsMandatory == null || IsMandatory.equals("N") || IsMandatory.equals("Y")); else throw new IllegalArgumentException ("IsMandatory Invalid value - " + IsMandatory + " - Reference_ID=319 - N - Y");		if (IsMandatory != null && IsMandatory.length() > 1)
+
+		if (IsMandatory == null || IsMandatory.equals("Y") || IsMandatory.equals("N")); else throw new IllegalArgumentException ("IsMandatory Invalid value - " + IsMandatory + " - Reference_ID=319 - Y - N");
+		if (IsMandatory != null && IsMandatory.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			IsMandatory = IsMandatory.substring(0, 0);
@@ -557,6 +570,7 @@ if (IsMandatory == null || IsMandatory.equals("N") || IsMandatory.equals("Y")); 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
@@ -581,19 +595,25 @@ if (IsMandatory == null || IsMandatory.equals("N") || IsMandatory.equals("Y")); 
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** ObscureType AD_Reference_ID=291 */
-public static final int OBSCURETYPE_AD_Reference_ID=291;/** Obscure Digits but last 4 = 904 */
-public static final String OBSCURETYPE_ObscureDigitsButLast4 = "904";/** Obscure Digits but first/last 4 = 944 */
-public static final String OBSCURETYPE_ObscureDigitsButFirstLast4 = "944";/** Obscure AlphaNumeric but last 4 = A04 */
-public static final String OBSCURETYPE_ObscureAlphaNumericButLast4 = "A04";/** Obscure AlphaNumeric but first/last 4 = A44 */
-public static final String OBSCURETYPE_ObscureAlphaNumericButFirstLast4 = "A44";
+	/** ObscureType AD_Reference_ID=291 */
+	public static final int OBSCURETYPE_AD_Reference_ID=291;
+	/** Obscure Digits but last 4 = 904 */
+	public static final String OBSCURETYPE_ObscureDigitsButLast4 = "904";
+	/** Obscure Digits but first/last 4 = 944 */
+	public static final String OBSCURETYPE_ObscureDigitsButFirstLast4 = "944";
+	/** Obscure AlphaNumeric but first/last 4 = A44 */
+	public static final String OBSCURETYPE_ObscureAlphaNumericButFirstLast4 = "A44";
+	/** Obscure AlphaNumeric but last 4 = A04 */
+	public static final String OBSCURETYPE_ObscureAlphaNumericButLast4 = "A04";
 	/** Set Obscure.
 		@param ObscureType 
 		Type of obscuring the data (limiting the display)
 	  */
 	public void setObscureType (String ObscureType)
 	{
-if (ObscureType == null || ObscureType.equals("904") || ObscureType.equals("944") || ObscureType.equals("A04") || ObscureType.equals("A44")); else throw new IllegalArgumentException ("ObscureType Invalid value - " + ObscureType + " - Reference_ID=291 - 904 - 944 - A04 - A44");		if (ObscureType != null && ObscureType.length() > 3)
+
+		if (ObscureType == null || ObscureType.equals("904") || ObscureType.equals("944") || ObscureType.equals("A44") || ObscureType.equals("A04")); else throw new IllegalArgumentException ("ObscureType Invalid value - " + ObscureType + " - Reference_ID=291 - 904 - 944 - A44 - A04");
+		if (ObscureType != null && ObscureType.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
 			ObscureType = ObscureType.substring(0, 2);

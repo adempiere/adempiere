@@ -17,12 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_FieldGroup
  *  @author Adempiere (generated) 
@@ -39,11 +36,13 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
     public X_AD_FieldGroup (Properties ctx, int AD_FieldGroup_ID, String trxName)
     {
       super (ctx, AD_FieldGroup_ID, trxName);
-      /** if (AD_FieldGroup_ID == 0)        {			setAD_FieldGroup_ID (0);
+      /** if (AD_FieldGroup_ID == 0)
+        {
+			setAD_FieldGroup_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,14 +95,15 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 		return ii.intValue();
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
@@ -120,6 +120,38 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
+	/** FieldGroupType AD_Reference_ID=53000 */
+	public static final int FIELDGROUPTYPE_AD_Reference_ID=53000;
+	/** Tab = T */
+	public static final String FIELDGROUPTYPE_Tab = "T";
+	/** Label = L */
+	public static final String FIELDGROUPTYPE_Label = "L";
+	/** Collapse = C */
+	public static final String FIELDGROUPTYPE_Collapse = "C";
+	/** Set Field Group Type.
+		@param FieldGroupType 
+		Field Group
+	  */
+	public void setFieldGroupType (String FieldGroupType)
+	{
+
+		if (FieldGroupType == null || FieldGroupType.equals("T") || FieldGroupType.equals("L") || FieldGroupType.equals("C")); else throw new IllegalArgumentException ("FieldGroupType Invalid value - " + FieldGroupType + " - Reference_ID=53000 - T - L - C");
+		if (FieldGroupType != null && FieldGroupType.length() > 10)
+		{
+			log.warning("Length > 10 - truncated");
+			FieldGroupType = FieldGroupType.substring(0, 9);
+		}
+		set_Value (COLUMNNAME_FieldGroupType, FieldGroupType);
+	}
+
+	/** Get Field Group Type.
+		@return Field Group
+	  */
+	public String getFieldGroupType () 
+	{
+		return (String)get_Value(COLUMNNAME_FieldGroupType);
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -128,6 +160,7 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
