@@ -40,7 +40,7 @@ CREATE TABLE U_RoleMenu
     CHECK(IsActive IN ('Y', 'N'))
   );
 
---- Table: U_Menu -------------------------------------------------------
+--- Table: U_WebMenu -------------------------------------------------------
 
 CREATE TABLE U_WebMenu
   (

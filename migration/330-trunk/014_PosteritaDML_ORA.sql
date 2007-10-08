@@ -208,11 +208,19 @@ INSERT INTO AD_Process(ad_process_id, ad_client_id, ad_org_id, isactive, created
   VALUES(52003, 0, 0, 'Y', sysdate, 100, sysdate, 100, 'U_RoleMenu_Update', 'Update Role Menu', NULL, NULL, '3', 'D', NULL, 'N', 'N', NULL, 'org.posterita.process.UpdateRoleMenu', 0, 0, NULL, NULL, NULL, 'N', 'N', 'Y', NULL);
 
 INSERT INTO AD_Process_Para(ad_process_para_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, name, description, help, ad_process_id, seqno, ad_reference_id, ad_reference_value_id, ad_val_rule_id, columnname, iscentrallymaintained, fieldlength, ismandatory, isrange, defaultvalue, defaultvalue2, vformat, valuemin, valuemax, ad_element_id, entitytype)
-  VALUES(52004, 0, 0, 'Y', sysdate, 100, sysdate, 100, 'Role', NULL, NULL, 52000, 10, 30, NULL, NULL, 'AD_Role_ID', 'Y', 0, 'Y', 'N', NULL, NULL, NULL, NULL, NULL, 123, 'D');
+  VALUES(52000, 0, 0, 'Y', sysdate, 100, sysdate, 100, 'Role', NULL, NULL, 52003, 10, 30, NULL, NULL, 'AD_Role_ID', 'Y', 0, 'Y', 'N', NULL, NULL, NULL, NULL, NULL, 123, 'D');
+
+-- Process Access --
+INSERT INTO ad_process_access(ad_process_id, ad_role_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, isreadwrite)
+  VALUES(52003, 0, 0, 0, 'Y', sysdate, 100, now(), 100, 'Y');
+INSERT INTO ad_process_access(ad_process_id, ad_role_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, isreadwrite)
+  VALUES(52003, 102, 0, 0, 'Y', sysdate, 100, now(), 100, 'Y');
+INSERT INTO ad_process_access(ad_process_id, ad_role_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, isreadwrite)
+  VALUES(52003, 103, 0, 0, 'Y',sysdate, 100, now(), 100, 'Y');
 
 -- Menu Changes --
 INSERT INTO AD_Menu(ad_menu_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, name, updatedby, description, issummary, issotrx, isreadonly, action, ad_window_id, ad_workflow_id, ad_task_id, ad_process_id, ad_form_id, ad_workbench_id, entitytype)
-  VALUES(52000, 0, 0, 'Y', sysdate, 100, sysdate, 'Update Role Menu', 100, NULL, 'N', 'N', 'N', 'P', NULL, NULL, NULL, 52000, NULL, NULL, 'D');
+  VALUES(52000, 0, 0, 'Y', sysdate, 100, sysdate, 'Update Role Menu', 100, NULL, 'N', 'N', 'N', 'P', NULL, NULL, NULL, 52003, NULL, NULL, 'D');
 INSERT INTO AD_Menu(ad_menu_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, name, updatedby, description, issummary, issotrx, isreadonly, action, ad_window_id, ad_workflow_id, ad_task_id, ad_process_id, ad_form_id, ad_workbench_id, entitytype)
   VALUES(52001, 0, 0, 'Y', sysdate, 100, sysdate, 'Posterita', 100, NULL, 'Y', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'D');
 INSERT INTO AD_TreeNodeMM(ad_tree_id, node_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, parent_id, seqno)
