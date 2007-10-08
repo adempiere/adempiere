@@ -1,31 +1,24 @@
 --@author - fer_luck @ centuryono
 --Add Detail column
 --The fields are already in the databse. Just needs to update them
-BEGIN;
-update ad_field set seqno = seqno + 10 where ad_tab_id = 107 and seqno > 70;
+-- BEGIN;
 
-update ad_field 
-set ad_tab_id = 107, isdisplayed = 'Y', seqno = 80
-where ad_column_id = 8547;
+UPDATE AD_FIELD SET seqno = seqno + 10 WHERE ad_tab_id = 107 AND seqno > 70;
+
+UPDATE AD_FIELD 
+SET ad_tab_id = 107, isdisplayed = 'Y', seqno = 80
+WHERE ad_column_id = 8547;
 
 --It's not physically in the database, so here we create it
-alter table ad_field add included_tab_id numeric(10);
+ALTER TABLE AD_FIELD ADD included_tab_id NUMERIC(10);
 
 --Modify the views
-drop view ad_field_v;
+-- DROP VIEW ad_field_v;
+
 CREATE OR REPLACE VIEW AD_FIELD_V
-(AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, 
- NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, 
- DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, 
- ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, 
- COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, 
- ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, 
- CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
- READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, 
- VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE)
 AS 
 SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
-	f.Name, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+	f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
 	f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
 	f.IsEncrypted AS IsEncryptedField, f.ObscureType,
 	c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat, c.DefaultValue, c.IsKey, c.IsParent, 
@@ -36,32 +29,23 @@ SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_
 	c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
     c.IsSelectionColumn,
 	tbl.TableName, c.ValueMin, c.ValueMax, 
-	fg.Name AS FieldGroup, vr.Code AS ValidationCode, f.included_tab_id
-FROM AD_Field f 
-  INNER JOIN AD_Tab t ON (f.AD_Tab_ID = t.AD_Tab_ID)
-  LEFT OUTER JOIN AD_FieldGroup fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
-  LEFT OUTER JOIN AD_Column c ON (f.AD_Column_ID = c.AD_Column_ID)
-	INNER JOIN AD_Table tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
-	INNER JOIN AD_Reference r ON (c.AD_Reference_ID = r.AD_Reference_ID)
-	LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)
+	fg.NAME AS FieldGroup, vr.Code AS ValidationCode, f.included_tab_id
+FROM AD_FIELD f 
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+	INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+	INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+	LEFT OUTER JOIN AD_VAL_RULE vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)
 WHERE f.IsActive = 'Y' 
   AND c.IsActive = 'Y';
 
+-- DROP VIEW ad_field_vt;
 
-drop view ad_field_vt;
 CREATE OR REPLACE VIEW AD_FIELD_VT
-(AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
- AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
- DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
- ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, 
- COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, 
- ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, 
- AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, 
- ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, 
- TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE)
 AS 
-SELECT trl.AD_Language, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
-	trl.Name, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+	trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
 	f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
 	f.IsEncrypted AS IsEncryptedField, f.ObscureType,
 	c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat, c.DefaultValue, c.IsKey, c.IsParent, 
@@ -71,16 +55,16 @@ SELECT trl.AD_Language, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table
     c.AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
 	c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
 	tbl.TableName, c.ValueMin, c.ValueMax, 
-	fgt.Name AS FieldGroup, vr.Code AS ValidationCode,  f.included_tab_id
-FROM AD_Field f 
-	INNER JOIN AD_Field_Trl trl ON (f.AD_Field_ID = trl.AD_Field_ID)
-  INNER JOIN AD_Tab t ON (f.AD_Tab_ID = t.AD_Tab_ID)
-  LEFT OUTER JOIN AD_FieldGroup_Trl fgt ON 
-	(f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_Language=fgt.AD_Language)
-  LEFT OUTER JOIN AD_Column c ON (f.AD_Column_ID = c.AD_Column_ID)
-	INNER JOIN AD_Table tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
-	INNER JOIN AD_Reference r ON (c.AD_Reference_ID = r.AD_Reference_ID)
-	LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)
+	fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,  f.included_tab_id
+FROM AD_FIELD f 
+	INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP_TRL fgt ON 
+	(f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_LANGUAGE=fgt.AD_LANGUAGE)
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+	INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+	INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+	LEFT OUTER JOIN AD_VAL_RULE vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)
 WHERE f.IsActive = 'Y' 
   AND c.IsActive = 'Y';
 
@@ -97,12 +81,12 @@ INSERT INTO AD_ELEMENT
              'FieldGroupType', 'D', 'Field Group Type', 'Field Group Type'
             );
 
-insert into ad_reference
+INSERT INTO AD_REFERENCE
           (ad_reference_id, ad_client_id, ad_org_id, isactive,
              created,
              updated, createdby,
              updatedby,
-             name, description, help,
+             NAME, description, help,
              validationtype, entitytype)
      VALUES (53000, 0, 0, 'Y',
              TO_DATE ('07/18/2007 14:22:51', 'MM/DD/YYYY HH24:MI:SS'),
@@ -110,12 +94,12 @@ insert into ad_reference
              100, 'AD_FieldGroup', 'Field Group Type', '',
              'L', 'D');
 
-insert into ad_ref_list 
+INSERT INTO AD_REF_LIST 
           (ad_ref_list_id, ad_client_id, ad_org_id, isactive,
              created,
              updated, createdby,
              updatedby,
-             value, name,
+             VALUE, NAME,
              ad_reference_id, entitytype)
 VALUES(53000, 0, 0, 'Y',
              TO_DATE ('07/18/2007 14:22:51', 'MM/DD/YYYY HH24:MI:SS'),
@@ -123,12 +107,13 @@ VALUES(53000, 0, 0, 'Y',
              100,
              'T', 'Tab',
              53000, 'D');
-insert into ad_ref_list 
+			 
+INSERT INTO AD_REF_LIST 
           (ad_ref_list_id, ad_client_id, ad_org_id, isactive,
              created,
              updated, createdby,
              updatedby,
-             value, name,
+             VALUE, NAME,
              ad_reference_id, entitytype)
 VALUES(53001, 0, 0, 'Y',
              TO_DATE ('07/18/2007 14:22:51', 'MM/DD/YYYY HH24:MI:SS'),
@@ -136,12 +121,13 @@ VALUES(53001, 0, 0, 'Y',
              100,
              'L', 'Label',
              53000, 'D');
-insert into ad_ref_list 
+
+INSERT INTO AD_REF_LIST 
           (ad_ref_list_id, ad_client_id, ad_org_id, isactive,
              created,
              updated, createdby,
              updatedby,
-             value, name,
+             VALUE, NAME,
              ad_reference_id, entitytype)
 VALUES(53002, 0, 0, 'Y',
              TO_DATE ('07/18/2007 14:22:51', 'MM/DD/YYYY HH24:MI:SS'),
@@ -169,12 +155,12 @@ INSERT INTO AD_COLUMN
              'Field Group.',
              0, 'D', 'FieldGroupType', 414, 17,
              10, 'N', 'N', 'N', 'Y',
-             'N', null, 'N', 'N',
+             'N', NULL, 'N', 'N',
              'N', 53002, 'Y',
              'N', 53000
             );
 
-ALTER TABLE ad_fieldgroup ADD fieldgrouptype char(1);
+ALTER TABLE AD_FIELDGROUP ADD fieldgrouptype CHAR(1);
 
 INSERT INTO AD_FIELD
             (ad_field_id, ad_client_id, ad_org_id, isactive,
