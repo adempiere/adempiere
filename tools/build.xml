@@ -207,7 +207,7 @@
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <!-- Barcode, ftp			-->
-      <zipfileset src="lib/barbecue-1.0.6d.jar" >
+      <zipfileset src="lib/barbecue-1.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <zipfileset src="lib/commons-net-1.4.0.jar" >
@@ -283,7 +283,7 @@
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <!-- Barcode, ftp			-->
-      <zipfileset src="lib/barbecue-1.0.6d.jar" >
+      <zipfileset src="lib/barbecue-1.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <zipfileset src="lib/commons-net-1.4.0.jar" >

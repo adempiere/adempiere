@@ -69,7 +69,6 @@
 	      <pathelement path="../JasperReportsTools/lib/commons-collections-3.1.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-logging-1.4.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>      	
-		  <pathelement path="../JasperReportsTools/lib/barbecue-1.1.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/xercesImpl.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/xml-apis.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
@@ -145,9 +144,6 @@
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" >
-		<patternset refid="manifest.exclude"/>
-	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/barbecue-1.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/xercesImpl.jar" >

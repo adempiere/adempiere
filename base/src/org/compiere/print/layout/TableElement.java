@@ -16,17 +16,36 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import java.util.regex.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.regex.Pattern;
 
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import net.sourceforge.barbecue.output.OutputException;
+
+import org.compiere.model.MQuery;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.print.MPrintTableFormat;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
+import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Table Print Element.
@@ -47,6 +66,9 @@ import org.compiere.util.*;
  *  </pre>
  * 	@author 	Jorg Janke
  * 	@version 	$Id: TableElement.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1803359 ] Migrate to barbecue 1.1
  */
 public class TableElement extends PrintElement
 {
@@ -1371,7 +1393,10 @@ public class TableElement extends PrintElement
 				}
 				else if (printItems[index] instanceof BarcodeElement)
 				{
-					((BarcodeElement)printItems[index]).getBarcode().draw(g2D, curX, (int)penY);
+					try {
+						((BarcodeElement)printItems[index]).getBarcode().draw(g2D, curX, (int)penY);
+					} catch (OutputException e) {
+					}
 				}
 				else if (printItems[index] instanceof Boolean)
 				{

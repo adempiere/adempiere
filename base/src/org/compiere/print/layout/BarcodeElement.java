@@ -16,19 +16,26 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
-import org.compiere.print.*;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.util.Properties;
 
-import net.sourceforge.barbecue.*;
-import net.sourceforge.barbecue.linear.code128.*;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.linear.ean.UCCEAN128Barcode;
+import net.sourceforge.barbecue.output.OutputException;
+
+import org.compiere.print.MPrintFont;
+import org.compiere.print.MPrintFormatItem;
 
 /**
  * 	Barcode Print Element
  *	
  *  @author Jorg Janke
  *  @version $Id: BarcodeElement.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1803359 ] Migrate to barbecue 1.1
  */
 public class BarcodeElement extends PrintElement
 {
@@ -209,7 +216,10 @@ public class BarcodeElement extends PrintElement
 			x += (p_maxWidth - p_width) / 2;
 		int y = (int)location.y;
 
-		m_barcode.draw(g2D, x, y);
+		try {
+			m_barcode.draw(g2D, x, y);
+		} catch (OutputException e) {
+		}
 	}	//	paint
 	
 	/**
