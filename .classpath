@@ -76,5 +76,6 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/barbecue-1.1.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-1.3.0.jar"/>
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
+	<classpathentry kind="lib" path="tools/lib/swinglabs-0.8.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
