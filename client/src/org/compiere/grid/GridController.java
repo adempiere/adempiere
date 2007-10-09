@@ -147,7 +147,7 @@ public class GridController extends CPanel
 	private GridController detail = null;
 	private CScrollPane mrPane = new CScrollPane();
 	private CPanel xPanel = new CPanel();
-	private FlowLayout xLayout = new FlowLayout();
+	private BorderLayout xLayout = new BorderLayout();
 	private VTable vTable = new VTable();
     //FR [ 1757088 ]
 	private VPanel vPanel = null; 
@@ -185,7 +185,8 @@ public class GridController extends CPanel
 		//FR [ 1757088 ] xPanel.add(vPanel);
 		xPanel.setLayout(xLayout);
 		xPanel.setName("gc_xPanel");
-		xLayout.setAlignment(FlowLayout.LEFT);
+		xPanel.setBorder(BorderFactory.createEmptyBorder());
+		//xLayout.setAlignment(FlowLayout.LEFT);
 		xLayout.setHgap(0);
 		xLayout.setVgap(0);
 		//  multi-row
@@ -196,6 +197,8 @@ public class GridController extends CPanel
 		graphPanel.setBorder(null);
 		graphPanel.setName("gc_graphPanel");
 		srPane.setDividerLocation(200);
+		
+		vPane.setBorder(BorderFactory.createEmptyBorder());
 	}   //  jbInit
 
 	/**
@@ -301,9 +304,9 @@ public class GridController extends CPanel
 		m_aPanel = aPanel;
 		setName("GC-" + mTab);
 		//FR [ 1757088 ]
-		vPanel = new VPanel(mWindow.getName());
+		vPanel = new VPanel(mTab.getName());
 		vPane.getViewport().add(xPanel, null);
-		xPanel.add(vPanel);
+		xPanel.add(vPanel, BorderLayout.CENTER);
 
 		setTabLevel(m_mTab.getTabLevel());
 		

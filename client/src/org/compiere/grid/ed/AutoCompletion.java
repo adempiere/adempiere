@@ -5,6 +5,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.text.*;
 
+import org.compiere.swing.CComboBox;
+
 
 //phib: this is from http://www.orbital-computer.de/JComboBox
 //with some minor revisions for Adempiere
@@ -14,7 +16,7 @@ import javax.swing.text.*;
  * http://creativecommons.org/licenses/publicdomain/
  */
 public class AutoCompletion extends PlainDocument {
-	VComboBox comboBox;
+	CComboBox comboBox;
 	ComboBoxModel model;
 	JTextComponent editor;
 	// flag to indicate if setSelectedItem has been called
@@ -27,7 +29,7 @@ public class AutoCompletion extends PlainDocument {
 	KeyListener editorKeyListener;
 	FocusListener editorFocusListener;
 
-	public AutoCompletion(final VComboBox comboBox) {
+	public AutoCompletion(final CComboBox comboBox) {
 		this.comboBox = comboBox;
 		model = comboBox.getModel();
 		comboBox.addActionListener(new ActionListener() {
@@ -81,7 +83,7 @@ public class AutoCompletion extends PlainDocument {
 		highlightCompletedText(0);
 	}
 
-	public static void enable(VComboBox comboBox) {
+	public static void enable(CComboBox comboBox) {
 		// has to be editable
 		comboBox.setEditable(true);
 		// change the editor's document

@@ -22,6 +22,7 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -42,6 +43,8 @@ import org.compiere.util.*;
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
 {
+	private int m_AD_Tab_ID;
+
 	/**
 	 *	Find Constructor
 	 *	@param owner Frame Dialog Onwer
@@ -53,7 +56,7 @@ public final class Find extends CDialog
 	 *	@param findFields
 	 *  @param minRecords number of minimum records
 	 */
-	public Find (Frame owner, int targetWindowNo, String title, 
+	public Find (Frame owner, int targetWindowNo, String title, int AD_Tab_ID,
 		int AD_Table_ID, String tableName, String whereExtended,
 		GridField[] findFields, int minRecords)
 	{
@@ -61,6 +64,7 @@ public final class Find extends CDialog
 		log.info(title);
 		//
 		m_targetWindowNo = targetWindowNo;
+		m_AD_Tab_ID = AD_Tab_ID; //red1 new field for UserQuery [ 1798539 ]
 		m_AD_Table_ID = AD_Table_ID;
 		m_tableName = tableName;
 		m_whereExtended = whereExtended;
@@ -140,6 +144,7 @@ public final class Find extends CDialog
 	private ConfirmPanel confirmPanelA = new ConfirmPanel(true, true, false, false, false, false, true);
 	private CButton bIgnore = new CButton();
 	private JToolBar toolBar = new JToolBar();
+	private CComboBox fQueryName = new CComboBox();
 	private CButton bSave = new CButton();
 	private CButton bNew = new CButton();
 	private CButton bDelete = new CButton();
@@ -162,7 +167,30 @@ public final class Find extends CDialog
 	private Component spaceW;
 	private Component spaceS;
 	private JScrollPane advancedScrollPane = new JScrollPane();
-	private CTable advancedTable = new CTable();
+	private CTable advancedTable = new CTable() {
+		public boolean isCellEditable(int row, int column)
+		{
+			boolean editable = ( column == INDEX_COLUMNNAME
+					|| column == INDEX_OPERATOR );
+			if (!editable && row >= 0)
+			{
+				String columnName = null;
+				Object value =
+					getModel().getValueAt(row, INDEX_COLUMNNAME);
+				if (value != null) 
+				{
+					if (value instanceof ValueNamePair)
+						columnName = ((ValueNamePair)value).getValue();
+					else
+						columnName = value.toString();
+				}
+			    
+				//  Create Editor
+				editable = getTargetMField(columnName) != null;
+			}
+			return editable;
+		}
+	};
 
 	/** Index ColumnName = 0		*/
 	public static final int		INDEX_COLUMNNAME = 0;
@@ -177,6 +205,11 @@ public final class Find extends CDialog
 	public CComboBox 	columns = null;
 	/**	Advanced Search Operators 	*/
 	public CComboBox 	operators = null;
+	private MUserQuery[] userQueries;
+	private ValueNamePair[] columnValueNamePairs;
+	
+	private static final String FIELD_SEPARATOR = "<^>";
+	private static final String SEGMENT_SEPARATOR = "<~>";
 
 	/**
 	 *	Static Init.
@@ -204,6 +237,9 @@ public final class Find extends CDialog
 		bIgnore.setMargin(new Insets(2, 2, 2, 2));
 		bIgnore.setToolTipText(Msg.getMsg(Env.getCtx(),"Ignore"));
 		bIgnore.addActionListener(this);
+		fQueryName.setToolTipText (Msg.getMsg(Env.getCtx(),"QueryName"));
+		fQueryName.setEditable(true);
+		fQueryName.addActionListener(this);
 		bSave.setIcon(new ImageIcon(org.compiere.Adempiere.class.getResource("images/Save24.gif")));
 		bSave.setMargin(new Insets(2, 2, 2, 2));
 		bSave.setToolTipText(Msg.getMsg(Env.getCtx(),"Save"));
@@ -275,8 +311,9 @@ public final class Find extends CDialog
 		toolBar.add(bIgnore, null);
 		toolBar.addSeparator();
 		toolBar.add(bNew, null);
-		toolBar.add(bSave, null);
 		toolBar.add(bDelete, null);
+		toolBar.add(fQueryName, null);
+		toolBar.add(bSave, null);		
 		advancedPanel.setLayout(advancedLayout);
 		advancedPanel.add(toolBar, BorderLayout.NORTH);
 		advancedPanel.add(confirmPanelA, BorderLayout.SOUTH);
@@ -300,6 +337,7 @@ public final class Find extends CDialog
 				cmd_cancel();
 			}
 		});
+		
 	}	//	jbInit
 
 	/**
@@ -419,8 +457,41 @@ public final class Find extends CDialog
 	{
 		log.config("");
 		advancedTable.setModel(new DefaultTableModel(0, 4));
-		advancedTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		advancedTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		advancedTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		advancedTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
+		TableCellRenderer renderer = new ProxyRenderer(advancedTable.getDefaultRenderer(Object.class));
+		advancedTable.setDefaultRenderer(Object.class, renderer);
+		
+		InputMap im = advancedTable.getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		KeyStroke tab = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0);
+		final Action tabAction = advancedTable.getActionMap().get(im.get(tab));
+		Action tabActionWrapper = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+            	tabAction.actionPerformed(e);
+            	
+                JTable table = (JTable)e.getSource();
+                table.requestFocusInWindow();
+            }
+        };
+        advancedTable.getActionMap().put(im.get(tab), tabActionWrapper);
+        KeyStroke shiftTab = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK);
+        final Action shiftTabAction = advancedTable.getActionMap().get(im.get(shiftTab));
+		Action shiftTabActionWrapper = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+            	shiftTabAction.actionPerformed(e);
+            	
+                JTable table = (JTable)e.getSource();
+                table.requestFocusInWindow();
+            }
+        };
+        advancedTable.getActionMap().put(im.get(shiftTab), shiftTabActionWrapper);
+		
 		//	0 = Columns
 		ArrayList<ValueNamePair> items = new ArrayList<ValueNamePair>();
 		for (int c = 0; c < m_findFields.length; c++)
@@ -440,35 +511,68 @@ public final class Find extends CDialog
 		//	System.out.println(pp + " = " + field);
 			items.add(pp);
 		}
-		ValueNamePair[] cols = new ValueNamePair[items.size()];
-		items.toArray(cols);
-		Arrays.sort(cols);		//	sort alpha
-		columns = new CComboBox(cols);
-		columns.addActionListener(this);
+		columnValueNamePairs = new ValueNamePair[items.size()];
+		items.toArray(columnValueNamePairs);
+		Arrays.sort(columnValueNamePairs);		//	sort alpha
+		columns = new CComboBox(columnValueNamePairs);
+		columns.addActionListener(this);		
 		TableColumn tc = advancedTable.getColumnModel().getColumn(INDEX_COLUMNNAME);
 		tc.setPreferredWidth(150);
-		tc.setCellEditor(new DefaultCellEditor(columns));
+		FindCellEditor dce = new FindCellEditor(columns); 
+
+		dce.addCellEditorListener(new CellEditorListener()
+		{
+			public void editingCanceled(ChangeEvent ce)
+			{
+			}
+		 
+			public void editingStopped(ChangeEvent ce)
+			{
+				int col = advancedTable.getSelectedColumn();
+				int row = advancedTable.getSelectedRow();
+				if (col == INDEX_COLUMNNAME && row >= 0)
+				{
+					advancedTable.setValueAt(null, row, INDEX_VALUE);
+					advancedTable.setValueAt(null, row, INDEX_VALUE2);
+				}
+			}
+		});
+		tc.setCellEditor(dce);
 		tc.setHeaderValue(Msg.translate(Env.getCtx(), "AD_Column_ID"));
 
 		//	1 = Operators
 		operators = new CComboBox(MQuery.OPERATORS);
 		tc = advancedTable.getColumnModel().getColumn(INDEX_OPERATOR);
 		tc.setPreferredWidth(40);
-		tc.setCellEditor(new DefaultCellEditor(operators));
+		dce = new FindCellEditor(operators);
+		tc.setCellEditor(dce);
 		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "Operator"));
 
 		// 	2 = QueryValue
 		tc = advancedTable.getColumnModel().getColumn(INDEX_VALUE);
-		tc.setCellEditor(new FindValueEditor(this, false));
-		tc.setCellRenderer(new FindValueRenderer(this, false));
+		FindValueEditor fve = new FindValueEditor(this, false);		
+		tc.setCellEditor(fve);
+		tc.setCellRenderer(new ProxyRenderer(new FindValueRenderer(this, false)));
 		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "QueryValue"));
 
 		// 	3 = QueryValue2
 		tc = advancedTable.getColumnModel().getColumn(INDEX_VALUE2);
 		tc.setPreferredWidth(50);
-		tc.setCellEditor(new FindValueEditor(this, true));
-		tc.setCellRenderer(new FindValueRenderer(this, true));
+		fve = new FindValueEditor(this, false);
+		tc.setCellEditor(fve);
+		tc.setCellRenderer(new ProxyRenderer(new FindValueRenderer(this, false)));
 		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "QueryValue2"));
+		
+		AutoCompletion.enable(columns);
+		AutoCompletion.enable(operators);
+		
+		//user query
+		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
+		String[] queries = new String[userQueries.length];
+		for (int i = 0; i < userQueries.length; i++)
+			queries[i] = userQueries[i].getName();
+		fQueryName.setModel(new DefaultComboBoxModel(queries));
+		fQueryName.setValue("");
 
 		//	No Row - Create one
 		cmd_new();
@@ -530,16 +634,29 @@ public final class Find extends CDialog
 		else if (e.getSource() == bNew)
 			cmd_new();
 		else if (e.getSource() == bSave)
-			cmd_save();
+			cmd_save(true);
 		else if (e.getSource() == bDelete)
 			cmd_delete();
 		//
 		else if (e.getSource() == columns)
 		{
-			ValueNamePair column = (ValueNamePair)columns.getSelectedItem();
-			if (column != null)
+			String columnName = null;
+			Object selected = columns.getSelectedItem();
+			if (selected != null) 
 			{
-				String columnName = column.getValue();
+				if (selected instanceof ValueNamePair) 
+				{
+					ValueNamePair column = (ValueNamePair)selected;
+					columnName = column.getValue();
+				}
+				else
+				{
+					columnName = selected.toString();
+				}
+			}
+			
+			if (columnName != null)
+			{
 				log.config("Column: " + columnName);
 				if (columnName.endsWith("_ID") || columnName.endsWith("_Acct"))
 					operators.setModel(new DefaultComboBoxModel(MQuery.OPERATORS_ID));
@@ -549,14 +666,83 @@ public final class Find extends CDialog
 					operators.setModel(new DefaultComboBoxModel(MQuery.OPERATORS));
 			}
 		}
+		else if (e.getSource() == fQueryName) 
+		{
+			Object o = fQueryName.getSelectedItem();
+			if (userQueries != null && o != null)
+			{
+				String selected = o.toString();
+				for (int i = 0; i < userQueries.length; i++) 
+				{
+					if (userQueries[i].getName().equals(selected))
+					{
+						parseUserQuery(userQueries[i]);
+						return;
+					}
+				}
+			}
+		}
 		else    // ConfirmPanel.A_OK and enter in fields
 		{
 			if (e.getSource() == confirmPanelA.getOKButton())
 				cmd_ok_Advanced();
-			else
+			else if (e.getSource() == confirmPanelS.getOKButton())
+				cmd_ok_Simple();
+			else if (e.getSource() instanceof JTextField &&
+					tabbedPane.getSelectedIndex() == 0)
 				cmd_ok_Simple();
 		}
 	}	//	actionPerformed
+
+	private void parseUserQuery(MUserQuery userQuery) {
+		String code = userQuery.getCode();
+		String[] segments = code.split(Pattern.quote(SEGMENT_SEPARATOR));
+		advancedTable.stopEditor(true);
+		DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
+		int cnt = model.getRowCount();
+		for (int i = cnt - 1; i >=0; i--)
+			model.removeRow(i);
+		
+		for (int i = 0; i < segments.length; i++)
+		{
+			String[] fields = segments[i].split(Pattern.quote(FIELD_SEPARATOR));
+			model.addRow(new Object[] {null, MQuery.OPERATORS[MQuery.EQUAL_INDEX], null, null});
+			String columnName = null;
+			for (int j = 0; j < fields.length; j++)
+			{
+				if (j == INDEX_COLUMNNAME)
+				{
+					for (ValueNamePair vnp : columnValueNamePairs)
+					{
+						if (vnp.getValue().equals(fields[j]))
+						{
+							model.setValueAt(vnp, i, j);
+							columnName = fields[j];
+							break;
+						}
+					}
+				}
+				else if (j == INDEX_OPERATOR)
+				{
+					for (ValueNamePair vnp : MQuery.OPERATORS)
+					{
+						if (vnp.getValue().equals(fields[j]))
+						{
+							model.setValueAt(vnp, i, j);
+							break;
+						}
+					}
+				}
+				else
+				{
+					GridField field = getTargetMField(columnName);
+					Object value = parseString(field, fields[j]);
+					model.setValueAt(value, i, j);
+				}
+			}
+		}
+		advancedTable.invalidate();
+	}
 
 	/**
 	 *  Change Listener (tab change)
@@ -571,6 +757,7 @@ public final class Find extends CDialog
 		{
 			initFindAdvanced();
 			this.getRootPane().setDefaultButton(confirmPanelA.getOKButton());
+			advancedTable.requestFocusInWindow();
 		}
 	}	//  stateChanged
 
@@ -661,7 +848,7 @@ public final class Find extends CDialog
 		m_isCancel = false; // teo_sarca [ 1708717 ]
 		//	save pending
 		if (bSave.isEnabled())
-			cmd_save();
+			cmd_save(false);
 		if (getNoOfRecords(m_query, true) != 0)
 			dispose();
 	}	//	cmd_ok_Advanced
@@ -671,6 +858,7 @@ public final class Find extends CDialog
 	 */
 	private void cmd_cancel()
 	{
+		advancedTable.stopEditor(false);
 		log.info("");
 		m_query = null;
 		m_total = 999999;
@@ -691,30 +879,34 @@ public final class Find extends CDialog
 	 */
 	private void cmd_new()
 	{
-		log.info("");
+		advancedTable.stopEditor(true);
 		DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
 		model.addRow(new Object[] {null, MQuery.OPERATORS[MQuery.EQUAL_INDEX], null, null});
+		advancedTable.requestFocusInWindow();
 	}	//	cmd_new
 
 	/**
 	 *	Save (Advanced)
 	 */
-	private void cmd_save()
+	private void cmd_save(boolean saveQuery)
 	{
-		log.info("");
 		advancedTable.stopEditor(true);
 		//
 		m_query = new MQuery(m_tableName);
+		StringBuffer code = new StringBuffer();
 		for (int row = 0; row < advancedTable.getRowCount(); row++)
 		{
 			//	Column
 			Object column = advancedTable.getValueAt(row, INDEX_COLUMNNAME);
 			if (column == null)
 				continue;
-			String ColumnName = ((ValueNamePair)column).getValue();
+			String ColumnName = column instanceof ValueNamePair ? 
+					((ValueNamePair)column).getValue() : column.toString();
 			String infoName = column.toString();
 			//
 			GridField field = getTargetMField(ColumnName);
+			if (field == null)
+				continue;
 			boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
 			String ColumnSQL = field.getColumnSQL(false);
 			//	Op
@@ -736,9 +928,10 @@ public final class Find extends CDialog
 			else if (field.getDisplayType() == DisplayType.YesNo)
 				infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
 			//	Value2	******
+			Object value2 = null;
 			if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
 			{
-				Object value2 = advancedTable.getValueAt(row, INDEX_VALUE2);
+				value2 = advancedTable.getValueAt(row, INDEX_VALUE2);
 				if (value2 == null)
 					continue;
 				Object parsedValue2 = parseValue(field, value2);
@@ -759,9 +952,67 @@ public final class Find extends CDialog
 			else
 				m_query.addRestriction(ColumnSQL, Operator, parsedValue,
 					infoName, infoDisplay);
+			
+			if (code.length() > 0)
+				code.append(SEGMENT_SEPARATOR);
+			code.append(ColumnName)
+				.append(FIELD_SEPARATOR)
+				.append(Operator)
+				.append(FIELD_SEPARATOR)
+				.append(value.toString())
+				.append(FIELD_SEPARATOR)
+				.append(value2 != null ? value2.toString() : "");
+		}
+		Object selected = fQueryName.getSelectedItem();
+		if (selected != null && saveQuery) {
+			String name = selected.toString();
+			MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
+			if (uq == null && code.length() > 0)
+			{				
+				uq = new MUserQuery (Env.getCtx(), 0, null);
+				uq.setName (name);
+				uq.setAD_Tab_ID(m_AD_Tab_ID); //red1 UserQuery [ 1798539 ] taking in new field from Compiere
+				uq.setAD_User_ID(Env.getAD_User_ID(Env.getCtx())); //red1 - [ 1798539 ] missing in Compiere delayed source :-)
+			}			
+			else if (uq != null && code.length() == 0) 
+			{
+				if (uq.delete(true))
+				{
+					ADialog.info (m_targetWindowNo, this, "Deleted", name);
+					refreshUserQueries();
+				}
+				else
+					ADialog.warn (m_targetWindowNo, this, "DeleteError", name);
+				return;
+			}
+			else
+				return;
+			uq.setCode (code.toString());
+			uq.setAD_Table_ID (m_AD_Table_ID);
+			//
+			if (uq.save())
+			{
+				ADialog.info (m_targetWindowNo, this, "Saved", name);
+				refreshUserQueries();
+			}
+			else
+				ADialog.warn (m_targetWindowNo, this, "SaveError", name);
 		}
 	}	//	cmd_save
 
+	private void refreshUserQueries() 
+	{
+		Object selected = fQueryName.getSelectedItem();
+		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
+		String[] queries = new String[userQueries.length];
+		for (int i = 0; i < userQueries.length; i++)
+			queries[i] = userQueries[i].getName();
+		fQueryName.setModel(new DefaultComboBoxModel(queries));
+		fQueryName.setSelectedItem(selected);
+		if (fQueryName.getSelectedIndex() < 0)
+			fQueryName.setValue("");
+	}
+	
 	/**
 	 * Checks the given column.
 	 * @param columnId
@@ -928,16 +1179,70 @@ public final class Find extends CDialog
 	}	//	parseValue
 
 	/**
+	 * 	Parse String
+	 * 	@param field column
+	 * 	@param in value
+	 * 	@return data type corected value
+	 */
+	private Object parseString(GridField field, String in)
+	{
+		if (in == null)
+			return null;
+		int dt = field.getDisplayType();
+		try
+		{
+			//	Return Integer
+			if (dt == DisplayType.Integer
+				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
+			{
+				int i = Integer.parseInt(in);
+				return new Integer(i);
+			}
+			//	Return BigDecimal
+			else if (DisplayType.isNumeric(dt))
+			{
+				return DisplayType.getNumberFormat(dt).parse(in);
+			}
+			//	Return Timestamp
+			else if (DisplayType.isDate(dt))
+			{
+				long time = 0;
+				try
+				{
+					time = DisplayType.getDateFormat_JDBC().parse(in).getTime();
+					return new Timestamp(time);
+				}
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE, in + "(" + in.getClass() + ")" + e);
+					time = DisplayType.getDateFormat(dt).parse(in).getTime();
+				}
+				return new Timestamp(time);
+			}
+			else if (dt == DisplayType.YesNo)
+				return Boolean.valueOf(in);
+			else
+				return in;
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.SEVERE, "Object=" + in, ex);
+			return null;
+		}
+
+	}	//	parseValue
+	/**
 	 *	Delete
 	 */
 	private void cmd_delete()
 	{
-		log.info("");
+		advancedTable.stopEditor(false);
 		DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
 		int row = advancedTable.getSelectedRow();
 		if (row >= 0)
 			model.removeRow(row);
-		cmd_refresh();
+		cmd_refresh();		
+		advancedTable.requestFocusInWindow();
 	}	//	cmd_delete
 
 	/**
@@ -945,7 +1250,7 @@ public final class Find extends CDialog
 	 */
 	private void cmd_refresh()
 	{
-		log.info("");
+		advancedTable.stopEditor(false);
 		int records = getNoOfRecords(m_query, true);
 		setStatusDB (records);
 		statusBar.setStatusLine("");
@@ -1088,5 +1393,32 @@ public final class Find extends CDialog
 		}
 		return null;
 	}	//	getTargetMField
+	
+	private class ProxyRenderer implements TableCellRenderer
+	{
+		/**
+		 * Creates a Find.ProxyRenderer.
+		 */
+		public ProxyRenderer(TableCellRenderer renderer)
+		{
+			this.m_renderer = renderer;
+		}
+	        
+		/** The renderer. */
+		private TableCellRenderer m_renderer;
+	       
+		/**
+		 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+		 */
+		public Component getTableCellRendererComponent(final JTable table,
+				Object value, boolean isSelected, boolean hasFocus, final int row, final int col)
+		{
+			Component comp = m_renderer.getTableCellRendererComponent(table,
+					value, isSelected, hasFocus, row, col);
+			if (hasFocus && table.isCellEditable(row, col))
+				table.editCellAt(row, col);
+			return comp;
+		}
+	}	// ProxyRenderer
 
 }	//	Find

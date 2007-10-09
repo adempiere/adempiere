@@ -169,7 +169,11 @@ public final class APanel extends CPanel
 		//	tabPanel
 		mainLayout.setHgap(2);
 		mainLayout.setVgap(2);
-		this.add(tabPanel, BorderLayout.CENTER);
+		CPanel dummy = new CPanel();
+		dummy.setLayout(new BorderLayout());
+		dummy.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 2));
+		dummy.add(tabPanel, BorderLayout.CENTER);
+		this.add(dummy, BorderLayout.CENTER);
 		//	southPanel
 		this.add(statusBar, BorderLayout.SOUTH);
 		//	northPanel
@@ -819,7 +823,7 @@ public final class APanel extends CPanel
 		{
 			GridField[] findFields = mTab.getFields();
 			Find find = new Find (Env.getFrame(this), m_curWindowNo, mTab.getName(),
-				mTab.getAD_Table_ID(), mTab.getTableName(), 
+				mTab.getAD_Tab_ID(), mTab.getAD_Table_ID(), mTab.getTableName(), 
 				where.toString(), findFields, 10);	//	no query below 10
 			query = find.getQuery();
 			isCancel = (query == null);//Goodwill
@@ -1934,7 +1938,7 @@ public final class APanel extends CPanel
 		//	Gets Fields from AD_Field_v
 		GridField[] findFields = GridField.createFields(m_ctx, m_curWindowNo, 0, m_curTab.getAD_Tab_ID());
 		Find find = new Find (Env.getFrame(this), m_curWindowNo, m_curTab.getName(),
-			m_curTab.getAD_Table_ID(), m_curTab.getTableName(), 
+			m_curTab.getAD_Tab_ID(), m_curTab.getAD_Table_ID(), m_curTab.getTableName(), 
 			m_curTab.getWhereExtended(), findFields, 1);
 		MQuery query = find.getQuery();
 		find.dispose();

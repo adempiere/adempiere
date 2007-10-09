@@ -94,8 +94,12 @@ public final class FindValueRenderer extends DefaultTableCellRenderer
 		//	Column
 		m_columnName = null;
 		Object column = table.getModel().getValueAt(row, Find.INDEX_COLUMNNAME);
-		if (column != null)
-			m_columnName = ((ValueNamePair)column).getValue();
+		if (column != null) {
+			if (column instanceof ValueNamePair)
+				m_columnName = ((ValueNamePair)column).getValue();
+			else
+				m_columnName = column.toString();
+		}
 
 		//	Between - enables valueToColumn
 		m_between = false;

@@ -23,6 +23,7 @@ import javax.swing.*;
 
 import java.util.*;
 //
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
@@ -57,6 +58,9 @@ import org.compiere.util.*;
  */
 public final class VPanel extends CTabbedPane
 {
+	static {
+		UIManager.put("TaskPaneContainer.useGradient", Boolean.FALSE);
+	}
 	
 	/**
 	 *	Constructor
@@ -64,12 +68,20 @@ public final class VPanel extends CTabbedPane
 	public VPanel(String Name)
 	{
         //[ 1757088 ]	
-		CTabbedPane T = new CTabbedPane();
 		m_main.setName(Name);
 		m_main.setLayout(new GridBagLayout());
 		m_tablist.put("main", m_main);
 		this.setBorder(marginBorder);
-		this.add(m_main);		
+		CPanel dummy = new CPanel();
+		FlowLayout f = new FlowLayout();
+		f.setAlignment(FlowLayout.LEFT);
+		f.setHgap(0);
+		f.setVgap(0);
+		dummy.setBorder(BorderFactory.createEmptyBorder());
+		dummy.setLayout(f);
+		dummy.add(m_main);
+		dummy.setName(m_main.getName());
+		this.add(dummy);		
 
 		//	Set initial values of constraint
 		m_gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -155,10 +167,10 @@ public final class VPanel extends CTabbedPane
 		  m_gbc.gridx = 0;
 		  m_gbc.gridy = m_line++;
 		  m_gbc.gridwidth = 4;		  		
-		  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();	
-		  org.jdesktop.swingx.JXTaskPane m_tab = new org.jdesktop.swingx.JXTaskPane();		
+		  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = createTaskPaneContainer();	
+		  org.jdesktop.swingx.JXTaskPane m_tab = new org.jdesktop.swingx.JXTaskPane();
+		  m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());
 		  m_tab.setLayout(new BorderLayout());
-		  GroupPaneContainer.setBackground(org.compiere.plaf.CompiereColor.getDefaultBackground().getFlatColor());
 		  GroupPaneContainer.add(m_tab);
 		  m_tabincludelist.put(AD_Tab_ID, m_tab);
 		  m_gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -319,7 +331,16 @@ public final class VPanel extends CTabbedPane
 			  CPanel m_tab = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());
 			  m_tab.setLayout(new GridBagLayout());
 			  m_tab.setName(fieldGroup);
-			  this.add(m_tab);			  
+			  CPanel dummy = new CPanel();
+			  FlowLayout f = new FlowLayout();
+			  f.setAlignment(FlowLayout.LEFT);
+			  f.setHgap(0);
+			  f.setVgap(0);
+			  dummy.setLayout(f);
+			  dummy.setBorder(BorderFactory.createEmptyBorder());
+			  dummy.add(m_tab);
+			  dummy.setName(m_tab.getName());
+			  this.add(dummy);			  
 			  m_tablist.put(fieldGroup, m_tab);
 			  m_oldFieldGroup= fieldGroup;
 			  return true;
@@ -327,9 +348,9 @@ public final class VPanel extends CTabbedPane
 		}
 		else if (typeGroup == 2)
 		{				  
-			  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();			  
-			  org.jdesktop.swingx.JXTaskPane m_tab = new org.jdesktop.swingx.JXTaskPane();		
-			  GroupPaneContainer.setBackground(org.compiere.plaf.CompiereColor.getDefaultBackground().getFlatColor());
+			  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = createTaskPaneContainer();
+			  org.jdesktop.swingx.JXTaskPane m_tab = new org.jdesktop.swingx.JXTaskPane();
+			  m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());			  
 			  
 			  m_tab.setLayout(new GridBagLayout());
 			  m_tab.setTitle(fieldGroup);		
@@ -367,6 +388,16 @@ public final class VPanel extends CTabbedPane
 		}
 	return false;
 	}	//	addGroup
+
+	private org.jdesktop.swingx.JXTaskPaneContainer createTaskPaneContainer() {
+		Color c = AdempierePLAF.getFormBackground();			  
+		  Color containerBg = new Color(Math.max((int)(c.getRed()  * 0.97), 0), 
+					 Math.max((int)(c.getGreen()*0.97), 0),
+					 Math.max((int)(c.getBlue() *0.97), 0));			  
+		  org.jdesktop.swingx.JXTaskPaneContainer GroupPaneContainer = new org.jdesktop.swingx.JXTaskPaneContainer();
+		  GroupPaneContainer.setBackground(containerBg);
+		return GroupPaneContainer;
+	}
 
 	/**
 	 *	Add Top (10) and right (12) gap
