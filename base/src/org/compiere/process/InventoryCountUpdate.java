@@ -130,7 +130,7 @@ public class InventoryCountUpdate extends SvrProcess
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, p_M_Inventory_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
