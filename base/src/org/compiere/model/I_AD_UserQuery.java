@@ -137,4 +137,12 @@ import org.compiere.util.*;
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+	
+	/** Set Tab.
+	@param AD_Tab_ID Tab within a Window */
+	public void setAD_Tab_ID (int AD_Tab_ID);
+	
+	/** Get Tab.
+	@return Tab within a Window */
+	public int getAD_Tab_ID();
 }

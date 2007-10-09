@@ -88,6 +88,24 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
         }
         return result;
     }
+	
+	/** Set Tab.
+	@param AD_Tab_ID Tab within a Window */
+	public void setAD_Tab_ID (int AD_Tab_ID)
+	{
+		if (AD_Tab_ID <= 0) set_Value ("AD_Tab_ID", null);
+		else 
+			set_Value ("AD_Tab_ID", new Integer(AD_Tab_ID));
+	}
+	
+	/** Get Tab.
+	@return Tab within a Window */
+	public int getAD_Tab_ID() 
+	{
+		Integer ii = (Integer)get_Value("AD_Tab_ID");
+		if (ii == null) return 0;
+		return ii.intValue();
+	}
 
 	/** Set Table.
 		@param AD_Table_ID 
