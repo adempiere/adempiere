@@ -96,6 +96,7 @@
       <test name="test.functional.MBPartnerTest" />
       <test name="test.functional.MBPGroupTest" />
       <test name="test.functional.MBPartnerLocationTest" />
+      <test name="test.functional.MSessionTest" />
       <test name="test.functional.PackOutTest" />
       <test name="test.functional.MWFNodePlaceHolderTest" />
       <test name="test.functional.XMLValidateTest" />

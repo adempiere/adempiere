@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MSession.java,v 1.3 2006/07/30 00:58:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1810182 ] Session lost after cache reset 
  */
 public class MSession extends X_AD_Session
 {
@@ -43,6 +46,16 @@ public class MSession extends X_AD_Session
 		MSession session = null;
 		if (AD_Session_ID > 0)
 			session = (MSession)s_sessions.get(new Integer(AD_Session_ID));
+		// Try to load
+		if (session == null && AD_Session_ID > 0)
+		{
+			session = new MSession(ctx, AD_Session_ID, null);
+			if (session.get_ID() != AD_Session_ID) {
+				Env.setContext (ctx, "#AD_Session_ID", AD_Session_ID);
+				s_sessions.put(AD_Session_ID, session);
+			}
+		}
+		// Create New
 		if (session == null && createNew)
 		{
 			session = new MSession (ctx, null);	//	local session
