@@ -7,7 +7,7 @@ Value, MsgText, MsgType
 VALUES (53005, 0, 0, 'Y',
 TO_DATE ('10/10/2007 14:00:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
 TO_DATE ('10/10/2007 14:00:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
-'QueryName','Query Name','M'
+'QueryName','Query Name','I'
 );
 
 UPDATE AD_Sequence
