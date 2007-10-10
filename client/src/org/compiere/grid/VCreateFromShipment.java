@@ -599,7 +599,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 					iol.setUser1_ID(il.getUser1_ID());
 					iol.setUser2_ID(il.getUser2_ID());
 				}
-                else if (M_RMALine_ID != 0)
+                /*else if (M_RMALine_ID != 0)
                 {
                     rmal = new MRMALine(Env.getCtx(), M_RMALine_ID, null);
                     iol.setM_RMALine_ID(M_RMALine_ID);
@@ -624,7 +624,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 						iol.setC_Charge_ID(il.getC_Charge_ID());
 					else if (rmal != null && rmal.getC_Charge_ID() != 0) // from rma
 					    iol.setC_Charge_ID(rmal.getC_Charge_ID());
-				}
+				}*/
 				//
 				iol.setM_Locator_ID(M_Locator_ID);
 				if (!iol.save())
@@ -665,7 +665,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			inout.setUser1_ID(m_invoice.getUser1_ID());
 			inout.setUser2_ID(m_invoice.getUser2_ID());
 		}
-        if (m_rma != null && m_rma.getM_RMA_ID() != 0)
+        /*if (m_rma != null && m_rma.getM_RMA_ID() != 0)
         {
             MInOut originalIO = m_rma.getShipment();
             inout.setIsSOTrx(!m_rma.isSOTrx());
@@ -678,7 +678,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
             inout.setC_Activity_ID(originalIO.getC_Activity_ID());
             inout.setUser1_ID(originalIO.getUser1_ID());
             inout.setUser2_ID(originalIO.getUser2_ID());
-        }
+        }*/
 		inout.save();
 		return true;
 	}   //  save

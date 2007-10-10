@@ -37,9 +37,11 @@ import org.compiere.util.*;
  *
  *  @author  Jorg Janke
  *  @version $Id: VCreateFrom.java,v 1.4 2006/10/11 09:52:23 comdivision Exp $
- * 
+ *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
+ * @author Victor Perez, e-Evolucion 
+ *          <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  */
 public abstract class VCreateFrom extends CDialog
 	implements ActionListener, TableModelListener
@@ -124,6 +126,9 @@ public abstract class VCreateFrom extends CDialog
 	protected CPanel parameterStdPanel = new CPanel();
 	private JLabel bPartnerLabel = new JLabel();
 	protected VLookup bankAccountField;
+	//RF [1811114]
+	private JLabel authorizationLabel = new JLabel();
+	protected VString authorizationField = new VString();
 	private GridBagLayout parameterStdLayout = new GridBagLayout();
 	private GridBagLayout parameterBankLayout = new GridBagLayout();
 	protected VLookup bPartnerField;
@@ -169,6 +174,8 @@ public abstract class VCreateFrom extends CDialog
 		parameterBankPanel.setLayout(parameterBankLayout);
 		//
 		bankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
+	    //RF [1811114]
+		authorizationLabel.setText(Msg.translate(Env.getCtx(), "R_AuthCode"));
 		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
 		orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
 		invoiceLabel.setText(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
@@ -178,6 +185,17 @@ public abstract class VCreateFrom extends CDialog
 		//
 		this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
 		parameterPanel.add(parameterBankPanel, BorderLayout.NORTH);
+	    //RF [1811114]
+		parameterBankPanel.add(authorizationLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+			parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
+			parameterBankPanel.add(authorizationField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+			parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+			parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
 		parameterBankPanel.add(bankAccountLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		if (bankAccountField != null)
@@ -517,7 +535,7 @@ public abstract class VCreateFrom extends CDialog
 		//  Table UI
 		dataTable.autoSize();
 	}   //  loadOrder
-	
+
 	/**
 	 * Set form status line.
 	 * Please note, will enable/disable the OK button if the selectedRowCount > 0.
