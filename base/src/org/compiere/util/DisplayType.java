@@ -26,6 +26,9 @@ import java.util.*;
  *  </pre>
  *  @author     Jorg Janke
  *  @version    $Id: DisplayType.java,v 1.6 2006/08/30 20:30:44 comdivision Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1810632 ] PricePrecision error in InfoProduct (and similar)
  */
 public final class DisplayType
 {
@@ -260,7 +263,7 @@ public final class DisplayType
 		else if (displayType == Amount)
 		{
 			format.setMaximumIntegerDigits(MAX_DIGITS);
-			format.setMaximumFractionDigits(AMOUNT_FRACTION);
+			format.setMaximumFractionDigits(MAX_FRACTION);
 			format.setMinimumFractionDigits(AMOUNT_FRACTION);
 		}
 		else if (displayType == CostPrice)
