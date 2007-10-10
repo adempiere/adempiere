@@ -2,14 +2,15 @@
 
 @Rem $Id: ImportAdempiere.bat,v 1.3 2005/01/22 21:59:15 jjanke Exp $
 
-@Echo	Importing Adempiere DB from %ADEMPIERE_HOME%\data\Adempiere_pg.dmp (%ADEMPIERE_DB_NAME%)
+@Echo	Importing Adempiere DB from %ADEMPIERE_HOME%\data\ExpDat.dmp (%ADEMPIERE_DB_NAME%)
 
 @if (%ADEMPIERE_HOME%) == () goto environment
 @if (%ADEMPIERE_DB_NAME%) == () goto environment
-@Rem Must have parameters systemAccount AdempiereID AdempierePwd
+@Rem Must have parameters systemAccount AdempiereID AdempierePwd PostgresPwd
 @if (%1) == () goto usage
 @if (%2) == () goto usage
 @if (%3) == () goto usage
+@if (%4) == () goto usage
 
 @set PGPASSWORD=%4
 @echo -------------------------------------
@@ -28,7 +29,7 @@
 @echo Import Adempiere_pg.dmp
 @echo -------------------------------------
 @psql -d %ADEMPIERE_DB_NAME% -U %2 -c "drop schema sqlj cascade"
-@psql -d %ADEMPIERE_DB_NAME% -U %2 -f %ADEMPIERE_HOME%/data/Adempiere_pg.dmp
+@psql -d %ADEMPIERE_DB_NAME% -U %2 -f %ADEMPIERE_HOME%/data/ExpDat.dmp
 
 @set PGPASSWORD=
 @goto end
@@ -39,7 +40,7 @@
 @Echo		ADEMPIERE_DB_NAME	e.g. dev1.adempiere.org
 
 :usage
-@echo Usage:		%0 <systemAccount> <AdempiereID> <AdempierePwd> <PostgresPwd>
-@echo Example:	%0 postgres Adempiere Adempiere postgresPwd
+@echo Usage:		%0 <systemAccount> <AdempiereID> <AdempierePwd> <postgresPwd>
+@echo Example:	%0 postgres Adempiere Adempiere postgrespwd
 
 :end
