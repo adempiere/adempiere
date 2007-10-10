@@ -226,7 +226,7 @@ public class GridController extends CPanel
 		m_mTab.removePropertyChangeListener(vTable);
 
 		//  editors
-		Component[] comp = vPanel.getComponents();
+		Component[] comp = vPanel.getComponentsRecursive();
 		for (int i = 0; i < comp.length; i++)
 		{
 			if (comp[i] instanceof VEditor)
@@ -881,7 +881,7 @@ public class GridController extends CPanel
 			//	No Dependents and no Callout - Set just Background
 			if (dependants.size() == 0 && changedField.getCallout().length() > 0)
 			{
-				Component[] comp = vPanel.getComponents();
+				Component[] comp = vPanel.getComponentsRecursive();
 				for (int i = 0; i < comp.length; i++)
 				{
 					if (columnName.equals(comp[i].getName ()) && comp[i] instanceof VEditor)
@@ -904,7 +904,7 @@ public class GridController extends CPanel
 		boolean noData = m_mTab.getRowCount() == 0;
 		log.config(m_mTab.toString() + " - Rows=" + m_mTab.getRowCount());
 		//  All Components in vPanel (Single Row)
-		Component[] comps = vPanel.getComponents();
+		Component[] comps = vPanel.getComponentsRecursive();
 		for (int i = 0; i < comps.length; i++)
 		{
 			Component comp = comps[i];

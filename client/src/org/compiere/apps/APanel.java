@@ -684,13 +684,13 @@ public final class APanel extends CPanel
 								gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, false);  //  will set color on Tab level
 								included = parent.includeTab(gc,this);
 								TabSwitcher ts = new TabSwitcher(parent, this);
-								Component[] comp = parent.getvPanel().getComponents();
+								Component[] comp = parent.getvPanel().getComponentsRecursive();
 								for (int i = 0; i < comp.length; i++)
 								{
 								  ts.addTabSwitchingSupport((JComponent)comp[i]);
 								}
 								  ts = new TabSwitcher(gc, this);
-								  comp = gc.getvPanel().getComponents();
+								  comp = gc.getvPanel().getComponentsRecursive();
 								for (int i = 0; i < comp.length; i++)
 								{
 								  ts.addTabSwitchingSupport((JComponent)comp[i]);

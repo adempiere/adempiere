@@ -22,6 +22,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import java.util.*;
+import java.util.List;
 //
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.grid.ed.*;
@@ -635,8 +636,42 @@ public final class VPanel extends CTabbedPane
 	  return (org.jdesktop.swingx.JXTaskPane)m_tabincludelist.get(AD_Tab_ID);
 	}  	
 	
+	private void findChildComponents(CPanel container, List list) 
+	{
+		Component[] comp = container.getComponents();
+		for (int c = 0; c < comp.length; c++)
+		{
+			list.add(comp[c]);
+			if ( comp [c] instanceof org.jdesktop.swingx.JXTaskPaneContainer)
+            {
+            	  org.jdesktop.swingx.JXTaskPaneContainer panetaskcontainer = (org.jdesktop.swingx.JXTaskPaneContainer)comp [c];     
+            	  
+                Component[] comppanetask = panetaskcontainer.getComponents();
+                
+                for (int y = 0; y < comppanetask.length; y++)
+                {
+              	  
+              	  if (  comppanetask [y] instanceof org.jdesktop.swingx.JXTaskPane)
+                    {                        		  
+                    	  org.jdesktop.swingx.JXTaskPane tabtask = (org.jdesktop.swingx.JXTaskPane)comppanetask[y]; 
+                    	  Component[] comptabtask  = tabtask.getContentPane().getComponents();
+                    	  
+                    	  for (int x = 0; x < comptabtask.length; x++)
+                        {
+                          	  list.add(comptabtask[x]);
+                        }
+                    }
+                } 
+            } else if (comp[c] instanceof CPanel) 
+            {
+            
+            	findChildComponents((CPanel)comp[c], list);
+            }
+		}
+	}
+	
 	//[ 1757088 ]
-    public Component[] getComponents()
+    public Component[] getComponentsRecursive()
     {
             java.util.ArrayList list = new java.util.ArrayList();       
             
@@ -645,36 +680,8 @@ public final class VPanel extends CTabbedPane
                 list.add(this.getComponentAt(i));
                 if (this.getComponentAt(i) instanceof CPanel) 
                 {    
-                    CPanel tab = (CPanel)this.getComponentAt(i);                    
-                    Component[] comp = tab.getComponents();
-
-                    for (int c = 0; c < comp.length; c++)
-                    {
-                    	  
-                    	  if ( comp [c] instanceof org.jdesktop.swingx.JXTaskPaneContainer)
-                          {
-                          	  org.jdesktop.swingx.JXTaskPaneContainer panetaskcontainer = (org.jdesktop.swingx.JXTaskPaneContainer)comp [c];     
-                          	  
-                              Component[] comppanetask = panetaskcontainer.getComponents();
-                              
-                              for (int y = 0; y < comppanetask.length; y++)
-                              {
-                            	  
-                            	  if (  comppanetask [y] instanceof org.jdesktop.swingx.JXTaskPane)
-                                  {                        		  
-	                              	  org.jdesktop.swingx.JXTaskPane tabtask = (org.jdesktop.swingx.JXTaskPane)comppanetask[y]; 
-	                              	  Component[] comptabtask  = tabtask.getContentPane().getComponents();
-	                              	  
-	                              	  for (int x = 0; x < comptabtask.length; x++)
-	                                  {
-		                                	  list.add(comptabtask[x]);
-	                                  }
-                                  }
-                              } 
-                     }
-                    	
-                    	list.add(comp[c]);
-                    } 
+                    CPanel panel = (CPanel)this.getComponentAt(i);                    
+                    findChildComponents(panel, list);
                 }
             }       
             
