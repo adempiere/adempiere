@@ -143,6 +143,8 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     /** For use when tabLayoutPolicy == SCROLL_TAB_LAYOUT. */
     private ScrollableTabSupport tabScroller;
+
+	private Boolean hideIfOneTab;
     
     /**
      * Creates the <code>PlasticTabbedPaneUI</code>.
@@ -162,6 +164,7 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
         super.installUI(c);
         embeddedTabs    = (Boolean) c.getClientProperty(Options.EMBEDDED_TABS_KEY);
         noContentBorder = (Boolean) c.getClientProperty(Options.NO_CONTENT_BORDER_KEY);
+        hideIfOneTab = (Boolean) c.getClientProperty(AdempiereLookAndFeel.HIDE_IF_ONE_TAB);
         renderer = createRenderer(tabPane);
     }
 
@@ -260,6 +263,10 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
      */
     private boolean hasEmbeddedTabs() {
         return Boolean.TRUE.equals(embeddedTabs);
+    }
+    
+    private boolean isHideIfOneTab() {
+    	return Boolean.TRUE.equals(hideIfOneTab);
     }
 
     /**
@@ -1017,6 +1024,10 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
                 noContentBorderPropertyChanged((Boolean) e.getNewValue());
                 return;
             }
+            
+            if (pName.equals(AdempiereLookAndFeel.HIDE_IF_ONE_TAB)) {
+            	hideIfOneTab = (Boolean)e.getNewValue();
+            }
         }
     }
     
@@ -1088,6 +1099,14 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
                 return;
             }
 
+            if (tabCount == 1 && isHideIfOneTab()) {
+            	rects[0].height = 0;
+            	rects[0].width = 0;
+            	rects[0].x = 0;
+            	rects[0].y = 0;
+            	return;
+            }
+            
             // Run through tabs and partition them into runs
             Rectangle rect;
             for (i = 0; i < tabCount; i++) {
@@ -1594,6 +1613,14 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
                 return;
             }
 
+            if (tabCount == 1 && isHideIfOneTab()) {
+            	rects[0].height = 0;
+            	rects[0].width = 0;
+            	rects[0].x = 0;
+            	rects[0].y = 0;
+            	return;
+            }
+            
             selectedRun = 0;
             runCount = 1;
 

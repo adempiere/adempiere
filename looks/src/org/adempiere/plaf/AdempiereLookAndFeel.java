@@ -46,6 +46,8 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 	
 	public static final String  TABLEVEL = "TabLevel";
 	
+	public static final String HIDE_IF_ONE_TAB = "adempiere.hideIfOneTab";
+	
 	/**
 	 *  The Name
 	 *  @return Name
