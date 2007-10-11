@@ -22,6 +22,7 @@ import java.sql.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
+import java.awt.event.ActionEvent;
 import javax.swing.table.*;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
@@ -33,6 +34,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: VCreateFromStatement.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Victor Perez, e-Evolucion 
+ *  <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  */
 public class VCreateFromStatement extends VCreateFrom implements VetoableChangeListener
 {
@@ -73,7 +76,11 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
 		bankAccountField.setValue(new Integer(C_BankAccount_ID));
 		//  initial Loading
-		loadBankAccount(C_BankAccount_ID);
+		//RF [1811114]
+		String R_AuthCode="";        
+		authorizationField = new VString ("authorization", false, false, true, 10, 30, null, null);
+		authorizationField.addActionListener(this);
+		loadBankAccount(C_BankAccount_ID, R_AuthCode);
 
 		return true;
 	}   //  dynInit
@@ -93,12 +100,19 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 	public void vetoableChange (PropertyChangeEvent e)
 	{
 		log.config(e.getPropertyName() + "=" + e.getNewValue());
+		int C_BankAccount_ID=0;
+		//RF [1811114]
+		String R_AuthCode = (authorizationField.getValue().toString());
 
 		//  BankAccount
 		if (e.getPropertyName().equals("C_BankAccount_ID"))
 		{
-			int C_BankAccount_ID = ((Integer)e.getNewValue()).intValue();
-			loadBankAccount(C_BankAccount_ID);
+			//RF [1811114]
+			C_BankAccount_ID = ((Integer)e.getNewValue()).intValue();
+			if (authorizationField.getValue().toString().equals(""))
+				loadBankAccount(C_BankAccount_ID, null);
+			else
+				loadBankAccount(C_BankAccount_ID, R_AuthCode);
 		}
 		tableChanged(null);
 	}   //  vetoableChange
@@ -106,8 +120,10 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 	/**
 	 *  Load Data - Bank Account
 	 *  @param C_BankAccount_ID Bank Account
+	 *  @param Autorization Code
 	 */
-	private void loadBankAccount (int C_BankAccount_ID)
+	//RF [1811114]
+	private void loadBankAccount (int C_BankAccount_ID, String R_AuthCode)
 	{
 		log.config ("C_BankAccount_ID=" + C_BankAccount_ID);
 		/**
@@ -127,8 +143,12 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			+ " LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE p.Processed='Y' AND p.IsReconciled='N'"
 			+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" // Bug 1564453 Added Voided payment to bank statement payement selection
-			+ " AND p.C_BankAccount_ID=?"                              	//  #2
-			+ " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
+			+ " AND p.C_BankAccount_ID=?";      //  #2
+			//RF [1811114]
+		    if (R_AuthCode!= "" && R_AuthCode!= null)
+		    	sql = sql + " AND p.R_AuthCode LIKE ?";
+		    
+		    sql = sql + " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
 			//	Voided Bank Statements have 0 StmtAmt
 				+ "WHERE p.C_Payment_ID=l.C_Payment_ID AND l.StmtAmt <> 0)";
 
@@ -142,6 +162,9 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setTimestamp(1, ts);
 			pstmt.setInt(2, C_BankAccount_ID);
+			//RF [1811114]
+			if (R_AuthCode!= "" && R_AuthCode!= null){
+				pstmt.setString(3, R_AuthCode);}
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -256,5 +279,26 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		}   //  for all rows
 		return true;
 	}   //  save
+	
+	/*
+	 *  Action Listener
+	 *  @param e event*/
+	//RF [1811114]
+	public void  actionPerformed(ActionEvent e)
+	{
+		super.actionPerformed(e);
+		log.config("Action=" + e.getActionCommand());
+		int C_BankAccount_ID  = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
+		if (e.getSource().equals(authorizationField))
+		{
+			String R_AuthCode = (authorizationField.getValue().toString());
+			if (authorizationField.getValue().toString().equals(""))
+			{
+				loadBankAccount(C_BankAccount_ID, null);
+			}
+			else
+				loadBankAccount(C_BankAccount_ID, R_AuthCode);
+	 		}
+	 }
 
 }   //  VCreateFromStatement
