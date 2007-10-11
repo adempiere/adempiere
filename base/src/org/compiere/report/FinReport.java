@@ -398,6 +398,12 @@ public class FinReport extends SvrProcess
 				String PostingType = m_columns[col].getPostingType();
 				if (PostingType != null && PostingType.length() > 0)
 					select.append(" AND PostingType='").append(PostingType).append("'");
+				// globalqss - CarlosRuiz
+				if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+					if (m_columns[col].getGL_Budget_ID() > 0)
+						select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
+				}
+				// end globalqss
 			}
 			
 			if (m_columns[col].isColumnTypeSegmentValue())
@@ -908,6 +914,12 @@ public class FinReport extends SvrProcess
 				String PostingType = m_columns[col].getPostingType();
 				if (PostingType != null && PostingType.length() > 0)
 					select.append(" AND fb.PostingType='").append(PostingType).append("'");
+				// globalqss - CarlosRuiz
+				if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+					if (m_columns[col].getGL_Budget_ID() > 0)
+						select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
+				}
+				// end globalqss
 			}
 			//	Report Where
 			String s = m_report.getWhereClause();
@@ -1049,6 +1061,12 @@ public class FinReport extends SvrProcess
 //	      String PostingType = m_columns[col].getPostingType();
 //  	    if (PostingType != null && PostingType.length() > 0)
 //      	  	insert.append(" AND PostingType='").append(PostingType).append("'");
+//			// globalqss - CarlosRuiz
+//			if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+//				if (m_columns[col].getGL_Budget_ID() > 0)
+//					select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
+//			}
+//			// end globalqss
 //		}
 
 		int no = DB.executeUpdate(insert.toString(), get_TrxName());
