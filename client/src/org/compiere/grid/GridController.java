@@ -26,6 +26,8 @@ import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+
+import org.adempiere.plaf.AdempiereLookAndFeel;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.grid.tree.*;
@@ -305,6 +307,7 @@ public class GridController extends CPanel
 		setName("GC-" + mTab);
 		//FR [ 1757088 ]
 		vPanel = new VPanel(mTab.getName());
+		vPanel.putClientProperty(AdempiereLookAndFeel.HIDE_IF_ONE_TAB, Boolean.TRUE);
 		vPane.getViewport().add(xPanel, null);
 		xPanel.add(vPanel, BorderLayout.CENTER);
 
