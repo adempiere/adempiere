@@ -582,7 +582,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				;
 			else
 			{
-				m_processMsg = "All Journals need to be Compleded: " + journal.getSummary();
+				m_processMsg = "All Journals need to be Completed: " + journal.getSummary();
 				return false;
 			}
 		}
@@ -648,7 +648,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				;
 			else
 			{
-				m_processMsg = "All Journals need to be Compleded: " + journal.getSummary();
+				m_processMsg = "All Journals need to be Completed: " + journal.getSummary();
 				return false;
 			}
 		}

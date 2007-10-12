@@ -707,8 +707,8 @@ public class MJournal extends X_GL_Journal implements DocAction
 		//	Journal
 		MJournal reverse = new MJournal (this);
 		reverse.setGL_JournalBatch_ID(GL_JournalBatch_ID);
-		reverse.setC_Period_ID(0);
 		reverse.setDateDoc(new Timestamp(System.currentTimeMillis()));
+		reverse.set_ValueNoCheck ("C_Period_ID", null);		//	reset
 		reverse.setDateAcct(reverse.getDateDoc());
 		//	Reverse indicator
 		String description = reverse.getDescription();
