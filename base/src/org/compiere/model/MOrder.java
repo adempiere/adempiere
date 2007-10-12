@@ -2110,7 +2110,7 @@ public class MOrder extends X_C_Order implements DocAction
 				continue;			
 			invoice.set_TrxName(get_TrxName());
 			
-			//	If not compleded - void - otherwise reverse it
+			//	If not completed - void - otherwise reverse it
 			if (!MInvoice.DOCSTATUS_Completed.equals(invoice.getDocStatus()))
 			{
 				if (invoice.voidIt())
