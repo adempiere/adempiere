@@ -241,6 +241,7 @@ public class MEntityType extends X_AD_EntityType
 		}
 		else	//	new
 		{
+			/*
 			setEntityType(getEntityType().toUpperCase());	//	upper case
 			if (getEntityType().trim().length() < 4)
 			{
@@ -260,6 +261,7 @@ public class MEntityType extends X_AD_EntityType
 					+ " - Must be ASCII Letter or Digit");
 				return false;
 			}
+			*/
 			setAD_EntityType_ID();
 		}	//	new
 		s_entityTypes = null;	//	reset

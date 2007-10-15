@@ -325,10 +325,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public void setEntityType (String EntityType)
 	{
 
-		if (EntityType.length() > 4)
+		if (EntityType.length() > 40)
 		{
-			log.warning("Length > 4 - truncated");
-			EntityType = EntityType.substring(0, 3);
+			log.warning("Length > 40 - truncated");
+			EntityType = EntityType.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}

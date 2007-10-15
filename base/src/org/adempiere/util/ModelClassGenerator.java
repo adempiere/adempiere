@@ -562,7 +562,7 @@ public class ModelClassGenerator
 				sb.append(columnName).append(".length() > ").append(fieldLength).append(")").append(NL)
 					.append("\t\t{").append(NL)
 					.append("\t\t\tlog.warning(\"Length > ").append(fieldLength).append(" - truncated\");").append(NL)
-					.append("\t\t\t").append(columnName).append(" = ").append(columnName).append(".substring(0, ").append(fieldLength-1).append(");").append(NL)
+					.append("\t\t\t").append(columnName).append(" = ").append(columnName).append(".substring(0, ").append(fieldLength).append(");").append(NL)
 					.append("\t\t}").append(NL)
 				;
 			}

@@ -147,10 +147,10 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	{
 		if (EntityType == null)
 			throw new IllegalArgumentException ("EntityType is mandatory.");
-		if (EntityType.length() > 4)
+		if (EntityType.length() > 40)
 		{
-			log.warning("Length > 4 - truncated");
-			EntityType = EntityType.substring(0, 3);
+			log.warning("Length > 40 - truncated");
+			EntityType = EntityType.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_EntityType, EntityType);
 	}
