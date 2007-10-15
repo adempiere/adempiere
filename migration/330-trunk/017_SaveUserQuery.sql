@@ -17,7 +17,7 @@ TO_DATE ('10/10/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'),
 TO_DATE ('10/10/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
 100, 'Tab', 'Tab within a Window', 1,
 'D', 'AD_Tab_ID', 814, 19,
-1, 'N', 'N', 'Y', 'Y',
+10, 'N', 'N', 'Y', 'Y',
 'N', 0, 'N', 'N',
 'N', 125, null, 'N',
 'N'
