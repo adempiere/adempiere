@@ -205,7 +205,7 @@ INSERT INTO AD_Ref_Table(AD_REFERENCE_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CRE
 
 -- Process Changes --
 INSERT INTO AD_Process(ad_process_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, value, name, description, help, accesslevel, entitytype, procedurename, isreport, isdirectprint, ad_reportview_id, classname, statistic_count, statistic_seconds, ad_printformat_id, workflowvalue, ad_workflow_id, isbetafunctionality, isserverprocess, showhelp, jasperreport)
-  VALUES(52003, 0, 0, 'Y', sysdate, 100, sysdate, 100, 'U_RoleMenu_Update', 'Update Role Menu', NULL, NULL, '3', 'D', NULL, 'N', 'N', NULL, 'org.posterita.process.UpdateRoleMenu', 0, 0, NULL, NULL, NULL, 'N', 'N', 'Y', NULL);
+  VALUES(52003, 0, 0, 'Y', sysdate, 100, sysdate, 100, 'U_RoleMenu_Update', 'Update Role Menu', NULL, NULL, '3', 'D', NULL, 'N', 'N', NULL, 'org.adempiere.process.UpdateRoleMenu', 0, 0, NULL, NULL, NULL, 'N', 'N', 'Y', NULL);
 
 INSERT INTO AD_Process_Para(ad_process_para_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, name, description, help, ad_process_id, seqno, ad_reference_id, ad_reference_value_id, ad_val_rule_id, columnname, iscentrallymaintained, fieldlength, ismandatory, isrange, defaultvalue, defaultvalue2, vformat, valuemin, valuemax, ad_element_id, entitytype)
   VALUES(52000, 0, 0, 'Y', sysdate, 100, sysdate, 100, 'Role', NULL, NULL, 52003, 10, 30, NULL, NULL, 'AD_Role_ID', 'Y', 0, 'Y', 'N', NULL, NULL, NULL, NULL, NULL, 123, 'D');
