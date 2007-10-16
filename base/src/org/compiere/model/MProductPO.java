@@ -48,7 +48,7 @@ public class MProductPO extends X_M_Product_PO
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
 			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
+			while (rs.next ())
 				list.add(new MProductPO (ctx, rs, trxName));
 			rs.close ();
 			pstmt.close ();
