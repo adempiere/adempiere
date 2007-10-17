@@ -212,11 +212,11 @@ INSERT INTO AD_Process_Para(ad_process_para_id, ad_client_id, ad_org_id, isactiv
 
 -- Process Access --
 INSERT INTO ad_process_access(ad_process_id, ad_role_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, isreadwrite)
-  VALUES(52003, 0, 0, 0, 'Y', sysdate, 100, now(), 100, 'Y');
+  VALUES(52003, 0, 0, 0, 'Y', sysdate, 100, SYSDATE, 100, 'Y');
 INSERT INTO ad_process_access(ad_process_id, ad_role_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, isreadwrite)
-  VALUES(52003, 102, 0, 0, 'Y', sysdate, 100, now(), 100, 'Y');
+  VALUES(52003, 102, 0, 0, 'Y', sysdate, 100, SYSDATE, 100, 'Y');
 INSERT INTO ad_process_access(ad_process_id, ad_role_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, isreadwrite)
-  VALUES(52003, 103, 0, 0, 'Y',sysdate, 100, now(), 100, 'Y');
+  VALUES(52003, 103, 0, 0, 'Y',sysdate, 100, SYSDATE, 100, 'Y');
 
 -- Menu Changes --
 INSERT INTO AD_Menu(ad_menu_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, name, updatedby, description, issummary, issotrx, isreadonly, action, ad_window_id, ad_workflow_id, ad_task_id, ad_process_id, ad_form_id, ad_workbench_id, entitytype)
