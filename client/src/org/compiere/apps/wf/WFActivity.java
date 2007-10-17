@@ -374,6 +374,7 @@ public class WFActivity extends CPanel
 			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFNoActivities"));
 			bNext.setEnabled(false);
 			bPrevious.setEnabled(false);
+			m_menu.updateActivities(0);
 			return;
 		}
 		//	Display Activity
@@ -427,10 +428,10 @@ public class WFActivity extends CPanel
 		//
 		// globalqss - comment following lines to solve the
 		// Bug [ 1711626 ] Workflow tab just allow to navigate first two activities
-		// if (m_menu != null)
-		// {
-		// 	m_menu.updateInfo();	//	calls loadActivities - updates menu tab
-		// }
+		if (m_menu != null)
+		{
+		 	m_menu.updateActivities(m_activities.length);
+		}
 		//	End
 		if (m_index+1 >= m_activities.length)
 		{

@@ -651,6 +651,14 @@ public final class AMenu extends CFrame
 	}	//	updateInfo
 
 	
+	/**
+	 *	Update Activities Label
+	 */
+	public void updateActivities(int act_length)
+	{
+		centerPane.setTitleAt(m_tabActivities, Msg.getMsg (m_ctx, "WorkflowActivities") + ": " + act_length);
+	}	//	updateInfo
+
 	/*************************************************************************
 	 * 	Start Workflow Activity
 	 * 	@param AD_Workflow_ID id
@@ -669,6 +677,7 @@ public final class AMenu extends CFrame
 	 */
 	public void stateChanged (ChangeEvent e)
 	{
+		updateInfo();
 		//	show activities
 		if (centerPane.getSelectedIndex() == m_tabActivities)
 			wfActivity.display();
