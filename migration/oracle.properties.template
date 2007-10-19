@@ -1,0 +1,6 @@
+#ORACLE_HOME
+oracle.home=
+
+#sqlplus connection string
+oracle.connect.param=adempiere/adempiere
+

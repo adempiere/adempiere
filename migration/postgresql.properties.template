@@ -1,0 +1,12 @@
+#PostgreSQL home folder
+postgresql.home=
+#PostgreSQL pgdata folder
+postgresql.pgdata=
+#adempeire database name
+postgresql.database=adempiere
+#adempiere database login
+postgresql.user=adempiere
+#adempiere database password
+postgresql.password=adempiere
+postgresql.host=localhost
+postgresql.port=5432
