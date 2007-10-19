@@ -1466,6 +1466,9 @@ public final class DB
 	 */
 	public static boolean isRemoteObjects()
 	{
+		//avoid infinite loop
+		if (s_cc == null) return false;
+		
 		return CConnection.get().isServerObjects()
 			&& CConnection.get().isAppsServerOK(false);
 	}	//	isRemoteObjects
