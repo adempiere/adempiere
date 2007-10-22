@@ -165,24 +165,26 @@ public class CalloutEngine implements Callout
 
 	/*************************************************************************/
 	
-	private static boolean s_calloutActive = false;
+	//private static boolean s_calloutActive = false;
 	
 	/**
 	 * 	Is Callout Active
+	 *  @deprecated
 	 *	@return true if active
 	 */
 	protected static boolean isCalloutActive()
 	{
-		return s_calloutActive;
+		return false;
 	}	//	isCalloutActive
 
 	/**
 	 * 	Set Callout (in)active
+	 *  @deprecated
 	 *	@param active active
 	 */
 	protected static void setCalloutActive (boolean active)
 	{
-		s_calloutActive = active;
+		; //no op
 	}	//	setCalloutActive
 	
 	/**

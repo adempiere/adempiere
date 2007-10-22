@@ -2349,6 +2349,18 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}   //  for all dependent fields
 	}   //  processDependencies
 
+	
+	private List<String> activeCallouts = new ArrayList<String>();
+	
+	/**
+	 * 
+	 * @return list of active call out for this tab
+	 */
+	public String[] getActiveCallouts()
+	{
+		String[] list = new String[activeCallouts.size()];
+		return activeCallouts.toArray(list);
+	}
 
 	/**************************************************************************
 	 *  Process Callout(s).
@@ -2365,7 +2377,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 * @return error message or ""
 	 * @see org.compiere.model.Callout
 	 */
-	private String processCallout (GridField field)
+	public String processCallout (GridField field)
 	{
 		String callout = field.getCallout();
 		if (callout.length() == 0)
@@ -2383,6 +2395,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		while (st.hasMoreTokens())      //  for each callout
 		{
 			String cmd = st.nextToken().trim();
+			
+			//detect infinite loop
+			if (activeCallouts.contains(cmd)) continue;
+			
 			Callout call = null;
 			String method = null;
 			int methodStart = cmd.lastIndexOf('.');
@@ -2407,6 +2423,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			String retValue = "";
 			try
 			{
+				activeCallouts.add(cmd);
 				retValue = call.start(m_vo.ctx, method, m_vo.WindowNo, this, field, value, oldValue);
 			}
 			catch (Exception e)
@@ -2414,7 +2431,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				log.log(Level.SEVERE, "start", e);
 				retValue = 	"Callout Invalid: " + e.toString();
 				return retValue;
+			} 
+			finally
+			{
+				activeCallouts.remove(cmd);
 			}
+			
 			if (!retValue.equals(""))		//	interrupt on first error
 			{
 				log.severe (retValue);
