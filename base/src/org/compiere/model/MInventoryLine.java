@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MInventoryLine.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1817757 ] Error on saving MInventoryLine in a custom environment
  */
 public class MInventoryLine extends X_M_InventoryLine 
 {
@@ -362,6 +365,9 @@ public class MInventoryLine extends X_M_InventoryLine
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
+		if (!success)
+			return false;
+		
 		//	Create MA
 		if (newRecord && success 
 			&& m_isManualEntry && getM_AttributeSetInstance_ID() == 0)
