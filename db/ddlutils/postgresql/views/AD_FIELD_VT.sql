@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW AD_FIELD_VT
  ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, 
  AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, 
  ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, 
- TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE)
+ TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID)
 AS 
 SELECT trl.AD_Language, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
 	trl.Name, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
@@ -20,7 +20,8 @@ SELECT trl.AD_Language, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table
     c.AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
 	c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
 	tbl.TableName, c.ValueMin, c.ValueMax, 
-	fgt.Name AS FieldGroup, vr.Code AS ValidationCode
+	fgt.Name AS FieldGroup, vr.Code AS ValidationCode,
+	f.Included_Tab_ID
 FROM AD_Field f 
 	INNER JOIN AD_Field_Trl trl ON (f.AD_Field_ID = trl.AD_Field_ID)
   INNER JOIN AD_Tab t ON (f.AD_Tab_ID = t.AD_Tab_ID)
