@@ -185,3 +185,7 @@ INSERT
 INTO ad_treenodemm(ad_tree_id,   node_id,   ad_client_id,   ad_org_id,   isactive,   created,   createdby,   updated,   updatedby,   parent_id,   seqno)
 VALUES(10,   53012,   0,   0,   'Y',   TO_DATE ('10/22/2007 09:30:00', 'MM/DD/YYYY HH24:MI:SS'),   0,   TO_DATE ('10/22/2007 09:30:00', 'MM/DD/YYYY HH24:MI:SS'),   0,   153,   9);
 
+-- INSERTING into AD_Sequence
+INSERT
+INTO ad_sequence(ad_sequence_id,   ad_client_id,   ad_org_id,   isactive,   created,   createdby,   updated,   updatedby,   name,   description,   vformat,   isautosequence,   incrementno,   startno,   currentnext,   currentnextsys,   isaudited,   istableid,   prefix,   suffix,   startnewyear)
+VALUES(53012,   0,   0,   'Y',   TO_DATE ('10/22/2007 09:30:00', 'MM/DD/YYYY HH24:MI:SS'),   100,   TO_DATE ('10/22/2007 09:30:00', 'MM/DD/YYYY HH24:MI:SS'),   100,   'AD_ModelValidator',   'Table AD_ModelValidator',   NULL,   'Y',   1,   1000000,   1000000,   50000,   'N',   'Y',   NULL,   NULL,   'N');
