@@ -1540,61 +1540,7 @@ public final class APanel extends CPanel
 	private String processButtonCallout (VButton button)
 	{
 		GridField field = m_curTab.getField(button.getColumnName());
-		String callout = field.getCallout();
-		if (callout.length() == 0)
-			return "";
-		//
-		if (m_curTab.isProcessed())		//	only active records
-			return "";			//	"DocProcessed";
-
-		Object value = field.getValue();
-		Object oldValue = field.getOldValue();
-		log.fine(field.getColumnName() + "=" + value
-			+ " (" + callout + ") - old=" + oldValue);
-
-		StringTokenizer st = new StringTokenizer(callout, ";,", false);
-		while (st.hasMoreTokens())      //  for each callout
-		{
-			String cmd = st.nextToken().trim();
-			Callout call = null;
-			String method = null;
-			int methodStart = cmd.lastIndexOf('.');
-			try
-			{
-				if (methodStart != -1)      //  no class
-				{
-					Class cClass = Class.forName(cmd.substring(0,methodStart));
-					call = (Callout)cClass.newInstance();
-					method = cmd.substring(methodStart+1);
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "class", e);
-				return "Callout Invalid: " + cmd + " (" + e.toString() + ")";
-			}
-
-			if (call == null || method == null || method.length() == 0)
-				return "Callout Invalid: " + method;
-
-			String retValue = "";
-			try
-			{
-				retValue = call.start(m_ctx, method, m_curWindowNo, m_curTab, field, value, oldValue);
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "start", e);
-				retValue = 	"Callout Invalid: " + e.toString();
-				return retValue;
-			}
-			if (!retValue.equals(""))		//	interrupt on first error
-			{
-				log.severe (retValue);
-				return retValue;
-			}
-		}   //  for each callout
-		return "";
+		return m_curTab.processCallout(field);
 	}	//	processButtonCallout
 	
 	/**
