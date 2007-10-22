@@ -574,6 +574,7 @@ public abstract class Doc
 
 		//  for all Accounting Schema
 		boolean OK = true;
+		getPO().setDoc(this);
 		try
 		{
 			for (int i = 0; OK && i < m_ass.length; i++)
@@ -619,8 +620,7 @@ public abstract class Doc
 
 		String validatorMsg = null;
 		// Call validator on before post
-		if (!p_Status.equals(STATUS_Error)) {
-			getPO().setDoc(this);
+		if (!p_Status.equals(STATUS_Error)) {			
 			validatorMsg = ModelValidationEngine.get().fireDocValidate(getPO(), ModelValidator.TIMING_BEFORE_POST);
 			if (validatorMsg != null) {
 				p_Status = STATUS_Error;
@@ -723,6 +723,14 @@ public abstract class Doc
 		ArrayList<Fact> facts = createFacts (m_ass[index]);
 		if (facts == null)
 			return STATUS_Error;
+		
+		// call modelValidator
+		String validatorMsg = ModelValidationEngine.get().fireFactsValidate(m_ass[index], facts, getPO());
+		if (validatorMsg != null) {
+			p_Error = validatorMsg;
+			return STATUS_Error;
+		}
+		
 		for (int f = 0; f < facts.size(); f++)
 		{
 			Fact fact = facts.get(f);
