@@ -382,10 +382,10 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setModelValidationClasses (String ModelValidationClasses)
 	{
-		if (ModelValidationClasses != null && ModelValidationClasses.length() > 255)
+		if (ModelValidationClasses != null && ModelValidationClasses.length() > 2000)
 		{
-			log.warning("Length > 255 - truncated");
-			ModelValidationClasses = ModelValidationClasses.substring(0, 254);
+			log.warning("Length > 2000 - truncated");
+			ModelValidationClasses = ModelValidationClasses.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ModelValidationClasses, ModelValidationClasses);
 	}

@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.beans.*;
 import java.util.*;
 import java.util.logging.*;
+
+import org.compiere.acct.Fact;
 import org.compiere.util.*;
 
 /**
@@ -34,6 +36,7 @@ import org.compiere.util.*;
  */
 public class ModelValidationEngine 
 {
+
 	/**
 	 * 	Get Singleton
 	 *	@return engine
@@ -56,38 +59,74 @@ public class ModelValidationEngine
 	private ModelValidationEngine ()
 	{
 		super ();
-		//	Go through all Clients and start Validators 
+		// Load global validators
+		
+		MTable table = MTable.get(new Properties(), X_AD_ModelValidator.Table_ID);
+		Query query = table.createQuery("IsActive='Y'", null);
+		try {
+			List<PO> entityTypes = query.list();
+			for (PO po : entityTypes)
+			{
+				X_AD_ModelValidator entityType = (X_AD_ModelValidator)po;
+				String className = entityType.getModelValidationClass();
+				if (className == null || className.length() == 0)
+					continue;
+				loadValidatorClass(null, className);
+			}
+		} catch (Exception e)
+		{
+			log.warning(e.getLocalizedMessage());
+		}
+		
+		// Go through all Clients and start Validators 
 		MClient[] clients = MClient.getAll(new Properties());
 		for (int i = 0; i < clients.length; i++) 
 		{
 			String classNames = clients[i].getModelValidationClasses();
 			if (classNames == null || classNames.length() == 0)
 				continue;
-			StringTokenizer st = new StringTokenizer(classNames, ";");
-			while (st.hasMoreTokens())
-			{
-				String className = null;			
-				try
-				{
-					className = st.nextToken();
-					if (className == null)
-						continue;
-					className = className.trim();
-					if (className.length() == 0)
-						continue;
-					//
-					Class clazz = Class.forName(className);
-					ModelValidator validator = (ModelValidator)clazz.newInstance();
-					initialize(validator, clients[i]);					
-				}
-				catch (Exception e)
-				{
-					log.log(Level.SEVERE, className + ": " + e.getMessage());
-				}
-			}
+			loadValidatorClasses(clients[i], classNames);
 		}
 		log.config(toString());
 	}	//	ModelValidatorEngine
+	
+	private void loadValidatorClasses(MClient client, String classNames) 
+	{
+		StringTokenizer st = new StringTokenizer(classNames, ";");
+		while (st.hasMoreTokens())
+		{
+			String className = null;			
+			try
+			{
+				className = st.nextToken();
+				if (className == null)
+					continue;
+				className = className.trim();
+				if (className.length() == 0)
+					continue;
+				//
+				loadValidatorClass(client, className);					
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, className + ": " + e.getMessage());
+			}
+		}
+	}
+	
+	private void loadValidatorClass(MClient client, String className) {
+		try
+		{
+			//
+			Class clazz = Class.forName(className);
+			ModelValidator validator = (ModelValidator)clazz.newInstance();
+			initialize(validator, client);					
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, className + ": " + e.getMessage());
+		}
+	}
 	
 	/**	Logger					*/
 	private static CLogger log = CLogger.getCLogger(ModelValidationEngine.class);
@@ -100,7 +139,11 @@ public class ModelValidationEngine
 	private Hashtable<String,ArrayList<ModelValidator>>	m_modelChangeListeners = new Hashtable<String,ArrayList<ModelValidator>>();
 	/**	Document Validation Listeners			*/
 	private Hashtable<String,ArrayList<ModelValidator>>	m_docValidateListeners = new Hashtable<String,ArrayList<ModelValidator>>();
-
+	/** Accounting Facts Validation Listeners   */
+	private Hashtable<String,ArrayList<FactsValidator>>m_factsValidateListeners = new Hashtable<String,ArrayList<FactsValidator>>();
+	
+	private ArrayList<ModelValidator> m_globalValidators = new ArrayList<ModelValidator>();
+	
 	/**
 	 * 	Initialize and add validator
 	 *	@param validator
@@ -110,6 +153,8 @@ public class ModelValidationEngine
 	{
 		validator.initialize(this, client);
 		m_validators.add(validator);
+		if (client == null)
+			m_globalValidators.add(validator);
 	}	//	initialize
 
 	/**
@@ -125,7 +170,8 @@ public class ModelValidationEngine
 		for (int i = 0; i < m_validators.size(); i++) 
 		{
 			ModelValidator validator = (ModelValidator)m_validators.get(i);
-			if (AD_Client_ID == validator.getAD_Client_ID())
+			if (AD_Client_ID == validator.getAD_Client_ID()
+				|| m_globalValidators.contains(validator))
 			{
 				String error = validator.login(AD_Org_ID, AD_Role_ID, AD_User_ID);
 				if (error != null && error.length() > 0)
@@ -146,7 +192,10 @@ public class ModelValidationEngine
 		if (tableName == null || listener == null)
 			return;
 		//
-		String propertyName = tableName + listener.getAD_Client_ID();
+		String propertyName =
+			m_globalValidators.contains(listener) 
+				? tableName + "*"
+				: tableName + listener.getAD_Client_ID();
 		ArrayList<ModelValidator> list = (ArrayList<ModelValidator>)m_modelChangeListeners.get(propertyName);
 		if (list == null)
 		{
@@ -167,7 +216,10 @@ public class ModelValidationEngine
 	{
 		if (tableName == null || listener == null)
 			return;
-		String propertyName = tableName + listener.getAD_Client_ID();
+		String propertyName = 
+			m_globalValidators.contains(listener) 
+				? tableName + "*"
+				: tableName + listener.getAD_Client_ID();
 		ArrayList list = (ArrayList)m_modelChangeListeners.get(propertyName);
 		if (list == null)
 			return;
@@ -187,24 +239,44 @@ public class ModelValidationEngine
 	{
 		if (po == null || m_modelChangeListeners.size() == 0)
 			return null;
-		//
-		String propertyName = po.get_TableName() + po.getAD_Client_ID();
-		ArrayList list = (ArrayList)m_modelChangeListeners.get(propertyName);
-		if (list == null)
-			return null;
 		
-		//
+		String propertyName = po.get_TableName() + "*";
+		ArrayList<ModelValidator> list = m_modelChangeListeners.get(propertyName);
+		if (list != null)
+		{
+			//ad_entitytype.modelvalidationclasses
+			String error = fireModelChange(po, changeType, list);
+			if (error != null && error.length() > 0)
+				return error;
+		}
+		
+		propertyName = po.get_TableName() + po.getAD_Client_ID();
+		list = m_modelChangeListeners.get(propertyName);
+		if (list != null)
+		{
+			//ad_client.modelvalidationclasses
+			String error = fireModelChange(po, changeType, list);
+			if (error != null && error.length() > 0)
+				return error;
+		}
+		
+		return null;
+	}	//	fireModelChange
+	
+	private String fireModelChange(PO po, int changeType, ArrayList<ModelValidator> list)
+	{
 		for (int i = 0; i < list.size(); i++)
 		{
 			try
 			{
-				ModelValidator validator = (ModelValidator)list.get(i);
-				if (validator.getAD_Client_ID() == po.getAD_Client_ID())
+				ModelValidator validator = list.get(i);
+				if (validator.getAD_Client_ID() == po.getAD_Client_ID()
+					|| m_globalValidators.contains(validator))
 				{
 					String error = validator.modelChange(po, changeType);
-				if (error != null && error.length() > 0)
-					return error;
-			}
+					if (error != null && error.length() > 0)
+						return error;
+				}
 			}
 			catch (Exception e)
 			{
@@ -215,7 +287,7 @@ public class ModelValidationEngine
 			}
 		}
 		return null;
-	}	//	fireModelChange
+	}
 	
 	
 	/**************************************************************************
@@ -228,7 +300,10 @@ public class ModelValidationEngine
 		if (tableName == null || listener == null)
 			return;
 		//
-		String propertyName = tableName + listener.getAD_Client_ID();
+		String propertyName = 
+			m_globalValidators.contains(listener) 
+				? tableName + "*"
+				: tableName + listener.getAD_Client_ID();
 		ArrayList<ModelValidator> list = (ArrayList<ModelValidator>)m_docValidateListeners.get(propertyName);
 		if (list == null)
 		{
@@ -249,14 +324,17 @@ public class ModelValidationEngine
 	{
 		if (tableName == null || listener == null)
 			return;
-		String propertyName = tableName + listener.getAD_Client_ID();
+		String propertyName = 
+			m_globalValidators.contains(listener) 
+				? tableName + "*"
+				: tableName + listener.getAD_Client_ID();
 		ArrayList list = (ArrayList)m_docValidateListeners.get(propertyName);
 		if (list == null)
 			return;
 		list.remove(listener);
 		if (list.size() == 0)
 			m_docValidateListeners.remove(propertyName);
-	}	//	removeModelValidator
+	}	//	removeDocValidate
 	
 	/**
 	 * 	Fire Document Validation.
@@ -269,25 +347,45 @@ public class ModelValidationEngine
 	{
 		if (po == null || m_docValidateListeners.size() == 0)
 			return null;
-		//
-		String propertyName = po.get_TableName() + po.getAD_Client_ID();
-		ArrayList list = (ArrayList)m_docValidateListeners.get(propertyName);
-		if (list == null)
-			return null;
 		
-		//
+		String propertyName = po.get_TableName() + "*";
+		ArrayList<ModelValidator> list = m_docValidateListeners.get(propertyName);
+		if (list != null)
+		{
+			//ad_entitytype.modelvalidationclasses
+			String error = fireDocValidate(po, docTiming, list);
+			if (error != null && error.length() > 0)
+				return error;
+		}
+		
+		propertyName = po.get_TableName() + po.getAD_Client_ID();
+		list = m_docValidateListeners.get(propertyName);
+		if (list != null)
+		{
+			//ad_client.modelvalidationclasses
+			String error = fireDocValidate(po, docTiming, list);
+			if (error != null && error.length() > 0)
+				return error;
+		}
+		
+		return null;
+	}	//	fireDocValidate
+	
+	private String fireDocValidate(PO po, int docTiming, ArrayList<ModelValidator> list)
+	{
 		for (int i = 0; i < list.size(); i++)
 		{
 			ModelValidator validator = null;
 			try
 			{
-				validator = (ModelValidator)list.get(i);
-				if (validator.getAD_Client_ID() == po.getAD_Client_ID())
+				validator = list.get(i);
+				if (validator.getAD_Client_ID() == po.getAD_Client_ID()
+					|| m_globalValidators.contains(validator))
 				{
 					String error = validator.docValidate(po, docTiming);
-				if (error != null && error.length() > 0)
-					return error;
-			}
+					if (error != null && error.length() > 0)
+						return error;
+				}
 			}
 			catch (Exception e)
 			{
@@ -300,7 +398,118 @@ public class ModelValidationEngine
 			}
 		}
 		return null;
-	}	//	fireModelChange
+	}
+	
+	/**************************************************************************
+	 * 	Add Accounting Facts Validation Listener
+	 *	@param tableName table name
+	 *	@param listener listener
+	 */
+	public void addFactsValidate (String tableName, FactsValidator listener)
+	{
+		if (tableName == null || listener == null)
+			return;
+		//
+		String propertyName = 
+			m_globalValidators.contains(listener) 
+				? tableName + "*"
+				: tableName + listener.getAD_Client_ID();
+		ArrayList<FactsValidator> list = (ArrayList<FactsValidator>)m_factsValidateListeners.get(propertyName);
+		if (list == null)
+		{
+			list = new ArrayList<FactsValidator>();
+			list.add(listener);
+			m_factsValidateListeners.put(propertyName, list);
+		}
+		else
+			list.add(listener);
+	}	//	addFactsValidate
+
+	/**
+	 * 	Remove Accounting Facts Validation Listener
+	 *	@param tableName table name
+	 *	@param listener listener
+	 */
+	public void removeFactsValidate (String tableName, FactsValidator listener)
+	{
+		if (tableName == null || listener == null)
+			return;
+		String propertyName = 
+			m_globalValidators.contains(listener) 
+				? tableName + "*"
+				: tableName + listener.getAD_Client_ID();
+		ArrayList list = (ArrayList)m_factsValidateListeners.get(propertyName);
+		if (list == null)
+			return;
+		list.remove(listener);
+		if (list.size() == 0)
+			m_factsValidateListeners.remove(propertyName);
+	}	//	removeFactsValidate
+	
+	/**
+	 * Fire Accounting Facts Validation.
+	 * Call factsValidate method of added validators
+	 * @param schema
+	 * @param facts
+	 * @param doc
+	 * @param po
+	 * @return error message or null
+	 */
+	public String fireFactsValidate (MAcctSchema schema, List<Fact> facts, PO po)
+	{
+		if (schema == null || facts == null || po == null || m_factsValidateListeners.size() == 0)
+			return null;
+		
+		String propertyName = po.get_TableName() + "*";
+		ArrayList<FactsValidator> list = (ArrayList<FactsValidator>)m_factsValidateListeners.get(propertyName);
+		if (list != null)
+		{
+			//ad_entitytype.modelvalidationclasses
+			String error = fireFactsValidate(schema, facts, po, list);
+			if (error != null && error.length() > 0)
+				return error;
+		}
+		
+		propertyName = po.get_TableName() + po.getAD_Client_ID();
+		list = (ArrayList<FactsValidator>)m_factsValidateListeners.get(propertyName);
+		if (list != null)
+		{
+			//ad_client.modelvalidationclasses
+			String error = fireFactsValidate(schema, facts, po, list);
+			if (error != null && error.length() > 0)
+				return error;
+		}
+		
+		return null;
+	}	//	fireFactsValidate
+	
+	private String fireFactsValidate(MAcctSchema schema, List<Fact> facts, PO po,  ArrayList<FactsValidator> list)
+	{
+		for (int i = 0; i < list.size(); i++)
+		{
+			FactsValidator validator = null;
+			try
+			{
+				validator = list.get(i);
+				if (validator.getAD_Client_ID() == po.getAD_Client_ID())
+				{
+					String error = validator.factsValidate(schema, facts, po);
+					if (error != null && error.length() > 0)
+						return error;
+				}
+			}
+			catch (Exception e)
+			{
+				// Exeptions are errors and should stop the document processing - teo_sarca [ 1679692 ]
+				// log.log(Level.SEVERE, validator.toString(), e);
+				String error = e.getMessage();
+				if (error == null)
+					error = e.toString();
+				return error;
+			}
+		}
+		return null;
+	}
 	
 	/**
 	* 	String Representation
@@ -371,7 +580,8 @@ public class ModelValidationEngine
 		for (int i = 0; i < m_validators.size(); i++) 
 		{
 			ModelValidator validator = (ModelValidator)m_validators.get(i);
-			if (AD_Client_ID == validator.getAD_Client_ID())
+			if (AD_Client_ID == validator.getAD_Client_ID()
+				|| m_globalValidators.contains(validator))
 			{
 				java.lang.reflect.Method m = null;
 				try {
@@ -390,5 +600,5 @@ public class ModelValidationEngine
 			}
 		}
 	}
-
+	
 }	//	ModelValidatorEngine
