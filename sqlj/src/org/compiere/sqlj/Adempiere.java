@@ -86,11 +86,14 @@ public class Adempiere implements Serializable
 	{
 		if (s_type == null)
 		{
-			String vendor = System.getProperty("java.vendor");
-			if (vendor.startsWith("Oracle"))
-				s_type = TYPE_ORACLE;
-			else
-				s_type = "??";
+			s_type = "??";
+			try {
+				String name = getConnection().getClass().getName();
+				if (name.indexOf("oracle") >= 0)
+					s_type = TYPE_ORACLE;
+				else if (name.indexOf("postgresql") >= 0)
+					s_type = TYPE_POSTGRESQL;
+			} catch (Exception e) {}
 		}
 		return s_type;
 	}	//	getServerType
@@ -122,13 +125,6 @@ public class Adempiere implements Serializable
 			return TYPE_POSTGRESQL.equals(s_type);
 		return false;
 	}	
-        //	isEDB
-        	static boolean isEDB()
-	{
-		if (s_type == null)
-			getServerType();
-		return false;
-	}	//	isEDB
 	//end vpj-cd e-evolution 02/22/2005 PostgreSQL
 	
 	
@@ -236,9 +232,9 @@ public class Adempiere implements Serializable
 	/** Hundred 100				*/
 	public static final BigDecimal HUNDRED = new BigDecimal((double)100.0);
 	
-
 	/**
 	 * 	Truncate Date
+	 *  @deprecated
 	 *	@param p_dateTime date
 	 *	@return day
 	 */
@@ -249,18 +245,18 @@ public class Adempiere implements Serializable
 			time = new Timestamp(System.currentTimeMillis());
 		//
 		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(time);
+		cal.setTimeInMillis(time.getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		//
-		java.util.Date temp = cal.getTime();
-		return new Timestamp (temp.getTime());
+		return new Timestamp (cal.getTimeInMillis());
 	}	//	trunc
-
+	
 	/**
 	 * 	Truncate Date
+	 *  @deprecated
 	 *	@param p_dateTime date
 	 *	@param XX date part - Supported: DD(default),DY,MM,Q 
 	 *	@return day (first)
@@ -295,13 +291,13 @@ public class Adempiere implements Serializable
 			else
 				cal.set(Calendar.MONTH, Calendar.OCTOBER);
 		}
-		//
-		java.util.Date temp = cal.getTime();
-		return new Timestamp (temp.getTime());
+		
+		return new Timestamp (cal.getTimeInMillis());
 	}	//	trunc
 	
 	/**
 	 * 	Calculate the number of days between start and end.
+	 *  @deprecated
 	 * 	@param start start date
 	 * 	@param end end date
 	 * 	@return number of days (0 = same)
@@ -333,8 +329,6 @@ public class Adempiere implements Serializable
 		calEnd.set(Calendar.SECOND, 0);
 		calEnd.set(Calendar.MILLISECOND, 0);
 
-	//	System.out.println("Start=" + start + ", End=" + end + ", dayStart=" + cal.get(Calendar.DAY_OF_YEAR) + ", dayEnd=" + calEnd.get(Calendar.DAY_OF_YEAR));
-
 		//	in same year
 		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
 		{
@@ -345,18 +339,22 @@ public class Adempiere implements Serializable
 
 		//	not very efficient, but correct
 		int counter = 0;
-		while (calEnd.after(cal))
+		while (cal.get(Calendar.YEAR) < calEnd.get(Calendar.YEAR))
 		{
-			cal.add (Calendar.DAY_OF_YEAR, 1);
-			counter++;
+			GregorianCalendar yearEnd = new GregorianCalendar(cal.get(Calendar.YEAR), 12, 31, 0, 0, 0);
+			int days = getDaysBetween(new Timestamp(cal.getTimeInMillis()), new Timestamp(yearEnd.getTimeInMillis()));
+			cal.add (Calendar.DAY_OF_YEAR, days + 1);
+			counter = counter + days + 1;
 		}
+		counter = counter + getDaysBetween(new Timestamp(cal.getTimeInMillis()), new Timestamp(calEnd.getTimeInMillis()));
 		if (negative)
 			return counter * -1;
 		return counter;
 	}	//	getDaysBetween
-
+	
 	/**
 	 * 	Return Day + offset (truncates)
+	 *  @deprecated
 	 * 	@param day Day
 	 * 	@param offset day offset
 	 * 	@return Day + offset at 00:00
@@ -375,10 +373,10 @@ public class Adempiere implements Serializable
 		if (offset != 0)
 			cal.add(Calendar.DAY_OF_YEAR, offset);	//	may have a problem with negative (before 1/1)
 		//
-		java.util.Date temp = cal.getTime();
-		return new Timestamp (temp.getTime());
+		return new Timestamp (cal.getTimeInMillis());
 	}	//	addDays
-
+	
+	
 	/**
 	 * 	Next Business Day.
 	 * 	(Only Sa/Su -> Mo)
@@ -423,25 +421,26 @@ public class Adempiere implements Serializable
 		}
 		while (isHoliday);
 		// end Goodwill
-		//
-		java.util.Date temp = cal.getTime();
-		return new Timestamp (temp.getTime());
+		
+		return new Timestamp (cal.getTimeInMillis());
 	}	//	nextBusinessDay	
 	
 	
 	/**
 	 * 	Character At Position
+	 *  @deprecated
 	 *	@param source source
 	 *	@param posIndex position 1 = first
 	 *	@return substring or null
 	 */
 	public static String charAt (String source, int posIndex)
 	{
+		posIndex = posIndex - 1;
 		if (source == null || source.length() == 0 || posIndex < 0 || posIndex >= source.length())
 			return null;
 		try
 		{
-			return (source.substring(posIndex+1, posIndex+2));
+			return (source.substring(posIndex, posIndex+1));
 		}
 		catch (Exception e)
 		{}
@@ -460,34 +459,74 @@ public class Adempiere implements Serializable
 	{
 		boolean isSystem = System != null && "Y".equals(System);
 		int retValue = -1;
-		StringBuffer sql = new StringBuffer ("SELECT CurrentNext");
+		String next = "CurrentNext";
 		if (isSystem)
-			sql.append("Sys");
-		sql.append(",IncrementNo FROM AD_Sequence WHERE AD_Sequence_ID=?");
-		PreparedStatement pstmt = prepareStatement(sql.toString(),
-			ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next())
+			next = next + "Sys";
+		//lock the row
+		StringBuffer sql = new StringBuffer ("UPDATE AD_Sequence SET ");
+		sql.append(next)
+		   .append(" = ")
+		   .append(next)
+		   .append(" WHERE AD_Sequence_ID=?");
+		PreparedStatement pstmt = prepareStatement(sql.toString());
+		try 
 		{
-			retValue = rs.getInt(1);
-			int incrementNo = rs.getInt(2);
-			rs.updateInt(2, retValue + incrementNo);
-			pstmt.getConnection().commit();
+			pstmt.setInt(1, AD_Sequence_ID);
+			pstmt.executeUpdate();
+		} 
+		finally
+		{
+			pstmt.close();
 		}
-		rs.close();
-		pstmt.close();
-		//
+		
+		//get current value
+		sql = new StringBuffer ("SELECT ");
+		sql.append(next)
+		   .append(" FROM AD_Sequence WHERE AD_Sequence_ID=?");
+		pstmt = prepareStatement(sql.toString(),
+			ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+		try 
+		{
+			pstmt.setInt(1, AD_Sequence_ID);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				retValue = rs.getInt(1);
+			}
+			rs.close();
+		}
+		finally 
+		{
+			pstmt.close();
+		}
+		
+		//update and return
+		sql = new StringBuffer ("UPDATE AD_Sequence SET ");
+		sql.append(next)
+		   .append(" = ")
+		   .append(next)
+		   .append(" + IncrementNo")
+		   .append(" WHERE AD_Sequence_ID=?");
+		pstmt = prepareStatement(sql.toString());
+		try
+		{
+			pstmt.setInt(1, AD_Sequence_ID);
+			pstmt.executeUpdate();
+		}
+		finally
+		{
+			pstmt.close();
+		}
+		
 		return retValue;
 	}	//	nextID
 	
 	
 	/**
 	 * 	get current Date (Timestamp)
+	 *  @deprecated
 	 *	@return Timestamp
-	 *	
 	 */
-	
-	//jz not found anywhere, add it
 	public static Timestamp getDate()
 	{
 		return new Timestamp(new java.util.Date().getTime());
@@ -495,26 +534,14 @@ public class Adempiere implements Serializable
 	
 	/**
 	 * 	get chars from a number
-	 *  @param n int
-	 *	@return String
-	 *	
-	 */	
-	/*jz not found anywhere, add it
-	public static String getChars(int n)
-	{
-		return Integer.toString(n);
-	}	//	getDate
-	
-	/**
-	 * 	get chars from a number
+	 *  @deprecated
 	 *  @param d double
 	 *	@return String
 	 *	
 	 */	
-	//jz not found anywhere, add it
 	public static String getChars(BigDecimal d)
 	{
 		return d.toString();
-	}	//	getDate
+	}	//	getChars
 	
 }	//	Adempiere
