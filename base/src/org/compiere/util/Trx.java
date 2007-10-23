@@ -562,6 +562,9 @@ public class Trx implements VetoableChangeListener
 			return setRemoteSavepoint(name);
 		}
 		
+		if (m_connection == null) 
+			getConnection();
+		
 		if(m_connection != null) {
 			return m_connection.setSavepoint(name);
 		} else {
