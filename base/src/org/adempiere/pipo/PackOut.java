@@ -68,6 +68,7 @@ import org.compiere.process.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1819315 ] PackOut: fix xml indentation not working
+ * 			<li>BF [ 1819319 ] PackOut: use just active AD_Package_Exp_Detail lines
  */
 
 public class PackOut extends SvrProcess
@@ -239,7 +240,7 @@ public class PackOut extends SvrProcess
 				
 				packOutDocument.startElement("","","adempiereAD",atts);		
 				atts.clear();
-				String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" ORDER BY Line ASC";
+				String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" AND IsActive='Y' ORDER BY Line ASC";
 				
 				PreparedStatement pstmt = null;		
 				pstmt = DB.prepareStatement (sql, get_TrxName());
