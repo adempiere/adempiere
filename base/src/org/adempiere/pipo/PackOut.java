@@ -14,6 +14,7 @@
  * Copyright (C)
  * 2004 Robert KLEIN. robeklein@hotmail.com * 
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca teo.sarca@arhipac.ro, SC ARHIPAC SERVICE SRL    *
  *****************************************************************************/
 package org.adempiere.pipo;
 
@@ -64,6 +65,9 @@ import org.compiere.process.*;
  *  @version $Id: PackOut.java,v 1.0
  *  
  * Contributor: William G. Heath - Export of workflows and dynamic validations
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1819315 ] PackOut: fix xml indentation not working
  */
 
 public class PackOut extends SvrProcess
@@ -139,8 +143,9 @@ public class PackOut extends SvrProcess
 				boolean success = (new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
 				String file_document = packagename+File.separator+"doc"+File.separator+rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+"Doc.xml";		
 				packageDocStream = new FileOutputStream (file_document, false);		
-				StreamResult streamResult_document = new StreamResult(packageDocStream);	
+				StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"utf-8"));	
 				SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+				tf_document.setAttribute("indent-number", new Integer(4));
 				TransformerHandler packageDocument = tf_document.newTransformerHandler();		
 				Transformer serializer_document = packageDocument.getTransformer();		
 				serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
@@ -211,8 +216,9 @@ public class PackOut extends SvrProcess
 				success = (new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
 				String file_menu = packagename+File.separator+ "dict"+File.separator+"PackOut.xml";		
 				packOutDocStream = new FileOutputStream (file_menu, false);
-				StreamResult streamResult_menu = new StreamResult(packOutDocStream);	
+				StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"utf-8"));	
 				SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
+				tf_menu.setAttribute("indent-number", new Integer(4));
 				TransformerHandler packOutDocument = tf_menu.newTransformerHandler();		
 				Transformer serializer_menu = packOutDocument.getTransformer();		
 				serializer_menu.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
