@@ -1636,6 +1636,18 @@ public final class DB
         }
     }
     
+    /**
+     * convenient method to close result set and statement
+     * @param rs result set
+     * @param st statement
+     * @see #close(ResultSet)
+     * @see #close(Statement)
+     */
+    public static void close(ResultSet rs, Statement st) {
+    	close(rs);
+    	close(st);
+    }
+    
 	/** Quote			*/
 	private static final char QUOTE = '\'';
 	

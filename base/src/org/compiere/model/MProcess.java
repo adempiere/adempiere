@@ -382,7 +382,7 @@ public class MProcess extends X_AD_Process
 		else if (is_ValueChanged("IsActive") || is_ValueChanged("Name") 
 			|| is_ValueChanged("Description") || is_ValueChanged("Help"))
 		{
-			MMenu[] menues = MMenu.get(getCtx(), "AD_Process_ID=" + getAD_Process_ID());
+			MMenu[] menues = MMenu.get(getCtx(), "AD_Process_ID=" + getAD_Process_ID(), get_TrxName());
 			for (int i = 0; i < menues.length; i++)
 			{
 				menues[i].setIsActive(isActive());
@@ -390,7 +390,7 @@ public class MProcess extends X_AD_Process
 				menues[i].setDescription(getDescription());
 				menues[i].save();
 			}
-			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Process_ID=" + getAD_Process_ID());
+			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Process_ID=" + getAD_Process_ID(), get_TrxName());
 			for (int i = 0; i < nodes.length; i++)
 			{
 				boolean changed = false;

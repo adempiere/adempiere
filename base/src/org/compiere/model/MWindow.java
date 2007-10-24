@@ -144,7 +144,7 @@ public class MWindow extends X_AD_Window
 		else if (is_ValueChanged("IsActive") || is_ValueChanged("Name") 
 			|| is_ValueChanged("Description") || is_ValueChanged("Help"))
 		{
-			MMenu[] menues = MMenu.get(getCtx(), "AD_Window_ID=" + getAD_Window_ID());
+			MMenu[] menues = MMenu.get(getCtx(), "AD_Window_ID=" + getAD_Window_ID(), get_TrxName());
 			for (int i = 0; i < menues.length; i++)
 			{
 				menues[i].setName(getName());
@@ -153,7 +153,7 @@ public class MWindow extends X_AD_Window
 				menues[i].save();
 			}
 			//
-			X_AD_WF_Node[] nodes = getWFNodes(getCtx(), "AD_Window_ID=" + getAD_Window_ID());
+			X_AD_WF_Node[] nodes = getWFNodes(getCtx(), "AD_Window_ID=" + getAD_Window_ID(), get_TrxName());
 			for (int i = 0; i < nodes.length; i++)
 			{
 				boolean changed = false;
@@ -178,42 +178,35 @@ public class MWindow extends X_AD_Window
 
 	
 	/**
-	 * 	Get workflow nodes with where clause.
-	 * 	Is here as MWFNode is in base
-	 *	@param ctx context
-	 *	@param whereClause where clause w/o the actual WHERE
-	 *	@return nodes
+	 * Get workflow nodes with where clause.
+	 * Is here as MWFNode is in base
+	 * @param ctx context
+	 * @param whereClause where clause w/o the actual WHERE
+	 * @param trxName transaction
+	 * @return nodes
 	 */
-	public static X_AD_WF_Node[] getWFNodes (Properties ctx, String whereClause)
+	public static X_AD_WF_Node[] getWFNodes (Properties ctx, String whereClause, String trxName)
 	{
 		String sql = "SELECT * FROM AD_WF_Node";
 		if (whereClause != null && whereClause.length() > 0)
 			sql += " WHERE " + whereClause;
 		ArrayList<X_AD_WF_Node> list = new ArrayList<X_AD_WF_Node>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			pstmt = DB.prepareStatement (sql, trxName);
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new X_AD_WF_Node (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+				list.add (new X_AD_WF_Node (ctx, rs, trxName));
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		X_AD_WF_Node[] retValue = new X_AD_WF_Node[list.size()];
 		list.toArray (retValue);

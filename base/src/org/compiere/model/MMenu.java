@@ -31,41 +31,34 @@ public class MMenu extends X_AD_Menu
 {
 
 	/**
-	 * 	Get menues with where clause
-	 *	@param ctx context
-	 *	@param whereClause where clause w/o the actual WHERE
-	 *	@return MMenu
+	 * Get menues with where clause
+	 * @param ctx context
+	 * @param whereClause where clause w/o the actual WHERE
+	 * @param trxName transaction
+	 * @return MMenu
 	 */
-	public static MMenu[] get (Properties ctx, String whereClause)
+	public static MMenu[] get (Properties ctx, String whereClause, String trxName)
 	{
 		String sql = "SELECT * FROM AD_Menu";
 		if (whereClause != null && whereClause.length() > 0)
 			sql += " WHERE " + whereClause;
 		ArrayList<MMenu> list = new ArrayList<MMenu>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			pstmt = DB.prepareStatement (sql, trxName);
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MMenu (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+				list.add (new MMenu (ctx, rs, trxName));
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMenu[] retValue = new MMenu[list.size()];
 		list.toArray (retValue);
