@@ -49,6 +49,10 @@ public class AutoCompletion extends PlainDocument {
 				if (e.getKeyChar() == KeyEvent.CHAR_UNDEFINED) {
 					return;
 				}
+				// Ignore ESC key - teo_sarca BF [ 1820778 ]
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					return;
+				}
 
 				if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);
 				hitBackspace=false;
@@ -104,6 +108,7 @@ public class AutoCompletion extends PlainDocument {
 		}
 	}
 
+	@Override
 	public void remove(int offs, int len) throws BadLocationException {
 		// return immediately when selecting an item
 		if (selecting) return;
@@ -122,6 +127,7 @@ public class AutoCompletion extends PlainDocument {
 		}
 	}
 
+	@Override
 	public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 
 		if (selecting) return;
