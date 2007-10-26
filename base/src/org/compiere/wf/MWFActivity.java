@@ -291,7 +291,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		if (m_audit != null)
 			return m_audit;
-		MWFEventAudit[] events = MWFEventAudit.get(getCtx(), getAD_WF_Process_ID(), getAD_WF_Node_ID());
+		MWFEventAudit[] events = MWFEventAudit.get(getCtx(), getAD_WF_Process_ID(), getAD_WF_Node_ID(), get_TrxName());
 		if (events == null || events.length == 0)
 			m_audit = new MWFEventAudit(this);
 		else
@@ -1557,7 +1557,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.DateTime);
 		StringBuffer sb = new StringBuffer();
-		MWFEventAudit[] events = MWFEventAudit.get(getCtx(), getAD_WF_Process_ID());
+		MWFEventAudit[] events = MWFEventAudit.get(getCtx(), getAD_WF_Process_ID(), get_TrxName());
 		for (int i = 0; i < events.length; i++)
 		{
 			MWFEventAudit audit = events[i];
