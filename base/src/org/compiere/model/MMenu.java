@@ -34,6 +34,18 @@ public class MMenu extends X_AD_Menu
 	 * Get menues with where clause
 	 * @param ctx context
 	 * @param whereClause where clause w/o the actual WHERE
+	 * @return MMenu
+	 * @deprecated
+	 */
+	public static MMenu[] get (Properties ctx, String whereClause)
+	{
+		return get(ctx, whereClause, null);
+	}
+	
+	/**
+	 * Get menues with where clause
+	 * @param ctx context
+	 * @param whereClause where clause w/o the actual WHERE
 	 * @param trxName transaction
 	 * @return MMenu
 	 */
