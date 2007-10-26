@@ -147,7 +147,8 @@ public class MPAttributeLookup extends Lookup
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, "dispose", e);
+			//no need to log close exception
+			//log.log(Level.SEVERE, "dispose", e);
 		}
 		log.fine("");
 		super.dispose();
