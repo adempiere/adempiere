@@ -99,7 +99,8 @@ public class VAllocation extends CPanel
 	private int         i_open = 6;
 	private int         i_discount = 7;
 	private int         i_writeOff = 8;
-	private int         i_applied = 9;
+	private int 		i_overUnder = 9; 
+	private int         i_applied = 10;
 //	private int			i_multiplier = 10;
 	//
 	private CPanel mainPanel = new CPanel();
@@ -135,7 +136,7 @@ public class VAllocation extends CPanel
 	private VDate dateField = new VDate();
 	private JCheckBox autoWriteOff = new JCheckBox();
 	
-	private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>(); 
+	private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>();
 
 	/**
 	 *  Static Init
@@ -195,6 +196,8 @@ public class VAllocation extends CPanel
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(multiCurrency, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+		parameterPanel.add(autoWriteOff, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		mainPanel.add(allocationPanel, BorderLayout.SOUTH);
 		allocationPanel.add(differenceLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
@@ -203,8 +206,6 @@ public class VAllocation extends CPanel
 		allocationPanel.add(allocateButton, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
 		allocationPanel.add(allocCurrencyLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		allocationPanel.add(autoWriteOff, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		paymentPanel.add(paymentLabel, BorderLayout.NORTH);
 		paymentPanel.add(paymentInfo, BorderLayout.SOUTH);
@@ -459,7 +460,8 @@ public class VAllocation extends CPanel
 					discount = Env.ZERO;
 				line.add(discount);					//  5/7-ConvAllowedDisc
 				line.add(Env.ZERO);      			//  6/8-WriteOff
-				line.add(Env.ZERO);				    //  7/9-Applied
+				line.add(Env.ZERO);				    //  7/9-OverUnder
+				line.add(Env.ZERO);					// 8/10-Applied
 //				line.add(rs.getBigDecimal(9));		//	8/10-Multiplier
 				//	Add when open <> 0 (i.e. not if no conversion rate)
 				if (Env.ZERO.compareTo(open) != 0)
@@ -489,6 +491,7 @@ public class VAllocation extends CPanel
 		columnNames.add(Msg.getMsg(Env.getCtx(), "OpenAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Discount"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "WriteOff"));
+		columnNames.add(Msg.getMsg(Env.getCtx(), "OverUnderAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "AppliedAmt"));
 //		columnNames.add(" ");	//	Multiplier
 
@@ -510,7 +513,8 @@ public class VAllocation extends CPanel
 		invoiceTable.setColumnClass(i++, BigDecimal.class, true);       //  6-ConvAmt Open
 		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Conv Discount
 		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  8-Conv WriteOff
-		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  9-Conv Applied
+		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  9-Conv OverUnder
+		invoiceTable.setColumnClass(i++, BigDecimal.class, false);		//	10-Conv Applied
 //		invoiceTable.setColumnClass(i++, BigDecimal.class, true);      	//  10-Multiplier
 		//  Table UI
 		invoiceTable.autoSize();
@@ -518,7 +522,8 @@ public class VAllocation extends CPanel
 		i_open = multiCurrency.isSelected() ? 6 : 4;
 		i_discount = multiCurrency.isSelected() ? 7 : 5;
 		i_writeOff = multiCurrency.isSelected() ? 8 : 6;
-		i_applied = multiCurrency.isSelected() ? 9 : 7;
+		i_overUnder = multiCurrency.isSelected() ? 9 : 7;
+		i_applied = multiCurrency.isSelected() ? 10 : 8;
 //		i_multiplier = multiCurrency.isSelected() ? 10 : 8;
 
 		//  Calculate Totals
@@ -555,11 +560,11 @@ public class VAllocation extends CPanel
 	 */
 	public void tableChanged(TableModelEvent e)
 	{
-		calculate();
 		boolean isUpdate = (e.getType() == TableModelEvent.UPDATE);
 		//  Not a table update
 		if (!isUpdate)
 		{
+			calculate();
 			return;
 		}
 		
@@ -581,74 +586,259 @@ public class VAllocation extends CPanel
 		{
 			TableModel payment = paymentTable.getModel();
 			
+			BigDecimal open = (BigDecimal)payment.getValueAt(row, i_open);
+			BigDecimal applied = (BigDecimal)payment.getValueAt(row, i_payment);
+			
 			if (col == 0)
 			{
 				// selection of payment row
 				if (((Boolean)payment.getValueAt(row, 0)).booleanValue())
 				{
-					BigDecimal amount = (BigDecimal)payment.getValueAt(row, i_open);   //  Open Amount
-					if (totalDiff.abs().compareTo(amount.abs()) < 0			// where less is available to allocate than open
-							&& totalDiff.signum() != amount.signum()    	// and the available amount has the opposite sign
-							&& totalDiff.signum() != 0)						// and available isn't zero
-						amount = totalDiff.negate();						// reduce the amount applied to what's available
-					payment.setValueAt(amount, row, i_payment);
+					applied = open;   //  Open Amount
+					if (totalDiff.abs().compareTo(applied.abs()) < 0			// where less is available to allocate than open
+							&& totalDiff.signum() == -applied.signum() )    	// and the available amount has the opposite sign
+						applied = totalDiff.negate();						// reduce the amount applied to what's available
 					
 				}
 				else    //  de-selected
-					payment.setValueAt(Env.ZERO, row, i_payment);
+					applied = Env.ZERO;
 			}
+			
+			
+			if (col == i_payment)
+			{
+				if ( applied.signum() == -open.signum() )
+					applied = applied.negate();
+				if ( open.abs().compareTo( applied.abs() ) < 0 )
+							applied = open;
+			}
+			
+			payment.setValueAt(applied, row, i_payment);
 		}
 
-		//  Invoice Selection
-		else if (col == 0)
+		//  Invoice
+		else 
 		{
 			TableModel invoice = invoiceTable.getModel();
-			//  selected - set applied amount
-			if (((Boolean)invoice.getValueAt(row, 0)).booleanValue())
+			boolean selected = ((Boolean) invoice.getValueAt(row, 0)).booleanValue();
+			BigDecimal open = (BigDecimal)invoice.getValueAt(row, i_open);
+			BigDecimal discount = (BigDecimal)invoice.getValueAt(row, i_discount);
+			BigDecimal applied = (BigDecimal)invoice.getValueAt(row, i_applied);
+			BigDecimal writeOff = (BigDecimal) invoice.getValueAt(row, i_writeOff);
+			BigDecimal overUnder = (BigDecimal) invoice.getValueAt(row, i_overUnder);
+			int openSign = open.signum();
+			
+			if (col == 0)  //selection
 			{
-				BigDecimal amount = (BigDecimal)invoice.getValueAt(row, i_open);    //  Open Amount
-				amount = amount.subtract((BigDecimal)invoice.getValueAt(row, i_discount));
-				invoice.setValueAt(Env.ZERO, row, i_writeOff);     //  to be sure
+				//  selected - set applied amount
+				if ( selected )
+				{
+					applied = open;    //  Open Amount
+					applied = applied.subtract(discount);
+					writeOff = Env.ZERO;  //  to be sure
+					overUnder = Env.ZERO;
+
+					if (totalDiff.abs().compareTo(applied.abs()) < 0			// where less is available to allocate than open
+							&& totalDiff.signum() == applied.signum() )     	// and the available amount has the same sign
+						applied = totalDiff;									// reduce the amount applied to what's available
+
+					if ( autoWriteOff.isSelected() )
+						writeOff = open.subtract(applied.add(discount));
+					else
+						overUnder = open.subtract(applied.add(discount));
+				}
+				else    //  de-selected
+				{
+					writeOff = Env.ZERO;
+					applied = Env.ZERO;
+					overUnder = Env.ZERO;
+				}
+			}
+			
+			// check entered values are sensible and possibly auto write-off
+			if ( selected && col != 0 )
+			{
 				
-				if (totalDiff.abs().compareTo(amount.abs()) < 0			// where less is available to allocate than open
-						&& totalDiff.signum() == amount.signum()    	// and the available amount has the same sign
-						&& totalDiff.signum() != 0)						// and available isn't zero
-					amount = totalDiff;									// reduce the amount applied to what's available
+				// values should have same sign as open except over/under
+				if ( discount.signum() == -openSign )
+					discount = discount.negate();
+				if ( writeOff.signum() == -openSign)
+					writeOff = writeOff.negate();
+				if ( applied.signum() == -openSign )
+					applied = applied.negate();
 				
-				invoice.setValueAt(amount, row, i_applied);
+				// discount and write-off must be less than open amount
+				if ( discount.abs().compareTo(open.abs()) > 0)
+					discount = open;
+				if ( writeOff.abs().compareTo(open.abs()) > 0)
+					writeOff = open;
+								
+				//	 if overUnder has same sign as open it is an under payment -> less than open
+				if ( overUnder.signum() == openSign && overUnder.abs().compareTo(open.abs()) > 0)
+					overUnder = open;
 				
+				/*
+				 * Three rules to maintain:
+				 * 1) |overUnder + writeOff + discount| < open
+				 * 2) |writeOff + discount| < open ( in case overUnder is 'negative')
+				 * 3) discount + writeOff + overUnder + applied = 0
+				 * 
+				 *   As only one column is edited at a time and the initial position was one of compliance
+				 *   with the rules, we only need to redistribute the increase/decrease in the edited column to 
+				 *   the others.
+				 */
+				
+				// comply with rules 1 or 2
+				BigDecimal amtOver;
+				if ( overUnder.signum() == -openSign )
+					amtOver = (discount.add(writeOff)).subtract(open);
+				else
+					amtOver = (discount.add(writeOff.add(overUnder))).subtract(open);
+				
+				if ( amtOver.signum() == openSign )
+				{
+					BigDecimal temp = Env.ZERO;
+					if ( col != i_overUnder && overUnder.signum() == openSign )
+					{
+						temp = overUnder.subtract(amtOver);
+						if ( temp.signum() == -openSign )
+						{
+							overUnder = Env.ZERO;
+							amtOver = temp.negate();
+						}
+						else
+						{
+							overUnder = temp;
+							amtOver = Env.ZERO;
+						}
+					}
+					
+					if ( col != i_writeOff )
+					{
+						temp = writeOff.subtract(amtOver);
+						if ( temp.signum() == -openSign )
+						{
+							writeOff = Env.ZERO;
+							amtOver = temp.negate();
+						}
+						else
+						{
+							writeOff = temp;
+							amtOver = Env.ZERO;
+						}
+					}
+					
+					if ( col != i_discount )
+					{
+						temp = discount.subtract(amtOver);
+						if ( temp.signum() == -openSign )
+						{
+							discount = Env.ZERO;
+							amtOver = temp.negate();
+						}
+						else
+						{
+							discount = temp;
+							amtOver = Env.ZERO;
+						}
+					}
+				}
+				
+				
+				// make everything balance to open
+				BigDecimal remainder = open.subtract(discount.add(writeOff.add(overUnder.add(applied))));
+				
+				// need to increase something
+				if ( remainder.signum() == openSign )
+				{
+					BigDecimal temp = Env.ZERO;
+					BigDecimal amtUnder = amtOver.negate();
+										
+					if ( autoWriteOff.isSelected() && col != i_writeOff )
+					{
+						temp = writeOff.add(remainder);
+						
+						if ( temp.abs().compareTo(amtUnder.abs()) > 0  )
+						{
+							writeOff = amtUnder;
+							remainder = temp.subtract(amtUnder);
+						}
+						else
+						{
+							writeOff = temp;
+							remainder = Env.ZERO;
+						}
+					}
+					
+					if ( col != i_overUnder )
+					{
+						temp = overUnder.add(remainder);
+						if ( temp.abs().compareTo(amtUnder.abs()) > 0 )
+						{
+							overUnder = amtUnder;
+							remainder = temp.subtract(amtUnder);
+						}
+						else
+						{
+							overUnder = temp;
+							remainder = Env.ZERO;
+						}
+					}
+					
+					if ( col != i_applied && remainder.signum() != 0 )
+					{
+						applied = applied.add(remainder);
+						remainder = Env.ZERO;
+					}	
+				}
+				
+				//		need to decrease some amount/s
+				if ( remainder.signum() == -openSign )
+				{
+					BigDecimal temp = Env.ZERO;
+					
+										
+					if ( autoWriteOff.isSelected() && col != i_writeOff )
+					{
+						temp = writeOff.add(remainder);
+						
+						if ( temp.signum() == -openSign  )
+						{
+							writeOff = Env.ZERO;
+							remainder = temp;
+						}
+						else
+						{
+							writeOff = temp;
+							remainder = Env.ZERO;
+						}
+					}
+					
+					
+					
+					if ( col != i_overUnder && remainder.signum() != 0 )
+					{
+						overUnder = overUnder.add(remainder);
+						remainder = Env.ZERO;
+					}	
+				}
 				
 			}
-			else    //  de-selected
-			{
-				invoice.setValueAt(Env.ZERO, row, i_writeOff);
-				invoice.setValueAt(Env.ZERO, row, i_applied);
-			}
+			
+			//	Warning if write Off > 30%
+			if (writeOff.doubleValue()/open.doubleValue() > .30)
+			ADialog.warn(m_WindowNo, this, "AllocationWriteOffWarn");
+			
+
+			invoice.setValueAt(discount, row, i_discount);
+			invoice.setValueAt(applied, row, i_applied);
+			invoice.setValueAt(writeOff, row, i_writeOff);
+			invoice.setValueAt(overUnder, row, i_overUnder);
+			
 			invoiceTable.repaint(); //  update r/o
-		}
+			
 
-		//  Invoice - Try to balance entry
-		else if (autoWriteOff.isSelected())
-		{
-			TableModel invoice = invoiceTable.getModel();
-			//  if applied entered, adjust writeOff
-			if (col == i_applied)
-			{
-				BigDecimal openAmount = (BigDecimal)invoice.getValueAt(row, i_open);    //  Open Amount
-				BigDecimal amount = openAmount.subtract((BigDecimal)invoice.getValueAt(row, i_discount));
-				amount = amount.subtract((BigDecimal)invoice.getValueAt(row, i_applied));
-				invoice.setValueAt(amount, row, i_writeOff);
-				//	Warning if > 30%
-				if (amount.doubleValue()/openAmount.doubleValue() > .30)
-					ADialog.warn(m_WindowNo, this, "AllocationWriteOffWarn");
-			}
-			else    //  adjust applied
-			{
-				BigDecimal amount = (BigDecimal)invoice.getValueAt(row, i_open);    //  Open Amount
-				amount = amount.subtract((BigDecimal)invoice.getValueAt(row, i_discount));
-				amount = amount.subtract((BigDecimal)invoice.getValueAt(row, i_writeOff));
-				invoice.setValueAt(amount, row, i_applied);
-			}
+		
 		}
 
 		m_calculating = false;
@@ -879,7 +1069,7 @@ public class VAllocation extends CPanel
 					}	//	for all applied amounts
 				}	//	loop through payments for invoice
 				
-				if ( AppliedAmt.signum() == 0)
+				if ( AppliedAmt.signum() == 0 && DiscountAmt.signum() == 0 && WriteOffAmt.signum() == 0)
 					continue;
 				else {			// remainder will need to match against other invoices
 					int C_Payment_ID = 0;
