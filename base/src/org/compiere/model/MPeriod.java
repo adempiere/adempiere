@@ -59,6 +59,7 @@ public class MPeriod extends X_C_Period
 	 */
 	public static MPeriod get (Properties ctx, Timestamp DateAcct)
 	{
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		if (DateAcct == null)
 			return null;
 		//	Search in Cache first
@@ -66,13 +67,13 @@ public class MPeriod extends X_C_Period
 		while (it.hasNext())
 		{
 			MPeriod period = (MPeriod)it.next();
-			if (period.isStandardPeriod() && period.isInPeriod(DateAcct))
+			if (period.isStandardPeriod() && period.isInPeriod(DateAcct) 
+					&& period.getAD_Client_ID() == AD_Client_ID)  // globalqss - CarlosRuiz - Fix [ 1820810 ] Wrong Period Assigned to Fact_Acct
 				return period;
 		}
 		
 		//	Get it from DB
 		MPeriod retValue = null;
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		String sql = "SELECT * "
 			+ "FROM C_Period "
 			+ "WHERE C_Year_ID IN "
