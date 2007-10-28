@@ -310,6 +310,8 @@ public class MColumn extends X_AD_Column
 				if (DisplayType.isText(getAD_Reference_ID()) 
 					|| getAD_Reference_ID() == DisplayType.List
 					|| getAD_Reference_ID() == DisplayType.YesNo
+					// Two special columns: Defined as Table but DB Type is String 
+					|| getColumnName().equals("EntityType") || getColumnName().equals("AD_Language")
 					|| (getAD_Reference_ID() == DisplayType.Button &&
 						!(getColumnName().endsWith("_ID"))))
 				{
@@ -356,6 +358,8 @@ public class MColumn extends X_AD_Column
 			if (DisplayType.isText(getAD_Reference_ID()) 
 				|| getAD_Reference_ID() == DisplayType.List
 				|| getAD_Reference_ID() == DisplayType.YesNo
+				// Two special columns: Defined as Table but DB Type is String 
+				|| getColumnName().equals("EntityType") || getColumnName().equals("AD_Language")
 				|| (getAD_Reference_ID() == DisplayType.Button &&
 						!(getColumnName().endsWith("_ID"))))
 			{
