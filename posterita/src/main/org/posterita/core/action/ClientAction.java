@@ -27,6 +27,7 @@
 
 package org.posterita.core.action;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -71,6 +72,11 @@ public class ClientAction extends BaseDispatchAction
 		DefaultForm df = (DefaultForm)form;
 		
 		ClientBean clientBean = (ClientBean)df.getBean();
+		
+		if (clientBean.getFile() == null)
+		{
+			clientBean.setFile(df.getFile());
+		}		
 		
 		if(!clientBean.getPassword().equals(clientBean.getConfirmPassword()))
 		{
