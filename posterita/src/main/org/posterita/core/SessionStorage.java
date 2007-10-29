@@ -438,23 +438,6 @@ public class SessionStorage
        
 	}
 
-	public static void putWebstoreUser(Properties ctx, HttpServletRequest request, Integer userId) throws Exception
-	{
-        String defaultAppName = ApplicationManager.getApplicationType(ctx).toUpperCase();
-        
-        if(defaultAppName.contains(UdiConstants.WEBSTORE_APP_SUFFIX))
-        {
-            WebstoreUserBean webstoreUserBean;
-			webstoreUserBean = UserManager.getWebstoreUser(ctx, userId);
-			
-			//Set Checkout Next Step
-			webstoreUserBean.setStep("1"); //Step 1: Delivery Information
-
-            request.getSession().setAttribute(Constants.WEBSTORE_USER_BEAN,webstoreUserBean);
-        
-        }
-		
-	}
 
 	public static void putPOSID(Properties ctx,String posId,HttpServletRequest request) throws OperationException 
 	{

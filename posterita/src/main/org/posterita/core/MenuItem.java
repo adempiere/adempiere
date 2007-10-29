@@ -25,15 +25,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.compiere.model.X_U_Menu;
+import org.compiere.model.X_U_WebMenu;
 import org.posterita.factory.AbstractFactory;
-import org.posterita.model.UDIU_Menu;
+import org.posterita.model.U_WebMenu;
 
 public class MenuItem
 {
 	
 	protected String menuLink;
-	protected UDIU_Menu menu;
+	protected U_WebMenu menu;
 	protected ArrayList<MenuItem> children;
 	protected int menuId;
 	protected boolean available;
@@ -44,7 +44,7 @@ public class MenuItem
 		this.menuId = menuId;
 	}
 	
-	public MenuItem(UDIU_Menu menu)
+	public MenuItem(U_WebMenu menu)
 	{
 		this.menu = menu; 
 		children = new ArrayList<MenuItem>();
@@ -196,11 +196,11 @@ public class MenuItem
 
 	public static MenuItem getDummyMenuItem(Properties ctx)
 	{
-		X_U_Menu xMenu = new X_U_Menu(ctx, 0, null);
+		X_U_WebMenu xMenu = new X_U_WebMenu(ctx, 0, null);
 		xMenu.setName("Dummy Root Menu");
 		xMenu.setIsActive(false);
 		
-		UDIU_Menu menu = new UDIU_Menu(xMenu);
+		U_WebMenu menu = new U_WebMenu(xMenu);
 		MenuItem retMenu = new MenuItem(menu);
 
 		return retMenu;
@@ -297,7 +297,7 @@ public class MenuItem
 		
 		if (menuId.intValue() != 0)
 		{
-			X_U_Menu menu = new X_U_Menu(ctx, menuId.intValue(), null);
+			X_U_WebMenu menu = new X_U_WebMenu(ctx, menuId.intValue(), null);
 			
 			breadcrumb = breadcrumb + "<a href=" + menu.getMenuLink() + ">" + menu.getName() + "</a>";
 					

@@ -52,12 +52,7 @@ public class TmkJSPEnv
         
         try //Required since our friend Jorg hardcoded 30 mins in JSPEnv.java
         {
-	        String applicationName = ApplicationManager.getApplicationType(ctx);
-	        
-	        if (applicationName.toUpperCase().endsWith(Constants.APP_POS.toUpperCase()))
-				request.getSession().setMaxInactiveInterval(5*60*60); // 5 Hours
-			else if(applicationName.toUpperCase().endsWith(Constants.APP_WEBSTORE.toUpperCase()))
-				request.getSession().setMaxInactiveInterval(1*60*60);  // 1 Hour
+			request.getSession().setMaxInactiveInterval(5*60*60); // 5 Hours
         }
         catch(Exception ex)
         {

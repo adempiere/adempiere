@@ -33,8 +33,7 @@ import org.compiere.model.MProductCategory;
 import org.compiere.model.MTax;
 import org.compiere.model.MTaxCategory;
 import org.compiere.model.MUser;
-import org.compiere.model.X_U_Menu;
-
+import org.compiere.model.X_U_WebMenu;
 import org.posterita.model.UDIMAssetGroup;
 import org.posterita.model.UDIMDiscountSchema;
 import org.posterita.model.UDIMPriceList;
@@ -53,9 +52,9 @@ public class SystemObjects
 	
 	//private static UDIMRole udiAdminRole;
 		
-	public static X_U_Menu getSMenuProductAttributeValue(Properties ctx)
+	public static X_U_WebMenu getSMenuProductAttributeValue(Properties ctx)
 	{
-		X_U_Menu menu = new X_U_Menu(ctx, 0, null);
+		X_U_WebMenu menu = new X_U_WebMenu(ctx, 0, null);
 		menu.setName("Create Product Attribute Value");
 		menu.setMenuLink("InitAttributeValueAction.do?action=initAttributeValues");
 	    menu.setModule("DMS");
