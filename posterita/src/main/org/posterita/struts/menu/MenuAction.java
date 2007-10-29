@@ -75,29 +75,11 @@ public class MenuAction extends BaseDispatchAction
         
         if(rootMenuItem == null)
         {
-        	try
-        	{
-        		ApplicationManager.changeApplication(request, response);
-        		
-        		ctx = TmkJSPEnv.getCtx(request);
-        		String forward = Env.getContext(ctx, UdiConstants.WEBPARAM6);
-        		
-        		return mapping.findForward(forward);
-        	}
-        	catch(DefaultStoreException ex)
-        	{
-        		postGlobalError("error.store.default", ex.getMessage(), request);
-        		return mapping.findForward(CHOOSE_APPLICATION);
-        	}
-        	catch(Exception ex)
-        	{
-        		return mapping.findForward(APPLICATION_ERROR);
-        	}
+        	//TODO: Display error message or should kick to right store
+        	mapping.findForward(CHOOSE_APPLICATION);
         }
         
         ArrayList subMenus = new ArrayList();
-        String applicationName = ApplicationManager.getApplicationType(ctx).toUpperCase();
-       
         if(bean.getMenuId()==null)
         {
         	UDIPO udiPO = POSMenuFactory.getFactoryInstance(ctx).get(ctx, POSMenuFactory.PMENU_SALES_ID);
@@ -109,67 +91,109 @@ public class MenuAction extends BaseDispatchAction
             subMenus = rootMenuItem.getSubMenus(bean.getMenuId().intValue());
         }
 
+    	//subgrouping menus
+    	ArrayList<MenuItem> menuItems = subMenus;        
+        HashMap<String,ArrayList<MenuItem>> categoryMap = new HashMap<String,ArrayList<MenuItem>>();
         
-           
-        if (applicationName.equalsIgnoreCase("POS"))
-        {           
-        	//subgrouping menus
-        	ArrayList<MenuItem> menuItems = subMenus;        
-            HashMap<String,ArrayList<MenuItem>> categoryMap = new HashMap<String,ArrayList<MenuItem>>();
-            
-        	StringWriter sw = new StringWriter();
-        	PrintWriter out = new PrintWriter(sw);
-        	ElementBean elementBean = null;
+    	StringWriter sw = new StringWriter();
+    	PrintWriter out = new PrintWriter(sw);
+    	ElementBean elementBean = null;
+    	
+    	String category = "";
+        ArrayList<MenuItem>  list = null;
+        ArrayList<String> categories = new ArrayList<String>();
+        
+        //group menus
+        for(MenuItem menuItem : menuItems)
+        {
+        	category = menuItem.getCategory();
+        	category = (category==null)? "" : category;
         	
-        	String category = "";
-            ArrayList<MenuItem>  list = null;
-            ArrayList<String> categories = new ArrayList<String>();
-            
-            //group menus
-            for(MenuItem menuItem : menuItems)
-            {
-            	category = menuItem.getCategory();
-            	category = (category==null)? "" : category;
-            	
-            	if(!categories.contains(category))
-            	{
-            		categories.add(category);
-            	}
-            	
-            	list = categoryMap.get(category);
-            	
-            	if(list==null)
-            	{
-            		list = new ArrayList<MenuItem>();        		    		
-            	}
-            	
-            	list.add(menuItem);
-            	categoryMap.put(category,list);
-            	
-            }
-            
-            //display groups
-           
-            Iterator<String> iter = categories.iterator();                	
-            
-            out.print("<table class=\"main\" cellspacing=\"10\">");
-            while(iter.hasNext())
-            {
-            	out.print("<tr><td valign=\"top\" width=\"50%\">");            	
-            	//----------------------------------------------------------------------------------------------------------------------
-            	
-            	category = iter.next();
+        	if(!categories.contains(category))
+        	{
+        		categories.add(category);
+        	}
+        	
+        	list = categoryMap.get(category);
+        	
+        	if(list==null)
+        	{
+        		list = new ArrayList<MenuItem>();        		    		
+        	}
+        	
+        	list.add(menuItem);
+        	categoryMap.put(category,list);
+        	
+        }
+        
+        //display groups
+       
+        Iterator<String> iter = categories.iterator();                	
+        
+        out.print("<table class=\"main\" cellspacing=\"10\">");
+        while(iter.hasNext())
+        {
+        	out.print("<tr><td valign=\"top\" width=\"50%\">");            	
+        	//----------------------------------------------------------------------------------------------------------------------
+        	
+        	category = iter.next();
+        	list = categoryMap.get(category);        	
+        	
+        	if((category != null)&&(category.length() != 0))
+        	{
+        		out.print("<fieldset class=\"submenu\">");
+        		out.print("<legend>");
+        		
+        		elementBean = ElementManager.getMsg(ctx,category);        		
+        		out.print(elementBean.getName());
+        		
+        		out.print("</legend>");
+        	}//if
+        	
+        	out.print("<ul>");
+        	
+    		for(MenuItem m : list)
+    		{
+    			out.print("<li class=\"submenu\">");
+    			out.print("<a href='" + m.getMenuLink() + "' class=\"submenu\">");
+    			
+    			elementBean = ElementManager.getMsg(ctx,m.getName());        		
+        		out.print(elementBean.getName());
+    			    			
+    			out.print("</a>");
+    			out.print("</li>");
+    		}//for
+    		
+    		out.print("</ul>");
+    		
+    		if((category != null)&&(category.length() != 0))
+        	{        		
+        		out.print("</fieldset>");
+        	}//if        	
+    		
+        	//----------------------------------------------------------------------------------------------------------------------
+        	out.print("</td><td valign=\"top\" width=\"50%\">");        	
+        	
+        	if(!iter.hasNext())
+        	{
+        		out.print("&nbsp;");
+        	}
+        	else
+        	{
+        		//----------------------------------------------------------------------------------------------------------------------
+        		
+        		category = iter.next();
             	list = categoryMap.get(category);        	
             	
             	if((category != null)&&(category.length() != 0))
             	{
             		out.print("<fieldset class=\"submenu\">");
             		out.print("<legend>");
-            		
-            		elementBean = ElementManager.getMsg(ctx,category);        		
-            		out.print(elementBean.getName());
-            		
-            		out.print("</legend>");
+	        		
+	        		elementBean = ElementManager.getMsg(ctx,category);        		
+	        		out.print(elementBean.getName());
+	        		
+	        		out.print("</legend>");
             	}//if
             	
             	out.print("<ul>");
@@ -177,11 +201,11 @@ public class MenuAction extends BaseDispatchAction
         		for(MenuItem m : list)
         		{
         			out.print("<li class=\"submenu\">");
-        			out.print("<a href='" + m.getMenuLink() + "' class=\"submenu\">");
+        			out.print("<a href=" + m.getMenuLink() + " class=\"submenu\">");
         			
         			elementBean = ElementManager.getMsg(ctx,m.getName());        		
-            		out.print(elementBean.getName());
-        			    			
+        			out.print(elementBean.getName());  
+        			 			
         			out.print("</a>");
         			out.print("</li>");
         		}//for
@@ -194,67 +218,18 @@ public class MenuAction extends BaseDispatchAction
             	}//if        	
         		
             	//----------------------------------------------------------------------------------------------------------------------
-            	out.print("</td><td valign=\"top\" width=\"50%\">");        	
             	
-            	if(!iter.hasNext())
-            	{
-            		out.print("&nbsp;");
-            	}
-            	else
-            	{
-            		//----------------------------------------------------------------------------------------------------------------------
-            		
-            		category = iter.next();
-                	list = categoryMap.get(category);        	
-                	
-                	if((category != null)&&(category.length() != 0))
-                	{
-                		out.print("<fieldset class=\"submenu\">");
-                		out.print("<legend>");
-    	        		
-    	        		elementBean = ElementManager.getMsg(ctx,category);        		
-    	        		out.print(elementBean.getName());
-    	        		
-    	        		out.print("</legend>");
-                	}//if
-                	
-                	out.print("<ul>");
-                	
-            		for(MenuItem m : list)
-            		{
-            			out.print("<li class=\"submenu\">");
-            			out.print("<a href=" + m.getMenuLink() + " class=\"submenu\">");
-            			
-            			elementBean = ElementManager.getMsg(ctx,m.getName());        		
-            			out.print(elementBean.getName());  
-            			 			
-            			out.print("</a>");
-            			out.print("</li>");
-            		}//for
-            		
-            		out.print("</ul>");
-            		
-            		if((category != null)&&(category.length() != 0))
-                	{        		
-                		out.print("</fieldset>");
-                	}//if        	
-            		
-                	//----------------------------------------------------------------------------------------------------------------------
-                	
-            	}
-            	out.print("</td></tr>");
-            }
-            
-            out.print("</table>");
-            out.flush();
-            
-            String menu = sw.toString();
-        	
-            request.getSession().setAttribute(Constants.MENU_ITEMS, menu);
-        	return mapping.findForward(GET_POS_MENU_ITEMS);
+        	}
+        	out.print("</td></tr>");
         }
         
-        return mapping.findForward(GET_MENU_ITEMS);
+        out.print("</table>");
+        out.flush();
+        
+        String menu = sw.toString();
+    	
+        request.getSession().setAttribute(Constants.MENU_ITEMS, menu);
+    	return mapping.findForward(GET_POS_MENU_ITEMS);
     }    
     
     public static final String INIT_EDIT_LINKSTATUS = "initEditLinkStatus";

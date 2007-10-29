@@ -35,7 +35,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.MessageResources;
 import org.compiere.model.MSession;
 import org.compiere.model.MUser;
-import org.compiere.model.X_U_Menu;
+import org.compiere.model.X_U_WebMenu;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.WebUser;
@@ -60,7 +60,7 @@ import org.posterita.exceptions.UserInactiveException;
 import org.posterita.exceptions.UserNotFoundException;
 import org.posterita.exceptions.WrongPasswordException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.UDIU_Menu;
+import org.posterita.model.U_WebMenu;
 import org.posterita.struts.core.BaseDispatchAction;
 import org.posterita.struts.core.DefaultForm;
 import org.posterita.user.WebUserInfo;
@@ -104,11 +104,11 @@ public class LoginAction extends BaseDispatchAction
             
             if(userId != null)
             {
-                X_U_Menu xmenu = new X_U_Menu(ctx,0,null);
+            	X_U_WebMenu xmenu = new X_U_WebMenu(ctx,0,null);
                 xmenu.setName("Switch User");
                 xmenu.setMenuLink("LoginUserAction.do?action=loginUser&userId=" + userId);
                 
-                UDIU_Menu menu = new UDIU_Menu(xmenu);            
+                U_WebMenu menu = new U_WebMenu(xmenu);            
                 //MenuItem menuItem  = new MenuItem(menu);            
                 leftMenusList.add(new MenuItem(menu)); 
             }
@@ -165,7 +165,8 @@ public class LoginAction extends BaseDispatchAction
         
         WebUserInfo wuInfo = (WebUserInfo)session.getAttribute(WebUserInfo.NAME);
         
-        String appName = ApplicationManager.getApplicationType(ctx);
+        int storeId = Env.getContextAsInt(TmkJSPEnv.getCtx(request), UdiConstants.WSTORE_CTX_PARAM);
+        
         if (wuInfo != null)
         {
             WebUser wu = wuInfo.getUser();
@@ -173,21 +174,16 @@ public class LoginAction extends BaseDispatchAction
                 wu.logout();
 
             session.removeAttribute(WebUserInfo.NAME);
+            session.setMaxInactiveInterval(0);
         }
         
-       
-        
-        if(appName.endsWith(Constants.APP_POS))
-            session.setMaxInactiveInterval(0);
-
         try
         {
-	        ApplicationManager.changeApplication(request, response);
+        	ctx = Env.getCtx();
+	        ApplicationManager.setApplicationParametersInContext(ctx, storeId);
 	        ctx = TmkJSPEnv.getCtx(request);
 	        
-	        String forward = Env.getContext(ctx, UdiConstants.WEBPARAM6);
-			
-			return mapping.findForward(forward);
+			return mapping.findForward(UdiConstants.DEFAULT_FORWARD);
         }
       	catch(Exception ex)
        	{
@@ -250,48 +246,36 @@ public class LoginAction extends BaseDispatchAction
             return (mapping.getInputForward());
         }
        
+      	String strPosId = POSManager.getPOSIDFromCookie(request);
+    	boolean isValidPOSId = false;
+    	
+    	if(strPosId != null)
+    	{
+    		try
+    		{
+    			int posId = Integer.parseInt(strPosId);
+    			isValidPOSId = POSManager.isPOSTerminalPresent(ctx, posId);
+    		}
+    		catch(Exception ex)
+    		{}
+    	}
         
-        String applicationName = ApplicationManager.getApplicationType(ctx);
-        
-        if(applicationName.endsWith(Constants.APP_POS))
-        {
-        	String strPosId = POSManager.getPOSIDFromCookie(request);
+    	if(!isValidPOSId)
+    	{
+    		ArrayList list=POSManager.getAllPOSIDs(ctx);
+            request.getSession().setAttribute(Constants.POSIDS,list);
+            return mapping.findForward(CHOOSEPOS);
             
-        	
-        	boolean isValidPOSId = false;
-        	
-        	if(strPosId != null)
-        	{
-        		try
-        		{
-        			int posId = Integer.parseInt(strPosId);
-        			isValidPOSId = POSManager.isPOSTerminalPresent(ctx, posId);
-        		}
-        		catch(Exception ex)
-        		{}
-        	}
-        	
-            
-        	if(!isValidPOSId)
-        	{
-        		ArrayList list=POSManager.getAllPOSIDs(ctx);
-                request.getSession().setAttribute(Constants.POSIDS,list);
-                return mapping.findForward(CHOOSEPOS);
-                
-        	}
-        	else
-        	{
-        		SessionStorage.putPOSID(ctx,strPosId,request);
-                String currSymboleSales = POSTerminalManager.getPOSDefaultSellCurrency(ctx).getCurSymbol();
-                String currSymbolePurchase=POSTerminalManager.getPOSDefaultPurchaseCurrency(ctx).getCurSymbol();
-                request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE,currSymboleSales);
-                request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE_PURCHASE,currSymbolePurchase);
-        		return mapping.findForward(CREATEPOSORDER);
-        	}
-            
-        }
-    
-        return mapping.findForward(SUCCESS);
+    	}
+    	else
+    	{
+    		SessionStorage.putPOSID(ctx,strPosId,request);
+            String currSymboleSales = POSTerminalManager.getPOSDefaultSellCurrency(ctx).getCurSymbol();
+            String currSymbolePurchase=POSTerminalManager.getPOSDefaultPurchaseCurrency(ctx).getCurSymbol();
+            request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE,currSymboleSales);
+            request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE_PURCHASE,currSymbolePurchase);
+    		return mapping.findForward(CREATEPOSORDER);
+    	}
     }
     
     public ActionForward password(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception

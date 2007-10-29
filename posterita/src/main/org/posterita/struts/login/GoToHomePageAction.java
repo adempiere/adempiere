@@ -30,10 +30,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.compiere.model.MStore;
 import org.compiere.util.Env;
 import org.posterita.Constants;
 import org.posterita.beans.ApplicationParametersBean;
 import org.posterita.businesslogic.ApplicationManager;
+import org.posterita.businesslogic.StoreManager;
 import org.posterita.core.TmkJSPEnv;
 import org.posterita.exceptions.DefaultStoreException;
 import org.posterita.lib.UdiConstants;
@@ -51,10 +53,11 @@ public class GoToHomePageAction extends BaseDispatchAction
 	    
 	    try
     	{
-    		ApplicationManager.changeApplication(request, response);
-    		
-    		Properties ctx = TmkJSPEnv.getCtx(request);
-    		String forward = Env.getContext(ctx, UdiConstants.WEBPARAM6);
+	    	Properties ctx = Env.getCtx();
+	    	MStore store = StoreManager.getDefaultStore(ctx);
+	    	ApplicationManager.setApplicationParametersInContext(ctx, store.get_ID());
+    		ctx = TmkJSPEnv.getCtx(request);
+    		String forward = Env.getContext(ctx, UdiConstants.DEFAULT_FORWARD);
     		
     		return mapping.findForward(forward);
     	}
@@ -65,39 +68,38 @@ public class GoToHomePageAction extends BaseDispatchAction
     	}
 	}
     
-    public static final String LICENSE_INVALID = "clientLicensing";
     public static final String CHOOSE_APPLICATION = "chooseApplication";
     public ActionForward setApplicationParameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
 		DefaultForm df = (DefaultForm) form;
 		ApplicationParametersBean bean = (ApplicationParametersBean) df.getBean();
 		
-		String appName = bean.getApplicationName();
+		Integer storeId = bean.getStoreId();
 		
-		try
+		// Store not defined, should go to default store or choose from different stores
+		if (storeId == null)
 		{
-			ApplicationManager.changeApplication(request, response, appName);
-			
-	        Properties ctx = TmkJSPEnv.getCtx(request);
-	        String defaultAppName = ApplicationManager.getApplicationType(ctx).toUpperCase();
-	        
-	        String displayAppName = ApplicationManager.getApplicationName(bean.getApplicationName());
-	        
-	        request.getSession().getServletContext().setAttribute(Constants.APP_NAME,displayAppName);
-	        
-	        ApplicationManager.setApplicationNameInCookie(response, appName);
-	        
-	        String forward = Env.getContext(ctx, UdiConstants.WEBPARAM6);
-	        
-	       
-			
-			return mapping.findForward(forward);
+			return goToHomePage(mapping, form, request, response);
 		}
-		catch(DefaultStoreException ex)
+		
+		Properties ctx = Env.getCtx();
+		
+		MStore store = new MStore(ctx, storeId, null);
+		
+		if (store.get_ID() == 0)
 		{
-			postGlobalError("error.store.default", ex.getMessage(), request);
-			return mapping.findForward(CHOOSE_APPLICATION);
+			//TODO: Add error message showing no store error to user
+			mapping.findForward(CHOOSE_APPLICATION);
 		}
+		
+		
+		ApplicationManager.setApplicationParametersInContext(ctx, storeId);
+		
+        ctx = TmkJSPEnv.getCtx(request);
+        
+        request.getSession().getServletContext().setAttribute(Constants.APP_NAME, bean.getApplicationName());
+			
+		return mapping.findForward(UdiConstants.DEFAULT_FORWARD);
     }
     
     public static final String INIT_CHOOSE_APPLICATION = "initChooseApplication";

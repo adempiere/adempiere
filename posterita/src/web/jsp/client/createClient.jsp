@@ -31,7 +31,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-		<title>POSterita</title>				
+		<title>POSterita:. Create Client</title>				
 		<link type="text/css" href="css/newPOS.jsp" rel="stylesheet">	
 		<link type="text/css" href="css/common.jsp" rel="stylesheet">
 		<link rel="shortcut icon" href="images/posterita.jpg" type="image/jpg" /> 
@@ -80,7 +80,7 @@
 			<tr>
 				<td>
 		
-		<html:form action="/ClientAction">
+		<html:form action="/ClientAction" method="post" enctype="multipart/form-data">
 		<html:hidden property="action" value="createClient"/>
 		<%@ include file="/jsp/include/errors.jsp" %>
 		<table>
@@ -164,7 +164,15 @@
 		</TR>
 		<tr>
 		<td>
-			&nbsp;
+			<fieldset>
+			<legend><font class="title">Accounting</font></legend>
+			<table width="100%" border="0" class="display">
+			<tr>
+				<td>Load Accounting Values</td>
+				<td><html:file value="" property="file"/></td>
+			</tr>
+			</table>
+		</fieldset>	
 		</td>
 		<td align="right">
 			<html:button property="button" styleClass="save smallbutton" onclick="newsubmit(this)" tabindex="10" accesskey="s">
@@ -172,8 +180,7 @@
 	        </html:button>
 		</td>
 		</tr>
-		</table>
-		
+		</table>		
 		</html:form>
 		
 <SCRIPT>

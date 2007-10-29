@@ -128,50 +128,37 @@ public class POSLoginAction extends BaseDispatchAction
         }
        
         
-        String applicationName = ApplicationManager.getApplicationType(ctx);
         
-        if(applicationName.endsWith(Constants.APP_POS))
+        String strPosId = POSManager.getPOSIDFromCookie(request);
+        boolean isValidPOSId = false;
+        
+        if(strPosId != null)
         {
-            String strPosId = POSManager.getPOSIDFromCookie(request);
-            
-            
-            boolean isValidPOSId = false;
-            
-            if(strPosId != null)
+            try
             {
-                try
-                {
-                    int posId = Integer.parseInt(strPosId);
-                    isValidPOSId = POSManager.isPOSTerminalPresent(ctx, posId);
-                }
-                catch(Exception ex)
-                {}
+                int posId = Integer.parseInt(strPosId);
+                isValidPOSId = POSManager.isPOSTerminalPresent(ctx, posId);
             }
-            
-            
-            if(!isValidPOSId)
-            {
-                ArrayList list=POSManager.getAllPOSIDs(ctx);
-                request.getSession().setAttribute(Constants.POSIDS,list);
-                return mapping.findForward(CHOOSEPOS);
-                
-            }
-            else
-            {
-                SessionStorage.putPOSID(ctx,strPosId,request);
-                String currSymboleSales = POSTerminalManager.getPOSDefaultSellCurrency(ctx).getCurSymbol();
-                String currSymbolePurchase=POSTerminalManager.getPOSDefaultPurchaseCurrency(ctx).getCurSymbol();
-                request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE,currSymboleSales);
-                request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE_PURCHASE,currSymbolePurchase);
-                return mapping.findForward(CREATEPOSORDER);
-            }
-            
+            catch(Exception ex)
+            {}
         }
         
-        SessionStorage.putOrg(ctx, request);
-        SessionStorage.putWebstoreUser(ctx, request, info.getUser().getAD_User_ID());
-        
-        return mapping.findForward(SUCCESS);
+        if(!isValidPOSId)
+        {
+            ArrayList list=POSManager.getAllPOSIDs(ctx);
+            request.getSession().setAttribute(Constants.POSIDS,list);
+            return mapping.findForward(CHOOSEPOS);
+            
+        }
+        else
+        {
+            SessionStorage.putPOSID(ctx,strPosId,request);
+            String currSymboleSales = POSTerminalManager.getPOSDefaultSellCurrency(ctx).getCurSymbol();
+            String currSymbolePurchase=POSTerminalManager.getPOSDefaultPurchaseCurrency(ctx).getCurSymbol();
+            request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE,currSymboleSales);
+            request.getSession().setAttribute(Constants.CURRENCY_SYMBOLE_PURCHASE,currSymbolePurchase);
+            return mapping.findForward(CREATEPOSORDER);
+        }
     }
 }
 
