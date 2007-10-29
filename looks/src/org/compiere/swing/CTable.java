@@ -19,11 +19,14 @@ package org.compiere.swing;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+
 import org.compiere.util.*;
+import org.jdesktop.swingx.icon.ColumnControlIcon;
 
 /**
  * Model Independent enhanced JTable.
@@ -49,7 +52,21 @@ public class CTable extends JTable
 		setSurrendersFocusOnKeystroke(true);
 		//Default row height too narrow
 		setRowHeight(getFont().getSize() + 8);
+		
+		setColumnControlVisible(true);
+		addHierarchyListener(createHierarchyListener());
 	}	//	CTable
+
+	private HierarchyListener createHierarchyListener() {
+		return new HierarchyListener() {
+
+			public void hierarchyChanged(HierarchyEvent e) {
+				if (e.getChangeFlags() == HierarchyEvent.PARENT_CHANGED)
+					configureColumnControl();
+			}
+			
+		};
+	}
 
 	/** Last model index sorted */
 	protected int         		p_lastSortIndex = -1;
@@ -68,7 +85,28 @@ public class CTable extends JTable
 	/**	Logger			*/
 	private static Logger log = Logger.getLogger(CTable.class.getName());
 
-
+	/**
+     * ScrollPane's original vertical scroll policy. If the column control is
+     * visible the policy is set to ALWAYS.
+     */
+    private int verticalScrollPolicy;
+	
+    /**
+     * Flag to indicate if the column control is visible.
+     */
+    private boolean columnControlVisible = false;
+    
+    /**
+     * The component used a column control in the upper trailing corner of 
+     * an enclosing <code>JScrollPane</code>.
+     */
+    private JComponent columnControlButton;
+    
+    private List<TableColumn> hiddenColumns = new ArrayList<TableColumn>();
+    
+    private Map<TableColumn, ColumnAttributes> columnAttributesMap
+    	= new HashMap<TableColumn, ColumnAttributes>();
+    
 	/**
 	 * 	Set Model index of Key Column.
 	 *  Used for identifying previous selected row after fort complete to set as selected row.
@@ -153,7 +191,7 @@ public class CTable extends JTable
 					|| column.getMaxWidth() == 0
 					|| column.getIdentifier().toString().length() == 0))
 				continue;
-
+			
 			int width = 0;
 			//	Header
 			TableCellRenderer renderer = column.getHeaderRenderer();
@@ -179,8 +217,11 @@ public class CTable extends JTable
 						renderer = getCellRenderer(row, col);
 						comp = renderer.getTableCellRendererComponent
 							(this, getValueAt(row, col), false, false, row, col);
-						int rowWidth = comp.getPreferredSize().width;
-						width = Math.max(width, rowWidth);
+						if (comp != null) 
+						{
+							int rowWidth = comp.getPreferredSize().width;
+							width = Math.max(width, rowWidth);
+						}
 					}
 				}
 				catch (Exception e)
@@ -194,6 +235,51 @@ public class CTable extends JTable
 			column.setPreferredWidth(width);
 		}	//	for all columns
 	}	//	autoSize
+	
+	public void packColumn(TableColumn column) 
+	{
+		int width = 0;
+		//	Header
+		TableCellRenderer renderer = column.getHeaderRenderer();
+		if (renderer == null)
+			renderer = new DefaultTableCellRenderer();
+		Component comp = null;
+		if (renderer != null)
+			comp = renderer.getTableCellRendererComponent
+				(this, column.getHeaderValue(), false, false, 0, 0);
+		//
+		if (comp != null)
+		{
+			width = comp.getPreferredSize().width;
+			width = Math.max(width, comp.getWidth());
+
+			//	Cells
+			int col = column.getModelIndex();
+			int maxRow = Math.min(20, getRowCount());
+			try
+			{
+				for (int row = 0; row < maxRow; row++)
+				{
+					renderer = getCellRenderer(row, col);
+					comp = renderer.getTableCellRendererComponent
+						(this, getValueAt(row, col), false, false, row, col);
+					if (comp != null) 
+					{
+						int rowWidth = comp.getPreferredSize().width;
+						width = Math.max(width, rowWidth);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, column.getIdentifier().toString(), e);
+			}
+			//	Width not greater than 250
+			width = Math.min(MAXSIZE, width + SLACK);
+		}
+		//
+		column.setPreferredWidth(width);
+	}
 
 	
 	/**
@@ -208,7 +294,7 @@ public class CTable extends JTable
 			return;
 		
 		sorting = true;
-		
+
 		//  other column
 		if (modelColumnIndex != p_lastSortIndex)
 			p_asc = true;
@@ -328,6 +414,8 @@ public class CTable extends JTable
 	 */
 	class CTableMouseListener extends MouseAdapter
 	{
+		private TableColumn cachedResizingColumn = null;
+
 		/**
 		 *  Constructor
 		 */
@@ -342,14 +430,60 @@ public class CTable extends JTable
 		 */
 		public void mouseClicked (MouseEvent e)
 		{
-			int vc = getColumnModel().getColumnIndexAtX(e.getX());
-		//	log.info( "Sort " + vc + "=" + getColumnModel().getColumn(vc).getHeaderValue());
-			int mc = convertColumnIndexToModel(vc);
-			sort(mc);
+			if (isInResizeRegion(e))
+			{
+				if (e.getClickCount() == 2)
+					packColumn(cachedResizingColumn);
+				uncacheResizingColumn();
+			}
+			else
+			{
+				int vc = getColumnModel().getColumnIndexAtX(e.getX());
+			//	log.info( "Sort " + vc + "=" + getColumnModel().getColumn(vc).getHeaderValue());
+				int mc = convertColumnIndexToModel(vc);
+				TableColumn column = getTableHeader().getResizingColumn();
+				if (column != null) return;
+				sort(mc);
+			}
 		}
+		
+		public void mouseReleased(MouseEvent e) {
+            cacheResizingColumn(e);
+        }
+
+        public void mousePressed(MouseEvent e) {
+            cacheResizingColumn(e);
+        }
+
+        private void cacheResizingColumn(MouseEvent e) {
+            TableColumn column = getTableHeader().getResizingColumn();
+            if (column != null) {
+                cachedResizingColumn  = column;
+            }
+        }
+
+        private void uncacheResizingColumn() {
+            cachedResizingColumn = null;
+        }
+
+        private boolean isInResizeRegion(MouseEvent e) {
+            return cachedResizingColumn != null; // inResize;
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+            uncacheResizingColumn();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            uncacheResizingColumn();
+        }
+
 	}	//  CTableMouseListener
 
-
+	
 	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
@@ -369,6 +503,194 @@ public class CTable extends JTable
 	 */
 	public boolean isSortAscending() {
 		return p_asc;
+	}
+	
+	/**
+     * Returns the column control visible property.
+     * <p>
+     * 
+     * @return boolean to indicate whether the column control is visible.
+     * @see #setColumnControlVisible(boolean)
+     * @see #setColumnControl(JComponent)
+     */
+    public boolean isColumnControlVisible() {
+        return columnControlVisible;
+    }
+
+    /**
+     * Sets the column control visible property. If true and
+     * <code>JXTable</code> is contained in a <code>JScrollPane</code>, the
+     * table adds the column control to the trailing corner of the scroll pane.
+     * <p>
+     * 
+     * Note: if the table is not inside a <code>JScrollPane</code> the column
+     * control is not shown even if this returns true. In this case it's the
+     * responsibility of the client code to actually show it.
+     * <p>
+     * 
+     * The default value is <code>false</code>.
+     * 
+     * @param visible boolean to indicate if the column control should be shown
+     * @see #isColumnControlVisible()
+     * @see #setColumnControl(JComponent)
+     * 
+     */
+    public void setColumnControlVisible(boolean visible) {
+        boolean old = isColumnControlVisible();
+        this.columnControlVisible = visible;
+        if (old != isColumnControlVisible()) {
+            configureColumnControl();
+            firePropertyChange("columnControlVisible", old, !old);
+        }
+    }
+    
+    /**
+     * Returns the component used as column control. Lazily creates the 
+     * control to the default if it is <code>null</code>.
+     * 
+     * @return component for column control, guaranteed to be != null.
+     * @see #setColumnControl(JComponent)
+     * @see #createDefaultColumnControl()
+     */
+    public JComponent getColumnControl() {
+        if (columnControlButton == null) {
+            columnControlButton = createDefaultColumnControl();
+        }
+        return columnControlButton;
+    }
+    
+    /**
+     * Creates the default column control used by this table.
+     * This implementation returns a <code>ColumnControlButton</code> configured
+     * with default <code>ColumnControlIcon</code>.
+     *   
+     * @return the default component used as column control.
+     * @see #setColumnControl(JComponent)
+     * @see org.jdesktop.swingx.table.ColumnControlButton
+     * @see org.jdesktop.swingx.icon.ColumnControlIcon
+     */
+    protected JComponent createDefaultColumnControl() {
+        return new CColumnControlButton(this, new ColumnControlIcon());
+    }
+    
+	/**
+     * Configures the upper trailing corner of an enclosing 
+     * <code>JScrollPane</code>.
+     * 
+     * Adds/removes the <code>ColumnControl</code> depending on the 
+     * <code>columnControlVisible</code> property.<p>
+     * 
+     * @see #setColumnControlVisible(boolean)
+     * @see #setColumnControl(JComponent)
+     */
+    protected void configureColumnControl() {
+        Container p = getParent();
+        if (p instanceof JViewport) {
+            Container gp = p.getParent();
+            if (gp instanceof JScrollPane) {
+                JScrollPane scrollPane = (JScrollPane) gp;
+                // Make certain we are the viewPort's view and not, for
+                // example, the rowHeaderView of the scrollPane -
+                // an implementor of fixed columns might do this.
+                JViewport viewport = scrollPane.getViewport();
+                if (viewport == null || viewport.getView() != this) {
+                    return;
+                }
+                if (isColumnControlVisible()) {
+                    verticalScrollPolicy = scrollPane
+                            .getVerticalScrollBarPolicy();
+                    scrollPane.setCorner(JScrollPane.UPPER_TRAILING_CORNER,
+                            getColumnControl());
+
+                    scrollPane
+                            .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                } else {
+                    if (verticalScrollPolicy != 0) {
+                        // Fix #155-swingx: reset only if we had force always before
+                        // PENDING: JW - doesn't cope with dynamically changing the policy
+                        // shouldn't be much of a problem because doesn't happen too often?? 
+                        scrollPane.setVerticalScrollBarPolicy(verticalScrollPolicy);
+                    }
+                    try {
+                        scrollPane.setCorner(JScrollPane.UPPER_TRAILING_CORNER,
+                                null);
+                    } catch (Exception ex) {
+                        // Ignore spurious exception thrown by JScrollPane. This
+                        // is a Swing bug!
+                    }
+
+                }
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param column
+     * @return boolean
+     */
+	public boolean isColumnVisible(TableColumn column) 
+	{
+		return !hiddenColumns.contains(column);
+	}
+	
+	/**
+	 * Hide or show column
+	 * @param column
+	 * @param visible
+	 */
+	public void setColumnVisibility(TableColumn column, boolean visible) 
+	{
+		if (visible)
+		{
+			if (isColumnVisible(column)) return;
+			ColumnAttributes attributes = columnAttributesMap.get(column);
+			if (attributes == null) return;
+			
+			column.setCellEditor(attributes.cellEditor);
+			column.setCellRenderer(attributes.cellRenderer);
+			column.setMinWidth(attributes.minWidth);
+			column.setMaxWidth(attributes.maxWidth);
+			column.setPreferredWidth(attributes.preferredWidth);
+			columnAttributesMap.remove(column);
+			hiddenColumns.remove(column);
+		}
+		else 
+		{
+			if (!isColumnVisible(column)) return;
+			
+			ColumnAttributes attributes = new ColumnAttributes();
+			attributes.cellEditor = column.getCellEditor();
+			attributes.cellRenderer = column.getCellRenderer();
+			attributes.minWidth = column.getMinWidth();
+			attributes.maxWidth = column.getMaxWidth();
+			attributes.preferredWidth = column.getPreferredWidth();
+			columnAttributesMap.put(column, attributes);
+			
+			TableCellNone h = new TableCellNone(column.getIdentifier() != null ?
+        			column.getIdentifier().toString() : column.getHeaderValue().toString());
+        	column.setCellEditor(h);
+        	column.setCellRenderer(h);
+        	column.setMinWidth(0);
+        	column.setMaxWidth(0);            	
+        	column.setPreferredWidth(0);
+        	
+        	hiddenColumns.add(column);
+		}
+	}
+	
+	class ColumnAttributes {
+		protected TableCellEditor cellEditor;
+
+    	protected TableCellRenderer cellRenderer;
+
+		protected Object headerValue;
+
+		protected int minWidth;
+
+		protected int maxWidth;
+
+		protected int preferredWidth;
 	}
 
 }	//	CTable
