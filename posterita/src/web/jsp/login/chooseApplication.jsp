@@ -73,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<tr>
 				<td>
 					<font class="title">
-						Posterita Applications
+						Posterita POS Applications
 					</font>
 				</td>
 				
@@ -97,57 +97,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<tr>
 				<td class="main">
-				<table align="center">
+				<table align="center" width="100%">
 				<tr>
-				<td width="400px">
+				<td>
 					<Fieldset>
 					<legend><font class="title">POS</font></legend>
 					<table width="100%" border="0" class="display">
 						<logic:present name="<%=Constants.WEB_APPLICATIONS%>">
-							<logic:iterate id="app" name="<%=Constants.WEB_APPLICATIONS%>" indexId="count">
-								<logic:equal name="app" property="applicationType" value="<%= Constants.APP_POS%>">
+							<logic:iterate id="store" name="<%=Constants.WEB_APPLICATIONS%>" indexId="count">
 								<tr>
 									<td class="submenu">
 									<li class="submenu">
-										<html:link href="SetApplicationParametersAction.do?action=setApplicationParameters" paramName="app" paramId="applicationName" paramProperty="applicationWebContext" styleClass="submenu">
-											<bean:write name="app" property="applicationName"/>
+										<html:link href="SetApplicationParametersAction.do?action=setApplicationParameters" paramName="store" paramId="storeId" paramProperty="storeId" styleClass="submenu">
+											<bean:write name="store" property="applicationName"/>
 										</html:link>
 									</li>
 									</td>
 								</tr>
-									
-								</logic:equal>
 							</logic:iterate>
 						</logic:present>
 					</table>
 					</Fieldset>
 				</td>
-				<td width="400px"  valign="top">
-					<fieldset>
-					<legend><font class="title">Webstore</font></legend>
-					<table width="100%" border="0" class="display">
-							<logic:present name="<%=Constants.WEB_APPLICATIONS%>">
-								<logic:iterate id="app" name="<%=Constants.WEB_APPLICATIONS%>">
-									<logic:equal name="app" property="applicationType" value="<%= Constants.APP_WEBSTORE%>">
-										<tr>
-											<td>
-											<li class="submenu">
-												<html:link href="SetApplicationParametersAction.do?action=setApplicationParameters" paramName="app" paramId="applicationName" paramProperty="applicationWebContext" styleClass="submenu">
-													<bean:write name="app" property="applicationName"/>
-												</html:link>
-											</li>
-											</td>
-										</tr>
-									</logic:equal>
-								</logic:iterate>
-							</logic:present>
-						</table>
-						</fieldset>
-					</td>
-					
-					</tr>
-					</table>
-					</td>
+				</tr>
+				</table>
+				</td>
 			</tr>
 		</table>
 		

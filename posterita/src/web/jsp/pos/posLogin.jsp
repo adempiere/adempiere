@@ -75,7 +75,7 @@ String appName = (String) request.getSession().getServletContext().getAttribute(
 				<table>
 				<tr>
 					<td colspan="2">
-						<%@ include file="/jsp/include/errors.jsp" %>
+						<%@ include file="/jsp/include/errors.jsp"%>
 					</td>
 				</tr>
 				<tr>
