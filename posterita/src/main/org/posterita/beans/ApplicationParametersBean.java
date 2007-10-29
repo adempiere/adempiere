@@ -42,13 +42,13 @@ public class ApplicationParametersBean extends UDIBean
 		this.applicationWebContext = applicationWebContext;
 	}
 
-	public String getApplicationType()
+	public Integer getStoreId() 
 	{
-		return applicationType;
+		return storeId;
 	}
 
-	public void setApplicationType(String applicationType)
+	public void setStoreId(Integer storeId) 
 	{
-		this.applicationType = applicationType;
+		this.storeId = storeId;
 	}
 }

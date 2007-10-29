@@ -452,6 +452,7 @@ public class UDIBean
     protected String fieldName;
     protected String applicationName;
     protected String applicationWebContext;
+    protected Integer storeId;
     protected Boolean isWebstoreFeatured;
 	protected String brandName;
 	protected String designName;
@@ -662,7 +663,7 @@ public class UDIBean
     protected String paymentNo;
     protected BigDecimal taxedAmt;
     protected String trxDate;
-    
+	
     protected Integer creditMemoId;
     protected String creditMemoNumber;
     
@@ -699,6 +700,7 @@ public class UDIBean
 	 protected Integer [] inventoryIds;
 	 protected String historyType;
    
+	 protected String accountingValues;
     
 	public Boolean getIsActive() 
 	{
@@ -708,6 +710,7 @@ public class UDIBean
 	{
 		this.isActive = isActive;
 	}
+	
 }
 
     
