@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import org.compiere.model.MRole;
+import org.compiere.model.MRoleMenu;
 import org.compiere.model.MRoleOrgAccess;
-import org.compiere.model.MUser;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -41,10 +41,9 @@ import org.posterita.exceptions.OperationException;
 import org.posterita.exceptions.RoleAlreadyExistsException;
 import org.posterita.exceptions.SystemException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MRoleMenu;
 import org.posterita.model.UDIMRole;
-import org.posterita.model.UDIU_Menu;
-import org.posterita.model.UDIU_RoleMenu;
+import org.posterita.model.U_RoleMenu;
+import org.posterita.model.U_WebMenu;
 
 
 public class RoleManager
@@ -331,10 +330,10 @@ public class RoleManager
        
     }
     
-    private static boolean hasMenu(int menuId, ArrayList<UDIU_Menu> menus)
+    private static boolean hasMenu(int menuId, ArrayList<U_WebMenu> menus)
     {
     	boolean menuAvailable = false;
-    	for(UDIU_Menu udiMenu : menus)
+    	for(U_WebMenu udiMenu : menus)
     	{
     		if(udiMenu.getMenuId() == menuId)
     		{
@@ -345,7 +344,7 @@ public class RoleManager
     	return menuAvailable;
     }
     
-    private static void setRoleMenus(MenuItem menuItem, ArrayList<UDIU_Menu> menus)
+    private static void setRoleMenus(MenuItem menuItem, ArrayList<U_WebMenu> menus)
     {
     	ArrayList<MenuItem> children = menuItem.getAllChildren();
     	for(MenuItem mItem : children)
@@ -362,9 +361,9 @@ public class RoleManager
     
     public static MenuItem getAvailableMenus(Properties ctx, int roleId) throws SystemException, OperationException
     {
-    	ArrayList<UDIU_Menu> roleMenus = MenuManager.getMenus(ctx, roleId);
+    	ArrayList<U_WebMenu> roleMenus = MenuManager.getMenus(ctx, roleId);
     	
-    	ArrayList<UDIU_Menu> appMenus = MenuManager.getMenusForOrganisationType(ctx);
+    	ArrayList<U_WebMenu> appMenus = MenuManager.getMenusForOrganisationType(ctx);
 		MenuItem rootItem = MenuManager.buildMenuTree(ctx, appMenus);
     	
     	setRoleMenus(rootItem, roleMenus);
@@ -407,7 +406,7 @@ public class RoleManager
 			MRoleMenu roleMenu = new MRoleMenu(ctx, 0, trxName);
 			roleMenu.setAD_Role_ID(role.get_ID());
 			roleMenu.setU_WebMenu_ID(menuId[i]);
-			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
+			U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
 		
@@ -418,7 +417,7 @@ public class RoleManager
 			MRoleMenu roleMenu = new MRoleMenu(ctx, 0, trxName);
 			roleMenu.setAD_Role_ID(role.get_ID());
 			roleMenu.setU_WebMenu_ID(defMenuIds[i]);
-			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
+			U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
     }

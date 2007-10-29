@@ -23,11 +23,10 @@ package org.posterita.businesslogic;
 
 import java.util.Properties;
 
-import org.compiere.model.X_U_Menu;
-
+import org.compiere.model.MRoleMenu;
+import org.compiere.model.X_U_WebMenu;
 import org.posterita.exceptions.OperationException;
-import org.posterita.model.MRoleMenu;
-import org.posterita.model.UDIU_RoleMenu;
+import org.posterita.model.U_RoleMenu;
 
 
 public class RoleMenuManager
@@ -37,7 +36,7 @@ public class RoleMenuManager
 	{		
 		MRoleMenu roleMenu;
 		
-		X_U_Menu menu = new X_U_Menu(ctx, menuId, null);
+		X_U_WebMenu menu = new X_U_WebMenu(ctx, menuId, null);
 		
 		int parentMenuId = menu.getParentMenu_ID();
 		
@@ -53,7 +52,7 @@ public class RoleMenuManager
 		roleMenu.setAD_Role_ID(roleId);
 		roleMenu.setU_WebMenu_ID(menuId);
 		
-		UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
+		U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 		udiRoleMenu.save();
 		
 		return roleMenu;

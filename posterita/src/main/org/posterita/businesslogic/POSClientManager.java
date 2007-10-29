@@ -24,6 +24,10 @@
 
 package org.posterita.businesslogic;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Properties;
@@ -43,12 +47,14 @@ import org.compiere.model.MPOS;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MRole;
+import org.compiere.model.MRoleMenu;
 import org.compiere.model.MStore;
 import org.compiere.model.MTaxCategory;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.util.Env;
-
+import org.posterita.core.FileManager;
+import org.posterita.core.bean.ClientBean;
 import org.posterita.exceptions.ClientAlreadyExistException;
 import org.posterita.exceptions.OperationException;
 import org.posterita.factory.GenericProductAttributeFactory;
@@ -58,7 +64,6 @@ import org.posterita.factory.POSMenuFactory;
 import org.posterita.factory.SystemObjectsFactory;
 import org.posterita.lib.UdiConstants;
 import org.posterita.model.MBank;
-import org.posterita.model.MRoleMenu;
 import org.posterita.model.UDIMBank;
 import org.posterita.model.UDIMBankAccount;
 import org.posterita.model.UDIMLocator;
@@ -67,9 +72,8 @@ import org.posterita.model.UDIMPriceListVersion;
 import org.posterita.model.UDIMStore;
 import org.posterita.model.UDIMUser;
 import org.posterita.model.UDIMWarehouse;
-import org.posterita.model.UDIU_Menu;
-import org.posterita.model.UDIU_RoleMenu;
-import org.posterita.core.bean.ClientBean;
+import org.posterita.model.U_RoleMenu;
+import org.posterita.model.U_WebMenu;
 
 public class POSClientManager extends ClientManager
 {
@@ -257,11 +261,11 @@ public class POSClientManager extends ClientManager
 		while(keyIter.hasNext())
 		{
 			String key = (String)keyIter.next();
-			UDIU_Menu udiMenu = (UDIU_Menu)posMFactory.get(nCtx, key);
+			U_WebMenu udiMenu = (U_WebMenu)posMFactory.get(nCtx, key);
 			MRoleMenu roleMenu = new MRoleMenu(ctx, 0, trxName);
 			roleMenu.setAD_Role_ID(role.get_ID());
 			roleMenu.setU_WebMenu_ID(udiMenu.getID());
-			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
+			U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
 		
@@ -283,15 +287,13 @@ public class POSClientManager extends ClientManager
 		int storeId = StoreManager.getStoreIdByName(ctx, storeName, null);
 		
 		MStore store = new MStore(ctx, storeId, null);
-		String storeContext = store.getWebContext();
-		storeContext = storeContext.replace("/", "");
 		int pricelistId = store.getM_PriceList_ID();
 		
 		Env.setContext(ctx, UdiConstants.PRICELIST_CTX_PARAM, String.valueOf(pricelistId));
 		
 		Env.setContext(ctx, UdiConstants.POS_PURCHASE_PL_VERSION, PriceListManager.getPriceListVersionID(ctx, pricelistId, null));
 		
-		ApplicationManager.setApplicationParametersInContext(ctx, storeContext);
+		ApplicationManager.setApplicationParametersInContext(ctx, storeId);
 		return ctx; 
 	}
 	
@@ -311,8 +313,38 @@ public class POSClientManager extends ClientManager
 			throw new OperationException("Could not load currency with id: " + clientBean.getCurrencyId());
 		
 		String hostUrl = "http://www." + clientBean.getClientName() + ".com/";
+		File file = null;
+		FileOutputStream fos = null;
 		
-		ClientManager.getCreateClient(ctx, clientBean.getClientName(), clientBean.getOrgName(), clientBean.getCurrencyId(), currency.getDescription(), clientBean.getCountryId(), clientBean.getCity(), clientBean.getAddress1(), clientBean.getPostalAddress(), "");
+		try 
+		{
+			file = File.createTempFile("accounting_" + System.currentTimeMillis(), ".csv");
+			FileManager.write(clientBean.getFile().getInputStream(), file.getAbsolutePath());
+		} 
+		catch (FileNotFoundException e)
+        {
+            
+            e.printStackTrace();
+        } 
+        catch (IOException e) 
+        {
+            
+            e.printStackTrace();
+        }
+        finally
+        {
+        	if (fos != null)
+        	{
+        		try
+        		{
+        			fos.close();
+        		}
+        		catch(Exception ex)
+        		{}
+        	}
+        }
+		
+		ClientManager.getCreateClient(ctx, clientBean.getClientName(), clientBean.getOrgName(), clientBean.getCurrencyId(), currency.getDescription(), clientBean.getCountryId(), clientBean.getCity(), clientBean.getAddress1(), clientBean.getPostalAddress(), "", file);
 		ctx = ClientManager.getCtx(ctx, clientBean.getClientName(), clientBean.getOrgName());
 		POSClientManager.createPOSDetails(ctx, clientBean.getCurrencyId(), currency.getDescription(), hostUrl, null);
 		
