@@ -72,24 +72,7 @@ public class BaseDispatchAction extends DispatchAction
         
         if (webSessionCtx == null) // Session Timeout
         {
-        	try
-        	{
-        		ApplicationManager.changeApplication(request, response);
-        		
-        		Properties ctx = TmkJSPEnv.getCtx(request);
-        		String forward = Env.getContext(ctx, UdiConstants.WEBPARAM6);
-        		
-        		return mapping.findForward(forward);
-        	}
-        	catch(DefaultStoreException ex)
-        	{
-        		postGlobalError("error.store.default", ex.getMessage(), request);
-        		return mapping.findForward(CHOOSE_APPLICATION);
-        	}
-        	catch(Exception ex)
-        	{
-        		return mapping.findForward(APPLICATION_ERROR);
-        	}
+       		return mapping.findForward(CHOOSE_APPLICATION);
         }
         else
             return null;

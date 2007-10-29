@@ -245,7 +245,7 @@ public class BaseForm extends ActionForm
             
             try
             {
-                ActionErrors currErrors = populateProperty(vo,currKey, currValue, mode, valueMap);
+            	ActionErrors currErrors = populateProperty(vo,currKey, currValue, mode, valueMap);
                 errors.add(currErrors);
                 
             }
@@ -950,7 +950,7 @@ public class BaseForm extends ActionForm
         keysToSkip.add("bean");
         keysToSkip.add("properties");
         keysToSkip.add("checkBoxLists");
-        keysToSkip.add("file");
+//        keysToSkip.add("file");
         keysToSkip.add("minValue");
         keysToSkip.add("maxValue");
 

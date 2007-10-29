@@ -354,6 +354,7 @@ public class DefaultForm extends BaseForm
     
     protected String fieldName;
     protected String applicationName;
+    protected String storeId;
     protected String isWebstoreFeatured="false";
     protected String isNotWebstoreFeatured;
     protected String imageName;
@@ -553,8 +554,6 @@ public class DefaultForm extends BaseForm
     protected String birthdate;
     protected String openDrawer="true";
     
-    
-
     public String getHistoryType()
 	{
 		return historyType;
@@ -4666,6 +4665,17 @@ public String getUserDiscount() {
 	public void setOpenDrawer(String openDrawer) {
 		this.openDrawer = openDrawer;
 	}
+
+
+	public String getStoreId() {
+		return storeId;
+	}
+
+
+	public void setStoreId(String storeId) {
+		this.storeId = storeId;
+	}
+
 
 }
 
