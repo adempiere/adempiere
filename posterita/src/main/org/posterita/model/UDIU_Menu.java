@@ -19,13 +19,13 @@
  */
 package org.posterita.model;
 
-import org.compiere.model.X_U_Menu;
+import org.compiere.model.X_U_WebMenu;
 import org.posterita.exceptions.OperationException;
 
 
 public class UDIU_Menu extends UDIPO
 {
-    public UDIU_Menu(X_U_Menu menu)
+    public UDIU_Menu(X_U_WebMenu menu)
     {
         super(menu);
     }
@@ -35,9 +35,9 @@ public class UDIU_Menu extends UDIPO
 		return getMenu().getImageLink();
 	}
 
-    public X_U_Menu getMenu()
+    public X_U_WebMenu getMenu()
     {
-        return (X_U_Menu) getPO();
+        return (X_U_WebMenu) getPO();
     }
 
 	public int getMenuId()

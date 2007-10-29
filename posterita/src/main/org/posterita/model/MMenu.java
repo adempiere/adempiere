@@ -27,9 +27,9 @@ package org.posterita.model;
 
 import java.util.Properties;
 
-import org.compiere.model.X_U_Menu;
+import org.compiere.model.X_U_WebMenu;
 
-public class MMenu extends X_U_Menu
+public class MMenu extends X_U_WebMenu
 {
 
 	/**

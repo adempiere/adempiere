@@ -50,13 +50,16 @@ public class UdiConstants
     public static final String CSS = "webParam5";
     public static final String FORWARD = "webParam6";
     public static final String MODULE_NAME_CTX_PARAM = "#ModuleName";
-    public static final String WEBPARAM6 = "webParam6";
+    //public static final String WEBPARAM6 = "webParam6";
     public static final String PRICELIST_CTX_PARAM = "#M_PriceList_ID";
     public static final String PRICELIST_VERSION_CTX_PARAM = "#M_Pricelist_Version_ID";
     public static final String PRODUCT_CATEGORY_CTX_PARAM = "#M_Product_Category_ID";
     public static final String USER_ID_CTX_PARAM = "#AD_User_ID";
     public static final String USER_ORG_CTX_PARAM = "#User_Org";
     public static final String LANGUAGE_CTX_PARAM = "#AD_Language";
+    public static final String WSTORE_CTX_PARAM = "#W_Store_ID";
+    
+    public static final String DEFAULT_FORWARD = "pos";
     
     public static final String WEBSTORE_DEFAULT_AD_ORG_ID_CTX_PARAM = "#AD_Org_ID_WebStoreDefault";
     

@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 import org.posterita.businesslogic.MenuManager;
 import org.posterita.exceptions.OperationException;
 import org.posterita.model.UDIMRole;
-import org.posterita.model.UDIU_RoleMenu;
+import org.posterita.model.U_RoleMenu;
 
 
 public class MenuGenerator
@@ -45,7 +45,7 @@ public class MenuGenerator
 			
 			roleMenu.setAD_Role_ID(roleId);
 			roleMenu.setU_WebMenu_ID(menuIds[i]);
-			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
+			U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
 	}
@@ -58,7 +58,7 @@ public class MenuGenerator
 		int adClientId = Env.getAD_Client_ID(ctx);
 		int adOrgId = Env.getAD_Org_ID(ctx);
 		
-		sqlWhereClause += "AD_CLIENT_ID=" + adClientId + " and AD_ORG_ID=" + adOrgId + " and U_MENU_ID=" + menuId + " and AD_ROLE_ID=" + roleId;
+		sqlWhereClause += "AD_CLIENT_ID=" + adClientId + " and AD_ORG_ID=" + adOrgId + " and U_WEBMENU_ID=" + menuId + " and AD_ROLE_ID=" + roleId;
 		int ids[] = X_U_RoleMenu.getAllIDs(X_U_RoleMenu.Table_Name, sqlWhereClause, null);
 		
 		if(ids.length == 0)
@@ -86,7 +86,7 @@ public class MenuGenerator
 			
 			roleMenu.setAD_Role_ID(roleId);
 			roleMenu.setU_WebMenu_ID(menuIds[i]);
-			UDIU_RoleMenu udiRoleMenu = new UDIU_RoleMenu(roleMenu);
+			U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 			udiRoleMenu.save(); 
 		}
     }

@@ -29,14 +29,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 import org.compiere.model.PO;
-import org.compiere.model.X_U_Menu;
+import org.compiere.model.X_U_WebMenu;
 import org.compiere.util.Env;
-import org.posterita.Constants;
 import org.posterita.businesslogic.MenuManager;
 import org.posterita.exceptions.OperationException;
 import org.posterita.lib.UdiConstants;
 import org.posterita.model.UDIPO;
-import org.posterita.model.UDIU_Menu;
+import org.posterita.model.U_WebMenu;
 import org.posterita.order.UDIOrderTypes;
 
 public class POSMenuFactory extends AbstractFactory
@@ -170,7 +169,7 @@ public class POSMenuFactory extends AbstractFactory
 	
 	private void loadCashSalesMenu(Properties ctx, AbstractFactory factory) throws OperationException
 	{
-		UDIU_Menu pmenu_sales = MenuManager.createParentMenu(ctx, "pmenu.cash.sales", MODULE_NAME, 1000);
+		U_WebMenu pmenu_sales = MenuManager.createParentMenu(ctx, "pmenu.cash.sales", MODULE_NAME, 1000);
 		pmenu_sales.setPosition(MENU_POSITION_TOP);
 		pmenu_sales.setImageLink("images/pos/buttons/button_order.gif");
 		
@@ -270,7 +269,7 @@ public class POSMenuFactory extends AbstractFactory
 
 	private void loadCreditSalesMenu(Properties ctx, AbstractFactory factory) throws OperationException
 	{
-		UDIU_Menu pmenu_creditsales = MenuManager.createParentMenu(ctx, "pmenu.credit.sales", MODULE_NAME, 2000);
+		U_WebMenu pmenu_creditsales = MenuManager.createParentMenu(ctx, "pmenu.credit.sales", MODULE_NAME, 2000);
 		pmenu_creditsales.setPosition(MENU_POSITION_TOP);
 		pmenu_creditsales.setImageLink("images/pos/buttons/button_order.gif");
 		
@@ -325,7 +324,7 @@ public class POSMenuFactory extends AbstractFactory
 	
 	private void loadPurchasesMenu(Properties ctx, AbstractFactory factory) throws OperationException
 	{
-		UDIU_Menu pmenu_purchases = MenuManager.createParentMenu(ctx, "pmenu.purchases", MODULE_NAME, 3000);
+		U_WebMenu pmenu_purchases = MenuManager.createParentMenu(ctx, "pmenu.purchases", MODULE_NAME, 3000);
 		pmenu_purchases.setPosition(MENU_POSITION_TOP);
 		pmenu_purchases.setImageLink("images/pos/buttons/button_order.gif");
 		
@@ -357,7 +356,7 @@ public class POSMenuFactory extends AbstractFactory
 	
 	private void loadPerformanceAnalysisMenu(Properties ctx, AbstractFactory factory) throws OperationException
 	{
-		UDIU_Menu pmenu_reports = MenuManager.createParentMenu(ctx, "pmenu.performance.analysis", MODULE_NAME, 4000);
+		U_WebMenu pmenu_reports = MenuManager.createParentMenu(ctx, "pmenu.performance.analysis", MODULE_NAME, 4000);
 		pmenu_reports.setPosition(MENU_POSITION_TOP);
 		pmenu_reports.setImageLink("images/pos/buttons/button_reports.gif");
 		
@@ -396,7 +395,7 @@ public class POSMenuFactory extends AbstractFactory
 	
 	private void loadStockMenu(Properties ctx, AbstractFactory factory) throws OperationException
 	{
-		UDIU_Menu pmenu_stock = MenuManager.createParentMenu(ctx, "pmenu.stock", MODULE_NAME, 5000);
+		U_WebMenu pmenu_stock = MenuManager.createParentMenu(ctx, "pmenu.stock", MODULE_NAME, 5000);
 		pmenu_stock.setPosition(MENU_POSITION_TOP);
 		pmenu_stock.setImageLink("images/pos/buttons/button_order.gif");
 		
@@ -445,7 +444,7 @@ public class POSMenuFactory extends AbstractFactory
 	
 	private void loadAdministrationMenu(Properties ctx, AbstractFactory factory) throws OperationException
 	{
-		UDIU_Menu pmenu_administration = MenuManager.createParentMenu(ctx, "pmenu.administration", MODULE_NAME, 6000);
+		U_WebMenu pmenu_administration = MenuManager.createParentMenu(ctx, "pmenu.administration", MODULE_NAME, 6000);
 		pmenu_administration.setPosition(MENU_POSITION_TOP);
 		pmenu_administration.setImageLink("images/pos/buttons/button_administration.gif");
 		
@@ -551,8 +550,8 @@ public class POSMenuFactory extends AbstractFactory
 	
 	protected void setFields(Properties ctx, PO fromPO, PO toPO) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
 	{
-		X_U_Menu fromUMenu = (X_U_Menu)fromPO;
-		X_U_Menu toUMenu = (X_U_Menu)toPO;
+		X_U_WebMenu fromUMenu = (X_U_WebMenu)fromPO;
+		X_U_WebMenu toUMenu = (X_U_WebMenu)toPO;
 		
 		toUMenu.setMenuLink(fromUMenu.getMenuLink());
 		toUMenu.setName(fromUMenu.getName());

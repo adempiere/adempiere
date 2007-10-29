@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import org.compiere.model.X_U_Menu;
+import org.compiere.model.X_U_WebMenu;
 import org.compiere.util.Env;
 
 import org.posterita.core.KeyNamePairUtil;
@@ -41,7 +41,7 @@ public class MenuKeyNamePair extends KeyNamePairUtil
 	 	    //+ " and isClosable= 'Y' ";
 	        try 
 	        {
-	            return getData(ctx, X_U_Menu.Table_Name,sql);
+	            return getData(ctx, X_U_WebMenu.Table_Name,sql);
 	        } 
 	        catch (SQLException e) 
 	        {
