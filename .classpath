@@ -75,6 +75,6 @@
 	<classpathentry excluding="org/compiere/utils/DigestOfFile.java" kind="src" path="JasperReportsWebApp/src"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-1.3.0.jar"/>
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
-	<classpathentry kind="lib" path="tools/lib/swinglabs-0.8.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
