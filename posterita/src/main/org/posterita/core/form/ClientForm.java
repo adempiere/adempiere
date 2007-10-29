@@ -37,6 +37,6 @@ public class ClientForm extends DefaultForm
 	public ClientForm()
 	{
 		this.setBean(new ClientBean());
-		this.addRequiredFields(new String[]{"clientName", "address1", "countryId", "currencyId", "email", "orgName", "postalAddress", "confirmPassword", "password", "userPIN", "roleName", "username", "city"});
+		this.addRequiredFields(new String[]{"clientName", "address1", "countryId", "currencyId", "email", "orgName", "postalAddress", "confirmPassword", "password", "userPIN", "roleName", "username", "city","file"});
 	}
 }

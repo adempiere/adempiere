@@ -27,6 +27,7 @@
 
 package org.posterita.core.bean;
 
+import org.apache.struts.upload.FormFile;
 import org.posterita.beans.UDIBean;
 
 public class ClientBean extends UDIBean
@@ -160,5 +161,13 @@ public class ClientBean extends UDIBean
 	{
 		this.city = city;
 	}
-
+	
+	public FormFile getFile() 
+	{
+		return file;
+	}
+	public void setFile(FormFile file) 
+	{
+		this.file = file;
+	}
 }
