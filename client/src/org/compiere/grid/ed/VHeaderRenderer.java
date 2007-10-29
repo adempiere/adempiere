@@ -77,7 +77,7 @@ public final class VHeaderRenderer implements TableCellRenderer
 		if (table instanceof CTable)
 		{
 			CTable cTable = (CTable)table;
-			if (cTable.getSortColumn() == column)
+			if (cTable.getSortColumn() == table.convertColumnIndexToModel(column))
 			{
 				icon = cTable.isSortAscending() 
 					? Env.getImageIcon2("uparrow")

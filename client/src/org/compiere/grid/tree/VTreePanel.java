@@ -36,6 +36,8 @@ import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
+import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
 
 /**
  *  Tree Panel displays trees.
@@ -78,8 +80,7 @@ public final class VTreePanel extends CPanel
 		if (!hasBar)
 		{
 			bar.setPreferredSize(new Dimension(0,0));
-			//centerSplitPane.setDividerLocation(0);
-			centerSplitPane.setDividerLocation(1000);
+			centerSplitPane.setDividerLocation(0);
 			centerSplitPane.setDividerSize(0);
 			popMenuTree.remove(mBarAdd);
 		}
@@ -130,7 +131,8 @@ public final class VTreePanel extends CPanel
 				jt.removeAll();
 			toolbarMap = new HashMap<Integer, JToolBar>();
 			Enumeration enTop =m_root.children();
-			JToolBar jt = null;			
+			JToolBar jt = null;	
+			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
 			while (enTop.hasMoreElements())
 			{
 				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
@@ -142,7 +144,7 @@ public final class VTreePanel extends CPanel
 					if (nd.isOnBar()) {
 						if (!labelDrawn) {
 							jt = new JToolBar(JToolBar.VERTICAL);
-							addToBar(ndTop, jt, true);
+							titleMap.put(jt, ndTop.toString().trim());
 							labelDrawn=true;
 							toolbarMap.put(ndTop.getNode_ID(), jt);
 						}
@@ -160,14 +162,14 @@ public final class VTreePanel extends CPanel
 				jt2.setFloatable(false);
 				jt2.setRollover(true);
 				jt2.setBorder(BorderFactory.createEmptyBorder());
-				CPanel barPart = new CPanel();
+				
+				JXTaskPane barPart = new JXTaskPane();
+				barPart.setAnimated(true);
 				barPart.setLayout(new BorderLayout());
 				barPart.add(jt2, BorderLayout.NORTH);
-				barPart.setBorder(new ShadowBorder());
+				barPart.setTitle(titleMap.get(jt2));
+				
 				bar.add(barPart);
-			}
-			if (toolbarMap.size()<=3){
-				bar.setLayout(new GridLayout(0, 1));
 			}
 		}
 		return true;
@@ -188,12 +190,10 @@ public final class VTreePanel extends CPanel
 	private JPopupMenu popMenuBar = new JPopupMenu();
 	private CMenuItem mFrom = new CMenuItem();
 	private CMenuItem mTo = new CMenuItem();
-	private CPanel bar = new CPanel();
+	private JXTaskPaneContainer bar = new JXTaskPaneContainer();
 	private java.util.List<JToolBar> toolbar;
 	private HashMap<Integer, JToolBar> toolbarMap;
 	private int toolBarCols=3;
-	//private int toolBarRows=2;
-	//private JToolBar toolbar = new JToolBar(JToolBar.VERTICAL);
 	private CMenuItem mBarAdd = new CMenuItem();
 	private CMenuItem mBarRemove = new CMenuItem();
 	private BorderLayout southLayout = new BorderLayout();
@@ -251,8 +251,12 @@ public final class VTreePanel extends CPanel
 		treePane.getViewport().add(tree, null);
 		treePane.setBorder(new ShadowBorder());
 		tree.setBorder(BorderFactory.createEmptyBorder());
-//		treePane.setPreferredSize(new Dimension(50,200));
-//		tree.setPreferredSize(new Dimension(100,150));
+		
+		CPanel treePart = new CPanel();
+		treePart.setLayout(new BorderLayout());
+		treePart.add(treePane, BorderLayout.CENTER);
+		treePart.setBorder(BorderFactory.createEmptyBorder());
+		
 		//
 		treeExpand.setText(Msg.getMsg(Env.getCtx(), "ExpandTree"));
 		treeExpand.setActionCommand("Expand");
@@ -269,21 +273,17 @@ public final class VTreePanel extends CPanel
 		southPanel.add(treeExpand, BorderLayout.WEST);
 		southPanel.add(treeSearchLabel, BorderLayout.CENTER);
 		southPanel.add(treeSearch, BorderLayout.EAST);
-		this.add(southPanel, BorderLayout.SOUTH);
+		treePart.add(southPanel, BorderLayout.SOUTH);
 		//
 		centerSplitPane.setOpaque(false);
-		centerSplitPane.add(treePane, JSplitPane.LEFT); //fcsku 3.7.2007 switch menu/favorites
-		centerSplitPane.add(bar, JSplitPane.RIGHT);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.getViewport().add(bar);
+		centerSplitPane.add(scrollPane, JSplitPane.LEFT); //hengsin, jxtaskpane
+		centerSplitPane.add(treePart, JSplitPane.RIGHT);
 		centerSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		removeSplitPaneBorder();
 
 		this.add(centerSplitPane, BorderLayout.CENTER);
-		
-		GridLayout barLayout = new GridLayout(0, toolBarCols);
-		bar.setMinimumSize(new Dimension (50,50));
-		bar.setBorder(new ShadowBorder());
-		bar.setLayout(barLayout);
-
 		
 		//
 		mFrom.setText(Msg.getMsg(Env.getCtx(), "ItemMove"));
@@ -916,17 +916,20 @@ public final class VTreePanel extends CPanel
 				if(ndTop.getNode_ID()==topParentId){
 					log.fine("add new category: " + ndTop);
 					parent = new JToolBar(JToolBar.VERTICAL);
-					addToBar(ndTop, parent, true);
+
 					toolbarMap.put(ndTop.getNode_ID(), parent);
 					toolbar.add(parent);
 					parent.setOpaque(false);
 					parent.setFloatable(false);
 					parent.setRollover(true);
 					parent.setBorder(BorderFactory.createEmptyBorder());
-					CPanel barPart = new CPanel();
+
+					JXTaskPane barPart = new JXTaskPane();
+					barPart.setTitle(ndTop.toString().trim());
+					barPart.setAnimated(true);
 					barPart.setLayout(new BorderLayout());
 					barPart.add(parent, BorderLayout.NORTH);
-					barPart.setBorder(new ShadowBorder());
+
 					bar.add(barPart);
 					return parent;
 				}

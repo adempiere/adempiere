@@ -18,11 +18,14 @@ package org.compiere.grid;
 
 import java.awt.*;
 import java.beans.*;
+
+import javax.swing.Action;
 import javax.swing.table.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
+import org.jdesktop.swingx.action.BoundAction;
 
 /**
  * Table Grid based on CTable.
@@ -36,6 +39,8 @@ import org.compiere.util.*;
 public final class VTable extends CTable 
 	implements PropertyChangeListener
 {
+	private final static String PACK_ALL_COMMAND = CColumnControlButton.COLUMN_CONTROL_MARKER + "packAll";
+	
 	/**
 	 *	Default Constructor
 	 */
@@ -45,7 +50,27 @@ public final class VTable extends CTable
 		setAutoscrolls(true);
 		putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		new VTableExcelAdapter(this); // teo_sarca - FR [ 1753943 ]
+		
+		getActionMap().put(PACK_ALL_COMMAND, createPackAllAction());
 	}	//	VTable
+	
+	
+	private Action createPackAllAction() 
+	{
+		//TODO: localization
+		BoundAction action = new BoundAction("Size All Column", PACK_ALL_COMMAND);
+		action.setLongDescription("Size all column to fit content");
+		action.registerCallback(this, "packAll");
+		return action;
+	}
+	
+	/**
+	 * Size all column to fit content.
+	 */
+	public void packAll() 
+	{
+		autoSize(true);
+	}
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VTable.class);
