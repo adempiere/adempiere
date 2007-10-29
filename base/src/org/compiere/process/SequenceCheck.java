@@ -20,6 +20,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
+import org.compiere.Adempiere;
 import org.compiere.model.*;
 import org.compiere.util.*;
 
@@ -291,4 +292,17 @@ public class SequenceCheck extends SvrProcess
 		
 	}	//	checkClientSequences
 	
+	//add main method, preparing for nightly build
+	public static void main(String[] args) 
+	{
+		Adempiere.startup(false);
+		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		SequenceCheck sc = new SequenceCheck();
+		sc.startProcess(Env.getCtx(), pi, null);
+		
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+	}
 }	//	SequenceCheck

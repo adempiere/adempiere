@@ -16,6 +16,7 @@ package org.compiere.process;
 import java.sql.*;
 import java.util.logging.*;
 
+import org.compiere.Adempiere;
 import org.compiere.model.*;
 import org.compiere.util.*;
 
@@ -26,24 +27,11 @@ import org.compiere.util.*;
  */
 public class SynchronizeTerminology extends SvrProcess
 {
-	/** The Column				*/
-	private int			p_AD_Column_ID = 0;
-
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;			
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		p_AD_Column_ID = getRecord_ID();
 	}	//	prepare
 
 	/**
@@ -768,4 +756,17 @@ public class SynchronizeTerminology extends SvrProcess
 		return "@OK@";
 	}	//	doIt
 
+	//add main method, preparing for nightly build
+	public static void main(String[] args) 
+	{
+		Adempiere.startup(false);
+		ProcessInfo pi = new ProcessInfo("Synchronize Terminology", 172);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		SynchronizeTerminology sc = new SynchronizeTerminology();
+		sc.startProcess(Env.getCtx(), pi, null);
+		
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+	}
 }	//	ColumnSync
