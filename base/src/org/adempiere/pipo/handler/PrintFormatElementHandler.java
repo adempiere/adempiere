@@ -199,7 +199,8 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 				document.startElement("", "", "printformat", atts);
 
 				String sql2 = "SELECT * FROM AD_PrintFormatItem WHERE AD_PrintFormat_ID= "
-						+ m_Printformat.getAD_PrintFormat_ID();
+						+ m_Printformat.getAD_PrintFormat_ID()
+						+ " ORDER BY "+X_AD_PrintFormatItem.COLUMNNAME_SeqNo;
 				PreparedStatement pstmt2 = null;
 				pstmt2 = DB.prepareStatement(sql2, getTrxName(ctx));
 				try {
