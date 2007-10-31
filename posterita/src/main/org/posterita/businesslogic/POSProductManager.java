@@ -17,6 +17,7 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * Created on May 22, 2006 by alok
+ * Contributor: Victor Perez victor.perez@e-evolution.com e-Evolution
  */
 
 
@@ -95,7 +96,12 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-
+/**
+ *  @author alok www.posterita.com 
+ *  @contributor Victor Perez www.e-evolution.com   
+ *  FR [ 1823176 ] http://sourceforge.net/tracker/index.php?func=detail&aid=1823176&group_id=176962&atid=928568  
+ *  @version 
+ */
 public class POSProductManager extends ProductManager
 {
     
@@ -1299,8 +1305,17 @@ public class POSProductManager extends ProductManager
         }//for
     }
 
+    /**************************************************************************
+     * 	get ProductBean
+     *	@param context
+     *	@param barcode
+     *	@param trx name
+     *	@return ProductBean
+     */
 	public static ProductBean getProduct(Properties ctx, String barcode, String trxName) throws OperationException 
 	{
+		String msg = null;
+		
 		if((barcode == null) || (barcode.length() == 0))
 		{
 			throw new InvalidBarcodeException("Invalid Barcode! Barcode is either empty or null.");
@@ -1313,8 +1328,23 @@ public class POSProductManager extends ProductManager
 		
 		if((ids == null) || (ids.length == 0))
 		{
-			throw new ProductNotFoundException("Found no product with barcode: " + barcode);
+			//throw new ProductNotFoundException("Found no product with barcode: " + barcode);
+			msg = "Found no product with barcode: " + barcode;
 		}
+		
+		whereClause = "Value = '" + barcode + "' " +
+		"and AD_CLIENT_ID = " + Env.getAD_Client_ID(ctx);
+		
+		if((ids == null) || (ids.length == 0))
+		{
+			msg = msg + " , Found no product with search key: " + barcode;
+		}
+		
+		if(msg != null)
+		{
+			throw new ProductNotFoundException(msg);			
+		}
+		
 		
 		int productId = ids[0];		
 		ProductBean productDetails = viewPOSProduct(ctx, productId);
