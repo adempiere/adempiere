@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_DunningRunLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:40.156
-     */
-    public interface I_C_DunningRunLine 
+/** Generated Interface for C_DunningRunLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_C_DunningRunLine 
 {
 
     /** TableName=C_DunningRunLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DunningRunEntry_ID();
 
-	public I_C_DunningRunEntry getI_C_DunningRunEntry() throws Exception;
+	public I_C_DunningRunEntry getC_DunningRunEntry() throws Exception;
 
     /** Column name C_DunningRunLine_ID */
     public static final String COLUMNNAME_C_DunningRunLine_ID = "C_DunningRunLine_ID";
@@ -98,6 +96,21 @@ import org.compiere.util.*;
 	  * Dunning Run Line
 	  */
 	public int getC_DunningRunLine_ID();
+
+    /** Column name C_InvoicePaySchedule_ID */
+    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
+
+	/** Set Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
+
+	/** Get Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID();
+
+	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws Exception;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";

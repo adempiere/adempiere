@@ -17,12 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningRunLine
  *  @author Adempiere (generated) 
@@ -39,7 +40,9 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
     public X_C_DunningRunLine (Properties ctx, int C_DunningRunLine_ID, String trxName)
     {
       super (ctx, C_DunningRunLine_ID, trxName);
-      /** if (C_DunningRunLine_ID == 0)        {			setAmt (Env.ZERO);
+      /** if (C_DunningRunLine_ID == 0)
+        {
+			setAmt (Env.ZERO);
 			setC_DunningRunEntry_ID (0);
 			setC_DunningRunLine_ID (0);
 			setConvertedAmt (Env.ZERO);
@@ -51,7 +54,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 			setProcessed (false);
 			setTimesDunned (0);
 			setTotalAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,7 +107,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return bd;
 	}
 
-	public I_C_DunningRunEntry getI_C_DunningRunEntry() throws Exception 
+	public I_C_DunningRunEntry getC_DunningRunEntry() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DunningRunEntry.Table_Name);
         I_C_DunningRunEntry result = null;
@@ -164,15 +167,55 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoicePaySchedule.Table_Name);
+        I_C_InvoicePaySchedule result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoicePaySchedule)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoicePaySchedule_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Invoice Payment Schedule.
+		@param C_InvoicePaySchedule_ID 
+		Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
+	{
+		if (C_InvoicePaySchedule_ID <= 0) 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	/** Get Invoice Payment Schedule.
+		@return Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_Value (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -200,9 +243,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_Value (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.

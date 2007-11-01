@@ -16,11 +16,24 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MDunningLevel;
+import org.compiere.model.MDunningRun;
+import org.compiere.model.MDunningRunEntry;
+import org.compiere.model.MMailText;
+import org.compiere.model.MQuery;
+import org.compiere.model.MUser;
+import org.compiere.model.MUserMail;
+import org.compiere.model.PrintInfo;
+import org.compiere.model.X_C_DunningRunEntry;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportEngine;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.EMail;
 
 /**
  *	Dunning Letter Print
@@ -38,6 +51,8 @@ public class DunningPrint extends SvrProcess
 	private int			p_C_DunningRun_ID = 0;
 	/** Print only Outstanding	*/
 	private boolean		p_IsOnlyIfBPBalance = true;
+	/** Print only unprocessed lines */
+	private boolean p_PrintUnprocessedOnly = true;
 	
 	
 	/**
@@ -59,6 +74,8 @@ public class DunningPrint extends SvrProcess
 				p_C_DunningRun_ID = para[i].getParameterAsInt();
 			else if (name.equals("IsOnlyIfBPBalance"))
 				p_IsOnlyIfBPBalance = "Y".equals(para[i].getParameter());
+			else if (name.equals("PrintUnprocessedOnly"))
+				p_PrintUnprocessedOnly = "Y".equals(para[i].getParameter());
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -72,7 +89,8 @@ public class DunningPrint extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		log.info("C_DunningRun_ID=" + p_C_DunningRun_ID + ",R_MailText_ID=" + p_R_MailText_ID 
-			+ ", EmailPDF=" + p_EMailPDF + ",IsOnlyIfBPBalance=" + p_IsOnlyIfBPBalance);
+			+ ", EmailPDF=" + p_EMailPDF + ",IsOnlyIfBPBalance=" + p_IsOnlyIfBPBalance 
+			+ ",PrintUnprocessedOnly=" + p_PrintUnprocessedOnly);
 		
 		//	Need to have Template
 		if (p_EMailPDF && p_R_MailText_ID == 0)
@@ -103,6 +121,8 @@ public class DunningPrint extends SvrProcess
 		{
 			MDunningRunEntry entry = entries[i];
 			if (p_IsOnlyIfBPBalance && entry.getAmt().signum() <= 0)
+				continue;
+			if (p_PrintUnprocessedOnly && entry.isProcessed())
 				continue;
 			//	To BPartner
 			MBPartner bp = new MBPartner (getCtx(), entry.getC_BPartner_ID(), get_TrxName());
@@ -199,6 +219,10 @@ public class DunningPrint extends SvrProcess
 			}
 
 		}	//	for all dunning letters
+		if (errors==0) {
+			run.setProcessed(true);
+			run.save();
+		}
 		if (p_EMailPDF)
 			return "@Sent@=" + count + " - @Errors@=" + errors;
 		return "@Printed@=" + count;
