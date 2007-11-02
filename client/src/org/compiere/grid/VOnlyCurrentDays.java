@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VOnlyCurrentDays.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1824621 ] History button can't be canceled
  */
 public class VOnlyCurrentDays extends CDialog
 	implements ActionListener
@@ -64,6 +67,8 @@ public class VOnlyCurrentDays extends CDialog
 
 	/**	Days (0=all)			*/
 	private int 	m_days = 0;
+	/** Is cancel				*/
+	private boolean m_isCancel = false;
 	/**	Margin					*/
 	private static Insets	s_margin = new Insets (2, 2, 2, 2);
 	/**	Logger			*/
@@ -102,6 +107,13 @@ public class VOnlyCurrentDays extends CDialog
 		mainPanel.setToolTipText(Msg.getMsg(Env.getCtx(), "VOnlyCurrentDays", false));
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		this.getRootPane().setDefaultButton(bShowDay);
+		// 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				m_isCancel = true;
+			}
+		});
 	}	//	jbInit
 
 	/**
@@ -132,4 +144,10 @@ public class VOnlyCurrentDays extends CDialog
 		return m_days;
 	}	//	getCurrentDays
 
+	/**
+	 * @return true if user has canceled this form
+	 */
+	public boolean isCancel() {
+		return m_isCancel;
+	}
 }	//	VOnlyCurrentDays

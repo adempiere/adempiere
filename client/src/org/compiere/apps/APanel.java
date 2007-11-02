@@ -50,6 +50,8 @@ import org.compiere.util.*;
  *  Colin Rooney 2007/03/20 RFE#1670185 & related BUG#1684142 - Extend Sec to Info Queries
  *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *  @contributor fer_luck@centuryon.com , FR [ 1757088 ]
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1824621 ] History button can't be canceled
  */
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
@@ -1996,23 +1998,30 @@ public final class APanel extends CPanel
 			Point pt = new Point (0, aHistory.getButton().getBounds().height);
 			SwingUtilities.convertPointToScreen(pt, aHistory.getButton());
 			VOnlyCurrentDays ocd = new VOnlyCurrentDays(Env.getFrame(this), pt);
-			m_onlyCurrentDays = ocd.getCurrentDays();
-			if (m_onlyCurrentDays == 1)	//	Day
-			{
-				m_onlyCurrentRows = true;
-				m_onlyCurrentDays = 0; 	//	no Created restriction
+			if (!ocd.isCancel()) {
+				m_onlyCurrentDays = ocd.getCurrentDays();
+				if (m_onlyCurrentDays == 1)	//	Day
+				{
+					m_onlyCurrentRows = true;
+					m_onlyCurrentDays = 0; 	//	no Created restriction
+				}
+				else
+					m_onlyCurrentRows = false;
+				//
+				m_curTab.setQuery(null);	//	reset previous queries
+				MRole role = MRole.getDefault(); 
+				int maxRows = role.getMaxQueryRecords();
+				//
+				log.config("OnlyCurrent=" + m_onlyCurrentRows 
+					+ ", Days=" + m_onlyCurrentDays
+					+ ", MaxRows=" + maxRows);
+				m_curGC.query(m_onlyCurrentRows, m_onlyCurrentDays, maxRows );   //  autoSize
 			}
-			else
-				m_onlyCurrentRows = false;
-			//
-			m_curTab.setQuery(null);	//	reset previous queries
-			MRole role = MRole.getDefault(); 
-			int maxRows = role.getMaxQueryRecords();
-			//
-			log.config("OnlyCurrent=" + m_onlyCurrentRows 
-				+ ", Days=" + m_onlyCurrentDays
-				+ ", MaxRows=" + maxRows);
-			m_curGC.query(m_onlyCurrentRows, m_onlyCurrentDays, maxRows );   //  autoSize
+			// Restore history button's pressed status
+			else {
+				if (isFirstTab())
+					aHistory.setPressed(!m_curTab.isOnlyCurrentRows());
+			}
 		}
 	}	//	cmd_history
 
