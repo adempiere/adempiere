@@ -24,14 +24,13 @@ import org.compiere.util.*;
 
 /**
  *	Business Partner Model
- * <p>
- * Change log:
- * <ul>
- * <li>2007-01-31 - teo_sarca - [ 1568774 ] Walk-In BP: invalid created/updated values 
- * </ul>
  *
  *  @author Jorg Janke
  *  @version $Id: MBPartner.java,v 1.5 2006/09/23 19:38:07 comdivision Exp $
+ * 
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1568774 ] Walk-In BP: invalid created/updated values
+ * 			<li>BF [ 1817752 ] MBPartner.getLocations should return only active one
  */
 public class MBPartner extends X_C_BPartner
 {
@@ -435,16 +434,14 @@ public class MBPartner extends X_C_BPartner
 		ArrayList<MUser> list = new ArrayList<MUser>();
 		String sql = "SELECT * FROM AD_User WHERE C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
-				list.add(new MUser (getCtx(), rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+				list.add(new MUser (getCtx(), rs, get_TrxName()));
 		}
 		catch (Exception e)
 		{
@@ -452,14 +449,8 @@ public class MBPartner extends X_C_BPartner
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		m_contacts = new MUser[list.size()];
@@ -487,9 +478,9 @@ public class MBPartner extends X_C_BPartner
 	
 	
 	/**
-	 * 	Get All Locations
-	 * 	@param reload if true locations will be requeried
-	 *	@return locations
+	 * Get All Locations (only active)
+	 * @param reload if true locations will be requeried
+	 * @return locations
 	 */
 	public MBPartnerLocation[] getLocations (boolean reload)
 	{
@@ -499,18 +490,16 @@ public class MBPartner extends X_C_BPartner
 			return m_locations;
 		//
 		ArrayList<MBPartnerLocation> list = new ArrayList<MBPartnerLocation>();
-		String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=?";
+		String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=? AND IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MBPartnerLocation (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -518,14 +507,8 @@ public class MBPartner extends X_C_BPartner
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		m_locations = new MBPartnerLocation[list.size()];
