@@ -417,4 +417,37 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}
+	
+	/**
+	 *  Test BF [ 1824256 ] Convert sql casts
+	 */
+	public void testCasts() {
+		String sql_begin = "SELECT ";
+		String[][] sql_tests = new String[][] {
+				// Oracle vs PostgreSQL
+				{"cast('N' as char)","cast('N' as char)"},
+				{"cast('this is a string' as nvarchar2(40))","cast('this is a string' as VARCHAR)"},
+				{"cast('this is a string as a ''string''' as nvarchar2(40))","cast('this is a string as a ''string''' as VARCHAR)"},
+				{"cast(tbl.IsView as char)","cast(tbl.IsView as char)"},
+				{"cast(trunc(tbl.Updated,'MONTH') as date)","cast(trunc(tbl.Updated,'MONTH') as TIMESTAMP)"},
+				{"cast(NULL as nvarchar2(255))","cast(NULL as VARCHAR)"},
+				{"cast(NULL as number(10))","cast(NULL as NUMERIC)"},
+		};
+		String sql_end = " FROM AD_Table tbl";
+		StringBuffer sql = new StringBuffer(sql_begin);
+		StringBuffer sqle = new StringBuffer(sql_begin);
+		for (int i = 0; i < sql_tests.length; i++) {
+			if (i > 0) {
+				sql.append(",");
+				sqle.append(",");
+			}
+			sql.append(sql_tests[i][0]);
+			sqle.append(sql_tests[i][1]);
+		}
+		sql.append(sql_end);
+		sqle.append(sql_end);
+		//
+		String[] r = convert.convert(sql.toString());
+		assertEquals(sqle.toString(), r[0]);
+	}
 }

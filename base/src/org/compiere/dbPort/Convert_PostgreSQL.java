@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 import org.compiere.util.CLogger;
@@ -27,6 +28,8 @@ import org.compiere.util.Util;
  * Convert Oracle SQL to PostgreSQL SQL
  * 
  * @author Victor Perez, Low Heng Sin, Carlos Ruiz
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1824256 ] Convert sql casts
  */
 public class Convert_PostgreSQL extends Convert_SQL92 {
 	/**
@@ -167,8 +170,48 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		if (index != -1 && retValue.indexOf("(+)", index) != -1)
 			retValue = convertOuterJoin(retValue);
 
+		// Convert datatypes from CAST(.. as datatypes):
+		retValue = convertCast(retValue);
+		
 		return retValue;
 	} // convertComplexStatement
+	
+	/**
+	 * Convert datatypes from CAST sentences
+	 * <pre>
+	 * 		cast(NULL as NVARCHAR2(255))
+	 * 		=&gt;cast(NULL as VARCHAR)
+	 * </pre>
+	 */
+	private String convertCast(String sqlStatement) {
+		final String PATTERN_String = "\'([^']|(''))*\'";
+		final String PATTERN_DataType = "([\\w]+)(\\(\\d+\\))?";
+		final String pattern =
+							"CAST[\\s]*\\([\\s]*"					// CAST<sp>(<sp>		
+							+"(("+PATTERN_String+")|([^\\s]+))"		//	arg1				1(2,3)
+							+"[\\s]*AS[\\s]*"						//	<sp>AS<sp>
+							+"("+PATTERN_DataType+")"				//	arg2 (datatype)		4
+							+"\\s*\\)"								//	<sp>)
+		;
+		final int gidx_arg1 = 1;
+		final int gidx_arg2 = 7;	// datatype w/o length
+		final Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(sqlStatement);
+		
+		TreeMap<String, String> convertMap = (TreeMap<String, String>)getConvertMap(); 
+		StringBuffer retValue = new StringBuffer(sqlStatement.length());
+		while (m.find()) {
+			String arg1 = m.group(gidx_arg1);
+			String arg2 = m.group(gidx_arg2);
+			//
+			String datatype = convertMap.get("\\b"+arg2.toUpperCase()+"\\b");
+			if (datatype == null)
+				datatype = arg2;
+			m.appendReplacement(retValue, "cast("+arg1+" as "+datatype+")");
+		}
+		m.appendTail(retValue);
+		return retValue.toString();
+	}
 
 	/**
 	 * Convert RowNum.
