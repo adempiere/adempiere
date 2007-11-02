@@ -169,7 +169,7 @@ public final class DB
 			return;
 		}
 		String updated = env.getProperty("ADEMPIERE_MAIL_UPDATED");
-		if (updated != null || updated.equals("Y"))
+		if (updated != null && updated.equals("Y"))
 			return;
 		
 		//	See org.compiere.install.ConfigurationData
