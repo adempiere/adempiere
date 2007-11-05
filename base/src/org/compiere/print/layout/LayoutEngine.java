@@ -40,7 +40,11 @@ import org.compiere.util.*;
  * 	@version 	$Id: LayoutEngine.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- * 				<li>BF [ 1807917 ] Layout positioning issue with m_maxHeightSinceNewLine: 
+ * 				<li>BF [ 1673505 ] BarCode/Image problem when print format is not form
+ * 				<li>BF [ 1673542 ] Can't add static image in report table cell
+ * 				<li>BF [ 1673548 ] Image is not scaled in a report table cell
+ * 				<li>BF [ 1807917 ] Layout positioning issue with m_maxHeightSinceNewLine
+ *				<li>BF [ 1825876 ] Layout boxes with auto width not working
  */
 public class LayoutEngine implements Pageable, Printable, Doc
 {
@@ -980,6 +984,11 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				{
 					if (m_format.isForm())
 						element = createBoxElement(item);
+					// Auto detect width - teo_sarca, BF [ 1825876 ]
+					if (element != null && maxWidth == 0) {
+						maxWidth = getAreaBounds().width;
+						element.setMaxWidth(maxWidth);
+					}
 				}
 				else	//	(item.isTypeText())		//**	Text
 				{
