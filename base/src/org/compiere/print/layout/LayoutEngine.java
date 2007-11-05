@@ -38,6 +38,9 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: LayoutEngine.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1807917 ] Layout positioning issue with m_maxHeightSinceNewLine: 
  */
 public class LayoutEngine implements Pageable, Printable, Doc
 {
@@ -1032,6 +1035,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				//
 				if (m_lastHeight[m_area] > m_maxHeightSinceNewLine[m_area])
 					m_maxHeightSinceNewLine[m_area] = m_lastHeight[m_area];
+				// Reset maxHeightSinceNewLine if we have an absolute position - teo_sarca BF [ 1807917 ]
+				if (!item.isRelativePosition())
+					m_maxHeightSinceNewLine[m_area] = m_lastHeight[m_area];
 
 			}	//	for every item
 		}	//	for every row
@@ -1096,9 +1102,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		//
 		DataEngine de = new DataEngine(format.getLanguage());
 		PrintData includedData = de.getPrintData(data.getCtx(), format, query);
-		log.fine(includedData.toString());
 		if (includedData == null)
 			return null;
+		log.fine(includedData.toString());
 		//
 		element = layoutTable (format, includedData, item.getXSpace());
 		//	handle multi page tables
