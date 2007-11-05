@@ -17,18 +17,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_Package_Exp;
-import org.compiere.util.*;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Package Export Model
  *	
  *  @author Rob Klein
  *  @version $Id: MMenu.java,v 1.0 2006/01/07 Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1826273 ] Error when creating MPackageExp
  */
 public class MPackageExp extends X_AD_Package_Exp
 {	
@@ -64,25 +68,26 @@ public class MPackageExp extends X_AD_Package_Exp
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		
-		X_AD_Package_Exp PackSummary =new X_AD_Package_Exp(Env.getCtx(), getAD_Package_Exp_ID(), null);
-		
+		if (!success)
+			return false;
+		//
 		String sql = "SELECT count(*) FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = ?";
-		int recordCount = DB.getSQLValue(null, sql,getAD_Package_Exp_ID());
+		int recordCount = DB.getSQLValue(get_TrxName(), sql, getAD_Package_Exp_ID());
 		
 		if (recordCount == 0){
 			sql = "SELECT * FROM AD_Package_Exp_Common";
 			
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, get_TrxName());
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				int i = 1;
-				while (rs.next()){
+				while (rs.next()) {
 					X_AD_Package_Exp_Detail PackDetail =new X_AD_Package_Exp_Detail(Env.getCtx(), 0, null);
-					PackDetail.setAD_Client_ID(PackSummary.getAD_Client_ID());
-					PackDetail.setAD_Org_ID(PackSummary.getAD_Org_ID());
+					PackDetail.setAD_Client_ID(this.getAD_Client_ID());
+					PackDetail.setAD_Org_ID(this.getAD_Org_ID());
 					PackDetail.setAD_Package_Exp_ID(getAD_Package_Exp_ID());					
 					PackDetail.setType(rs.getString("TYPE"));
 					PackDetail.setFileName(rs.getString("FILENAME"));
@@ -105,22 +110,15 @@ public class MPackageExp extends X_AD_Package_Exp
 					PackDetail.setLine(i*10);
 					PackDetail.save();
 					i++;
-					}			
-							
+				}						
 			}
 			catch (Exception e)
 			{
-				log.info( sql+ e);
+				log.log(Level.SEVERE, sql, e);
 			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		
