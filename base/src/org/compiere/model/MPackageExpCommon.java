@@ -17,15 +17,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.util.DB;
 
 /**
- *	Menu Model
+ *	Package Export Commons
  *	
- *  @author Jorg Janke
- *  @version $Id: MMenu.java,v 1.5 2005/05/14 05:32:16 jjanke Exp $
+ * @author Rob Klein
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1826279 ] MPackageExpCommon.afterSave: bad implementation
  */
 public class MPackageExpCommon extends X_AD_Package_Exp_Common
 {	
@@ -53,24 +55,18 @@ public class MPackageExpCommon extends X_AD_Package_Exp_Common
 	}	//	MPackageExp
 	
 	
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
+	/* (non-Javadoc)
+	 * @see org.compiere.model.PO#beforeSave(boolean)
 	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		
-		X_AD_Package_Exp_Common PackCommon =new X_AD_Package_Exp_Common(Env.getCtx(), getAD_Package_Exp_Common_ID(), null);
-		String sql = "SELECT max(Line) FROM AD_Package_Exp_Common";
-		int lineNo = DB.getSQLValue(null, sql);		
-		
-		if(PackCommon.getLine()==0){					
-			PackCommon.setLine(lineNo+10);
-			PackCommon.save();}			
-		
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if (getLine() == 0) {
+			String sql = "SELECT max(Line) FROM AD_Package_Exp_Common"
+							+ " WHERE AD_Package_Exp_Common_ID<>?";
+			int lineNo = DB.getSQLValue(get_TrxName(), sql, getAD_Package_Exp_Common_ID());
+			if (lineNo >= 0)
+				setLine(lineNo+10);
+		}
 		return true;
-	}	//	afterSave
-	
-}	//	MMenu
+	}
+}	//	MPackageExpCommon
