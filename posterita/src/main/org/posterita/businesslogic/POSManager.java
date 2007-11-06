@@ -69,6 +69,7 @@ import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
@@ -987,7 +988,8 @@ public class POSManager
         Object[] headers = new Object[]{"POS Name","Cash Total","Card Total","Cheque Total","Amount"};
         reportData.add(headers);
         
-        NumberFormat formatter = new DecimalFormat("###,###,##0.00");  
+        //NumberFormat formatter = new DecimalFormat("###,###,##0.00"); 
+        DecimalFormat f = DisplayType.getNumberFormat(DisplayType.CostPrice);
         
         Object[] data = null;
         String grandTotal = null;

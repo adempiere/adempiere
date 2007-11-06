@@ -39,6 +39,7 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
 import org.posterita.beans.CreditCheckBean;
@@ -185,7 +186,8 @@ public class OrderManager
     
     public static  double round(double value) 
     {
-        DecimalFormat f = new DecimalFormat("#.##");
+        DecimalFormat f = DisplayType.getNumberFormat(DisplayType.Number);
+        
         return Double.parseDouble(f.format(value));
     }
     

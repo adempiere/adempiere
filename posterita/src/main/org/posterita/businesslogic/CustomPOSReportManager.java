@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import org.compiere.util.DisplayType;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
@@ -292,7 +293,8 @@ public class CustomPOSReportManager
     	ArrayList<Object[]> reportData = new ArrayList<Object[]>();
     	//copying data from tmpData to reportData
     	
-    	NumberFormat formatter = new DecimalFormat("###,###,##0.00");            
+    	//NumberFormat formatter = new DecimalFormat("###,###,##0.00"); 
+    	NumberFormat formatter = DisplayType.getNumberFormat(DisplayType.CostPrice);
         
     	Iterator<Object[]> iter = tmpData.iterator();
     	
@@ -392,7 +394,8 @@ public class CustomPOSReportManager
 		boolean isTaxDue 		= (account_id == Constants.TAX_DUE.intValue() );
         boolean isTaxCredit 	= (account_id == Constants.TAX_CREDIT.intValue() ); 
         
-        NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+        //NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+        NumberFormat formatter = DisplayType.getNumberFormat(DisplayType.CostPrice);
         
 		String sql = SalesAnalysisReportManager.getTabularDataSetSQL(ctx,account_id,fromDate,toDate,salesGroup);
     	ArrayList<Object[]> tmpData = ReportManager.getReportData(ctx,sql,true);

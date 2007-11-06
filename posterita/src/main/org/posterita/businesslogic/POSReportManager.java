@@ -51,6 +51,7 @@ import org.compiere.model.MTransaction;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.utils.DBUtils;
 import org.posterita.Constants;
@@ -1009,7 +1010,8 @@ public class POSReportManager {
 		String customerAddress = null;
 		String documentNo = null;
 		String currency = "Rs ";
-		NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+		//NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+		NumberFormat formatter = DisplayType.getNumberFormat(DisplayType.CostPrice);
 
 		currency = POSTerminalManager.getPOSDefaultSellCurrency(ctx)
 				.getCurSymbol()
@@ -2264,7 +2266,9 @@ public class POSReportManager {
 		// final float THIN_BORDER = 1.0f;
 
 		String currency = "Rs ";
-		NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+		//NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+		NumberFormat formatter = DisplayType.getNumberFormat(DisplayType.CostPrice);
+		
 		PdfPCell cell = null;
 
 		// step 1: creation of a document-object
