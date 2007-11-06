@@ -46,6 +46,7 @@
 			<include name="org/**"/>
 		</jar>
 		<copy file="${build.dir}/posterita.jar" tofile="${src.web.dir}/WEB-INF/lib/posterita.jar" overwrite="true"/>
+		<copy file="${build.dir}/posterita.jar" tofile="${adempiere.base}/lib/posterita.jar" overwrite="true"/>
 	  </target>		
 	
   <!-- =================================================================== -->

@@ -49,7 +49,7 @@ INSERT INTO AD_PROCESS (ad_process_id,
                                   'N', 
                                   'N', 
                                   NULL, 
-                                  'org.adempiere.process.SetupWebPOS', 
+                                  'org.posterita.process.SetupWebPOS', 
                                   0, 
                                   0, 
                                   NULL, 
@@ -801,7 +801,7 @@ INSERT INTO AD_PROCESS_PARA (ad_process_para_id,
                                        60, 
                                        'Y', 
                                        'N', 
-                                       NULL, 
+                                       'http://www.adempiere.org', 
                                        NULL, 
                                        NULL, 
                                        NULL, 
@@ -1008,5 +1008,8 @@ INSERT INTO AD_TREENODEMM (ad_tree_id,
                                      0, 
                                      52001, 
                                      5);
+
+INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,IsReadWrite,Created,AD_Process_ID,CreatedBy,Updated,UpdatedBy,IsActive,AD_Role_ID) VALUES (11,0,'Y',TO_DATE('2007-11-05 14:26:09','YYYY-MM-DD HH24:MI:SS'),53002,100,TO_DATE('2007-11-05 14:26:09','YYYY-MM-DD HH24:MI:SS'),100,'Y',102);
+
 
 COMMIT;

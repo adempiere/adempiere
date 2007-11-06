@@ -16,7 +16,7 @@
  * Autor: Victor Perez victor.perez@e-evolution.con www.e-evolution.com       *
  *****************************************************************************/ 
 
-package org.adempiere.process;
+package org.posterita.process;
 
 import java.math.BigDecimal;
 import java.util.logging.Level;
