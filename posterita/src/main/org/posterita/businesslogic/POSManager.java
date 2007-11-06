@@ -989,7 +989,7 @@ public class POSManager
         reportData.add(headers);
         
         //NumberFormat formatter = new DecimalFormat("###,###,##0.00"); 
-        DecimalFormat f = DisplayType.getNumberFormat(DisplayType.CostPrice);
+        DecimalFormat formatter = DisplayType.getNumberFormat(DisplayType.CostPrice);
         
         Object[] data = null;
         String grandTotal = null;
