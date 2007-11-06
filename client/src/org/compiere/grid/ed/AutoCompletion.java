@@ -1,30 +1,55 @@
-package org.compiere.grid.ed;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.*;
-import javax.swing.text.*;
-
-import org.compiere.swing.CComboBox;
-
-
-//phib: this is from http://www.orbital-computer.de/JComboBox
-//with some minor revisions for Adempiere
-
 /* This work is hereby released into the Public Domain.
  * To view a copy of the public domain dedication, visit
  * http://creativecommons.org/licenses/publicdomain/
  */
+package org.compiere.grid.ed;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.ComboBoxEditor;
+import javax.swing.ComboBoxModel;
+import javax.swing.UIManager;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
+
+import org.compiere.swing.CComboBox;
+
+/**
+ * Auto completion behaviour for a combo box
+ * 
+ * @author phib: this is from http://www.orbital-computer.de/JComboBox
+ * 					with some minor revisions for Adempiere
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1735043 ] AutoCompletion: drop down box is showed even if i press Caps
+ * 			<li>FR [ 1820783 ] AutoCompletion: posibility to toggle strict mode
+ * 			<li>BF [ 1820778 ] ESC(cancel editing) key not working if you are on VComboBox
+ */
 public class AutoCompletion extends PlainDocument {
+	private static final long serialVersionUID = 1L;
+	
 	CComboBox comboBox;
 	ComboBoxModel model;
 	JTextComponent editor;
-	// flag to indicate if setSelectedItem has been called
-	// subsequent calls to remove/insertString should be ignored
+	/**
+	 * Flag to indicate if setSelectedItem has been called 
+	 * subsequent calls to remove/insertString should be ignored 
+	 */
 	boolean selecting=false;
 	boolean hidePopupOnFocusLoss;
 	boolean hitBackspace=false;
 	boolean hitBackspaceOnSelection;
+	/** Strict mode */
+	private boolean m_strictMode = true;
 
 	KeyListener editorKeyListener;
 	FocusListener editorFocusListener;
@@ -54,17 +79,22 @@ public class AutoCompletion extends PlainDocument {
 					return;
 				}
 
-				if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);
+				if (comboBox.isDisplayable())
+					comboBox.setPopupVisible(true);
+				if(!m_strictMode)
+					return;
 				hitBackspace=false;
 				switch (e.getKeyCode()) {
-				// determine if the pressed key is backspace (needed by the remove method)
-				case KeyEvent.VK_BACK_SPACE : hitBackspace=true;
-				hitBackspaceOnSelection=editor.getSelectionStart()!=editor.getSelectionEnd();
-				break;
-				// ignore delete key
-				case KeyEvent.VK_DELETE : e.consume();
-				UIManager.getLookAndFeel().provideErrorFeedback(comboBox);
-				break;
+					// determine if the pressed key is backspace (needed by the remove method)
+					case KeyEvent.VK_BACK_SPACE :
+						hitBackspace=true;
+						hitBackspaceOnSelection=editor.getSelectionStart()!=editor.getSelectionEnd();
+						break;
+					// ignore delete key
+					case KeyEvent.VK_DELETE :
+						e.consume();
+						UIManager.getLookAndFeel().provideErrorFeedback(comboBox);
+						break;
 				}
 			}
 		};
@@ -87,11 +117,26 @@ public class AutoCompletion extends PlainDocument {
 		highlightCompletedText(0);
 	}
 
+	/**
+	 * Enable auto completion for a combo box (strict mode)  
+	 * @param comboBox
+	 */
 	public static void enable(CComboBox comboBox) {
+		enable(comboBox, true);
+	}
+
+	/**
+	 * Enable auto completion for a combo box 
+	 * @param comboBox
+	 * @param strictMode true if you want to set strict mode
+	 */
+	public static void enable(CComboBox comboBox, boolean strictMode) {
 		// has to be editable
 		comboBox.setEditable(true);
 		// change the editor's document
-		new AutoCompletion(comboBox);
+		AutoCompletion ac = new AutoCompletion(comboBox);
+		// set strict mode
+		ac.setStrictMode(strictMode);
 	}
 
 	void configureEditor(ComboBoxEditor newEditor) {
@@ -140,15 +185,20 @@ public class AutoCompletion extends PlainDocument {
 		if (item != null) {
 			setSelectedItem(item);
 		} else {
-			if ( offs == 0 )
-				setSelectedItem(null); //null is valid for non-mandatory fields
-			//so if cursor is at start of line allow it
-			// otherwise keep old item selected if there is no better match
-			else 
-				item = comboBox.getSelectedItem();
-			// undo the insertion as there isn't a valid match
-			offs = offs-str.length();
-			UIManager.getLookAndFeel().provideErrorFeedback(comboBox);
+			if (m_strictMode) {
+				if ( offs == 0 )
+					setSelectedItem(null); //null is valid for non-mandatory fields
+				//so if cursor is at start of line allow it
+				// otherwise keep old item selected if there is no better match
+				else 
+					item = comboBox.getSelectedItem();
+				// undo the insertion as there isn't a valid match
+				offs = offs-str.length();
+				UIManager.getLookAndFeel().provideErrorFeedback(comboBox);
+			}
+			else {
+				return;
+			}
 		}
 
 		if (item != null)
@@ -158,7 +208,11 @@ public class AutoCompletion extends PlainDocument {
 		highlightCompletedText(offs+str.length());
 	}
 
-	private void setText(String text) {
+	/**
+	 * Set text
+	 * @param text
+	 */
+	public void setText(String text) {
 		try {
 			// remove all text and insert the completed string
 			super.remove(0, getLength());
@@ -198,7 +252,21 @@ public class AutoCompletion extends PlainDocument {
 		return null;
 	}
 
-	// checks if str1 starts with str2 - ignores case
+	/**
+	 * Set strict mode. If the strict mode is enabled, you can't enter any other values than the
+	 * ones from combo box list. 
+	 * @param mode true if strict mode
+	 */
+	public void setStrictMode (boolean mode) {
+		m_strictMode = mode;
+	}
+	
+	/**
+	 * Checks if str1 starts with str2 (ignores case)
+	 * @param str1
+	 * @param str2
+	 * @return true if str1 starts with str2
+	 */ 
 	private boolean startsWithIgnoreCase(String str1, String str2) {
 		return str1.toUpperCase().startsWith(str2.toUpperCase());
 	}
