@@ -19,6 +19,7 @@
 package org.posterita.process;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 
@@ -38,11 +39,15 @@ import org.compiere.model.MCharge;
 import org.compiere.model.X_U_WebMenu;
 import org.compiere.model.X_U_RoleMenu;
 import org.compiere.util.Msg;
+import org.compiere.util.DB;
 
 
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
+import org.posterita.factory.POSMenuFactory;
+import org.posterita.model.U_RoleMenu;
+import org.posterita.model.U_WebMenu;
 
 
 
@@ -175,7 +180,20 @@ public class SetupWebPOS extends SvrProcess
 	public void CreatePOS() throws Exception 
 	{	
 		log.info("Creating POS Terminal...");
-		MPOS posTerminal = new MPOS(getCtx(), 0, get_TrxName());
+		MPriceListVersion purchasepricelistversion = new MPriceListVersion(getCtx(), p_PriceList_Version_ID, get_TrxName());
+		MPOS posTerminal = null;
+		int pos_id = DB.getSQLValue(get_TrxName(), "SELECT C_POS_ID FROM C_POS WHERE AD_Client_ID=" + AD_Client_ID + " AND Name='"+p_POS_Name + "'");
+		if(pos_id != 0)
+		{
+			posTerminal = new MPOS(getCtx(), pos_id , get_TrxName());
+		}
+		else 
+		{
+			posTerminal = new MPOS(getCtx(), 0 , get_TrxName());
+		}
+			
+			
+		posTerminal = new MPOS(getCtx(), 0, get_TrxName());
 		posTerminal.setName(p_POS_Name);
 		posTerminal.setAD_Org_ID(p_AD_Org_ID);
 		posTerminal.setC_CashBook_ID(p_C_CashBook_ID);
@@ -185,15 +203,24 @@ public class SetupWebPOS extends SvrProcess
 		posTerminal.setM_Warehouse_ID(locator.getM_Warehouse_ID());
 		posTerminal.setC_BPartnerCashTrx_ID(p_C_BPartner_ID);
 		posTerminal.setSalesRep_ID(p_SalesRep_ID);
+		posTerminal.setM_PriceList_ID(purchasepricelistversion.getM_PriceList_ID());
 		if(!posTerminal.save())
 			throw new IllegalArgumentException("can not create POS Terminal");
 		
 		log.info("Creating Web store configuration...");
-		MStore store = new MStore(getCtx(), 0, get_TrxName());
 		MClient client = new MClient(getCtx(), AD_Client_ID, get_TrxName());
+		MStore store = null;
+		int store_id = DB.getSQLValue(get_TrxName(), "SELECT W_STORE_ID FROM W_STORE WHERE AD_Client_ID=" + AD_Client_ID + " AND IsActive='Y' AND Name='"+client.getName() + " POS" + "'");
+		if(store_id != 0)
+		{
+			store = new MStore(getCtx(), store_id , get_TrxName());
+		}
+		else 
+		{
+			store = new MStore(getCtx(), 0, get_TrxName());
+		}
+		
 		store.setName(client.getName() + " POS");
-		MPriceListVersion purchasepricelistversion = new MPriceListVersion(getCtx(), p_PriceList_Version_ID, get_TrxName());
-		posTerminal.setM_PriceList_ID(purchasepricelistversion.getM_PriceList_ID());
 		store.setM_PriceList_ID(purchasepricelistversion.getM_PriceList_ID());
 		store.setWebContext(client.getName() + "pos");
 		store.setSalesRep_ID(p_SalesRep_ID);
@@ -222,11 +249,11 @@ public class SetupWebPOS extends SvrProcess
         role.setUserLevel(MRole.USERLEVEL_Organization);
         role.save();
         
-        if(!role.isAccessAllOrgs())
+        /*if(!role.isAccessAllOrgs())
             {
                 MRoleOrgAccess orgAccess = new MRoleOrgAccess(role,Env.getAD_Org_ID(getCtx()));
                 orgAccess.save();
-            }
+            }*/
         
        
    		
@@ -244,7 +271,7 @@ public class SetupWebPOS extends SvrProcess
 		
 		user.save();
 		
-		int [] commissionIds = MCommission.getAllIDs(MCommission.Table_Name," AD_CLIENT_ID="+Env.getAD_Client_ID(getCtx())+" and C_BPARTNER_ID="+user.getC_BPartner_ID()+" and isActive='Y'",null);
+		/*int [] commissionIds = MCommission.getAllIDs(MCommission.Table_Name," AD_CLIENT_ID="+Env.getAD_Client_ID(getCtx())+" and C_BPARTNER_ID="+user.getC_BPartner_ID()+" and isActive='Y'",null);
         if(commissionIds!=null && commissionIds.length>1)
         	throw new IllegalArgumentException("Sales rep has more than one commission"+ commissionIds.length);
         
@@ -298,7 +325,7 @@ public class SetupWebPOS extends SvrProcess
         comLine.setCommissionOrders(true);
         comLine.setIsPositiveOnly(true);
         comLine.setAmtSubtract(Env.ZERO);
-        comLine.save();
+        comLine.save();*/
 	        
 		
 		String whereClause = " AD_Role_ID=" + role.get_ID();
@@ -312,16 +339,17 @@ public class SetupWebPOS extends SvrProcess
 		}
 		
 		
-		int u_webmenuIds[]  = X_U_WebMenu.getAllIDs(MRoleMenu.Table_Name, "", get_TrxName());
+		POSMenuFactory posMFactory = POSMenuFactory.getFactoryInstance(getCtx());
+		Iterator keyIter = posMFactory.getAllKeys(getCtx()).iterator();
 		
-		for(int i = 0; i < u_webmenuIds.length; i++)
+		while(keyIter.hasNext())
 		{
-			X_U_WebMenu udiMenu = new X_U_WebMenu(getCtx(),u_webmenuIds[i] , get_TrxName());
+			String key = (String)keyIter.next();
+			U_WebMenu udiMenu = (U_WebMenu)posMFactory.get(getCtx(), key);
 			MRoleMenu roleMenu = new MRoleMenu(getCtx(), 0, get_TrxName());
 			roleMenu.setAD_Role_ID(role.get_ID());
-			roleMenu.setU_WebMenu_ID(udiMenu.getU_WebMenu_ID());
-			X_U_RoleMenu udiRoleMenu = new X_U_RoleMenu(getCtx(), 0 , get_TrxName());
-			udiRoleMenu.setU_RoleMenu_ID(roleMenu.getU_RoleMenu_ID());
+			roleMenu.setU_WebMenu_ID(udiMenu.getID());
+			U_RoleMenu udiRoleMenu = new U_RoleMenu(roleMenu);
 			udiRoleMenu.save();
 		}
 		
