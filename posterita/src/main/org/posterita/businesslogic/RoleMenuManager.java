@@ -42,7 +42,7 @@ public class RoleMenuManager
 		
 		if(parentMenuId != 0)
 		{
-		    int[] parentRoleMenuIds = MRoleMenu.getAllIDs(MRoleMenu.Table_Name, " ad_role_id = " + roleId + " and u_menu_id = " + parentMenuId, trxName);
+		    int[] parentRoleMenuIds = MRoleMenu.getAllIDs(MRoleMenu.Table_Name, " ad_role_id = " + roleId + " and u_webmenu_id = " + parentMenuId, trxName);
 			
 			if (parentRoleMenuIds.length == 0)
 				roleMenu = createRoleMenu(ctx,roleId,parentMenuId, trxName);

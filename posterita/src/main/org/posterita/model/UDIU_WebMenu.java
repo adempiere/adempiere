@@ -23,9 +23,9 @@ import org.compiere.model.X_U_WebMenu;
 import org.posterita.exceptions.OperationException;
 
 
-public class UDIU_Menu extends UDIPO
+public class UDIU_WebMenu extends UDIPO
 {
-    public UDIU_Menu(X_U_WebMenu menu)
+    public UDIU_WebMenu(X_U_WebMenu menu)
     {
         super(menu);
     }

@@ -317,19 +317,19 @@ public class MenuManager
     	
     	String sqlStatement = "";
     	
-    	sqlStatement = "select m.U_Menu_ID, " +
+    	sqlStatement = "select m.U_WebMenu_ID, " +
     			"m.Name, m.MenuLink, " +
     			"m.Module, m.ParentMenu_ID, " +
     			"m.isActive, " +
     			"m.ImageLink, m.Position " +
-    			"from U_MENU m where " + //m.AD_Client_ID = " + adClientId +
+    			"from U_WEBMENU m where " + //m.AD_Client_ID = " + adClientId +
                 " m.AD_CLIENT_ID=0"+
                 " and m.AD_ORG_ID=0" +
                 " and m.isactive = 'Y'";
     			
 //    	sqlStatement += " and m." + OrganisationManager.getOrganisationSqlStatement(ctx);
     	
-    	sqlStatement += " order by m.U_Menu_ID";
+    	sqlStatement += " order by m.U_WebMenu_ID";
     	
     	System.out.println(sqlStatement);
     	
@@ -526,7 +526,7 @@ public class MenuManager
     {
        int id =  POSMenuFactory.getFactoryInstance(ctx).get(ctx,role).getID();
        
-       String sql="select AD_ROLE_ID from U_ROLEMENU where U_MENU_ID="+id;
+       String sql="select AD_ROLE_ID from U_ROLEMENU where U_WEBMENU_ID="+id;
        boolean access=false;
        int currentRoleId=Env.getAD_Role_ID(ctx);
        

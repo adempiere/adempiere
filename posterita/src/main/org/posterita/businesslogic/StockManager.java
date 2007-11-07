@@ -706,6 +706,43 @@ public class StockManager
         	pstmt = null;
         }
         
+        //begin e-evolution is necessary find also search key
+        if (productId == 0)
+        {
+        	sql = "select m_product_id from m_product where value='"+barCode+"'"
+            +" and AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
+        	
+        	System.out.println("BarCode: " + barCode);
+        	
+        	pstmt = DB.prepareStatement(sql, null);
+        	
+        	try 
+            {
+                ResultSet rs = pstmt.executeQuery();
+                while (rs.next())
+                {
+                   productId=rs.getInt(1);   
+                }
+                rs.close();
+            } 
+            catch (SQLException e)
+            {
+                throw new OperationException(e);
+            }
+            finally
+            {
+            	try
+            	{
+            		pstmt.close();
+            	}
+            	catch(Exception e)
+            	{}
+            	
+            	pstmt = null;
+            }
+        }
+        //end e-evolution is necessary find also search key
+        
         return productId;
     }
     

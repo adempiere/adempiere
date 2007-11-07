@@ -37,8 +37,8 @@ public class MMenu extends X_U_WebMenu
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MMenu(Properties ctx, int U_Menu_ID, String trxName)
+	public MMenu(Properties ctx, int U_WebMenu_ID, String trxName)
 	{
-		super(ctx, U_Menu_ID, trxName);
+		super(ctx, U_WebMenu_ID, trxName);
 	}
 }
