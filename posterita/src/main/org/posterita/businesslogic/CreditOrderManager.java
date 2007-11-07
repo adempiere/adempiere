@@ -197,8 +197,10 @@ public class CreditOrderManager
         "pt.NAME,"+//19
         "bp.name|| ' ' || bp.name2,"+//20
         "op.C_BPARTNER_ID,"+//21
-        "DECODE(ord.GRANDTOTAL-nvl(sum(cl.AMOUNT),0),0,'"+Constants.PAID+"',ord.GRANDTOTAL,'"+Constants.UNPAID+"','"+Constants.PARTIALLY_PAID+"') status,"+//22
-        " DECODE(sign(op.OPENAMT),-1,'"+Constants.OVER_PAID+"','NULL') sign"+//23
+        //"DECODE(ord.GRANDTOTAL-nvl(sum(cl.AMOUNT),0),0,'"+Constants.PAID+"',ord.GRANDTOTAL,'"+Constants.UNPAID+"','"+Constants.PARTIALLY_PAID+"') status,"+//22
+        " CASE WHEN ord.GRANDTOTAL-COALESCE(sum(cl.AMOUNT),0) = 0 THEN '"+Constants.PAID+"' WHEN ord.GRANDTOTAL-COALESCE(sum(cl.AMOUNT),0) = ord.GRANDTOTAL THEN '"+Constants.UNPAID+"' ELSE '"+Constants.PARTIALLY_PAID+"' END AS status,"+//22
+        //" DECODE(sign(op.OPENAMT),-1,'"+Constants.OVER_PAID+"','NULL') sign"+//23
+        " CASE WHEN sign(op.OPENAMT) = -1 THEN '"+Constants.OVER_PAID+"' ELSE 'NULL' END AS sign"+//23
         " from RV_OPENITEM op left outer join c_cashline cl on op.C_INVOICE_ID=cl.C_INVOICE_ID,C_ORDER ord,C_CURRENCY cr,C_PAYMENTTERM pt,c_bpartner bp " +
         " where op.C_ORDER_ID=ord.C_ORDER_ID"+
         " and op.C_CURRENCY_ID=cr.C_CURRENCY_ID"+
@@ -362,7 +364,8 @@ public class CreditOrderManager
     			" CREATED," +//3
     			"C_BPARTNER_ID," +//4
     			"C_INVOICE_ID," +//5
-    			"DECODE(TENDERTYPE,'K','Cheque','C','Card','Cash') tenderType," +//6
+    			//"DECODE(TENDERTYPE,'K','Cheque','C','Card','Cash') tenderType," +//6
+    			"CASE WHEN TENDERTYPE='K' THEN 'Cheque' WHEN TENDERTYPE= 'C' THEN 'Card' ELSE 'Cash' END AS tenderType," +//6
     			"PAYAMT," +//7
     			"DISCOUNTAMT,"+//8
     			"WRITEOFFAMT," +//9
@@ -602,8 +605,10 @@ public class CreditOrderManager
         "CREATEDBY," +//3
         "DOCUMENTNO," +//4
         "C_INVOICE_ID," +//5
-        "decode(TENDERTYPE,'"+MPayment.TENDERTYPE_Check+"','Cheque','" +
-        MPayment.TENDERTYPE_CreditCard+"','Card')," +//6
+        //"decode(TENDERTYPE,'"+MPayment.TENDERTYPE_Check+"','Cheque','" +
+        "CASE WHEN TENDERTYPE='"+MPayment.TENDERTYPE_Check+"' THEN 'Cheque' " +
+        //MPayment.TENDERTYPE_CreditCard+"','Card')," +//6
+        "    WHEN TENDERTYPE='"+MPayment.TENDERTYPE_CreditCard+"' THEN 'Card' END ," +//6
         "CREDITCARDNUMBER," +//7
         "CHECKNO," +//8
         "PAYAMT," +//9

@@ -23,7 +23,7 @@ public class UDIMMovementLineOverride extends MMovementLine
 		//	Set Line No
 		if (getLine() == 0)
 		{
-			String sql = "SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM M_MovementLine WHERE M_Movement_ID=?";
+			String sql = "SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_MovementLine WHERE M_Movement_ID=?";
 			int ii = DB.getSQLValue (get_TrxName(), sql, getM_Movement_ID());
 			setLine (ii);
 		}

@@ -162,16 +162,24 @@ public class CommissionManager
         "camt.ACTUALQTY," +//5
         "camt.COMMISSIONAMT," +//6
         "cline.DESCRIPTION," +//7
-        "DECODE(com.FREQUENCYTYPE,'"+MCommission.FREQUENCYTYPE_Monthly+"','Monthly','"+
-        MCommission.FREQUENCYTYPE_Quarterly+"','Quarterly','"+
-        MCommission.FREQUENCYTYPE_Weekly+"','Weekly','"+
-        MCommission.FREQUENCYTYPE_Yearly+"','Yearly',com.FREQUENCYTYPE) frequency," +//8
-        "DECODE(com.DOCBASISTYPE,'"+MCommission.DOCBASISTYPE_Invoice+"','Invoice','"+
-        MCommission.DOCBASISTYPE_Order+"','Order','"+
-        MCommission.DOCBASISTYPE_Receipt+"','Payment Receipt',com.DOCBASISTYPE) docbasis," +//9
+        //"DECODE(com.FREQUENCYTYPE,'"+MCommission.FREQUENCYTYPE_Monthly+"','Monthly','"+
+        "CASE WHEN com.FREQUENCYTYPE='"+MCommission.FREQUENCYTYPE_Monthly+"' THEN 'Monthly' "+
+        //MCommission.FREQUENCYTYPE_Quarterly+"','Quarterly','"+
+        "     WHEN com.FREQUENCYTYPE='"+MCommission.FREQUENCYTYPE_Quarterly+"' THEN 'Quarterly' "+
+        //MCommission.FREQUENCYTYPE_Weekly+"','Weekly','"+
+        "     WHEN com.FREQUENCYTYPE='"+MCommission.FREQUENCYTYPE_Weekly+"' THEN 'Weekly' "+
+        //MCommission.FREQUENCYTYPE_Yearly+"','Yearly',com.FREQUENCYTYPE) frequency," +//8
+        "     WHEN com.FREQUENCYTYPE='"+MCommission.FREQUENCYTYPE_Yearly+"' THEN 'Yearly' ELSE com.FREQUENCYTYPE END AS frequency," +//8
+        //"DECODE(com.DOCBASISTYPE,'"+MCommission.DOCBASISTYPE_Invoice+"','Invoice','"+
+        "CASE WHEN com.DOCBASISTYPE ='"+MCommission.DOCBASISTYPE_Invoice+"' THEN 'Invoice' "+
+        //MCommission.DOCBASISTYPE_Order+"','Order','"+
+        "     WHEN com.DOCBASISTYPE ='"+MCommission.DOCBASISTYPE_Order+"' THEN 'Order' "+
+        //MCommission.DOCBASISTYPE_Receipt+"','Payment Receipt',com.DOCBASISTYPE) docbasis," +//9
+        "     WHEN com.DOCBASISTYPE ='"+MCommission.DOCBASISTYPE_Receipt+"' THEN 'Payment Receipt' ELSE com.DOCBASISTYPE END AS docbasis," +//9
         "cline.AMTMULTIPLIER*100, "+//10
         "crun.DESCRIPTION,"+//11
-        "nvl(cline.AMTSUBTRACT,0)"+//12
+        //"nvl(cline.AMTSUBTRACT,0)"+//12
+        "COALESCE(cline.AMTSUBTRACT,0)"+//12    
         " from C_COMMISSIONAMT camt, C_COMMISSIONLINE cline,C_COMMISSION com,C_COMMISSIONRUN crun " +
         " where camt.C_COMMISSIONLINE_ID=cline.C_COMMISSIONLINE_ID"+
         " and cline.C_COMMISSION_ID=com.C_COMMISSION_ID"+

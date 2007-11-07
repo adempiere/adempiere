@@ -54,9 +54,12 @@ public class PaymentTermManager
         " C_PAYMENTTERM_ID," +//1
         " NAME," +//2
         " NETDAYS,"+//3
-        " DECODE(isActive,'Y','true','false') active,"+//4
-        " DECODE(AFTERDELIVERY,'Y','true','false') delivery,"+//5
-        " DECODE(ISDUEFIXED,'Y','true','false') dueFixed,"+//6
+        " CASE WHEN isActive = 'Y' THEN 'true' ELSE 'false' END AS active ," +
+        //" DECODE(isActive,'Y','true','false') active,"+//4
+        " CASE WHEN AFTERDELIVERY = 'Y' THEN 'true' ELSE 'false' END AS delivery," +
+        //" DECODE(AFTERDELIVERY,'Y','true','false') delivery,"+//5
+        " CASE WHEN ISDUEFIXED = 'Y' THEN 'true' ELSE 'false' END AS dueFixed," +
+        //" DECODE(ISDUEFIXED,'Y','true','false') dueFixed,"+//
         " FIXMONTHCUTOFF,"+//7
         " FIXMONTHDAY,"+//8
         " FIXMONTHOFFSET"+//9
@@ -218,9 +221,12 @@ public class PaymentTermManager
         " C_PAYMENTTERM_ID," +//1
         " NAME," +//2
         " NETDAYS,"+//3
-        " DECODE(isActive,'Y','true','false') active,"+//4
-        " DECODE(AFTERDELIVERY,'Y','true','false') delivery,"+//5
-        " DECODE(ISDUEFIXED,'Y','true','false') dueFixed,"+//6
+        //" DECODE(isActive,'Y','true','false') active,"+//4
+        " CASE WHEN isActive='Y' THEN 'true' ELSE 'false' END AS active,"+//4
+        //" DECODE(AFTERDELIVERY,'Y','true','false') delivery,"+//5
+        " CASE WHEN AFTERDELIVERY = 'Y' THEN 'true' ELSE 'false' END AS delivery,"+//5
+        //" DECODE(ISDUEFIXED,'Y','true','false') dueFixed,"+//6
+        " CASE WHEN ISDUEFIXED = 'Y' THEN 'true' ELSE 'false' END AS dueFixed,"+//6
         " FIXMONTHCUTOFF,"+//7
         " FIXMONTHDAY,"+//8
         " FIXMONTHOFFSET,"+//9

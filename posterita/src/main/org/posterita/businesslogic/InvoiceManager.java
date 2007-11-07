@@ -488,7 +488,8 @@ public class InvoiceManager extends AbstractDocumentManager
                 " inv.C_ORDER_ID,"+			//6
                 " inv.DATEINVOICED,"+		//7
                 " inv.GRANDTOTAL,"+			//8
-        " decode(inv.ISPAID,'N','No','Y','Yes') isPaid"); //9
+        //" decode(inv.ISPAID,'N','No','Y','Yes') isPaid"); //9
+        " CASE WHEN inv.ISPAID = 'N' THEN 'No' WHEN inv.ISPAID='Y' THEN 'Yes' ELSE  isPaid END"); //9
         
         
         from.append(" from C_INVOICE inv,C_BPARTNER bp");

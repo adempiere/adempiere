@@ -57,8 +57,10 @@ public class DocumentHistoryManager
 		sql.append(" partner.name2, ");			//7.partnerName2
 		sql.append(" ord.created, ");			//8.dateCreated
 		sql.append(" ship.docstatus,");			//9/docStatus
-		sql.append(" DECODE(pay.docstatus, 'CO', 'Paid', 'Awaiting Payment') paymentStatus,");
-		sql.append(" DECODE (ship.docstatus, 'CO', 'Shipped', 'Not Shipped') shipmentStatus,");
+		//sql.append(" DECODE(pay.docstatus, 'CO', 'Paid', 'Awaiting Payment') paymentStatus,");
+		sql.append(" CASE WHEN pay.docstatus = 'CO' THEN 'Paid' ELSE  'Awaiting Payment' END AS paymentStatus,");
+		//sql.append(" DECODE (ship.docstatus, 'CO', 'Shipped', 'Not Shipped') shipmentStatus,");
+		sql.append(" CASE WHEN ship.docstatus= 'CO' THEN 'Shipped' ELSE  'Not Shipped' END AS shipmentStatus,");
 		sql.append(" ord.documentNo,");
         sql.append(" inv.documentNo,");
         sql.append(" pay.documentNo,");

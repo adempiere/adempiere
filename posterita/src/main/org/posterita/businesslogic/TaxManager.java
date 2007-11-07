@@ -239,7 +239,8 @@ public class TaxManager
     public static ArrayList getAllTaxRates(Properties ctx,boolean isActive) throws OperationException
     {
         String sql="select C_TAX_ID,NAME,DESCRIPTION,RATE,ISTAXEXEMPT," +
-                " DECODE(isActive,'Y','true','false') active"+
+                //" DECODE(isActive,'Y','true','false') active"+
+        		" CASE WHEN isActive='Y' THEN 'true' ELSE 'false' END AS active"+
                 " from C_Tax" +
                 " where AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
                 " and AD_ORG_ID="+Env.getAD_Org_ID(ctx);
@@ -287,7 +288,8 @@ public class TaxManager
     public static TaxBean getTaxRate(Properties ctx,int taxId) throws OperationException
     {
         String sql="select C_TAX_ID,NAME,DESCRIPTION,RATE,ISTAXEXEMPT," +
-                " DECODE(isActive,'Y','true','false') active"+
+                //" DECODE(isActive,'Y','true','false') active"+
+        		" CASE WHEN isActive='Y' THEN 'true' ELSE 'false' END AS active"+
                 " from C_Tax" +
                 " where AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
                 " and AD_ORG_ID="+Env.getAD_Org_ID(ctx)+

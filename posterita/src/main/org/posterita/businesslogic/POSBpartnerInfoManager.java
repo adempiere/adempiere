@@ -85,31 +85,41 @@ public class POSBpartnerInfoManager {
 				+ // 13
 				"bp.FIRSTSALE, "
 				+ // 14
-				"DECODE(bp.SOCREDITSTATUS,'"
+				//"DECODE(bp.SOCREDITSTATUS,'"
+				"CASE WHEN bp.SOCREDITSTATUS='"
 				+ MBPartner.SOCREDITSTATUS_CreditHold
-				+ "','"
+				//+ "','"
+				+ "' THEN '"
 				+ Constants.CREDIT_HOLD
-				+ "',"
-				+ "'"
+				//+ "',"
+				//+ "'"
+				+ "' WHEN bp.SOCREDITSTATUS='"
 				+ MBPartner.SOCREDITSTATUS_CreditStop
-				+ "','"
+				//+ "','"
+				+ "' THEN '"
 				+ Constants.CREDIT_STOP
-				+ "',"
-				+ "'"
+				//+ "',"
+				+ "' WHEN bp.SOCREDITSTATUS='"
 				+ MBPartner.SOCREDITSTATUS_NoCreditCheck
-				+ "','"
+				//+ "','"
+				+ "' THEN '"
 				+ Constants.NO_CREDIT_CHECK
-				+ "',"
-				+ "'"
+				//+ "',"
+				+ "' WHEN bp.SOCREDITSTATUS='"
+				//+ "'"
 				+ MBPartner.SOCREDITSTATUS_CreditOK
-				+ "','"
+				//+ "','"
+				+ "'  THEN '"
 				+ Constants.CREDIT_OK
-				+ "',"
-				+ "'"
+				//+ "',"
+				+ "' WHEN bp.SOCREDITSTATUS='"
+				//+ "'"
 				+ MBPartner.SOCREDITSTATUS_CreditWatch
-				+ "','"
+				//+ "','"
+				+ "'  THEN '"
 				+ Constants.CREDIT_WATCH
-				+ "',bp.SOCREDITSTATUS) creditStatus"
+				//+ "',bp.SOCREDITSTATUS) creditStatus"
+				+ "' ELSE bp.SOCREDITSTATUS END AS creditStatus"
 				+ // 15
 				" from C_BPARTNER bp left join (C_BPARTNER_LOCATION bploc left join C_LOCATION loc on bploc.c_location_id=loc.c_location_id)"
 				+ " on bp.C_BPARTNER_ID=bploc.C_BPARTNER_ID"

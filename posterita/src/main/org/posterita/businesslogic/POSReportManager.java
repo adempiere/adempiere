@@ -488,7 +488,8 @@ public class POSReportManager {
 				"ord.docStatus, " + // 6
 				" ord.paymentrule," + // 7
 				" bp.C_BPARTNER_ID," + // 8
-				" DECODE(bp.isCustomer,'N','No','Y','Yes','No') isCustomer," + // 9
+				//" DECODE(bp.isCustomer,'N','No','Y','Yes','No') isCustomer," + // 9
+				" CASE WHEN bp.isCustomer = 'N' THEN  'No' WHEN bp.isCustomer = 'Y' THEN 'Yes' ELSE 'No' END AS isCustomer," + //9
 				" ord.ORDERTYPE " + // 10
 				" from c_order ord,C_BPARTNER bp"
 				+ " where ord.C_BPARTNER_ID=bp.C_BPARTNER_ID"
@@ -812,19 +813,27 @@ public class POSReportManager {
 			throw new UnsupportedDatabaseException(
 					"Operation GetSalesAnalysisReport is not supported on Database: "
 							+ DB.getDatabase().getName());
-		String sql = "select DECODE(grouping(bp.name),1,'Total',bp.name) Dealer,"
+		String sql = 
+				//"select DECODE(grouping(bp.name),1,'Total',bp.name) Dealer,"
+				 "select CASE WHEN grouping(bp.name) = 1 THEN 'Total' ELSE bp.name END AS Dealer,"
 				+ // 1
-				" DECODE(grouping(pc.name),1,bp.name || ' ' ||'Total',pc.name) revenueRecog,"
+				//" DECODE(grouping(pc.name),1,bp.name || ' ' ||'Total',pc.name) revenueRecog,"
+				" CASE WHEN grouping(pc.name) = 1 THEN bp.name || ' ' ||'Total' ELSE pc.name END AS revenueRecog,"
 				+ // 2
-				"DECODE(grouping(attr_brand),1,pc.name|| ' ' || 'Total',attr_brand) brand,"
+				//"DECODE(grouping(attr_brand),1,pc.name|| ' ' || 'Total',attr_brand) brand,"
+				" CASE WHEN grouping(attr_brand) = 1 THEN pc.name|| ' ' || 'Total' ELSE attr_brand END AS brand,"
 				+ // 3
-				"DECODE(grouping(attr_model),1,attr_brand|| ' ' || 'Total',attr_model) Model,"
+				//"DECODE(grouping(attr_model),1,attr_brand|| ' ' || 'Total',attr_model) Model,"
+				"CASE WHEN grouping(attr_model) = 1 THEN attr_brand|| ' ' || 'Total' ELSE attr_model END AS Model,"
 				+ // 4
-				"DECODE(grouping(attr_design),1,attr_model|| ' ' || 'Total',attr_design) Design,"
+				//"DECODE(grouping(attr_design),1,attr_model|| ' ' || 'Total',attr_design) Design,"
+				"CASE WHEN grouping(attr_design) = 1 THEN attr_model|| ' ' || 'Total' ELSE attr_design END AS Design,"
 				+ // 5
-				"DECODE(grouping(attr_colour),1,attr_design|| ' ' || 'Total',attr_colour) colour,"
+				//"DECODE(grouping(attr_colour),1,attr_design|| ' ' || 'Total',attr_colour) colour,"
+				"CASE WHEN (grouping(attr_colour) = 1 THEN attr_design|| ' ' || 'Total' ELSE attr_colour END AS colour,"
 				+ // 6
-				"DECODE(grouping(attr_size),1,attr_colour|| ' ' || 'Total',attr_size) Size1,"
+				//"DECODE(grouping(attr_size),1,attr_colour|| ' ' || 'Total',attr_size) Size1,"
+				"CASE WHEN grouping(attr_size) = 1 THEN attr_colour|| ' ' || 'Total' ELSE attr_size END AS Size1,"
 				+ // 7
 				"sum(ol.qtyordered),"
 				+ // 8

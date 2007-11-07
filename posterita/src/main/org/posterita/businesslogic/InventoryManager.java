@@ -262,7 +262,8 @@ public class InventoryManager
                 "DOCUMENTNO," +//2
                 "to_char(MOVEMENTDATE,'dd/Mon/yyyy')," +//3
                 " description," +//5
-                "DECODE(DOCSTATUS,'CO','Completed','DR','Drafted',DOCSTATUS) status" +//4
+                //"DECODE(DOCSTATUS,'CO','Completed','DR','Drafted',DOCSTATUS) status" +//4
+                " CASE WHEN DOCSTATUS='CO' THEN 'Completed' WHEN DOCSTATUS='DR' THEN 'Drafted' ELSE DOCSTATUS END AS status" +//4
                 " from M_inventory" +
                 " where AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
                 " and ad_org_id="+Env.getAD_Org_ID(ctx)+ 

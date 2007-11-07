@@ -52,7 +52,8 @@ public class UDIMessageManager
         " msg.created," + //4
         " org.name, " + //5
         " msg.AD_ORG_ID," + //6
-        " decode(msg.U_READ,'Y','true','false')" + //7
+        //" decode(msg.U_READ,'Y','true','false')" + //7
+        " CASE WHEN msg.U_READ='Y' THEN 'true' ELSE 'false' END" + //7
         " from U_MESSAGE msg " +
         " join AD_ORG org ON org.AD_ORG_ID = msg.AD_ORG_ID " +
         " where msg.C_AD_ORG_ID =" + strOrgID +
@@ -144,7 +145,8 @@ public class UDIMessageManager
 	        " msg.created," + //4
 	        " org.name, " + //5
 	        " msg.AD_ORG_ID," + //6
-	        " decode(msg.U_READ,'Y','true','false')" + //7
+	        //" decode(msg.U_READ,'Y','true','false')" + //7
+	        " CASE WHEN msg.U_READ='Y' THEN 'true' ELSE 'false' END" + //7
 	        " from U_MESSAGE msg " +
 	        " join AD_ORG org ON org.AD_ORG_ID = msg.C_AD_ORG_ID " +
 	        " where msg.AD_ORG_ID =" + strOrgID +

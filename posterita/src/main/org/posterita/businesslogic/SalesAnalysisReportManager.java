@@ -248,7 +248,8 @@ public class SalesAnalysisReportManager
 		if(salesGroup.equalsIgnoreCase(Constants.REVENUE_RECOGNITION))
 		{
 			sql = "" +
-			"select DECODE(rev.NAME, null, 'others', rev.Name) \"Revenue_Recognition\"," +	//1.Revenue Recognition
+			//"select DECODE(rev.NAME, null, 'others', rev.Name) \"Revenue_Recognition\"," +	//1.Revenue Recognition
+			"select CASE WHEN rev.NAME =  null THEN 'others' ELSE rev.Name END AS \"Revenue_Recognition\"," +	//1.Revenue Recognition
 			"to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +			//2.Date
 			"SUM(fact.AMTACCTCR-fact.AMTACCTDR) as \"Value\"," +			//3.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +								//4.Qty
@@ -268,7 +269,8 @@ public class SalesAnalysisReportManager
 		else if(salesGroup.equalsIgnoreCase(Constants.ATTRIBUTESET))
 		{
 			sql = "" +
-			" select DECODE(attrSet.NAME, null, 'others', attrSet.NAME) \"Attributeset\"," +	//1.Attributeset
+			//" select DECODE(attrSet.NAME, null, 'others', attrSet.NAME) \"Attributeset\"," +	//1.Attributeset
+			" select CASE WHEN attrSet.NAME = null THEN 'others' ELSE attrSet.NAME END AS \"Attributeset\"," +	//1.Attributeset
 			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +			//2.Date
 			" SUM(fact.AMTACCTCR-fact.AMTACCTDR) as \"Value\"," +			//3.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +								//4.Qty
@@ -309,7 +311,8 @@ public class SalesAnalysisReportManager
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP1))
 		{
 			sql = "" +
-			" select DECODE(PROD.GROUP1, null, 'Ungroup', PROD.GROUP1) \"Group1\"," +						//1.Product			
+			//" select DECODE(PROD.GROUP1, null, 'Ungroup', PROD.GROUP1) \"Group1\"," +						//1.Product			
+			" select CASE WHEN PROD.GROUP1 = null THEN 'Ungroup' ELSE PROD.GROUP1 END AS \"Group1\"," +						//1.Product			
 			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//3.Date
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//4.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +							//5.Qty
@@ -328,7 +331,8 @@ public class SalesAnalysisReportManager
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP2))
 		{
 			sql = "" +
-			" select DECODE(PROD.GROUP2, null, 'Ungroup', PROD.GROUP2) \"Group2\"," +						//1.Product			
+			//" select DECODE(PROD.GROUP2, null, 'Ungroup', PROD.GROUP2) \"Group2\"," +						//1.Product			
+			" select CASE WHEN PROD.GROUP2 = null THEN 'Ungroup' ELSE PROD.GROUP2 END AS \"Group2\"," +						//1.Product			
 			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//3.Date
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//4.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +							//5.Qty
@@ -471,7 +475,8 @@ public class SalesAnalysisReportManager
 		
 		if(salesGroup.equalsIgnoreCase(Constants.REVENUE_RECOGNITION))
 		{
-			sql = "select DECODE(rev.NAME, null, 'others', rev.Name) RevenueRecognition,SUM(fact.AMTACCTCR - fact.AMTACCTDR) as Revenue_Recognition,SUM(0-fact.QTY) as Qty " +
+			//sql = "select DECODE(rev.NAME, null, 'others', rev.Name) RevenueRecognition,SUM(fact.AMTACCTCR - fact.AMTACCTDR) as Revenue_Recognition,SUM(0-fact.QTY) as Qty " +
+			sql = "select CASE WHEN rev.NAME = null THEN 'others' ELSE rev.Name END AS RevenueRecognition,SUM(fact.AMTACCTCR - fact.AMTACCTDR) as Revenue_Recognition,SUM(0-fact.QTY) as Qty " +
 			"from FACT_ACCT fact, (M_PRODUCT prod right outer join C_REVENUERECOGNITION rev on rev.C_REVENUERECOGNITION_ID = prod.C_REVENUERECOGNITION_ID)  " +
 			"where fact.ACCOUNT_ID = " +
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id+") " +
@@ -517,7 +522,8 @@ public class SalesAnalysisReportManager
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP1))
 		{
-			sql = "select DECODE(PROD.GROUP1, null, 'Ungrouped', PROD.GROUP1) \"Group1\",SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\",SUM(0 - FACT.QTY) as \"Qty\" " +
+			//sql = "select DECODE(PROD.GROUP1, null, 'Ungrouped', PROD.GROUP1) \"Group1\",SUM(FACT.AMTACCTCR - FACT.AMTACC//TDR) as \"Value\",SUM(0 - FACT.QTY) as \"Qty\" " +
+			sql = "select CASE WHEN PROD.GROUP1 = null THEN 'Ungrouped' ELSE PROD.GROUP1 END AS \"Group1\",SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\",SUM(0 - FACT.QTY) as \"Qty\" " +
 			"from FACT_ACCT FACT, M_PRODUCT PROD " +
 			"where FACT.ACCOUNT_ID = " +
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
@@ -531,7 +537,8 @@ public class SalesAnalysisReportManager
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP2))
 		{
-			sql = "select DECODE(PROD.GROUP2, null, 'Ungrouped', PROD.GROUP2) \"Group2\",SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\",SUM(0 - FACT.QTY) as \"Qty\" " +
+			//sql = "select DECODE(PROD.GROUP2, null, 'Ungrouped', PROD.GROUP2) \"Group2\",SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\",SUM(0 - FACT.QTY) as \"Qty\" " +
+			sql = "select CASE WHEN PROD.GROUP2 = null THEN 'Ungrouped' ELSE PROD.GROUP2 END AS \"Group2\",SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\",SUM(0 - FACT.QTY) as \"Qty\" " +
 			"from FACT_ACCT FACT, M_PRODUCT PROD " +
 			"where FACT.ACCOUNT_ID = " +
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
@@ -622,7 +629,8 @@ public class SalesAnalysisReportManager
 		if(salesGroup.equalsIgnoreCase(Constants.REVENUE_RECOGNITION))
 		{
 			sql = "" +
-			"select DECODE(rev.NAME, null, 'others', rev.Name) RevenueRecognition," +	//1.Revenue Recognition
+			//"select DECODE(rev.NAME, null, 'others', rev.Name) RevenueRecognition," +	//1.Revenue Recognition
+			"select CASE WHEN rev.NAME = null THEN 'others' ELSE rev.Name END AS RevenueRecognition," +	//1.Revenue Recognition
 			"to_char(fact.DATEACCT,'DD-MON-YYYY')," +				//2.Date
 			"SUM(fact.AMTACCTCR-fact.AMTACCTDR) as REVENUE," +			//3.Value
 			"SUM(0-fact.QTY) " +									//4.Qty
