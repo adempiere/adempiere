@@ -1,45 +1,16 @@
 //MUserTest.java
 package test.functional;
 
-import java.io.FileInputStream;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import junit.framework.TestCase;
-
 import org.compiere.model.*;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
-import org.adempiere.test.utils.DBUtils;
 import org.compiere.util.*;
+
+import test.AdempiereTestCase;
+
 import java.sql.*;
 
-public class MUserTest extends TestCase {
+public class MUserTest extends AdempiereTestCase {
 	
-	// Test: General
-	private Properties testProperties = null;
-
-	private Properties m_Ctx = null;
-	
-	private String fileName_DefaultValue = "J:/Trifon-CD-0.3/workspace/adempiere-trunk/adempiere/Adempiere/Adempiere.properties";
-	private String fileName_Key = "AdempiereProperties";
-	private String fileName_Value = "";
-	
-	private String isClient_DefaultValue = "Y";
-	private String isClient_Key = "isClient";
-	private boolean isClient_Value = true;
-
-	private String AD_User_ID_DefaultValue = "0";
-	private String AD_User_ID_Key = "AD_User_ID";
-	private int AD_User_ID_Value = 0;
-
-	private String AD_Client_ID_DefaultValue = "11";
-	private String AD_Client_ID_Key = "AD_Client_ID";
-	private int AD_Client_ID_Value = 11;
-
-	// Test: Specific variables
-	java.sql.Connection c = null;
-
 	// Variables needed for importing/migrating business partners
 	private MLocation location = null;
 	
@@ -485,180 +456,100 @@ public class MUserTest extends TestCase {
 	private MIssue = null;
 	private MQuery = null;
 	*/
-	private String trxName = "test";
-
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		testProperties = new Properties();
-		testProperties.load(new FileInputStream("test.properties"));
-		fileName_Value = testProperties.getProperty(fileName_Key, fileName_DefaultValue);
-		isClient_Value = "Y".equals( testProperties.getProperty(isClient_Key, isClient_DefaultValue) );
-		AD_User_ID_Value = Integer.parseInt(testProperties.getProperty(AD_User_ID_Key, AD_User_ID_DefaultValue) );
-		AD_Client_ID_Value = Integer.parseInt(testProperties.getProperty(AD_Client_ID_Key, AD_Client_ID_DefaultValue) );
-		
-		m_Ctx = new Properties();
-		m_Ctx.setProperty("#AD_User_ID", new Integer(AD_User_ID_Value).toString());
-		m_Ctx.setProperty("#AD_Client_ID", new Integer(AD_Client_ID_Value).toString());
-		System.out.println("m_Ctx: " + m_Ctx);
-		
-		if (fileName_Value.length() < 1) {
-		    assertEquals("Please specify path to Adempiere.properties file!", true, false);
-		}
-		
-		System.setProperty("PropertyFile", fileName_Value);
-		Ini.setClient (isClient_Value);
-		org.compiere.Adempiere.startup(isClient_Value);
-
-		// Force connection if there are enough parameters. Else we work with Adempiere.properties
-//		if (args.length >= 6) {
-//		    CConnection cc = CConnection.get(Database.DB_ORACLE, args[1], Integer.valueOf(args[2]).intValue(), args[3], args[4], args[5]);
-//		    System.out.println("DB UserID:"+cc.getDbUid());
-//		    DB.setDBTarget(cc);
-//		}
-	
-		CLogMgt.setLevel(Level.FINEST);
-/*		Available levels: 
-		Level.OFF, Level.SEVERE, Level.WARNING, Level.INFO,
-		Level.CONFIG, Level.FINE, Level.FINER, Level.FINEST, Level.ALL
-*/
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		
-		testProperties = null;
-		m_Ctx = null;
-	}
 
     public int getC_Region_ID(String Region) {
-	System.out.println("In getC_Region_ID");
 
-	String sql = "select c_region_id from c_region where name = ?";
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-
-	int C_Region_ID = -1;
+		String sql = "select c_region_id from c_region where name = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 	
-         try {
-		pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
-		pstmt.setString(1, Region);
-		rs = pstmt.executeQuery();
-		
-
-		while (rs.next()) {
-			C_Region_ID = rs.getInt(1);
+		int C_Region_ID = -1;
+		try {
+			pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, getTrxName());
+			pstmt.setString(1, Region);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				C_Region_ID = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			fail(e.getLocalizedMessage());
+		} finally {
+			DB.close( rs, pstmt );
 		}
-	} catch (SQLException e) {
-		System.out.println("Execption; sql = "+sql+"; e.getMessage() = " +e.getMessage());
-	} finally {
-		DBUtils.close( rs);
-		DBUtils.close( pstmt);
-	}
-	System.out.println("C_Region_ID: " + C_Region_ID);
-
-    return C_Region_ID;
-
+	
+	    return C_Region_ID;
     }
 
     public int getC_Country_ID(String Country) {
-	System.out.println("In getC_Country_ID");
-
-	String sql = "select c_country_id from c_country where name = ?";
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-
-	int C_Country_ID = -1;
+		String sql = "select c_country_id from c_country where name = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 	
-         try {
-		pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
-		pstmt.setString(1, Country);
-		rs = pstmt.executeQuery();
+		int C_Country_ID = -1;
 		
-
-		while (rs.next()) {
-			C_Country_ID = rs.getInt(1);
+	    try {
+			pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, getTrxName());
+			pstmt.setString(1, Country);
+			rs = pstmt.executeQuery();
+			
+	
+			while (rs.next()) {
+				C_Country_ID = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			fail(e.getLocalizedMessage());
+		} finally {
+			DB.close( rs, pstmt );
 		}
-	} catch (SQLException e) {
-		System.out.println("Execption; sql = "+sql+"; e.getMessage() = " +e.getMessage());
-	} finally {
-		DBUtils.close( rs);
-		DBUtils.close( pstmt);
-	}
-	System.out.println("C_Country_ID: " + C_Country_ID);
-
-    return C_Country_ID;
+	
+	    return C_Country_ID;
 
     }
 
-    public void testCreateMPBPartner()
+    public void testCreateMBPartner()
     {
 	try {
 
-		m_partner = new MBPartner (m_Ctx, 0, "test");
-		if (m_partner != null) {
-			// FIXME:  determine AD_Client_ID correctly
-			//m_partner.setAD_Client_ID(11);
-			m_partner.setValue ("");
-			m_partner.setName ("Test MBPartner with contact");
-			m_partner.setName2 (null);
-			m_partner.setDUNS("");
-			m_partner.setFirstSale(null);
-			//
-			m_partner.setSO_CreditLimit (Env.ZERO);
-			m_partner.setSO_CreditUsed (Env.ZERO);
-			m_partner.setTotalOpenBalance (Env.ZERO);
-			//      s_m_partner.setRating(null);
-			//
-			m_partner.setActualLifeTimeValue(Env.ZERO);
-			m_partner.setPotentialLifeTimeValue(Env.ZERO);
-			m_partner.setAcqusitionCost(Env.ZERO);
-			m_partner.setShareOfCustomer(0);
-			m_partner.setSalesVolume(0);
+		m_partner = new MBPartner (getCtx(), 0, getTrxName());
+		m_partner.setValue ("");
+		m_partner.setName ("Test MBPartner with contact");
+		m_partner.setName2 (null);
+		m_partner.setDUNS("");
+		m_partner.setFirstSale(null);
+		//
+		m_partner.setSO_CreditLimit (Env.ZERO);
+		m_partner.setSO_CreditUsed (Env.ZERO);
+		m_partner.setTotalOpenBalance (Env.ZERO);
+		//      s_m_partner.setRating(null);
+		//
+		m_partner.setActualLifeTimeValue(Env.ZERO);
+		m_partner.setPotentialLifeTimeValue(Env.ZERO);
+		m_partner.setAcqusitionCost(Env.ZERO);
+		m_partner.setShareOfCustomer(0);
+		m_partner.setSalesVolume(0);
 
-			MBPGroup m_group = new MBPGroup (m_Ctx, 0, "test");
-			// FIXME:  determine AD_Client_ID correctly
-			//m_group.setAD_Client_ID(11);
-                        m_group.setName ("Test Group Name");  // N
-                        m_group.setIsConfidentialInfo (false);  // N
-                        m_group.setIsDefault (false);
+		MBPGroup m_group = new MBPGroup (getCtx(), 0, getTrxName());
+        m_group.setName ("Test Group Name");  // N
+        m_group.setIsConfidentialInfo (false);  // N
+        m_group.setIsDefault (false);
 
-                        m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
+        m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
 
-                        m_group.save();
+        m_group.save();
 
-			m_partner.setBPGroup(m_group);
-			// Reset Created, Updated to current system time ( teo_sarca )
-			if(m_partner.save()) {
-				m_contact = new MUser(m_Ctx, 0, "test2");
-				m_contact.setName("Test Contact Name");
-				//m_contact.setAD_Client_ID(11);
-				m_contact.setIsActive(true);
-				m_contact.setC_BPartner_ID(m_partner.get_ID());
-				m_contact.save();
-					
-			}
-		} else {
-       			System.out.println("m_partner is null");
+		m_partner.setBPGroup(m_group);
+		// Reset Created, Updated to current system time ( teo_sarca )
+		if(m_partner.save()) {
+			m_contact = new MUser(getCtx(), 0, getTrxName());
+			m_contact.setName("Test Contact Name");
+			m_contact.setIsActive(true);
+			m_contact.setC_BPartner_ID(m_partner.get_ID());
+			m_contact.save();
 		}
- 
-		try {
-			boolean saveResult =  DB.commit(true, "test");
-			boolean saveResult2 =  DB.commit(true, "test2");
-			assertTrue("DB.commit failed", saveResult);
-			assertTrue("DB.commit failed", saveResult2);
-			if( saveResult) {
-				System.out.println("MBPartner saved successfully");
-			}
 		
-			//DB.commit(true, "test");
-		} catch(Exception e) {
-			System.out.println("Location not updated");
-		}
+		commit();
       } catch(Exception e) {
-		System.out.println("Exception with MBPartnerTest");
+		fail(e.getLocalizedMessage());
       }
 
     }

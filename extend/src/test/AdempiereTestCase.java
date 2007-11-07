@@ -130,6 +130,19 @@ public class AdempiereTestCase extends TestCase {
 		CLogMgt.setLevel(LogLevel_Value);
 	}
 
+	protected void commit() throws Exception {
+		Trx trx = null;
+		if (trxName != null)
+			trx = Trx.get(trxName, false);
+		if (trx != null && trx.isActive()) {
+			try {
+				trx.commit(true);
+			} finally {
+				trx.close();
+			}
+		}
+		trx = null;
+	}
 
 	@Override
 	protected void tearDown() throws Exception {
