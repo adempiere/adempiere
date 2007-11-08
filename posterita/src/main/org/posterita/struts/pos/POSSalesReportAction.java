@@ -28,6 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
+import java.sql.Timestamp;
+
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -144,7 +148,8 @@ public class POSSalesReportAction extends POSDispatchAction
             XYPlot plot = (XYPlot) timeSeriesChart.getChart().getPlot();
             DateAxis axis = (DateAxis) plot.getDomainAxis();    
             
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+            //SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+            SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
             Date d1 = null;
     		Date d2 = null;;
     		try 
@@ -236,9 +241,12 @@ public class POSSalesReportAction extends POSDispatchAction
         	Date startDate = ReportDateManager.getStartDateForPeriod(timeperiod);
         	Date endDate = ReportDateManager.getEndDateForPeriod(timeperiod);
         	
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        	String fromDate = sdf.format(startDate);
-        	String toDate = sdf.format(endDate);
+        	//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        	//String fromDate = sdf.format(startDate);
+        	//String toDate = sdf.format(endDate);
+        	String fromDate = DB.TO_DATE( new Timestamp (startDate.getTime())); 
+        	String toDate = DB.TO_DATE( new Timestamp (endDate.getTime())); 
+
         	
         	reportForm.setFromDate(fromDate);
         	reportForm.setToDate(toDate);

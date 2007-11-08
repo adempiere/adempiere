@@ -24,6 +24,8 @@ package org.posterita.core;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.compiere.util.DisplayType;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -49,7 +51,8 @@ public class PDFReportPageEventHelper extends PdfPageEventHelper
     
     public void onOpenDocument(PdfWriter writer, Document document) 
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         dateAndTime = sdf.format(Calendar.getInstance().getTime());
         
         table = new PdfPTable(2);            

@@ -26,9 +26,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -144,16 +148,20 @@ public class CustomPOSReportAction extends POSDispatchAction
         	Date startDate = ReportDateManager.getStartDateForPeriod(timePeriod);
         	Date endDate = ReportDateManager.getEndDateForPeriod(timePeriod);
         	
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-        	fromDate = sdf.format(startDate);
-        	toDate = sdf.format(endDate);
+        	//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        	//fromDate = sdf.format(startDate);
+        	//toDate = sdf.format(endDate);
+        	fromDate = DB.TO_DATE(new Timestamp(startDate.getTime()));
+        	toDate = DB.TO_DATE(new Timestamp(endDate.getTime()));
         	
         	subtitle = "For " + timePeriod;
         }
         else if(dateRange.endsWith(Constants.CUSTOM_DATE_RANGE))
         {
-            fromDate = ReportDateManager.getFromDate(bean);
-        	toDate = ReportDateManager.getToDate(bean);        	     
+            //fromDate = ReportDateManager.getFromDate(bean);
+        	//toDate = ReportDateManager.getToDate(bean); 
+        	fromDate = bean.getFromDate();
+        	toDate = bean.getToDate();
         	
         	subtitle = "For period:"+fromDate+" to "+toDate;
         }
@@ -337,7 +345,8 @@ public class CustomPOSReportAction extends POSDispatchAction
             
             if(!error)
             { 	
-            	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+            	//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+            	SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
             	
             	fromDate 	= ReportDateManager.getFromDate(bean);
             	toDate 		= ReportDateManager.getToDate(bean);

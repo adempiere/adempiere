@@ -53,6 +53,7 @@ import org.compiere.model.MWarehouse;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 import org.compiere.utils.DBUtils;
 import org.posterita.Constants;
 import org.posterita.beans.BPartnerBean;
@@ -83,6 +84,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+
 public class POSReportManager {
 	private static final String ASCENDING_SORT = "asc";
 
@@ -105,12 +107,14 @@ public class POSReportManager {
 					+ " and ol.AD_CLIENT_ID="
 					+ Env.getAD_Client_ID(ctx)
 					+ " and ord.ISACTIVE='Y'"
-					+ " and ol.CREATED between to_date('"
+					//+ " and ol.CREATED between to_date('"
+					+ " and ol.CREATED between "
 					+ fromDate
-					+ "','DD-Mon-YYYY HH24:MI:SS') "
-					+ " and to_date('"
+					//+ "','DD-Mon-YYYY HH24:MI:SS') "
+					+ " and "
+					//+ " and to_date('"
 					+ todate
-					+ "','DD-Mon-YYYY HH24:MI:SS') "
+					//+ "','DD-Mon-YYYY HH24:MI:SS') "
 					+ " and ord.ORDERTYPE='"
 					+ UDIOrderTypes.POS_ORDER.getOrderType()
 					+ "'"
@@ -199,9 +203,10 @@ public class POSReportManager {
 				+ " and ord.AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
 				+ " and ol.M_PRODUCT_ID=" + productId + " and ord.orderType='"
 				+ UDIOrderTypes.CUSTOMER_RETURN_ORDER.getOrderType() + "'"
-				+ " and ol.CREATED between to_date('" + fromDate
-				+ "','DD-MM-YYYY HH24:MI:SS') " + " and to_date('" + todate
-				+ "','DD-MM-YYYY HH24:MI:SS') ";
+				//+ " and ol.CREATED between to_date('" + fromDate
+				//+ "','DD-MM-YYYY HH24:MI:SS') " + " and to_date('" + todate
+				+ " and ol.CREATED between "+ fromDate + " and "+ todate;
+				//+ "','DD-MM-YYYY HH24:MI:SS') ";
 
 		PreparedStatement pstmt = DB.prepareStatement(sql, null);
 
@@ -229,13 +234,14 @@ public class POSReportManager {
 	public static ArrayList<POSReportBean> getStockMovementReport(
 			Properties ctx, String fromDate, String todate)
 			throws OperationException {
-
 		String sql = "select distinct v.m_product_id," + " pr.name"
 				+ " from M_TRANSACTION_V v,m_product pr"
 				+ " where v.m_product_id=pr.m_product_id"
-				+ " and v.CREATED between to_date('" + fromDate
-				+ "','DD-MON-YYYY HH24:MI:SS') " + " and to_date('" + todate
-				+ "','DD-MON-YYYY HH24:MI:SS') " + " and v.AD_CLIENT_ID="
+				//+ " and v.CREATED between to_date('" + fromDate
+				//+ "','DD-MON-YYYY HH24:MI:SS') " + " and to_date('" + todate
+				//+ "','DD-MON-YYYY HH24:MI:SS') " + " and v.AD_CLIENT_ID="
+				+ " and v.CREATED between " + fromDate +" AND "+todate
+				+ " and v.AD_CLIENT_ID="
 				+ Env.getAD_Client_ID(ctx) + " and v.AD_ORG_ID="
 				+ Env.getAD_Org_ID(ctx) + " order by pr.name";
 
@@ -255,8 +261,12 @@ public class POSReportManager {
 
 		PreparedStatement pstmt = DB.prepareStatement(sql, null);
 
+
 		ResultSet rs;
 		try {
+			//pstmt.setTimestamp(1, Timestamp.valueOf(fromDate));
+			//pstmt.setTimestamp(2, Timestamp.valueOf(todate));
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int qtyOfSales;
@@ -394,9 +404,10 @@ public class POSReportManager {
 					+ " from c_orderLine ol,C_ORDER ord"
 					+ " where ol.C_ORDER_ID=ord.C_ORDER_ID and " + whereClause
 					+ " and M_PRODUCT_ID=" + productId
-					+ " and ol.CREATED between to_date('" + fromDate
-					+ "','DD-MON-YYYY HH24:MI:SS') " + " and to_date('" + toDate
-					+ "','DD-MON-YYYY HH24:MI:SS') " + " and ord.ORDERTYPE='"
+					//+ " and ol.CREATED between to_date('" + fromDate
+					//+ "','DD-MON-YYYY HH24:MI:SS') " + " and to_date('" + toDate
+					//+ "','DD-MON-YYYY HH24:MI:SS') " + " and ord.ORDERTYPE='"
+					+ "and ol.CREATED between "+  fromDate + "and "+ toDate + "  and ord.ORDERTYPE='" 
 					+ orderType + "'" + " and ord.DOCSTATUS in ('CO','CL')"
 					+ " and ord.M_WAREHOUSE_ID=" + warehouse.get_ID()
 					+ " and ord.ISACTIVE='Y'";
@@ -408,7 +419,8 @@ public class POSReportManager {
 					+ warehouse.getDefaultLocator().get_ID()
 					+ " and AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
 					+ " and AD_ORG_ID=" + Env.getAD_Org_ID(ctx)
-					+ " and created<to_date('" + fromDate
+					//+ " and created<to_date('" + fromDate
+					+  " and created<" + fromDate
 					+ "','DD-MON-YYYY HH24:MI:SS')";
 
 		else if (queryType.equalsIgnoreCase("inventortIn"))
@@ -417,8 +429,9 @@ public class POSReportManager {
 					+ warehouse.getDefaultLocator().get_ID()
 					+ " and AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
 					+ " and AD_ORG_ID=" + Env.getAD_Org_ID(ctx)
-					+ " and created>to_date('" + fromDate
-					+ "','DD-MON-YYYY HH24:MI:SS')" + " and MOVEMENTTYPE='"
+					//+ " and created>to_date('" + fromDate
+					//+ "','DD-MON-YYYY HH24:MI:SS')" + " and MOVEMENTTYPE='"
+					+ " and created>"+fromDate + "and " + " and MOVEMENTTYPE='"
 					+ MTransaction.MOVEMENTTYPE_InventoryIn + "'";
 
 		else if (queryType.equalsIgnoreCase("inventoryOut"))
@@ -428,8 +441,9 @@ public class POSReportManager {
 					+ warehouse.getDefaultLocator().get_ID()
 					+ " and AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
 					+ " and AD_ORG_ID=" + Env.getAD_Org_ID(ctx)
-					+ " and created>to_date('" + fromDate
-					+ "','DD-MON-YYYY HH24:MI:SS')" + " and MOVEMENTTYPE='"
+					//+ " and created>to_date('" + fromDate
+					//+ "','DD-MON-YYYY HH24:MI:SS')" + " and MOVEMENTTYPE='"
+					+ " and created>"+fromDate + "and " + " and MOVEMENTTYPE='"
 					+ MTransaction.MOVEMENTTYPE_InventoryOut + "'";
 
 		else if (queryType.equalsIgnoreCase("closing"))
@@ -439,7 +453,8 @@ public class POSReportManager {
 					+ warehouse.getDefaultLocator().get_ID()
 					+ " and AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
 					+ " and AD_ORG_ID=" + Env.getAD_Org_ID(ctx)
-					+ " and created<to_date('" + toDate + "','DD-MM-YYYY')";
+					//+ " and created<to_date('" + toDate + "','DD-MM-YYYY')";
+					+ " and created<"+fromDate ;
 		/*
 		 * sql = "select" + " sum(st.QTYONHAND)" + //3 " from M_STORAGE st" + "
 		 * where st.M_PRODUCT_ID=" +productId+ " and
@@ -855,12 +870,14 @@ public class POSReportManager {
 				+ Env.getAD_Org_ID(ctx)
 				+ " and pr.C_REVENUERECOGNITION_ID=pc.C_REVENUERECOGNITION_ID"
 				+ " and ord.docstatus='CO'"
-				+ " and ol.CREATED between to_date('"
+				//+ " and ol.CREATED between to_date('"
+				+ " and ol.CREATED between "
 				+ fromDate
-				+ "','DD-Mon-YYYY HH24:MI:SS') "
-				+ " and to_date('"
+				//+ "','DD-Mon-YYYY HH24:MI:SS') "
+				//+ " and to_date('"
+				+ " and "
 				+ toDate
-				+ "','DD-MON-YYYY HH24:MI:SS') "
+				//+ "','DD-MON-YYYY HH24:MI:SS') "
 				+ " group by rollup (bp.name,pc.name,attr_brand,attr_model,attr_design,attr_colour,attr_size)";
 
 		PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -1099,7 +1116,8 @@ public class POSReportManager {
 		documentNo = order.getDocumentNo();
 
 		Date d = new Date(order.getCreated().getTime());
-		SimpleDateFormat s = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		//SimpleDateFormat s = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		SimpleDateFormat s = DisplayType.getDateFormat(DisplayType.Date);
 		dateOrdered = s.format(d);
 
 		// getting salesrep
@@ -1982,7 +2000,9 @@ public class POSReportManager {
 		documentNo = minout.getDocumentNo();
 
 		Date d = new Date(minout.getCreated().getTime());
-		SimpleDateFormat s = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		//DisplayType.getDateFormat(DisplayType.Date);
+		//SimpleDateFormat s = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		SimpleDateFormat s = DisplayType.getDateFormat(DisplayType.Date);
 		dateOrdered = s.format(d);
 
 		// getting salesrep
@@ -2297,7 +2317,8 @@ public class POSReportManager {
 			layoutTbl.getDefaultCell().setBorderWidth(NO_BORDER);
 			layoutTbl.getDefaultCell().setPadding(2.0f);
 
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+			//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+			SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
 			Date today = new Date(System.currentTimeMillis());
 
 			// 1.add title
@@ -2445,7 +2466,8 @@ public class POSReportManager {
 
 	public static String endOfTheDayReport(Properties ctx,
 			CurrentTillAmountBean tillBean, CashBookDetailBean cashBean) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
 		// String currency =
 		// POSTerminalManager.getPOSDefaultCurrency(ctx).getCurSymbol();
 		Date today = new Date(System.currentTimeMillis());
@@ -2526,7 +2548,8 @@ public class POSReportManager {
 	
 	public static String getDailySalesReport( Properties ctx, Timestamp time,int posID, String trxName) throws SQLException, OperationException
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
 		Date today = new Date(System.currentTimeMillis());
 		String subtitle = sdf.format(today);
 		

@@ -1047,15 +1047,17 @@ public class POSManager
         int posId=Env.getContextAsInt(ctx,UdiConstants.POS_ID);
         BigDecimal grandTotal =null;
         
-        long date = toDate.getTime();
+        //long date = toDate.getTime();
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
-        String sqlDate = sdf.format(new Date(date));      
+        //String sqlDate = sdf.format(new Date(date));   \
+        String sqlDate = DB.TO_DATE(toDate);  
         
         String sql="select sum(pay.payAmt) " +
         " from C_order ord,c_payment pay right outer join C_invoice inv  on inv.c_Invoice_id=pay.c_Invoice_id" +
-        " where pay.created>=TO_DATE('" +sqlDate+"','YYYY-MM-DD HH24:MI:SS')"+
+        //" where pay.created>=TO_DATE('" +sqlDate+"','YYYY-MM-DD HH24:MI:SS')"+
+        " where pay.created>="+sqlDate+
         " and inv.c_order_id=ord.c_order_id"+
         " and ord.POSID="+posId+
         " and ord.AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
@@ -1229,11 +1231,11 @@ public class POSManager
         bean=CashManager.getData(ctx,pos.getC_CashBook_ID(),false,null);
         if (bean==null)
         { 
-            Timestamp time = new Timestamp(System.currentTimeMillis());
+            /*Timestamp time = new Timestamp(System.currentTimeMillis());
             Date adate= new Date(time.getTime());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String newDate=sdf.format(adate);
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            //SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
             Timestamp timestamp = null;
             try
@@ -1245,7 +1247,8 @@ public class POSManager
             {
                 throw new OperationException(e);
             }
-            return  timestamp;
+            return  timestamp;*/
+        	return new Timestamp(System.currentTimeMillis());
         }
         MCash cash = new MCash(ctx,bean.getCashJournalId().intValue(),null);
         

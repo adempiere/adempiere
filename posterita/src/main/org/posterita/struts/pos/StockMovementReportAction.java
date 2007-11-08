@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.sql.*;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.compiere.util.DisplayType;
+import org.compiere.util.DB;
 
 import org.posterita.Constants;
 import org.posterita.beans.ReportBean;
@@ -61,7 +64,8 @@ public class StockMovementReportAction extends POSDispatchAction
         Properties ctx = TmkJSPEnv.getCtx(request);
         
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         
         String toDate = sdf.format(new Date(cal.getTimeInMillis()));
         
@@ -88,9 +92,10 @@ public class StockMovementReportAction extends POSDispatchAction
         Properties ctx = TmkJSPEnv.getCtx(request);
         
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        
-        String toDate = sdf.format(new Date(cal.getTimeInMillis()));
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date); 
+        //String toDate = sdf.format(new Date(cal.getTimeInMillis()));
+        String toDate = DB.TO_DATE(new Timestamp(cal.getTimeInMillis()));
         
         cal.set(Calendar.DATE,1);
         cal.set(Calendar.HOUR_OF_DAY,0);
@@ -98,7 +103,8 @@ public class StockMovementReportAction extends POSDispatchAction
         cal.set(Calendar.SECOND,0);
         cal.set(Calendar.MILLISECOND,0);
         
-        String fromDate = sdf.format(new Date(cal.getTimeInMillis()));
+        //String fromDate = sdf.format(new Date(cal.getTimeInMillis()));
+        String fromDate = DB.TO_DATE(new Timestamp(cal.getTimeInMillis()));
         
         ArrayList list=POSReportManager.getStockMovementReport(ctx,fromDate,toDate);
         request.getSession().setAttribute(Constants.STOCK_MOVEMENT,list);
@@ -137,7 +143,8 @@ public class StockMovementReportAction extends POSDispatchAction
         	Date startDate = ReportDateManager.getStartDateForPeriod(timePeriod);
         	Date endDate = ReportDateManager.getEndDateForPeriod(timePeriod);
         	
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        	//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        	SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         	fromDate = sdf.format(startDate);
         	toDate = sdf.format(endDate);
         	

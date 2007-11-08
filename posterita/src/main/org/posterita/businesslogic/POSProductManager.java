@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -965,9 +966,12 @@ public class POSProductManager extends ProductManager
     	Date startDate = ReportDateManager.getStartDateForPeriod(period);
     	Date endDate = ReportDateManager.getEndDateForPeriod(period);
     	
-    	SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    	String fromDate = f.format(startDate);
-    	String toDate = f.format(endDate);
+    	//SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    	//String fromDate = f.format(startDate);
+    	//String toDate = f.format(endDate);
+    	//SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    	String fromDate = DB.TO_DATE(new Timestamp(startDate.getTime()));
+    	String toDate = DB.TO_DATE(new Timestamp(endDate.getTime()));
     	
     	String sql = "select " +		
 		"(qtyordered - qtyreturned) as NetQtySold," +		//1.net qty sold
@@ -982,8 +986,9 @@ public class POSProductManager extends ProductManager
 		" and bp.ISCUSTOMER = 'Y' " +
 		" and ORDERTYPE in ('POS Order','Credit Order') " +
 		" and ord.DATEORDERED between " +
-		" to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +			//<----------2.startDate
-		" and to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +		//<----------3.endDate
+		//" to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +			//<----------2.startDate
+		//" and to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +		//<----------3.endDate
+		fromDate + " and "+ toDate +
 		") QTYORDERED, " +
 		
 		"( select nvl(sum(ordline.QTYORDERED),0) as qtyreturned, nvl(sum(ordline.LINENETAMT),0) as returnAmt " +
@@ -994,8 +999,9 @@ public class POSProductManager extends ProductManager
 		" and bp.ISCUSTOMER = 'Y' " +
 		" and ORDERTYPE = 'Customer Return Order' " +
 		" and ord.DATEORDERED between " +
-		" to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +			//<----------5.startDate
-		" and to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +		//<----------6.endDate
+		//" to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +			//<----------5.startDate
+		//" and to_date( ? , 'DD-MM-YYYY HH24:MI:SS' )" +		//<----------6.endDate
+		fromDate + " AND " + toDate +
 		") QtyReturned " ;
 
 		PreparedStatement pstmt = null;
@@ -1314,8 +1320,6 @@ public class POSProductManager extends ProductManager
      */
 	public static ProductBean getProduct(Properties ctx, String barcode, String trxName) throws OperationException 
 	{
-		String msg = null;
-		
 		if((barcode == null) || (barcode.length() == 0))
 		{
 			throw new InvalidBarcodeException("Invalid Barcode! Barcode is either empty or null.");
@@ -1329,23 +1333,20 @@ public class POSProductManager extends ProductManager
 		if((ids == null) || (ids.length == 0))
 		{
 			//throw new ProductNotFoundException("Found no product with barcode: " + barcode);
-			msg = "Found no product with barcode: " + barcode;
+			String msg = "Found no product with barcode: " + barcode;
+			
+			whereClause = "Value = '" + barcode + "' " +
+			"and AD_CLIENT_ID = " + Env.getAD_Client_ID(ctx);
+			
+			ids  = MProduct.getAllIDs(MProduct.Table_Name, whereClause, trxName);
+			
+			if((ids == null) || (ids.length == 0))
+			{
+				msg = msg + " , Found no product with search key: " + barcode;
+				throw new ProductNotFoundException(msg);
+			}
 		}
-		
-		whereClause = "Value = '" + barcode + "' " +
-		"and AD_CLIENT_ID = " + Env.getAD_Client_ID(ctx);
-		
-		if((ids == null) || (ids.length == 0))
-		{
-			msg = msg + " , Found no product with search key: " + barcode;
-		}
-		
-		if(msg != null)
-		{
-			throw new ProductNotFoundException(msg);			
-		}
-		
-		
+
 		int productId = ids[0];		
 		ProductBean productDetails = viewPOSProduct(ctx, productId);
 		

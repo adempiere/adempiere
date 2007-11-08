@@ -36,6 +36,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.compiere.util.DisplayType;
 
 import org.posterita.Constants;
 import org.posterita.beans.POSHistoryBean;
@@ -230,7 +231,8 @@ public class POSReportAction extends BaseDispatchAction
         	Date startDate = ReportDateManager.getStartDateForPeriod(timePeriod);
         	Date endDate = ReportDateManager.getEndDateForPeriod(timePeriod);
         	
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        	//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        	SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         	fromDate = sdf.format(startDate);
         	toDate = sdf.format(endDate);
         	

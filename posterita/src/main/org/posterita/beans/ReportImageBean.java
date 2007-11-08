@@ -27,6 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.compiere.model.*;
+import org.compiere.util.DisplayType;
+
 
 public class ReportImageBean 
 {
@@ -45,7 +48,8 @@ public class ReportImageBean
     
     private void initDateFrom()
     {
-        SimpleDateFormat df = new  SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        //SimpleDateFormat df = new  SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+    	SimpleDateFormat df = DisplayType.getDateFormat(DisplayType.Date);
         
         Calendar calendar = GregorianCalendar.getInstance();
         
@@ -66,7 +70,8 @@ public class ReportImageBean
     
     private void initDateTo()
     {
-        SimpleDateFormat df = new  SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        //SimpleDateFormat df = new  SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+    	SimpleDateFormat df = DisplayType.getDateFormat(DisplayType.Date);
         
         Calendar calendar = GregorianCalendar.getInstance();
         //int maxNoOfDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);        

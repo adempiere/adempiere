@@ -101,8 +101,9 @@ public class SalesAnalysisReportManager
 				"and ol.AD_ORG_ID=? " +
 				"and pr.C_REVENUERECOGNITION_ID=pc.C_REVENUERECOGNITION_ID " +
 				"and ord.docstatus='CO' " +
-				"and ol.CREATED between to_date(?,'DD-MON-YYYY HH24:MI:SS')  " +
-				"and to_date(?,'DD-MON-YYYY HH24:MI:SS') " +
+				//"and ol.CREATED between to_date(?,'DD-MON-YYYY HH24:MI:SS')  " +
+				//"and to_date(?,'DD-MON-YYYY HH24:MI:SS') " 
+				"and ol.CREATED between ?  and ? "+ 
 				"group by bp.name,pc.name,attr_brand,attr_model,attr_design,attr_colour,attr_size";
 		
 		return sql;
@@ -238,8 +239,9 @@ public class SalesAnalysisReportManager
         	"select COALESCE(SUM(fact.AMTACCTDR - fact.AMTACCTCR), 0) as \""+ accountName +"\" " +
         	"from  FACT_ACCT FACT where fact.ACCOUNT_ID = " +
         	"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '" + account_id + "' and AD_CLIENT_ID = "+ ad_client_id +") " +
-        	"and fact.DATEACCT between to_date('" + fromDate + "','DD-MON-YYYY HH24:MI:SS') " +
-        	"and to_date('" + toDate + "','DD-MON-YYYY HH24:MI:SS') " +
+        	//"and fact.DATEACCT between to_date('" + fromDate + "','DD-MON-YYYY HH24:MI:SS') " +
+        	//"and to_date('" + toDate + "','DD-MON-YYYY HH24:MI:SS') " +
+        	"fact.DATEACCT between "+ fromDate  + " and "+ toDate + " "+
         	"and fact.AD_CLIENT_ID = " + ad_client_id;
         	
         	return sql;
@@ -259,12 +261,16 @@ public class SalesAnalysisReportManager
 			"and fact.M_PRODUCT_ID = prod.M_PRODUCT_ID " +
 			//"and rev.C_REVENUERECOGNITION_ID(+) = prod.C_REVENUERECOGNITION_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate +
 			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate + " "+
 			"and fact.AD_CLIENT_ID = "+ad_client_id +
-			" group by rev.NAME,to_char(fact.DATEACCT,'DD-MON-YYYY') " +
-			" order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,rev.NAME asc";
+			//" group by rev.NAME,to_char(fact.DATEACCT,'DD-MON-YYYY') " +
+			//" order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,rev.NAME asc";
+			" group by rev.NAME,fact.DATEACCT " +
+			" order by fact.DATEACCT desc,rev.NAME asc";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.ATTRIBUTESET))
 		{
@@ -282,12 +288,16 @@ public class SalesAnalysisReportManager
 			" and prod.M_ATTRIBUTESETINSTANCE_ID = attrSetIns.M_ATTRIBUTESETINSTANCE_ID " +
 			" and attrSet.M_ATTRIBUTESET_ID = attrSetIns.M_ATTRIBUTESET_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate +
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate +
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
-			" group by attrSet.name,to_char(fact.DATEACCT,'DD-MON-YYYY') " +
-			" order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,attrSet.name asc";
+			//" group by attrSet.name,to_char(fact.DATEACCT,'DD-MON-YYYY') " +
+			//" order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,attrSet.name asc";
+			" group by attrSet.name,fact.DATEACCT " +
+			" order by fact.DATEACCT, desc,attrSet.name asc";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.PRODUCT))
 		{
@@ -301,9 +311,11 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate + 
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate +
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.NAME" +
 			" Order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,PROD.NAME asc";
@@ -321,9 +333,11 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate +
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate +
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.GROUP1" +
 			" Order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,PROD.GROUP1 asc";
@@ -341,9 +355,11 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate + 
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate +
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.GROUP2" +
 			" Order by to_char(fact.DATEACCT,'DD-MON-YYYY') desc,PROD.GROUP2 asc";
@@ -361,9 +377,11 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.C_BPARTNER_ID = BP.C_BPARTNER_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate + 
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate +
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			//" having SUM(0 - FACT.QTY) <> 0 " +
 			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),BP.NAME" +
@@ -405,9 +423,11 @@ public class SalesAnalysisReportManager
 					" and attrSetIns.M_ATTRIBUTESET_ID = " + attributeSetId +
 					" and attr.M_ATTRIBUTE_ID = " + attributeId +
 					" and fact.DATEACCT between " +
-					" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					fromDate +
 					" and" +
-					" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					toDate +
 					")" +
 					"group by ATTRIBUTE_VALUE,to_char(DATEACCT,'DD-MON-YYYY') " +
 					"order by to_char(DATEACCT,'DD-MON-YYYY') desc,ATTRIBUTE_VALUE asc";
@@ -483,10 +503,12 @@ public class SalesAnalysisReportManager
 			"and fact.M_PRODUCT_ID = prod.M_PRODUCT_ID " +
 			//"and rev.C_REVENUERECOGNITION_ID(+) = prod.C_REVENUERECOGNITION_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate +
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" group by rev.NAME";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.ATTRIBUTESET))
@@ -500,10 +522,12 @@ public class SalesAnalysisReportManager
 			"and prod.M_ATTRIBUTESETINSTANCE_ID = attrSetIns.M_ATTRIBUTESETINSTANCE_ID " +
 			"and attrSet.M_ATTRIBUTESET_ID = attrSetIns.M_ATTRIBUTESET_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" group by attrSet.name";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.PRODUCT))
@@ -514,10 +538,12 @@ public class SalesAnalysisReportManager
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			"AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate +
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" GROUP BY PROD.NAME";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP1))
@@ -529,10 +555,12 @@ public class SalesAnalysisReportManager
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			"AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" GROUP BY PROD.GROUP1";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP2))
@@ -544,10 +572,12 @@ public class SalesAnalysisReportManager
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			"AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			" GROUP BY PROD.GROUP2";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.CUSTOMER))
@@ -560,10 +590,12 @@ public class SalesAnalysisReportManager
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			"AND FACT.C_BPARTNER_ID = BP.C_BPARTNER_ID  " +
 			"and fact.DATEACCT between  " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and  " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and  " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			//" having SUM(0 - FACT.QTY) <> 0 " +
 			"GROUP BY BP.NAME Order by BP.NAME asc";
 			//"GROUP BY BP.NAME || ' ' || BP.NAME2 Order by BP.NAME || ' ' || BP.NAME2 asc";
@@ -598,9 +630,11 @@ public class SalesAnalysisReportManager
 					" and attrSetIns.M_ATTRIBUTESET_ID = " + attributeSetId +
 					" and attr.M_ATTRIBUTE_ID = " + attributeId +
 					" and fact.DATEACCT between " +
-					" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+					//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+					fromDate+
 					" and " +
-					" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+					//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+					toDate+
 					")" +
 					"group by ATTRIBUTE_VALUE";
 			
@@ -631,7 +665,8 @@ public class SalesAnalysisReportManager
 			sql = "" +
 			//"select DECODE(rev.NAME, null, 'others', rev.Name) RevenueRecognition," +	//1.Revenue Recognition
 			"select CASE WHEN rev.NAME = null THEN 'others' ELSE rev.Name END AS RevenueRecognition," +	//1.Revenue Recognition
-			"to_char(fact.DATEACCT,'DD-MON-YYYY')," +				//2.Date
+			//"to_char(fact.DATEACCT,'DD-MON-YYYY')," +				//2.Date
+			"fact.DATEACCT,"+
 			"SUM(fact.AMTACCTCR-fact.AMTACCTDR) as REVENUE," +			//3.Value
 			"SUM(0-fact.QTY) " +									//4.Qty
 			"from FACT_ACCT fact, (M_PRODUCT prod left outer join C_REVENUERECOGNITION rev on rev.C_REVENUERECOGNITION_ID = prod.C_REVENUERECOGNITION_ID ) " +
@@ -640,15 +675,19 @@ public class SalesAnalysisReportManager
 			"and fact.M_PRODUCT_ID = prod.M_PRODUCT_ID " +
 			//"and rev.C_REVENUERECOGNITION_ID(+) = prod.C_REVENUERECOGNITION_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
-			" group by rev.NAME,to_char(fact.DATEACCT,'DD-MON-YYYY')";
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
+			//" group by rev.NAME,to_char(fact.DATEACCT,'DD-MON-YYYY')";
+			" group by rev.NAME,fact.DATEACCT";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.ATTRIBUTESET))
 		{
-			sql = "select attrSet.name as attributeset,to_char(fact.DATEACCT,'DD-MON-YYYY'),SUM(fact.AMTACCTCR-fact.AMTACCTDR) as REVENUE,SUM(0-fact.QTY) " +
+			//sql = "select attrSet.name as attributeset,to_char(fact.DATEACCT,'DD-MON-YYYY'),SUM(fact.AMTACCTCR-fact.AMTACCTDR) as REVENUE,SUM(0-fact.QTY) " +
+			sql = "select attrSet.name as attributeset,fact.DATEACCT,SUM(fact.AMTACCTCR-fact.AMTACCTDR) as REVENUE,SUM(0-fact.QTY) " +
 			"from FACT_ACCT fact, (M_PRODUCT prod left outer join C_REVENUERECOGNITION rev on rev.C_REVENUERECOGNITION_ID = prod.C_REVENUERECOGNITION_ID ),M_ATTRIBUTESETINSTANCE attrSetIns, M_ATTRIBUTESET attrSet " +
 			"where fact.ACCOUNT_ID = " +
 			"(select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
@@ -657,17 +696,21 @@ public class SalesAnalysisReportManager
 			"and prod.M_ATTRIBUTESETINSTANCE_ID = attrSetIns.M_ATTRIBUTESETINSTANCE_ID " +
 			"and attrSet.M_ATTRIBUTESET_ID = attrSetIns.M_ATTRIBUTESET_ID " +
 			"and fact.DATEACCT between " +
-			"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and " +
-			"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
-			"and fact.AD_CLIENT_ID = "+ad_client_id +
-			" group by attrSet.name,to_char(fact.DATEACCT,'DD-MON-YYYY')";
+			//"to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
+			" and " +
+			//"to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
+			" and fact.AD_CLIENT_ID = "+ad_client_id +
+			//" group by attrSet.name,to_char(fact.DATEACCT,'DD-MON-YYYY')";
+			" group by attrSet.name,fact.DATEACCT";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.PRODUCT))
 		{
 			sql = "" +
 			" select PROD.NAME as \"Product\"," +						//1.Product
-			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			//" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			" fact.DATEACCT as \"Date\"," +		//2.Date
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//3.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +							//4.Qty
 			" from FACT_ACCT FACT, M_PRODUCT PROD " +
@@ -675,17 +718,21 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
-			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.NAME";			
+			//" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.NAME";	
+			" GROUP BY fact.DATEACCT,PROD.NAME";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.PRODUCT))
 		{
 			sql = "" +
 			" select PROD.NAME as \"Product\"," +						//1.Product
-			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			//" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			" fact.DATEACCT as \"Date\"," +
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//3.Value
 			" SUM(0 - FACT.QTY) \"Qty\" " +							//4.Qty
 			" from FACT_ACCT FACT, M_PRODUCT PROD " +
@@ -693,17 +740,21 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
-			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.NAME";			
+			//" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.NAME";
+			" GROUP BY fact.DATEACCT,PROD.NAME";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP1))
 		{
 			sql = "" +
 			" select PROD.GROUP1 as \"Group1\"," +						//1.Product
-			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			//" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			" fact.DATEACCT as \"Date\"," +		//2.Date
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//3.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +							//4.Qty
 			" from FACT_ACCT FACT, M_PRODUCT PROD " +
@@ -711,17 +762,21 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
-			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.GROUP1";			
+			//" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.GROUP1";	
+			" GROUP BY fact.DATEACCT,PROD.GROUP1";	
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.GROUP2))
 		{
 			sql = "" +
 			" select PROD.GROUP2 as \"Group2\"," +						//1.Product
-			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			//" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +		//2.Date
+			" DATEACCT as \"Date\"," +
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//3.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +							//4.Qty
 			" from FACT_ACCT FACT, M_PRODUCT PROD " +
@@ -729,18 +784,22 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.M_PRODUCT_ID = PROD.M_PRODUCT_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
-			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.GROUP2";			
+			//" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),PROD.GROUP2";
+			" GROUP BY fact.DATEACCT,PROD.GROUP2";
 		}
 		else if(salesGroup.equalsIgnoreCase(Constants.CUSTOMER))
 		{
 			sql = "" +
 			//" select BP.NAME||' '||BP.NAME2 as \"Customer\"," +						//1.Customer
 			"Select BP.NAME as \"Customer\","+
-			" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +				//2.Date
+			//" to_char(fact.DATEACCT,'DD-MON-YYYY') as \"Date\"," +				//2.Date
+			" fact.DATEACCT as \"Date\"," +				//2.Date
 			" SUM(FACT.AMTACCTCR - FACT.AMTACCTDR) as \"Value\"," +	//3.Value
 			" SUM(0 - FACT.QTY) as \"Qty\" " +												//4.Qty
 			" from FACT_ACCT FACT, C_BPARTNER BP " +
@@ -748,12 +807,15 @@ public class SalesAnalysisReportManager
 			" (select C_ELEMENTVALUE_ID from C_ELEMENTVALUE where value = '"+account_id+"' and AD_CLIENT_ID = "+ad_client_id +") " +
 			" AND FACT.C_BPARTNER_ID = BP.C_BPARTNER_ID " +
 			" and fact.DATEACCT between " +
-			" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			fromDate+
 			" and " +
-			" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS') " +
+			toDate+
 			" and fact.AD_CLIENT_ID = "+ad_client_id +
 			//" having SUM(0 - FACT.QTY) <> 0 " +
-			" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),BP.NAME";
+			//" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),BP.NAME";
+			" GROUP BY fact.DATEACCT,BP.NAME";
 			//" GROUP BY to_char(fact.DATEACCT,'DD-MON-YYYY'),BP.NAME||' '||BP.NAME2";
 			
 		}
@@ -769,7 +831,8 @@ public class SalesAnalysisReportManager
 			int attributeSetId = Integer.parseInt(s[0]);
 			int attributeId = Integer.parseInt(s[1]);
 			
-			sql = "select ATTRIBUTE_VALUE,to_char(DATEACCT,'DD-MON-YYYY'),sum(AMTACCTCR-AMTACCTDR),SUM(0-QTY) from " +
+			//sql = "select ATTRIBUTE_VALUE,to_char(DATEACCT,'DD-MON-YYYY'),sum(AMTACCTCR-AMTACCTDR),SUM(0-QTY) from " +
+			sql = "select ATTRIBUTE_VALUE,DATEACCT,sum(AMTACCTCR-AMTACCTDR),SUM(0-QTY) from " +
 					"(" +
 					" select attrIns.m_attribute_id,prod.m_product_category_id, attrIns.m_attributevalue_id,attr.name ATTRIBUTE_NAME,attrSet.name ATTRIBUTESET_NAME,attrSet.M_ATTRIBUTESET_ID,prod.m_product_id, attrVal.name ATTRIBUTE_VALUE, attrVal.description,fact.AMTACCTCR,fact.AMTACCTDR,fact.DATEACCT,fact.QTY" +
 					" from M_PRODUCT prod,M_ATTRIBUTEINSTANCE attrIns ,M_attribute attr,M_attributeValue attrVal, M_ATTRIBUTESETINSTANCE attrSetIns, M_ATTRIBUTESET attrSet, FACT_ACCT fact" +
@@ -785,11 +848,14 @@ public class SalesAnalysisReportManager
 					" and attrSetIns.M_ATTRIBUTESET_ID = " + attributeSetId +
 					" and attr.M_ATTRIBUTE_ID = " + attributeId +
 					" and fact.DATEACCT between " +
-					" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS')" +
-					" and" +
-					" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					//" to_date('"+fromDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					fromDate+
+					" and " +
+					//" to_date('"+toDate+"','DD-MON-YYYY HH24:MI:SS')" +
+					toDate+
 					")" +
-					"group by ATTRIBUTE_VALUE,to_char(DATEACCT,'DD-MON-YYYY')";
+					//"group by ATTRIBUTE_VALUE,to_char(DATEACCT,'DD-MON-YYYY')";
+					"group by ATTRIBUTE_VALUE,DATEACCT";
 		}
 		
 		return sql;	

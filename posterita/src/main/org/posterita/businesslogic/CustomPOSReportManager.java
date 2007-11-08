@@ -202,6 +202,7 @@ public class CustomPOSReportManager
 						"Cause:Invalid date format, the date returned should have the following format 'DD-MM-YYYY'");
 			
 			SimpleDateFormat sdf = new SimpleDateFormat();
+	    	//SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
 			Calendar cal = Calendar.getInstance();
 			Date d = null;
 			
@@ -263,9 +264,10 @@ public class CustomPOSReportManager
         XYPlot plot = (XYPlot) timeSeriesChart.getChart().getPlot();
         DateAxis axis = (DateAxis) plot.getDomainAxis();    
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         Date d1 = null;
-		Date d2 = null;;
+		Date d2 = null;
 		try 
 		{
 			d1 = sdf.parse(fromDate);

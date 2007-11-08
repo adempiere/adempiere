@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardXYItemLabelGenerator;
@@ -153,7 +154,8 @@ public class TimeSeriesChart extends AbstractChart
 				throw new OperationException("Unable to generate timeseries. " +
 						"Cause:Invalid date format, the date returned should have the following format 'DD-MM-YYYY'");
 			
-			SimpleDateFormat sdf = new SimpleDateFormat();
+			//SimpleDateFormat sdf = new SimpleDateFormat();
+			SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
 			Calendar cal = Calendar.getInstance();
 			Date d = null;
 			

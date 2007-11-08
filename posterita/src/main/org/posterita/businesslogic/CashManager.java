@@ -244,16 +244,19 @@ public class CashManager
         
        
         String sql1 ="select c_cash_id from C_CASH where C_CASHBOOK_ID="+cashBookId+
-        " and created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') " +
-        " and to_date('" + toDate+"','DD-MON-YYYY HH24:MI:SS') " ;
+        //" and created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') " +
+        //" and to_date('" + toDate+"','DD-MON-YYYY HH24:MI:SS') " ;
+        " and created between "+ fromDate + " and " + toDate ;
         
         String sql="select nvl(sum(AMOUNT),0)" +
         " from C_CASHLINE" +
         " where C_CASH_ID in (" +sql1+")"+
         " and AD_CLIENT_ID= " +Env.getAD_Client_ID(ctx)+
         " and CASHTYPE='I'"+
-        " and created between to_date('"+ fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
-        " and to_date('" + toDate+"','DD-MON-YYYY HH24:MI:SS') " ;
+        //" and created between to_date('"+ fromDate+"','DD-MON-YYYY HH24:MI:SS') " +
+        //" and to_date('" + toDate+"','DD-MON-YYYY HH24:MI:SS') " ;
+        "and created between " + toDate + " and " + fromDate ;
+        
     
         
         CashBookDetailBean bean;
@@ -776,8 +779,9 @@ public class CashManager
     	String sql = "select ca.CashType, sum(ca.Amount)"
     		       + " from C_CASHLINE ca where ca.AD_Client_ID=" + adClientId
     		       + " and ca.AD_Org_ID in (" + userOrg + ")"
-    			   + " and ca.Created between to_date('" + fromDate + "','DD-MM-YYYY HH24:MI:SS')"
-    			   + " and to_date('" + toDate + "','DD-MM-YYYY HH24:MI:SS') "
+    			   //+ " and ca.Created between to_date('" + fromDate + "','DD-MM-YYYY HH24:MI:SS')"
+    			   //+ " and to_date('" + toDate + "','DD-MM-YYYY HH24:MI:SS') "
+    		       + " and ca.Created between "+ fromDate  + " and "+ toDate
     			   + " group by ca.cashtype";
     	
     	return getCashSummary(ctx, sql, trxName);
@@ -846,8 +850,9 @@ public class CashManager
     			   + " and rl.AD_Reference_ID = " + MCashLine.CASHTYPE_AD_Reference_ID
     			   + " and cl.CashType = rl.Value" 
     			   + " and cu.C_Currency_ID = cl.C_Currency_ID"
-    			   + " and cl.Created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') "
-    			   + " and to_date('" + todate+"','DD-MM-YYYY HH24:MI:SS') "
+    			   //+ " and cl.Created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') "
+    			   //+ " and to_date('" + todate+"','DD-MM-YYYY HH24:MI:SS') "
+    			   + " and cl.Created between "+fromDate + " and " + todate
     			   + " order by cl.created";
     	
     	return getCashLineHistory(ctx, sql, trxName);

@@ -52,6 +52,7 @@ import org.compiere.model.MRegion;
 import org.compiere.model.MUser;
 import org.compiere.model.X_I_BPartner;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.posterita.beans.CustomerBean;
 import org.posterita.core.RandomStringGenerator;
@@ -440,7 +441,7 @@ public class CustomerManager
     	return list;
     }
     
-    
+       
     
     public static CustomerBean getCustomerDetails(Properties ctx, int bpartnerId) throws OperationException,BPartnerNotFoundException, InvalidDateTimeException, Exception
     {
@@ -509,8 +510,10 @@ public class CustomerManager
       
       if ((date != null))
       {   
-    	  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-    	  SimpleDateFormat sdfOutput =  new SimpleDateFormat  ("dd/MM/yyyy");  
+    	  //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    	  //SimpleDateFormat sdfOutput =  new SimpleDateFormat  ("dd/MM/yyyy");  
+    	  SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.DateTime);
+    	  SimpleDateFormat sdfOutput = DisplayType.getDateFormat(DisplayType.Date);
     	  String textDate = date.toString();
     	  
     	  Date date2 = sdf.parse (textDate);
@@ -770,8 +773,8 @@ public class CustomerManager
         sql.append(" order by bp.name");
     	
         
-        PreparedStatement pstmt = DB.prepareStatement(sql.toString(),null);    	
-    	pstmt.execute(sql.toString());
+        String select = sql.toString();
+        PreparedStatement pstmt = DB.prepareStatement(select,null);  
     	
     	ResultSet rs = null;
     	
@@ -807,8 +810,10 @@ public class CustomerManager
 				
 				if (rs.getString(10) != null)
 				{				
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			    	SimpleDateFormat sdfOutput =  new SimpleDateFormat  ("dd-MMM-yyyy");  
+					//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			    	//SimpleDateFormat sdfOutput =  new SimpleDateFormat  ("dd-MMM-yyyy"); 
+					SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.DateTime);
+			    	SimpleDateFormat sdfOutput = DisplayType.getDateFormat(DisplayType.Date);
 			    	String textDate = rs.getString(10);
 			    	  
 			    	Date date2 = sdf.parse (textDate);

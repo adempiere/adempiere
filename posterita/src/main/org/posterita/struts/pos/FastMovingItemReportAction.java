@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.compiere.util.DisplayType;
 
 import org.posterita.Constants;
 import org.posterita.beans.ReportBean;
@@ -56,7 +57,8 @@ public class FastMovingItemReportAction extends POSDispatchAction
         Properties ctx = TmkJSPEnv.getCtx(request);
         
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         
         String toDate = sdf.format(new Date(cal.getTimeInMillis()));
         
@@ -83,7 +85,8 @@ public class FastMovingItemReportAction extends POSDispatchAction
         Properties ctx = TmkJSPEnv.getCtx(request);
         
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date);
         
         String toDate = sdf.format(new Date(cal.getTimeInMillis()));
         
