@@ -2564,7 +2564,8 @@ public class POSReportManager {
         .append(" and ord.ORDERTYPE = 'POS Order' ")
         .append(" and ord.AD_CLIENT_ID = ? ")
         .append(" and ord.AD_ORG_ID = ? ")
-        .append(" and ord.POSID = ? ")
+        //.append(" and ord.POSID = ? ")
+        .append(" and ord.c_pos_id = ? ")
         .append(" group by p.NAME");
 		
 		PreparedStatement pstmt = null;

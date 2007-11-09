@@ -1059,7 +1059,8 @@ public class POSManager
         //" where pay.created>=TO_DATE('" +sqlDate+"','YYYY-MM-DD HH24:MI:SS')"+
         " where pay.created>="+sqlDate+
         " and inv.c_order_id=ord.c_order_id"+
-        " and ord.POSID="+posId+
+        //" and ord.POSID="+posId+
+        " and ord.c_pos_id="+posId+
         " and ord.AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
         " and ord.AD_ORG_ID="+Env.getAD_Org_ID(ctx)+
         " and inv.isSotrx='Y'"+
@@ -1112,12 +1113,15 @@ public class POSManager
                 "from C_PAYMENT pay " ;
                 if(toDate==null)
                 {
-                    sql=sql+ "where pay.created>=TO_DATE('" +fromDate+"','YYYY-MM-DD HH24:MI:SS')";
+                    //sql=sql+ "where pay.created>=TO_DATE('" +fromDate+"','YYYY-MM-DD HH24:MI:SS')";
+                	 sql=sql+ "where pay.created>=" + fromDate;
                 }
                 else
                 {
-                    sql=sql+  " where pay.created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') " +
-                    " and to_date('" + toDate+"','DD-MM-YYYY HH24:MI:SS') " ; 
+                    //sql=sql+  " where pay.created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') " +
+                    //" and to_date('" + toDate+"','DD-MM-YYYY HH24:MI:SS') " ; 
+                	sql=sql+  " where pay.created between "+ fromDate +" and " + toDate;
+                    //" and to_date('" + toDate+"','DD-MM-YYYY HH24:MI:SS') " ; 
                 }
             
             
@@ -1172,15 +1176,17 @@ public class POSManager
         " from C_INVOICE inv,C_order ord,c_payment pay " +
         " where inv.c_order_id=ord.c_order_id"+
         " and inv.c_Invoice_id=pay.c_Invoice_id"+
-        " and ord.POSID="+posId+
+        //" and ord.POSID="+posId+
+        " and ord.c_pos_id="+posId+
         " and ord.AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
         " and ord.AD_ORG_ID="+Env.getAD_Org_ID(ctx)+
         " and inv.isSotrx='Y'"+
         " and ord.orderType in ('"+UDIOrderTypes.POS_ORDER.getOrderType()+"',"+
         "'"+UDIOrderTypes.CREDIT_ORDER.getOrderType()+"')"+
         " and pay.tenderType='"+paymentRule+"'"+
-        " and pay.created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') " +
-        " and to_date('" + toDate+"','DD-MM-YYYY HH24:MI:SS') " ;
+        //" and pay.created between to_date('"+ fromDate+"','DD-MM-YYYY HH24:MI:SS') " +
+        //" and to_date('" + toDate+"','DD-MM-YYYY HH24:MI:SS') " ;  
+        " and pay.created between "+fromDate + "  and  "+ toDate;
         
         PreparedStatement pstmt = DB.prepareStatement(sql,null);
         
