@@ -21,6 +21,9 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
+import java.io.*;
+import java.net.*;
+
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.*;
@@ -96,7 +99,7 @@ public class MSequence extends X_AD_Sequence
 				+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
 				+ " FOR UPDATE OF AD_Sequence ";						
 			USE_PROCEDURE=false;
-		}	
+		}
 		else	
 		{
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "	
@@ -140,30 +143,81 @@ public class MSequence extends X_AD_Sequence
 						+ ")");
 				if (rs.next())
 				{
+					
+					// Get the table
+					MTable table = MTable.get(Env.getCtx(), TableName);
+					boolean hasEntityType = false;
+					if (table.getColumn("EntityType") != null)
+						hasEntityType = true;
+					
 					int AD_Sequence_ID = rs.getInt(4);
-					//
-					if (USE_PROCEDURE)
-					{
-						retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
-					}
-					else
-					{
-						PreparedStatement updateSQL;
-						int incrementNo = rs.getInt(3);
-						if (adempiereSys) {
-							updateSQL = conn
-									.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = CurrentNextSys + ? WHERE AD_Sequence_ID = ?");
-							retValue = rs.getInt(2);
-						} else {
-							updateSQL = conn
-									.prepareStatement("UPDATE AD_Sequence SET CurrentNext = CurrentNext + ? WHERE AD_Sequence_ID = ?");
-							retValue = rs.getInt(1);
+					boolean gotFromHTTP = false;
+
+					// If maintaining official dictionary try to get the ID from http official server
+					if (adempiereSys) {
+
+						String isUseCentralizedID = MSysConfig.getValue("DICTIONARY_ID_USE_CENTRALIZED_ID"); // "Y"
+						if (isUseCentralizedID != null && isUseCentralizedID.equals("Y")) {
+							// get ID from http site
+							retValue = getNextOfficialID_HTTP(TableName);
+							if (retValue > 0) {
+								PreparedStatement updateSQL;
+								updateSQL = conn.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = ? + 1 WHERE AD_Sequence_ID = ?");
+								updateSQL.setInt(1, retValue);
+								updateSQL.setInt(2, AD_Sequence_ID);
+								updateSQL.executeUpdate();
+								updateSQL.close();
+							}
+							gotFromHTTP = true;
 						}
-						updateSQL.setInt(1, incrementNo);
-						updateSQL.setInt(2, AD_Sequence_ID);
-						updateSQL.executeUpdate();
-						updateSQL.close();
-					} 
+
+					}
+
+					// If not official dictionary try to get the ID from http custom server - if configured
+					if (hasEntityType && ! adempiereSys) {
+
+						String isUseProjectCentralizedID = MSysConfig.getValue("PROJECT_ID_USE_CENTRALIZED_ID"); // "Y"
+						if (isUseProjectCentralizedID != null && isUseProjectCentralizedID.equals("Y")) {
+							// get ID from http site
+							retValue = getNextProjectID_HTTP(TableName);
+							if (retValue > 0) {
+								PreparedStatement updateSQL;
+								updateSQL = conn.prepareStatement("UPDATE AD_Sequence SET CurrentNext = ? + 1 WHERE AD_Sequence_ID = ?");
+								updateSQL.setInt(1, retValue);
+								updateSQL.setInt(2, AD_Sequence_ID);
+								updateSQL.executeUpdate();
+								updateSQL.close();
+							}
+							gotFromHTTP = true;
+						}
+
+					}
+					
+					if (! gotFromHTTP) {
+						//
+						if (USE_PROCEDURE)
+						{
+							retValue = nextID(conn, AD_Sequence_ID, adempiereSys);
+						}
+						else
+						{
+							PreparedStatement updateSQL;
+							int incrementNo = rs.getInt(3);
+							if (adempiereSys) {
+								updateSQL = conn
+										.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = CurrentNextSys + ? WHERE AD_Sequence_ID = ?");
+								retValue = rs.getInt(2);
+							} else {
+								updateSQL = conn
+										.prepareStatement("UPDATE AD_Sequence SET CurrentNext = CurrentNext + ? WHERE AD_Sequence_ID = ?");
+								retValue = rs.getInt(1);
+							}
+							updateSQL.setInt(1, incrementNo);
+							updateSQL.setInt(2, AD_Sequence_ID);
+							updateSQL.executeUpdate();
+							updateSQL.close();
+						} 
+					}
 					
 					if (trx == null)
 						conn.commit();
@@ -940,6 +994,9 @@ public class MSequence extends X_AD_Sequence
 	 */
 	static public void main (String[] args)
 	{
+		// int id = getNextID_HTTP("AD_Column");
+		// if (true) return;
+		
 		org.compiere.Adempiere.startup(true);
 		CLogMgt.setLevel(Level.SEVERE);
 		CLogMgt.setLoggerLevel(Level.SEVERE, null);
@@ -1161,5 +1218,109 @@ public class MSequence extends X_AD_Sequence
 			}
 		}
 	}	//	GetIDs
+	
+	/**
+	 *	Get next number for Key column
+	 *  @param AD_Client_ID client
+	 *  @param TableName table name
+	 * 	@param trxName optional Transaction Name
+	 *  @return next no or (-1=error)
+	 */
+	public static synchronized int getNextOfficialID_HTTP (String TableName)
+	{
+		String website = MSysConfig.getValue("DICTIONARY_ID_WEBSITE"); // "http://developer.adempiere.com/cgi-bin/get_ID";
+		String prm_USER = MSysConfig.getValue("DICTIONARY_ID_USER");  // "globalqss";
+		String prm_PASSWORD = MSysConfig.getValue("DICTIONARY_ID_PASSWORD");  // "password_inseguro";
+		String prm_TABLE = TableName;
+		String prm_ALTKEY = "";  // TODO: generate alt-key based on key of table
+		String prm_COMMENT = MSysConfig.getValue("DICTIONARY_ID_COMMENTS");
+		String prm_PROJECT = new String("Adempiere");
+		
+		return getNextID_HTTP(TableName, website, prm_USER,
+				prm_PASSWORD, prm_TABLE, prm_ALTKEY, prm_COMMENT, prm_PROJECT);
+	}
+	
+	/**
+	 *	Get next number for Key column
+	 *  @param AD_Client_ID client
+	 *  @param TableName table name
+	 * 	@param trxName optional Transaction Name
+	 *  @return next no or (-1=error)
+	 */
+	public static synchronized int getNextProjectID_HTTP (String TableName)
+	{
+		String website = MSysConfig.getValue("PROJECT_ID_WEBSITE"); // "http://developer.adempiere.com/cgi-bin/get_ID";
+		String prm_USER = MSysConfig.getValue("PROJECT_ID_USER");  // "globalqss";
+		String prm_PASSWORD = MSysConfig.getValue("PROJECT_ID_PASSWORD");  // "password_inseguro";
+		String prm_TABLE = TableName;
+		String prm_ALTKEY = "";  // TODO: generate alt-key based on key of table
+		String prm_COMMENT = MSysConfig.getValue("PROJECT_ID_COMMENTS");
+		String prm_PROJECT = MSysConfig.getValue("PROJECT_ID_PROJECT");
+		
+		return getNextID_HTTP(TableName, website, prm_USER,
+				prm_PASSWORD, prm_TABLE, prm_ALTKEY, prm_COMMENT, prm_PROJECT);
+	}
+
+	private static int getNextID_HTTP(String TableName,
+			String website, String prm_USER, String prm_PASSWORD,
+			String prm_TABLE, String prm_ALTKEY, String prm_COMMENT,
+			String prm_PROJECT) {
+		StringBuffer read = new StringBuffer("");
+		int retValue = -1;
+		try {
+			String completeUrl = website + "?" + "USER="
+					+ URLEncoder.encode(prm_USER, "UTF-8") + "&PASSWORD="
+					+ URLEncoder.encode(prm_PASSWORD, "UTF-8") + "&PROJECT="
+					+ URLEncoder.encode(prm_PROJECT, "UTF-8") + "&TABLE="
+					+ URLEncoder.encode(prm_TABLE, "UTF-8") + "&ALTKEY="
+					+ URLEncoder.encode(prm_ALTKEY, "UTF-8") + "&COMMENT="
+					+ URLEncoder.encode(prm_COMMENT, "UTF-8");
+				
+			// Now use the URL class to parse the user-specified URL into
+			// its various parts: protocol, host, port, filename.  Check the protocol
+			URL url = new URL(completeUrl);
+			String protocol = url.getProtocol();
+			if (!protocol.equals("http"))
+				throw new IllegalArgumentException("URL must use 'http:' protocol");
+			String host = url.getHost();
+			int port = url.getPort();
+			if (port == -1) port = 80;  // if no port, use the default HTTP port
+			String filename = url.getFile();
+			// Open a network socket connection to the specified host and port
+			Socket socket = new Socket(host, port);
+			// Get input and output streams for the socket
+			InputStream from_server = socket.getInputStream();
+			PrintWriter to_server = 
+				new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+			// Send the HTTP GET command to the Web server, specifying the file.
+			// This uses an old and very simple version of the HTTP protocol
+			to_server.println("GET " + filename);
+			to_server.flush();  // Send it right now!
+
+			// Now read the server's response, and write it to the file
+			byte[] buffer = new byte[4096];
+			int bytes_read;
+			while((bytes_read = from_server.read(buffer)) != -1) {
+				for (int i = 0; i < bytes_read; i++) {
+					if (buffer[i] != 10)
+						read.append((char) buffer[i]);
+				}
+			}
+
+			// When the server closes the connection, we close our stuff
+			socket.close();
+			retValue = Integer.parseInt(read.toString());
+			if (retValue <= 0)
+				retValue = -1;
+		}
+		catch (Exception e) {    // Report any errors that arise
+			System.err.println(e);
+			retValue = -1;
+		}
+		s_log.log(Level.INFO, "getNextID_HTTP - " + TableName + "=" + read + "(" + retValue + ")"); 
+	    
+		return retValue;
+	}
 	
 }	//	MSequence
