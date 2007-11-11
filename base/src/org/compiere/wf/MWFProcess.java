@@ -442,7 +442,7 @@ public class MWFProcess extends X_AD_WF_Process
 	}	//	perform
 	
 	/**
-	 * 	Start WF Execution async
+	 * 	Start WF Execution
 	 *	@return true if success
 	 */
 	public boolean startWork()
@@ -459,7 +459,9 @@ public class MWFProcess extends X_AD_WF_Process
 		{
 			//	Start first Activity with first Node
 			MWFActivity activity = new MWFActivity (this, AD_WF_Node_ID);
-			new Thread(activity).start();
+			//async execution cause problem with transaction
+			//new Thread(activity).start();
+			activity.run();
 		}
 		catch (Exception e)
 		{
