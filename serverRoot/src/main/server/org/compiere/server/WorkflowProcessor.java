@@ -191,7 +191,7 @@ public class WorkflowProcessor extends AdempiereServer
 			sql += ") AND EXISTS (SELECT * FROM AD_Workflow wf "
 					+ " INNER JOIN AD_WF_Node wfn ON (wf.AD_Workflow_ID=wfn.AD_Workflow_ID) "
 					+ "WHERE a.AD_WF_Node_ID=wfn.AD_WF_Node_ID"
-					+ " AND wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?)";
+					+ " AND (wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?))";
 			int count = 0;
 			int countEMails = 0;
 			try
@@ -238,7 +238,7 @@ public class WorkflowProcessor extends AdempiereServer
 				+ " INNER JOIN AD_WF_Node wfn ON (wf.AD_Workflow_ID=wfn.AD_Workflow_ID) "
 				+ "WHERE a.AD_WF_Node_ID=wfn.AD_WF_Node_ID"
 				+ " AND wfn.Action<>'Z'"	//	not sleeping
-				+ " AND wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?)";
+				+ " AND (wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?))";
 		PreparedStatement pstmt = null;
 		int count = 0;
 		int countEMails = 0;
@@ -286,7 +286,7 @@ public class WorkflowProcessor extends AdempiereServer
 			sql += ") AND EXISTS (SELECT * FROM AD_Workflow wf "
 					+ " INNER JOIN AD_WF_Node wfn ON (wf.AD_Workflow_ID=wfn.AD_Workflow_ID) "
 					+ "WHERE a.AD_WF_Node_ID=wfn.AD_WF_Node_ID"
-					+ " AND wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?)";
+					+ " AND (wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?))";
 			count = 0;
 			countEMails = 0;
 			try
