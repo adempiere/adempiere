@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.dbPort;
 
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,7 +32,10 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Ini;
 
 /**
  *  Convert SQL to Target DB
@@ -54,7 +62,12 @@ public abstract class Convert
 	/**	Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (Convert.class);
 	
-	/**
+    private static FileOutputStream tempFileOr = null;
+    private static DataOutputStream osOr;
+    private static FileOutputStream tempFilePg = null;
+    private static DataOutputStream osPg;
+
+    /**
 	 *  Set Verbose
 	 *  @param verbose
 	 */
@@ -397,5 +410,124 @@ public abstract class Convert
 	 * @return boolean
 	 */
 	public abstract boolean isOracle();
-	
+
+	public static void logMigrationScript(String oraStatement, String pgStatement) {
+		// Check AdempiereSys
+		// check property Log migration script
+		boolean logMigrationScript = Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT);
+		if (logMigrationScript) {
+			if (dontLog(oraStatement))
+				return;
+			// Log oracle and postgres migration scripts in temp directory
+			// migration_script_oracle.sql and migration_script_postgresql.sql
+			try {
+				if (tempFileOr == null) {
+		            String fileNameOr = System.getProperty("java.io.tmpdir") 
+	            		+ System.getProperty("file.separator") 
+	            		+ "migration_script_oracle.sql";
+		            tempFileOr = new FileOutputStream(fileNameOr, true);
+		            osOr = new DataOutputStream(tempFileOr);
+				}
+				writeLogMigrationScript(osOr, oraStatement);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (pgStatement == null) {
+					// if oracle call convert for postgres before logging
+					Convert_PostgreSQL convert = new Convert_PostgreSQL();
+					String[] r = convert.convert(oraStatement);
+					pgStatement = r[0];
+				}
+				if (tempFilePg == null) {
+		            String fileNamePg = System.getProperty("java.io.tmpdir") 
+	            		+ System.getProperty("file.separator") 
+	            		+ "migration_script_postgresql.sql";
+		            tempFilePg = new FileOutputStream(fileNamePg, true);
+		            osPg = new DataOutputStream(tempFilePg);
+				}
+				writeLogMigrationScript(osPg, pgStatement);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static boolean dontLog(String statement) {
+		String [] exceptionTables = new String[] {
+				"AD_ACCESSLOG",
+				"AD_ALERTPROCESSORLOG",
+				"AD_CHANGELOG",
+				"AD_ISSUE",
+				"AD_LDAPPROCESSORLOG",
+				"AD_PACKAGE_IMP",
+				"AD_PACKAGE_IMP_BACKUP",
+				"AD_PACKAGE_IMP_DETAIL",
+				"AD_PACKAGE_IMP_INST",
+				"AD_PACKAGE_IMP_PROC",
+				"AD_PINSTANCE",
+				"AD_PINSTANCE_LOG",
+				"AD_PINSTANCE_PARA",
+				"AD_REPLICATION_LOG",
+				"AD_SCHEDULERLOG",
+				"AD_SESSION",
+				"AD_WORKFLOWPROCESSORLOG",
+				"CM_WEBACCESSLOG",
+				"C_ACCTPROCESSORLOG",
+				"K_INDEXLOG",
+				"R_REQUESTPROCESSORLOG",
+				"T_AGING",
+				"T_ALTER_COLUMN",
+				"T_DISTRIBUTIONRUNDETAIL",
+				"T_INVENTORYVALUE",
+				"T_INVOICEGL",
+				"T_REPLENISH",
+				"T_REPORT",
+				"T_REPORTSTATEMENT",
+				"T_SELECTION",
+				"T_SELECTION2",
+				"T_SPOOL",
+				"T_TRANSACTION",
+				"T_TRIALBALANCE"
+			};
+		String uppStmt = statement.toUpperCase();
+		// don't log selects
+		if (uppStmt.startsWith("SELECT "))
+			return true;
+		// don't log update to statistic process
+		if (uppStmt.startsWith("UPDATE AD_PROCESS SET STATISTIC_COUNT="))
+			return true;
+		for (int i = 0; i < exceptionTables.length; i++) {
+			if (uppStmt.startsWith("INSERT INTO " + exceptionTables[i] + " "))
+				return true;
+			if (uppStmt.startsWith("DELETE FROM " + exceptionTables[i] + " "))
+				return true;
+			if (uppStmt.startsWith("DELETE " + exceptionTables[i] + " "))
+				return true;
+			if (uppStmt.startsWith("UPDATE " + exceptionTables[i] + " "))
+				return true;
+		}
+		
+		// don't log selects or insert/update for exception tables (i.e. AD_Issue, AD_ChangeLog)
+		return false;
+	}
+
+	private static void writeLogMigrationScript(DataOutputStream os, String statement) throws IOException {
+		String prm_COMMENT = MSysConfig.getValue("DICTIONARY_ID_COMMENTS");
+		// log time and date
+		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.DateTime);
+		String dateTimeText = format.format(new Timestamp(System.currentTimeMillis()));
+		os.writeBytes("-- ");
+		os.writeBytes(dateTimeText);
+		os.writeBytes("\n");
+		// log sysconfig comment
+		os.writeBytes("-- ");
+		os.writeBytes(prm_COMMENT);
+		os.writeBytes("\n");
+		// log statement
+		os.writeBytes(statement);
+		// close statement
+		os.writeBytes("\n/\n\n");
+	}
+
 }   //  Convert

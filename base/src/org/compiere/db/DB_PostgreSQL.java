@@ -318,6 +318,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			log.log(Level.FINER, "PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
 		    //end vpj-cd 24/06/2005 e-evolution
 		//
+    	Convert.logMigrationScript(oraStatement, retValue[0]);
 		return retValue[0];
 	}   //  convertStatement
 

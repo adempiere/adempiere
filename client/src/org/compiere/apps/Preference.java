@@ -115,6 +115,7 @@ public final class Preference extends CDialog
 	private CCheckBox traceFile = new CCheckBox();
 	private CCheckBox autoLogin = new CCheckBox();
 	private CCheckBox adempiereSys = new CCheckBox();
+	private CCheckBox logMigrationScript = new CCheckBox();
 	private CCheckBox storePassword = new CCheckBox();
 	private CCheckBox showTrl = new CCheckBox();
 	private CCheckBox showAcct = new CCheckBox();
@@ -178,6 +179,8 @@ public final class Preference extends CDialog
 		autoNew.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoNew", false));
 		adempiereSys.setText(Msg.getMsg(Env.getCtx(), "AdempiereSys", true));
 		adempiereSys.setToolTipText(Msg.getMsg(Env.getCtx(), "AdempiereSys", false));
+		logMigrationScript.setText(Msg.getMsg(Env.getCtx(), "LogMigrationScript", true));
+		logMigrationScript.setToolTipText(Msg.getMsg(Env.getCtx(), "LogMigrationScript", false));
 		printPreview.setText(Msg.getMsg(Env.getCtx(), "AlwaysPrintPreview", true));
 		printPreview.setToolTipText(Msg.getMsg(Env.getCtx(), "AlwaysPrintPreview", false));
 		validateConnectionOnStartup.setText(Msg.getMsg(Env.getCtx(), "ValidateConnectionOnStartup", true));
@@ -285,6 +288,7 @@ public final class Preference extends CDialog
 		datePanel.add(fDate);
 		otherPanel.add(datePanel);datePanel.setBorder(insetBorder);
 		otherPanel.add(adempiereSys);adempiereSys.setBorder(insetBorder);
+		otherPanel.add(logMigrationScript);logMigrationScript.setBorder(insetBorder);
 		customizePane.add(otherPanel, new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
 		
@@ -425,10 +429,14 @@ public final class Preference extends CDialog
 		autoNew.setSelected(Env.isAutoNew(Env.getCtx()));
 		//	AdempiereSys
 		adempiereSys.setSelected(Ini.isPropertyBool(Ini.P_ADEMPIERESYS));
+		//	LogMigrationScript
+		logMigrationScript.setSelected(Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT));
 		if (Env.getAD_Client_ID(Env.getCtx()) > 20)
 		{
 			adempiereSys.setSelected(false);
 			adempiereSys.setEnabled(false);
+			logMigrationScript.setSelected(false);
+			logMigrationScript.setEnabled(false);
 		}
 		//	AutoLogin
 		autoLogin.setSelected(Ini.isPropertyBool(Ini.P_A_LOGIN));
@@ -514,6 +522,8 @@ public final class Preference extends CDialog
 		Env.setAutoNew(Env.getCtx(), autoNew.isSelected());
 		//	AdempiereSys
 		Ini.setProperty(Ini.P_ADEMPIERESYS, adempiereSys.isSelected());
+		//	LogMigrationScript
+		Ini.setProperty(Ini.P_LOGMIGRATIONSCRIPT, logMigrationScript.isSelected());
 		//	AutoLogin
 		Ini.setProperty(Ini.P_A_LOGIN, (autoLogin.isSelected()));
 		//	Save Password

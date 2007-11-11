@@ -95,9 +95,12 @@ public final class Ini implements Serializable
 	/** Auto New Record		*/
 	public static final String	P_A_NEW =			"AutoNew";
 	private static final boolean DEFAULT_A_NEW =	false;
-	/** Dictonary Maintennace	*/
+	/** Dictionary Maintenance	*/
 	public static final String  P_ADEMPIERESYS =		"AdempiereSys";	//	Save system records
 	private static final boolean DEFAULT_ADEMPIERESYS = false;
+	/** Log Migration Script	*/
+	public static final String  P_LOGMIGRATIONSCRIPT =		"LogMigrationScript";	//	Log migration script
+	private static final boolean DEFAULT_LOGMIGRATIONSCRIPT = false;
 	/** Show Acct Tabs			*/
 	public static final String  P_SHOW_ACCT =		"ShowAcct";
 	private static final boolean DEFAULT_SHOW_ACCT = true;
@@ -173,7 +176,7 @@ public final class Ini implements Serializable
 		P_CONNECTION, P_STORE_PWD,
 		P_UI_LOOK, P_UI_THEME, /* P_UI_FLAT,*/
 		P_A_COMMIT, P_A_LOGIN, P_A_NEW, 
-		P_ADEMPIERESYS, P_SHOW_ACCT, P_SHOW_TRL, 
+		P_ADEMPIERESYS, P_LOGMIGRATIONSCRIPT, P_SHOW_ACCT, P_SHOW_TRL, 
 		P_SHOW_ADVANCED, P_CACHE_WINDOW,
 		P_CONTEXT, P_TEMP_DIR,
 		P_ROLE, P_CLIENT, P_ORG, P_PRINTER, P_WAREHOUSE, P_TODAY,
@@ -192,7 +195,7 @@ public final class Ini implements Serializable
 		DEFAULT_CONNECTION, DEFAULT_STORE_PWD?"Y":"N",
 		DEFAULT_UI_LOOK, DEFAULT_UI_THEME, /* DEFAULT_UI_FLAT?"Y":"N", */
 		DEFAULT_A_COMMIT?"Y":"N", DEFAULT_A_LOGIN?"Y":"N", DEFAULT_A_NEW?"Y":"N",
-		DEFAULT_ADEMPIERESYS?"Y":"N", DEFAULT_SHOW_ACCT?"Y":"N", DEFAULT_SHOW_TRL?"Y":"N", 
+		DEFAULT_ADEMPIERESYS?"Y":"N", DEFAULT_LOGMIGRATIONSCRIPT?"Y":"N", DEFAULT_SHOW_ACCT?"Y":"N", DEFAULT_SHOW_TRL?"Y":"N", 
 		DEFAULT_SHOW_ADVANCED?"Y":"N", DEFAULT_CACHE_WINDOW?"Y":"N",
 		DEFAULT_CONTEXT, DEFAULT_TEMP_DIR,
 		DEFAULT_ROLE, DEFAULT_CLIENT, DEFAULT_ORG, DEFAULT_PRINTER, DEFAULT_WAREHOUSE, DEFAULT_TODAY.toString(),
