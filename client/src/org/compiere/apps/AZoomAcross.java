@@ -165,7 +165,7 @@ public class AZoomAcross implements ActionListener
 			sqlAdd = " AND IsSOTrx=" + (isSO.booleanValue() ? "'Y'" : "'N'");
 		int count = DB.getSQLValue(null, sql+sqlAdd);
 		if (count < 0 && isSO != null)	//	error try again w/o SO
-			DB.getSQLValue(null, sql);
+			count = DB.getSQLValue(null, sql);
 		if (count <= 0)
 			return false;
 		//
