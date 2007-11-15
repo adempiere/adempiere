@@ -223,11 +223,15 @@ public class MTable extends X_AD_Table
 					if (modelpackage != null)
 					{						
 						Class clazz = getPOclass(entityTypes[i].getModelPackage() + ".M" + Util.replace(tableName, "_", ""));
-						if (clazz != null)
+						if (clazz != null) {
+							s_classCache.put(tableName, clazz);
 							return clazz;
+						}
 						clazz = getPOclass(entityTypes[i].getModelPackage() + ".X_" + tableName);
-						if (clazz != null)
+						if (clazz != null) {
+							s_classCache.put(tableName, clazz);
 							return clazz;
+						}
 						s_log.warning("No class for table with it entity: " + tableName);					
 					}
 				}
