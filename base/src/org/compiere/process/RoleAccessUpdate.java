@@ -18,6 +18,7 @@ package org.compiere.process;
 
 import java.sql.*;
 
+import org.compiere.Adempiere;
 import org.compiere.model.*;
 import java.util.logging.*;
 import org.compiere.util.*;
@@ -115,5 +116,19 @@ public class RoleAccessUpdate extends SvrProcess
 		addLog(0, null, null, role.getName() + ": " 
 			+ role.updateAccessRecords());
 	}	//	updateRole
+	
+	//add main method, preparing for nightly build
+	public static void main(String[] args) 
+	{
+		Adempiere.startupEnvironment(false);
+		ProcessInfo pi = new ProcessInfo("Role Access Update", 295);
+		pi.setAD_Client_ID(0);
+		pi.setAD_User_ID(100);
+		
+		RoleAccessUpdate rau = new RoleAccessUpdate();
+		rau.startProcess(Env.getCtx(), pi, null);
+		
+		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
+	}
 	
 }	//	RoleAccessUpdate
