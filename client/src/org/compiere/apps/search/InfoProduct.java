@@ -158,7 +158,7 @@ public final class InfoProduct extends Info implements ActionListener
 		parameterPanel.add(fieldValue, null);
 		parameterPanel.add(labelUPC, null);
 		parameterPanel.add(fieldUPC, null);
-		parameterPanel.add(labelWarehouse, null);
+		parameterPanel.add(labelWarehouse,  new ALayoutConstraint(0,6));
 		parameterPanel.add(pickWarehouse, null);
 		parameterPanel.add(m_InfoPAttributeButton);
 		//	Line 2
