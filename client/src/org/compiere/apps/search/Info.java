@@ -312,6 +312,9 @@ public abstract class Info extends CDialog
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
 	ConfirmPanel confirmPanel = new ConfirmPanel(true, true, true, true, true, true, true);
+	//Begin - [FR 1823612 ] Product Info Screen Improvements
+	protected CPanel addonPanel = new CPanel();
+	//End - [FR 1823612 ] Product Info Screen Improvements
 	protected StatusBar statusBar = new StatusBar();
 	protected CPanel parameterPanel = new CPanel();
 	private JScrollPane scrollPane = new JScrollPane();
@@ -327,6 +330,9 @@ public abstract class Info extends CDialog
 	{
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		southPanel.setLayout(southLayout);
+		//Begin - [FR 1823612 ] Product Info Screen Improvements
+		southPanel.add(addonPanel, BorderLayout.NORTH);
+		//End - [FR 1823612 ] Product Info Screen Improvements
 		southPanel.add(confirmPanel, BorderLayout.CENTER);
 		southPanel.add(statusBar, BorderLayout.SOUTH);
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
@@ -436,7 +442,9 @@ public abstract class Info extends CDialog
 
 		//  Window Sizing
 		parameterPanel.setPreferredSize(new Dimension (INFO_WIDTH, parameterPanel.getPreferredSize().height));
-		scrollPane.setPreferredSize(new Dimension(INFO_WIDTH, 400));
+		//Begin - [FR 1823612 ] Product Info Screen Improvements
+		scrollPane.setPreferredSize(new Dimension(INFO_WIDTH, 300));
+		//End - [FR 1823612 ] Product Info Screen Improvements
 	}   //  prepareTable
 
 	

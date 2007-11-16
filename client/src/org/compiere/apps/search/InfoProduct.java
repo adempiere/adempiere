@@ -22,14 +22,28 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 //
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.minigrid.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.jdesktop.swingx.action.AbstractActionExt;
+
+import com.sun.jmx.mbeanserver.MetaData;
 
 /**
  *	Search Product and return selection
@@ -72,6 +86,10 @@ public final class InfoProduct extends Info implements ActionListener
 		p_loadedOK = true;
 		//	Focus
 		fieldValue.requestFocus();
+		
+		//Begin - fer_luck @ centuryon
+		mWindowNo = WindowNo;
+		//End - fer_luck @ centuryon
 
 		AEnv.positionCenterWindow(frame, this);
 	}	//	InfoProduct
@@ -104,6 +122,19 @@ public final class InfoProduct extends Info implements ActionListener
 	private VComboBox pickWarehouse = new VComboBox();
 	private CLabel labelVendor = new CLabel();
 	private CTextField fieldVendor = new CTextField(10);
+	
+	//Begin - fer_luck @ centuryon
+	private CTextPane fieldDescription = new CTextPane();
+	JXTaskPane warehouseStockPanel = new JXTaskPane();
+    CPanel tablePanel = new CPanel();
+    MiniTable warehouseTbl = new MiniTable();
+    String m_sqlWarehouse;
+    MiniTable substituteTbl = new MiniTable();
+    String m_sqlSubstitute;
+    MiniTable relatedTbl = new MiniTable();
+    String m_sqlRelated;
+    int mWindowNo = 0;
+	//End - fer_luck @ centuryon
 
 	/**	Search Button				*/
 	private CButton		m_InfoPAttributeButton = new CButton(Env.getImageIcon("PAttribute16.gif"));
@@ -158,7 +189,7 @@ public final class InfoProduct extends Info implements ActionListener
 		parameterPanel.add(fieldValue, null);
 		parameterPanel.add(labelUPC, null);
 		parameterPanel.add(fieldUPC, null);
-		parameterPanel.add(labelWarehouse,  new ALayoutConstraint(0,6));
+		parameterPanel.add(labelWarehouse, null);
 		parameterPanel.add(pickWarehouse, null);
 		parameterPanel.add(m_InfoPAttributeButton);
 		//	Line 2
@@ -168,7 +199,9 @@ public final class InfoProduct extends Info implements ActionListener
 		parameterPanel.add(fieldSKU, null);
 		parameterPanel.add(labelVendor, null);
 		parameterPanel.add(fieldVendor, null);
-		parameterPanel.add(labelPriceList, null);
+		
+		// Line 3
+		parameterPanel.add(labelPriceList, new ALayoutConstraint(2,0));
 		parameterPanel.add(pickPriceList, null);
 		
 		//	Product Attribute Instance
@@ -176,8 +209,201 @@ public final class InfoProduct extends Info implements ActionListener
 		confirmPanel.addButton(m_PAttributeButton);
 		m_PAttributeButton.addActionListener(this);
 		m_PAttributeButton.setEnabled(false);
+		
+		//Begin - fer_luck @ centuryon
+		//add taskpane
+		fieldDescription.setBackground(AdempierePLAF.getInfoBackground());
+		fieldDescription.setEditable(false);
+		fieldDescription.setPreferredSize(new Dimension(INFO_WIDTH - 100, 40));
+
+        warehouseStockPanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
+        warehouseStockPanel.setUI(new AdempiereTaskPaneUI());
+        warehouseStockPanel.getContentPane().setBackground(new ColorUIResource(251,248,241));
+        warehouseStockPanel.getContentPane().setForeground(new ColorUIResource(251,0,0));
+        
+        ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class)};
+        /**	From Clause							*/
+        String s_sqlFrom = " M_Product_Stock_V ";
+        /** Where Clause						*/
+        String s_sqlWhere = "Value = ?";
+        m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_Product_Stock_V");
+		warehouseTbl.setRowSelectionAllowed(true);
+		warehouseTbl.setMultiSelection(false);
+		warehouseTbl.addMouseListener(this);
+		warehouseTbl.getSelectionModel().addListSelectionListener(this);
+        warehouseTbl.autoSize();
+        warehouseTbl.setPreferredScrollableViewportSize(new Dimension(INFO_WIDTH - 10, 40));
+        warehouseTbl.setPreferredSize(new Dimension(INFO_WIDTH - 10, 40));
+        
+        ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
+        		new ColumnInfo(
+    					Msg.translate(Env.getCtx(), "Value"),
+    					"(Select Value from M_Product p where p.M_Product_ID=M_Product_SubstituteRelated_V.M_Product_ID)",
+    					String.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
+    	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
+        s_sqlFrom = "M_Product_SubstituteRelated_V";
+        s_sqlWhere = "M_Product_ID = ? AND M_PriceList_Version_ID = ? and RowType = 'S'";
+        m_sqlSubstitute = substituteTbl.prepareTable(s_layoutSubstitute, s_sqlFrom, s_sqlWhere, false, "M_Product_SubstituteRelated_V");
+        substituteTbl.setRowSelectionAllowed(false);
+        substituteTbl.setMultiSelection(false);
+        substituteTbl.addMouseListener(this);
+        substituteTbl.getSelectionModel().addListSelectionListener(this);
+        substituteTbl.autoSize();
+        substituteTbl.setPreferredScrollableViewportSize(new Dimension(INFO_WIDTH - 10, 40));
+        substituteTbl.setPreferredSize(new Dimension(INFO_WIDTH - 10, 40));        
+        
+        ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
+        		new ColumnInfo(
+    					Msg.translate(Env.getCtx(), "Value"),
+    					"(Select Value from M_Product p where p.M_Product_ID=M_Product_SubstituteRelated_V.M_Product_ID)",
+    					String.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
+    	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
+        s_sqlFrom = "M_Product_SubstituteRelated_V";
+        s_sqlWhere = "M_Product_ID = ? AND M_PriceList_Version_ID = ? and RowType = 'R'";
+        m_sqlRelated = relatedTbl.prepareTable(s_layoutRelated, s_sqlFrom, s_sqlWhere, false, "M_Product_SubstituteRelated_V");
+        relatedTbl.setRowSelectionAllowed(false);
+        relatedTbl.setMultiSelection(false);
+        relatedTbl.addMouseListener(this);
+        relatedTbl.getSelectionModel().addListSelectionListener(this);
+        relatedTbl.autoSize();
+        relatedTbl.setPreferredScrollableViewportSize(new Dimension(INFO_WIDTH - 10, 40));
+        relatedTbl.setPreferredSize(new Dimension(INFO_WIDTH - 10, 40));           
+        
+        CTabbedPane jTab  = new CTabbedPane();
+        jTab.addTab(Msg.translate(Env.getCtx(), "Warehouse"), new JScrollPane(warehouseTbl));
+        jTab.setPreferredSize(new Dimension(INFO_WIDTH, 110));
+        jTab.addTab(Msg.translate(Env.getCtx(), "Description"), fieldDescription);
+        jTab.addTab(Msg.translate(Env.getCtx(), "Substitute_ID"), new JScrollPane(substituteTbl));
+        jTab.addTab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"), new JScrollPane(relatedTbl));
+        tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, 110));
+        tablePanel.add(jTab);
+
+        warehouseStockPanel.setExpanded(false);
+        warehouseStockPanel.add(tablePanel);
+        this.addonPanel.add(warehouseStockPanel);
+        
+        this.p_table.addKeyListener(new KeyAdapter() {
+        	public void keyReleased(KeyEvent ke){
+        		int row = ((MiniTable)ke.getSource()).getSelectedRow();
+        		refresh(
+        			((MiniTable)ke.getSource()).getValueAt(row,2),
+        			new BigDecimal(pickWarehouse.getValue().toString()).intValue(),
+        			new BigDecimal(pickPriceList.getValue().toString()).intValue()
+        			);
+        		warehouseStockPanel.setExpanded(true);
+        	}
+        });
+        
+        this.p_table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+            	int row = ((MiniTable)me.getSource()).getSelectedRow();
+            	refresh(
+            		((MiniTable)me.getSource()).getValueAt(row,2),
+            		new BigDecimal(pickWarehouse.getValue().toString()).intValue(),
+            		new BigDecimal(pickPriceList.getValue().toString()).intValue()
+            		);
+            	warehouseStockPanel.setExpanded(true);
+            }
+        });
+		//End - fer_luck @ centuryon
 	}	//	statInit
 
+	//Begin - fer_luck @ centuryon
+	/**
+	 * 	Refresh Query
+	 */
+	private void refresh(Object obj, int M_Warehouse_ID, int M_PriceList_Version_ID)
+	{
+		int M_Product_ID = 0;
+		String sql = m_sqlWarehouse;
+		//Add description to the query
+		sql = sql.replace(" FROM", ", DocumentNote FROM");
+		log.finest(sql);
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setString(1, (String)obj);
+			ResultSet rs = pstmt.executeQuery();
+			fieldDescription.setText("");
+			warehouseTbl.loadTable(rs);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+				if(rs.getString("DocumentNote") != null)
+					fieldDescription.setText(rs.getString("DocumentNote"));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		
+		try {
+			sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setString(1, (String)obj);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next())
+				M_Product_ID = rs.getInt(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		sql = m_sqlSubstitute;
+		log.finest(sql);
+		try {
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, M_Product_ID);
+			pstmt.setInt(2, M_PriceList_Version_ID);
+			ResultSet rs = pstmt.executeQuery();
+			substituteTbl.loadTable(rs);
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		sql = m_sqlRelated;
+		log.finest(sql);
+		try {
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, M_Product_ID);
+			pstmt.setInt(2, M_PriceList_Version_ID);
+			ResultSet rs = pstmt.executeQuery();
+			relatedTbl.loadTable(rs);
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+	}	//	refresh
+	//End - fer_luck @ centuryon
+	
 	/**
 	 *	Dynamic Init
 	 *
