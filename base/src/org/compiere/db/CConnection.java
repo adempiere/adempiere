@@ -100,6 +100,9 @@ public class CConnection implements Serializable, Cloneable
 					if (cc == null) cc = new CConnection(apps_host);
 					CConnectionDialog ccd = new CConnectionDialog (cc);
 					s_cc = ccd.getConnection ();
+					if (!s_cc.isDatabaseOK() && !ccd.isCancel()) {
+						s_cc.testDatabase(true);
+					}
 					//  set also in ALogin and Ctrl
 					Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
 					Ini.saveProperties (Ini.isClient ());
@@ -955,8 +958,7 @@ public class CConnection implements Serializable, Cloneable
 		if (!retest && m_ds != null && m_okDB)
 			return null;
 		
-		if (m_ds != null)
-			getDatabase().close();
+		getDatabase().close();
 		m_ds = null;
 		setDataSource();
 		//  the actual test

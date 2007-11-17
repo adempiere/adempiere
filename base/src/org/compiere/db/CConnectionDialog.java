@@ -330,7 +330,8 @@ public class CConnectionDialog extends CDialog implements ActionListener
 
 		if (src == bOK)
 		{
-			m_cc.setName();
+			updateCConnection();
+			m_cc.setName();			
 			m_ccResult = m_cc;
 			dispose();
 			isCancel = false;
@@ -359,6 +360,31 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		}
 
 
+		updateCConnection();
+		//
+		if (src == bTestApps)
+			cmd_testApps();
+
+		//  Database Selection Changed
+		else if (src == dbTypeField)
+		{
+			m_cc.setType((String)dbTypeField.getSelectedItem());
+			dbPortField.setText(String.valueOf(m_cc.getDbPort()));
+			cbBequeath.setSelected(m_cc.isBequeath());
+			fwPortField.setText(String.valueOf(m_cc.getFwPort()));
+		}
+		//
+		else if (src == bTestDB)
+			cmd_testDB();
+
+		//  Name
+		if (src == nameField)
+			m_cc.setName(nameField.getText());
+
+		updateInfo();
+	}   //  actionPerformed
+
+	private void updateCConnection() {
 		if (Ini.isClient())
 		{
 			//hengsin: avoid unnecessary requery of application server status
@@ -383,28 +409,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		m_cc.setViaFirewall(cbFirewall.isSelected());
 		m_cc.setFwHost(fwHostField.getText());
 		m_cc.setFwPort(fwPortField.getText());
-		//
-		if (src == bTestApps)
-			cmd_testApps();
-
-		//  Database Selection Changed
-		else if (src == dbTypeField)
-		{
-			m_cc.setType((String)dbTypeField.getSelectedItem());
-			dbPortField.setText(String.valueOf(m_cc.getDbPort()));
-			cbBequeath.setSelected(m_cc.isBequeath());
-			fwPortField.setText(String.valueOf(m_cc.getFwPort()));
-		}
-		//
-		else if (src == bTestDB)
-			cmd_testDB();
-
-		//  Name
-		if (src == nameField)
-			m_cc.setName(nameField.getText());
-
-		updateInfo();
-	}   //  actionPerformed
+	}
 
 	/**
 	 *  Update Fields from Connection
