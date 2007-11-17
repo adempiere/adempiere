@@ -384,8 +384,11 @@ public final class DB
 	 */
 	public static Connection createConnection (boolean autoCommit, int trxLevel)
 	{
-		//wan profile
-		if (CConnection.get().isRMIoverHTTP() || CConnection.get().getDatabase().getStatus() == null) 
+		//wan/vpn profile
+		if (CConnection.get().isRMIoverHTTP() ||
+		   (CConnection.get().isServerObjects() && 
+			CConnection.get().isAppsServerOK(false) &&
+			CConnection.get().getDatabase().getStatus() == null)) 
         	return new ServerConnection();
 		
 		Connection conn = s_cc.getConnection (autoCommit, trxLevel);
@@ -417,8 +420,11 @@ public final class DB
      */
     public static Connection createConnection (boolean autoCommit, boolean readOnly, int trxLevel)
     {
-        //wan profile
-        if (CConnection.get().isRMIoverHTTP() || CConnection.get().getDatabase().getStatus() == null) 
+        //wan/vpn profile
+        if (CConnection.get().isRMIoverHTTP() ||
+        	( CConnection.get().isServerObjects() &&
+        	  CConnection.get().isAppsServerOK(false) &&
+        	  CConnection.get().getDatabase().getStatus() == null )) 
         	return new ServerConnection();
 
         Connection conn = s_cc.getConnection (autoCommit, trxLevel);

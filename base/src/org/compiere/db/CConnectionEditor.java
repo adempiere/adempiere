@@ -22,6 +22,7 @@ import javax.swing.*;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.*;
+import org.compiere.util.DB;
 
 /**
  *  Connection Editor.
@@ -276,6 +277,11 @@ public class CConnectionEditor extends JComponent
 			setValue(cd.getConnection());
 			if (!cd.isCancel())
 				fireActionPerformed();
+			else {
+				DB.closeTarget();
+				DB.setDBTarget(m_value);
+			}
+			
 			//
 			setCursor(Cursor.getDefaultCursor());
 			m_active = false;
