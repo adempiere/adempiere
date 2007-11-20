@@ -60,6 +60,13 @@ echo
 
 $JAVA_HOME/bin/java $JAVA_OPTS $ADEMPIERE_OPTS -classpath $MYCLASSPATH org.compiere.process.SynchronizeTerminology
 
+#Run Role access update
+echo
+echo Role Access Update
+echo
+
+$JAVA_HOME/bin/java $JAVA_OPTS $ADEMPIERE_OPTS -classpath $MYCLASSPATH org.compiere.process.RoleAccessUpdate
+
 #Run Sequence Check
 echo
 echo Sequence Check
