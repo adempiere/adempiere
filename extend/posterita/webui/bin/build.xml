@@ -1,0 +1,74 @@
+
+<project name="PosteritaAjaxUI" default="war" basedir=".">
+	<description>
+	    This buildfile is used to build the Adempiere-Posterita WebUI system.
+  	</description>
+	<!-- set global properties for this build -->
+	<!--<property environment="env"/>-->
+	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
+	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
+	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
+	<property name="Adempiere.dir" value="${basedir}/../../../lib"></property>
+
+	<property name="war.name"	value="webui"/>
+	<property name="compile.debug"       value="true"/>
+	<property name="compile.deprecation" value="false"/>
+	<property name="compile.optimize"    value="true"/>
+
+	<path id="compile.classpath">
+		<pathelement location="${basedir}"/>
+	  	<pathelement location="${basedir}/WEB-INF/classes"/>
+	  	<pathelement location="${basedir}/WEB-INF/src"/>
+		
+	    <fileset dir="${Adempiere.dir}">
+	    	<include name="*.jar"/>
+	    </fileset>
+		
+	    <fileset dir="${basedir}/WEB-INF/lib">
+	    	<include name="*.jar"/>
+	    </fileset>
+	</path>
+
+	<target name="clean" description="delete class directory">
+	   <delete dir="${classes.dir}/org" />
+	</target>
+
+	<target name="compile" depends="clean" description="Compile Java sources">
+	    <mkdir dir="${classes.dir}"/>
+	    <javac srcdir="WEB-INF/src"
+	           destdir="${classes.dir}"
+	           debug="${compile.debug}"
+	     	   deprecation="${compile.deprecation}"
+	           optimize="${compile.optimize}">
+	        <classpath refid="compile.classpath"/>
+	    </javac>
+	</target>
+
+	<target name="war" depends="compile">
+		<delete dir="${dist.dir}" />
+		
+		<mkdir dir="${dist.dir}"/>
+		
+		<war
+			  warfile="${dist.dir}/${war.name}.war"
+			  webxml="${WEBINF.dir}/web.xml">
+		      <fileset dir="${basedir}" excludes="
+		      	                                    .settings/**,
+											      	bin/**,
+											      	dist/**,
+											      	.*,
+											      	work/**,
+											      	WEB-INF/src/**,
+		      										**/web.xml,
+		      										**/test/**,
+		      										lib/*-sources.jar,
+		      										**/test.zul"
+		      									>
+
+		      </fileset>
+		</war>
+		
+		<copy file="${dist.dir}/${war.name}.war" tofile="../../../lib/${war.name}.war"/>
+	</target>
+</project>
