@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+Purpose:
+	Defines methods and actions for DSP
+Description:
+	
+Histroy:
+	Mon Jun 20 20:57:56     2005, Created by tomyeh
+
+Copyright (C) 2005 Potix Corporation. All Rights Reserved.
+-->
+
+<taglib>
+	<description>
+	Methods and actions for ZK in DSP/ZUML
+	</description>
+
+	<function>
+		<name>redraw</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	void redraw(org.zkoss.zk.ui.Component, java.io.Writer)
+		</function-signature>
+		<description>
+	Redraw the specified component.
+		</description>
+	</function>
+
+	<function>
+		<name>outResponseJavaScripts</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outResponseJavaScripts(java.util.Collection);
+		</function-signature>
+		<description>
+	Returns javascript to handle the specified responses.
+		</description>
+	</function>
+
+	<function>
+		<name>outLangJavaScripts</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outLangJavaScripts(java.lang.String)
+		</function-signature>
+		<description>
+	Returns HTML tags to include all JavaScripts used by all languages.
+	The argument is the action.
+		</description>
+	</function>
+	<function>
+		<name>outLangStyleSheets</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outLangStyleSheets()
+		</function-signature>
+		<description>
+	Returns HTML tags to include all style sheets used by all languages.
+		</description>
+	</function>
+
+	<function>
+		<name>outPageHeaders</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outPageHeaders(org.zkoss.zk.ui.Page)
+		</function-signature>
+		<description>
+	Returns HTML header tags defined in the specified page.
+		</description>
+	</function>
+
+	<function>
+		<name>toAbsoluteURI</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String toAbsoluteURI(java.lang.String, boolean)
+		</function-signature>
+		<description>
+	Converts the specified URI to abolute if necessary.
+	Note: it doesn't convert if this page is included by another page.
+		</description>
+	</function>
+
+	<function>
+		<name>outLocaleJavaScript</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outLocaleJavaScript()
+		</function-signature>
+		<description>
+	Returns date relevant labels in JavaScript.
+		</description>
+	</function>
+</taglib>
