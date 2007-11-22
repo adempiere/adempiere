@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- zk.xml
+Copyright (C) 2006 Potix Corporation. All Rights Reserved.
+-->
+
+<zk>
+	<log>
+		<description>[Optional] Monitor i3-log.conf and register a handler for the specified log-base</description>
+		<log-base></log-base>
+	</log>
+
+	<!--
+	<language-config>
+		<addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
+	</language-config>
+	-->
+
+	<!-- Turn on the following if used with WebLogic 9.1
+	<system-config>
+		<cache-provider-class>org.zkoss.zk.ui.sys.GlobalDesktopCacheProvider</cache-provider-class>
+	</system-config>
+	-->
+
+	<!-- Adempiere thread session context handler -->
+	<listener>
+		<description>ADempiere WebUI Context management</description>
+		<listener-class>org.adempiere.webui.session.SessionContextListener</listener-class>
+	</listener>
+</zk>
