@@ -355,7 +355,7 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml">
 			<fileset dir="${basedir}/lib" 
-				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war" />
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,webui.war" />
 		</ear>
 	</target>
 

@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- Posterita Ajax UI (Web UI)                               -->
+<!-- ======================================================== -->
 
 <project name="PosteritaAjaxUI" default="war" basedir=".">
 	<description>
@@ -46,6 +50,7 @@
 	</target>
 
 	<target name="war" depends="compile">
+		<echo message="=========== Build Posterita Ajax UI ==========="/>
 		<delete dir="${dist.dir}" />
 		
 		<mkdir dir="${dist.dir}"/>
