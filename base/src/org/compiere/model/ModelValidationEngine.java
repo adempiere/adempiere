@@ -151,10 +151,11 @@ public class ModelValidationEngine
 	 */
 	private void initialize(ModelValidator validator, MClient client)
 	{
-		validator.initialize(this, client);
-		m_validators.add(validator);
 		if (client == null)
 			m_globalValidators.add(validator);
+		m_validators.add(validator);
+		validator.initialize(this, client);		
+		
 	}	//	initialize
 
 	/**
