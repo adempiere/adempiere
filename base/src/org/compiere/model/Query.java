@@ -99,7 +99,7 @@ public class Query {
 		String sql = sqlBuffer.toString();
 		if (applyAccessFilter) {
 			MRole role = MRole.getDefault();
-			sql = role.addAccessSQL(sql, table.get_TableName(), true, false);
+			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
 		
 		PreparedStatement pstmt = null;
@@ -146,14 +146,14 @@ public class Query {
 	 * @throws SQLException 
 	 */
 	public Iterator iterate() throws SQLException {
-		String[] keys = table.get_KeyColumns();
+		String[] keys = table.getKeyColumns();
 		StringBuffer sqlBuffer = new StringBuffer(" SELECT ");
 		for (int i = 0; i < keys.length; i++) {
 			if (i > 0)
 				sqlBuffer.append(", ");
 			sqlBuffer.append(keys[i]);
 		}
-		sqlBuffer.append(" FROM ").append(table.get_TableName());
+		sqlBuffer.append(" FROM ").append(table.getTableName());
 		if (whereClause != null && whereClause.trim().length() > 0)
 			sqlBuffer.append(" WHERE ").append(whereClause);
 		if (orderBy != null && orderBy.trim().length() > 0)
@@ -161,7 +161,7 @@ public class Query {
 		String sql = sqlBuffer.toString();
 		if (applyAccessFilter) {
 			MRole role = MRole.getDefault();
-			sql = role.addAccessSQL(sql, table.get_TableName(), true, false);
+			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
 		PreparedStatement pstmt = null;
 		List<Object[]> idList = new ArrayList<Object[]>();
@@ -220,7 +220,7 @@ public class Query {
 		String sql = sqlBuffer.toString();
 		if (applyAccessFilter) {
 			MRole role = MRole.getDefault();
-			sql = role.addAccessSQL(sql, table.get_TableName(), true, false);
+			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
 		
 		PreparedStatement pstmt = null;
