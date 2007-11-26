@@ -541,7 +541,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
             cpds.setIdleConnectionTestPeriod(1200);
             //cpds.setTestConnectionOnCheckin(true);
             //cpds.setTestConnectionOnCheckout(true);
-            cpds.setAcquireRetryAttempts(5);
+            cpds.setAcquireRetryAttempts(2);
             //cpds.setCheckoutTimeout(60);
 
             if (Ini.isClient())

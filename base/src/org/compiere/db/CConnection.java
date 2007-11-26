@@ -1320,24 +1320,6 @@ public class CConnection implements Serializable, Cloneable
 			{
 				ee = e;
 			}
-			if (conn == null)
-			{
-				Thread.yield();
-				log.config("retrying - " + ee);
-				conn = m_db.getCachedConnection(this, autoCommit, transactionIsolation);
-			}
-			//	System.err.println ("CConnection.getConnection(Cache) - " + getConnectionURL() + ", AutoCommit=" + autoCommit + ", TrxLevel=" + trxLevel);
-		//	}
-		//	else if (isDataSource())	//	Client
-		//	{
-		//		conn = m_ds.getConnection();
-			//	System.err.println ("CConnection.getConnection(DataSource) - " + getConnectionURL() + ", AutoCommit=" + autoCommit + ", TrxLevel=" + trxLevel);
-		//	}
-		//	else
-		//	{
-		//		conn = m_db.getDriverConnection (this);
-			//	System.err.println ("CConnection.getConnection(Driver) - " + getConnectionURL() + ", AutoCommit=" + autoCommit + ", TrxLevel=" + trxLevel);
-		//	}
 			//	Verify Connection
 			if (conn != null)
 			{
@@ -1359,10 +1341,17 @@ public class CConnection implements Serializable, Cloneable
 		{
 			m_dbException = ex;
 			if (conn == null)
+			{
+				//log might cause infinite loop since it will try to acquire database connection again
+				/*
 				log.log(Level.SEVERE, getConnectionURL ()
 					+ ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
-				//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
 					+ " - " + ex.getMessage());
+				*/
+				System.err.println(getConnectionURL ()
+						+ ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
+						+ " - " + ex.getMessage());
+			}
 			else
 			{
 				try
@@ -1385,7 +1374,9 @@ public class CConnection implements Serializable, Cloneable
 		catch (Exception ex)
 		{
 			m_dbException = ex;
-			log.log(Level.SEVERE, getConnectionURL(), ex);
+			//log might cause infinite loop since it will try to acquire database connection again
+			//log.log(Level.SEVERE, getConnectionURL(), ex);
+			System.err.println(getConnectionURL() + " - " + ex.getLocalizedMessage());
 		}
 	//	System.err.println ("CConnection.getConnection - " + conn); 
 		return conn;

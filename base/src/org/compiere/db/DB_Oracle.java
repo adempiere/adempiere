@@ -558,7 +558,7 @@ public class DB_Oracle implements AdempiereDatabase
             cpds.setPassword(connection.getDbPwd());
             cpds.setPreferredTestQuery(DEFAULT_CONN_TEST_SQL);
             cpds.setIdleConnectionTestPeriod(1200);
-            cpds.setAcquireRetryAttempts(5);
+            cpds.setAcquireRetryAttempts(2);
             //cpds.setTestConnectionOnCheckin(true);
             //cpds.setTestConnectionOnCheckout(true);
             //cpds.setCheckoutTimeout(60);
@@ -591,7 +591,9 @@ public class DB_Oracle implements AdempiereDatabase
         catch (Exception ex)
         {
             m_ds = null;
-            log.log(Level.SEVERE, "Could not initialise C3P0 Datasource", ex);
+            //log might cause infinite loop since it will try to acquire database connection again
+            //log.log(Level.SEVERE, "Could not initialise C3P0 Datasource", ex);
+            System.err.println("Could not initialise C3P0 Datasource: " + ex.getLocalizedMessage());
         }
 
         return m_ds;
@@ -617,86 +619,61 @@ public class DB_Oracle implements AdempiereDatabase
             if (m_ds == null)
                 getDataSource(connection);
 
-
-        //  Properties connAttr = new Properties();
-        //  connAttr.setProperty("TRANSACTION_ISOLATION", CConnection.getTransactionIsolationInfo(transactionIsolation));
-        //  OracleConnection conn = (OracleConnection)m_ds.getConnection(connAttr);
             //
-            //  Try 5 times max
-            for (int i = 0; i < 5; i++)
+            try
             {
-                try
+                conn = (Connection)m_ds.getConnection();
+                if (conn != null)
                 {
-                    conn = (Connection)m_ds.getConnection();
-                    if (conn != null)
-                    {
-                        if (conn.getTransactionIsolation() != transactionIsolation)
-                            conn.setTransactionIsolation(transactionIsolation);
-                        if (conn.getAutoCommit() != autoCommit)
-                            conn.setAutoCommit(autoCommit);
+                    if (conn.getTransactionIsolation() != transactionIsolation)
+                        conn.setTransactionIsolation(transactionIsolation);
+                    if (conn.getAutoCommit() != autoCommit)
+                        conn.setAutoCommit(autoCommit);
 //                      conn.setDefaultRowPrefetch(20);     //  10 default - reduces round trips
-                    }
                 }
-                catch (Exception e)
+            }
+            catch (Exception e)
+            {
+                exception = e;
+                conn = null;
+                if (e instanceof SQLException
+                    && ((SQLException)e).getErrorCode() == 1017)    //  invalid username/password
                 {
-                    exception = e;
-                    conn = null;
-                    if (e instanceof SQLException
-                        && ((SQLException)e).getErrorCode() == 1017)    //  invalid username/password
-                    {
-                        log.severe("Cannot connect to database: "
+                	//log might cause infinite loop since it will try to acquire database connection again
+                	/*
+                    log.severe("Cannot connect to database: "
+                        + getConnectionURL(connection)
+                        + " - UserID=" + connection.getDbUid());
+                    */
+                	System.err.println("Cannot connect to database: "
                             + getConnectionURL(connection)
                             + " - UserID=" + connection.getDbUid());
-                        break;
-                    }
                 }
-                try
-                {
-                    if (conn != null && conn.isClosed())
-                        conn = null;
-                    //  OK
-                    if (conn != null && !conn.isClosed())
-                        break;
-                    if (i == 0)
-                        Thread.yield();     //  give some time
-                    else
-                        Thread.sleep(100);
-                }
-                catch (Exception e)
-                {
-                    exception = e;
-                    conn = null;
-                }
-            }   //  5 tries
+            }
 
             if (conn == null && exception != null)
             {
+            	//log might cause infinite loop since it will try to acquire database connection again
+            	/*
                 log.log(Level.SEVERE, exception.toString());
-                log.fine(toString());
-//              log.finest("Reference=" + m_ds.getReference());
+                log.fine(toString()); */
+            	System.err.println(exception.toString());
             }
-        //  else
-        //  {
-            //  System.out.println(conn + " " + getStatus());
-            //  conn.registerConnectionCacheCallback(this, "test", OracleConnection.ALL_CONNECTION_CALLBACKS);
-        //  }
         }
         catch (Exception e)
         {
-        //  System.err.println ("DB_Oracle.getCachedConnection");
-        //  if (!(e instanceof SQLException))
-        //      e.printStackTrace();
             exception = e;
         }
 
         try
         {
-            int numConnections = m_ds.getNumBusyConnections();
-            //if (numConnections > m_maxbusyconnections)
-            if(numConnections % 10 == 0)
-            {
-                log.warning(getStatus());
-            }
+        	if (conn != null) {
+	            int numConnections = m_ds.getNumBusyConnections();
+	            if(numConnections >= m_maxbusyconnections )
+	            {
+	                log.warning(getStatus());
+	            }
+        	}
         }
         catch (Exception ex)
         {
