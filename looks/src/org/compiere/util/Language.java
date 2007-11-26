@@ -151,7 +151,7 @@ public class Language implements Serializable
 			AD_Language_sl_SI, new Locale("sl", "SI"), null, "dd.MM.yyyy",
 			MediaSize.ISO.A4),
 		new Language ("Svenska",
-			AD_Language_sv_SE,  new Locale("sv","SE"),  new Boolean(false), "dd.MM.yyyy",
+			AD_Language_sv_SE,  new Locale("sv","SE"),  new Boolean(false), "yyyy-MM-dd",
 			MediaSize.ISO.A4),
 		new Language ("\u0e44\u0e17\u0e22 (TH)",
 			AD_Language_th_TH,  new Locale("th","TH"), new Boolean(false), "dd/MM/yyyy",

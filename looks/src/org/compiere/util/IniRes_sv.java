@@ -22,7 +22,6 @@ import java.util.ListResourceBundle;
  *  Swedish License Dialog Translation
  *
  *  @author     Thomas Dilts
- *  @version    $Id: IniRes_sv.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
  */
 public class IniRes_sv extends ListResourceBundle
 {
@@ -30,11 +29,11 @@ public class IniRes_sv extends ListResourceBundle
 	static final Object[][] contents = new String[][]
 	{
 	{ "Adempiere_License",   "Licensavtal" },
-	{ "Do_you_accept",      "Godk�nner du licensen ?" },
+	{ "Do_you_accept",      "Godk\u00e4nner du licensen?" },
 	{ "No",                 "Nej" },
-	{ "Yes_I_Understand",   "Ja, jag f�rst�r och godk�nner" },
+	{ "Yes_I_Understand",   "Ja, jag f\u00f6rst\u00e5r och godk\u00e4nner" },
 	{ "license_htm",        "org/adempiere/license.htm" },
-	{ "License_rejected",   "Licens inte godk�nd eller l�pt ut" }
+	{ "License_rejected",   "Licens inte godk\u00e4nd eller l\u00f6pt ut" }
 	};
 
 	/**
