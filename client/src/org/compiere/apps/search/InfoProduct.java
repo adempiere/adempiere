@@ -341,15 +341,18 @@ public final class InfoProduct extends Info implements ActionListener
 			if(rs.next())
 				if(rs.getString("DocumentNote") != null)
 					fieldDescription.setText(rs.getString("DocumentNote"));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+			rs.close();			
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			log.log(Level.WARNING, sql, e);
 		}
-		
+		finally
+		{
+			if (pstmt != null) DB.close(pstmt);
+			pstmt = null;
+		}
+				
 		try {
 			sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
 			pstmt = DB.prepareStatement(sql, null);
@@ -358,7 +361,12 @@ public final class InfoProduct extends Info implements ActionListener
 			if(rs.next())
 				M_Product_ID = rs.getInt(1);
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.log(Level.WARNING, sql, e);
+		}
+		finally
+		{
+			if (pstmt != null) DB.close(pstmt);
+			pstmt = null;
 		}
 		
 		sql = m_sqlSubstitute;
@@ -370,10 +378,13 @@ public final class InfoProduct extends Info implements ActionListener
 			ResultSet rs = pstmt.executeQuery();
 			substituteTbl.loadTable(rs);
 			rs.close();
-			pstmt.close();
-			pstmt = null;
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.log(Level.WARNING, sql, e);
+		}
+		finally
+		{
+			if (pstmt != null) DB.close(pstmt);
+			pstmt = null;
 		}
 		
 		sql = m_sqlRelated;
@@ -385,22 +396,14 @@ public final class InfoProduct extends Info implements ActionListener
 			ResultSet rs = pstmt.executeQuery();
 			relatedTbl.loadTable(rs);
 			rs.close();
-			pstmt.close();
-			pstmt = null;
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.log(Level.WARNING, sql, e);
 		}
-		
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
+			if (pstmt != null) DB.close(pstmt);
 			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		}		
 	}	//	refresh
 	//End - fer_luck @ centuryon
 	
