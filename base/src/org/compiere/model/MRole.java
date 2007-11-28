@@ -16,10 +16,24 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Set;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.Trace;
 
 /**
  *	Role Model.
@@ -27,6 +41,7 @@ import org.compiere.util.*;
  *	The class is final, so that you cannot overwrite the security rules.
  *	
  *  @author Jorg Janke
+ *  @author Karsten Thiemann FR [ 1782412 ]
  *  @version $Id: MRole.java,v 1.5 2006/08/09 16:38:47 jjanke Exp $
  */
 public final class MRole extends X_AD_Role
@@ -355,6 +370,20 @@ public final class MRole extends X_AD_Role
 			s_defaultRole = this;
 		return success;
 	}	//	afterSave
+	
+	/**
+	 * 	Executed after Delete operation.
+	 * 	@param success true if record deleted
+	 *	@return true if delete is a success
+	 */
+	protected boolean afterDelete (boolean success)
+	{
+		if(success) {
+			deleteAccessRecords();
+		}
+		return success;
+	} 	//	afterDelete
+
 
 	/**
 	 * 	Create Access Records
@@ -402,6 +431,21 @@ public final class MRole extends X_AD_Role
 			+ "FROM AD_WorkFlow w "
 			+ "WHERE AccessLevel IN ";
 
+		String sqlDocAction = "INSERT INTO AD_Document_Action_Access "
+			+ "(AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,"
+			+ "C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) " 
+			+ "(SELECT "
+			+ getAD_Client_ID() + ",0,'Y', SysDate," 
+			+ getUpdatedBy() + ", SysDate," + getUpdatedBy() 
+			+ ", doctype.C_DocType_ID, action.AD_Ref_List_ID, rol.AD_Role_ID " 
+			+ "FROM AD_Client client " 
+			+ "INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) "
+			+ "INNER JOIN AD_Ref_List action ON (action.AD_Reference_ID=135) "
+			+ "INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID "
+			+ "AND rol.AD_Role_ID=" + getAD_Role_ID() 
+			+ ") )";
+
+
 		/**
 		 *	Fill AD_xx_Access
 		 *	---------------------------------------------------------------------------
@@ -443,19 +487,43 @@ public final class MRole extends X_AD_Role
 		int form = DB.executeUpdate(sqlForm + roleAccessLevel, get_TrxName());
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int wf = DB.executeUpdate(sqlWorkflow + roleAccessLevel, get_TrxName());
+		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
+		int docact = DB.executeUpdate(sqlDocAction, get_TrxName());
 
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
 			+ ", AD_Form_ID=" + formDel + "+" + form
-			+ ", AD_Workflow_ID=" + wfDel + "+" + wf);
+			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
+			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact);
 		
 		loadAccess(true);
 		return "@AD_Window_ID@ #" + win 
 			+ " -  @AD_Process_ID@ #" + proc
 			+ " -  @AD_Form_ID@ #" + form
-			+ " -  @AD_Workflow_ID@ #" + wf;
+			+ " -  @AD_Workflow_ID@ #" + wf
+			+ " -  AD_Document_Action_Access #" + docact;
+		
 	}	//	createAccessRecords
 
+	/**
+	 * Delete Access Records of the role after the role was (successfully) deleted.
+	 */
+	private void deleteAccessRecords() {
+		String whereDel = " WHERE AD_Role_ID=" + getAD_Role_ID();
+		//
+		int winDel = DB.executeUpdate("DELETE FROM AD_Window_Access" + whereDel, get_TrxName());
+		int procDel = DB.executeUpdate("DELETE FROM AD_Process_Access" + whereDel, get_TrxName());
+		int formDel = DB.executeUpdate("DELETE FROM AD_Form_Access" + whereDel, get_TrxName());
+		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
+		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
+		
+
+		log.fine("AD_Window_Access=" + winDel
+			+ ", AD_Process_Access=" + procDel
+			+ ", AD_Form_Access=" + formDel
+			+ ", AD_Workflow_Access=" + wfDel
+			+ ", AD_Document_Action_Access=" + docactDel);
+	}
 	
 	/**
 	 * 	String Representation

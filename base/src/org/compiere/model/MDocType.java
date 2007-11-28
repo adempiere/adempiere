@@ -16,15 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Document Type Model
  *	
  *  @author Jorg Janke
+ *  @author Karsten Thiemann FR [ 1782412 ]
  *  @version $Id: MDocType.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
  */
 public class MDocType extends X_C_DocType
@@ -293,5 +300,53 @@ public class MDocType extends X_C_DocType
 			setAD_Org_ID(0);*/
 		return true;
 	}	//	beforeSave
+	
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return success
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success)
+	{
+		if (newRecord && success)
+		{
+			//	Add doctype/docaction access to all roles of client
+			String sqlDocAction = "INSERT INTO AD_Document_Action_Access "
+				+ "(AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,"
+				+ "C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) " 
+				+ "(SELECT "
+				+ getAD_Client_ID() + ",0,'Y', SysDate," 
+				+ getUpdatedBy() + ", SysDate," + getUpdatedBy() 
+				+ ", doctype.C_DocType_ID, action.AD_Ref_List_ID, rol.AD_Role_ID " 
+				+ "FROM AD_Client client " 
+				+ "INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) "
+				+ "INNER JOIN AD_Ref_List action ON (action.AD_Reference_ID=135) "
+				+ "INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID) "
+				+ "WHERE client.AD_Client_ID=" + getAD_Client_ID() 
+				+ " AND doctype.C_DocType_ID=" + get_ID()
+				+ " AND rol.IsManual='N'"
+				+ ")";
+			
+			int docact = DB.executeUpdate(sqlDocAction, get_TrxName());
+			log.fine("AD_Document_Action_Access=" + docact);
+		}
+		return success;
+	}	//	afterSave
+	
+	/**
+	 * 	Executed after Delete operation.
+	 * 	@param success true if record deleted
+	 *	@return true if delete is a success
+	 */
+	protected boolean afterDelete (boolean success)
+	{
+		if(success) {
+			//delete access records
+			int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access WHERE C_DocType_ID=" + get_IDOld(), get_TrxName());
+			log.fine("Delete AD_Document_Action_Access=" + docactDel + " for C_DocType_ID: " + get_IDOld());
+		}
+		return success;
+	} 	//	afterDelete
 	
 }	//	MDocType

@@ -16,25 +16,43 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.math.*;
+import java.io.File;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.naming.*;
+import javax.naming.InitialContext;
 
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
+import org.compiere.interfaces.ServerHome;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MClient;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MJournal;
+import org.compiere.model.MJournalBatch;
+import org.compiere.model.MMovement;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.X_C_Order;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
 
 /**
  *	Document Action Engine
  *	
- *  @author Jorg Janke
+ *  @author Jorg Janke 
+ *  @author Karsten Thiemann FR [ 1782412 ]
  *  @version $Id: DocumentEngine.java,v 1.2 2006/07/30 00:54:44 jjanke Exp $
  */
 public class DocumentEngine implements DocAction
@@ -1069,5 +1087,50 @@ public class DocumentEngine implements DocAction
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
+	}
+
+	/**
+	 * Checks the access rights of the given role/client for the given document actions.
+	 * If no access rules can be found for a doctype/client/document action combination
+	 * every role can access this combination (so no definition is needed for the default
+	 * access rights).
+	 * @param clientId
+	 * @param roleId
+	 * @param docTypeId
+	 * @param options
+	 * @param maxIndex
+	 * @return number of valid actions in the String[] options
+	 */
+	public static int checkActionAccess(int clientId, int roleId, int docTypeId, String[] options, int maxIndex) {
+		final Vector<String> validOptions = new Vector<String>();
+		String sql = "SELECT AD_Role_ID FROM AD_Document_Action_Access "
+				+ "WHERE IsActive='Y' AND AD_Client_ID=? AND C_DocType_ID=? AND AD_Ref_List_ID=" +
+						"(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=135" +
+						" AND Value=?)";
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			for (int i = 0; i < maxIndex; i++) {
+				pstmt.setInt(1, clientId);
+				pstmt.setInt(2, docTypeId);
+				pstmt.setString(3, options[i]);
+				ResultSet rs = pstmt.executeQuery();
+				while (rs.next()) {
+					if(rs.getInt(1) == roleId){
+						//is valid for role
+						validOptions.add(options[i]);
+						continue;
+					}
+				}
+				rs.close();
+			}
+			validOptions.toArray(options);
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		return validOptions.size();
 	}
 }	//	DocumentEnine
