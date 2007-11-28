@@ -31,6 +31,10 @@ import org.compiere.util.*;
  *  </pre>
  *  @author Jorg Janke
  *  @version  $Id: Doc_Bank.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual 
+ *  Avoid posting if both accounts BankAsset and BankInTransit are equal
+ *  
  */
 public class Doc_Bank extends Doc
 {
@@ -158,28 +162,61 @@ public class Doc_Bank extends Doc
 			DocLine_Bank line = (DocLine_Bank)p_lines[i];
 			int C_BPartner_ID = line.getC_BPartner_ID();
 			
-			//  BankAsset       DR      CR  (Statement)
-			fl = fact.createLine(line,
-				getAccount(Doc.ACCTTYPE_BankAsset, as),
-				line.getC_Currency_ID(), line.getStmtAmt());
-			if (fl != null && AD_Org_ID != 0)
-				fl.setAD_Org_ID(AD_Org_ID);
-			if (fl != null && C_BPartner_ID != 0)
-				fl.setC_BPartner_ID(C_BPartner_ID);
+			// Avoid usage of clearing accounts
+			// If both accounts BankAsset and BankInTransit are equal
+			// then remove the posting
 			
-			//  BankInTransit   DR      CR              (Payment)
-			fl = fact.createLine(line,
-				getAccount(Doc.ACCTTYPE_BankInTransit, as),
-				line.getC_Currency_ID(), line.getTrxAmt().negate());
-			if (fl != null)
-			{
-				if (C_BPartner_ID != 0)
-					fl.setC_BPartner_ID(C_BPartner_ID);
-				if (AD_Org_ID != 0)
+			MAccount acct_bank_asset =  getAccount(Doc.ACCTTYPE_BankAsset, as);
+			MAccount acct_bank_in_transit = getAccount(Doc.ACCTTYPE_BankInTransit, as);
+			
+			if ((!as.isPostIfClearingEqual()) && acct_bank_asset.equals(acct_bank_in_transit)) {
+				// Not using clearing accounts
+				// just post the difference (if any)
+				
+				BigDecimal amt_stmt_minus_trx = line.getStmtAmt().subtract(line.getTrxAmt());
+				if (amt_stmt_minus_trx.compareTo(Env.ZERO) != 0) {
+
+					//  BankAsset       DR      CR  (Statement minus Payment)
+					fl = fact.createLine(line,
+						getAccount(Doc.ACCTTYPE_BankAsset, as),
+						line.getC_Currency_ID(), amt_stmt_minus_trx);
+					if (fl != null && AD_Org_ID != 0)
+						fl.setAD_Org_ID(AD_Org_ID);
+					if (fl != null && C_BPartner_ID != 0)
+						fl.setC_BPartner_ID(C_BPartner_ID);
+					
+				}
+				
+			} else {
+			
+				// Normal Adempiere behavior -- unchanged if using clearing accounts
+				
+				//  BankAsset       DR      CR  (Statement)
+				fl = fact.createLine(line,
+					getAccount(Doc.ACCTTYPE_BankAsset, as),
+					line.getC_Currency_ID(), line.getStmtAmt());
+				if (fl != null && AD_Org_ID != 0)
 					fl.setAD_Org_ID(AD_Org_ID);
-				else
-					fl.setAD_Org_ID(line.getAD_Org_ID(true)); // from payment
+				if (fl != null && C_BPartner_ID != 0)
+					fl.setC_BPartner_ID(C_BPartner_ID);
+				
+				//  BankInTransit   DR      CR              (Payment)
+				fl = fact.createLine(line,
+					getAccount(Doc.ACCTTYPE_BankInTransit, as),
+					line.getC_Currency_ID(), line.getTrxAmt().negate());
+				if (fl != null)
+				{
+					if (C_BPartner_ID != 0)
+						fl.setC_BPartner_ID(C_BPartner_ID);
+					if (AD_Org_ID != 0)
+						fl.setAD_Org_ID(AD_Org_ID);
+					else
+						fl.setAD_Org_ID(line.getAD_Org_ID(true)); // from payment
+				}
+			
 			}
+			// End Avoid usage of clearing accounts
+			
 			//  Charge          DR          (Charge)
 			fl = fact.createLine(line,
 				line.getChargeAccount(as, line.getChargeAmt().negate()),

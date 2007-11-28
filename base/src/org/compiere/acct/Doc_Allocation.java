@@ -31,6 +31,11 @@ import org.compiere.util.*;
  *  </pre>
  *  @author Jorg Janke
  *  @version  $Id: Doc_Allocation.java,v 1.6 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual 
+ *  Avoid posting if Receipt and both accounts Unallocated Cash and Receivable are equal
+ *  Avoid posting if Payment and both accounts Payment Select and Liability are equal
+ *  
  */
 public class Doc_Allocation extends Doc
 {
@@ -209,22 +214,49 @@ public class Doc_Allocation extends Doc
 			//	Sales Invoice	
 			else if (invoice.isSOTrx())
 			{
-				//	Payment/Cash	DR
+
+				// Avoid usage of clearing accounts
+				// If both accounts Unallocated Cash and Receivable are equal
+				// then don't post
+				
+				MAccount acct_unallocated_cash = null;
 				if (line.getC_Payment_ID() != 0)
-				{
-					fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()),
-						getC_Currency_ID(), line.getAmtSource(), null);
-					if (fl != null && payment != null)
-						fl.setAD_Org_ID(payment.getAD_Org_ID());
-				}
+					acct_unallocated_cash =  getPaymentAcct(as, line.getC_Payment_ID());					
 				else if (line.getC_CashLine_ID() != 0)
-				{
-					fl = fact.createLine (line, getCashAcct(as, line.getC_CashLine_ID()),
-						getC_Currency_ID(), line.getAmtSource(), null);
-					MCashLine cashLine = new MCashLine (getCtx(), line.getC_CashLine_ID(), getTrxName());
-					if (fl != null && cashLine.get_ID() != 0)
-						fl.setAD_Org_ID(cashLine.getAD_Org_ID());
+					acct_unallocated_cash =  getCashAcct(as, line.getC_CashLine_ID());
+				MAccount acct_receivable = getAccount(Doc.ACCTTYPE_C_Receivable, as);
+				
+				if ((!as.isPostIfClearingEqual()) && acct_unallocated_cash != null && acct_unallocated_cash.equals(acct_receivable)) {
+					
+					// if not using clearing accounts, then don't post amtsource
+					// change the allocationsource to be writeoff + discount
+					allocationSource = line.getDiscountAmt().add(line.getWriteOffAmt());
+
+					
+				} else {
+					
+					// Normal behavior -- unchanged if using clearing accounts
+				
+					//	Payment/Cash	DR
+					if (line.getC_Payment_ID() != 0)
+					{
+						fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()),
+							getC_Currency_ID(), line.getAmtSource(), null);
+						if (fl != null && payment != null)
+							fl.setAD_Org_ID(payment.getAD_Org_ID());
+					}
+					else if (line.getC_CashLine_ID() != 0)
+					{
+						fl = fact.createLine (line, getCashAcct(as, line.getC_CashLine_ID()),
+							getC_Currency_ID(), line.getAmtSource(), null);
+						MCashLine cashLine = new MCashLine (getCtx(), line.getC_CashLine_ID(), getTrxName());
+						if (fl != null && cashLine.get_ID() != 0)
+							fl.setAD_Org_ID(cashLine.getAD_Org_ID());
+					}
+
 				}
+				// End Avoid usage of clearing accounts
+				
 				//	Discount		DR
 				if (Env.ZERO.compareTo(line.getDiscountAmt()) != 0)
 				{
@@ -262,6 +294,28 @@ public class Doc_Allocation extends Doc
 			//	Purchase Invoice
 			else
 			{
+				// Avoid usage of clearing accounts
+				// If both accounts Payment Select and Liability are equal
+				// then don't post
+
+				MAccount acct_payment_select = null;
+				if (line.getC_Payment_ID() != 0)
+					acct_payment_select = getPaymentAcct(as, line.getC_Payment_ID());
+				else if (line.getC_CashLine_ID() != 0)
+					acct_payment_select = getCashAcct(as, line.getC_CashLine_ID());
+				MAccount acct_liability = getAccount(Doc.ACCTTYPE_V_Liability, as);
+				boolean isUsingClearing = true;
+				
+				if ((!as.isPostIfClearingEqual()) && acct_payment_select != null && acct_payment_select.equals(acct_liability)) {
+					
+					// if not using clearing accounts, then don't post amtsource
+					// change the allocationsource to be writeoff + discount
+					allocationSource = line.getDiscountAmt().add(line.getWriteOffAmt());
+					isUsingClearing = false;
+
+				}
+				// End Avoid usage of clearing accounts
+				
 				allocationSource = allocationSource.negate();	//	allocation is negative
 				//	AP Invoice Amount	DR
 				if (as.isAccrual())
@@ -297,14 +351,14 @@ public class Doc_Allocation extends Doc
 						fl.setAD_Org_ID(payment.getAD_Org_ID());
 				}
 				//	Payment/Cash	CR
-				if (line.getC_Payment_ID() != 0)
+				if (isUsingClearing && line.getC_Payment_ID() != 0) // Avoid usage of clearing accounts
 				{
 					fl = fact.createLine (line, getPaymentAcct(as, line.getC_Payment_ID()),
 						getC_Currency_ID(), null, line.getAmtSource().negate());
 					if (fl != null && payment != null)
 						fl.setAD_Org_ID(payment.getAD_Org_ID());
 				}
-				else if (line.getC_CashLine_ID() != 0)
+				else if (isUsingClearing && line.getC_CashLine_ID() != 0) // Avoid usage of clearing accounts
 				{
 					fl = fact.createLine (line, getCashAcct(as, line.getC_CashLine_ID()),
 						getC_Currency_ID(), null, line.getAmtSource().negate());

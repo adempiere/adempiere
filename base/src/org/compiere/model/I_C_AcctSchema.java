@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_AcctSchema
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:36.406
-     */
-    public interface I_C_AcctSchema 
+/** Generated Interface for C_AcctSchema
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_C_AcctSchema 
 {
 
     /** TableName=C_AcctSchema */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -110,7 +108,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -125,7 +123,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getI_C_Period() throws Exception;
+	public I_C_Period getC_Period() throws Exception;
 
     /** Column name CommitmentType */
     public static final String COLUMNNAME_CommitmentType = "CommitmentType";
@@ -283,6 +281,19 @@ import org.compiere.util.*;
 	  */
 	public boolean isExplicitCostAdjustment();
 
+    /** Column name IsPostIfClearingEqual */
+    public static final String COLUMNNAME_IsPostIfClearingEqual = "IsPostIfClearingEqual";
+
+	/** Set Post if Clearing Equal.
+	  * This flag controls if Adempiere must post when clearing (transit) and final accounts are the same
+	  */
+	public void setIsPostIfClearingEqual (boolean IsPostIfClearingEqual);
+
+	/** Get Post if Clearing Equal.
+	  * This flag controls if Adempiere must post when clearing (transit) and final accounts are the same
+	  */
+	public boolean isPostIfClearingEqual();
+
     /** Column name IsPostServices */
     public static final String COLUMNNAME_IsPostServices = "IsPostServices";
 
@@ -322,7 +333,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_CostType_ID();
 
-	public I_M_CostType getI_M_CostType() throws Exception;
+	public I_M_CostType getM_CostType() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -31,6 +31,10 @@ import org.compiere.util.*;
  *  Update Costing Records
  *  @author Jorg Janke
  *  @version  $Id: Doc_MatchInv.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual 
+ *  Avoid posting if both accounts Not Invoiced Receipts and Inventory Clearing are equal
+ *  
  */
 public class Doc_MatchInv extends Doc
 {
@@ -221,6 +225,26 @@ public class Doc_MatchInv extends Doc
 		cr.setUser1_ID(m_invoiceLine.getUser1_ID());
 		cr.setUser2_ID(m_invoiceLine.getUser2_ID());
 
+		// Avoid usage of clearing accounts
+		// If both accounts Not Invoiced Receipts and Inventory Clearing are equal
+		// then remove the posting
+		
+		MAccount acct_db =  dr.getAccount(); // not_invoiced_receipts
+		MAccount acct_cr = cr.getAccount(); // inventory_clearing
+		
+		if ((!as.isPostIfClearingEqual()) && acct_db.equals(acct_cr)) {
+			
+			BigDecimal debit = dr.getAmtSourceDr();
+			BigDecimal credit = cr.getAmtSourceCr();
+			
+			if (debit.compareTo(credit) == 0) {
+				fact.remove(dr);
+				fact.remove(cr);
+			}
+		
+		}
+		// End Avoid usage of clearing accounts
+		
 
 		//  Invoice Price Variance 	difference
 		BigDecimal ipv = cr.getAcctBalance().add(dr.getAcctBalance()).negate();
