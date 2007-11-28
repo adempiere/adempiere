@@ -156,8 +156,8 @@ public class MSequence extends X_AD_Sequence
 					// If maintaining official dictionary try to get the ID from http official server
 					if (adempiereSys) {
 
-						String isUseCentralizedID = MSysConfig.getValue("DICTIONARY_ID_USE_CENTRALIZED_ID"); // "Y"
-						if (isUseCentralizedID != null && isUseCentralizedID.equals("Y")) {
+						String isUseCentralizedID = MSysConfig.getValue("DICTIONARY_ID_USE_CENTRALIZED_ID", "Y"); // defaults to Y
+						if (! isUseCentralizedID.equals("N")) {
 							// get ID from http site
 							retValue = getNextOfficialID_HTTP(TableName);
 							if (retValue > 0) {
@@ -176,13 +176,13 @@ public class MSequence extends X_AD_Sequence
 					// If not official dictionary try to get the ID from http custom server - if configured
 					if (hasEntityType && ! adempiereSys) {
 
-						String isUseProjectCentralizedID = MSysConfig.getValue("PROJECT_ID_USE_CENTRALIZED_ID"); // "Y"
-						if (isUseProjectCentralizedID != null && isUseProjectCentralizedID.equals("Y")) {
+						String isUseProjectCentralizedID = MSysConfig.getValue("PROJECT_ID_USE_CENTRALIZED_ID", "N"); // defaults to N
+						if (isUseProjectCentralizedID.equals("Y")) {
 							// get ID from http site
 							retValue = getNextProjectID_HTTP(TableName);
 							if (retValue > 0) {
 								PreparedStatement updateSQL;
-								updateSQL = conn.prepareStatement("UPDATE AD_Sequence SET CurrentNext = ? + 1 WHERE AD_Sequence_ID = ?");
+								updateSQL = conn.prepareStatement("UPDATE AD_Sequence SET CurrentNext = GREATEST(CurrentNext, ? + 1) WHERE AD_Sequence_ID = ?");
 								updateSQL.setInt(1, retValue);
 								updateSQL.setInt(2, AD_Sequence_ID);
 								updateSQL.executeUpdate();

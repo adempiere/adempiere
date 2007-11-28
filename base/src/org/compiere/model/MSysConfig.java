@@ -58,9 +58,10 @@ public class MSysConfig extends X_AD_SysConfig
 	/**
 	 * Get system configuration property of type string
 	 * @param Name
+	 * @param defaultValue
 	 * @return String
 	 */
-	public static String getValue(String Name)
+	public static String getValue(String Name, String defaultValue)
 	{
 		String str = null;
 		String sql = "SELECT Value FROM AD_SysConfig WHERE Name=? and IsActive='Y'";
@@ -79,8 +80,18 @@ public class MSysConfig extends X_AD_SysConfig
 			s_log.log(Level.SEVERE, "getValue", e);
 		} 
 		if (str == null)
-			return null;
+			return defaultValue;
 		return (str.trim());
+	}
+	
+	/**
+	 * Get system configuration property of type string
+	 * @param Name
+	 * @return String
+	 */
+	public static String getValue(String Name)
+	{
+		return (getValue(Name, null));
 	}
 	
 	/**
