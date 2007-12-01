@@ -17,12 +17,11 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_BudgetControl
  *  @author Adempiere (generated) 
@@ -39,7 +38,9 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
     public X_GL_BudgetControl (Properties ctx, int GL_BudgetControl_ID, String trxName)
     {
       super (ctx, GL_BudgetControl_ID, trxName);
-      /** if (GL_BudgetControl_ID == 0)        {			setBudgetControlScope (null);
+      /** if (GL_BudgetControl_ID == 0)
+        {
+			setBudgetControlScope (null);
 			setC_AcctSchema_ID (0);
 			setCommitmentType (null);
 // C
@@ -47,7 +48,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 			setGL_Budget_ID (0);
 			setIsBeforeApproval (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,21 +79,26 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
       return sb.toString();
     }
 
-/** BudgetControlScope AD_Reference_ID=361 */
-public static final int BUDGETCONTROLSCOPE_AD_Reference_ID=361;/** Period only = P */
-public static final String BUDGETCONTROLSCOPE_PeriodOnly = "P";/** Total = T */
-public static final String BUDGETCONTROLSCOPE_Total = "T";/** Year To Date = Y */
-public static final String BUDGETCONTROLSCOPE_YearToDate = "Y";
+	/** BudgetControlScope AD_Reference_ID=361 */
+	public static final int BUDGETCONTROLSCOPE_AD_Reference_ID=361;
+	/** Period only = P */
+	public static final String BUDGETCONTROLSCOPE_PeriodOnly = "P";
+	/** Year To Date = Y */
+	public static final String BUDGETCONTROLSCOPE_YearToDate = "Y";
+	/** Total = T */
+	public static final String BUDGETCONTROLSCOPE_Total = "T";
 	/** Set Control Scope.
 		@param BudgetControlScope 
 		Scope of the Budget Control
 	  */
 	public void setBudgetControlScope (String BudgetControlScope)
 	{
-if (BudgetControlScope == null) throw new IllegalArgumentException ("BudgetControlScope is mandatory");if (BudgetControlScope.equals("P") || BudgetControlScope.equals("T") || BudgetControlScope.equals("Y")); else throw new IllegalArgumentException ("BudgetControlScope Invalid value - " + BudgetControlScope + " - Reference_ID=361 - P - T - Y");		if (BudgetControlScope.length() > 1)
+		if (BudgetControlScope == null) throw new IllegalArgumentException ("BudgetControlScope is mandatory");
+		if (BudgetControlScope.equals("P") || BudgetControlScope.equals("Y") || BudgetControlScope.equals("T")); else throw new IllegalArgumentException ("BudgetControlScope Invalid value - " + BudgetControlScope + " - Reference_ID=361 - P - Y - T");
+		if (BudgetControlScope.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BudgetControlScope = BudgetControlScope.substring(0, 0);
+			BudgetControlScope = BudgetControlScope.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BudgetControlScope, BudgetControlScope);
 	}
@@ -105,7 +111,7 @@ if (BudgetControlScope == null) throw new IllegalArgumentException ("BudgetContr
 		return (String)get_Value(COLUMNNAME_BudgetControlScope);
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -143,21 +149,32 @@ if (BudgetControlScope == null) throw new IllegalArgumentException ("BudgetContr
 		return ii.intValue();
 	}
 
-/** CommitmentType AD_Reference_ID=359 */
-public static final int COMMITMENTTYPE_AD_Reference_ID=359;/** Commitment & Reservation = B */
-public static final String COMMITMENTTYPE_CommitmentReservation = "B";/** Commitment only = C */
-public static final String COMMITMENTTYPE_CommitmentOnly = "C";/** None = N */
-public static final String COMMITMENTTYPE_None = "N";
+	/** CommitmentType AD_Reference_ID=359 */
+	public static final int COMMITMENTTYPE_AD_Reference_ID=359;
+	/** PO Commitment only = C */
+	public static final String COMMITMENTTYPE_POCommitmentOnly = "C";
+	/** PO Commitment & Reservation = B */
+	public static final String COMMITMENTTYPE_POCommitmentReservation = "B";
+	/** None = N */
+	public static final String COMMITMENTTYPE_None = "N";
+	/** PO/SO Commitment & Reservation = A */
+	public static final String COMMITMENTTYPE_POSOCommitmentReservation = "A";
+	/** SO Commitment only = S */
+	public static final String COMMITMENTTYPE_SOCommitmentOnly = "S";
+	/** PO/SO Commitment = O */
+	public static final String COMMITMENTTYPE_POSOCommitment = "O";
 	/** Set Commitment Type.
 		@param CommitmentType 
 		Create Commitment and/or Reservations for Budget Control
 	  */
 	public void setCommitmentType (String CommitmentType)
 	{
-if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");if (CommitmentType.equals("B") || CommitmentType.equals("C") || CommitmentType.equals("N")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - B - C - N");		if (CommitmentType.length() > 1)
+		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
+		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");
+		if (CommitmentType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CommitmentType = CommitmentType.substring(0, 0);
+			CommitmentType = CommitmentType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
 	}
@@ -176,10 +193,11 @@ if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -214,7 +232,7 @@ if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType 
 		return ii.intValue();
 	}
 
-	public I_GL_Budget getI_GL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -258,10 +276,11 @@ if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType 
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -306,10 +325,11 @@ if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

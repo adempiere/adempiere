@@ -1239,6 +1239,8 @@ public abstract class Doc
 	public static final int     ACCTTYPE_PPVOffset = 101;
 	/** GL Accounts - Commitment Offset	*/
 	public static final int     ACCTTYPE_CommitmentOffset = 111;
+	/** GL Accounts - Commitment Offset	Sales */
+	public static final int     ACCTTYPE_CommitmentOffsetSales = 112;
 
 
 	/**
@@ -1411,6 +1413,11 @@ public abstract class Doc
 		else if (AcctType == ACCTTYPE_CommitmentOffset)
 		{
 			sql = "SELECT CommitmentOffset_Acct FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
+			para_1 = -1;
+		}
+		else if (AcctType == ACCTTYPE_CommitmentOffsetSales)
+		{
+			sql = "SELECT CommitmentOffsetSales_Acct FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
 			para_1 = -1;
 		}
 

@@ -247,12 +247,18 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 
 	/** CommitmentType AD_Reference_ID=359 */
 	public static final int COMMITMENTTYPE_AD_Reference_ID=359;
-	/** Commitment only = C */
-	public static final String COMMITMENTTYPE_CommitmentOnly = "C";
-	/** Commitment & Reservation = B */
-	public static final String COMMITMENTTYPE_CommitmentReservation = "B";
+	/** PO Commitment only = C */
+	public static final String COMMITMENTTYPE_POCommitmentOnly = "C";
+	/** PO Commitment & Reservation = B */
+	public static final String COMMITMENTTYPE_POCommitmentReservation = "B";
 	/** None = N */
 	public static final String COMMITMENTTYPE_None = "N";
+	/** PO/SO Commitment & Reservation = A */
+	public static final String COMMITMENTTYPE_POSOCommitmentReservation = "A";
+	/** SO Commitment only = S */
+	public static final String COMMITMENTTYPE_SOCommitmentOnly = "S";
+	/** PO/SO Commitment = O */
+	public static final String COMMITMENTTYPE_POSOCommitment = "O";
 	/** Set Commitment Type.
 		@param CommitmentType 
 		Create Commitment and/or Reservations for Budget Control
@@ -260,7 +266,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setCommitmentType (String CommitmentType)
 	{
 		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
-		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N");
+		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");
 		if (CommitmentType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");

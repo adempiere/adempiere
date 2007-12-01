@@ -365,4 +365,5 @@
 95,Commitment Accounting,,Memo,,,Yes,,,,,,,,,,,,
 951,PO Encumbrance,,Memo,,,No,,95,,,,,,,,,,
 952,PO Commitment,,Memo,,,No,COMMITMENTOFFSET_ACCT,95,,,,,,,,,,
+953,SO Commitment,,Memo,,,No,COMMITMENTOFFSETSALES_ACCT,95,,,,,,,,,,
 955,SO Future Revenue,,Memo,,,No,,95,,,,,,,,,,

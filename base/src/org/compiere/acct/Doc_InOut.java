@@ -125,6 +125,8 @@ public class Doc_InOut extends Doc
 	 */
 	public ArrayList<Fact> createFacts (MAcctSchema as)
 	{
+		//
+		ArrayList<Fact> facts = new ArrayList<Fact>();
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID (as.getC_Currency_ID());
@@ -196,6 +198,20 @@ public class Doc_InOut extends Doc
 				}
 			}	//	for all lines
 			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
+
+			/** Commitment release										****/
+			if (as.isAccrual() && as.isCreateSOCommitment())
+			{
+				for (int i = 0; i < p_lines.length; i++)
+				{
+					DocLine line = p_lines[i];
+					Fact factcomm = Doc_Order.getCommitmentSalesRelease(as, this, 
+						line.getQty(), line.get_ID(), Env.ONE);
+					if (factcomm != null)
+						facts.add(factcomm);
+				}
+			}	//	Commitment
+		
 		}	//	Shipment
         //	  *** Sales - Return
 		else if ( getDocumentType().equals(DOCTYPE_MatReceipt) && isSOTrx() )
@@ -403,7 +419,6 @@ public class Doc_InOut extends Doc
 			return null;
 		}
 		//
-		ArrayList<Fact> facts = new ArrayList<Fact>();
 		facts.add(fact);
 		return facts;
 	}   //  createFact

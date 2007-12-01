@@ -316,7 +316,7 @@ public class Doc_MatchInv extends Doc
 		facts.add(fact);
 		
 		/** Commitment release										****/
-		if (as.isAccrual() && as.isCreateCommitment())
+		if (as.isAccrual() && as.isCreatePOCommitment())
 		{
 			fact = Doc_Order.getCommitmentRelease(as, this, 
 				getQty(), m_invoiceLine.getC_InvoiceLine_ID(), Env.ONE);

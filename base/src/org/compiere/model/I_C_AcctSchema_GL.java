@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_AcctSchema_GL
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:36.64
-     */
-    public interface I_C_AcctSchema_GL 
+/** Generated Interface for C_AcctSchema_GL
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.0
+ */
+public interface I_C_AcctSchema_GL 
 {
 
     /** TableName=C_AcctSchema_GL */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +69,20 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
+
+    /** Column name CommitmentOffsetSales_Acct */
+    public static final String COLUMNNAME_CommitmentOffsetSales_Acct = "CommitmentOffsetSales_Acct";
+
+	/** Set Commitment Offset Sales.
+	  * Budgetary Commitment Offset Account for Sales
+	  */
+	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct);
+
+	/** Get Commitment Offset Sales.
+	  * Budgetary Commitment Offset Account for Sales
+	  */
+	public int getCommitmentOffsetSales_Acct();
 
     /** Column name CommitmentOffset_Acct */
     public static final String COLUMNNAME_CommitmentOffset_Acct = "CommitmentOffset_Acct";

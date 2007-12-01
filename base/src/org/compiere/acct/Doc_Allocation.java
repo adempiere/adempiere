@@ -436,7 +436,7 @@ public class Doc_Allocation extends Doc
 		log.config("Allocation Accounted=" + allocationAccounted);
 		
 		//	Cash Based Commitment Release 
-		if (as.isCreateCommitment() && !invoice.isSOTrx())
+		if (as.isCreatePOCommitment() && !invoice.isSOTrx())
 		{
 			MInvoiceLine[] lines = invoice.getLines();
 			for (int i = 0; i < lines.length; i++)

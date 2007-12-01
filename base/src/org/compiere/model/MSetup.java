@@ -560,7 +560,7 @@ public final class MSetup
 			+ "USECURRENCYBALANCING,CURRENCYBALANCING_Acct,"
 			+ "RETAINEDEARNING_Acct,INCOMESUMMARY_Acct,"
 			+ "INTERCOMPANYDUETO_Acct,INTERCOMPANYDUEFROM_Acct,"
-			+ "PPVOFFSET_Acct, CommitmentOffset_Acct) VALUES (");
+			+ "PPVOFFSET_Acct, CommitmentOffset_Acct, CommitmentOffsetSales_Acct) VALUES (");
 		sqlCmd.append(m_stdValues).append(",").append(m_as.getC_AcctSchema_ID()).append(",")
 			.append("'Y',").append(getAcct("SUSPENSEBALANCING_Acct")).append(",")
 			.append("'Y',").append(getAcct("SUSPENSEERROR_Acct")).append(",")
@@ -572,7 +572,8 @@ public final class MSetup
 			.append(getAcct("INTERCOMPANYDUETO_Acct")).append(",")
 			.append(getAcct("INTERCOMPANYDUEFROM_Acct")).append(",")
 			.append(getAcct("PPVOFFSET_Acct")).append(",")
-			.append(getAcct("CommitmentOffset_Acct"))
+			.append(getAcct("CommitmentOffset_Acct")).append(",")
+			.append(getAcct("CommitmentOffsetSales_Acct"))
 			.append(")");
 		if (m_accountsOK)
 			no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());

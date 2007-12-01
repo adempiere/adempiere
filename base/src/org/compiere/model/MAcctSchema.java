@@ -514,16 +514,32 @@ public class MAcctSchema extends X_C_AcctSchema
 	}	//	isCostingLevelBatch
 
 	/**
-	 * 	Create Commitment Accounting
+	 * 	Create PO Commitment Accounting
 	 *	@return true if creaet commitments
 	 */
-	public boolean isCreateCommitment()
+	public boolean isCreatePOCommitment()
 	{
 		String s = getCommitmentType();
 		if (s == null)
 			return false;
-		return COMMITMENTTYPE_CommitmentOnly.equals(s)
-			|| COMMITMENTTYPE_CommitmentReservation.equals(s);
+		return COMMITMENTTYPE_POCommitmentOnly.equals(s)
+			|| COMMITMENTTYPE_POCommitmentReservation.equals(s)
+			|| COMMITMENTTYPE_POSOCommitmentReservation.equals(s)
+			|| COMMITMENTTYPE_POSOCommitment.equals(s);
+	}	//	isCreateCommitment
+
+	/**
+	 * 	Create SO Commitment Accounting
+	 *	@return true if creaet commitments
+	 */
+	public boolean isCreateSOCommitment()
+	{
+		String s = getCommitmentType();
+		if (s == null)
+			return false;
+		return COMMITMENTTYPE_SOCommitmentOnly.equals(s)
+			|| COMMITMENTTYPE_POSOCommitmentReservation.equals(s)
+			|| COMMITMENTTYPE_POSOCommitment.equals(s);
 	}	//	isCreateCommitment
 
 	/**
@@ -535,7 +551,8 @@ public class MAcctSchema extends X_C_AcctSchema
 		String s = getCommitmentType();
 		if (s == null)
 			return false;
-		return COMMITMENTTYPE_CommitmentReservation.equals(s);
+		return COMMITMENTTYPE_POCommitmentReservation.equals(s)
+			|| COMMITMENTTYPE_POSOCommitmentReservation.equals(s);
 	}	//	isCreateReservation
 
 	/**
