@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="WEB-INF/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/base"/>
+	<classpathentry kind="src" path="/looks"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/zk.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/zcommon.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/j2ee.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/zul.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/yuiextz.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/junit.jar"/>
+	<classpathentry kind="src" path="/client"/>
+	<classpathentry kind="src" path="/JasperReports"/>
+	<classpathentry kind="src" path="/JasperReportsTools"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
