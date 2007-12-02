@@ -3,7 +3,6 @@
  */
 package org.compiere.utils;
 
-import org.compiere.report.ReportStarter;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -19,7 +18,7 @@ public class DBUtils {
         }
     }
 //  logger
-	private static CLogger log = CLogger.getCLogger(ReportStarter.class);
+	private static CLogger log = CLogger.getCLogger(DBUtils.class);
 
     public static Connection getConnection( String db, String user, String password) throws SQLException {
         return DriverManager.getConnection( db, user, password);
