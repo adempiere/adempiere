@@ -36,7 +36,7 @@ createdb $ADEMPIERE_DB_NAME -E UNICODE -O $2 -U $2
 echo -------------------------------------
 echo Import Adempiere_pg.dmp
 echo -------------------------------------
-ADEMPIERE_ALTER_ROLE_SQL="ALTER ROLE $2 SET search_path TO adempiere, sqjj, pg_catalog"
+ADEMPIERE_ALTER_ROLE_SQL="ALTER ROLE $2 SET search_path TO adempiere, sqlj, pg_catalog"
 psql -d $ADEMPIERE_DB_NAME -U $2 -c "$ADEMPIERE_ALTER_ROLE_SQL"
 psql -d $ADEMPIERE_DB_NAME -U $2 -c "drop schema sqlj cascade"
 psql -d $ADEMPIERE_DB_NAME -U $2 -f $ADEMPIERE_HOME/data/Adempiere_pg.dmp
