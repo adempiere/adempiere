@@ -30,7 +30,6 @@
 		<ant inheritAll="false" dir="webCM"/>
 		<ant inheritAll="false" dir="sqlj"/>
 		<ant inheritAll="false" dir="posterita"/>
-		<ant inheritAll="false" dir="extension/posterita/webui"/>
 		<ant inheritAll="false" dir="install"/>
 		
 	</target>
@@ -48,7 +47,6 @@
 		<ant inheritAll="false" dir="webCM" target="clean"/>
 		<ant inheritAll="false" dir="sqlj" target="clean"/>
 		<ant inheritAll="false" dir="posterita" target="clean"/>
-		<ant inheritAll="false" dir="extension/posterita/webui" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
   </target>
 
