@@ -279,7 +279,10 @@ public final class DB
 		} 
         catch (Exception e)
 		{
-            log.log(Level.SEVERE, "Could not connect to DB", e);
+        	//logging here could cause infinite loop
+            //log.log(Level.SEVERE, "Could not connect to DB", e);
+        	System.err.println("Could not connect to DB - " + e.getLocalizedMessage());
+        	e.printStackTrace();
             success = false;
 		}
 		return success;
