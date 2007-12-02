@@ -21,6 +21,8 @@ import java.util.*;
 import java.util.logging.*;
 
 import org.adempiere.util.ProcessUtil;
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
 import org.compiere.process.*;
 import org.compiere.util.*;
 
@@ -412,5 +414,38 @@ public class MProcess extends X_AD_Process
 		}
 		return success;
 	}	//	afterSave
+	
+	/**
+	 * 	Grant independence to GenerateModel from AD_Process_ID
+	 *	@param String tableName
+	 *	@return int retValue
+	 */
+	public static int getProcess_ID(String value) {
+		int retValue = 0;
+		String SQL = "SELECT AD_Process_ID FROM AD_Process WHERE value = ?";
+		try
+		{
+			if (DB.isRemoteObjects()) 
+			{
+				Server server = CConnection.get().getServer();
+				retValue = server.getTableID(value);
+			}
+			else
+			{
+				PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+				pstmt.setString(1, value);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next())
+					retValue = rs.getInt(1);
+				rs.close();
+				pstmt.close();
+			}
+		}
+		catch (Exception e)
+		{
+			retValue = -1;
+		}
+		return retValue;
+	}
 	
 }	//	MProcess
