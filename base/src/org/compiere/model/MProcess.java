@@ -420,26 +420,18 @@ public class MProcess extends X_AD_Process
 	 *	@param String tableName
 	 *	@return int retValue
 	 */
-	public static int getProcess_ID(String value) {
+	public static int getProcess_ID(String value, String trxname) {
 		int retValue = 0;
 		String SQL = "SELECT AD_Process_ID FROM AD_Process WHERE value = ?";
 		try
 		{
-			if (DB.isRemoteObjects()) 
-			{
-				Server server = CConnection.get().getServer();
-				retValue = server.getTableID(value);
-			}
-			else
-			{
-				PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+				PreparedStatement pstmt = DB.prepareStatement(SQL, trxname);
 				pstmt.setString(1, value);
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next())
 					retValue = rs.getInt(1);
 				rs.close();
 				pstmt.close();
-			}
 		}
 		catch (Exception e)
 		{
