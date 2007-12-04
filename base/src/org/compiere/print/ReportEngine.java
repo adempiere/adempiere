@@ -931,6 +931,19 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				return null;
 			}
 		}
+		
+		
+		if(IsForm)
+		{
+			int AD_Column_ID = DB.getSQLValue(null, "SELECT AD_Column_ID WHERE M_Table_ID="+AD_Table_ID+" AND IsKey='Y'");
+			if(AD_Column_ID!= 0)
+			{
+				MColumn key = MColumn.get(ctx, AD_Column_ID);
+				TableName = key.getName().substring(0,key.getName().indexOf("_ID"));
+				AD_Table_ID = MTable.getTable_ID(TableName);
+				
+			}
+		}
 
 		//  Create Query from Parameters
 		MQuery query = null;
