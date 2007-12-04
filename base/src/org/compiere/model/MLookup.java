@@ -665,8 +665,13 @@ public final class MLookup extends Lookup implements Serializable
 				if (validation.length() == 0 && m_info.ValidationCode.length() > 0)
 				{
 					log.fine(m_info.KeyColumn + ": Loader NOT Validated: " + m_info.ValidationCode);
-					m_lookup.clear();
-					return;
+					// Bug 1843862 - Lookups not working on Report Viewer window
+					// globalqss - when called from Viewer window ignore error about unparsabe context variables
+					// there is no context in report viewer windows
+					if (! Env.getWindow(m_info.WindowNo).getClass().getName().equals("org.compiere.print.Viewer")) {
+						m_lookup.clear();
+						return;
+					}
 				}
 				else
 				{					
