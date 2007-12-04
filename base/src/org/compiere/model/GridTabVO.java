@@ -546,5 +546,11 @@ public class GridTabVO implements Evaluatee, Serializable
 		return clone;
 	}	//	clone
 
-}   //  MTabVO
+	/**
+	 * @return the initFields
+	 */
+	public boolean isInitFields() {
+		return initFields;
+	}
 
+}   //  MTabVO

@@ -240,7 +240,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			m_Chats.clear();
 		m_Chats = null;
 		//
-		m_vo.getFields().clear();
+		if (m_vo.isInitFields())
+			m_vo.getFields().clear();
 		//m_vo.Fields = null;
 		m_vo = null;
 		if (m_loader != null)
