@@ -41,7 +41,7 @@ public class ModelValidationEngine
 	 * 	Get Singleton
 	 *	@return engine
 	 */
-	public static ModelValidationEngine get()
+	public synchronized static ModelValidationEngine get()
 	{
 		if (s_engine == null)
 			s_engine = new ModelValidationEngine();
@@ -75,7 +75,9 @@ public class ModelValidationEngine
 			}
 		} catch (Exception e)
 		{
-			log.warning(e.getLocalizedMessage());
+			//logging to db will try to init ModelValidationEngine again!
+			//log.warning(e.getLocalizedMessage());
+			System.err.println(e.getLocalizedMessage());
 		}
 		
 		// Go through all Clients and start Validators 
@@ -87,7 +89,9 @@ public class ModelValidationEngine
 				continue;
 			loadValidatorClasses(clients[i], classNames);
 		}
-		log.config(toString());
+		//logging to db will try to init ModelValidationEngine again!
+		//log.config(toString());
+		System.out.println(toString());
 	}	//	ModelValidatorEngine
 	
 	private void loadValidatorClasses(MClient client, String classNames) 
@@ -109,7 +113,9 @@ public class ModelValidationEngine
 			}
 			catch (Exception e)
 			{
-				log.log(Level.SEVERE, className + ": " + e.getMessage());
+				//logging to db will try to init ModelValidationEngine again!
+				//log.log(Level.SEVERE, className + ": " + e.getMessage());
+				System.err.println(className + ": " + e.getMessage());
 			}
 		}
 	}
@@ -124,7 +130,9 @@ public class ModelValidationEngine
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, className + ": " + e.getMessage());
+			//logging to db will try to init ModelValidationEngine again!
+			//log.log(Level.SEVERE, className + ": " + e.getMessage());
+			System.err.println(className + ": " + e.getMessage());
 		}
 	}
 	
