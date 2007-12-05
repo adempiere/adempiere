@@ -48,6 +48,8 @@ import org.compiere.wf.*;
  */
 public class ProcessCtl implements Runnable
 {
+	private static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
+
 	/**
 	 *	Process Control
 	 *  <code>
@@ -355,12 +357,21 @@ public class ProcessCtl implements Runnable
 			return;
 		}
 
+		// Clear Jasper Report class if default - to be executed later
+		boolean isJasper = false;
+		if (JasperReport != null && JasperReport.trim().length() > 0) {
+			isJasper = true;
+			if (m_pi.getClassName().equals(JASPER_STARTER_CLASS)) {
+				m_pi.setClassName(null);
+			}
+		}
+		
 		/**********************************************************************
 		 *	Start Optional Class
 		 */
 		if (m_pi.getClassName() != null)
 		{
-			if (JasperReport != null && JasperReport.trim().length() > 0)
+			if (isJasper)
 			{
 				m_pi.setReportingProcess(true);
 			}
@@ -379,7 +390,7 @@ public class ProcessCtl implements Runnable
 				return;
 			}
 			//  No Optional Report ... done
-			if (IsReport && AD_ReportView_ID == 0)
+			if (IsReport && AD_ReportView_ID == 0 && ! isJasper)
 			{
 				unlock ();
 				return;
@@ -411,13 +422,14 @@ public class ProcessCtl implements Runnable
 				}
 			}	//	Pre-Report
 
-			if (JasperReport != null && JasperReport.trim().length() > 0 && m_pi.getClassName() == null) 
+			if (isJasper)
 			{
-				m_pi.setClassName("org.compiere.report.ReportStarter");
+				m_pi.setClassName(JASPER_STARTER_CLASS);
 				startProcess();
 				unlock();
 				return;
 			}
+
 			//	Start Report	-----------------------------------------------
 			boolean ok = ReportCtl.start(m_parent, windowno, m_pi, IsDirectPrint);
 			m_pi.setSummary("Report", !ok);
