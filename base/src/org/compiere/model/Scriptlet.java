@@ -45,6 +45,8 @@ public class Scriptlet
 		return scr.getResult(false);
 	}   //  run
 
+	private int m_windowNo;
+
 	/**
 	 *  Constructor
 	 */
@@ -69,6 +71,7 @@ public class Scriptlet
 	 */
 	public Scriptlet (String variable, String script, Properties prop, int WindowNo)
 	{
+		m_windowNo = WindowNo;
 		setVariable(variable);
 		setScript(script);
 		setEnvironment(prop, WindowNo);
@@ -110,7 +113,7 @@ public class Scriptlet
 		if (m_variable == null || m_variable.length() == 0 || m_script == null || m_script.length() == 0)
 		{
 			IllegalArgumentException e = new IllegalArgumentException("No variable/script");
-			log.config(e.toString());
+			log.warning(e.toString());
 			return e;
 		}
 		Interpreter i = new Interpreter();
@@ -122,7 +125,7 @@ public class Scriptlet
 		}
 		catch (Exception e)
 		{
-			log.config(e.toString());
+			log.warning(e.toString());
 			return e;
 		}
 		try
@@ -132,7 +135,7 @@ public class Scriptlet
 		}
 		catch (Exception e)
 		{
-			log.config("Result - " + e);
+			log.warning("Result - " + e);
 			if (e instanceof NullPointerException)
 				e = new IllegalArgumentException("Result Variable not found - " + m_variable);
 			return e;
@@ -236,10 +239,11 @@ public class Scriptlet
 			if (key == null || key.length() == 0
 				|| key.startsWith("P")              //  Preferences
 				|| (key.indexOf('|') != -1 && !key.startsWith(String.valueOf(WindowNo)))    //  other Window Settings
+				|| (key.indexOf('|') != -1 && key.indexOf('|') != key.lastIndexOf('|')) //other tab
 				)
 				continue;
 
-			String value = prop.getProperty(key);
+			Object value = prop.get(key);
 			setEnvironment (key, value);
 		}
 
@@ -342,8 +346,18 @@ public class Scriptlet
 	 */
 	private String convertKey (String key)
 	{
-		String retValue = Util.replace(key, "#", "_");
-		return retValue;
+		String k = m_windowNo + "|";
+		if (key.startsWith(k))
+		{
+			String retValue = "_" + key.substring(k.length());
+			retValue = Util.replace(retValue, "|", "_");
+			return retValue;
+		}
+		else
+		{
+			String retValue = Util.replace(key, "#", "__");
+			return retValue;
+		}
 	}   //  convertKey
 
 	/**
@@ -375,7 +389,7 @@ public class Scriptlet
 	 */
 	public Object getResult (boolean runIt)
 	{
-		if (runIt)
+		if (runIt) 
 			execute();
 		return m_result;
 	}   //  getResult
