@@ -130,82 +130,93 @@ ALTER TABLE C_BPartner ADD DunningGrace date NULL;
 ALTER TABLE C_Invoice ADD DunningGrace date NULL;
 
 DROP VIEW c_invoiceline_v;
-DROP VIEW rv_bpartneropen;
+--DROP VIEW rv_bpartneropen;
 DROP VIEW c_invoice_v;
 
-CREATE OR REPLACE VIEW c_invoice_v AS 
- SELECT i.c_invoice_id, i.ad_client_id, i.ad_org_id, i.isactive, i.created, i.createdby, i.updated, i.updatedby, i.issotrx, i.documentno, i.docstatus, i.docaction, i.processing, i.processed, i.c_doctype_id, i.c_doctypetarget_id, i.c_order_id, 
-i.description, i.isapproved, i.istransferred, i.salesrep_id, i.dateinvoiced, i.dateprinted, i.dateacct, i.c_bpartner_id, i.c_bpartner_location_id, i.ad_user_id, i.poreference, i.dateordered, i.c_currency_id, i.c_conversiontype_id, i.paymentrule, 
-i.c_paymentterm_id, i.c_charge_id, i.m_pricelist_id, i.c_campaign_id, i.c_project_id, i.c_activity_id, i.isprinted, i.isdiscountprinted, i.ispaid, i.isindispute, i.ispayschedulevalid, NULL::numeric AS c_invoicepayschedule_id, i.invoicecollectiontype, i.dunninggrace,
-        CASE
-            WHEN charat(d.docbasetype::character varying, 3)::text = 'C'::text THEN i.chargeamt * -1::numeric
-            ELSE i.chargeamt
-        END AS chargeamt, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 3)::text = 'C'::text THEN i.totallines * -1::numeric
-            ELSE i.totallines
-        END AS totallines, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 3)::text = 'C'::text THEN i.grandtotal * -1::numeric
-            ELSE i.grandtotal
-        END AS grandtotal, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 3)::text = 'C'::text THEN -1
-            ELSE 1
-        END::numeric AS multiplier, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 2)::text = 'P'::text THEN -1
-            ELSE 1
-        END::numeric AS multiplierap, d.docbasetype
-   FROM c_invoice i
-   JOIN c_doctype d ON i.c_doctype_id = d.c_doctype_id
-  WHERE i.ispayschedulevalid <> 'Y'::bpchar
-UNION 
- SELECT i.c_invoice_id, i.ad_client_id, i.ad_org_id, i.isactive, i.created, i.createdby, i.updated, i.updatedby, i.issotrx, i.documentno, i.docstatus, i.docaction, i.processing, i.processed, i.c_doctype_id, i.c_doctypetarget_id, i.c_order_id, 
-i.description, i.isapproved, i.istransferred, i.salesrep_id, i.dateinvoiced, i.dateprinted, i.dateacct, i.c_bpartner_id, i.c_bpartner_location_id, i.ad_user_id, i.poreference, i.dateordered, i.c_currency_id, i.c_conversiontype_id, i.paymentrule, 
-i.c_paymentterm_id, i.c_charge_id, i.m_pricelist_id, i.c_campaign_id, i.c_project_id, i.c_activity_id, i.isprinted, i.isdiscountprinted, i.ispaid, i.isindispute, i.ispayschedulevalid, ips.c_invoicepayschedule_id, i.invoicecollectiontype, i.dunninggrace,
-NULL::"unknown" AS chargeamt, NULL::"unknown" AS totallines, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 3)::text = 'C'::text THEN ips.dueamt * -1::numeric
-            ELSE ips.dueamt
-        END AS grandtotal, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 3)::text = 'C'::text THEN -1
-            ELSE 1
-        END AS multiplier, 
-        CASE
-            WHEN charat(d.docbasetype::character varying, 2)::text = 'P'::text THEN -1
-            ELSE 1
-        END AS multiplierap, d.docbasetype
-   FROM c_invoice i
-   JOIN c_doctype d ON i.c_doctype_id = d.c_doctype_id
-   JOIN c_invoicepayschedule ips ON i.c_invoice_id = ips.c_invoice_id
-  WHERE i.ispayschedulevalid = 'Y'::bpchar AND ips.isvalid = 'Y'::bpchar;
+CREATE OR REPLACE VIEW C_INVOICE_V
+AS 
+SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.CreatedBy, i.Updated, i.UpdatedBy,
+    i.IsSOTrx, i.DocumentNo, i.DocStatus, i.DocAction, i.Processing, i.Processed, i.C_DocType_ID,
+    i.C_DocTypeTarget_ID, i.C_Order_ID, i.Description, i.IsApproved, i.IsTransferred,
+    i.SalesRep_ID, i.DateInvoiced, i.DatePrinted, i.DateAcct, i.C_BPartner_ID, i.C_BPartner_Location_ID,
+    i.AD_User_ID, i.POReference, i.DateOrdered, i.C_Currency_ID, i.C_ConversionType_ID, i.PaymentRule,
+    i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
+    i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
+    i.IsPayScheduleValid, cast(null as numeric) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,i.DunningGrace
+    cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.ChargeAmt*-1 ELSE i.ChargeAmt END as numeric) AS ChargeAmt,
+    cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END as numeric) AS TotalLines,
+    cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END as numeric) AS GrandTotal,
+    cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1 ELSE 1 END as numeric) AS Multiplier,
+    cast(CASE WHEN charAt(d.DocBaseType,2)='P' THEN -1 ELSE 1 END AS numeric) as MultiplierAP,
+    d.DocBaseType
+FROM C_Invoice i
+    INNER JOIN C_DocType d ON (i.C_DocType_ID=d.C_DocType_ID)
+WHERE i.IsPayScheduleValid<>'Y'
+UNION
+SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.CreatedBy, i.Updated, i.UpdatedBy,
+    i.IsSOTrx, i.DocumentNo, i.DocStatus, i.DocAction, i.Processing, i.Processed, i.C_DocType_ID,
+    i.C_DocTypeTarget_ID, i.C_Order_ID, i.Description, i.IsApproved, i.IsTransferred,
+    i.SalesRep_ID, i.DateInvoiced, i.DatePrinted, i.DateAcct, i.C_BPartner_ID, i.C_BPartner_Location_ID,
+    i.AD_User_ID, i.POReference, i.DateOrdered, i.C_Currency_ID, i.C_ConversionType_ID, i.PaymentRule,
+    i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
+    i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
+    i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType, i.DunningGrace
+    null AS ChargeAmt,
+    null AS TotalLines,
+    CASE WHEN charAt(d.DocBaseType,3)='C' THEN ips.DueAmt*-1 ELSE ips.DueAmt END AS GrandTotal,
+    CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1 ELSE 1 END AS Multiplier,
+    CASE WHEN charAt(d.DocBaseType,2)='P' THEN -1 ELSE 1 END AS MultiplierAP,
+    d.DocBaseType
+FROM C_Invoice i
+    INNER JOIN C_DocType d ON (i.C_DocType_ID=d.C_DocType_ID)
+    INNER JOIN C_InvoicePaySchedule ips ON (i.C_Invoice_ID=ips.C_Invoice_ID)
+WHERE i.IsPayScheduleValid='Y'
+    AND ips.IsValid='Y';
+
+CREATE OR REPLACE VIEW C_INVOICELINE_V AS
+SELECT il.AD_Client_ID, il.AD_Org_ID, 
+	il.C_InvoiceLine_ID, i.C_Invoice_ID, i.SalesRep_ID, 
+	i.C_BPartner_ID, il.M_Product_ID,  
+	i.DocumentNo, i.DateInvoiced, i.DateAcct,
+	i.IsSOTrx, i.DocStatus,
+	ROUND(i.Multiplier*LineNetAmt, 2) AS LineNetAmt,
+	ROUND(i.Multiplier*PriceList*QtyInvoiced, 2) AS LineListAmt,
+	CASE WHEN COALESCE(il.PriceLimit, 0)=0 THEN ROUND(i.Multiplier*LineNetAmt,2) ELSE ROUND(i.Multiplier*il.PriceLimit*il.QtyInvoiced,2) END AS LineLimitAmt,
+	ROUND(i.Multiplier*il.PriceList*ilQtyInvoiced-il.LineNetAmt,2) AS LineDiscountAmt,
+	CASE WHEN COALESCE(il.PriceLimit,0)=0 THEN 0 ELSE ROUND(i.Multiplier*il.LineNetAmt-il.PriceLimit*il.QtyInvoiced,2) END AS LineOverLimitAmt,
+	il.QtyInvoiced, il.QtyEntered,
+	il.Line, il.C_OrderLine_ID, il.C_UOM_ID,
+    il.C_Campaign_ID, il.C_Project_ID, il.C_Activity_ID, il.C_ProjectPhase_ID, il.C_ProjectTask_ID
+FROM C_Invoice_v i, C_InvoiceLine il
+WHERE i.C_Invoice_ID=il.C_Invoice_ID;
+
+--COMMENT ON TABLE C_INVOICELINE_V IS 'Invoice Line Summary for Reporting Views - Corrected for Credit Memos';
 
 
-CREATE OR REPLACE VIEW c_invoiceline_v AS 
- SELECT il.ad_client_id, il.ad_org_id, il.c_invoiceline_id, i.c_invoice_id, i.salesrep_id, i.c_bpartner_id, il.m_product_id, i.documentno, i.dateinvoiced, i.dateacct, i.issotrx, i.docstatus, round(i.multiplier * il.linenetamt, 2) AS linenetamt, round(i.multiplier * il.pricelist * il.qtyinvoiced, 2) AS linelistamt, 
-        CASE
-            WHEN COALESCE(il.pricelimit, 0::numeric) = 0::numeric THEN round(i.multiplier * il.linenetamt, 2)
-            ELSE round(i.multiplier * il.pricelimit * il.qtyinvoiced, 2)
-        END AS linelimitamt, round(i.multiplier * il.pricelist * il.qtyinvoiced - il.linenetamt, 2) AS linediscountamt, 
-        CASE
-            WHEN COALESCE(il.pricelimit, 0::numeric) = 0::numeric THEN 0::numeric
-            ELSE round(i.multiplier * il.linenetamt - il.pricelimit * il.qtyinvoiced, 2)
-        END AS lineoverlimitamt, il.qtyinvoiced, il.qtyentered, il.line, il.c_orderline_id, il.c_uom_id, il.c_campaign_id, il.c_project_id, il.c_activity_id, il.c_projectphase_id, il.c_projecttask_id
-   FROM c_invoice_v i, c_invoiceline il
-  WHERE i.c_invoice_id = il.c_invoice_id;
-
-
-CREATE OR REPLACE VIEW rv_bpartneropen AS 
- SELECT i.ad_client_id, i.ad_org_id, i.isactive, i.created, i.createdby, i.updated, i.updatedby, i.c_bpartner_id, i.c_currency_id, i.grandtotal * i.multiplierap AS amt, invoiceopen(i.c_invoice_id, i.c_invoicepayschedule_id) * i.multiplierap AS openamt, i.dateinvoiced AS datedoc, COALESCE(daysbetween(getdate(), ips.duedate::timestamp with time zone), paymenttermduedays(i.c_paymentterm_id, i.dateinvoiced::timestamp with time zone, getdate())) AS daysdue, i.c_campaign_id, i.c_project_id, i.c_activity_id
-   FROM c_invoice_v i
-   LEFT JOIN c_invoicepayschedule ips ON i.c_invoicepayschedule_id = ips.c_invoicepayschedule_id
-  WHERE i.ispaid = 'N'::bpchar AND (i.docstatus = ANY (ARRAY['CO'::bpchar, 'CL'::bpchar]))
-UNION 
- SELECT p.ad_client_id, p.ad_org_id, p.isactive, p.created, p.createdby, p.updated, p.updatedby, p.c_bpartner_id, p.c_currency_id, p.payamt * p.multiplierap::numeric * -1::numeric AS amt, paymentavailable(p.c_payment_id) * p.multiplierap::numeric * -1::numeric AS openamt, p.datetrx AS datedoc, NULL::"unknown" AS daysdue, p.c_campaign_id, p.c_project_id, p.c_activity_id
-   FROM c_payment_v p
-  WHERE p.isallocated = 'N'::bpchar AND p.c_bpartner_id IS NOT NULL AND (p.docstatus = ANY (ARRAY['CO'::bpchar, 'CL'::bpchar]));
-
-
-COMMIT ;
+CREATE OR REPLACE VIEW RV_BPARTNEROPEN
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_BPARTNER_ID, C_CURRENCY_ID, AMT, 
+ OPENAMT, DATEDOC, DAYSDUE, C_CAMPAIGN_ID, C_PROJECT_ID, 
+ C_ACTIVITY_ID)
+AS 
+SELECT i.AD_Client_ID,i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy,i.Updated,i.UpdatedBy,
+    i.C_BPartner_ID, i.C_Currency_ID,
+    i.GrandTotal*i.MultiplierAP AS Amt,
+    invoiceOpen (i.C_Invoice_ID, i.C_InvoicePaySchedule_ID)*i.MultiplierAP AS OpenAmt,
+    i.DateInvoiced AS DateDoc, 
+    COALESCE(daysBetween(getdate(),ips.DueDate), paymentTermDueDays(C_PaymentTerm_ID,DateInvoiced,getdate())) AS DaysDue,
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID
+FROM C_Invoice_v i 
+  LEFT OUTER JOIN C_InvoicePaySchedule ips ON (i.C_InvoicePaySchedule_ID=ips.C_InvoicePaySchedule_ID)
+WHERE i.IsPaid='N'
+ AND i.DocStatus IN ('CO','CL')
+UNION
+SELECT p.AD_Client_ID,p.AD_Org_ID, p.IsActive, p.Created,p.CreatedBy,p.Updated,p.UpdatedBy,
+    p.C_BPartner_ID, p.C_Currency_ID,
+    p.PayAmt*MultiplierAP*-1 AS Amt,
+    paymentAvailable(p.C_Payment_ID)*p.MultiplierAP*-1 AS OpenAmt,
+    p.DateTrx AS DateDoc,
+    null,
+    p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID
+FROM C_Payment_v p 
+WHERE p.IsAllocated='N' AND p.C_BPartner_ID IS NOT NULL
