@@ -56,11 +56,11 @@ public final class Adempiere
 	/** Timestamp                   */
 	static public final String	ID				= "$Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $";
 	/** Main Version String         */
-	static public final String	MAIN_VERSION	= "Release 3.3.0";
+	static public final String	MAIN_VERSION	= "Release 3.3.1b";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public final String	DATE_VERSION	= "2007-07-13";
+	static public final String	DATE_VERSION	= "2007-12-05";
 	/** Database Version as date    Compared with AD_System		*/
-	static public final String	DB_VERSION		= "2007-07-13";
+	static public final String	DB_VERSION		= "2007-12-05";
 
 	/** Product Name            */
 	static public final String	NAME 			= "Adempiere\u00AE";
