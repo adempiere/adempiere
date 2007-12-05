@@ -227,10 +227,10 @@ public final class InfoProduct extends Info implements ActionListener
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class)};
         /**	From Clause							*/
-        String s_sqlFrom = " M_Product_Stock_V ";
+        String s_sqlFrom = " M_PRODUCT_STOCK_V ";
         /** Where Clause						*/
         String s_sqlWhere = "Value = ?";
-        m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_Product_Stock_V");
+        m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
 		warehouseTbl.setRowSelectionAllowed(true);
 		warehouseTbl.setMultiSelection(false);
 		warehouseTbl.addMouseListener(this);
@@ -242,15 +242,15 @@ public final class InfoProduct extends Info implements ActionListener
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_Product_SubstituteRelated_V.M_Product_ID)",
+    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.M_Product_ID)",
     					String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
     	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
-        s_sqlFrom = "M_Product_SubstituteRelated_V";
+        s_sqlFrom = "M_PRODUCT_SUBSTITUTERELATED_V";
         s_sqlWhere = "M_Product_ID = ? AND M_PriceList_Version_ID = ? and RowType = 'S'";
-        m_sqlSubstitute = substituteTbl.prepareTable(s_layoutSubstitute, s_sqlFrom, s_sqlWhere, false, "M_Product_SubstituteRelated_V");
+        m_sqlSubstitute = substituteTbl.prepareTable(s_layoutSubstitute, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_SUBSTITUTERELATED_V");
         substituteTbl.setRowSelectionAllowed(false);
         substituteTbl.setMultiSelection(false);
         substituteTbl.addMouseListener(this);
@@ -262,15 +262,15 @@ public final class InfoProduct extends Info implements ActionListener
         ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_Product_SubstituteRelated_V.M_Product_ID)",
+    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.M_Product_ID)",
     					String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
     	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
-        s_sqlFrom = "M_Product_SubstituteRelated_V";
+        s_sqlFrom = "M_PRODUCT_SUBSTITUTERELATED_V";
         s_sqlWhere = "M_Product_ID = ? AND M_PriceList_Version_ID = ? and RowType = 'R'";
-        m_sqlRelated = relatedTbl.prepareTable(s_layoutRelated, s_sqlFrom, s_sqlWhere, false, "M_Product_SubstituteRelated_V");
+        m_sqlRelated = relatedTbl.prepareTable(s_layoutRelated, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_SUBSTITUTERELATED_V");
         relatedTbl.setRowSelectionAllowed(false);
         relatedTbl.setMultiSelection(false);
         relatedTbl.addMouseListener(this);

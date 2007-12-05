@@ -51,9 +51,10 @@ INSERT INTO ad_column(ad_column_id, ad_client_id, ad_org_id, isactive, created, 
   VALUES(53027, 0, 0, 'Y', '2007-07-26 00:00:00.0', '2007-07-26 00:00:00.0', 0, 0, 'On Hand Quantity', 'On Hand Quantity', 'The On Hand Quantity indicates the quantity of a product that is on hand in a warehouse.', 1, 'D', 'QtyOnHand', 53015, 29, NULL, NULL, 22, NULL, 'N', 'N', 'Y', 'N', NULL, 'N', NULL, 'N', 'N', NULL, NULL, NULL, NULL, 'N', 530, NULL, 'N', 'N', NULL, NULL);
 
 --create views
-CREATE OR REPLACE VIEW m_product_stock_v
+CREATE OR REPLACE VIEW M_PRODUCT_STOCK_V
 AS
 SELECT 
+ms.AD_Client_ID, ms.AD_Org_ID, ms.IsActive, ms.Created, ms.CreatedBy, ms.Updated, ms.UpdatedBy,
 mp.value, mp.help, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, 
 ms.qtyreserved, mp.description, mw.name as warehouse, mw.m_warehouse_id, mw.ad_client_id, 
 mw.ad_org_id, mp.documentnote
@@ -63,8 +64,10 @@ JOIN m_locator ml ON ms.m_locator_id = ml.m_locator_id
 JOIN m_warehouse mw ON ml.m_warehouse_id = mw.m_warehouse_id 
 ORDER BY mw.name;
 
-CREATE OR REPLACE VIEW M_Product_SubstituteRelated_V AS
-SELECT s.ad_client_id, s.ad_org_id, s.m_product_id, s.substitute_id, s.description, 'S' as rowtype, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mpr.pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id
+
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATE_V AS
+SELECT 
+s.AD_Client_ID, s.AD_Org_ID, s.IsActive, s.Created, s.CreatedBy, s.Updated, s.UpdatedBy, s.m_product_id, s.substitute_id, s.description, 'S' as rowtype, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mpr.pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id
 FROM m_substitute s
 JOIN m_storage ms ON ms.m_product_id = s.substitute_id
 JOIN m_product mp ON ms.m_product_id = mp.m_product_id
