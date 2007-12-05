@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
@@ -141,6 +141,22 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	{
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -292,7 +308,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Comments != null && Comments.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Comments = Comments.substring(0, 1999);
+			Comments = Comments.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Comments, Comments);
 	}
@@ -326,7 +342,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ConnectionProfile = ConnectionProfile.substring(0, 0);
+			ConnectionProfile = ConnectionProfile.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ConnectionProfile, ConnectionProfile);
 	}
@@ -349,7 +365,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -372,7 +388,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -395,7 +411,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (EMailUser != null && EMailUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMailUser = EMailUser.substring(0, 59);
+			EMailUser = EMailUser.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMailUser, EMailUser);
 	}
@@ -418,7 +434,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (EMailUserPW != null && EMailUserPW.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			EMailUserPW = EMailUserPW.substring(0, 19);
+			EMailUserPW = EMailUserPW.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_EMailUserPW, EMailUserPW);
 	}
@@ -441,7 +457,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (EMailVerify != null && EMailVerify.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			EMailVerify = EMailVerify.substring(0, 39);
+			EMailVerify = EMailVerify.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_EMailVerify, EMailVerify);
 	}
@@ -481,7 +497,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Fax != null && Fax.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 39);
+			Fax = Fax.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Fax, Fax);
 	}
@@ -528,7 +544,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (LDAPUser != null && LDAPUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			LDAPUser = LDAPUser.substring(0, 59);
+			LDAPUser = LDAPUser.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
 	}
@@ -568,7 +584,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (LastResult != null && LastResult.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LastResult = LastResult.substring(0, 254);
+			LastResult = LastResult.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_LastResult, LastResult);
 	}
@@ -593,7 +609,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -635,7 +651,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (NotificationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			NotificationType = NotificationType.substring(0, 0);
+			NotificationType = NotificationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_NotificationType, NotificationType);
 	}
@@ -658,7 +674,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Password != null && Password.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Password = Password.substring(0, 39);
+			Password = Password.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
@@ -681,7 +697,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Phone != null && Phone.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 39);
+			Phone = Phone.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
@@ -704,7 +720,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Phone2 != null && Phone2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 39);
+			Phone2 = Phone2.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone2, Phone2);
 	}
@@ -773,7 +789,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Title != null && Title.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Title = Title.substring(0, 39);
+			Title = Title.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Title, Title);
 	}
@@ -794,7 +810,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (UserPIN != null && UserPIN.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			UserPIN = UserPIN.substring(0, 19);
+			UserPIN = UserPIN.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_UserPIN, UserPIN);
 	}
@@ -816,7 +832,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

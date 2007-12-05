@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StatusCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Pers
     public X_R_StatusCategory (Properties ctx, int R_StatusCategory_ID, String trxName)
     {
       super (ctx, R_StatusCategory_ID, trxName);
-      /** if (R_StatusCategory_ID == 0)        {			setIsDefault (false);
+      /** if (R_StatusCategory_ID == 0)
+        {
+			setIsDefault (false);
 			setName (null);
 			setR_StatusCategory_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,10 +78,11 @@ public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -101,10 +101,11 @@ public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Pers
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -149,10 +150,11 @@ public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Benchmark
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
     public X_PA_Benchmark (Properties ctx, int PA_Benchmark_ID, String trxName)
     {
       super (ctx, PA_Benchmark_ID, trxName);
-      /** if (PA_Benchmark_ID == 0)        {			setAccumulationType (null);
+      /** if (PA_Benchmark_ID == 0)
+        {
+			setAccumulationType (null);
 			setName (null);
 			setPA_Benchmark_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,20 +72,24 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
       return sb.toString();
     }
 
-/** AccumulationType AD_Reference_ID=370 */
-public static final int ACCUMULATIONTYPE_AD_Reference_ID=370;/** Average = A */
-public static final String ACCUMULATIONTYPE_Average = "A";/** Sum = S */
-public static final String ACCUMULATIONTYPE_Sum = "S";
+	/** AccumulationType AD_Reference_ID=370 */
+	public static final int ACCUMULATIONTYPE_AD_Reference_ID=370;
+	/** Average = A */
+	public static final String ACCUMULATIONTYPE_Average = "A";
+	/** Sum = S */
+	public static final String ACCUMULATIONTYPE_Sum = "S";
 	/** Set Accumulation Type.
 		@param AccumulationType 
 		How to accumulate data on time axis
 	  */
 	public void setAccumulationType (String AccumulationType)
 	{
-if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationType is mandatory");if (AccumulationType.equals("A") || AccumulationType.equals("S")); else throw new IllegalArgumentException ("AccumulationType Invalid value - " + AccumulationType + " - Reference_ID=370 - A - S");		if (AccumulationType.length() > 1)
+		if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationType is mandatory");
+		if (AccumulationType.equals("A") || AccumulationType.equals("S")); else throw new IllegalArgumentException ("AccumulationType Invalid value - " + AccumulationType + " - Reference_ID=370 - A - S");
+		if (AccumulationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccumulationType = AccumulationType.substring(0, 0);
+			AccumulationType = AccumulationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccumulationType, AccumulationType);
 	}
@@ -105,10 +108,11 @@ if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationT
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -127,10 +131,11 @@ if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationT
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -151,10 +156,11 @@ if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationT
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -17,16 +17,12 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Detail, I_Persistent 
 {
 
@@ -39,10 +35,12 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
     public X_AD_Package_Imp_Detail (Properties ctx, int AD_Package_Imp_Detail_ID, String trxName)
     {
       super (ctx, AD_Package_Imp_Detail_ID, trxName);
-      /** if (AD_Package_Imp_Detail_ID == 0)        {			setAD_Original_ID (0);
+      /** if (AD_Package_Imp_Detail_ID == 0)
+        {
+			setAD_Original_ID (0);
 			setAD_Package_Imp_Detail_ID (0);
 			setAD_Package_Imp_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -83,7 +81,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	}
 
 	/** Get AD_Original_ID.
-@return AD_Original_ID	  */
+		@return AD_Original_ID	  */
 	public int getAD_Original_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Original_ID);
@@ -102,7 +100,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	}
 
 	/** Get AD_Package_Imp_Detail_ID.
-@return AD_Package_Imp_Detail_ID	  */
+		@return AD_Package_Imp_Detail_ID	  */
 	public int getAD_Package_Imp_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Detail_ID);
@@ -121,7 +119,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	}
 
 	/** Get AD_Package_Imp_ID.
-@return AD_Package_Imp_ID	  */
+		@return AD_Package_Imp_ID	  */
 	public int getAD_Package_Imp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_ID);
@@ -136,9 +134,10 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -158,10 +157,11 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setAction (String Action)
 	{
+
 		if (Action != null && Action.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Action = Action.substring(0, 19);
+			Action = Action.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Action, Action);
 	}
@@ -178,13 +178,14 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param Ad_Backup_ID Ad_Backup_ID	  */
 	public void setAd_Backup_ID (int Ad_Backup_ID)
 	{
-		if (Ad_Backup_ID <= 0) 		set_Value (COLUMNNAME_Ad_Backup_ID, null);
- else 
-		set_Value (COLUMNNAME_Ad_Backup_ID, Integer.valueOf(Ad_Backup_ID));
+		if (Ad_Backup_ID <= 0) 
+			set_Value (COLUMNNAME_Ad_Backup_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ad_Backup_ID, Integer.valueOf(Ad_Backup_ID));
 	}
 
 	/** Get Ad_Backup_ID.
-@return Ad_Backup_ID	  */
+		@return Ad_Backup_ID	  */
 	public int getAd_Backup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_Backup_ID);
@@ -199,10 +200,11 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -219,16 +221,17 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param Success Success	  */
 	public void setSuccess (String Success)
 	{
+
 		if (Success != null && Success.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Success = Success.substring(0, 19);
+			Success = Success.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Success, Success);
 	}
 
 	/** Get Success.
-@return Success	  */
+		@return Success	  */
 	public String getSuccess () 
 	{
 		return (String)get_Value(COLUMNNAME_Success);
@@ -240,10 +243,11 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setTableName (String TableName)
 	{
+
 		if (TableName != null && TableName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			TableName = TableName.substring(0, 59);
+			TableName = TableName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_TableName, TableName);
 	}
@@ -262,10 +266,11 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setType (String Type)
 	{
+
 		if (Type != null && Type.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Type = Type.substring(0, 59);
+			Type = Type.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Type, Type);
 	}
@@ -286,7 +291,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	}
 
 	/** Get Uninstall.
-@return Uninstall	  */
+		@return Uninstall	  */
 	public boolean isUninstall () 
 	{
 		Object oo = get_Value(COLUMNNAME_Uninstall);

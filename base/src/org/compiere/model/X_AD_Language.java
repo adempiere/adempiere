@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Language
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Language extends PO implements I_AD_Language, I_Persistent 
 {
 
@@ -39,7 +36,9 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
     public X_AD_Language (Properties ctx, int AD_Language_ID, String trxName)
     {
       super (ctx, AD_Language_ID, trxName);
-      /** if (AD_Language_ID == 0)        {			setAD_Language (null);
+      /** if (AD_Language_ID == 0)
+        {
+			setAD_Language (null);
 			setAD_Language_ID (0);
 // @SQL=SELECT NVL(MAX(AD_Language_ID),0)+1 AS DefaultValue FROM AD_Language
 			setIsBaseLanguage (false);
@@ -47,7 +46,7 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 			setIsDecimalPoint (false);
 			setIsSystemLanguage (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -86,10 +85,11 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	{
 		if (AD_Language == null)
 			throw new IllegalArgumentException ("AD_Language is mandatory.");
+
 		if (AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_ValueNoCheck (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -112,7 +112,7 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	}
 
 	/** Get Language ID.
-@return Language ID	  */
+		@return Language ID	  */
 	public int getAD_Language_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Language_ID);
@@ -127,10 +127,11 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setCountryCode (String CountryCode)
 	{
+
 		if (CountryCode != null && CountryCode.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			CountryCode = CountryCode.substring(0, 1);
+			CountryCode = CountryCode.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_CountryCode, CountryCode);
 	}
@@ -149,10 +150,11 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setDatePattern (String DatePattern)
 	{
+
 		if (DatePattern != null && DatePattern.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			DatePattern = DatePattern.substring(0, 19);
+			DatePattern = DatePattern.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_DatePattern, DatePattern);
 	}
@@ -243,10 +245,11 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setLanguageISO (String LanguageISO)
 	{
+
 		if (LanguageISO != null && LanguageISO.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			LanguageISO = LanguageISO.substring(0, 1);
+			LanguageISO = LanguageISO.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_LanguageISO, LanguageISO);
 	}
@@ -267,10 +270,11 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -299,7 +303,7 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -318,10 +322,11 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setTimePattern (String TimePattern)
 	{
+
 		if (TimePattern != null && TimePattern.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			TimePattern = TimePattern.substring(0, 19);
+			TimePattern = TimePattern.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_TimePattern, TimePattern);
 	}

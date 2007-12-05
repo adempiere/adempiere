@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persistent 
 {
 
@@ -39,12 +40,14 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
     public X_C_ServiceLevel (Properties ctx, int C_ServiceLevel_ID, String trxName)
     {
       super (ctx, C_ServiceLevel_ID, trxName);
-      /** if (C_ServiceLevel_ID == 0)        {			setC_RevenueRecognition_Plan_ID (0);
+      /** if (C_ServiceLevel_ID == 0)
+        {
+			setC_RevenueRecognition_Plan_ID (0);
 			setC_ServiceLevel_ID (0);
 			setM_Product_ID (0);
 			setServiceLevelInvoiced (Env.ZERO);
 			setServiceLevelProvided (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +78,7 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition_Plan getI_C_RevenueRecognition_Plan() throws Exception 
+	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RevenueRecognition_Plan.Table_Name);
         I_C_RevenueRecognition_Plan result = null;
@@ -141,10 +144,11 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -163,6 +167,22 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
     public KeyNamePair getKeyNamePair() 
     {
         return new KeyNamePair(get_ID(), getDescription());
+    }
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Product.
@@ -219,7 +239,7 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

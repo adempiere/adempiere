@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
     public X_PA_RatioElement (Properties ctx, int PA_RatioElement_ID, String trxName)
     {
       super (ctx, PA_RatioElement_ID, trxName);
-      /** if (PA_RatioElement_ID == 0)        {			setName (null);
+      /** if (PA_RatioElement_ID == 0)
+        {
+			setName (null);
 			setPA_RatioElement_ID (0);
 			setPA_Ratio_ID (0);
 			setRatioElementType (null);
 			setRatioOperand (null);
 // P
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,17 +80,18 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
       return sb.toString();
     }
 
-/** Account_ID AD_Reference_ID=331 */
-public static final int ACCOUNT_ID_AD_Reference_ID=331;
+	/** Account_ID AD_Reference_ID=331 */
+	public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	/** Set Account.
 		@param Account_ID 
 		Account used
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID <= 0) 		set_Value (COLUMNNAME_Account_ID, null);
- else 
-		set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+		if (Account_ID <= 0) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
 	/** Get Account.
@@ -127,10 +131,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -151,10 +156,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -167,7 +173,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_PA_MeasureCalc getI_PA_MeasureCalc() throws Exception 
+	public I_PA_MeasureCalc getPA_MeasureCalc() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_MeasureCalc.Table_Name);
         I_PA_MeasureCalc result = null;
@@ -189,9 +195,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	  */
 	public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 	{
-		if (PA_MeasureCalc_ID <= 0) 		set_Value (COLUMNNAME_PA_MeasureCalc_ID, null);
- else 
-		set_Value (COLUMNNAME_PA_MeasureCalc_ID, Integer.valueOf(PA_MeasureCalc_ID));
+		if (PA_MeasureCalc_ID <= 0) 
+			set_Value (COLUMNNAME_PA_MeasureCalc_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_MeasureCalc_ID, Integer.valueOf(PA_MeasureCalc_ID));
 	}
 
 	/** Get Measure Calculation.
@@ -227,17 +234,18 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 		return ii.intValue();
 	}
 
-/** PA_RatioUsed_ID AD_Reference_ID=371 */
-public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
+	/** PA_RatioUsed_ID AD_Reference_ID=371 */
+	public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
 	/** Set Ratio Used.
 		@param PA_RatioUsed_ID 
 		Performace Ratio Used
 	  */
 	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
 	{
-		if (PA_RatioUsed_ID <= 0) 		set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
- else 
-		set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));
+		if (PA_RatioUsed_ID <= 0) 
+			set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));
 	}
 
 	/** Get Ratio Used.
@@ -251,7 +259,7 @@ public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
 		return ii.intValue();
 	}
 
-	public I_PA_Ratio getI_PA_Ratio() throws Exception 
+	public I_PA_Ratio getPA_Ratio() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Ratio.Table_Name);
         I_PA_Ratio result = null;
@@ -289,23 +297,30 @@ public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
 		return ii.intValue();
 	}
 
-/** PostingType AD_Reference_ID=125 */
-public static final int POSTINGTYPE_AD_Reference_ID=125;/** Actual = A */
-public static final String POSTINGTYPE_Actual = "A";/** Budget = B */
-public static final String POSTINGTYPE_Budget = "B";/** Commitment = E */
-public static final String POSTINGTYPE_Commitment = "E";/** Reservation = R */
-public static final String POSTINGTYPE_Reservation = "R";/** Statistical = S */
-public static final String POSTINGTYPE_Statistical = "S";
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
 	/** Set PostingType.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType)
 	{
-if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");		if (PostingType != null && PostingType.length() > 1)
+
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
+		if (PostingType != null && PostingType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 0);
+			PostingType = PostingType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
@@ -318,22 +333,28 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 		return (String)get_Value(COLUMNNAME_PostingType);
 	}
 
-/** RatioElementType AD_Reference_ID=372 */
-public static final int RATIOELEMENTTYPE_AD_Reference_ID=372;/** Account Value = A */
-public static final String RATIOELEMENTTYPE_AccountValue = "A";/** Constant = C */
-public static final String RATIOELEMENTTYPE_Constant = "C";/** Ratio = R */
-public static final String RATIOELEMENTTYPE_Ratio = "R";/** Calculation = X */
-public static final String RATIOELEMENTTYPE_Calculation = "X";
+	/** RatioElementType AD_Reference_ID=372 */
+	public static final int RATIOELEMENTTYPE_AD_Reference_ID=372;
+	/** Ratio = R */
+	public static final String RATIOELEMENTTYPE_Ratio = "R";
+	/** Constant = C */
+	public static final String RATIOELEMENTTYPE_Constant = "C";
+	/** Calculation = X */
+	public static final String RATIOELEMENTTYPE_Calculation = "X";
+	/** Account Value = A */
+	public static final String RATIOELEMENTTYPE_AccountValue = "A";
 	/** Set Element Type.
 		@param RatioElementType 
 		Ratio Element Type
 	  */
 	public void setRatioElementType (String RatioElementType)
 	{
-if (RatioElementType == null) throw new IllegalArgumentException ("RatioElementType is mandatory");if (RatioElementType.equals("A") || RatioElementType.equals("C") || RatioElementType.equals("R") || RatioElementType.equals("X")); else throw new IllegalArgumentException ("RatioElementType Invalid value - " + RatioElementType + " - Reference_ID=372 - A - C - R - X");		if (RatioElementType.length() > 1)
+		if (RatioElementType == null) throw new IllegalArgumentException ("RatioElementType is mandatory");
+		if (RatioElementType.equals("R") || RatioElementType.equals("C") || RatioElementType.equals("X") || RatioElementType.equals("A")); else throw new IllegalArgumentException ("RatioElementType Invalid value - " + RatioElementType + " - Reference_ID=372 - R - C - X - A");
+		if (RatioElementType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			RatioElementType = RatioElementType.substring(0, 0);
+			RatioElementType = RatioElementType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_RatioElementType, RatioElementType);
 	}
@@ -346,22 +367,28 @@ if (RatioElementType == null) throw new IllegalArgumentException ("RatioElementT
 		return (String)get_Value(COLUMNNAME_RatioElementType);
 	}
 
-/** RatioOperand AD_Reference_ID=373 */
-public static final int RATIOOPERAND_AD_Reference_ID=373;/** Divide = D */
-public static final String RATIOOPERAND_Divide = "D";/** Multiply = M */
-public static final String RATIOOPERAND_Multiply = "M";/** Minus = N */
-public static final String RATIOOPERAND_Minus = "N";/** Plus = P */
-public static final String RATIOOPERAND_Plus = "P";
+	/** RatioOperand AD_Reference_ID=373 */
+	public static final int RATIOOPERAND_AD_Reference_ID=373;
+	/** Plus = P */
+	public static final String RATIOOPERAND_Plus = "P";
+	/** Minus = N */
+	public static final String RATIOOPERAND_Minus = "N";
+	/** Multiply = M */
+	public static final String RATIOOPERAND_Multiply = "M";
+	/** Divide = D */
+	public static final String RATIOOPERAND_Divide = "D";
 	/** Set Operand.
 		@param RatioOperand 
 		Ratio Operand
 	  */
 	public void setRatioOperand (String RatioOperand)
 	{
-if (RatioOperand == null) throw new IllegalArgumentException ("RatioOperand is mandatory");if (RatioOperand.equals("D") || RatioOperand.equals("M") || RatioOperand.equals("N") || RatioOperand.equals("P")); else throw new IllegalArgumentException ("RatioOperand Invalid value - " + RatioOperand + " - Reference_ID=373 - D - M - N - P");		if (RatioOperand.length() > 1)
+		if (RatioOperand == null) throw new IllegalArgumentException ("RatioOperand is mandatory");
+		if (RatioOperand.equals("P") || RatioOperand.equals("N") || RatioOperand.equals("M") || RatioOperand.equals("D")); else throw new IllegalArgumentException ("RatioOperand Invalid value - " + RatioOperand + " - Reference_ID=373 - P - N - M - D");
+		if (RatioOperand.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			RatioOperand = RatioOperand.substring(0, 0);
+			RatioOperand = RatioOperand.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_RatioOperand, RatioOperand);
 	}

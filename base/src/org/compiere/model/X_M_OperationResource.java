@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_OperationResource
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_OperationResource extends PO implements I_M_OperationResource, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
     public X_M_OperationResource (Properties ctx, int M_OperationResource_ID, String trxName)
     {
       super (ctx, M_OperationResource_ID, trxName);
-      /** if (M_OperationResource_ID == 0)        {			setM_OperationResource_ID (0);
+      /** if (M_OperationResource_ID == 0)
+        {
+			setM_OperationResource_ID (0);
 			setM_ProductOperation_ID (0);
 			setName (null);
 			setSetupTime (Env.ZERO);
 			setTeardownTime (Env.ZERO);
 			setUnitRuntime (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +79,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
       return sb.toString();
     }
 
-	public I_A_Asset getI_A_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -98,9 +101,10 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 		set_Value (COLUMNNAME_A_Asset_ID, null);
- else 
-		set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID <= 0) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -114,7 +118,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 		return ii.intValue();
 	}
 
-	public I_C_Job getI_C_Job() throws Exception 
+	public I_C_Job getC_Job() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
         I_C_Job result = null;
@@ -136,9 +140,10 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setC_Job_ID (int C_Job_ID)
 	{
-		if (C_Job_ID <= 0) 		set_Value (COLUMNNAME_C_Job_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
+		if (C_Job_ID <= 0) 
+			set_Value (COLUMNNAME_C_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
 	}
 
 	/** Get Position.
@@ -158,10 +163,11 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -180,10 +186,11 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -218,7 +225,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getI_M_ProductOperation() throws Exception 
+	public I_M_ProductOperation getM_ProductOperation() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductOperation.Table_Name);
         I_M_ProductOperation result = null;
@@ -264,10 +271,11 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

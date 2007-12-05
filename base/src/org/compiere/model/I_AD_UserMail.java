@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_UserMail
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.312
-     */
-    public interface I_AD_UserMail 
+/** Generated Interface for AD_UserMail
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_UserMail 
 {
 
     /** TableName=AD_UserMail */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -83,6 +81,8 @@ import org.compiere.util.*;
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name DeliveryConfirmation */
     public static final String COLUMNNAME_DeliveryConfirmation = "DeliveryConfirmation";
@@ -145,7 +145,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getI_R_MailText() throws Exception;
+	public I_R_MailText getR_MailText() throws Exception;
 
     /** Column name Subject */
     public static final String COLUMNNAME_Subject = "Subject";
@@ -173,5 +173,5 @@ import org.compiere.util.*;
 	  */
 	public int getW_MailMsg_ID();
 
-	public I_W_MailMsg getI_W_MailMsg() throws Exception;
+	public I_W_MailMsg getW_MailMsg() throws Exception;
 }

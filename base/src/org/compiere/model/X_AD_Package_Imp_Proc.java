@@ -17,16 +17,12 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, I_Persistent 
 {
 
@@ -39,10 +35,12 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
     public X_AD_Package_Imp_Proc (Properties ctx, int AD_Package_Imp_Proc_ID, String trxName)
     {
       super (ctx, AD_Package_Imp_Proc_ID, trxName);
-      /** if (AD_Package_Imp_Proc_ID == 0)        {			setAD_Package_Imp_Proc_ID (0);
+      /** if (AD_Package_Imp_Proc_ID == 0)
+        {
+			setAD_Package_Imp_Proc_ID (0);
 			setAD_Package_Source (null);
 			setAD_Package_Source_Type (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,7 +79,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	}
 
 	/** Get Update System Maintained Application Dictionary.
-@return Update System Maintained Application Dictionary	  */
+		@return Update System Maintained Application Dictionary	  */
 	public boolean isAD_Override_Dict () 
 	{
 		Object oo = get_Value(COLUMNNAME_AD_Override_Dict);
@@ -100,10 +98,11 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	  */
 	public void setAD_Package_Dir (String AD_Package_Dir)
 	{
+
 		if (AD_Package_Dir != null && AD_Package_Dir.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			AD_Package_Dir = AD_Package_Dir.substring(0, 254);
+			AD_Package_Dir = AD_Package_Dir.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_AD_Package_Dir, AD_Package_Dir);
 	}
@@ -126,7 +125,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	}
 
 	/** Get AD_Package_Imp_Proc_ID.
-@return AD_Package_Imp_Proc_ID	  */
+		@return AD_Package_Imp_Proc_ID	  */
 	public int getAD_Package_Imp_Proc_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Proc_ID);
@@ -143,10 +142,11 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	{
 		if (AD_Package_Source == null)
 			throw new IllegalArgumentException ("AD_Package_Source is mandatory.");
+
 		if (AD_Package_Source.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			AD_Package_Source = AD_Package_Source.substring(0, 254);
+			AD_Package_Source = AD_Package_Source.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_AD_Package_Source, AD_Package_Source);
 	}
@@ -159,20 +159,24 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 		return (String)get_Value(COLUMNNAME_AD_Package_Source);
 	}
 
-/** AD_Package_Source_Type AD_Reference_ID=50005 */
-public static final int AD_PACKAGE_SOURCE_TYPE_AD_Reference_ID=50005;/** File = File */
-public static final String AD_PACKAGE_SOURCE_TYPE_File = "File";/** WebService = WS */
-public static final String AD_PACKAGE_SOURCE_TYPE_WebService = "WS";
+	/** AD_Package_Source_Type AD_Reference_ID=50005 */
+	public static final int AD_PACKAGE_SOURCE_TYPE_AD_Reference_ID=50005;
+	/** File = File */
+	public static final String AD_PACKAGE_SOURCE_TYPE_File = "File";
+	/** WebService = WS */
+	public static final String AD_PACKAGE_SOURCE_TYPE_WebService = "WS";
 	/** Set Package Source Type.
 		@param AD_Package_Source_Type 
 		Type of package source - file, ftp, webservice etc
 	  */
 	public void setAD_Package_Source_Type (String AD_Package_Source_Type)
 	{
-if (AD_Package_Source_Type == null) throw new IllegalArgumentException ("AD_Package_Source_Type is mandatory");if (AD_Package_Source_Type.equals("File") || AD_Package_Source_Type.equals("WS")); else throw new IllegalArgumentException ("AD_Package_Source_Type Invalid value - " + AD_Package_Source_Type + " - Reference_ID=50005 - File - WS");		if (AD_Package_Source_Type.length() > 10)
+		if (AD_Package_Source_Type == null) throw new IllegalArgumentException ("AD_Package_Source_Type is mandatory");
+		if (AD_Package_Source_Type.equals("File") || AD_Package_Source_Type.equals("WS")); else throw new IllegalArgumentException ("AD_Package_Source_Type Invalid value - " + AD_Package_Source_Type + " - Reference_ID=50005 - File - WS");
+		if (AD_Package_Source_Type.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			AD_Package_Source_Type = AD_Package_Source_Type.substring(0, 9);
+			AD_Package_Source_Type = AD_Package_Source_Type.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_AD_Package_Source_Type, AD_Package_Source_Type);
 	}
@@ -193,7 +197,7 @@ if (AD_Package_Source_Type == null) throw new IllegalArgumentException ("AD_Pack
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

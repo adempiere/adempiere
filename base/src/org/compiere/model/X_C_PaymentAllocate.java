@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentAllocate
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
     public X_C_PaymentAllocate (Properties ctx, int C_PaymentAllocate_ID, String trxName)
     {
       super (ctx, C_PaymentAllocate_ID, trxName);
-      /** if (C_PaymentAllocate_ID == 0)        {			setAmount (Env.ZERO);
+      /** if (C_PaymentAllocate_ID == 0)
+        {
+			setAmount (Env.ZERO);
 			setC_Invoice_ID (0);
 			setC_PaymentAllocate_ID (0);
 			setC_Payment_ID (0);
 			setDiscountAmt (Env.ZERO);
 			setOverUnderAmt (Env.ZERO);
 			setWriteOffAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -99,7 +102,7 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return bd;
 	}
 
-	public I_C_AllocationLine getI_C_AllocationLine() throws Exception 
+	public I_C_AllocationLine getC_AllocationLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AllocationLine.Table_Name);
         I_C_AllocationLine result = null;
@@ -121,9 +124,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 	{
-		if (C_AllocationLine_ID <= 0) 		set_Value (COLUMNNAME_C_AllocationLine_ID, null);
- else 
-		set_Value (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));
+		if (C_AllocationLine_ID <= 0) 
+			set_Value (COLUMNNAME_C_AllocationLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));
 	}
 
 	/** Get Allocation Line.
@@ -136,6 +140,22 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Invoice.
 		@param C_Invoice_ID 
@@ -189,7 +209,7 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Payment getI_C_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -257,7 +277,7 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	}
 
 	/** Get Invoice Amt.
-@return Invoice Amt	  */
+		@return Invoice Amt	  */
 	public BigDecimal getInvoiceAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_InvoiceAmt);

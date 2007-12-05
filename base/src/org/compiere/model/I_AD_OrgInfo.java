@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_OrgInfo
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:24.296
-     */
-    public interface I_AD_OrgInfo 
+/** Generated Interface for AD_OrgInfo
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_OrgInfo 
 {
 
     /** TableName=AD_OrgInfo */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_OrgType_ID();
 
-	public I_AD_OrgType getI_AD_OrgType() throws Exception;
+	public I_AD_OrgType getAD_OrgType() throws Exception;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -112,7 +110,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws Exception;
 
     /** Column name Parent_Org_ID */
     public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";

@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Warehouse
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent 
 {
 
@@ -39,13 +36,15 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
     public X_M_Warehouse (Properties ctx, int M_Warehouse_ID, String trxName)
     {
       super (ctx, M_Warehouse_ID, trxName);
-      /** if (M_Warehouse_ID == 0)        {			setC_Location_ID (0);
+      /** if (M_Warehouse_ID == 0)
+        {
+			setC_Location_ID (0);
 			setM_Warehouse_ID (0);
 			setName (null);
 			setSeparator (null);
 // *
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,10 +103,11 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -120,17 +120,18 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** M_WarehouseSource_ID AD_Reference_ID=197 */
-public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
+	/** M_WarehouseSource_ID AD_Reference_ID=197 */
+	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	/** Set Source Warehouse.
 		@param M_WarehouseSource_ID 
 		Optional Warehouse to replenish from
 	  */
 	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
 	{
-		if (M_WarehouseSource_ID <= 0) 		set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
- else 
-		set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
+		if (M_WarehouseSource_ID <= 0) 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
 	}
 
 	/** Get Source Warehouse.
@@ -174,10 +175,11 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -204,10 +206,11 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	  */
 	public void setReplenishmentClass (String ReplenishmentClass)
 	{
+
 		if (ReplenishmentClass != null && ReplenishmentClass.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ReplenishmentClass = ReplenishmentClass.substring(0, 59);
+			ReplenishmentClass = ReplenishmentClass.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ReplenishmentClass, ReplenishmentClass);
 	}
@@ -228,10 +231,11 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	{
 		if (Separator == null)
 			throw new IllegalArgumentException ("Separator is mandatory.");
+
 		if (Separator.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Separator = Separator.substring(0, 0);
+			Separator = Separator.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Separator, Separator);
 	}
@@ -252,10 +256,11 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

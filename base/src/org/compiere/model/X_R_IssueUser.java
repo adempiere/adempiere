@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueUser
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
     public X_R_IssueUser (Properties ctx, int R_IssueUser_ID, String trxName)
     {
       super (ctx, R_IssueUser_ID, trxName);
-      /** if (R_IssueUser_ID == 0)        {			setR_IssueUser_ID (0);
+      /** if (R_IssueUser_ID == 0)
+        {
+			setR_IssueUser_ID (0);
 			setUserName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,15 +73,32 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -100,10 +118,11 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -146,10 +165,11 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
 	{
 		if (UserName == null)
 			throw new IllegalArgumentException ("UserName is mandatory.");
+
 		if (UserName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			UserName = UserName.substring(0, 59);
+			UserName = UserName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_UserName, UserName);
 	}

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ChangeLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
     public X_AD_ChangeLog (Properties ctx, int AD_ChangeLog_ID, String trxName)
     {
       super (ctx, AD_ChangeLog_ID, trxName);
-      /** if (AD_ChangeLog_ID == 0)        {			setAD_ChangeLog_ID (0);
+      /** if (AD_ChangeLog_ID == 0)
+        {
+			setAD_ChangeLog_ID (0);
 			setAD_Column_ID (0);
 			setAD_Session_ID (0);
 			setAD_Table_ID (0);
 			setIsCustomization (false);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -98,7 +99,7 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -136,7 +137,7 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Session getI_AD_Session() throws Exception 
+	public I_AD_Session getAD_Session() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Session.Table_Name);
         I_AD_Session result = null;
@@ -182,7 +183,7 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Session_ID()));
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -226,10 +227,11 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -272,10 +274,11 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setNewValue (String NewValue)
 	{
+
 		if (NewValue != null && NewValue.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			NewValue = NewValue.substring(0, 1999);
+			NewValue = NewValue.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_NewValue, NewValue);
 	}
@@ -294,10 +297,11 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setOldValue (String OldValue)
 	{
+
 		if (OldValue != null && OldValue.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OldValue = OldValue.substring(0, 1999);
+			OldValue = OldValue.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_OldValue, OldValue);
 	}
@@ -336,16 +340,17 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		@param Redo Redo	  */
 	public void setRedo (String Redo)
 	{
+
 		if (Redo != null && Redo.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Redo = Redo.substring(0, 0);
+			Redo = Redo.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Redo, Redo);
 	}
 
 	/** Get Redo.
-@return Redo	  */
+		@return Redo	  */
 	public String getRedo () 
 	{
 		return (String)get_Value(COLUMNNAME_Redo);
@@ -357,10 +362,11 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setTrxName (String TrxName)
 	{
+
 		if (TrxName != null && TrxName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			TrxName = TrxName.substring(0, 59);
+			TrxName = TrxName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_TrxName, TrxName);
 	}
@@ -377,16 +383,17 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		@param Undo Undo	  */
 	public void setUndo (String Undo)
 	{
+
 		if (Undo != null && Undo.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Undo = Undo.substring(0, 0);
+			Undo = Undo.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Undo, Undo);
 	}
 
 	/** Get Undo.
-@return Undo	  */
+		@return Undo	  */
 	public String getUndo () 
 	{
 		return (String)get_Value(COLUMNNAME_Undo);

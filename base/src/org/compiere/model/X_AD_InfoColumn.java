@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
     public X_AD_InfoColumn (Properties ctx, int AD_InfoColumn_ID, String trxName)
     {
       super (ctx, AD_InfoColumn_ID, trxName);
-      /** if (AD_InfoColumn_ID == 0)        {			setAD_InfoColumn_ID (0);
+      /** if (AD_InfoColumn_ID == 0)
+        {
+			setAD_InfoColumn_ID (0);
 			setAD_InfoWindow_ID (0);
 			setAD_Reference_ID (0);
 			setEntityType (null);
@@ -49,7 +50,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 			setName (null);
 			setSelectClause (null);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +81,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Element getI_AD_Element() throws Exception 
+	public I_AD_Element getAD_Element() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Element.Table_Name);
         I_AD_Element result = null;
@@ -102,9 +103,10 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setAD_Element_ID (int AD_Element_ID)
 	{
-		if (AD_Element_ID <= 0) 		set_Value (COLUMNNAME_AD_Element_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));
+		if (AD_Element_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Element_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));
 	}
 
 	/** Get System Element.
@@ -140,7 +142,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_InfoWindow getI_AD_InfoWindow() throws Exception 
+	public I_AD_InfoWindow getAD_InfoWindow() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_InfoWindow.Table_Name);
         I_AD_InfoWindow result = null;
@@ -178,8 +180,8 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_Reference_ID AD_Reference_ID=1 */
-public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
+	/** AD_Reference_ID AD_Reference_ID=1 */
+	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -208,10 +210,11 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -224,14 +227,15 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -254,10 +258,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -326,10 +331,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -358,10 +364,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (SelectClause == null)
 			throw new IllegalArgumentException ("SelectClause is mandatory.");
+
 		if (SelectClause.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			SelectClause = SelectClause.substring(0, 254);
+			SelectClause = SelectClause.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserDef_Win
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
     public X_AD_UserDef_Win (Properties ctx, int AD_UserDef_Win_ID, String trxName)
     {
       super (ctx, AD_UserDef_Win_ID, trxName);
-      /** if (AD_UserDef_Win_ID == 0)        {			setAD_Language (null);
+      /** if (AD_UserDef_Win_ID == 0)
+        {
+			setAD_Language (null);
 			setAD_UserDef_Win_ID (0);
 			setAD_Window_ID (0);
 			setIsDefault (false);
 			setIsReadOnly (false);
 			setIsUserUpdateable (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,18 +78,19 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
       return sb.toString();
     }
 
-/** AD_Language AD_Reference_ID=106 */
-public static final int AD_LANGUAGE_AD_Reference_ID=106;
+	/** AD_Language AD_Reference_ID=106 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -101,7 +103,7 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -123,9 +125,10 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 		set_Value (COLUMNNAME_AD_Role_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -149,7 +152,7 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	}
 
 	/** Get User defined Window.
-@return User defined Window	  */
+		@return User defined Window	  */
 	public int getAD_UserDef_Win_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserDef_Win_ID);
@@ -158,7 +161,7 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -180,9 +183,10 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -196,7 +200,7 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 		return ii.intValue();
 	}
 
-	public I_AD_Window getI_AD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -240,10 +244,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -262,10 +267,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -358,10 +364,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_Package
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.171
-     */
-    public interface I_M_Package 
+/** Generated Interface for M_Package
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_Package 
 {
 
     /** TableName=M_Package */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -110,7 +109,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOut_ID();
 
-	public I_M_InOut getI_M_InOut() throws Exception;
+	public I_M_InOut getM_InOut() throws Exception;
 
     /** Column name M_Package_ID */
     public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";
@@ -138,7 +137,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getI_M_Shipper() throws Exception;
+	public I_M_Shipper getM_Shipper() throws Exception;
 
     /** Column name ReceivedInfo */
     public static final String COLUMNNAME_ReceivedInfo = "ReceivedInfo";

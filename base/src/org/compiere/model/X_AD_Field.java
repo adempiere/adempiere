@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
@@ -250,6 +250,29 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Default Logic.
+		@param DefaultValue 
+		Default value hierarchy, separated by ;
+	  */
+	public void setDefaultValue (String DefaultValue)
+	{
+
+		if (DefaultValue != null && DefaultValue.length() > 2000)
+		{
+			log.warning("Length > 2000 - truncated");
+			DefaultValue = DefaultValue.substring(0, 2000);
+		}
+		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
+	}
+
+	/** Get Default Logic.
+		@return Default value hierarchy, separated by ;
+	  */
+	public String getDefaultValue () 
+	{
+		return (String)get_Value(COLUMNNAME_DefaultValue);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -260,7 +283,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -303,7 +326,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (DisplayLogic != null && DisplayLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DisplayLogic = DisplayLogic.substring(0, 1999);
+			DisplayLogic = DisplayLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
 	}
@@ -351,7 +374,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -501,7 +524,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (IsMandatory != null && IsMandatory.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsMandatory = IsMandatory.substring(0, 0);
+			IsMandatory = IsMandatory.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_IsMandatory, IsMandatory);
 	}
@@ -574,7 +597,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -616,7 +639,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		if (ObscureType != null && ObscureType.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ObscureType = ObscureType.substring(0, 2);
+			ObscureType = ObscureType.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ObscureType, ObscureType);
 	}

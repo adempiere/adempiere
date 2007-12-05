@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_ContactInterest
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Persistent 
 {
 
@@ -39,10 +39,12 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
     public X_R_ContactInterest (Properties ctx, int R_ContactInterest_ID, String trxName)
     {
       super (ctx, R_ContactInterest_ID, trxName);
-      /** if (R_ContactInterest_ID == 0)        {			setAD_User_ID (0);
+      /** if (R_ContactInterest_ID == 0)
+        {
+			setAD_User_ID (0);
 // @AD_User_ID@
 			setR_InterestArea_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +75,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -136,7 +138,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_OptOutDate);
 	}
 
-	public I_R_InterestArea getI_R_InterestArea() throws Exception 
+	public I_R_InterestArea getR_InterestArea() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_InterestArea.Table_Name);
         I_R_InterestArea result = null;

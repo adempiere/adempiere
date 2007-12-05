@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_BlackListCheque
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		if (BankName.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			BankName = BankName.substring(0, 119);
+			BankName = BankName.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_BankName, BankName);
 	}
@@ -103,7 +103,7 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		if (ChequeNo.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ChequeNo = ChequeNo.substring(0, 119);
+			ChequeNo = ChequeNo.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ChequeNo, ChequeNo);
 	}

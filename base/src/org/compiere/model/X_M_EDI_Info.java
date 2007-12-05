@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_EDI_Info
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent
     public X_M_EDI_Info (Properties ctx, int M_EDI_Info_ID, String trxName)
     {
       super (ctx, M_EDI_Info_ID, trxName);
-      /** if (M_EDI_Info_ID == 0)        {			setInfo (null);
+      /** if (M_EDI_Info_ID == 0)
+        {
+			setInfo (null);
 			setM_EDI_ID (0);
 			setM_EDI_Info_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,10 +82,11 @@ public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent
 	{
 		if (Info == null)
 			throw new IllegalArgumentException ("Info is mandatory.");
+
 		if (Info.length() > 4000)
 		{
 			log.warning("Length > 4000 - truncated");
-			Info = Info.substring(0, 3999);
+			Info = Info.substring(0, 4000);
 		}
 		set_Value (COLUMNNAME_Info, Info);
 	}
@@ -97,7 +99,7 @@ public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent
 		return (String)get_Value(COLUMNNAME_Info);
 	}
 
-	public I_M_EDI getI_M_EDI() throws Exception 
+	public I_M_EDI getM_EDI() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_EDI.Table_Name);
         I_M_EDI result = null;
@@ -123,7 +125,7 @@ public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent
 	}
 
 	/** Get EDI Transaction.
-@return EDI Transaction	  */
+		@return EDI Transaction	  */
 	public int getM_EDI_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_EDI_ID);
@@ -150,7 +152,7 @@ public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent
 	}
 
 	/** Get EDI Log.
-@return EDI Log	  */
+		@return EDI Log	  */
 	public int getM_EDI_Info_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_EDI_Info_ID);

@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceBatchLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
     public X_C_InvoiceBatchLine (Properties ctx, int C_InvoiceBatchLine_ID, String trxName)
     {
       super (ctx, C_InvoiceBatchLine_ID, trxName);
-      /** if (C_InvoiceBatchLine_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_InvoiceBatchLine_ID == 0)
+        {
+			setC_BPartner_ID (0);
 // @C_BPartner_ID@
 			setC_BPartner_Location_ID (0);
 // @C_BPartner_Location_ID@
@@ -66,7 +70,7 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 			setQtyEntered (Env.ZERO);
 // 1
 			setTaxAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,17 +101,18 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
       return sb.toString();
     }
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -121,7 +126,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -143,9 +148,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -159,7 +165,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -181,9 +187,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -196,6 +203,22 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -219,7 +242,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -257,6 +280,22 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
+	public I_C_Charge getC_Charge() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
+        I_C_Charge result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Charge)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Charge_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Charge.
 		@param C_Charge_ID 
 		Additional document charges
@@ -279,7 +318,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_DocType getI_C_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -339,7 +378,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceBatch getI_C_InvoiceBatch() throws Exception 
+	public I_C_InvoiceBatch getC_InvoiceBatch() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceBatch.Table_Name);
         I_C_InvoiceBatch result = null;
@@ -377,15 +416,32 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -399,15 +455,32 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -421,15 +494,32 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -443,7 +533,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Tax getI_C_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -525,10 +615,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -549,10 +640,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -751,17 +843,18 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return bd;
 	}
 
-/** User1_ID AD_Reference_ID=134 */
-public static final int USER1_ID_AD_Reference_ID=134;
+	/** User1_ID AD_Reference_ID=134 */
+	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 		set_Value (COLUMNNAME_User1_ID, null);
- else 
-		set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		if (User1_ID <= 0) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
 	}
 
 	/** Get User List 1.
@@ -775,17 +868,18 @@ public static final int USER1_ID_AD_Reference_ID=134;
 		return ii.intValue();
 	}
 
-/** User2_ID AD_Reference_ID=137 */
-public static final int USER2_ID_AD_Reference_ID=137;
+	/** User2_ID AD_Reference_ID=137 */
+	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 		set_Value (COLUMNNAME_User2_ID, null);
- else 
-		set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		if (User2_ID <= 0) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
 	}
 
 	/** Get User List 2.

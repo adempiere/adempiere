@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_NodeNext
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
     public X_AD_WF_NodeNext (Properties ctx, int AD_WF_NodeNext_ID, String trxName)
     {
       super (ctx, AD_WF_NodeNext_ID, trxName);
-      /** if (AD_WF_NodeNext_ID == 0)        {			setAD_WF_Next_ID (0);
+      /** if (AD_WF_NodeNext_ID == 0)
+        {
+			setAD_WF_Next_ID (0);
 			setAD_WF_NodeNext_ID (0);
 			setAD_WF_Node_ID (0);
 			setEntityType (null);
@@ -47,7 +48,7 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
 			setIsStdUserWorkflow (false);
 			setSeqNo (0);
 // 10
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,8 +79,8 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
       return sb.toString();
     }
 
-/** AD_WF_Next_ID AD_Reference_ID=109 */
-public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
+	/** AD_WF_Next_ID AD_Reference_ID=109 */
+	public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
 	/** Set Next Node.
 		@param AD_WF_Next_ID 
 		Next Node in workflow
@@ -124,7 +125,7 @@ public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getI_AD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -176,10 +177,11 @@ public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -192,14 +194,15 @@ public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -266,10 +269,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setTransitionCode (String TransitionCode)
 	{
+
 		if (TransitionCode != null && TransitionCode.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TransitionCode = TransitionCode.substring(0, 1999);
+			TransitionCode = TransitionCode.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TransitionCode, TransitionCode);
 	}

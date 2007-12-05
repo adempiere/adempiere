@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for T_Replenish
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.656
-     */
-    public interface I_T_Replenish 
+/** Generated Interface for T_Replenish
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_T_Replenish 
 {
 
     /** TableName=T_Replenish */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception;
+	public I_AD_PInstance getAD_PInstance() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -86,6 +84,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -99,7 +99,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getI_C_DocType() throws Exception;
+	public I_C_DocType getC_DocType() throws Exception;
 
     /** Column name Level_Max */
     public static final String COLUMNNAME_Level_Max = "Level_Max";
@@ -140,6 +140,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -166,7 +168,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws Exception;
 
     /** Column name Order_Min */
     public static final String COLUMNNAME_Order_Min = "Order_Min";

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_AcctProcessor
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:35.703
-     */
-    public interface I_C_AcctProcessor 
+/** Generated Interface for C_AcctProcessor
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_AcctProcessor 
 {
 
     /** TableName=C_AcctProcessor */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name C_AcctProcessor_ID */
     public static final String COLUMNNAME_C_AcctProcessor_ID = "C_AcctProcessor_ID";
@@ -99,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
 
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";

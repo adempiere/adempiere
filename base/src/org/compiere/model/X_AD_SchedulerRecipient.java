@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_SchedulerRecipient
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipient, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
     public X_AD_SchedulerRecipient (Properties ctx, int AD_SchedulerRecipient_ID, String trxName)
     {
       super (ctx, AD_SchedulerRecipient_ID, trxName);
-      /** if (AD_SchedulerRecipient_ID == 0)        {			setAD_SchedulerRecipient_ID (0);
+      /** if (AD_SchedulerRecipient_ID == 0)
+        {
+			setAD_SchedulerRecipient_ID (0);
 			setAD_Scheduler_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +73,7 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -94,9 +95,10 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 		set_Value (COLUMNNAME_AD_Role_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -132,7 +134,7 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 		return ii.intValue();
 	}
 
-	public I_AD_Scheduler getI_AD_Scheduler() throws Exception 
+	public I_AD_Scheduler getAD_Scheduler() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Scheduler.Table_Name);
         I_AD_Scheduler result = null;
@@ -170,15 +172,32 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.

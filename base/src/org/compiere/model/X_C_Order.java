@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Order extends PO implements I_C_Order, I_Persistent 
 {
 
@@ -343,6 +343,22 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -441,6 +457,22 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_CashLine getC_CashLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_CashLine.Table_Name);
+        I_C_CashLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_CashLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Cash Journal Line.
 		@param C_CashLine_ID 
@@ -669,8 +701,10 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
         return result;
     }
 
-	/** Set C_POS_ID.
-		@param C_POS_ID C_POS_ID	  */
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
 	public void setC_POS_ID (int C_POS_ID)
 	{
 		if (C_POS_ID <= 0) 
@@ -679,8 +713,9 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
 	}
 
-	/** Get C_POS_ID.
-		@return C_POS_ID	  */
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
 	public int getC_POS_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
@@ -726,6 +761,22 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Payment.
 		@param C_Payment_ID 
@@ -819,7 +870,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (CopyFrom != null && CopyFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 0);
+			CopyFrom = CopyFrom.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
@@ -931,7 +982,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (DeliveryRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DeliveryRule = DeliveryRule.substring(0, 0);
+			DeliveryRule = DeliveryRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
 	}
@@ -963,7 +1014,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (DeliveryViaRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DeliveryViaRule = DeliveryViaRule.substring(0, 0);
+			DeliveryViaRule = DeliveryViaRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
 	}
@@ -986,7 +1037,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -1040,7 +1091,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (DocAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 1);
+			DocAction = DocAction.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
@@ -1090,7 +1141,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (DocStatus.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 1);
+			DocStatus = DocStatus.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -1115,7 +1166,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -1179,7 +1230,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (FreightCostRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FreightCostRule = FreightCostRule.substring(0, 0);
+			FreightCostRule = FreightCostRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FreightCostRule, FreightCostRule);
 	}
@@ -1235,7 +1286,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (InvoiceRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InvoiceRule = InvoiceRule.substring(0, 0);
+			InvoiceRule = InvoiceRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_InvoiceRule, InvoiceRule);
 	}
@@ -1653,7 +1704,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (OrderType != null && OrderType.length() > 510)
 		{
 			log.warning("Length > 510 - truncated");
-			OrderType = OrderType.substring(0, 509);
+			OrderType = OrderType.substring(0, 510);
 		}
 		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
@@ -1675,7 +1726,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (POReference != null && POReference.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			POReference = POReference.substring(0, 19);
+			POReference = POReference.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_POReference, POReference);
 	}
@@ -1759,7 +1810,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (PaymentRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 0);
+			PaymentRule = PaymentRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
@@ -1819,7 +1870,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (PriorityRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PriorityRule = PriorityRule.substring(0, 0);
+			PriorityRule = PriorityRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
 	}

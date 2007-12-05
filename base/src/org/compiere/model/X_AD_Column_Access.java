@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
     public X_AD_Column_Access (Properties ctx, int AD_Column_Access_ID, String trxName)
     {
       super (ctx, AD_Column_Access_ID, trxName);
-      /** if (AD_Column_Access_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_Column_Access_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_Role_ID (0);
 			setIsExclude (true);
 // Y
 			setIsReadOnly (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +76,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -121,7 +122,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Column_ID()));
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -159,7 +160,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -181,9 +182,10 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.

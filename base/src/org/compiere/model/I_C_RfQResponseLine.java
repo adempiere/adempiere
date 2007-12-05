@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_RfQResponseLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:44.656
-     */
-    public interface I_C_RfQResponseLine 
+/** Generated Interface for C_RfQResponseLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_RfQResponseLine 
 {
 
     /** TableName=C_RfQResponseLine */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_RfQLine_ID();
 
-	public I_C_RfQLine getI_C_RfQLine() throws Exception;
+	public I_C_RfQLine getC_RfQLine() throws Exception;
 
     /** Column name C_RfQResponseLine_ID */
     public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
@@ -99,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_RfQResponse_ID();
 
-	public I_C_RfQResponse getI_C_RfQResponse() throws Exception;
+	public I_C_RfQResponse getC_RfQResponse() throws Exception;
 
     /** Column name DateWorkComplete */
     public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";

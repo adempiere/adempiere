@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_PrintGraph
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:25.75
-     */
-    public interface I_AD_PrintGraph 
+/** Generated Interface for AD_PrintGraph
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_PrintGraph 
 {
 
     /** TableName=AD_PrintGraph */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception;
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception;
 
     /** Column name AD_PrintGraph_ID */
     public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";

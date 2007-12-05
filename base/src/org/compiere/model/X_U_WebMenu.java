@@ -24,7 +24,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for U_WebMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent 
 {
 
@@ -84,7 +84,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		if (Category != null && Category.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Category = Category.substring(0, 119);
+			Category = Category.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Category, Category);
 	}
@@ -97,20 +97,23 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	}
 
 	/** Set Description.
-		@param Description Description	  */
+		@param Description 
+		Optional short description of the record
+	  */
 	public void setDescription (String Description)
 	{
 
 		if (Description != null && Description.length() > 200)
 		{
 			log.warning("Length > 200 - truncated");
-			Description = Description.substring(0, 199);
+			Description = Description.substring(0, 200);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
 	/** Get Description.
-		@return Description	  */
+		@return Optional short description of the record
+	  */
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
@@ -137,21 +140,24 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		return false;
 	}
 
-	/** Set Help.
-		@param Help Help	  */
+	/** Set Comment/Help.
+		@param Help 
+		Comment or Hint
+	  */
 	public void setHelp (String Help)
 	{
 
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
-	/** Get Help.
-		@return Help	  */
+	/** Get Comment/Help.
+		@return Comment or Hint
+	  */
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
@@ -165,7 +171,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		if (ImageLink != null && ImageLink.length() > 510)
 		{
 			log.warning("Length > 510 - truncated");
-			ImageLink = ImageLink.substring(0, 509);
+			ImageLink = ImageLink.substring(0, 510);
 		}
 		set_Value (COLUMNNAME_ImageLink, ImageLink);
 	}
@@ -187,7 +193,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		if (MenuLink.length() > 510)
 		{
 			log.warning("Length > 510 - truncated");
-			MenuLink = MenuLink.substring(0, 509);
+			MenuLink = MenuLink.substring(0, 510);
 		}
 		set_Value (COLUMNNAME_MenuLink, MenuLink);
 	}
@@ -209,7 +215,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		if (Module.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Module = Module.substring(0, 119);
+			Module = Module.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Module, Module);
 	}
@@ -222,7 +228,9 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	}
 
 	/** Set Name.
-		@param Name Name	  */
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
 	public void setName (String Name)
 	{
 		if (Name == null)
@@ -231,13 +239,14 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
 	/** Get Name.
-		@return Name	  */
+		@return Alphanumeric identifier of the entity
+	  */
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
@@ -273,7 +282,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		if (Position != null && Position.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Position = Position.substring(0, 9);
+			Position = Position.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Position, Position);
 	}

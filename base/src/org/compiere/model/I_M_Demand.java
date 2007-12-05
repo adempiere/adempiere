@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_Demand
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.593
-     */
-    public interface I_M_Demand 
+/** Generated Interface for M_Demand
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_Demand 
 {
 
     /** TableName=M_Demand */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getI_C_Calendar() throws Exception;
+	public I_C_Calendar getC_Calendar() throws Exception;
 
     /** Column name C_Year_ID */
     public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Year_ID();
 
-	public I_C_Year getI_C_Year() throws Exception;
+	public I_C_Year getC_Year() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

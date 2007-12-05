@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Hierarchy
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent 
 {
 
@@ -39,7 +36,9 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
     public X_PA_Hierarchy (Properties ctx, int PA_Hierarchy_ID, String trxName)
     {
       super (ctx, PA_Hierarchy_ID, trxName);
-      /** if (PA_Hierarchy_ID == 0)        {			setAD_Tree_Account_ID (0);
+      /** if (PA_Hierarchy_ID == 0)
+        {
+			setAD_Tree_Account_ID (0);
 			setAD_Tree_Activity_ID (0);
 			setAD_Tree_BPartner_ID (0);
 			setAD_Tree_Campaign_ID (0);
@@ -49,7 +48,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 			setAD_Tree_SalesRegion_ID (0);
 			setName (null);
 			setPA_Hierarchy_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,8 +79,8 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
       return sb.toString();
     }
 
-/** AD_Tree_Account_ID AD_Reference_ID=184 */
-public static final int AD_TREE_ACCOUNT_ID_AD_Reference_ID=184;
+	/** AD_Tree_Account_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_ACCOUNT_ID_AD_Reference_ID=184;
 	/** Set Account Tree.
 		@param AD_Tree_Account_ID 
 		Tree for Natural Account Tree
@@ -104,8 +103,8 @@ public static final int AD_TREE_ACCOUNT_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_Activity_ID AD_Reference_ID=184 */
-public static final int AD_TREE_ACTIVITY_ID_AD_Reference_ID=184;
+	/** AD_Tree_Activity_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_ACTIVITY_ID_AD_Reference_ID=184;
 	/** Set Activity Tree.
 		@param AD_Tree_Activity_ID 
 		Tree to determine activity hierarchy
@@ -128,8 +127,8 @@ public static final int AD_TREE_ACTIVITY_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_BPartner_ID AD_Reference_ID=184 */
-public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
+	/** AD_Tree_BPartner_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
 	/** Set BPartner Tree.
 		@param AD_Tree_BPartner_ID 
 		Tree to determine business partner hierarchy
@@ -152,8 +151,8 @@ public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_Campaign_ID AD_Reference_ID=184 */
-public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
+	/** AD_Tree_Campaign_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
 	/** Set Campaign Tree.
 		@param AD_Tree_Campaign_ID 
 		Tree to determine marketing campaign hierarchy
@@ -176,8 +175,8 @@ public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_Org_ID AD_Reference_ID=184 */
-public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
+	/** AD_Tree_Org_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
 		Tree to determine organizational hierarchy
@@ -200,8 +199,8 @@ public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_Product_ID AD_Reference_ID=184 */
-public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
+	/** AD_Tree_Product_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
 	/** Set Product Tree.
 		@param AD_Tree_Product_ID 
 		Tree to determine product hierarchy
@@ -224,8 +223,8 @@ public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_Project_ID AD_Reference_ID=184 */
-public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
+	/** AD_Tree_Project_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
 	/** Set Project Tree.
 		@param AD_Tree_Project_ID 
 		Tree to determine project hierarchy
@@ -248,8 +247,8 @@ public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_Tree_SalesRegion_ID AD_Reference_ID=184 */
-public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
+	/** AD_Tree_SalesRegion_ID AD_Reference_ID=184 */
+	public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
 	/** Set Sales Region Tree.
 		@param AD_Tree_SalesRegion_ID 
 		Tree to determine sales regional hierarchy
@@ -278,10 +277,11 @@ public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -300,10 +300,11 @@ public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -324,10 +325,11 @@ public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

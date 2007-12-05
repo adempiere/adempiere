@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Cost extends PO implements I_M_Cost, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
     public X_M_Cost (Properties ctx, int M_Cost_ID, String trxName)
     {
       super (ctx, M_Cost_ID, trxName);
-      /** if (M_Cost_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (M_Cost_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setCurrentCostPrice (Env.ZERO);
 			setCurrentQty (Env.ZERO);
 			setFutureCostPrice (Env.ZERO);
@@ -47,7 +49,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 			setM_CostElement_ID (0);
 			setM_CostType_ID (0);
 			setM_Product_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,7 +80,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -116,24 +118,34 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-/** CostingMethod AD_Reference_ID=122 */
-public static final int COSTINGMETHOD_AD_Reference_ID=122;/** Average PO = A */
-public static final String COSTINGMETHOD_AveragePO = "A";/** Fifo = F */
-public static final String COSTINGMETHOD_Fifo = "F";/** Average Invoice = I */
-public static final String COSTINGMETHOD_AverageInvoice = "I";/** Lifo = L */
-public static final String COSTINGMETHOD_Lifo = "L";/** Standard Costing = S */
-public static final String COSTINGMETHOD_StandardCosting = "S";/** User Defined = U */
-public static final String COSTINGMETHOD_UserDefined = "U";/** Last Invoice = i */
-public static final String COSTINGMETHOD_LastInvoice = "i";/** Last PO Price = p */
-public static final String COSTINGMETHOD_LastPOPrice = "p";/** _ = x */
-public static final String COSTINGMETHOD__ = "x";
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
 	/** Set Costing Method.
 		@param CostingMethod 
 		Indicates how Costs will be calculated
 	  */
 	public void setCostingMethod (String CostingMethod)
 	{
-if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("F") || CostingMethod.equals("I") || CostingMethod.equals("L") || CostingMethod.equals("S") || CostingMethod.equals("U") || CostingMethod.equals("i") || CostingMethod.equals("p") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - A - F - I - L - S - U - i - p - x");		throw new IllegalArgumentException ("CostingMethod is virtual column");	}
+
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		throw new IllegalArgumentException ("CostingMethod is virtual column");	}
 
 	/** Get Costing Method.
 		@return Indicates how Costs will be calculated
@@ -233,10 +245,11 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -259,7 +272,7 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 	}
 
 	/** Get Future Cost Price.
-@return Future Cost Price	  */
+		@return Future Cost Price	  */
 	public BigDecimal getFutureCostPrice () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPrice);
@@ -290,7 +303,7 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getI_M_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -328,7 +341,7 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 		return ii.intValue();
 	}
 
-	public I_M_CostType getI_M_CostType() throws Exception 
+	public I_M_CostType getM_CostType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostType.Table_Name);
         I_M_CostType result = null;
@@ -365,6 +378,22 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

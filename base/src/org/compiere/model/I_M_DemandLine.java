@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_DemandLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.703
-     */
-    public interface I_M_DemandLine 
+/** Generated Interface for M_DemandLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_DemandLine 
 {
 
     /** TableName=M_DemandLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getI_C_Period() throws Exception;
+	public I_C_Period getC_Period() throws Exception;
 
     /** Column name M_DemandLine_ID */
     public static final String COLUMNNAME_M_DemandLine_ID = "M_DemandLine_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Demand_ID();
 
-	public I_M_Demand getI_M_Demand() throws Exception;
+	public I_M_Demand getM_Demand() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -113,6 +111,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

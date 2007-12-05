@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment, I_Persistent 
 {
 
@@ -39,12 +41,14 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
     public X_S_ResourceAssignment (Properties ctx, int S_ResourceAssignment_ID, String trxName)
     {
       super (ctx, S_ResourceAssignment_ID, trxName);
-      /** if (S_ResourceAssignment_ID == 0)        {			setAssignDateFrom (new Timestamp(System.currentTimeMillis()));
+      /** if (S_ResourceAssignment_ID == 0)
+        {
+			setAssignDateFrom (new Timestamp(System.currentTimeMillis()));
 			setIsConfirmed (false);
 			setName (null);
 			setS_ResourceAssignment_ID (0);
 			setS_Resource_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -117,10 +121,11 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -165,10 +170,11 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -223,7 +229,7 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 		return ii.intValue();
 	}
 
-	public I_S_Resource getI_S_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;

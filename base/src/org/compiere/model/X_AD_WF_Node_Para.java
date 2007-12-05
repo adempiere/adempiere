@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
     public X_AD_WF_Node_Para (Properties ctx, int AD_WF_Node_Para_ID, String trxName)
     {
       super (ctx, AD_WF_Node_Para_ID, trxName);
-      /** if (AD_WF_Node_Para_ID == 0)        {			setAD_WF_Node_ID (0);
+      /** if (AD_WF_Node_Para_ID == 0)
+        {
+			setAD_WF_Node_ID (0);
 			setAD_WF_Node_Para_ID (0);
 			setEntityType (null);
 // U
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Process_Para getI_AD_Process_Para() throws Exception 
+	public I_AD_Process_Para getAD_Process_Para() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process_Para.Table_Name);
         I_AD_Process_Para result = null;
@@ -94,13 +95,14 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 		@param AD_Process_Para_ID Process Parameter	  */
 	public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 	{
-		if (AD_Process_Para_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_Para_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
+		if (AD_Process_Para_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_Para_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
 	}
 
 	/** Get Process Parameter.
-@return Process Parameter	  */
+		@return Process Parameter	  */
 	public int getAD_Process_Para_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_Para_ID);
@@ -109,7 +111,7 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getI_AD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -183,10 +185,11 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setAttributeName (String AttributeName)
 	{
+
 		if (AttributeName != null && AttributeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 59);
+			AttributeName = AttributeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
@@ -205,10 +208,11 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
+
 		if (AttributeValue != null && AttributeValue.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeValue = AttributeValue.substring(0, 59);
+			AttributeValue = AttributeValue.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
@@ -227,10 +231,11 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -243,14 +248,15 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");

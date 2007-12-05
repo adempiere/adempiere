@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_Task
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:45.609
-     */
-    public interface I_C_Task 
+/** Generated Interface for C_Task
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_Task 
 {
 
     /** TableName=C_Task */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Phase_ID();
 
-	public I_C_Phase getI_C_Phase() throws Exception;
+	public I_C_Phase getC_Phase() throws Exception;
 
     /** Column name C_Task_ID */
     public static final String COLUMNNAME_C_Task_ID = "C_Task_ID";
@@ -124,6 +122,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

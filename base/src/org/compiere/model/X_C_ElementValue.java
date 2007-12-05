@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
     public X_C_ElementValue (Properties ctx, int C_ElementValue_ID, String trxName)
     {
       super (ctx, C_ElementValue_ID, trxName);
-      /** if (C_ElementValue_ID == 0)        {			setAccountSign (null);
+      /** if (C_ElementValue_ID == 0)
+        {
+			setAccountSign (null);
 // N
 			setAccountType (null);
 // E
@@ -56,7 +58,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 			setPostStatistical (true);
 // Y
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -87,21 +89,26 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
       return sb.toString();
     }
 
-/** AccountSign AD_Reference_ID=118 */
-public static final int ACCOUNTSIGN_AD_Reference_ID=118;/** Credit = C */
-public static final String ACCOUNTSIGN_Credit = "C";/** Debit = D */
-public static final String ACCOUNTSIGN_Debit = "D";/** Natural = N */
-public static final String ACCOUNTSIGN_Natural = "N";
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
 	/** Set Account Sign.
 		@param AccountSign 
 		Indicates the Natural Sign of the Account as a Debit or Credit
 	  */
 	public void setAccountSign (String AccountSign)
 	{
-if (AccountSign == null) throw new IllegalArgumentException ("AccountSign is mandatory");if (AccountSign.equals("C") || AccountSign.equals("D") || AccountSign.equals("N")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - C - D - N");		if (AccountSign.length() > 1)
+		if (AccountSign == null) throw new IllegalArgumentException ("AccountSign is mandatory");
+		if (AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");
+		if (AccountSign.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccountSign = AccountSign.substring(0, 0);
+			AccountSign = AccountSign.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccountSign, AccountSign);
 	}
@@ -114,24 +121,32 @@ if (AccountSign == null) throw new IllegalArgumentException ("AccountSign is man
 		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
-/** AccountType AD_Reference_ID=117 */
-public static final int ACCOUNTTYPE_AD_Reference_ID=117;/** Asset = A */
-public static final String ACCOUNTTYPE_Asset = "A";/** Expense = E */
-public static final String ACCOUNTTYPE_Expense = "E";/** Liability = L */
-public static final String ACCOUNTTYPE_Liability = "L";/** Memo = M */
-public static final String ACCOUNTTYPE_Memo = "M";/** Owner's Equity = O */
-public static final String ACCOUNTTYPE_OwnerSEquity = "O";/** Revenue = R */
-public static final String ACCOUNTTYPE_Revenue = "R";
+	/** AccountType AD_Reference_ID=117 */
+	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
+	/** Asset = A */
+	public static final String ACCOUNTTYPE_Asset = "A";
+	/** Liability = L */
+	public static final String ACCOUNTTYPE_Liability = "L";
+	/** Revenue = R */
+	public static final String ACCOUNTTYPE_Revenue = "R";
+	/** Expense = E */
+	public static final String ACCOUNTTYPE_Expense = "E";
+	/** Owner's Equity = O */
+	public static final String ACCOUNTTYPE_OwnerSEquity = "O";
+	/** Memo = M */
+	public static final String ACCOUNTTYPE_Memo = "M";
 	/** Set Account Type.
 		@param AccountType 
 		Indicates the type of account
 	  */
 	public void setAccountType (String AccountType)
 	{
-if (AccountType == null) throw new IllegalArgumentException ("AccountType is mandatory");if (AccountType.equals("A") || AccountType.equals("E") || AccountType.equals("L") || AccountType.equals("M") || AccountType.equals("O") || AccountType.equals("R")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - E - L - M - O - R");		if (AccountType.length() > 1)
+		if (AccountType == null) throw new IllegalArgumentException ("AccountType is mandatory");
+		if (AccountType.equals("A") || AccountType.equals("L") || AccountType.equals("R") || AccountType.equals("E") || AccountType.equals("O") || AccountType.equals("M")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - L - R - E - O - M");
+		if (AccountType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccountType = AccountType.substring(0, 0);
+			AccountType = AccountType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccountType, AccountType);
 	}
@@ -144,7 +159,7 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -166,9 +181,10 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID <= 0) 		set_Value (COLUMNNAME_C_BankAccount_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID <= 0) 
+			set_Value (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -182,7 +198,7 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -204,9 +220,10 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -242,7 +259,7 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 		return ii.intValue();
 	}
 
-	public I_C_Element getI_C_Element() throws Exception 
+	public I_C_Element getC_Element() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
         I_C_Element result = null;
@@ -286,10 +303,11 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -406,10 +424,11 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -560,10 +579,11 @@ if (AccountType == null) throw new IllegalArgumentException ("AccountType is man
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

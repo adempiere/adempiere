@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
     public X_M_InventoryLine (Properties ctx, int M_InventoryLine_ID, String trxName)
     {
       super (ctx, M_InventoryLine_ID, trxName);
-      /** if (M_InventoryLine_ID == 0)        {			setInventoryType (null);
+      /** if (M_InventoryLine_ID == 0)
+        {
+			setInventoryType (null);
 // D
 			setM_AttributeSetInstance_ID (0);
 			setM_InventoryLine_ID (0);
@@ -50,7 +53,7 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 			setProcessed (false);
 			setQtyBook (Env.ZERO);
 			setQtyCount (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,7 +84,7 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
       return sb.toString();
     }
 
-	public I_C_Charge getI_C_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -103,9 +106,10 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 		set_Value (COLUMNNAME_C_Charge_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID <= 0) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -125,10 +129,11 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -141,20 +146,24 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** InventoryType AD_Reference_ID=292 */
-public static final int INVENTORYTYPE_AD_Reference_ID=292;/** Charge Account = C */
-public static final String INVENTORYTYPE_ChargeAccount = "C";/** Inventory Difference = D */
-public static final String INVENTORYTYPE_InventoryDifference = "D";
+	/** InventoryType AD_Reference_ID=292 */
+	public static final int INVENTORYTYPE_AD_Reference_ID=292;
+	/** Inventory Difference = D */
+	public static final String INVENTORYTYPE_InventoryDifference = "D";
+	/** Charge Account = C */
+	public static final String INVENTORYTYPE_ChargeAccount = "C";
 	/** Set Inventory Type.
 		@param InventoryType 
 		Type of inventory difference
 	  */
 	public void setInventoryType (String InventoryType)
 	{
-if (InventoryType == null) throw new IllegalArgumentException ("InventoryType is mandatory");if (InventoryType.equals("C") || InventoryType.equals("D")); else throw new IllegalArgumentException ("InventoryType Invalid value - " + InventoryType + " - Reference_ID=292 - C - D");		if (InventoryType.length() > 1)
+		if (InventoryType == null) throw new IllegalArgumentException ("InventoryType is mandatory");
+		if (InventoryType.equals("D") || InventoryType.equals("C")); else throw new IllegalArgumentException ("InventoryType Invalid value - " + InventoryType + " - Reference_ID=292 - D - C");
+		if (InventoryType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InventoryType = InventoryType.substring(0, 0);
+			InventoryType = InventoryType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_InventoryType, InventoryType);
 	}
@@ -239,7 +248,7 @@ if (InventoryType == null) throw new IllegalArgumentException ("InventoryType is
 		return ii.intValue();
 	}
 
-	public I_M_Inventory getI_M_Inventory() throws Exception 
+	public I_M_Inventory getM_Inventory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
         I_M_Inventory result = null;
@@ -299,8 +308,8 @@ if (InventoryType == null) throw new IllegalArgumentException ("InventoryType is
 		return ii.intValue();
 	}
 
-/** M_Product_ID AD_Reference_ID=171 */
-public static final int M_PRODUCT_ID_AD_Reference_ID=171;
+	/** M_Product_ID AD_Reference_ID=171 */
+	public static final int M_PRODUCT_ID_AD_Reference_ID=171;
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Workflow
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:31.375
-     */
-    public interface I_AD_Workflow 
+/** Generated Interface for AD_Workflow
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Workflow 
 {
 
     /** TableName=AD_Workflow */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,6 +70,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
+	public I_AD_Table getAD_Table() throws Exception;
+
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
 
@@ -84,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getI_AD_WF_Node() throws Exception;
+	public I_AD_WF_Node getAD_WF_Node() throws Exception;
 
     /** Column name AD_WF_Responsible_ID */
     public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
@@ -99,7 +100,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getI_AD_WF_Responsible() throws Exception;
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
 
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
@@ -114,7 +115,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WorkflowProcessor_ID();
 
-	public I_AD_WorkflowProcessor getI_AD_WorkflowProcessor() throws Exception;
+	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";

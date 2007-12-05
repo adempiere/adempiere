@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ_TopicSubscriber
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscriber, I_Persistent 
 {
 
@@ -39,11 +39,13 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
     public X_C_RfQ_TopicSubscriber (Properties ctx, int C_RfQ_TopicSubscriber_ID, String trxName)
     {
       super (ctx, C_RfQ_TopicSubscriber_ID, trxName);
-      /** if (C_RfQ_TopicSubscriber_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_RfQ_TopicSubscriber_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_RfQ_TopicSubscriber_ID (0);
 			setC_RfQ_Topic_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +76,7 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -96,9 +98,10 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -111,6 +114,22 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -134,7 +153,7 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -194,7 +213,7 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 		return ii.intValue();
 	}
 
-	public I_C_RfQ_Topic getI_C_RfQ_Topic() throws Exception 
+	public I_C_RfQ_Topic getC_RfQ_Topic() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQ_Topic.Table_Name);
         I_C_RfQ_Topic result = null;

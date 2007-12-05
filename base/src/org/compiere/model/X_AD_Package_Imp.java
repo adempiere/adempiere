@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
     public X_AD_Package_Imp (Properties ctx, int AD_Package_Imp_ID, String trxName)
     {
       super (ctx, AD_Package_Imp_ID, trxName);
-      /** if (AD_Package_Imp_ID == 0)        {			setAD_Package_Imp_ID (0);
+      /** if (AD_Package_Imp_ID == 0)
+        {
+			setAD_Package_Imp_ID (0);
 			setDescription (null);
 			setName (null);
 			setProcessing (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -84,7 +83,7 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	}
 
 	/** Get AD_Package_Imp_ID.
-@return AD_Package_Imp_ID	  */
+		@return AD_Package_Imp_ID	  */
 	public int getAD_Package_Imp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_ID);
@@ -105,16 +104,17 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 		@param Creator Creator	  */
 	public void setCreator (String Creator)
 	{
+
 		if (Creator != null && Creator.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Creator = Creator.substring(0, 59);
+			Creator = Creator.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Creator, Creator);
 	}
 
 	/** Get Creator.
-@return Creator	  */
+		@return Creator	  */
 	public String getCreator () 
 	{
 		return (String)get_Value(COLUMNNAME_Creator);
@@ -124,16 +124,17 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 		@param CreatorContact CreatorContact	  */
 	public void setCreatorContact (String CreatorContact)
 	{
+
 		if (CreatorContact != null && CreatorContact.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			CreatorContact = CreatorContact.substring(0, 254);
+			CreatorContact = CreatorContact.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_CreatorContact, CreatorContact);
 	}
 
 	/** Get CreatorContact.
-@return CreatorContact	  */
+		@return CreatorContact	  */
 	public String getCreatorContact () 
 	{
 		return (String)get_Value(COLUMNNAME_CreatorContact);
@@ -147,10 +148,11 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
+
 		if (Description.length() > 1000)
 		{
 			log.warning("Length > 1000 - truncated");
-			Description = Description.substring(0, 999);
+			Description = Description.substring(0, 1000);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -169,10 +171,11 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -193,10 +196,11 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -213,16 +217,17 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 		@param PK_Status PK_Status	  */
 	public void setPK_Status (String PK_Status)
 	{
+
 		if (PK_Status != null && PK_Status.length() > 22)
 		{
 			log.warning("Length > 22 - truncated");
-			PK_Status = PK_Status.substring(0, 21);
+			PK_Status = PK_Status.substring(0, 22);
 		}
 		set_Value (COLUMNNAME_PK_Status, PK_Status);
 	}
 
 	/** Get PK_Status.
-@return PK_Status	  */
+		@return PK_Status	  */
 	public String getPK_Status () 
 	{
 		return (String)get_Value(COLUMNNAME_PK_Status);
@@ -232,16 +237,17 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 		@param PK_Version Package Version	  */
 	public void setPK_Version (String PK_Version)
 	{
+
 		if (PK_Version != null && PK_Version.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			PK_Version = PK_Version.substring(0, 19);
+			PK_Version = PK_Version.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_PK_Version, PK_Version);
 	}
 
 	/** Get Package Version.
-@return Package Version	  */
+		@return Package Version	  */
 	public String getPK_Version () 
 	{
 		return (String)get_Value(COLUMNNAME_PK_Version);
@@ -279,7 +285,7 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -298,10 +304,11 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
+
 		if (ReleaseNo != null && ReleaseNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 19);
+			ReleaseNo = ReleaseNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
@@ -322,7 +329,7 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	}
 
 	/** Get Uninstall.
-@return Uninstall	  */
+		@return Uninstall	  */
 	public boolean isUninstall () 
 	{
 		Object oo = get_Value(COLUMNNAME_Uninstall);
@@ -341,10 +348,11 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	  */
 	public void setVersion (String Version)
 	{
+
 		if (Version != null && Version.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Version = Version.substring(0, 19);
+			Version = Version.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Version, Version);
 	}

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_Goal
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:52.625
-     */
-    public interface I_PA_Goal 
+/** Generated Interface for PA_Goal
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_Goal 
 {
 
     /** TableName=PA_Goal */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -85,6 +84,8 @@ import org.compiere.util.*;
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name DateFrom */
     public static final String COLUMNNAME_DateFrom = "DateFrom";
@@ -255,7 +256,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_ColorSchema_ID();
 
-	public I_PA_ColorSchema getI_PA_ColorSchema() throws Exception;
+	public I_PA_ColorSchema getPA_ColorSchema() throws Exception;
 
     /** Column name PA_GoalParent_ID */
     public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
@@ -296,7 +297,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_Measure_ID();
 
-	public I_PA_Measure getI_PA_Measure() throws Exception;
+	public I_PA_Measure getPA_Measure() throws Exception;
 
     /** Column name RelativeWeight */
     public static final String COLUMNNAME_RelativeWeight = "RelativeWeight";

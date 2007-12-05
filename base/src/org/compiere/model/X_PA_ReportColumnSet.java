@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportColumnSet
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
     public X_PA_ReportColumnSet (Properties ctx, int PA_ReportColumnSet_ID, String trxName)
     {
       super (ctx, PA_ReportColumnSet_ID, trxName);
-      /** if (PA_ReportColumnSet_ID == 0)        {			setName (null);
+      /** if (PA_ReportColumnSet_ID == 0)
+        {
+			setName (null);
 			setPA_ReportColumnSet_ID (0);
 			setProcessing (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,10 +78,11 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -103,10 +103,11 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -157,7 +158,7 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

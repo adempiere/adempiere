@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Org
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Org extends PO implements I_AD_Org, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_AD_Org extends PO implements I_AD_Org, I_Persistent
     public X_AD_Org (Properties ctx, int AD_Org_ID, String trxName)
     {
       super (ctx, AD_Org_ID, trxName);
-      /** if (AD_Org_ID == 0)        {			setIsSummary (false);
+      /** if (AD_Org_ID == 0)
+        {
+			setIsSummary (false);
 			setName (null);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,10 +78,11 @@ public class X_AD_Org extends PO implements I_AD_Org, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -127,10 +127,11 @@ public class X_AD_Org extends PO implements I_AD_Org, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -159,10 +160,11 @@ public class X_AD_Org extends PO implements I_AD_Org, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

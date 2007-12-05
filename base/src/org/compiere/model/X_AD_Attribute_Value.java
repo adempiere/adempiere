@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 
 /** Generated Model for AD_Attribute_Value
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
     public X_AD_Attribute_Value (Properties ctx, int AD_Attribute_Value_ID, String trxName)
     {
       super (ctx, AD_Attribute_Value_ID, trxName);
-      /** if (AD_Attribute_Value_ID == 0)        {			setAD_Attribute_ID (0);
+      /** if (AD_Attribute_Value_ID == 0)
+        {
+			setAD_Attribute_ID (0);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,7 +81,7 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 	}
 
 	/** Get System Attribute.
-@return System Attribute	  */
+		@return System Attribute	  */
 	public int getAD_Attribute_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Attribute_ID);
@@ -121,7 +120,7 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 	}
 
 	/** Get V_Date.
-@return V_Date	  */
+		@return V_Date	  */
 	public Timestamp getV_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_V_Date);
@@ -131,16 +130,17 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		@param V_Number V_Number	  */
 	public void setV_Number (String V_Number)
 	{
+
 		if (V_Number != null && V_Number.length() > 22)
 		{
 			log.warning("Length > 22 - truncated");
-			V_Number = V_Number.substring(0, 21);
+			V_Number = V_Number.substring(0, 22);
 		}
 		set_Value (COLUMNNAME_V_Number, V_Number);
 	}
 
 	/** Get V_Number.
-@return V_Number	  */
+		@return V_Number	  */
 	public String getV_Number () 
 	{
 		return (String)get_Value(COLUMNNAME_V_Number);
@@ -150,16 +150,17 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		@param V_String V_String	  */
 	public void setV_String (String V_String)
 	{
+
 		if (V_String != null && V_String.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			V_String = V_String.substring(0, 1999);
+			V_String = V_String.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_V_String, V_String);
 	}
 
 	/** Get V_String.
-@return V_String	  */
+		@return V_String	  */
 	public String getV_String () 
 	{
 		return (String)get_Value(COLUMNNAME_V_String);

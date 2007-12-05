@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_JobRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Persistent 
 {
 
@@ -39,11 +39,13 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
     public X_C_JobRemuneration (Properties ctx, int C_JobRemuneration_ID, String trxName)
     {
       super (ctx, C_JobRemuneration_ID, trxName);
-      /** if (C_JobRemuneration_ID == 0)        {			setC_JobRemuneration_ID (0);
+      /** if (C_JobRemuneration_ID == 0)
+        {
+			setC_JobRemuneration_ID (0);
 			setC_Job_ID (0);
 			setC_Remuneration_ID (0);
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +98,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Job getI_C_Job() throws Exception 
+	public I_C_Job getC_Job() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
         I_C_Job result = null;
@@ -142,7 +144,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getC_Job_ID()));
     }
 
-	public I_C_Remuneration getI_C_Remuneration() throws Exception 
+	public I_C_Remuneration getC_Remuneration() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Remuneration.Table_Name);
         I_C_Remuneration result = null;
@@ -186,10 +188,11 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

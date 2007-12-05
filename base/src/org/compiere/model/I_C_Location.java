@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_Location
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:41.437
-     */
-    public interface I_C_Location 
+/** Generated Interface for C_Location
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_Location 
 {
 
     /** TableName=C_Location */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -123,6 +121,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_City_ID();
 
+	public I_C_City getC_City() throws Exception;
+
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 
@@ -136,7 +136,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getI_C_Country() throws Exception;
+	public I_C_Country getC_Country() throws Exception;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -164,7 +164,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getI_C_Region() throws Exception;
+	public I_C_Region getC_Region() throws Exception;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";

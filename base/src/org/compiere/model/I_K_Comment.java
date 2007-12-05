@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for K_Comment
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.625
-     */
-    public interface I_K_Comment 
+/** Generated Interface for K_Comment
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_K_Comment 
 {
 
     /** TableName=K_Comment */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Session_ID();
 
-	public I_AD_Session getI_AD_Session() throws Exception;
+	public I_AD_Session getAD_Session() throws Exception;
 
     /** Column name IsPublic */
     public static final String COLUMNNAME_IsPublic = "IsPublic";
@@ -111,6 +109,8 @@ import org.compiere.util.*;
 	  * Knowledge Entry
 	  */
 	public int getK_Entry_ID();
+
+	public I_K_Entry getK_Entry() throws Exception;
 
     /** Column name Rating */
     public static final String COLUMNNAME_Rating = "Rating";

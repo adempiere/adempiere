@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
     public X_C_TaxDeclarationAcct (Properties ctx, int C_TaxDeclarationAcct_ID, String trxName)
     {
       super (ctx, C_TaxDeclarationAcct_ID, trxName);
-      /** if (C_TaxDeclarationAcct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_TaxDeclarationAcct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_TaxDeclarationAcct_ID (0);
 			setC_TaxDeclaration_ID (0);
 			setFact_Acct_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,8 +77,8 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
       return sb.toString();
     }
 
-/** Account_ID AD_Reference_ID=331 */
-public static final int ACCOUNT_ID_AD_Reference_ID=331;
+	/** Account_ID AD_Reference_ID=331 */
+	public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -171,7 +174,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 		return bd;
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -209,6 +212,22 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -227,6 +246,22 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Currency getC_Currency() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
+        I_C_Currency result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -269,7 +304,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 		return ii.intValue();
 	}
 
-	public I_C_TaxDeclaration getI_C_TaxDeclaration() throws Exception 
+	public I_C_TaxDeclaration getC_TaxDeclaration() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxDeclaration.Table_Name);
         I_C_TaxDeclaration result = null;
@@ -306,6 +341,22 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Tax getC_Tax() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
+        I_C_Tax result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Tax.
 		@param C_Tax_ID 
@@ -348,10 +399,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -374,7 +426,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	}
 
 	/** Get Accounting Fact.
-@return Accounting Fact	  */
+		@return Accounting Fact	  */
 	public int getFact_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Fact_Acct_ID);

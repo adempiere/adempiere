@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
     public X_AD_PInstance (Properties ctx, int AD_PInstance_ID, String trxName)
     {
       super (ctx, AD_PInstance_ID, trxName);
-      /** if (AD_PInstance_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (AD_PInstance_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setAD_Process_ID (0);
 			setIsProcessing (false);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,7 +105,7 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getAD_PInstance_ID()));
     }
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -142,7 +143,7 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -164,9 +165,10 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -184,16 +186,17 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 		@param ErrorMsg Error Msg	  */
 	public void setErrorMsg (String ErrorMsg)
 	{
+
 		if (ErrorMsg != null && ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ErrorMsg = ErrorMsg.substring(0, 1999);
+			ErrorMsg = ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ErrorMsg, ErrorMsg);
 	}
 
 	/** Get Error Msg.
-@return Error Msg	  */
+		@return Error Msg	  */
 	public String getErrorMsg () 
 	{
 		return (String)get_Value(COLUMNNAME_ErrorMsg);
@@ -207,7 +210,7 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 	}
 
 	/** Get Processing.
-@return Processing	  */
+		@return Processing	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsProcessing);

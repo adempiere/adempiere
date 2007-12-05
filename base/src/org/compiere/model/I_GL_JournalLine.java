@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for GL_JournalLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:47.578
-     */
-    public interface I_GL_JournalLine 
+/** Generated Interface for GL_JournalLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_GL_JournalLine 
 {
 
     /** TableName=GL_JournalLine */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -123,7 +122,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception;
+	public I_C_ConversionType getC_ConversionType() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -138,7 +137,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -153,7 +152,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getI_C_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name C_ValidCombination_ID */
     public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
@@ -233,7 +232,7 @@ import org.compiere.util.*;
 	  */
 	public int getGL_Journal_ID();
 
-	public I_GL_Journal getI_GL_Journal() throws Exception;
+	public I_GL_Journal getGL_Journal() throws Exception;
 
     /** Column name IsGenerated */
     public static final String COLUMNNAME_IsGenerated = "IsGenerated";

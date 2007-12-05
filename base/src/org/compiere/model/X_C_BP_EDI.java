@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_EDI
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
     public X_C_BP_EDI (Properties ctx, int C_BP_EDI_ID, String trxName)
     {
       super (ctx, C_BP_EDI_ID, trxName);
-      /** if (C_BP_EDI_ID == 0)        {			setAD_Sequence_ID (0);
+      /** if (C_BP_EDI_ID == 0)
+        {
+			setAD_Sequence_ID (0);
 			setC_BP_EDI_ID (0);
 			setC_BPartner_ID (0);
 			setCustomerNo (null);
@@ -54,7 +55,7 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 			setReceiveOrderReply (false);
 			setSendInquiry (false);
 			setSendOrder (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,8 +86,8 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
       return sb.toString();
     }
 
-/** AD_Sequence_ID AD_Reference_ID=128 */
-public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
+	/** AD_Sequence_ID AD_Reference_ID=128 */
+	public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	/** Set Sequence.
 		@param AD_Sequence_ID 
 		Document Sequence
@@ -131,6 +132,22 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -161,10 +178,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	{
 		if (CustomerNo == null)
 			throw new IllegalArgumentException ("CustomerNo is mandatory.");
+
 		if (CustomerNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			CustomerNo = CustomerNo.substring(0, 19);
+			CustomerNo = CustomerNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_CustomerNo, CustomerNo);
 	}
@@ -183,10 +201,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -199,25 +218,30 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EDIType AD_Reference_ID=201 */
-public static final int EDITYPE_AD_Reference_ID=201;/** EDIFACT = E */
-public static final String EDITYPE_EDIFACT = "E";/** Email EDI = M */
-public static final String EDITYPE_EmailEDI = "M";/** ASC X12  = X */
-public static final String EDITYPE_ASCX12 = "X";
+	/** EDIType AD_Reference_ID=201 */
+	public static final int EDITYPE_AD_Reference_ID=201;
+	/** ASC X12  = X */
+	public static final String EDITYPE_ASCX12 = "X";
+	/** EDIFACT = E */
+	public static final String EDITYPE_EDIFACT = "E";
+	/** Email EDI = M */
+	public static final String EDITYPE_EmailEDI = "M";
 	/** Set EDI Type.
 		@param EDIType EDI Type	  */
 	public void setEDIType (String EDIType)
 	{
-if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory");if (EDIType.equals("E") || EDIType.equals("M") || EDIType.equals("X")); else throw new IllegalArgumentException ("EDIType Invalid value - " + EDIType + " - Reference_ID=201 - E - M - X");		if (EDIType.length() > 1)
+		if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory");
+		if (EDIType.equals("X") || EDIType.equals("E") || EDIType.equals("M")); else throw new IllegalArgumentException ("EDIType Invalid value - " + EDIType + " - Reference_ID=201 - X - E - M");
+		if (EDIType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			EDIType = EDIType.substring(0, 0);
+			EDIType = EDIType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_EDIType, EDIType);
 	}
 
 	/** Get EDI Type.
-@return EDI Type	  */
+		@return EDI Type	  */
 	public String getEDIType () 
 	{
 		return (String)get_Value(COLUMNNAME_EDIType);
@@ -231,10 +255,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	{
 		if (EMail_Error_To == null)
 			throw new IllegalArgumentException ("EMail_Error_To is mandatory.");
+
 		if (EMail_Error_To.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail_Error_To = EMail_Error_To.substring(0, 59);
+			EMail_Error_To = EMail_Error_To.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail_Error_To, EMail_Error_To);
 	}
@@ -253,10 +278,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	  */
 	public void setEMail_From (String EMail_From)
 	{
+
 		if (EMail_From != null && EMail_From.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail_From = EMail_From.substring(0, 59);
+			EMail_From = EMail_From.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail_From, EMail_From);
 	}
@@ -275,10 +301,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	  */
 	public void setEMail_From_Pwd (String EMail_From_Pwd)
 	{
+
 		if (EMail_From_Pwd != null && EMail_From_Pwd.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			EMail_From_Pwd = EMail_From_Pwd.substring(0, 19);
+			EMail_From_Pwd = EMail_From_Pwd.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_EMail_From_Pwd, EMail_From_Pwd);
 	}
@@ -297,10 +324,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	  */
 	public void setEMail_From_Uid (String EMail_From_Uid)
 	{
+
 		if (EMail_From_Uid != null && EMail_From_Uid.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			EMail_From_Uid = EMail_From_Uid.substring(0, 19);
+			EMail_From_Uid = EMail_From_Uid.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_EMail_From_Uid, EMail_From_Uid);
 	}
@@ -321,10 +349,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	{
 		if (EMail_Info_To == null)
 			throw new IllegalArgumentException ("EMail_Info_To is mandatory.");
+
 		if (EMail_Info_To.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail_Info_To = EMail_Info_To.substring(0, 59);
+			EMail_Info_To = EMail_Info_To.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail_Info_To, EMail_Info_To);
 	}
@@ -343,10 +372,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	  */
 	public void setEMail_To (String EMail_To)
 	{
+
 		if (EMail_To != null && EMail_To.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail_To = EMail_To.substring(0, 59);
+			EMail_To = EMail_To.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail_To, EMail_To);
 	}
@@ -407,7 +437,7 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 		return false;
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -453,10 +483,11 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -485,7 +516,7 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	}
 
 	/** Get Received Inquiry Reply.
-@return Received Inquiry Reply	  */
+		@return Received Inquiry Reply	  */
 	public boolean isReceiveInquiryReply () 
 	{
 		Object oo = get_Value(COLUMNNAME_ReceiveInquiryReply);
@@ -506,7 +537,7 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	}
 
 	/** Get Receive Order Reply.
-@return Receive Order Reply	  */
+		@return Receive Order Reply	  */
 	public boolean isReceiveOrderReply () 
 	{
 		Object oo = get_Value(COLUMNNAME_ReceiveOrderReply);
@@ -551,7 +582,7 @@ if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory")
 	}
 
 	/** Get Send Order.
-@return Send Order	  */
+		@return Send Order	  */
 	public boolean isSendOrder () 
 	{
 		Object oo = get_Value(COLUMNNAME_SendOrder);

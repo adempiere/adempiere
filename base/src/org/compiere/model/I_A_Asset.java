@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for A_Asset
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:31.546
-     */
-    public interface I_A_Asset 
+/** Generated Interface for A_Asset
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_A_Asset 
 {
 
     /** TableName=A_Asset */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name A_Asset_Group_ID */
     public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
@@ -86,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_Group_ID();
 
-	public I_A_Asset_Group getI_A_Asset_Group() throws Exception;
+	public I_A_Asset_Group getA_Asset_Group() throws Exception;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -166,6 +165,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 
@@ -179,7 +180,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -194,6 +195,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Location_ID();
 
+	public I_C_Location getC_Location() throws Exception;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -207,7 +210,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getI_C_Project() throws Exception;
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -443,7 +446,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception;
+	public I_M_InOutLine getM_InOutLine() throws Exception;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -458,7 +461,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Locator_ID();
 
-	public I_M_Locator getI_M_Locator() throws Exception;
+	public I_M_Locator getM_Locator() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -472,6 +475,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -511,15 +516,6 @@ import org.compiere.util.*;
 	  * Next Maintenence Unit
 	  */
 	public int getNextMaintenenceUnit();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

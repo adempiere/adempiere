@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_Campaign
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:38.328
-     */
-    public interface I_C_Campaign 
+/** Generated Interface for C_Campaign
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_Campaign 
 {
 
     /** TableName=C_Campaign */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -84,7 +83,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Channel_ID();
 
-	public I_C_Channel getI_C_Channel() throws Exception;
+	public I_C_Channel getC_Channel() throws Exception;
 
     /** Column name Costs */
     public static final String COLUMNNAME_Costs = "Costs";

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for B_Offer
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:32.578
-     */
-    public interface I_B_Offer 
+/** Generated Interface for B_Offer
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_B_Offer 
 {
 
     /** TableName=B_Offer */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name B_Offer_ID */
     public static final String COLUMNNAME_B_Offer_ID = "B_Offer_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getB_SellerFunds_ID();
 
-	public I_B_SellerFunds getI_B_SellerFunds() throws Exception;
+	public I_B_SellerFunds getB_SellerFunds() throws Exception;
 
     /** Column name B_Topic_ID */
     public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getB_Topic_ID();
 
-	public I_B_Topic getI_B_Topic() throws Exception;
+	public I_B_Topic getB_Topic() throws Exception;
 
     /** Column name IsWillingToCommit */
     public static final String COLUMNNAME_IsWillingToCommit = "IsWillingToCommit";

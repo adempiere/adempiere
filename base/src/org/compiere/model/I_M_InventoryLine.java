@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_InventoryLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.375
-     */
-    public interface I_M_InventoryLine 
+/** Generated Interface for M_InventoryLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_InventoryLine 
 {
 
     /** TableName=M_InventoryLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getI_C_Charge() throws Exception;
+	public I_C_Charge getC_Charge() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -151,7 +149,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Inventory_ID();
 
-	public I_M_Inventory getI_M_Inventory() throws Exception;
+	public I_M_Inventory getM_Inventory() throws Exception;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";

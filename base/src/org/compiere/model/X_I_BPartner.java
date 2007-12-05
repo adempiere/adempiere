@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
@@ -39,10 +39,12 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
     public X_I_BPartner (Properties ctx, int I_BPartner_ID, String trxName)
     {
       super (ctx, I_BPartner_ID, trxName);
-      /** if (I_BPartner_ID == 0)        {			setI_BPartner_ID (0);
+      /** if (I_BPartner_ID == 0)
+        {
+			setI_BPartner_ID (0);
 			setI_IsImported (false);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +75,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -95,9 +97,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -117,10 +120,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setAddress1 (String Address1)
 	{
+
 		if (Address1 != null && Address1.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 59);
+			Address1 = Address1.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address1, Address1);
 	}
@@ -139,10 +143,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setAddress2 (String Address2)
 	{
+
 		if (Address2 != null && Address2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 59);
+			Address2 = Address2.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address2, Address2);
 	}
@@ -161,10 +166,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setBPContactGreeting (String BPContactGreeting)
 	{
+
 		if (BPContactGreeting != null && BPContactGreeting.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			BPContactGreeting = BPContactGreeting.substring(0, 59);
+			BPContactGreeting = BPContactGreeting.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_BPContactGreeting, BPContactGreeting);
 	}
@@ -194,7 +200,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -216,9 +222,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BP_Group_ID <= 0) 		set_Value (COLUMNNAME_C_BP_Group_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+		if (C_BP_Group_ID <= 0) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
 	}
 
 	/** Get Business Partner Group.
@@ -232,15 +239,32 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -254,7 +278,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -276,9 +300,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -292,7 +317,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getI_C_Country() throws Exception 
+	public I_C_Country getC_Country() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -314,9 +339,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID <= 0) 		set_Value (COLUMNNAME_C_Country_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
+		if (C_Country_ID <= 0) 
+			set_Value (COLUMNNAME_C_Country_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
 	}
 
 	/** Get Country.
@@ -330,7 +356,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getI_C_Greeting() throws Exception 
+	public I_C_Greeting getC_Greeting() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Greeting.Table_Name);
         I_C_Greeting result = null;
@@ -352,9 +378,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_Greeting_ID (int C_Greeting_ID)
 	{
-		if (C_Greeting_ID <= 0) 		set_Value (COLUMNNAME_C_Greeting_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
+		if (C_Greeting_ID <= 0) 
+			set_Value (COLUMNNAME_C_Greeting_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
 	}
 
 	/** Get Greeting.
@@ -368,7 +395,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Region getI_C_Region() throws Exception 
+	public I_C_Region getC_Region() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
         I_C_Region result = null;
@@ -390,9 +417,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 		set_Value (COLUMNNAME_C_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID <= 0) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -412,10 +440,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setCity (String City)
 	{
+
 		if (City != null && City.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 59);
+			City = City.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_City, City);
 	}
@@ -434,10 +463,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setComments (String Comments)
 	{
+
 		if (Comments != null && Comments.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Comments = Comments.substring(0, 1999);
+			Comments = Comments.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Comments, Comments);
 	}
@@ -456,10 +486,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setContactDescription (String ContactDescription)
 	{
+
 		if (ContactDescription != null && ContactDescription.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			ContactDescription = ContactDescription.substring(0, 254);
+			ContactDescription = ContactDescription.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_ContactDescription, ContactDescription);
 	}
@@ -478,10 +509,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setContactName (String ContactName)
 	{
+
 		if (ContactName != null && ContactName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ContactName = ContactName.substring(0, 59);
+			ContactName = ContactName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ContactName, ContactName);
 	}
@@ -500,10 +532,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setCountryCode (String CountryCode)
 	{
+
 		if (CountryCode != null && CountryCode.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			CountryCode = CountryCode.substring(0, 1);
+			CountryCode = CountryCode.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_CountryCode, CountryCode);
 	}
@@ -522,10 +555,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setDUNS (String DUNS)
 	{
+
 		if (DUNS != null && DUNS.length() > 11)
 		{
 			log.warning("Length > 11 - truncated");
-			DUNS = DUNS.substring(0, 10);
+			DUNS = DUNS.substring(0, 11);
 		}
 		set_Value (COLUMNNAME_DUNS, DUNS);
 	}
@@ -544,10 +578,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -566,10 +601,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -588,10 +624,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setFax (String Fax)
 	{
+
 		if (Fax != null && Fax.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 39);
+			Fax = Fax.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Fax, Fax);
 	}
@@ -610,10 +647,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setGroupValue (String GroupValue)
 	{
+
 		if (GroupValue != null && GroupValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			GroupValue = GroupValue.substring(0, 39);
+			GroupValue = GroupValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_GroupValue, GroupValue);
 	}
@@ -636,7 +674,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	}
 
 	/** Get Import Business Partner.
-@return Import Business Partner	  */
+		@return Import Business Partner	  */
 	public int getI_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_I_BPartner_ID);
@@ -651,10 +689,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -697,10 +736,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setInterestAreaName (String InterestAreaName)
 	{
+
 		if (InterestAreaName != null && InterestAreaName.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			InterestAreaName = InterestAreaName.substring(0, 39);
+			InterestAreaName = InterestAreaName.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_InterestAreaName, InterestAreaName);
 	}
@@ -719,10 +759,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setNAICS (String NAICS)
 	{
+
 		if (NAICS != null && NAICS.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			NAICS = NAICS.substring(0, 5);
+			NAICS = NAICS.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_NAICS, NAICS);
 	}
@@ -741,10 +782,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -763,10 +805,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setName2 (String Name2)
 	{
+
 		if (Name2 != null && Name2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 59);
+			Name2 = Name2.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
@@ -785,10 +828,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPassword (String Password)
 	{
+
 		if (Password != null && Password.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Password = Password.substring(0, 19);
+			Password = Password.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
@@ -807,10 +851,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPhone (String Phone)
 	{
+
 		if (Phone != null && Phone.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 39);
+			Phone = Phone.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
@@ -829,10 +874,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPhone2 (String Phone2)
 	{
+
 		if (Phone2 != null && Phone2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 39);
+			Phone2 = Phone2.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone2, Phone2);
 	}
@@ -851,10 +897,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPostal (String Postal)
 	{
+
 		if (Postal != null && Postal.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 9);
+			Postal = Postal.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
@@ -873,10 +920,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPostal_Add (String Postal_Add)
 	{
+
 		if (Postal_Add != null && Postal_Add.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal_Add = Postal_Add.substring(0, 9);
+			Postal_Add = Postal_Add.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal_Add, Postal_Add);
 	}
@@ -921,7 +969,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -934,7 +982,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return false;
 	}
 
-	public I_R_InterestArea getI_R_InterestArea() throws Exception 
+	public I_R_InterestArea getR_InterestArea() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_InterestArea.Table_Name);
         I_R_InterestArea result = null;
@@ -956,9 +1004,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setR_InterestArea_ID (int R_InterestArea_ID)
 	{
-		if (R_InterestArea_ID <= 0) 		set_Value (COLUMNNAME_R_InterestArea_ID, null);
- else 
-		set_Value (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));
+		if (R_InterestArea_ID <= 0) 
+			set_Value (COLUMNNAME_R_InterestArea_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));
 	}
 
 	/** Get Interest Area.
@@ -978,10 +1027,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setRegionName (String RegionName)
 	{
+
 		if (RegionName != null && RegionName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 59);
+			RegionName = RegionName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}
@@ -1000,10 +1050,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setTaxID (String TaxID)
 	{
+
 		if (TaxID != null && TaxID.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			TaxID = TaxID.substring(0, 19);
+			TaxID = TaxID.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_TaxID, TaxID);
 	}
@@ -1022,10 +1073,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
+
 		if (Title != null && Title.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Title = Title.substring(0, 39);
+			Title = Title.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Title, Title);
 	}
@@ -1044,10 +1096,11 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
+
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

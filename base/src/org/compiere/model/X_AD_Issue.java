@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
     public X_AD_Issue (Properties ctx, int AD_Issue_ID, String trxName)
     {
       super (ctx, AD_Issue_ID, trxName);
-      /** if (AD_Issue_ID == 0)        {			setAD_Issue_ID (0);
+      /** if (AD_Issue_ID == 0)
+        {
+			setAD_Issue_ID (0);
 			setIssueSummary (null);
 			setName (null);
 // .
@@ -53,7 +54,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 // .
 			setVersion (null);
 // .
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -84,7 +85,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Form getI_AD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -106,9 +107,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 		set_Value (COLUMNNAME_AD_Form_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+		if (AD_Form_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
 	/** Get Special Form.
@@ -144,15 +146,32 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Process getAD_Process() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
+        I_AD_Process result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Process.
 		@param AD_Process_ID 
 		Process or Report
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -166,15 +185,32 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Window getAD_Window() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
+        I_AD_Window result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Window.
 		@param AD_Window_ID 
 		Data entry or display window
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 		set_Value (COLUMNNAME_AD_Window_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -188,7 +224,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Asset getI_A_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -210,9 +246,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -232,10 +269,11 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setComments (String Comments)
 	{
+
 		if (Comments != null && Comments.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Comments = Comments.substring(0, 1999);
+			Comments = Comments.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Comments, Comments);
 	}
@@ -254,10 +292,11 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setDBAddress (String DBAddress)
 	{
+
 		if (DBAddress != null && DBAddress.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			DBAddress = DBAddress.substring(0, 254);
+			DBAddress = DBAddress.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_DBAddress, DBAddress);
 	}
@@ -276,10 +315,11 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setDatabaseInfo (String DatabaseInfo)
 	{
+
 		if (DatabaseInfo != null && DatabaseInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			DatabaseInfo = DatabaseInfo.substring(0, 254);
+			DatabaseInfo = DatabaseInfo.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_DatabaseInfo, DatabaseInfo);
 	}
@@ -298,10 +338,11 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setErrorTrace (String ErrorTrace)
 	{
+
 		if (ErrorTrace != null && ErrorTrace.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ErrorTrace = ErrorTrace.substring(0, 1999);
+			ErrorTrace = ErrorTrace.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ErrorTrace, ErrorTrace);
 	}
@@ -314,20 +355,24 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_ErrorTrace);
 	}
 
-/** IsReproducible AD_Reference_ID=319 */
-public static final int ISREPRODUCIBLE_AD_Reference_ID=319;/** No = N */
-public static final String ISREPRODUCIBLE_No = "N";/** Yes = Y */
-public static final String ISREPRODUCIBLE_Yes = "Y";
+	/** IsReproducible AD_Reference_ID=319 */
+	public static final int ISREPRODUCIBLE_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISREPRODUCIBLE_Yes = "Y";
+	/** No = N */
+	public static final String ISREPRODUCIBLE_No = "N";
 	/** Set Reproducible.
 		@param IsReproducible 
 		Problem can re reproduced in Gardenworld
 	  */
 	public void setIsReproducible (String IsReproducible)
 	{
-if (IsReproducible == null || IsReproducible.equals("N") || IsReproducible.equals("Y")); else throw new IllegalArgumentException ("IsReproducible Invalid value - " + IsReproducible + " - Reference_ID=319 - N - Y");		if (IsReproducible != null && IsReproducible.length() > 1)
+
+		if (IsReproducible == null || IsReproducible.equals("Y") || IsReproducible.equals("N")); else throw new IllegalArgumentException ("IsReproducible Invalid value - " + IsReproducible + " - Reference_ID=319 - Y - N");
+		if (IsReproducible != null && IsReproducible.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsReproducible = IsReproducible.substring(0, 0);
+			IsReproducible = IsReproducible.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_IsReproducible, IsReproducible);
 	}
@@ -340,20 +385,24 @@ if (IsReproducible == null || IsReproducible.equals("N") || IsReproducible.equal
 		return (String)get_Value(COLUMNNAME_IsReproducible);
 	}
 
-/** IsVanillaSystem AD_Reference_ID=319 */
-public static final int ISVANILLASYSTEM_AD_Reference_ID=319;/** No = N */
-public static final String ISVANILLASYSTEM_No = "N";/** Yes = Y */
-public static final String ISVANILLASYSTEM_Yes = "Y";
+	/** IsVanillaSystem AD_Reference_ID=319 */
+	public static final int ISVANILLASYSTEM_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISVANILLASYSTEM_Yes = "Y";
+	/** No = N */
+	public static final String ISVANILLASYSTEM_No = "N";
 	/** Set Vanilla System.
 		@param IsVanillaSystem 
 		The system was NOT compiled from Source - i.e. standard distribution
 	  */
 	public void setIsVanillaSystem (String IsVanillaSystem)
 	{
-if (IsVanillaSystem == null || IsVanillaSystem.equals("N") || IsVanillaSystem.equals("Y")); else throw new IllegalArgumentException ("IsVanillaSystem Invalid value - " + IsVanillaSystem + " - Reference_ID=319 - N - Y");		if (IsVanillaSystem != null && IsVanillaSystem.length() > 1)
+
+		if (IsVanillaSystem == null || IsVanillaSystem.equals("Y") || IsVanillaSystem.equals("N")); else throw new IllegalArgumentException ("IsVanillaSystem Invalid value - " + IsVanillaSystem + " - Reference_ID=319 - Y - N");
+		if (IsVanillaSystem != null && IsVanillaSystem.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsVanillaSystem = IsVanillaSystem.substring(0, 0);
+			IsVanillaSystem = IsVanillaSystem.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_IsVanillaSystem, IsVanillaSystem);
 	}
@@ -366,25 +415,34 @@ if (IsVanillaSystem == null || IsVanillaSystem.equals("N") || IsVanillaSystem.eq
 		return (String)get_Value(COLUMNNAME_IsVanillaSystem);
 	}
 
-/** IssueSource AD_Reference_ID=104 */
-public static final int ISSUESOURCE_AD_Reference_ID=104;/** Workbench = B */
-public static final String ISSUESOURCE_Workbench = "B";/** WorkFlow = F */
-public static final String ISSUESOURCE_WorkFlow = "F";/** Process = P */
-public static final String ISSUESOURCE_Process = "P";/** Report = R */
-public static final String ISSUESOURCE_Report = "R";/** Task = T */
-public static final String ISSUESOURCE_Task = "T";/** Window = W */
-public static final String ISSUESOURCE_Window = "W";/** Form = X */
-public static final String ISSUESOURCE_Form = "X";
+	/** IssueSource AD_Reference_ID=104 */
+	public static final int ISSUESOURCE_AD_Reference_ID=104;
+	/** Window = W */
+	public static final String ISSUESOURCE_Window = "W";
+	/** Task = T */
+	public static final String ISSUESOURCE_Task = "T";
+	/** WorkFlow = F */
+	public static final String ISSUESOURCE_WorkFlow = "F";
+	/** Process = P */
+	public static final String ISSUESOURCE_Process = "P";
+	/** Report = R */
+	public static final String ISSUESOURCE_Report = "R";
+	/** Form = X */
+	public static final String ISSUESOURCE_Form = "X";
+	/** Workbench = B */
+	public static final String ISSUESOURCE_Workbench = "B";
 	/** Set Source.
 		@param IssueSource 
 		Issue Source
 	  */
 	public void setIssueSource (String IssueSource)
 	{
-if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") || IssueSource.equals("P") || IssueSource.equals("R") || IssueSource.equals("T") || IssueSource.equals("W") || IssueSource.equals("X")); else throw new IllegalArgumentException ("IssueSource Invalid value - " + IssueSource + " - Reference_ID=104 - B - F - P - R - T - W - X");		if (IssueSource != null && IssueSource.length() > 1)
+
+		if (IssueSource == null || IssueSource.equals("W") || IssueSource.equals("T") || IssueSource.equals("F") || IssueSource.equals("P") || IssueSource.equals("R") || IssueSource.equals("X") || IssueSource.equals("B")); else throw new IllegalArgumentException ("IssueSource Invalid value - " + IssueSource + " - Reference_ID=104 - W - T - F - P - R - X - B");
+		if (IssueSource != null && IssueSource.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IssueSource = IssueSource.substring(0, 0);
+			IssueSource = IssueSource.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_IssueSource, IssueSource);
 	}
@@ -405,10 +463,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	{
 		if (IssueSummary == null)
 			throw new IllegalArgumentException ("IssueSummary is mandatory.");
+
 		if (IssueSummary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			IssueSummary = IssueSummary.substring(0, 1999);
+			IssueSummary = IssueSummary.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_IssueSummary, IssueSummary);
 	}
@@ -435,10 +494,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setJavaInfo (String JavaInfo)
 	{
+
 		if (JavaInfo != null && JavaInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			JavaInfo = JavaInfo.substring(0, 254);
+			JavaInfo = JavaInfo.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_JavaInfo, JavaInfo);
 	}
@@ -477,10 +537,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setLocal_Host (String Local_Host)
 	{
+
 		if (Local_Host != null && Local_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Local_Host = Local_Host.substring(0, 119);
+			Local_Host = Local_Host.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_Local_Host, Local_Host);
 	}
@@ -499,10 +560,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setLoggerName (String LoggerName)
 	{
+
 		if (LoggerName != null && LoggerName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			LoggerName = LoggerName.substring(0, 59);
+			LoggerName = LoggerName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_LoggerName, LoggerName);
 	}
@@ -523,10 +585,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}
@@ -545,10 +608,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setOperatingSystemInfo (String OperatingSystemInfo)
 	{
+
 		if (OperatingSystemInfo != null && OperatingSystemInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			OperatingSystemInfo = OperatingSystemInfo.substring(0, 254);
+			OperatingSystemInfo = OperatingSystemInfo.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_OperatingSystemInfo, OperatingSystemInfo);
 	}
@@ -593,7 +657,7 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -612,10 +676,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setProfileInfo (String ProfileInfo)
 	{
+
 		if (ProfileInfo != null && ProfileInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			ProfileInfo = ProfileInfo.substring(0, 254);
+			ProfileInfo = ProfileInfo.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_ProfileInfo, ProfileInfo);
 	}
@@ -628,15 +693,32 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 		return (String)get_Value(COLUMNNAME_ProfileInfo);
 	}
 
+	public I_R_IssueKnown getR_IssueKnown() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_R_IssueKnown.Table_Name);
+        I_R_IssueKnown result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_R_IssueKnown)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueKnown_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Known Issue.
 		@param R_IssueKnown_ID 
 		Known Issue
 	  */
 	public void setR_IssueKnown_ID (int R_IssueKnown_ID)
 	{
-		if (R_IssueKnown_ID <= 0) 		set_Value (COLUMNNAME_R_IssueKnown_ID, null);
- else 
-		set_Value (COLUMNNAME_R_IssueKnown_ID, Integer.valueOf(R_IssueKnown_ID));
+		if (R_IssueKnown_ID <= 0) 
+			set_Value (COLUMNNAME_R_IssueKnown_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_IssueKnown_ID, Integer.valueOf(R_IssueKnown_ID));
 	}
 
 	/** Get Known Issue.
@@ -650,15 +732,32 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 		return ii.intValue();
 	}
 
+	public I_R_IssueProject getR_IssueProject() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_R_IssueProject.Table_Name);
+        I_R_IssueProject result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_R_IssueProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueProject_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Issue Project.
 		@param R_IssueProject_ID 
 		Implementation Projects
 	  */
 	public void setR_IssueProject_ID (int R_IssueProject_ID)
 	{
-		if (R_IssueProject_ID <= 0) 		set_Value (COLUMNNAME_R_IssueProject_ID, null);
- else 
-		set_Value (COLUMNNAME_R_IssueProject_ID, Integer.valueOf(R_IssueProject_ID));
+		if (R_IssueProject_ID <= 0) 
+			set_Value (COLUMNNAME_R_IssueProject_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_IssueProject_ID, Integer.valueOf(R_IssueProject_ID));
 	}
 
 	/** Get Issue Project.
@@ -672,15 +771,32 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 		return ii.intValue();
 	}
 
+	public I_R_IssueSystem getR_IssueSystem() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_R_IssueSystem.Table_Name);
+        I_R_IssueSystem result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_R_IssueSystem)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueSystem_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Issue System.
 		@param R_IssueSystem_ID 
 		System creating the issue
 	  */
 	public void setR_IssueSystem_ID (int R_IssueSystem_ID)
 	{
-		if (R_IssueSystem_ID <= 0) 		set_Value (COLUMNNAME_R_IssueSystem_ID, null);
- else 
-		set_Value (COLUMNNAME_R_IssueSystem_ID, Integer.valueOf(R_IssueSystem_ID));
+		if (R_IssueSystem_ID <= 0) 
+			set_Value (COLUMNNAME_R_IssueSystem_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_IssueSystem_ID, Integer.valueOf(R_IssueSystem_ID));
 	}
 
 	/** Get Issue System.
@@ -694,15 +810,32 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 		return ii.intValue();
 	}
 
+	public I_R_IssueUser getR_IssueUser() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_R_IssueUser.Table_Name);
+        I_R_IssueUser result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_R_IssueUser)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueUser_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set IssueUser.
 		@param R_IssueUser_ID 
 		User who reported issues
 	  */
 	public void setR_IssueUser_ID (int R_IssueUser_ID)
 	{
-		if (R_IssueUser_ID <= 0) 		set_Value (COLUMNNAME_R_IssueUser_ID, null);
- else 
-		set_Value (COLUMNNAME_R_IssueUser_ID, Integer.valueOf(R_IssueUser_ID));
+		if (R_IssueUser_ID <= 0) 
+			set_Value (COLUMNNAME_R_IssueUser_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_IssueUser_ID, Integer.valueOf(R_IssueUser_ID));
 	}
 
 	/** Get IssueUser.
@@ -716,15 +849,32 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 		return ii.intValue();
 	}
 
+	public I_R_Request getR_Request() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
+        I_R_Request result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_R_Request)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_Request_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Request.
 		@param R_Request_ID 
 		Request from a Business Partner or Prospect
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+		if (R_Request_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
 	}
 
 	/** Get Request.
@@ -744,9 +894,10 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Record_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -768,10 +919,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	{
 		if (ReleaseNo == null)
 			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
+
 		if (ReleaseNo.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 3);
+			ReleaseNo = ReleaseNo.substring(0, 4);
 		}
 		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
@@ -790,10 +942,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setReleaseTag (String ReleaseTag)
 	{
+
 		if (ReleaseTag != null && ReleaseTag.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ReleaseTag = ReleaseTag.substring(0, 59);
+			ReleaseTag = ReleaseTag.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ReleaseTag, ReleaseTag);
 	}
@@ -812,10 +965,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -834,10 +988,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 119);
+			Remote_Host = Remote_Host.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -856,10 +1011,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setRequestDocumentNo (String RequestDocumentNo)
 	{
+
 		if (RequestDocumentNo != null && RequestDocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			RequestDocumentNo = RequestDocumentNo.substring(0, 29);
+			RequestDocumentNo = RequestDocumentNo.substring(0, 30);
 		}
 		set_ValueNoCheck (COLUMNNAME_RequestDocumentNo, RequestDocumentNo);
 	}
@@ -878,10 +1034,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setResponseText (String ResponseText)
 	{
+
 		if (ResponseText != null && ResponseText.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ResponseText = ResponseText.substring(0, 1999);
+			ResponseText = ResponseText.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_ResponseText, ResponseText);
 	}
@@ -900,10 +1057,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setSourceClassName (String SourceClassName)
 	{
+
 		if (SourceClassName != null && SourceClassName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SourceClassName = SourceClassName.substring(0, 59);
+			SourceClassName = SourceClassName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SourceClassName, SourceClassName);
 	}
@@ -922,10 +1080,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setSourceMethodName (String SourceMethodName)
 	{
+
 		if (SourceMethodName != null && SourceMethodName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SourceMethodName = SourceMethodName.substring(0, 59);
+			SourceMethodName = SourceMethodName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SourceMethodName, SourceMethodName);
 	}
@@ -944,10 +1103,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setStackTrace (String StackTrace)
 	{
+
 		if (StackTrace != null && StackTrace.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			StackTrace = StackTrace.substring(0, 1999);
+			StackTrace = StackTrace.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_StackTrace, StackTrace);
 	}
@@ -966,10 +1126,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setStatisticsInfo (String StatisticsInfo)
 	{
+
 		if (StatisticsInfo != null && StatisticsInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			StatisticsInfo = StatisticsInfo.substring(0, 254);
+			StatisticsInfo = StatisticsInfo.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_StatisticsInfo, StatisticsInfo);
 	}
@@ -988,10 +1149,11 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 	  */
 	public void setSupportEMail (String SupportEMail)
 	{
+
 		if (SupportEMail != null && SupportEMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SupportEMail = SupportEMail.substring(0, 59);
+			SupportEMail = SupportEMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SupportEMail, SupportEMail);
 	}
@@ -1004,21 +1166,26 @@ if (IssueSource == null || IssueSource.equals("B") || IssueSource.equals("F") ||
 		return (String)get_Value(COLUMNNAME_SupportEMail);
 	}
 
-/** SystemStatus AD_Reference_ID=374 */
-public static final int SYSTEMSTATUS_AD_Reference_ID=374;/** Evaluation = E */
-public static final String SYSTEMSTATUS_Evaluation = "E";/** Implementation = I */
-public static final String SYSTEMSTATUS_Implementation = "I";/** Production = P */
-public static final String SYSTEMSTATUS_Production = "P";
+	/** SystemStatus AD_Reference_ID=374 */
+	public static final int SYSTEMSTATUS_AD_Reference_ID=374;
+	/** Evaluation = E */
+	public static final String SYSTEMSTATUS_Evaluation = "E";
+	/** Implementation = I */
+	public static final String SYSTEMSTATUS_Implementation = "I";
+	/** Production = P */
+	public static final String SYSTEMSTATUS_Production = "P";
 	/** Set System Status.
 		@param SystemStatus 
 		Status of the system - Support priority depends on system status
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");		if (SystemStatus.length() > 1)
+		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+		if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");
+		if (SystemStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SystemStatus = SystemStatus.substring(0, 0);
+			SystemStatus = SystemStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
@@ -1039,10 +1206,11 @@ if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is m
 	{
 		if (UserName == null)
 			throw new IllegalArgumentException ("UserName is mandatory.");
+
 		if (UserName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			UserName = UserName.substring(0, 59);
+			UserName = UserName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_UserName, UserName);
 	}
@@ -1063,10 +1231,11 @@ if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is m
 	{
 		if (Version == null)
 			throw new IllegalArgumentException ("Version is mandatory.");
+
 		if (Version.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Version = Version.substring(0, 39);
+			Version = Version.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Version, Version);
 	}

@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_A_Asset extends PO implements I_A_Asset, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
     public X_A_Asset (Properties ctx, int A_Asset_ID, String trxName)
     {
       super (ctx, A_Asset_ID, trxName);
-      /** if (A_Asset_ID == 0)        {			setA_Asset_Group_ID (0);
+      /** if (A_Asset_ID == 0)
+        {
+			setA_Asset_Group_ID (0);
 			setA_Asset_ID (0);
 			setIsDepreciated (false);
 			setIsDisposed (false);
@@ -50,7 +54,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 			setM_AttributeSetInstance_ID (0);
 			setName (null);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,7 +85,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -103,9 +107,10 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -119,7 +124,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Asset_Group getI_A_Asset_Group() throws Exception 
+	public I_A_Asset_Group getA_Asset_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
         I_A_Asset_Group result = null;
@@ -230,17 +235,18 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-/** C_BPartnerSR_ID AD_Reference_ID=353 */
-public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
+	/** C_BPartnerSR_ID AD_Reference_ID=353 */
+	public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	/** Set BPartner (Agent).
 		@param C_BPartnerSR_ID 
 		Business Partner (Agent or Sales Rep)
 	  */
 	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 	{
-		if (C_BPartnerSR_ID <= 0) 		set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
+		if (C_BPartnerSR_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
 	}
 
 	/** Get BPartner (Agent).
@@ -254,15 +260,32 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -276,7 +299,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -298,9 +321,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -314,15 +338,32 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
+	public I_C_Location getC_Location() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Location.Table_Name);
+        I_C_Location result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Location_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -336,7 +377,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -358,9 +399,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -380,10 +422,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -419,10 +462,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -578,10 +622,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setLastMaintenanceNote (String LastMaintenanceNote)
 	{
+
 		if (LastMaintenanceNote != null && LastMaintenanceNote.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			LastMaintenanceNote = LastMaintenanceNote.substring(0, 59);
+			LastMaintenanceNote = LastMaintenanceNote.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_LastMaintenanceNote, LastMaintenanceNote);
 	}
@@ -631,17 +676,18 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return (Timestamp)get_Value(COLUMNNAME_LeaseTerminationDate);
 	}
 
-/** Lease_BPartner_ID AD_Reference_ID=192 */
-public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
+	/** Lease_BPartner_ID AD_Reference_ID=192 */
+	public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	/** Set Lessor.
 		@param Lease_BPartner_ID 
 		The Business Partner who rents or leases
 	  */
 	public void setLease_BPartner_ID (int Lease_BPartner_ID)
 	{
-		if (Lease_BPartner_ID <= 0) 		set_Value (COLUMNNAME_Lease_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_Lease_BPartner_ID, Integer.valueOf(Lease_BPartner_ID));
+		if (Lease_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_Lease_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Lease_BPartner_ID, Integer.valueOf(Lease_BPartner_ID));
 	}
 
 	/** Get Lessor.
@@ -681,10 +727,11 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	  */
 	public void setLocationComment (String LocationComment)
 	{
+
 		if (LocationComment != null && LocationComment.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LocationComment = LocationComment.substring(0, 254);
+			LocationComment = LocationComment.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_LocationComment, LocationComment);
 	}
@@ -703,10 +750,11 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	  */
 	public void setLot (String Lot)
 	{
+
 		if (Lot != null && Lot.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Lot = Lot.substring(0, 254);
+			Lot = Lot.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
@@ -741,7 +789,7 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -763,9 +811,10 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -779,7 +828,7 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 		return ii.intValue();
 	}
 
-	public I_M_Locator getI_M_Locator() throws Exception 
+	public I_M_Locator getM_Locator() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Locator.Table_Name);
         I_M_Locator result = null;
@@ -801,9 +850,10 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 		set_Value (COLUMNNAME_M_Locator_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID <= 0) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -817,15 +867,32 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -847,10 +914,11 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -908,27 +976,6 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 		return ii.intValue();
 	}
 
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
-	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
-	}
-
-	/** Get Process Now.
-@return Process Now	  */
-	public boolean isProcessing () 
-	{
-		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Quantity.
 		@param Qty 
 		Quantity
@@ -955,10 +1002,11 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	  */
 	public void setSerNo (String SerNo)
 	{
+
 		if (SerNo != null && SerNo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			SerNo = SerNo.substring(0, 254);
+			SerNo = SerNo.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}
@@ -1039,10 +1087,11 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -1061,10 +1110,11 @@ public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	  */
 	public void setVersionNo (String VersionNo)
 	{
+
 		if (VersionNo != null && VersionNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 19);
+			VersionNo = VersionNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_VersionNo, VersionNo);
 	}

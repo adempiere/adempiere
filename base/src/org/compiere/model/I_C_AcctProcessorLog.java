@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_AcctProcessorLog
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:36.39
-     */
-    public interface I_C_AcctProcessorLog 
+/** Generated Interface for C_AcctProcessorLog
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_AcctProcessorLog 
 {
 
     /** TableName=C_AcctProcessorLog */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -97,7 +95,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctProcessor_ID();
 
-	public I_C_AcctProcessor getI_C_AcctProcessor() throws Exception;
+	public I_C_AcctProcessor getC_AcctProcessor() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Find
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Find extends PO implements I_AD_Find, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
     public X_AD_Find (Properties ctx, int AD_Find_ID, String trxName)
     {
       super (ctx, AD_Find_ID, trxName);
-      /** if (AD_Find_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_Find_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_Find_ID (0);
 			setAndOr (null);
 // A
@@ -47,7 +48,7 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 			setOperation (null);
 // ==
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,8 +79,8 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
       return sb.toString();
     }
 
-/** AD_Column_ID AD_Reference_ID=251 */
-public static final int AD_COLUMN_ID_AD_Reference_ID=251;
+	/** AD_Column_ID AD_Reference_ID=251 */
+	public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
@@ -112,7 +113,7 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	}
 
 	/** Get Find.
-@return Find	  */
+		@return Find	  */
 	public int getAD_Find_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Find_ID);
@@ -129,20 +130,24 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Find_ID()));
     }
 
-/** AndOr AD_Reference_ID=204 */
-public static final int ANDOR_AD_Reference_ID=204;/** And = A */
-public static final String ANDOR_And = "A";/** Or = O */
-public static final String ANDOR_Or = "O";
+	/** AndOr AD_Reference_ID=204 */
+	public static final int ANDOR_AD_Reference_ID=204;
+	/** And = A */
+	public static final String ANDOR_And = "A";
+	/** Or = O */
+	public static final String ANDOR_Or = "O";
 	/** Set And/Or.
 		@param AndOr 
 		Logical operation: AND or OR
 	  */
 	public void setAndOr (String AndOr)
 	{
-if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");		if (AndOr.length() > 1)
+		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
+		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");
+		if (AndOr.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AndOr = AndOr.substring(0, 0);
+			AndOr = AndOr.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
@@ -165,7 +170,7 @@ if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");if 
 	}
 
 	/** Get Find_ID.
-@return Find_ID	  */
+		@return Find_ID	  */
 	public BigDecimal getFind_ID () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Find_ID);
@@ -174,27 +179,38 @@ if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");if 
 		return bd;
 	}
 
-/** Operation AD_Reference_ID=205 */
-public static final int OPERATION_AD_Reference_ID=205;/** != = != */
-public static final String OPERATION_NotEq = "!=";/** < = << */
-public static final String OPERATION_Le = "<<";/** <= = <= */
-public static final String OPERATION_LeEq = "<=";/**  = = == */
-public static final String OPERATION_Eq = "==";/** >= = >= */
-public static final String OPERATION_GtEq = ">=";/** > = >> */
-public static final String OPERATION_Gt = ">>";/** |<x>| = AB */
-public static final String OPERATION_X = "AB";/** sql = SQ */
-public static final String OPERATION_Sql = "SQ";/**  ~ = ~~ */
-public static final String OPERATION_Like = "~~";
+	/** Operation AD_Reference_ID=205 */
+	public static final int OPERATION_AD_Reference_ID=205;
+	/**  = = == */
+	public static final String OPERATION_Eq = "==";
+	/** >= = >= */
+	public static final String OPERATION_GtEq = ">=";
+	/** > = >> */
+	public static final String OPERATION_Gt = ">>";
+	/** < = << */
+	public static final String OPERATION_Le = "<<";
+	/**  ~ = ~~ */
+	public static final String OPERATION_Like = "~~";
+	/** <= = <= */
+	public static final String OPERATION_LeEq = "<=";
+	/** |<x>| = AB */
+	public static final String OPERATION_X = "AB";
+	/** sql = SQ */
+	public static final String OPERATION_Sql = "SQ";
+	/** != = != */
+	public static final String OPERATION_NotEq = "!=";
 	/** Set Operation.
 		@param Operation 
 		Compare Operation
 	  */
 	public void setOperation (String Operation)
 	{
-if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");if (Operation.equals("!=") || Operation.equals("<<") || Operation.equals("<=") || Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("~~")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - != - << - <= - == - >= - >> - AB - SQ - ~~");		if (Operation.length() > 2)
+		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
+		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");
+		if (Operation.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			Operation = Operation.substring(0, 1);
+			Operation = Operation.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_Operation, Operation);
 	}
@@ -215,10 +231,11 @@ if (Operation == null) throw new IllegalArgumentException ("Operation is mandato
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -237,10 +254,11 @@ if (Operation == null) throw new IllegalArgumentException ("Operation is mandato
 	  */
 	public void setValue2 (String Value2)
 	{
+
 		if (Value2 != null && Value2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value2 = Value2.substring(0, 39);
+			Value2 = Value2.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value2, Value2);
 	}

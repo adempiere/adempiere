@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for W_BasketLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:56.39
-     */
-    public interface I_W_BasketLine 
+/** Generated Interface for W_BasketLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_W_BasketLine 
 {
 
     /** TableName=W_BasketLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -96,6 +94,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Price */
     public static final String COLUMNNAME_Price = "Price";
@@ -158,5 +158,5 @@ import org.compiere.util.*;
 	  */
 	public int getW_Basket_ID();
 
-	public I_W_Basket getI_W_Basket() throws Exception;
+	public I_W_Basket getW_Basket() throws Exception;
 }

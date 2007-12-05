@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_POSKey
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:42.468
-     */
-    public interface I_C_POSKey 
+/** Generated Interface for C_POSKey
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_POSKey 
 {
 
     /** TableName=C_POSKey */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception;
+	public I_AD_PrintColor getAD_PrintColor() throws Exception;
 
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_POSKeyLayout_ID();
 
-	public I_C_POSKeyLayout getI_C_POSKeyLayout() throws Exception;
+	public I_C_POSKeyLayout getC_POSKeyLayout() throws Exception;
 
     /** Column name C_POSKey_ID */
     public static final String COLUMNNAME_C_POSKey_ID = "C_POSKey_ID";
@@ -126,6 +124,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

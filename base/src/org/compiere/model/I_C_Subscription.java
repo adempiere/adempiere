@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_Subscription
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:45.515
-     */
-    public interface I_C_Subscription 
+/** Generated Interface for C_Subscription
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_Subscription 
 {
 
     /** TableName=C_Subscription */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,6 +70,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_SubscriptionType_ID */
     public static final String COLUMNNAME_C_SubscriptionType_ID = "C_SubscriptionType_ID";
 
@@ -84,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SubscriptionType_ID();
 
-	public I_C_SubscriptionType getI_C_SubscriptionType() throws Exception;
+	public I_C_SubscriptionType getC_SubscriptionType() throws Exception;
 
     /** Column name C_Subscription_ID */
     public static final String COLUMNNAME_C_Subscription_ID = "C_Subscription_ID";
@@ -124,6 +125,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

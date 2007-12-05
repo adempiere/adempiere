@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_Product extends PO implements I_I_Product, I_Persistent 
 {
 
@@ -39,9 +41,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
     public X_I_Product (Properties ctx, int I_Product_ID, String trxName)
     {
       super (ctx, I_Product_ID, trxName);
-      /** if (I_Product_ID == 0)        {			setI_IsImported (false);
+      /** if (I_Product_ID == 0)
+        {
+			setI_IsImported (false);
 			setI_Product_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +82,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setBPartner_Value (String BPartner_Value)
 	{
+
 		if (BPartner_Value != null && BPartner_Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			BPartner_Value = BPartner_Value.substring(0, 39);
+			BPartner_Value = BPartner_Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_BPartner_Value, BPartner_Value);
 	}
@@ -94,15 +99,32 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPartner_Value);
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -116,7 +138,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -138,9 +160,10 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -154,7 +177,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -176,9 +199,10 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 		set_Value (COLUMNNAME_C_UOM_ID, null);
- else 
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID <= 0) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -198,10 +222,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setClassification (String Classification)
 	{
+
 		if (Classification != null && Classification.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Classification = Classification.substring(0, 0);
+			Classification = Classification.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Classification, Classification);
 	}
@@ -260,10 +285,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -282,10 +308,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
+
 		if (DescriptionURL != null && DescriptionURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 119);
+			DescriptionURL = DescriptionURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
@@ -345,10 +372,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
+
 		if (DocumentNote != null && DocumentNote.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 1999);
+			DocumentNote = DocumentNote.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
@@ -367,10 +395,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -389,10 +418,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setISO_Code (String ISO_Code)
 	{
+
 		if (ISO_Code != null && ISO_Code.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 2);
+			ISO_Code = ISO_Code.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
@@ -411,10 +441,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -479,10 +510,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setImageURL (String ImageURL)
 	{
+
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 119);
+			ImageURL = ImageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -495,7 +527,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -517,9 +549,10 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -533,7 +566,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getI_M_Product() throws Exception 
+	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -555,9 +588,10 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -577,10 +611,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setManufacturer (String Manufacturer)
 	{
+
 		if (Manufacturer != null && Manufacturer.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			Manufacturer = Manufacturer.substring(0, 29);
+			Manufacturer = Manufacturer.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
 	}
@@ -599,10 +634,11 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -784,7 +820,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -801,38 +837,46 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		@param ProductCategory_Value Product Category Key	  */
 	public void setProductCategory_Value (String ProductCategory_Value)
 	{
+
 		if (ProductCategory_Value != null && ProductCategory_Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ProductCategory_Value = ProductCategory_Value.substring(0, 39);
+			ProductCategory_Value = ProductCategory_Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ProductCategory_Value, ProductCategory_Value);
 	}
 
 	/** Get Product Category Key.
-@return Product Category Key	  */
+		@return Product Category Key	  */
 	public String getProductCategory_Value () 
 	{
 		return (String)get_Value(COLUMNNAME_ProductCategory_Value);
 	}
 
-/** ProductType AD_Reference_ID=270 */
-public static final int PRODUCTTYPE_AD_Reference_ID=270;/** Expense type = E */
-public static final String PRODUCTTYPE_ExpenseType = "E";/** Item = I */
-public static final String PRODUCTTYPE_Item = "I";/** Online = O */
-public static final String PRODUCTTYPE_Online = "O";/** Resource = R */
-public static final String PRODUCTTYPE_Resource = "R";/** Service = S */
-public static final String PRODUCTTYPE_Service = "S";
+	/** ProductType AD_Reference_ID=270 */
+	public static final int PRODUCTTYPE_AD_Reference_ID=270;
+	/** Item = I */
+	public static final String PRODUCTTYPE_Item = "I";
+	/** Service = S */
+	public static final String PRODUCTTYPE_Service = "S";
+	/** Resource = R */
+	public static final String PRODUCTTYPE_Resource = "R";
+	/** Expense type = E */
+	public static final String PRODUCTTYPE_ExpenseType = "E";
+	/** Online = O */
+	public static final String PRODUCTTYPE_Online = "O";
 	/** Set Product Type.
 		@param ProductType 
 		Type of product
 	  */
 	public void setProductType (String ProductType)
 	{
-if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") || ProductType.equals("O") || ProductType.equals("R") || ProductType.equals("S")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - E - I - O - R - S");		if (ProductType != null && ProductType.length() > 1)
+
+		if (ProductType == null || ProductType.equals("I") || ProductType.equals("S") || ProductType.equals("R") || ProductType.equals("E") || ProductType.equals("O")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - I - S - R - E - O");
+		if (ProductType != null && ProductType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProductType = ProductType.substring(0, 0);
+			ProductType = ProductType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProductType, ProductType);
 	}
@@ -871,10 +915,11 @@ if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") ||
 	  */
 	public void setSKU (String SKU)
 	{
+
 		if (SKU != null && SKU.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 29);
+			SKU = SKU.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_SKU, SKU);
 	}
@@ -953,10 +998,11 @@ if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") ||
 	  */
 	public void setUPC (String UPC)
 	{
+
 		if (UPC != null && UPC.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 29);
+			UPC = UPC.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
@@ -995,10 +1041,11 @@ if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") ||
 	  */
 	public void setValue (String Value)
 	{
+
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -1025,10 +1072,11 @@ if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") ||
 	  */
 	public void setVendorCategory (String VendorCategory)
 	{
+
 		if (VendorCategory != null && VendorCategory.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			VendorCategory = VendorCategory.substring(0, 29);
+			VendorCategory = VendorCategory.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_VendorCategory, VendorCategory);
 	}
@@ -1047,10 +1095,11 @@ if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") ||
 	  */
 	public void setVendorProductNo (String VendorProductNo)
 	{
+
 		if (VendorProductNo != null && VendorProductNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			VendorProductNo = VendorProductNo.substring(0, 29);
+			VendorProductNo = VendorProductNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_VendorProductNo, VendorProductNo);
 	}
@@ -1109,10 +1158,11 @@ if (ProductType == null || ProductType.equals("E") || ProductType.equals("I") ||
 	  */
 	public void setX12DE355 (String X12DE355)
 	{
+
 		if (X12DE355 != null && X12DE355.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			X12DE355 = X12DE355.substring(0, 3);
+			X12DE355 = X12DE355.substring(0, 4);
 		}
 		set_Value (COLUMNNAME_X12DE355, X12DE355);
 	}

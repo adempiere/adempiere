@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_PriceList_Version
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.296
-     */
-    public interface I_M_PriceList_Version 
+/** Generated Interface for M_PriceList_Version
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_PriceList_Version 
 {
 
     /** TableName=M_PriceList_Version */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -84,7 +83,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getI_M_DiscountSchema() throws Exception;
+	public I_M_DiscountSchema getM_DiscountSchema() throws Exception;
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -99,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getI_M_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws Exception;
 
     /** Column name M_PriceList_Version_ID */
     public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";

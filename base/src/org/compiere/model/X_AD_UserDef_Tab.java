@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserDef_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
     public X_AD_UserDef_Tab (Properties ctx, int AD_UserDef_Tab_ID, String trxName)
     {
       super (ctx, AD_UserDef_Tab_ID, trxName);
-      /** if (AD_UserDef_Tab_ID == 0)        {			setAD_Tab_ID (0);
+      /** if (AD_UserDef_Tab_ID == 0)
+        {
+			setAD_Tab_ID (0);
 			setAD_UserDef_Tab_ID (0);
 			setAD_UserDef_Win_ID (0);
 			setIsMultiRowOnly (false);
 			setIsReadOnly (false);
 			setIsSingleRow (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +78,7 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Tab getI_AD_Tab() throws Exception 
+	public I_AD_Tab getAD_Tab() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
         I_AD_Tab result = null;
@@ -125,7 +126,7 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	}
 
 	/** Get User defined Tab.
-@return User defined Tab	  */
+		@return User defined Tab	  */
 	public int getAD_UserDef_Tab_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserDef_Tab_ID);
@@ -134,7 +135,7 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_UserDef_Win getI_AD_UserDef_Win() throws Exception 
+	public I_AD_UserDef_Win getAD_UserDef_Win() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_UserDef_Win.Table_Name);
         I_AD_UserDef_Win result = null;
@@ -160,7 +161,7 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	}
 
 	/** Get User defined Window.
-@return User defined Window	  */
+		@return User defined Window	  */
 	public int getAD_UserDef_Win_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserDef_Win_ID);
@@ -175,10 +176,11 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -197,10 +199,11 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -293,10 +296,11 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_BPartner_Location
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:37.39
-     */
-    public interface I_C_BPartner_Location 
+/** Generated Interface for C_BPartner_Location
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_BPartner_Location 
 {
 
     /** TableName=C_BPartner_Location */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -70,6 +68,8 @@ import org.compiere.util.*;
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -110,7 +110,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws Exception;
 
     /** Column name Fax */
     public static final String COLUMNNAME_Fax = "Fax";

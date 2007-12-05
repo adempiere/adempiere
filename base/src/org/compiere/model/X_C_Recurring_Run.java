@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_Recurring_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
     public X_C_Recurring_Run (Properties ctx, int C_Recurring_Run_ID, String trxName)
     {
       super (ctx, C_Recurring_Run_ID, trxName);
-      /** if (C_Recurring_Run_ID == 0)        {			setC_Recurring_ID (0);
+      /** if (C_Recurring_Run_ID == 0)
+        {
+			setC_Recurring_ID (0);
 			setC_Recurring_Run_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,15 +73,32 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
       return sb.toString();
     }
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -94,15 +112,32 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -116,15 +151,32 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -138,15 +190,32 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -160,7 +229,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Recurring getI_C_Recurring() throws Exception 
+	public I_C_Recurring getC_Recurring() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Recurring.Table_Name);
         I_C_Recurring result = null;
@@ -237,15 +306,32 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
+	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
+        I_GL_JournalBatch result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Journal Batch.
 		@param GL_JournalBatch_ID 
 		General Ledger Journal Batch
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
+		if (GL_JournalBatch_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
 	}
 
 	/** Get Journal Batch.

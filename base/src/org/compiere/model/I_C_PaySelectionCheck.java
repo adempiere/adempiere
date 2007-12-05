@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_PaySelectionCheck
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:42.593
-     */
-    public interface I_C_PaySelectionCheck 
+/** Generated Interface for C_PaySelectionCheck
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_PaySelectionCheck 
 {
 
     /** TableName=C_PaySelectionCheck */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BP_BankAccount_ID();
 
-	public I_C_BP_BankAccount getI_C_BP_BankAccount() throws Exception;
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -85,6 +83,8 @@ import org.compiere.util.*;
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_PaySelectionCheck_ID */
     public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
@@ -112,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_PaySelection_ID();
 
-	public I_C_PaySelection getI_C_PaySelection() throws Exception;
+	public I_C_PaySelection getC_PaySelection() throws Exception;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -126,6 +126,8 @@ import org.compiere.util.*;
 	  * Payment identifier
 	  */
 	public int getC_Payment_ID();
+
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name DiscountAmt */
     public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";

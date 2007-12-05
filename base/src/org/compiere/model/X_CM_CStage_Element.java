@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStage_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
     public X_CM_CStage_Element (Properties ctx, int CM_CStage_Element_ID, String trxName)
     {
       super (ctx, CM_CStage_Element_ID, trxName);
-      /** if (CM_CStage_Element_ID == 0)        {			setCM_CStage_Element_ID (0);
+      /** if (CM_CStage_Element_ID == 0)
+        {
+			setCM_CStage_Element_ID (0);
 			setCM_CStage_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 		return ii.intValue();
 	}
 
-	public I_CM_CStage getI_CM_CStage() throws Exception 
+	public I_CM_CStage getCM_CStage() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_CStage.Table_Name);
         I_CM_CStage result = null;
@@ -156,10 +157,11 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -178,10 +180,11 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -226,10 +229,11 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

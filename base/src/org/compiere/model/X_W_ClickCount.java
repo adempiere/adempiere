@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_ClickCount
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
     public X_W_ClickCount (Properties ctx, int W_ClickCount_ID, String trxName)
     {
       super (ctx, W_ClickCount_ID, trxName);
-      /** if (W_ClickCount_ID == 0)        {			setName (null);
+      /** if (W_ClickCount_ID == 0)
+        {
+			setName (null);
 			setTargetURL (null);
 			setW_ClickCount_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,17 +72,18 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
       return sb.toString();
     }
 
-/** C_BPartner_ID AD_Reference_ID=232 */
-public static final int C_BPARTNER_ID_AD_Reference_ID=232;
+	/** C_BPartner_ID AD_Reference_ID=232 */
+	public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -122,10 +122,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -146,10 +147,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -178,10 +180,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	{
 		if (TargetURL == null)
 			throw new IllegalArgumentException ("TargetURL is mandatory.");
+
 		if (TargetURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			TargetURL = TargetURL.substring(0, 119);
+			TargetURL = TargetURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_TargetURL, TargetURL);
 	}

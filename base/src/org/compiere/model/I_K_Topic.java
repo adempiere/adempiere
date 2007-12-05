@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for K_Topic
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.968
-     */
-    public interface I_K_Topic 
+/** Generated Interface for K_Topic
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_K_Topic 
 {
 
     /** TableName=K_Topic */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -136,7 +134,7 @@ import org.compiere.util.*;
 	  */
 	public int getK_Type_ID();
 
-	public I_K_Type getI_K_Type() throws Exception;
+	public I_K_Type getK_Type() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

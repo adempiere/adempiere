@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PerpetualInv
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
     public X_M_PerpetualInv (Properties ctx, int M_PerpetualInv_ID, String trxName)
     {
       super (ctx, M_PerpetualInv_ID, trxName);
-      /** if (M_PerpetualInv_ID == 0)        {			setCountHighMovement (false);
+      /** if (M_PerpetualInv_ID == 0)
+        {
+			setCountHighMovement (false);
 			setDateNextRun (new Timestamp(System.currentTimeMillis()));
 			setM_PerpetualInv_ID (0);
 			setName (null);
@@ -49,7 +51,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 // 1
 			setNumberOfRuns (0);
 // 1
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -146,10 +148,11 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -184,7 +187,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -206,9 +209,10 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -222,7 +226,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -244,9 +248,10 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID <= 0) 		set_Value (COLUMNNAME_M_Warehouse_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID <= 0) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -268,10 +273,11 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -360,7 +366,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

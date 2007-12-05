@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_ReportLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.14
-     */
-    public interface I_PA_ReportLine 
+/** Generated Interface for PA_ReportLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_ReportLine 
 {
 
     /** TableName=PA_ReportLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -106,7 +104,7 @@ import org.compiere.util.*;
 	  */
 	public int getGL_Budget_ID();
 
-	public I_GL_Budget getI_GL_Budget() throws Exception;
+	public I_GL_Budget getGL_Budget() throws Exception;
 
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
@@ -120,19 +118,6 @@ import org.compiere.util.*;
 	  * Indicates if this document / line is printed
 	  */
 	public boolean isPrinted();
-
-    /** Column name IsSummary */
-    public static final String COLUMNNAME_IsSummary = "IsSummary";
-
-	/** Set Summary Level.
-	  * This is a summary entity
-	  */
-	public void setIsSummary (boolean IsSummary);
-
-	/** Get Summary Level.
-	  * This is a summary entity
-	  */
-	public boolean isSummary();
 
     /** Column name LineType */
     public static final String COLUMNNAME_LineType = "LineType";
@@ -191,7 +176,7 @@ import org.compiere.util.*;
 	/** Get Report Line Set	  */
 	public int getPA_ReportLineSet_ID();
 
-	public I_PA_ReportLineSet getI_PA_ReportLineSet() throws Exception;
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception;
 
     /** Column name PA_ReportLine_ID */
     public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
@@ -201,19 +186,6 @@ import org.compiere.util.*;
 
 	/** Get Report Line	  */
 	public int getPA_ReportLine_ID();
-
-    /** Column name Parent_ID */
-    public static final String COLUMNNAME_Parent_ID = "Parent_ID";
-
-	/** Set Parent.
-	  * Parent of Entity
-	  */
-	public void setParent_ID (int Parent_ID);
-
-	/** Get Parent.
-	  * Parent of Entity
-	  */
-	public int getParent_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

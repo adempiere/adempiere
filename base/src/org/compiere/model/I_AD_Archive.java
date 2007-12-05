@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Archive
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:20.625
-     */
-    public interface I_AD_Archive 
+/** Generated Interface for AD_Archive
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Archive 
 {
 
     /** TableName=AD_Archive */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -84,6 +82,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Process_ID();
 
+	public I_AD_Process getAD_Process() throws Exception;
+
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
@@ -96,6 +96,8 @@ import org.compiere.util.*;
 	  * Database Table information
 	  */
 	public int getAD_Table_ID();
+
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";
@@ -122,6 +124,8 @@ import org.compiere.util.*;
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

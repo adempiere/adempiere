@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_City
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_City extends PO implements I_C_City, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
     public X_C_City (Properties ctx, int C_City_ID, String trxName)
     {
       super (ctx, C_City_ID, trxName);
-      /** if (C_City_ID == 0)        {			setC_City_ID (0);
+      /** if (C_City_ID == 0)
+        {
+			setC_City_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +79,11 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	  */
 	public void setAreaCode (String AreaCode)
 	{
+
 		if (AreaCode != null && AreaCode.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			AreaCode = AreaCode.substring(0, 9);
+			AreaCode = AreaCode.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_AreaCode, AreaCode);
 	}
@@ -116,7 +118,7 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getI_C_Country() throws Exception 
+	public I_C_Country getC_Country() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -138,9 +140,10 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Country_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
+		if (C_Country_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Country_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
 	}
 
 	/** Get Country.
@@ -154,17 +157,18 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-/** C_Region_ID AD_Reference_ID=157 */
-public static final int C_REGION_ID_AD_Reference_ID=157;
+	/** C_Region_ID AD_Reference_ID=157 */
+	public static final int C_REGION_ID_AD_Reference_ID=157;
 	/** Set Region.
 		@param C_Region_ID 
 		Identifies a geographical Region
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 		set_Value (COLUMNNAME_C_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID <= 0) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -184,10 +188,11 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 	  */
 	public void setCoordinates (String Coordinates)
 	{
+
 		if (Coordinates != null && Coordinates.length() > 15)
 		{
 			log.warning("Length > 15 - truncated");
-			Coordinates = Coordinates.substring(0, 14);
+			Coordinates = Coordinates.substring(0, 15);
 		}
 		set_Value (COLUMNNAME_Coordinates, Coordinates);
 	}
@@ -206,10 +211,11 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 	  */
 	public void setLocode (String Locode)
 	{
+
 		if (Locode != null && Locode.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Locode = Locode.substring(0, 9);
+			Locode = Locode.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Locode, Locode);
 	}
@@ -230,10 +236,11 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -260,10 +267,11 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 	  */
 	public void setPostal (String Postal)
 	{
+
 		if (Postal != null && Postal.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 9);
+			Postal = Postal.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}

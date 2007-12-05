@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_BP_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
     public X_C_BP_Withholding (Properties ctx, int C_BP_Withholding_ID, String trxName)
     {
       super (ctx, C_BP_Withholding_ID, trxName);
-      /** if (C_BP_Withholding_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_BP_Withholding_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_Withholding_ID (0);
 			setIsMandatoryWithholding (false);
 			setIsTemporaryExempt (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,6 +74,22 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -96,7 +112,7 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Withholding getI_C_Withholding() throws Exception 
+	public I_C_Withholding getC_Withholding() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Withholding.Table_Name);
         I_C_Withholding result = null;
@@ -140,10 +156,11 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 	  */
 	public void setExemptReason (String ExemptReason)
 	{
+
 		if (ExemptReason != null && ExemptReason.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ExemptReason = ExemptReason.substring(0, 19);
+			ExemptReason = ExemptReason.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ExemptReason, ExemptReason);
 	}

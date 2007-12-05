@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
     public X_CM_Container_URL (Properties ctx, int CM_Container_URL_ID, String trxName)
     {
       super (ctx, CM_Container_URL_ID, trxName);
-      /** if (CM_Container_URL_ID == 0)        {			setCM_Container_ID (0);
+      /** if (CM_Container_URL_ID == 0)
+        {
+			setCM_Container_ID (0);
 			setCM_Container_URL_ID (0);
 			setChecked (new Timestamp(System.currentTimeMillis()));
 			setLast_Result (null);
 			setStatus (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +76,7 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
       return sb.toString();
     }
 
-	public I_CM_Container getI_CM_Container() throws Exception 
+	public I_CM_Container getCM_Container() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Container.Table_Name);
         I_CM_Container result = null;
@@ -162,10 +163,11 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	{
 		if (Last_Result == null)
 			throw new IllegalArgumentException ("Last_Result is mandatory.");
+
 		if (Last_Result.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Last_Result = Last_Result.substring(0, 1999);
+			Last_Result = Last_Result.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Last_Result, Last_Result);
 	}
@@ -186,10 +188,11 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	{
 		if (Status == null)
 			throw new IllegalArgumentException ("Status is mandatory.");
+
 		if (Status.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			Status = Status.substring(0, 1);
+			Status = Status.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_Status, Status);
 	}

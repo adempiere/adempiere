@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Advertisement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
     public X_W_Advertisement (Properties ctx, int W_Advertisement_ID, String trxName)
     {
       super (ctx, W_Advertisement_ID, trxName);
-      /** if (W_Advertisement_ID == 0)        {			setAD_User_ID (0);
+      /** if (W_Advertisement_ID == 0)
+        {
+			setAD_User_ID (0);
 // -1
 			setC_BPartner_ID (0);
 			setIsSelfService (true);
@@ -48,7 +50,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 			setPublishStatus (null);
 // U
 			setW_Advertisement_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +81,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -123,10 +125,11 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setAdText (String AdText)
 	{
+
 		if (AdText != null && AdText.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			AdText = AdText.substring(0, 1999);
+			AdText = AdText.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_AdText, AdText);
 	}
@@ -139,8 +142,8 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return (String)get_Value(COLUMNNAME_AdText);
 	}
 
-/** C_BPartner_ID AD_Reference_ID=232 */
-public static final int C_BPARTNER_ID_AD_Reference_ID=232;
+	/** C_BPartner_ID AD_Reference_ID=232 */
+	public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -169,10 +172,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -191,10 +195,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -213,10 +218,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	  */
 	public void setImageURL (String ImageURL)
 	{
+
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 119);
+			ImageURL = ImageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -261,10 +267,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -293,7 +300,7 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -306,22 +313,28 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 		return false;
 	}
 
-/** PublishStatus AD_Reference_ID=310 */
-public static final int PUBLISHSTATUS_AD_Reference_ID=310;/** Released = R */
-public static final String PUBLISHSTATUS_Released = "R";/** Test = T */
-public static final String PUBLISHSTATUS_Test = "T";/** Under Revision = U */
-public static final String PUBLISHSTATUS_UnderRevision = "U";/** Void = V */
-public static final String PUBLISHSTATUS_Void = "V";
+	/** PublishStatus AD_Reference_ID=310 */
+	public static final int PUBLISHSTATUS_AD_Reference_ID=310;
+	/** Released = R */
+	public static final String PUBLISHSTATUS_Released = "R";
+	/** Test = T */
+	public static final String PUBLISHSTATUS_Test = "T";
+	/** Under Revision = U */
+	public static final String PUBLISHSTATUS_UnderRevision = "U";
+	/** Void = V */
+	public static final String PUBLISHSTATUS_Void = "V";
 	/** Set Publication Status.
 		@param PublishStatus 
 		Status of Publication
 	  */
 	public void setPublishStatus (String PublishStatus)
 	{
-if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");		if (PublishStatus.length() > 1)
+		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
+		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");
+		if (PublishStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PublishStatus = PublishStatus.substring(0, 0);
+			PublishStatus = PublishStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
@@ -410,7 +423,7 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 		return ii.intValue();
 	}
 
-	public I_W_ClickCount getI_W_ClickCount() throws Exception 
+	public I_W_ClickCount getW_ClickCount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_W_ClickCount.Table_Name);
         I_W_ClickCount result = null;
@@ -432,9 +445,10 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	  */
 	public void setW_ClickCount_ID (int W_ClickCount_ID)
 	{
-		if (W_ClickCount_ID <= 0) 		set_Value (COLUMNNAME_W_ClickCount_ID, null);
- else 
-		set_Value (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));
+		if (W_ClickCount_ID <= 0) 
+			set_Value (COLUMNNAME_W_ClickCount_ID, null);
+		else 
+			set_Value (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));
 	}
 
 	/** Get Click Count.
@@ -448,7 +462,7 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 		return ii.intValue();
 	}
 
-	public I_W_CounterCount getI_W_CounterCount() throws Exception 
+	public I_W_CounterCount getW_CounterCount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_W_CounterCount.Table_Name);
         I_W_CounterCount result = null;
@@ -470,9 +484,10 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	  */
 	public void setW_CounterCount_ID (int W_CounterCount_ID)
 	{
-		if (W_CounterCount_ID <= 0) 		set_Value (COLUMNNAME_W_CounterCount_ID, null);
- else 
-		set_Value (COLUMNNAME_W_CounterCount_ID, Integer.valueOf(W_CounterCount_ID));
+		if (W_CounterCount_ID <= 0) 
+			set_Value (COLUMNNAME_W_CounterCount_ID, null);
+		else 
+			set_Value (COLUMNNAME_W_CounterCount_ID, Integer.valueOf(W_CounterCount_ID));
 	}
 
 	/** Get Counter Count.
@@ -492,10 +507,11 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	  */
 	public void setWebParam1 (String WebParam1)
 	{
+
 		if (WebParam1 != null && WebParam1.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam1 = WebParam1.substring(0, 1999);
+			WebParam1 = WebParam1.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam1, WebParam1);
 	}
@@ -514,10 +530,11 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	  */
 	public void setWebParam2 (String WebParam2)
 	{
+
 		if (WebParam2 != null && WebParam2.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam2 = WebParam2.substring(0, 1999);
+			WebParam2 = WebParam2.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam2, WebParam2);
 	}
@@ -536,10 +553,11 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	  */
 	public void setWebParam3 (String WebParam3)
 	{
+
 		if (WebParam3 != null && WebParam3.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam3 = WebParam3.substring(0, 1999);
+			WebParam3 = WebParam3.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam3, WebParam3);
 	}
@@ -558,10 +576,11 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	  */
 	public void setWebParam4 (String WebParam4)
 	{
+
 		if (WebParam4 != null && WebParam4.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam4 = WebParam4.substring(0, 1999);
+			WebParam4 = WebParam4.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam4, WebParam4);
 	}

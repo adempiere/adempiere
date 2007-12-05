@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_UserBPAccess
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.078
-     */
-    public interface I_AD_UserBPAccess 
+/** Generated Interface for AD_UserBPAccess
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_UserBPAccess 
 {
 
     /** TableName=AD_UserBPAccess */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -83,6 +81,8 @@ import org.compiere.util.*;
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name BPAccessType */
     public static final String COLUMNNAME_BPAccessType = "BPAccessType";
@@ -123,5 +123,5 @@ import org.compiere.util.*;
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getI_R_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws Exception;
 }

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_ReplicationTable
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.25
-     */
-    public interface I_AD_ReplicationTable 
+/** Generated Interface for AD_ReplicationTable
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_ReplicationTable 
 {
 
     /** TableName=AD_ReplicationTable */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_ReplicationStrategy_ID();
 
-	public I_AD_ReplicationStrategy getI_AD_ReplicationStrategy() throws Exception;
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws Exception;
 
     /** Column name AD_ReplicationTable_ID */
     public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";

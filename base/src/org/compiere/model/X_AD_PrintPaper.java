@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintPaper
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
     public X_AD_PrintPaper (Properties ctx, int AD_PrintPaper_ID, String trxName)
     {
       super (ctx, AD_PrintPaper_ID, trxName);
-      /** if (AD_PrintPaper_ID == 0)        {			setAD_PrintPaper_ID (0);
+      /** if (AD_PrintPaper_ID == 0)
+        {
+			setAD_PrintPaper_ID (0);
 			setCode (null);
 // iso-a4
 			setIsDefault (false);
@@ -54,7 +55,7 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 			setMarginTop (0);
 // 36
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -115,10 +116,11 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	{
 		if (Code == null)
 			throw new IllegalArgumentException ("Code is mandatory.");
+
 		if (Code.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 1999);
+			Code = Code.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
@@ -137,10 +139,11 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -153,20 +156,24 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DimensionUnits AD_Reference_ID=375 */
-public static final int DIMENSIONUNITS_AD_Reference_ID=375;/** Inch = I */
-public static final String DIMENSIONUNITS_Inch = "I";/** MM = M */
-public static final String DIMENSIONUNITS_MM = "M";
+	/** DimensionUnits AD_Reference_ID=375 */
+	public static final int DIMENSIONUNITS_AD_Reference_ID=375;
+	/** MM = M */
+	public static final String DIMENSIONUNITS_MM = "M";
+	/** Inch = I */
+	public static final String DIMENSIONUNITS_Inch = "I";
 	/** Set Dimension Units.
 		@param DimensionUnits 
 		Units of Dimension
 	  */
 	public void setDimensionUnits (String DimensionUnits)
 	{
-if (DimensionUnits == null || DimensionUnits.equals("I") || DimensionUnits.equals("M")); else throw new IllegalArgumentException ("DimensionUnits Invalid value - " + DimensionUnits + " - Reference_ID=375 - I - M");		if (DimensionUnits != null && DimensionUnits.length() > 1)
+
+		if (DimensionUnits == null || DimensionUnits.equals("M") || DimensionUnits.equals("I")); else throw new IllegalArgumentException ("DimensionUnits Invalid value - " + DimensionUnits + " - Reference_ID=375 - M - I");
+		if (DimensionUnits != null && DimensionUnits.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DimensionUnits = DimensionUnits.substring(0, 0);
+			DimensionUnits = DimensionUnits.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DimensionUnits, DimensionUnits);
 	}
@@ -315,10 +322,11 @@ if (DimensionUnits == null || DimensionUnits.equals("I") || DimensionUnits.equal
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -347,7 +355,7 @@ if (DimensionUnits == null || DimensionUnits.equals("I") || DimensionUnits.equal
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

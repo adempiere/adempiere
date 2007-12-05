@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_Persistent 
 {
 
@@ -39,10 +40,12 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
     public X_M_ProductionLineMA (Properties ctx, int M_ProductionLineMA_ID, String trxName)
     {
       super (ctx, M_ProductionLineMA_ID, trxName);
-      /** if (M_ProductionLineMA_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_ProductionLineMA_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_ProductionLine_ID (0);
 			setMovementQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -94,6 +97,22 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
+        I_M_ProductionLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_ProductionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ProductionLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Production Line.
 		@param M_ProductionLine_ID 

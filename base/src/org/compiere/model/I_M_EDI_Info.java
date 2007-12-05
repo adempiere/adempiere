@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_EDI_Info
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.921
-     */
-    public interface I_M_EDI_Info 
+/** Generated Interface for M_EDI_Info
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_EDI_Info 
 {
 
     /** TableName=M_EDI_Info */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -80,7 +78,7 @@ import org.compiere.util.*;
 	/** Get EDI Transaction	  */
 	public int getM_EDI_ID();
 
-	public I_M_EDI getI_M_EDI() throws Exception;
+	public I_M_EDI getM_EDI() throws Exception;
 
     /** Column name M_EDI_Info_ID */
     public static final String COLUMNNAME_M_EDI_Info_ID = "M_EDI_Info_ID";

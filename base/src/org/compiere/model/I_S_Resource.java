@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for S_Resource
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.234
-     */
-    public interface I_S_Resource 
+/** Generated Interface for S_Resource
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_S_Resource 
 {
 
     /** TableName=S_Resource */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name ChargeableQty */
     public static final String COLUMNNAME_ChargeableQty = "ChargeableQty";
@@ -121,7 +119,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -145,7 +143,7 @@ import org.compiere.util.*;
 	/** Get Resource Type	  */
 	public int getS_ResourceType_ID();
 
-	public I_S_ResourceType getI_S_ResourceType() throws Exception;
+	public I_S_ResourceType getS_ResourceType() throws Exception;
 
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";

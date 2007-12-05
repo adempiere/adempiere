@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for CM_NewsItem
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
     public X_CM_NewsItem (Properties ctx, int CM_NewsItem_ID, String trxName)
     {
       super (ctx, CM_NewsItem_ID, trxName);
-      /** if (CM_NewsItem_ID == 0)        {			setCM_NewsChannel_ID (0);
+      /** if (CM_NewsItem_ID == 0)
+        {
+			setCM_NewsChannel_ID (0);
 			setCM_NewsItem_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +79,11 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setAuthor (String Author)
 	{
+
 		if (Author != null && Author.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Author = Author.substring(0, 254);
+			Author = Author.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Author, Author);
 	}
@@ -94,7 +96,7 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 		return (String)get_Value(COLUMNNAME_Author);
 	}
 
-	public I_CM_NewsChannel getI_CM_NewsChannel() throws Exception 
+	public I_CM_NewsChannel getCM_NewsChannel() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_NewsChannel.Table_Name);
         I_CM_NewsChannel result = null;
@@ -177,10 +179,11 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -199,10 +202,11 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setLinkURL (String LinkURL)
 	{
+
 		if (LinkURL != null && LinkURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			LinkURL = LinkURL.substring(0, 119);
+			LinkURL = LinkURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_LinkURL, LinkURL);
 	}
@@ -238,10 +242,11 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
+
 		if (Title != null && Title.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Title = Title.substring(0, 254);
+			Title = Title.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Title, Title);
 	}

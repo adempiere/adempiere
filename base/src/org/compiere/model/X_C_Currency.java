@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Currency extends PO implements I_C_Currency, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
     public X_C_Currency (Properties ctx, int C_Currency_ID, String trxName)
     {
       super (ctx, C_Currency_ID, trxName);
-      /** if (C_Currency_ID == 0)        {			setC_Currency_ID (0);
+      /** if (C_Currency_ID == 0)
+        {
+			setC_Currency_ID (0);
 			setCostingPrecision (0);
 // 4
 			setDescription (null);
@@ -50,7 +52,7 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 // N
 			setStdPrecision (0);
 // 2
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -129,10 +131,11 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	  */
 	public void setCurSymbol (String CurSymbol)
 	{
+
 		if (CurSymbol != null && CurSymbol.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			CurSymbol = CurSymbol.substring(0, 9);
+			CurSymbol = CurSymbol.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_CurSymbol, CurSymbol);
 	}
@@ -153,10 +156,11 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
+
 		if (Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -214,10 +218,11 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	{
 		if (ISO_Code == null)
 			throw new IllegalArgumentException ("ISO_Code is mandatory.");
+
 		if (ISO_Code.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 2);
+			ISO_Code = ISO_Code.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}

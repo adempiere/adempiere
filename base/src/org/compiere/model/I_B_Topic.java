@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for B_Topic
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:32.64
-     */
-    public interface I_B_Topic 
+/** Generated Interface for B_Topic
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_B_Topic 
 {
 
     /** TableName=B_Topic */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getB_TopicCategory_ID();
 
-	public I_B_TopicCategory getI_B_TopicCategory() throws Exception;
+	public I_B_TopicCategory getB_TopicCategory() throws Exception;
 
     /** Column name B_TopicType_ID */
     public static final String COLUMNNAME_B_TopicType_ID = "B_TopicType_ID";
@@ -86,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getB_TopicType_ID();
 
-	public I_B_TopicType getI_B_TopicType() throws Exception;
+	public I_B_TopicType getB_TopicType() throws Exception;
 
     /** Column name B_Topic_ID */
     public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";

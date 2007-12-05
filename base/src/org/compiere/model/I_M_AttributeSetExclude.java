@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_AttributeSetExclude
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.125
-     */
-    public interface I_M_AttributeSetExclude 
+/** Generated Interface for M_AttributeSetExclude
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_AttributeSetExclude 
 {
 
     /** TableName=M_AttributeSetExclude */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name IsSOTrx */
     public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
@@ -112,5 +110,5 @@ import org.compiere.util.*;
 	  */
 	public int getM_AttributeSet_ID();
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception;
+	public I_M_AttributeSet getM_AttributeSet() throws Exception;
 }

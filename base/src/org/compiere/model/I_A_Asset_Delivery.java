@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for A_Asset_Delivery
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:31.625
-     */
-    public interface I_A_Asset_Delivery 
+/** Generated Interface for A_Asset_Delivery
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_A_Asset_Delivery 
 {
 
     /** TableName=A_Asset_Delivery */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -70,6 +69,8 @@ import org.compiere.util.*;
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name A_Asset_Delivery_ID */
     public static final String COLUMNNAME_A_Asset_Delivery_ID = "A_Asset_Delivery_ID";
@@ -97,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getI_A_Asset() throws Exception;
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name DeliveryConfirmation */
     public static final String COLUMNNAME_DeliveryConfirmation = "DeliveryConfirmation";
@@ -164,6 +165,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
+	public I_M_InOutLine getM_InOutLine() throws Exception;
+
     /** Column name M_ProductDownload_ID */
     public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
 
@@ -177,7 +180,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_ProductDownload_ID();
 
-	public I_M_ProductDownload getI_M_ProductDownload() throws Exception;
+	public I_M_ProductDownload getM_ProductDownload() throws Exception;
 
     /** Column name MessageID */
     public static final String COLUMNNAME_MessageID = "MessageID";

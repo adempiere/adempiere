@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for M_Product_Category_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Product_Category_Acct extends PO implements I_M_Product_Category_Acct, I_Persistent 
 {
 
@@ -39,7 +37,9 @@ public class X_M_Product_Category_Acct extends PO implements I_M_Product_Categor
     public X_M_Product_Category_Acct (Properties ctx, int M_Product_Category_Acct_ID, String trxName)
     {
       super (ctx, M_Product_Category_Acct_ID, trxName);
-      /** if (M_Product_Category_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (M_Product_Category_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setM_Product_Category_ID (0);
 			setP_Asset_Acct (0);
 			setP_COGS_Acct (0);
@@ -51,7 +51,7 @@ public class X_M_Product_Category_Acct extends PO implements I_M_Product_Categor
 			setP_Revenue_Acct (0);
 			setP_TradeDiscountGrant_Acct (0);
 			setP_TradeDiscountRec_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,7 +82,7 @@ public class X_M_Product_Category_Acct extends PO implements I_M_Product_Categor
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -120,21 +120,26 @@ public class X_M_Product_Category_Acct extends PO implements I_M_Product_Categor
 		return ii.intValue();
 	}
 
-/** CostingLevel AD_Reference_ID=355 */
-public static final int COSTINGLEVEL_AD_Reference_ID=355;/** Batch/Lot = B */
-public static final String COSTINGLEVEL_BatchLot = "B";/** Client = C */
-public static final String COSTINGLEVEL_Client = "C";/** Organization = O */
-public static final String COSTINGLEVEL_Organization = "O";
+	/** CostingLevel AD_Reference_ID=355 */
+	public static final int COSTINGLEVEL_AD_Reference_ID=355;
+	/** Client = C */
+	public static final String COSTINGLEVEL_Client = "C";
+	/** Organization = O */
+	public static final String COSTINGLEVEL_Organization = "O";
+	/** Batch/Lot = B */
+	public static final String COSTINGLEVEL_BatchLot = "B";
 	/** Set Costing Level.
 		@param CostingLevel 
 		The lowest level to accumulate Costing Information
 	  */
 	public void setCostingLevel (String CostingLevel)
 	{
-if (CostingLevel == null || CostingLevel.equals("B") || CostingLevel.equals("C") || CostingLevel.equals("O")); else throw new IllegalArgumentException ("CostingLevel Invalid value - " + CostingLevel + " - Reference_ID=355 - B - C - O");		if (CostingLevel != null && CostingLevel.length() > 1)
+
+		if (CostingLevel == null || CostingLevel.equals("C") || CostingLevel.equals("O") || CostingLevel.equals("B")); else throw new IllegalArgumentException ("CostingLevel Invalid value - " + CostingLevel + " - Reference_ID=355 - C - O - B");
+		if (CostingLevel != null && CostingLevel.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CostingLevel = CostingLevel.substring(0, 0);
+			CostingLevel = CostingLevel.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CostingLevel, CostingLevel);
 	}
@@ -147,27 +152,38 @@ if (CostingLevel == null || CostingLevel.equals("B") || CostingLevel.equals("C")
 		return (String)get_Value(COLUMNNAME_CostingLevel);
 	}
 
-/** CostingMethod AD_Reference_ID=122 */
-public static final int COSTINGMETHOD_AD_Reference_ID=122;/** Average PO = A */
-public static final String COSTINGMETHOD_AveragePO = "A";/** Fifo = F */
-public static final String COSTINGMETHOD_Fifo = "F";/** Average Invoice = I */
-public static final String COSTINGMETHOD_AverageInvoice = "I";/** Lifo = L */
-public static final String COSTINGMETHOD_Lifo = "L";/** Standard Costing = S */
-public static final String COSTINGMETHOD_StandardCosting = "S";/** User Defined = U */
-public static final String COSTINGMETHOD_UserDefined = "U";/** Last Invoice = i */
-public static final String COSTINGMETHOD_LastInvoice = "i";/** Last PO Price = p */
-public static final String COSTINGMETHOD_LastPOPrice = "p";/** _ = x */
-public static final String COSTINGMETHOD__ = "x";
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
 	/** Set Costing Method.
 		@param CostingMethod 
 		Indicates how Costs will be calculated
 	  */
 	public void setCostingMethod (String CostingMethod)
 	{
-if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("F") || CostingMethod.equals("I") || CostingMethod.equals("L") || CostingMethod.equals("S") || CostingMethod.equals("U") || CostingMethod.equals("i") || CostingMethod.equals("p") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - A - F - I - L - S - U - i - p - x");		if (CostingMethod != null && CostingMethod.length() > 1)
+
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
+		if (CostingMethod != null && CostingMethod.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CostingMethod = CostingMethod.substring(0, 0);
+			CostingMethod = CostingMethod.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
 	}
@@ -180,7 +196,7 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 		return (String)get_Value(COLUMNNAME_CostingMethod);
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -426,7 +442,7 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

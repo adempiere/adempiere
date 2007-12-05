@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_TaskInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
     public X_AD_TaskInstance (Properties ctx, int AD_TaskInstance_ID, String trxName)
     {
       super (ctx, AD_TaskInstance_ID, trxName);
-      /** if (AD_TaskInstance_ID == 0)        {			setAD_TaskInstance_ID (0);
+      /** if (AD_TaskInstance_ID == 0)
+        {
+			setAD_TaskInstance_ID (0);
 			setAD_Task_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,7 +81,7 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
 	}
 
 	/** Get Task Instance.
-@return Task Instance	  */
+		@return Task Instance	  */
 	public int getAD_TaskInstance_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_TaskInstance_ID);

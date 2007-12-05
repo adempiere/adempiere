@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
     public X_AD_WF_Process (Properties ctx, int AD_WF_Process_ID, String trxName)
     {
       super (ctx, AD_WF_Process_ID, trxName);
-      /** if (AD_WF_Process_ID == 0)        {			setAD_Table_ID (0);
+      /** if (AD_WF_Process_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setAD_WF_Process_ID (0);
 			setAD_WF_Responsible_ID (0);
 			setAD_Workflow_ID (0);
 			setProcessed (false);
 			setRecord_ID (0);
 			setWFState (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +78,7 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Message getI_AD_Message() throws Exception 
+	public I_AD_Message getAD_Message() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Message.Table_Name);
         I_AD_Message result = null;
@@ -99,9 +100,10 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
 	  */
 	public void setAD_Message_ID (int AD_Message_ID)
 	{
-		if (AD_Message_ID <= 0) 		set_Value (COLUMNNAME_AD_Message_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
+		if (AD_Message_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Message_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
 	}
 
 	/** Get Message.
@@ -114,6 +116,22 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Table getAD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -137,17 +155,18 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_User_ID AD_Reference_ID=286 */
-public static final int AD_USER_ID_AD_Reference_ID=286;
+	/** AD_User_ID AD_Reference_ID=286 */
+	public static final int AD_USER_ID_AD_Reference_ID=286;
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -183,7 +202,7 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getI_AD_WF_Responsible() throws Exception 
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
         I_AD_WF_Responsible result = null;
@@ -221,7 +240,7 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -319,7 +338,7 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -360,10 +379,11 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
@@ -376,24 +396,32 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 		return (String)get_Value(COLUMNNAME_TextMsg);
 	}
 
-/** WFState AD_Reference_ID=305 */
-public static final int WFSTATE_AD_Reference_ID=305;/** Aborted = CA */
-public static final String WFSTATE_Aborted = "CA";/** Completed = CC */
-public static final String WFSTATE_Completed = "CC";/** Terminated = CT */
-public static final String WFSTATE_Terminated = "CT";/** Not Started = ON */
-public static final String WFSTATE_NotStarted = "ON";/** Running = OR */
-public static final String WFSTATE_Running = "OR";/** Suspended = OS */
-public static final String WFSTATE_Suspended = "OS";
+	/** WFState AD_Reference_ID=305 */
+	public static final int WFSTATE_AD_Reference_ID=305;
+	/** Not Started = ON */
+	public static final String WFSTATE_NotStarted = "ON";
+	/** Running = OR */
+	public static final String WFSTATE_Running = "OR";
+	/** Suspended = OS */
+	public static final String WFSTATE_Suspended = "OS";
+	/** Completed = CC */
+	public static final String WFSTATE_Completed = "CC";
+	/** Aborted = CA */
+	public static final String WFSTATE_Aborted = "CA";
+	/** Terminated = CT */
+	public static final String WFSTATE_Terminated = "CT";
 	/** Set Workflow State.
 		@param WFState 
 		State of the execution of the workflow
 	  */
 	public void setWFState (String WFState)
 	{
-if (WFState == null) throw new IllegalArgumentException ("WFState is mandatory");if (WFState.equals("CA") || WFState.equals("CC") || WFState.equals("CT") || WFState.equals("ON") || WFState.equals("OR") || WFState.equals("OS")); else throw new IllegalArgumentException ("WFState Invalid value - " + WFState + " - Reference_ID=305 - CA - CC - CT - ON - OR - OS");		if (WFState.length() > 2)
+		if (WFState == null) throw new IllegalArgumentException ("WFState is mandatory");
+		if (WFState.equals("ON") || WFState.equals("OR") || WFState.equals("OS") || WFState.equals("CC") || WFState.equals("CA") || WFState.equals("CT")); else throw new IllegalArgumentException ("WFState Invalid value - " + WFState + " - Reference_ID=305 - ON - OR - OS - CC - CA - CT");
+		if (WFState.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			WFState = WFState.substring(0, 1);
+			WFState = WFState.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_WFState, WFState);
 	}

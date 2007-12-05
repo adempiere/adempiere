@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
     public X_I_ElementValue (Properties ctx, int I_ElementValue_ID, String trxName)
     {
       super (ctx, I_ElementValue_ID, trxName);
-      /** if (I_ElementValue_ID == 0)        {			setI_ElementValue_ID (0);
+      /** if (I_ElementValue_ID == 0)
+        {
+			setI_ElementValue_ID (0);
 			setI_IsImported (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,17 +73,18 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
       return sb.toString();
     }
 
-/** AD_Column_ID AD_Reference_ID=272 */
-public static final int AD_COLUMN_ID_AD_Reference_ID=272;
+	/** AD_Column_ID AD_Reference_ID=272 */
+	public static final int AD_COLUMN_ID_AD_Reference_ID=272;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -96,21 +98,26 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=272;
 		return ii.intValue();
 	}
 
-/** AccountSign AD_Reference_ID=118 */
-public static final int ACCOUNTSIGN_AD_Reference_ID=118;/** Credit = C */
-public static final String ACCOUNTSIGN_Credit = "C";/** Debit = D */
-public static final String ACCOUNTSIGN_Debit = "D";/** Natural = N */
-public static final String ACCOUNTSIGN_Natural = "N";
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
 	/** Set Account Sign.
 		@param AccountSign 
 		Indicates the Natural Sign of the Account as a Debit or Credit
 	  */
 	public void setAccountSign (String AccountSign)
 	{
-if (AccountSign == null || AccountSign.equals("C") || AccountSign.equals("D") || AccountSign.equals("N")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - C - D - N");		if (AccountSign != null && AccountSign.length() > 1)
+
+		if (AccountSign == null || AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");
+		if (AccountSign != null && AccountSign.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccountSign = AccountSign.substring(0, 0);
+			AccountSign = AccountSign.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccountSign, AccountSign);
 	}
@@ -123,24 +130,32 @@ if (AccountSign == null || AccountSign.equals("C") || AccountSign.equals("D") ||
 		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
-/** AccountType AD_Reference_ID=117 */
-public static final int ACCOUNTTYPE_AD_Reference_ID=117;/** Asset = A */
-public static final String ACCOUNTTYPE_Asset = "A";/** Expense = E */
-public static final String ACCOUNTTYPE_Expense = "E";/** Liability = L */
-public static final String ACCOUNTTYPE_Liability = "L";/** Memo = M */
-public static final String ACCOUNTTYPE_Memo = "M";/** Owner's Equity = O */
-public static final String ACCOUNTTYPE_OwnerSEquity = "O";/** Revenue = R */
-public static final String ACCOUNTTYPE_Revenue = "R";
+	/** AccountType AD_Reference_ID=117 */
+	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
+	/** Asset = A */
+	public static final String ACCOUNTTYPE_Asset = "A";
+	/** Liability = L */
+	public static final String ACCOUNTTYPE_Liability = "L";
+	/** Revenue = R */
+	public static final String ACCOUNTTYPE_Revenue = "R";
+	/** Expense = E */
+	public static final String ACCOUNTTYPE_Expense = "E";
+	/** Owner's Equity = O */
+	public static final String ACCOUNTTYPE_OwnerSEquity = "O";
+	/** Memo = M */
+	public static final String ACCOUNTTYPE_Memo = "M";
 	/** Set Account Type.
 		@param AccountType 
 		Indicates the type of account
 	  */
 	public void setAccountType (String AccountType)
 	{
-if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") || AccountType.equals("L") || AccountType.equals("M") || AccountType.equals("O") || AccountType.equals("R")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - E - L - M - O - R");		if (AccountType != null && AccountType.length() > 1)
+
+		if (AccountType == null || AccountType.equals("A") || AccountType.equals("L") || AccountType.equals("R") || AccountType.equals("E") || AccountType.equals("O") || AccountType.equals("M")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - L - R - E - O - M");
+		if (AccountType != null && AccountType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccountType = AccountType.substring(0, 0);
+			AccountType = AccountType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccountType, AccountType);
 	}
@@ -153,7 +168,7 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	public I_C_ElementValue getI_C_ElementValue() throws Exception 
+	public I_C_ElementValue getC_ElementValue() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
         I_C_ElementValue result = null;
@@ -175,9 +190,10 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID <= 0) 		set_Value (COLUMNNAME_C_ElementValue_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+		if (C_ElementValue_ID <= 0) 
+			set_Value (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
 	}
 
 	/** Get Account Element.
@@ -191,7 +207,7 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 		return ii.intValue();
 	}
 
-	public I_C_Element getI_C_Element() throws Exception 
+	public I_C_Element getC_Element() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
         I_C_Element result = null;
@@ -213,9 +229,10 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setC_Element_ID (int C_Element_ID)
 	{
-		if (C_Element_ID <= 0) 		set_Value (COLUMNNAME_C_Element_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
+		if (C_Element_ID <= 0) 
+			set_Value (COLUMNNAME_C_Element_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
 	}
 
 	/** Get Element.
@@ -235,10 +252,11 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setDefault_Account (String Default_Account)
 	{
+
 		if (Default_Account != null && Default_Account.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			Default_Account = Default_Account.substring(0, 29);
+			Default_Account = Default_Account.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_Default_Account, Default_Account);
 	}
@@ -257,10 +275,11 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -279,10 +298,11 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setElementName (String ElementName)
 	{
+
 		if (ElementName != null && ElementName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ElementName = ElementName.substring(0, 59);
+			ElementName = ElementName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ElementName, ElementName);
 	}
@@ -323,10 +343,11 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -417,10 +438,11 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -433,17 +455,18 @@ if (AccountType == null || AccountType.equals("A") || AccountType.equals("E") ||
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-/** ParentElementValue_ID AD_Reference_ID=182 */
-public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
+	/** ParentElementValue_ID AD_Reference_ID=182 */
+	public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
 	/** Set Parent Account.
 		@param ParentElementValue_ID 
 		The parent (summary) account
 	  */
 	public void setParentElementValue_ID (int ParentElementValue_ID)
 	{
-		if (ParentElementValue_ID <= 0) 		set_Value (COLUMNNAME_ParentElementValue_ID, null);
- else 
-		set_Value (COLUMNNAME_ParentElementValue_ID, Integer.valueOf(ParentElementValue_ID));
+		if (ParentElementValue_ID <= 0) 
+			set_Value (COLUMNNAME_ParentElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_ParentElementValue_ID, Integer.valueOf(ParentElementValue_ID));
 	}
 
 	/** Get Parent Account.
@@ -463,10 +486,11 @@ public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
 	  */
 	public void setParentValue (String ParentValue)
 	{
+
 		if (ParentValue != null && ParentValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ParentValue = ParentValue.substring(0, 39);
+			ParentValue = ParentValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ParentValue, ParentValue);
 	}
@@ -607,7 +631,7 @@ public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -626,10 +650,11 @@ public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
 	  */
 	public void setValue (String Value)
 	{
+
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

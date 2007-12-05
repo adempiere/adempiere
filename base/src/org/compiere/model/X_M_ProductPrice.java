@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_ProductPrice
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persistent 
 {
 
@@ -39,12 +39,14 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
     public X_M_ProductPrice (Properties ctx, int M_ProductPrice_ID, String trxName)
     {
       super (ctx, M_ProductPrice_ID, trxName);
-      /** if (M_ProductPrice_ID == 0)        {			setM_PriceList_Version_ID (0);
+      /** if (M_ProductPrice_ID == 0)
+        {
+			setM_PriceList_Version_ID (0);
 			setM_Product_ID (0);
 			setPriceLimit (Env.ZERO);
 			setPriceList (Env.ZERO);
 			setPriceStd (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +77,7 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
       return sb.toString();
     }
 
-	public I_M_PriceList_Version getI_M_PriceList_Version() throws Exception 
+	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
         I_M_PriceList_Version result = null;
@@ -112,6 +114,22 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

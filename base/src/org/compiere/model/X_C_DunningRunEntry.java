@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningRunEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
     public X_C_DunningRunEntry (Properties ctx, int C_DunningRunEntry_ID, String trxName)
     {
       super (ctx, C_DunningRunEntry_ID, trxName);
-      /** if (C_DunningRunEntry_ID == 0)        {			setAmt (Env.ZERO);
+      /** if (C_DunningRunEntry_ID == 0)
+        {
+			setAmt (Env.ZERO);
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
@@ -48,7 +51,7 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 			setProcessed (false);
 			setQty (Env.ZERO);
 			setSalesRep_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +82,7 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -101,9 +104,10 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -139,6 +143,22 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 		return bd;
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -161,7 +181,7 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -198,6 +218,22 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Currency getC_Currency() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
+        I_C_Currency result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -243,7 +279,7 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_DunningRun getI_C_DunningRun() throws Exception 
+	public I_C_DunningRun getC_DunningRun() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DunningRun.Table_Name);
         I_C_DunningRun result = null;
@@ -295,10 +331,11 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 	  */
 	public void setNote (String Note)
 	{
+
 		if (Note != null && Note.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 1999);
+			Note = Note.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
@@ -357,8 +394,8 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 		return bd;
 	}
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_IndexLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
     public X_K_IndexLog (Properties ctx, int K_IndexLog_ID, String trxName)
     {
       super (ctx, K_IndexLog_ID, trxName);
-      /** if (K_IndexLog_ID == 0)        {			setIndexQuery (null);
+      /** if (K_IndexLog_ID == 0)
+        {
+			setIndexQuery (null);
 			setIndexQueryResult (0);
 			setK_IndexLog_ID (0);
 			setQuerySource (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,10 +81,11 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	{
 		if (IndexQuery == null)
 			throw new IllegalArgumentException ("IndexQuery is mandatory.");
+
 		if (IndexQuery.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			IndexQuery = IndexQuery.substring(0, 254);
+			IndexQuery = IndexQuery.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_IndexQuery, IndexQuery);
 	}
@@ -148,22 +148,28 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 		return ii.intValue();
 	}
 
-/** QuerySource AD_Reference_ID=391 */
-public static final int QUERYSOURCE_AD_Reference_ID=391;/** Collaboration Management = C */
-public static final String QUERYSOURCE_CollaborationManagement = "C";/** HTML Client = H */
-public static final String QUERYSOURCE_HTMLClient = "H";/** Java Client = J */
-public static final String QUERYSOURCE_JavaClient = "J";/** Self Service = W */
-public static final String QUERYSOURCE_SelfService = "W";
+	/** QuerySource AD_Reference_ID=391 */
+	public static final int QUERYSOURCE_AD_Reference_ID=391;
+	/** Collaboration Management = C */
+	public static final String QUERYSOURCE_CollaborationManagement = "C";
+	/** Java Client = J */
+	public static final String QUERYSOURCE_JavaClient = "J";
+	/** HTML Client = H */
+	public static final String QUERYSOURCE_HTMLClient = "H";
+	/** Self Service = W */
+	public static final String QUERYSOURCE_SelfService = "W";
 	/** Set Query Source.
 		@param QuerySource 
 		Source of the Query
 	  */
 	public void setQuerySource (String QuerySource)
 	{
-if (QuerySource == null) throw new IllegalArgumentException ("QuerySource is mandatory");if (QuerySource.equals("C") || QuerySource.equals("H") || QuerySource.equals("J") || QuerySource.equals("W")); else throw new IllegalArgumentException ("QuerySource Invalid value - " + QuerySource + " - Reference_ID=391 - C - H - J - W");		if (QuerySource.length() > 1)
+		if (QuerySource == null) throw new IllegalArgumentException ("QuerySource is mandatory");
+		if (QuerySource.equals("C") || QuerySource.equals("J") || QuerySource.equals("H") || QuerySource.equals("W")); else throw new IllegalArgumentException ("QuerySource Invalid value - " + QuerySource + " - Reference_ID=391 - C - J - H - W");
+		if (QuerySource.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			QuerySource = QuerySource.substring(0, 0);
+			QuerySource = QuerySource.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_QuerySource, QuerySource);
 	}

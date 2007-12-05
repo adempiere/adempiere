@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ImpFormat_Row
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
     public X_AD_ImpFormat_Row (Properties ctx, int AD_ImpFormat_Row_ID, String trxName)
     {
       super (ctx, AD_ImpFormat_Row_ID, trxName);
-      /** if (AD_ImpFormat_Row_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_ImpFormat_Row_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_ImpFormat_ID (0);
 			setAD_ImpFormat_Row_ID (0);
 			setDataType (null);
@@ -49,7 +50,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 			setName (null);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_ImpFormat_Row WHERE AD_ImpFormat_ID=@AD_ImpFormat_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +81,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -118,7 +119,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_ImpFormat getI_AD_ImpFormat() throws Exception 
+	public I_AD_ImpFormat getAD_ImpFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ImpFormat.Table_Name);
         I_AD_ImpFormat result = null;
@@ -144,7 +145,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	}
 
 	/** Get Import Format.
-@return Import Format	  */
+		@return Import Format	  */
 	public int getAD_ImpFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ImpFormat_ID);
@@ -163,7 +164,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	}
 
 	/** Get Format Field.
-@return Format Field	  */
+		@return Format Field	  */
 	public int getAD_ImpFormat_Row_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ImpFormat_Row_ID);
@@ -178,10 +179,11 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setCallout (String Callout)
 	{
+
 		if (Callout != null && Callout.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Callout = Callout.substring(0, 59);
+			Callout = Callout.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Callout, Callout);
 	}
@@ -200,10 +202,11 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setConstantValue (String ConstantValue)
 	{
+
 		if (ConstantValue != null && ConstantValue.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ConstantValue = ConstantValue.substring(0, 59);
+			ConstantValue = ConstantValue.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ConstantValue, ConstantValue);
 	}
@@ -222,10 +225,11 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setDataFormat (String DataFormat)
 	{
+
 		if (DataFormat != null && DataFormat.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			DataFormat = DataFormat.substring(0, 19);
+			DataFormat = DataFormat.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_DataFormat, DataFormat);
 	}
@@ -238,22 +242,28 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 		return (String)get_Value(COLUMNNAME_DataFormat);
 	}
 
-/** DataType AD_Reference_ID=210 */
-public static final int DATATYPE_AD_Reference_ID=210;/** Constant = C */
-public static final String DATATYPE_Constant = "C";/** Date = D */
-public static final String DATATYPE_Date = "D";/** Number = N */
-public static final String DATATYPE_Number = "N";/** String = S */
-public static final String DATATYPE_String = "S";
+	/** DataType AD_Reference_ID=210 */
+	public static final int DATATYPE_AD_Reference_ID=210;
+	/** String = S */
+	public static final String DATATYPE_String = "S";
+	/** Number = N */
+	public static final String DATATYPE_Number = "N";
+	/** Date = D */
+	public static final String DATATYPE_Date = "D";
+	/** Constant = C */
+	public static final String DATATYPE_Constant = "C";
 	/** Set Data Type.
 		@param DataType 
 		Type of data
 	  */
 	public void setDataType (String DataType)
 	{
-if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory");if (DataType.equals("C") || DataType.equals("D") || DataType.equals("N") || DataType.equals("S")); else throw new IllegalArgumentException ("DataType Invalid value - " + DataType + " - Reference_ID=210 - C - D - N - S");		if (DataType.length() > 1)
+		if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory");
+		if (DataType.equals("S") || DataType.equals("N") || DataType.equals("D") || DataType.equals("C")); else throw new IllegalArgumentException ("DataType Invalid value - " + DataType + " - Reference_ID=210 - S - N - D - C");
+		if (DataType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DataType = DataType.substring(0, 0);
+			DataType = DataType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DataType, DataType);
 	}
@@ -274,10 +284,11 @@ if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory
 	{
 		if (DecimalPoint == null)
 			throw new IllegalArgumentException ("DecimalPoint is mandatory.");
+
 		if (DecimalPoint.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DecimalPoint = DecimalPoint.substring(0, 0);
+			DecimalPoint = DecimalPoint.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DecimalPoint, DecimalPoint);
 	}
@@ -322,7 +333,7 @@ if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory
 	}
 
 	/** Get End No.
-@return End No	  */
+		@return End No	  */
 	public int getEndNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EndNo);
@@ -339,10 +350,11 @@ if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -369,10 +381,11 @@ if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory
 	  */
 	public void setScript (String Script)
 	{
+
 		if (Script != null && Script.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Script = Script.substring(0, 1999);
+			Script = Script.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Script, Script);
 	}

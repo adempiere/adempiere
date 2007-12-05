@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_AllocationLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:36.796
-     */
-    public interface I_C_AllocationLine 
+/** Generated Interface for C_AllocationLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_AllocationLine 
 {
 
     /** TableName=C_AllocationLine */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +83,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AllocationHdr_ID();
 
-	public I_C_AllocationHdr getI_C_AllocationHdr() throws Exception;
+	public I_C_AllocationHdr getC_AllocationHdr() throws Exception;
 
     /** Column name C_AllocationLine_ID */
     public static final String COLUMNNAME_C_AllocationLine_ID = "C_AllocationLine_ID";
@@ -112,6 +111,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_CashLine_ID */
     public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
 
@@ -124,6 +125,8 @@ import org.compiere.util.*;
 	  * Cash Journal Line
 	  */
 	public int getC_CashLine_ID();
+
+	public I_C_CashLine getC_CashLine() throws Exception;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -138,6 +141,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Invoice_ID();
 
+	public I_C_Invoice getC_Invoice() throws Exception;
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -151,6 +156,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Order_ID();
 
+	public I_C_Order getC_Order() throws Exception;
+
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 
@@ -163,6 +170,8 @@ import org.compiere.util.*;
 	  * Payment identifier
 	  */
 	public int getC_Payment_ID();
+
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name DateTrx */
     public static final String COLUMNNAME_DateTrx = "DateTrx";

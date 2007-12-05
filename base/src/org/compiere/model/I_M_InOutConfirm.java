@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_InOutConfirm
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.14
-     */
-    public interface I_M_InOutConfirm 
+/** Generated Interface for M_InOutConfirm
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_InOutConfirm 
 {
 
     /** TableName=M_InOutConfirm */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -83,6 +81,8 @@ import org.compiere.util.*;
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws Exception;
 
     /** Column name ConfirmType */
     public static final String COLUMNNAME_ConfirmType = "ConfirmType";
@@ -236,6 +236,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOut_ID();
 
+	public I_M_InOut getM_InOut() throws Exception;
+
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 
@@ -248,6 +250,8 @@ import org.compiere.util.*;
 	  * Parameters for a Physical Inventory
 	  */
 	public int getM_Inventory_ID();
+
+	public I_M_Inventory getM_Inventory() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

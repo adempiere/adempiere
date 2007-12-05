@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_ValidCombination
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:46.468
-     */
-    public interface I_C_ValidCombination 
+/** Generated Interface for C_ValidCombination
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_ValidCombination 
 {
 
     /** TableName=C_ValidCombination */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -110,7 +108,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -216,7 +214,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SubAcct_ID();
 
-	public I_C_SubAcct getI_C_SubAcct() throws Exception;
+	public I_C_SubAcct getC_SubAcct() throws Exception;
 
     /** Column name C_ValidCombination_ID */
     public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";

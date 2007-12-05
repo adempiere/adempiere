@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User_Substitute
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_Persistent 
 {
 
@@ -39,11 +39,13 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
     public X_AD_User_Substitute (Properties ctx, int AD_User_Substitute_ID, String trxName)
     {
       super (ctx, AD_User_Substitute_ID, trxName);
-      /** if (AD_User_Substitute_ID == 0)        {			setAD_User_ID (0);
+      /** if (AD_User_Substitute_ID == 0)
+        {
+			setAD_User_ID (0);
 			setAD_User_Substitute_ID (0);
 			setName (null);
 			setSubstitute_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,6 +74,22 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
       StringBuffer sb = new StringBuffer ("X_AD_User_Substitute[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set User/Contact.
@@ -124,10 +142,11 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -148,10 +167,11 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -172,8 +192,8 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Substitute_ID AD_Reference_ID=110 */
-public static final int SUBSTITUTE_ID_AD_Reference_ID=110;
+	/** Substitute_ID AD_Reference_ID=110 */
+	public static final int SUBSTITUTE_ID_AD_Reference_ID=110;
 	/** Set Substitute.
 		@param Substitute_ID 
 		Entity which can be used in place of this entity

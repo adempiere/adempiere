@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_M_Product 
 {

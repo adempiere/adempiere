@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_RequisitionLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.812
-     */
-    public interface I_M_RequisitionLine 
+/** Generated Interface for M_RequisitionLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_RequisitionLine 
 {
 
     /** TableName=M_RequisitionLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getI_C_Charge() throws Exception;
+	public I_C_Charge getC_Charge() throws Exception;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -85,6 +83,8 @@ import org.compiere.util.*;
 	  * Sales Order Line
 	  */
 	public int getC_OrderLine_ID();
+
+	public I_C_OrderLine getC_OrderLine() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -151,6 +151,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_RequisitionLine_ID */
     public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
 
@@ -177,7 +179,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Requisition_ID();
 
-	public I_M_Requisition getI_M_Requisition() throws Exception;
+	public I_M_Requisition getM_Requisition() throws Exception;
 
     /** Column name PriceActual */
     public static final String COLUMNNAME_PriceActual = "PriceActual";

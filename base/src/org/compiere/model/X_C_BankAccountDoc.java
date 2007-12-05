@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccountDoc
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
     public X_C_BankAccountDoc (Properties ctx, int C_BankAccountDoc_ID, String trxName)
     {
       super (ctx, C_BankAccountDoc_ID, trxName);
-      /** if (C_BankAccountDoc_ID == 0)        {			setC_BankAccountDoc_ID (0);
+      /** if (C_BankAccountDoc_ID == 0)
+        {
+			setC_BankAccountDoc_ID (0);
 			setC_BankAccount_ID (0);
 			setCurrentNext (0);
 			setName (null);
 			setPaymentRule (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,7 +98,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -135,17 +136,18 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 		return ii.intValue();
 	}
 
-/** Check_PrintFormat_ID AD_Reference_ID=268 */
-public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
+	/** Check_PrintFormat_ID AD_Reference_ID=268 */
+	public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
 	/** Set Check Print Format.
 		@param Check_PrintFormat_ID 
 		Print Format for printing Checks
 	  */
 	public void setCheck_PrintFormat_ID (int Check_PrintFormat_ID)
 	{
-		if (Check_PrintFormat_ID <= 0) 		set_Value (COLUMNNAME_Check_PrintFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_Check_PrintFormat_ID, Integer.valueOf(Check_PrintFormat_ID));
+		if (Check_PrintFormat_ID <= 0) 
+			set_Value (COLUMNNAME_Check_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_Check_PrintFormat_ID, Integer.valueOf(Check_PrintFormat_ID));
 	}
 
 	/** Get Check Print Format.
@@ -185,10 +187,11 @@ public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -209,10 +212,11 @@ public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -233,24 +237,32 @@ public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** PaymentRule AD_Reference_ID=195 */
-public static final int PAYMENTRULE_AD_Reference_ID=195;/** Cash = B */
-public static final String PAYMENTRULE_Cash = "B";/** Direct Debit = D */
-public static final String PAYMENTRULE_DirectDebit = "D";/** Credit Card = K */
-public static final String PAYMENTRULE_CreditCard = "K";/** On Credit = P */
-public static final String PAYMENTRULE_OnCredit = "P";/** Check = S */
-public static final String PAYMENTRULE_Check = "S";/** Direct Deposit = T */
-public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");if (PaymentRule.equals("B") || PaymentRule.equals("D") || PaymentRule.equals("K") || PaymentRule.equals("P") || PaymentRule.equals("S") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - D - K - P - S - T");		if (PaymentRule.length() > 1)
+		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
+		if (PaymentRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 0);
+			PaymentRule = PaymentRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}

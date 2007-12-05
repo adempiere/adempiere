@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent 
 {
 
@@ -39,7 +36,9 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
     public X_CM_WebProject (Properties ctx, int CM_WebProject_ID, String trxName)
     {
       super (ctx, CM_WebProject_ID, trxName);
-      /** if (CM_WebProject_ID == 0)        {			setCM_WebProject_ID (0);
+      /** if (CM_WebProject_ID == 0)
+        {
+			setCM_WebProject_ID (0);
 			setMeta_Author (null);
 // @AD_User_Name@
 			setMeta_Content (null);
@@ -51,7 +50,7 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 			setMeta_RobotsTag (null);
 // 'INDEX,FOLLOW'
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,17 +81,18 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
       return sb.toString();
     }
 
-/** AD_TreeCMC_ID AD_Reference_ID=184 */
-public static final int AD_TREECMC_ID_AD_Reference_ID=184;
+	/** AD_TreeCMC_ID AD_Reference_ID=184 */
+	public static final int AD_TREECMC_ID_AD_Reference_ID=184;
 	/** Set Container Tree.
 		@param AD_TreeCMC_ID 
 		Container Tree
 	  */
 	public void setAD_TreeCMC_ID (int AD_TreeCMC_ID)
 	{
-		if (AD_TreeCMC_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_TreeCMC_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_TreeCMC_ID, Integer.valueOf(AD_TreeCMC_ID));
+		if (AD_TreeCMC_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMC_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMC_ID, Integer.valueOf(AD_TreeCMC_ID));
 	}
 
 	/** Get Container Tree.
@@ -106,17 +106,18 @@ public static final int AD_TREECMC_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_TreeCMM_ID AD_Reference_ID=184 */
-public static final int AD_TREECMM_ID_AD_Reference_ID=184;
+	/** AD_TreeCMM_ID AD_Reference_ID=184 */
+	public static final int AD_TREECMM_ID_AD_Reference_ID=184;
 	/** Set Media Tree.
 		@param AD_TreeCMM_ID 
 		Media Tree
 	  */
 	public void setAD_TreeCMM_ID (int AD_TreeCMM_ID)
 	{
-		if (AD_TreeCMM_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_TreeCMM_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_TreeCMM_ID, Integer.valueOf(AD_TreeCMM_ID));
+		if (AD_TreeCMM_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMM_ID, Integer.valueOf(AD_TreeCMM_ID));
 	}
 
 	/** Get Media Tree.
@@ -130,17 +131,18 @@ public static final int AD_TREECMM_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_TreeCMS_ID AD_Reference_ID=184 */
-public static final int AD_TREECMS_ID_AD_Reference_ID=184;
+	/** AD_TreeCMS_ID AD_Reference_ID=184 */
+	public static final int AD_TREECMS_ID_AD_Reference_ID=184;
 	/** Set Stage Tree.
 		@param AD_TreeCMS_ID 
 		Stage Tree
 	  */
 	public void setAD_TreeCMS_ID (int AD_TreeCMS_ID)
 	{
-		if (AD_TreeCMS_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_TreeCMS_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_TreeCMS_ID, Integer.valueOf(AD_TreeCMS_ID));
+		if (AD_TreeCMS_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMS_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMS_ID, Integer.valueOf(AD_TreeCMS_ID));
 	}
 
 	/** Get Stage Tree.
@@ -154,17 +156,18 @@ public static final int AD_TREECMS_ID_AD_Reference_ID=184;
 		return ii.intValue();
 	}
 
-/** AD_TreeCMT_ID AD_Reference_ID=184 */
-public static final int AD_TREECMT_ID_AD_Reference_ID=184;
+	/** AD_TreeCMT_ID AD_Reference_ID=184 */
+	public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	/** Set Template Tree.
 		@param AD_TreeCMT_ID 
 		Template Tree
 	  */
 	public void setAD_TreeCMT_ID (int AD_TreeCMT_ID)
 	{
-		if (AD_TreeCMT_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_TreeCMT_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_TreeCMT_ID, Integer.valueOf(AD_TreeCMT_ID));
+		if (AD_TreeCMT_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMT_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_TreeCMT_ID, Integer.valueOf(AD_TreeCMT_ID));
 	}
 
 	/** Get Template Tree.
@@ -206,10 +209,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -228,10 +232,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -252,10 +257,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	{
 		if (Meta_Author == null)
 			throw new IllegalArgumentException ("Meta_Author is mandatory.");
+
 		if (Meta_Author.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Author = Meta_Author.substring(0, 1999);
+			Meta_Author = Meta_Author.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Author, Meta_Author);
 	}
@@ -276,10 +282,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	{
 		if (Meta_Content == null)
 			throw new IllegalArgumentException ("Meta_Content is mandatory.");
+
 		if (Meta_Content.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Content = Meta_Content.substring(0, 1999);
+			Meta_Content = Meta_Content.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Content, Meta_Content);
 	}
@@ -300,10 +307,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	{
 		if (Meta_Copyright == null)
 			throw new IllegalArgumentException ("Meta_Copyright is mandatory.");
+
 		if (Meta_Copyright.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Copyright = Meta_Copyright.substring(0, 1999);
+			Meta_Copyright = Meta_Copyright.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Copyright, Meta_Copyright);
 	}
@@ -324,10 +332,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	{
 		if (Meta_Publisher == null)
 			throw new IllegalArgumentException ("Meta_Publisher is mandatory.");
+
 		if (Meta_Publisher.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Publisher = Meta_Publisher.substring(0, 1999);
+			Meta_Publisher = Meta_Publisher.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Publisher, Meta_Publisher);
 	}
@@ -348,10 +357,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	{
 		if (Meta_RobotsTag == null)
 			throw new IllegalArgumentException ("Meta_RobotsTag is mandatory.");
+
 		if (Meta_RobotsTag.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_RobotsTag = Meta_RobotsTag.substring(0, 1999);
+			Meta_RobotsTag = Meta_RobotsTag.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_RobotsTag, Meta_RobotsTag);
 	}
@@ -372,10 +382,11 @@ public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_LandedCostAllocation
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:41.421
-     */
-    public interface I_C_LandedCostAllocation 
+/** Generated Interface for C_LandedCostAllocation
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_LandedCostAllocation 
 {
 
     /** TableName=C_LandedCostAllocation */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -97,6 +95,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceLine_ID();
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+
     /** Column name C_LandedCostAllocation_ID */
     public static final String COLUMNNAME_C_LandedCostAllocation_ID = "C_LandedCostAllocation_ID";
 
@@ -136,7 +136,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_CostElement_ID();
 
-	public I_M_CostElement getI_M_CostElement() throws Exception;
+	public I_M_CostElement getM_CostElement() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -150,6 +150,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

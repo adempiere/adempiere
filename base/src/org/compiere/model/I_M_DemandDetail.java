@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_DemandDetail
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.64
-     */
-    public interface I_M_DemandDetail 
+/** Generated Interface for M_DemandDetail
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_DemandDetail 
 {
 
     /** TableName=M_DemandDetail */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -70,6 +68,8 @@ import org.compiere.util.*;
 	  * Sales Order Line
 	  */
 	public int getC_OrderLine_ID();
+
+	public I_C_OrderLine getC_OrderLine() throws Exception;
 
     /** Column name M_DemandDetail_ID */
     public static final String COLUMNNAME_M_DemandDetail_ID = "M_DemandDetail_ID";
@@ -97,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_DemandLine_ID();
 
-	public I_M_DemandLine getI_M_DemandLine() throws Exception;
+	public I_M_DemandLine getM_DemandLine() throws Exception;
 
     /** Column name M_ForecastLine_ID */
     public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
@@ -112,6 +112,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_ForecastLine_ID();
 
+	public I_M_ForecastLine getM_ForecastLine() throws Exception;
+
     /** Column name M_RequisitionLine_ID */
     public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
 
@@ -124,4 +126,6 @@ import org.compiere.util.*;
 	  * Material Requisition Line
 	  */
 	public int getM_RequisitionLine_ID();
+
+	public I_M_RequisitionLine getM_RequisitionLine() throws Exception;
 }

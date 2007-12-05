@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Persistent 
 {
 
@@ -39,12 +41,14 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
     public X_C_AllocationLine (Properties ctx, int C_AllocationLine_ID, String trxName)
     {
       super (ctx, C_AllocationLine_ID, trxName);
-      /** if (C_AllocationLine_ID == 0)        {			setAmount (Env.ZERO);
+      /** if (C_AllocationLine_ID == 0)
+        {
+			setAmount (Env.ZERO);
 			setC_AllocationHdr_ID (0);
 			setC_AllocationLine_ID (0);
 			setDiscountAmt (Env.ZERO);
 			setWriteOffAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,7 +101,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return bd;
 	}
 
-	public I_C_AllocationHdr getI_C_AllocationHdr() throws Exception 
+	public I_C_AllocationHdr getC_AllocationHdr() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AllocationHdr.Table_Name);
         I_C_AllocationHdr result = null;
@@ -157,15 +161,32 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -179,15 +200,32 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_CashLine getC_CashLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_CashLine.Table_Name);
+        I_C_CashLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_CashLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Cash Journal Line.
 		@param C_CashLine_ID 
 		Cash Journal Line
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
+		if (C_CashLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
 	}
 
 	/** Get Cash Journal Line.
@@ -201,15 +239,32 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -231,15 +286,32 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -253,15 +325,32 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.

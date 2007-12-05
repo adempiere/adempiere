@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_TaxPostal
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:46.187
-     */
-    public interface I_C_TaxPostal 
+/** Generated Interface for C_TaxPostal
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_TaxPostal 
 {
 
     /** TableName=C_TaxPostal */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getI_C_Tax() throws Exception;
+	public I_C_Tax getC_Tax() throws Exception;
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";

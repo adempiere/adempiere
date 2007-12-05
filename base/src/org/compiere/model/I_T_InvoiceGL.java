@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for T_InvoiceGL
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.625
-     */
-    public interface I_T_InvoiceGL 
+/** Generated Interface for T_InvoiceGL
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_T_InvoiceGL 
 {
 
     /** TableName=T_InvoiceGL */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception;
+	public I_AD_PInstance getAD_PInstance() throws Exception;
 
     /** Column name APAR */
     public static final String COLUMNNAME_APAR = "APAR";
@@ -202,6 +201,8 @@ import org.compiere.util.*;
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws Exception;
 
     /** Column name DateReval */
     public static final String COLUMNNAME_DateReval = "DateReval";

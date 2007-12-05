@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_DesktopWorkbench
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:21.64
-     */
-    public interface I_AD_DesktopWorkbench 
+/** Generated Interface for AD_DesktopWorkbench
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_DesktopWorkbench 
 {
 
     /** TableName=AD_DesktopWorkbench */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -80,7 +78,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Desktop_ID();
 
-	public I_AD_Desktop getI_AD_Desktop() throws Exception;
+	public I_AD_Desktop getAD_Desktop() throws Exception;
 
     /** Column name AD_Workbench_ID */
     public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
@@ -95,7 +93,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Workbench_ID();
 
-	public I_AD_Workbench getI_AD_Workbench() throws Exception;
+	public I_AD_Workbench getAD_Workbench() throws Exception;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

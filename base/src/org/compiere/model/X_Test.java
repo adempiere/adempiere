@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Test
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_Test extends PO implements I_Test, I_Persistent 
 {
 
@@ -39,9 +41,11 @@ public class X_Test extends PO implements I_Test, I_Persistent
     public X_Test (Properties ctx, int Test_ID, String trxName)
     {
       super (ctx, Test_ID, trxName);
-      /** if (Test_ID == 0)        {			setName (null);
+      /** if (Test_ID == 0)
+        {
+			setName (null);
 			setTest_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +84,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Account_Acct.
-@return Account_Acct	  */
+		@return Account_Acct	  */
 	public int getAccount_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Account_Acct);
@@ -109,15 +113,32 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -131,7 +152,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -153,9 +174,10 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -175,9 +197,10 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -191,15 +214,32 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_Value (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -213,7 +253,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -235,9 +275,10 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 		set_Value (COLUMNNAME_C_UOM_ID, null);
- else 
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID <= 0) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -274,10 +315,11 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -296,10 +338,11 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -318,9 +361,10 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 		set_Value (COLUMNNAME_M_Locator_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID <= 0) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -334,15 +378,32 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -364,10 +425,11 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -420,7 +482,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -441,7 +503,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Amount.
-@return Amount	  */
+		@return Amount	  */
 	public BigDecimal getT_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_T_Amount);
@@ -458,7 +520,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Date.
-@return Date	  */
+		@return Date	  */
 	public Timestamp getT_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_T_Date);
@@ -472,7 +534,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get DateTime.
-@return DateTime	  */
+		@return DateTime	  */
 	public Timestamp getT_DateTime () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_T_DateTime);
@@ -486,7 +548,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Integer.
-@return Integer	  */
+		@return Integer	  */
 	public int getT_Integer () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_T_Integer);
@@ -503,7 +565,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Number.
-@return Number	  */
+		@return Number	  */
 	public BigDecimal getT_Number () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_T_Number);
@@ -520,7 +582,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Qty.
-@return Qty	  */
+		@return Qty	  */
 	public BigDecimal getT_Qty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_T_Qty);
@@ -539,7 +601,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	}
 
 	/** Get Test ID.
-@return Test ID	  */
+		@return Test ID	  */
 	public int getTest_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);

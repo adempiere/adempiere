@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_TaxDeclarationLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:46.062
-     */
-    public interface I_C_TaxDeclarationLine 
+/** Generated Interface for C_TaxDeclarationLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_TaxDeclarationLine 
 {
 
     /** TableName=C_TaxDeclarationLine */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,6 +70,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_AllocationLine_ID();
 
+	public I_C_AllocationLine getC_AllocationLine() throws Exception;
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -83,6 +84,8 @@ import org.compiere.util.*;
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -97,7 +100,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -112,6 +115,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceLine_ID();
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -124,6 +129,8 @@ import org.compiere.util.*;
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws Exception;
 
     /** Column name C_TaxDeclarationLine_ID */
     public static final String COLUMNNAME_C_TaxDeclarationLine_ID = "C_TaxDeclarationLine_ID";
@@ -151,7 +158,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_TaxDeclaration_ID();
 
-	public I_C_TaxDeclaration getI_C_TaxDeclaration() throws Exception;
+	public I_C_TaxDeclaration getC_TaxDeclaration() throws Exception;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -166,7 +173,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getI_C_Tax() throws Exception;
+	public I_C_Tax getC_Tax() throws Exception;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

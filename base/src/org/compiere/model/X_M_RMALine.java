@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     public X_M_RMALine (Properties ctx, int M_RMALine_ID, String trxName)
     {
       super (ctx, M_RMALine_ID, trxName);
-      /** if (M_RMALine_ID == 0)        {			setM_RMALine_ID (0);
+      /** if (M_RMALine_ID == 0)
+        {
+			setM_RMALine_ID (0);
 			setM_RMA_ID (0);
 			setProcessed (false);
 			setQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -94,7 +97,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return bd;
 	}
 
-	public I_C_Charge getI_C_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -116,9 +119,10 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 		set_Value (COLUMNNAME_C_Charge_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID <= 0) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -138,10 +142,11 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -194,7 +199,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return bd;
 	}
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -216,9 +221,10 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -254,7 +260,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RMA getI_M_RMA() throws Exception 
+	public I_M_RMA getM_RMA() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_RMA.Table_Name);
         I_M_RMA result = null;

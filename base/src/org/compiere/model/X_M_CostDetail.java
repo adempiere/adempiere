@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
     {
       super (ctx, M_CostDetail_ID, trxName);
-      /** if (M_CostDetail_ID == 0)        {			setAmt (Env.ZERO);
+      /** if (M_CostDetail_ID == 0)
+        {
+			setAmt (Env.ZERO);
 			setC_AcctSchema_ID (0);
 			setIsSOTrx (false);
 			setM_AttributeSetInstance_ID (0);
@@ -47,7 +49,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 			setM_Product_ID (0);
 			setProcessed (false);
 			setQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -100,7 +102,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return bd;
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -138,15 +140,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -160,15 +179,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_OrderLine getC_OrderLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
+        I_C_OrderLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_OrderLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Sales Order Line.
 		@param C_OrderLine_ID 
 		Sales Order Line
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+		if (C_OrderLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
 	}
 
 	/** Get Sales Order Line.
@@ -182,15 +218,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
+        I_C_ProjectIssue result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ProjectIssue)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectIssue_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project Issue.
 		@param C_ProjectIssue_ID 
 		Project Issues (Material, Labor)
 	  */
 	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 	{
-		if (C_ProjectIssue_ID <= 0) 		set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
+		if (C_ProjectIssue_ID <= 0) 
+			set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
 	}
 
 	/** Get Project Issue.
@@ -250,10 +303,11 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -334,7 +388,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getI_M_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -356,9 +410,10 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+		if (M_CostElement_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
 	}
 
 	/** Get Cost Element.
@@ -372,15 +427,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -394,15 +466,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
 		Unique line in an Inventory document
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+		if (M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
 	}
 
 	/** Get Phys.Inventory Line.
@@ -416,15 +505,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_MovementLine getM_MovementLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_MovementLine.Table_Name);
+        I_M_MovementLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_MovementLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_MovementLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Move Line.
 		@param M_MovementLine_ID 
 		Inventory Move document Line
 	  */
 	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_MovementLine_ID <= 0) 		set_Value (COLUMNNAME_M_MovementLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+		if (M_MovementLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_MovementLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
 	}
 
 	/** Get Move Line.
@@ -437,6 +543,22 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -460,15 +582,32 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
+        I_M_ProductionLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_ProductionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ProductionLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Production Line.
 		@param M_ProductionLine_ID 
 		Document Line representing a production
 	  */
 	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 	{
-		if (M_ProductionLine_ID <= 0) 		set_Value (COLUMNNAME_M_ProductionLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
+		if (M_ProductionLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
 	}
 
 	/** Get Production Line.

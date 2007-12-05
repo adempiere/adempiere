@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_InOutLineConfirm
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.218
-     */
-    public interface I_M_InOutLineConfirm 
+/** Generated Interface for M_InOutLineConfirm
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_InOutLineConfirm 
 {
 
     /** TableName=M_InOutLineConfirm */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -70,6 +68,8 @@ import org.compiere.util.*;
 	  * Invoice Detail Line
 	  */
 	public int getC_InvoiceLine_ID();
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
 
     /** Column name ConfirmationNo */
     public static final String COLUMNNAME_ConfirmationNo = "ConfirmationNo";
@@ -136,7 +136,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutConfirm_ID();
 
-	public I_M_InOutConfirm getI_M_InOutConfirm() throws Exception;
+	public I_M_InOutConfirm getM_InOutConfirm() throws Exception;
 
     /** Column name M_InOutLineConfirm_ID */
     public static final String COLUMNNAME_M_InOutLineConfirm_ID = "M_InOutLineConfirm_ID";
@@ -164,6 +164,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
+	public I_M_InOutLine getM_InOutLine() throws Exception;
+
     /** Column name M_InventoryLine_ID */
     public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 
@@ -176,6 +178,8 @@ import org.compiere.util.*;
 	  * Unique line in an Inventory document
 	  */
 	public int getM_InventoryLine_ID();
+
+	public I_M_InventoryLine getM_InventoryLine() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

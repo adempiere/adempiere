@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for CM_AccessStage
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
     public X_CM_AccessStage (Properties ctx, int CM_AccessStage_ID, String trxName)
     {
       super (ctx, CM_AccessStage_ID, trxName);
-      /** if (CM_AccessStage_ID == 0)        {			setCM_AccessProfile_ID (0);
+      /** if (CM_AccessStage_ID == 0)
+        {
+			setCM_AccessProfile_ID (0);
 			setCM_CStage_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +72,7 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
       return sb.toString();
     }
 
-	public I_CM_AccessProfile getI_CM_AccessProfile() throws Exception 
+	public I_CM_AccessProfile getCM_AccessProfile() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
         I_CM_AccessProfile result = null;
@@ -110,7 +110,7 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_CStage getI_CM_CStage() throws Exception 
+	public I_CM_CStage getCM_CStage() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_CStage.Table_Name);
         I_CM_CStage result = null;

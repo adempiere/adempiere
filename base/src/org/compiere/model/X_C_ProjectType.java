@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
     public X_C_ProjectType (Properties ctx, int C_ProjectType_ID, String trxName)
     {
       super (ctx, C_ProjectType_ID, trxName);
-      /** if (C_ProjectType_ID == 0)        {			setC_ProjectType_ID (0);
+      /** if (C_ProjectType_ID == 0)
+        {
+			setC_ProjectType_ID (0);
 			setName (null);
 			setProjectCategory (null);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -102,10 +101,11 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -124,10 +124,11 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -148,10 +149,11 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -172,22 +174,28 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** ProjectCategory AD_Reference_ID=288 */
-public static final int PROJECTCATEGORY_AD_Reference_ID=288;/** Asset Project = A */
-public static final String PROJECTCATEGORY_AssetProject = "A";/** General = N */
-public static final String PROJECTCATEGORY_General = "N";/** Service (Charge) Project = S */
-public static final String PROJECTCATEGORY_ServiceChargeProject = "S";/** Work Order (Job) = W */
-public static final String PROJECTCATEGORY_WorkOrderJob = "W";
+	/** ProjectCategory AD_Reference_ID=288 */
+	public static final int PROJECTCATEGORY_AD_Reference_ID=288;
+	/** General = N */
+	public static final String PROJECTCATEGORY_General = "N";
+	/** Asset Project = A */
+	public static final String PROJECTCATEGORY_AssetProject = "A";
+	/** Work Order (Job) = W */
+	public static final String PROJECTCATEGORY_WorkOrderJob = "W";
+	/** Service (Charge) Project = S */
+	public static final String PROJECTCATEGORY_ServiceChargeProject = "S";
 	/** Set Project Category.
 		@param ProjectCategory 
 		Project Category
 	  */
 	public void setProjectCategory (String ProjectCategory)
 	{
-if (ProjectCategory == null) throw new IllegalArgumentException ("ProjectCategory is mandatory");if (ProjectCategory.equals("A") || ProjectCategory.equals("N") || ProjectCategory.equals("S") || ProjectCategory.equals("W")); else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - A - N - S - W");		if (ProjectCategory.length() > 1)
+		if (ProjectCategory == null) throw new IllegalArgumentException ("ProjectCategory is mandatory");
+		if (ProjectCategory.equals("N") || ProjectCategory.equals("A") || ProjectCategory.equals("W") || ProjectCategory.equals("S")); else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - N - A - W - S");
+		if (ProjectCategory.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProjectCategory = ProjectCategory.substring(0, 0);
+			ProjectCategory = ProjectCategory.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_ProjectCategory, ProjectCategory);
 	}

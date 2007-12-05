@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Template_Ad_Cat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
     public X_CM_Template_Ad_Cat (Properties ctx, int CM_Template_Ad_Cat_ID, String trxName)
     {
       super (ctx, CM_Template_Ad_Cat_ID, trxName);
-      /** if (CM_Template_Ad_Cat_ID == 0)        {			setCM_Ad_Cat_ID (0);
+      /** if (CM_Template_Ad_Cat_ID == 0)
+        {
+			setCM_Ad_Cat_ID (0);
 			setCM_Template_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +74,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
       return sb.toString();
     }
 
-	public I_CM_Ad_Cat getI_CM_Ad_Cat() throws Exception 
+	public I_CM_Ad_Cat getCM_Ad_Cat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Ad_Cat.Table_Name);
         I_CM_Ad_Cat result = null;
@@ -111,7 +112,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 		return ii.intValue();
 	}
 
-	public I_CM_Template getI_CM_Template() throws Exception 
+	public I_CM_Template getCM_Template() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Template.Table_Name);
         I_CM_Template result = null;
@@ -155,10 +156,11 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -179,10 +181,11 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

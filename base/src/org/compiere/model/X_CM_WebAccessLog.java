@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persistent 
 {
 
@@ -39,12 +39,14 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
     public X_CM_WebAccessLog (Properties ctx, int CM_WebAccessLog_ID, String trxName)
     {
       super (ctx, CM_WebAccessLog_ID, trxName);
-      /** if (CM_WebAccessLog_ID == 0)        {			setCM_WebAccessLog_ID (0);
+      /** if (CM_WebAccessLog_ID == 0)
+        {
+			setCM_WebAccessLog_ID (0);
 			setIP_Address (null);
 			setLogType (null);
 			setProtocol (null);
 			setRequestType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +77,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -97,9 +99,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -119,10 +122,11 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setAcceptLanguage (String AcceptLanguage)
 	{
+
 		if (AcceptLanguage != null && AcceptLanguage.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AcceptLanguage = AcceptLanguage.substring(0, 59);
+			AcceptLanguage = AcceptLanguage.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
 	}
@@ -135,7 +139,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
-	public I_CM_BroadcastServer getI_CM_BroadcastServer() throws Exception 
+	public I_CM_BroadcastServer getCM_BroadcastServer() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_BroadcastServer.Table_Name);
         I_CM_BroadcastServer result = null;
@@ -157,9 +161,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_BroadcastServer_ID (int CM_BroadcastServer_ID)
 	{
-		if (CM_BroadcastServer_ID <= 0) 		set_Value (COLUMNNAME_CM_BroadcastServer_ID, null);
- else 
-		set_Value (COLUMNNAME_CM_BroadcastServer_ID, Integer.valueOf(CM_BroadcastServer_ID));
+		if (CM_BroadcastServer_ID <= 0) 
+			set_Value (COLUMNNAME_CM_BroadcastServer_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_BroadcastServer_ID, Integer.valueOf(CM_BroadcastServer_ID));
 	}
 
 	/** Get Broadcast Server.
@@ -173,7 +178,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_Media getI_CM_Media() throws Exception 
+	public I_CM_Media getCM_Media() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
         I_CM_Media result = null;
@@ -195,9 +200,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_Media_ID (int CM_Media_ID)
 	{
-		if (CM_Media_ID <= 0) 		set_Value (COLUMNNAME_CM_Media_ID, null);
- else 
-		set_Value (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
+		if (CM_Media_ID <= 0) 
+			set_Value (COLUMNNAME_CM_Media_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
 	}
 
 	/** Get Media Item.
@@ -233,7 +239,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -255,9 +261,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID <= 0) 		set_Value (COLUMNNAME_CM_WebProject_ID, null);
- else 
-		set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID <= 0) 
+			set_Value (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -295,16 +302,17 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		@param Hyphen Hyphen	  */
 	public void setHyphen (String Hyphen)
 	{
+
 		if (Hyphen != null && Hyphen.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Hyphen = Hyphen.substring(0, 19);
+			Hyphen = Hyphen.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Hyphen, Hyphen);
 	}
 
 	/** Get Hyphen.
-@return Hyphen	  */
+		@return Hyphen	  */
 	public String getHyphen () 
 	{
 		return (String)get_Value(COLUMNNAME_Hyphen);
@@ -318,10 +326,11 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	{
 		if (IP_Address == null)
 			throw new IllegalArgumentException ("IP_Address is mandatory.");
+
 		if (IP_Address.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			IP_Address = IP_Address.substring(0, 19);
+			IP_Address = IP_Address.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_IP_Address, IP_Address);
 	}
@@ -334,21 +343,26 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return (String)get_Value(COLUMNNAME_IP_Address);
 	}
 
-/** LogType AD_Reference_ID=390 */
-public static final int LOGTYPE_AD_Reference_ID=390;/** Ad display = A */
-public static final String LOGTYPE_AdDisplay = "A";/** Redirect = R */
-public static final String LOGTYPE_Redirect = "R";/** Web Access = W */
-public static final String LOGTYPE_WebAccess = "W";
+	/** LogType AD_Reference_ID=390 */
+	public static final int LOGTYPE_AD_Reference_ID=390;
+	/** Web Access = W */
+	public static final String LOGTYPE_WebAccess = "W";
+	/** Ad display = A */
+	public static final String LOGTYPE_AdDisplay = "A";
+	/** Redirect = R */
+	public static final String LOGTYPE_Redirect = "R";
 	/** Set Log Type.
 		@param LogType 
 		Web Log Type
 	  */
 	public void setLogType (String LogType)
 	{
-if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory");if (LogType.equals("A") || LogType.equals("R") || LogType.equals("W")); else throw new IllegalArgumentException ("LogType Invalid value - " + LogType + " - Reference_ID=390 - A - R - W");		if (LogType.length() > 1)
+		if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory");
+		if (LogType.equals("W") || LogType.equals("A") || LogType.equals("R")); else throw new IllegalArgumentException ("LogType Invalid value - " + LogType + " - Reference_ID=390 - W - A - R");
+		if (LogType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LogType = LogType.substring(0, 0);
+			LogType = LogType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LogType, LogType);
 	}
@@ -365,16 +379,17 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 		@param PageURL Page URL	  */
 	public void setPageURL (String PageURL)
 	{
+
 		if (PageURL != null && PageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			PageURL = PageURL.substring(0, 119);
+			PageURL = PageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_PageURL, PageURL);
 	}
 
 	/** Get Page URL.
-@return Page URL	  */
+		@return Page URL	  */
 	public String getPageURL () 
 	{
 		return (String)get_Value(COLUMNNAME_PageURL);
@@ -388,10 +403,11 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	{
 		if (Protocol == null)
 			throw new IllegalArgumentException ("Protocol is mandatory.");
+
 		if (Protocol.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Protocol = Protocol.substring(0, 19);
+			Protocol = Protocol.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Protocol, Protocol);
 	}
@@ -410,10 +426,11 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	  */
 	public void setReferrer (String Referrer)
 	{
+
 		if (Referrer != null && Referrer.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Referrer = Referrer.substring(0, 119);
+			Referrer = Referrer.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Referrer, Referrer);
 	}
@@ -432,10 +449,11 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -454,10 +472,11 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 119);
+			Remote_Host = Remote_Host.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -476,16 +495,17 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	{
 		if (RequestType == null)
 			throw new IllegalArgumentException ("RequestType is mandatory.");
+
 		if (RequestType.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			RequestType = RequestType.substring(0, 3);
+			RequestType = RequestType.substring(0, 4);
 		}
 		set_Value (COLUMNNAME_RequestType, RequestType);
 	}
 
 	/** Get Request Type.
-@return Request Type	  */
+		@return Request Type	  */
 	public String getRequestType () 
 	{
 		return (String)get_Value(COLUMNNAME_RequestType);
@@ -499,7 +519,7 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	}
 
 	/** Get Status Code.
-@return Status Code	  */
+		@return Status Code	  */
 	public int getStatusCode () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_StatusCode);
@@ -514,10 +534,11 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	  */
 	public void setUserAgent (String UserAgent)
 	{
+
 		if (UserAgent != null && UserAgent.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			UserAgent = UserAgent.substring(0, 254);
+			UserAgent = UserAgent.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_UserAgent, UserAgent);
 	}
@@ -536,10 +557,11 @@ if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory")
 	  */
 	public void setWebSession (String WebSession)
 	{
+
 		if (WebSession != null && WebSession.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			WebSession = WebSession.substring(0, 39);
+			WebSession = WebSession.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_WebSession, WebSession);
 	}

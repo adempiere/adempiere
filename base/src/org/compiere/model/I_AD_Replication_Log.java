@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Replication_Log
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.312
-     */
-    public interface I_AD_Replication_Log 
+/** Generated Interface for AD_Replication_Log
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Replication_Log 
 {
 
     /** TableName=AD_Replication_Log */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_ReplicationTable_ID();
 
-	public I_AD_ReplicationTable getI_AD_ReplicationTable() throws Exception;
+	public I_AD_ReplicationTable getAD_ReplicationTable() throws Exception;
 
     /** Column name AD_Replication_Log_ID */
     public static final String COLUMNNAME_AD_Replication_Log_ID = "AD_Replication_Log_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Replication_Run_ID();
 
-	public I_AD_Replication_Run getI_AD_Replication_Run() throws Exception;
+	public I_AD_Replication_Run getAD_Replication_Run() throws Exception;
 
     /** Column name IsReplicated */
     public static final String COLUMNNAME_IsReplicated = "IsReplicated";

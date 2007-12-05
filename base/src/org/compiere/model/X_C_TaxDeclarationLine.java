@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
     public X_C_TaxDeclarationLine (Properties ctx, int C_TaxDeclarationLine_ID, String trxName)
     {
       super (ctx, C_TaxDeclarationLine_ID, trxName);
-      /** if (C_TaxDeclarationLine_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_TaxDeclarationLine_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
 			setC_TaxDeclarationLine_ID (0);
 			setC_TaxDeclaration_ID (0);
@@ -50,7 +53,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 			setLine (0);
 			setTaxAmt (Env.ZERO);
 			setTaxBaseAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,15 +84,32 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
       return sb.toString();
     }
 
+	public I_C_AllocationLine getC_AllocationLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_AllocationLine.Table_Name);
+        I_C_AllocationLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_AllocationLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AllocationLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Allocation Line.
 		@param C_AllocationLine_ID 
 		Allocation Line
 	  */
 	public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 	{
-		if (C_AllocationLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));
+		if (C_AllocationLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));
 	}
 
 	/** Get Allocation Line.
@@ -102,6 +122,22 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -125,7 +161,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -163,15 +199,32 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -185,15 +238,32 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -229,7 +299,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_TaxDeclaration getI_C_TaxDeclaration() throws Exception 
+	public I_C_TaxDeclaration getC_TaxDeclaration() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxDeclaration.Table_Name);
         I_C_TaxDeclaration result = null;
@@ -267,7 +337,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_Tax getI_C_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -330,10 +400,11 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

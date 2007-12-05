@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for CM_MediaDeploy
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
     public X_CM_MediaDeploy (Properties ctx, int CM_MediaDeploy_ID, String trxName)
     {
       super (ctx, CM_MediaDeploy_ID, trxName);
-      /** if (CM_MediaDeploy_ID == 0)        {			setCM_MediaDeploy_ID (0);
+      /** if (CM_MediaDeploy_ID == 0)
+        {
+			setCM_MediaDeploy_ID (0);
 			setCM_Media_ID (0);
 			setCM_Media_Server_ID (0);
 			setIsDeployed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +97,7 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_Media getI_CM_Media() throws Exception 
+	public I_CM_Media getCM_Media() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
         I_CM_Media result = null;
@@ -134,7 +135,7 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_Media_Server getI_CM_Media_Server() throws Exception 
+	public I_CM_Media_Server getCM_Media_Server() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Media_Server.Table_Name);
         I_CM_Media_Server result = null;
@@ -178,10 +179,11 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

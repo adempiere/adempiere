@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_SchedulerRecipient
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.687
-     */
-    public interface I_AD_SchedulerRecipient 
+/** Generated Interface for AD_SchedulerRecipient
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_SchedulerRecipient 
 {
 
     /** TableName=AD_SchedulerRecipient */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name AD_SchedulerRecipient_ID */
     public static final String COLUMNNAME_AD_SchedulerRecipient_ID = "AD_SchedulerRecipient_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Scheduler_ID();
 
-	public I_AD_Scheduler getI_AD_Scheduler() throws Exception;
+	public I_AD_Scheduler getAD_Scheduler() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -113,4 +111,6 @@ import org.compiere.util.*;
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 }

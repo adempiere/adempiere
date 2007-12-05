@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_UOM
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_UOM extends PO implements I_C_UOM, I_Persistent 
 {
 
@@ -39,13 +36,15 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
     public X_C_UOM (Properties ctx, int C_UOM_ID, String trxName)
     {
       super (ctx, C_UOM_ID, trxName);
-      /** if (C_UOM_ID == 0)        {			setC_UOM_ID (0);
+      /** if (C_UOM_ID == 0)
+        {
+			setC_UOM_ID (0);
 			setCostingPrecision (0);
 			setIsDefault (false);
 			setName (null);
 			setStdPrecision (0);
 			setX12DE355 (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -124,10 +123,11 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -172,10 +172,11 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -222,10 +223,11 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	  */
 	public void setUOMSymbol (String UOMSymbol)
 	{
+
 		if (UOMSymbol != null && UOMSymbol.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			UOMSymbol = UOMSymbol.substring(0, 9);
+			UOMSymbol = UOMSymbol.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_UOMSymbol, UOMSymbol);
 	}
@@ -246,10 +248,11 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	{
 		if (X12DE355 == null)
 			throw new IllegalArgumentException ("X12DE355 is mandatory.");
+
 		if (X12DE355.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			X12DE355 = X12DE355.substring(0, 3);
+			X12DE355 = X12DE355.substring(0, 4);
 		}
 		set_Value (COLUMNNAME_X12DE355, X12DE355);
 	}

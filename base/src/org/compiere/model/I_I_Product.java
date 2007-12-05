@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for I_Product
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.312
-     */
-    public interface I_I_Product 
+/** Generated Interface for I_Product
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_I_Product 
 {
 
     /** TableName=I_Product */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -84,6 +83,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 
@@ -97,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -112,7 +113,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getI_C_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";
@@ -309,7 +310,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception;
+	public I_M_Product_Category getM_Product_Category() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -324,7 +325,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getI_M_Product() throws Exception;
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Manufacturer */
     public static final String COLUMNNAME_Manufacturer = "Manufacturer";

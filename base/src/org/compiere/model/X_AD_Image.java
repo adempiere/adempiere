@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Image
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Image extends PO implements I_AD_Image, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
     public X_AD_Image (Properties ctx, int AD_Image_ID, String trxName)
     {
       super (ctx, AD_Image_ID, trxName);
-      /** if (AD_Image_ID == 0)        {			setAD_Image_ID (0);
+      /** if (AD_Image_ID == 0)
+        {
+			setAD_Image_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -119,10 +118,11 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -135,14 +135,15 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -165,10 +166,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setImageURL (String ImageURL)
 	{
+
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 119);
+			ImageURL = ImageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -189,10 +191,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

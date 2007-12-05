@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Role extends PO implements I_AD_Role, I_Persistent 
 {
 
@@ -506,7 +506,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ConnectionProfile = ConnectionProfile.substring(0, 0);
+			ConnectionProfile = ConnectionProfile.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ConnectionProfile, ConnectionProfile);
 	}
@@ -529,7 +529,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -814,7 +814,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -880,7 +880,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (PreferenceType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PreferenceType = PreferenceType.substring(0, 0);
+			PreferenceType = PreferenceType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PreferenceType, PreferenceType);
 	}
@@ -956,7 +956,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		if (UserLevel.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			UserLevel = UserLevel.substring(0, 2);
+			UserLevel = UserLevel.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_UserLevel, UserLevel);
 	}

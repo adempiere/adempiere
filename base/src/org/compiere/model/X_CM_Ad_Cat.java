@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Ad_Cat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Ad_Cat extends PO implements I_CM_Ad_Cat, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_CM_Ad_Cat extends PO implements I_CM_Ad_Cat, I_Persistent
     public X_CM_Ad_Cat (Properties ctx, int CM_Ad_Cat_ID, String trxName)
     {
       super (ctx, CM_Ad_Cat_ID, trxName);
-      /** if (CM_Ad_Cat_ID == 0)        {			setCM_Ad_Cat_ID (0);
+      /** if (CM_Ad_Cat_ID == 0)
+        {
+			setCM_Ad_Cat_ID (0);
 			setCM_WebProject_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_CM_Ad_Cat extends PO implements I_CM_Ad_Cat, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -139,10 +140,11 @@ public class X_CM_Ad_Cat extends PO implements I_CM_Ad_Cat, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -161,10 +163,11 @@ public class X_CM_Ad_Cat extends PO implements I_CM_Ad_Cat, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -185,10 +188,11 @@ public class X_CM_Ad_Cat extends PO implements I_CM_Ad_Cat, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

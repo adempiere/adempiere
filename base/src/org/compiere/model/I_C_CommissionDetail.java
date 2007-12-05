@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_CommissionDetail
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:39.187
-     */
-    public interface I_C_CommissionDetail 
+/** Generated Interface for C_CommissionDetail
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_CommissionDetail 
 {
 
     /** TableName=C_CommissionDetail */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -97,7 +95,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_CommissionAmt_ID();
 
-	public I_C_CommissionAmt getI_C_CommissionAmt() throws Exception;
+	public I_C_CommissionAmt getC_CommissionAmt() throws Exception;
 
     /** Column name C_CommissionDetail_ID */
     public static final String COLUMNNAME_C_CommissionDetail_ID = "C_CommissionDetail_ID";
@@ -125,7 +123,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -140,6 +138,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceLine_ID();
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -152,6 +152,8 @@ import org.compiere.util.*;
 	  * Sales Order Line
 	  */
 	public int getC_OrderLine_ID();
+
+	public I_C_OrderLine getC_OrderLine() throws Exception;
 
     /** Column name ConvertedAmt */
     public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";

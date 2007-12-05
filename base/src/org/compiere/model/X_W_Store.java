@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_W_Store extends PO implements I_W_Store, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
     public X_W_Store (Properties ctx, int W_Store_ID, String trxName)
     {
       super (ctx, W_Store_ID, trxName);
-      /** if (W_Store_ID == 0)        {			setC_PaymentTerm_ID (0);
+      /** if (W_Store_ID == 0)
+        {
+			setC_PaymentTerm_ID (0);
 			setIsDefault (false);
 			setIsMenuAssets (true);
 // Y
@@ -68,7 +69,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 			setURL (null);
 			setW_Store_ID (0);
 			setWebContext (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -99,7 +100,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
       return sb.toString();
     }
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -143,10 +144,11 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -165,10 +167,11 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setEMailFooter (String EMailFooter)
 	{
+
 		if (EMailFooter != null && EMailFooter.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			EMailFooter = EMailFooter.substring(0, 1999);
+			EMailFooter = EMailFooter.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_EMailFooter, EMailFooter);
 	}
@@ -187,10 +190,11 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setEMailHeader (String EMailHeader)
 	{
+
 		if (EMailHeader != null && EMailHeader.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			EMailHeader = EMailHeader.substring(0, 1999);
+			EMailHeader = EMailHeader.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_EMailHeader, EMailHeader);
 	}
@@ -209,10 +213,11 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -489,7 +494,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 		return false;
 	}
 
-	public I_M_PriceList getI_M_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -527,7 +532,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -573,10 +578,11 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -597,8 +603,8 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
@@ -627,10 +633,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setStylesheet (String Stylesheet)
 	{
+
 		if (Stylesheet != null && Stylesheet.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Stylesheet = Stylesheet.substring(0, 59);
+			Stylesheet = Stylesheet.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Stylesheet, Stylesheet);
 	}
@@ -651,10 +658,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	{
 		if (URL == null)
 			throw new IllegalArgumentException ("URL is mandatory.");
+
 		if (URL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			URL = URL.substring(0, 119);
+			URL = URL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_URL, URL);
 	}
@@ -673,10 +681,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWStoreEMail (String WStoreEMail)
 	{
+
 		if (WStoreEMail != null && WStoreEMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			WStoreEMail = WStoreEMail.substring(0, 59);
+			WStoreEMail = WStoreEMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_WStoreEMail, WStoreEMail);
 	}
@@ -695,10 +704,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWStoreUser (String WStoreUser)
 	{
+
 		if (WStoreUser != null && WStoreUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			WStoreUser = WStoreUser.substring(0, 59);
+			WStoreUser = WStoreUser.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_WStoreUser, WStoreUser);
 	}
@@ -717,10 +727,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWStoreUserPW (String WStoreUserPW)
 	{
+
 		if (WStoreUserPW != null && WStoreUserPW.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			WStoreUserPW = WStoreUserPW.substring(0, 19);
+			WStoreUserPW = WStoreUserPW.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_WStoreUserPW, WStoreUserPW);
 	}
@@ -763,10 +774,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	{
 		if (WebContext == null)
 			throw new IllegalArgumentException ("WebContext is mandatory.");
+
 		if (WebContext.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			WebContext = WebContext.substring(0, 19);
+			WebContext = WebContext.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_WebContext, WebContext);
 	}
@@ -785,10 +797,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebInfo (String WebInfo)
 	{
+
 		if (WebInfo != null && WebInfo.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebInfo = WebInfo.substring(0, 1999);
+			WebInfo = WebInfo.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebInfo, WebInfo);
 	}
@@ -807,10 +820,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebOrderEMail (String WebOrderEMail)
 	{
+
 		if (WebOrderEMail != null && WebOrderEMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			WebOrderEMail = WebOrderEMail.substring(0, 59);
+			WebOrderEMail = WebOrderEMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_WebOrderEMail, WebOrderEMail);
 	}
@@ -829,10 +843,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebParam1 (String WebParam1)
 	{
+
 		if (WebParam1 != null && WebParam1.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam1 = WebParam1.substring(0, 1999);
+			WebParam1 = WebParam1.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam1, WebParam1);
 	}
@@ -851,10 +866,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebParam2 (String WebParam2)
 	{
+
 		if (WebParam2 != null && WebParam2.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam2 = WebParam2.substring(0, 1999);
+			WebParam2 = WebParam2.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam2, WebParam2);
 	}
@@ -873,10 +889,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebParam3 (String WebParam3)
 	{
+
 		if (WebParam3 != null && WebParam3.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam3 = WebParam3.substring(0, 1999);
+			WebParam3 = WebParam3.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam3, WebParam3);
 	}
@@ -895,10 +912,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebParam4 (String WebParam4)
 	{
+
 		if (WebParam4 != null && WebParam4.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam4 = WebParam4.substring(0, 1999);
+			WebParam4 = WebParam4.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam4, WebParam4);
 	}
@@ -917,10 +935,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebParam5 (String WebParam5)
 	{
+
 		if (WebParam5 != null && WebParam5.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam5 = WebParam5.substring(0, 1999);
+			WebParam5 = WebParam5.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam5, WebParam5);
 	}
@@ -939,10 +958,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	  */
 	public void setWebParam6 (String WebParam6)
 	{
+
 		if (WebParam6 != null && WebParam6.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WebParam6 = WebParam6.substring(0, 1999);
+			WebParam6 = WebParam6.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WebParam6, WebParam6);
 	}

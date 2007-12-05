@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_SLA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persistent 
 {
 
@@ -39,12 +41,14 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
     public X_PA_SLA_Measure (Properties ctx, int PA_SLA_Measure_ID, String trxName)
     {
       super (ctx, PA_SLA_Measure_ID, trxName);
-      /** if (PA_SLA_Measure_ID == 0)        {			setDateTrx (new Timestamp(System.currentTimeMillis()));
+      /** if (PA_SLA_Measure_ID == 0)
+        {
+			setDateTrx (new Timestamp(System.currentTimeMillis()));
 			setMeasureActual (Env.ZERO);
 			setPA_SLA_Goal_ID (0);
 			setPA_SLA_Measure_ID (0);
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,15 +79,32 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
       return sb.toString();
     }
 
+	public I_AD_Table getAD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -130,10 +151,11 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -168,7 +190,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 		return bd;
 	}
 
-	public I_PA_SLA_Goal getI_PA_SLA_Goal() throws Exception 
+	public I_PA_SLA_Goal getPA_SLA_Goal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_SLA_Goal.Table_Name);
         I_PA_SLA_Goal result = null;
@@ -260,7 +282,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -279,9 +301,10 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_Value (COLUMNNAME_Record_ID, null);
- else 
-		set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_Value (COLUMNNAME_Record_ID, null);
+		else 
+			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

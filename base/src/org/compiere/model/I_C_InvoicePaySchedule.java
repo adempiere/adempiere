@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_InvoicePaySchedule
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:41.14
-     */
-    public interface I_C_InvoicePaySchedule 
+/** Generated Interface for C_InvoicePaySchedule
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_InvoicePaySchedule 
 {
 
     /** TableName=C_InvoicePaySchedule */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,6 +83,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Invoice_ID();
 
+	public I_C_Invoice getC_Invoice() throws Exception;
+
     /** Column name C_PaySchedule_ID */
     public static final String COLUMNNAME_C_PaySchedule_ID = "C_PaySchedule_ID";
 
@@ -97,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_PaySchedule_ID();
 
-	public I_C_PaySchedule getI_C_PaySchedule() throws Exception;
+	public I_C_PaySchedule getC_PaySchedule() throws Exception;
 
     /** Column name DiscountAmt */
     public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";

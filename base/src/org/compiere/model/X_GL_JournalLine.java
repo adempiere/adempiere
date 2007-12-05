@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
     public X_GL_JournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)
     {
       super (ctx, GL_JournalLine_ID, trxName);
-      /** if (GL_JournalLine_ID == 0)        {			setAmtAcctCr (Env.ZERO);
+      /** if (GL_JournalLine_ID == 0)
+        {
+			setAmtAcctCr (Env.ZERO);
 			setAmtAcctDr (Env.ZERO);
 			setAmtSourceCr (Env.ZERO);
 			setAmtSourceDr (Env.ZERO);
@@ -57,7 +61,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM GL_JournalLine WHERE GL_Journal_ID=@GL_Journal_ID@
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -176,7 +180,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return bd;
 	}
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -214,7 +218,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -252,7 +256,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -274,9 +278,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 		set_Value (COLUMNNAME_C_UOM_ID, null);
- else 
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID <= 0) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -359,10 +364,11 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -397,7 +403,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_GL_Journal getI_GL_Journal() throws Exception 
+	public I_GL_Journal getGL_Journal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
         I_GL_Journal result = null;

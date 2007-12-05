@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_GL_Category extends PO implements I_GL_Category, I_Persistent 
 {
 
@@ -39,12 +36,14 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
     public X_GL_Category (Properties ctx, int GL_Category_ID, String trxName)
     {
       super (ctx, GL_Category_ID, trxName);
-      /** if (GL_Category_ID == 0)        {			setCategoryType (null);
+      /** if (GL_Category_ID == 0)
+        {
+			setCategoryType (null);
 // M
 			setGL_Category_ID (0);
 			setIsDefault (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,22 +74,28 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
       return sb.toString();
     }
 
-/** CategoryType AD_Reference_ID=207 */
-public static final int CATEGORYTYPE_AD_Reference_ID=207;/** Document = D */
-public static final String CATEGORYTYPE_Document = "D";/** Import = I */
-public static final String CATEGORYTYPE_Import = "I";/** Manual = M */
-public static final String CATEGORYTYPE_Manual = "M";/** System generated = S */
-public static final String CATEGORYTYPE_SystemGenerated = "S";
+	/** CategoryType AD_Reference_ID=207 */
+	public static final int CATEGORYTYPE_AD_Reference_ID=207;
+	/** Manual = M */
+	public static final String CATEGORYTYPE_Manual = "M";
+	/** Import = I */
+	public static final String CATEGORYTYPE_Import = "I";
+	/** Document = D */
+	public static final String CATEGORYTYPE_Document = "D";
+	/** System generated = S */
+	public static final String CATEGORYTYPE_SystemGenerated = "S";
 	/** Set Category Type.
 		@param CategoryType 
 		Source of the Journal with this category
 	  */
 	public void setCategoryType (String CategoryType)
 	{
-if (CategoryType == null) throw new IllegalArgumentException ("CategoryType is mandatory");if (CategoryType.equals("D") || CategoryType.equals("I") || CategoryType.equals("M") || CategoryType.equals("S")); else throw new IllegalArgumentException ("CategoryType Invalid value - " + CategoryType + " - Reference_ID=207 - D - I - M - S");		if (CategoryType.length() > 1)
+		if (CategoryType == null) throw new IllegalArgumentException ("CategoryType is mandatory");
+		if (CategoryType.equals("M") || CategoryType.equals("I") || CategoryType.equals("D") || CategoryType.equals("S")); else throw new IllegalArgumentException ("CategoryType Invalid value - " + CategoryType + " - Reference_ID=207 - M - I - D - S");
+		if (CategoryType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CategoryType = CategoryType.substring(0, 0);
+			CategoryType = CategoryType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CategoryType, CategoryType);
 	}
@@ -109,10 +114,11 @@ if (CategoryType == null) throw new IllegalArgumentException ("CategoryType is m
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -123,53 +129,6 @@ if (CategoryType == null) throw new IllegalArgumentException ("CategoryType is m
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-/** DocBaseType AD_Reference_ID=183 */
-public static final int DOCBASETYPE_AD_Reference_ID=183;/** AP Credit Memo = APC */
-public static final String DOCBASETYPE_APCreditMemo = "APC";/** AP Invoice = API */
-public static final String DOCBASETYPE_APInvoice = "API";/** AP Payment = APP */
-public static final String DOCBASETYPE_APPayment = "APP";/** AR Credit Memo = ARC */
-public static final String DOCBASETYPE_ARCreditMemo = "ARC";/** AR Pro Forma Invoice = ARF */
-public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";/** AR Invoice = ARI */
-public static final String DOCBASETYPE_ARInvoice = "ARI";/** AR Receipt = ARR */
-public static final String DOCBASETYPE_ARReceipt = "ARR";/** Payment Allocation = CMA */
-public static final String DOCBASETYPE_PaymentAllocation = "CMA";/** Bank Statement = CMB */
-public static final String DOCBASETYPE_BankStatement = "CMB";/** Cash Journal = CMC */
-public static final String DOCBASETYPE_CashJournal = "CMC";/** GL Document = GLD */
-public static final String DOCBASETYPE_GLDocument = "GLD";/** GL Journal = GLJ */
-public static final String DOCBASETYPE_GLJournal = "GLJ";/** Material Physical Inventory = MMI */
-public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";/** Material Movement = MMM */
-public static final String DOCBASETYPE_MaterialMovement = "MMM";/** Material Production = MMP */
-public static final String DOCBASETYPE_MaterialProduction = "MMP";/** Material Receipt = MMR */
-public static final String DOCBASETYPE_MaterialReceipt = "MMR";/** Material Delivery = MMS */
-public static final String DOCBASETYPE_MaterialDelivery = "MMS";/** Match Invoice = MXI */
-public static final String DOCBASETYPE_MatchInvoice = "MXI";/** Match PO = MXP */
-public static final String DOCBASETYPE_MatchPO = "MXP";/** Project Issue = PJI */
-public static final String DOCBASETYPE_ProjectIssue = "PJI";/** Purchase Order = POO */
-public static final String DOCBASETYPE_PurchaseOrder = "POO";/** Purchase Requisition = POR */
-public static final String DOCBASETYPE_PurchaseRequisition = "POR";/** Sales Order = SOO */
-public static final String DOCBASETYPE_SalesOrder = "SOO";
-	/** Set Document BaseType.
-		@param DocBaseType 
-		Logical type of document
-	  */
-	public void setDocBaseType (String DocBaseType)
-	{
-if (DocBaseType == null || DocBaseType.equals("APC") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARC") || DocBaseType.equals("ARF") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("CMA") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("GLD") || DocBaseType.equals("GLJ") || DocBaseType.equals("MMI") || DocBaseType.equals("MMM") || DocBaseType.equals("MMP") || DocBaseType.equals("MMR") || DocBaseType.equals("MMS") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("SOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - APC - API - APP - ARC - ARF - ARI - ARR - CMA - CMB - CMC - GLD - GLJ - MMI - MMM - MMP - MMR - MMS - MXI - MXP - PJI - POO - POR - SOO");		if (DocBaseType != null && DocBaseType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			DocBaseType = DocBaseType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
-	}
-
-	/** Get Document BaseType.
-		@return Logical type of document
-	  */
-	public String getDocBaseType () 
-	{
-		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
 	/** Set GL Category.
@@ -226,10 +185,11 @@ if (DocBaseType == null || DocBaseType.equals("APC") || DocBaseType.equals("API"
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

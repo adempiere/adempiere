@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Budget
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
     public X_GL_Budget (Properties ctx, int GL_Budget_ID, String trxName)
     {
       super (ctx, GL_Budget_ID, trxName);
-      /** if (GL_Budget_ID == 0)        {			setGL_Budget_ID (0);
+      /** if (GL_Budget_ID == 0)
+        {
+			setGL_Budget_ID (0);
 			setIsPrimary (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,20 +72,24 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
       return sb.toString();
     }
 
-/** BudgetStatus AD_Reference_ID=178 */
-public static final int BUDGETSTATUS_AD_Reference_ID=178;/** Approved = A */
-public static final String BUDGETSTATUS_Approved = "A";/** Draft = D */
-public static final String BUDGETSTATUS_Draft = "D";
+	/** BudgetStatus AD_Reference_ID=178 */
+	public static final int BUDGETSTATUS_AD_Reference_ID=178;
+	/** Draft = D */
+	public static final String BUDGETSTATUS_Draft = "D";
+	/** Approved = A */
+	public static final String BUDGETSTATUS_Approved = "A";
 	/** Set Budget Status.
 		@param BudgetStatus 
 		Indicates the current status of this budget
 	  */
 	public void setBudgetStatus (String BudgetStatus)
 	{
-if (BudgetStatus == null || BudgetStatus.equals("A") || BudgetStatus.equals("D")); else throw new IllegalArgumentException ("BudgetStatus Invalid value - " + BudgetStatus + " - Reference_ID=178 - A - D");		if (BudgetStatus != null && BudgetStatus.length() > 1)
+
+		if (BudgetStatus == null || BudgetStatus.equals("D") || BudgetStatus.equals("A")); else throw new IllegalArgumentException ("BudgetStatus Invalid value - " + BudgetStatus + " - Reference_ID=178 - D - A");
+		if (BudgetStatus != null && BudgetStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BudgetStatus = BudgetStatus.substring(0, 0);
+			BudgetStatus = BudgetStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BudgetStatus, BudgetStatus);
 	}
@@ -105,10 +108,11 @@ if (BudgetStatus == null || BudgetStatus.equals("A") || BudgetStatus.equals("D")
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -175,10 +179,11 @@ if (BudgetStatus == null || BudgetStatus.equals("A") || BudgetStatus.equals("D")
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

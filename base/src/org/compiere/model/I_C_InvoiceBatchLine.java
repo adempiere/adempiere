@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_InvoiceBatchLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:40.609
-     */
-    public interface I_C_InvoiceBatchLine 
+/** Generated Interface for C_InvoiceBatchLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_InvoiceBatchLine 
 {
 
     /** TableName=C_InvoiceBatchLine */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +83,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -99,7 +98,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -114,6 +113,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 
@@ -127,7 +128,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -142,6 +143,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Charge_ID();
 
+	public I_C_Charge getC_Charge() throws Exception;
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -155,7 +158,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getI_C_DocType() throws Exception;
+	public I_C_DocType getC_DocType() throws Exception;
 
     /** Column name C_InvoiceBatchLine_ID */
     public static final String COLUMNNAME_C_InvoiceBatchLine_ID = "C_InvoiceBatchLine_ID";
@@ -183,7 +186,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceBatch_ID();
 
-	public I_C_InvoiceBatch getI_C_InvoiceBatch() throws Exception;
+	public I_C_InvoiceBatch getC_InvoiceBatch() throws Exception;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -198,6 +201,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceLine_ID();
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -210,6 +215,8 @@ import org.compiere.util.*;
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -224,6 +231,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
+	public I_C_Project getC_Project() throws Exception;
+
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -237,7 +246,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getI_C_Tax() throws Exception;
+	public I_C_Tax getC_Tax() throws Exception;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

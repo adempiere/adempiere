@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxDeclaration
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Persistent 
 {
 
@@ -39,13 +37,15 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
     public X_C_TaxDeclaration (Properties ctx, int C_TaxDeclaration_ID, String trxName)
     {
       super (ctx, C_TaxDeclaration_ID, trxName);
-      /** if (C_TaxDeclaration_ID == 0)        {			setC_TaxDeclaration_ID (0);
+      /** if (C_TaxDeclaration_ID == 0)
+        {
+			setC_TaxDeclaration_ID (0);
 			setDateFrom (new Timestamp(System.currentTimeMillis()));
 			setDateTo (new Timestamp(System.currentTimeMillis()));
 			setDateTrx (new Timestamp(System.currentTimeMillis()));
 			setName (null);
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -161,10 +161,11 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -185,10 +186,11 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -241,7 +243,7 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

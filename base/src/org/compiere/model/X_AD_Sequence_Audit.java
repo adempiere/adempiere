@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Sequence_Audit
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
     public X_AD_Sequence_Audit (Properties ctx, int AD_Sequence_Audit_ID, String trxName)
     {
       super (ctx, AD_Sequence_Audit_ID, trxName);
-      /** if (AD_Sequence_Audit_ID == 0)        {			setAD_Sequence_ID (0);
+      /** if (AD_Sequence_Audit_ID == 0)
+        {
+			setAD_Sequence_ID (0);
 			setAD_Table_ID (0);
 			setDocumentNo (null);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +74,7 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Sequence getI_AD_Sequence() throws Exception 
+	public I_AD_Sequence getAD_Sequence() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Sequence.Table_Name);
         I_AD_Sequence result = null;
@@ -112,7 +112,7 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -158,10 +158,11 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}

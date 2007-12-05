@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_PaySelection
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:42.578
-     */
-    public interface I_C_PaySelection 
+/** Generated Interface for C_PaySelection
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_PaySelection 
 {
 
     /** TableName=C_PaySelection */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception;
+	public I_C_BankAccount getC_BankAccount() throws Exception;
 
     /** Column name C_PaySelection_ID */
     public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for S_TimeExpense
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.328
-     */
-    public interface I_S_TimeExpense 
+/** Generated Interface for S_TimeExpense
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_S_TimeExpense 
 {
 
     /** TableName=S_TimeExpense */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -175,7 +174,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getI_M_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws Exception;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -190,7 +189,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

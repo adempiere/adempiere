@@ -33,12 +33,11 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Document_Action_Access
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_AD_Document_Action_Access 
 {

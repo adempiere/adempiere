@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RevenueRecognition_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecognition_Run, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
     public X_C_RevenueRecognition_Run (Properties ctx, int C_RevenueRecognition_Run_ID, String trxName)
     {
       super (ctx, C_RevenueRecognition_Run_ID, trxName);
-      /** if (C_RevenueRecognition_Run_ID == 0)        {			setC_RevenueRecognition_Plan_ID (0);
+      /** if (C_RevenueRecognition_Run_ID == 0)
+        {
+			setC_RevenueRecognition_Plan_ID (0);
 			setC_RevenueRecognition_Run_ID (0);
 			setGL_Journal_ID (0);
 			setRecognizedAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +77,7 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition_Plan getI_C_RevenueRecognition_Plan() throws Exception 
+	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RevenueRecognition_Plan.Table_Name);
         I_C_RevenueRecognition_Plan result = null;
@@ -142,7 +145,7 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 		return ii.intValue();
 	}
 
-	public I_GL_Journal getI_GL_Journal() throws Exception 
+	public I_GL_Journal getGL_Journal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
         I_GL_Journal result = null;
@@ -190,7 +193,7 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 	}
 
 	/** Get Recognized Amount.
-@return Recognized Amount	  */
+		@return Recognized Amount	  */
 	public BigDecimal getRecognizedAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RecognizedAmt);

@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
     public X_C_RfQ (Properties ctx, int C_RfQ_ID, String trxName)
     {
       super (ctx, C_RfQ_ID, trxName);
-      /** if (C_RfQ_ID == 0)        {			setC_Currency_ID (0);
+      /** if (C_RfQ_ID == 0)
+        {
+			setC_Currency_ID (0);
 // @$C_Currency_ID @
 			setC_RfQ_ID (0);
 			setC_RfQ_Topic_ID (0);
@@ -57,7 +61,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 			setQuoteType (null);
 // S
 			setSalesRep_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -88,7 +92,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -110,9 +114,10 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -126,15 +131,32 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -148,7 +170,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -170,9 +192,10 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -186,7 +209,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -224,15 +247,32 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_Value (COLUMNNAME_C_Order_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -268,7 +308,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_RfQ_Topic getI_C_RfQ_Topic() throws Exception 
+	public I_C_RfQ_Topic getC_RfQ_Topic() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQ_Topic.Table_Name);
         I_C_RfQ_Topic result = null;
@@ -310,16 +350,17 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		@param CopyLines Copy Lines	  */
 	public void setCopyLines (String CopyLines)
 	{
+
 		if (CopyLines != null && CopyLines.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CopyLines = CopyLines.substring(0, 0);
+			CopyLines = CopyLines.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CopyLines, CopyLines);
 	}
 
 	/** Get Copy Lines.
-@return Copy Lines	  */
+		@return Copy Lines	  */
 	public String getCopyLines () 
 	{
 		return (String)get_Value(COLUMNNAME_CopyLines);
@@ -331,10 +372,11 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setCreatePO (String CreatePO)
 	{
+
 		if (CreatePO != null && CreatePO.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreatePO = CreatePO.substring(0, 0);
+			CreatePO = CreatePO.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreatePO, CreatePO);
 	}
@@ -351,16 +393,17 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		@param CreateSO Create SO	  */
 	public void setCreateSO (String CreateSO)
 	{
+
 		if (CreateSO != null && CreateSO.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreateSO = CreateSO.substring(0, 0);
+			CreateSO = CreateSO.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreateSO, CreateSO);
 	}
 
 	/** Get Create SO.
-@return Create SO	  */
+		@return Create SO	  */
 	public String getCreateSO () 
 	{
 		return (String)get_Value(COLUMNNAME_CreateSO);
@@ -445,10 +488,11 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -469,10 +513,11 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -499,10 +544,11 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -663,10 +709,11 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -711,7 +758,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -728,36 +775,42 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		@param PublishRfQ Publish RfQ	  */
 	public void setPublishRfQ (String PublishRfQ)
 	{
+
 		if (PublishRfQ != null && PublishRfQ.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PublishRfQ = PublishRfQ.substring(0, 0);
+			PublishRfQ = PublishRfQ.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PublishRfQ, PublishRfQ);
 	}
 
 	/** Get Publish RfQ.
-@return Publish RfQ	  */
+		@return Publish RfQ	  */
 	public String getPublishRfQ () 
 	{
 		return (String)get_Value(COLUMNNAME_PublishRfQ);
 	}
 
-/** QuoteType AD_Reference_ID=314 */
-public static final int QUOTETYPE_AD_Reference_ID=314;/** Quote All Lines = A */
-public static final String QUOTETYPE_QuoteAllLines = "A";/** Quote Selected Lines = S */
-public static final String QUOTETYPE_QuoteSelectedLines = "S";/** Quote Total only = T */
-public static final String QUOTETYPE_QuoteTotalOnly = "T";
+	/** QuoteType AD_Reference_ID=314 */
+	public static final int QUOTETYPE_AD_Reference_ID=314;
+	/** Quote Total only = T */
+	public static final String QUOTETYPE_QuoteTotalOnly = "T";
+	/** Quote Selected Lines = S */
+	public static final String QUOTETYPE_QuoteSelectedLines = "S";
+	/** Quote All Lines = A */
+	public static final String QUOTETYPE_QuoteAllLines = "A";
 	/** Set RfQ Type.
 		@param QuoteType 
 		Request for Quotation Type
 	  */
 	public void setQuoteType (String QuoteType)
 	{
-if (QuoteType == null) throw new IllegalArgumentException ("QuoteType is mandatory");if (QuoteType.equals("A") || QuoteType.equals("S") || QuoteType.equals("T")); else throw new IllegalArgumentException ("QuoteType Invalid value - " + QuoteType + " - Reference_ID=314 - A - S - T");		if (QuoteType.length() > 1)
+		if (QuoteType == null) throw new IllegalArgumentException ("QuoteType is mandatory");
+		if (QuoteType.equals("T") || QuoteType.equals("S") || QuoteType.equals("A")); else throw new IllegalArgumentException ("QuoteType Invalid value - " + QuoteType + " - Reference_ID=314 - T - S - A");
+		if (QuoteType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			QuoteType = QuoteType.substring(0, 0);
+			QuoteType = QuoteType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_QuoteType, QuoteType);
 	}
@@ -774,23 +827,24 @@ if (QuoteType == null) throw new IllegalArgumentException ("QuoteType is mandato
 		@param RankRfQ Rank RfQ	  */
 	public void setRankRfQ (String RankRfQ)
 	{
+
 		if (RankRfQ != null && RankRfQ.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			RankRfQ = RankRfQ.substring(0, 0);
+			RankRfQ = RankRfQ.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_RankRfQ, RankRfQ);
 	}
 
 	/** Get Rank RfQ.
-@return Rank RfQ	  */
+		@return Rank RfQ	  */
 	public String getRankRfQ () 
 	{
 		return (String)get_Value(COLUMNNAME_RankRfQ);
 	}
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

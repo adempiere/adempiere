@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
     public X_M_DemandLine (Properties ctx, int M_DemandLine_ID, String trxName)
     {
       super (ctx, M_DemandLine_ID, trxName);
-      /** if (M_DemandLine_ID == 0)        {			setC_Period_ID (0);
+      /** if (M_DemandLine_ID == 0)
+        {
+			setC_Period_ID (0);
 			setM_DemandLine_ID (0);
 			setM_Demand_ID (0);
 			setM_Product_ID (0);
 			setQty (Env.ZERO);
 			setQtyCalculated (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +79,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Period getI_C_Period() throws Exception 
+	public I_C_Period getC_Period() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -144,7 +147,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Demand getI_M_Demand() throws Exception 
+	public I_M_Demand getM_Demand() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Demand.Table_Name);
         I_M_Demand result = null;
@@ -181,6 +184,22 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

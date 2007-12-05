@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
     public X_C_PaymentTerm (Properties ctx, int C_PaymentTerm_ID, String trxName)
     {
       super (ctx, C_PaymentTerm_ID, trxName);
-      /** if (C_PaymentTerm_ID == 0)        {			setAfterDelivery (false);
+      /** if (C_PaymentTerm_ID == 0)
+        {
+			setAfterDelivery (false);
 			setC_PaymentTerm_ID (0);
 			setDiscount (Env.ZERO);
 			setDiscount2 (Env.ZERO);
@@ -51,7 +52,7 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 			setName (null);
 			setNetDays (0);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -134,10 +135,11 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -240,10 +242,11 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
+
 		if (DocumentNote != null && DocumentNote.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 1999);
+			DocumentNote = DocumentNote.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
@@ -440,10 +443,11 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -464,25 +468,34 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** NetDay AD_Reference_ID=167 */
-public static final int NETDAY_AD_Reference_ID=167;/** Monday = 1 */
-public static final String NETDAY_Monday = "1";/** Tuesday = 2 */
-public static final String NETDAY_Tuesday = "2";/** Wednesday = 3 */
-public static final String NETDAY_Wednesday = "3";/** Thursday = 4 */
-public static final String NETDAY_Thursday = "4";/** Friday = 5 */
-public static final String NETDAY_Friday = "5";/** Saturday = 6 */
-public static final String NETDAY_Saturday = "6";/** Sunday = 7 */
-public static final String NETDAY_Sunday = "7";
+	/** NetDay AD_Reference_ID=167 */
+	public static final int NETDAY_AD_Reference_ID=167;
+	/** Sunday = 7 */
+	public static final String NETDAY_Sunday = "7";
+	/** Monday = 1 */
+	public static final String NETDAY_Monday = "1";
+	/** Tuesday = 2 */
+	public static final String NETDAY_Tuesday = "2";
+	/** Wednesday = 3 */
+	public static final String NETDAY_Wednesday = "3";
+	/** Thursday = 4 */
+	public static final String NETDAY_Thursday = "4";
+	/** Friday = 5 */
+	public static final String NETDAY_Friday = "5";
+	/** Saturday = 6 */
+	public static final String NETDAY_Saturday = "6";
 	/** Set Net Day.
 		@param NetDay 
 		Day when payment is due net
 	  */
 	public void setNetDay (String NetDay)
 	{
-if (NetDay == null || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6") || NetDay.equals("7")); else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");		if (NetDay != null && NetDay.length() > 1)
+
+		if (NetDay == null || NetDay.equals("7") || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6")); else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
+		if (NetDay != null && NetDay.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			NetDay = NetDay.substring(0, 0);
+			NetDay = NetDay.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_NetDay, NetDay);
 	}
@@ -523,7 +536,7 @@ if (NetDay == null || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals(
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -544,10 +557,11 @@ if (NetDay == null || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals(
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

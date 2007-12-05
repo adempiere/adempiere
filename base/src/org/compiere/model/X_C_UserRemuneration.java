@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_UserRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_UserRemuneration extends PO implements I_C_UserRemuneration, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_UserRemuneration extends PO implements I_C_UserRemuneration, I_
     public X_C_UserRemuneration (Properties ctx, int C_UserRemuneration_ID, String trxName)
     {
       super (ctx, C_UserRemuneration_ID, trxName);
-      /** if (C_UserRemuneration_ID == 0)        {			setAD_User_ID (0);
+      /** if (C_UserRemuneration_ID == 0)
+        {
+			setAD_User_ID (0);
 			setC_Remuneration_ID (0);
 			setC_UserRemuneration_ID (0);
 			setGrossRAmt (Env.ZERO);
@@ -47,7 +51,7 @@ public class X_C_UserRemuneration extends PO implements I_C_UserRemuneration, I_
 			setOvertimeAmt (Env.ZERO);
 			setOvertimeCost (Env.ZERO);
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,6 +80,22 @@ public class X_C_UserRemuneration extends PO implements I_C_UserRemuneration, I_
       StringBuffer sb = new StringBuffer ("X_C_UserRemuneration[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set User/Contact.
@@ -108,7 +128,7 @@ public class X_C_UserRemuneration extends PO implements I_C_UserRemuneration, I_
         return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
     }
 
-	public I_C_Remuneration getI_C_Remuneration() throws Exception 
+	public I_C_Remuneration getC_Remuneration() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Remuneration.Table_Name);
         I_C_Remuneration result = null;
@@ -174,10 +194,11 @@ public class X_C_UserRemuneration extends PO implements I_C_UserRemuneration, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

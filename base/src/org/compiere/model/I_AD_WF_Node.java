@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_WF_Node
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.968
-     */
-    public interface I_AD_WF_Node 
+/** Generated Interface for AD_WF_Node
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_WF_Node 
 {
 
     /** TableName=AD_WF_Node */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getI_AD_Form() throws Exception;
+	public I_AD_Form getAD_Form() throws Exception;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -101,7 +99,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getI_AD_Image() throws Exception;
+	public I_AD_Image getAD_Image() throws Exception;
 
     /** Column name AD_Process_ID */
     public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
@@ -116,7 +114,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getI_AD_Process() throws Exception;
+	public I_AD_Process getAD_Process() throws Exception;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -131,7 +129,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getI_AD_Task() throws Exception;
+	public I_AD_Task getAD_Task() throws Exception;
 
     /** Column name AD_WF_Block_ID */
     public static final String COLUMNNAME_AD_WF_Block_ID = "AD_WF_Block_ID";
@@ -146,7 +144,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Block_ID();
 
-	public I_AD_WF_Block getI_AD_WF_Block() throws Exception;
+	public I_AD_WF_Block getAD_WF_Block() throws Exception;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -174,7 +172,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getI_AD_WF_Responsible() throws Exception;
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -189,7 +187,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getI_AD_Window() throws Exception;
+	public I_AD_Window getAD_Window() throws Exception;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -204,7 +202,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception;
+	public I_AD_Workflow getAD_Workflow() throws Exception;
 
     /** Column name Action */
     public static final String COLUMNNAME_Action = "Action";
@@ -468,7 +466,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getI_R_MailText() throws Exception;
+	public I_R_MailText getR_MailText() throws Exception;
 
     /** Column name SplitElement */
     public static final String COLUMNNAME_SplitElement = "SplitElement";

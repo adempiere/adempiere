@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Replication extends PO implements I_AD_Replication, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
     public X_AD_Replication (Properties ctx, int AD_Replication_ID, String trxName)
     {
       super (ctx, AD_Replication_ID, trxName);
-      /** if (AD_Replication_ID == 0)        {			setAD_ReplicationStrategy_ID (0);
+      /** if (AD_Replication_ID == 0)
+        {
+			setAD_ReplicationStrategy_ID (0);
 			setAD_Replication_ID (0);
 			setHostAddress (null);
 			setHostPort (0);
@@ -49,7 +53,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 			setName (null);
 			setRemote_Client_ID (0);
 			setRemote_Org_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +84,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_ReplicationStrategy getI_AD_ReplicationStrategy() throws Exception 
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReplicationStrategy.Table_Name);
         I_AD_ReplicationStrategy result = null;
@@ -163,10 +167,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -185,10 +190,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -209,10 +215,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	{
 		if (HostAddress == null)
 			throw new IllegalArgumentException ("HostAddress is mandatory.");
+
 		if (HostAddress.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			HostAddress = HostAddress.substring(0, 59);
+			HostAddress = HostAddress.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_HostAddress, HostAddress);
 	}
@@ -317,10 +324,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -347,10 +355,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setPrefix (String Prefix)
 	{
+
 		if (Prefix != null && Prefix.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Prefix = Prefix.substring(0, 9);
+			Prefix = Prefix.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Prefix, Prefix);
 	}
@@ -371,7 +380,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -384,8 +393,8 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 		return false;
 	}
 
-/** Remote_Client_ID AD_Reference_ID=129 */
-public static final int REMOTE_CLIENT_ID_AD_Reference_ID=129;
+	/** Remote_Client_ID AD_Reference_ID=129 */
+	public static final int REMOTE_CLIENT_ID_AD_Reference_ID=129;
 	/** Set Remote Client.
 		@param Remote_Client_ID 
 		Remote Client to be used to replicate / synchronize data with.
@@ -408,8 +417,8 @@ public static final int REMOTE_CLIENT_ID_AD_Reference_ID=129;
 		return ii.intValue();
 	}
 
-/** Remote_Org_ID AD_Reference_ID=276 */
-public static final int REMOTE_ORG_ID_AD_Reference_ID=276;
+	/** Remote_Org_ID AD_Reference_ID=276 */
+	public static final int REMOTE_ORG_ID_AD_Reference_ID=276;
 	/** Set Remote Organization.
 		@param Remote_Org_ID 
 		Remote Organization to be used to replicate / synchronize data with.
@@ -438,10 +447,11 @@ public static final int REMOTE_ORG_ID_AD_Reference_ID=276;
 	  */
 	public void setSuffix (String Suffix)
 	{
+
 		if (Suffix != null && Suffix.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Suffix = Suffix.substring(0, 9);
+			Suffix = Suffix.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Suffix, Suffix);
 	}

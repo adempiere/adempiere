@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
     public X_M_AttributeSet (Properties ctx, int M_AttributeSet_ID, String trxName)
     {
       super (ctx, M_AttributeSet_ID, trxName);
-      /** if (M_AttributeSet_ID == 0)        {			setIsGuaranteeDate (false);
+      /** if (M_AttributeSet_ID == 0)
+        {
+			setIsGuaranteeDate (false);
 			setIsGuaranteeDateMandatory (false);
 			setIsInstanceAttribute (false);
 			setIsLot (false);
@@ -49,7 +50,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 			setM_AttributeSet_ID (0);
 			setMandatoryType (null);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -86,10 +87,11 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -292,20 +294,21 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 
 	/** Set Lot Char End Overwrite.
 		@param LotCharEOverwrite 
-		Lot/Batch End Indicator overwrite - default »
+		Lot/Batch End Indicator overwrite - default Â»
 	  */
 	public void setLotCharEOverwrite (String LotCharEOverwrite)
 	{
+
 		if (LotCharEOverwrite != null && LotCharEOverwrite.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LotCharEOverwrite = LotCharEOverwrite.substring(0, 0);
+			LotCharEOverwrite = LotCharEOverwrite.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LotCharEOverwrite, LotCharEOverwrite);
 	}
 
 	/** Get Lot Char End Overwrite.
-		@return Lot/Batch End Indicator overwrite - default »
+		@return Lot/Batch End Indicator overwrite - default Â»
 	  */
 	public String getLotCharEOverwrite () 
 	{
@@ -314,20 +317,21 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 
 	/** Set Lot Char Start Overwrite.
 		@param LotCharSOverwrite 
-		Lot/Batch Start Indicator overwrite - default «
+		Lot/Batch Start Indicator overwrite - default Â«
 	  */
 	public void setLotCharSOverwrite (String LotCharSOverwrite)
 	{
+
 		if (LotCharSOverwrite != null && LotCharSOverwrite.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LotCharSOverwrite = LotCharSOverwrite.substring(0, 0);
+			LotCharSOverwrite = LotCharSOverwrite.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LotCharSOverwrite, LotCharSOverwrite);
 	}
 
 	/** Get Lot Char Start Overwrite.
-		@return Lot/Batch Start Indicator overwrite - default «
+		@return Lot/Batch Start Indicator overwrite - default Â«
 	  */
 	public String getLotCharSOverwrite () 
 	{
@@ -356,7 +360,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_LotCtl getI_M_LotCtl() throws Exception 
+	public I_M_LotCtl getM_LotCtl() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
         I_M_LotCtl result = null;
@@ -378,9 +382,10 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setM_LotCtl_ID (int M_LotCtl_ID)
 	{
-		if (M_LotCtl_ID <= 0) 		set_Value (COLUMNNAME_M_LotCtl_ID, null);
- else 
-		set_Value (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
+		if (M_LotCtl_ID <= 0) 
+			set_Value (COLUMNNAME_M_LotCtl_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
 	}
 
 	/** Get Lot Control.
@@ -394,7 +399,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_SerNoCtl getI_M_SerNoCtl() throws Exception 
+	public I_M_SerNoCtl getM_SerNoCtl() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_SerNoCtl.Table_Name);
         I_M_SerNoCtl result = null;
@@ -416,9 +421,10 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setM_SerNoCtl_ID (int M_SerNoCtl_ID)
 	{
-		if (M_SerNoCtl_ID <= 0) 		set_Value (COLUMNNAME_M_SerNoCtl_ID, null);
- else 
-		set_Value (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));
+		if (M_SerNoCtl_ID <= 0) 
+			set_Value (COLUMNNAME_M_SerNoCtl_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));
 	}
 
 	/** Get Serial No Control.
@@ -432,21 +438,26 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-/** MandatoryType AD_Reference_ID=324 */
-public static final int MANDATORYTYPE_AD_Reference_ID=324;/** Not Mandatary = N */
-public static final String MANDATORYTYPE_NotMandatary = "N";/** When Shipping = S */
-public static final String MANDATORYTYPE_WhenShipping = "S";/** Always Mandatory = Y */
-public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
+	/** MandatoryType AD_Reference_ID=324 */
+	public static final int MANDATORYTYPE_AD_Reference_ID=324;
+	/** Not Mandatary = N */
+	public static final String MANDATORYTYPE_NotMandatary = "N";
+	/** Always Mandatory = Y */
+	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
+	/** When Shipping = S */
+	public static final String MANDATORYTYPE_WhenShipping = "S";
 	/** Set Mandatory Type.
 		@param MandatoryType 
 		The specification of a Product Attribute Instance is mandatory
 	  */
 	public void setMandatoryType (String MandatoryType)
 	{
-if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is mandatory");if (MandatoryType.equals("N") || MandatoryType.equals("S") || MandatoryType.equals("Y")); else throw new IllegalArgumentException ("MandatoryType Invalid value - " + MandatoryType + " - Reference_ID=324 - N - S - Y");		if (MandatoryType.length() > 1)
+		if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is mandatory");
+		if (MandatoryType.equals("N") || MandatoryType.equals("Y") || MandatoryType.equals("S")); else throw new IllegalArgumentException ("MandatoryType Invalid value - " + MandatoryType + " - Reference_ID=324 - N - Y - S");
+		if (MandatoryType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MandatoryType = MandatoryType.substring(0, 0);
+			MandatoryType = MandatoryType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
 	}
@@ -467,10 +478,11 @@ if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -497,10 +509,11 @@ if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is
 	  */
 	public void setSerNoCharEOverwrite (String SerNoCharEOverwrite)
 	{
+
 		if (SerNoCharEOverwrite != null && SerNoCharEOverwrite.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SerNoCharEOverwrite = SerNoCharEOverwrite.substring(0, 0);
+			SerNoCharEOverwrite = SerNoCharEOverwrite.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SerNoCharEOverwrite, SerNoCharEOverwrite);
 	}
@@ -519,10 +532,11 @@ if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is
 	  */
 	public void setSerNoCharSOverwrite (String SerNoCharSOverwrite)
 	{
+
 		if (SerNoCharSOverwrite != null && SerNoCharSOverwrite.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SerNoCharSOverwrite = SerNoCharSOverwrite.substring(0, 0);
+			SerNoCharSOverwrite = SerNoCharSOverwrite.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SerNoCharSOverwrite, SerNoCharSOverwrite);
 	}

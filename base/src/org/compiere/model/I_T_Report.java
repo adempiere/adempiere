@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for T_Report
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:56.171
-     */
-    public interface I_T_Report 
+/** Generated Interface for T_Report
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_T_Report 
 {
 
     /** TableName=T_Report */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception;
+	public I_AD_PInstance getAD_PInstance() throws Exception;
 
     /** Column name Col_0 */
     public static final String COLUMNNAME_Col_0 = "Col_0";
@@ -315,7 +313,7 @@ import org.compiere.util.*;
 	/** Get Report Line	  */
 	public int getPA_ReportLine_ID();
 
-	public I_PA_ReportLine getI_PA_ReportLine() throws Exception;
+	public I_PA_ReportLine getPA_ReportLine() throws Exception;
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";

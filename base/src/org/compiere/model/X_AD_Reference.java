@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Reference
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent 
 {
 
@@ -39,12 +36,14 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
     public X_AD_Reference (Properties ctx, int AD_Reference_ID, String trxName)
     {
       super (ctx, AD_Reference_ID, trxName);
-      /** if (AD_Reference_ID == 0)        {			setAD_Reference_ID (0);
+      /** if (AD_Reference_ID == 0)
+        {
+			setAD_Reference_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
 			setValidationType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -103,10 +102,11 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -119,14 +119,15 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -149,10 +150,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -173,10 +175,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -203,10 +206,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setVFormat (String VFormat)
 	{
+
 		if (VFormat != null && VFormat.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			VFormat = VFormat.substring(0, 39);
+			VFormat = VFormat.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_VFormat, VFormat);
 	}
@@ -219,21 +223,26 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 
-/** ValidationType AD_Reference_ID=2 */
-public static final int VALIDATIONTYPE_AD_Reference_ID=2;/** DataType = D */
-public static final String VALIDATIONTYPE_DataType = "D";/** List Validation = L */
-public static final String VALIDATIONTYPE_ListValidation = "L";/** Table Validation = T */
-public static final String VALIDATIONTYPE_TableValidation = "T";
+	/** ValidationType AD_Reference_ID=2 */
+	public static final int VALIDATIONTYPE_AD_Reference_ID=2;
+	/** List Validation = L */
+	public static final String VALIDATIONTYPE_ListValidation = "L";
+	/** DataType = D */
+	public static final String VALIDATIONTYPE_DataType = "D";
+	/** Table Validation = T */
+	public static final String VALIDATIONTYPE_TableValidation = "T";
 	/** Set Validation type.
 		@param ValidationType 
 		Different method of validating data
 	  */
 	public void setValidationType (String ValidationType)
 	{
-if (ValidationType == null) throw new IllegalArgumentException ("ValidationType is mandatory");if (ValidationType.equals("D") || ValidationType.equals("L") || ValidationType.equals("T")); else throw new IllegalArgumentException ("ValidationType Invalid value - " + ValidationType + " - Reference_ID=2 - D - L - T");		if (ValidationType.length() > 1)
+		if (ValidationType == null) throw new IllegalArgumentException ("ValidationType is mandatory");
+		if (ValidationType.equals("L") || ValidationType.equals("D") || ValidationType.equals("T")); else throw new IllegalArgumentException ("ValidationType Invalid value - " + ValidationType + " - Reference_ID=2 - L - D - T");
+		if (ValidationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ValidationType = ValidationType.substring(0, 0);
+			ValidationType = ValidationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ValidationType, ValidationType);
 	}

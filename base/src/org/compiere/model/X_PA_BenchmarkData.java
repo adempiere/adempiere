@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_BenchmarkData
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Persistent 
 {
 
@@ -39,12 +41,14 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
     public X_PA_BenchmarkData (Properties ctx, int PA_BenchmarkData_ID, String trxName)
     {
       super (ctx, PA_BenchmarkData_ID, trxName);
-      /** if (PA_BenchmarkData_ID == 0)        {			setBenchmarkDate (new Timestamp(System.currentTimeMillis()));
+      /** if (PA_BenchmarkData_ID == 0)
+        {
+			setBenchmarkDate (new Timestamp(System.currentTimeMillis()));
 			setBenchmarkValue (Env.ZERO);
 			setName (null);
 			setPA_BenchmarkData_ID (0);
 			setPA_Benchmark_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -122,10 +126,11 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -146,10 +151,11 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -192,7 +198,7 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 		return ii.intValue();
 	}
 
-	public I_PA_Benchmark getI_PA_Benchmark() throws Exception 
+	public I_PA_Benchmark getPA_Benchmark() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Benchmark.Table_Name);
         I_PA_Benchmark result = null;

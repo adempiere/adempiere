@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MatchInv
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
     public X_M_MatchInv (Properties ctx, int M_MatchInv_ID, String trxName)
     {
       super (ctx, M_MatchInv_ID, trxName);
-      /** if (M_MatchInv_ID == 0)        {			setC_InvoiceLine_ID (0);
+      /** if (M_MatchInv_ID == 0)
+        {
+			setC_InvoiceLine_ID (0);
 			setDateAcct (new Timestamp(System.currentTimeMillis()));
 			setDateTrx (new Timestamp(System.currentTimeMillis()));
 			setM_InOutLine_ID (0);
@@ -49,7 +53,7 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 			setProcessed (false);
 			setProcessing (false);
 			setQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,6 +82,22 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
       StringBuffer sb = new StringBuffer ("X_M_MatchInv[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Invoice Line.
@@ -146,10 +166,11 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -168,10 +189,11 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
+
 		if (DocumentNo != null && DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -198,9 +220,10 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -213,6 +236,22 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
@@ -257,6 +296,22 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -336,7 +391,7 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

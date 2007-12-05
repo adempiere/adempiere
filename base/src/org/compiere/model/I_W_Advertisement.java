@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for W_Advertisement
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:56.328
-     */
-    public interface I_W_Advertisement 
+/** Generated Interface for W_Advertisement
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_W_Advertisement 
 {
 
     /** TableName=W_Advertisement */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name AdText */
     public static final String COLUMNNAME_AdText = "AdText";
@@ -251,7 +250,7 @@ import org.compiere.util.*;
 	  */
 	public int getW_ClickCount_ID();
 
-	public I_W_ClickCount getI_W_ClickCount() throws Exception;
+	public I_W_ClickCount getW_ClickCount() throws Exception;
 
     /** Column name W_CounterCount_ID */
     public static final String COLUMNNAME_W_CounterCount_ID = "W_CounterCount_ID";
@@ -266,7 +265,7 @@ import org.compiere.util.*;
 	  */
 	public int getW_CounterCount_ID();
 
-	public I_W_CounterCount getI_W_CounterCount() throws Exception;
+	public I_W_CounterCount getW_CounterCount() throws Exception;
 
     /** Column name WebParam1 */
     public static final String COLUMNNAME_WebParam1 = "WebParam1";

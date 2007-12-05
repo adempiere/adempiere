@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent 
 {
 
@@ -83,7 +83,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			setProcessed (false);
 			setSendEMail (false);
 			setTotalLines (Env.ZERO);
-// 'Y'
         } */
     }
 
@@ -218,6 +217,22 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -316,6 +331,22 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_CashLine getC_CashLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_CashLine.Table_Name);
+        I_C_CashLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_CashLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Cash Journal Line.
 		@param C_CashLine_ID 
@@ -521,9 +552,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
     }
 
 	/** Set Dunning Level.
-		@param C_DunningLevel_ID 
-		Dunning Level
-	  */
+		@param C_DunningLevel_ID Dunning Level	  */
 	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 	{
 		if (C_DunningLevel_ID <= 0) 
@@ -533,8 +562,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	}
 
 	/** Get Dunning Level.
-		@return Dunning Level
-	  */
+		@return Dunning Level	  */
 	public int getC_DunningLevel_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
@@ -564,6 +592,22 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Order.
 		@param C_Order_ID 
@@ -625,6 +669,22 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Payment.
 		@param C_Payment_ID 
@@ -718,7 +778,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (CopyFrom != null && CopyFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 0);
+			CopyFrom = CopyFrom.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
@@ -741,7 +801,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (CreateFrom != null && CreateFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreateFrom = CreateFrom.substring(0, 0);
+			CreateFrom = CreateFrom.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
 	}
@@ -836,7 +896,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -890,7 +950,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (DocAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 1);
+			DocAction = DocAction.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
@@ -940,7 +1000,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (DocStatus.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 1);
+			DocStatus = DocStatus.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -965,7 +1025,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -987,17 +1047,14 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
     }
 
 	/** Set Dunning Grace.
-		@param DunningGrace 
-		Delay/block the dunning until this date is reached.
-	  */
+		@param DunningGrace Dunning Grace	  */
 	public void setDunningGrace (Timestamp DunningGrace)
 	{
 		set_Value (COLUMNNAME_DunningGrace, DunningGrace);
 	}
 
 	/** Get Dunning Grace.
-		@return Delay/block the dunning until this date is reached.
-	  */
+		@return Dunning Grace	  */
 	public Timestamp getDunningGrace () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DunningGrace);
@@ -1013,7 +1070,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (GenerateTo != null && GenerateTo.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			GenerateTo = GenerateTo.substring(0, 0);
+			GenerateTo = GenerateTo.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_GenerateTo, GenerateTo);
 	}
@@ -1069,7 +1126,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (InvoiceCollectionType != null && InvoiceCollectionType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InvoiceCollectionType = InvoiceCollectionType.substring(0, 0);
+			InvoiceCollectionType = InvoiceCollectionType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_InvoiceCollectionType, InvoiceCollectionType);
 	}
@@ -1409,7 +1466,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (POReference != null && POReference.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			POReference = POReference.substring(0, 19);
+			POReference = POReference.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_POReference, POReference);
 	}
@@ -1447,7 +1504,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		if (PaymentRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 0);
+			PaymentRule = PaymentRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}

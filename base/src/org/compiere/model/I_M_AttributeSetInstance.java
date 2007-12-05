@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_AttributeSetInstance
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.14
-     */
-    public interface I_M_AttributeSetInstance 
+/** Generated Interface for M_AttributeSetInstance
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_AttributeSetInstance 
 {
 
     /** TableName=M_AttributeSetInstance */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -123,7 +122,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_AttributeSet_ID();
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception;
+	public I_M_AttributeSet getM_AttributeSet() throws Exception;
 
     /** Column name M_Lot_ID */
     public static final String COLUMNNAME_M_Lot_ID = "M_Lot_ID";
@@ -137,6 +136,8 @@ import org.compiere.util.*;
 	  * Product Lot Definition
 	  */
 	public int getM_Lot_ID();
+
+	public I_M_Lot getM_Lot() throws Exception;
 
     /** Column name SerNo */
     public static final String COLUMNNAME_SerNo = "SerNo";

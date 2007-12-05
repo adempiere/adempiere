@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Period extends PO implements I_C_Period, I_Persistent 
 {
 
@@ -39,14 +39,16 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
     public X_C_Period (Properties ctx, int C_Period_ID, String trxName)
     {
       super (ctx, C_Period_ID, trxName);
-      /** if (C_Period_ID == 0)        {			setC_Period_ID (0);
+      /** if (C_Period_ID == 0)
+        {
+			setC_Period_ID (0);
 			setC_Year_ID (0);
 			setName (null);
 			setPeriodNo (0);
 			setPeriodType (null);
 // S
 			setStartDate (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -99,7 +101,7 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Year getI_C_Year() throws Exception 
+	public I_C_Year getC_Year() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Year.Table_Name);
         I_C_Year result = null;
@@ -162,10 +164,11 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -206,20 +209,24 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 		return ii.intValue();
 	}
 
-/** PeriodType AD_Reference_ID=115 */
-public static final int PERIODTYPE_AD_Reference_ID=115;/** Adjustment Period = A */
-public static final String PERIODTYPE_AdjustmentPeriod = "A";/** Standard Calendar Period = S */
-public static final String PERIODTYPE_StandardCalendarPeriod = "S";
+	/** PeriodType AD_Reference_ID=115 */
+	public static final int PERIODTYPE_AD_Reference_ID=115;
+	/** Standard Calendar Period = S */
+	public static final String PERIODTYPE_StandardCalendarPeriod = "S";
+	/** Adjustment Period = A */
+	public static final String PERIODTYPE_AdjustmentPeriod = "A";
 	/** Set Period Type.
 		@param PeriodType 
 		Period Type
 	  */
 	public void setPeriodType (String PeriodType)
 	{
-if (PeriodType == null) throw new IllegalArgumentException ("PeriodType is mandatory");if (PeriodType.equals("A") || PeriodType.equals("S")); else throw new IllegalArgumentException ("PeriodType Invalid value - " + PeriodType + " - Reference_ID=115 - A - S");		if (PeriodType.length() > 1)
+		if (PeriodType == null) throw new IllegalArgumentException ("PeriodType is mandatory");
+		if (PeriodType.equals("S") || PeriodType.equals("A")); else throw new IllegalArgumentException ("PeriodType Invalid value - " + PeriodType + " - Reference_ID=115 - S - A");
+		if (PeriodType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PeriodType = PeriodType.substring(0, 0);
+			PeriodType = PeriodType.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_PeriodType, PeriodType);
 	}
@@ -240,7 +247,7 @@ if (PeriodType == null) throw new IllegalArgumentException ("PeriodType is manda
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

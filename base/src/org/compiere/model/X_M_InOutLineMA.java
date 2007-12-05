@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_InOutLineMA extends PO implements I_M_InOutLineMA, I_Persistent 
 {
 
@@ -39,10 +40,12 @@ public class X_M_InOutLineMA extends PO implements I_M_InOutLineMA, I_Persistent
     public X_M_InOutLineMA (Properties ctx, int M_InOutLineMA_ID, String trxName)
     {
       super (ctx, M_InOutLineMA_ID, trxName);
-      /** if (M_InOutLineMA_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_InOutLineMA_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_InOutLine_ID (0);
 			setMovementQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -94,6 +97,22 @@ public class X_M_InOutLineMA extends PO implements I_M_InOutLineMA, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 

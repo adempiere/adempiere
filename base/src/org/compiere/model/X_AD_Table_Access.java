@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
     public X_AD_Table_Access (Properties ctx, int AD_Table_Access_ID, String trxName)
     {
       super (ctx, AD_Table_Access_ID, trxName);
-      /** if (AD_Table_Access_ID == 0)        {			setAD_Role_ID (0);
+      /** if (AD_Table_Access_ID == 0)
+        {
+			setAD_Role_ID (0);
 			setAD_Table_ID (0);
 			setAccessTypeRule (null);
 // A
@@ -48,7 +49,7 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
 			setIsExclude (true);
 // Y
 			setIsReadOnly (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +80,7 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -117,7 +118,7 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -163,21 +164,26 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Table_ID()));
     }
 
-/** AccessTypeRule AD_Reference_ID=293 */
-public static final int ACCESSTYPERULE_AD_Reference_ID=293;/** Accessing = A */
-public static final String ACCESSTYPERULE_Accessing = "A";/** Exporting = E */
-public static final String ACCESSTYPERULE_Exporting = "E";/** Reporting = R */
-public static final String ACCESSTYPERULE_Reporting = "R";
+	/** AccessTypeRule AD_Reference_ID=293 */
+	public static final int ACCESSTYPERULE_AD_Reference_ID=293;
+	/** Accessing = A */
+	public static final String ACCESSTYPERULE_Accessing = "A";
+	/** Reporting = R */
+	public static final String ACCESSTYPERULE_Reporting = "R";
+	/** Exporting = E */
+	public static final String ACCESSTYPERULE_Exporting = "E";
 	/** Set Access Type.
 		@param AccessTypeRule 
 		The type of access for this rule
 	  */
 	public void setAccessTypeRule (String AccessTypeRule)
 	{
-if (AccessTypeRule == null) throw new IllegalArgumentException ("AccessTypeRule is mandatory");if (AccessTypeRule.equals("A") || AccessTypeRule.equals("E") || AccessTypeRule.equals("R")); else throw new IllegalArgumentException ("AccessTypeRule Invalid value - " + AccessTypeRule + " - Reference_ID=293 - A - E - R");		if (AccessTypeRule.length() > 1)
+		if (AccessTypeRule == null) throw new IllegalArgumentException ("AccessTypeRule is mandatory");
+		if (AccessTypeRule.equals("A") || AccessTypeRule.equals("R") || AccessTypeRule.equals("E")); else throw new IllegalArgumentException ("AccessTypeRule Invalid value - " + AccessTypeRule + " - Reference_ID=293 - A - R - E");
+		if (AccessTypeRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccessTypeRule = AccessTypeRule.substring(0, 0);
+			AccessTypeRule = AccessTypeRule.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_AccessTypeRule, AccessTypeRule);
 	}

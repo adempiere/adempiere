@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_CashBook_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persistent 
 {
 
@@ -39,14 +37,16 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
     public X_C_CashBook_Acct (Properties ctx, int C_CashBook_Acct_ID, String trxName)
     {
       super (ctx, C_CashBook_Acct_ID, trxName);
-      /** if (C_CashBook_Acct_ID == 0)        {			setCB_Asset_Acct (0);
+      /** if (C_CashBook_Acct_ID == 0)
+        {
+			setCB_Asset_Acct (0);
 			setCB_CashTransfer_Acct (0);
 			setCB_Differences_Acct (0);
 			setCB_Expense_Acct (0);
 			setCB_Receipt_Acct (0);
 			setC_AcctSchema_ID (0);
 			setC_CashBook_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -177,7 +177,7 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -215,7 +215,7 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CashBook getI_C_CashBook() throws Exception 
+	public I_C_CashBook getC_CashBook() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
         I_C_CashBook result = null;

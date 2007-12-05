@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_Tax
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:45.625
-     */
-    public interface I_C_Tax 
+/** Generated Interface for C_Tax
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_Tax 
 {
 
     /** TableName=C_Tax */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -97,7 +96,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_TaxCategory_ID();
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception;
+	public I_C_TaxCategory getC_TaxCategory() throws Exception;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";

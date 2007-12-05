@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
     public X_T_InventoryValue (Properties ctx, int T_InventoryValue_ID, String trxName)
     {
       super (ctx, T_InventoryValue_ID, trxName);
-      /** if (T_InventoryValue_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_InventoryValue_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setM_AttributeSetInstance_ID (0);
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +77,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -112,7 +115,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -134,9 +137,10 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -269,7 +273,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getI_M_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -291,9 +295,10 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID <= 0) 		set_Value (COLUMNNAME_M_CostElement_ID, null);
- else 
-		set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+		if (M_CostElement_ID <= 0) 
+			set_Value (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
 	}
 
 	/** Get Cost Element.
@@ -307,7 +312,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_PriceList_Version getI_M_PriceList_Version() throws Exception 
+	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
         I_M_PriceList_Version result = null;
@@ -329,9 +334,10 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID <= 0) 		set_Value (COLUMNNAME_M_PriceList_Version_ID, null);
- else 
-		set_Value (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+		if (M_PriceList_Version_ID <= 0) 
+			set_Value (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
 	}
 
 	/** Get Price List Version.
@@ -344,6 +350,22 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -367,7 +389,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;

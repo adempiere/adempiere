@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_ChangeRequest
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.39
-     */
-    public interface I_M_ChangeRequest 
+/** Generated Interface for M_ChangeRequest
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_ChangeRequest 
 {
 
     /** TableName=M_ChangeRequest */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -136,7 +134,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_BOM_ID();
 
-	public I_M_BOM getI_M_BOM() throws Exception;
+	public I_M_BOM getM_BOM() throws Exception;
 
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
@@ -151,7 +149,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_ChangeNotice_ID();
 
-	public I_M_ChangeNotice getI_M_ChangeNotice() throws Exception;
+	public I_M_ChangeNotice getM_ChangeNotice() throws Exception;
 
     /** Column name M_ChangeRequest_ID */
     public static final String COLUMNNAME_M_ChangeRequest_ID = "M_ChangeRequest_ID";

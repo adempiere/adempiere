@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_AttributeSet
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.062
-     */
-    public interface I_M_AttributeSet 
+/** Generated Interface for M_AttributeSet
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_AttributeSet 
 {
 
     /** TableName=M_AttributeSet */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -179,12 +177,12 @@ import org.compiere.util.*;
     public static final String COLUMNNAME_LotCharEOverwrite = "LotCharEOverwrite";
 
 	/** Set Lot Char End Overwrite.
-	  * Lot/Batch End Indicator overwrite - default »
+	  * Lot/Batch End Indicator overwrite - default Â»
 	  */
 	public void setLotCharEOverwrite (String LotCharEOverwrite);
 
 	/** Get Lot Char End Overwrite.
-	  * Lot/Batch End Indicator overwrite - default »
+	  * Lot/Batch End Indicator overwrite - default Â»
 	  */
 	public String getLotCharEOverwrite();
 
@@ -192,12 +190,12 @@ import org.compiere.util.*;
     public static final String COLUMNNAME_LotCharSOverwrite = "LotCharSOverwrite";
 
 	/** Set Lot Char Start Overwrite.
-	  * Lot/Batch Start Indicator overwrite - default «
+	  * Lot/Batch Start Indicator overwrite - default Â«
 	  */
 	public void setLotCharSOverwrite (String LotCharSOverwrite);
 
 	/** Get Lot Char Start Overwrite.
-	  * Lot/Batch Start Indicator overwrite - default «
+	  * Lot/Batch Start Indicator overwrite - default Â«
 	  */
 	public String getLotCharSOverwrite();
 
@@ -227,7 +225,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_LotCtl_ID();
 
-	public I_M_LotCtl getI_M_LotCtl() throws Exception;
+	public I_M_LotCtl getM_LotCtl() throws Exception;
 
     /** Column name M_SerNoCtl_ID */
     public static final String COLUMNNAME_M_SerNoCtl_ID = "M_SerNoCtl_ID";
@@ -242,7 +240,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_SerNoCtl_ID();
 
-	public I_M_SerNoCtl getI_M_SerNoCtl() throws Exception;
+	public I_M_SerNoCtl getM_SerNoCtl() throws Exception;
 
     /** Column name MandatoryType */
     public static final String COLUMNNAME_MandatoryType = "MandatoryType";

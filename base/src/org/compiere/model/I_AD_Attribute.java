@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Attribute
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:20.906
-     */
-    public interface I_AD_Attribute 
+/** Generated Interface for AD_Attribute
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Attribute 
 {
 
     /** TableName=AD_Attribute */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -106,7 +104,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_Val_Rule_ID */
     public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
@@ -121,7 +119,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Val_Rule_ID();
 
-	public I_AD_Val_Rule getI_AD_Val_Rule() throws Exception;
+	public I_AD_Val_Rule getAD_Val_Rule() throws Exception;
 
     /** Column name Callout */
     public static final String COLUMNNAME_Callout = "Callout";

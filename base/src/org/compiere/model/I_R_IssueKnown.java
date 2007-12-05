@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for R_IssueKnown
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.625
-     */
-    public interface I_R_IssueKnown 
+/** Generated Interface for R_IssueKnown
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_R_IssueKnown 
 {
 
     /** TableName=R_IssueKnown */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -158,7 +156,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_IssueRecommendation_ID();
 
-	public I_R_IssueRecommendation getI_R_IssueRecommendation() throws Exception;
+	public I_R_IssueRecommendation getR_IssueRecommendation() throws Exception;
 
     /** Column name R_IssueStatus_ID */
     public static final String COLUMNNAME_R_IssueStatus_ID = "R_IssueStatus_ID";
@@ -173,7 +171,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_IssueStatus_ID();
 
-	public I_R_IssueStatus getI_R_IssueStatus() throws Exception;
+	public I_R_IssueStatus getR_IssueStatus() throws Exception;
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -188,7 +186,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getI_R_Request() throws Exception;
+	public I_R_Request getR_Request() throws Exception;
 
     /** Column name ReleaseNo */
     public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";

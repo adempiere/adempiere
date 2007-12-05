@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Training
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_S_Training extends PO implements I_S_Training, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
     public X_S_Training (Properties ctx, int S_Training_ID, String trxName)
     {
       super (ctx, S_Training_ID, trxName);
-      /** if (S_Training_ID == 0)        {			setC_TaxCategory_ID (0);
+      /** if (S_Training_ID == 0)
+        {
+			setC_TaxCategory_ID (0);
 			setC_UOM_ID (0);
 			setM_Product_Category_ID (0);
 			setName (null);
 			setS_Training_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +76,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
       return sb.toString();
     }
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -113,7 +114,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -157,10 +158,11 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -179,10 +181,11 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
+
 		if (DescriptionURL != null && DescriptionURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 119);
+			DescriptionURL = DescriptionURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
@@ -201,10 +204,11 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
+
 		if (DocumentNote != null && DocumentNote.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 1999);
+			DocumentNote = DocumentNote.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
@@ -223,10 +227,11 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -245,10 +250,11 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setImageURL (String ImageURL)
 	{
+
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 119);
+			ImageURL = ImageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -261,7 +267,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -307,10 +313,11 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -339,7 +346,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

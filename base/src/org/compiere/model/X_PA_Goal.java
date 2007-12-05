@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     public X_PA_Goal (Properties ctx, int PA_Goal_ID, String trxName)
     {
       super (ctx, PA_Goal_ID, trxName);
-      /** if (PA_Goal_ID == 0)        {			setGoalPerformance (Env.ZERO);
+      /** if (PA_Goal_ID == 0)
+        {
+			setGoalPerformance (Env.ZERO);
 			setIsSummary (false);
 			setMeasureActual (Env.ZERO);
 			setMeasureScope (null);
@@ -50,7 +54,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 			setRelativeWeight (Env.ZERO);
 // 1
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,7 +85,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -103,9 +107,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 		set_Value (COLUMNNAME_AD_Role_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -119,15 +124,32 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -198,10 +220,11 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -282,24 +305,32 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return bd;
 	}
 
-/** MeasureDisplay AD_Reference_ID=367 */
-public static final int MEASUREDISPLAY_AD_Reference_ID=367;/** Total = 0 */
-public static final String MEASUREDISPLAY_Total = "0";/** Year = 1 */
-public static final String MEASUREDISPLAY_Year = "1";/** Quarter = 3 */
-public static final String MEASUREDISPLAY_Quarter = "3";/** Month = 5 */
-public static final String MEASUREDISPLAY_Month = "5";/** Week = 7 */
-public static final String MEASUREDISPLAY_Week = "7";/** Day = 8 */
-public static final String MEASUREDISPLAY_Day = "8";
+	/** MeasureDisplay AD_Reference_ID=367 */
+	public static final int MEASUREDISPLAY_AD_Reference_ID=367;
+	/** Year = 1 */
+	public static final String MEASUREDISPLAY_Year = "1";
+	/** Quarter = 3 */
+	public static final String MEASUREDISPLAY_Quarter = "3";
+	/** Month = 5 */
+	public static final String MEASUREDISPLAY_Month = "5";
+	/** Total = 0 */
+	public static final String MEASUREDISPLAY_Total = "0";
+	/** Week = 7 */
+	public static final String MEASUREDISPLAY_Week = "7";
+	/** Day = 8 */
+	public static final String MEASUREDISPLAY_Day = "8";
 	/** Set Measure Display.
 		@param MeasureDisplay 
 		Measure Scope initially displayed
 	  */
 	public void setMeasureDisplay (String MeasureDisplay)
 	{
-if (MeasureDisplay == null || MeasureDisplay.equals("0") || MeasureDisplay.equals("1") || MeasureDisplay.equals("3") || MeasureDisplay.equals("5") || MeasureDisplay.equals("7") || MeasureDisplay.equals("8")); else throw new IllegalArgumentException ("MeasureDisplay Invalid value - " + MeasureDisplay + " - Reference_ID=367 - 0 - 1 - 3 - 5 - 7 - 8");		if (MeasureDisplay != null && MeasureDisplay.length() > 1)
+
+		if (MeasureDisplay == null || MeasureDisplay.equals("1") || MeasureDisplay.equals("3") || MeasureDisplay.equals("5") || MeasureDisplay.equals("0") || MeasureDisplay.equals("7") || MeasureDisplay.equals("8")); else throw new IllegalArgumentException ("MeasureDisplay Invalid value - " + MeasureDisplay + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");
+		if (MeasureDisplay != null && MeasureDisplay.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MeasureDisplay = MeasureDisplay.substring(0, 0);
+			MeasureDisplay = MeasureDisplay.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MeasureDisplay, MeasureDisplay);
 	}
@@ -312,24 +343,32 @@ if (MeasureDisplay == null || MeasureDisplay.equals("0") || MeasureDisplay.equal
 		return (String)get_Value(COLUMNNAME_MeasureDisplay);
 	}
 
-/** MeasureScope AD_Reference_ID=367 */
-public static final int MEASURESCOPE_AD_Reference_ID=367;/** Total = 0 */
-public static final String MEASURESCOPE_Total = "0";/** Year = 1 */
-public static final String MEASURESCOPE_Year = "1";/** Quarter = 3 */
-public static final String MEASURESCOPE_Quarter = "3";/** Month = 5 */
-public static final String MEASURESCOPE_Month = "5";/** Week = 7 */
-public static final String MEASURESCOPE_Week = "7";/** Day = 8 */
-public static final String MEASURESCOPE_Day = "8";
+	/** MeasureScope AD_Reference_ID=367 */
+	public static final int MEASURESCOPE_AD_Reference_ID=367;
+	/** Year = 1 */
+	public static final String MEASURESCOPE_Year = "1";
+	/** Quarter = 3 */
+	public static final String MEASURESCOPE_Quarter = "3";
+	/** Month = 5 */
+	public static final String MEASURESCOPE_Month = "5";
+	/** Total = 0 */
+	public static final String MEASURESCOPE_Total = "0";
+	/** Week = 7 */
+	public static final String MEASURESCOPE_Week = "7";
+	/** Day = 8 */
+	public static final String MEASURESCOPE_Day = "8";
 	/** Set Measure Scope.
 		@param MeasureScope 
 		Performance Measure Scope
 	  */
 	public void setMeasureScope (String MeasureScope)
 	{
-if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is mandatory");if (MeasureScope.equals("0") || MeasureScope.equals("1") || MeasureScope.equals("3") || MeasureScope.equals("5") || MeasureScope.equals("7") || MeasureScope.equals("8")); else throw new IllegalArgumentException ("MeasureScope Invalid value - " + MeasureScope + " - Reference_ID=367 - 0 - 1 - 3 - 5 - 7 - 8");		if (MeasureScope.length() > 1)
+		if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is mandatory");
+		if (MeasureScope.equals("1") || MeasureScope.equals("3") || MeasureScope.equals("5") || MeasureScope.equals("0") || MeasureScope.equals("7") || MeasureScope.equals("8")); else throw new IllegalArgumentException ("MeasureScope Invalid value - " + MeasureScope + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");
+		if (MeasureScope.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MeasureScope = MeasureScope.substring(0, 0);
+			MeasureScope = MeasureScope.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MeasureScope, MeasureScope);
 	}
@@ -372,10 +411,11 @@ if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is m
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -402,10 +442,11 @@ if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is m
 	  */
 	public void setNote (String Note)
 	{
+
 		if (Note != null && Note.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 1999);
+			Note = Note.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
@@ -418,7 +459,7 @@ if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is m
 		return (String)get_Value(COLUMNNAME_Note);
 	}
 
-	public I_PA_ColorSchema getI_PA_ColorSchema() throws Exception 
+	public I_PA_ColorSchema getPA_ColorSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ColorSchema.Table_Name);
         I_PA_ColorSchema result = null;
@@ -456,17 +497,18 @@ if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is m
 		return ii.intValue();
 	}
 
-/** PA_GoalParent_ID AD_Reference_ID=230 */
-public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
+	/** PA_GoalParent_ID AD_Reference_ID=230 */
+	public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
 	/** Set Parent Goal.
 		@param PA_GoalParent_ID 
 		Parent Goal
 	  */
 	public void setPA_GoalParent_ID (int PA_GoalParent_ID)
 	{
-		if (PA_GoalParent_ID <= 0) 		set_Value (COLUMNNAME_PA_GoalParent_ID, null);
- else 
-		set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
+		if (PA_GoalParent_ID <= 0) 
+			set_Value (COLUMNNAME_PA_GoalParent_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
 	}
 
 	/** Get Parent Goal.
@@ -502,7 +544,7 @@ public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getI_PA_Measure() throws Exception 
+	public I_PA_Measure getPA_Measure() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Measure.Table_Name);
         I_PA_Measure result = null;
@@ -524,9 +566,10 @@ public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
 	  */
 	public void setPA_Measure_ID (int PA_Measure_ID)
 	{
-		if (PA_Measure_ID <= 0) 		set_Value (COLUMNNAME_PA_Measure_ID, null);
- else 
-		set_Value (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
+		if (PA_Measure_ID <= 0) 
+			set_Value (COLUMNNAME_PA_Measure_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
 	}
 
 	/** Get Measure.

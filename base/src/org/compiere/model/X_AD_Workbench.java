@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Workbench
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent 
 {
 
@@ -39,12 +36,14 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
     public X_AD_Workbench (Properties ctx, int AD_Workbench_ID, String trxName)
     {
       super (ctx, AD_Workbench_ID, trxName);
-      /** if (AD_Workbench_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_Workbench_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_Workbench_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,9 +80,10 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	  */
 	public void setAD_Color_ID (int AD_Color_ID)
 	{
-		if (AD_Color_ID <= 0) 		set_Value (COLUMNNAME_AD_Color_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
+		if (AD_Color_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Color_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
 	}
 
 	/** Get System Color.
@@ -97,8 +97,8 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_Column_ID AD_Reference_ID=244 */
-public static final int AD_COLUMN_ID_AD_Reference_ID=244;
+	/** AD_Column_ID AD_Reference_ID=244 */
+	public static final int AD_COLUMN_ID_AD_Reference_ID=244;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
@@ -127,9 +127,10 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=244;
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -171,10 +172,11 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=244;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -187,14 +189,15 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=244;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -217,10 +220,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -241,10 +245,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

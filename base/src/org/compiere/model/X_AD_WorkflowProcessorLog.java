@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_WorkflowProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProcessorLog, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
     public X_AD_WorkflowProcessorLog (Properties ctx, int AD_WorkflowProcessorLog_ID, String trxName)
     {
       super (ctx, AD_WorkflowProcessorLog_ID, trxName);
-      /** if (AD_WorkflowProcessorLog_ID == 0)        {			setAD_WorkflowProcessorLog_ID (0);
+      /** if (AD_WorkflowProcessorLog_ID == 0)
+        {
+			setAD_WorkflowProcessorLog_ID (0);
 			setAD_WorkflowProcessor_ID (0);
 			setIsError (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +95,7 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 		return ii.intValue();
 	}
 
-	public I_AD_WorkflowProcessor getI_AD_WorkflowProcessor() throws Exception 
+	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WorkflowProcessor.Table_Name);
         I_AD_WorkflowProcessor result = null;
@@ -156,10 +156,11 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -202,10 +203,11 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	  */
 	public void setReference (String Reference)
 	{
+
 		if (Reference != null && Reference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 59);
+			Reference = Reference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
@@ -224,10 +226,11 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 1999);
+			Summary = Summary.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
@@ -246,10 +249,11 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

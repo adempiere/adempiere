@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_FieldGroup
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_AD_FieldGroup 
 {
@@ -87,14 +87,10 @@ public interface I_AD_FieldGroup
     /** Column name FieldGroupType */
     public static final String COLUMNNAME_FieldGroupType = "FieldGroupType";
 
-	/** Set Field Group Type.
-	  * Field Group
-	  */
+	/** Set Field Group Type	  */
 	public void setFieldGroupType (String FieldGroupType);
 
-	/** Get Field Group Type.
-	  * Field Group
-	  */
+	/** Get Field Group Type	  */
 	public String getFieldGroupType();
 
     /** Column name Name */

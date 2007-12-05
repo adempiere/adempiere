@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Ref_List
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:26.734
-     */
-    public interface I_AD_Ref_List 
+/** Generated Interface for AD_Ref_List
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Ref_List 
 {
 
     /** TableName=AD_Ref_List */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -84,7 +83,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getI_AD_Reference() throws Exception;
+	public I_AD_Reference getAD_Reference() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

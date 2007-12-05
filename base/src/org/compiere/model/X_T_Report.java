@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_Report extends PO implements I_T_Report, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
     {
       super (ctx, T_Report_ID, trxName);
-      /** if (T_Report_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_Report_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setFact_Acct_ID (0);
 			setPA_ReportLine_ID (0);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +77,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -120,7 +123,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_0.
-@return Col_0	  */
+		@return Col_0	  */
 	public BigDecimal getCol_0 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_0);
@@ -137,7 +140,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_1.
-@return Col_1	  */
+		@return Col_1	  */
 	public BigDecimal getCol_1 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_1);
@@ -154,7 +157,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_10.
-@return Col_10	  */
+		@return Col_10	  */
 	public BigDecimal getCol_10 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_10);
@@ -171,7 +174,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_11.
-@return Col_11	  */
+		@return Col_11	  */
 	public BigDecimal getCol_11 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_11);
@@ -188,7 +191,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_12.
-@return Col_12	  */
+		@return Col_12	  */
 	public BigDecimal getCol_12 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_12);
@@ -205,7 +208,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_13.
-@return Col_13	  */
+		@return Col_13	  */
 	public BigDecimal getCol_13 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_13);
@@ -222,7 +225,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_14.
-@return Col_14	  */
+		@return Col_14	  */
 	public BigDecimal getCol_14 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_14);
@@ -239,7 +242,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_15.
-@return Col_15	  */
+		@return Col_15	  */
 	public BigDecimal getCol_15 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_15);
@@ -256,7 +259,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_16.
-@return Col_16	  */
+		@return Col_16	  */
 	public BigDecimal getCol_16 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_16);
@@ -273,7 +276,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_17.
-@return Col_17	  */
+		@return Col_17	  */
 	public BigDecimal getCol_17 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_17);
@@ -290,7 +293,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_18.
-@return Col_18	  */
+		@return Col_18	  */
 	public BigDecimal getCol_18 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_18);
@@ -307,7 +310,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_19.
-@return Col_19	  */
+		@return Col_19	  */
 	public BigDecimal getCol_19 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_19);
@@ -324,7 +327,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_2.
-@return Col_2	  */
+		@return Col_2	  */
 	public BigDecimal getCol_2 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_2);
@@ -341,7 +344,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_20.
-@return Col_20	  */
+		@return Col_20	  */
 	public BigDecimal getCol_20 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_20);
@@ -358,7 +361,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_3.
-@return Col_3	  */
+		@return Col_3	  */
 	public BigDecimal getCol_3 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_3);
@@ -375,7 +378,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_4.
-@return Col_4	  */
+		@return Col_4	  */
 	public BigDecimal getCol_4 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_4);
@@ -392,7 +395,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_5.
-@return Col_5	  */
+		@return Col_5	  */
 	public BigDecimal getCol_5 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_5);
@@ -409,7 +412,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_6.
-@return Col_6	  */
+		@return Col_6	  */
 	public BigDecimal getCol_6 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_6);
@@ -426,7 +429,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_7.
-@return Col_7	  */
+		@return Col_7	  */
 	public BigDecimal getCol_7 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_7);
@@ -443,7 +446,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_8.
-@return Col_8	  */
+		@return Col_8	  */
 	public BigDecimal getCol_8 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_8);
@@ -460,7 +463,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Col_9.
-@return Col_9	  */
+		@return Col_9	  */
 	public BigDecimal getCol_9 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_9);
@@ -475,10 +478,11 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Description, Description);
 	}
@@ -501,7 +505,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Accounting Fact.
-@return Accounting Fact	  */
+		@return Accounting Fact	  */
 	public int getFact_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Fact_Acct_ID);
@@ -518,7 +522,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Level no.
-@return Level no	  */
+		@return Level no	  */
 	public int getLevelNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LevelNo);
@@ -533,10 +537,11 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}
@@ -557,7 +562,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_ReportLine getI_PA_ReportLine() throws Exception 
+	public I_PA_ReportLine getPA_ReportLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLine.Table_Name);
         I_PA_ReportLine result = null;
@@ -583,7 +588,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	}
 
 	/** Get Report Line.
-@return Report Line	  */
+		@return Report Line	  */
 	public int getPA_ReportLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);

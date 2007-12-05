@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for R_RequestUpdate
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.015
-     */
-    public interface I_R_RequestUpdate 
+/** Generated Interface for R_RequestUpdate
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_R_RequestUpdate 
 {
 
     /** TableName=R_RequestUpdate */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -149,7 +148,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getI_R_Request() throws Exception;
+	public I_R_Request getR_Request() throws Exception;
 
     /** Column name Result */
     public static final String COLUMNNAME_Result = "Result";

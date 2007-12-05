@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_BP_Group
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:37.093
-     */
-    public interface I_C_BP_Group 
+/** Generated Interface for C_BP_Group
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_BP_Group 
 {
 
     /** TableName=C_BP_Group */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception;
+	public I_AD_PrintColor getAD_PrintColor() throws Exception;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getI_C_Dunning() throws Exception;
+	public I_C_Dunning getC_Dunning() throws Exception;
 
     /** Column name CreditWatchPercent */
     public static final String COLUMNNAME_CreditWatchPercent = "CreditWatchPercent";
@@ -179,7 +177,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getI_M_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

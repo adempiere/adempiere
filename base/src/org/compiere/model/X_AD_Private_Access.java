@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Private_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Private_Access extends PO implements I_AD_Private_Access, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_Private_Access extends PO implements I_AD_Private_Access, I_Pe
     public X_AD_Private_Access (Properties ctx, int AD_Private_Access_ID, String trxName)
     {
       super (ctx, AD_Private_Access_ID, trxName);
-      /** if (AD_Private_Access_ID == 0)        {			setAD_Table_ID (0);
+      /** if (AD_Private_Access_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setAD_User_ID (0);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +73,7 @@ public class X_AD_Private_Access extends PO implements I_AD_Private_Access, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -111,7 +111,7 @@ public class X_AD_Private_Access extends PO implements I_AD_Private_Access, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;

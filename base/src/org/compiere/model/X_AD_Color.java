@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Color
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Color extends PO implements I_AD_Color, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
     public X_AD_Color (Properties ctx, int AD_Color_ID, String trxName)
     {
       super (ctx, AD_Color_ID, trxName);
-      /** if (AD_Color_ID == 0)        {			setAD_Color_ID (0);
+      /** if (AD_Color_ID == 0)
+        {
+			setAD_Color_ID (0);
 			setAlpha (0);
 			setBlue (0);
 			setColorType (null);
@@ -48,7 +51,7 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 			setIsDefault (false);
 			setName (null);
 			setRed (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -101,7 +104,7 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getI_AD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -123,9 +126,10 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -219,22 +223,28 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 		return ii.intValue();
 	}
 
-/** ColorType AD_Reference_ID=243 */
-public static final int COLORTYPE_AD_Reference_ID=243;/** Normal (Flat) = F */
-public static final String COLORTYPE_NormalFlat = "F";/** Gradient = G */
-public static final String COLORTYPE_Gradient = "G";/** Line = L */
-public static final String COLORTYPE_Line = "L";/** Texture (Picture) = T */
-public static final String COLORTYPE_TexturePicture = "T";
+	/** ColorType AD_Reference_ID=243 */
+	public static final int COLORTYPE_AD_Reference_ID=243;
+	/** Normal (Flat) = F */
+	public static final String COLORTYPE_NormalFlat = "F";
+	/** Gradient = G */
+	public static final String COLORTYPE_Gradient = "G";
+	/** Line = L */
+	public static final String COLORTYPE_Line = "L";
+	/** Texture (Picture) = T */
+	public static final String COLORTYPE_TexturePicture = "T";
 	/** Set Color Type.
 		@param ColorType 
 		Color presentation for this color
 	  */
 	public void setColorType (String ColorType)
 	{
-if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandatory");if (ColorType.equals("F") || ColorType.equals("G") || ColorType.equals("L") || ColorType.equals("T")); else throw new IllegalArgumentException ("ColorType Invalid value - " + ColorType + " - Reference_ID=243 - F - G - L - T");		if (ColorType.length() > 1)
+		if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandatory");
+		if (ColorType.equals("F") || ColorType.equals("G") || ColorType.equals("L") || ColorType.equals("T")); else throw new IllegalArgumentException ("ColorType Invalid value - " + ColorType + " - Reference_ID=243 - F - G - L - T");
+		if (ColorType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ColorType = ColorType.substring(0, 0);
+			ColorType = ColorType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ColorType, ColorType);
 	}
@@ -381,10 +391,11 @@ if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandato
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -465,26 +476,36 @@ if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandato
 		return ii.intValue();
 	}
 
-/** StartPoint AD_Reference_ID=248 */
-public static final int STARTPOINT_AD_Reference_ID=248;/** North = 1 */
-public static final String STARTPOINT_North = "1";/** North East = 2 */
-public static final String STARTPOINT_NorthEast = "2";/** East = 3 */
-public static final String STARTPOINT_East = "3";/** South East = 4 */
-public static final String STARTPOINT_SouthEast = "4";/** South = 5 */
-public static final String STARTPOINT_South = "5";/** South West = 6 */
-public static final String STARTPOINT_SouthWest = "6";/** West = 7 */
-public static final String STARTPOINT_West = "7";/** North West = 8 */
-public static final String STARTPOINT_NorthWest = "8";
+	/** StartPoint AD_Reference_ID=248 */
+	public static final int STARTPOINT_AD_Reference_ID=248;
+	/** North = 1 */
+	public static final String STARTPOINT_North = "1";
+	/** North East = 2 */
+	public static final String STARTPOINT_NorthEast = "2";
+	/** East = 3 */
+	public static final String STARTPOINT_East = "3";
+	/** South East = 4 */
+	public static final String STARTPOINT_SouthEast = "4";
+	/** South = 5 */
+	public static final String STARTPOINT_South = "5";
+	/** South West = 6 */
+	public static final String STARTPOINT_SouthWest = "6";
+	/** West = 7 */
+	public static final String STARTPOINT_West = "7";
+	/** North West = 8 */
+	public static final String STARTPOINT_NorthWest = "8";
 	/** Set Start Point.
 		@param StartPoint 
 		Start point of the gradient colors
 	  */
 	public void setStartPoint (String StartPoint)
 	{
-if (StartPoint == null || StartPoint.equals("1") || StartPoint.equals("2") || StartPoint.equals("3") || StartPoint.equals("4") || StartPoint.equals("5") || StartPoint.equals("6") || StartPoint.equals("7") || StartPoint.equals("8")); else throw new IllegalArgumentException ("StartPoint Invalid value - " + StartPoint + " - Reference_ID=248 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8");		if (StartPoint != null && StartPoint.length() > 22)
+
+		if (StartPoint == null || StartPoint.equals("1") || StartPoint.equals("2") || StartPoint.equals("3") || StartPoint.equals("4") || StartPoint.equals("5") || StartPoint.equals("6") || StartPoint.equals("7") || StartPoint.equals("8")); else throw new IllegalArgumentException ("StartPoint Invalid value - " + StartPoint + " - Reference_ID=248 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8");
+		if (StartPoint != null && StartPoint.length() > 22)
 		{
 			log.warning("Length > 22 - truncated");
-			StartPoint = StartPoint.substring(0, 21);
+			StartPoint = StartPoint.substring(0, 22);
 		}
 		set_Value (COLUMNNAME_StartPoint, StartPoint);
 	}

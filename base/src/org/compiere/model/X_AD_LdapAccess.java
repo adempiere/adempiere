@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LdapAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
     public X_AD_LdapAccess (Properties ctx, int AD_LdapAccess_ID, String trxName)
     {
       super (ctx, AD_LdapAccess_ID, trxName);
-      /** if (AD_LdapAccess_ID == 0)        {			setAD_LdapAccess_ID (0);
+      /** if (AD_LdapAccess_ID == 0)
+        {
+			setAD_LdapAccess_ID (0);
 			setAD_LdapProcessor_ID (0);
 			setIsError (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_LdapProcessor getI_AD_LdapProcessor() throws Exception 
+	public I_AD_LdapProcessor getAD_LdapProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_LdapProcessor.Table_Name);
         I_AD_LdapProcessor result = null;
@@ -133,7 +134,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -155,9 +156,10 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -185,10 +187,11 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -225,7 +228,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 		return false;
 	}
 
-	public I_R_InterestArea getI_R_InterestArea() throws Exception 
+	public I_R_InterestArea getR_InterestArea() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_InterestArea.Table_Name);
         I_R_InterestArea result = null;
@@ -247,9 +250,10 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setR_InterestArea_ID (int R_InterestArea_ID)
 	{
-		if (R_InterestArea_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));
+		if (R_InterestArea_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));
 	}
 
 	/** Get Interest Area.
@@ -269,10 +273,11 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 1999);
+			Summary = Summary.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_Summary, Summary);
 	}

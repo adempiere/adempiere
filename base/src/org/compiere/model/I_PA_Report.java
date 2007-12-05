@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_Report
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:53.609
-     */
-    public interface I_PA_Report 
+/** Generated Interface for PA_Report
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_Report 
 {
 
     /** TableName=PA_Report */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception;
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
 
     /** Column name C_Calendar_ID */
     public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
@@ -101,7 +99,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getI_C_Calendar() throws Exception;
+	public I_C_Calendar getC_Calendar() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -168,7 +166,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_ReportColumnSet_ID();
 
-	public I_PA_ReportColumnSet getI_PA_ReportColumnSet() throws Exception;
+	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws Exception;
 
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
@@ -179,7 +177,7 @@ import org.compiere.util.*;
 	/** Get Report Line Set	  */
 	public int getPA_ReportLineSet_ID();
 
-	public I_PA_ReportLineSet getI_PA_ReportLineSet() throws Exception;
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception;
 
     /** Column name PA_Report_ID */
     public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";

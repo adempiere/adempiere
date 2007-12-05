@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_InterOrg_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
     public X_C_InterOrg_Acct (Properties ctx, int C_InterOrg_Acct_ID, String trxName)
     {
       super (ctx, C_InterOrg_Acct_ID, trxName);
-      /** if (C_InterOrg_Acct_ID == 0)        {			setAD_OrgTo_ID (0);
+      /** if (C_InterOrg_Acct_ID == 0)
+        {
+			setAD_OrgTo_ID (0);
 			setC_AcctSchema_ID (0);
 			setIntercompanyDueFrom_Acct (0);
 			setIntercompanyDueTo_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,8 +74,8 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
       return sb.toString();
     }
 
-/** AD_OrgTo_ID AD_Reference_ID=130 */
-public static final int AD_ORGTO_ID_AD_Reference_ID=130;
+	/** AD_OrgTo_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTO_ID_AD_Reference_ID=130;
 	/** Set Inter-Organization.
 		@param AD_OrgTo_ID 
 		Organization valid for intercompany documents
@@ -98,7 +98,7 @@ public static final int AD_ORGTO_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;

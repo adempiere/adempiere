@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Job extends PO implements I_C_Job, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
     public X_C_Job (Properties ctx, int C_Job_ID, String trxName)
     {
       super (ctx, C_Job_ID, trxName);
-      /** if (C_Job_ID == 0)        {			setC_JobCategory_ID (0);
+      /** if (C_Job_ID == 0)
+        {
+			setC_JobCategory_ID (0);
 			setC_Job_ID (0);
 			setIsEmployee (true);
 // Y
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +76,7 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
       return sb.toString();
     }
 
-	public I_C_JobCategory getI_C_JobCategory() throws Exception 
+	public I_C_JobCategory getC_JobCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_JobCategory.Table_Name);
         I_C_JobCategory result = null;
@@ -141,10 +142,11 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -163,10 +165,11 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -211,10 +214,11 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_OperationResource
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.718
-     */
-    public interface I_M_OperationResource 
+/** Generated Interface for M_OperationResource
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_OperationResource 
 {
 
     /** TableName=M_OperationResource */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getI_A_Asset() throws Exception;
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Job_ID();
 
-	public I_C_Job getI_C_Job() throws Exception;
+	public I_C_Job getC_Job() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -140,7 +138,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_ProductOperation_ID();
 
-	public I_M_ProductOperation getI_M_ProductOperation() throws Exception;
+	public I_M_ProductOperation getM_ProductOperation() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

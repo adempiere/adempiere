@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PeriodControl
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
     {
       super (ctx, C_PeriodControl_ID, trxName);
-      /** if (C_PeriodControl_ID == 0)        {			setC_PeriodControl_ID (0);
+      /** if (C_PeriodControl_ID == 0)
+        {
+			setC_PeriodControl_ID (0);
 			setC_Period_ID (0);
 			setDocBaseType (null);
 			setPeriodAction (null);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,7 +86,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	}
 
 	/** Get Period Control.
-@return Period Control	  */
+		@return Period Control	  */
 	public int getC_PeriodControl_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PeriodControl_ID);
@@ -102,7 +103,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_PeriodControl_ID()));
     }
 
-	public I_C_Period getI_C_Period() throws Exception 
+	public I_C_Period getC_Period() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -140,41 +141,66 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 		return ii.intValue();
 	}
 
-/** DocBaseType AD_Reference_ID=183 */
-public static final int DOCBASETYPE_AD_Reference_ID=183;/** AP Credit Memo = APC */
-public static final String DOCBASETYPE_APCreditMemo = "APC";/** AP Invoice = API */
-public static final String DOCBASETYPE_APInvoice = "API";/** AP Payment = APP */
-public static final String DOCBASETYPE_APPayment = "APP";/** AR Credit Memo = ARC */
-public static final String DOCBASETYPE_ARCreditMemo = "ARC";/** AR Pro Forma Invoice = ARF */
-public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";/** AR Invoice = ARI */
-public static final String DOCBASETYPE_ARInvoice = "ARI";/** AR Receipt = ARR */
-public static final String DOCBASETYPE_ARReceipt = "ARR";/** Payment Allocation = CMA */
-public static final String DOCBASETYPE_PaymentAllocation = "CMA";/** Bank Statement = CMB */
-public static final String DOCBASETYPE_BankStatement = "CMB";/** Cash Journal = CMC */
-public static final String DOCBASETYPE_CashJournal = "CMC";/** GL Document = GLD */
-public static final String DOCBASETYPE_GLDocument = "GLD";/** GL Journal = GLJ */
-public static final String DOCBASETYPE_GLJournal = "GLJ";/** Material Physical Inventory = MMI */
-public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";/** Material Movement = MMM */
-public static final String DOCBASETYPE_MaterialMovement = "MMM";/** Material Production = MMP */
-public static final String DOCBASETYPE_MaterialProduction = "MMP";/** Material Receipt = MMR */
-public static final String DOCBASETYPE_MaterialReceipt = "MMR";/** Material Delivery = MMS */
-public static final String DOCBASETYPE_MaterialDelivery = "MMS";/** Match Invoice = MXI */
-public static final String DOCBASETYPE_MatchInvoice = "MXI";/** Match PO = MXP */
-public static final String DOCBASETYPE_MatchPO = "MXP";/** Project Issue = PJI */
-public static final String DOCBASETYPE_ProjectIssue = "PJI";/** Purchase Order = POO */
-public static final String DOCBASETYPE_PurchaseOrder = "POO";/** Purchase Requisition = POR */
-public static final String DOCBASETYPE_PurchaseRequisition = "POR";/** Sales Order = SOO */
-public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** DocBaseType AD_Reference_ID=183 */
+	public static final int DOCBASETYPE_AD_Reference_ID=183;
+	/** GL Journal = GLJ */
+	public static final String DOCBASETYPE_GLJournal = "GLJ";
+	/** GL Document = GLD */
+	public static final String DOCBASETYPE_GLDocument = "GLD";
+	/** AP Invoice = API */
+	public static final String DOCBASETYPE_APInvoice = "API";
+	/** AP Payment = APP */
+	public static final String DOCBASETYPE_APPayment = "APP";
+	/** AR Invoice = ARI */
+	public static final String DOCBASETYPE_ARInvoice = "ARI";
+	/** AR Receipt = ARR */
+	public static final String DOCBASETYPE_ARReceipt = "ARR";
+	/** Sales Order = SOO */
+	public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** AR Pro Forma Invoice = ARF */
+	public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";
+	/** Material Delivery = MMS */
+	public static final String DOCBASETYPE_MaterialDelivery = "MMS";
+	/** Material Receipt = MMR */
+	public static final String DOCBASETYPE_MaterialReceipt = "MMR";
+	/** Material Movement = MMM */
+	public static final String DOCBASETYPE_MaterialMovement = "MMM";
+	/** Purchase Order = POO */
+	public static final String DOCBASETYPE_PurchaseOrder = "POO";
+	/** Purchase Requisition = POR */
+	public static final String DOCBASETYPE_PurchaseRequisition = "POR";
+	/** Material Physical Inventory = MMI */
+	public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";
+	/** AP Credit Memo = APC */
+	public static final String DOCBASETYPE_APCreditMemo = "APC";
+	/** AR Credit Memo = ARC */
+	public static final String DOCBASETYPE_ARCreditMemo = "ARC";
+	/** Bank Statement = CMB */
+	public static final String DOCBASETYPE_BankStatement = "CMB";
+	/** Cash Journal = CMC */
+	public static final String DOCBASETYPE_CashJournal = "CMC";
+	/** Payment Allocation = CMA */
+	public static final String DOCBASETYPE_PaymentAllocation = "CMA";
+	/** Material Production = MMP */
+	public static final String DOCBASETYPE_MaterialProduction = "MMP";
+	/** Match Invoice = MXI */
+	public static final String DOCBASETYPE_MatchInvoice = "MXI";
+	/** Match PO = MXP */
+	public static final String DOCBASETYPE_MatchPO = "MXP";
+	/** Project Issue = PJI */
+	public static final String DOCBASETYPE_ProjectIssue = "PJI";
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document
 	  */
 	public void setDocBaseType (String DocBaseType)
 	{
-if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");if (DocBaseType.equals("APC") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARC") || DocBaseType.equals("ARF") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("CMA") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("GLD") || DocBaseType.equals("GLJ") || DocBaseType.equals("MMI") || DocBaseType.equals("MMM") || DocBaseType.equals("MMP") || DocBaseType.equals("MMR") || DocBaseType.equals("MMS") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("SOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - APC - API - APP - ARC - ARF - ARI - ARR - CMA - CMB - CMC - GLD - GLJ - MMI - MMM - MMP - MMR - MMS - MXI - MXP - PJI - POO - POR - SOO");		if (DocBaseType.length() > 3)
+		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
+		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI");
+		if (DocBaseType.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			DocBaseType = DocBaseType.substring(0, 2);
+			DocBaseType = DocBaseType.substring(0, 3);
 		}
 		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
 	}
@@ -187,22 +213,28 @@ if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is man
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
-/** PeriodAction AD_Reference_ID=176 */
-public static final int PERIODACTION_AD_Reference_ID=176;/** Close Period = C */
-public static final String PERIODACTION_ClosePeriod = "C";/** <No Action> = N */
-public static final String PERIODACTION_NoAction = "N";/** Open Period = O */
-public static final String PERIODACTION_OpenPeriod = "O";/** Permanently Close Period = P */
-public static final String PERIODACTION_PermanentlyClosePeriod = "P";
+	/** PeriodAction AD_Reference_ID=176 */
+	public static final int PERIODACTION_AD_Reference_ID=176;
+	/** Open Period = O */
+	public static final String PERIODACTION_OpenPeriod = "O";
+	/** Close Period = C */
+	public static final String PERIODACTION_ClosePeriod = "C";
+	/** Permanently Close Period = P */
+	public static final String PERIODACTION_PermanentlyClosePeriod = "P";
+	/** <No Action> = N */
+	public static final String PERIODACTION_NoAction = "N";
 	/** Set Period Action.
 		@param PeriodAction 
 		Action taken for this period
 	  */
 	public void setPeriodAction (String PeriodAction)
 	{
-if (PeriodAction == null) throw new IllegalArgumentException ("PeriodAction is mandatory");if (PeriodAction.equals("C") || PeriodAction.equals("N") || PeriodAction.equals("O") || PeriodAction.equals("P")); else throw new IllegalArgumentException ("PeriodAction Invalid value - " + PeriodAction + " - Reference_ID=176 - C - N - O - P");		if (PeriodAction.length() > 1)
+		if (PeriodAction == null) throw new IllegalArgumentException ("PeriodAction is mandatory");
+		if (PeriodAction.equals("O") || PeriodAction.equals("C") || PeriodAction.equals("P") || PeriodAction.equals("N")); else throw new IllegalArgumentException ("PeriodAction Invalid value - " + PeriodAction + " - Reference_ID=176 - O - C - P - N");
+		if (PeriodAction.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PeriodAction = PeriodAction.substring(0, 0);
+			PeriodAction = PeriodAction.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
 	}
@@ -215,22 +247,28 @@ if (PeriodAction == null) throw new IllegalArgumentException ("PeriodAction is m
 		return (String)get_Value(COLUMNNAME_PeriodAction);
 	}
 
-/** PeriodStatus AD_Reference_ID=177 */
-public static final int PERIODSTATUS_AD_Reference_ID=177;/** Closed = C */
-public static final String PERIODSTATUS_Closed = "C";/** Never opened = N */
-public static final String PERIODSTATUS_NeverOpened = "N";/** Open = O */
-public static final String PERIODSTATUS_Open = "O";/** Permanently closed = P */
-public static final String PERIODSTATUS_PermanentlyClosed = "P";
+	/** PeriodStatus AD_Reference_ID=177 */
+	public static final int PERIODSTATUS_AD_Reference_ID=177;
+	/** Open = O */
+	public static final String PERIODSTATUS_Open = "O";
+	/** Closed = C */
+	public static final String PERIODSTATUS_Closed = "C";
+	/** Permanently closed = P */
+	public static final String PERIODSTATUS_PermanentlyClosed = "P";
+	/** Never opened = N */
+	public static final String PERIODSTATUS_NeverOpened = "N";
 	/** Set Period Status.
 		@param PeriodStatus 
 		Current state of this period
 	  */
 	public void setPeriodStatus (String PeriodStatus)
 	{
-if (PeriodStatus == null || PeriodStatus.equals("C") || PeriodStatus.equals("N") || PeriodStatus.equals("O") || PeriodStatus.equals("P")); else throw new IllegalArgumentException ("PeriodStatus Invalid value - " + PeriodStatus + " - Reference_ID=177 - C - N - O - P");		if (PeriodStatus != null && PeriodStatus.length() > 1)
+
+		if (PeriodStatus == null || PeriodStatus.equals("O") || PeriodStatus.equals("C") || PeriodStatus.equals("P") || PeriodStatus.equals("N")); else throw new IllegalArgumentException ("PeriodStatus Invalid value - " + PeriodStatus + " - Reference_ID=177 - O - C - P - N");
+		if (PeriodStatus != null && PeriodStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PeriodStatus = PeriodStatus.substring(0, 0);
+			PeriodStatus = PeriodStatus.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_PeriodStatus, PeriodStatus);
 	}
@@ -251,7 +289,7 @@ if (PeriodStatus == null || PeriodStatus.equals("C") || PeriodStatus.equals("N")
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

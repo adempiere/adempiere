@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_GLJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent 
 {
 
@@ -39,9 +41,11 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
     public X_I_GLJournal (Properties ctx, int I_GLJournal_ID, String trxName)
     {
       super (ctx, I_GLJournal_ID, trxName);
-      /** if (I_GLJournal_ID == 0)        {			setI_GLJournal_ID (0);
+      /** if (I_GLJournal_ID == 0)
+        {
+			setI_GLJournal_ID (0);
 			setI_IsImported (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,17 +76,18 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
       return sb.toString();
     }
 
-/** AD_OrgDoc_ID AD_Reference_ID=130 */
-public static final int AD_ORGDOC_ID_AD_Reference_ID=130;
+	/** AD_OrgDoc_ID AD_Reference_ID=130 */
+	public static final int AD_ORGDOC_ID_AD_Reference_ID=130;
 	/** Set Document Org.
 		@param AD_OrgDoc_ID 
 		Document Organization (independent from account organization)
 	  */
 	public void setAD_OrgDoc_ID (int AD_OrgDoc_ID)
 	{
-		if (AD_OrgDoc_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgDoc_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgDoc_ID, Integer.valueOf(AD_OrgDoc_ID));
+		if (AD_OrgDoc_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgDoc_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgDoc_ID, Integer.valueOf(AD_OrgDoc_ID));
 	}
 
 	/** Get Document Org.
@@ -96,17 +101,18 @@ public static final int AD_ORGDOC_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -126,10 +132,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setAccountValue (String AccountValue)
 	{
+
 		if (AccountValue != null && AccountValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			AccountValue = AccountValue.substring(0, 39);
+			AccountValue = AccountValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_AccountValue, AccountValue);
 	}
@@ -142,17 +149,18 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return (String)get_Value(COLUMNNAME_AccountValue);
 	}
 
-/** Account_ID AD_Reference_ID=132 */
-public static final int ACCOUNT_ID_AD_Reference_ID=132;
+	/** Account_ID AD_Reference_ID=132 */
+	public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	/** Set Account.
 		@param Account_ID 
 		Account used
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID <= 0) 		set_Value (COLUMNNAME_Account_ID, null);
- else 
-		set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+		if (Account_ID <= 0) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
 	/** Get Account.
@@ -172,10 +180,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setAcctSchemaName (String AcctSchemaName)
 	{
+
 		if (AcctSchemaName != null && AcctSchemaName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AcctSchemaName = AcctSchemaName.substring(0, 59);
+			AcctSchemaName = AcctSchemaName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AcctSchemaName, AcctSchemaName);
 	}
@@ -274,10 +283,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setBPartnerValue (String BPartnerValue)
 	{
+
 		if (BPartnerValue != null && BPartnerValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			BPartnerValue = BPartnerValue.substring(0, 39);
+			BPartnerValue = BPartnerValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
@@ -296,10 +306,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setBatchDescription (String BatchDescription)
 	{
+
 		if (BatchDescription != null && BatchDescription.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			BatchDescription = BatchDescription.substring(0, 254);
+			BatchDescription = BatchDescription.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_BatchDescription, BatchDescription);
 	}
@@ -318,10 +329,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setBatchDocumentNo (String BatchDocumentNo)
 	{
+
 		if (BatchDocumentNo != null && BatchDocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			BatchDocumentNo = BatchDocumentNo.substring(0, 29);
+			BatchDocumentNo = BatchDocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_BatchDocumentNo, BatchDocumentNo);
 	}
@@ -334,7 +346,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return (String)get_Value(COLUMNNAME_BatchDocumentNo);
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -356,9 +368,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID <= 0) 		set_Value (COLUMNNAME_C_AcctSchema_ID, null);
- else 
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID <= 0) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -372,7 +385,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -394,9 +407,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -410,15 +424,32 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -432,7 +463,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -454,9 +485,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -470,7 +502,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -492,9 +524,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 		set_Value (COLUMNNAME_C_ConversionType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID <= 0) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -508,7 +541,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -530,9 +563,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -546,7 +580,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_DocType getI_C_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -568,9 +602,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID <= 0) 		set_Value (COLUMNNAME_C_DocType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -584,17 +619,18 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-/** C_LocFrom_ID AD_Reference_ID=133 */
-public static final int C_LOCFROM_ID_AD_Reference_ID=133;
+	/** C_LocFrom_ID AD_Reference_ID=133 */
+	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
 	  */
 	public void setC_LocFrom_ID (int C_LocFrom_ID)
 	{
-		if (C_LocFrom_ID <= 0) 		set_Value (COLUMNNAME_C_LocFrom_ID, null);
- else 
-		set_Value (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
+		if (C_LocFrom_ID <= 0) 
+			set_Value (COLUMNNAME_C_LocFrom_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
 	}
 
 	/** Get Location From.
@@ -608,17 +644,18 @@ public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-/** C_LocTo_ID AD_Reference_ID=133 */
-public static final int C_LOCTO_ID_AD_Reference_ID=133;
+	/** C_LocTo_ID AD_Reference_ID=133 */
+	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
 	  */
 	public void setC_LocTo_ID (int C_LocTo_ID)
 	{
-		if (C_LocTo_ID <= 0) 		set_Value (COLUMNNAME_C_LocTo_ID, null);
- else 
-		set_Value (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
+		if (C_LocTo_ID <= 0) 
+			set_Value (COLUMNNAME_C_LocTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
 	}
 
 	/** Get Location To.
@@ -632,7 +669,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_Period getI_C_Period() throws Exception 
+	public I_C_Period getC_Period() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -654,9 +691,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID <= 0) 		set_Value (COLUMNNAME_C_Period_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID <= 0) 
+			set_Value (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -670,15 +708,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -692,7 +747,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -714,9 +769,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 		set_Value (COLUMNNAME_C_SalesRegion_ID, null);
- else 
-		set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+		if (C_SalesRegion_ID <= 0) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
 	/** Get Sales Region.
@@ -730,7 +786,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -752,9 +808,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 		set_Value (COLUMNNAME_C_UOM_ID, null);
- else 
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID <= 0) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -768,15 +825,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getC_ValidCombination() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ValidCombination.Table_Name);
+        I_C_ValidCombination result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ValidCombination)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ValidCombination_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Combination.
 		@param C_ValidCombination_ID 
 		Valid Account Combination
 	  */
 	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 	{
-		if (C_ValidCombination_ID <= 0) 		set_Value (COLUMNNAME_C_ValidCombination_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+		if (C_ValidCombination_ID <= 0) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
 	}
 
 	/** Get Combination.
@@ -796,10 +870,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setCategoryName (String CategoryName)
 	{
+
 		if (CategoryName != null && CategoryName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			CategoryName = CategoryName.substring(0, 59);
+			CategoryName = CategoryName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_CategoryName, CategoryName);
 	}
@@ -818,10 +893,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setClientValue (String ClientValue)
 	{
+
 		if (ClientValue != null && ClientValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ClientValue = ClientValue.substring(0, 39);
+			ClientValue = ClientValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ClientValue, ClientValue);
 	}
@@ -840,10 +916,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setConversionTypeValue (String ConversionTypeValue)
 	{
+
 		if (ConversionTypeValue != null && ConversionTypeValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ConversionTypeValue = ConversionTypeValue.substring(0, 39);
+			ConversionTypeValue = ConversionTypeValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
 	}
@@ -899,10 +976,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -921,10 +999,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setDocTypeName (String DocTypeName)
 	{
+
 		if (DocTypeName != null && DocTypeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			DocTypeName = DocTypeName.substring(0, 59);
+			DocTypeName = DocTypeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_DocTypeName, DocTypeName);
 	}
@@ -937,7 +1016,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return (String)get_Value(COLUMNNAME_DocTypeName);
 	}
 
-	public I_GL_Budget getI_GL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -959,9 +1038,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 		set_Value (COLUMNNAME_GL_Budget_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID <= 0) 
+			set_Value (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -975,7 +1055,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_GL_Category getI_GL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -997,9 +1077,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID <= 0) 		set_Value (COLUMNNAME_GL_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+		if (GL_Category_ID <= 0) 
+			set_Value (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
 	}
 
 	/** Get GL Category.
@@ -1013,15 +1094,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
+        I_GL_JournalBatch result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Journal Batch.
 		@param GL_JournalBatch_ID 
 		General Ledger Journal Batch
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 		set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
+		if (GL_JournalBatch_ID <= 0) 
+			set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
 	}
 
 	/** Get Journal Batch.
@@ -1035,15 +1133,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_GL_JournalLine getGL_JournalLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_JournalLine.Table_Name);
+        I_GL_JournalLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_JournalLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Journal Line.
 		@param GL_JournalLine_ID 
 		General Ledger Journal Line
 	  */
 	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
 	{
-		if (GL_JournalLine_ID <= 0) 		set_Value (COLUMNNAME_GL_JournalLine_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+		if (GL_JournalLine_ID <= 0) 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
 	}
 
 	/** Get Journal Line.
@@ -1057,15 +1172,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_GL_Journal getGL_Journal() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
+        I_GL_Journal result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_Journal)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Journal_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Journal.
 		@param GL_Journal_ID 
 		General Ledger Journal
 	  */
 	public void setGL_Journal_ID (int GL_Journal_ID)
 	{
-		if (GL_Journal_ID <= 0) 		set_Value (COLUMNNAME_GL_Journal_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+		if (GL_Journal_ID <= 0) 
+			set_Value (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
 	}
 
 	/** Get Journal.
@@ -1085,10 +1217,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setISO_Code (String ISO_Code)
 	{
+
 		if (ISO_Code != null && ISO_Code.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 2);
+			ISO_Code = ISO_Code.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
@@ -1107,10 +1240,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -1231,10 +1365,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setJournalDocumentNo (String JournalDocumentNo)
 	{
+
 		if (JournalDocumentNo != null && JournalDocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			JournalDocumentNo = JournalDocumentNo.substring(0, 29);
+			JournalDocumentNo = JournalDocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_JournalDocumentNo, JournalDocumentNo);
 	}
@@ -1267,15 +1402,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -1295,10 +1447,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setOrgTrxValue (String OrgTrxValue)
 	{
+
 		if (OrgTrxValue != null && OrgTrxValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			OrgTrxValue = OrgTrxValue.substring(0, 39);
+			OrgTrxValue = OrgTrxValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_OrgTrxValue, OrgTrxValue);
 	}
@@ -1317,10 +1470,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setOrgValue (String OrgValue)
 	{
+
 		if (OrgValue != null && OrgValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			OrgValue = OrgValue.substring(0, 39);
+			OrgValue = OrgValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_OrgValue, OrgValue);
 	}
@@ -1333,23 +1487,30 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
-/** PostingType AD_Reference_ID=125 */
-public static final int POSTINGTYPE_AD_Reference_ID=125;/** Actual = A */
-public static final String POSTINGTYPE_Actual = "A";/** Budget = B */
-public static final String POSTINGTYPE_Budget = "B";/** Commitment = E */
-public static final String POSTINGTYPE_Commitment = "E";/** Reservation = R */
-public static final String POSTINGTYPE_Reservation = "R";/** Statistical = S */
-public static final String POSTINGTYPE_Statistical = "S";
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
 	/** Set PostingType.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType)
 	{
-if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");		if (PostingType != null && PostingType.length() > 1)
+
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
+		if (PostingType != null && PostingType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 0);
+			PostingType = PostingType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
@@ -1394,7 +1555,7 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -1413,10 +1574,11 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 	  */
 	public void setProductValue (String ProductValue)
 	{
+
 		if (ProductValue != null && ProductValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ProductValue = ProductValue.substring(0, 39);
+			ProductValue = ProductValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ProductValue, ProductValue);
 	}
@@ -1435,10 +1597,11 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 	  */
 	public void setProjectValue (String ProjectValue)
 	{
+
 		if (ProjectValue != null && ProjectValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ProjectValue = ProjectValue.substring(0, 39);
+			ProjectValue = ProjectValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
 	}
@@ -1477,10 +1640,11 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 	  */
 	public void setSKU (String SKU)
 	{
+
 		if (SKU != null && SKU.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 29);
+			SKU = SKU.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_SKU, SKU);
 	}
@@ -1499,10 +1663,11 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 	  */
 	public void setUPC (String UPC)
 	{
+
 		if (UPC != null && UPC.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 29);
+			UPC = UPC.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
@@ -1515,17 +1680,18 @@ if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") ||
 		return (String)get_Value(COLUMNNAME_UPC);
 	}
 
-/** User1_ID AD_Reference_ID=134 */
-public static final int USER1_ID_AD_Reference_ID=134;
+	/** User1_ID AD_Reference_ID=134 */
+	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 		set_Value (COLUMNNAME_User1_ID, null);
- else 
-		set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		if (User1_ID <= 0) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
 	}
 
 	/** Get User List 1.
@@ -1539,17 +1705,18 @@ public static final int USER1_ID_AD_Reference_ID=134;
 		return ii.intValue();
 	}
 
-/** User2_ID AD_Reference_ID=137 */
-public static final int USER2_ID_AD_Reference_ID=137;
+	/** User2_ID AD_Reference_ID=137 */
+	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 		set_Value (COLUMNNAME_User2_ID, null);
- else 
-		set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		if (User2_ID <= 0) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
 	}
 
 	/** Get User List 2.

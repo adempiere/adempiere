@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for K_EntryCategory
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.734
-     */
-    public interface I_K_EntryCategory 
+/** Generated Interface for K_EntryCategory
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_K_EntryCategory 
 {
 
     /** TableName=K_EntryCategory */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getK_CategoryValue_ID();
 
-	public I_K_CategoryValue getI_K_CategoryValue() throws Exception;
+	public I_K_CategoryValue getK_CategoryValue() throws Exception;
 
     /** Column name K_Category_ID */
     public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getK_Category_ID();
 
-	public I_K_Category getI_K_Category() throws Exception;
+	public I_K_Category getK_Category() throws Exception;
 
     /** Column name K_Entry_ID */
     public static final String COLUMNNAME_K_Entry_ID = "K_Entry_ID";
@@ -100,4 +98,6 @@ import org.compiere.util.*;
 	  * Knowledge Entry
 	  */
 	public int getK_Entry_ID();
+
+	public I_K_Entry getK_Entry() throws Exception;
 }

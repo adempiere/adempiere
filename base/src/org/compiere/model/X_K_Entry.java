@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_K_Entry extends PO implements I_K_Entry, I_Persistent 
 {
 
@@ -39,14 +39,16 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
     public X_K_Entry (Properties ctx, int K_Entry_ID, String trxName)
     {
       super (ctx, K_Entry_ID, trxName);
-      /** if (K_Entry_ID == 0)        {			setIsPublic (true);
+      /** if (K_Entry_ID == 0)
+        {
+			setIsPublic (true);
 // Y
 			setK_Entry_ID (0);
 			setK_Topic_ID (0);
 			setName (null);
 			setRating (0);
 			setTextMsg (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +79,7 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Session getI_AD_Session() throws Exception 
+	public I_AD_Session getAD_Session() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Session.Table_Name);
         I_AD_Session result = null;
@@ -99,9 +101,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setAD_Session_ID (int AD_Session_ID)
 	{
-		if (AD_Session_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_Session_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_Session_ID, Integer.valueOf(AD_Session_ID));
+		if (AD_Session_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, Integer.valueOf(AD_Session_ID));
 	}
 
 	/** Get Session.
@@ -121,10 +124,11 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
+
 		if (DescriptionURL != null && DescriptionURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 119);
+			DescriptionURL = DescriptionURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
@@ -183,7 +187,7 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_K_Source getI_K_Source() throws Exception 
+	public I_K_Source getK_Source() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_K_Source.Table_Name);
         I_K_Source result = null;
@@ -205,9 +209,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setK_Source_ID (int K_Source_ID)
 	{
-		if (K_Source_ID <= 0) 		set_Value (COLUMNNAME_K_Source_ID, null);
- else 
-		set_Value (COLUMNNAME_K_Source_ID, Integer.valueOf(K_Source_ID));
+		if (K_Source_ID <= 0) 
+			set_Value (COLUMNNAME_K_Source_ID, null);
+		else 
+			set_Value (COLUMNNAME_K_Source_ID, Integer.valueOf(K_Source_ID));
 	}
 
 	/** Get Knowledge Source.
@@ -221,7 +226,7 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_K_Topic getI_K_Topic() throws Exception 
+	public I_K_Topic getK_Topic() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_K_Topic.Table_Name);
         I_K_Topic result = null;
@@ -265,10 +270,11 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setKeywords (String Keywords)
 	{
+
 		if (Keywords != null && Keywords.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Keywords = Keywords.substring(0, 254);
+			Keywords = Keywords.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Keywords, Keywords);
 	}
@@ -289,10 +295,11 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -341,10 +348,11 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	{
 		if (TextMsg == null)
 			throw new IllegalArgumentException ("TextMsg is mandatory.");
+
 		if (TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

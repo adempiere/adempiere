@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_ProductionLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.593
-     */
-    public interface I_M_ProductionLine 
+/** Generated Interface for M_ProductionLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_ProductionLine 
 {
 
     /** TableName=M_ProductionLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -123,6 +121,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 
@@ -149,7 +149,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_ProductionPlan_ID();
 
-	public I_M_ProductionPlan getI_M_ProductionPlan() throws Exception;
+	public I_M_ProductionPlan getM_ProductionPlan() throws Exception;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

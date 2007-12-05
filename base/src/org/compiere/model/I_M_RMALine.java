@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_RMALine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.703
-     */
-    public interface I_M_RMALine 
+/** Generated Interface for M_RMALine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_RMALine 
 {
 
     /** TableName=M_RMALine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getI_C_Charge() throws Exception;
+	public I_C_Charge getC_Charge() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -138,7 +136,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception;
+	public I_M_InOutLine getM_InOutLine() throws Exception;
 
     /** Column name M_RMALine_ID */
     public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
@@ -166,7 +164,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_RMA_ID();
 
-	public I_M_RMA getI_M_RMA() throws Exception;
+	public I_M_RMA getM_RMA() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

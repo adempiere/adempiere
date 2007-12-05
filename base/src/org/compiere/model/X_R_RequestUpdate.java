@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
 {
 
@@ -39,10 +41,12 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
     public X_R_RequestUpdate (Properties ctx, int R_RequestUpdate_ID, String trxName)
     {
       super (ctx, R_RequestUpdate_ID, trxName);
-      /** if (R_RequestUpdate_ID == 0)        {			setConfidentialTypeEntry (null);
+      /** if (R_RequestUpdate_ID == 0)
+        {
+			setConfidentialTypeEntry (null);
 			setR_RequestUpdate_ID (0);
 			setR_Request_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,22 +77,28 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
       return sb.toString();
     }
 
-/** ConfidentialTypeEntry AD_Reference_ID=340 */
-public static final int CONFIDENTIALTYPEENTRY_AD_Reference_ID=340;/** Public Information = A */
-public static final String CONFIDENTIALTYPEENTRY_PublicInformation = "A";/** Partner Confidential = C */
-public static final String CONFIDENTIALTYPEENTRY_PartnerConfidential = "C";/** Internal = I */
-public static final String CONFIDENTIALTYPEENTRY_Internal = "I";/** Private Information = P */
-public static final String CONFIDENTIALTYPEENTRY_PrivateInformation = "P";
+	/** ConfidentialTypeEntry AD_Reference_ID=340 */
+	public static final int CONFIDENTIALTYPEENTRY_AD_Reference_ID=340;
+	/** Public Information = A */
+	public static final String CONFIDENTIALTYPEENTRY_PublicInformation = "A";
+	/** Partner Confidential = C */
+	public static final String CONFIDENTIALTYPEENTRY_PartnerConfidential = "C";
+	/** Internal = I */
+	public static final String CONFIDENTIALTYPEENTRY_Internal = "I";
+	/** Private Information = P */
+	public static final String CONFIDENTIALTYPEENTRY_PrivateInformation = "P";
 	/** Set Entry Confidentiality.
 		@param ConfidentialTypeEntry 
 		Confidentiality of the individual entry
 	  */
 	public void setConfidentialTypeEntry (String ConfidentialTypeEntry)
 	{
-if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("ConfidentialTypeEntry is mandatory");if (ConfidentialTypeEntry.equals("A") || ConfidentialTypeEntry.equals("C") || ConfidentialTypeEntry.equals("I") || ConfidentialTypeEntry.equals("P")); else throw new IllegalArgumentException ("ConfidentialTypeEntry Invalid value - " + ConfidentialTypeEntry + " - Reference_ID=340 - A - C - I - P");		if (ConfidentialTypeEntry.length() > 1)
+		if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("ConfidentialTypeEntry is mandatory");
+		if (ConfidentialTypeEntry.equals("A") || ConfidentialTypeEntry.equals("C") || ConfidentialTypeEntry.equals("I") || ConfidentialTypeEntry.equals("P")); else throw new IllegalArgumentException ("ConfidentialTypeEntry Invalid value - " + ConfidentialTypeEntry + " - Reference_ID=340 - A - C - I - P");
+		if (ConfidentialTypeEntry.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ConfidentialTypeEntry = ConfidentialTypeEntry.substring(0, 0);
+			ConfidentialTypeEntry = ConfidentialTypeEntry.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
 	}
@@ -118,17 +128,18 @@ if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("Confiden
 		return (Timestamp)get_Value(COLUMNNAME_EndTime);
 	}
 
-/** M_ProductSpent_ID AD_Reference_ID=162 */
-public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
+	/** M_ProductSpent_ID AD_Reference_ID=162 */
+	public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 	/** Set Product Used.
 		@param M_ProductSpent_ID 
 		Product/Resource/Service used in Request
 	  */
 	public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 	{
-		if (M_ProductSpent_ID <= 0) 		set_Value (COLUMNNAME_M_ProductSpent_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductSpent_ID, Integer.valueOf(M_ProductSpent_ID));
+		if (M_ProductSpent_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductSpent_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductSpent_ID, Integer.valueOf(M_ProductSpent_ID));
 	}
 
 	/** Get Product Used.
@@ -212,7 +223,7 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
         return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
     }
 
-	public I_R_Request getI_R_Request() throws Exception 
+	public I_R_Request getR_Request() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
         I_R_Request result = null;
@@ -256,10 +267,11 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 	  */
 	public void setResult (String Result)
 	{
+
 		if (Result != null && Result.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Result = Result.substring(0, 1999);
+			Result = Result.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_Result, Result);
 	}

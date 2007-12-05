@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
     public X_C_PaySelection (Properties ctx, int C_PaySelection_ID, String trxName)
     {
       super (ctx, C_PaySelection_ID, trxName);
-      /** if (C_PaySelection_ID == 0)        {			setC_BankAccount_ID (0);
+      /** if (C_PaySelection_ID == 0)
+        {
+			setC_BankAccount_ID (0);
 			setC_PaySelection_ID (0);
 			setIsApproved (false);
 			setName (null);
@@ -49,7 +53,7 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
 			setProcessed (false);
 			setProcessing (false);
 			setTotalAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +84,7 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
       return sb.toString();
     }
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -146,10 +150,11 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
 	  */
 	public void setCreateFrom (String CreateFrom)
 	{
+
 		if (CreateFrom != null && CreateFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreateFrom = CreateFrom.substring(0, 0);
+			CreateFrom = CreateFrom.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
 	}
@@ -168,10 +173,11 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -216,10 +222,11 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -291,7 +298,7 @@ public class X_C_PaySelection extends PO implements I_C_PaySelection, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

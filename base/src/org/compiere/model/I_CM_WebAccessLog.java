@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_WebAccessLog
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:35.406
-     */
-    public interface I_CM_WebAccessLog 
+/** Generated Interface for CM_WebAccessLog
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_WebAccessLog 
 {
 
     /** TableName=CM_WebAccessLog */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name AcceptLanguage */
     public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_BroadcastServer_ID();
 
-	public I_CM_BroadcastServer getI_CM_BroadcastServer() throws Exception;
+	public I_CM_BroadcastServer getCM_BroadcastServer() throws Exception;
 
     /** Column name CM_Media_ID */
     public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Media_ID();
 
-	public I_CM_Media getI_CM_Media() throws Exception;
+	public I_CM_Media getCM_Media() throws Exception;
 
     /** Column name CM_WebAccessLog_ID */
     public static final String COLUMNNAME_CM_WebAccessLog_ID = "CM_WebAccessLog_ID";
@@ -142,7 +140,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_WebProject_ID();
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception;
+	public I_CM_WebProject getCM_WebProject() throws Exception;
 
     /** Column name FileSize */
     public static final String COLUMNNAME_FileSize = "FileSize";

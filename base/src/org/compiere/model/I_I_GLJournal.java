@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for I_GLJournal
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:47.828
-     */
-    public interface I_I_GLJournal 
+/** Generated Interface for I_GLJournal
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_I_GLJournal 
 {
 
     /** TableName=I_GLJournal */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -227,7 +226,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -242,7 +241,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -257,6 +256,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
@@ -270,7 +271,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
 
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
@@ -285,7 +286,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception;
+	public I_C_ConversionType getC_ConversionType() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -300,7 +301,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -315,7 +316,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getI_C_DocType() throws Exception;
+	public I_C_DocType getC_DocType() throws Exception;
 
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
@@ -356,7 +357,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getI_C_Period() throws Exception;
+	public I_C_Period getC_Period() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -371,6 +372,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
+	public I_C_Project getC_Project() throws Exception;
+
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -384,7 +387,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws Exception;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -399,7 +402,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getI_C_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name C_ValidCombination_ID */
     public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
@@ -413,6 +416,8 @@ import org.compiere.util.*;
 	  * Valid Account Combination
 	  */
 	public int getC_ValidCombination_ID();
+
+	public I_C_ValidCombination getC_ValidCombination() throws Exception;
 
     /** Column name CategoryName */
     public static final String COLUMNNAME_CategoryName = "CategoryName";
@@ -518,7 +523,7 @@ import org.compiere.util.*;
 	  */
 	public int getGL_Budget_ID();
 
-	public I_GL_Budget getI_GL_Budget() throws Exception;
+	public I_GL_Budget getGL_Budget() throws Exception;
 
     /** Column name GL_Category_ID */
     public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
@@ -533,7 +538,7 @@ import org.compiere.util.*;
 	  */
 	public int getGL_Category_ID();
 
-	public I_GL_Category getI_GL_Category() throws Exception;
+	public I_GL_Category getGL_Category() throws Exception;
 
     /** Column name GL_JournalBatch_ID */
     public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
@@ -548,6 +553,8 @@ import org.compiere.util.*;
 	  */
 	public int getGL_JournalBatch_ID();
 
+	public I_GL_JournalBatch getGL_JournalBatch() throws Exception;
+
     /** Column name GL_JournalLine_ID */
     public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
 
@@ -561,6 +568,8 @@ import org.compiere.util.*;
 	  */
 	public int getGL_JournalLine_ID();
 
+	public I_GL_JournalLine getGL_JournalLine() throws Exception;
+
     /** Column name GL_Journal_ID */
     public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 
@@ -573,6 +582,8 @@ import org.compiere.util.*;
 	  * General Ledger Journal
 	  */
 	public int getGL_Journal_ID();
+
+	public I_GL_Journal getGL_Journal() throws Exception;
 
     /** Column name ISO_Code */
     public static final String COLUMNNAME_ISO_Code = "ISO_Code";
@@ -690,6 +701,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name OrgTrxValue */
     public static final String COLUMNNAME_OrgTrxValue = "OrgTrxValue";

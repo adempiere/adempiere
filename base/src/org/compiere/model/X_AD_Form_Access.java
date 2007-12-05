@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Form_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persiste
     public X_AD_Form_Access (Properties ctx, int AD_Form_Access_ID, String trxName)
     {
       super (ctx, AD_Form_Access_ID, trxName);
-      /** if (AD_Form_Access_ID == 0)        {			setAD_Form_ID (0);
+      /** if (AD_Form_Access_ID == 0)
+        {
+			setAD_Form_ID (0);
 			setAD_Role_ID (0);
 			setIsReadWrite (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +73,7 @@ public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Form getI_AD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -111,7 +111,7 @@ public class X_AD_Form_Access extends PO implements I_AD_Form_Access, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;

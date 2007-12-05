@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_MovementLineMA extends PO implements I_M_MovementLineMA, I_Persistent 
 {
 
@@ -39,9 +40,11 @@ public class X_M_MovementLineMA extends PO implements I_M_MovementLineMA, I_Pers
     public X_M_MovementLineMA (Properties ctx, int M_MovementLineMA_ID, String trxName)
     {
       super (ctx, M_MovementLineMA_ID, trxName);
-      /** if (M_MovementLineMA_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_MovementLineMA_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_MovementLine_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -93,6 +96,22 @@ public class X_M_MovementLineMA extends PO implements I_M_MovementLineMA, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_MovementLine getM_MovementLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_MovementLine.Table_Name);
+        I_M_MovementLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_MovementLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_MovementLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Move Line.
 		@param M_MovementLine_ID 

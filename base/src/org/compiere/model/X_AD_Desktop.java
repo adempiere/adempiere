@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Desktop
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
     public X_AD_Desktop (Properties ctx, int AD_Desktop_ID, String trxName)
     {
       super (ctx, AD_Desktop_ID, trxName);
-      /** if (AD_Desktop_ID == 0)        {			setAD_Desktop_ID (0);
+      /** if (AD_Desktop_ID == 0)
+        {
+			setAD_Desktop_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,9 +77,10 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	  */
 	public void setAD_Color_ID (int AD_Color_ID)
 	{
-		if (AD_Color_ID <= 0) 		set_Value (COLUMNNAME_AD_Color_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
+		if (AD_Color_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Color_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
 	}
 
 	/** Get System Color.
@@ -122,9 +122,10 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -144,10 +145,11 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -166,10 +168,11 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -190,10 +193,11 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

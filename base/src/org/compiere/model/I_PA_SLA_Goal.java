@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_SLA_Goal
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.265
-     */
-    public interface I_PA_SLA_Goal 
+/** Generated Interface for PA_SLA_Goal
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_SLA_Goal 
 {
 
     /** TableName=PA_SLA_Goal */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -70,6 +69,8 @@ import org.compiere.util.*;
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";
@@ -162,7 +163,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_SLA_Criteria_ID();
 
-	public I_PA_SLA_Criteria getI_PA_SLA_Criteria() throws Exception;
+	public I_PA_SLA_Criteria getPA_SLA_Criteria() throws Exception;
 
     /** Column name PA_SLA_Goal_ID */
     public static final String COLUMNNAME_PA_SLA_Goal_ID = "PA_SLA_Goal_ID";

@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for R_CategoryUpdates
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_CategoryUpdates extends PO implements I_R_CategoryUpdates, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_R_CategoryUpdates extends PO implements I_R_CategoryUpdates, I_Pe
     public X_R_CategoryUpdates (Properties ctx, int R_CategoryUpdates_ID, String trxName)
     {
       super (ctx, R_CategoryUpdates_ID, trxName);
-      /** if (R_CategoryUpdates_ID == 0)        {			setAD_User_ID (0);
+      /** if (R_CategoryUpdates_ID == 0)
+        {
+			setAD_User_ID (0);
 			setIsSelfService (false);
 			setR_Category_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -71,6 +71,22 @@ public class X_R_CategoryUpdates extends PO implements I_R_CategoryUpdates, I_Pe
       StringBuffer sb = new StringBuffer ("X_R_CategoryUpdates[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set User/Contact.
@@ -119,7 +135,7 @@ public class X_R_CategoryUpdates extends PO implements I_R_CategoryUpdates, I_Pe
 		return false;
 	}
 
-	public I_R_Category getI_R_Category() throws Exception 
+	public I_R_Category getR_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Category.Table_Name);
         I_R_Category result = null;

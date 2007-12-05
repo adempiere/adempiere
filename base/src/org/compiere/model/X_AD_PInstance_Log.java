@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for AD_PInstance_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Persistent 
 {
 
@@ -39,9 +40,11 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
     public X_AD_PInstance_Log (Properties ctx, int AD_PInstance_Log_ID, String trxName)
     {
       super (ctx, AD_PInstance_Log_ID, trxName);
-      /** if (AD_PInstance_Log_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (AD_PInstance_Log_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setLog_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +75,7 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -120,7 +123,7 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 	}
 
 	/** Get Log.
-@return Log	  */
+		@return Log	  */
 	public int getLog_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Log_ID);
@@ -150,13 +153,14 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 		@param P_ID Process ID	  */
 	public void setP_ID (int P_ID)
 	{
-		if (P_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_P_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_P_ID, Integer.valueOf(P_ID));
+		if (P_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_P_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_P_ID, Integer.valueOf(P_ID));
 	}
 
 	/** Get Process ID.
-@return Process ID	  */
+		@return Process ID	  */
 	public int getP_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_P_ID);
@@ -169,16 +173,17 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 		@param P_Msg Process Message	  */
 	public void setP_Msg (String P_Msg)
 	{
+
 		if (P_Msg != null && P_Msg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			P_Msg = P_Msg.substring(0, 1999);
+			P_Msg = P_Msg.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_P_Msg, P_Msg);
 	}
 
 	/** Get Process Message.
-@return Process Message	  */
+		@return Process Message	  */
 	public String getP_Msg () 
 	{
 		return (String)get_Value(COLUMNNAME_P_Msg);

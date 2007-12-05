@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_BenchmarkData
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:52.578
-     */
-    public interface I_PA_BenchmarkData 
+/** Generated Interface for PA_BenchmarkData
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_BenchmarkData 
 {
 
     /** TableName=PA_BenchmarkData */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -136,5 +135,5 @@ import org.compiere.util.*;
 	  */
 	public int getPA_Benchmark_ID();
 
-	public I_PA_Benchmark getI_PA_Benchmark() throws Exception;
+	public I_PA_Benchmark getPA_Benchmark() throws Exception;
 }

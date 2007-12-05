@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Table
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:28.39
-     */
-    public interface I_AD_Table 
+/** Generated Interface for AD_Table
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Table 
 {
 
     /** TableName=AD_Table */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Val_Rule_ID();
 
-	public I_AD_Val_Rule getI_AD_Val_Rule() throws Exception;
+	public I_AD_Val_Rule getAD_Val_Rule() throws Exception;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getI_AD_Window() throws Exception;
+	public I_AD_Window getAD_Window() throws Exception;
 
     /** Column name AccessLevel */
     public static final String COLUMNNAME_AccessLevel = "AccessLevel";

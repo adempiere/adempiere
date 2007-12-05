@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Issue
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:22.625
-     */
-    public interface I_AD_Issue 
+/** Generated Interface for AD_Issue
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Issue 
 {
 
     /** TableName=AD_Issue */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getI_AD_Form() throws Exception;
+	public I_AD_Form getAD_Form() throws Exception;
 
     /** Column name AD_Issue_ID */
     public static final String COLUMNNAME_AD_Issue_ID = "AD_Issue_ID";
@@ -99,6 +97,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Process_ID();
 
+	public I_AD_Process getAD_Process() throws Exception;
+
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 
@@ -111,6 +111,8 @@ import org.compiere.util.*;
 	  * Data entry or display window
 	  */
 	public int getAD_Window_ID();
+
+	public I_AD_Window getAD_Window() throws Exception;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -125,7 +127,7 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getI_A_Asset() throws Exception;
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -357,6 +359,8 @@ import org.compiere.util.*;
 	  */
 	public int getR_IssueKnown_ID();
 
+	public I_R_IssueKnown getR_IssueKnown() throws Exception;
+
     /** Column name R_IssueProject_ID */
     public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
 
@@ -369,6 +373,8 @@ import org.compiere.util.*;
 	  * Implementation Projects
 	  */
 	public int getR_IssueProject_ID();
+
+	public I_R_IssueProject getR_IssueProject() throws Exception;
 
     /** Column name R_IssueSystem_ID */
     public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
@@ -383,6 +389,8 @@ import org.compiere.util.*;
 	  */
 	public int getR_IssueSystem_ID();
 
+	public I_R_IssueSystem getR_IssueSystem() throws Exception;
+
     /** Column name R_IssueUser_ID */
     public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
 
@@ -396,6 +404,8 @@ import org.compiere.util.*;
 	  */
 	public int getR_IssueUser_ID();
 
+	public I_R_IssueUser getR_IssueUser() throws Exception;
+
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 
@@ -408,6 +418,8 @@ import org.compiere.util.*;
 	  * Request from a Business Partner or Prospect
 	  */
 	public int getR_Request_ID();
+
+	public I_R_Request getR_Request() throws Exception;
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";

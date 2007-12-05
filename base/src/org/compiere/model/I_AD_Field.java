@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Field
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_AD_Field 
 {
@@ -126,6 +126,21 @@ public interface I_AD_Field
 	public int getAD_Tab_ID();
 
 	public I_AD_Tab getAD_Tab() throws Exception;
+
+    /** Column name DefaultValue */
+    public static final String COLUMNNAME_DefaultValue = "DefaultValue";
+
+	/** Set Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public void setDefaultValue (String DefaultValue);
+
+	/** Get Default Logic.
+	  * Default value hierarchy, separated by ;
+
+	  */
+	public String getDefaultValue();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

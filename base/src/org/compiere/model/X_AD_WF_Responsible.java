@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Responsible
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_Responsible extends PO implements I_AD_WF_Responsible, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_AD_WF_Responsible extends PO implements I_AD_WF_Responsible, I_Pe
     public X_AD_WF_Responsible (Properties ctx, int AD_WF_Responsible_ID, String trxName)
     {
       super (ctx, AD_WF_Responsible_ID, trxName);
-      /** if (AD_WF_Responsible_ID == 0)        {			setAD_Role_ID (0);
+      /** if (AD_WF_Responsible_ID == 0)
+        {
+			setAD_Role_ID (0);
 			setAD_WF_Responsible_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
 			setResponsibleType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +77,7 @@ public class X_AD_WF_Responsible extends PO implements I_AD_WF_Responsible, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -114,17 +115,18 @@ public class X_AD_WF_Responsible extends PO implements I_AD_WF_Responsible, I_Pe
 		return ii.intValue();
 	}
 
-/** AD_User_ID AD_Reference_ID=286 */
-public static final int AD_USER_ID_AD_Reference_ID=286;
+	/** AD_User_ID AD_Reference_ID=286 */
+	public static final int AD_USER_ID_AD_Reference_ID=286;
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -166,10 +168,11 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -182,14 +185,15 @@ public static final int AD_USER_ID_AD_Reference_ID=286;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -214,10 +218,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -238,22 +243,28 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** ResponsibleType AD_Reference_ID=304 */
-public static final int RESPONSIBLETYPE_AD_Reference_ID=304;/** Human = H */
-public static final String RESPONSIBLETYPE_Human = "H";/** Organization = O */
-public static final String RESPONSIBLETYPE_Organization = "O";/** Role = R */
-public static final String RESPONSIBLETYPE_Role = "R";/** System Resource = S */
-public static final String RESPONSIBLETYPE_SystemResource = "S";
+	/** ResponsibleType AD_Reference_ID=304 */
+	public static final int RESPONSIBLETYPE_AD_Reference_ID=304;
+	/** Organization = O */
+	public static final String RESPONSIBLETYPE_Organization = "O";
+	/** Human = H */
+	public static final String RESPONSIBLETYPE_Human = "H";
+	/** Role = R */
+	public static final String RESPONSIBLETYPE_Role = "R";
+	/** System Resource = S */
+	public static final String RESPONSIBLETYPE_SystemResource = "S";
 	/** Set Responsible Type.
 		@param ResponsibleType 
 		Type of the Responsibility for a workflow
 	  */
 	public void setResponsibleType (String ResponsibleType)
 	{
-if (ResponsibleType == null) throw new IllegalArgumentException ("ResponsibleType is mandatory");if (ResponsibleType.equals("H") || ResponsibleType.equals("O") || ResponsibleType.equals("R") || ResponsibleType.equals("S")); else throw new IllegalArgumentException ("ResponsibleType Invalid value - " + ResponsibleType + " - Reference_ID=304 - H - O - R - S");		if (ResponsibleType.length() > 1)
+		if (ResponsibleType == null) throw new IllegalArgumentException ("ResponsibleType is mandatory");
+		if (ResponsibleType.equals("O") || ResponsibleType.equals("H") || ResponsibleType.equals("R") || ResponsibleType.equals("S")); else throw new IllegalArgumentException ("ResponsibleType Invalid value - " + ResponsibleType + " - Reference_ID=304 - O - H - R - S");
+		if (ResponsibleType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ResponsibleType = ResponsibleType.substring(0, 0);
+			ResponsibleType = ResponsibleType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ResponsibleType, ResponsibleType);
 	}

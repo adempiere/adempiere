@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for C_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
     public X_C_PaySelectionCheck (Properties ctx, int C_PaySelectionCheck_ID, String trxName)
     {
       super (ctx, C_PaySelectionCheck_ID, trxName);
-      /** if (C_PaySelectionCheck_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_PaySelectionCheck_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_PaySelectionCheck_ID (0);
 			setC_PaySelection_ID (0);
 			setDiscountAmt (Env.ZERO);
@@ -50,7 +52,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 			setProcessed (false);
 // N
 			setQty (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,7 +83,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
       return sb.toString();
     }
 
-	public I_C_BP_BankAccount getI_C_BP_BankAccount() throws Exception 
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
         I_C_BP_BankAccount result = null;
@@ -103,9 +105,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 	{
-		if (C_BP_BankAccount_ID <= 0) 		set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
+		if (C_BP_BankAccount_ID <= 0) 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
 	}
 
 	/** Get Partner Bank Account.
@@ -118,6 +121,22 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -163,7 +182,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	public I_C_PaySelection getI_C_PaySelection() throws Exception 
+	public I_C_PaySelection getC_PaySelection() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaySelection.Table_Name);
         I_C_PaySelection result = null;
@@ -201,15 +220,32 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_Value (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -251,10 +287,11 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
+
 		if (DocumentNo != null && DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -337,24 +374,32 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return bd;
 	}
 
-/** PaymentRule AD_Reference_ID=195 */
-public static final int PAYMENTRULE_AD_Reference_ID=195;/** Cash = B */
-public static final String PAYMENTRULE_Cash = "B";/** Direct Debit = D */
-public static final String PAYMENTRULE_DirectDebit = "D";/** Credit Card = K */
-public static final String PAYMENTRULE_CreditCard = "K";/** On Credit = P */
-public static final String PAYMENTRULE_OnCredit = "P";/** Check = S */
-public static final String PAYMENTRULE_Check = "S";/** Direct Deposit = T */
-public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");if (PaymentRule.equals("B") || PaymentRule.equals("D") || PaymentRule.equals("K") || PaymentRule.equals("P") || PaymentRule.equals("S") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - D - K - P - S - T");		if (PaymentRule.length() > 1)
+		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
+		if (PaymentRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 0);
+			PaymentRule = PaymentRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}

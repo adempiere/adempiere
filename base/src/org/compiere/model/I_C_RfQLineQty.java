@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_RfQLineQty
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:44.406
-     */
-    public interface I_C_RfQLineQty 
+/** Generated Interface for C_RfQLineQty
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_RfQLineQty 
 {
 
     /** TableName=C_RfQLineQty */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -110,7 +108,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_RfQLine_ID();
 
-	public I_C_RfQLine getI_C_RfQLine() throws Exception;
+	public I_C_RfQLine getC_RfQLine() throws Exception;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -125,7 +123,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getI_C_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name IsOfferQty */
     public static final String COLUMNNAME_IsOfferQty = "IsOfferQty";

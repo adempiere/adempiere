@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
     {
       super (ctx, C_BPartner_Location_ID, trxName);
-      /** if (C_BPartner_Location_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_BPartner_Location_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_Location_ID (0);
 			setIsBillTo (true);
@@ -52,7 +53,7 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 // Y
 			setName (null);
 // .
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,6 +82,22 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
       StringBuffer sb = new StringBuffer ("X_C_BPartner_Location[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Business Partner .
@@ -149,7 +166,7 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -171,9 +188,10 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 		set_Value (COLUMNNAME_C_SalesRegion_ID, null);
- else 
-		set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+		if (C_SalesRegion_ID <= 0) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
 	/** Get Sales Region.
@@ -193,10 +211,11 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setFax (String Fax)
 	{
+
 		if (Fax != null && Fax.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 39);
+			Fax = Fax.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Fax, Fax);
 	}
@@ -215,10 +234,11 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setISDN (String ISDN)
 	{
+
 		if (ISDN != null && ISDN.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ISDN = ISDN.substring(0, 39);
+			ISDN = ISDN.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ISDN, ISDN);
 	}
@@ -335,10 +355,11 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -365,10 +386,11 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setPhone (String Phone)
 	{
+
 		if (Phone != null && Phone.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 39);
+			Phone = Phone.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
@@ -387,10 +409,11 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setPhone2 (String Phone2)
 	{
+
 		if (Phone2 != null && Phone2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 39);
+			Phone2 = Phone2.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone2, Phone2);
 	}

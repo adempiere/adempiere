@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_UserQuery
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.39
-     */
-    public interface I_AD_UserQuery 
+/** Generated Interface for AD_UserQuery
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_UserQuery 
 {
 
     /** TableName=AD_UserQuery */
@@ -54,9 +52,24 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name AD_Tab_ID */
+    public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
+
+	/** Set Tab.
+	  * Tab within a Window
+	  */
+	public void setAD_Tab_ID (int AD_Tab_ID);
+
+	/** Get Tab.
+	  * Tab within a Window
+	  */
+	public int getAD_Tab_ID();
+
+	public I_AD_Tab getAD_Tab() throws Exception;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -71,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_UserQuery_ID */
     public static final String COLUMNNAME_AD_UserQuery_ID = "AD_UserQuery_ID";
@@ -98,6 +111,8 @@ import org.compiere.util.*;
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name Code */
     public static final String COLUMNNAME_Code = "Code";
@@ -137,12 +152,4 @@ import org.compiere.util.*;
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-	
-	/** Set Tab.
-	@param AD_Tab_ID Tab within a Window */
-	public void setAD_Tab_ID (int AD_Tab_ID);
-	
-	/** Get Tab.
-	@return Tab within a Window */
-	public int getAD_Tab_ID();
 }

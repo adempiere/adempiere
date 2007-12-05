@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for M_Package
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Package extends PO implements I_M_Package, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
     public X_M_Package (Properties ctx, int M_Package_ID, String trxName)
     {
       super (ctx, M_Package_ID, trxName);
-      /** if (M_Package_ID == 0)        {			setDocumentNo (null);
+      /** if (M_Package_ID == 0)
+        {
+			setDocumentNo (null);
 			setM_InOut_ID (0);
 			setM_Package_ID (0);
 			setM_Shipper_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,10 +98,11 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -121,10 +123,11 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -137,7 +140,7 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public I_M_InOut getI_M_InOut() throws Exception 
+	public I_M_InOut getM_InOut() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
         I_M_InOut result = null;
@@ -197,7 +200,7 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getI_M_Shipper() throws Exception 
+	public I_M_Shipper getM_Shipper() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -241,10 +244,11 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setReceivedInfo (String ReceivedInfo)
 	{
+
 		if (ReceivedInfo != null && ReceivedInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			ReceivedInfo = ReceivedInfo.substring(0, 254);
+			ReceivedInfo = ReceivedInfo.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_ReceivedInfo, ReceivedInfo);
 	}
@@ -278,16 +282,17 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 		@param TrackingInfo Tracking Info	  */
 	public void setTrackingInfo (String TrackingInfo)
 	{
+
 		if (TrackingInfo != null && TrackingInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			TrackingInfo = TrackingInfo.substring(0, 254);
+			TrackingInfo = TrackingInfo.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_TrackingInfo, TrackingInfo);
 	}
 
 	/** Get Tracking Info.
-@return Tracking Info	  */
+		@return Tracking Info	  */
 	public String getTrackingInfo () 
 	{
 		return (String)get_Value(COLUMNNAME_TrackingInfo);

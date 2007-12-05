@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
     public X_A_RegistrationValue (Properties ctx, int A_RegistrationValue_ID, String trxName)
     {
       super (ctx, A_RegistrationValue_ID, trxName);
-      /** if (A_RegistrationValue_ID == 0)        {			setA_RegistrationAttribute_ID (0);
+      /** if (A_RegistrationValue_ID == 0)
+        {
+			setA_RegistrationAttribute_ID (0);
 			setA_Registration_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +74,7 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       return sb.toString();
     }
 
-	public I_A_RegistrationAttribute getI_A_RegistrationAttribute() throws Exception 
+	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_RegistrationAttribute.Table_Name);
         I_A_RegistrationAttribute result = null;
@@ -119,7 +120,7 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
         return new KeyNamePair(get_ID(), String.valueOf(getA_RegistrationAttribute_ID()));
     }
 
-	public I_A_Registration getI_A_Registration() throws Exception 
+	public I_A_Registration getA_Registration() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Registration.Table_Name);
         I_A_Registration result = null;
@@ -163,10 +164,11 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -187,10 +189,11 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

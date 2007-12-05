@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectTask
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
     public X_C_ProjectTask (Properties ctx, int C_ProjectTask_ID, String trxName)
     {
       super (ctx, C_ProjectTask_ID, trxName);
-      /** if (C_ProjectTask_ID == 0)        {			setC_ProjectPhase_ID (0);
+      /** if (C_ProjectTask_ID == 0)
+        {
+			setC_ProjectPhase_ID (0);
 			setC_ProjectTask_ID (0);
 			setCommittedAmt (Env.ZERO);
 			setName (null);
@@ -48,7 +51,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 // @ProjInvoiceRule@
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM C_ProjectTask WHERE C_ProjectPhase_ID=@C_ProjectPhase_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +82,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       return sb.toString();
     }
 
-	public I_C_ProjectPhase getI_C_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -139,7 +142,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Task getI_C_Task() throws Exception 
+	public I_C_Task getC_Task() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Task.Table_Name);
         I_C_Task result = null;
@@ -161,9 +164,10 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setC_Task_ID (int C_Task_ID)
 	{
-		if (C_Task_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Task_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Task_ID, Integer.valueOf(C_Task_ID));
+		if (C_Task_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Task_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Task_ID, Integer.valueOf(C_Task_ID));
 	}
 
 	/** Get Standard Task.
@@ -205,10 +209,11 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -227,10 +232,11 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -243,15 +249,32 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -273,10 +296,11 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -311,23 +335,30 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return bd;
 	}
 
-/** ProjInvoiceRule AD_Reference_ID=383 */
-public static final int PROJINVOICERULE_AD_Reference_ID=383;/** None = - */
-public static final String PROJINVOICERULE_None = "-";/** Committed Amount = C */
-public static final String PROJINVOICERULE_CommittedAmount = "C";/** Product  Quantity = P */
-public static final String PROJINVOICERULE_ProductQuantity = "P";/** Time&Material = T */
-public static final String PROJINVOICERULE_TimeMaterial = "T";/** Time&Material max Comitted = c */
-public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** ProjInvoiceRule AD_Reference_ID=383 */
+	public static final int PROJINVOICERULE_AD_Reference_ID=383;
+	/** None = - */
+	public static final String PROJINVOICERULE_None = "-";
+	/** Committed Amount = C */
+	public static final String PROJINVOICERULE_CommittedAmount = "C";
+	/** Time&Material max Comitted = c */
+	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** Time&Material = T */
+	public static final String PROJINVOICERULE_TimeMaterial = "T";
+	/** Product  Quantity = P */
+	public static final String PROJINVOICERULE_ProductQuantity = "P";
 	/** Set Invoice Rule.
 		@param ProjInvoiceRule 
 		Invoice Rule for the project
 	  */
 	public void setProjInvoiceRule (String ProjInvoiceRule)
 	{
-if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("P") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("c")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - P - T - c");		if (ProjInvoiceRule.length() > 1)
+		if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");
+		if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("c") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("P")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - c - T - P");
+		if (ProjInvoiceRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProjInvoiceRule = ProjInvoiceRule.substring(0, 0);
+			ProjInvoiceRule = ProjInvoiceRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
 	}

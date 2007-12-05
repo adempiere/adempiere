@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_Ad
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:33.593
-     */
-    public interface I_CM_Ad 
+/** Generated Interface for CM_Ad
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_Ad 
 {
 
     /** TableName=CM_Ad */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -97,7 +96,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Ad_Cat_ID();
 
-	public I_CM_Ad_Cat getI_CM_Ad_Cat() throws Exception;
+	public I_CM_Ad_Cat getCM_Ad_Cat() throws Exception;
 
     /** Column name CM_Ad_ID */
     public static final String COLUMNNAME_CM_Ad_ID = "CM_Ad_ID";
@@ -125,7 +124,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Media_ID();
 
-	public I_CM_Media getI_CM_Media() throws Exception;
+	public I_CM_Media getCM_Media() throws Exception;
 
     /** Column name ContentHTML */
     public static final String COLUMNNAME_ContentHTML = "ContentHTML";

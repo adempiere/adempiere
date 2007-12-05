@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_TreeNodeU3
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:29.531
-     */
-    public interface I_AD_TreeNodeU3 
+/** Generated Interface for AD_TreeNodeU3
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_TreeNodeU3 
 {
 
     /** TableName=AD_TreeNodeU3 */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Tree_ID();
 
-	public I_AD_Tree getI_AD_Tree() throws Exception;
+	public I_AD_Tree getAD_Tree() throws Exception;
 
     /** Column name Node_ID */
     public static final String COLUMNNAME_Node_ID = "Node_ID";

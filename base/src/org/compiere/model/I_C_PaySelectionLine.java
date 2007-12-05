@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_PaySelectionLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:42.625
-     */
-    public interface I_C_PaySelectionLine 
+/** Generated Interface for C_PaySelectionLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_PaySelectionLine 
 {
 
     /** TableName=C_PaySelectionLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -71,6 +69,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Invoice_ID();
 
+	public I_C_Invoice getC_Invoice() throws Exception;
+
     /** Column name C_PaySelectionCheck_ID */
     public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
 
@@ -84,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_PaySelectionCheck_ID();
 
-	public I_C_PaySelectionCheck getI_C_PaySelectionCheck() throws Exception;
+	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws Exception;
 
     /** Column name C_PaySelectionLine_ID */
     public static final String COLUMNNAME_C_PaySelectionLine_ID = "C_PaySelectionLine_ID";
@@ -112,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_PaySelection_ID();
 
-	public I_C_PaySelection getI_C_PaySelection() throws Exception;
+	public I_C_PaySelection getC_PaySelection() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DunningRunLine
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_C_DunningRunLine 
 {
@@ -125,6 +125,8 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_Invoice_ID();
 
+	public I_C_Invoice getC_Invoice() throws Exception;
+
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 
@@ -137,6 +139,8 @@ public interface I_C_DunningRunLine
 	  * Payment identifier
 	  */
 	public int getC_Payment_ID();
+
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name ConvertedAmt */
     public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";

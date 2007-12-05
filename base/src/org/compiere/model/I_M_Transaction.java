@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_Transaction
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:52.406
-     */
-    public interface I_M_Transaction 
+/** Generated Interface for M_Transaction
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_Transaction 
 {
 
     /** TableName=M_Transaction */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -70,6 +69,8 @@ import org.compiere.util.*;
 	  * Project Issues (Material, Labor)
 	  */
 	public int getC_ProjectIssue_ID();
+
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception;
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -97,6 +98,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
+	public I_M_InOutLine getM_InOutLine() throws Exception;
+
     /** Column name M_InventoryLine_ID */
     public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 
@@ -109,6 +112,8 @@ import org.compiere.util.*;
 	  * Unique line in an Inventory document
 	  */
 	public int getM_InventoryLine_ID();
+
+	public I_M_InventoryLine getM_InventoryLine() throws Exception;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -136,6 +141,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_MovementLine_ID();
 
+	public I_M_MovementLine getM_MovementLine() throws Exception;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -149,6 +156,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 
@@ -161,6 +170,8 @@ import org.compiere.util.*;
 	  * Document Line representing a production
 	  */
 	public int getM_ProductionLine_ID();
+
+	public I_M_ProductionLine getM_ProductionLine() throws Exception;
 
     /** Column name M_Transaction_ID */
     public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";

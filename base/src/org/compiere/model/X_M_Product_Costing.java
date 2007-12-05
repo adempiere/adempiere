@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_Product_Costing
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
     public X_M_Product_Costing (Properties ctx, int M_Product_Costing_ID, String trxName)
     {
       super (ctx, M_Product_Costing_ID, trxName);
-      /** if (M_Product_Costing_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (M_Product_Costing_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setCostAverage (Env.ZERO);
 			setCostAverageCumAmt (Env.ZERO);
 			setCostAverageCumQty (Env.ZERO);
@@ -55,7 +57,7 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 			setPriceLastPO (Env.ZERO);
 			setTotalInvAmt (Env.ZERO);
 			setTotalInvQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -86,7 +88,7 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -332,7 +334,7 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	}
 
 	/** Get Future Cost Price.
-@return Future Cost Price	  */
+		@return Future Cost Price	  */
 	public BigDecimal getFutureCostPrice () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPrice);
@@ -340,6 +342,22 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 			 return Env.ZERO;
 		return bd;
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_WF_Process
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:31.14
-     */
-    public interface I_AD_WF_Process 
+/** Generated Interface for AD_WF_Process
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_WF_Process 
 {
 
     /** TableName=AD_WF_Process */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Message_ID();
 
-	public I_AD_Message getI_AD_Message() throws Exception;
+	public I_AD_Message getAD_Message() throws Exception;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -85,6 +83,8 @@ import org.compiere.util.*;
 	  * Database Table information
 	  */
 	public int getAD_Table_ID();
+
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -125,7 +125,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getI_AD_WF_Responsible() throws Exception;
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -140,7 +140,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception;
+	public I_AD_Workflow getAD_Workflow() throws Exception;
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";

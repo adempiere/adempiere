@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_AcctProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
     public X_C_AcctProcessorLog (Properties ctx, int C_AcctProcessorLog_ID, String trxName)
     {
       super (ctx, C_AcctProcessorLog_ID, trxName);
-      /** if (C_AcctProcessorLog_ID == 0)        {			setC_AcctProcessorLog_ID (0);
+      /** if (C_AcctProcessorLog_ID == 0)
+        {
+			setC_AcctProcessorLog_ID (0);
 			setC_AcctProcessor_ID (0);
 			setIsError (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -112,7 +112,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 		return ii.intValue();
 	}
 
-	public I_C_AcctProcessor getI_C_AcctProcessor() throws Exception 
+	public I_C_AcctProcessor getC_AcctProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctProcessor.Table_Name);
         I_C_AcctProcessor result = null;
@@ -156,10 +156,11 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -202,10 +203,11 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setReference (String Reference)
 	{
+
 		if (Reference != null && Reference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 59);
+			Reference = Reference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
@@ -224,10 +226,11 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 1999);
+			Summary = Summary.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
@@ -246,10 +249,11 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

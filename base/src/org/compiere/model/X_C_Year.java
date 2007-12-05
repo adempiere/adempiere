@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Year extends PO implements I_C_Year, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_C_Year extends PO implements I_C_Year, I_Persistent
     public X_C_Year (Properties ctx, int C_Year_ID, String trxName)
     {
       super (ctx, C_Year_ID, trxName);
-      /** if (C_Year_ID == 0)        {			setC_Calendar_ID (0);
+      /** if (C_Year_ID == 0)
+        {
+			setC_Calendar_ID (0);
 			setC_Year_ID (0);
 			setFiscalYear (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +74,7 @@ public class X_C_Year extends PO implements I_C_Year, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Calendar getI_C_Calendar() throws Exception 
+	public I_C_Calendar getC_Calendar() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
         I_C_Calendar result = null;
@@ -139,10 +140,11 @@ public class X_C_Year extends PO implements I_C_Year, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -163,10 +165,11 @@ public class X_C_Year extends PO implements I_C_Year, I_Persistent
 	{
 		if (FiscalYear == null)
 			throw new IllegalArgumentException ("FiscalYear is mandatory.");
+
 		if (FiscalYear.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			FiscalYear = FiscalYear.substring(0, 9);
+			FiscalYear = FiscalYear.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_FiscalYear, FiscalYear);
 	}
@@ -195,7 +198,7 @@ public class X_C_Year extends PO implements I_C_Year, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Error
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Error extends PO implements I_AD_Error, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
     public X_AD_Error (Properties ctx, int AD_Error_ID, String trxName)
     {
       super (ctx, AD_Error_ID, trxName);
-      /** if (AD_Error_ID == 0)        {			setAD_Error_ID (0);
+      /** if (AD_Error_ID == 0)
+        {
+			setAD_Error_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,7 +81,7 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 	}
 
 	/** Get Error.
-@return Error	  */
+		@return Error	  */
 	public int getAD_Error_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Error_ID);
@@ -91,18 +90,19 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_Language AD_Reference_ID=106 */
-public static final int AD_LANGUAGE_AD_Reference_ID=106;
+	/** AD_Language AD_Reference_ID=106 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language != null && AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -121,10 +121,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setCode (String Code)
 	{
+
 		if (Code != null && Code.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 1999);
+			Code = Code.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
@@ -145,10 +146,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

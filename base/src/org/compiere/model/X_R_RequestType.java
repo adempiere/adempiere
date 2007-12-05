@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
     public X_R_RequestType (Properties ctx, int R_RequestType_ID, String trxName)
     {
       super (ctx, R_RequestType_ID, trxName);
-      /** if (R_RequestType_ID == 0)        {			setConfidentialType (null);
+      /** if (R_RequestType_ID == 0)
+        {
+			setConfidentialType (null);
 // C
 			setDueDateTolerance (0);
 // 7
@@ -56,7 +57,7 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 			setName (null);
 			setR_RequestType_ID (0);
 			setR_StatusCategory_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -107,22 +108,28 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 		return ii.intValue();
 	}
 
-/** ConfidentialType AD_Reference_ID=340 */
-public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;/** Public Information = A */
-public static final String CONFIDENTIALTYPE_PublicInformation = "A";/** Partner Confidential = C */
-public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";/** Internal = I */
-public static final String CONFIDENTIALTYPE_Internal = "I";/** Private Information = P */
-public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
+	/** ConfidentialType AD_Reference_ID=340 */
+	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
+	/** Public Information = A */
+	public static final String CONFIDENTIALTYPE_PublicInformation = "A";
+	/** Partner Confidential = C */
+	public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";
+	/** Internal = I */
+	public static final String CONFIDENTIALTYPE_Internal = "I";
+	/** Private Information = P */
+	public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
 	/** Set Confidentiality.
 		@param ConfidentialType 
 		Type of Confidentiality
 	  */
 	public void setConfidentialType (String ConfidentialType)
 	{
-if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		if (ConfidentialType.length() > 1)
+		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
+		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
+		if (ConfidentialType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ConfidentialType = ConfidentialType.substring(0, 0);
+			ConfidentialType = ConfidentialType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
@@ -141,10 +148,11 @@ if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialT
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -377,10 +385,11 @@ if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialT
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -423,7 +432,7 @@ if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialT
 		return ii.intValue();
 	}
 
-	public I_R_StatusCategory getI_R_StatusCategory() throws Exception 
+	public I_R_StatusCategory getR_StatusCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_StatusCategory.Table_Name);
         I_R_StatusCategory result = null;

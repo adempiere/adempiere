@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent 
 {
 
@@ -39,9 +41,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
     public X_I_Inventory (Properties ctx, int I_Inventory_ID, String trxName)
     {
       super (ctx, I_Inventory_ID, trxName);
-      /** if (I_Inventory_ID == 0)        {			setI_Inventory_ID (0);
+      /** if (I_Inventory_ID == 0)
+        {
+			setI_Inventory_ID (0);
 			setI_IsImported (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +82,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -100,10 +105,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -176,10 +182,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setLocatorValue (String LocatorValue)
 	{
+
 		if (LocatorValue != null && LocatorValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			LocatorValue = LocatorValue.substring(0, 39);
+			LocatorValue = LocatorValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_LocatorValue, LocatorValue);
 	}
@@ -198,10 +205,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setLot (String Lot)
 	{
+
 		if (Lot != null && Lot.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Lot = Lot.substring(0, 19);
+			Lot = Lot.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
@@ -214,15 +222,32 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
 		Unique line in an Inventory document
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+		if (M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
 	}
 
 	/** Get Phys.Inventory Line.
@@ -236,15 +261,32 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Inventory getM_Inventory() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
+        I_M_Inventory result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Inventory)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Inventory_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory.
 		@param M_Inventory_ID 
 		Parameters for a Physical Inventory
 	  */
 	public void setM_Inventory_ID (int M_Inventory_ID)
 	{
-		if (M_Inventory_ID <= 0) 		set_Value (COLUMNNAME_M_Inventory_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
+		if (M_Inventory_ID <= 0) 
+			set_Value (COLUMNNAME_M_Inventory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
 	}
 
 	/** Get Phys.Inventory.
@@ -258,7 +300,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Locator getI_M_Locator() throws Exception 
+	public I_M_Locator getM_Locator() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Locator.Table_Name);
         I_M_Locator result = null;
@@ -280,9 +322,10 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 		set_Value (COLUMNNAME_M_Locator_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID <= 0) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -296,15 +339,32 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -318,7 +378,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -340,9 +400,10 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID <= 0) 		set_Value (COLUMNNAME_M_Warehouse_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID <= 0) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -405,7 +466,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -464,10 +525,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setSerNo (String SerNo)
 	{
+
 		if (SerNo != null && SerNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			SerNo = SerNo.substring(0, 19);
+			SerNo = SerNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}
@@ -486,10 +548,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setUPC (String UPC)
 	{
+
 		if (UPC != null && UPC.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 29);
+			UPC = UPC.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
@@ -508,10 +571,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
+
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -530,10 +594,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setWarehouseValue (String WarehouseValue)
 	{
+
 		if (WarehouseValue != null && WarehouseValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			WarehouseValue = WarehouseValue.substring(0, 39);
+			WarehouseValue = WarehouseValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_WarehouseValue, WarehouseValue);
 	}
@@ -552,10 +617,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setX (String X)
 	{
+
 		if (X != null && X.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			X = X.substring(0, 59);
+			X = X.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_X, X);
 	}
@@ -574,10 +640,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setY (String Y)
 	{
+
 		if (Y != null && Y.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Y = Y.substring(0, 59);
+			Y = Y.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Y, Y);
 	}
@@ -596,10 +663,11 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setZ (String Z)
 	{
+
 		if (Z != null && Z.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Z = Z.substring(0, 59);
+			Z = Z.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Z, Z);
 	}

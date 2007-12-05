@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
     public X_M_BOMProduct (Properties ctx, int M_BOMProduct_ID, String trxName)
     {
       super (ctx, M_BOMProduct_ID, trxName);
-      /** if (M_BOMProduct_ID == 0)        {			setBOMProductType (null);
+      /** if (M_BOMProduct_ID == 0)
+        {
+			setBOMProductType (null);
 // S
 			setBOMQty (Env.ZERO);
 // 1
@@ -49,7 +52,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_BOMProduct WHERE M_BOM_ID=@M_BOM_ID@
 			setM_BOMProduct_ID (0);
 			setM_BOM_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,23 +83,30 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
       return sb.toString();
     }
 
-/** BOMProductType AD_Reference_ID=349 */
-public static final int BOMPRODUCTTYPE_AD_Reference_ID=349;/** Alternative = A */
-public static final String BOMPRODUCTTYPE_Alternative = "A";/** Alternative (Default) = D */
-public static final String BOMPRODUCTTYPE_AlternativeDefault = "D";/** Optional Product = O */
-public static final String BOMPRODUCTTYPE_OptionalProduct = "O";/** Standard Product = S */
-public static final String BOMPRODUCTTYPE_StandardProduct = "S";/** Outside Processing = X */
-public static final String BOMPRODUCTTYPE_OutsideProcessing = "X";
+	/** BOMProductType AD_Reference_ID=349 */
+	public static final int BOMPRODUCTTYPE_AD_Reference_ID=349;
+	/** Standard Product = S */
+	public static final String BOMPRODUCTTYPE_StandardProduct = "S";
+	/** Optional Product = O */
+	public static final String BOMPRODUCTTYPE_OptionalProduct = "O";
+	/** Alternative = A */
+	public static final String BOMPRODUCTTYPE_Alternative = "A";
+	/** Alternative (Default) = D */
+	public static final String BOMPRODUCTTYPE_AlternativeDefault = "D";
+	/** Outside Processing = X */
+	public static final String BOMPRODUCTTYPE_OutsideProcessing = "X";
 	/** Set Component Type.
 		@param BOMProductType 
 		BOM Product Type
 	  */
 	public void setBOMProductType (String BOMProductType)
 	{
-if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType is mandatory");if (BOMProductType.equals("A") || BOMProductType.equals("D") || BOMProductType.equals("O") || BOMProductType.equals("S") || BOMProductType.equals("X")); else throw new IllegalArgumentException ("BOMProductType Invalid value - " + BOMProductType + " - Reference_ID=349 - A - D - O - S - X");		if (BOMProductType.length() > 1)
+		if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType is mandatory");
+		if (BOMProductType.equals("S") || BOMProductType.equals("O") || BOMProductType.equals("A") || BOMProductType.equals("D") || BOMProductType.equals("X")); else throw new IllegalArgumentException ("BOMProductType Invalid value - " + BOMProductType + " - Reference_ID=349 - S - O - A - D - X");
+		if (BOMProductType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BOMProductType = BOMProductType.substring(0, 0);
+			BOMProductType = BOMProductType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BOMProductType, BOMProductType);
 	}
@@ -137,10 +147,11 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -159,10 +170,11 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -253,9 +265,10 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID <= 0) 		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
- else 
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID <= 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -269,7 +282,7 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 		return ii.intValue();
 	}
 
-	public I_M_BOMAlternative getI_M_BOMAlternative() throws Exception 
+	public I_M_BOMAlternative getM_BOMAlternative() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_BOMAlternative.Table_Name);
         I_M_BOMAlternative result = null;
@@ -291,9 +304,10 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 	  */
 	public void setM_BOMAlternative_ID (int M_BOMAlternative_ID)
 	{
-		if (M_BOMAlternative_ID <= 0) 		set_Value (COLUMNNAME_M_BOMAlternative_ID, null);
- else 
-		set_Value (COLUMNNAME_M_BOMAlternative_ID, Integer.valueOf(M_BOMAlternative_ID));
+		if (M_BOMAlternative_ID <= 0) 
+			set_Value (COLUMNNAME_M_BOMAlternative_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_BOMAlternative_ID, Integer.valueOf(M_BOMAlternative_ID));
 	}
 
 	/** Get Alternative Group.
@@ -329,7 +343,7 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 		return ii.intValue();
 	}
 
-	public I_M_BOM getI_M_BOM() throws Exception 
+	public I_M_BOM getM_BOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
         I_M_BOM result = null;
@@ -367,7 +381,7 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getI_M_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -389,9 +403,10 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 		set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
+		if (M_ChangeNotice_ID <= 0) 
+			set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
 	}
 
 	/** Get Change Notice.
@@ -405,17 +420,18 @@ if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType 
 		return ii.intValue();
 	}
 
-/** M_ProductBOM_ID AD_Reference_ID=162 */
-public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
+	/** M_ProductBOM_ID AD_Reference_ID=162 */
+	public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
 	/** Set BOM Product.
 		@param M_ProductBOM_ID 
 		Bill of Material Component Product
 	  */
 	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
 	{
-		if (M_ProductBOM_ID <= 0) 		set_Value (COLUMNNAME_M_ProductBOM_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
+		if (M_ProductBOM_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
 	}
 
 	/** Get BOM Product.
@@ -429,7 +445,7 @@ public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getI_M_ProductOperation() throws Exception 
+	public I_M_ProductOperation getM_ProductOperation() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductOperation.Table_Name);
         I_M_ProductOperation result = null;
@@ -451,9 +467,10 @@ public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
 	  */
 	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
 	{
-		if (M_ProductOperation_ID <= 0) 		set_Value (COLUMNNAME_M_ProductOperation_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
+		if (M_ProductOperation_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductOperation_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
 	}
 
 	/** Get Product Operation.

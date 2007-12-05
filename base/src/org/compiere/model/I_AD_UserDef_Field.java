@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_UserDef_Field
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.171
-     */
-    public interface I_AD_UserDef_Field 
+/** Generated Interface for AD_UserDef_Field
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_UserDef_Field 
 {
 
     /** TableName=AD_UserDef_Field */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Field_ID();
 
-	public I_AD_Field getI_AD_Field() throws Exception;
+	public I_AD_Field getAD_Field() throws Exception;
 
     /** Column name AD_UserDef_Field_ID */
     public static final String COLUMNNAME_AD_UserDef_Field_ID = "AD_UserDef_Field_ID";
@@ -91,7 +89,7 @@ import org.compiere.util.*;
 	/** Get User defined Tab	  */
 	public int getAD_UserDef_Tab_ID();
 
-	public I_AD_UserDef_Tab getI_AD_UserDef_Tab() throws Exception;
+	public I_AD_UserDef_Tab getAD_UserDef_Tab() throws Exception;
 
     /** Column name DefaultValue */
     public static final String COLUMNNAME_DefaultValue = "DefaultValue";

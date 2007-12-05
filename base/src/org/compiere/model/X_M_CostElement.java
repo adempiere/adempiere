@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_CostElement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
     public X_M_CostElement (Properties ctx, int M_CostElement_ID, String trxName)
     {
       super (ctx, M_CostElement_ID, trxName);
-      /** if (M_CostElement_ID == 0)        {			setCostElementType (null);
+      /** if (M_CostElement_ID == 0)
+        {
+			setCostElementType (null);
 			setIsCalculated (false);
 			setM_CostElement_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,23 +73,30 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
       return sb.toString();
     }
 
-/** CostElementType AD_Reference_ID=338 */
-public static final int COSTELEMENTTYPE_AD_Reference_ID=338;/** Burden (M.Overhead) = B */
-public static final String COSTELEMENTTYPE_BurdenMOverhead = "B";/** Material = M */
-public static final String COSTELEMENTTYPE_Material = "M";/** Overhead = O */
-public static final String COSTELEMENTTYPE_Overhead = "O";/** Resource = R */
-public static final String COSTELEMENTTYPE_Resource = "R";/** Outside Processing = X */
-public static final String COSTELEMENTTYPE_OutsideProcessing = "X";
+	/** CostElementType AD_Reference_ID=338 */
+	public static final int COSTELEMENTTYPE_AD_Reference_ID=338;
+	/** Material = M */
+	public static final String COSTELEMENTTYPE_Material = "M";
+	/** Overhead = O */
+	public static final String COSTELEMENTTYPE_Overhead = "O";
+	/** Burden (M.Overhead) = B */
+	public static final String COSTELEMENTTYPE_BurdenMOverhead = "B";
+	/** Outside Processing = X */
+	public static final String COSTELEMENTTYPE_OutsideProcessing = "X";
+	/** Resource = R */
+	public static final String COSTELEMENTTYPE_Resource = "R";
 	/** Set Cost Element Type.
 		@param CostElementType 
 		Type of Cost Element
 	  */
 	public void setCostElementType (String CostElementType)
 	{
-if (CostElementType == null) throw new IllegalArgumentException ("CostElementType is mandatory");if (CostElementType.equals("B") || CostElementType.equals("M") || CostElementType.equals("O") || CostElementType.equals("R") || CostElementType.equals("X")); else throw new IllegalArgumentException ("CostElementType Invalid value - " + CostElementType + " - Reference_ID=338 - B - M - O - R - X");		if (CostElementType.length() > 1)
+		if (CostElementType == null) throw new IllegalArgumentException ("CostElementType is mandatory");
+		if (CostElementType.equals("M") || CostElementType.equals("O") || CostElementType.equals("B") || CostElementType.equals("X") || CostElementType.equals("R")); else throw new IllegalArgumentException ("CostElementType Invalid value - " + CostElementType + " - Reference_ID=338 - M - O - B - X - R");
+		if (CostElementType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CostElementType = CostElementType.substring(0, 0);
+			CostElementType = CostElementType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CostElementType, CostElementType);
 	}
@@ -103,27 +109,38 @@ if (CostElementType == null) throw new IllegalArgumentException ("CostElementTyp
 		return (String)get_Value(COLUMNNAME_CostElementType);
 	}
 
-/** CostingMethod AD_Reference_ID=122 */
-public static final int COSTINGMETHOD_AD_Reference_ID=122;/** Average PO = A */
-public static final String COSTINGMETHOD_AveragePO = "A";/** Fifo = F */
-public static final String COSTINGMETHOD_Fifo = "F";/** Average Invoice = I */
-public static final String COSTINGMETHOD_AverageInvoice = "I";/** Lifo = L */
-public static final String COSTINGMETHOD_Lifo = "L";/** Standard Costing = S */
-public static final String COSTINGMETHOD_StandardCosting = "S";/** User Defined = U */
-public static final String COSTINGMETHOD_UserDefined = "U";/** Last Invoice = i */
-public static final String COSTINGMETHOD_LastInvoice = "i";/** Last PO Price = p */
-public static final String COSTINGMETHOD_LastPOPrice = "p";/** _ = x */
-public static final String COSTINGMETHOD__ = "x";
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
 	/** Set Costing Method.
 		@param CostingMethod 
 		Indicates how Costs will be calculated
 	  */
 	public void setCostingMethod (String CostingMethod)
 	{
-if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("F") || CostingMethod.equals("I") || CostingMethod.equals("L") || CostingMethod.equals("S") || CostingMethod.equals("U") || CostingMethod.equals("i") || CostingMethod.equals("p") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - A - F - I - L - S - U - i - p - x");		if (CostingMethod != null && CostingMethod.length() > 1)
+
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
+		if (CostingMethod != null && CostingMethod.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CostingMethod = CostingMethod.substring(0, 0);
+			CostingMethod = CostingMethod.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
 	}
@@ -142,10 +159,11 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -212,10 +230,11 @@ if (CostingMethod == null || CostingMethod.equals("A") || CostingMethod.equals("
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

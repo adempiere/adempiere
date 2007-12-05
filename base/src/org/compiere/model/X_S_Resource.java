@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_S_Resource extends PO implements I_S_Resource, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
     public X_S_Resource (Properties ctx, int S_Resource_ID, String trxName)
     {
       super (ctx, S_Resource_ID, trxName);
-      /** if (S_Resource_ID == 0)        {			setIsAvailable (true);
+      /** if (S_Resource_ID == 0)
+        {
+			setIsAvailable (true);
 // Y
 			setM_Warehouse_ID (0);
 			setName (null);
 			setS_ResourceType_ID (0);
 			setS_Resource_ID (0);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +80,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -99,9 +102,10 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -123,7 +127,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	}
 
 	/** Get Chargeable Quantity.
-@return Chargeable Quantity	  */
+		@return Chargeable Quantity	  */
 	public BigDecimal getChargeableQty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeableQty);
@@ -138,10 +142,11 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -178,7 +183,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return false;
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -224,10 +229,11 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -248,7 +254,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_S_ResourceType getI_S_ResourceType() throws Exception 
+	public I_S_ResourceType getS_ResourceType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_ResourceType.Table_Name);
         I_S_ResourceType result = null;
@@ -274,7 +280,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	}
 
 	/** Get Resource Type.
-@return Resource Type	  */
+		@return Resource Type	  */
 	public int getS_ResourceType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceType_ID);
@@ -313,10 +319,11 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

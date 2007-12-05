@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_TransactionAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllocation, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
     public X_M_TransactionAllocation (Properties ctx, int M_TransactionAllocation_ID, String trxName)
     {
       super (ctx, M_TransactionAllocation_ID, trxName);
-      /** if (M_TransactionAllocation_ID == 0)        {			setAllocationStrategyType (null);
+      /** if (M_TransactionAllocation_ID == 0)
+        {
+			setAllocationStrategyType (null);
 			setIsAllocated (false);
 // N
 			setIsManual (false);
@@ -48,7 +50,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 			setM_Product_ID (0);
 			setM_Transaction_ID (0);
 			setQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,20 +81,24 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
       return sb.toString();
     }
 
-/** AllocationStrategyType AD_Reference_ID=294 */
-public static final int ALLOCATIONSTRATEGYTYPE_AD_Reference_ID=294;/** FiFo = F */
-public static final String ALLOCATIONSTRATEGYTYPE_FiFo = "F";/** LiFo = L */
-public static final String ALLOCATIONSTRATEGYTYPE_LiFo = "L";
+	/** AllocationStrategyType AD_Reference_ID=294 */
+	public static final int ALLOCATIONSTRATEGYTYPE_AD_Reference_ID=294;
+	/** LiFo = L */
+	public static final String ALLOCATIONSTRATEGYTYPE_LiFo = "L";
+	/** FiFo = F */
+	public static final String ALLOCATIONSTRATEGYTYPE_FiFo = "F";
 	/** Set Allocation Strategy.
 		@param AllocationStrategyType 
 		Allocation Strategy
 	  */
 	public void setAllocationStrategyType (String AllocationStrategyType)
 	{
-if (AllocationStrategyType == null) throw new IllegalArgumentException ("AllocationStrategyType is mandatory");if (AllocationStrategyType.equals("F") || AllocationStrategyType.equals("L")); else throw new IllegalArgumentException ("AllocationStrategyType Invalid value - " + AllocationStrategyType + " - Reference_ID=294 - F - L");		if (AllocationStrategyType.length() > 1)
+		if (AllocationStrategyType == null) throw new IllegalArgumentException ("AllocationStrategyType is mandatory");
+		if (AllocationStrategyType.equals("L") || AllocationStrategyType.equals("F")); else throw new IllegalArgumentException ("AllocationStrategyType Invalid value - " + AllocationStrategyType + " - Reference_ID=294 - L - F");
+		if (AllocationStrategyType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AllocationStrategyType = AllocationStrategyType.substring(0, 0);
+			AllocationStrategyType = AllocationStrategyType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AllocationStrategyType, AllocationStrategyType);
 	}
@@ -175,15 +181,32 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 		return ii.intValue();
 	}
 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -197,15 +220,32 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 		return ii.intValue();
 	}
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
 		Unique line in an Inventory document
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+		if (M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
 	}
 
 	/** Get Phys.Inventory Line.
@@ -218,6 +258,22 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -241,15 +297,32 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 		return ii.intValue();
 	}
 
+	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
+        I_M_ProductionLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_ProductionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ProductionLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Production Line.
 		@param M_ProductionLine_ID 
 		Document Line representing a production
 	  */
 	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 	{
-		if (M_ProductionLine_ID <= 0) 		set_Value (COLUMNNAME_M_ProductionLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
+		if (M_ProductionLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
 	}
 
 	/** Get Production Line.
@@ -263,6 +336,22 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 		return ii.intValue();
 	}
 
+	public I_M_Transaction getM_Transaction() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Transaction.Table_Name);
+        I_M_Transaction result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Transaction)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Transaction_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Inventory Transaction.
 		@param M_Transaction_ID Inventory Transaction	  */
 	public void setM_Transaction_ID (int M_Transaction_ID)
@@ -273,7 +362,7 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 	}
 
 	/** Get Inventory Transaction.
-@return Inventory Transaction	  */
+		@return Inventory Transaction	  */
 	public int getM_Transaction_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
@@ -282,17 +371,18 @@ if (AllocationStrategyType == null) throw new IllegalArgumentException ("Allocat
 		return ii.intValue();
 	}
 
-/** Out_M_InOutLine_ID AD_Reference_ID=295 */
-public static final int OUT_M_INOUTLINE_ID_AD_Reference_ID=295;
+	/** Out_M_InOutLine_ID AD_Reference_ID=295 */
+	public static final int OUT_M_INOUTLINE_ID_AD_Reference_ID=295;
 	/** Set Out Shipment Line.
 		@param Out_M_InOutLine_ID 
 		Outgoing Shipment/Receipt
 	  */
 	public void setOut_M_InOutLine_ID (int Out_M_InOutLine_ID)
 	{
-		if (Out_M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_Out_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_Out_M_InOutLine_ID, Integer.valueOf(Out_M_InOutLine_ID));
+		if (Out_M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_Out_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_Out_M_InOutLine_ID, Integer.valueOf(Out_M_InOutLine_ID));
 	}
 
 	/** Get Out Shipment Line.
@@ -306,17 +396,18 @@ public static final int OUT_M_INOUTLINE_ID_AD_Reference_ID=295;
 		return ii.intValue();
 	}
 
-/** Out_M_InventoryLine_ID AD_Reference_ID=296 */
-public static final int OUT_M_INVENTORYLINE_ID_AD_Reference_ID=296;
+	/** Out_M_InventoryLine_ID AD_Reference_ID=296 */
+	public static final int OUT_M_INVENTORYLINE_ID_AD_Reference_ID=296;
 	/** Set Out Inventory Line.
 		@param Out_M_InventoryLine_ID 
 		Outgoing Inventory Line
 	  */
 	public void setOut_M_InventoryLine_ID (int Out_M_InventoryLine_ID)
 	{
-		if (Out_M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_Out_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_Out_M_InventoryLine_ID, Integer.valueOf(Out_M_InventoryLine_ID));
+		if (Out_M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_Out_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_Out_M_InventoryLine_ID, Integer.valueOf(Out_M_InventoryLine_ID));
 	}
 
 	/** Get Out Inventory Line.
@@ -330,17 +421,18 @@ public static final int OUT_M_INVENTORYLINE_ID_AD_Reference_ID=296;
 		return ii.intValue();
 	}
 
-/** Out_M_ProductionLine_ID AD_Reference_ID=297 */
-public static final int OUT_M_PRODUCTIONLINE_ID_AD_Reference_ID=297;
+	/** Out_M_ProductionLine_ID AD_Reference_ID=297 */
+	public static final int OUT_M_PRODUCTIONLINE_ID_AD_Reference_ID=297;
 	/** Set Out Production Line.
 		@param Out_M_ProductionLine_ID 
 		Outgoing Production Line
 	  */
 	public void setOut_M_ProductionLine_ID (int Out_M_ProductionLine_ID)
 	{
-		if (Out_M_ProductionLine_ID <= 0) 		set_Value (COLUMNNAME_Out_M_ProductionLine_ID, null);
- else 
-		set_Value (COLUMNNAME_Out_M_ProductionLine_ID, Integer.valueOf(Out_M_ProductionLine_ID));
+		if (Out_M_ProductionLine_ID <= 0) 
+			set_Value (COLUMNNAME_Out_M_ProductionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_Out_M_ProductionLine_ID, Integer.valueOf(Out_M_ProductionLine_ID));
 	}
 
 	/** Get Out Production Line.
@@ -354,17 +446,18 @@ public static final int OUT_M_PRODUCTIONLINE_ID_AD_Reference_ID=297;
 		return ii.intValue();
 	}
 
-/** Out_M_Transaction_ID AD_Reference_ID=298 */
-public static final int OUT_M_TRANSACTION_ID_AD_Reference_ID=298;
+	/** Out_M_Transaction_ID AD_Reference_ID=298 */
+	public static final int OUT_M_TRANSACTION_ID_AD_Reference_ID=298;
 	/** Set Out Transaction.
 		@param Out_M_Transaction_ID 
 		Outgoing Transaction
 	  */
 	public void setOut_M_Transaction_ID (int Out_M_Transaction_ID)
 	{
-		if (Out_M_Transaction_ID <= 0) 		set_Value (COLUMNNAME_Out_M_Transaction_ID, null);
- else 
-		set_Value (COLUMNNAME_Out_M_Transaction_ID, Integer.valueOf(Out_M_Transaction_ID));
+		if (Out_M_Transaction_ID <= 0) 
+			set_Value (COLUMNNAME_Out_M_Transaction_ID, null);
+		else 
+			set_Value (COLUMNNAME_Out_M_Transaction_ID, Integer.valueOf(Out_M_Transaction_ID));
 	}
 
 	/** Get Out Transaction.

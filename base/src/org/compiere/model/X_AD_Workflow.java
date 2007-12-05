@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
     public X_AD_Workflow (Properties ctx, int AD_Workflow_ID, String trxName)
     {
       super (ctx, AD_Workflow_ID, trxName);
-      /** if (AD_Workflow_ID == 0)        {			setAD_Workflow_ID (0);
+      /** if (AD_Workflow_ID == 0)
+        {
+			setAD_Workflow_ID (0);
 			setAccessLevel (null);
 			setAuthor (null);
 			setCost (0);
@@ -57,7 +59,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 			setWorkflowType (null);
 // G
 			setWorkingTime (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -88,15 +90,32 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Table getAD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -110,7 +129,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getI_AD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -132,9 +151,10 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID <= 0) 		set_Value (COLUMNNAME_AD_WF_Node_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+		if (AD_WF_Node_ID <= 0) 
+			set_Value (COLUMNNAME_AD_WF_Node_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
 	}
 
 	/** Get Node.
@@ -148,7 +168,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getI_AD_WF_Responsible() throws Exception 
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
         I_AD_WF_Responsible result = null;
@@ -170,9 +190,10 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
 	{
-		if (AD_WF_Responsible_ID <= 0) 		set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
+		if (AD_WF_Responsible_ID <= 0) 
+			set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
 	}
 
 	/** Get Workflow Responsible.
@@ -186,7 +207,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WorkflowProcessor getI_AD_WorkflowProcessor() throws Exception 
+	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WorkflowProcessor.Table_Name);
         I_AD_WorkflowProcessor result = null;
@@ -208,9 +229,10 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 	{
-		if (AD_WorkflowProcessor_ID <= 0) 		set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
+		if (AD_WorkflowProcessor_ID <= 0) 
+			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
 	}
 
 	/** Get Workflow Processor.
@@ -246,24 +268,32 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-/** AccessLevel AD_Reference_ID=5 */
-public static final int ACCESSLEVEL_AD_Reference_ID=5;/** Organization = 1 */
-public static final String ACCESSLEVEL_Organization = "1";/** Client only = 2 */
-public static final String ACCESSLEVEL_ClientOnly = "2";/** Client+Organization = 3 */
-public static final String ACCESSLEVEL_ClientPlusOrganization = "3";/** System only = 4 */
-public static final String ACCESSLEVEL_SystemOnly = "4";/** System+Client = 6 */
-public static final String ACCESSLEVEL_SystemPlusClient = "6";/** All = 7 */
-public static final String ACCESSLEVEL_All = "7";
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
 	/** Set Data Access Level.
 		@param AccessLevel 
 		Access Level required
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");if (AccessLevel.equals("1") || AccessLevel.equals("2") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("6") || AccessLevel.equals("7")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 2 - 3 - 4 - 6 - 7");		if (AccessLevel.length() > 1)
+		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
+		if (AccessLevel.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccessLevel = AccessLevel.substring(0, 0);
+			AccessLevel = AccessLevel.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
@@ -284,10 +314,11 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 	{
 		if (Author == null)
 			throw new IllegalArgumentException ("Author is mandatory.");
+
 		if (Author.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Author = Author.substring(0, 19);
+			Author = Author.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Author, Author);
 	}
@@ -326,10 +357,11 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -348,10 +380,11 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 	  */
 	public void setDocValueLogic (String DocValueLogic)
 	{
+
 		if (DocValueLogic != null && DocValueLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DocValueLogic = DocValueLogic.substring(0, 1999);
+			DocValueLogic = DocValueLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DocValueLogic, DocValueLogic);
 	}
@@ -384,24 +417,32 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 		return ii.intValue();
 	}
 
-/** DurationUnit AD_Reference_ID=299 */
-public static final int DURATIONUNIT_AD_Reference_ID=299;/** Day = D */
-public static final String DURATIONUNIT_Day = "D";/** Month = M */
-public static final String DURATIONUNIT_Month = "M";/** Year = Y */
-public static final String DURATIONUNIT_Year = "Y";/** hour = h */
-public static final String DURATIONUNIT_Hour = "h";/** minute = m */
-public static final String DURATIONUNIT_Minute = "m";/** second = s */
-public static final String DURATIONUNIT_Second = "s";
+	/** DurationUnit AD_Reference_ID=299 */
+	public static final int DURATIONUNIT_AD_Reference_ID=299;
+	/** Year = Y */
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
 	/** Set Duration Unit.
 		@param DurationUnit 
 		Unit of Duration
 	  */
 	public void setDurationUnit (String DurationUnit)
 	{
-if (DurationUnit == null || DurationUnit.equals("D") || DurationUnit.equals("M") || DurationUnit.equals("Y") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s")); else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - D - M - Y - h - m - s");		if (DurationUnit != null && DurationUnit.length() > 1)
+
+		if (DurationUnit == null || DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s")); else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");
+		if (DurationUnit != null && DurationUnit.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DurationUnit = DurationUnit.substring(0, 0);
+			DurationUnit = DurationUnit.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
 	}
@@ -414,14 +455,15 @@ if (DurationUnit == null || DurationUnit.equals("D") || DurationUnit.equals("M")
 		return (String)get_Value(COLUMNNAME_DurationUnit);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -444,10 +486,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -536,10 +579,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -580,22 +624,28 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return ii.intValue();
 	}
 
-/** PublishStatus AD_Reference_ID=310 */
-public static final int PUBLISHSTATUS_AD_Reference_ID=310;/** Released = R */
-public static final String PUBLISHSTATUS_Released = "R";/** Test = T */
-public static final String PUBLISHSTATUS_Test = "T";/** Under Revision = U */
-public static final String PUBLISHSTATUS_UnderRevision = "U";/** Void = V */
-public static final String PUBLISHSTATUS_Void = "V";
+	/** PublishStatus AD_Reference_ID=310 */
+	public static final int PUBLISHSTATUS_AD_Reference_ID=310;
+	/** Released = R */
+	public static final String PUBLISHSTATUS_Released = "R";
+	/** Test = T */
+	public static final String PUBLISHSTATUS_Test = "T";
+	/** Under Revision = U */
+	public static final String PUBLISHSTATUS_UnderRevision = "U";
+	/** Void = V */
+	public static final String PUBLISHSTATUS_Void = "V";
 	/** Set Publication Status.
 		@param PublishStatus 
 		Status of Publication
 	  */
 	public void setPublishStatus (String PublishStatus)
 	{
-if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");		if (PublishStatus.length() > 1)
+		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
+		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");
+		if (PublishStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PublishStatus = PublishStatus.substring(0, 0);
+			PublishStatus = PublishStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
@@ -646,16 +696,17 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 		@param ValidateWorkflow Validate Workflow	  */
 	public void setValidateWorkflow (String ValidateWorkflow)
 	{
+
 		if (ValidateWorkflow != null && ValidateWorkflow.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ValidateWorkflow = ValidateWorkflow.substring(0, 0);
+			ValidateWorkflow = ValidateWorkflow.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ValidateWorkflow, ValidateWorkflow);
 	}
 
 	/** Get Validate Workflow.
-@return Validate Workflow	  */
+		@return Validate Workflow	  */
 	public String getValidateWorkflow () 
 	{
 		return (String)get_Value(COLUMNNAME_ValidateWorkflow);
@@ -669,10 +720,11 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -725,21 +777,26 @@ if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is
 		return ii.intValue();
 	}
 
-/** WorkflowType AD_Reference_ID=328 */
-public static final int WORKFLOWTYPE_AD_Reference_ID=328;/** General = G */
-public static final String WORKFLOWTYPE_General = "G";/** Document Process = P */
-public static final String WORKFLOWTYPE_DocumentProcess = "P";/** Document Value = V */
-public static final String WORKFLOWTYPE_DocumentValue = "V";
+	/** WorkflowType AD_Reference_ID=328 */
+	public static final int WORKFLOWTYPE_AD_Reference_ID=328;
+	/** General = G */
+	public static final String WORKFLOWTYPE_General = "G";
+	/** Document Process = P */
+	public static final String WORKFLOWTYPE_DocumentProcess = "P";
+	/** Document Value = V */
+	public static final String WORKFLOWTYPE_DocumentValue = "V";
 	/** Set Workflow Type.
 		@param WorkflowType 
 		Type of Worflow
 	  */
 	public void setWorkflowType (String WorkflowType)
 	{
-if (WorkflowType == null) throw new IllegalArgumentException ("WorkflowType is mandatory");if (WorkflowType.equals("G") || WorkflowType.equals("P") || WorkflowType.equals("V")); else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=328 - G - P - V");		if (WorkflowType.length() > 1)
+		if (WorkflowType == null) throw new IllegalArgumentException ("WorkflowType is mandatory");
+		if (WorkflowType.equals("G") || WorkflowType.equals("P") || WorkflowType.equals("V")); else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=328 - G - P - V");
+		if (WorkflowType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			WorkflowType = WorkflowType.substring(0, 0);
+			WorkflowType = WorkflowType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
 	}

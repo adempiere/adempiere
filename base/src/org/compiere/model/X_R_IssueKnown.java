@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
     public X_R_IssueKnown (Properties ctx, int R_IssueKnown_ID, String trxName)
     {
       super (ctx, R_IssueKnown_ID, trxName);
-      /** if (R_IssueKnown_ID == 0)        {			setIssueSummary (null);
+      /** if (R_IssueKnown_ID == 0)
+        {
+			setIssueSummary (null);
 			setR_IssueKnown_ID (0);
 			setReleaseNo (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,10 +80,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -101,10 +103,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setIssueStatus (String IssueStatus)
 	{
+
 		if (IssueStatus != null && IssueStatus.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			IssueStatus = IssueStatus.substring(0, 1999);
+			IssueStatus = IssueStatus.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_IssueStatus, IssueStatus);
 	}
@@ -125,10 +128,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	{
 		if (IssueSummary == null)
 			throw new IllegalArgumentException ("IssueSummary is mandatory.");
+
 		if (IssueSummary.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			IssueSummary = IssueSummary.substring(0, 254);
+			IssueSummary = IssueSummary.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_IssueSummary, IssueSummary);
 	}
@@ -167,10 +171,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setLoggerName (String LoggerName)
 	{
+
 		if (LoggerName != null && LoggerName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			LoggerName = LoggerName.substring(0, 59);
+			LoggerName = LoggerName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_LoggerName, LoggerName);
 	}
@@ -191,7 +196,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -226,7 +231,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueRecommendation getI_R_IssueRecommendation() throws Exception 
+	public I_R_IssueRecommendation getR_IssueRecommendation() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_IssueRecommendation.Table_Name);
         I_R_IssueRecommendation result = null;
@@ -248,9 +253,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_IssueRecommendation_ID (int R_IssueRecommendation_ID)
 	{
-		if (R_IssueRecommendation_ID <= 0) 		set_Value (COLUMNNAME_R_IssueRecommendation_ID, null);
- else 
-		set_Value (COLUMNNAME_R_IssueRecommendation_ID, Integer.valueOf(R_IssueRecommendation_ID));
+		if (R_IssueRecommendation_ID <= 0) 
+			set_Value (COLUMNNAME_R_IssueRecommendation_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_IssueRecommendation_ID, Integer.valueOf(R_IssueRecommendation_ID));
 	}
 
 	/** Get Issue Recommendation.
@@ -264,7 +270,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueStatus getI_R_IssueStatus() throws Exception 
+	public I_R_IssueStatus getR_IssueStatus() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_IssueStatus.Table_Name);
         I_R_IssueStatus result = null;
@@ -286,9 +292,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_IssueStatus_ID (int R_IssueStatus_ID)
 	{
-		if (R_IssueStatus_ID <= 0) 		set_Value (COLUMNNAME_R_IssueStatus_ID, null);
- else 
-		set_Value (COLUMNNAME_R_IssueStatus_ID, Integer.valueOf(R_IssueStatus_ID));
+		if (R_IssueStatus_ID <= 0) 
+			set_Value (COLUMNNAME_R_IssueStatus_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_IssueStatus_ID, Integer.valueOf(R_IssueStatus_ID));
 	}
 
 	/** Get Issue Status.
@@ -302,7 +309,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Request getI_R_Request() throws Exception 
+	public I_R_Request getR_Request() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
         I_R_Request result = null;
@@ -324,9 +331,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID <= 0) 		set_Value (COLUMNNAME_R_Request_ID, null);
- else 
-		set_Value (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+		if (R_Request_ID <= 0) 
+			set_Value (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
 	}
 
 	/** Get Request.
@@ -348,10 +356,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	{
 		if (ReleaseNo == null)
 			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
+
 		if (ReleaseNo.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 3);
+			ReleaseNo = ReleaseNo.substring(0, 4);
 		}
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
@@ -378,10 +387,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setSourceClassName (String SourceClassName)
 	{
+
 		if (SourceClassName != null && SourceClassName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SourceClassName = SourceClassName.substring(0, 59);
+			SourceClassName = SourceClassName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SourceClassName, SourceClassName);
 	}
@@ -400,10 +410,11 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setSourceMethodName (String SourceMethodName)
 	{
+
 		if (SourceMethodName != null && SourceMethodName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SourceMethodName = SourceMethodName.substring(0, 59);
+			SourceMethodName = SourceMethodName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SourceMethodName, SourceMethodName);
 	}

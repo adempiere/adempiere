@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Source
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_K_Source extends PO implements I_K_Source, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_K_Source extends PO implements I_K_Source, I_Persistent
     public X_K_Source (Properties ctx, int K_Source_ID, String trxName)
     {
       super (ctx, K_Source_ID, trxName);
-      /** if (K_Source_ID == 0)        {			setK_Source_ID (0);
+      /** if (K_Source_ID == 0)
+        {
+			setK_Source_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +77,11 @@ public class X_K_Source extends PO implements I_K_Source, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
+
 		if (DescriptionURL != null && DescriptionURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 119);
+			DescriptionURL = DescriptionURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
@@ -124,10 +124,11 @@ public class X_K_Source extends PO implements I_K_Source, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

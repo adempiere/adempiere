@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_PrintLabelLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:26.203
-     */
-    public interface I_AD_PrintLabelLine 
+/** Generated Interface for AD_PrintLabelLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_PrintLabelLine 
 {
 
     /** TableName=AD_PrintLabelLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_LabelPrinterFunction_ID */
     public static final String COLUMNNAME_AD_LabelPrinterFunction_ID = "AD_LabelPrinterFunction_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_LabelPrinterFunction_ID();
 
-	public I_AD_LabelPrinterFunction getI_AD_LabelPrinterFunction() throws Exception;
+	public I_AD_LabelPrinterFunction getAD_LabelPrinterFunction() throws Exception;
 
     /** Column name AD_PrintLabelLine_ID */
     public static final String COLUMNNAME_AD_PrintLabelLine_ID = "AD_PrintLabelLine_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintLabel_ID();
 
-	public I_AD_PrintLabel getI_AD_PrintLabel() throws Exception;
+	public I_AD_PrintLabel getAD_PrintLabel() throws Exception;
 
     /** Column name LabelFormatType */
     public static final String COLUMNNAME_LabelFormatType = "LabelFormatType";

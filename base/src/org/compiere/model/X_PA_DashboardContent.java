@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, I_Persistent 
 {
 
@@ -39,9 +40,11 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
     {
       super (ctx, PA_DashboardContent_ID, trxName);
-      /** if (PA_DashboardContent_ID == 0)        {			setName (null);
+      /** if (PA_DashboardContent_ID == 0)
+        {
+			setName (null);
 			setPA_DashboardContent_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +75,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
       return sb.toString();
     }
 
-	public I_AD_Window getI_AD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -94,9 +97,10 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 		set_Value (COLUMNNAME_AD_Window_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -116,10 +120,11 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -140,7 +145,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	}
 
 	/** Get HTML.
-@return HTML	  */
+		@return HTML	  */
 	public String getHTML () 
 	{
 		return (String)get_Value(COLUMNNAME_HTML);
@@ -174,10 +179,11 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -208,7 +214,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	}
 
 	/** Get PA_DashboardContent_ID.
-@return PA_DashboardContent_ID	  */
+		@return PA_DashboardContent_ID	  */
 	public int getPA_DashboardContent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_DashboardContent_ID);
@@ -217,7 +223,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getI_PA_Goal() throws Exception 
+	public I_PA_Goal getPA_Goal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
         I_PA_Goal result = null;
@@ -239,9 +245,10 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	  */
 	public void setPA_Goal_ID (int PA_Goal_ID)
 	{
-		if (PA_Goal_ID <= 0) 		set_Value (COLUMNNAME_PA_Goal_ID, null);
- else 
-		set_Value (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
+		if (PA_Goal_ID <= 0) 
+			set_Value (COLUMNNAME_PA_Goal_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
 	}
 
 	/** Get Goal.

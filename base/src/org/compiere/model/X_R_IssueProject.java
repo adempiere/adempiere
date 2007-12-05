@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueProject
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
     public X_R_IssueProject (Properties ctx, int R_IssueProject_ID, String trxName)
     {
       super (ctx, R_IssueProject_ID, trxName);
-      /** if (R_IssueProject_ID == 0)        {			setName (null);
+      /** if (R_IssueProject_ID == 0)
+        {
+			setName (null);
 			setR_IssueProject_ID (0);
 			setSystemStatus (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,15 +74,32 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
       return sb.toString();
     }
 
+	public I_A_Asset getA_Asset() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
+        I_A_Asset result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_A_Asset)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Asset.
 		@param A_Asset_ID 
 		Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 		set_Value (COLUMNNAME_A_Asset_ID, null);
- else 
-		set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID <= 0) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -95,15 +113,32 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -123,10 +158,11 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -147,10 +183,11 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -177,10 +214,11 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	  */
 	public void setProfileInfo (String ProfileInfo)
 	{
+
 		if (ProfileInfo != null && ProfileInfo.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProfileInfo = ProfileInfo.substring(0, 59);
+			ProfileInfo = ProfileInfo.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProfileInfo, ProfileInfo);
 	}
@@ -221,10 +259,11 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	  */
 	public void setStatisticsInfo (String StatisticsInfo)
 	{
+
 		if (StatisticsInfo != null && StatisticsInfo.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			StatisticsInfo = StatisticsInfo.substring(0, 59);
+			StatisticsInfo = StatisticsInfo.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_StatisticsInfo, StatisticsInfo);
 	}
@@ -237,21 +276,26 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 		return (String)get_Value(COLUMNNAME_StatisticsInfo);
 	}
 
-/** SystemStatus AD_Reference_ID=374 */
-public static final int SYSTEMSTATUS_AD_Reference_ID=374;/** Evaluation = E */
-public static final String SYSTEMSTATUS_Evaluation = "E";/** Implementation = I */
-public static final String SYSTEMSTATUS_Implementation = "I";/** Production = P */
-public static final String SYSTEMSTATUS_Production = "P";
+	/** SystemStatus AD_Reference_ID=374 */
+	public static final int SYSTEMSTATUS_AD_Reference_ID=374;
+	/** Evaluation = E */
+	public static final String SYSTEMSTATUS_Evaluation = "E";
+	/** Implementation = I */
+	public static final String SYSTEMSTATUS_Implementation = "I";
+	/** Production = P */
+	public static final String SYSTEMSTATUS_Production = "P";
 	/** Set System Status.
 		@param SystemStatus 
 		Status of the system - Support priority depends on system status
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");		if (SystemStatus.length() > 1)
+		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+		if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");
+		if (SystemStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SystemStatus = SystemStatus.substring(0, 0);
+			SystemStatus = SystemStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}

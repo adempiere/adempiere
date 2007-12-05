@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
     public X_AD_Replication_Run (Properties ctx, int AD_Replication_Run_ID, String trxName)
     {
       super (ctx, AD_Replication_Run_ID, trxName);
-      /** if (AD_Replication_Run_ID == 0)        {			setAD_Replication_ID (0);
+      /** if (AD_Replication_Run_ID == 0)
+        {
+			setAD_Replication_ID (0);
 			setAD_Replication_Run_ID (0);
 			setIsReplicated (false);
 // N
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +76,7 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
       return sb.toString();
     }
 
-	public I_AD_Replication getI_AD_Replication() throws Exception 
+	public I_AD_Replication getAD_Replication() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Replication.Table_Name);
         I_AD_Replication result = null;
@@ -141,10 +142,11 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -189,10 +191,11 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

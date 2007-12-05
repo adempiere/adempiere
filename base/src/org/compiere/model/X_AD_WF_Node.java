@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
     public X_AD_WF_Node (Properties ctx, int AD_WF_Node_ID, String trxName)
     {
       super (ctx, AD_WF_Node_ID, trxName);
-      /** if (AD_WF_Node_ID == 0)        {			setAD_WF_Node_ID (0);
+      /** if (AD_WF_Node_ID == 0)
+        {
+			setAD_WF_Node_ID (0);
 			setAD_Workflow_ID (0);
 			setAction (null);
 // N
@@ -59,7 +62,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 			setWaitingTime (0);
 			setXPosition (0);
 			setYPosition (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -90,7 +93,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -112,9 +115,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -128,7 +132,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Form getI_AD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -150,9 +154,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 		set_Value (COLUMNNAME_AD_Form_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+		if (AD_Form_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
 	/** Get Special Form.
@@ -166,7 +171,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getI_AD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -188,9 +193,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -204,7 +210,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -226,9 +232,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -242,7 +249,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Task getI_AD_Task() throws Exception 
+	public I_AD_Task getAD_Task() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
         I_AD_Task result = null;
@@ -264,9 +271,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID <= 0) 		set_Value (COLUMNNAME_AD_Task_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+		if (AD_Task_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
 	}
 
 	/** Get OS Task.
@@ -280,7 +288,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Block getI_AD_WF_Block() throws Exception 
+	public I_AD_WF_Block getAD_WF_Block() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Block.Table_Name);
         I_AD_WF_Block result = null;
@@ -302,9 +310,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_WF_Block_ID (int AD_WF_Block_ID)
 	{
-		if (AD_WF_Block_ID <= 0) 		set_Value (COLUMNNAME_AD_WF_Block_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_WF_Block_ID, Integer.valueOf(AD_WF_Block_ID));
+		if (AD_WF_Block_ID <= 0) 
+			set_Value (COLUMNNAME_AD_WF_Block_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Block_ID, Integer.valueOf(AD_WF_Block_ID));
 	}
 
 	/** Get Workflow Block.
@@ -340,7 +349,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getI_AD_WF_Responsible() throws Exception 
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
         I_AD_WF_Responsible result = null;
@@ -362,9 +371,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
 	{
-		if (AD_WF_Responsible_ID <= 0) 		set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
+		if (AD_WF_Responsible_ID <= 0) 
+			set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
 	}
 
 	/** Get Workflow Responsible.
@@ -378,7 +388,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getI_AD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -400,9 +410,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 		set_Value (COLUMNNAME_AD_Window_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -416,7 +427,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -454,29 +465,42 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-/** Action AD_Reference_ID=302 */
-public static final int ACTION_AD_Reference_ID=302;/** User Choice = C */
-public static final String ACTION_UserChoice = "C";/** Document Action = D */
-public static final String ACTION_DocumentAction = "D";/** Sub Workflow = F */
-public static final String ACTION_SubWorkflow = "F";/** EMail = M */
-public static final String ACTION_EMail = "M";/** Apps Process = P */
-public static final String ACTION_AppsProcess = "P";/** Apps Report = R */
-public static final String ACTION_AppsReport = "R";/** Apps Task = T */
-public static final String ACTION_AppsTask = "T";/** Set Variable = V */
-public static final String ACTION_SetVariable = "V";/** User Window = W */
-public static final String ACTION_UserWindow = "W";/** User Form = X */
-public static final String ACTION_UserForm = "X";/** Wait (Sleep) = Z */
-public static final String ACTION_WaitSleep = "Z";
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
 	/** Set Action.
 		@param Action 
 		Indicates the Action to be performed
 	  */
 	public void setAction (String Action)
 	{
-if (Action == null) throw new IllegalArgumentException ("Action is mandatory");if (Action.equals("C") || Action.equals("D") || Action.equals("F") || Action.equals("M") || Action.equals("P") || Action.equals("R") || Action.equals("T") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("Z")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - C - D - F - M - P - R - T - V - W - X - Z");		if (Action.length() > 1)
+		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
+		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M");
+		if (Action.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Action = Action.substring(0, 0);
+			Action = Action.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Action, Action);
 	}
@@ -495,10 +519,11 @@ if (Action == null) throw new IllegalArgumentException ("Action is mandatory");i
 	  */
 	public void setAttributeName (String AttributeName)
 	{
+
 		if (AttributeName != null && AttributeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 59);
+			AttributeName = AttributeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
@@ -517,10 +542,11 @@ if (Action == null) throw new IllegalArgumentException ("Action is mandatory");i
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
+
 		if (AttributeValue != null && AttributeValue.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeValue = AttributeValue.substring(0, 59);
+			AttributeValue = AttributeValue.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
@@ -561,10 +587,11 @@ if (Action == null) throw new IllegalArgumentException ("Action is mandatory");i
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -577,32 +604,48 @@ if (Action == null) throw new IllegalArgumentException ("Action is mandatory");i
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DocAction AD_Reference_ID=135 */
-public static final int DOCACTION_AD_Reference_ID=135;/** <None> = -- */
-public static final String DOCACTION_None = "--";/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";/** Close = CL */
-public static final String DOCACTION_Close = "CL";/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";/** Post = PO */
-public static final String DOCACTION_Post = "PO";/** Prepare = PR */
-public static final String DOCACTION_Prepare = "PR";/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";/** Void = VO */
-public static final String DOCACTION_Void = "VO";/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";/** Unlock = XL */
-public static final String DOCACTION_Unlock = "XL";
+	/** DocAction AD_Reference_ID=135 */
+	public static final int DOCACTION_AD_Reference_ID=135;
+	/** Complete = CO */
+	public static final String DOCACTION_Complete = "CO";
+	/** Approve = AP */
+	public static final String DOCACTION_Approve = "AP";
+	/** Reject = RJ */
+	public static final String DOCACTION_Reject = "RJ";
+	/** Post = PO */
+	public static final String DOCACTION_Post = "PO";
+	/** Void = VO */
+	public static final String DOCACTION_Void = "VO";
+	/** Close = CL */
+	public static final String DOCACTION_Close = "CL";
+	/** Reverse - Correct = RC */
+	public static final String DOCACTION_Reverse_Correct = "RC";
+	/** Reverse - Accrual = RA */
+	public static final String DOCACTION_Reverse_Accrual = "RA";
+	/** Invalidate = IN */
+	public static final String DOCACTION_Invalidate = "IN";
+	/** Re-activate = RE */
+	public static final String DOCACTION_Re_Activate = "RE";
+	/** <None> = -- */
+	public static final String DOCACTION_None = "--";
+	/** Prepare = PR */
+	public static final String DOCACTION_Prepare = "PR";
+	/** Unlock = XL */
+	public static final String DOCACTION_Unlock = "XL";
+	/** Wait Complete = WC */
+	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
 		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
 	{
-if (DocAction == null || DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");		if (DocAction != null && DocAction.length() > 2)
+
+		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+		if (DocAction != null && DocAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 1);
+			DocAction = DocAction.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
@@ -655,21 +698,26 @@ if (DocAction == null || DocAction.equals("--") || DocAction.equals("AP") || Doc
 		return bd;
 	}
 
-/** DynPriorityUnit AD_Reference_ID=221 */
-public static final int DYNPRIORITYUNIT_AD_Reference_ID=221;/** Day = D */
-public static final String DYNPRIORITYUNIT_Day = "D";/** Hour = H */
-public static final String DYNPRIORITYUNIT_Hour = "H";/** Minute = M */
-public static final String DYNPRIORITYUNIT_Minute = "M";
+	/** DynPriorityUnit AD_Reference_ID=221 */
+	public static final int DYNPRIORITYUNIT_AD_Reference_ID=221;
+	/** Minute = M */
+	public static final String DYNPRIORITYUNIT_Minute = "M";
+	/** Hour = H */
+	public static final String DYNPRIORITYUNIT_Hour = "H";
+	/** Day = D */
+	public static final String DYNPRIORITYUNIT_Day = "D";
 	/** Set Dynamic Priority Unit.
 		@param DynPriorityUnit 
 		Change of priority when Activity is suspended waiting for user
 	  */
 	public void setDynPriorityUnit (String DynPriorityUnit)
 	{
-if (DynPriorityUnit == null || DynPriorityUnit.equals("D") || DynPriorityUnit.equals("H") || DynPriorityUnit.equals("M")); else throw new IllegalArgumentException ("DynPriorityUnit Invalid value - " + DynPriorityUnit + " - Reference_ID=221 - D - H - M");		if (DynPriorityUnit != null && DynPriorityUnit.length() > 1)
+
+		if (DynPriorityUnit == null || DynPriorityUnit.equals("M") || DynPriorityUnit.equals("H") || DynPriorityUnit.equals("D")); else throw new IllegalArgumentException ("DynPriorityUnit Invalid value - " + DynPriorityUnit + " - Reference_ID=221 - M - H - D");
+		if (DynPriorityUnit != null && DynPriorityUnit.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DynPriorityUnit = DynPriorityUnit.substring(0, 0);
+			DynPriorityUnit = DynPriorityUnit.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DynPriorityUnit, DynPriorityUnit);
 	}
@@ -688,10 +736,11 @@ if (DynPriorityUnit == null || DynPriorityUnit.equals("D") || DynPriorityUnit.eq
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -704,21 +753,26 @@ if (DynPriorityUnit == null || DynPriorityUnit.equals("D") || DynPriorityUnit.eq
 		return (String)get_Value(COLUMNNAME_EMail);
 	}
 
-/** EMailRecipient AD_Reference_ID=363 */
-public static final int EMAILRECIPIENT_AD_Reference_ID=363;/** Document Business Partner = B */
-public static final String EMAILRECIPIENT_DocumentBusinessPartner = "B";/** Document Owner = D */
-public static final String EMAILRECIPIENT_DocumentOwner = "D";/** WF Responsible = R */
-public static final String EMAILRECIPIENT_WFResponsible = "R";
+	/** EMailRecipient AD_Reference_ID=363 */
+	public static final int EMAILRECIPIENT_AD_Reference_ID=363;
+	/** Document Owner = D */
+	public static final String EMAILRECIPIENT_DocumentOwner = "D";
+	/** Document Business Partner = B */
+	public static final String EMAILRECIPIENT_DocumentBusinessPartner = "B";
+	/** WF Responsible = R */
+	public static final String EMAILRECIPIENT_WFResponsible = "R";
 	/** Set EMail Recipient.
 		@param EMailRecipient 
 		Recipient of the EMail
 	  */
 	public void setEMailRecipient (String EMailRecipient)
 	{
-if (EMailRecipient == null || EMailRecipient.equals("B") || EMailRecipient.equals("D") || EMailRecipient.equals("R")); else throw new IllegalArgumentException ("EMailRecipient Invalid value - " + EMailRecipient + " - Reference_ID=363 - B - D - R");		if (EMailRecipient != null && EMailRecipient.length() > 1)
+
+		if (EMailRecipient == null || EMailRecipient.equals("D") || EMailRecipient.equals("B") || EMailRecipient.equals("R")); else throw new IllegalArgumentException ("EMailRecipient Invalid value - " + EMailRecipient + " - Reference_ID=363 - D - B - R");
+		if (EMailRecipient != null && EMailRecipient.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			EMailRecipient = EMailRecipient.substring(0, 0);
+			EMailRecipient = EMailRecipient.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_EMailRecipient, EMailRecipient);
 	}
@@ -731,14 +785,15 @@ if (EMailRecipient == null || EMailRecipient.equals("B") || EMailRecipient.equal
 		return (String)get_Value(COLUMNNAME_EMailRecipient);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -755,20 +810,24 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
-/** FinishMode AD_Reference_ID=303 */
-public static final int FINISHMODE_AD_Reference_ID=303;/** Automatic = A */
-public static final String FINISHMODE_Automatic = "A";/** Manual = M */
-public static final String FINISHMODE_Manual = "M";
+	/** FinishMode AD_Reference_ID=303 */
+	public static final int FINISHMODE_AD_Reference_ID=303;
+	/** Automatic = A */
+	public static final String FINISHMODE_Automatic = "A";
+	/** Manual = M */
+	public static final String FINISHMODE_Manual = "M";
 	/** Set Finish Mode.
 		@param FinishMode 
 		Workflow Activity Finish Mode
 	  */
 	public void setFinishMode (String FinishMode)
 	{
-if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");		if (FinishMode != null && FinishMode.length() > 1)
+
+		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");
+		if (FinishMode != null && FinishMode.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FinishMode = FinishMode.substring(0, 0);
+			FinishMode = FinishMode.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FinishMode, FinishMode);
 	}
@@ -787,10 +846,11 @@ if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); els
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -827,20 +887,24 @@ if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); els
 		return false;
 	}
 
-/** JoinElement AD_Reference_ID=301 */
-public static final int JOINELEMENT_AD_Reference_ID=301;/** AND = A */
-public static final String JOINELEMENT_AND = "A";/** XOR = X */
-public static final String JOINELEMENT_XOR = "X";
+	/** JoinElement AD_Reference_ID=301 */
+	public static final int JOINELEMENT_AD_Reference_ID=301;
+	/** AND = A */
+	public static final String JOINELEMENT_AND = "A";
+	/** XOR = X */
+	public static final String JOINELEMENT_XOR = "X";
 	/** Set Join Element.
 		@param JoinElement 
 		Semantics for multiple incoming Transitions
 	  */
 	public void setJoinElement (String JoinElement)
 	{
-if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");		if (JoinElement.length() > 1)
+		if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");
+		if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");
+		if (JoinElement.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			JoinElement = JoinElement.substring(0, 0);
+			JoinElement = JoinElement.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_JoinElement, JoinElement);
 	}
@@ -881,10 +945,11 @@ if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is man
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -925,7 +990,7 @@ if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is man
 		return ii.intValue();
 	}
 
-	public I_R_MailText getI_R_MailText() throws Exception 
+	public I_R_MailText getR_MailText() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
         I_R_MailText result = null;
@@ -947,9 +1012,10 @@ if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is man
 	  */
 	public void setR_MailText_ID (int R_MailText_ID)
 	{
-		if (R_MailText_ID <= 0) 		set_Value (COLUMNNAME_R_MailText_ID, null);
- else 
-		set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
+		if (R_MailText_ID <= 0) 
+			set_Value (COLUMNNAME_R_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
 	}
 
 	/** Get Mail Template.
@@ -963,20 +1029,24 @@ if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is man
 		return ii.intValue();
 	}
 
-/** SplitElement AD_Reference_ID=301 */
-public static final int SPLITELEMENT_AD_Reference_ID=301;/** AND = A */
-public static final String SPLITELEMENT_AND = "A";/** XOR = X */
-public static final String SPLITELEMENT_XOR = "X";
+	/** SplitElement AD_Reference_ID=301 */
+	public static final int SPLITELEMENT_AD_Reference_ID=301;
+	/** AND = A */
+	public static final String SPLITELEMENT_AND = "A";
+	/** XOR = X */
+	public static final String SPLITELEMENT_XOR = "X";
 	/** Set Split Element.
 		@param SplitElement 
 		Semantics for multiple outgoing Transitions
 	  */
 	public void setSplitElement (String SplitElement)
 	{
-if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");		if (SplitElement.length() > 1)
+		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
+		if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");
+		if (SplitElement.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SplitElement = SplitElement.substring(0, 0);
+			SplitElement = SplitElement.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SplitElement, SplitElement);
 	}
@@ -989,20 +1059,24 @@ if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is m
 		return (String)get_Value(COLUMNNAME_SplitElement);
 	}
 
-/** StartMode AD_Reference_ID=303 */
-public static final int STARTMODE_AD_Reference_ID=303;/** Automatic = A */
-public static final String STARTMODE_Automatic = "A";/** Manual = M */
-public static final String STARTMODE_Manual = "M";
+	/** StartMode AD_Reference_ID=303 */
+	public static final int STARTMODE_AD_Reference_ID=303;
+	/** Automatic = A */
+	public static final String STARTMODE_Automatic = "A";
+	/** Manual = M */
+	public static final String STARTMODE_Manual = "M";
 	/** Set Start Mode.
 		@param StartMode 
 		Workflow Activity Start Mode 
 	  */
 	public void setStartMode (String StartMode)
 	{
-if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");		if (StartMode != null && StartMode.length() > 1)
+
+		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");
+		if (StartMode != null && StartMode.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			StartMode = StartMode.substring(0, 0);
+			StartMode = StartMode.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_StartMode, StartMode);
 	}
@@ -1015,20 +1089,24 @@ if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else t
 		return (String)get_Value(COLUMNNAME_StartMode);
 	}
 
-/** SubflowExecution AD_Reference_ID=307 */
-public static final int SUBFLOWEXECUTION_AD_Reference_ID=307;/** Asynchronously = A */
-public static final String SUBFLOWEXECUTION_Asynchronously = "A";/** Synchronously = S */
-public static final String SUBFLOWEXECUTION_Synchronously = "S";
+	/** SubflowExecution AD_Reference_ID=307 */
+	public static final int SUBFLOWEXECUTION_AD_Reference_ID=307;
+	/** Asynchronously = A */
+	public static final String SUBFLOWEXECUTION_Asynchronously = "A";
+	/** Synchronously = S */
+	public static final String SUBFLOWEXECUTION_Synchronously = "S";
 	/** Set Subflow Execution.
 		@param SubflowExecution 
 		Mode how the sub-workflow is executed
 	  */
 	public void setSubflowExecution (String SubflowExecution)
 	{
-if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");		if (SubflowExecution != null && SubflowExecution.length() > 1)
+
+		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");
+		if (SubflowExecution != null && SubflowExecution.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SubflowExecution = SubflowExecution.substring(0, 0);
+			SubflowExecution = SubflowExecution.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
 	}
@@ -1049,10 +1127,11 @@ if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -1105,17 +1184,18 @@ if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution
 		return ii.intValue();
 	}
 
-/** Workflow_ID AD_Reference_ID=174 */
-public static final int WORKFLOW_ID_AD_Reference_ID=174;
+	/** Workflow_ID AD_Reference_ID=174 */
+	public static final int WORKFLOW_ID_AD_Reference_ID=174;
 	/** Set Workflow.
 		@param Workflow_ID 
 		Workflow or tasks
 	  */
 	public void setWorkflow_ID (int Workflow_ID)
 	{
-		if (Workflow_ID <= 0) 		set_Value (COLUMNNAME_Workflow_ID, null);
- else 
-		set_Value (COLUMNNAME_Workflow_ID, Integer.valueOf(Workflow_ID));
+		if (Workflow_ID <= 0) 
+			set_Value (COLUMNNAME_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_Workflow_ID, Integer.valueOf(Workflow_ID));
 	}
 
 	/** Get Workflow.

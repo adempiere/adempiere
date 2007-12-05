@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Menu
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
     public X_AD_Menu (Properties ctx, int AD_Menu_ID, String trxName)
     {
       super (ctx, AD_Menu_ID, trxName);
-      /** if (AD_Menu_ID == 0)        {			setAD_Menu_ID (0);
+      /** if (AD_Menu_ID == 0)
+        {
+			setAD_Menu_ID (0);
 			setEntityType (null);
 // U
 			setIsReadOnly (false);
@@ -47,7 +48,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 			setIsSOTrx (false);
 			setIsSummary (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,7 +79,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Form getI_AD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -100,9 +101,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 		set_Value (COLUMNNAME_AD_Form_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+		if (AD_Form_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
 	/** Get Special Form.
@@ -138,7 +140,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -160,9 +162,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -176,7 +179,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Task getI_AD_Task() throws Exception 
+	public I_AD_Task getAD_Task() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
         I_AD_Task result = null;
@@ -198,9 +201,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID <= 0) 		set_Value (COLUMNNAME_AD_Task_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+		if (AD_Task_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
 	}
 
 	/** Get OS Task.
@@ -214,7 +218,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getI_AD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -236,9 +240,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 		set_Value (COLUMNNAME_AD_Window_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -252,7 +257,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workbench getI_AD_Workbench() throws Exception 
+	public I_AD_Workbench getAD_Workbench() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
         I_AD_Workbench result = null;
@@ -274,9 +279,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID <= 0) 		set_Value (COLUMNNAME_AD_Workbench_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
+		if (AD_Workbench_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Workbench_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
 	}
 
 	/** Get Workbench.
@@ -290,7 +296,7 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -312,9 +318,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 		set_Value (COLUMNNAME_AD_Workflow_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -328,25 +335,34 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		return ii.intValue();
 	}
 
-/** Action AD_Reference_ID=104 */
-public static final int ACTION_AD_Reference_ID=104;/** Workbench = B */
-public static final String ACTION_Workbench = "B";/** WorkFlow = F */
-public static final String ACTION_WorkFlow = "F";/** Process = P */
-public static final String ACTION_Process = "P";/** Report = R */
-public static final String ACTION_Report = "R";/** Task = T */
-public static final String ACTION_Task = "T";/** Window = W */
-public static final String ACTION_Window = "W";/** Form = X */
-public static final String ACTION_Form = "X";
+	/** Action AD_Reference_ID=104 */
+	public static final int ACTION_AD_Reference_ID=104;
+	/** Window = W */
+	public static final String ACTION_Window = "W";
+	/** Task = T */
+	public static final String ACTION_Task = "T";
+	/** WorkFlow = F */
+	public static final String ACTION_WorkFlow = "F";
+	/** Process = P */
+	public static final String ACTION_Process = "P";
+	/** Report = R */
+	public static final String ACTION_Report = "R";
+	/** Form = X */
+	public static final String ACTION_Form = "X";
+	/** Workbench = B */
+	public static final String ACTION_Workbench = "B";
 	/** Set Action.
 		@param Action 
 		Indicates the Action to be performed
 	  */
 	public void setAction (String Action)
 	{
-if (Action == null || Action.equals("B") || Action.equals("F") || Action.equals("P") || Action.equals("R") || Action.equals("T") || Action.equals("W") || Action.equals("X")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=104 - B - F - P - R - T - W - X");		if (Action != null && Action.length() > 1)
+
+		if (Action == null || Action.equals("W") || Action.equals("T") || Action.equals("F") || Action.equals("P") || Action.equals("R") || Action.equals("X") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=104 - W - T - F - P - R - X - B");
+		if (Action != null && Action.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Action = Action.substring(0, 0);
+			Action = Action.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Action, Action);
 	}
@@ -365,10 +381,11 @@ if (Action == null || Action.equals("B") || Action.equals("F") || Action.equals(
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -381,14 +398,15 @@ if (Action == null || Action.equals("B") || Action.equals("F") || Action.equals(
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -485,10 +503,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

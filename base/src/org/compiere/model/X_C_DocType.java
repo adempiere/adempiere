@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
     {
       super (ctx, C_DocType_ID, trxName);
-      /** if (C_DocType_ID == 0)        {			setC_DocType_ID (0);
+      /** if (C_DocType_ID == 0)
+        {
+			setC_DocType_ID (0);
 			setDocBaseType (null);
 			setDocumentCopies (0);
 // 1
@@ -60,7 +61,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 // N
 			setName (null);
 			setPrintName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -91,7 +92,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -113,9 +114,10 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+		if (AD_PrintFormat_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
 	}
 
 	/** Get Print Format.
@@ -129,17 +131,18 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-/** C_DocTypeDifference_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPEDIFFERENCE_ID_AD_Reference_ID=170;
+	/** C_DocTypeDifference_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPEDIFFERENCE_ID_AD_Reference_ID=170;
 	/** Set Difference Document.
 		@param C_DocTypeDifference_ID 
 		Document type for generating in dispute Shipments
 	  */
 	public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID)
 	{
-		if (C_DocTypeDifference_ID <= 0) 		set_Value (COLUMNNAME_C_DocTypeDifference_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocTypeDifference_ID, Integer.valueOf(C_DocTypeDifference_ID));
+		if (C_DocTypeDifference_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocTypeDifference_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeDifference_ID, Integer.valueOf(C_DocTypeDifference_ID));
 	}
 
 	/** Get Difference Document.
@@ -153,17 +156,18 @@ public static final int C_DOCTYPEDIFFERENCE_ID_AD_Reference_ID=170;
 		return ii.intValue();
 	}
 
-/** C_DocTypeInvoice_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPEINVOICE_ID_AD_Reference_ID=170;
+	/** C_DocTypeInvoice_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPEINVOICE_ID_AD_Reference_ID=170;
 	/** Set Document Type for Invoice.
 		@param C_DocTypeInvoice_ID 
 		Document type used for invoices generated from this sales document
 	  */
 	public void setC_DocTypeInvoice_ID (int C_DocTypeInvoice_ID)
 	{
-		if (C_DocTypeInvoice_ID <= 0) 		set_Value (COLUMNNAME_C_DocTypeInvoice_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocTypeInvoice_ID, Integer.valueOf(C_DocTypeInvoice_ID));
+		if (C_DocTypeInvoice_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, Integer.valueOf(C_DocTypeInvoice_ID));
 	}
 
 	/** Get Document Type for Invoice.
@@ -177,17 +181,18 @@ public static final int C_DOCTYPEINVOICE_ID_AD_Reference_ID=170;
 		return ii.intValue();
 	}
 
-/** C_DocTypeProforma_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPEPROFORMA_ID_AD_Reference_ID=170;
+	/** C_DocTypeProforma_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPEPROFORMA_ID_AD_Reference_ID=170;
 	/** Set Document Type for ProForma.
 		@param C_DocTypeProforma_ID 
 		Document type used for pro forma invoices generated from this sales document
 	  */
 	public void setC_DocTypeProforma_ID (int C_DocTypeProforma_ID)
 	{
-		if (C_DocTypeProforma_ID <= 0) 		set_Value (COLUMNNAME_C_DocTypeProforma_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocTypeProforma_ID, Integer.valueOf(C_DocTypeProforma_ID));
+		if (C_DocTypeProforma_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocTypeProforma_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeProforma_ID, Integer.valueOf(C_DocTypeProforma_ID));
 	}
 
 	/** Get Document Type for ProForma.
@@ -201,17 +206,18 @@ public static final int C_DOCTYPEPROFORMA_ID_AD_Reference_ID=170;
 		return ii.intValue();
 	}
 
-/** C_DocTypeShipment_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPESHIPMENT_ID_AD_Reference_ID=170;
+	/** C_DocTypeShipment_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPESHIPMENT_ID_AD_Reference_ID=170;
 	/** Set Document Type for Shipment.
 		@param C_DocTypeShipment_ID 
 		Document type used for shipments generated from this sales document
 	  */
 	public void setC_DocTypeShipment_ID (int C_DocTypeShipment_ID)
 	{
-		if (C_DocTypeShipment_ID <= 0) 		set_Value (COLUMNNAME_C_DocTypeShipment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocTypeShipment_ID, Integer.valueOf(C_DocTypeShipment_ID));
+		if (C_DocTypeShipment_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocTypeShipment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeShipment_ID, Integer.valueOf(C_DocTypeShipment_ID));
 	}
 
 	/** Get Document Type for Shipment.
@@ -253,10 +259,11 @@ public static final int C_DOCTYPESHIPMENT_ID_AD_Reference_ID=170;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -269,41 +276,66 @@ public static final int C_DOCTYPESHIPMENT_ID_AD_Reference_ID=170;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DocBaseType AD_Reference_ID=183 */
-public static final int DOCBASETYPE_AD_Reference_ID=183;/** AP Credit Memo = APC */
-public static final String DOCBASETYPE_APCreditMemo = "APC";/** AP Invoice = API */
-public static final String DOCBASETYPE_APInvoice = "API";/** AP Payment = APP */
-public static final String DOCBASETYPE_APPayment = "APP";/** AR Credit Memo = ARC */
-public static final String DOCBASETYPE_ARCreditMemo = "ARC";/** AR Pro Forma Invoice = ARF */
-public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";/** AR Invoice = ARI */
-public static final String DOCBASETYPE_ARInvoice = "ARI";/** AR Receipt = ARR */
-public static final String DOCBASETYPE_ARReceipt = "ARR";/** Payment Allocation = CMA */
-public static final String DOCBASETYPE_PaymentAllocation = "CMA";/** Bank Statement = CMB */
-public static final String DOCBASETYPE_BankStatement = "CMB";/** Cash Journal = CMC */
-public static final String DOCBASETYPE_CashJournal = "CMC";/** GL Document = GLD */
-public static final String DOCBASETYPE_GLDocument = "GLD";/** GL Journal = GLJ */
-public static final String DOCBASETYPE_GLJournal = "GLJ";/** Material Physical Inventory = MMI */
-public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";/** Material Movement = MMM */
-public static final String DOCBASETYPE_MaterialMovement = "MMM";/** Material Production = MMP */
-public static final String DOCBASETYPE_MaterialProduction = "MMP";/** Material Receipt = MMR */
-public static final String DOCBASETYPE_MaterialReceipt = "MMR";/** Material Delivery = MMS */
-public static final String DOCBASETYPE_MaterialDelivery = "MMS";/** Match Invoice = MXI */
-public static final String DOCBASETYPE_MatchInvoice = "MXI";/** Match PO = MXP */
-public static final String DOCBASETYPE_MatchPO = "MXP";/** Project Issue = PJI */
-public static final String DOCBASETYPE_ProjectIssue = "PJI";/** Purchase Order = POO */
-public static final String DOCBASETYPE_PurchaseOrder = "POO";/** Purchase Requisition = POR */
-public static final String DOCBASETYPE_PurchaseRequisition = "POR";/** Sales Order = SOO */
-public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** DocBaseType AD_Reference_ID=183 */
+	public static final int DOCBASETYPE_AD_Reference_ID=183;
+	/** GL Journal = GLJ */
+	public static final String DOCBASETYPE_GLJournal = "GLJ";
+	/** GL Document = GLD */
+	public static final String DOCBASETYPE_GLDocument = "GLD";
+	/** AP Invoice = API */
+	public static final String DOCBASETYPE_APInvoice = "API";
+	/** AP Payment = APP */
+	public static final String DOCBASETYPE_APPayment = "APP";
+	/** AR Invoice = ARI */
+	public static final String DOCBASETYPE_ARInvoice = "ARI";
+	/** AR Receipt = ARR */
+	public static final String DOCBASETYPE_ARReceipt = "ARR";
+	/** Sales Order = SOO */
+	public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** AR Pro Forma Invoice = ARF */
+	public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";
+	/** Material Delivery = MMS */
+	public static final String DOCBASETYPE_MaterialDelivery = "MMS";
+	/** Material Receipt = MMR */
+	public static final String DOCBASETYPE_MaterialReceipt = "MMR";
+	/** Material Movement = MMM */
+	public static final String DOCBASETYPE_MaterialMovement = "MMM";
+	/** Purchase Order = POO */
+	public static final String DOCBASETYPE_PurchaseOrder = "POO";
+	/** Purchase Requisition = POR */
+	public static final String DOCBASETYPE_PurchaseRequisition = "POR";
+	/** Material Physical Inventory = MMI */
+	public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";
+	/** AP Credit Memo = APC */
+	public static final String DOCBASETYPE_APCreditMemo = "APC";
+	/** AR Credit Memo = ARC */
+	public static final String DOCBASETYPE_ARCreditMemo = "ARC";
+	/** Bank Statement = CMB */
+	public static final String DOCBASETYPE_BankStatement = "CMB";
+	/** Cash Journal = CMC */
+	public static final String DOCBASETYPE_CashJournal = "CMC";
+	/** Payment Allocation = CMA */
+	public static final String DOCBASETYPE_PaymentAllocation = "CMA";
+	/** Material Production = MMP */
+	public static final String DOCBASETYPE_MaterialProduction = "MMP";
+	/** Match Invoice = MXI */
+	public static final String DOCBASETYPE_MatchInvoice = "MXI";
+	/** Match PO = MXP */
+	public static final String DOCBASETYPE_MatchPO = "MXP";
+	/** Project Issue = PJI */
+	public static final String DOCBASETYPE_ProjectIssue = "PJI";
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document
 	  */
 	public void setDocBaseType (String DocBaseType)
 	{
-if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");if (DocBaseType.equals("APC") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARC") || DocBaseType.equals("ARF") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("CMA") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("GLD") || DocBaseType.equals("GLJ") || DocBaseType.equals("MMI") || DocBaseType.equals("MMM") || DocBaseType.equals("MMP") || DocBaseType.equals("MMR") || DocBaseType.equals("MMS") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("SOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - APC - API - APP - ARC - ARF - ARI - ARR - CMA - CMB - CMC - GLD - GLJ - MMI - MMM - MMP - MMR - MMS - MXI - MXP - PJI - POO - POR - SOO");		if (DocBaseType.length() > 3)
+		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
+		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI");
+		if (DocBaseType.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			DocBaseType = DocBaseType.substring(0, 2);
+			DocBaseType = DocBaseType.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
 	}
@@ -316,17 +348,18 @@ if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is man
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
-/** DocNoSequence_ID AD_Reference_ID=128 */
-public static final int DOCNOSEQUENCE_ID_AD_Reference_ID=128;
+	/** DocNoSequence_ID AD_Reference_ID=128 */
+	public static final int DOCNOSEQUENCE_ID_AD_Reference_ID=128;
 	/** Set Document Sequence.
 		@param DocNoSequence_ID 
 		Document sequence determines the numbering of documents
 	  */
 	public void setDocNoSequence_ID (int DocNoSequence_ID)
 	{
-		if (DocNoSequence_ID <= 0) 		set_Value (COLUMNNAME_DocNoSequence_ID, null);
- else 
-		set_Value (COLUMNNAME_DocNoSequence_ID, Integer.valueOf(DocNoSequence_ID));
+		if (DocNoSequence_ID <= 0) 
+			set_Value (COLUMNNAME_DocNoSequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_DocNoSequence_ID, Integer.valueOf(DocNoSequence_ID));
 	}
 
 	/** Get Document Sequence.
@@ -340,26 +373,36 @@ public static final int DOCNOSEQUENCE_ID_AD_Reference_ID=128;
 		return ii.intValue();
 	}
 
-/** DocSubTypeSO AD_Reference_ID=148 */
-public static final int DOCSUBTYPESO_AD_Reference_ID=148;/** Quotation = OB */
-public static final String DOCSUBTYPESO_Quotation = "OB";/** Proposal = ON */
-public static final String DOCSUBTYPESO_Proposal = "ON";/** Prepay Order = PR */
-public static final String DOCSUBTYPESO_PrepayOrder = "PR";/** Return Material = RM */
-public static final String DOCSUBTYPESO_ReturnMaterial = "RM";/** Standard Order = SO */
-public static final String DOCSUBTYPESO_StandardOrder = "SO";/** On Credit Order = WI */
-public static final String DOCSUBTYPESO_OnCreditOrder = "WI";/** Warehouse Order = WP */
-public static final String DOCSUBTYPESO_WarehouseOrder = "WP";/** POS Order = WR */
-public static final String DOCSUBTYPESO_POSOrder = "WR";
+	/** DocSubTypeSO AD_Reference_ID=148 */
+	public static final int DOCSUBTYPESO_AD_Reference_ID=148;
+	/** On Credit Order = WI */
+	public static final String DOCSUBTYPESO_OnCreditOrder = "WI";
+	/** POS Order = WR */
+	public static final String DOCSUBTYPESO_POSOrder = "WR";
+	/** Warehouse Order = WP */
+	public static final String DOCSUBTYPESO_WarehouseOrder = "WP";
+	/** Standard Order = SO */
+	public static final String DOCSUBTYPESO_StandardOrder = "SO";
+	/** Proposal = ON */
+	public static final String DOCSUBTYPESO_Proposal = "ON";
+	/** Quotation = OB */
+	public static final String DOCSUBTYPESO_Quotation = "OB";
+	/** Return Material = RM */
+	public static final String DOCSUBTYPESO_ReturnMaterial = "RM";
+	/** Prepay Order = PR */
+	public static final String DOCSUBTYPESO_PrepayOrder = "PR";
 	/** Set SO Sub Type.
 		@param DocSubTypeSO 
 		Sales Order Sub Type
 	  */
 	public void setDocSubTypeSO (String DocSubTypeSO)
 	{
-if (DocSubTypeSO == null || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("ON") || DocSubTypeSO.equals("PR") || DocSubTypeSO.equals("RM") || DocSubTypeSO.equals("SO") || DocSubTypeSO.equals("WI") || DocSubTypeSO.equals("WP") || DocSubTypeSO.equals("WR")); else throw new IllegalArgumentException ("DocSubTypeSO Invalid value - " + DocSubTypeSO + " - Reference_ID=148 - OB - ON - PR - RM - SO - WI - WP - WR");		if (DocSubTypeSO != null && DocSubTypeSO.length() > 2)
+
+		if (DocSubTypeSO == null || DocSubTypeSO.equals("WI") || DocSubTypeSO.equals("WR") || DocSubTypeSO.equals("WP") || DocSubTypeSO.equals("SO") || DocSubTypeSO.equals("ON") || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("RM") || DocSubTypeSO.equals("PR")); else throw new IllegalArgumentException ("DocSubTypeSO Invalid value - " + DocSubTypeSO + " - Reference_ID=148 - WI - WR - WP - SO - ON - OB - RM - PR");
+		if (DocSubTypeSO != null && DocSubTypeSO.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocSubTypeSO = DocSubTypeSO.substring(0, 1);
+			DocSubTypeSO = DocSubTypeSO.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocSubTypeSO, DocSubTypeSO);
 	}
@@ -398,10 +441,11 @@ if (DocSubTypeSO == null || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("ON
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
+
 		if (DocumentNote != null && DocumentNote.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 1999);
+			DocumentNote = DocumentNote.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
@@ -414,7 +458,7 @@ if (DocSubTypeSO == null || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("ON
 		return (String)get_Value(COLUMNNAME_DocumentNote);
 	}
 
-	public I_GL_Category getI_GL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -748,10 +792,11 @@ if (DocSubTypeSO == null || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("ON
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -780,10 +825,11 @@ if (DocSubTypeSO == null || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("ON
 	{
 		if (PrintName == null)
 			throw new IllegalArgumentException ("PrintName is mandatory.");
+
 		if (PrintName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			PrintName = PrintName.substring(0, 59);
+			PrintName = PrintName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}

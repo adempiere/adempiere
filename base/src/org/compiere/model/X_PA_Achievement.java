@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Achievement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persistent 
 {
 
@@ -39,13 +41,15 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
     public X_PA_Achievement (Properties ctx, int PA_Achievement_ID, String trxName)
     {
       super (ctx, PA_Achievement_ID, trxName);
-      /** if (PA_Achievement_ID == 0)        {			setIsAchieved (false);
+      /** if (PA_Achievement_ID == 0)
+        {
+			setIsAchieved (false);
 			setManualActual (Env.ZERO);
 			setName (null);
 			setPA_Achievement_ID (0);
 			setPA_Measure_ID (0);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -99,10 +103,11 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -169,10 +174,11 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -199,10 +205,11 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	  */
 	public void setNote (String Note)
 	{
+
 		if (Note != null && Note.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 1999);
+			Note = Note.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
@@ -237,7 +244,7 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getI_PA_Measure() throws Exception 
+	public I_PA_Measure getPA_Measure() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Measure.Table_Name);
         I_PA_Measure result = null;

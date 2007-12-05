@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Scheduler_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
     public X_AD_Scheduler_Para (Properties ctx, int AD_Scheduler_Para_ID, String trxName)
     {
       super (ctx, AD_Scheduler_Para_ID, trxName);
-      /** if (AD_Scheduler_Para_ID == 0)        {			setAD_Process_Para_ID (0);
+      /** if (AD_Scheduler_Para_ID == 0)
+        {
+			setAD_Process_Para_ID (0);
 			setAD_Scheduler_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +72,7 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Process_Para getI_AD_Process_Para() throws Exception 
+	public I_AD_Process_Para getAD_Process_Para() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process_Para.Table_Name);
         I_AD_Process_Para result = null;
@@ -98,7 +98,7 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 	}
 
 	/** Get Process Parameter.
-@return Process Parameter	  */
+		@return Process Parameter	  */
 	public int getAD_Process_Para_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_Para_ID);
@@ -107,7 +107,7 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_Scheduler getI_AD_Scheduler() throws Exception 
+	public I_AD_Scheduler getAD_Scheduler() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Scheduler.Table_Name);
         I_AD_Scheduler result = null;
@@ -151,10 +151,11 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -173,10 +174,11 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 	  */
 	public void setParameterDefault (String ParameterDefault)
 	{
+
 		if (ParameterDefault != null && ParameterDefault.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ParameterDefault = ParameterDefault.substring(0, 59);
+			ParameterDefault = ParameterDefault.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ParameterDefault, ParameterDefault);
 	}

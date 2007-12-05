@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Persistent 
 {
 
@@ -39,8 +41,10 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
     public X_I_Conversion_Rate (Properties ctx, int I_Conversion_Rate_ID, String trxName)
     {
       super (ctx, I_Conversion_Rate_ID, trxName);
-      /** if (I_Conversion_Rate_ID == 0)        {			setI_Conversion_Rate_ID (0);
-} */
+      /** if (I_Conversion_Rate_ID == 0)
+        {
+			setI_Conversion_Rate_ID (0);
+        } */
     }
 
     /** Load Constructor */
@@ -71,7 +75,7 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
       return sb.toString();
     }
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -93,9 +97,10 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 		set_Value (COLUMNNAME_C_ConversionType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID <= 0) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -109,7 +114,7 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Conversion_Rate getI_C_Conversion_Rate() throws Exception 
+	public I_C_Conversion_Rate getC_Conversion_Rate() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Conversion_Rate.Table_Name);
         I_C_Conversion_Rate result = null;
@@ -131,9 +136,10 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
 	{
-		if (C_Conversion_Rate_ID <= 0) 		set_Value (COLUMNNAME_C_Conversion_Rate_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
+		if (C_Conversion_Rate_ID <= 0) 
+			set_Value (COLUMNNAME_C_Conversion_Rate_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
 	}
 
 	/** Get Conversion Rate.
@@ -147,7 +153,7 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -169,9 +175,10 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -185,8 +192,8 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 		return ii.intValue();
 	}
 
-/** C_Currency_ID_To AD_Reference_ID=112 */
-public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
+	/** C_Currency_ID_To AD_Reference_ID=112 */
+	public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	/** Set Currency To.
 		@param C_Currency_ID_To 
 		Target currency
@@ -213,10 +220,11 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	  */
 	public void setConversionTypeValue (String ConversionTypeValue)
 	{
+
 		if (ConversionTypeValue != null && ConversionTypeValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ConversionTypeValue = ConversionTypeValue.substring(0, 39);
+			ConversionTypeValue = ConversionTypeValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
 	}
@@ -279,10 +287,11 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	  */
 	public void setISO_Code (String ISO_Code)
 	{
+
 		if (ISO_Code != null && ISO_Code.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 2);
+			ISO_Code = ISO_Code.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
@@ -301,10 +310,11 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	  */
 	public void setISO_Code_To (String ISO_Code_To)
 	{
+
 		if (ISO_Code_To != null && ISO_Code_To.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ISO_Code_To = ISO_Code_To.substring(0, 2);
+			ISO_Code_To = ISO_Code_To.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ISO_Code_To, ISO_Code_To);
 	}
@@ -353,10 +363,11 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -445,7 +456,7 @@ public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

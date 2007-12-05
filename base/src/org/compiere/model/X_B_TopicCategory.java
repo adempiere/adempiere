@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_TopicCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
     public X_B_TopicCategory (Properties ctx, int B_TopicCategory_ID, String trxName)
     {
       super (ctx, B_TopicCategory_ID, trxName);
-      /** if (B_TopicCategory_ID == 0)        {			setB_TopicCategory_ID (0);
+      /** if (B_TopicCategory_ID == 0)
+        {
+			setB_TopicCategory_ID (0);
 			setB_TopicType_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 		return ii.intValue();
 	}
 
-	public I_B_TopicType getI_B_TopicType() throws Exception 
+	public I_B_TopicType getB_TopicType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_B_TopicType.Table_Name);
         I_B_TopicType result = null;
@@ -139,10 +140,11 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -163,10 +165,11 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

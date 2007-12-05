@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RevenueRecognition_Plan
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecognition_Plan, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
     public X_C_RevenueRecognition_Plan (Properties ctx, int C_RevenueRecognition_Plan_ID, String trxName)
     {
       super (ctx, C_RevenueRecognition_Plan_ID, trxName);
-      /** if (C_RevenueRecognition_Plan_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_RevenueRecognition_Plan_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_Currency_ID (0);
 			setC_InvoiceLine_ID (0);
 			setC_RevenueRecognition_ID (0);
@@ -48,7 +51,7 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 			setRecognizedAmt (Env.ZERO);
 			setTotalAmt (Env.ZERO);
 			setUnEarnedRevenue_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +82,7 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -117,7 +120,7 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -155,6 +158,22 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
@@ -177,7 +196,7 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 		return ii.intValue();
 	}
 
-	public I_C_RevenueRecognition getI_C_RevenueRecognition() throws Exception 
+	public I_C_RevenueRecognition getC_RevenueRecognition() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RevenueRecognition.Table_Name);
         I_C_RevenueRecognition result = null;
@@ -275,7 +294,7 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	}
 
 	/** Get Recognized Amount.
-@return Recognized Amount	  */
+		@return Recognized Amount	  */
 	public BigDecimal getRecognizedAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RecognizedAmt);

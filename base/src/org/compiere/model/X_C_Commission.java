@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
     {
       super (ctx, C_Commission_ID, trxName);
-      /** if (C_Commission_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_Commission_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_Charge_ID (0);
 			setC_Commission_ID (0);
 			setC_Currency_ID (0);
@@ -49,7 +51,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 // M
 			setListDetails (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,8 +82,8 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
       return sb.toString();
     }
 
-/** C_BPartner_ID AD_Reference_ID=232 */
-public static final int C_BPARTNER_ID_AD_Reference_ID=232;
+	/** C_BPartner_ID AD_Reference_ID=232 */
+	public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -104,7 +106,7 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 		return ii.intValue();
 	}
 
-	public I_C_Charge getI_C_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -164,7 +166,7 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -208,10 +210,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	  */
 	public void setCreateFrom (String CreateFrom)
 	{
+
 		if (CreateFrom != null && CreateFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreateFrom = CreateFrom.substring(0, 0);
+			CreateFrom = CreateFrom.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
 	}
@@ -247,10 +250,11 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -263,21 +267,26 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DocBasisType AD_Reference_ID=224 */
-public static final int DOCBASISTYPE_AD_Reference_ID=224;/** Invoice = I */
-public static final String DOCBASISTYPE_Invoice = "I";/** Order = O */
-public static final String DOCBASISTYPE_Order = "O";/** Receipt = R */
-public static final String DOCBASISTYPE_Receipt = "R";
+	/** DocBasisType AD_Reference_ID=224 */
+	public static final int DOCBASISTYPE_AD_Reference_ID=224;
+	/** Order = O */
+	public static final String DOCBASISTYPE_Order = "O";
+	/** Invoice = I */
+	public static final String DOCBASISTYPE_Invoice = "I";
+	/** Receipt = R */
+	public static final String DOCBASISTYPE_Receipt = "R";
 	/** Set Calculation Basis.
 		@param DocBasisType 
 		Basis for the calculation the commission
 	  */
 	public void setDocBasisType (String DocBasisType)
 	{
-if (DocBasisType == null) throw new IllegalArgumentException ("DocBasisType is mandatory");if (DocBasisType.equals("I") || DocBasisType.equals("O") || DocBasisType.equals("R")); else throw new IllegalArgumentException ("DocBasisType Invalid value - " + DocBasisType + " - Reference_ID=224 - I - O - R");		if (DocBasisType.length() > 1)
+		if (DocBasisType == null) throw new IllegalArgumentException ("DocBasisType is mandatory");
+		if (DocBasisType.equals("O") || DocBasisType.equals("I") || DocBasisType.equals("R")); else throw new IllegalArgumentException ("DocBasisType Invalid value - " + DocBasisType + " - Reference_ID=224 - O - I - R");
+		if (DocBasisType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DocBasisType = DocBasisType.substring(0, 0);
+			DocBasisType = DocBasisType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DocBasisType, DocBasisType);
 	}
@@ -290,22 +299,28 @@ if (DocBasisType == null) throw new IllegalArgumentException ("DocBasisType is m
 		return (String)get_Value(COLUMNNAME_DocBasisType);
 	}
 
-/** FrequencyType AD_Reference_ID=225 */
-public static final int FREQUENCYTYPE_AD_Reference_ID=225;/** Monthly = M */
-public static final String FREQUENCYTYPE_Monthly = "M";/** Quarterly = Q */
-public static final String FREQUENCYTYPE_Quarterly = "Q";/** Weekly = W */
-public static final String FREQUENCYTYPE_Weekly = "W";/** Yearly = Y */
-public static final String FREQUENCYTYPE_Yearly = "Y";
+	/** FrequencyType AD_Reference_ID=225 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=225;
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Monthly = M */
+	public static final String FREQUENCYTYPE_Monthly = "M";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
+	/** Yearly = Y */
+	public static final String FREQUENCYTYPE_Yearly = "Y";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");if (FrequencyType.equals("M") || FrequencyType.equals("Q") || FrequencyType.equals("W") || FrequencyType.equals("Y")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=225 - M - Q - W - Y");		if (FrequencyType.length() > 1)
+		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+		if (FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q") || FrequencyType.equals("Y")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=225 - W - M - Q - Y");
+		if (FrequencyType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 0);
+			FrequencyType = FrequencyType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
@@ -350,10 +365,11 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -382,7 +398,7 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

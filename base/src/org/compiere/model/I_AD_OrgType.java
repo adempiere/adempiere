@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_OrgType
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:24.343
-     */
-    public interface I_AD_OrgType 
+/** Generated Interface for AD_OrgType
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_OrgType 
 {
 
     /** TableName=AD_OrgType */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception;
+	public I_AD_PrintColor getAD_PrintColor() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

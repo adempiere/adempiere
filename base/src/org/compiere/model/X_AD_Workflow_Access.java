@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Workflow_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Workflow_Access extends PO implements I_AD_Workflow_Access, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_Workflow_Access extends PO implements I_AD_Workflow_Access, I_
     public X_AD_Workflow_Access (Properties ctx, int AD_Workflow_Access_ID, String trxName)
     {
       super (ctx, AD_Workflow_Access_ID, trxName);
-      /** if (AD_Workflow_Access_ID == 0)        {			setAD_Role_ID (0);
+      /** if (AD_Workflow_Access_ID == 0)
+        {
+			setAD_Role_ID (0);
 			setAD_Workflow_ID (0);
 			setIsReadWrite (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +73,7 @@ public class X_AD_Workflow_Access extends PO implements I_AD_Workflow_Access, I_
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -111,7 +111,7 @@ public class X_AD_Workflow_Access extends PO implements I_AD_Workflow_Access, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;

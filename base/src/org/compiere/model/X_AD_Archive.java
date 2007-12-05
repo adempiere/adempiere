@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Archive
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
     public X_AD_Archive (Properties ctx, int AD_Archive_ID, String trxName)
     {
       super (ctx, AD_Archive_ID, trxName);
-      /** if (AD_Archive_ID == 0)        {			setAD_Archive_ID (0);
+      /** if (AD_Archive_ID == 0)
+        {
+			setAD_Archive_ID (0);
 			setBinaryData (null);
 			setIsReport (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,15 +97,32 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Process getAD_Process() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
+        I_AD_Process result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Process.
 		@param AD_Process_ID 
 		Process or Report
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -118,15 +136,32 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Table getAD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -159,15 +194,32 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -187,10 +239,11 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -209,10 +262,11 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -257,10 +311,11 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -287,9 +342,10 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_Value (COLUMNNAME_Record_ID, null);
- else 
-		set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_Value (COLUMNNAME_Record_ID, null);
+		else 
+			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

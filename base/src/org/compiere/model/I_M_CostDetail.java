@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_CostDetail
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.515
-     */
-    public interface I_M_CostDetail 
+/** Generated Interface for M_CostDetail
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_CostDetail 
 {
 
     /** TableName=M_CostDetail */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -99,6 +97,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceLine_ID();
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -112,6 +112,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_OrderLine_ID();
 
+	public I_C_OrderLine getC_OrderLine() throws Exception;
+
     /** Column name C_ProjectIssue_ID */
     public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
 
@@ -124,6 +126,8 @@ import org.compiere.util.*;
 	  * Project Issues (Material, Labor)
 	  */
 	public int getC_ProjectIssue_ID();
+
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception;
 
     /** Column name DeltaAmt */
     public static final String COLUMNNAME_DeltaAmt = "DeltaAmt";
@@ -216,7 +220,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_CostElement_ID();
 
-	public I_M_CostElement getI_M_CostElement() throws Exception;
+	public I_M_CostElement getM_CostElement() throws Exception;
 
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
@@ -231,6 +235,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
+	public I_M_InOutLine getM_InOutLine() throws Exception;
+
     /** Column name M_InventoryLine_ID */
     public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
 
@@ -243,6 +249,8 @@ import org.compiere.util.*;
 	  * Unique line in an Inventory document
 	  */
 	public int getM_InventoryLine_ID();
+
+	public I_M_InventoryLine getM_InventoryLine() throws Exception;
 
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
@@ -257,6 +265,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_MovementLine_ID();
 
+	public I_M_MovementLine getM_MovementLine() throws Exception;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -270,6 +280,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_ProductionLine_ID */
     public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
 
@@ -282,6 +294,8 @@ import org.compiere.util.*;
 	  * Document Line representing a production
 	  */
 	public int getM_ProductionLine_ID();
+
+	public I_M_ProductionLine getM_ProductionLine() throws Exception;
 
     /** Column name Price */
     public static final String COLUMNNAME_Price = "Price";

@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
     public X_RV_BPartner (Properties ctx, int RV_BPartner_ID, String trxName)
     {
       super (ctx, RV_BPartner_ID, trxName);
-      /** if (RV_BPartner_ID == 0)        {			setC_BP_Group_ID (0);
+      /** if (RV_BPartner_ID == 0)
+        {
+			setC_BP_Group_ID (0);
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_Country_ID (0);
@@ -57,7 +60,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 			setNotificationType (null);
 			setSendEMail (false);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -88,18 +91,19 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
       return sb.toString();
     }
 
-/** AD_Language AD_Reference_ID=106 */
-public static final int AD_LANGUAGE_AD_Reference_ID=106;
+	/** AD_Language AD_Reference_ID=106 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language != null && AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_ValueNoCheck (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -112,17 +116,18 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
-/** AD_OrgBP_ID AD_Reference_ID=276 */
-public static final int AD_ORGBP_ID_AD_Reference_ID=276;
+	/** AD_OrgBP_ID AD_Reference_ID=276 */
+	public static final int AD_ORGBP_ID_AD_Reference_ID=276;
 	/** Set Linked Organization.
 		@param AD_OrgBP_ID 
 		The Business Partner is another Organization for explicit Inter-Org transactions
 	  */
 	public void setAD_OrgBP_ID (int AD_OrgBP_ID)
 	{
-		if (AD_OrgBP_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_OrgBP_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_OrgBP_ID, Integer.valueOf(AD_OrgBP_ID));
+		if (AD_OrgBP_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgBP_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgBP_ID, Integer.valueOf(AD_OrgBP_ID));
 	}
 
 	/** Get Linked Organization.
@@ -136,17 +141,18 @@ public static final int AD_ORGBP_ID_AD_Reference_ID=276;
 		return ii.intValue();
 	}
 
-/** AD_OrgTrx_ID AD_Reference_ID=276 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
+	/** AD_OrgTrx_ID AD_Reference_ID=276 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -160,15 +166,32 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -228,10 +251,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
 	  */
 	public void setAddress1 (String Address1)
 	{
+
 		if (Address1 != null && Address1.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 59);
+			Address1 = Address1.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Address1, Address1);
 	}
@@ -250,10 +274,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
 	  */
 	public void setAddress2 (String Address2)
 	{
+
 		if (Address2 != null && Address2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 59);
+			Address2 = Address2.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Address2, Address2);
 	}
@@ -272,10 +297,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
 	  */
 	public void setAddress3 (String Address3)
 	{
+
 		if (Address3 != null && Address3.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address3 = Address3.substring(0, 59);
+			Address3 = Address3.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Address3, Address3);
 	}
@@ -288,8 +314,8 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=276;
 		return (String)get_Value(COLUMNNAME_Address3);
 	}
 
-/** BPContactGreeting AD_Reference_ID=356 */
-public static final int BPCONTACTGREETING_AD_Reference_ID=356;
+	/** BPContactGreeting AD_Reference_ID=356 */
+	public static final int BPCONTACTGREETING_AD_Reference_ID=356;
 	/** Set BP Contact Greeting.
 		@param BPContactGreeting 
 		Greeting for Business Partner Contact
@@ -310,17 +336,18 @@ public static final int BPCONTACTGREETING_AD_Reference_ID=356;
 		return ii.intValue();
 	}
 
-/** BPartner_Parent_ID AD_Reference_ID=124 */
-public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
+	/** BPartner_Parent_ID AD_Reference_ID=124 */
+	public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	/** Set Partner Parent.
 		@param BPartner_Parent_ID 
 		Business Partner Parent
 	  */
 	public void setBPartner_Parent_ID (int BPartner_Parent_ID)
 	{
-		if (BPartner_Parent_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_BPartner_Parent_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_BPartner_Parent_ID, Integer.valueOf(BPartner_Parent_ID));
+		if (BPartner_Parent_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_BPartner_Parent_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_BPartner_Parent_ID, Integer.valueOf(BPartner_Parent_ID));
 	}
 
 	/** Get Partner Parent.
@@ -351,7 +378,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -411,7 +438,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -449,7 +476,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_Country getI_C_Country() throws Exception 
+	public I_C_Country getC_Country() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -487,7 +514,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getI_C_Dunning() throws Exception 
+	public I_C_Dunning getC_Dunning() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
         I_C_Dunning result = null;
@@ -509,9 +536,10 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setC_Dunning_ID (int C_Dunning_ID)
 	{
-		if (C_Dunning_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
+		if (C_Dunning_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
 	}
 
 	/** Get Dunning.
@@ -525,7 +553,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getI_C_Greeting() throws Exception 
+	public I_C_Greeting getC_Greeting() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Greeting.Table_Name);
         I_C_Greeting result = null;
@@ -547,9 +575,10 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setC_Greeting_ID (int C_Greeting_ID)
 	{
-		if (C_Greeting_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Greeting_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
+		if (C_Greeting_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Greeting_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
 	}
 
 	/** Get Greeting.
@@ -563,7 +592,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceSchedule getI_C_InvoiceSchedule() throws Exception 
+	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceSchedule.Table_Name);
         I_C_InvoiceSchedule result = null;
@@ -585,9 +614,10 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
 	{
-		if (C_InvoiceSchedule_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, Integer.valueOf(C_InvoiceSchedule_ID));
+		if (C_InvoiceSchedule_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, Integer.valueOf(C_InvoiceSchedule_ID));
 	}
 
 	/** Get Invoice Schedule.
@@ -601,7 +631,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -623,9 +653,10 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -639,7 +670,7 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return ii.intValue();
 	}
 
-	public I_C_Region getI_C_Region() throws Exception 
+	public I_C_Region getC_Region() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
         I_C_Region result = null;
@@ -661,9 +692,10 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Region_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -683,10 +715,11 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setCity (String City)
 	{
+
 		if (City != null && City.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 59);
+			City = City.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_City, City);
 	}
@@ -705,10 +738,11 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setComments (String Comments)
 	{
+
 		if (Comments != null && Comments.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Comments = Comments.substring(0, 1999);
+			Comments = Comments.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_Comments, Comments);
 	}
@@ -727,10 +761,11 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setContactDescription (String ContactDescription)
 	{
+
 		if (ContactDescription != null && ContactDescription.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			ContactDescription = ContactDescription.substring(0, 254);
+			ContactDescription = ContactDescription.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_ContactDescription, ContactDescription);
 	}
@@ -751,10 +786,11 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	{
 		if (ContactName == null)
 			throw new IllegalArgumentException ("ContactName is mandatory.");
+
 		if (ContactName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ContactName = ContactName.substring(0, 59);
+			ContactName = ContactName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_ContactName, ContactName);
 	}
@@ -775,10 +811,11 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	{
 		if (CountryName == null)
 			throw new IllegalArgumentException ("CountryName is mandatory.");
+
 		if (CountryName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			CountryName = CountryName.substring(0, 59);
+			CountryName = CountryName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_CountryName, CountryName);
 	}
@@ -797,10 +834,11 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 	  */
 	public void setDUNS (String DUNS)
 	{
+
 		if (DUNS != null && DUNS.length() > 11)
 		{
 			log.warning("Length > 11 - truncated");
-			DUNS = DUNS.substring(0, 10);
+			DUNS = DUNS.substring(0, 11);
 		}
 		set_ValueNoCheck (COLUMNNAME_DUNS, DUNS);
 	}
@@ -813,24 +851,32 @@ public static final int BPARTNER_PARENT_ID_AD_Reference_ID=124;
 		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
-/** DeliveryRule AD_Reference_ID=151 */
-public static final int DELIVERYRULE_AD_Reference_ID=151;/** Availability = A */
-public static final String DELIVERYRULE_Availability = "A";/** Force = F */
-public static final String DELIVERYRULE_Force = "F";/** Complete Line = L */
-public static final String DELIVERYRULE_CompleteLine = "L";/** Manual = M */
-public static final String DELIVERYRULE_Manual = "M";/** Complete Order = O */
-public static final String DELIVERYRULE_CompleteOrder = "O";/** After Receipt = R */
-public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** DeliveryRule AD_Reference_ID=151 */
+	public static final int DELIVERYRULE_AD_Reference_ID=151;
+	/** After Receipt = R */
+	public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** Availability = A */
+	public static final String DELIVERYRULE_Availability = "A";
+	/** Complete Line = L */
+	public static final String DELIVERYRULE_CompleteLine = "L";
+	/** Complete Order = O */
+	public static final String DELIVERYRULE_CompleteOrder = "O";
+	/** Force = F */
+	public static final String DELIVERYRULE_Force = "F";
+	/** Manual = M */
+	public static final String DELIVERYRULE_Manual = "M";
 	/** Set Delivery Rule.
 		@param DeliveryRule 
 		Defines the timing of Delivery
 	  */
 	public void setDeliveryRule (String DeliveryRule)
 	{
-if (DeliveryRule == null || DeliveryRule.equals("A") || DeliveryRule.equals("F") || DeliveryRule.equals("L") || DeliveryRule.equals("M") || DeliveryRule.equals("O") || DeliveryRule.equals("R")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - A - F - L - M - O - R");		if (DeliveryRule != null && DeliveryRule.length() > 1)
+
+		if (DeliveryRule == null || DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");
+		if (DeliveryRule != null && DeliveryRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DeliveryRule = DeliveryRule.substring(0, 0);
+			DeliveryRule = DeliveryRule.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_DeliveryRule, DeliveryRule);
 	}
@@ -843,21 +889,26 @@ if (DeliveryRule == null || DeliveryRule.equals("A") || DeliveryRule.equals("F")
 		return (String)get_Value(COLUMNNAME_DeliveryRule);
 	}
 
-/** DeliveryViaRule AD_Reference_ID=152 */
-public static final int DELIVERYVIARULE_AD_Reference_ID=152;/** Delivery = D */
-public static final String DELIVERYVIARULE_Delivery = "D";/** Pickup = P */
-public static final String DELIVERYVIARULE_Pickup = "P";/** Shipper = S */
-public static final String DELIVERYVIARULE_Shipper = "S";
+	/** DeliveryViaRule AD_Reference_ID=152 */
+	public static final int DELIVERYVIARULE_AD_Reference_ID=152;
+	/** Pickup = P */
+	public static final String DELIVERYVIARULE_Pickup = "P";
+	/** Delivery = D */
+	public static final String DELIVERYVIARULE_Delivery = "D";
+	/** Shipper = S */
+	public static final String DELIVERYVIARULE_Shipper = "S";
 	/** Set Delivery Via.
 		@param DeliveryViaRule 
 		How the order will be delivered
 	  */
 	public void setDeliveryViaRule (String DeliveryViaRule)
 	{
-if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - D - P - S");		if (DeliveryViaRule != null && DeliveryViaRule.length() > 1)
+
+		if (DeliveryViaRule == null || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");
+		if (DeliveryViaRule != null && DeliveryViaRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DeliveryViaRule = DeliveryViaRule.substring(0, 0);
+			DeliveryViaRule = DeliveryViaRule.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
 	}
@@ -876,10 +927,11 @@ if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.eq
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Description, Description);
 	}
@@ -918,10 +970,11 @@ if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.eq
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_EMail, EMail);
 	}
@@ -940,10 +993,11 @@ if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.eq
 	  */
 	public void setEMailUser (String EMailUser)
 	{
+
 		if (EMailUser != null && EMailUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMailUser = EMailUser.substring(0, 59);
+			EMailUser = EMailUser.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_EMailUser, EMailUser);
 	}
@@ -962,10 +1016,11 @@ if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.eq
 	  */
 	public void setEMailVerify (String EMailVerify)
 	{
+
 		if (EMailVerify != null && EMailVerify.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			EMailVerify = EMailVerify.substring(0, 39);
+			EMailVerify = EMailVerify.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_EMailVerify, EMailVerify);
 	}
@@ -1001,10 +1056,11 @@ if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.eq
 	  */
 	public void setFax (String Fax)
 	{
+
 		if (Fax != null && Fax.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 39);
+			Fax = Fax.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Fax, Fax);
 	}
@@ -1054,22 +1110,28 @@ if (DeliveryViaRule == null || DeliveryViaRule.equals("D") || DeliveryViaRule.eq
 		return bd;
 	}
 
-/** FreightCostRule AD_Reference_ID=153 */
-public static final int FREIGHTCOSTRULE_AD_Reference_ID=153;/** Calculated = C */
-public static final String FREIGHTCOSTRULE_Calculated = "C";/** Fix price = F */
-public static final String FREIGHTCOSTRULE_FixPrice = "F";/** Freight included = I */
-public static final String FREIGHTCOSTRULE_FreightIncluded = "I";/** Line = L */
-public static final String FREIGHTCOSTRULE_Line = "L";
+	/** FreightCostRule AD_Reference_ID=153 */
+	public static final int FREIGHTCOSTRULE_AD_Reference_ID=153;
+	/** Freight included = I */
+	public static final String FREIGHTCOSTRULE_FreightIncluded = "I";
+	/** Fix price = F */
+	public static final String FREIGHTCOSTRULE_FixPrice = "F";
+	/** Calculated = C */
+	public static final String FREIGHTCOSTRULE_Calculated = "C";
+	/** Line = L */
+	public static final String FREIGHTCOSTRULE_Line = "L";
 	/** Set Freight Cost Rule.
 		@param FreightCostRule 
 		Method for charging Freight
 	  */
 	public void setFreightCostRule (String FreightCostRule)
 	{
-if (FreightCostRule == null || FreightCostRule.equals("C") || FreightCostRule.equals("F") || FreightCostRule.equals("I") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - C - F - I - L");		if (FreightCostRule != null && FreightCostRule.length() > 1)
+
+		if (FreightCostRule == null || FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");
+		if (FreightCostRule != null && FreightCostRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FreightCostRule = FreightCostRule.substring(0, 0);
+			FreightCostRule = FreightCostRule.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_FreightCostRule, FreightCostRule);
 	}
@@ -1082,22 +1144,28 @@ if (FreightCostRule == null || FreightCostRule.equals("C") || FreightCostRule.eq
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
 	}
 
-/** InvoiceRule AD_Reference_ID=150 */
-public static final int INVOICERULE_AD_Reference_ID=150;/** After Delivery = D */
-public static final String INVOICERULE_AfterDelivery = "D";/** Immediate = I */
-public static final String INVOICERULE_Immediate = "I";/** After Order delivered = O */
-public static final String INVOICERULE_AfterOrderDelivered = "O";/** Customer Schedule after Delivery = S */
-public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** InvoiceRule AD_Reference_ID=150 */
+	public static final int INVOICERULE_AD_Reference_ID=150;
+	/** After Order delivered = O */
+	public static final String INVOICERULE_AfterOrderDelivered = "O";
+	/** After Delivery = D */
+	public static final String INVOICERULE_AfterDelivery = "D";
+	/** Customer Schedule after Delivery = S */
+	public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** Immediate = I */
+	public static final String INVOICERULE_Immediate = "I";
 	/** Set Invoice Rule.
 		@param InvoiceRule 
 		Frequency and method of invoicing 
 	  */
 	public void setInvoiceRule (String InvoiceRule)
 	{
-if (InvoiceRule == null || InvoiceRule.equals("D") || InvoiceRule.equals("I") || InvoiceRule.equals("O") || InvoiceRule.equals("S")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - D - I - O - S");		if (InvoiceRule != null && InvoiceRule.length() > 1)
+
+		if (InvoiceRule == null || InvoiceRule.equals("O") || InvoiceRule.equals("D") || InvoiceRule.equals("S") || InvoiceRule.equals("I")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - O - D - S - I");
+		if (InvoiceRule != null && InvoiceRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InvoiceRule = InvoiceRule.substring(0, 0);
+			InvoiceRule = InvoiceRule.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_InvoiceRule, InvoiceRule);
 	}
@@ -1110,17 +1178,18 @@ if (InvoiceRule == null || InvoiceRule.equals("D") || InvoiceRule.equals("I") ||
 		return (String)get_Value(COLUMNNAME_InvoiceRule);
 	}
 
-/** Invoice_PrintFormat_ID AD_Reference_ID=259 */
-public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
+	/** Invoice_PrintFormat_ID AD_Reference_ID=259 */
+	public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	/** Set Invoice Print Format.
 		@param Invoice_PrintFormat_ID 
 		Print Format for printing Invoices
 	  */
 	public void setInvoice_PrintFormat_ID (int Invoice_PrintFormat_ID)
 	{
-		if (Invoice_PrintFormat_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Invoice_PrintFormat_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Invoice_PrintFormat_ID, Integer.valueOf(Invoice_PrintFormat_ID));
+		if (Invoice_PrintFormat_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Invoice_PrintFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Invoice_PrintFormat_ID, Integer.valueOf(Invoice_PrintFormat_ID));
 	}
 
 	/** Get Invoice Print Format.
@@ -1214,7 +1283,7 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	}
 
 	/** Get One time transaction.
-@return One time transaction	  */
+		@return One time transaction	  */
 	public boolean isOneTime () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsOneTime);
@@ -1394,10 +1463,11 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	  */
 	public void setLastResult (String LastResult)
 	{
+
 		if (LastResult != null && LastResult.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LastResult = LastResult.substring(0, 254);
+			LastResult = LastResult.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_LastResult, LastResult);
 	}
@@ -1410,7 +1480,7 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 		return (String)get_Value(COLUMNNAME_LastResult);
 	}
 
-	public I_M_DiscountSchema getI_M_DiscountSchema() throws Exception 
+	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
         I_M_DiscountSchema result = null;
@@ -1432,9 +1502,10 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
+		if (M_DiscountSchema_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
 	}
 
 	/** Get Discount Schema.
@@ -1448,7 +1519,7 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getI_M_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -1470,9 +1541,10 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -1492,10 +1564,11 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	  */
 	public void setNAICS (String NAICS)
 	{
+
 		if (NAICS != null && NAICS.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			NAICS = NAICS.substring(0, 5);
+			NAICS = NAICS.substring(0, 6);
 		}
 		set_ValueNoCheck (COLUMNNAME_NAICS, NAICS);
 	}
@@ -1516,10 +1589,11 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}
@@ -1538,10 +1612,11 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 	  */
 	public void setName2 (String Name2)
 	{
+
 		if (Name2 != null && Name2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 59);
+			Name2 = Name2.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Name2, Name2);
 	}
@@ -1554,22 +1629,28 @@ public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=259;
 		return (String)get_Value(COLUMNNAME_Name2);
 	}
 
-/** NotificationType AD_Reference_ID=344 */
-public static final int NOTIFICATIONTYPE_AD_Reference_ID=344;/** EMail+Notice = B */
-public static final String NOTIFICATIONTYPE_EMailPlusNotice = "B";/** EMail = E */
-public static final String NOTIFICATIONTYPE_EMail = "E";/** Notice = N */
-public static final String NOTIFICATIONTYPE_Notice = "N";/** None = X */
-public static final String NOTIFICATIONTYPE_None = "X";
+	/** NotificationType AD_Reference_ID=344 */
+	public static final int NOTIFICATIONTYPE_AD_Reference_ID=344;
+	/** EMail = E */
+	public static final String NOTIFICATIONTYPE_EMail = "E";
+	/** Notice = N */
+	public static final String NOTIFICATIONTYPE_Notice = "N";
+	/** None = X */
+	public static final String NOTIFICATIONTYPE_None = "X";
+	/** EMail+Notice = B */
+	public static final String NOTIFICATIONTYPE_EMailPlusNotice = "B";
 	/** Set Notification Type.
 		@param NotificationType 
 		Type of Notifications
 	  */
 	public void setNotificationType (String NotificationType)
 	{
-if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");if (NotificationType.equals("B") || NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - B - E - N - X");		if (NotificationType.length() > 1)
+		if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");
+		if (NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X") || NotificationType.equals("B")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - E - N - X - B");
+		if (NotificationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			NotificationType = NotificationType.substring(0, 0);
+			NotificationType = NotificationType.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_NotificationType, NotificationType);
 	}
@@ -1608,10 +1689,11 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 	  */
 	public void setPOReference (String POReference)
 	{
+
 		if (POReference != null && POReference.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			POReference = POReference.substring(0, 19);
+			POReference = POReference.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_POReference, POReference);
 	}
@@ -1624,17 +1706,18 @@ if (NotificationType == null) throw new IllegalArgumentException ("NotificationT
 		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
-/** PO_DiscountSchema_ID AD_Reference_ID=249 */
-public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=249;
+	/** PO_DiscountSchema_ID AD_Reference_ID=249 */
+	public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=249;
 	/** Set PO Discount Schema.
 		@param PO_DiscountSchema_ID 
 		Schema to calculate the purchase trade discount percentage
 	  */
 	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID)
 	{
-		if (PO_DiscountSchema_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_PO_DiscountSchema_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_PO_DiscountSchema_ID, Integer.valueOf(PO_DiscountSchema_ID));
+		if (PO_DiscountSchema_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_PO_DiscountSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PO_DiscountSchema_ID, Integer.valueOf(PO_DiscountSchema_ID));
 	}
 
 	/** Get PO Discount Schema.
@@ -1648,17 +1731,18 @@ public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=249;
 		return ii.intValue();
 	}
 
-/** PO_PaymentTerm_ID AD_Reference_ID=227 */
-public static final int PO_PAYMENTTERM_ID_AD_Reference_ID=227;
+	/** PO_PaymentTerm_ID AD_Reference_ID=227 */
+	public static final int PO_PAYMENTTERM_ID_AD_Reference_ID=227;
 	/** Set PO Payment Term.
 		@param PO_PaymentTerm_ID 
 		Payment rules for a purchase order
 	  */
 	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID)
 	{
-		if (PO_PaymentTerm_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_PO_PaymentTerm_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_PO_PaymentTerm_ID, Integer.valueOf(PO_PaymentTerm_ID));
+		if (PO_PaymentTerm_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_PO_PaymentTerm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PO_PaymentTerm_ID, Integer.valueOf(PO_PaymentTerm_ID));
 	}
 
 	/** Get PO Payment Term.
@@ -1672,17 +1756,18 @@ public static final int PO_PAYMENTTERM_ID_AD_Reference_ID=227;
 		return ii.intValue();
 	}
 
-/** PO_PriceList_ID AD_Reference_ID=166 */
-public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
+	/** PO_PriceList_ID AD_Reference_ID=166 */
+	public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
 		Price List used by this Business Partner
 	  */
 	public void setPO_PriceList_ID (int PO_PriceList_ID)
 	{
-		if (PO_PriceList_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_PO_PriceList_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_PO_PriceList_ID, Integer.valueOf(PO_PriceList_ID));
+		if (PO_PriceList_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_PO_PriceList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PO_PriceList_ID, Integer.valueOf(PO_PriceList_ID));
 	}
 
 	/** Get Purchase Pricelist.
@@ -1696,24 +1781,32 @@ public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 		return ii.intValue();
 	}
 
-/** PaymentRule AD_Reference_ID=195 */
-public static final int PAYMENTRULE_AD_Reference_ID=195;/** Cash = B */
-public static final String PAYMENTRULE_Cash = "B";/** Direct Debit = D */
-public static final String PAYMENTRULE_DirectDebit = "D";/** Credit Card = K */
-public static final String PAYMENTRULE_CreditCard = "K";/** On Credit = P */
-public static final String PAYMENTRULE_OnCredit = "P";/** Check = S */
-public static final String PAYMENTRULE_Check = "S";/** Direct Deposit = T */
-public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("D") || PaymentRule.equals("K") || PaymentRule.equals("P") || PaymentRule.equals("S") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - D - K - P - S - T");		if (PaymentRule != null && PaymentRule.length() > 1)
+
+		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
+		if (PaymentRule != null && PaymentRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 0);
+			PaymentRule = PaymentRule.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_PaymentRule, PaymentRule);
 	}
@@ -1726,24 +1819,32 @@ if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("D") ||
 		return (String)get_Value(COLUMNNAME_PaymentRule);
 	}
 
-/** PaymentRulePO AD_Reference_ID=195 */
-public static final int PAYMENTRULEPO_AD_Reference_ID=195;/** Cash = B */
-public static final String PAYMENTRULEPO_Cash = "B";/** Direct Debit = D */
-public static final String PAYMENTRULEPO_DirectDebit = "D";/** Credit Card = K */
-public static final String PAYMENTRULEPO_CreditCard = "K";/** On Credit = P */
-public static final String PAYMENTRULEPO_OnCredit = "P";/** Check = S */
-public static final String PAYMENTRULEPO_Check = "S";/** Direct Deposit = T */
-public static final String PAYMENTRULEPO_DirectDeposit = "T";
+	/** PaymentRulePO AD_Reference_ID=195 */
+	public static final int PAYMENTRULEPO_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULEPO_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULEPO_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULEPO_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULEPO_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULEPO_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULEPO_DirectDebit = "D";
 	/** Set Payment Rule.
 		@param PaymentRulePO 
 		Purchase payment option
 	  */
 	public void setPaymentRulePO (String PaymentRulePO)
 	{
-if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("D") || PaymentRulePO.equals("K") || PaymentRulePO.equals("P") || PaymentRulePO.equals("S") || PaymentRulePO.equals("T")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - D - K - P - S - T");		if (PaymentRulePO != null && PaymentRulePO.length() > 1)
+
+		if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("K") || PaymentRulePO.equals("T") || PaymentRulePO.equals("S") || PaymentRulePO.equals("P") || PaymentRulePO.equals("D")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - K - T - S - P - D");
+		if (PaymentRulePO != null && PaymentRulePO.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PaymentRulePO = PaymentRulePO.substring(0, 0);
+			PaymentRulePO = PaymentRulePO.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_PaymentRulePO, PaymentRulePO);
 	}
@@ -1762,10 +1863,11 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 	  */
 	public void setPhone (String Phone)
 	{
+
 		if (Phone != null && Phone.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 39);
+			Phone = Phone.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Phone, Phone);
 	}
@@ -1784,10 +1886,11 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 	  */
 	public void setPhone2 (String Phone2)
 	{
+
 		if (Phone2 != null && Phone2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 39);
+			Phone2 = Phone2.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Phone2, Phone2);
 	}
@@ -1806,10 +1909,11 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 	  */
 	public void setPostal (String Postal)
 	{
+
 		if (Postal != null && Postal.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 9);
+			Postal = Postal.substring(0, 10);
 		}
 		set_ValueNoCheck (COLUMNNAME_Postal, Postal);
 	}
@@ -1848,10 +1952,11 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 	  */
 	public void setRating (String Rating)
 	{
+
 		if (Rating != null && Rating.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Rating = Rating.substring(0, 0);
+			Rating = Rating.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_Rating, Rating);
 	}
@@ -1870,10 +1975,11 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 	  */
 	public void setReferenceNo (String ReferenceNo)
 	{
+
 		if (ReferenceNo != null && ReferenceNo.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ReferenceNo = ReferenceNo.substring(0, 39);
+			ReferenceNo = ReferenceNo.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_ReferenceNo, ReferenceNo);
 	}
@@ -1892,10 +1998,11 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 	  */
 	public void setRegionName (String RegionName)
 	{
+
 		if (RegionName != null && RegionName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 59);
+			RegionName = RegionName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_RegionName, RegionName);
 	}
@@ -1908,23 +2015,30 @@ if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("
 		return (String)get_Value(COLUMNNAME_RegionName);
 	}
 
-/** SOCreditStatus AD_Reference_ID=289 */
-public static final int SOCREDITSTATUS_AD_Reference_ID=289;/** Credit Hold = H */
-public static final String SOCREDITSTATUS_CreditHold = "H";/** Credit OK = O */
-public static final String SOCREDITSTATUS_CreditOK = "O";/** Credit Stop = S */
-public static final String SOCREDITSTATUS_CreditStop = "S";/** Credit Watch = W */
-public static final String SOCREDITSTATUS_CreditWatch = "W";/** No Credit Check = X */
-public static final String SOCREDITSTATUS_NoCreditCheck = "X";
+	/** SOCreditStatus AD_Reference_ID=289 */
+	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
+	/** Credit Stop = S */
+	public static final String SOCREDITSTATUS_CreditStop = "S";
+	/** Credit Hold = H */
+	public static final String SOCREDITSTATUS_CreditHold = "H";
+	/** Credit Watch = W */
+	public static final String SOCREDITSTATUS_CreditWatch = "W";
+	/** No Credit Check = X */
+	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
+	/** Credit OK = O */
+	public static final String SOCREDITSTATUS_CreditOK = "O";
 	/** Set Credit Status.
 		@param SOCreditStatus 
 		Business Partner Credit Status
 	  */
 	public void setSOCreditStatus (String SOCreditStatus)
 	{
-if (SOCreditStatus == null || SOCreditStatus.equals("H") || SOCreditStatus.equals("O") || SOCreditStatus.equals("S") || SOCreditStatus.equals("W") || SOCreditStatus.equals("X")); else throw new IllegalArgumentException ("SOCreditStatus Invalid value - " + SOCreditStatus + " - Reference_ID=289 - H - O - S - W - X");		if (SOCreditStatus != null && SOCreditStatus.length() > 1)
+
+		if (SOCreditStatus == null || SOCreditStatus.equals("S") || SOCreditStatus.equals("H") || SOCreditStatus.equals("W") || SOCreditStatus.equals("X") || SOCreditStatus.equals("O")); else throw new IllegalArgumentException ("SOCreditStatus Invalid value - " + SOCreditStatus + " - Reference_ID=289 - S - H - W - X - O");
+		if (SOCreditStatus != null && SOCreditStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SOCreditStatus = SOCreditStatus.substring(0, 0);
+			SOCreditStatus = SOCreditStatus.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_SOCreditStatus, SOCreditStatus);
 	}
@@ -2003,10 +2117,11 @@ if (SOCreditStatus == null || SOCreditStatus.equals("H") || SOCreditStatus.equal
 	  */
 	public void setSO_Description (String SO_Description)
 	{
+
 		if (SO_Description != null && SO_Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			SO_Description = SO_Description.substring(0, 254);
+			SO_Description = SO_Description.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_SO_Description, SO_Description);
 	}
@@ -2019,17 +2134,18 @@ if (SOCreditStatus == null || SOCreditStatus.equals("H") || SOCreditStatus.equal
 		return (String)get_Value(COLUMNNAME_SO_Description);
 	}
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_SalesRep_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
@@ -2127,17 +2243,18 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 		return ii.intValue();
 	}
 
-/** Supervisor_ID AD_Reference_ID=110 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=110;
+	/** Supervisor_ID AD_Reference_ID=110 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Supervisor_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.
@@ -2157,10 +2274,11 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	  */
 	public void setTaxID (String TaxID)
 	{
+
 		if (TaxID != null && TaxID.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			TaxID = TaxID.substring(0, 19);
+			TaxID = TaxID.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_TaxID, TaxID);
 	}
@@ -2179,10 +2297,11 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	  */
 	public void setTitle (String Title)
 	{
+
 		if (Title != null && Title.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Title = Title.substring(0, 39);
+			Title = Title.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Title, Title);
 	}
@@ -2221,10 +2340,11 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	  */
 	public void setURL (String URL)
 	{
+
 		if (URL != null && URL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			URL = URL.substring(0, 119);
+			URL = URL.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_URL, URL);
 	}
@@ -2245,10 +2365,11 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Value, Value);
 	}

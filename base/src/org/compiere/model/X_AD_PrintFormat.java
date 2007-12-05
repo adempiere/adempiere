@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persistent 
 {
 
@@ -346,7 +346,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		if (Args != null && Args.length() > 510)
 		{
 			log.warning("Length > 510 - truncated");
-			Args = Args.substring(0, 509);
+			Args = Args.substring(0, 510);
 		}
 		set_Value (COLUMNNAME_Args, Args);
 	}
@@ -366,7 +366,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		if (ClassName != null && ClassName.length() > 240)
 		{
 			log.warning("Length > 240 - truncated");
-			ClassName = ClassName.substring(0, 239);
+			ClassName = ClassName.substring(0, 240);
 		}
 		set_Value (COLUMNNAME_ClassName, ClassName);
 	}
@@ -386,7 +386,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		if (CreateCopy != null && CreateCopy.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreateCopy = CreateCopy.substring(0, 0);
+			CreateCopy = CreateCopy.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreateCopy, CreateCopy);
 	}
@@ -408,7 +408,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -594,7 +594,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -625,7 +625,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		if (PrinterName != null && PrinterName.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			PrinterName = PrinterName.substring(0, 39);
+			PrinterName = PrinterName.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_PrinterName, PrinterName);
 	}

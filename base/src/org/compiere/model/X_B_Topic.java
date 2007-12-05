@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_B_Topic extends PO implements I_B_Topic, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
     public X_B_Topic (Properties ctx, int B_Topic_ID, String trxName)
     {
       super (ctx, B_Topic_ID, trxName);
-      /** if (B_Topic_ID == 0)        {			setB_TopicCategory_ID (0);
+      /** if (B_Topic_ID == 0)
+        {
+			setB_TopicCategory_ID (0);
 			setB_TopicType_ID (0);
 			setB_Topic_ID (0);
 			setDecisionDate (new Timestamp(System.currentTimeMillis()));
@@ -49,7 +51,7 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 			setProcessed (false);
 			setTopicAction (null);
 			setTopicStatus (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +82,7 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
       return sb.toString();
     }
 
-	public I_B_TopicCategory getI_B_TopicCategory() throws Exception 
+	public I_B_TopicCategory getB_TopicCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_B_TopicCategory.Table_Name);
         I_B_TopicCategory result = null;
@@ -118,7 +120,7 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_B_TopicType getI_B_TopicType() throws Exception 
+	public I_B_TopicType getB_TopicType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_B_TopicType.Table_Name);
         I_B_TopicType result = null;
@@ -188,7 +190,7 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	}
 
 	/** Get Decision date.
-@return Decision date	  */
+		@return Decision date	  */
 	public Timestamp getDecisionDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DecisionDate);
@@ -200,10 +202,11 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -224,10 +227,11 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -272,10 +276,11 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -328,7 +333,7 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -345,16 +350,17 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		@param TextDetails Details	  */
 	public void setTextDetails (String TextDetails)
 	{
+
 		if (TextDetails != null && TextDetails.length() > 4000)
 		{
 			log.warning("Length > 4000 - truncated");
-			TextDetails = TextDetails.substring(0, 3999);
+			TextDetails = TextDetails.substring(0, 4000);
 		}
 		set_Value (COLUMNNAME_TextDetails, TextDetails);
 	}
 
 	/** Get Details.
-@return Details	  */
+		@return Details	  */
 	public String getTextDetails () 
 	{
 		return (String)get_Value(COLUMNNAME_TextDetails);
@@ -366,10 +372,11 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
@@ -388,16 +395,17 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (TopicAction == null)
 			throw new IllegalArgumentException ("TopicAction is mandatory.");
+
 		if (TopicAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			TopicAction = TopicAction.substring(0, 1);
+			TopicAction = TopicAction.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_TopicAction, TopicAction);
 	}
 
 	/** Get Topic Action.
-@return Topic Action	  */
+		@return Topic Action	  */
 	public String getTopicAction () 
 	{
 		return (String)get_Value(COLUMNNAME_TopicAction);
@@ -409,16 +417,17 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (TopicStatus == null)
 			throw new IllegalArgumentException ("TopicStatus is mandatory.");
+
 		if (TopicStatus.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			TopicStatus = TopicStatus.substring(0, 1);
+			TopicStatus = TopicStatus.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_TopicStatus, TopicStatus);
 	}
 
 	/** Get Topic Status.
-@return Topic Status	  */
+		@return Topic Status	  */
 	public String getTopicStatus () 
 	{
 		return (String)get_Value(COLUMNNAME_TopicStatus);

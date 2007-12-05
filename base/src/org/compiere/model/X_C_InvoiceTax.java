@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for C_InvoiceTax
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent 
 {
 
@@ -39,13 +39,15 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
     public X_C_InvoiceTax (Properties ctx, int C_InvoiceTax_ID, String trxName)
     {
       super (ctx, C_InvoiceTax_ID, trxName);
-      /** if (C_InvoiceTax_ID == 0)        {			setC_Invoice_ID (0);
+      /** if (C_InvoiceTax_ID == 0)
+        {
+			setC_Invoice_ID (0);
 			setC_Tax_ID (0);
 			setIsTaxIncluded (false);
 			setProcessed (false);
 			setTaxAmt (Env.ZERO);
 			setTaxBaseAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,6 +78,22 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
       return sb.toString();
     }
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
@@ -98,7 +116,7 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getI_C_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_CyclePhase
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:39.453
-     */
-    public interface I_C_CyclePhase 
+/** Generated Interface for C_CyclePhase
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_CyclePhase 
 {
 
     /** TableName=C_CyclePhase */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_CycleStep_ID();
 
-	public I_C_CycleStep getI_C_CycleStep() throws Exception;
+	public I_C_CycleStep getC_CycleStep() throws Exception;
 
     /** Column name C_Phase_ID */
     public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
@@ -86,5 +84,5 @@ import org.compiere.util.*;
 	  */
 	public int getC_Phase_ID();
 
-	public I_C_Phase getI_C_Phase() throws Exception;
+	public I_C_Phase getC_Phase() throws Exception;
 }

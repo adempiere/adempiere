@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
     public X_C_CycleStep (Properties ctx, int C_CycleStep_ID, String trxName)
     {
       super (ctx, C_CycleStep_ID, trxName);
-      /** if (C_CycleStep_ID == 0)        {			setC_CycleStep_ID (0);
+      /** if (C_CycleStep_ID == 0)
+        {
+			setC_CycleStep_ID (0);
 			setC_Cycle_ID (0);
 			setName (null);
 			setRelativeWeight (Env.ZERO);
 // 1
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM C_CycleStep WHERE C_Cycle_ID=@C_Cycle_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -99,7 +102,7 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Cycle getI_C_Cycle() throws Exception 
+	public I_C_Cycle getC_Cycle() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Cycle.Table_Name);
         I_C_Cycle result = null;
@@ -145,10 +148,11 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

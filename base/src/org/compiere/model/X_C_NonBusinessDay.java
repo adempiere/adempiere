@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_NonBusinessDay
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Persistent 
 {
 
@@ -39,10 +39,12 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
     public X_C_NonBusinessDay (Properties ctx, int C_NonBusinessDay_ID, String trxName)
     {
       super (ctx, C_NonBusinessDay_ID, trxName);
-      /** if (C_NonBusinessDay_ID == 0)        {			setC_Calendar_ID (0);
+      /** if (C_NonBusinessDay_ID == 0)
+        {
+			setC_Calendar_ID (0);
 			setC_NonBusinessDay_ID (0);
 			setDate1 (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +75,7 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
       return sb.toString();
     }
 
-	public I_C_Calendar getI_C_Calendar() throws Exception 
+	public I_C_Calendar getC_Calendar() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
         I_C_Calendar result = null;
@@ -158,10 +160,11 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

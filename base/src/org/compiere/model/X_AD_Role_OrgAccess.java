@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Role_OrgAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Role_OrgAccess extends PO implements I_AD_Role_OrgAccess, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_AD_Role_OrgAccess extends PO implements I_AD_Role_OrgAccess, I_Pe
     public X_AD_Role_OrgAccess (Properties ctx, int AD_Role_OrgAccess_ID, String trxName)
     {
       super (ctx, AD_Role_OrgAccess_ID, trxName);
-      /** if (AD_Role_OrgAccess_ID == 0)        {			setAD_Role_ID (0);
+      /** if (AD_Role_OrgAccess_ID == 0)
+        {
+			setAD_Role_ID (0);
 			setIsReadOnly (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +72,7 @@ public class X_AD_Role_OrgAccess extends PO implements I_AD_Role_OrgAccess, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;

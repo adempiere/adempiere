@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorLog, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
     public X_R_RequestProcessorLog (Properties ctx, int R_RequestProcessorLog_ID, String trxName)
     {
       super (ctx, R_RequestProcessorLog_ID, trxName);
-      /** if (R_RequestProcessorLog_ID == 0)        {			setIsError (false);
+      /** if (R_RequestProcessorLog_ID == 0)
+        {
+			setIsError (false);
 			setR_RequestProcessorLog_ID (0);
 			setR_RequestProcessor_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,10 +96,11 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -158,7 +159,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return ii.intValue();
 	}
 
-	public I_R_RequestProcessor getI_R_RequestProcessor() throws Exception 
+	public I_R_RequestProcessor getR_RequestProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestProcessor.Table_Name);
         I_R_RequestProcessor result = null;
@@ -202,10 +203,11 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	  */
 	public void setReference (String Reference)
 	{
+
 		if (Reference != null && Reference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 59);
+			Reference = Reference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
@@ -224,10 +226,11 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 1999);
+			Summary = Summary.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
@@ -246,10 +249,11 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_Tax_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent 
 {
 
@@ -39,14 +37,16 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
     public X_C_Tax_Acct (Properties ctx, int C_Tax_Acct_ID, String trxName)
     {
       super (ctx, C_Tax_Acct_ID, trxName);
-      /** if (C_Tax_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_Tax_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_Tax_ID (0);
 			setT_Credit_Acct (0);
 			setT_Due_Acct (0);
 			setT_Expense_Acct (0);
 			setT_Liability_Acct (0);
 			setT_Receivables_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +77,7 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -115,7 +115,7 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getI_C_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;

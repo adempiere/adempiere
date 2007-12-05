@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent 
 {
 
@@ -39,16 +38,17 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
     public X_PA_ReportLine (Properties ctx, int PA_ReportLine_ID, String trxName)
     {
       super (ctx, PA_ReportLine_ID, trxName);
-      /** if (PA_ReportLine_ID == 0)        {			setIsPrinted (true);
+      /** if (PA_ReportLine_ID == 0)
+        {
+			setIsPrinted (true);
 // Y
-			setIsSummary (false);
 			setLineType (null);
 			setName (null);
 			setPA_ReportLineSet_ID (0);
 			setPA_ReportLine_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM PA_ReportLine WHERE PA_ReportLineSet_ID=@PA_ReportLineSet_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,30 +79,44 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
       return sb.toString();
     }
 
-/** AmountType AD_Reference_ID=235 */
-public static final int AMOUNTTYPE_AD_Reference_ID=235;/** Period Balance = BP */
-public static final String AMOUNTTYPE_PeriodBalance = "BP";/** Total Balance = BT */
-public static final String AMOUNTTYPE_TotalBalance = "BT";/** Year Balance = BY */
-public static final String AMOUNTTYPE_YearBalance = "BY";/** Period Credit Only = CP */
-public static final String AMOUNTTYPE_PeriodCreditOnly = "CP";/** Total Credit Only = CT */
-public static final String AMOUNTTYPE_TotalCreditOnly = "CT";/** Year Credit Only = CY */
-public static final String AMOUNTTYPE_YearCreditOnly = "CY";/** Period Debit Only = DP */
-public static final String AMOUNTTYPE_PeriodDebitOnly = "DP";/** Total Debit Only = DT */
-public static final String AMOUNTTYPE_TotalDebitOnly = "DT";/** Year Debit Only = DY */
-public static final String AMOUNTTYPE_YearDebitOnly = "DY";/** Period Quantity = QP */
-public static final String AMOUNTTYPE_PeriodQuantity = "QP";/** Total Quantity = QT */
-public static final String AMOUNTTYPE_TotalQuantity = "QT";/** Year Quantity = QY */
-public static final String AMOUNTTYPE_YearQuantity = "QY";
+	/** AmountType AD_Reference_ID=235 */
+	public static final int AMOUNTTYPE_AD_Reference_ID=235;
+	/** Total Debit Only = DT */
+	public static final String AMOUNTTYPE_TotalDebitOnly = "DT";
+	/** Total Credit Only = CT */
+	public static final String AMOUNTTYPE_TotalCreditOnly = "CT";
+	/** Total Balance = BT */
+	public static final String AMOUNTTYPE_TotalBalance = "BT";
+	/** Period Balance = BP */
+	public static final String AMOUNTTYPE_PeriodBalance = "BP";
+	/** Period Credit Only = CP */
+	public static final String AMOUNTTYPE_PeriodCreditOnly = "CP";
+	/** Period Debit Only = DP */
+	public static final String AMOUNTTYPE_PeriodDebitOnly = "DP";
+	/** Period Quantity = QP */
+	public static final String AMOUNTTYPE_PeriodQuantity = "QP";
+	/** Total Quantity = QT */
+	public static final String AMOUNTTYPE_TotalQuantity = "QT";
+	/** Year Balance = BY */
+	public static final String AMOUNTTYPE_YearBalance = "BY";
+	/** Year Credit Only = CY */
+	public static final String AMOUNTTYPE_YearCreditOnly = "CY";
+	/** Year Debit Only = DY */
+	public static final String AMOUNTTYPE_YearDebitOnly = "DY";
+	/** Year Quantity = QY */
+	public static final String AMOUNTTYPE_YearQuantity = "QY";
 	/** Set Amount Type.
 		@param AmountType 
 		Type of amount to report
 	  */
 	public void setAmountType (String AmountType)
 	{
-if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || AmountType.equals("BY") || AmountType.equals("CP") || AmountType.equals("CT") || AmountType.equals("CY") || AmountType.equals("DP") || AmountType.equals("DT") || AmountType.equals("DY") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - BP - BT - BY - CP - CT - CY - DP - DT - DY - QP - QT - QY");		if (AmountType != null && AmountType.length() > 2)
+
+		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY");
+		if (AmountType != null && AmountType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			AmountType = AmountType.substring(0, 1);
+			AmountType = AmountType.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_AmountType, AmountType);
 	}
@@ -115,26 +129,32 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return (String)get_Value(COLUMNNAME_AmountType);
 	}
 
-/** CalculationType AD_Reference_ID=236 */
-public static final int CALCULATIONTYPE_AD_Reference_ID=236;/** Add (Op1+Op2) = A */
-public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";/** Percentage (Op1 of Op2) = P */
-public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";/** Add Range (Op1 to Op2) = R */
-public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";/** Subtract (Op1-Op2) = S */
-public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
 	/** Set Calculation.
 		@param CalculationType Calculation	  */
 	public void setCalculationType (String CalculationType)
 	{
-if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("P") || CalculationType.equals("R") || CalculationType.equals("S")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - P - R - S");		if (CalculationType != null && CalculationType.length() > 1)
+
+		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");
+		if (CalculationType != null && CalculationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CalculationType = CalculationType.substring(0, 0);
+			CalculationType = CalculationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CalculationType, CalculationType);
 	}
 
 	/** Get Calculation.
-@return Calculation	  */
+		@return Calculation	  */
 	public String getCalculationType () 
 	{
 		return (String)get_Value(COLUMNNAME_CalculationType);
@@ -146,10 +166,11 @@ if (CalculationType == null || CalculationType.equals("A") || CalculationType.eq
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -162,7 +183,7 @@ if (CalculationType == null || CalculationType.equals("A") || CalculationType.eq
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Budget getI_GL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -184,9 +205,10 @@ if (CalculationType == null || CalculationType.equals("A") || CalculationType.eq
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 		set_Value (COLUMNNAME_GL_Budget_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID <= 0) 
+			set_Value (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -224,48 +246,28 @@ if (CalculationType == null || CalculationType.equals("A") || CalculationType.eq
 		return false;
 	}
 
-	/** Set Summary Level.
-		@param IsSummary 
-		This is a summary entity
-	  */
-	public void setIsSummary (boolean IsSummary)
-	{
-		set_Value (COLUMNNAME_IsSummary, Boolean.valueOf(IsSummary));
-	}
-
-	/** Get Summary Level.
-		@return This is a summary entity
-	  */
-	public boolean isSummary () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSummary);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-/** LineType AD_Reference_ID=241 */
-public static final int LINETYPE_AD_Reference_ID=241;/** Calculation = C */
-public static final String LINETYPE_Calculation = "C";/** Segment Value = S */
-public static final String LINETYPE_SegmentValue = "S";
+	/** LineType AD_Reference_ID=241 */
+	public static final int LINETYPE_AD_Reference_ID=241;
+	/** Segment Value = S */
+	public static final String LINETYPE_SegmentValue = "S";
+	/** Calculation = C */
+	public static final String LINETYPE_Calculation = "C";
 	/** Set Line Type.
 		@param LineType Line Type	  */
 	public void setLineType (String LineType)
 	{
-if (LineType == null) throw new IllegalArgumentException ("LineType is mandatory");if (LineType.equals("C") || LineType.equals("S")); else throw new IllegalArgumentException ("LineType Invalid value - " + LineType + " - Reference_ID=241 - C - S");		if (LineType.length() > 1)
+		if (LineType == null) throw new IllegalArgumentException ("LineType is mandatory");
+		if (LineType.equals("S") || LineType.equals("C")); else throw new IllegalArgumentException ("LineType Invalid value - " + LineType + " - Reference_ID=241 - S - C");
+		if (LineType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LineType = LineType.substring(0, 0);
+			LineType = LineType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LineType, LineType);
 	}
 
 	/** Get Line Type.
-@return Line Type	  */
+		@return Line Type	  */
 	public String getLineType () 
 	{
 		return (String)get_Value(COLUMNNAME_LineType);
@@ -279,10 +281,11 @@ if (LineType == null) throw new IllegalArgumentException ("LineType is mandatory
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -303,17 +306,18 @@ if (LineType == null) throw new IllegalArgumentException ("LineType is mandatory
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Oper_1_ID AD_Reference_ID=240 */
-public static final int OPER_1_ID_AD_Reference_ID=240;
+	/** Oper_1_ID AD_Reference_ID=240 */
+	public static final int OPER_1_ID_AD_Reference_ID=240;
 	/** Set Operand 1.
 		@param Oper_1_ID 
 		First operand for calculation
 	  */
 	public void setOper_1_ID (int Oper_1_ID)
 	{
-		if (Oper_1_ID <= 0) 		set_Value (COLUMNNAME_Oper_1_ID, null);
- else 
-		set_Value (COLUMNNAME_Oper_1_ID, Integer.valueOf(Oper_1_ID));
+		if (Oper_1_ID <= 0) 
+			set_Value (COLUMNNAME_Oper_1_ID, null);
+		else 
+			set_Value (COLUMNNAME_Oper_1_ID, Integer.valueOf(Oper_1_ID));
 	}
 
 	/** Get Operand 1.
@@ -327,17 +331,18 @@ public static final int OPER_1_ID_AD_Reference_ID=240;
 		return ii.intValue();
 	}
 
-/** Oper_2_ID AD_Reference_ID=240 */
-public static final int OPER_2_ID_AD_Reference_ID=240;
+	/** Oper_2_ID AD_Reference_ID=240 */
+	public static final int OPER_2_ID_AD_Reference_ID=240;
 	/** Set Operand 2.
 		@param Oper_2_ID 
 		Second operand for calculation
 	  */
 	public void setOper_2_ID (int Oper_2_ID)
 	{
-		if (Oper_2_ID <= 0) 		set_Value (COLUMNNAME_Oper_2_ID, null);
- else 
-		set_Value (COLUMNNAME_Oper_2_ID, Integer.valueOf(Oper_2_ID));
+		if (Oper_2_ID <= 0) 
+			set_Value (COLUMNNAME_Oper_2_ID, null);
+		else 
+			set_Value (COLUMNNAME_Oper_2_ID, Integer.valueOf(Oper_2_ID));
 	}
 
 	/** Get Operand 2.
@@ -351,7 +356,7 @@ public static final int OPER_2_ID_AD_Reference_ID=240;
 		return ii.intValue();
 	}
 
-	public I_PA_ReportLineSet getI_PA_ReportLineSet() throws Exception 
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
         I_PA_ReportLineSet result = null;
@@ -377,7 +382,7 @@ public static final int OPER_2_ID_AD_Reference_ID=240;
 	}
 
 	/** Get Report Line Set.
-@return Report Line Set	  */
+		@return Report Line Set	  */
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
@@ -396,7 +401,7 @@ public static final int OPER_2_ID_AD_Reference_ID=240;
 	}
 
 	/** Get Report Line.
-@return Report Line	  */
+		@return Report Line	  */
 	public int getPA_ReportLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
@@ -405,47 +410,30 @@ public static final int OPER_2_ID_AD_Reference_ID=240;
 		return ii.intValue();
 	}
 
-/** Parent_ID AD_Reference_ID=242 */
-public static final int PARENT_ID_AD_Reference_ID=242;
-	/** Set Parent.
-		@param Parent_ID 
-		Parent of Entity
-	  */
-	public void setParent_ID (int Parent_ID)
-	{
-		if (Parent_ID <= 0) 		set_Value (COLUMNNAME_Parent_ID, null);
- else 
-		set_Value (COLUMNNAME_Parent_ID, Integer.valueOf(Parent_ID));
-	}
-
-	/** Get Parent.
-		@return Parent of Entity
-	  */
-	public int getParent_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Parent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-/** PostingType AD_Reference_ID=125 */
-public static final int POSTINGTYPE_AD_Reference_ID=125;/** Actual = A */
-public static final String POSTINGTYPE_Actual = "A";/** Budget = B */
-public static final String POSTINGTYPE_Budget = "B";/** Commitment = E */
-public static final String POSTINGTYPE_Commitment = "E";/** Reservation = R */
-public static final String POSTINGTYPE_Reservation = "R";/** Statistical = S */
-public static final String POSTINGTYPE_Statistical = "S";
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
 	/** Set PostingType.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType)
 	{
-if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");		if (PostingType != null && PostingType.length() > 1)
+
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
+		if (PostingType != null && PostingType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 0);
+			PostingType = PostingType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}

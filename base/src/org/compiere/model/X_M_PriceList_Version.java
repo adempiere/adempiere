@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, I_Persistent 
 {
 
@@ -39,14 +39,16 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
     public X_M_PriceList_Version (Properties ctx, int M_PriceList_Version_ID, String trxName)
     {
       super (ctx, M_PriceList_Version_ID, trxName);
-      /** if (M_PriceList_Version_ID == 0)        {			setM_DiscountSchema_ID (0);
+      /** if (M_PriceList_Version_ID == 0)
+        {
+			setM_DiscountSchema_ID (0);
 			setM_PriceList_ID (0);
 			setM_PriceList_Version_ID (0);
 			setName (null);
 // @#Date@
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
 // @#Date@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -83,10 +85,11 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -99,7 +102,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_DiscountSchema getI_M_DiscountSchema() throws Exception 
+	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
         I_M_DiscountSchema result = null;
@@ -137,7 +140,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getI_M_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -197,17 +200,18 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-/** M_Pricelist_Version_Base_ID AD_Reference_ID=188 */
-public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
+	/** M_Pricelist_Version_Base_ID AD_Reference_ID=188 */
+	public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
 	/** Set Base Price List.
 		@param M_Pricelist_Version_Base_ID 
 		Source for Price list calculations
 	  */
 	public void setM_Pricelist_Version_Base_ID (int M_Pricelist_Version_Base_ID)
 	{
-		if (M_Pricelist_Version_Base_ID <= 0) 		set_Value (COLUMNNAME_M_Pricelist_Version_Base_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Pricelist_Version_Base_ID, Integer.valueOf(M_Pricelist_Version_Base_ID));
+		if (M_Pricelist_Version_Base_ID <= 0) 
+			set_Value (COLUMNNAME_M_Pricelist_Version_Base_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Pricelist_Version_Base_ID, Integer.valueOf(M_Pricelist_Version_Base_ID));
 	}
 
 	/** Get Base Price List.
@@ -229,10 +233,11 @@ public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -257,16 +262,17 @@ public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
 		@param ProcCreate Create	  */
 	public void setProcCreate (String ProcCreate)
 	{
+
 		if (ProcCreate != null && ProcCreate.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProcCreate = ProcCreate.substring(0, 0);
+			ProcCreate = ProcCreate.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProcCreate, ProcCreate);
 	}
 
 	/** Get Create.
-@return Create	  */
+		@return Create	  */
 	public String getProcCreate () 
 	{
 		return (String)get_Value(COLUMNNAME_ProcCreate);

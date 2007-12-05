@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Persistent 
 {
 
@@ -39,14 +41,16 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
     public X_C_Conversion_Rate (Properties ctx, int C_Conversion_Rate_ID, String trxName)
     {
       super (ctx, C_Conversion_Rate_ID, trxName);
-      /** if (C_Conversion_Rate_ID == 0)        {			setC_ConversionType_ID (0);
+      /** if (C_Conversion_Rate_ID == 0)
+        {
+			setC_ConversionType_ID (0);
 			setC_Conversion_Rate_ID (0);
 			setC_Currency_ID (0);
 			setC_Currency_ID_To (0);
 			setDivideRate (Env.ZERO);
 			setMultiplyRate (Env.ZERO);
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +81,7 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
       return sb.toString();
     }
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -145,8 +149,8 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getC_Conversion_Rate_ID()));
     }
 
-/** C_Currency_ID AD_Reference_ID=112 */
-public static final int C_CURRENCY_ID_AD_Reference_ID=112;
+	/** C_Currency_ID AD_Reference_ID=112 */
+	public static final int C_CURRENCY_ID_AD_Reference_ID=112;
 	/** Set Currency.
 		@param C_Currency_ID 
 		The Currency for this record
@@ -169,8 +173,8 @@ public static final int C_CURRENCY_ID_AD_Reference_ID=112;
 		return ii.intValue();
 	}
 
-/** C_Currency_ID_To AD_Reference_ID=112 */
-public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
+	/** C_Currency_ID_To AD_Reference_ID=112 */
+	public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	/** Set Currency To.
 		@param C_Currency_ID_To 
 		Target currency

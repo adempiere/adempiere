@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
     public X_CM_ChatType (Properties ctx, int CM_ChatType_ID, String trxName)
     {
       super (ctx, CM_ChatType_ID, trxName);
-      /** if (CM_ChatType_ID == 0)        {			setAD_Table_ID (0);
+      /** if (CM_ChatType_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setCM_ChatType_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +74,7 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -139,10 +140,11 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -155,21 +157,26 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** ModerationType AD_Reference_ID=395 */
-public static final int MODERATIONTYPE_AD_Reference_ID=395;/** After Publishing = A */
-public static final String MODERATIONTYPE_AfterPublishing = "A";/** Before Publishing = B */
-public static final String MODERATIONTYPE_BeforePublishing = "B";/** Not moderated = N */
-public static final String MODERATIONTYPE_NotModerated = "N";
+	/** ModerationType AD_Reference_ID=395 */
+	public static final int MODERATIONTYPE_AD_Reference_ID=395;
+	/** Not moderated = N */
+	public static final String MODERATIONTYPE_NotModerated = "N";
+	/** Before Publishing = B */
+	public static final String MODERATIONTYPE_BeforePublishing = "B";
+	/** After Publishing = A */
+	public static final String MODERATIONTYPE_AfterPublishing = "A";
 	/** Set Moderation Type.
 		@param ModerationType 
 		Type of moderation
 	  */
 	public void setModerationType (String ModerationType)
 	{
-if (ModerationType == null || ModerationType.equals("A") || ModerationType.equals("B") || ModerationType.equals("N")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - A - B - N");		if (ModerationType != null && ModerationType.length() > 1)
+
+		if (ModerationType == null || ModerationType.equals("N") || ModerationType.equals("B") || ModerationType.equals("A")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - N - B - A");
+		if (ModerationType != null && ModerationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ModerationType = ModerationType.substring(0, 0);
+			ModerationType = ModerationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ModerationType, ModerationType);
 	}
@@ -190,10 +197,11 @@ if (ModerationType == null || ModerationType.equals("A") || ModerationType.equal
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
     public X_M_Attribute (Properties ctx, int M_Attribute_ID, String trxName)
     {
       super (ctx, M_Attribute_ID, trxName);
-      /** if (M_Attribute_ID == 0)        {			setAttributeValueType (null);
+      /** if (M_Attribute_ID == 0)
+        {
+			setAttributeValueType (null);
 // S
 			setIsInstanceAttribute (false);
 			setIsMandatory (false);
 			setM_Attribute_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,21 +77,26 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
       return sb.toString();
     }
 
-/** AttributeValueType AD_Reference_ID=326 */
-public static final int ATTRIBUTEVALUETYPE_AD_Reference_ID=326;/** List = L */
-public static final String ATTRIBUTEVALUETYPE_List = "L";/** Number = N */
-public static final String ATTRIBUTEVALUETYPE_Number = "N";/** String (max 40) = S */
-public static final String ATTRIBUTEVALUETYPE_StringMax40 = "S";
+	/** AttributeValueType AD_Reference_ID=326 */
+	public static final int ATTRIBUTEVALUETYPE_AD_Reference_ID=326;
+	/** String (max 40) = S */
+	public static final String ATTRIBUTEVALUETYPE_StringMax40 = "S";
+	/** Number = N */
+	public static final String ATTRIBUTEVALUETYPE_Number = "N";
+	/** List = L */
+	public static final String ATTRIBUTEVALUETYPE_List = "L";
 	/** Set Attribute Value Type.
 		@param AttributeValueType 
 		Type of Attribute Value
 	  */
 	public void setAttributeValueType (String AttributeValueType)
 	{
-if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeValueType is mandatory");if (AttributeValueType.equals("L") || AttributeValueType.equals("N") || AttributeValueType.equals("S")); else throw new IllegalArgumentException ("AttributeValueType Invalid value - " + AttributeValueType + " - Reference_ID=326 - L - N - S");		if (AttributeValueType.length() > 1)
+		if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeValueType is mandatory");
+		if (AttributeValueType.equals("S") || AttributeValueType.equals("N") || AttributeValueType.equals("L")); else throw new IllegalArgumentException ("AttributeValueType Invalid value - " + AttributeValueType + " - Reference_ID=326 - S - N - L");
+		if (AttributeValueType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AttributeValueType = AttributeValueType.substring(0, 0);
+			AttributeValueType = AttributeValueType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AttributeValueType, AttributeValueType);
 	}
@@ -109,10 +115,11 @@ if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeVa
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -173,7 +180,7 @@ if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeVa
 		return false;
 	}
 
-	public I_M_AttributeSearch getI_M_AttributeSearch() throws Exception 
+	public I_M_AttributeSearch getM_AttributeSearch() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSearch.Table_Name);
         I_M_AttributeSearch result = null;
@@ -195,9 +202,10 @@ if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeVa
 	  */
 	public void setM_AttributeSearch_ID (int M_AttributeSearch_ID)
 	{
-		if (M_AttributeSearch_ID <= 0) 		set_Value (COLUMNNAME_M_AttributeSearch_ID, null);
- else 
-		set_Value (COLUMNNAME_M_AttributeSearch_ID, Integer.valueOf(M_AttributeSearch_ID));
+		if (M_AttributeSearch_ID <= 0) 
+			set_Value (COLUMNNAME_M_AttributeSearch_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSearch_ID, Integer.valueOf(M_AttributeSearch_ID));
 	}
 
 	/** Get Attribute Search.
@@ -241,10 +249,11 @@ if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeVa
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

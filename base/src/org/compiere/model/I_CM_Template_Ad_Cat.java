@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_Template_Ad_Cat
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:35.343
-     */
-    public interface I_CM_Template_Ad_Cat 
+/** Generated Interface for CM_Template_Ad_Cat
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_Template_Ad_Cat 
 {
 
     /** TableName=CM_Template_Ad_Cat */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Ad_Cat_ID();
 
-	public I_CM_Ad_Cat getI_CM_Ad_Cat() throws Exception;
+	public I_CM_Ad_Cat getCM_Ad_Cat() throws Exception;
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Template_ID();
 
-	public I_CM_Template getI_CM_Template() throws Exception;
+	public I_CM_Template getCM_Template() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

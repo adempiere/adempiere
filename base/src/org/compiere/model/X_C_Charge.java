@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Charge
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Charge extends PO implements I_C_Charge, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
     public X_C_Charge (Properties ctx, int C_Charge_ID, String trxName)
     {
       super (ctx, C_Charge_ID, trxName);
-      /** if (C_Charge_ID == 0)        {			setC_Charge_ID (0);
+      /** if (C_Charge_ID == 0)
+        {
+			setC_Charge_ID (0);
 			setC_TaxCategory_ID (0);
 			setChargeAmt (Env.ZERO);
 			setIsSameCurrency (false);
@@ -47,7 +50,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 			setIsTaxIncluded (false);
 // N
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,15 +81,32 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -122,7 +142,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -188,10 +208,11 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -212,7 +233,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	}
 
 	/** Get Same Currency.
-@return Same Currency	  */
+		@return Same Currency	  */
 	public boolean isSameCurrency () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSameCurrency);
@@ -281,10 +302,11 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

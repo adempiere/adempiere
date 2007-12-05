@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Form_Access
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:22.156
-     */
-    public interface I_AD_Form_Access 
+/** Generated Interface for AD_Form_Access
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Form_Access 
 {
 
     /** TableName=AD_Form_Access */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getI_AD_Form() throws Exception;
+	public I_AD_Form getAD_Form() throws Exception;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name IsReadWrite */
     public static final String COLUMNNAME_IsReadWrite = "IsReadWrite";

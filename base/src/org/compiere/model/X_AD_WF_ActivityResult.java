@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ActivityResult
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
     public X_AD_WF_ActivityResult (Properties ctx, int AD_WF_ActivityResult_ID, String trxName)
     {
       super (ctx, AD_WF_ActivityResult_ID, trxName);
-      /** if (AD_WF_ActivityResult_ID == 0)        {			setAD_WF_ActivityResult_ID (0);
+      /** if (AD_WF_ActivityResult_ID == 0)
+        {
+			setAD_WF_ActivityResult_ID (0);
 			setAD_WF_Activity_ID (0);
 			setAttributeName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Activity getI_AD_WF_Activity() throws Exception 
+	public I_AD_WF_Activity getAD_WF_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Activity.Table_Name);
         I_AD_WF_Activity result = null;
@@ -149,10 +150,11 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	{
 		if (AttributeName == null)
 			throw new IllegalArgumentException ("AttributeName is mandatory.");
+
 		if (AttributeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 59);
+			AttributeName = AttributeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
@@ -171,10 +173,11 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
+
 		if (AttributeValue != null && AttributeValue.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			AttributeValue = AttributeValue.substring(0, 1999);
+			AttributeValue = AttributeValue.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
@@ -193,10 +196,11 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -215,10 +219,11 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}

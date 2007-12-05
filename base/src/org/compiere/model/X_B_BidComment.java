@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for B_BidComment
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
     public X_B_BidComment (Properties ctx, int B_BidComment_ID, String trxName)
     {
       super (ctx, B_BidComment_ID, trxName);
-      /** if (B_BidComment_ID == 0)        {			setAD_User_ID (0);
+      /** if (B_BidComment_ID == 0)
+        {
+			setAD_User_ID (0);
 			setB_BidComment_ID (0);
 			setB_Topic_ID (0);
 			setTextMsg (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +74,7 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -134,7 +134,7 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_B_Topic getI_B_Topic() throws Exception 
+	public I_B_Topic getB_Topic() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_B_Topic.Table_Name);
         I_B_Topic result = null;
@@ -180,10 +180,11 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 	{
 		if (TextMsg == null)
 			throw new IllegalArgumentException ("TextMsg is mandatory.");
+
 		if (TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

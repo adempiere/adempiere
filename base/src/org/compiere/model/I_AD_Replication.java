@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Replication
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.171
-     */
-    public interface I_AD_Replication 
+/** Generated Interface for AD_Replication
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Replication 
 {
 
     /** TableName=AD_Replication */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_ReplicationStrategy_ID();
 
-	public I_AD_ReplicationStrategy getI_AD_ReplicationStrategy() throws Exception;
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws Exception;
 
     /** Column name AD_Replication_ID */
     public static final String COLUMNNAME_AD_Replication_ID = "AD_Replication_ID";

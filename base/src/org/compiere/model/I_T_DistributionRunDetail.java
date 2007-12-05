@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for T_DistributionRunDetail
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.5
-     */
-    public interface I_T_DistributionRunDetail 
+/** Generated Interface for T_DistributionRunDetail
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_T_DistributionRunDetail 
 {
 
     /** TableName=T_DistributionRunDetail */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,6 +69,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 
@@ -83,6 +83,8 @@ import org.compiere.util.*;
 	  * Identifies the (ship to) address for this Business Partner
 	  */
 	public int getC_BPartner_Location_ID();
+
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
     /** Column name M_DistributionListLine_ID */
     public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
@@ -97,6 +99,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_DistributionListLine_ID();
 
+	public I_M_DistributionListLine getM_DistributionListLine() throws Exception;
+
     /** Column name M_DistributionList_ID */
     public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
 
@@ -109,6 +113,8 @@ import org.compiere.util.*;
 	  * Distribution Lists allow to distribute products to a selected list of partners
 	  */
 	public int getM_DistributionList_ID();
+
+	public I_M_DistributionList getM_DistributionList() throws Exception;
 
     /** Column name M_DistributionRunLine_ID */
     public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
@@ -123,6 +129,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_DistributionRunLine_ID();
 
+	public I_M_DistributionRunLine getM_DistributionRunLine() throws Exception;
+
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
 
@@ -136,6 +144,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_DistributionRun_ID();
 
+	public I_M_DistributionRun getM_DistributionRun() throws Exception;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -148,6 +158,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name MinQty */
     public static final String COLUMNNAME_MinQty = "MinQty";

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_CStageTTable
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:34.234
-     */
-    public interface I_CM_CStageTTable 
+/** Generated Interface for CM_CStageTTable
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_CStageTTable 
 {
 
     /** TableName=CM_CStageTTable */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_CStage_ID();
 
-	public I_CM_CStage getI_CM_CStage() throws Exception;
+	public I_CM_CStage getCM_CStage() throws Exception;
 
     /** Column name CM_TemplateTable_ID */
     public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_TemplateTable_ID();
 
-	public I_CM_TemplateTable getI_CM_TemplateTable() throws Exception;
+	public I_CM_TemplateTable getCM_TemplateTable() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

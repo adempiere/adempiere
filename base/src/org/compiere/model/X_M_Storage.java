@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_Storage
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Storage extends PO implements I_M_Storage, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
     public X_M_Storage (Properties ctx, int M_Storage_ID, String trxName)
     {
       super (ctx, M_Storage_ID, trxName);
-      /** if (M_Storage_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_Storage_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
 			setM_Product_ID (0);
 			setQtyOnHand (Env.ZERO);
 			setQtyOrdered (Env.ZERO);
 			setQtyReserved (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -136,6 +139,22 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

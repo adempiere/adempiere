@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_Project_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Project_Acct extends PO implements I_C_Project_Acct, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_C_Project_Acct extends PO implements I_C_Project_Acct, I_Persiste
     public X_C_Project_Acct (Properties ctx, int C_Project_Acct_ID, String trxName)
     {
       super (ctx, C_Project_Acct_ID, trxName);
-      /** if (C_Project_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_Project_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_Project_ID (0);
 			setPJ_Asset_Acct (0);
 			setPJ_WIP_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +74,7 @@ public class X_C_Project_Acct extends PO implements I_C_Project_Acct, I_Persiste
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -112,7 +112,7 @@ public class X_C_Project_Acct extends PO implements I_C_Project_Acct, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;

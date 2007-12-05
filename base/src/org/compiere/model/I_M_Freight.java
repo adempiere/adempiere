@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_Freight
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.984
-     */
-    public interface I_M_Freight 
+/** Generated Interface for M_Freight
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_Freight 
 {
 
     /** TableName=M_Freight */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getI_C_Country() throws Exception;
+	public I_C_Country getC_Country() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -86,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
@@ -101,7 +100,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getI_C_Region() throws Exception;
+	public I_C_Region getC_Region() throws Exception;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -129,7 +128,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_FreightCategory_ID();
 
-	public I_M_FreightCategory getI_M_FreightCategory() throws Exception;
+	public I_M_FreightCategory getM_FreightCategory() throws Exception;
 
     /** Column name M_Freight_ID */
     public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
@@ -157,7 +156,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getI_M_Shipper() throws Exception;
+	public I_M_Shipper getM_Shipper() throws Exception;
 
     /** Column name To_Country_ID */
     public static final String COLUMNNAME_To_Country_ID = "To_Country_ID";

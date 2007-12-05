@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_CommissionLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:39.218
-     */
-    public interface I_C_CommissionLine 
+/** Generated Interface for C_CommissionLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_CommissionLine 
 {
 
     /** TableName=C_CommissionLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -97,7 +95,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception;
+	public I_C_BP_Group getC_BP_Group() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -111,6 +109,8 @@ import org.compiere.util.*;
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_CommissionLine_ID */
     public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
@@ -138,7 +138,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Commission_ID();
 
-	public I_C_Commission getI_C_Commission() throws Exception;
+	public I_C_Commission getC_Commission() throws Exception;
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -153,7 +153,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws Exception;
 
     /** Column name CommissionOrders */
     public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
@@ -220,7 +220,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception;
+	public I_M_Product_Category getM_Product_Category() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -234,6 +234,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Org_ID */
     public static final String COLUMNNAME_Org_ID = "Org_ID";

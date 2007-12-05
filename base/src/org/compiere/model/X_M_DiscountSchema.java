@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Persistent 
 {
 
@@ -39,14 +39,16 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
     public X_M_DiscountSchema (Properties ctx, int M_DiscountSchema_ID, String trxName)
     {
       super (ctx, M_DiscountSchema_ID, trxName);
-      /** if (M_DiscountSchema_ID == 0)        {			setDiscountType (null);
+      /** if (M_DiscountSchema_ID == 0)
+        {
+			setDiscountType (null);
 			setIsBPartnerFlatDiscount (false);
 			setIsQuantityBased (true);
 // Y
 			setM_DiscountSchema_ID (0);
 			setName (null);
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,19 +79,22 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
       return sb.toString();
     }
 
-/** CumulativeLevel AD_Reference_ID=246 */
-public static final int CUMULATIVELEVEL_AD_Reference_ID=246;/** Line = L */
-public static final String CUMULATIVELEVEL_Line = "L";
+	/** CumulativeLevel AD_Reference_ID=246 */
+	public static final int CUMULATIVELEVEL_AD_Reference_ID=246;
+	/** Line = L */
+	public static final String CUMULATIVELEVEL_Line = "L";
 	/** Set Accumulation Level.
 		@param CumulativeLevel 
 		Level for accumulative calculations
 	  */
 	public void setCumulativeLevel (String CumulativeLevel)
 	{
-if (CumulativeLevel == null || CumulativeLevel.equals("L")); else throw new IllegalArgumentException ("CumulativeLevel Invalid value - " + CumulativeLevel + " - Reference_ID=246 - L");		if (CumulativeLevel != null && CumulativeLevel.length() > 1)
+
+		if (CumulativeLevel == null || CumulativeLevel.equals("L")); else throw new IllegalArgumentException ("CumulativeLevel Invalid value - " + CumulativeLevel + " - Reference_ID=246 - L");
+		if (CumulativeLevel != null && CumulativeLevel.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CumulativeLevel = CumulativeLevel.substring(0, 0);
+			CumulativeLevel = CumulativeLevel.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CumulativeLevel, CumulativeLevel);
 	}
@@ -108,10 +113,11 @@ if (CumulativeLevel == null || CumulativeLevel.equals("L")); else throw new Ille
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -124,22 +130,28 @@ if (CumulativeLevel == null || CumulativeLevel.equals("L")); else throw new Ille
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DiscountType AD_Reference_ID=247 */
-public static final int DISCOUNTTYPE_AD_Reference_ID=247;/** Breaks = B */
-public static final String DISCOUNTTYPE_Breaks = "B";/** Flat Percent = F */
-public static final String DISCOUNTTYPE_FlatPercent = "F";/** Pricelist = P */
-public static final String DISCOUNTTYPE_Pricelist = "P";/** Formula = S */
-public static final String DISCOUNTTYPE_Formula = "S";
+	/** DiscountType AD_Reference_ID=247 */
+	public static final int DISCOUNTTYPE_AD_Reference_ID=247;
+	/** Flat Percent = F */
+	public static final String DISCOUNTTYPE_FlatPercent = "F";
+	/** Formula = S */
+	public static final String DISCOUNTTYPE_Formula = "S";
+	/** Breaks = B */
+	public static final String DISCOUNTTYPE_Breaks = "B";
+	/** Pricelist = P */
+	public static final String DISCOUNTTYPE_Pricelist = "P";
 	/** Set Discount Type.
 		@param DiscountType 
 		Type of trade discount calculation
 	  */
 	public void setDiscountType (String DiscountType)
 	{
-if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is mandatory");if (DiscountType.equals("B") || DiscountType.equals("F") || DiscountType.equals("P") || DiscountType.equals("S")); else throw new IllegalArgumentException ("DiscountType Invalid value - " + DiscountType + " - Reference_ID=247 - B - F - P - S");		if (DiscountType.length() > 1)
+		if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is mandatory");
+		if (DiscountType.equals("F") || DiscountType.equals("S") || DiscountType.equals("B") || DiscountType.equals("P")); else throw new IllegalArgumentException ("DiscountType Invalid value - " + DiscountType + " - Reference_ID=247 - F - S - B - P");
+		if (DiscountType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DiscountType = DiscountType.substring(0, 0);
+			DiscountType = DiscountType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DiscountType, DiscountType);
 	}
@@ -250,10 +262,11 @@ if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is m
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -282,7 +295,7 @@ if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is m
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -301,10 +314,11 @@ if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is m
 	  */
 	public void setScript (String Script)
 	{
+
 		if (Script != null && Script.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Script = Script.substring(0, 1999);
+			Script = Script.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Script, Script);
 	}

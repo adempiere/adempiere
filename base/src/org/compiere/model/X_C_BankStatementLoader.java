@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankStatementLoader
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoader, I_Persistent 
 {
 
@@ -39,10 +39,12 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
     public X_C_BankStatementLoader (Properties ctx, int C_BankStatementLoader_ID, String trxName)
     {
       super (ctx, C_BankStatementLoader_ID, trxName);
-      /** if (C_BankStatementLoader_ID == 0)        {			setC_BankAccount_ID (0);
+      /** if (C_BankStatementLoader_ID == 0)
+        {
+			setC_BankAccount_ID (0);
 			setC_BankStatementLoader_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,10 +81,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setAccountNo (String AccountNo)
 	{
+
 		if (AccountNo != null && AccountNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			AccountNo = AccountNo.substring(0, 19);
+			AccountNo = AccountNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_AccountNo, AccountNo);
 	}
@@ -101,10 +104,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setBranchID (String BranchID)
 	{
+
 		if (BranchID != null && BranchID.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			BranchID = BranchID.substring(0, 19);
+			BranchID = BranchID.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_BranchID, BranchID);
 	}
@@ -117,7 +121,7 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 		return (String)get_Value(COLUMNNAME_BranchID);
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -183,10 +187,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setDateFormat (String DateFormat)
 	{
+
 		if (DateFormat != null && DateFormat.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			DateFormat = DateFormat.substring(0, 19);
+			DateFormat = DateFormat.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_DateFormat, DateFormat);
 	}
@@ -222,10 +227,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -244,10 +250,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setFileName (String FileName)
 	{
+
 		if (FileName != null && FileName.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			FileName = FileName.substring(0, 119);
+			FileName = FileName.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_FileName, FileName);
 	}
@@ -266,10 +273,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setFinancialInstitutionID (String FinancialInstitutionID)
 	{
+
 		if (FinancialInstitutionID != null && FinancialInstitutionID.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			FinancialInstitutionID = FinancialInstitutionID.substring(0, 19);
+			FinancialInstitutionID = FinancialInstitutionID.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_FinancialInstitutionID, FinancialInstitutionID);
 	}
@@ -288,10 +296,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setHostAddress (String HostAddress)
 	{
+
 		if (HostAddress != null && HostAddress.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			HostAddress = HostAddress.substring(0, 59);
+			HostAddress = HostAddress.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_HostAddress, HostAddress);
 	}
@@ -332,10 +341,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -362,10 +372,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setPIN (String PIN)
 	{
+
 		if (PIN != null && PIN.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			PIN = PIN.substring(0, 19);
+			PIN = PIN.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_PIN, PIN);
 	}
@@ -384,10 +395,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setPassword (String Password)
 	{
+
 		if (Password != null && Password.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Password = Password.substring(0, 59);
+			Password = Password.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
@@ -406,10 +418,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setProxyAddress (String ProxyAddress)
 	{
+
 		if (ProxyAddress != null && ProxyAddress.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProxyAddress = ProxyAddress.substring(0, 59);
+			ProxyAddress = ProxyAddress.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProxyAddress, ProxyAddress);
 	}
@@ -428,10 +441,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setProxyLogon (String ProxyLogon)
 	{
+
 		if (ProxyLogon != null && ProxyLogon.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProxyLogon = ProxyLogon.substring(0, 59);
+			ProxyLogon = ProxyLogon.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProxyLogon, ProxyLogon);
 	}
@@ -450,10 +464,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setProxyPassword (String ProxyPassword)
 	{
+
 		if (ProxyPassword != null && ProxyPassword.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProxyPassword = ProxyPassword.substring(0, 59);
+			ProxyPassword = ProxyPassword.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProxyPassword, ProxyPassword);
 	}
@@ -492,10 +507,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setStmtLoaderClass (String StmtLoaderClass)
 	{
+
 		if (StmtLoaderClass != null && StmtLoaderClass.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			StmtLoaderClass = StmtLoaderClass.substring(0, 59);
+			StmtLoaderClass = StmtLoaderClass.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_StmtLoaderClass, StmtLoaderClass);
 	}
@@ -514,10 +530,11 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setUserID (String UserID)
 	{
+
 		if (UserID != null && UserID.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			UserID = UserID.substring(0, 59);
+			UserID = UserID.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_UserID, UserID);
 	}

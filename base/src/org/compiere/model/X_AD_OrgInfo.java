@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
     {
       super (ctx, AD_OrgInfo_ID, trxName);
-      /** if (AD_OrgInfo_ID == 0)        {			setDUNS (null);
+      /** if (AD_OrgInfo_ID == 0)
+        {
+			setDUNS (null);
 			setTaxID (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +72,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_OrgType getI_AD_OrgType() throws Exception 
+	public I_AD_OrgType getAD_OrgType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_OrgType.Table_Name);
         I_AD_OrgType result = null;
@@ -94,9 +94,10 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
-		if (AD_OrgType_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgType_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgType_ID, Integer.valueOf(AD_OrgType_ID));
+		if (AD_OrgType_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgType_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgType_ID, Integer.valueOf(AD_OrgType_ID));
 	}
 
 	/** Get Organization Type.
@@ -116,9 +117,10 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -140,10 +142,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	{
 		if (DUNS == null)
 			throw new IllegalArgumentException ("DUNS is mandatory.");
+
 		if (DUNS.length() > 11)
 		{
 			log.warning("Length > 11 - truncated");
-			DUNS = DUNS.substring(0, 10);
+			DUNS = DUNS.substring(0, 11);
 		}
 		set_Value (COLUMNNAME_DUNS, DUNS);
 	}
@@ -156,7 +159,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -178,9 +181,10 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID <= 0) 		set_Value (COLUMNNAME_M_Warehouse_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID <= 0) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -194,17 +198,18 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-/** Parent_Org_ID AD_Reference_ID=130 */
-public static final int PARENT_ORG_ID_AD_Reference_ID=130;
+	/** Parent_Org_ID AD_Reference_ID=130 */
+	public static final int PARENT_ORG_ID_AD_Reference_ID=130;
 	/** Set Parent Organization.
 		@param Parent_Org_ID 
 		Parent (superior) Organization 
 	  */
 	public void setParent_Org_ID (int Parent_Org_ID)
 	{
-		if (Parent_Org_ID <= 0) 		set_Value (COLUMNNAME_Parent_Org_ID, null);
- else 
-		set_Value (COLUMNNAME_Parent_Org_ID, Integer.valueOf(Parent_Org_ID));
+		if (Parent_Org_ID <= 0) 
+			set_Value (COLUMNNAME_Parent_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_Parent_Org_ID, Integer.valueOf(Parent_Org_ID));
 	}
 
 	/** Get Parent Organization.
@@ -218,17 +223,18 @@ public static final int PARENT_ORG_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-/** Supervisor_ID AD_Reference_ID=286 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=286;
+	/** Supervisor_ID AD_Reference_ID=286 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 		set_Value (COLUMNNAME_Supervisor_ID, null);
- else 
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID <= 0) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.
@@ -250,10 +256,11 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	{
 		if (TaxID == null)
 			throw new IllegalArgumentException ("TaxID is mandatory.");
+
 		if (TaxID.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			TaxID = TaxID.substring(0, 19);
+			TaxID = TaxID.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_TaxID, TaxID);
 	}

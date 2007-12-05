@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_PackageLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:51.187
-     */
-    public interface I_M_PackageLine 
+/** Generated Interface for M_PackageLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_PackageLine 
 {
 
     /** TableName=M_PackageLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception;
+	public I_M_InOutLine getM_InOutLine() throws Exception;
 
     /** Column name M_PackageLine_ID */
     public static final String COLUMNNAME_M_PackageLine_ID = "M_PackageLine_ID";
@@ -112,7 +110,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Package_ID();
 
-	public I_M_Package getI_M_Package() throws Exception;
+	public I_M_Package getM_Package() throws Exception;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

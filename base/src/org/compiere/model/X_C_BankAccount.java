@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
     public X_C_BankAccount (Properties ctx, int C_BankAccount_ID, String trxName)
     {
       super (ctx, C_BankAccount_ID, trxName);
-      /** if (C_BankAccount_ID == 0)        {			setAccountNo (null);
+      /** if (C_BankAccount_ID == 0)
+        {
+			setAccountNo (null);
 			setBankAccountType (null);
 			setC_BankAccount_ID (0);
 			setC_Bank_ID (0);
@@ -47,7 +50,7 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 			setCreditLimit (Env.ZERO);
 			setCurrentBalance (Env.ZERO);
 			setIsDefault (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -86,10 +89,11 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	{
 		if (AccountNo == null)
 			throw new IllegalArgumentException ("AccountNo is mandatory.");
+
 		if (AccountNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			AccountNo = AccountNo.substring(0, 19);
+			AccountNo = AccountNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_AccountNo, AccountNo);
 	}
@@ -108,10 +112,11 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setBBAN (String BBAN)
 	{
+
 		if (BBAN != null && BBAN.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			BBAN = BBAN.substring(0, 39);
+			BBAN = BBAN.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_BBAN, BBAN);
 	}
@@ -124,20 +129,24 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
-/** BankAccountType AD_Reference_ID=216 */
-public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;/** Checking = C */
-public static final String BANKACCOUNTTYPE_Checking = "C";/** Savings = S */
-public static final String BANKACCOUNTTYPE_Savings = "S";
+	/** BankAccountType AD_Reference_ID=216 */
+	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
+	/** Checking = C */
+	public static final String BANKACCOUNTTYPE_Checking = "C";
+	/** Savings = S */
+	public static final String BANKACCOUNTTYPE_Savings = "S";
 	/** Set Bank Account Type.
 		@param BankAccountType 
 		Bank Account Type
 	  */
 	public void setBankAccountType (String BankAccountType)
 	{
-if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountType is mandatory");if (BankAccountType.equals("C") || BankAccountType.equals("S")); else throw new IllegalArgumentException ("BankAccountType Invalid value - " + BankAccountType + " - Reference_ID=216 - C - S");		if (BankAccountType.length() > 1)
+		if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountType is mandatory");
+		if (BankAccountType.equals("C") || BankAccountType.equals("S")); else throw new IllegalArgumentException ("BankAccountType Invalid value - " + BankAccountType + " - Reference_ID=216 - C - S");
+		if (BankAccountType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BankAccountType = BankAccountType.substring(0, 0);
+			BankAccountType = BankAccountType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
 	}
@@ -172,7 +181,7 @@ if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountTyp
 		return ii.intValue();
 	}
 
-	public I_C_Bank getI_C_Bank() throws Exception 
+	public I_C_Bank getC_Bank() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Bank.Table_Name);
         I_C_Bank result = null;
@@ -218,7 +227,7 @@ if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountTyp
         return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
     }
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -306,10 +315,11 @@ if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountTyp
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -328,10 +338,11 @@ if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountTyp
 	  */
 	public void setIBAN (String IBAN)
 	{
+
 		if (IBAN != null && IBAN.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			IBAN = IBAN.substring(0, 39);
+			IBAN = IBAN.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_IBAN, IBAN);
 	}

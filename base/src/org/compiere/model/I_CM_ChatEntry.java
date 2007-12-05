@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_ChatEntry
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:34.312
-     */
-    public interface I_CM_ChatEntry 
+/** Generated Interface for CM_ChatEntry
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_ChatEntry 
 {
 
     /** TableName=CM_ChatEntry */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name CM_ChatEntryGrandParent_ID */
     public static final String COLUMNNAME_CM_ChatEntryGrandParent_ID = "CM_ChatEntryGrandParent_ID";
@@ -125,7 +123,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Chat_ID();
 
-	public I_CM_Chat getI_CM_Chat() throws Exception;
+	public I_CM_Chat getCM_Chat() throws Exception;
 
     /** Column name CharacterData */
     public static final String COLUMNNAME_CharacterData = "CharacterData";

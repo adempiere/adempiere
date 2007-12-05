@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Window extends PO implements I_AD_Window, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
     public X_AD_Window (Properties ctx, int AD_Window_ID, String trxName)
     {
       super (ctx, AD_Window_ID, trxName);
-      /** if (AD_Window_ID == 0)        {			setAD_Window_ID (0);
+      /** if (AD_Window_ID == 0)
+        {
+			setAD_Window_ID (0);
 			setEntityType (null);
 // U
 			setIsBetaFunctionality (false);
@@ -49,7 +50,7 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 			setName (null);
 			setWindowType (null);
 // M
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +81,7 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Color getI_AD_Color() throws Exception 
+	public I_AD_Color getAD_Color() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Color.Table_Name);
         I_AD_Color result = null;
@@ -102,9 +103,10 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setAD_Color_ID (int AD_Color_ID)
 	{
-		if (AD_Color_ID <= 0) 		set_Value (COLUMNNAME_AD_Color_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
+		if (AD_Color_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Color_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
 	}
 
 	/** Get System Color.
@@ -118,7 +120,7 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getI_AD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -140,9 +142,10 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -184,10 +187,11 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -200,14 +204,15 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -230,10 +235,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -326,10 +332,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -358,7 +365,7 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -379,7 +386,7 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	}
 
 	/** Get Window Height.
-@return Window Height	  */
+		@return Window Height	  */
 	public int getWinHeight () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WinHeight);
@@ -396,7 +403,7 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	}
 
 	/** Get Window Width.
-@return Window Width	  */
+		@return Window Width	  */
 	public int getWinWidth () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WinWidth);
@@ -405,22 +412,28 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return ii.intValue();
 	}
 
-/** WindowType AD_Reference_ID=108 */
-public static final int WINDOWTYPE_AD_Reference_ID=108;/** Maintain = M */
-public static final String WINDOWTYPE_Maintain = "M";/** Query Only = Q */
-public static final String WINDOWTYPE_QueryOnly = "Q";/** Single Record = S */
-public static final String WINDOWTYPE_SingleRecord = "S";/** Transaction = T */
-public static final String WINDOWTYPE_Transaction = "T";
+	/** WindowType AD_Reference_ID=108 */
+	public static final int WINDOWTYPE_AD_Reference_ID=108;
+	/** Single Record = S */
+	public static final String WINDOWTYPE_SingleRecord = "S";
+	/** Maintain = M */
+	public static final String WINDOWTYPE_Maintain = "M";
+	/** Transaction = T */
+	public static final String WINDOWTYPE_Transaction = "T";
+	/** Query Only = Q */
+	public static final String WINDOWTYPE_QueryOnly = "Q";
 	/** Set WindowType.
 		@param WindowType 
 		Type or classification of a Window
 	  */
 	public void setWindowType (String WindowType)
 	{
-if (WindowType == null) throw new IllegalArgumentException ("WindowType is mandatory");if (WindowType.equals("M") || WindowType.equals("Q") || WindowType.equals("S") || WindowType.equals("T")); else throw new IllegalArgumentException ("WindowType Invalid value - " + WindowType + " - Reference_ID=108 - M - Q - S - T");		if (WindowType.length() > 1)
+		if (WindowType == null) throw new IllegalArgumentException ("WindowType is mandatory");
+		if (WindowType.equals("S") || WindowType.equals("M") || WindowType.equals("T") || WindowType.equals("Q")); else throw new IllegalArgumentException ("WindowType Invalid value - " + WindowType + " - Reference_ID=108 - S - M - T - Q");
+		if (WindowType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			WindowType = WindowType.substring(0, 0);
+			WindowType = WindowType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_WindowType, WindowType);
 	}

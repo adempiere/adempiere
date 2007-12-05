@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WorkbenchWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
     public X_AD_WorkbenchWindow (Properties ctx, int AD_WorkbenchWindow_ID, String trxName)
     {
       super (ctx, AD_WorkbenchWindow_ID, trxName);
-      /** if (AD_WorkbenchWindow_ID == 0)        {			setAD_WorkbenchWindow_ID (0);
+      /** if (AD_WorkbenchWindow_ID == 0)
+        {
+			setAD_WorkbenchWindow_ID (0);
 			setAD_Workbench_ID (0);
 			setEntityType (null);
 // U
 			setIsPrimary (false);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +77,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
       return sb.toString();
     }
 
-	public I_AD_Form getI_AD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -98,9 +99,10 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 		set_Value (COLUMNNAME_AD_Form_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+		if (AD_Form_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
 	/** Get Special Form.
@@ -114,7 +116,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -136,9 +138,10 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -152,7 +155,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Task getI_AD_Task() throws Exception 
+	public I_AD_Task getAD_Task() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
         I_AD_Task result = null;
@@ -174,9 +177,10 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID <= 0) 		set_Value (COLUMNNAME_AD_Task_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+		if (AD_Task_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
 	}
 
 	/** Get OS Task.
@@ -190,7 +194,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Window getI_AD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -212,9 +216,10 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 		set_Value (COLUMNNAME_AD_Window_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -238,7 +243,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	}
 
 	/** Get Workbench Window.
-@return Workbench Window	  */
+		@return Workbench Window	  */
 	public int getAD_WorkbenchWindow_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkbenchWindow_ID);
@@ -255,7 +260,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
         return new KeyNamePair(get_ID(), String.valueOf(getAD_WorkbenchWindow_ID()));
     }
 
-	public I_AD_Workbench getI_AD_Workbench() throws Exception 
+	public I_AD_Workbench getAD_Workbench() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
         I_AD_Workbench result = null;
@@ -293,14 +298,15 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		return ii.intValue();
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");

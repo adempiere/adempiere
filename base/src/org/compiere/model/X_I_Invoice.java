@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent 
 {
 
@@ -147,7 +147,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ActivityValue != null && ActivityValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ActivityValue = ActivityValue.substring(0, 39);
+			ActivityValue = ActivityValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
 	}
@@ -169,7 +169,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (Address1 != null && Address1.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 59);
+			Address1 = Address1.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address1, Address1);
 	}
@@ -192,7 +192,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (Address2 != null && Address2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 59);
+			Address2 = Address2.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address2, Address2);
 	}
@@ -215,7 +215,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (BPartnerValue != null && BPartnerValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			BPartnerValue = BPartnerValue.substring(0, 39);
+			BPartnerValue = BPartnerValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
@@ -266,6 +266,22 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -524,6 +540,22 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
@@ -547,6 +579,22 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
@@ -569,6 +617,22 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Location getC_Location() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Location.Table_Name);
+        I_C_Location result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Location_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Address.
 		@param C_Location_ID 
@@ -631,6 +695,22 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Project.
 		@param C_Project_ID 
@@ -743,7 +823,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ChargeName != null && ChargeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ChargeName = ChargeName.substring(0, 59);
+			ChargeName = ChargeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ChargeName, ChargeName);
 	}
@@ -766,7 +846,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (City != null && City.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 59);
+			City = City.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_City, City);
 	}
@@ -789,7 +869,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ContactName != null && ContactName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ContactName = ContactName.substring(0, 59);
+			ContactName = ContactName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ContactName, ContactName);
 	}
@@ -870,7 +950,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -893,7 +973,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (DocTypeName != null && DocTypeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			DocTypeName = DocTypeName.substring(0, 59);
+			DocTypeName = DocTypeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_DocTypeName, DocTypeName);
 	}
@@ -916,7 +996,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (DocumentNo != null && DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -939,7 +1019,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -962,7 +1042,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -1055,7 +1135,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (LineDescription != null && LineDescription.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LineDescription = LineDescription.substring(0, 254);
+			LineDescription = LineDescription.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_LineDescription, LineDescription);
 	}
@@ -1107,6 +1187,22 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -1140,7 +1236,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -1163,7 +1259,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (PaymentTermValue != null && PaymentTermValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			PaymentTermValue = PaymentTermValue.substring(0, 39);
+			PaymentTermValue = PaymentTermValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_PaymentTermValue, PaymentTermValue);
 	}
@@ -1186,7 +1282,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (Phone != null && Phone.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 39);
+			Phone = Phone.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
@@ -1209,7 +1305,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (Postal != null && Postal.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 9);
+			Postal = Postal.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
@@ -1297,7 +1393,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ProductValue != null && ProductValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ProductValue = ProductValue.substring(0, 39);
+			ProductValue = ProductValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ProductValue, ProductValue);
 	}
@@ -1320,7 +1416,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ProjectValue != null && ProjectValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ProjectValue = ProjectValue.substring(0, 39);
+			ProjectValue = ProjectValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
 	}
@@ -1363,7 +1459,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (RegionName != null && RegionName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 59);
+			RegionName = RegionName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}
@@ -1386,7 +1482,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (SKU != null && SKU.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 29);
+			SKU = SKU.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_SKU, SKU);
 	}
@@ -1451,10 +1547,10 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	public void setTaxIndicator (String TaxIndicator)
 	{
 
-		if (TaxIndicator != null && TaxIndicator.length() > 5)
+		if (TaxIndicator != null && TaxIndicator.length() > 10)
 		{
-			log.warning("Length > 5 - truncated");
-			TaxIndicator = TaxIndicator.substring(0, 4);
+			log.warning("Length > 10 - truncated");
+			TaxIndicator = TaxIndicator.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_TaxIndicator, TaxIndicator);
 	}
@@ -1477,7 +1573,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (UPC != null && UPC.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 29);
+			UPC = UPC.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}

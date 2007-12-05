@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_DiscountSchemaBreak
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.734
-     */
-    public interface I_M_DiscountSchemaBreak 
+/** Generated Interface for M_DiscountSchemaBreak
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_DiscountSchemaBreak 
 {
 
     /** TableName=M_DiscountSchemaBreak */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -123,7 +121,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getI_M_DiscountSchema() throws Exception;
+	public I_M_DiscountSchema getM_DiscountSchema() throws Exception;
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -138,7 +136,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception;
+	public I_M_Product_Category getM_Product_Category() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -152,6 +150,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserDef_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
     public X_AD_UserDef_Field (Properties ctx, int AD_UserDef_Field_ID, String trxName)
     {
       super (ctx, AD_UserDef_Field_ID, trxName);
-      /** if (AD_UserDef_Field_ID == 0)        {			setAD_Field_ID (0);
+      /** if (AD_UserDef_Field_ID == 0)
+        {
+			setAD_Field_ID (0);
 			setAD_UserDef_Field_ID (0);
 			setAD_UserDef_Tab_ID (0);
 			setDefaultValue (null);
@@ -48,7 +49,7 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 			setIsSameLine (false);
 			setName (null);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +80,7 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Field getI_AD_Field() throws Exception 
+	public I_AD_Field getAD_Field() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Field.Table_Name);
         I_AD_Field result = null;
@@ -127,7 +128,7 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	}
 
 	/** Get User defined Field.
-@return User defined Field	  */
+		@return User defined Field	  */
 	public int getAD_UserDef_Field_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserDef_Field_ID);
@@ -136,7 +137,7 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_UserDef_Tab getI_AD_UserDef_Tab() throws Exception 
+	public I_AD_UserDef_Tab getAD_UserDef_Tab() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_UserDef_Tab.Table_Name);
         I_AD_UserDef_Tab result = null;
@@ -162,7 +163,7 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	}
 
 	/** Get User defined Tab.
-@return User defined Tab	  */
+		@return User defined Tab	  */
 	public int getAD_UserDef_Tab_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserDef_Tab_ID);
@@ -179,10 +180,11 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	{
 		if (DefaultValue == null)
 			throw new IllegalArgumentException ("DefaultValue is mandatory.");
+
 		if (DefaultValue.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DefaultValue = DefaultValue.substring(0, 1999);
+			DefaultValue = DefaultValue.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
 	}
@@ -201,10 +203,11 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -243,10 +246,11 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	  */
 	public void setDisplayLogic (String DisplayLogic)
 	{
+
 		if (DisplayLogic != null && DisplayLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DisplayLogic = DisplayLogic.substring(0, 1999);
+			DisplayLogic = DisplayLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
 	}
@@ -265,10 +269,11 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -385,10 +390,11 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

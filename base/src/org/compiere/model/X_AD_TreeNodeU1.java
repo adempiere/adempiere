@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_TreeNodeU1
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_TreeNodeU1 extends PO implements I_AD_TreeNodeU1, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_AD_TreeNodeU1 extends PO implements I_AD_TreeNodeU1, I_Persistent
     public X_AD_TreeNodeU1 (Properties ctx, int AD_TreeNodeU1_ID, String trxName)
     {
       super (ctx, AD_TreeNodeU1_ID, trxName);
-      /** if (AD_TreeNodeU1_ID == 0)        {			setAD_Tree_ID (0);
+      /** if (AD_TreeNodeU1_ID == 0)
+        {
+			setAD_Tree_ID (0);
 			setNode_ID (0);
 			setParent_ID (0);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +74,7 @@ public class X_AD_TreeNodeU1 extends PO implements I_AD_TreeNodeU1, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getI_AD_Tree() throws Exception 
+	public I_AD_Tree getAD_Tree() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tree.Table_Name);
         I_AD_Tree result = null;
@@ -122,7 +122,7 @@ public class X_AD_TreeNodeU1 extends PO implements I_AD_TreeNodeU1, I_Persistent
 	}
 
 	/** Get Node_ID.
-@return Node_ID	  */
+		@return Node_ID	  */
 	public int getNode_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Node_ID);

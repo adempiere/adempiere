@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLine, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
     public X_M_DistributionRunLine (Properties ctx, int M_DistributionRunLine_ID, String trxName)
     {
       super (ctx, M_DistributionRunLine_ID, trxName);
-      /** if (M_DistributionRunLine_ID == 0)        {			setLine (0);
+      /** if (M_DistributionRunLine_ID == 0)
+        {
+			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_DistributionRunLine WHERE M_DistributionRun_ID=@M_DistributionRun_ID@
 			setM_DistributionList_ID (0);
 			setM_DistributionRunLine_ID (0);
@@ -48,7 +51,7 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 			setMinQty (Env.ZERO);
 // 0
 			setTotalQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,10 +88,11 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -121,7 +125,7 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 		return ii.intValue();
 	}
 
-	public I_M_DistributionList getI_M_DistributionList() throws Exception 
+	public I_M_DistributionList getM_DistributionList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionList.Table_Name);
         I_M_DistributionList result = null;
@@ -181,7 +185,7 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 		return ii.intValue();
 	}
 
-	public I_M_DistributionRun getI_M_DistributionRun() throws Exception 
+	public I_M_DistributionRun getM_DistributionRun() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionRun.Table_Name);
         I_M_DistributionRun result = null;
@@ -225,6 +229,22 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
     public KeyNamePair getKeyNamePair() 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
+    }
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Product.

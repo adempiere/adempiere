@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
     public X_C_PaymentProcessor (Properties ctx, int C_PaymentProcessor_ID, String trxName)
     {
       super (ctx, C_PaymentProcessor_ID, trxName);
-      /** if (C_PaymentProcessor_ID == 0)        {			setAcceptAMEX (false);
+      /** if (C_PaymentProcessor_ID == 0)
+        {
+			setAcceptAMEX (false);
 			setAcceptATM (false);
 			setAcceptCheck (false);
 			setAcceptCorporate (false);
@@ -59,7 +62,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 			setPassword (null);
 			setRequireVV (false);
 			setUserID (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -90,17 +93,18 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
       return sb.toString();
     }
 
-/** AD_Sequence_ID AD_Reference_ID=128 */
-public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
+	/** AD_Sequence_ID AD_Reference_ID=128 */
+	public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	/** Set Sequence.
 		@param AD_Sequence_ID 
 		Document Sequence
 	  */
 	public void setAD_Sequence_ID (int AD_Sequence_ID)
 	{
-		if (AD_Sequence_ID <= 0) 		set_Value (COLUMNNAME_AD_Sequence_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+		if (AD_Sequence_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
 	}
 
 	/** Get Sequence.
@@ -354,7 +358,7 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 		return false;
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -392,7 +396,7 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -414,9 +418,10 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -502,10 +507,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -526,10 +532,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	{
 		if (HostAddress == null)
 			throw new IllegalArgumentException ("HostAddress is mandatory.");
+
 		if (HostAddress.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			HostAddress = HostAddress.substring(0, 59);
+			HostAddress = HostAddress.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_HostAddress, HostAddress);
 	}
@@ -590,10 +597,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -620,10 +628,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setPartnerID (String PartnerID)
 	{
+
 		if (PartnerID != null && PartnerID.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			PartnerID = PartnerID.substring(0, 59);
+			PartnerID = PartnerID.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_PartnerID, PartnerID);
 	}
@@ -644,10 +653,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	{
 		if (Password == null)
 			throw new IllegalArgumentException ("Password is mandatory.");
+
 		if (Password.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Password = Password.substring(0, 59);
+			Password = Password.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
@@ -666,10 +676,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setPayProcessorClass (String PayProcessorClass)
 	{
+
 		if (PayProcessorClass != null && PayProcessorClass.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			PayProcessorClass = PayProcessorClass.substring(0, 59);
+			PayProcessorClass = PayProcessorClass.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_PayProcessorClass, PayProcessorClass);
 	}
@@ -688,10 +699,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setProxyAddress (String ProxyAddress)
 	{
+
 		if (ProxyAddress != null && ProxyAddress.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProxyAddress = ProxyAddress.substring(0, 59);
+			ProxyAddress = ProxyAddress.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProxyAddress, ProxyAddress);
 	}
@@ -710,10 +722,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setProxyLogon (String ProxyLogon)
 	{
+
 		if (ProxyLogon != null && ProxyLogon.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProxyLogon = ProxyLogon.substring(0, 59);
+			ProxyLogon = ProxyLogon.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProxyLogon, ProxyLogon);
 	}
@@ -732,10 +745,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setProxyPassword (String ProxyPassword)
 	{
+
 		if (ProxyPassword != null && ProxyPassword.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProxyPassword = ProxyPassword.substring(0, 59);
+			ProxyPassword = ProxyPassword.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProxyPassword, ProxyPassword);
 	}
@@ -800,10 +814,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	{
 		if (UserID == null)
 			throw new IllegalArgumentException ("UserID is mandatory.");
+
 		if (UserID.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			UserID = UserID.substring(0, 59);
+			UserID = UserID.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_UserID, UserID);
 	}
@@ -822,10 +837,11 @@ public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
 	  */
 	public void setVendorID (String VendorID)
 	{
+
 		if (VendorID != null && VendorID.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			VendorID = VendorID.substring(0, 59);
+			VendorID = VendorID.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_VendorID, VendorID);
 	}

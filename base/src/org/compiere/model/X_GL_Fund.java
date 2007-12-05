@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Fund
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent 
 {
 
@@ -39,11 +41,13 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
     public X_GL_Fund (Properties ctx, int GL_Fund_ID, String trxName)
     {
       super (ctx, GL_Fund_ID, trxName);
-      /** if (GL_Fund_ID == 0)        {			setAmt (Env.ZERO);
+      /** if (GL_Fund_ID == 0)
+        {
+			setAmt (Env.ZERO);
 			setC_AcctSchema_ID (0);
 			setGL_Fund_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +100,7 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 		return bd;
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -174,10 +178,11 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -218,10 +223,11 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -242,10 +248,11 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

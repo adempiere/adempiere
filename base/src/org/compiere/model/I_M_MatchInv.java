@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_MatchInv
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.5
-     */
-    public interface I_M_MatchInv 
+/** Generated Interface for M_MatchInv
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_MatchInv 
 {
 
     /** TableName=M_MatchInv */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -70,6 +69,8 @@ import org.compiere.util.*;
 	  * Invoice Detail Line
 	  */
 	public int getC_InvoiceLine_ID();
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -149,6 +150,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOutLine_ID();
 
+	public I_M_InOutLine getM_InOutLine() throws Exception;
+
     /** Column name M_MatchInv_ID */
     public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
 
@@ -174,6 +177,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

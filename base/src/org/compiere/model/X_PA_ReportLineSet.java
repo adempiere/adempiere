@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLineSet
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
     public X_PA_ReportLineSet (Properties ctx, int PA_ReportLineSet_ID, String trxName)
     {
       super (ctx, PA_ReportLineSet_ID, trxName);
-      /** if (PA_ReportLineSet_ID == 0)        {			setName (null);
+      /** if (PA_ReportLineSet_ID == 0)
+        {
+			setName (null);
 			setPA_ReportLineSet_ID (0);
 			setProcessing (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,10 +78,11 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -103,10 +103,11 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -137,7 +138,7 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
 	}
 
 	/** Get Report Line Set.
-@return Report Line Set	  */
+		@return Report Line Set	  */
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
@@ -154,7 +155,7 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

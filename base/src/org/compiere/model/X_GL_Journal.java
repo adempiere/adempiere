@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Journal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
     public X_GL_Journal (Properties ctx, int GL_Journal_ID, String trxName)
     {
       super (ctx, GL_Journal_ID, trxName);
-      /** if (GL_Journal_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (GL_Journal_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 // @$C_AcctSchema_ID@
 			setC_ConversionType_ID (0);
 			setC_Currency_ID (0);
@@ -75,7 +79,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 // 0
 			setTotalDr (Env.ZERO);
 // 0
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -106,7 +110,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -144,7 +148,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -182,7 +186,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -220,7 +224,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getI_C_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -258,8 +262,8 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-/** C_Period_ID AD_Reference_ID=275 */
-public static final int C_PERIOD_ID_AD_Reference_ID=275;
+	/** C_Period_ID AD_Reference_ID=275 */
+	public static final int C_PERIOD_ID_AD_Reference_ID=275;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar
@@ -370,10 +374,11 @@ public static final int C_PERIOD_ID_AD_Reference_ID=275;
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
+
 		if (Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -386,32 +391,48 @@ public static final int C_PERIOD_ID_AD_Reference_ID=275;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** DocAction AD_Reference_ID=135 */
-public static final int DOCACTION_AD_Reference_ID=135;/** <None> = -- */
-public static final String DOCACTION_None = "--";/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";/** Close = CL */
-public static final String DOCACTION_Close = "CL";/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";/** Post = PO */
-public static final String DOCACTION_Post = "PO";/** Prepare = PR */
-public static final String DOCACTION_Prepare = "PR";/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";/** Void = VO */
-public static final String DOCACTION_Void = "VO";/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";/** Unlock = XL */
-public static final String DOCACTION_Unlock = "XL";
+	/** DocAction AD_Reference_ID=135 */
+	public static final int DOCACTION_AD_Reference_ID=135;
+	/** Complete = CO */
+	public static final String DOCACTION_Complete = "CO";
+	/** Approve = AP */
+	public static final String DOCACTION_Approve = "AP";
+	/** Reject = RJ */
+	public static final String DOCACTION_Reject = "RJ";
+	/** Post = PO */
+	public static final String DOCACTION_Post = "PO";
+	/** Void = VO */
+	public static final String DOCACTION_Void = "VO";
+	/** Close = CL */
+	public static final String DOCACTION_Close = "CL";
+	/** Reverse - Correct = RC */
+	public static final String DOCACTION_Reverse_Correct = "RC";
+	/** Reverse - Accrual = RA */
+	public static final String DOCACTION_Reverse_Accrual = "RA";
+	/** Invalidate = IN */
+	public static final String DOCACTION_Invalidate = "IN";
+	/** Re-activate = RE */
+	public static final String DOCACTION_Re_Activate = "RE";
+	/** <None> = -- */
+	public static final String DOCACTION_None = "--";
+	/** Prepare = PR */
+	public static final String DOCACTION_Prepare = "PR";
+	/** Unlock = XL */
+	public static final String DOCACTION_Unlock = "XL";
+	/** Wait Complete = WC */
+	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
 		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
 	{
-if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");		if (DocAction.length() > 2)
+		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+		if (DocAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 1);
+			DocAction = DocAction.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
@@ -424,30 +445,44 @@ if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandato
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
 
-/** DocStatus AD_Reference_ID=131 */
-public static final int DOCSTATUS_AD_Reference_ID=131;/** Unknown = ?? */
-public static final String DOCSTATUS_Unknown = "??";/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";/** In Progress = IP */
-public static final String DOCSTATUS_InProgress = "IP";/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";/** Waiting Confirmation = WC */
-public static final String DOCSTATUS_WaitingConfirmation = "WC";/** Waiting Payment = WP */
-public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** DocStatus AD_Reference_ID=131 */
+	public static final int DOCSTATUS_AD_Reference_ID=131;
+	/** Drafted = DR */
+	public static final String DOCSTATUS_Drafted = "DR";
+	/** Completed = CO */
+	public static final String DOCSTATUS_Completed = "CO";
+	/** Approved = AP */
+	public static final String DOCSTATUS_Approved = "AP";
+	/** Not Approved = NA */
+	public static final String DOCSTATUS_NotApproved = "NA";
+	/** Voided = VO */
+	public static final String DOCSTATUS_Voided = "VO";
+	/** Invalid = IN */
+	public static final String DOCSTATUS_Invalid = "IN";
+	/** Reversed = RE */
+	public static final String DOCSTATUS_Reversed = "RE";
+	/** Closed = CL */
+	public static final String DOCSTATUS_Closed = "CL";
+	/** Unknown = ?? */
+	public static final String DOCSTATUS_Unknown = "??";
+	/** In Progress = IP */
+	public static final String DOCSTATUS_InProgress = "IP";
+	/** Waiting Payment = WP */
+	public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** Waiting Confirmation = WC */
+	public static final String DOCSTATUS_WaitingConfirmation = "WC";
 	/** Set Document Status.
 		@param DocStatus 
 		The current status of the document
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");		if (DocStatus.length() > 2)
+		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+		if (DocStatus.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 1);
+			DocStatus = DocStatus.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -468,10 +503,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -492,7 +528,7 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	public I_GL_Budget getI_GL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -514,9 +550,10 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 		set_Value (COLUMNNAME_GL_Budget_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID <= 0) 
+			set_Value (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -530,7 +567,7 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 		return ii.intValue();
 	}
 
-	public I_GL_Category getI_GL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -568,7 +605,7 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 		return ii.intValue();
 	}
 
-	public I_GL_JournalBatch getI_GL_JournalBatch() throws Exception 
+	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
         I_GL_JournalBatch result = null;
@@ -590,9 +627,10 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
+		if (GL_JournalBatch_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
 	}
 
 	/** Get Journal Batch.
@@ -700,23 +738,30 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 		return false;
 	}
 
-/** PostingType AD_Reference_ID=125 */
-public static final int POSTINGTYPE_AD_Reference_ID=125;/** Actual = A */
-public static final String POSTINGTYPE_Actual = "A";/** Budget = B */
-public static final String POSTINGTYPE_Budget = "B";/** Commitment = E */
-public static final String POSTINGTYPE_Commitment = "E";/** Reservation = R */
-public static final String POSTINGTYPE_Reservation = "R";/** Statistical = S */
-public static final String POSTINGTYPE_Statistical = "S";
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
 	/** Set PostingType.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType)
 	{
-if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");		if (PostingType.length() > 1)
+		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
+		if (PostingType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 0);
+			PostingType = PostingType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
@@ -761,7 +806,7 @@ if (PostingType == null) throw new IllegalArgumentException ("PostingType is man
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

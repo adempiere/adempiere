@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_DocType
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:39.578
-     */
-    public interface I_C_DocType 
+/** Generated Interface for C_DocType
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_DocType 
 {
 
     /** TableName=C_DocType */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception;
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception;
 
     /** Column name C_DocTypeDifference_ID */
     public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
@@ -229,7 +227,7 @@ import org.compiere.util.*;
 	  */
 	public int getGL_Category_ID();
 
-	public I_GL_Category getI_GL_Category() throws Exception;
+	public I_GL_Category getGL_Category() throws Exception;
 
     /** Column name HasCharges */
     public static final String COLUMNNAME_HasCharges = "HasCharges";

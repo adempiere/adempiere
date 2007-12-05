@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_PInstance_Para
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:24.687
-     */
-    public interface I_AD_PInstance_Para 
+/** Generated Interface for AD_PInstance_Para
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_PInstance_Para 
 {
 
     /** TableName=AD_PInstance_Para */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception;
+	public I_AD_PInstance getAD_PInstance() throws Exception;
 
     /** Column name Info */
     public static final String COLUMNNAME_Info = "Info";

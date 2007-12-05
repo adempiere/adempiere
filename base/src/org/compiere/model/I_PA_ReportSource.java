@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_ReportSource
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.171
-     */
-    public interface I_PA_ReportSource 
+/** Generated Interface for PA_ReportSource
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_ReportSource 
 {
 
     /** TableName=PA_ReportSource */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getI_C_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -101,7 +99,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -142,7 +140,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getI_C_Project() throws Exception;
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -157,7 +155,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -198,7 +196,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getI_M_Product() throws Exception;
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Org_ID */
     public static final String COLUMNNAME_Org_ID = "Org_ID";
@@ -222,7 +220,7 @@ import org.compiere.util.*;
 	/** Get Report Line	  */
 	public int getPA_ReportLine_ID();
 
-	public I_PA_ReportLine getI_PA_ReportLine() throws Exception;
+	public I_PA_ReportLine getPA_ReportLine() throws Exception;
 
     /** Column name PA_ReportSource_ID */
     public static final String COLUMNNAME_PA_ReportSource_ID = "PA_ReportSource_ID";

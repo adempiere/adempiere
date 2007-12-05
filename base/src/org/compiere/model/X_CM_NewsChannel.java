@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_NewsChannel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
     public X_CM_NewsChannel (Properties ctx, int CM_NewsChannel_ID, String trxName)
     {
       super (ctx, CM_NewsChannel_ID, trxName);
-      /** if (CM_NewsChannel_ID == 0)        {			setCM_NewsChannel_ID (0);
+      /** if (CM_NewsChannel_ID == 0)
+        {
+			setCM_NewsChannel_ID (0);
 			setCM_WebProject_ID (0);
 			setDescription (null);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,18 +75,19 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
       return sb.toString();
     }
 
-/** AD_Language AD_Reference_ID=106 */
-public static final int AD_LANGUAGE_AD_Reference_ID=106;
+	/** AD_Language AD_Reference_ID=106 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language != null && AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -120,7 +122,7 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -166,10 +168,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
+
 		if (Description.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Description = Description.substring(0, 1999);
+			Description = Description.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -188,10 +191,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -210,10 +214,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setLink (String Link)
 	{
+
 		if (Link != null && Link.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Link = Link.substring(0, 254);
+			Link = Link.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Link, Link);
 	}
@@ -234,10 +239,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

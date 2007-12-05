@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
     public X_C_BP_Group_Acct (Properties ctx, int C_BP_Group_Acct_ID, String trxName)
     {
       super (ctx, C_BP_Group_Acct_ID, trxName);
-      /** if (C_BP_Group_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_BP_Group_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_BP_Group_ID (0);
 			setC_Prepayment_Acct (0);
 			setC_Receivable_Acct (0);
@@ -54,7 +55,7 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			setV_Liability_Services_Acct (0);
 			setV_Prepayment_Acct (0);
 			setWriteOff_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,7 +86,7 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -123,7 +124,7 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -337,7 +338,7 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

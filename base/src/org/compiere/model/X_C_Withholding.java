@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
     public X_C_Withholding (Properties ctx, int C_Withholding_ID, String trxName)
     {
       super (ctx, C_Withholding_ID, trxName);
-      /** if (C_Withholding_ID == 0)        {			setBeneficiary (0);
+      /** if (C_Withholding_ID == 0)
+        {
+			setBeneficiary (0);
 			setC_PaymentTerm_ID (0);
 			setC_Withholding_ID (0);
 			setIsPaidTo3Party (false);
@@ -47,7 +50,7 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 			setIsTaxProrated (false);
 			setIsTaxWithholding (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,8 +81,8 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
       return sb.toString();
     }
 
-/** Beneficiary AD_Reference_ID=138 */
-public static final int BENEFICIARY_AD_Reference_ID=138;
+	/** Beneficiary AD_Reference_ID=138 */
+	public static final int BENEFICIARY_AD_Reference_ID=138;
 	/** Set Beneficiary.
 		@param Beneficiary 
 		Business Partner to whom payment is made
@@ -100,7 +103,7 @@ public static final int BENEFICIARY_AD_Reference_ID=138;
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -166,10 +169,11 @@ public static final int BENEFICIARY_AD_Reference_ID=138;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -346,10 +350,11 @@ public static final int BENEFICIARY_AD_Reference_ID=138;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

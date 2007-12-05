@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
     public X_PA_ReportColumn (Properties ctx, int PA_ReportColumn_ID, String trxName)
     {
       super (ctx, PA_ReportColumn_ID, trxName);
-      /** if (PA_ReportColumn_ID == 0)        {			setColumnType (null);
+      /** if (PA_ReportColumn_ID == 0)
+        {
+			setColumnType (null);
 // R
 			setIsPrinted (true);
 // Y
@@ -50,7 +53,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 // A
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM PA_ReportColumn WHERE PA_ReportColumnSet_ID=@PA_ReportColumnSet_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,30 +84,44 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
       return sb.toString();
     }
 
-/** AmountType AD_Reference_ID=235 */
-public static final int AMOUNTTYPE_AD_Reference_ID=235;/** Period Balance = BP */
-public static final String AMOUNTTYPE_PeriodBalance = "BP";/** Total Balance = BT */
-public static final String AMOUNTTYPE_TotalBalance = "BT";/** Year Balance = BY */
-public static final String AMOUNTTYPE_YearBalance = "BY";/** Period Credit Only = CP */
-public static final String AMOUNTTYPE_PeriodCreditOnly = "CP";/** Total Credit Only = CT */
-public static final String AMOUNTTYPE_TotalCreditOnly = "CT";/** Year Credit Only = CY */
-public static final String AMOUNTTYPE_YearCreditOnly = "CY";/** Period Debit Only = DP */
-public static final String AMOUNTTYPE_PeriodDebitOnly = "DP";/** Total Debit Only = DT */
-public static final String AMOUNTTYPE_TotalDebitOnly = "DT";/** Year Debit Only = DY */
-public static final String AMOUNTTYPE_YearDebitOnly = "DY";/** Period Quantity = QP */
-public static final String AMOUNTTYPE_PeriodQuantity = "QP";/** Total Quantity = QT */
-public static final String AMOUNTTYPE_TotalQuantity = "QT";/** Year Quantity = QY */
-public static final String AMOUNTTYPE_YearQuantity = "QY";
+	/** AmountType AD_Reference_ID=235 */
+	public static final int AMOUNTTYPE_AD_Reference_ID=235;
+	/** Total Debit Only = DT */
+	public static final String AMOUNTTYPE_TotalDebitOnly = "DT";
+	/** Total Credit Only = CT */
+	public static final String AMOUNTTYPE_TotalCreditOnly = "CT";
+	/** Total Balance = BT */
+	public static final String AMOUNTTYPE_TotalBalance = "BT";
+	/** Period Balance = BP */
+	public static final String AMOUNTTYPE_PeriodBalance = "BP";
+	/** Period Credit Only = CP */
+	public static final String AMOUNTTYPE_PeriodCreditOnly = "CP";
+	/** Period Debit Only = DP */
+	public static final String AMOUNTTYPE_PeriodDebitOnly = "DP";
+	/** Period Quantity = QP */
+	public static final String AMOUNTTYPE_PeriodQuantity = "QP";
+	/** Total Quantity = QT */
+	public static final String AMOUNTTYPE_TotalQuantity = "QT";
+	/** Year Balance = BY */
+	public static final String AMOUNTTYPE_YearBalance = "BY";
+	/** Year Credit Only = CY */
+	public static final String AMOUNTTYPE_YearCreditOnly = "CY";
+	/** Year Debit Only = DY */
+	public static final String AMOUNTTYPE_YearDebitOnly = "DY";
+	/** Year Quantity = QY */
+	public static final String AMOUNTTYPE_YearQuantity = "QY";
 	/** Set Amount Type.
 		@param AmountType 
 		Type of amount to report
 	  */
 	public void setAmountType (String AmountType)
 	{
-if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || AmountType.equals("BY") || AmountType.equals("CP") || AmountType.equals("CT") || AmountType.equals("CY") || AmountType.equals("DP") || AmountType.equals("DT") || AmountType.equals("DY") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - BP - BT - BY - CP - CT - CY - DP - DT - DY - QP - QT - QY");		if (AmountType != null && AmountType.length() > 2)
+
+		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY");
+		if (AmountType != null && AmountType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			AmountType = AmountType.substring(0, 1);
+			AmountType = AmountType.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_AmountType, AmountType);
 	}
@@ -117,7 +134,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return (String)get_Value(COLUMNNAME_AmountType);
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -139,9 +156,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -155,7 +173,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getI_C_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -177,9 +195,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -193,7 +212,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -215,9 +234,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -231,7 +251,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -253,9 +273,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -269,7 +290,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getI_C_ElementValue() throws Exception 
+	public I_C_ElementValue getC_ElementValue() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
         I_C_ElementValue result = null;
@@ -291,9 +312,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID <= 0) 		set_Value (COLUMNNAME_C_ElementValue_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+		if (C_ElementValue_ID <= 0) 
+			set_Value (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
 	}
 
 	/** Get Account Element.
@@ -313,9 +335,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -329,7 +352,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -351,9 +374,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -367,7 +391,7 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -389,9 +413,10 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 		set_Value (COLUMNNAME_C_SalesRegion_ID, null);
- else 
-		set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+		if (C_SalesRegion_ID <= 0) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
 	/** Get Sales Region.
@@ -405,73 +430,88 @@ if (AmountType == null || AmountType.equals("BP") || AmountType.equals("BT") || 
 		return ii.intValue();
 	}
 
-/** CalculationType AD_Reference_ID=236 */
-public static final int CALCULATIONTYPE_AD_Reference_ID=236;/** Add (Op1+Op2) = A */
-public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";/** Percentage (Op1 of Op2) = P */
-public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";/** Add Range (Op1 to Op2) = R */
-public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";/** Subtract (Op1-Op2) = S */
-public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
 	/** Set Calculation.
 		@param CalculationType Calculation	  */
 	public void setCalculationType (String CalculationType)
 	{
-if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("P") || CalculationType.equals("R") || CalculationType.equals("S")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - P - R - S");		if (CalculationType != null && CalculationType.length() > 1)
+
+		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");
+		if (CalculationType != null && CalculationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CalculationType = CalculationType.substring(0, 0);
+			CalculationType = CalculationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CalculationType, CalculationType);
 	}
 
 	/** Get Calculation.
-@return Calculation	  */
+		@return Calculation	  */
 	public String getCalculationType () 
 	{
 		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
-/** ColumnType AD_Reference_ID=237 */
-public static final int COLUMNTYPE_AD_Reference_ID=237;/** Calculation = C */
-public static final String COLUMNTYPE_Calculation = "C";/** Relative Period = R */
-public static final String COLUMNTYPE_RelativePeriod = "R";/** Segment Value = S */
-public static final String COLUMNTYPE_SegmentValue = "S";
+	/** ColumnType AD_Reference_ID=237 */
+	public static final int COLUMNTYPE_AD_Reference_ID=237;
+	/** Relative Period = R */
+	public static final String COLUMNTYPE_RelativePeriod = "R";
+	/** Calculation = C */
+	public static final String COLUMNTYPE_Calculation = "C";
+	/** Segment Value = S */
+	public static final String COLUMNTYPE_SegmentValue = "S";
 	/** Set Column Type.
 		@param ColumnType Column Type	  */
 	public void setColumnType (String ColumnType)
 	{
-if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");if (ColumnType.equals("C") || ColumnType.equals("R") || ColumnType.equals("S")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=237 - C - R - S");		if (ColumnType.length() > 1)
+		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
+		if (ColumnType.equals("R") || ColumnType.equals("C") || ColumnType.equals("S")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=237 - R - C - S");
+		if (ColumnType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ColumnType = ColumnType.substring(0, 0);
+			ColumnType = ColumnType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
 	/** Get Column Type.
-@return Column Type	  */
+		@return Column Type	  */
 	public String getColumnType () 
 	{
 		return (String)get_Value(COLUMNNAME_ColumnType);
 	}
 
-/** CurrencyType AD_Reference_ID=238 */
-public static final int CURRENCYTYPE_AD_Reference_ID=238;/** Accounting Currency = A */
-public static final String CURRENCYTYPE_AccountingCurrency = "A";/** Source Currency = S */
-public static final String CURRENCYTYPE_SourceCurrency = "S";
+	/** CurrencyType AD_Reference_ID=238 */
+	public static final int CURRENCYTYPE_AD_Reference_ID=238;
+	/** Source Currency = S */
+	public static final String CURRENCYTYPE_SourceCurrency = "S";
+	/** Accounting Currency = A */
+	public static final String CURRENCYTYPE_AccountingCurrency = "A";
 	/** Set Currency Type.
 		@param CurrencyType Currency Type	  */
 	public void setCurrencyType (String CurrencyType)
 	{
-if (CurrencyType == null || CurrencyType.equals("A") || CurrencyType.equals("S")); else throw new IllegalArgumentException ("CurrencyType Invalid value - " + CurrencyType + " - Reference_ID=238 - A - S");		if (CurrencyType != null && CurrencyType.length() > 1)
+
+		if (CurrencyType == null || CurrencyType.equals("S") || CurrencyType.equals("A")); else throw new IllegalArgumentException ("CurrencyType Invalid value - " + CurrencyType + " - Reference_ID=238 - S - A");
+		if (CurrencyType != null && CurrencyType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CurrencyType = CurrencyType.substring(0, 0);
+			CurrencyType = CurrencyType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CurrencyType, CurrencyType);
 	}
 
 	/** Get Currency Type.
-@return Currency Type	  */
+		@return Currency Type	  */
 	public String getCurrencyType () 
 	{
 		return (String)get_Value(COLUMNNAME_CurrencyType);
@@ -483,10 +523,11 @@ if (CurrencyType == null || CurrencyType.equals("A") || CurrencyType.equals("S")
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -499,34 +540,52 @@ if (CurrencyType == null || CurrencyType.equals("A") || CurrencyType.equals("S")
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** ElementType AD_Reference_ID=181 */
-public static final int ELEMENTTYPE_AD_Reference_ID=181;/** Account = AC */
-public static final String ELEMENTTYPE_Account = "AC";/** Activity = AY */
-public static final String ELEMENTTYPE_Activity = "AY";/** BPartner = BP */
-public static final String ELEMENTTYPE_BPartner = "BP";/** Location From = LF */
-public static final String ELEMENTTYPE_LocationFrom = "LF";/** Location To = LT */
-public static final String ELEMENTTYPE_LocationTo = "LT";/** Campaign = MC */
-public static final String ELEMENTTYPE_Campaign = "MC";/** Organization = OO */
-public static final String ELEMENTTYPE_Organization = "OO";/** Org Trx = OT */
-public static final String ELEMENTTYPE_OrgTrx = "OT";/** Project = PJ */
-public static final String ELEMENTTYPE_Project = "PJ";/** Product = PR */
-public static final String ELEMENTTYPE_Product = "PR";/** Sub Account = SA */
-public static final String ELEMENTTYPE_SubAccount = "SA";/** Sales Region = SR */
-public static final String ELEMENTTYPE_SalesRegion = "SR";/** User List 1 = U1 */
-public static final String ELEMENTTYPE_UserList1 = "U1";/** User List 2 = U2 */
-public static final String ELEMENTTYPE_UserList2 = "U2";/** User Element 1 = X1 */
-public static final String ELEMENTTYPE_UserElement1 = "X1";/** User Element 2 = X2 */
-public static final String ELEMENTTYPE_UserElement2 = "X2";
+	/** ElementType AD_Reference_ID=181 */
+	public static final int ELEMENTTYPE_AD_Reference_ID=181;
+	/** Organization = OO */
+	public static final String ELEMENTTYPE_Organization = "OO";
+	/** Account = AC */
+	public static final String ELEMENTTYPE_Account = "AC";
+	/** Product = PR */
+	public static final String ELEMENTTYPE_Product = "PR";
+	/** BPartner = BP */
+	public static final String ELEMENTTYPE_BPartner = "BP";
+	/** Org Trx = OT */
+	public static final String ELEMENTTYPE_OrgTrx = "OT";
+	/** Location From = LF */
+	public static final String ELEMENTTYPE_LocationFrom = "LF";
+	/** Location To = LT */
+	public static final String ELEMENTTYPE_LocationTo = "LT";
+	/** Sales Region = SR */
+	public static final String ELEMENTTYPE_SalesRegion = "SR";
+	/** Project = PJ */
+	public static final String ELEMENTTYPE_Project = "PJ";
+	/** Campaign = MC */
+	public static final String ELEMENTTYPE_Campaign = "MC";
+	/** User List 1 = U1 */
+	public static final String ELEMENTTYPE_UserList1 = "U1";
+	/** User List 2 = U2 */
+	public static final String ELEMENTTYPE_UserList2 = "U2";
+	/** Activity = AY */
+	public static final String ELEMENTTYPE_Activity = "AY";
+	/** Sub Account = SA */
+	public static final String ELEMENTTYPE_SubAccount = "SA";
+	/** User Element 1 = X1 */
+	public static final String ELEMENTTYPE_UserElement1 = "X1";
+	/** User Element 2 = X2 */
+	public static final String ELEMENTTYPE_UserElement2 = "X2";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)
 	  */
 	public void setElementType (String ElementType)
 	{
-if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2");		if (ElementType != null && ElementType.length() > 2)
+
+		if (ElementType == null || ElementType.equals("OO") || ElementType.equals("AC") || ElementType.equals("PR") || ElementType.equals("BP") || ElementType.equals("OT") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("SR") || ElementType.equals("PJ") || ElementType.equals("MC") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("AY") || ElementType.equals("SA") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - OO - AC - PR - BP - OT - LF - LT - SR - PJ - MC - U1 - U2 - AY - SA - X1 - X2");
+		if (ElementType != null && ElementType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			ElementType = ElementType.substring(0, 1);
+			ElementType = ElementType.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
@@ -539,7 +598,7 @@ if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") 
 		return (String)get_Value(COLUMNNAME_ElementType);
 	}
 
-	public I_GL_Budget getI_GL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -561,9 +620,10 @@ if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") 
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 		set_Value (COLUMNNAME_GL_Budget_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID <= 0) 
+			set_Value (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -625,7 +685,7 @@ if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") 
 		return false;
 	}
 
-	public I_M_Product getI_M_Product() throws Exception 
+	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -647,9 +707,10 @@ if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") 
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -671,10 +732,11 @@ if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -695,17 +757,18 @@ if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") 
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Oper_1_ID AD_Reference_ID=239 */
-public static final int OPER_1_ID_AD_Reference_ID=239;
+	/** Oper_1_ID AD_Reference_ID=239 */
+	public static final int OPER_1_ID_AD_Reference_ID=239;
 	/** Set Operand 1.
 		@param Oper_1_ID 
 		First operand for calculation
 	  */
 	public void setOper_1_ID (int Oper_1_ID)
 	{
-		if (Oper_1_ID <= 0) 		set_Value (COLUMNNAME_Oper_1_ID, null);
- else 
-		set_Value (COLUMNNAME_Oper_1_ID, Integer.valueOf(Oper_1_ID));
+		if (Oper_1_ID <= 0) 
+			set_Value (COLUMNNAME_Oper_1_ID, null);
+		else 
+			set_Value (COLUMNNAME_Oper_1_ID, Integer.valueOf(Oper_1_ID));
 	}
 
 	/** Get Operand 1.
@@ -719,17 +782,18 @@ public static final int OPER_1_ID_AD_Reference_ID=239;
 		return ii.intValue();
 	}
 
-/** Oper_2_ID AD_Reference_ID=239 */
-public static final int OPER_2_ID_AD_Reference_ID=239;
+	/** Oper_2_ID AD_Reference_ID=239 */
+	public static final int OPER_2_ID_AD_Reference_ID=239;
 	/** Set Operand 2.
 		@param Oper_2_ID 
 		Second operand for calculation
 	  */
 	public void setOper_2_ID (int Oper_2_ID)
 	{
-		if (Oper_2_ID <= 0) 		set_Value (COLUMNNAME_Oper_2_ID, null);
- else 
-		set_Value (COLUMNNAME_Oper_2_ID, Integer.valueOf(Oper_2_ID));
+		if (Oper_2_ID <= 0) 
+			set_Value (COLUMNNAME_Oper_2_ID, null);
+		else 
+			set_Value (COLUMNNAME_Oper_2_ID, Integer.valueOf(Oper_2_ID));
 	}
 
 	/** Get Operand 2.
@@ -743,17 +807,18 @@ public static final int OPER_2_ID_AD_Reference_ID=239;
 		return ii.intValue();
 	}
 
-/** Org_ID AD_Reference_ID=130 */
-public static final int ORG_ID_AD_Reference_ID=130;
+	/** Org_ID AD_Reference_ID=130 */
+	public static final int ORG_ID_AD_Reference_ID=130;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client
 	  */
 	public void setOrg_ID (int Org_ID)
 	{
-		if (Org_ID <= 0) 		set_Value (COLUMNNAME_Org_ID, null);
- else 
-		set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));
+		if (Org_ID <= 0) 
+			set_Value (COLUMNNAME_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));
 	}
 
 	/** Get Organization.
@@ -767,7 +832,7 @@ public static final int ORG_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_PA_ReportColumnSet getI_PA_ReportColumnSet() throws Exception 
+	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportColumnSet.Table_Name);
         I_PA_ReportColumnSet result = null;
@@ -827,23 +892,30 @@ public static final int ORG_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-/** PostingType AD_Reference_ID=125 */
-public static final int POSTINGTYPE_AD_Reference_ID=125;/** Actual = A */
-public static final String POSTINGTYPE_Actual = "A";/** Budget = B */
-public static final String POSTINGTYPE_Budget = "B";/** Commitment = E */
-public static final String POSTINGTYPE_Commitment = "E";/** Reservation = R */
-public static final String POSTINGTYPE_Reservation = "R";/** Statistical = S */
-public static final String POSTINGTYPE_Statistical = "S";
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
 	/** Set PostingType.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType)
 	{
-if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");		if (PostingType.length() > 1)
+		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
+		if (PostingType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 0);
+			PostingType = PostingType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}

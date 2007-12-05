@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Persistent 
 {
 
@@ -39,10 +39,12 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
     public X_A_Asset_Delivery (Properties ctx, int A_Asset_Delivery_ID, String trxName)
     {
       super (ctx, A_Asset_Delivery_ID, trxName);
-      /** if (A_Asset_Delivery_ID == 0)        {			setA_Asset_Delivery_ID (0);
+      /** if (A_Asset_Delivery_ID == 0)
+        {
+			setA_Asset_Delivery_ID (0);
 			setA_Asset_ID (0);
 			setMovementDate (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,15 +75,32 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
       return sb.toString();
     }
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -117,7 +136,7 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	public I_A_Asset getI_A_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -161,10 +180,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setDeliveryConfirmation (String DeliveryConfirmation)
 	{
+
 		if (DeliveryConfirmation != null && DeliveryConfirmation.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			DeliveryConfirmation = DeliveryConfirmation.substring(0, 119);
+			DeliveryConfirmation = DeliveryConfirmation.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_DeliveryConfirmation, DeliveryConfirmation);
 	}
@@ -183,10 +203,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -205,10 +226,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_EMail, EMail);
 	}
@@ -227,10 +249,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setLot (String Lot)
 	{
+
 		if (Lot != null && Lot.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Lot = Lot.substring(0, 39);
+			Lot = Lot.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_Lot, Lot);
 	}
@@ -243,15 +266,32 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -265,7 +305,7 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_ProductDownload getI_M_ProductDownload() throws Exception 
+	public I_M_ProductDownload getM_ProductDownload() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductDownload.Table_Name);
         I_M_ProductDownload result = null;
@@ -287,9 +327,10 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setM_ProductDownload_ID (int M_ProductDownload_ID)
 	{
-		if (M_ProductDownload_ID <= 0) 		set_Value (COLUMNNAME_M_ProductDownload_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
+		if (M_ProductDownload_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductDownload_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
 	}
 
 	/** Get Product Download.
@@ -309,10 +350,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setMessageID (String MessageID)
 	{
+
 		if (MessageID != null && MessageID.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			MessageID = MessageID.substring(0, 119);
+			MessageID = MessageID.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
 	}
@@ -358,10 +400,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setReferrer (String Referrer)
 	{
+
 		if (Referrer != null && Referrer.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Referrer = Referrer.substring(0, 254);
+			Referrer = Referrer.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Referrer, Referrer);
 	}
@@ -380,10 +423,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -402,10 +446,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Host = Remote_Host.substring(0, 59);
+			Remote_Host = Remote_Host.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -424,10 +469,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setSerNo (String SerNo)
 	{
+
 		if (SerNo != null && SerNo.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			SerNo = SerNo.substring(0, 39);
+			SerNo = SerNo.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_SerNo, SerNo);
 	}
@@ -446,10 +492,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setURL (String URL)
 	{
+
 		if (URL != null && URL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			URL = URL.substring(0, 119);
+			URL = URL.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_URL, URL);
 	}
@@ -468,10 +515,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setVersionNo (String VersionNo)
 	{
+
 		if (VersionNo != null && VersionNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 19);
+			VersionNo = VersionNo.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_VersionNo, VersionNo);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_MovementLineConfirm
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.687
-     */
-    public interface I_M_MovementLineConfirm 
+/** Generated Interface for M_MovementLineConfirm
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_MovementLineConfirm 
 {
 
     /** TableName=M_MovementLineConfirm */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -110,6 +108,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InventoryLine_ID();
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception;
+
     /** Column name M_MovementConfirm_ID */
     public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
 
@@ -123,7 +123,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_MovementConfirm_ID();
 
-	public I_M_MovementConfirm getI_M_MovementConfirm() throws Exception;
+	public I_M_MovementConfirm getM_MovementConfirm() throws Exception;
 
     /** Column name M_MovementLineConfirm_ID */
     public static final String COLUMNNAME_M_MovementLineConfirm_ID = "M_MovementLineConfirm_ID";
@@ -150,6 +150,8 @@ import org.compiere.util.*;
 	  * Inventory Move document Line
 	  */
 	public int getM_MovementLine_ID();
+
+	public I_M_MovementLine getM_MovementLine() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
     public X_AD_PrintGraph (Properties ctx, int AD_PrintGraph_ID, String trxName)
     {
       super (ctx, AD_PrintGraph_ID, trxName);
-      /** if (AD_PrintGraph_ID == 0)        {			setAD_PrintFormat_ID (0);
+      /** if (AD_PrintGraph_ID == 0)
+        {
+			setAD_PrintFormat_ID (0);
 // 0
 			setAD_PrintGraph_ID (0);
 			setData_PrintFormatItem_ID (0);
 			setDescription_PrintFormatItem_ID (0);
 			setGraphType (null);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +78,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -137,17 +138,18 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-/** Data1_PrintFormatItem_ID AD_Reference_ID=264 */
-public static final int DATA1_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Data1_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DATA1_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 2.
 		@param Data1_PrintFormatItem_ID 
 		Data Column for Line Charts
 	  */
 	public void setData1_PrintFormatItem_ID (int Data1_PrintFormatItem_ID)
 	{
-		if (Data1_PrintFormatItem_ID <= 0) 		set_Value (COLUMNNAME_Data1_PrintFormatItem_ID, null);
- else 
-		set_Value (COLUMNNAME_Data1_PrintFormatItem_ID, Integer.valueOf(Data1_PrintFormatItem_ID));
+		if (Data1_PrintFormatItem_ID <= 0) 
+			set_Value (COLUMNNAME_Data1_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data1_PrintFormatItem_ID, Integer.valueOf(Data1_PrintFormatItem_ID));
 	}
 
 	/** Get Data Column 2.
@@ -161,17 +163,18 @@ public static final int DATA1_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 		return ii.intValue();
 	}
 
-/** Data2_PrintFormatItem_ID AD_Reference_ID=264 */
-public static final int DATA2_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Data2_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DATA2_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 3.
 		@param Data2_PrintFormatItem_ID 
 		Data Column for Line Charts
 	  */
 	public void setData2_PrintFormatItem_ID (int Data2_PrintFormatItem_ID)
 	{
-		if (Data2_PrintFormatItem_ID <= 0) 		set_Value (COLUMNNAME_Data2_PrintFormatItem_ID, null);
- else 
-		set_Value (COLUMNNAME_Data2_PrintFormatItem_ID, Integer.valueOf(Data2_PrintFormatItem_ID));
+		if (Data2_PrintFormatItem_ID <= 0) 
+			set_Value (COLUMNNAME_Data2_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data2_PrintFormatItem_ID, Integer.valueOf(Data2_PrintFormatItem_ID));
 	}
 
 	/** Get Data Column 3.
@@ -185,17 +188,18 @@ public static final int DATA2_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 		return ii.intValue();
 	}
 
-/** Data3_PrintFormatItem_ID AD_Reference_ID=264 */
-public static final int DATA3_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Data3_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DATA3_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 4.
 		@param Data3_PrintFormatItem_ID 
 		Data Column for Line Charts
 	  */
 	public void setData3_PrintFormatItem_ID (int Data3_PrintFormatItem_ID)
 	{
-		if (Data3_PrintFormatItem_ID <= 0) 		set_Value (COLUMNNAME_Data3_PrintFormatItem_ID, null);
- else 
-		set_Value (COLUMNNAME_Data3_PrintFormatItem_ID, Integer.valueOf(Data3_PrintFormatItem_ID));
+		if (Data3_PrintFormatItem_ID <= 0) 
+			set_Value (COLUMNNAME_Data3_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data3_PrintFormatItem_ID, Integer.valueOf(Data3_PrintFormatItem_ID));
 	}
 
 	/** Get Data Column 4.
@@ -209,17 +213,18 @@ public static final int DATA3_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 		return ii.intValue();
 	}
 
-/** Data4_PrintFormatItem_ID AD_Reference_ID=264 */
-public static final int DATA4_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Data4_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DATA4_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 5.
 		@param Data4_PrintFormatItem_ID 
 		Data Column for Line Charts
 	  */
 	public void setData4_PrintFormatItem_ID (int Data4_PrintFormatItem_ID)
 	{
-		if (Data4_PrintFormatItem_ID <= 0) 		set_Value (COLUMNNAME_Data4_PrintFormatItem_ID, null);
- else 
-		set_Value (COLUMNNAME_Data4_PrintFormatItem_ID, Integer.valueOf(Data4_PrintFormatItem_ID));
+		if (Data4_PrintFormatItem_ID <= 0) 
+			set_Value (COLUMNNAME_Data4_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data4_PrintFormatItem_ID, Integer.valueOf(Data4_PrintFormatItem_ID));
 	}
 
 	/** Get Data Column 5.
@@ -233,8 +238,8 @@ public static final int DATA4_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 		return ii.intValue();
 	}
 
-/** Data_PrintFormatItem_ID AD_Reference_ID=264 */
-public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Data_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column.
 		@param Data_PrintFormatItem_ID 
 		Data Column for Pie and Line Charts
@@ -263,10 +268,11 @@ public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -279,8 +285,8 @@ public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** Description_PrintFormatItem_ID AD_Reference_ID=264 */
-public static final int DESCRIPTION_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Description_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DESCRIPTION_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Description Column.
 		@param Description_PrintFormatItem_ID 
 		Description Column for Pie/Line/Bar Charts
@@ -303,21 +309,26 @@ public static final int DESCRIPTION_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 		return ii.intValue();
 	}
 
-/** GraphType AD_Reference_ID=265 */
-public static final int GRAPHTYPE_AD_Reference_ID=265;/** Bar Chart = B */
-public static final String GRAPHTYPE_BarChart = "B";/** Line Chart = L */
-public static final String GRAPHTYPE_LineChart = "L";/** Pie Chart = P */
-public static final String GRAPHTYPE_PieChart = "P";
+	/** GraphType AD_Reference_ID=265 */
+	public static final int GRAPHTYPE_AD_Reference_ID=265;
+	/** Pie Chart = P */
+	public static final String GRAPHTYPE_PieChart = "P";
+	/** Line Chart = L */
+	public static final String GRAPHTYPE_LineChart = "L";
+	/** Bar Chart = B */
+	public static final String GRAPHTYPE_BarChart = "B";
 	/** Set Graph Type.
 		@param GraphType 
 		Type of graph to be painted
 	  */
 	public void setGraphType (String GraphType)
 	{
-if (GraphType == null) throw new IllegalArgumentException ("GraphType is mandatory");if (GraphType.equals("B") || GraphType.equals("L") || GraphType.equals("P")); else throw new IllegalArgumentException ("GraphType Invalid value - " + GraphType + " - Reference_ID=265 - B - L - P");		if (GraphType.length() > 1)
+		if (GraphType == null) throw new IllegalArgumentException ("GraphType is mandatory");
+		if (GraphType.equals("P") || GraphType.equals("L") || GraphType.equals("B")); else throw new IllegalArgumentException ("GraphType Invalid value - " + GraphType + " - Reference_ID=265 - P - L - B");
+		if (GraphType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			GraphType = GraphType.substring(0, 0);
+			GraphType = GraphType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_GraphType, GraphType);
 	}
@@ -338,10 +349,11 @@ if (GraphType == null) throw new IllegalArgumentException ("GraphType is mandato
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

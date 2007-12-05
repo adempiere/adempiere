@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReportView
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
     public X_AD_ReportView (Properties ctx, int AD_ReportView_ID, String trxName)
     {
       super (ctx, AD_ReportView_ID, trxName);
-      /** if (AD_ReportView_ID == 0)        {			setAD_ReportView_ID (0);
+      /** if (AD_ReportView_ID == 0)
+        {
+			setAD_ReportView_ID (0);
 			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,7 +98,7 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -141,10 +142,11 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -157,14 +159,15 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -189,10 +192,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -219,10 +223,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setOrderByClause (String OrderByClause)
 	{
+
 		if (OrderByClause != null && OrderByClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OrderByClause = OrderByClause.substring(0, 1999);
+			OrderByClause = OrderByClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_OrderByClause, OrderByClause);
 	}
@@ -241,10 +246,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setWhereClause (String WhereClause)
 	{
+
 		if (WhereClause != null && WhereClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 1999);
+			WhereClause = WhereClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}

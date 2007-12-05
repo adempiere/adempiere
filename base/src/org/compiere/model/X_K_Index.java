@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_K_Index extends PO implements I_K_Index, I_Persistent 
 {
 
@@ -39,12 +39,14 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
     public X_K_Index (Properties ctx, int K_Index_ID, String trxName)
     {
       super (ctx, K_Index_ID, trxName);
-      /** if (K_Index_ID == 0)        {			setAD_Table_ID (0);
+      /** if (K_Index_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setK_INDEX_ID (0);
 			setKeyword (null);
 			setRecord_ID (0);
 			setSourceUpdated (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +77,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -113,7 +115,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -135,9 +137,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -151,7 +154,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getI_C_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -173,9 +176,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -195,10 +199,11 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setExcerpt (String Excerpt)
 	{
+
 		if (Excerpt != null && Excerpt.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Excerpt = Excerpt.substring(0, 1999);
+			Excerpt = Excerpt.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_Excerpt, Excerpt);
 	}
@@ -241,10 +246,11 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	{
 		if (Keyword == null)
 			throw new IllegalArgumentException ("Keyword is mandatory.");
+
 		if (Keyword.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Keyword = Keyword.substring(0, 254);
+			Keyword = Keyword.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Keyword, Keyword);
 	}
@@ -265,7 +271,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
         return new KeyNamePair(get_ID(), getKeyword());
     }
 
-	public I_R_RequestType getI_R_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -287,9 +293,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+		if (R_RequestType_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
 	}
 
 	/** Get Request Type.

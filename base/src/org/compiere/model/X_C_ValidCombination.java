@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ValidCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
     public X_C_ValidCombination (Properties ctx, int C_ValidCombination_ID, String trxName)
     {
       super (ctx, C_ValidCombination_ID, trxName);
-      /** if (C_ValidCombination_ID == 0)        {			setAccount_ID (0);
+      /** if (C_ValidCombination_ID == 0)
+        {
+			setAccount_ID (0);
 			setC_AcctSchema_ID (0);
 			setC_ValidCombination_ID (0);
 			setIsFullyQualified (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,17 +75,18 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
       return sb.toString();
     }
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -98,8 +100,8 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-/** Account_ID AD_Reference_ID=362 */
-public static final int ACCOUNT_ID_AD_Reference_ID=362;
+	/** Account_ID AD_Reference_ID=362 */
+	public static final int ACCOUNT_ID_AD_Reference_ID=362;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -128,10 +130,11 @@ public static final int ACCOUNT_ID_AD_Reference_ID=362;
 	  */
 	public void setAlias (String Alias)
 	{
+
 		if (Alias != null && Alias.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Alias = Alias.substring(0, 39);
+			Alias = Alias.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Alias, Alias);
 	}
@@ -144,7 +147,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=362;
 		return (String)get_Value(COLUMNNAME_Alias);
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -182,17 +185,18 @@ public static final int ACCOUNT_ID_AD_Reference_ID=362;
 		return ii.intValue();
 	}
 
-/** C_Activity_ID AD_Reference_ID=142 */
-public static final int C_ACTIVITY_ID_AD_Reference_ID=142;
+	/** C_Activity_ID AD_Reference_ID=142 */
+	public static final int C_ACTIVITY_ID_AD_Reference_ID=142;
 	/** Set Activity.
 		@param C_Activity_ID 
 		Business Activity
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -206,17 +210,18 @@ public static final int C_ACTIVITY_ID_AD_Reference_ID=142;
 		return ii.intValue();
 	}
 
-/** C_BPartner_ID AD_Reference_ID=138 */
-public static final int C_BPARTNER_ID_AD_Reference_ID=138;
+	/** C_BPartner_ID AD_Reference_ID=138 */
+	public static final int C_BPARTNER_ID_AD_Reference_ID=138;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -230,17 +235,18 @@ public static final int C_BPARTNER_ID_AD_Reference_ID=138;
 		return ii.intValue();
 	}
 
-/** C_Campaign_ID AD_Reference_ID=143 */
-public static final int C_CAMPAIGN_ID_AD_Reference_ID=143;
+	/** C_Campaign_ID AD_Reference_ID=143 */
+	public static final int C_CAMPAIGN_ID_AD_Reference_ID=143;
 	/** Set Campaign.
 		@param C_Campaign_ID 
 		Marketing Campaign
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -254,17 +260,18 @@ public static final int C_CAMPAIGN_ID_AD_Reference_ID=143;
 		return ii.intValue();
 	}
 
-/** C_LocFrom_ID AD_Reference_ID=133 */
-public static final int C_LOCFROM_ID_AD_Reference_ID=133;
+	/** C_LocFrom_ID AD_Reference_ID=133 */
+	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
 	  */
 	public void setC_LocFrom_ID (int C_LocFrom_ID)
 	{
-		if (C_LocFrom_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
+		if (C_LocFrom_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
 	}
 
 	/** Get Location From.
@@ -278,17 +285,18 @@ public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-/** C_LocTo_ID AD_Reference_ID=133 */
-public static final int C_LOCTO_ID_AD_Reference_ID=133;
+	/** C_LocTo_ID AD_Reference_ID=133 */
+	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
 	  */
 	public void setC_LocTo_ID (int C_LocTo_ID)
 	{
-		if (C_LocTo_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
+		if (C_LocTo_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
 	}
 
 	/** Get Location To.
@@ -302,17 +310,18 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-/** C_Project_ID AD_Reference_ID=141 */
-public static final int C_PROJECT_ID_AD_Reference_ID=141;
+	/** C_Project_ID AD_Reference_ID=141 */
+	public static final int C_PROJECT_ID_AD_Reference_ID=141;
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -326,17 +335,18 @@ public static final int C_PROJECT_ID_AD_Reference_ID=141;
 		return ii.intValue();
 	}
 
-/** C_SalesRegion_ID AD_Reference_ID=144 */
-public static final int C_SALESREGION_ID_AD_Reference_ID=144;
+	/** C_SalesRegion_ID AD_Reference_ID=144 */
+	public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 	/** Set Sales Region.
 		@param C_SalesRegion_ID 
 		Sales coverage region
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+		if (C_SalesRegion_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
 	/** Get Sales Region.
@@ -350,7 +360,7 @@ public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getI_C_SubAcct() throws Exception 
+	public I_C_SubAcct getC_SubAcct() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SubAcct.Table_Name);
         I_C_SubAcct result = null;
@@ -372,9 +382,10 @@ public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 	  */
 	public void setC_SubAcct_ID (int C_SubAcct_ID)
 	{
-		if (C_SubAcct_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
+		if (C_SubAcct_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
 	}
 
 	/** Get Sub Account.
@@ -416,10 +427,11 @@ public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 	  */
 	public void setCombination (String Combination)
 	{
+
 		if (Combination != null && Combination.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Combination = Combination.substring(0, 59);
+			Combination = Combination.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
 	}
@@ -446,10 +458,11 @@ public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Description, Description);
 	}
@@ -486,17 +499,18 @@ public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 		return false;
 	}
 
-/** M_Product_ID AD_Reference_ID=162 */
-public static final int M_PRODUCT_ID_AD_Reference_ID=162;
+	/** M_Product_ID AD_Reference_ID=162 */
+	public static final int M_PRODUCT_ID_AD_Reference_ID=162;
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -510,17 +524,18 @@ public static final int M_PRODUCT_ID_AD_Reference_ID=162;
 		return ii.intValue();
 	}
 
-/** User1_ID AD_Reference_ID=134 */
-public static final int USER1_ID_AD_Reference_ID=134;
+	/** User1_ID AD_Reference_ID=134 */
+	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_User1_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		if (User1_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
 	}
 
 	/** Get User List 1.
@@ -534,17 +549,18 @@ public static final int USER1_ID_AD_Reference_ID=134;
 		return ii.intValue();
 	}
 
-/** User2_ID AD_Reference_ID=137 */
-public static final int USER2_ID_AD_Reference_ID=137;
+	/** User2_ID AD_Reference_ID=137 */
+	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_User2_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		if (User2_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
 	}
 
 	/** Get User List 2.
@@ -564,9 +580,10 @@ public static final int USER2_ID_AD_Reference_ID=137;
 	  */
 	public void setUserElement1_ID (int UserElement1_ID)
 	{
-		if (UserElement1_ID <= 0) 		set_Value (COLUMNNAME_UserElement1_ID, null);
- else 
-		set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+		if (UserElement1_ID <= 0) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
 	}
 
 	/** Get User Element 1.
@@ -586,9 +603,10 @@ public static final int USER2_ID_AD_Reference_ID=137;
 	  */
 	public void setUserElement2_ID (int UserElement2_ID)
 	{
-		if (UserElement2_ID <= 0) 		set_Value (COLUMNNAME_UserElement2_ID, null);
- else 
-		set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+		if (UserElement2_ID <= 0) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
 	}
 
 	/** Get User Element 2.

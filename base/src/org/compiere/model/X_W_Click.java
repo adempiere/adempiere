@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_W_Click extends PO implements I_W_Click, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
     public X_W_Click (Properties ctx, int W_Click_ID, String trxName)
     {
       super (ctx, W_Click_ID, trxName);
-      /** if (W_Click_ID == 0)        {			setProcessed (false);
+      /** if (W_Click_ID == 0)
+        {
+			setProcessed (false);
 			setW_Click_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,9 +79,10 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -100,10 +102,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setAcceptLanguage (String AcceptLanguage)
 	{
+
 		if (AcceptLanguage != null && AcceptLanguage.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AcceptLanguage = AcceptLanguage.substring(0, 59);
+			AcceptLanguage = AcceptLanguage.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
 	}
@@ -122,10 +125,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -168,10 +172,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setReferrer (String Referrer)
 	{
+
 		if (Referrer != null && Referrer.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Referrer = Referrer.substring(0, 119);
+			Referrer = Referrer.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Referrer, Referrer);
 	}
@@ -190,10 +195,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -220,10 +226,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 119);
+			Remote_Host = Remote_Host.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -242,10 +249,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setTargetURL (String TargetURL)
 	{
+
 		if (TargetURL != null && TargetURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			TargetURL = TargetURL.substring(0, 119);
+			TargetURL = TargetURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_TargetURL, TargetURL);
 	}
@@ -264,10 +272,11 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setUserAgent (String UserAgent)
 	{
+
 		if (UserAgent != null && UserAgent.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			UserAgent = UserAgent.substring(0, 254);
+			UserAgent = UserAgent.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_UserAgent, UserAgent);
 	}
@@ -280,7 +289,7 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
-	public I_W_ClickCount getI_W_ClickCount() throws Exception 
+	public I_W_ClickCount getW_ClickCount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_W_ClickCount.Table_Name);
         I_W_ClickCount result = null;
@@ -302,9 +311,10 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setW_ClickCount_ID (int W_ClickCount_ID)
 	{
-		if (W_ClickCount_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));
+		if (W_ClickCount_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));
 	}
 
 	/** Get Click Count.

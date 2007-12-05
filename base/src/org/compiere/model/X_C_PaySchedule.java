@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
     public X_C_PaySchedule (Properties ctx, int C_PaySchedule_ID, String trxName)
     {
       super (ctx, C_PaySchedule_ID, trxName);
-      /** if (C_PaySchedule_ID == 0)        {			setC_PaySchedule_ID (0);
+      /** if (C_PaySchedule_ID == 0)
+        {
+			setC_PaySchedule_ID (0);
 			setC_PaymentTerm_ID (0);
 			setDiscount (Env.ZERO);
 			setDiscountDays (0);
@@ -47,7 +50,7 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 			setIsValid (false);
 			setNetDays (0);
 			setPercentage (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -100,7 +103,7 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -232,25 +235,34 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 		return false;
 	}
 
-/** NetDay AD_Reference_ID=167 */
-public static final int NETDAY_AD_Reference_ID=167;/** Monday = 1 */
-public static final String NETDAY_Monday = "1";/** Tuesday = 2 */
-public static final String NETDAY_Tuesday = "2";/** Wednesday = 3 */
-public static final String NETDAY_Wednesday = "3";/** Thursday = 4 */
-public static final String NETDAY_Thursday = "4";/** Friday = 5 */
-public static final String NETDAY_Friday = "5";/** Saturday = 6 */
-public static final String NETDAY_Saturday = "6";/** Sunday = 7 */
-public static final String NETDAY_Sunday = "7";
+	/** NetDay AD_Reference_ID=167 */
+	public static final int NETDAY_AD_Reference_ID=167;
+	/** Sunday = 7 */
+	public static final String NETDAY_Sunday = "7";
+	/** Monday = 1 */
+	public static final String NETDAY_Monday = "1";
+	/** Tuesday = 2 */
+	public static final String NETDAY_Tuesday = "2";
+	/** Wednesday = 3 */
+	public static final String NETDAY_Wednesday = "3";
+	/** Thursday = 4 */
+	public static final String NETDAY_Thursday = "4";
+	/** Friday = 5 */
+	public static final String NETDAY_Friday = "5";
+	/** Saturday = 6 */
+	public static final String NETDAY_Saturday = "6";
 	/** Set Net Day.
 		@param NetDay 
 		Day when payment is due net
 	  */
 	public void setNetDay (String NetDay)
 	{
-if (NetDay == null || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6") || NetDay.equals("7")); else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");		if (NetDay != null && NetDay.length() > 1)
+
+		if (NetDay == null || NetDay.equals("7") || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6")); else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
+		if (NetDay != null && NetDay.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			NetDay = NetDay.substring(0, 0);
+			NetDay = NetDay.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_NetDay, NetDay);
 	}

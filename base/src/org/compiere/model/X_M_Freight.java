@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Freight extends PO implements I_M_Freight, I_Persistent 
 {
 
@@ -39,13 +41,15 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
     public X_M_Freight (Properties ctx, int M_Freight_ID, String trxName)
     {
       super (ctx, M_Freight_ID, trxName);
-      /** if (M_Freight_ID == 0)        {			setC_Currency_ID (0);
+      /** if (M_Freight_ID == 0)
+        {
+			setC_Currency_ID (0);
 			setFreightAmt (Env.ZERO);
 			setM_FreightCategory_ID (0);
 			setM_Freight_ID (0);
 			setM_Shipper_ID (0);
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +80,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Country getI_C_Country() throws Exception 
+	public I_C_Country getC_Country() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -98,9 +102,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID <= 0) 		set_Value (COLUMNNAME_C_Country_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
+		if (C_Country_ID <= 0) 
+			set_Value (COLUMNNAME_C_Country_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
 	}
 
 	/** Get Country.
@@ -114,7 +119,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -152,7 +157,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Region getI_C_Region() throws Exception 
+	public I_C_Region getC_Region() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
         I_C_Region result = null;
@@ -174,9 +179,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 		set_Value (COLUMNNAME_C_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID <= 0) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -212,7 +218,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return bd;
 	}
 
-	public I_M_FreightCategory getI_M_FreightCategory() throws Exception 
+	public I_M_FreightCategory getM_FreightCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_FreightCategory.Table_Name);
         I_M_FreightCategory result = null;
@@ -272,7 +278,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getI_M_Shipper() throws Exception 
+	public I_M_Shipper getM_Shipper() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -318,17 +324,18 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getM_Shipper_ID()));
     }
 
-/** To_Country_ID AD_Reference_ID=156 */
-public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
+	/** To_Country_ID AD_Reference_ID=156 */
+	public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
 	/** Set To.
 		@param To_Country_ID 
 		Receiving Country
 	  */
 	public void setTo_Country_ID (int To_Country_ID)
 	{
-		if (To_Country_ID <= 0) 		set_Value (COLUMNNAME_To_Country_ID, null);
- else 
-		set_Value (COLUMNNAME_To_Country_ID, Integer.valueOf(To_Country_ID));
+		if (To_Country_ID <= 0) 
+			set_Value (COLUMNNAME_To_Country_ID, null);
+		else 
+			set_Value (COLUMNNAME_To_Country_ID, Integer.valueOf(To_Country_ID));
 	}
 
 	/** Get To.
@@ -342,17 +349,18 @@ public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
 		return ii.intValue();
 	}
 
-/** To_Region_ID AD_Reference_ID=157 */
-public static final int TO_REGION_ID_AD_Reference_ID=157;
+	/** To_Region_ID AD_Reference_ID=157 */
+	public static final int TO_REGION_ID_AD_Reference_ID=157;
 	/** Set To.
 		@param To_Region_ID 
 		Receiving Region
 	  */
 	public void setTo_Region_ID (int To_Region_ID)
 	{
-		if (To_Region_ID <= 0) 		set_Value (COLUMNNAME_To_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_To_Region_ID, Integer.valueOf(To_Region_ID));
+		if (To_Region_ID <= 0) 
+			set_Value (COLUMNNAME_To_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_To_Region_ID, Integer.valueOf(To_Region_ID));
 	}
 
 	/** Get To.

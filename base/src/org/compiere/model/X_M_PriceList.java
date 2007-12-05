@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
     public X_M_PriceList (Properties ctx, int M_PriceList_ID, String trxName)
     {
       super (ctx, M_PriceList_ID, trxName);
-      /** if (M_PriceList_ID == 0)        {			setC_Currency_ID (0);
+      /** if (M_PriceList_ID == 0)
+        {
+			setC_Currency_ID (0);
 			setEnforcePriceLimit (false);
 			setIsDefault (false);
 			setIsSOPriceList (false);
@@ -48,7 +51,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 			setName (null);
 			setPricePrecision (Env.ZERO);
 // 2
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,17 +82,18 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
       return sb.toString();
     }
 
-/** BasePriceList_ID AD_Reference_ID=166 */
-public static final int BASEPRICELIST_ID_AD_Reference_ID=166;
+	/** BasePriceList_ID AD_Reference_ID=166 */
+	public static final int BASEPRICELIST_ID_AD_Reference_ID=166;
 	/** Set Base Pricelist.
 		@param BasePriceList_ID 
 		Pricelist to be used, if product not found on this pricelist
 	  */
 	public void setBasePriceList_ID (int BasePriceList_ID)
 	{
-		if (BasePriceList_ID <= 0) 		set_Value (COLUMNNAME_BasePriceList_ID, null);
- else 
-		set_Value (COLUMNNAME_BasePriceList_ID, Integer.valueOf(BasePriceList_ID));
+		if (BasePriceList_ID <= 0) 
+			set_Value (COLUMNNAME_BasePriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_BasePriceList_ID, Integer.valueOf(BasePriceList_ID));
 	}
 
 	/** Get Base Pricelist.
@@ -103,7 +107,7 @@ public static final int BASEPRICELIST_ID_AD_Reference_ID=166;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -147,10 +151,11 @@ public static final int BASEPRICELIST_ID_AD_Reference_ID=166;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -289,10 +294,11 @@ public static final int BASEPRICELIST_ID_AD_Reference_ID=166;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

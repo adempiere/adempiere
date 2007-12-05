@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_MovementConfirm
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.625
-     */
-    public interface I_M_MovementConfirm 
+/** Generated Interface for M_MovementConfirm
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_MovementConfirm 
 {
 
     /** TableName=M_MovementConfirm */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -149,6 +147,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Inventory_ID();
 
+	public I_M_Inventory getM_Inventory() throws Exception;
+
     /** Column name M_MovementConfirm_ID */
     public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
 
@@ -174,6 +174,8 @@ import org.compiere.util.*;
 	  * Movement of Inventory
 	  */
 	public int getM_Movement_ID();
+
+	public I_M_Movement getM_Movement() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

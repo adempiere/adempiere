@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
     public X_C_DunningLevel (Properties ctx, int C_DunningLevel_ID, String trxName)
     {
       super (ctx, C_DunningLevel_ID, trxName);
-      /** if (C_DunningLevel_ID == 0)        {			setC_DunningLevel_ID (0);
+      /** if (C_DunningLevel_ID == 0)
+        {
+			setC_DunningLevel_ID (0);
 			setC_Dunning_ID (0);
 			setChargeFee (false);
 			setChargeInterest (false);
@@ -51,7 +54,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 			setIsShowNotDue (false);
 			setName (null);
 			setPrintName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -92,7 +95,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	}
 
 	/** Get Dunning Level.
-@return Dunning Level	  */
+		@return Dunning Level	  */
 	public int getC_DunningLevel_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
@@ -101,7 +104,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getI_C_Dunning() throws Exception 
+	public I_C_Dunning getC_Dunning() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
         I_C_Dunning result = null;
@@ -139,7 +142,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -161,9 +164,10 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 		set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
- else 
-		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID <= 0) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -273,10 +277,11 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -289,17 +294,18 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** Dunning_PrintFormat_ID AD_Reference_ID=259 */
-public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
+	/** Dunning_PrintFormat_ID AD_Reference_ID=259 */
+	public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
 	/** Set Dunning Print Format.
 		@param Dunning_PrintFormat_ID 
 		Print Format for printing Dunning Letters
 	  */
 	public void setDunning_PrintFormat_ID (int Dunning_PrintFormat_ID)
 	{
-		if (Dunning_PrintFormat_ID <= 0) 		set_Value (COLUMNNAME_Dunning_PrintFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_Dunning_PrintFormat_ID, Integer.valueOf(Dunning_PrintFormat_ID));
+		if (Dunning_PrintFormat_ID <= 0) 
+			set_Value (COLUMNNAME_Dunning_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_Dunning_PrintFormat_ID, Integer.valueOf(Dunning_PrintFormat_ID));
 	}
 
 	/** Get Dunning Print Format.
@@ -457,10 +463,11 @@ public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -487,10 +494,11 @@ public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
 	  */
 	public void setNote (String Note)
 	{
+
 		if (Note != null && Note.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 1999);
+			Note = Note.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
@@ -511,10 +519,11 @@ public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
 	{
 		if (PrintName == null)
 			throw new IllegalArgumentException ("PrintName is mandatory.");
+
 		if (PrintName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			PrintName = PrintName.substring(0, 59);
+			PrintName = PrintName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}

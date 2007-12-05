@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_Default
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
     public X_C_AcctSchema_Default (Properties ctx, int C_AcctSchema_Default_ID, String trxName)
     {
       super (ctx, C_AcctSchema_Default_ID, trxName);
-      /** if (C_AcctSchema_Default_ID == 0)        {			setB_Asset_Acct (0);
+      /** if (C_AcctSchema_Default_ID == 0)
+        {
+			setB_Asset_Acct (0);
 			setB_Expense_Acct (0);
 			setB_InTransit_Acct (0);
 			setB_InterestExp_Acct (0);
@@ -100,7 +101,7 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 			setW_Revaluation_Acct (0);
 			setWithholding_Acct (0);
 			setWriteOff_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -471,7 +472,7 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -1005,7 +1006,7 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

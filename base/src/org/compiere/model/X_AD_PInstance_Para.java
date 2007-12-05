@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PInstance_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Persistent 
 {
 
@@ -39,9 +41,11 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
     public X_AD_PInstance_Para (Properties ctx, int AD_PInstance_Para_ID, String trxName)
     {
       super (ctx, AD_PInstance_Para_ID, trxName);
-      /** if (AD_PInstance_Para_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (AD_PInstance_Para_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +76,7 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -116,10 +120,11 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	  */
 	public void setInfo (String Info)
 	{
+
 		if (Info != null && Info.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Info = Info.substring(0, 59);
+			Info = Info.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Info, Info);
 	}
@@ -136,16 +141,17 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 		@param Info_To Info To	  */
 	public void setInfo_To (String Info_To)
 	{
+
 		if (Info_To != null && Info_To.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Info_To = Info_To.substring(0, 59);
+			Info_To = Info_To.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Info_To, Info_To);
 	}
 
 	/** Get Info To.
-@return Info To	  */
+		@return Info To	  */
 	public String getInfo_To () 
 	{
 		return (String)get_Value(COLUMNNAME_Info_To);
@@ -231,10 +237,11 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	  */
 	public void setP_String (String P_String)
 	{
+
 		if (P_String != null && P_String.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			P_String = P_String.substring(0, 59);
+			P_String = P_String.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_P_String, P_String);
 	}
@@ -253,10 +260,11 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	  */
 	public void setP_String_To (String P_String_To)
 	{
+
 		if (P_String_To != null && P_String_To.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			P_String_To = P_String_To.substring(0, 59);
+			P_String_To = P_String_To.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_P_String_To, P_String_To);
 	}
@@ -273,16 +281,17 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 		@param ParameterName Parameter Name	  */
 	public void setParameterName (String ParameterName)
 	{
+
 		if (ParameterName != null && ParameterName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ParameterName = ParameterName.substring(0, 59);
+			ParameterName = ParameterName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ParameterName, ParameterName);
 	}
 
 	/** Get Parameter Name.
-@return Parameter Name	  */
+		@return Parameter Name	  */
 	public String getParameterName () 
 	{
 		return (String)get_Value(COLUMNNAME_ParameterName);

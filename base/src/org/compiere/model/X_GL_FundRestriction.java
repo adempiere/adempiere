@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_FundRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
     public X_GL_FundRestriction (Properties ctx, int GL_FundRestriction_ID, String trxName)
     {
       super (ctx, GL_FundRestriction_ID, trxName);
-      /** if (GL_FundRestriction_ID == 0)        {			setC_ElementValue_ID (0);
+      /** if (GL_FundRestriction_ID == 0)
+        {
+			setC_ElementValue_ID (0);
 			setGL_FundRestriction_ID (0);
 			setGL_Fund_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,6 +75,22 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
       return sb.toString();
     }
 
+	public I_C_ElementValue getC_ElementValue() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
+        I_C_ElementValue result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ElementValue)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ElementValue_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Account Element.
 		@param C_ElementValue_ID 
 		Account Element
@@ -102,10 +119,11 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -140,7 +158,7 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_GL_Fund getI_GL_Fund() throws Exception 
+	public I_GL_Fund getGL_Fund() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Fund.Table_Name);
         I_GL_Fund result = null;
@@ -186,10 +204,11 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
     public X_C_ProjectLine (Properties ctx, int C_ProjectLine_ID, String trxName)
     {
       super (ctx, C_ProjectLine_ID, trxName);
-      /** if (C_ProjectLine_ID == 0)        {			setC_ProjectLine_ID (0);
+      /** if (C_ProjectLine_ID == 0)
+        {
+			setC_ProjectLine_ID (0);
 			setC_Project_ID (0);
 			setInvoicedAmt (Env.ZERO);
 			setInvoicedQty (Env.ZERO);
@@ -55,7 +58,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 // 1
 			setProcessed (false);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -86,17 +89,18 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
       return sb.toString();
     }
 
-/** C_OrderPO_ID AD_Reference_ID=290 */
-public static final int C_ORDERPO_ID_AD_Reference_ID=290;
+	/** C_OrderPO_ID AD_Reference_ID=290 */
+	public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 	/** Set Purchase Order.
 		@param C_OrderPO_ID 
 		Purchase Order
 	  */
 	public void setC_OrderPO_ID (int C_OrderPO_ID)
 	{
-		if (C_OrderPO_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, Integer.valueOf(C_OrderPO_ID));
+		if (C_OrderPO_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, Integer.valueOf(C_OrderPO_ID));
 	}
 
 	/** Get Purchase Order.
@@ -110,15 +114,32 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -132,7 +153,7 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
-	public I_C_ProjectIssue getI_C_ProjectIssue() throws Exception 
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
         I_C_ProjectIssue result = null;
@@ -154,9 +175,10 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 	  */
 	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 	{
-		if (C_ProjectIssue_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
+		if (C_ProjectIssue_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
 	}
 
 	/** Get Project Issue.
@@ -192,7 +214,7 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getI_C_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -214,9 +236,10 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 	  */
 	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 	{
-		if (C_ProjectPhase_ID <= 0) 		set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
+		if (C_ProjectPhase_ID <= 0) 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
 	}
 
 	/** Get Project Phase.
@@ -230,7 +253,7 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getI_C_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -252,9 +275,10 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 	  */
 	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 	{
-		if (C_ProjectTask_ID <= 0) 		set_Value (COLUMNNAME_C_ProjectTask_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
+		if (C_ProjectTask_ID <= 0) 
+			set_Value (COLUMNNAME_C_ProjectTask_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
 	}
 
 	/** Get Project Task.
@@ -268,7 +292,7 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -352,10 +376,11 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -372,16 +397,17 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		@param DoPricing Pricing	  */
 	public void setDoPricing (String DoPricing)
 	{
+
 		if (DoPricing != null && DoPricing.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DoPricing = DoPricing.substring(0, 0);
+			DoPricing = DoPricing.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DoPricing, DoPricing);
 	}
 
 	/** Get Pricing.
-@return Pricing	  */
+		@return Pricing	  */
 	public String getDoPricing () 
 	{
 		return (String)get_Value(COLUMNNAME_DoPricing);
@@ -483,7 +509,7 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -505,9 +531,10 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -521,15 +548,32 @@ public static final int C_ORDERPO_ID_AD_Reference_ID=290;
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

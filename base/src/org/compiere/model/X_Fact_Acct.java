@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Fact_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
     public X_Fact_Acct (Properties ctx, int Fact_Acct_ID, String trxName)
     {
       super (ctx, Fact_Acct_ID, trxName);
-      /** if (Fact_Acct_ID == 0)        {			setAD_Table_ID (0);
+      /** if (Fact_Acct_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setAccount_ID (0);
 			setAmtAcctCr (Env.ZERO);
 			setAmtAcctDr (Env.ZERO);
@@ -54,7 +58,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 			setGL_Category_ID (0);
 			setPostingType (null);
 			setRecord_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,17 +89,18 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
       return sb.toString();
     }
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -109,7 +114,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -153,9 +158,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 		set_Value (COLUMNNAME_A_Asset_ID, null);
- else 
-		set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID <= 0) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -169,8 +175,8 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-/** Account_ID AD_Reference_ID=132 */
-public static final int ACCOUNT_ID_AD_Reference_ID=132;
+	/** Account_ID AD_Reference_ID=132 */
+	public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -281,7 +287,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return bd;
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -319,7 +325,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -341,9 +347,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -357,15 +364,32 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -379,7 +403,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -401,9 +425,10 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -417,7 +442,7 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -455,17 +480,18 @@ public static final int ACCOUNT_ID_AD_Reference_ID=132;
 		return ii.intValue();
 	}
 
-/** C_LocFrom_ID AD_Reference_ID=133 */
-public static final int C_LOCFROM_ID_AD_Reference_ID=133;
+	/** C_LocFrom_ID AD_Reference_ID=133 */
+	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
 	  */
 	public void setC_LocFrom_ID (int C_LocFrom_ID)
 	{
-		if (C_LocFrom_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
+		if (C_LocFrom_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
 	}
 
 	/** Get Location From.
@@ -479,17 +505,18 @@ public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-/** C_LocTo_ID AD_Reference_ID=133 */
-public static final int C_LOCTO_ID_AD_Reference_ID=133;
+	/** C_LocTo_ID AD_Reference_ID=133 */
+	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
 	  */
 	public void setC_LocTo_ID (int C_LocTo_ID)
 	{
-		if (C_LocTo_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
+		if (C_LocTo_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
 	}
 
 	/** Get Location To.
@@ -503,7 +530,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_Period getI_C_Period() throws Exception 
+	public I_C_Period getC_Period() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -541,7 +568,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getI_C_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -563,9 +590,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 	{
-		if (C_ProjectPhase_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
+		if (C_ProjectPhase_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
 	}
 
 	/** Get Project Phase.
@@ -579,7 +607,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getI_C_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -601,9 +629,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 	{
-		if (C_ProjectTask_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
+		if (C_ProjectTask_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
 	}
 
 	/** Get Project Task.
@@ -617,7 +646,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -639,9 +668,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -655,7 +685,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -677,9 +707,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+		if (C_SalesRegion_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
 	/** Get Sales Region.
@@ -693,7 +724,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getI_C_SubAcct() throws Exception 
+	public I_C_SubAcct getC_SubAcct() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SubAcct.Table_Name);
         I_C_SubAcct result = null;
@@ -715,9 +746,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_SubAcct_ID (int C_SubAcct_ID)
 	{
-		if (C_SubAcct_ID <= 0) 		set_Value (COLUMNNAME_C_SubAcct_ID, null);
- else 
-		set_Value (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
+		if (C_SubAcct_ID <= 0) 
+			set_Value (COLUMNNAME_C_SubAcct_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
 	}
 
 	/** Get Sub Account.
@@ -731,7 +763,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_Tax getI_C_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -753,9 +785,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -769,7 +802,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -791,9 +824,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -851,10 +885,11 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -877,7 +912,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	}
 
 	/** Get Accounting Fact.
-@return Accounting Fact	  */
+		@return Accounting Fact	  */
 	public int getFact_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Fact_Acct_ID);
@@ -894,7 +929,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
         return new KeyNamePair(get_ID(), String.valueOf(getFact_Acct_ID()));
     }
 
-	public I_GL_Budget getI_GL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -916,9 +951,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -932,7 +968,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_GL_Category getI_GL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -976,9 +1012,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setLine_ID (int Line_ID)
 	{
-		if (Line_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Line_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Line_ID, Integer.valueOf(Line_ID));
+		if (Line_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Line_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Line_ID, Integer.valueOf(Line_ID));
 	}
 
 	/** Get Line ID.
@@ -992,7 +1029,7 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-	public I_M_Locator getI_M_Locator() throws Exception 
+	public I_M_Locator getM_Locator() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Locator.Table_Name);
         I_M_Locator result = null;
@@ -1014,9 +1051,10 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_Locator_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -1030,15 +1068,32 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -1052,23 +1107,30 @@ public static final int C_LOCTO_ID_AD_Reference_ID=133;
 		return ii.intValue();
 	}
 
-/** PostingType AD_Reference_ID=125 */
-public static final int POSTINGTYPE_AD_Reference_ID=125;/** Actual = A */
-public static final String POSTINGTYPE_Actual = "A";/** Budget = B */
-public static final String POSTINGTYPE_Budget = "B";/** Commitment = E */
-public static final String POSTINGTYPE_Commitment = "E";/** Reservation = R */
-public static final String POSTINGTYPE_Reservation = "R";/** Statistical = S */
-public static final String POSTINGTYPE_Statistical = "S";
+	/** PostingType AD_Reference_ID=125 */
+	public static final int POSTINGTYPE_AD_Reference_ID=125;
+	/** Actual = A */
+	public static final String POSTINGTYPE_Actual = "A";
+	/** Budget = B */
+	public static final String POSTINGTYPE_Budget = "B";
+	/** Commitment = E */
+	public static final String POSTINGTYPE_Commitment = "E";
+	/** Statistical = S */
+	public static final String POSTINGTYPE_Statistical = "S";
+	/** Reservation = R */
+	public static final String POSTINGTYPE_Reservation = "R";
 	/** Set PostingType.
 		@param PostingType 
 		The type of posted amount for the transaction
 	  */
 	public void setPostingType (String PostingType)
 	{
-if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("R") || PostingType.equals("S")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - R - S");		if (PostingType.length() > 1)
+		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
+		if (PostingType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 0);
+			PostingType = PostingType.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
 	}
@@ -1123,17 +1185,18 @@ if (PostingType == null) throw new IllegalArgumentException ("PostingType is man
 		return ii.intValue();
 	}
 
-/** User1_ID AD_Reference_ID=134 */
-public static final int USER1_ID_AD_Reference_ID=134;
+	/** User1_ID AD_Reference_ID=134 */
+	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_User1_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		if (User1_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
 	}
 
 	/** Get User List 1.
@@ -1147,17 +1210,18 @@ public static final int USER1_ID_AD_Reference_ID=134;
 		return ii.intValue();
 	}
 
-/** User2_ID AD_Reference_ID=137 */
-public static final int USER2_ID_AD_Reference_ID=137;
+	/** User2_ID AD_Reference_ID=137 */
+	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_User2_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		if (User2_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
 	}
 
 	/** Get User List 2.
@@ -1177,9 +1241,10 @@ public static final int USER2_ID_AD_Reference_ID=137;
 	  */
 	public void setUserElement1_ID (int UserElement1_ID)
 	{
-		if (UserElement1_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_UserElement1_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+		if (UserElement1_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
 	}
 
 	/** Get User Element 1.
@@ -1199,9 +1264,10 @@ public static final int USER2_ID_AD_Reference_ID=137;
 	  */
 	public void setUserElement2_ID (int UserElement2_ID)
 	{
-		if (UserElement2_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_UserElement2_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+		if (UserElement2_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
 	}
 
 	/** Get User Element 2.

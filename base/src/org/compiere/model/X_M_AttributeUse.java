@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeUse
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
     public X_M_AttributeUse (Properties ctx, int M_AttributeUse_ID, String trxName)
     {
       super (ctx, M_AttributeUse_ID, trxName);
-      /** if (M_AttributeUse_ID == 0)        {			setM_AttributeSet_ID (0);
+      /** if (M_AttributeUse_ID == 0)
+        {
+			setM_AttributeSet_ID (0);
 			setM_Attribute_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_AttributeUse WHERE M_AttributeSet_ID=@M_AttributeSet_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
       return sb.toString();
     }
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception 
+	public I_M_AttributeSet getM_AttributeSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
         I_M_AttributeSet result = null;
@@ -120,7 +121,7 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSet_ID()));
     }
 
-	public I_M_Attribute getI_M_Attribute() throws Exception 
+	public I_M_Attribute getM_Attribute() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
         I_M_Attribute result = null;

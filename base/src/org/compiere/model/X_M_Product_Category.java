@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Product_Category extends PO implements I_M_Product_Category, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
     public X_M_Product_Category (Properties ctx, int M_Product_Category_ID, String trxName)
     {
       super (ctx, M_Product_Category_ID, trxName);
-      /** if (M_Product_Category_ID == 0)        {			setIsDefault (false);
+      /** if (M_Product_Category_ID == 0)
+        {
+			setIsDefault (false);
 			setIsSelfService (true);
 // Y
 			setMMPolicy (null);
@@ -48,7 +51,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 			setName (null);
 			setPlannedMargin (Env.ZERO);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +82,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
       return sb.toString();
     }
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -101,9 +104,10 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
+		if (AD_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
 	}
 
 	/** Get Print Color.
@@ -117,7 +121,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return ii.intValue();
 	}
 
-	public I_A_Asset_Group getI_A_Asset_Group() throws Exception 
+	public I_A_Asset_Group getA_Asset_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
         I_A_Asset_Group result = null;
@@ -139,9 +143,10 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
 	{
-		if (A_Asset_Group_ID <= 0) 		set_Value (COLUMNNAME_A_Asset_Group_ID, null);
- else 
-		set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
+		if (A_Asset_Group_ID <= 0) 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
 	}
 
 	/** Get Asset Group.
@@ -161,10 +166,11 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -225,20 +231,24 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return false;
 	}
 
-/** MMPolicy AD_Reference_ID=335 */
-public static final int MMPOLICY_AD_Reference_ID=335;/** FiFo = F */
-public static final String MMPOLICY_FiFo = "F";/** LiFo = L */
-public static final String MMPOLICY_LiFo = "L";
+	/** MMPolicy AD_Reference_ID=335 */
+	public static final int MMPOLICY_AD_Reference_ID=335;
+	/** LiFo = L */
+	public static final String MMPOLICY_LiFo = "L";
+	/** FiFo = F */
+	public static final String MMPOLICY_FiFo = "F";
 	/** Set Material Policy.
 		@param MMPolicy 
 		Material Movement Policy
 	  */
 	public void setMMPolicy (String MMPolicy)
 	{
-if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");if (MMPolicy.equals("F") || MMPolicy.equals("L")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - F - L");		if (MMPolicy.length() > 1)
+		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
+		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");
+		if (MMPolicy.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MMPolicy = MMPolicy.substring(0, 0);
+			MMPolicy = MMPolicy.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
@@ -273,19 +283,20 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 		return ii.intValue();
 	}
 
-/** M_Product_Category_Parent_ID AD_Reference_ID=163 */
-public static final int M_PRODUCT_CATEGORY_PARENT_ID_AD_Reference_ID=163;
+	/** M_Product_Category_Parent_ID AD_Reference_ID=163 */
+	public static final int M_PRODUCT_CATEGORY_PARENT_ID_AD_Reference_ID=163;
 	/** Set Parent Product Category.
 		@param M_Product_Category_Parent_ID Parent Product Category	  */
 	public void setM_Product_Category_Parent_ID (int M_Product_Category_Parent_ID)
 	{
-		if (M_Product_Category_Parent_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_Parent_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_Parent_ID, Integer.valueOf(M_Product_Category_Parent_ID));
+		if (M_Product_Category_Parent_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_Parent_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_Parent_ID, Integer.valueOf(M_Product_Category_Parent_ID));
 	}
 
 	/** Get Parent Product Category.
-@return Parent Product Category	  */
+		@return Parent Product Category	  */
 	public int getM_Product_Category_Parent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Category_Parent_ID);
@@ -302,10 +313,11 @@ public static final int M_PRODUCT_CATEGORY_PARENT_ID_AD_Reference_ID=163;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -356,10 +368,11 @@ public static final int M_PRODUCT_CATEGORY_PARENT_ID_AD_Reference_ID=163;
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

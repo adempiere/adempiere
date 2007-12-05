@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
     public X_C_BP_Group (Properties ctx, int C_BP_Group_ID, String trxName)
     {
       super (ctx, C_BP_Group_ID, trxName);
-      /** if (C_BP_Group_ID == 0)        {			setC_BP_Group_ID (0);
+      /** if (C_BP_Group_ID == 0)
+        {
+			setC_BP_Group_ID (0);
 			setIsConfidentialInfo (false);
 // N
 			setIsDefault (false);
 			setName (null);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +79,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -98,9 +101,10 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
+		if (AD_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
 	}
 
 	/** Get Print Color.
@@ -136,7 +140,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getI_C_Dunning() throws Exception 
+	public I_C_Dunning getC_Dunning() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
         I_C_Dunning result = null;
@@ -158,9 +162,10 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	  */
 	public void setC_Dunning_ID (int C_Dunning_ID)
 	{
-		if (C_Dunning_ID <= 0) 		set_Value (COLUMNNAME_C_Dunning_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
+		if (C_Dunning_ID <= 0) 
+			set_Value (COLUMNNAME_C_Dunning_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
 	}
 
 	/** Get Dunning.
@@ -200,10 +205,11 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -264,17 +270,18 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return false;
 	}
 
-/** M_DiscountSchema_ID AD_Reference_ID=325 */
-public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
+	/** M_DiscountSchema_ID AD_Reference_ID=325 */
+	public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	/** Set Discount Schema.
 		@param M_DiscountSchema_ID 
 		Schema to calculate the trade discount percentage
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID <= 0) 		set_Value (COLUMNNAME_M_DiscountSchema_ID, null);
- else 
-		set_Value (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
+		if (M_DiscountSchema_ID <= 0) 
+			set_Value (COLUMNNAME_M_DiscountSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
 	}
 
 	/** Get Discount Schema.
@@ -288,7 +295,7 @@ public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getI_M_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -310,9 +317,10 @@ public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID <= 0) 		set_Value (COLUMNNAME_M_PriceList_ID, null);
- else 
-		set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID <= 0) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -334,10 +342,11 @@ public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -358,17 +367,18 @@ public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** PO_DiscountSchema_ID AD_Reference_ID=325 */
-public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
+	/** PO_DiscountSchema_ID AD_Reference_ID=325 */
+	public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	/** Set PO Discount Schema.
 		@param PO_DiscountSchema_ID 
 		Schema to calculate the purchase trade discount percentage
 	  */
 	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID)
 	{
-		if (PO_DiscountSchema_ID <= 0) 		set_Value (COLUMNNAME_PO_DiscountSchema_ID, null);
- else 
-		set_Value (COLUMNNAME_PO_DiscountSchema_ID, Integer.valueOf(PO_DiscountSchema_ID));
+		if (PO_DiscountSchema_ID <= 0) 
+			set_Value (COLUMNNAME_PO_DiscountSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_PO_DiscountSchema_ID, Integer.valueOf(PO_DiscountSchema_ID));
 	}
 
 	/** Get PO Discount Schema.
@@ -382,17 +392,18 @@ public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 		return ii.intValue();
 	}
 
-/** PO_PriceList_ID AD_Reference_ID=166 */
-public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
+	/** PO_PriceList_ID AD_Reference_ID=166 */
+	public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
 		Price List used by this Business Partner
 	  */
 	public void setPO_PriceList_ID (int PO_PriceList_ID)
 	{
-		if (PO_PriceList_ID <= 0) 		set_Value (COLUMNNAME_PO_PriceList_ID, null);
- else 
-		set_Value (COLUMNNAME_PO_PriceList_ID, Integer.valueOf(PO_PriceList_ID));
+		if (PO_PriceList_ID <= 0) 
+			set_Value (COLUMNNAME_PO_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_PO_PriceList_ID, Integer.valueOf(PO_PriceList_ID));
 	}
 
 	/** Get Purchase Pricelist.
@@ -426,21 +437,26 @@ public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 		return bd;
 	}
 
-/** PriorityBase AD_Reference_ID=350 */
-public static final int PRIORITYBASE_AD_Reference_ID=350;/** Higher = H */
-public static final String PRIORITYBASE_Higher = "H";/** Lower = L */
-public static final String PRIORITYBASE_Lower = "L";/** Same = S */
-public static final String PRIORITYBASE_Same = "S";
+	/** PriorityBase AD_Reference_ID=350 */
+	public static final int PRIORITYBASE_AD_Reference_ID=350;
+	/** Same = S */
+	public static final String PRIORITYBASE_Same = "S";
+	/** Lower = L */
+	public static final String PRIORITYBASE_Lower = "L";
+	/** Higher = H */
+	public static final String PRIORITYBASE_Higher = "H";
 	/** Set Priority Base.
 		@param PriorityBase 
 		Base of Priority
 	  */
 	public void setPriorityBase (String PriorityBase)
 	{
-if (PriorityBase == null || PriorityBase.equals("H") || PriorityBase.equals("L") || PriorityBase.equals("S")); else throw new IllegalArgumentException ("PriorityBase Invalid value - " + PriorityBase + " - Reference_ID=350 - H - L - S");		if (PriorityBase != null && PriorityBase.length() > 1)
+
+		if (PriorityBase == null || PriorityBase.equals("S") || PriorityBase.equals("L") || PriorityBase.equals("H")); else throw new IllegalArgumentException ("PriorityBase Invalid value - " + PriorityBase + " - Reference_ID=350 - S - L - H");
+		if (PriorityBase != null && PriorityBase.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PriorityBase = PriorityBase.substring(0, 0);
+			PriorityBase = PriorityBase.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_PriorityBase, PriorityBase);
 	}
@@ -461,10 +477,11 @@ if (PriorityBase == null || PriorityBase.equals("H") || PriorityBase.equals("L")
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

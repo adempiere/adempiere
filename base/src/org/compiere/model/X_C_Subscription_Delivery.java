@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Subscription_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_Delivery, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
     public X_C_Subscription_Delivery (Properties ctx, int C_Subscription_Delivery_ID, String trxName)
     {
       super (ctx, C_Subscription_Delivery_ID, trxName);
-      /** if (C_Subscription_Delivery_ID == 0)        {			setC_Subscription_Delivery_ID (0);
+      /** if (C_Subscription_Delivery_ID == 0)
+        {
+			setC_Subscription_Delivery_ID (0);
 			setC_Subscription_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -102,7 +103,7 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
         return new KeyNamePair(get_ID(), String.valueOf(getC_Subscription_Delivery_ID()));
     }
 
-	public I_C_Subscription getI_C_Subscription() throws Exception 
+	public I_C_Subscription getC_Subscription() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Subscription.Table_Name);
         I_C_Subscription result = null;

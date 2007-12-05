@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_BOM extends PO implements I_M_BOM, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
     public X_M_BOM (Properties ctx, int M_BOM_ID, String trxName)
     {
       super (ctx, M_BOM_ID, trxName);
-      /** if (M_BOM_ID == 0)        {			setBOMType (null);
+      /** if (M_BOM_ID == 0)
+        {
+			setBOMType (null);
 // A
 			setBOMUse (null);
 // A
 			setM_BOM_ID (0);
 			setM_Product_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,25 +78,34 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
       return sb.toString();
     }
 
-/** BOMType AD_Reference_ID=347 */
-public static final int BOMTYPE_AD_Reference_ID=347;/** Current Active = A */
-public static final String BOMTYPE_CurrentActive = "A";/** Future = F */
-public static final String BOMTYPE_Future = "F";/** Maintenance = M */
-public static final String BOMTYPE_Maintenance = "M";/** Make-To-Order = O */
-public static final String BOMTYPE_Make_To_Order = "O";/** Previous = P */
-public static final String BOMTYPE_Previous = "P";/** Repair = R */
-public static final String BOMTYPE_Repair = "R";/** Previous, Spare = S */
-public static final String BOMTYPE_PreviousSpare = "S";
+	/** BOMType AD_Reference_ID=347 */
+	public static final int BOMTYPE_AD_Reference_ID=347;
+	/** Current Active = A */
+	public static final String BOMTYPE_CurrentActive = "A";
+	/** Make-To-Order = O */
+	public static final String BOMTYPE_Make_To_Order = "O";
+	/** Previous = P */
+	public static final String BOMTYPE_Previous = "P";
+	/** Previous, Spare = S */
+	public static final String BOMTYPE_PreviousSpare = "S";
+	/** Future = F */
+	public static final String BOMTYPE_Future = "F";
+	/** Maintenance = M */
+	public static final String BOMTYPE_Maintenance = "M";
+	/** Repair = R */
+	public static final String BOMTYPE_Repair = "R";
 	/** Set BOM Type.
 		@param BOMType 
 		Type of BOM
 	  */
 	public void setBOMType (String BOMType)
 	{
-if (BOMType == null) throw new IllegalArgumentException ("BOMType is mandatory");if (BOMType.equals("A") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("R") || BOMType.equals("S")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - F - M - O - P - R - S");		if (BOMType.length() > 1)
+		if (BOMType == null) throw new IllegalArgumentException ("BOMType is mandatory");
+		if (BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R");
+		if (BOMType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BOMType = BOMType.substring(0, 0);
+			BOMType = BOMType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
@@ -108,22 +118,28 @@ if (BOMType == null) throw new IllegalArgumentException ("BOMType is mandatory")
 		return (String)get_Value(COLUMNNAME_BOMType);
 	}
 
-/** BOMUse AD_Reference_ID=348 */
-public static final int BOMUSE_AD_Reference_ID=348;/** Master = A */
-public static final String BOMUSE_Master = "A";/** Engineering = E */
-public static final String BOMUSE_Engineering = "E";/** Manufacturing = M */
-public static final String BOMUSE_Manufacturing = "M";/** Planning = P */
-public static final String BOMUSE_Planning = "P";
+	/** BOMUse AD_Reference_ID=348 */
+	public static final int BOMUSE_AD_Reference_ID=348;
+	/** Master = A */
+	public static final String BOMUSE_Master = "A";
+	/** Engineering = E */
+	public static final String BOMUSE_Engineering = "E";
+	/** Manufacturing = M */
+	public static final String BOMUSE_Manufacturing = "M";
+	/** Planning = P */
+	public static final String BOMUSE_Planning = "P";
 	/** Set BOM Use.
 		@param BOMUse 
 		The use of the Bill of Material
 	  */
 	public void setBOMUse (String BOMUse)
 	{
-if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");if (BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P");		if (BOMUse.length() > 1)
+		if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");
+		if (BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P");
+		if (BOMUse.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BOMUse = BOMUse.substring(0, 0);
+			BOMUse = BOMUse.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BOMUse, BOMUse);
 	}
@@ -142,10 +158,11 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -164,10 +181,11 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -202,7 +220,7 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getI_M_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -224,9 +242,10 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 		set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
+		if (M_ChangeNotice_ID <= 0) 
+			set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
 	}
 
 	/** Get Change Notice.
@@ -239,6 +258,22 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -270,10 +305,11 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -302,7 +338,7 @@ if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");i
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

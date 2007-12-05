@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Location extends PO implements I_C_Location, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
     public X_C_Location (Properties ctx, int C_Location_ID, String trxName)
     {
       super (ctx, C_Location_ID, trxName);
-      /** if (C_Location_ID == 0)        {			setC_Country_ID (0);
+      /** if (C_Location_ID == 0)
+        {
+			setC_Country_ID (0);
 			setC_Location_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +79,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress1 (String Address1)
 	{
+
 		if (Address1 != null && Address1.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 59);
+			Address1 = Address1.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address1, Address1);
 	}
@@ -100,10 +102,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress2 (String Address2)
 	{
+
 		if (Address2 != null && Address2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 59);
+			Address2 = Address2.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address2, Address2);
 	}
@@ -122,10 +125,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress3 (String Address3)
 	{
+
 		if (Address3 != null && Address3.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address3 = Address3.substring(0, 59);
+			Address3 = Address3.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address3, Address3);
 	}
@@ -144,10 +148,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress4 (String Address4)
 	{
+
 		if (Address4 != null && Address4.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Address4 = Address4.substring(0, 59);
+			Address4 = Address4.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Address4, Address4);
 	}
@@ -160,15 +165,32 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address4);
 	}
 
+	public I_C_City getC_City() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_City.Table_Name);
+        I_C_City result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_City)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_City_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set City.
 		@param C_City_ID 
 		City
 	  */
 	public void setC_City_ID (int C_City_ID)
 	{
-		if (C_City_ID <= 0) 		set_Value (COLUMNNAME_C_City_ID, null);
- else 
-		set_Value (COLUMNNAME_C_City_ID, Integer.valueOf(C_City_ID));
+		if (C_City_ID <= 0) 
+			set_Value (COLUMNNAME_C_City_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_City_ID, Integer.valueOf(C_City_ID));
 	}
 
 	/** Get City.
@@ -182,7 +204,7 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getI_C_Country() throws Exception 
+	public I_C_Country getC_Country() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -242,7 +264,7 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Region getI_C_Region() throws Exception 
+	public I_C_Region getC_Region() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
         I_C_Region result = null;
@@ -264,9 +286,10 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 		set_Value (COLUMNNAME_C_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID <= 0) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -286,10 +309,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setCity (String City)
 	{
+
 		if (City != null && City.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 59);
+			City = City.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_City, City);
 	}
@@ -316,10 +340,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setPostal (String Postal)
 	{
+
 		if (Postal != null && Postal.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 9);
+			Postal = Postal.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
@@ -338,10 +363,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setPostal_Add (String Postal_Add)
 	{
+
 		if (Postal_Add != null && Postal_Add.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal_Add = Postal_Add.substring(0, 9);
+			Postal_Add = Postal_Add.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal_Add, Postal_Add);
 	}
@@ -360,10 +386,11 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setRegionName (String RegionName)
 	{
+
 		if (RegionName != null && RegionName.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			RegionName = RegionName.substring(0, 39);
+			RegionName = RegionName.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}

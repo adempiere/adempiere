@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, I_Persistent 
 {
 
@@ -39,9 +40,11 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
     public X_M_AttributeInstance (Properties ctx, int M_AttributeInstance_ID, String trxName)
     {
       super (ctx, M_AttributeInstance_ID, trxName);
-      /** if (M_AttributeInstance_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_AttributeInstance_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_Attribute_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -94,7 +97,7 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getI_M_AttributeValue() throws Exception 
+	public I_M_AttributeValue getM_AttributeValue() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeValue.Table_Name);
         I_M_AttributeValue result = null;
@@ -116,9 +119,10 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 	  */
 	public void setM_AttributeValue_ID (int M_AttributeValue_ID)
 	{
-		if (M_AttributeValue_ID <= 0) 		set_Value (COLUMNNAME_M_AttributeValue_ID, null);
- else 
-		set_Value (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
+		if (M_AttributeValue_ID <= 0) 
+			set_Value (COLUMNNAME_M_AttributeValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
 	}
 
 	/** Get Attribute Value.
@@ -140,7 +144,7 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeValue_ID()));
     }
 
-	public I_M_Attribute getI_M_Attribute() throws Exception 
+	public I_M_Attribute getM_Attribute() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
         I_M_Attribute result = null;
@@ -184,10 +188,11 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 	  */
 	public void setValue (String Value)
 	{
+
 		if (Value != null && Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

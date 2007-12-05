@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_DunningRun
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:40.125
-     */
-    public interface I_C_DunningRun 
+/** Generated Interface for C_DunningRun
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_DunningRun 
 {
 
     /** TableName=C_DunningRun */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -67,7 +66,7 @@ import org.compiere.util.*;
 	/** Get Dunning Level	  */
 	public int getC_DunningLevel_ID();
 
-	public I_C_DunningLevel getI_C_DunningLevel() throws Exception;
+	public I_C_DunningLevel getC_DunningLevel() throws Exception;
 
     /** Column name C_DunningRun_ID */
     public static final String COLUMNNAME_C_DunningRun_ID = "C_DunningRun_ID";

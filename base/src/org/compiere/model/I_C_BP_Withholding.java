@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_BP_Withholding
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:37.218
-     */
-    public interface I_C_BP_Withholding 
+/** Generated Interface for C_BP_Withholding
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_BP_Withholding 
 {
 
     /** TableName=C_BP_Withholding */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,6 +69,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_Withholding_ID */
     public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
 
@@ -84,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Withholding_ID();
 
-	public I_C_Withholding getI_C_Withholding() throws Exception;
+	public I_C_Withholding getC_Withholding() throws Exception;
 
     /** Column name ExemptReason */
     public static final String COLUMNNAME_ExemptReason = "ExemptReason";

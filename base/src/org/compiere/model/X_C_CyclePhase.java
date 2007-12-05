@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_CyclePhase
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CyclePhase extends PO implements I_C_CyclePhase, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_C_CyclePhase extends PO implements I_C_CyclePhase, I_Persistent
     public X_C_CyclePhase (Properties ctx, int C_CyclePhase_ID, String trxName)
     {
       super (ctx, C_CyclePhase_ID, trxName);
-      /** if (C_CyclePhase_ID == 0)        {			setC_CycleStep_ID (0);
+      /** if (C_CyclePhase_ID == 0)
+        {
+			setC_CycleStep_ID (0);
 			setC_Phase_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +72,7 @@ public class X_C_CyclePhase extends PO implements I_C_CyclePhase, I_Persistent
       return sb.toString();
     }
 
-	public I_C_CycleStep getI_C_CycleStep() throws Exception 
+	public I_C_CycleStep getC_CycleStep() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_CycleStep.Table_Name);
         I_C_CycleStep result = null;
@@ -110,7 +110,7 @@ public class X_C_CyclePhase extends PO implements I_C_CyclePhase, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Phase getI_C_Phase() throws Exception 
+	public I_C_Phase getC_Phase() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Phase.Table_Name);
         I_C_Phase result = null;

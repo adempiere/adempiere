@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_ReportView_Col
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.406
-     */
-    public interface I_AD_ReportView_Col 
+/** Generated Interface for AD_ReportView_Col
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_ReportView_Col 
 {
 
     /** TableName=AD_ReportView_Col */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_ReportView_Col_ID */
     public static final String COLUMNNAME_AD_ReportView_Col_ID = "AD_ReportView_Col_ID";
@@ -95,7 +93,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_ReportView_ID();
 
-	public I_AD_ReportView getI_AD_ReportView() throws Exception;
+	public I_AD_ReportView getAD_ReportView() throws Exception;
 
     /** Column name FunctionColumn */
     public static final String COLUMNNAME_FunctionColumn = "FunctionColumn";

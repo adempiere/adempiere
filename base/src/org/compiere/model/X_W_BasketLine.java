@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_BasketLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
     public X_W_BasketLine (Properties ctx, int W_BasketLine_ID, String trxName)
     {
       super (ctx, W_BasketLine_ID, trxName);
-      /** if (W_BasketLine_ID == 0)        {			setDescription (null);
+      /** if (W_BasketLine_ID == 0)
+        {
+			setDescription (null);
 			setLine (0);
 			setPrice (Env.ZERO);
 			setProduct (null);
 			setQty (Env.ZERO);
 			setW_BasketLine_ID (0);
 			setW_Basket_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,10 +88,11 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
+
 		if (Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -129,15 +133,32 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -179,16 +200,17 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	{
 		if (Product == null)
 			throw new IllegalArgumentException ("Product is mandatory.");
+
 		if (Product.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Product = Product.substring(0, 39);
+			Product = Product.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Product, Product);
 	}
 
 	/** Get Product.
-@return Product	  */
+		@return Product	  */
 	public String getProduct () 
 	{
 		return (String)get_Value(COLUMNNAME_Product);
@@ -238,7 +260,7 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_W_Basket getI_W_Basket() throws Exception 
+	public I_W_Basket getW_Basket() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_W_Basket.Table_Name);
         I_W_Basket result = null;

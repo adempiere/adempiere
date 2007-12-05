@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueStatus
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent
     public X_R_IssueStatus (Properties ctx, int R_IssueStatus_ID, String trxName)
     {
       super (ctx, R_IssueStatus_ID, trxName);
-      /** if (R_IssueStatus_ID == 0)        {			setName (null);
+      /** if (R_IssueStatus_ID == 0)
+        {
+			setName (null);
 			setR_IssueStatus_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +77,11 @@ public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -102,10 +102,11 @@ public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for T_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
     public X_T_Transaction (Properties ctx, int T_Transaction_ID, String trxName)
     {
       super (ctx, T_Transaction_ID, trxName);
-      /** if (T_Transaction_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_Transaction_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
 			setM_Product_ID (0);
@@ -47,7 +50,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 			setMovementDate (new Timestamp(System.currentTimeMillis()));
 			setMovementQty (Env.ZERO);
 			setMovementType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,6 +81,22 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
+        I_AD_PInstance result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_PInstance)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PInstance_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Process Instance.
 		@param AD_PInstance_ID 
 		Instance of the process
@@ -100,15 +119,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
+        I_C_ProjectIssue result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ProjectIssue)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectIssue_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project Issue.
 		@param C_ProjectIssue_ID 
 		Project Issues (Material, Labor)
 	  */
 	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 	{
-		if (C_ProjectIssue_ID <= 0) 		set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
+		if (C_ProjectIssue_ID <= 0) 
+			set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
 	}
 
 	/** Get Project Issue.
@@ -122,15 +158,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -166,15 +219,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -188,15 +258,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_InOut getM_InOut() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
+        I_M_InOut result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOut)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOut_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt.
 		@param M_InOut_ID 
 		Material Shipment Document
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID <= 0) 		set_Value (COLUMNNAME_M_InOut_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+		if (M_InOut_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.
@@ -210,15 +297,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
 		Unique line in an Inventory document
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+		if (M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
 	}
 
 	/** Get Phys.Inventory Line.
@@ -232,15 +336,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Inventory getM_Inventory() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
+        I_M_Inventory result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Inventory)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Inventory_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory.
 		@param M_Inventory_ID 
 		Parameters for a Physical Inventory
 	  */
 	public void setM_Inventory_ID (int M_Inventory_ID)
 	{
-		if (M_Inventory_ID <= 0) 		set_Value (COLUMNNAME_M_Inventory_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
+		if (M_Inventory_ID <= 0) 
+			set_Value (COLUMNNAME_M_Inventory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
 	}
 
 	/** Get Phys.Inventory.
@@ -276,15 +397,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_MovementLine getM_MovementLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_MovementLine.Table_Name);
+        I_M_MovementLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_MovementLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_MovementLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Move Line.
 		@param M_MovementLine_ID 
 		Inventory Move document Line
 	  */
 	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_MovementLine_ID <= 0) 		set_Value (COLUMNNAME_M_MovementLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+		if (M_MovementLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_MovementLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
 	}
 
 	/** Get Move Line.
@@ -298,15 +436,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Movement getM_Movement() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Movement.Table_Name);
+        I_M_Movement result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Movement)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Movement_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Inventory Move.
 		@param M_Movement_ID 
 		Movement of Inventory
 	  */
 	public void setM_Movement_ID (int M_Movement_ID)
 	{
-		if (M_Movement_ID <= 0) 		set_Value (COLUMNNAME_M_Movement_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
+		if (M_Movement_ID <= 0) 
+			set_Value (COLUMNNAME_M_Movement_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
 	}
 
 	/** Get Inventory Move.
@@ -319,6 +474,22 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -342,15 +513,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
+        I_M_ProductionLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_ProductionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ProductionLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Production Line.
 		@param M_ProductionLine_ID 
 		Document Line representing a production
 	  */
 	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 	{
-		if (M_ProductionLine_ID <= 0) 		set_Value (COLUMNNAME_M_ProductionLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
+		if (M_ProductionLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
 	}
 
 	/** Get Production Line.
@@ -364,15 +552,32 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Production getM_Production() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Production.Table_Name);
+        I_M_Production result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Production)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Production_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Production.
 		@param M_Production_ID 
 		Plan for producing a product
 	  */
 	public void setM_Production_ID (int M_Production_ID)
 	{
-		if (M_Production_ID <= 0) 		set_Value (COLUMNNAME_M_Production_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
+		if (M_Production_ID <= 0) 
+			set_Value (COLUMNNAME_M_Production_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
 	}
 
 	/** Get Production.
@@ -386,6 +591,22 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Transaction getM_Transaction() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Transaction.Table_Name);
+        I_M_Transaction result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Transaction)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Transaction_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Inventory Transaction.
 		@param M_Transaction_ID Inventory Transaction	  */
 	public void setM_Transaction_ID (int M_Transaction_ID)
@@ -396,7 +617,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	}
 
 	/** Get Inventory Transaction.
-@return Inventory Transaction	  */
+		@return Inventory Transaction	  */
 	public int getM_Transaction_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
@@ -446,30 +667,44 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return bd;
 	}
 
-/** MovementType AD_Reference_ID=189 */
-public static final int MOVEMENTTYPE_AD_Reference_ID=189;/** Customer Returns = C+ */
-public static final String MOVEMENTTYPE_CustomerReturns = "C+";/** Customer Shipment = C- */
-public static final String MOVEMENTTYPE_CustomerShipment = "C-";/** Inventory In = I+ */
-public static final String MOVEMENTTYPE_InventoryIn = "I+";/** Inventory Out = I- */
-public static final String MOVEMENTTYPE_InventoryOut = "I-";/** Movement To = M+ */
-public static final String MOVEMENTTYPE_MovementTo = "M+";/** Movement From = M- */
-public static final String MOVEMENTTYPE_MovementFrom = "M-";/** Production + = P+ */
-public static final String MOVEMENTTYPE_ProductionPlus = "P+";/** Production - = P- */
-public static final String MOVEMENTTYPE_Production_ = "P-";/** Vendor Receipts = V+ */
-public static final String MOVEMENTTYPE_VendorReceipts = "V+";/** Vendor Returns = V- */
-public static final String MOVEMENTTYPE_VendorReturns = "V-";/** Work Order + = W+ */
-public static final String MOVEMENTTYPE_WorkOrderPlus = "W+";/** Work Order - = W- */
-public static final String MOVEMENTTYPE_WorkOrder_ = "W-";
+	/** MovementType AD_Reference_ID=189 */
+	public static final int MOVEMENTTYPE_AD_Reference_ID=189;
+	/** Customer Shipment = C- */
+	public static final String MOVEMENTTYPE_CustomerShipment = "C-";
+	/** Customer Returns = C+ */
+	public static final String MOVEMENTTYPE_CustomerReturns = "C+";
+	/** Vendor Receipts = V+ */
+	public static final String MOVEMENTTYPE_VendorReceipts = "V+";
+	/** Vendor Returns = V- */
+	public static final String MOVEMENTTYPE_VendorReturns = "V-";
+	/** Inventory Out = I- */
+	public static final String MOVEMENTTYPE_InventoryOut = "I-";
+	/** Inventory In = I+ */
+	public static final String MOVEMENTTYPE_InventoryIn = "I+";
+	/** Movement From = M- */
+	public static final String MOVEMENTTYPE_MovementFrom = "M-";
+	/** Movement To = M+ */
+	public static final String MOVEMENTTYPE_MovementTo = "M+";
+	/** Production + = P+ */
+	public static final String MOVEMENTTYPE_ProductionPlus = "P+";
+	/** Production - = P- */
+	public static final String MOVEMENTTYPE_Production_ = "P-";
+	/** Work Order + = W+ */
+	public static final String MOVEMENTTYPE_WorkOrderPlus = "W+";
+	/** Work Order - = W- */
+	public static final String MOVEMENTTYPE_WorkOrder_ = "W-";
 	/** Set Movement Type.
 		@param MovementType 
 		Method of moving the inventory
 	  */
 	public void setMovementType (String MovementType)
 	{
-if (MovementType == null) throw new IllegalArgumentException ("MovementType is mandatory");if (MovementType.equals("C+") || MovementType.equals("C-") || MovementType.equals("I+") || MovementType.equals("I-") || MovementType.equals("M+") || MovementType.equals("M-") || MovementType.equals("P+") || MovementType.equals("P-") || MovementType.equals("V+") || MovementType.equals("V-") || MovementType.equals("W+") || MovementType.equals("W-")); else throw new IllegalArgumentException ("MovementType Invalid value - " + MovementType + " - Reference_ID=189 - C+ - C- - I+ - I- - M+ - M- - P+ - P- - V+ - V- - W+ - W-");		if (MovementType.length() > 2)
+		if (MovementType == null) throw new IllegalArgumentException ("MovementType is mandatory");
+		if (MovementType.equals("C-") || MovementType.equals("C+") || MovementType.equals("V+") || MovementType.equals("V-") || MovementType.equals("I-") || MovementType.equals("I+") || MovementType.equals("M-") || MovementType.equals("M+") || MovementType.equals("P+") || MovementType.equals("P-") || MovementType.equals("W+") || MovementType.equals("W-")); else throw new IllegalArgumentException ("MovementType Invalid value - " + MovementType + " - Reference_ID=189 - C- - C+ - V+ - V- - I- - I+ - M- - M+ - P+ - P- - W+ - W-");
+		if (MovementType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			MovementType = MovementType.substring(0, 1);
+			MovementType = MovementType.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_MovementType, MovementType);
 	}
@@ -482,17 +717,18 @@ if (MovementType == null) throw new IllegalArgumentException ("MovementType is m
 		return (String)get_Value(COLUMNNAME_MovementType);
 	}
 
-/** Search_InOut_ID AD_Reference_ID=295 */
-public static final int SEARCH_INOUT_ID_AD_Reference_ID=295;
+	/** Search_InOut_ID AD_Reference_ID=295 */
+	public static final int SEARCH_INOUT_ID_AD_Reference_ID=295;
 	/** Set Search Shipment/Receipt.
 		@param Search_InOut_ID 
 		Material Shipment Document
 	  */
 	public void setSearch_InOut_ID (int Search_InOut_ID)
 	{
-		if (Search_InOut_ID <= 0) 		set_Value (COLUMNNAME_Search_InOut_ID, null);
- else 
-		set_Value (COLUMNNAME_Search_InOut_ID, Integer.valueOf(Search_InOut_ID));
+		if (Search_InOut_ID <= 0) 
+			set_Value (COLUMNNAME_Search_InOut_ID, null);
+		else 
+			set_Value (COLUMNNAME_Search_InOut_ID, Integer.valueOf(Search_InOut_ID));
 	}
 
 	/** Get Search Shipment/Receipt.
@@ -506,17 +742,18 @@ public static final int SEARCH_INOUT_ID_AD_Reference_ID=295;
 		return ii.intValue();
 	}
 
-/** Search_Invoice_ID AD_Reference_ID=336 */
-public static final int SEARCH_INVOICE_ID_AD_Reference_ID=336;
+	/** Search_Invoice_ID AD_Reference_ID=336 */
+	public static final int SEARCH_INVOICE_ID_AD_Reference_ID=336;
 	/** Set Search Invoice.
 		@param Search_Invoice_ID 
 		Search Invoice Identifier
 	  */
 	public void setSearch_Invoice_ID (int Search_Invoice_ID)
 	{
-		if (Search_Invoice_ID <= 0) 		set_Value (COLUMNNAME_Search_Invoice_ID, null);
- else 
-		set_Value (COLUMNNAME_Search_Invoice_ID, Integer.valueOf(Search_Invoice_ID));
+		if (Search_Invoice_ID <= 0) 
+			set_Value (COLUMNNAME_Search_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_Search_Invoice_ID, Integer.valueOf(Search_Invoice_ID));
 	}
 
 	/** Get Search Invoice.
@@ -530,17 +767,18 @@ public static final int SEARCH_INVOICE_ID_AD_Reference_ID=336;
 		return ii.intValue();
 	}
 
-/** Search_Order_ID AD_Reference_ID=290 */
-public static final int SEARCH_ORDER_ID_AD_Reference_ID=290;
+	/** Search_Order_ID AD_Reference_ID=290 */
+	public static final int SEARCH_ORDER_ID_AD_Reference_ID=290;
 	/** Set Search Order.
 		@param Search_Order_ID 
 		Order Identifier
 	  */
 	public void setSearch_Order_ID (int Search_Order_ID)
 	{
-		if (Search_Order_ID <= 0) 		set_Value (COLUMNNAME_Search_Order_ID, null);
- else 
-		set_Value (COLUMNNAME_Search_Order_ID, Integer.valueOf(Search_Order_ID));
+		if (Search_Order_ID <= 0) 
+			set_Value (COLUMNNAME_Search_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_Search_Order_ID, Integer.valueOf(Search_Order_ID));
 	}
 
 	/** Get Search Order.

@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectIssueMA
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ProjectIssueMA extends PO implements I_C_ProjectIssueMA, I_Persistent 
 {
 
@@ -39,10 +40,12 @@ public class X_C_ProjectIssueMA extends PO implements I_C_ProjectIssueMA, I_Pers
     public X_C_ProjectIssueMA (Properties ctx, int C_ProjectIssueMA_ID, String trxName)
     {
       super (ctx, C_ProjectIssueMA_ID, trxName);
-      /** if (C_ProjectIssueMA_ID == 0)        {			setC_ProjectIssue_ID (0);
+      /** if (C_ProjectIssueMA_ID == 0)
+        {
+			setC_ProjectIssue_ID (0);
 			setM_AttributeSetInstance_ID (0);
 			setMovementQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +76,7 @@ public class X_C_ProjectIssueMA extends PO implements I_C_ProjectIssueMA, I_Pers
       return sb.toString();
     }
 
-	public I_C_ProjectIssue getI_C_ProjectIssue() throws Exception 
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
         I_C_ProjectIssue result = null;

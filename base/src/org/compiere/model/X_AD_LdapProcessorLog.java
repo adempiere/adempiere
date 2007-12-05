@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_LdapProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
     public X_AD_LdapProcessorLog (Properties ctx, int AD_LdapProcessorLog_ID, String trxName)
     {
       super (ctx, AD_LdapProcessorLog_ID, trxName);
-      /** if (AD_LdapProcessorLog_ID == 0)        {			setAD_LdapProcessorLog_ID (0);
+      /** if (AD_LdapProcessorLog_ID == 0)
+        {
+			setAD_LdapProcessorLog_ID (0);
 			setAD_LdapProcessor_ID (0);
 			setIsError (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +95,7 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 		return ii.intValue();
 	}
 
-	public I_AD_LdapProcessor getI_AD_LdapProcessor() throws Exception 
+	public I_AD_LdapProcessor getAD_LdapProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_LdapProcessor.Table_Name);
         I_AD_LdapProcessor result = null;
@@ -156,10 +156,11 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -202,10 +203,11 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 	  */
 	public void setReference (String Reference)
 	{
+
 		if (Reference != null && Reference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 59);
+			Reference = Reference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
@@ -224,10 +226,11 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 1999);
+			Summary = Summary.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
@@ -246,10 +249,11 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_AttributeUse
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.218
-     */
-    public interface I_M_AttributeUse 
+/** Generated Interface for M_AttributeUse
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_AttributeUse 
 {
 
     /** TableName=M_AttributeUse */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_AttributeSet_ID();
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception;
+	public I_M_AttributeSet getM_AttributeSet() throws Exception;
 
     /** Column name M_Attribute_ID */
     public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Attribute_ID();
 
-	public I_M_Attribute getI_M_Attribute() throws Exception;
+	public I_M_Attribute getM_Attribute() throws Exception;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Payment extends PO implements I_C_Payment, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
     {
       super (ctx, C_Payment_ID, trxName);
-      /** if (C_Payment_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_Payment_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_BankAccount_ID (0);
 			setC_Currency_ID (0);
 			setC_DocType_ID (0);
@@ -73,7 +77,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 // K
 			setTrxType (null);
 // S
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,17 +108,18 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
       return sb.toString();
     }
 
-/** AD_OrgTrx_ID AD_Reference_ID=130 */
-public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 		set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		if (AD_OrgTrx_ID <= 0) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
 	}
 
 	/** Get Trx Organization.
@@ -134,10 +139,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_City (String A_City)
 	{
+
 		if (A_City != null && A_City.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			A_City = A_City.substring(0, 59);
+			A_City = A_City.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_A_City, A_City);
 	}
@@ -156,10 +162,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Country (String A_Country)
 	{
+
 		if (A_Country != null && A_Country.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			A_Country = A_Country.substring(0, 39);
+			A_Country = A_Country.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_A_Country, A_Country);
 	}
@@ -178,10 +185,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_EMail (String A_EMail)
 	{
+
 		if (A_EMail != null && A_EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			A_EMail = A_EMail.substring(0, 59);
+			A_EMail = A_EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_A_EMail, A_EMail);
 	}
@@ -200,10 +208,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Ident_DL (String A_Ident_DL)
 	{
+
 		if (A_Ident_DL != null && A_Ident_DL.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			A_Ident_DL = A_Ident_DL.substring(0, 19);
+			A_Ident_DL = A_Ident_DL.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_A_Ident_DL, A_Ident_DL);
 	}
@@ -222,10 +231,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Ident_SSN (String A_Ident_SSN)
 	{
+
 		if (A_Ident_SSN != null && A_Ident_SSN.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			A_Ident_SSN = A_Ident_SSN.substring(0, 19);
+			A_Ident_SSN = A_Ident_SSN.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_A_Ident_SSN, A_Ident_SSN);
 	}
@@ -244,10 +254,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Name (String A_Name)
 	{
+
 		if (A_Name != null && A_Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			A_Name = A_Name.substring(0, 59);
+			A_Name = A_Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_A_Name, A_Name);
 	}
@@ -266,10 +277,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_State (String A_State)
 	{
+
 		if (A_State != null && A_State.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			A_State = A_State.substring(0, 39);
+			A_State = A_State.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_A_State, A_State);
 	}
@@ -288,10 +300,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Street (String A_Street)
 	{
+
 		if (A_Street != null && A_Street.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			A_Street = A_Street.substring(0, 59);
+			A_Street = A_Street.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_A_Street, A_Street);
 	}
@@ -310,10 +323,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setA_Zip (String A_Zip)
 	{
+
 		if (A_Zip != null && A_Zip.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			A_Zip = A_Zip.substring(0, 19);
+			A_Zip = A_Zip.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_A_Zip, A_Zip);
 	}
@@ -332,10 +346,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setAccountNo (String AccountNo)
 	{
+
 		if (AccountNo != null && AccountNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			AccountNo = AccountNo.substring(0, 19);
+			AccountNo = AccountNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_AccountNo, AccountNo);
 	}
@@ -348,7 +363,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -370,9 +385,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -386,7 +402,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_BP_BankAccount getI_C_BP_BankAccount() throws Exception 
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
         I_C_BP_BankAccount result = null;
@@ -408,9 +424,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 	{
-		if (C_BP_BankAccount_ID <= 0) 		set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
+		if (C_BP_BankAccount_ID <= 0) 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
 	}
 
 	/** Get Partner Bank Account.
@@ -423,6 +440,22 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -446,7 +479,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -484,7 +517,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -506,9 +539,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -522,7 +556,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Charge getI_C_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -544,9 +578,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 		set_Value (COLUMNNAME_C_Charge_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID <= 0) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -560,7 +595,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -582,9 +617,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 		set_Value (COLUMNNAME_C_ConversionType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID <= 0) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -598,7 +634,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -636,7 +672,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_DocType getI_C_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -674,15 +710,32 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_Value (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -696,15 +749,32 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_Value (COLUMNNAME_C_Order_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -718,7 +788,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_PaymentBatch getI_C_PaymentBatch() throws Exception 
+	public I_C_PaymentBatch getC_PaymentBatch() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentBatch.Table_Name);
         I_C_PaymentBatch result = null;
@@ -740,9 +810,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_PaymentBatch_ID (int C_PaymentBatch_ID)
 	{
-		if (C_PaymentBatch_ID <= 0) 		set_Value (COLUMNNAME_C_PaymentBatch_ID, null);
- else 
-		set_Value (COLUMNNAME_C_PaymentBatch_ID, Integer.valueOf(C_PaymentBatch_ID));
+		if (C_PaymentBatch_ID <= 0) 
+			set_Value (COLUMNNAME_C_PaymentBatch_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentBatch_ID, Integer.valueOf(C_PaymentBatch_ID));
 	}
 
 	/** Get Payment Batch.
@@ -778,7 +849,7 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -800,9 +871,10 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -842,10 +914,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setCheckNo (String CheckNo)
 	{
+
 		if (CheckNo != null && CheckNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			CheckNo = CheckNo.substring(0, 19);
+			CheckNo = CheckNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_CheckNo, CheckNo);
 	}
@@ -904,10 +977,11 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	  */
 	public void setCreditCardNumber (String CreditCardNumber)
 	{
+
 		if (CreditCardNumber != null && CreditCardNumber.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			CreditCardNumber = CreditCardNumber.substring(0, 19);
+			CreditCardNumber = CreditCardNumber.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_CreditCardNumber, CreditCardNumber);
 	}
@@ -920,25 +994,34 @@ public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 		return (String)get_Value(COLUMNNAME_CreditCardNumber);
 	}
 
-/** CreditCardType AD_Reference_ID=149 */
-public static final int CREDITCARDTYPE_AD_Reference_ID=149;/** Amex = A */
-public static final String CREDITCARDTYPE_Amex = "A";/** ATM = C */
-public static final String CREDITCARDTYPE_ATM = "C";/** Diners = D */
-public static final String CREDITCARDTYPE_Diners = "D";/** MasterCard = M */
-public static final String CREDITCARDTYPE_MasterCard = "M";/** Discover = N */
-public static final String CREDITCARDTYPE_Discover = "N";/** Purchase Card = P */
-public static final String CREDITCARDTYPE_PurchaseCard = "P";/** Visa = V */
-public static final String CREDITCARDTYPE_Visa = "V";
+	/** CreditCardType AD_Reference_ID=149 */
+	public static final int CREDITCARDTYPE_AD_Reference_ID=149;
+	/** Amex = A */
+	public static final String CREDITCARDTYPE_Amex = "A";
+	/** MasterCard = M */
+	public static final String CREDITCARDTYPE_MasterCard = "M";
+	/** Visa = V */
+	public static final String CREDITCARDTYPE_Visa = "V";
+	/** ATM = C */
+	public static final String CREDITCARDTYPE_ATM = "C";
+	/** Diners = D */
+	public static final String CREDITCARDTYPE_Diners = "D";
+	/** Discover = N */
+	public static final String CREDITCARDTYPE_Discover = "N";
+	/** Purchase Card = P */
+	public static final String CREDITCARDTYPE_PurchaseCard = "P";
 	/** Set Credit Card.
 		@param CreditCardType 
 		Credit Card (Visa, MC, AmEx)
 	  */
 	public void setCreditCardType (String CreditCardType)
 	{
-if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("M") || CreditCardType.equals("N") || CreditCardType.equals("P") || CreditCardType.equals("V")); else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - C - D - M - N - P - V");		if (CreditCardType != null && CreditCardType.length() > 1)
+
+		if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("M") || CreditCardType.equals("V") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("N") || CreditCardType.equals("P")); else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - M - V - C - D - N - P");
+		if (CreditCardType != null && CreditCardType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreditCardType = CreditCardType.substring(0, 0);
+			CreditCardType = CreditCardType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
 	}
@@ -957,10 +1040,11 @@ if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equal
 	  */
 	public void setCreditCardVV (String CreditCardVV)
 	{
+
 		if (CreditCardVV != null && CreditCardVV.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			CreditCardVV = CreditCardVV.substring(0, 3);
+			CreditCardVV = CreditCardVV.substring(0, 4);
 		}
 		set_Value (COLUMNNAME_CreditCardVV, CreditCardVV);
 	}
@@ -1017,10 +1101,11 @@ if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equal
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -1053,32 +1138,48 @@ if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equal
 		return bd;
 	}
 
-/** DocAction AD_Reference_ID=135 */
-public static final int DOCACTION_AD_Reference_ID=135;/** <None> = -- */
-public static final String DOCACTION_None = "--";/** Approve = AP */
-public static final String DOCACTION_Approve = "AP";/** Close = CL */
-public static final String DOCACTION_Close = "CL";/** Complete = CO */
-public static final String DOCACTION_Complete = "CO";/** Invalidate = IN */
-public static final String DOCACTION_Invalidate = "IN";/** Post = PO */
-public static final String DOCACTION_Post = "PO";/** Prepare = PR */
-public static final String DOCACTION_Prepare = "PR";/** Reverse - Accrual = RA */
-public static final String DOCACTION_Reverse_Accrual = "RA";/** Reverse - Correct = RC */
-public static final String DOCACTION_Reverse_Correct = "RC";/** Re-activate = RE */
-public static final String DOCACTION_Re_Activate = "RE";/** Reject = RJ */
-public static final String DOCACTION_Reject = "RJ";/** Void = VO */
-public static final String DOCACTION_Void = "VO";/** Wait Complete = WC */
-public static final String DOCACTION_WaitComplete = "WC";/** Unlock = XL */
-public static final String DOCACTION_Unlock = "XL";
+	/** DocAction AD_Reference_ID=135 */
+	public static final int DOCACTION_AD_Reference_ID=135;
+	/** Complete = CO */
+	public static final String DOCACTION_Complete = "CO";
+	/** Approve = AP */
+	public static final String DOCACTION_Approve = "AP";
+	/** Reject = RJ */
+	public static final String DOCACTION_Reject = "RJ";
+	/** Post = PO */
+	public static final String DOCACTION_Post = "PO";
+	/** Void = VO */
+	public static final String DOCACTION_Void = "VO";
+	/** Close = CL */
+	public static final String DOCACTION_Close = "CL";
+	/** Reverse - Correct = RC */
+	public static final String DOCACTION_Reverse_Correct = "RC";
+	/** Reverse - Accrual = RA */
+	public static final String DOCACTION_Reverse_Accrual = "RA";
+	/** Invalidate = IN */
+	public static final String DOCACTION_Invalidate = "IN";
+	/** Re-activate = RE */
+	public static final String DOCACTION_Re_Activate = "RE";
+	/** <None> = -- */
+	public static final String DOCACTION_None = "--";
+	/** Prepare = PR */
+	public static final String DOCACTION_Prepare = "PR";
+	/** Unlock = XL */
+	public static final String DOCACTION_Unlock = "XL";
+	/** Wait Complete = WC */
+	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
 		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
 	{
-if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");if (DocAction.equals("--") || DocAction.equals("AP") || DocAction.equals("CL") || DocAction.equals("CO") || DocAction.equals("IN") || DocAction.equals("PO") || DocAction.equals("PR") || DocAction.equals("RA") || DocAction.equals("RC") || DocAction.equals("RE") || DocAction.equals("RJ") || DocAction.equals("VO") || DocAction.equals("WC") || DocAction.equals("XL")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - -- - AP - CL - CO - IN - PO - PR - RA - RC - RE - RJ - VO - WC - XL");		if (DocAction.length() > 2)
+		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+		if (DocAction.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 1);
+			DocAction = DocAction.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
@@ -1091,30 +1192,44 @@ if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandato
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
 
-/** DocStatus AD_Reference_ID=131 */
-public static final int DOCSTATUS_AD_Reference_ID=131;/** Unknown = ?? */
-public static final String DOCSTATUS_Unknown = "??";/** Approved = AP */
-public static final String DOCSTATUS_Approved = "AP";/** Closed = CL */
-public static final String DOCSTATUS_Closed = "CL";/** Completed = CO */
-public static final String DOCSTATUS_Completed = "CO";/** Drafted = DR */
-public static final String DOCSTATUS_Drafted = "DR";/** Invalid = IN */
-public static final String DOCSTATUS_Invalid = "IN";/** In Progress = IP */
-public static final String DOCSTATUS_InProgress = "IP";/** Not Approved = NA */
-public static final String DOCSTATUS_NotApproved = "NA";/** Reversed = RE */
-public static final String DOCSTATUS_Reversed = "RE";/** Voided = VO */
-public static final String DOCSTATUS_Voided = "VO";/** Waiting Confirmation = WC */
-public static final String DOCSTATUS_WaitingConfirmation = "WC";/** Waiting Payment = WP */
-public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** DocStatus AD_Reference_ID=131 */
+	public static final int DOCSTATUS_AD_Reference_ID=131;
+	/** Drafted = DR */
+	public static final String DOCSTATUS_Drafted = "DR";
+	/** Completed = CO */
+	public static final String DOCSTATUS_Completed = "CO";
+	/** Approved = AP */
+	public static final String DOCSTATUS_Approved = "AP";
+	/** Not Approved = NA */
+	public static final String DOCSTATUS_NotApproved = "NA";
+	/** Voided = VO */
+	public static final String DOCSTATUS_Voided = "VO";
+	/** Invalid = IN */
+	public static final String DOCSTATUS_Invalid = "IN";
+	/** Reversed = RE */
+	public static final String DOCSTATUS_Reversed = "RE";
+	/** Closed = CL */
+	public static final String DOCSTATUS_Closed = "CL";
+	/** Unknown = ?? */
+	public static final String DOCSTATUS_Unknown = "??";
+	/** In Progress = IP */
+	public static final String DOCSTATUS_InProgress = "IP";
+	/** Waiting Payment = WP */
+	public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** Waiting Confirmation = WC */
+	public static final String DOCSTATUS_WaitingConfirmation = "WC";
 	/** Set Document Status.
 		@param DocStatus 
 		The current status of the document
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");if (DocStatus.equals("??") || DocStatus.equals("AP") || DocStatus.equals("CL") || DocStatus.equals("CO") || DocStatus.equals("DR") || DocStatus.equals("IN") || DocStatus.equals("IP") || DocStatus.equals("NA") || DocStatus.equals("RE") || DocStatus.equals("VO") || DocStatus.equals("WC") || DocStatus.equals("WP")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - ?? - AP - CL - CO - DR - IN - IP - NA - RE - VO - WC - WP");		if (DocStatus.length() > 2)
+		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+		if (DocStatus.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 1);
+			DocStatus = DocStatus.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -1135,10 +1250,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -1381,10 +1497,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setMicr (String Micr)
 	{
+
 		if (Micr != null && Micr.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Micr = Micr.substring(0, 19);
+			Micr = Micr.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Micr, Micr);
 	}
@@ -1403,10 +1520,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setOProcessing (String OProcessing)
 	{
+
 		if (OProcessing != null && OProcessing.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			OProcessing = OProcessing.substring(0, 0);
+			OProcessing = OProcessing.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_OProcessing, OProcessing);
 	}
@@ -1425,10 +1543,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setOrig_TrxID (String Orig_TrxID)
 	{
+
 		if (Orig_TrxID != null && Orig_TrxID.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Orig_TrxID = Orig_TrxID.substring(0, 19);
+			Orig_TrxID = Orig_TrxID.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Orig_TrxID, Orig_TrxID);
 	}
@@ -1467,10 +1586,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setPONum (String PONum)
 	{
+
 		if (PONum != null && PONum.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			PONum = PONum.substring(0, 59);
+			PONum = PONum.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_PONum, PONum);
 	}
@@ -1561,7 +1681,7 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -1580,10 +1700,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setR_AuthCode (String R_AuthCode)
 	{
+
 		if (R_AuthCode != null && R_AuthCode.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			R_AuthCode = R_AuthCode.substring(0, 19);
+			R_AuthCode = R_AuthCode.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_AuthCode, R_AuthCode);
 	}
@@ -1602,10 +1723,11 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 	  */
 	public void setR_AuthCode_DC (String R_AuthCode_DC)
 	{
+
 		if (R_AuthCode_DC != null && R_AuthCode_DC.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			R_AuthCode_DC = R_AuthCode_DC.substring(0, 19);
+			R_AuthCode_DC = R_AuthCode_DC.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_AuthCode_DC, R_AuthCode_DC);
 	}
@@ -1618,21 +1740,26 @@ if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandato
 		return (String)get_Value(COLUMNNAME_R_AuthCode_DC);
 	}
 
-/** R_AvsAddr AD_Reference_ID=213 */
-public static final int R_AVSADDR_AD_Reference_ID=213;/** No Match = N */
-public static final String R_AVSADDR_NoMatch = "N";/** Unavailable = X */
-public static final String R_AVSADDR_Unavailable = "X";/** Match = Y */
-public static final String R_AVSADDR_Match = "Y";
+	/** R_AvsAddr AD_Reference_ID=213 */
+	public static final int R_AVSADDR_AD_Reference_ID=213;
+	/** Match = Y */
+	public static final String R_AVSADDR_Match = "Y";
+	/** No Match = N */
+	public static final String R_AVSADDR_NoMatch = "N";
+	/** Unavailable = X */
+	public static final String R_AVSADDR_Unavailable = "X";
 	/** Set Address verified.
 		@param R_AvsAddr 
 		This address has been verified
 	  */
 	public void setR_AvsAddr (String R_AvsAddr)
 	{
-if (R_AvsAddr == null || R_AvsAddr.equals("N") || R_AvsAddr.equals("X") || R_AvsAddr.equals("Y")); else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - N - X - Y");		if (R_AvsAddr != null && R_AvsAddr.length() > 1)
+
+		if (R_AvsAddr == null || R_AvsAddr.equals("Y") || R_AvsAddr.equals("N") || R_AvsAddr.equals("X")); else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - Y - N - X");
+		if (R_AvsAddr != null && R_AvsAddr.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			R_AvsAddr = R_AvsAddr.substring(0, 0);
+			R_AvsAddr = R_AvsAddr.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
 	}
@@ -1645,21 +1772,26 @@ if (R_AvsAddr == null || R_AvsAddr.equals("N") || R_AvsAddr.equals("X") || R_Avs
 		return (String)get_Value(COLUMNNAME_R_AvsAddr);
 	}
 
-/** R_AvsZip AD_Reference_ID=213 */
-public static final int R_AVSZIP_AD_Reference_ID=213;/** No Match = N */
-public static final String R_AVSZIP_NoMatch = "N";/** Unavailable = X */
-public static final String R_AVSZIP_Unavailable = "X";/** Match = Y */
-public static final String R_AVSZIP_Match = "Y";
+	/** R_AvsZip AD_Reference_ID=213 */
+	public static final int R_AVSZIP_AD_Reference_ID=213;
+	/** Match = Y */
+	public static final String R_AVSZIP_Match = "Y";
+	/** No Match = N */
+	public static final String R_AVSZIP_NoMatch = "N";
+	/** Unavailable = X */
+	public static final String R_AVSZIP_Unavailable = "X";
 	/** Set Zip verified.
 		@param R_AvsZip 
 		The Zip Code has been verified
 	  */
 	public void setR_AvsZip (String R_AvsZip)
 	{
-if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip.equals("Y")); else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - N - X - Y");		if (R_AvsZip != null && R_AvsZip.length() > 1)
+
+		if (R_AvsZip == null || R_AvsZip.equals("Y") || R_AvsZip.equals("N") || R_AvsZip.equals("X")); else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - Y - N - X");
+		if (R_AvsZip != null && R_AvsZip.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			R_AvsZip = R_AvsZip.substring(0, 0);
+			R_AvsZip = R_AvsZip.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
 	}
@@ -1702,10 +1834,11 @@ if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip
 	  */
 	public void setR_Info (String R_Info)
 	{
+
 		if (R_Info != null && R_Info.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			R_Info = R_Info.substring(0, 1999);
+			R_Info = R_Info.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_Info, R_Info);
 	}
@@ -1724,10 +1857,11 @@ if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip
 	  */
 	public void setR_PnRef (String R_PnRef)
 	{
+
 		if (R_PnRef != null && R_PnRef.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			R_PnRef = R_PnRef.substring(0, 19);
+			R_PnRef = R_PnRef.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_PnRef, R_PnRef);
 	}
@@ -1746,10 +1880,11 @@ if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip
 	  */
 	public void setR_PnRef_DC (String R_PnRef_DC)
 	{
+
 		if (R_PnRef_DC != null && R_PnRef_DC.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			R_PnRef_DC = R_PnRef_DC.substring(0, 19);
+			R_PnRef_DC = R_PnRef_DC.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_PnRef_DC, R_PnRef_DC);
 	}
@@ -1768,10 +1903,11 @@ if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip
 	  */
 	public void setR_RespMsg (String R_RespMsg)
 	{
+
 		if (R_RespMsg != null && R_RespMsg.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			R_RespMsg = R_RespMsg.substring(0, 59);
+			R_RespMsg = R_RespMsg.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_RespMsg, R_RespMsg);
 	}
@@ -1790,10 +1926,11 @@ if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip
 	  */
 	public void setR_Result (String R_Result)
 	{
+
 		if (R_Result != null && R_Result.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			R_Result = R_Result.substring(0, 19);
+			R_Result = R_Result.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_R_Result, R_Result);
 	}
@@ -1806,19 +1943,20 @@ if (R_AvsZip == null || R_AvsZip.equals("N") || R_AvsZip.equals("X") || R_AvsZip
 		return (String)get_Value(COLUMNNAME_R_Result);
 	}
 
-/** Ref_Payment_ID AD_Reference_ID=343 */
-public static final int REF_PAYMENT_ID_AD_Reference_ID=343;
+	/** Ref_Payment_ID AD_Reference_ID=343 */
+	public static final int REF_PAYMENT_ID_AD_Reference_ID=343;
 	/** Set Referenced Payment.
 		@param Ref_Payment_ID Referenced Payment	  */
 	public void setRef_Payment_ID (int Ref_Payment_ID)
 	{
-		if (Ref_Payment_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
+		if (Ref_Payment_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
 	}
 
 	/** Get Referenced Payment.
-@return Referenced Payment	  */
+		@return Referenced Payment	  */
 	public int getRef_Payment_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_Payment_ID);
@@ -1833,10 +1971,11 @@ public static final int REF_PAYMENT_ID_AD_Reference_ID=343;
 	  */
 	public void setRoutingNo (String RoutingNo)
 	{
+
 		if (RoutingNo != null && RoutingNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			RoutingNo = RoutingNo.substring(0, 19);
+			RoutingNo = RoutingNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
 	}
@@ -1855,10 +1994,11 @@ public static final int REF_PAYMENT_ID_AD_Reference_ID=343;
 	  */
 	public void setSwipe (String Swipe)
 	{
+
 		if (Swipe != null && Swipe.length() > 80)
 		{
 			log.warning("Length > 80 - truncated");
-			Swipe = Swipe.substring(0, 79);
+			Swipe = Swipe.substring(0, 80);
 		}
 		set_ValueNoCheck (COLUMNNAME_Swipe, Swipe);
 	}
@@ -1891,22 +2031,28 @@ public static final int REF_PAYMENT_ID_AD_Reference_ID=343;
 		return bd;
 	}
 
-/** TenderType AD_Reference_ID=214 */
-public static final int TENDERTYPE_AD_Reference_ID=214;/** Direct Deposit = A */
-public static final String TENDERTYPE_DirectDeposit = "A";/** Credit Card = C */
-public static final String TENDERTYPE_CreditCard = "C";/** Direct Debit = D */
-public static final String TENDERTYPE_DirectDebit = "D";/** Check = K */
-public static final String TENDERTYPE_Check = "K";
+	/** TenderType AD_Reference_ID=214 */
+	public static final int TENDERTYPE_AD_Reference_ID=214;
+	/** Credit Card = C */
+	public static final String TENDERTYPE_CreditCard = "C";
+	/** Check = K */
+	public static final String TENDERTYPE_Check = "K";
+	/** Direct Deposit = A */
+	public static final String TENDERTYPE_DirectDeposit = "A";
+	/** Direct Debit = D */
+	public static final String TENDERTYPE_DirectDebit = "D";
 	/** Set Tender type.
 		@param TenderType 
 		Method of Payment
 	  */
 	public void setTenderType (String TenderType)
 	{
-if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");if (TenderType.equals("A") || TenderType.equals("C") || TenderType.equals("D") || TenderType.equals("K")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - A - C - D - K");		if (TenderType.length() > 1)
+		if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");
+		if (TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D");
+		if (TenderType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			TenderType = TenderType.substring(0, 0);
+			TenderType = TenderType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_TenderType, TenderType);
 	}
@@ -1919,24 +2065,32 @@ if (TenderType == null) throw new IllegalArgumentException ("TenderType is manda
 		return (String)get_Value(COLUMNNAME_TenderType);
 	}
 
-/** TrxType AD_Reference_ID=215 */
-public static final int TRXTYPE_AD_Reference_ID=215;/** Authorization = A */
-public static final String TRXTYPE_Authorization = "A";/** Credit (Payment) = C */
-public static final String TRXTYPE_CreditPayment = "C";/** Delayed Capture = D */
-public static final String TRXTYPE_DelayedCapture = "D";/** Voice Authorization = F */
-public static final String TRXTYPE_VoiceAuthorization = "F";/** Sales = S */
-public static final String TRXTYPE_Sales = "S";/** Void = V */
-public static final String TRXTYPE_Void = "V";
+	/** TrxType AD_Reference_ID=215 */
+	public static final int TRXTYPE_AD_Reference_ID=215;
+	/** Sales = S */
+	public static final String TRXTYPE_Sales = "S";
+	/** Delayed Capture = D */
+	public static final String TRXTYPE_DelayedCapture = "D";
+	/** Credit (Payment) = C */
+	public static final String TRXTYPE_CreditPayment = "C";
+	/** Voice Authorization = F */
+	public static final String TRXTYPE_VoiceAuthorization = "F";
+	/** Authorization = A */
+	public static final String TRXTYPE_Authorization = "A";
+	/** Void = V */
+	public static final String TRXTYPE_Void = "V";
 	/** Set Transaction Type.
 		@param TrxType 
 		Type of credit card transaction
 	  */
 	public void setTrxType (String TrxType)
 	{
-if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");if (TrxType.equals("A") || TrxType.equals("C") || TrxType.equals("D") || TrxType.equals("F") || TrxType.equals("S") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - A - C - D - F - S - V");		if (TrxType.length() > 1)
+		if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
+		if (TrxType.equals("S") || TrxType.equals("D") || TrxType.equals("C") || TrxType.equals("F") || TrxType.equals("A") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - S - D - C - F - A - V");
+		if (TrxType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			TrxType = TrxType.substring(0, 0);
+			TrxType = TrxType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_TrxType, TrxType);
 	}
@@ -1949,17 +2103,18 @@ if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory")
 		return (String)get_Value(COLUMNNAME_TrxType);
 	}
 
-/** User1_ID AD_Reference_ID=134 */
-public static final int USER1_ID_AD_Reference_ID=134;
+	/** User1_ID AD_Reference_ID=134 */
+	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 		set_Value (COLUMNNAME_User1_ID, null);
- else 
-		set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		if (User1_ID <= 0) 
+			set_Value (COLUMNNAME_User1_ID, null);
+		else 
+			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
 	}
 
 	/** Get User List 1.
@@ -1973,17 +2128,18 @@ public static final int USER1_ID_AD_Reference_ID=134;
 		return ii.intValue();
 	}
 
-/** User2_ID AD_Reference_ID=137 */
-public static final int USER2_ID_AD_Reference_ID=137;
+	/** User2_ID AD_Reference_ID=137 */
+	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 		set_Value (COLUMNNAME_User2_ID, null);
- else 
-		set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		if (User2_ID <= 0) 
+			set_Value (COLUMNNAME_User2_ID, null);
+		else 
+			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
 	}
 
 	/** Get User List 2.
@@ -2003,10 +2159,11 @@ public static final int USER2_ID_AD_Reference_ID=137;
 	  */
 	public void setVoiceAuthCode (String VoiceAuthCode)
 	{
+
 		if (VoiceAuthCode != null && VoiceAuthCode.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			VoiceAuthCode = VoiceAuthCode.substring(0, 19);
+			VoiceAuthCode = VoiceAuthCode.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_VoiceAuthCode, VoiceAuthCode);
 	}

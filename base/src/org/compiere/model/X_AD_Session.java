@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Session
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Session extends PO implements I_AD_Session, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
     public X_AD_Session (Properties ctx, int AD_Session_ID, String trxName)
     {
       super (ctx, AD_Session_ID, trxName);
-      /** if (AD_Session_ID == 0)        {			setAD_Session_ID (0);
+      /** if (AD_Session_ID == 0)
+        {
+			setAD_Session_ID (0);
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -132,10 +131,11 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -154,10 +154,11 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 119);
+			Remote_Host = Remote_Host.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -176,10 +177,11 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
 	  */
 	public void setWebSession (String WebSession)
 	{
+
 		if (WebSession != null && WebSession.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			WebSession = WebSession.substring(0, 39);
+			WebSession = WebSession.substring(0, 40);
 		}
 		set_ValueNoCheck (COLUMNNAME_WebSession, WebSession);
 	}

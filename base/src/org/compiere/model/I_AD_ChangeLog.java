@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_ChangeLog
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:21.015
-     */
-    public interface I_AD_ChangeLog 
+/** Generated Interface for AD_ChangeLog
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_ChangeLog 
 {
 
     /** TableName=AD_ChangeLog */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_Session_ID */
     public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Session_ID();
 
-	public I_AD_Session getI_AD_Session() throws Exception;
+	public I_AD_Session getAD_Session() throws Exception;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

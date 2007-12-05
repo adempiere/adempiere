@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_Attribute
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.015
-     */
-    public interface I_M_Attribute 
+/** Generated Interface for M_Attribute
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_Attribute 
 {
 
     /** TableName=M_Attribute */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -123,7 +121,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_AttributeSearch_ID();
 
-	public I_M_AttributeSearch getI_M_AttributeSearch() throws Exception;
+	public I_M_AttributeSearch getM_AttributeSearch() throws Exception;
 
     /** Column name M_Attribute_ID */
     public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";

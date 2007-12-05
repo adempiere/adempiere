@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_DesktopWorkbench
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
     public X_AD_DesktopWorkbench (Properties ctx, int AD_DesktopWorkbench_ID, String trxName)
     {
       super (ctx, AD_DesktopWorkbench_ID, trxName);
-      /** if (AD_DesktopWorkbench_ID == 0)        {			setAD_DesktopWorkbench_ID (0);
+      /** if (AD_DesktopWorkbench_ID == 0)
+        {
+			setAD_DesktopWorkbench_ID (0);
 			setAD_Desktop_ID (0);
 			setAD_Workbench_ID (0);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -84,7 +85,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 	}
 
 	/** Get Desktop Workbench.
-@return Desktop Workbench	  */
+		@return Desktop Workbench	  */
 	public int getAD_DesktopWorkbench_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_DesktopWorkbench_ID);
@@ -93,7 +94,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 		return ii.intValue();
 	}
 
-	public I_AD_Desktop getI_AD_Desktop() throws Exception 
+	public I_AD_Desktop getAD_Desktop() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Desktop.Table_Name);
         I_AD_Desktop result = null;
@@ -131,7 +132,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 		return ii.intValue();
 	}
 
-	public I_AD_Workbench getI_AD_Workbench() throws Exception 
+	public I_AD_Workbench getAD_Workbench() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
         I_AD_Workbench result = null;

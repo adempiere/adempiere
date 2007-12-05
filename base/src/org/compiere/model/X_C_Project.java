@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Project extends PO implements I_C_Project, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
     public X_C_Project (Properties ctx, int C_Project_ID, String trxName)
     {
       super (ctx, C_Project_ID, trxName);
-      /** if (C_Project_ID == 0)        {			setC_Currency_ID (0);
+      /** if (C_Project_ID == 0)
+        {
+			setC_Currency_ID (0);
 			setC_Project_ID (0);
 			setCommittedAmt (Env.ZERO);
 			setCommittedQty (Env.ZERO);
@@ -59,7 +63,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 			setProjectLineLevel (null);
 // P
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -90,7 +94,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -112,9 +116,10 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -128,17 +133,18 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return ii.intValue();
 	}
 
-/** C_BPartnerSR_ID AD_Reference_ID=353 */
-public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
+	/** C_BPartnerSR_ID AD_Reference_ID=353 */
+	public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	/** Set BPartner (Agent).
 		@param C_BPartnerSR_ID 
 		Business Partner (Agent or Sales Rep)
 	  */
 	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 	{
-		if (C_BPartnerSR_ID <= 0) 		set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
+		if (C_BPartnerSR_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
 	}
 
 	/** Get BPartner (Agent).
@@ -152,15 +158,32 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -174,7 +197,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -196,9 +219,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -212,7 +236,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -234,9 +258,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -250,7 +275,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -288,7 +313,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -310,9 +335,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 		set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
- else 
-		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID <= 0) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -326,7 +352,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_C_Phase getI_C_Phase() throws Exception 
+	public I_C_Phase getC_Phase() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Phase.Table_Name);
         I_C_Phase result = null;
@@ -348,9 +374,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_Phase_ID (int C_Phase_ID)
 	{
-		if (C_Phase_ID <= 0) 		set_Value (COLUMNNAME_C_Phase_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
+		if (C_Phase_ID <= 0) 
+			set_Value (COLUMNNAME_C_Phase_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
 	}
 
 	/** Get Standard Phase.
@@ -370,10 +397,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setC_ProjectType_ID (String C_ProjectType_ID)
 	{
+
 		if (C_ProjectType_ID != null && C_ProjectType_ID.length() > 22)
 		{
 			log.warning("Length > 22 - truncated");
-			C_ProjectType_ID = C_ProjectType_ID.substring(0, 21);
+			C_ProjectType_ID = C_ProjectType_ID.substring(0, 22);
 		}
 		set_Value (COLUMNNAME_C_ProjectType_ID, C_ProjectType_ID);
 	}
@@ -458,10 +486,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setCopyFrom (String CopyFrom)
 	{
+
 		if (CopyFrom != null && CopyFrom.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 0);
+			CopyFrom = CopyFrom.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
@@ -514,10 +543,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -536,10 +566,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setGenerateTo (String GenerateTo)
 	{
+
 		if (GenerateTo != null && GenerateTo.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			GenerateTo = GenerateTo.substring(0, 0);
+			GenerateTo = GenerateTo.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_GenerateTo, GenerateTo);
 	}
@@ -668,7 +699,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return false;
 	}
 
-	public I_M_PriceList_Version getI_M_PriceList_Version() throws Exception 
+	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
         I_M_PriceList_Version result = null;
@@ -690,9 +721,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID <= 0) 		set_Value (COLUMNNAME_M_PriceList_Version_ID, null);
- else 
-		set_Value (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+		if (M_PriceList_Version_ID <= 0) 
+			set_Value (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
 	}
 
 	/** Get Price List Version.
@@ -706,7 +738,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -728,9 +760,10 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID <= 0) 		set_Value (COLUMNNAME_M_Warehouse_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID <= 0) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -752,10 +785,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -774,10 +808,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setNote (String Note)
 	{
+
 		if (Note != null && Note.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 1999);
+			Note = Note.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
@@ -796,10 +831,11 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	  */
 	public void setPOReference (String POReference)
 	{
+
 		if (POReference != null && POReference.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			POReference = POReference.substring(0, 19);
+			POReference = POReference.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_POReference, POReference);
 	}
@@ -910,7 +946,7 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -923,23 +959,30 @@ public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
 		return false;
 	}
 
-/** ProjInvoiceRule AD_Reference_ID=383 */
-public static final int PROJINVOICERULE_AD_Reference_ID=383;/** None = - */
-public static final String PROJINVOICERULE_None = "-";/** Committed Amount = C */
-public static final String PROJINVOICERULE_CommittedAmount = "C";/** Product  Quantity = P */
-public static final String PROJINVOICERULE_ProductQuantity = "P";/** Time&Material = T */
-public static final String PROJINVOICERULE_TimeMaterial = "T";/** Time&Material max Comitted = c */
-public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** ProjInvoiceRule AD_Reference_ID=383 */
+	public static final int PROJINVOICERULE_AD_Reference_ID=383;
+	/** None = - */
+	public static final String PROJINVOICERULE_None = "-";
+	/** Committed Amount = C */
+	public static final String PROJINVOICERULE_CommittedAmount = "C";
+	/** Time&Material max Comitted = c */
+	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** Time&Material = T */
+	public static final String PROJINVOICERULE_TimeMaterial = "T";
+	/** Product  Quantity = P */
+	public static final String PROJINVOICERULE_ProductQuantity = "P";
 	/** Set Invoice Rule.
 		@param ProjInvoiceRule 
 		Invoice Rule for the project
 	  */
 	public void setProjInvoiceRule (String ProjInvoiceRule)
 	{
-if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("P") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("c")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - P - T - c");		if (ProjInvoiceRule.length() > 1)
+		if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");
+		if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("c") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("P")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - c - T - P");
+		if (ProjInvoiceRule.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProjInvoiceRule = ProjInvoiceRule.substring(0, 0);
+			ProjInvoiceRule = ProjInvoiceRule.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
 	}
@@ -974,22 +1017,28 @@ if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRul
 		return bd;
 	}
 
-/** ProjectCategory AD_Reference_ID=288 */
-public static final int PROJECTCATEGORY_AD_Reference_ID=288;/** Asset Project = A */
-public static final String PROJECTCATEGORY_AssetProject = "A";/** General = N */
-public static final String PROJECTCATEGORY_General = "N";/** Service (Charge) Project = S */
-public static final String PROJECTCATEGORY_ServiceChargeProject = "S";/** Work Order (Job) = W */
-public static final String PROJECTCATEGORY_WorkOrderJob = "W";
+	/** ProjectCategory AD_Reference_ID=288 */
+	public static final int PROJECTCATEGORY_AD_Reference_ID=288;
+	/** General = N */
+	public static final String PROJECTCATEGORY_General = "N";
+	/** Asset Project = A */
+	public static final String PROJECTCATEGORY_AssetProject = "A";
+	/** Work Order (Job) = W */
+	public static final String PROJECTCATEGORY_WorkOrderJob = "W";
+	/** Service (Charge) Project = S */
+	public static final String PROJECTCATEGORY_ServiceChargeProject = "S";
 	/** Set Project Category.
 		@param ProjectCategory 
 		Project Category
 	  */
 	public void setProjectCategory (String ProjectCategory)
 	{
-if (ProjectCategory == null || ProjectCategory.equals("A") || ProjectCategory.equals("N") || ProjectCategory.equals("S") || ProjectCategory.equals("W")); else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - A - N - S - W");		if (ProjectCategory != null && ProjectCategory.length() > 1)
+
+		if (ProjectCategory == null || ProjectCategory.equals("N") || ProjectCategory.equals("A") || ProjectCategory.equals("W") || ProjectCategory.equals("S")); else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - N - A - W - S");
+		if (ProjectCategory != null && ProjectCategory.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProjectCategory = ProjectCategory.substring(0, 0);
+			ProjectCategory = ProjectCategory.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProjectCategory, ProjectCategory);
 	}
@@ -1002,21 +1051,26 @@ if (ProjectCategory == null || ProjectCategory.equals("A") || ProjectCategory.eq
 		return (String)get_Value(COLUMNNAME_ProjectCategory);
 	}
 
-/** ProjectLineLevel AD_Reference_ID=384 */
-public static final int PROJECTLINELEVEL_AD_Reference_ID=384;/** Phase = A */
-public static final String PROJECTLINELEVEL_Phase = "A";/** Project = P */
-public static final String PROJECTLINELEVEL_Project = "P";/** Task = T */
-public static final String PROJECTLINELEVEL_Task = "T";
+	/** ProjectLineLevel AD_Reference_ID=384 */
+	public static final int PROJECTLINELEVEL_AD_Reference_ID=384;
+	/** Project = P */
+	public static final String PROJECTLINELEVEL_Project = "P";
+	/** Phase = A */
+	public static final String PROJECTLINELEVEL_Phase = "A";
+	/** Task = T */
+	public static final String PROJECTLINELEVEL_Task = "T";
 	/** Set Line Level.
 		@param ProjectLineLevel 
 		Project Line Level
 	  */
 	public void setProjectLineLevel (String ProjectLineLevel)
 	{
-if (ProjectLineLevel == null) throw new IllegalArgumentException ("ProjectLineLevel is mandatory");if (ProjectLineLevel.equals("A") || ProjectLineLevel.equals("P") || ProjectLineLevel.equals("T")); else throw new IllegalArgumentException ("ProjectLineLevel Invalid value - " + ProjectLineLevel + " - Reference_ID=384 - A - P - T");		if (ProjectLineLevel.length() > 1)
+		if (ProjectLineLevel == null) throw new IllegalArgumentException ("ProjectLineLevel is mandatory");
+		if (ProjectLineLevel.equals("P") || ProjectLineLevel.equals("A") || ProjectLineLevel.equals("T")); else throw new IllegalArgumentException ("ProjectLineLevel Invalid value - " + ProjectLineLevel + " - Reference_ID=384 - P - A - T");
+		if (ProjectLineLevel.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProjectLineLevel = ProjectLineLevel.substring(0, 0);
+			ProjectLineLevel = ProjectLineLevel.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProjectLineLevel, ProjectLineLevel);
 	}
@@ -1029,17 +1083,18 @@ if (ProjectLineLevel == null) throw new IllegalArgumentException ("ProjectLineLe
 		return (String)get_Value(COLUMNNAME_ProjectLineLevel);
 	}
 
-/** SalesRep_ID AD_Reference_ID=190 */
-public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 		set_Value (COLUMNNAME_SalesRep_ID, null);
- else 
-		set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID <= 0) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
@@ -1061,10 +1116,11 @@ public static final int SALESREP_ID_AD_Reference_ID=190;
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

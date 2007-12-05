@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Window_Access
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:31.296
-     */
-    public interface I_AD_Window_Access 
+/** Generated Interface for AD_Window_Access
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Window_Access 
 {
 
     /** TableName=AD_Window_Access */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getI_AD_Window() throws Exception;
+	public I_AD_Window getAD_Window() throws Exception;
 
     /** Column name IsReadWrite */
     public static final String COLUMNNAME_IsReadWrite = "IsReadWrite";

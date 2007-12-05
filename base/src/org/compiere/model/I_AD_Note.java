@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Note
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:24.203
-     */
-    public interface I_AD_Note 
+/** Generated Interface for AD_Note
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Note 
 {
 
     /** TableName=AD_Note */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -97,7 +95,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -112,7 +110,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name AD_WF_Activity_ID */
     public static final String COLUMNNAME_AD_WF_Activity_ID = "AD_WF_Activity_ID";
@@ -127,7 +125,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Activity_ID();
 
-	public I_AD_WF_Activity getI_AD_WF_Activity() throws Exception;
+	public I_AD_WF_Activity getAD_WF_Activity() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

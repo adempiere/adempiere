@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for I_ReportLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.375
-     */
-    public interface I_I_ReportLine 
+/** Generated Interface for I_ReportLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_I_ReportLine 
 {
 
     /** TableName=I_ReportLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getI_C_ElementValue() throws Exception;
+	public I_C_ElementValue getC_ElementValue() throws Exception;
 
     /** Column name CalculationType */
     public static final String COLUMNNAME_CalculationType = "CalculationType";
@@ -217,7 +215,7 @@ import org.compiere.util.*;
 	/** Get Report Line Set	  */
 	public int getPA_ReportLineSet_ID();
 
-	public I_PA_ReportLineSet getI_PA_ReportLineSet() throws Exception;
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception;
 
     /** Column name PA_ReportLine_ID */
     public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";
@@ -228,7 +226,7 @@ import org.compiere.util.*;
 	/** Get Report Line	  */
 	public int getPA_ReportLine_ID();
 
-	public I_PA_ReportLine getI_PA_ReportLine() throws Exception;
+	public I_PA_ReportLine getPA_ReportLine() throws Exception;
 
     /** Column name PA_ReportSource_ID */
     public static final String COLUMNNAME_PA_ReportSource_ID = "PA_ReportSource_ID";
@@ -243,7 +241,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_ReportSource_ID();
 
-	public I_PA_ReportSource getI_PA_ReportSource() throws Exception;
+	public I_PA_ReportSource getPA_ReportSource() throws Exception;
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

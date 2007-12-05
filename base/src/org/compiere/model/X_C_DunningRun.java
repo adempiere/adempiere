@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningRun
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent 
 {
 
@@ -39,12 +39,14 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
     public X_C_DunningRun (Properties ctx, int C_DunningRun_ID, String trxName)
     {
       super (ctx, C_DunningRun_ID, trxName);
-      /** if (C_DunningRun_ID == 0)        {			setC_DunningLevel_ID (0);
+      /** if (C_DunningRun_ID == 0)
+        {
+			setC_DunningLevel_ID (0);
 			setC_DunningRun_ID (0);
 			setDunningDate (new Timestamp(System.currentTimeMillis()));
 // @#Date@
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +77,7 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
       return sb.toString();
     }
 
-	public I_C_DunningLevel getI_C_DunningLevel() throws Exception 
+	public I_C_DunningLevel getC_DunningLevel() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DunningLevel.Table_Name);
         I_C_DunningLevel result = null;
@@ -101,7 +103,7 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 	}
 
 	/** Get Dunning Level.
-@return Dunning Level	  */
+		@return Dunning Level	  */
 	public int getC_DunningLevel_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
@@ -138,10 +140,11 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -213,7 +216,7 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -230,16 +233,17 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 		@param SendIt Send	  */
 	public void setSendIt (String SendIt)
 	{
+
 		if (SendIt != null && SendIt.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SendIt = SendIt.substring(0, 0);
+			SendIt = SendIt.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SendIt, SendIt);
 	}
 
 	/** Get Send.
-@return Send	  */
+		@return Send	  */
 	public String getSendIt () 
 	{
 		return (String)get_Value(COLUMNNAME_SendIt);

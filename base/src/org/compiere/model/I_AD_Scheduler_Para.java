@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Scheduler_Para
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:27.703
-     */
-    public interface I_AD_Scheduler_Para 
+/** Generated Interface for AD_Scheduler_Para
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Scheduler_Para 
 {
 
     /** TableName=AD_Scheduler_Para */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -67,7 +65,7 @@ import org.compiere.util.*;
 	/** Get Process Parameter	  */
 	public int getAD_Process_Para_ID();
 
-	public I_AD_Process_Para getI_AD_Process_Para() throws Exception;
+	public I_AD_Process_Para getAD_Process_Para() throws Exception;
 
     /** Column name AD_Scheduler_ID */
     public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
@@ -82,7 +80,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Scheduler_ID();
 
-	public I_AD_Scheduler getI_AD_Scheduler() throws Exception;
+	public I_AD_Scheduler getAD_Scheduler() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

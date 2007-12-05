@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Column extends PO implements I_AD_Column, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
     public X_AD_Column (Properties ctx, int AD_Column_ID, String trxName)
     {
       super (ctx, AD_Column_ID, trxName);
-      /** if (AD_Column_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_Column_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_Element_ID (0);
 			setAD_Reference_ID (0);
 			setAD_Table_ID (0);
@@ -60,7 +63,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 // Y
 			setName (null);
 			setVersion (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -113,6 +116,22 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Element getAD_Element() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Element.Table_Name);
+        I_AD_Element result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Element)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Element_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set System Element.
 		@param AD_Element_ID 
 		System Element enables the central maintenance of column description and help.
@@ -135,7 +154,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -157,9 +176,10 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -173,8 +193,8 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return ii.intValue();
 	}
 
-/** AD_Reference_ID AD_Reference_ID=1 */
-public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
+	/** AD_Reference_ID AD_Reference_ID=1 */
+	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -197,17 +217,18 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 		return ii.intValue();
 	}
 
-/** AD_Reference_Value_ID AD_Reference_ID=4 */
-public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
+	/** AD_Reference_Value_ID AD_Reference_ID=4 */
+	public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 
 		Required to specify, if data type is Table or List
 	  */
 	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 	{
-		if (AD_Reference_Value_ID <= 0) 		set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
+		if (AD_Reference_Value_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
 	}
 
 	/** Get Reference Key.
@@ -221,7 +242,7 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -259,7 +280,7 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getI_AD_Val_Rule() throws Exception 
+	public I_AD_Val_Rule getAD_Val_Rule() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Val_Rule.Table_Name);
         I_AD_Val_Rule result = null;
@@ -281,9 +302,10 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	  */
 	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 	{
-		if (AD_Val_Rule_ID <= 0) 		set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
+		if (AD_Val_Rule_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
 	}
 
 	/** Get Dynamic Validation.
@@ -303,10 +325,11 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	  */
 	public void setCallout (String Callout)
 	{
+
 		if (Callout != null && Callout.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Callout = Callout.substring(0, 254);
+			Callout = Callout.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Callout, Callout);
 	}
@@ -327,10 +350,11 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	{
 		if (ColumnName == null)
 			throw new IllegalArgumentException ("ColumnName is mandatory.");
+
 		if (ColumnName.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ColumnName = ColumnName.substring(0, 39);
+			ColumnName = ColumnName.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
@@ -357,10 +381,11 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	  */
 	public void setColumnSQL (String ColumnSQL)
 	{
+
 		if (ColumnSQL != null && ColumnSQL.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ColumnSQL = ColumnSQL.substring(0, 1999);
+			ColumnSQL = ColumnSQL.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ColumnSQL, ColumnSQL);
 	}
@@ -379,10 +404,11 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	  */
 	public void setDefaultValue (String DefaultValue)
 	{
+
 		if (DefaultValue != null && DefaultValue.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DefaultValue = DefaultValue.substring(0, 1999);
+			DefaultValue = DefaultValue.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
 	}
@@ -401,10 +427,11 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -417,14 +444,15 @@ public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -467,10 +495,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -507,20 +536,24 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return false;
 	}
 
-/** IsEncrypted AD_Reference_ID=354 */
-public static final int ISENCRYPTED_AD_Reference_ID=354;/** Not Encrypted = N */
-public static final String ISENCRYPTED_NotEncrypted = "N";/** Encrypted = Y */
-public static final String ISENCRYPTED_Encrypted = "Y";
+	/** IsEncrypted AD_Reference_ID=354 */
+	public static final int ISENCRYPTED_AD_Reference_ID=354;
+	/** Encrypted = Y */
+	public static final String ISENCRYPTED_Encrypted = "Y";
+	/** Not Encrypted = N */
+	public static final String ISENCRYPTED_NotEncrypted = "N";
 	/** Set Encrypted.
 		@param IsEncrypted 
 		Display or Storage is encrypted
 	  */
 	public void setIsEncrypted (String IsEncrypted)
 	{
-if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is mandatory");if (IsEncrypted.equals("N") || IsEncrypted.equals("Y")); else throw new IllegalArgumentException ("IsEncrypted Invalid value - " + IsEncrypted + " - Reference_ID=354 - N - Y");		if (IsEncrypted.length() > 1)
+		if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is mandatory");
+		if (IsEncrypted.equals("Y") || IsEncrypted.equals("N")); else throw new IllegalArgumentException ("IsEncrypted Invalid value - " + IsEncrypted + " - Reference_ID=354 - Y - N");
+		if (IsEncrypted.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsEncrypted = IsEncrypted.substring(0, 0);
+			IsEncrypted = IsEncrypted.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_IsEncrypted, IsEncrypted);
 	}
@@ -659,10 +692,11 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 	  */
 	public void setIsSyncDatabase (String IsSyncDatabase)
 	{
+
 		if (IsSyncDatabase != null && IsSyncDatabase.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsSyncDatabase = IsSyncDatabase.substring(0, 0);
+			IsSyncDatabase = IsSyncDatabase.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_IsSyncDatabase, IsSyncDatabase);
 	}
@@ -727,16 +761,17 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 		@param MandatoryLogic Mandatory Logic	  */
 	public void setMandatoryLogic (String MandatoryLogic)
 	{
+
 		if (MandatoryLogic != null && MandatoryLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MandatoryLogic = MandatoryLogic.substring(0, 1999);
+			MandatoryLogic = MandatoryLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MandatoryLogic, MandatoryLogic);
 	}
 
 	/** Get Mandatory Logic.
-@return Mandatory Logic	  */
+		@return Mandatory Logic	  */
 	public String getMandatoryLogic () 
 	{
 		return (String)get_Value(COLUMNNAME_MandatoryLogic);
@@ -750,10 +785,11 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -772,10 +808,11 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 	  */
 	public void setReadOnlyLogic (String ReadOnlyLogic)
 	{
+
 		if (ReadOnlyLogic != null && ReadOnlyLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ReadOnlyLogic = ReadOnlyLogic.substring(0, 1999);
+			ReadOnlyLogic = ReadOnlyLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ReadOnlyLogic, ReadOnlyLogic);
 	}
@@ -814,10 +851,11 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 	  */
 	public void setVFormat (String VFormat)
 	{
+
 		if (VFormat != null && VFormat.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			VFormat = VFormat.substring(0, 59);
+			VFormat = VFormat.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_VFormat, VFormat);
 	}
@@ -836,10 +874,11 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 	  */
 	public void setValueMax (String ValueMax)
 	{
+
 		if (ValueMax != null && ValueMax.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ValueMax = ValueMax.substring(0, 19);
+			ValueMax = ValueMax.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ValueMax, ValueMax);
 	}
@@ -858,10 +897,11 @@ if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is man
 	  */
 	public void setValueMin (String ValueMin)
 	{
+
 		if (ValueMin != null && ValueMin.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ValueMin = ValueMin.substring(0, 19);
+			ValueMin = ValueMin.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ValueMin, ValueMin);
 	}

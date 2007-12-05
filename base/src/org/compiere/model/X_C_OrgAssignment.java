@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
     public X_C_OrgAssignment (Properties ctx, int C_OrgAssignment_ID, String trxName)
     {
       super (ctx, C_OrgAssignment_ID, trxName);
-      /** if (C_OrgAssignment_ID == 0)        {			setAD_User_ID (0);
+      /** if (C_OrgAssignment_ID == 0)
+        {
+			setAD_User_ID (0);
 			setC_OrgAssignment_ID (0);
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -71,6 +72,22 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
       StringBuffer sb = new StringBuffer ("X_C_OrgAssignment[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set User/Contact.
@@ -123,10 +140,11 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

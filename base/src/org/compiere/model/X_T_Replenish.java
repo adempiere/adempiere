@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent 
 {
 
@@ -39,14 +39,16 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
     public X_T_Replenish (Properties ctx, int T_Replenish_ID, String trxName)
     {
       super (ctx, T_Replenish_ID, trxName);
-      /** if (T_Replenish_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_Replenish_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setC_BPartner_ID (0);
 			setLevel_Max (Env.ZERO);
 			setLevel_Min (Env.ZERO);
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
 			setReplenishType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +79,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -115,6 +117,22 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -137,7 +155,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getI_C_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -159,9 +177,10 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID <= 0) 		set_Value (COLUMNNAME_C_DocType_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -219,6 +238,22 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return bd;
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -241,17 +276,18 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-/** M_WarehouseSource_ID AD_Reference_ID=197 */
-public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
+	/** M_WarehouseSource_ID AD_Reference_ID=197 */
+	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	/** Set Source Warehouse.
 		@param M_WarehouseSource_ID 
 		Optional Warehouse to replenish from
 	  */
 	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
 	{
-		if (M_WarehouseSource_ID <= 0) 		set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
- else 
-		set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
+		if (M_WarehouseSource_ID <= 0) 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
 	}
 
 	/** Get Source Warehouse.
@@ -265,7 +301,7 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -411,7 +447,7 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	}
 
 	/** Get Quantity to Order.
-@return Quantity to Order	  */
+		@return Quantity to Order	  */
 	public BigDecimal getQtyToOrder () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyToOrder);
@@ -420,22 +456,28 @@ public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 		return bd;
 	}
 
-/** ReplenishType AD_Reference_ID=164 */
-public static final int REPLENISHTYPE_AD_Reference_ID=164;/** Manual = 0 */
-public static final String REPLENISHTYPE_Manual = "0";/** Reorder below Minimum Level = 1 */
-public static final String REPLENISHTYPE_ReorderBelowMinimumLevel = "1";/** Maintain Maximum Level = 2 */
-public static final String REPLENISHTYPE_MaintainMaximumLevel = "2";/** Custom = 9 */
-public static final String REPLENISHTYPE_Custom = "9";
+	/** ReplenishType AD_Reference_ID=164 */
+	public static final int REPLENISHTYPE_AD_Reference_ID=164;
+	/** Maintain Maximum Level = 2 */
+	public static final String REPLENISHTYPE_MaintainMaximumLevel = "2";
+	/** Manual = 0 */
+	public static final String REPLENISHTYPE_Manual = "0";
+	/** Reorder below Minimum Level = 1 */
+	public static final String REPLENISHTYPE_ReorderBelowMinimumLevel = "1";
+	/** Custom = 9 */
+	public static final String REPLENISHTYPE_Custom = "9";
 	/** Set Replenish Type.
 		@param ReplenishType 
 		Method for re-ordering a product
 	  */
 	public void setReplenishType (String ReplenishType)
 	{
-if (ReplenishType == null) throw new IllegalArgumentException ("ReplenishType is mandatory");if (ReplenishType.equals("0") || ReplenishType.equals("1") || ReplenishType.equals("2") || ReplenishType.equals("9")); else throw new IllegalArgumentException ("ReplenishType Invalid value - " + ReplenishType + " - Reference_ID=164 - 0 - 1 - 2 - 9");		if (ReplenishType.length() > 1)
+		if (ReplenishType == null) throw new IllegalArgumentException ("ReplenishType is mandatory");
+		if (ReplenishType.equals("2") || ReplenishType.equals("0") || ReplenishType.equals("1") || ReplenishType.equals("9")); else throw new IllegalArgumentException ("ReplenishType Invalid value - " + ReplenishType + " - Reference_ID=164 - 2 - 0 - 1 - 9");
+		if (ReplenishType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ReplenishType = ReplenishType.substring(0, 0);
+			ReplenishType = ReplenishType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ReplenishType, ReplenishType);
 	}
@@ -448,21 +490,26 @@ if (ReplenishType == null) throw new IllegalArgumentException ("ReplenishType is
 		return (String)get_Value(COLUMNNAME_ReplenishType);
 	}
 
-/** ReplenishmentCreate AD_Reference_ID=329 */
-public static final int REPLENISHMENTCREATE_AD_Reference_ID=329;/** Inventory Move = MMM */
-public static final String REPLENISHMENTCREATE_InventoryMove = "MMM";/** Purchase Order = POO */
-public static final String REPLENISHMENTCREATE_PurchaseOrder = "POO";/** Requisition = POR */
-public static final String REPLENISHMENTCREATE_Requisition = "POR";
+	/** ReplenishmentCreate AD_Reference_ID=329 */
+	public static final int REPLENISHMENTCREATE_AD_Reference_ID=329;
+	/** Purchase Order = POO */
+	public static final String REPLENISHMENTCREATE_PurchaseOrder = "POO";
+	/** Requisition = POR */
+	public static final String REPLENISHMENTCREATE_Requisition = "POR";
+	/** Inventory Move = MMM */
+	public static final String REPLENISHMENTCREATE_InventoryMove = "MMM";
 	/** Set Create.
 		@param ReplenishmentCreate 
 		Create from Replenishment
 	  */
 	public void setReplenishmentCreate (String ReplenishmentCreate)
 	{
-if (ReplenishmentCreate == null || ReplenishmentCreate.equals("MMM") || ReplenishmentCreate.equals("POO") || ReplenishmentCreate.equals("POR")); else throw new IllegalArgumentException ("ReplenishmentCreate Invalid value - " + ReplenishmentCreate + " - Reference_ID=329 - MMM - POO - POR");		if (ReplenishmentCreate != null && ReplenishmentCreate.length() > 1)
+
+		if (ReplenishmentCreate == null || ReplenishmentCreate.equals("POO") || ReplenishmentCreate.equals("POR") || ReplenishmentCreate.equals("MMM")); else throw new IllegalArgumentException ("ReplenishmentCreate Invalid value - " + ReplenishmentCreate + " - Reference_ID=329 - POO - POR - MMM");
+		if (ReplenishmentCreate != null && ReplenishmentCreate.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ReplenishmentCreate = ReplenishmentCreate.substring(0, 0);
+			ReplenishmentCreate = ReplenishmentCreate.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ReplenishmentCreate, ReplenishmentCreate);
 	}

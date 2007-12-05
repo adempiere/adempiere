@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponseLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
     public X_C_RfQResponseLineQty (Properties ctx, int C_RfQResponseLineQty_ID, String trxName)
     {
       super (ctx, C_RfQResponseLineQty_ID, trxName);
-      /** if (C_RfQResponseLineQty_ID == 0)        {			setC_RfQLineQty_ID (0);
+      /** if (C_RfQResponseLineQty_ID == 0)
+        {
+			setC_RfQLineQty_ID (0);
 			setC_RfQResponseLineQty_ID (0);
 			setC_RfQResponseLine_ID (0);
 			setPrice (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +77,7 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
       return sb.toString();
     }
 
-	public I_C_RfQLineQty getI_C_RfQLineQty() throws Exception 
+	public I_C_RfQLineQty getC_RfQLineQty() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQLineQty.Table_Name);
         I_C_RfQLineQty result = null;
@@ -134,7 +137,7 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 		return ii.intValue();
 	}
 
-	public I_C_RfQResponseLine getI_C_RfQResponseLine() throws Exception 
+	public I_C_RfQResponseLine getC_RfQResponseLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQResponseLine.Table_Name);
         I_C_RfQResponseLine result = null;

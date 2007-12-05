@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Retirement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
     public X_A_Asset_Retirement (Properties ctx, int A_Asset_Retirement_ID, String trxName)
     {
       super (ctx, A_Asset_Retirement_ID, trxName);
-      /** if (A_Asset_Retirement_ID == 0)        {			setA_Asset_ID (0);
+      /** if (A_Asset_Retirement_ID == 0)
+        {
+			setA_Asset_ID (0);
 			setA_Asset_Retirement_ID (0);
 			setAssetMarketValueAmt (Env.ZERO);
 			setAssetValueAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +77,7 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
       return sb.toString();
     }
 
-	public I_A_Asset getI_A_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -186,15 +189,32 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 		return bd;
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 		set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
- else 
-		set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID <= 0) 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.

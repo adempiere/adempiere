@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_W_Counter extends PO implements I_W_Counter, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)
     {
       super (ctx, W_Counter_ID, trxName);
-      /** if (W_Counter_ID == 0)        {			setPageURL (null);
+      /** if (W_Counter_ID == 0)
+        {
+			setPageURL (null);
 			setProcessed (false);
 			setRemote_Addr (null);
 			setRemote_Host (null);
 			setW_Counter_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,9 +82,10 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -103,10 +105,11 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setAcceptLanguage (String AcceptLanguage)
 	{
+
 		if (AcceptLanguage != null && AcceptLanguage.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AcceptLanguage = AcceptLanguage.substring(0, 59);
+			AcceptLanguage = AcceptLanguage.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
 	}
@@ -125,10 +128,11 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
+
 		if (EMail != null && EMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 59);
+			EMail = EMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -147,16 +151,17 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	{
 		if (PageURL == null)
 			throw new IllegalArgumentException ("PageURL is mandatory.");
+
 		if (PageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			PageURL = PageURL.substring(0, 119);
+			PageURL = PageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_PageURL, PageURL);
 	}
 
 	/** Get Page URL.
-@return Page URL	  */
+		@return Page URL	  */
 	public String getPageURL () 
 	{
 		return (String)get_Value(COLUMNNAME_PageURL);
@@ -192,10 +197,11 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setReferrer (String Referrer)
 	{
+
 		if (Referrer != null && Referrer.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Referrer = Referrer.substring(0, 119);
+			Referrer = Referrer.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Referrer, Referrer);
 	}
@@ -216,10 +222,11 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	{
 		if (Remote_Addr == null)
 			throw new IllegalArgumentException ("Remote_Addr is mandatory.");
+
 		if (Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -248,10 +255,11 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	{
 		if (Remote_Host == null)
 			throw new IllegalArgumentException ("Remote_Host is mandatory.");
+
 		if (Remote_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 119);
+			Remote_Host = Remote_Host.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -270,10 +278,11 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setUserAgent (String UserAgent)
 	{
+
 		if (UserAgent != null && UserAgent.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			UserAgent = UserAgent.substring(0, 254);
+			UserAgent = UserAgent.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_UserAgent, UserAgent);
 	}
@@ -286,7 +295,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
-	public I_W_CounterCount getI_W_CounterCount() throws Exception 
+	public I_W_CounterCount getW_CounterCount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_W_CounterCount.Table_Name);
         I_W_CounterCount result = null;
@@ -308,9 +317,10 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setW_CounterCount_ID (int W_CounterCount_ID)
 	{
-		if (W_CounterCount_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, Integer.valueOf(W_CounterCount_ID));
+		if (W_CounterCount_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, Integer.valueOf(W_CounterCount_ID));
 	}
 
 	/** Get Counter Count.

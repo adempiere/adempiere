@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for K_Entry
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.703
-     */
-    public interface I_K_Entry 
+/** Generated Interface for K_Entry
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_K_Entry 
 {
 
     /** TableName=K_Entry */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Session_ID();
 
-	public I_AD_Session getI_AD_Session() throws Exception;
+	public I_AD_Session getAD_Session() throws Exception;
 
     /** Column name DescriptionURL */
     public static final String COLUMNNAME_DescriptionURL = "DescriptionURL";
@@ -125,7 +124,7 @@ import org.compiere.util.*;
 	  */
 	public int getK_Source_ID();
 
-	public I_K_Source getI_K_Source() throws Exception;
+	public I_K_Source getK_Source() throws Exception;
 
     /** Column name K_Topic_ID */
     public static final String COLUMNNAME_K_Topic_ID = "K_Topic_ID";
@@ -140,7 +139,7 @@ import org.compiere.util.*;
 	  */
 	public int getK_Topic_ID();
 
-	public I_K_Topic getI_K_Topic() throws Exception;
+	public I_K_Topic getK_Topic() throws Exception;
 
     /** Column name Keywords */
     public static final String COLUMNNAME_Keywords = "Keywords";

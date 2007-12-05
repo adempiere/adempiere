@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_Currency_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Currency_Acct extends PO implements I_C_Currency_Acct, I_Persistent 
 {
 
@@ -39,13 +37,15 @@ public class X_C_Currency_Acct extends PO implements I_C_Currency_Acct, I_Persis
     public X_C_Currency_Acct (Properties ctx, int C_Currency_Acct_ID, String trxName)
     {
       super (ctx, C_Currency_Acct_ID, trxName);
-      /** if (C_Currency_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_Currency_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_Currency_ID (0);
 			setRealizedGain_Acct (0);
 			setRealizedLoss_Acct (0);
 			setUnrealizedGain_Acct (0);
 			setUnrealizedLoss_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +76,7 @@ public class X_C_Currency_Acct extends PO implements I_C_Currency_Acct, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -114,7 +114,7 @@ public class X_C_Currency_Acct extends PO implements I_C_Currency_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;

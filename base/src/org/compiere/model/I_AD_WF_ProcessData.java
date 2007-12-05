@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_WF_ProcessData
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:31.171
-     */
-    public interface I_AD_WF_ProcessData 
+/** Generated Interface for AD_WF_ProcessData
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_WF_ProcessData 
 {
 
     /** TableName=AD_WF_ProcessData */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Process_ID();
 
-	public I_AD_WF_Process getI_AD_WF_Process() throws Exception;
+	public I_AD_WF_Process getAD_WF_Process() throws Exception;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";

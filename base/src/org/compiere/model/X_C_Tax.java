@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Tax extends PO implements I_C_Tax, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
     public X_C_Tax (Properties ctx, int C_Tax_ID, String trxName)
     {
       super (ctx, C_Tax_ID, trxName);
-      /** if (C_Tax_ID == 0)        {			setC_TaxCategory_ID (0);
+      /** if (C_Tax_ID == 0)
+        {
+			setC_TaxCategory_ID (0);
 			setC_Tax_ID (0);
 			setIsDefault (false);
 			setIsDocumentLevel (false);
@@ -53,7 +57,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 			setSOPOType (null);
 // B
 			setValidFrom (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -84,17 +88,18 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
       return sb.toString();
     }
 
-/** C_Country_ID AD_Reference_ID=156 */
-public static final int C_COUNTRY_ID_AD_Reference_ID=156;
+	/** C_Country_ID AD_Reference_ID=156 */
+	public static final int C_COUNTRY_ID_AD_Reference_ID=156;
 	/** Set Country.
 		@param C_Country_ID 
 		Country 
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID <= 0) 		set_Value (COLUMNNAME_C_Country_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
+		if (C_Country_ID <= 0) 
+			set_Value (COLUMNNAME_C_Country_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
 	}
 
 	/** Get Country.
@@ -108,17 +113,18 @@ public static final int C_COUNTRY_ID_AD_Reference_ID=156;
 		return ii.intValue();
 	}
 
-/** C_Region_ID AD_Reference_ID=157 */
-public static final int C_REGION_ID_AD_Reference_ID=157;
+	/** C_Region_ID AD_Reference_ID=157 */
+	public static final int C_REGION_ID_AD_Reference_ID=157;
 	/** Set Region.
 		@param C_Region_ID 
 		Identifies a geographical Region
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 		set_Value (COLUMNNAME_C_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID <= 0) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -132,7 +138,7 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -198,10 +204,11 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -342,10 +349,11 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -366,17 +374,18 @@ public static final int C_REGION_ID_AD_Reference_ID=157;
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Parent_Tax_ID AD_Reference_ID=158 */
-public static final int PARENT_TAX_ID_AD_Reference_ID=158;
+	/** Parent_Tax_ID AD_Reference_ID=158 */
+	public static final int PARENT_TAX_ID_AD_Reference_ID=158;
 	/** Set Parent Tax.
 		@param Parent_Tax_ID 
 		Parent Tax indicates a tax that is made up of multiple taxes
 	  */
 	public void setParent_Tax_ID (int Parent_Tax_ID)
 	{
-		if (Parent_Tax_ID <= 0) 		set_Value (COLUMNNAME_Parent_Tax_ID, null);
- else 
-		set_Value (COLUMNNAME_Parent_Tax_ID, Integer.valueOf(Parent_Tax_ID));
+		if (Parent_Tax_ID <= 0) 
+			set_Value (COLUMNNAME_Parent_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_Parent_Tax_ID, Integer.valueOf(Parent_Tax_ID));
 	}
 
 	/** Get Parent Tax.
@@ -436,21 +445,26 @@ public static final int PARENT_TAX_ID_AD_Reference_ID=158;
 		return false;
 	}
 
-/** SOPOType AD_Reference_ID=287 */
-public static final int SOPOTYPE_AD_Reference_ID=287;/** Both = B */
-public static final String SOPOTYPE_Both = "B";/** Purchase Tax = P */
-public static final String SOPOTYPE_PurchaseTax = "P";/** Sales Tax = S */
-public static final String SOPOTYPE_SalesTax = "S";
+	/** SOPOType AD_Reference_ID=287 */
+	public static final int SOPOTYPE_AD_Reference_ID=287;
+	/** Both = B */
+	public static final String SOPOTYPE_Both = "B";
+	/** Sales Tax = S */
+	public static final String SOPOTYPE_SalesTax = "S";
+	/** Purchase Tax = P */
+	public static final String SOPOTYPE_PurchaseTax = "P";
 	/** Set SO/PO Type.
 		@param SOPOType 
 		Sales Tax applies to sales situations, Purchase Tax to purchase situations
 	  */
 	public void setSOPOType (String SOPOType)
 	{
-if (SOPOType == null) throw new IllegalArgumentException ("SOPOType is mandatory");if (SOPOType.equals("B") || SOPOType.equals("P") || SOPOType.equals("S")); else throw new IllegalArgumentException ("SOPOType Invalid value - " + SOPOType + " - Reference_ID=287 - B - P - S");		if (SOPOType.length() > 1)
+		if (SOPOType == null) throw new IllegalArgumentException ("SOPOType is mandatory");
+		if (SOPOType.equals("B") || SOPOType.equals("S") || SOPOType.equals("P")); else throw new IllegalArgumentException ("SOPOType Invalid value - " + SOPOType + " - Reference_ID=287 - B - S - P");
+		if (SOPOType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SOPOType = SOPOType.substring(0, 0);
+			SOPOType = SOPOType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SOPOType, SOPOType);
 	}
@@ -469,10 +483,11 @@ if (SOPOType == null) throw new IllegalArgumentException ("SOPOType is mandatory
 	  */
 	public void setTaxIndicator (String TaxIndicator)
 	{
+
 		if (TaxIndicator != null && TaxIndicator.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			TaxIndicator = TaxIndicator.substring(0, 9);
+			TaxIndicator = TaxIndicator.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_TaxIndicator, TaxIndicator);
 	}
@@ -485,17 +500,18 @@ if (SOPOType == null) throw new IllegalArgumentException ("SOPOType is mandatory
 		return (String)get_Value(COLUMNNAME_TaxIndicator);
 	}
 
-/** To_Country_ID AD_Reference_ID=156 */
-public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
+	/** To_Country_ID AD_Reference_ID=156 */
+	public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
 	/** Set To.
 		@param To_Country_ID 
 		Receiving Country
 	  */
 	public void setTo_Country_ID (int To_Country_ID)
 	{
-		if (To_Country_ID <= 0) 		set_Value (COLUMNNAME_To_Country_ID, null);
- else 
-		set_Value (COLUMNNAME_To_Country_ID, Integer.valueOf(To_Country_ID));
+		if (To_Country_ID <= 0) 
+			set_Value (COLUMNNAME_To_Country_ID, null);
+		else 
+			set_Value (COLUMNNAME_To_Country_ID, Integer.valueOf(To_Country_ID));
 	}
 
 	/** Get To.
@@ -509,17 +525,18 @@ public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
 		return ii.intValue();
 	}
 
-/** To_Region_ID AD_Reference_ID=157 */
-public static final int TO_REGION_ID_AD_Reference_ID=157;
+	/** To_Region_ID AD_Reference_ID=157 */
+	public static final int TO_REGION_ID_AD_Reference_ID=157;
 	/** Set To.
 		@param To_Region_ID 
 		Receiving Region
 	  */
 	public void setTo_Region_ID (int To_Region_ID)
 	{
-		if (To_Region_ID <= 0) 		set_Value (COLUMNNAME_To_Region_ID, null);
- else 
-		set_Value (COLUMNNAME_To_Region_ID, Integer.valueOf(To_Region_ID));
+		if (To_Region_ID <= 0) 
+			set_Value (COLUMNNAME_To_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_To_Region_ID, Integer.valueOf(To_Region_ID));
 	}
 
 	/** Get To.

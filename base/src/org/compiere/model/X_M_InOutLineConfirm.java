@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
     public X_M_InOutLineConfirm (Properties ctx, int M_InOutLineConfirm_ID, String trxName)
     {
       super (ctx, M_InOutLineConfirm_ID, trxName);
-      /** if (M_InOutLineConfirm_ID == 0)        {			setConfirmedQty (Env.ZERO);
+      /** if (M_InOutLineConfirm_ID == 0)
+        {
+			setConfirmedQty (Env.ZERO);
 			setM_InOutConfirm_ID (0);
 			setM_InOutLineConfirm_ID (0);
 			setM_InOutLine_ID (0);
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,15 +79,32 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
       return sb.toString();
     }
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 		set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
- else 
-		set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID <= 0) 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -104,10 +124,11 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setConfirmationNo (String ConfirmationNo)
 	{
+
 		if (ConfirmationNo != null && ConfirmationNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ConfirmationNo = ConfirmationNo.substring(0, 19);
+			ConfirmationNo = ConfirmationNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
 	}
@@ -148,10 +169,11 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -184,7 +206,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return bd;
 	}
 
-	public I_M_InOutConfirm getI_M_InOutConfirm() throws Exception 
+	public I_M_InOutConfirm getM_InOutConfirm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutConfirm.Table_Name);
         I_M_InOutConfirm result = null;
@@ -244,6 +266,22 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return ii.intValue();
 	}
 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
@@ -274,15 +312,32 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         return new KeyNamePair(get_ID(), String.valueOf(getM_InOutLine_ID()));
     }
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
 		Unique line in an Inventory document
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+		if (M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
 	}
 
 	/** Get Phys.Inventory Line.

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Media_Server
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
     public X_CM_Media_Server (Properties ctx, int CM_Media_Server_ID, String trxName)
     {
       super (ctx, CM_Media_Server_ID, trxName);
-      /** if (CM_Media_Server_ID == 0)        {			setCM_Media_Server_ID (0);
+      /** if (CM_Media_Server_ID == 0)
+        {
+			setCM_Media_Server_ID (0);
 			setCM_WebProject_ID (0);
 			setIsPassive (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +97,7 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -140,10 +141,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -162,10 +164,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setFolder (String Folder)
 	{
+
 		if (Folder != null && Folder.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Folder = Folder.substring(0, 59);
+			Folder = Folder.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Folder, Folder);
 	}
@@ -184,10 +187,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -206,10 +210,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setIP_Address (String IP_Address)
 	{
+
 		if (IP_Address != null && IP_Address.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			IP_Address = IP_Address.substring(0, 19);
+			IP_Address = IP_Address.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_IP_Address, IP_Address);
 	}
@@ -254,10 +259,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -284,10 +290,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setPassword (String Password)
 	{
+
 		if (Password != null && Password.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Password = Password.substring(0, 39);
+			Password = Password.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
@@ -306,10 +313,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setURL (String URL)
 	{
+
 		if (URL != null && URL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			URL = URL.substring(0, 119);
+			URL = URL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_URL, URL);
 	}
@@ -328,10 +336,11 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setUserName (String UserName)
 	{
+
 		if (UserName != null && UserName.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			UserName = UserName.substring(0, 39);
+			UserName = UserName.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_UserName, UserName);
 	}

@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMAType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent 
 {
 
@@ -39,9 +36,11 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
     public X_M_RMAType (Properties ctx, int M_RMAType_ID, String trxName)
     {
       super (ctx, M_RMAType_ID, trxName);
-      /** if (M_RMAType_ID == 0)        {			setM_RMAType_ID (0);
+      /** if (M_RMAType_ID == 0)
+        {
+			setM_RMAType_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +77,11 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -100,10 +100,11 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -146,10 +147,11 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

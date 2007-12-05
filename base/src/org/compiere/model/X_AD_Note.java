@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Note
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Note extends PO implements I_AD_Note, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
     public X_AD_Note (Properties ctx, int AD_Note_ID, String trxName)
     {
       super (ctx, AD_Note_ID, trxName);
-      /** if (AD_Note_ID == 0)        {			setAD_Message_ID (0);
+      /** if (AD_Note_ID == 0)
+        {
+			setAD_Message_ID (0);
 			setAD_Note_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,8 +73,8 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
       return sb.toString();
     }
 
-/** AD_Message_ID AD_Reference_ID=102 */
-public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
+	/** AD_Message_ID AD_Reference_ID=102 */
+	public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	/** Set Message.
 		@param AD_Message_ID 
 		System Message
@@ -126,7 +127,7 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -148,9 +149,10 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -164,7 +166,7 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -186,9 +188,10 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -202,7 +205,7 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Activity getI_AD_WF_Activity() throws Exception 
+	public I_AD_WF_Activity getAD_WF_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Activity.Table_Name);
         I_AD_WF_Activity result = null;
@@ -224,9 +227,10 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setAD_WF_Activity_ID (int AD_WF_Activity_ID)
 	{
-		if (AD_WF_Activity_ID <= 0) 		set_Value (COLUMNNAME_AD_WF_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_WF_Activity_ID, Integer.valueOf(AD_WF_Activity_ID));
+		if (AD_WF_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_AD_WF_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Activity_ID, Integer.valueOf(AD_WF_Activity_ID));
 	}
 
 	/** Get Workflow Activity.
@@ -246,10 +250,11 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -294,7 +299,7 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -313,9 +318,10 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Record_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -335,10 +341,11 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setReference (String Reference)
 	{
+
 		if (Reference != null && Reference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 59);
+			Reference = Reference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
@@ -357,10 +364,11 @@ public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

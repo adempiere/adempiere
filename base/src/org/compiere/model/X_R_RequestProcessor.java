@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
     public X_R_RequestProcessor (Properties ctx, int R_RequestProcessor_ID, String trxName)
     {
       super (ctx, R_RequestProcessor_ID, trxName);
-      /** if (R_RequestProcessor_ID == 0)        {			setFrequency (0);
+      /** if (R_RequestProcessor_ID == 0)
+        {
+			setFrequency (0);
 // 1
 			setFrequencyType (null);
 			setInactivityAlertDays (0);
@@ -55,7 +57,7 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 			setRemindDays (0);
 // 0
 			setSupervisor_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -126,10 +128,11 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -162,21 +165,26 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 		return ii.intValue();
 	}
 
-/** FrequencyType AD_Reference_ID=221 */
-public static final int FREQUENCYTYPE_AD_Reference_ID=221;/** Day = D */
-public static final String FREQUENCYTYPE_Day = "D";/** Hour = H */
-public static final String FREQUENCYTYPE_Hour = "H";/** Minute = M */
-public static final String FREQUENCYTYPE_Minute = "M";
+	/** FrequencyType AD_Reference_ID=221 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=221;
+	/** Minute = M */
+	public static final String FREQUENCYTYPE_Minute = "M";
+	/** Hour = H */
+	public static final String FREQUENCYTYPE_Hour = "H";
+	/** Day = D */
+	public static final String FREQUENCYTYPE_Day = "D";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");if (FrequencyType.equals("D") || FrequencyType.equals("H") || FrequencyType.equals("M")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - D - H - M");		if (FrequencyType.length() > 1)
+		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");
+		if (FrequencyType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 0);
+			FrequencyType = FrequencyType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
@@ -237,10 +245,11 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -309,7 +318,7 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -344,7 +353,7 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getI_R_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -366,9 +375,10 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 		set_Value (COLUMNNAME_R_RequestType_ID, null);
- else 
-		set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+		if (R_RequestType_ID <= 0) 
+			set_Value (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
 	}
 
 	/** Get Request Type.
@@ -402,8 +412,8 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 		return ii.intValue();
 	}
 
-/** Supervisor_ID AD_Reference_ID=286 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=286;
+	/** Supervisor_ID AD_Reference_ID=286 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

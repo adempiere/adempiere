@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_SLA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent 
 {
 
@@ -39,14 +41,16 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
     public X_PA_SLA_Goal (Properties ctx, int PA_SLA_Goal_ID, String trxName)
     {
       super (ctx, PA_SLA_Goal_ID, trxName);
-      /** if (PA_SLA_Goal_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (PA_SLA_Goal_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setMeasureActual (Env.ZERO);
 			setMeasureTarget (Env.ZERO);
 			setName (null);
 			setPA_SLA_Criteria_ID (0);
 			setPA_SLA_Goal_ID (0);
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,6 +79,22 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
       StringBuffer sb = new StringBuffer ("X_PA_SLA_Goal[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Business Partner .
@@ -122,10 +142,11 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -144,10 +165,11 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -212,10 +234,11 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -236,7 +259,7 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_SLA_Criteria getI_PA_SLA_Criteria() throws Exception 
+	public I_PA_SLA_Criteria getPA_SLA_Criteria() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_SLA_Criteria.Table_Name);
         I_PA_SLA_Criteria result = null;
@@ -328,7 +351,7 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

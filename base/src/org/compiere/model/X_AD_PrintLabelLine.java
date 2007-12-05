@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintLabelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
     public X_AD_PrintLabelLine (Properties ctx, int AD_PrintLabelLine_ID, String trxName)
     {
       super (ctx, AD_PrintLabelLine_ID, trxName);
-      /** if (AD_PrintLabelLine_ID == 0)        {			setAD_LabelPrinterFunction_ID (0);
+      /** if (AD_PrintLabelLine_ID == 0)
+        {
+			setAD_LabelPrinterFunction_ID (0);
 			setAD_PrintLabelLine_ID (0);
 			setAD_PrintLabel_ID (0);
 			setLabelFormatType (null);
@@ -48,7 +49,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 			setSeqNo (0);
 			setXPosition (0);
 			setYPosition (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +80,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -101,9 +102,10 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -117,7 +119,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_LabelPrinterFunction getI_AD_LabelPrinterFunction() throws Exception 
+	public I_AD_LabelPrinterFunction getAD_LabelPrinterFunction() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_LabelPrinterFunction.Table_Name);
         I_AD_LabelPrinterFunction result = null;
@@ -177,7 +179,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_PrintLabel getI_AD_PrintLabel() throws Exception 
+	public I_AD_PrintLabel getAD_PrintLabel() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintLabel.Table_Name);
         I_AD_PrintLabel result = null;
@@ -215,20 +217,24 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 		return ii.intValue();
 	}
 
-/** LabelFormatType AD_Reference_ID=280 */
-public static final int LABELFORMATTYPE_AD_Reference_ID=280;/** Field = F */
-public static final String LABELFORMATTYPE_Field = "F";/** Text = T */
-public static final String LABELFORMATTYPE_Text = "T";
+	/** LabelFormatType AD_Reference_ID=280 */
+	public static final int LABELFORMATTYPE_AD_Reference_ID=280;
+	/** Field = F */
+	public static final String LABELFORMATTYPE_Field = "F";
+	/** Text = T */
+	public static final String LABELFORMATTYPE_Text = "T";
 	/** Set Label Format Type.
 		@param LabelFormatType 
 		Label Format Type
 	  */
 	public void setLabelFormatType (String LabelFormatType)
 	{
-if (LabelFormatType == null) throw new IllegalArgumentException ("LabelFormatType is mandatory");if (LabelFormatType.equals("F") || LabelFormatType.equals("T")); else throw new IllegalArgumentException ("LabelFormatType Invalid value - " + LabelFormatType + " - Reference_ID=280 - F - T");		if (LabelFormatType.length() > 1)
+		if (LabelFormatType == null) throw new IllegalArgumentException ("LabelFormatType is mandatory");
+		if (LabelFormatType.equals("F") || LabelFormatType.equals("T")); else throw new IllegalArgumentException ("LabelFormatType Invalid value - " + LabelFormatType + " - Reference_ID=280 - F - T");
+		if (LabelFormatType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LabelFormatType = LabelFormatType.substring(0, 0);
+			LabelFormatType = LabelFormatType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LabelFormatType, LabelFormatType);
 	}
@@ -249,10 +255,11 @@ if (LabelFormatType == null) throw new IllegalArgumentException ("LabelFormatTyp
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -271,10 +278,11 @@ if (LabelFormatType == null) throw new IllegalArgumentException ("LabelFormatTyp
 	  */
 	public void setPrintName (String PrintName)
 	{
+
 		if (PrintName != null && PrintName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			PrintName = PrintName.substring(0, 59);
+			PrintName = PrintName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}

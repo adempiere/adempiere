@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_MailText
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_MailText extends PO implements I_R_MailText, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
     public X_R_MailText (Properties ctx, int R_MailText_ID, String trxName)
     {
       super (ctx, R_MailText_ID, trxName);
-      /** if (R_MailText_ID == 0)        {			setIsHtml (false);
+      /** if (R_MailText_ID == 0)
+        {
+			setIsHtml (false);
 			setMailText (null);
 			setName (null);
 			setR_MailText_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,10 +103,11 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailHeader (String MailHeader)
 	{
+
 		if (MailHeader != null && MailHeader.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MailHeader = MailHeader.substring(0, 1999);
+			MailHeader = MailHeader.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MailHeader, MailHeader);
 	}
@@ -128,10 +128,11 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	{
 		if (MailText == null)
 			throw new IllegalArgumentException ("MailText is mandatory.");
+
 		if (MailText.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MailText = MailText.substring(0, 1999);
+			MailText = MailText.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MailText, MailText);
 	}
@@ -150,10 +151,11 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailText2 (String MailText2)
 	{
+
 		if (MailText2 != null && MailText2.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MailText2 = MailText2.substring(0, 1999);
+			MailText2 = MailText2.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MailText2, MailText2);
 	}
@@ -172,10 +174,11 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailText3 (String MailText3)
 	{
+
 		if (MailText3 != null && MailText3.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MailText3 = MailText3.substring(0, 1999);
+			MailText3 = MailText3.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MailText3, MailText3);
 	}
@@ -196,10 +199,11 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

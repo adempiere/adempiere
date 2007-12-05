@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
     public X_AD_PrintTableFormat (Properties ctx, int AD_PrintTableFormat_ID, String trxName)
     {
       super (ctx, AD_PrintTableFormat_ID, trxName);
-      /** if (AD_PrintTableFormat_ID == 0)        {			setAD_PrintTableFormat_ID (0);
+      /** if (AD_PrintTableFormat_ID == 0)
+        {
+			setAD_PrintTableFormat_ID (0);
 			setIsDefault (false);
 			setIsPaintBoundaryLines (false);
 			setIsPaintHLines (false);
@@ -48,7 +49,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 			setIsPaintVLines (false);
 			setIsPrintFunctionSymbols (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -107,10 +108,11 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -129,10 +131,11 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFooterCenter (String FooterCenter)
 	{
+
 		if (FooterCenter != null && FooterCenter.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			FooterCenter = FooterCenter.substring(0, 254);
+			FooterCenter = FooterCenter.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_FooterCenter, FooterCenter);
 	}
@@ -151,10 +154,11 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFooterLeft (String FooterLeft)
 	{
+
 		if (FooterLeft != null && FooterLeft.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			FooterLeft = FooterLeft.substring(0, 254);
+			FooterLeft = FooterLeft.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_FooterLeft, FooterLeft);
 	}
@@ -173,10 +177,11 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFooterRight (String FooterRight)
 	{
+
 		if (FooterRight != null && FooterRight.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			FooterRight = FooterRight.substring(0, 254);
+			FooterRight = FooterRight.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_FooterRight, FooterRight);
 	}
@@ -189,17 +194,18 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_FooterRight);
 	}
 
-/** FunctBG_PrintColor_ID AD_Reference_ID=266 */
-public static final int FUNCTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** FunctBG_PrintColor_ID AD_Reference_ID=266 */
+	public static final int FUNCTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Function BG Color.
 		@param FunctBG_PrintColor_ID 
 		Function Background Color
 	  */
 	public void setFunctBG_PrintColor_ID (int FunctBG_PrintColor_ID)
 	{
-		if (FunctBG_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_FunctBG_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_FunctBG_PrintColor_ID, Integer.valueOf(FunctBG_PrintColor_ID));
+		if (FunctBG_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_FunctBG_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_FunctBG_PrintColor_ID, Integer.valueOf(FunctBG_PrintColor_ID));
 	}
 
 	/** Get Function BG Color.
@@ -213,17 +219,18 @@ public static final int FUNCTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** FunctFG_PrintColor_ID AD_Reference_ID=266 */
-public static final int FUNCTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** FunctFG_PrintColor_ID AD_Reference_ID=266 */
+	public static final int FUNCTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Function Color.
 		@param FunctFG_PrintColor_ID 
 		Function Foreground Color
 	  */
 	public void setFunctFG_PrintColor_ID (int FunctFG_PrintColor_ID)
 	{
-		if (FunctFG_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_FunctFG_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_FunctFG_PrintColor_ID, Integer.valueOf(FunctFG_PrintColor_ID));
+		if (FunctFG_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_FunctFG_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_FunctFG_PrintColor_ID, Integer.valueOf(FunctFG_PrintColor_ID));
 	}
 
 	/** Get Function Color.
@@ -237,17 +244,18 @@ public static final int FUNCTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** Funct_PrintFont_ID AD_Reference_ID=267 */
-public static final int FUNCT_PRINTFONT_ID_AD_Reference_ID=267;
+	/** Funct_PrintFont_ID AD_Reference_ID=267 */
+	public static final int FUNCT_PRINTFONT_ID_AD_Reference_ID=267;
 	/** Set Function Font.
 		@param Funct_PrintFont_ID 
 		Function row Font
 	  */
 	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
 	{
-		if (Funct_PrintFont_ID <= 0) 		set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
- else 
-		set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
+		if (Funct_PrintFont_ID <= 0) 
+			set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
 	}
 
 	/** Get Function Font.
@@ -261,17 +269,18 @@ public static final int FUNCT_PRINTFONT_ID_AD_Reference_ID=267;
 		return ii.intValue();
 	}
 
-/** HdrLine_PrintColor_ID AD_Reference_ID=266 */
-public static final int HDRLINE_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** HdrLine_PrintColor_ID AD_Reference_ID=266 */
+	public static final int HDRLINE_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Header Line Color.
 		@param HdrLine_PrintColor_ID 
 		Table header row line color
 	  */
 	public void setHdrLine_PrintColor_ID (int HdrLine_PrintColor_ID)
 	{
-		if (HdrLine_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_HdrLine_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_HdrLine_PrintColor_ID, Integer.valueOf(HdrLine_PrintColor_ID));
+		if (HdrLine_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_HdrLine_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_HdrLine_PrintColor_ID, Integer.valueOf(HdrLine_PrintColor_ID));
 	}
 
 	/** Get Header Line Color.
@@ -305,22 +314,28 @@ public static final int HDRLINE_PRINTCOLOR_ID_AD_Reference_ID=266;
 		return bd;
 	}
 
-/** HdrStrokeType AD_Reference_ID=312 */
-public static final int HDRSTROKETYPE_AD_Reference_ID=312;/** Dash-Dotted Line = 2 */
-public static final String HDRSTROKETYPE_Dash_DottedLine = "2";/** Dashed Line = D */
-public static final String HDRSTROKETYPE_DashedLine = "D";/** Solid Line = S */
-public static final String HDRSTROKETYPE_SolidLine = "S";/** Dotted Line = d */
-public static final String HDRSTROKETYPE_DottedLine = "d";
+	/** HdrStrokeType AD_Reference_ID=312 */
+	public static final int HDRSTROKETYPE_AD_Reference_ID=312;
+	/** Solid Line = S */
+	public static final String HDRSTROKETYPE_SolidLine = "S";
+	/** Dashed Line = D */
+	public static final String HDRSTROKETYPE_DashedLine = "D";
+	/** Dotted Line = d */
+	public static final String HDRSTROKETYPE_DottedLine = "d";
+	/** Dash-Dotted Line = 2 */
+	public static final String HDRSTROKETYPE_Dash_DottedLine = "2";
 	/** Set Header Stroke Type.
 		@param HdrStrokeType 
 		Type of the Header Line Stroke
 	  */
 	public void setHdrStrokeType (String HdrStrokeType)
 	{
-if (HdrStrokeType == null || HdrStrokeType.equals("2") || HdrStrokeType.equals("D") || HdrStrokeType.equals("S") || HdrStrokeType.equals("d")); else throw new IllegalArgumentException ("HdrStrokeType Invalid value - " + HdrStrokeType + " - Reference_ID=312 - 2 - D - S - d");		if (HdrStrokeType != null && HdrStrokeType.length() > 1)
+
+		if (HdrStrokeType == null || HdrStrokeType.equals("S") || HdrStrokeType.equals("D") || HdrStrokeType.equals("d") || HdrStrokeType.equals("2")); else throw new IllegalArgumentException ("HdrStrokeType Invalid value - " + HdrStrokeType + " - Reference_ID=312 - S - D - d - 2");
+		if (HdrStrokeType != null && HdrStrokeType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			HdrStrokeType = HdrStrokeType.substring(0, 0);
+			HdrStrokeType = HdrStrokeType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_HdrStrokeType, HdrStrokeType);
 	}
@@ -333,17 +348,18 @@ if (HdrStrokeType == null || HdrStrokeType.equals("2") || HdrStrokeType.equals("
 		return (String)get_Value(COLUMNNAME_HdrStrokeType);
 	}
 
-/** HdrTextBG_PrintColor_ID AD_Reference_ID=266 */
-public static final int HDRTEXTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** HdrTextBG_PrintColor_ID AD_Reference_ID=266 */
+	public static final int HDRTEXTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Header Row BG Color.
 		@param HdrTextBG_PrintColor_ID 
 		Background color of header row
 	  */
 	public void setHdrTextBG_PrintColor_ID (int HdrTextBG_PrintColor_ID)
 	{
-		if (HdrTextBG_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_HdrTextBG_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_HdrTextBG_PrintColor_ID, Integer.valueOf(HdrTextBG_PrintColor_ID));
+		if (HdrTextBG_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_HdrTextBG_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_HdrTextBG_PrintColor_ID, Integer.valueOf(HdrTextBG_PrintColor_ID));
 	}
 
 	/** Get Header Row BG Color.
@@ -357,17 +373,18 @@ public static final int HDRTEXTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** HdrTextFG_PrintColor_ID AD_Reference_ID=266 */
-public static final int HDRTEXTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** HdrTextFG_PrintColor_ID AD_Reference_ID=266 */
+	public static final int HDRTEXTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Header Row Color.
 		@param HdrTextFG_PrintColor_ID 
 		Foreground color if the table header row
 	  */
 	public void setHdrTextFG_PrintColor_ID (int HdrTextFG_PrintColor_ID)
 	{
-		if (HdrTextFG_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_HdrTextFG_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_HdrTextFG_PrintColor_ID, Integer.valueOf(HdrTextFG_PrintColor_ID));
+		if (HdrTextFG_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_HdrTextFG_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_HdrTextFG_PrintColor_ID, Integer.valueOf(HdrTextFG_PrintColor_ID));
 	}
 
 	/** Get Header Row Color.
@@ -381,17 +398,18 @@ public static final int HDRTEXTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** Hdr_PrintFont_ID AD_Reference_ID=267 */
-public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
+	/** Hdr_PrintFont_ID AD_Reference_ID=267 */
+	public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 	/** Set Header Row Font.
 		@param Hdr_PrintFont_ID 
 		Header row Font
 	  */
 	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
 	{
-		if (Hdr_PrintFont_ID <= 0) 		set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
- else 
-		set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
+		if (Hdr_PrintFont_ID <= 0) 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
 	}
 
 	/** Get Header Row Font.
@@ -411,10 +429,11 @@ public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 	  */
 	public void setHeaderCenter (String HeaderCenter)
 	{
+
 		if (HeaderCenter != null && HeaderCenter.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			HeaderCenter = HeaderCenter.substring(0, 254);
+			HeaderCenter = HeaderCenter.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_HeaderCenter, HeaderCenter);
 	}
@@ -433,10 +452,11 @@ public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 	  */
 	public void setHeaderLeft (String HeaderLeft)
 	{
+
 		if (HeaderLeft != null && HeaderLeft.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			HeaderLeft = HeaderLeft.substring(0, 254);
+			HeaderLeft = HeaderLeft.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_HeaderLeft, HeaderLeft);
 	}
@@ -455,10 +475,11 @@ public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 	  */
 	public void setHeaderRight (String HeaderRight)
 	{
+
 		if (HeaderRight != null && HeaderRight.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			HeaderRight = HeaderRight.substring(0, 254);
+			HeaderRight = HeaderRight.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_HeaderRight, HeaderRight);
 	}
@@ -501,10 +522,11 @@ public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 	  */
 	public void setImageURL (String ImageURL)
 	{
+
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 119);
+			ImageURL = ImageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -681,22 +703,28 @@ public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 		return bd;
 	}
 
-/** LineStrokeType AD_Reference_ID=312 */
-public static final int LINESTROKETYPE_AD_Reference_ID=312;/** Dash-Dotted Line = 2 */
-public static final String LINESTROKETYPE_Dash_DottedLine = "2";/** Dashed Line = D */
-public static final String LINESTROKETYPE_DashedLine = "D";/** Solid Line = S */
-public static final String LINESTROKETYPE_SolidLine = "S";/** Dotted Line = d */
-public static final String LINESTROKETYPE_DottedLine = "d";
+	/** LineStrokeType AD_Reference_ID=312 */
+	public static final int LINESTROKETYPE_AD_Reference_ID=312;
+	/** Solid Line = S */
+	public static final String LINESTROKETYPE_SolidLine = "S";
+	/** Dashed Line = D */
+	public static final String LINESTROKETYPE_DashedLine = "D";
+	/** Dotted Line = d */
+	public static final String LINESTROKETYPE_DottedLine = "d";
+	/** Dash-Dotted Line = 2 */
+	public static final String LINESTROKETYPE_Dash_DottedLine = "2";
 	/** Set Line Stroke Type.
 		@param LineStrokeType 
 		Type of the Line Stroke
 	  */
 	public void setLineStrokeType (String LineStrokeType)
 	{
-if (LineStrokeType == null || LineStrokeType.equals("2") || LineStrokeType.equals("D") || LineStrokeType.equals("S") || LineStrokeType.equals("d")); else throw new IllegalArgumentException ("LineStrokeType Invalid value - " + LineStrokeType + " - Reference_ID=312 - 2 - D - S - d");		if (LineStrokeType != null && LineStrokeType.length() > 1)
+
+		if (LineStrokeType == null || LineStrokeType.equals("S") || LineStrokeType.equals("D") || LineStrokeType.equals("d") || LineStrokeType.equals("2")); else throw new IllegalArgumentException ("LineStrokeType Invalid value - " + LineStrokeType + " - Reference_ID=312 - S - D - d - 2");
+		if (LineStrokeType != null && LineStrokeType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LineStrokeType = LineStrokeType.substring(0, 0);
+			LineStrokeType = LineStrokeType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LineStrokeType, LineStrokeType);
 	}
@@ -709,17 +737,18 @@ if (LineStrokeType == null || LineStrokeType.equals("2") || LineStrokeType.equal
 		return (String)get_Value(COLUMNNAME_LineStrokeType);
 	}
 
-/** Line_PrintColor_ID AD_Reference_ID=266 */
-public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** Line_PrintColor_ID AD_Reference_ID=266 */
+	public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Line Color.
 		@param Line_PrintColor_ID 
 		Table line color
 	  */
 	public void setLine_PrintColor_ID (int Line_PrintColor_ID)
 	{
-		if (Line_PrintColor_ID <= 0) 		set_Value (COLUMNNAME_Line_PrintColor_ID, null);
- else 
-		set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));
+		if (Line_PrintColor_ID <= 0) 
+			set_Value (COLUMNNAME_Line_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));
 	}
 
 	/** Get Line Color.
@@ -741,10 +770,11 @@ public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

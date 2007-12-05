@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationTable
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
     public X_AD_ReplicationTable (Properties ctx, int AD_ReplicationTable_ID, String trxName)
     {
       super (ctx, AD_ReplicationTable_ID, trxName);
-      /** if (AD_ReplicationTable_ID == 0)        {			setAD_ReplicationStrategy_ID (0);
+      /** if (AD_ReplicationTable_ID == 0)
+        {
+			setAD_ReplicationStrategy_ID (0);
 			setAD_ReplicationTable_ID (0);
 			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setReplicationType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +77,7 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
       return sb.toString();
     }
 
-	public I_AD_ReplicationStrategy getI_AD_ReplicationStrategy() throws Exception 
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReplicationStrategy.Table_Name);
         I_AD_ReplicationStrategy result = null;
@@ -144,7 +145,7 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -182,14 +183,15 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 		return ii.intValue();
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -206,21 +208,26 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
-/** ReplicationType AD_Reference_ID=126 */
-public static final int REPLICATIONTYPE_AD_Reference_ID=126;/** Local = L */
-public static final String REPLICATIONTYPE_Local = "L";/** Merge = M */
-public static final String REPLICATIONTYPE_Merge = "M";/** Reference = R */
-public static final String REPLICATIONTYPE_Reference = "R";
+	/** ReplicationType AD_Reference_ID=126 */
+	public static final int REPLICATIONTYPE_AD_Reference_ID=126;
+	/** Local = L */
+	public static final String REPLICATIONTYPE_Local = "L";
+	/** Merge = M */
+	public static final String REPLICATIONTYPE_Merge = "M";
+	/** Reference = R */
+	public static final String REPLICATIONTYPE_Reference = "R";
 	/** Set Replication Type.
 		@param ReplicationType 
 		Type of Data Replication
 	  */
 	public void setReplicationType (String ReplicationType)
 	{
-if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");		if (ReplicationType.length() > 1)
+		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
+		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");
+		if (ReplicationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ReplicationType = ReplicationType.substring(0, 0);
+			ReplicationType = ReplicationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}

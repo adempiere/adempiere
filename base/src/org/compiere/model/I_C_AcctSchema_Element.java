@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_AcctSchema_Element
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:36.562
-     */
-    public interface I_C_AcctSchema_Element 
+/** Generated Interface for C_AcctSchema_Element
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_AcctSchema_Element 
 {
 
     /** TableName=C_AcctSchema_Element */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name C_AcctSchema_Element_ID */
     public static final String COLUMNNAME_C_AcctSchema_Element_ID = "C_AcctSchema_Element_ID";
@@ -95,7 +93,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -110,7 +108,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -125,6 +123,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
@@ -138,7 +138,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -153,6 +153,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_ElementValue_ID();
 
+	public I_C_ElementValue getC_ElementValue() throws Exception;
+
     /** Column name C_Element_ID */
     public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
 
@@ -166,7 +168,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Element_ID();
 
-	public I_C_Element getI_C_Element() throws Exception;
+	public I_C_Element getC_Element() throws Exception;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -194,6 +196,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
+	public I_C_Project getC_Project() throws Exception;
+
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -207,7 +211,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws Exception;
 
     /** Column name ElementType */
     public static final String COLUMNNAME_ElementType = "ElementType";
@@ -256,6 +260,8 @@ import org.compiere.util.*;
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

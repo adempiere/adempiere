@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectIssue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
     public X_C_ProjectIssue (Properties ctx, int C_ProjectIssue_ID, String trxName)
     {
       super (ctx, C_ProjectIssue_ID, trxName);
-      /** if (C_ProjectIssue_ID == 0)        {			setC_ProjectIssue_ID (0);
+      /** if (C_ProjectIssue_ID == 0)
+        {
+			setC_ProjectIssue_ID (0);
 			setC_Project_ID (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM C_ProjectIssue WHERE C_Project_ID=@C_Project_ID@
@@ -51,7 +55,7 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 			setPosted (false);
 // N
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,7 +108,7 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -156,10 +160,11 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -214,15 +219,32 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
+        I_M_InOutLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -257,6 +279,22 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -377,7 +415,7 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -390,15 +428,32 @@ public class X_C_ProjectIssue extends PO implements I_C_ProjectIssue, I_Persiste
 		return false;
 	}
 
+	public I_S_TimeExpenseLine getS_TimeExpenseLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_S_TimeExpenseLine.Table_Name);
+        I_S_TimeExpenseLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_TimeExpenseLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_TimeExpenseLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Expense Line.
 		@param S_TimeExpenseLine_ID 
 		Time and Expense Report Line
 	  */
 	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
 	{
-		if (S_TimeExpenseLine_ID <= 0) 		set_Value (COLUMNNAME_S_TimeExpenseLine_ID, null);
- else 
-		set_Value (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
+		if (S_TimeExpenseLine_ID <= 0) 
+			set_Value (COLUMNNAME_S_TimeExpenseLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
 	}
 
 	/** Get Expense Line.

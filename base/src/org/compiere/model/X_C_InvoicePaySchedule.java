@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoicePaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
     public X_C_InvoicePaySchedule (Properties ctx, int C_InvoicePaySchedule_ID, String trxName)
     {
       super (ctx, C_InvoicePaySchedule_ID, trxName);
-      /** if (C_InvoicePaySchedule_ID == 0)        {			setC_InvoicePaySchedule_ID (0);
+      /** if (C_InvoicePaySchedule_ID == 0)
+        {
+			setC_InvoicePaySchedule_ID (0);
 			setC_Invoice_ID (0);
 			setDiscountAmt (Env.ZERO);
 			setDiscountDate (new Timestamp(System.currentTimeMillis()));
@@ -47,7 +51,7 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 			setDueDate (new Timestamp(System.currentTimeMillis()));
 			setIsValid (false);
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -100,6 +104,22 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
@@ -122,7 +142,7 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 		return ii.intValue();
 	}
 
-	public I_C_PaySchedule getI_C_PaySchedule() throws Exception 
+	public I_C_PaySchedule getC_PaySchedule() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaySchedule.Table_Name);
         I_C_PaySchedule result = null;
@@ -144,9 +164,10 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setC_PaySchedule_ID (int C_PaySchedule_ID)
 	{
-		if (C_PaySchedule_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
+		if (C_PaySchedule_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
 	}
 
 	/** Get Payment Schedule.
@@ -306,7 +327,7 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

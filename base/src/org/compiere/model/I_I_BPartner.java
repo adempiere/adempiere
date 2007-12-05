@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for I_BPartner
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:47.593
-     */
-    public interface I_I_BPartner 
+/** Generated Interface for I_BPartner
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_I_BPartner 
 {
 
     /** TableName=I_BPartner */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name Address1 */
     public static final String COLUMNNAME_Address1 = "Address1";
@@ -138,7 +137,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception;
+	public I_C_BP_Group getC_BP_Group() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -153,6 +152,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 
@@ -166,7 +167,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getI_C_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -181,7 +182,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getI_C_Country() throws Exception;
+	public I_C_Country getC_Country() throws Exception;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -196,7 +197,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getI_C_Greeting() throws Exception;
+	public I_C_Greeting getC_Greeting() throws Exception;
 
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
@@ -211,7 +212,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getI_C_Region() throws Exception;
+	public I_C_Region getC_Region() throws Exception;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -530,7 +531,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_InterestArea_ID();
 
-	public I_R_InterestArea getI_R_InterestArea() throws Exception;
+	public I_R_InterestArea getR_InterestArea() throws Exception;
 
     /** Column name RegionName */
     public static final String COLUMNNAME_RegionName = "RegionName";

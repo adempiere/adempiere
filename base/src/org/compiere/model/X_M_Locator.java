@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Locator
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Locator extends PO implements I_M_Locator, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
     public X_M_Locator (Properties ctx, int M_Locator_ID, String trxName)
     {
       super (ctx, M_Locator_ID, trxName);
-      /** if (M_Locator_ID == 0)        {			setIsDefault (false);
+      /** if (M_Locator_ID == 0)
+        {
+			setIsDefault (false);
 			setM_Locator_ID (0);
 			setM_Warehouse_ID (0);
 			setPriorityNo (0);
@@ -48,7 +49,7 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 			setX (null);
 			setY (null);
 			setZ (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -125,7 +126,7 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -191,10 +192,11 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -223,10 +225,11 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (X == null)
 			throw new IllegalArgumentException ("X is mandatory.");
+
 		if (X.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			X = X.substring(0, 59);
+			X = X.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_X, X);
 	}
@@ -247,10 +250,11 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (Y == null)
 			throw new IllegalArgumentException ("Y is mandatory.");
+
 		if (Y.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Y = Y.substring(0, 59);
+			Y = Y.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Y, Y);
 	}
@@ -271,10 +275,11 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (Z == null)
 			throw new IllegalArgumentException ("Z is mandatory.");
+
 		if (Z.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Z = Z.substring(0, 59);
+			Z = Z.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Z, Z);
 	}

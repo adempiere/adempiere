@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
     public X_C_LandedCost (Properties ctx, int C_LandedCost_ID, String trxName)
     {
       super (ctx, C_LandedCost_ID, trxName);
-      /** if (C_LandedCost_ID == 0)        {			setC_InvoiceLine_ID (0);
+      /** if (C_LandedCost_ID == 0)
+        {
+			setC_InvoiceLine_ID (0);
 			setC_LandedCost_ID (0);
 			setLandedCostDistribution (null);
 // Q
 			setM_CostElement_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,6 +74,22 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
       StringBuffer sb = new StringBuffer ("X_C_LandedCost[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Invoice Line.
@@ -133,10 +150,11 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -149,23 +167,30 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** LandedCostDistribution AD_Reference_ID=339 */
-public static final int LANDEDCOSTDISTRIBUTION_AD_Reference_ID=339;/** Costs = C */
-public static final String LANDEDCOSTDISTRIBUTION_Costs = "C";/** Line = L */
-public static final String LANDEDCOSTDISTRIBUTION_Line = "L";/** Quantity = Q */
-public static final String LANDEDCOSTDISTRIBUTION_Quantity = "Q";/** Volume = V */
-public static final String LANDEDCOSTDISTRIBUTION_Volume = "V";/** Weight = W */
-public static final String LANDEDCOSTDISTRIBUTION_Weight = "W";
+	/** LandedCostDistribution AD_Reference_ID=339 */
+	public static final int LANDEDCOSTDISTRIBUTION_AD_Reference_ID=339;
+	/** Quantity = Q */
+	public static final String LANDEDCOSTDISTRIBUTION_Quantity = "Q";
+	/** Line = L */
+	public static final String LANDEDCOSTDISTRIBUTION_Line = "L";
+	/** Volume = V */
+	public static final String LANDEDCOSTDISTRIBUTION_Volume = "V";
+	/** Weight = W */
+	public static final String LANDEDCOSTDISTRIBUTION_Weight = "W";
+	/** Costs = C */
+	public static final String LANDEDCOSTDISTRIBUTION_Costs = "C";
 	/** Set Cost Distribution.
 		@param LandedCostDistribution 
 		Landed Cost Distribution
 	  */
 	public void setLandedCostDistribution (String LandedCostDistribution)
 	{
-if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedCostDistribution is mandatory");if (LandedCostDistribution.equals("C") || LandedCostDistribution.equals("L") || LandedCostDistribution.equals("Q") || LandedCostDistribution.equals("V") || LandedCostDistribution.equals("W")); else throw new IllegalArgumentException ("LandedCostDistribution Invalid value - " + LandedCostDistribution + " - Reference_ID=339 - C - L - Q - V - W");		if (LandedCostDistribution.length() > 1)
+		if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedCostDistribution is mandatory");
+		if (LandedCostDistribution.equals("Q") || LandedCostDistribution.equals("L") || LandedCostDistribution.equals("V") || LandedCostDistribution.equals("W") || LandedCostDistribution.equals("C")); else throw new IllegalArgumentException ("LandedCostDistribution Invalid value - " + LandedCostDistribution + " - Reference_ID=339 - Q - L - V - W - C");
+		if (LandedCostDistribution.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			LandedCostDistribution = LandedCostDistribution.substring(0, 0);
+			LandedCostDistribution = LandedCostDistribution.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_LandedCostDistribution, LandedCostDistribution);
 	}
@@ -178,7 +203,7 @@ if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedC
 		return (String)get_Value(COLUMNNAME_LandedCostDistribution);
 	}
 
-	public I_M_CostElement getI_M_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -216,7 +241,7 @@ if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedC
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -238,9 +263,10 @@ if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedC
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 		set_Value (COLUMNNAME_M_InOutLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -254,15 +280,32 @@ if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedC
 		return ii.intValue();
 	}
 
+	public I_M_InOut getM_InOut() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
+        I_M_InOut result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOut)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOut_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt.
 		@param M_InOut_ID 
 		Material Shipment Document
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID <= 0) 		set_Value (COLUMNNAME_M_InOut_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+		if (M_InOut_ID <= 0) 
+			set_Value (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.
@@ -276,15 +319,32 @@ if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedC
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -306,7 +366,7 @@ if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedC
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

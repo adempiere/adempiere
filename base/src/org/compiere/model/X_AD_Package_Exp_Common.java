@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Common, I_Persistent 
 {
 
@@ -39,8 +38,10 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
     public X_AD_Package_Exp_Common (Properties ctx, int AD_Package_Exp_Common_ID, String trxName)
     {
       super (ctx, AD_Package_Exp_Common_ID, trxName);
-      /** if (AD_Package_Exp_Common_ID == 0)        {			setAD_Package_Exp_Common_ID (0);
-} */
+      /** if (AD_Package_Exp_Common_ID == 0)
+        {
+			setAD_Package_Exp_Common_ID (0);
+        } */
     }
 
     /** Load Constructor */
@@ -71,15 +72,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
       return sb.toString();
     }
 
+	public I_AD_Form getAD_Form() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
+        I_AD_Form result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Special Form.
 		@param AD_Form_ID 
 		Special Form
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 		set_Value (COLUMNNAME_AD_Form_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+		if (AD_Form_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
 	/** Get Special Form.
@@ -93,7 +111,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_ImpFormat getI_AD_ImpFormat() throws Exception 
+	public I_AD_ImpFormat getAD_ImpFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ImpFormat.Table_Name);
         I_AD_ImpFormat result = null;
@@ -113,13 +131,14 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		@param AD_ImpFormat_ID Import Format	  */
 	public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 	{
-		if (AD_ImpFormat_ID <= 0) 		set_Value (COLUMNNAME_AD_ImpFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
+		if (AD_ImpFormat_ID <= 0) 
+			set_Value (COLUMNNAME_AD_ImpFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
 	}
 
 	/** Get Import Format.
-@return Import Format	  */
+		@return Import Format	  */
 	public int getAD_ImpFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ImpFormat_ID);
@@ -128,7 +147,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Menu getI_AD_Menu() throws Exception 
+	public I_AD_Menu getAD_Menu() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Menu.Table_Name);
         I_AD_Menu result = null;
@@ -150,9 +169,10 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Menu_ID (int AD_Menu_ID)
 	{
-		if (AD_Menu_ID <= 0) 		set_Value (COLUMNNAME_AD_Menu_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
+		if (AD_Menu_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Menu_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
 	}
 
 	/** Get Menu.
@@ -176,7 +196,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	}
 
 	/** Get AD_Package_Exp_Common_ID.
-@return AD_Package_Exp_Common_ID	  */
+		@return AD_Package_Exp_Common_ID	  */
 	public int getAD_Package_Exp_Common_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_Common_ID);
@@ -193,15 +213,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_Common_ID()));
     }
 
+	public I_AD_Process getAD_Process() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
+        I_AD_Process result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Process.
 		@param AD_Process_ID 
 		Process or Report
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -215,15 +252,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
+	public I_AD_ReportView getAD_ReportView() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
+        I_AD_ReportView result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_ReportView)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReportView_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Report View.
 		@param AD_ReportView_ID 
 		View used to generate this report
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 		set_Value (COLUMNNAME_AD_ReportView_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
+		if (AD_ReportView_ID <= 0) 
+			set_Value (COLUMNNAME_AD_ReportView_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
 	}
 
 	/** Get Report View.
@@ -237,7 +291,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -259,9 +313,10 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 		set_Value (COLUMNNAME_AD_Role_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -275,15 +330,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
+	public I_AD_Table getAD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -297,15 +369,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
+	public I_AD_Window getAD_Window() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
+        I_AD_Window result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Window.
 		@param AD_Window_ID 
 		Data entry or display window
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 		set_Value (COLUMNNAME_AD_Window_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -319,15 +408,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
+	public I_AD_Workbench getAD_Workbench() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
+        I_AD_Workbench result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Workbench)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workbench_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Workbench.
 		@param AD_Workbench_ID 
 		Collection of windows, reports
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID <= 0) 		set_Value (COLUMNNAME_AD_Workbench_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
+		if (AD_Workbench_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Workbench_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
 	}
 
 	/** Get Workbench.
@@ -341,15 +447,32 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
+	public I_AD_Workflow getAD_Workflow() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
+        I_AD_Workflow result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Workflow)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workflow_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Workflow.
 		@param AD_Workflow_ID 
 		Workflow or combination of tasks
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 		set_Value (COLUMNNAME_AD_Workflow_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -363,30 +486,40 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-/** DBType AD_Reference_ID=50003 */
-public static final int DBTYPE_AD_Reference_ID=50003;/** All Database Types = ALL */
-public static final String DBTYPE_AllDatabaseTypes = "ALL";/** DB2 = DB2 */
-public static final String DBTYPE_DB2 = "DB2";/** Firebird = Firebird */
-public static final String DBTYPE_Firebird = "Firebird";/** MySQL = MySQL */
-public static final String DBTYPE_MySQL = "MySQL";/** Oracle = Oracle */
-public static final String DBTYPE_Oracle = "Oracle";/** Postgres = Postgres */
-public static final String DBTYPE_Postgres = "Postgres";/** SQL Server = SQL */
-public static final String DBTYPE_SQLServer = "SQL";/** Sybase = Sybase */
-public static final String DBTYPE_Sybase = "Sybase";
+	/** DBType AD_Reference_ID=50003 */
+	public static final int DBTYPE_AD_Reference_ID=50003;
+	/** All Database Types = ALL */
+	public static final String DBTYPE_AllDatabaseTypes = "ALL";
+	/** DB2 = DB2 */
+	public static final String DBTYPE_DB2 = "DB2";
+	/** Firebird = Firebird */
+	public static final String DBTYPE_Firebird = "Firebird";
+	/** MySQL = MySQL */
+	public static final String DBTYPE_MySQL = "MySQL";
+	/** Oracle = Oracle */
+	public static final String DBTYPE_Oracle = "Oracle";
+	/** Postgres = Postgres */
+	public static final String DBTYPE_Postgres = "Postgres";
+	/** SQL Server = SQL */
+	public static final String DBTYPE_SQLServer = "SQL";
+	/** Sybase = Sybase */
+	public static final String DBTYPE_Sybase = "Sybase";
 	/** Set DBType.
 		@param DBType DBType	  */
 	public void setDBType (String DBType)
 	{
-if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase")); else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");		if (DBType != null && DBType.length() > 22)
+
+		if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase")); else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");
+		if (DBType != null && DBType.length() > 22)
 		{
 			log.warning("Length > 22 - truncated");
-			DBType = DBType.substring(0, 21);
+			DBType = DBType.substring(0, 22);
 		}
 		set_Value (COLUMNNAME_DBType, DBType);
 	}
 
 	/** Get DBType.
-@return DBType	  */
+		@return DBType	  */
 	public String getDBType () 
 	{
 		return (String)get_Value(COLUMNNAME_DBType);
@@ -398,10 +531,11 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 1000)
 		{
 			log.warning("Length > 1000 - truncated");
-			Description = Description.substring(0, 999);
+			Description = Description.substring(0, 1000);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -418,16 +552,17 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 		@param Destination_Directory Destination_Directory	  */
 	public void setDestination_Directory (String Destination_Directory)
 	{
+
 		if (Destination_Directory != null && Destination_Directory.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Destination_Directory = Destination_Directory.substring(0, 254);
+			Destination_Directory = Destination_Directory.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Destination_Directory, Destination_Directory);
 	}
 
 	/** Get Destination_Directory.
-@return Destination_Directory	  */
+		@return Destination_Directory	  */
 	public String getDestination_Directory () 
 	{
 		return (String)get_Value(COLUMNNAME_Destination_Directory);
@@ -439,10 +574,11 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 	  */
 	public void setFileName (String FileName)
 	{
+
 		if (FileName != null && FileName.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			FileName = FileName.substring(0, 254);
+			FileName = FileName.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_FileName, FileName);
 	}
@@ -459,16 +595,17 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 		@param File_Directory File_Directory	  */
 	public void setFile_Directory (String File_Directory)
 	{
+
 		if (File_Directory != null && File_Directory.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			File_Directory = File_Directory.substring(0, 254);
+			File_Directory = File_Directory.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_File_Directory, File_Directory);
 	}
 
 	/** Get File_Directory.
-@return File_Directory	  */
+		@return File_Directory	  */
 	public String getFile_Directory () 
 	{
 		return (String)get_Value(COLUMNNAME_File_Directory);
@@ -500,10 +637,11 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -522,10 +660,11 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 	  */
 	public void setName2 (String Name2)
 	{
+
 		if (Name2 != null && Name2.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 59);
+			Name2 = Name2.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
@@ -570,7 +709,7 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -587,16 +726,17 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 		@param SQLStatement SQLStatement	  */
 	public void setSQLStatement (String SQLStatement)
 	{
+
 		if (SQLStatement != null && SQLStatement.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			SQLStatement = SQLStatement.substring(0, 254);
+			SQLStatement = SQLStatement.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_SQLStatement, SQLStatement);
 	}
 
 	/** Get SQLStatement.
-@return SQLStatement	  */
+		@return SQLStatement	  */
 	public String getSQLStatement () 
 	{
 		return (String)get_Value(COLUMNNAME_SQLStatement);
@@ -606,50 +746,70 @@ if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equ
 		@param Target_Directory Target_Directory	  */
 	public void setTarget_Directory (String Target_Directory)
 	{
+
 		if (Target_Directory != null && Target_Directory.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Target_Directory = Target_Directory.substring(0, 254);
+			Target_Directory = Target_Directory.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Target_Directory, Target_Directory);
 	}
 
 	/** Get Target_Directory.
-@return Target_Directory	  */
+		@return Target_Directory	  */
 	public String getTarget_Directory () 
 	{
 		return (String)get_Value(COLUMNNAME_Target_Directory);
 	}
 
-/** Type AD_Reference_ID=50004 */
-public static final int TYPE_AD_Reference_ID=50004;/** Workbench = B */
-public static final String TYPE_Workbench = "B";/** File - Code or other = C */
-public static final String TYPE_File_CodeOrOther = "C";/** Data = D */
-public static final String TYPE_Data = "D";/** Workflow = F */
-public static final String TYPE_Workflow = "F";/** Import Format = IMP */
-public static final String TYPE_ImportFormat = "IMP";/** Application or Module = M */
-public static final String TYPE_ApplicationOrModule = "M";/** Message = MSG */
-public static final String TYPE_Message = "MSG";/** Process/Report = P */
-public static final String TYPE_ProcessReport = "P";/** PrintFormat = PFT */
-public static final String TYPE_PrintFormat = "PFT";/** ReportView = R */
-public static final String TYPE_ReportView = "R";/** Role = S */
-public static final String TYPE_Role = "S";/** Code Snipit = SNI */
-public static final String TYPE_CodeSnipit = "SNI";/** SQL Statement = SQL */
-public static final String TYPE_SQLStatement = "SQL";/** Table = T */
-public static final String TYPE_Table = "T";/** Dynamic Validation Rule = V */
-public static final String TYPE_DynamicValidationRule = "V";/** Window = W */
-public static final String TYPE_Window = "W";/** Form = X */
-public static final String TYPE_Form = "X";
+	/** Type AD_Reference_ID=50004 */
+	public static final int TYPE_AD_Reference_ID=50004;
+	/** Workbench = B */
+	public static final String TYPE_Workbench = "B";
+	/** File - Code or other = C */
+	public static final String TYPE_File_CodeOrOther = "C";
+	/** Data = D */
+	public static final String TYPE_Data = "D";
+	/** Workflow = F */
+	public static final String TYPE_Workflow = "F";
+	/** Import Format = IMP */
+	public static final String TYPE_ImportFormat = "IMP";
+	/** Application or Module = M */
+	public static final String TYPE_ApplicationOrModule = "M";
+	/** Process/Report = P */
+	public static final String TYPE_ProcessReport = "P";
+	/** ReportView = R */
+	public static final String TYPE_ReportView = "R";
+	/** Role = S */
+	public static final String TYPE_Role = "S";
+	/** Code Snipit = SNI */
+	public static final String TYPE_CodeSnipit = "SNI";
+	/** SQL Statement = SQL */
+	public static final String TYPE_SQLStatement = "SQL";
+	/** Table = T */
+	public static final String TYPE_Table = "T";
+	/** Window = W */
+	public static final String TYPE_Window = "W";
+	/** Form = X */
+	public static final String TYPE_Form = "X";
+	/** Dynamic Validation Rule = V */
+	public static final String TYPE_DynamicValidationRule = "V";
+	/** Message = MSG */
+	public static final String TYPE_Message = "MSG";
+	/** PrintFormat = PFT */
+	public static final String TYPE_PrintFormat = "PFT";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)
 	  */
 	public void setType (String Type)
 	{
-if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("MSG") || Type.equals("P") || Type.equals("PFT") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("V") || Type.equals("W") || Type.equals("X")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - MSG - P - PFT - R - S - SNI - SQL - T - V - W - X");		if (Type != null && Type.length() > 10)
+
+		if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT");
+		if (Type != null && Type.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Type = Type.substring(0, 9);
+			Type = Type.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Type, Type);
 	}

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for S_ResourceAssignment
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:55.265
-     */
-    public interface I_S_ResourceAssignment 
+/** Generated Interface for S_ResourceAssignment
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_S_ResourceAssignment 
 {
 
     /** TableName=S_ResourceAssignment */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -162,5 +161,5 @@ import org.compiere.util.*;
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getI_S_Resource() throws Exception;
+	public I_S_Resource getS_Resource() throws Exception;
 }

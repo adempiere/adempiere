@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_User_Roles
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_User_Roles extends PO implements I_AD_User_Roles, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_AD_User_Roles extends PO implements I_AD_User_Roles, I_Persistent
     public X_AD_User_Roles (Properties ctx, int AD_User_Roles_ID, String trxName)
     {
       super (ctx, AD_User_Roles_ID, trxName);
-      /** if (AD_User_Roles_ID == 0)        {			setAD_Role_ID (0);
+      /** if (AD_User_Roles_ID == 0)
+        {
+			setAD_Role_ID (0);
 			setAD_User_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,6 +72,22 @@ public class X_AD_User_Roles extends PO implements I_AD_User_Roles, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Role getAD_Role() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
+        I_AD_Role result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Role.
 		@param AD_Role_ID 
 		Responsibility Role
@@ -93,6 +109,22 @@ public class X_AD_User_Roles extends PO implements I_AD_User_Roles, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set User/Contact.
 		@param AD_User_ID 

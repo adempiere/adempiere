@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_LdapAccess
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:23.484
-     */
-    public interface I_AD_LdapAccess 
+/** Generated Interface for AD_LdapAccess
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_LdapAccess 
 {
 
     /** TableName=AD_LdapAccess */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_LdapProcessor_ID();
 
-	public I_AD_LdapProcessor getI_AD_LdapProcessor() throws Exception;
+	public I_AD_LdapProcessor getAD_LdapProcessor() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -140,7 +138,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_InterestArea_ID();
 
-	public I_R_InterestArea getI_R_InterestArea() throws Exception;
+	public I_R_InterestArea getR_InterestArea() throws Exception;
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

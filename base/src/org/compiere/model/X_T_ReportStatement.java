@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Persistent 
 {
 
@@ -39,11 +41,13 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)
     {
       super (ctx, T_ReportStatement_ID, trxName);
-      /** if (T_ReportStatement_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_ReportStatement_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setDateAcct (new Timestamp(System.currentTimeMillis()));
 			setFact_Acct_ID (0);
 			setLevelNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +78,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -160,7 +164,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	}
 
 	/** Get Balance.
-@return Balance	  */
+		@return Balance	  */
 	public BigDecimal getBalance () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Balance);
@@ -194,10 +198,11 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Description, Description);
 	}
@@ -210,6 +215,22 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	public I_Fact_Acct getFact_Acct() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_Fact_Acct.Table_Name);
+        I_Fact_Acct result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_Fact_Acct)constructor.newInstance(new Object[] {getCtx(), new Integer(getFact_Acct_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Accounting Fact.
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
@@ -220,7 +241,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	}
 
 	/** Get Accounting Fact.
-@return Accounting Fact	  */
+		@return Accounting Fact	  */
 	public int getFact_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Fact_Acct_ID);
@@ -237,7 +258,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	}
 
 	/** Get Level no.
-@return Level no	  */
+		@return Level no	  */
 	public int getLevelNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LevelNo);
@@ -252,10 +273,11 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}

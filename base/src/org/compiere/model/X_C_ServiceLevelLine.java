@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_Persistent 
 {
 
@@ -39,11 +41,13 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
     public X_C_ServiceLevelLine (Properties ctx, int C_ServiceLevelLine_ID, String trxName)
     {
       super (ctx, C_ServiceLevelLine_ID, trxName);
-      /** if (C_ServiceLevelLine_ID == 0)        {			setC_ServiceLevelLine_ID (0);
+      /** if (C_ServiceLevelLine_ID == 0)
+        {
+			setC_ServiceLevelLine_ID (0);
 			setC_ServiceLevel_ID (0);
 			setServiceDate (new Timestamp(System.currentTimeMillis()));
 			setServiceLevelProvided (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +100,7 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_ServiceLevel getI_C_ServiceLevel() throws Exception 
+	public I_C_ServiceLevel getC_ServiceLevel() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ServiceLevel.Table_Name);
         I_C_ServiceLevel result = null;
@@ -140,10 +144,11 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

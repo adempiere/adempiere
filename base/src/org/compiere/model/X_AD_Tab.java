@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
     public X_AD_Tab (Properties ctx, int AD_Tab_ID, String trxName)
     {
       super (ctx, AD_Tab_ID, trxName);
-      /** if (AD_Tab_ID == 0)        {			setAD_Tab_ID (0);
+      /** if (AD_Tab_ID == 0)
+        {
+			setAD_Tab_ID (0);
 			setAD_Table_ID (0);
 			setAD_Window_ID (0);
 			setEntityType (null);
@@ -58,7 +59,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 			setSeqNo (0);
 // @SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_Tab WHERE AD_Window_ID=@AD_Window_ID@
 			setTabLevel (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -89,17 +90,18 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
       return sb.toString();
     }
 
-/** AD_ColumnSortOrder_ID AD_Reference_ID=257 */
-public static final int AD_COLUMNSORTORDER_ID_AD_Reference_ID=257;
+	/** AD_ColumnSortOrder_ID AD_Reference_ID=257 */
+	public static final int AD_COLUMNSORTORDER_ID_AD_Reference_ID=257;
 	/** Set Order Column.
 		@param AD_ColumnSortOrder_ID 
 		Column determining the order
 	  */
 	public void setAD_ColumnSortOrder_ID (int AD_ColumnSortOrder_ID)
 	{
-		if (AD_ColumnSortOrder_ID <= 0) 		set_Value (COLUMNNAME_AD_ColumnSortOrder_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_ColumnSortOrder_ID, Integer.valueOf(AD_ColumnSortOrder_ID));
+		if (AD_ColumnSortOrder_ID <= 0) 
+			set_Value (COLUMNNAME_AD_ColumnSortOrder_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ColumnSortOrder_ID, Integer.valueOf(AD_ColumnSortOrder_ID));
 	}
 
 	/** Get Order Column.
@@ -113,17 +115,18 @@ public static final int AD_COLUMNSORTORDER_ID_AD_Reference_ID=257;
 		return ii.intValue();
 	}
 
-/** AD_ColumnSortYesNo_ID AD_Reference_ID=258 */
-public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
+	/** AD_ColumnSortYesNo_ID AD_Reference_ID=258 */
+	public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	/** Set Included Column.
 		@param AD_ColumnSortYesNo_ID 
 		Column determining if a Table Column is included in Ordering
 	  */
 	public void setAD_ColumnSortYesNo_ID (int AD_ColumnSortYesNo_ID)
 	{
-		if (AD_ColumnSortYesNo_ID <= 0) 		set_Value (COLUMNNAME_AD_ColumnSortYesNo_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_ColumnSortYesNo_ID, Integer.valueOf(AD_ColumnSortYesNo_ID));
+		if (AD_ColumnSortYesNo_ID <= 0) 
+			set_Value (COLUMNNAME_AD_ColumnSortYesNo_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ColumnSortYesNo_ID, Integer.valueOf(AD_ColumnSortYesNo_ID));
 	}
 
 	/** Get Included Column.
@@ -137,7 +140,7 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 		return ii.intValue();
 	}
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -159,9 +162,10 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -175,7 +179,7 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 		return ii.intValue();
 	}
 
-	public I_AD_Image getI_AD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -197,9 +201,10 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -213,7 +218,7 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 		return ii.intValue();
 	}
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -235,9 +240,10 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 		set_Value (COLUMNNAME_AD_Process_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -273,7 +279,7 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -311,7 +317,7 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 		return ii.intValue();
 	}
 
-	public I_AD_Window getI_AD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -355,10 +361,11 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	  */
 	public void setCommitWarning (String CommitWarning)
 	{
+
 		if (CommitWarning != null && CommitWarning.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			CommitWarning = CommitWarning.substring(0, 1999);
+			CommitWarning = CommitWarning.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_CommitWarning, CommitWarning);
 	}
@@ -377,10 +384,11 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -399,10 +407,11 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	  */
 	public void setDisplayLogic (String DisplayLogic)
 	{
+
 		if (DisplayLogic != null && DisplayLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DisplayLogic = DisplayLogic.substring(0, 1999);
+			DisplayLogic = DisplayLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
 	}
@@ -415,14 +424,15 @@ public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 		return (String)get_Value(COLUMNNAME_DisplayLogic);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -469,10 +479,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -491,10 +502,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setImportFields (String ImportFields)
 	{
+
 		if (ImportFields != null && ImportFields.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ImportFields = ImportFields.substring(0, 0);
+			ImportFields = ImportFields.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ImportFields, ImportFields);
 	}
@@ -507,17 +519,18 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_ImportFields);
 	}
 
-/** Included_Tab_ID AD_Reference_ID=278 */
-public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
+	/** Included_Tab_ID AD_Reference_ID=278 */
+	public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	/** Set Included Tab.
 		@param Included_Tab_ID 
 		Included Tab in this Tab (Master Dateail)
 	  */
 	public void setIncluded_Tab_ID (int Included_Tab_ID)
 	{
-		if (Included_Tab_ID <= 0) 		set_Value (COLUMNNAME_Included_Tab_ID, null);
- else 
-		set_Value (COLUMNNAME_Included_Tab_ID, Integer.valueOf(Included_Tab_ID));
+		if (Included_Tab_ID <= 0) 
+			set_Value (COLUMNNAME_Included_Tab_ID, null);
+		else 
+			set_Value (COLUMNNAME_Included_Tab_ID, Integer.valueOf(Included_Tab_ID));
 	}
 
 	/** Get Included Tab.
@@ -707,10 +720,11 @@ public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -737,10 +751,11 @@ public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	  */
 	public void setOrderByClause (String OrderByClause)
 	{
+
 		if (OrderByClause != null && OrderByClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OrderByClause = OrderByClause.substring(0, 1999);
+			OrderByClause = OrderByClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_OrderByClause, OrderByClause);
 	}
@@ -761,7 +776,7 @@ public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -780,10 +795,11 @@ public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	  */
 	public void setReadOnlyLogic (String ReadOnlyLogic)
 	{
+
 		if (ReadOnlyLogic != null && ReadOnlyLogic.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ReadOnlyLogic = ReadOnlyLogic.substring(0, 1999);
+			ReadOnlyLogic = ReadOnlyLogic.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ReadOnlyLogic, ReadOnlyLogic);
 	}
@@ -842,10 +858,11 @@ public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	  */
 	public void setWhereClause (String WhereClause)
 	{
+
 		if (WhereClause != null && WhereClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 1999);
+			WhereClause = WhereClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}

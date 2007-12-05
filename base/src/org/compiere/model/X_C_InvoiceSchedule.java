@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceSchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
     public X_C_InvoiceSchedule (Properties ctx, int C_InvoiceSchedule_ID, String trxName)
     {
       super (ctx, C_InvoiceSchedule_ID, trxName);
-      /** if (C_InvoiceSchedule_ID == 0)        {			setAmt (Env.ZERO);
+      /** if (C_InvoiceSchedule_ID == 0)
+        {
+			setAmt (Env.ZERO);
 			setC_InvoiceSchedule_ID (0);
 			setInvoiceDay (0);
 // 1
@@ -48,7 +49,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 			setIsAmount (false);
 			setIsDefault (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -129,10 +130,11 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -209,22 +211,28 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 		return ii.intValue();
 	}
 
-/** InvoiceFrequency AD_Reference_ID=168 */
-public static final int INVOICEFREQUENCY_AD_Reference_ID=168;/** Daily = D */
-public static final String INVOICEFREQUENCY_Daily = "D";/** Monthly = M */
-public static final String INVOICEFREQUENCY_Monthly = "M";/** Twice Monthly = T */
-public static final String INVOICEFREQUENCY_TwiceMonthly = "T";/** Weekly = W */
-public static final String INVOICEFREQUENCY_Weekly = "W";
+	/** InvoiceFrequency AD_Reference_ID=168 */
+	public static final int INVOICEFREQUENCY_AD_Reference_ID=168;
+	/** Daily = D */
+	public static final String INVOICEFREQUENCY_Daily = "D";
+	/** Weekly = W */
+	public static final String INVOICEFREQUENCY_Weekly = "W";
+	/** Monthly = M */
+	public static final String INVOICEFREQUENCY_Monthly = "M";
+	/** Twice Monthly = T */
+	public static final String INVOICEFREQUENCY_TwiceMonthly = "T";
 	/** Set Invoice Frequency.
 		@param InvoiceFrequency 
 		How often invoices will be generated
 	  */
 	public void setInvoiceFrequency (String InvoiceFrequency)
 	{
-if (InvoiceFrequency == null) throw new IllegalArgumentException ("InvoiceFrequency is mandatory");if (InvoiceFrequency.equals("D") || InvoiceFrequency.equals("M") || InvoiceFrequency.equals("T") || InvoiceFrequency.equals("W")); else throw new IllegalArgumentException ("InvoiceFrequency Invalid value - " + InvoiceFrequency + " - Reference_ID=168 - D - M - T - W");		if (InvoiceFrequency.length() > 1)
+		if (InvoiceFrequency == null) throw new IllegalArgumentException ("InvoiceFrequency is mandatory");
+		if (InvoiceFrequency.equals("D") || InvoiceFrequency.equals("W") || InvoiceFrequency.equals("M") || InvoiceFrequency.equals("T")); else throw new IllegalArgumentException ("InvoiceFrequency Invalid value - " + InvoiceFrequency + " - Reference_ID=168 - D - W - M - T");
+		if (InvoiceFrequency.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InvoiceFrequency = InvoiceFrequency.substring(0, 0);
+			InvoiceFrequency = InvoiceFrequency.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_InvoiceFrequency, InvoiceFrequency);
 	}
@@ -237,25 +245,34 @@ if (InvoiceFrequency == null) throw new IllegalArgumentException ("InvoiceFreque
 		return (String)get_Value(COLUMNNAME_InvoiceFrequency);
 	}
 
-/** InvoiceWeekDay AD_Reference_ID=167 */
-public static final int INVOICEWEEKDAY_AD_Reference_ID=167;/** Monday = 1 */
-public static final String INVOICEWEEKDAY_Monday = "1";/** Tuesday = 2 */
-public static final String INVOICEWEEKDAY_Tuesday = "2";/** Wednesday = 3 */
-public static final String INVOICEWEEKDAY_Wednesday = "3";/** Thursday = 4 */
-public static final String INVOICEWEEKDAY_Thursday = "4";/** Friday = 5 */
-public static final String INVOICEWEEKDAY_Friday = "5";/** Saturday = 6 */
-public static final String INVOICEWEEKDAY_Saturday = "6";/** Sunday = 7 */
-public static final String INVOICEWEEKDAY_Sunday = "7";
+	/** InvoiceWeekDay AD_Reference_ID=167 */
+	public static final int INVOICEWEEKDAY_AD_Reference_ID=167;
+	/** Sunday = 7 */
+	public static final String INVOICEWEEKDAY_Sunday = "7";
+	/** Monday = 1 */
+	public static final String INVOICEWEEKDAY_Monday = "1";
+	/** Tuesday = 2 */
+	public static final String INVOICEWEEKDAY_Tuesday = "2";
+	/** Wednesday = 3 */
+	public static final String INVOICEWEEKDAY_Wednesday = "3";
+	/** Thursday = 4 */
+	public static final String INVOICEWEEKDAY_Thursday = "4";
+	/** Friday = 5 */
+	public static final String INVOICEWEEKDAY_Friday = "5";
+	/** Saturday = 6 */
+	public static final String INVOICEWEEKDAY_Saturday = "6";
 	/** Set Invoice Week Day.
 		@param InvoiceWeekDay 
 		Day to generate invoices
 	  */
 	public void setInvoiceWeekDay (String InvoiceWeekDay)
 	{
-if (InvoiceWeekDay == null) throw new IllegalArgumentException ("InvoiceWeekDay is mandatory");if (InvoiceWeekDay.equals("1") || InvoiceWeekDay.equals("2") || InvoiceWeekDay.equals("3") || InvoiceWeekDay.equals("4") || InvoiceWeekDay.equals("5") || InvoiceWeekDay.equals("6") || InvoiceWeekDay.equals("7")); else throw new IllegalArgumentException ("InvoiceWeekDay Invalid value - " + InvoiceWeekDay + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");		if (InvoiceWeekDay.length() > 1)
+		if (InvoiceWeekDay == null) throw new IllegalArgumentException ("InvoiceWeekDay is mandatory");
+		if (InvoiceWeekDay.equals("7") || InvoiceWeekDay.equals("1") || InvoiceWeekDay.equals("2") || InvoiceWeekDay.equals("3") || InvoiceWeekDay.equals("4") || InvoiceWeekDay.equals("5") || InvoiceWeekDay.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDay Invalid value - " + InvoiceWeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
+		if (InvoiceWeekDay.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InvoiceWeekDay = InvoiceWeekDay.substring(0, 0);
+			InvoiceWeekDay = InvoiceWeekDay.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_InvoiceWeekDay, InvoiceWeekDay);
 	}
@@ -268,25 +285,34 @@ if (InvoiceWeekDay == null) throw new IllegalArgumentException ("InvoiceWeekDay 
 		return (String)get_Value(COLUMNNAME_InvoiceWeekDay);
 	}
 
-/** InvoiceWeekDayCutoff AD_Reference_ID=167 */
-public static final int INVOICEWEEKDAYCUTOFF_AD_Reference_ID=167;/** Monday = 1 */
-public static final String INVOICEWEEKDAYCUTOFF_Monday = "1";/** Tuesday = 2 */
-public static final String INVOICEWEEKDAYCUTOFF_Tuesday = "2";/** Wednesday = 3 */
-public static final String INVOICEWEEKDAYCUTOFF_Wednesday = "3";/** Thursday = 4 */
-public static final String INVOICEWEEKDAYCUTOFF_Thursday = "4";/** Friday = 5 */
-public static final String INVOICEWEEKDAYCUTOFF_Friday = "5";/** Saturday = 6 */
-public static final String INVOICEWEEKDAYCUTOFF_Saturday = "6";/** Sunday = 7 */
-public static final String INVOICEWEEKDAYCUTOFF_Sunday = "7";
+	/** InvoiceWeekDayCutoff AD_Reference_ID=167 */
+	public static final int INVOICEWEEKDAYCUTOFF_AD_Reference_ID=167;
+	/** Sunday = 7 */
+	public static final String INVOICEWEEKDAYCUTOFF_Sunday = "7";
+	/** Monday = 1 */
+	public static final String INVOICEWEEKDAYCUTOFF_Monday = "1";
+	/** Tuesday = 2 */
+	public static final String INVOICEWEEKDAYCUTOFF_Tuesday = "2";
+	/** Wednesday = 3 */
+	public static final String INVOICEWEEKDAYCUTOFF_Wednesday = "3";
+	/** Thursday = 4 */
+	public static final String INVOICEWEEKDAYCUTOFF_Thursday = "4";
+	/** Friday = 5 */
+	public static final String INVOICEWEEKDAYCUTOFF_Friday = "5";
+	/** Saturday = 6 */
+	public static final String INVOICEWEEKDAYCUTOFF_Saturday = "6";
 	/** Set Invoice weekday cutoff.
 		@param InvoiceWeekDayCutoff 
 		Last day in the week for shipments to be included
 	  */
 	public void setInvoiceWeekDayCutoff (String InvoiceWeekDayCutoff)
 	{
-if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("1") || InvoiceWeekDayCutoff.equals("2") || InvoiceWeekDayCutoff.equals("3") || InvoiceWeekDayCutoff.equals("4") || InvoiceWeekDayCutoff.equals("5") || InvoiceWeekDayCutoff.equals("6") || InvoiceWeekDayCutoff.equals("7")); else throw new IllegalArgumentException ("InvoiceWeekDayCutoff Invalid value - " + InvoiceWeekDayCutoff + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");		if (InvoiceWeekDayCutoff != null && InvoiceWeekDayCutoff.length() > 1)
+
+		if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("7") || InvoiceWeekDayCutoff.equals("1") || InvoiceWeekDayCutoff.equals("2") || InvoiceWeekDayCutoff.equals("3") || InvoiceWeekDayCutoff.equals("4") || InvoiceWeekDayCutoff.equals("5") || InvoiceWeekDayCutoff.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDayCutoff Invalid value - " + InvoiceWeekDayCutoff + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
+		if (InvoiceWeekDayCutoff != null && InvoiceWeekDayCutoff.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			InvoiceWeekDayCutoff = InvoiceWeekDayCutoff.substring(0, 0);
+			InvoiceWeekDayCutoff = InvoiceWeekDayCutoff.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_InvoiceWeekDayCutoff, InvoiceWeekDayCutoff);
 	}
@@ -355,10 +381,11 @@ if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("1") || InvoiceW
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

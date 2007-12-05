@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
     public X_T_InvoiceGL (Properties ctx, int T_InvoiceGL_ID, String trxName)
     {
       super (ctx, T_InvoiceGL_ID, trxName);
-      /** if (T_InvoiceGL_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_InvoiceGL_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setAmtAcctBalance (Env.ZERO);
 			setAmtRevalCr (Env.ZERO);
 			setAmtRevalCrDiff (Env.ZERO);
@@ -53,7 +56,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 			setGrandTotal (Env.ZERO);
 			setIsAllCurrencies (false);
 			setOpenAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -84,7 +87,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -122,21 +125,26 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return ii.intValue();
 	}
 
-/** APAR AD_Reference_ID=332 */
-public static final int APAR_AD_Reference_ID=332;/** Receivables & Payables = A */
-public static final String APAR_ReceivablesPayables = "A";/** Payables only = P */
-public static final String APAR_PayablesOnly = "P";/** Receivables only = R */
-public static final String APAR_ReceivablesOnly = "R";
+	/** APAR AD_Reference_ID=332 */
+	public static final int APAR_AD_Reference_ID=332;
+	/** Receivables & Payables = A */
+	public static final String APAR_ReceivablesPayables = "A";
+	/** Receivables only = R */
+	public static final String APAR_ReceivablesOnly = "R";
+	/** Payables only = P */
+	public static final String APAR_PayablesOnly = "P";
 	/** Set AP - AR.
 		@param APAR 
 		Include Receivables and/or Payables transactions
 	  */
 	public void setAPAR (String APAR)
 	{
-if (APAR == null || APAR.equals("A") || APAR.equals("P") || APAR.equals("R")); else throw new IllegalArgumentException ("APAR Invalid value - " + APAR + " - Reference_ID=332 - A - P - R");		if (APAR != null && APAR.length() > 1)
+
+		if (APAR == null || APAR.equals("A") || APAR.equals("R") || APAR.equals("P")); else throw new IllegalArgumentException ("APAR Invalid value - " + APAR + " - Reference_ID=332 - A - R - P");
+		if (APAR != null && APAR.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			APAR = APAR.substring(0, 0);
+			APAR = APAR.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_APAR, APAR);
 	}
@@ -281,8 +289,8 @@ if (APAR == null || APAR.equals("A") || APAR.equals("P") || APAR.equals("R")); e
 		return bd;
 	}
 
-/** C_ConversionTypeReval_ID AD_Reference_ID=352 */
-public static final int C_CONVERSIONTYPEREVAL_ID_AD_Reference_ID=352;
+	/** C_ConversionTypeReval_ID AD_Reference_ID=352 */
+	public static final int C_CONVERSIONTYPEREVAL_ID_AD_Reference_ID=352;
 	/** Set Revaluation Conversion Type.
 		@param C_ConversionTypeReval_ID 
 		Revaluation Currency Conversion Type
@@ -305,17 +313,18 @@ public static final int C_CONVERSIONTYPEREVAL_ID_AD_Reference_ID=352;
 		return ii.intValue();
 	}
 
-/** C_DocTypeReval_ID AD_Reference_ID=170 */
-public static final int C_DOCTYPEREVAL_ID_AD_Reference_ID=170;
+	/** C_DocTypeReval_ID AD_Reference_ID=170 */
+	public static final int C_DOCTYPEREVAL_ID_AD_Reference_ID=170;
 	/** Set Revaluation Document Type.
 		@param C_DocTypeReval_ID 
 		Document Type for Revaluation Journal
 	  */
 	public void setC_DocTypeReval_ID (int C_DocTypeReval_ID)
 	{
-		if (C_DocTypeReval_ID <= 0) 		set_Value (COLUMNNAME_C_DocTypeReval_ID, null);
- else 
-		set_Value (COLUMNNAME_C_DocTypeReval_ID, Integer.valueOf(C_DocTypeReval_ID));
+		if (C_DocTypeReval_ID <= 0) 
+			set_Value (COLUMNNAME_C_DocTypeReval_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeReval_ID, Integer.valueOf(C_DocTypeReval_ID));
 	}
 
 	/** Get Revaluation Document Type.
@@ -328,6 +337,22 @@ public static final int C_DOCTYPEREVAL_ID_AD_Reference_ID=170;
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Invoice.
 		@param C_Invoice_ID 
@@ -380,7 +405,7 @@ public static final int C_DOCTYPEREVAL_ID_AD_Reference_ID=170;
 	}
 
 	/** Get Accounting Fact.
-@return Accounting Fact	  */
+		@return Accounting Fact	  */
 	public int getFact_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Fact_Acct_ID);

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
     public X_AD_Ref_Table (Properties ctx, int AD_Ref_Table_ID, String trxName)
     {
       super (ctx, AD_Ref_Table_ID, trxName);
-      /** if (AD_Ref_Table_ID == 0)        {			setAD_Display (0);
+      /** if (AD_Ref_Table_ID == 0)
+        {
+			setAD_Display (0);
 			setAD_Key (0);
 			setAD_Reference_ID (0);
 			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setIsValueDisplayed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,8 +78,8 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
       return sb.toString();
     }
 
-/** AD_Display AD_Reference_ID=3 */
-public static final int AD_DISPLAY_AD_Reference_ID=3;
+	/** AD_Display AD_Reference_ID=3 */
+	public static final int AD_DISPLAY_AD_Reference_ID=3;
 	/** Set Display column.
 		@param AD_Display 
 		Column that will display
@@ -99,8 +100,8 @@ public static final int AD_DISPLAY_AD_Reference_ID=3;
 		return ii.intValue();
 	}
 
-/** AD_Key AD_Reference_ID=3 */
-public static final int AD_KEY_AD_Reference_ID=3;
+	/** AD_Key AD_Reference_ID=3 */
+	public static final int AD_KEY_AD_Reference_ID=3;
 	/** Set Key column.
 		@param AD_Key 
 		Unique identifier of a record
@@ -121,7 +122,7 @@ public static final int AD_KEY_AD_Reference_ID=3;
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getI_AD_Reference() throws Exception 
+	public I_AD_Reference getAD_Reference() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
         I_AD_Reference result = null;
@@ -167,7 +168,7 @@ public static final int AD_KEY_AD_Reference_ID=3;
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Reference_ID()));
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -205,14 +206,15 @@ public static final int AD_KEY_AD_Reference_ID=3;
 		return ii.intValue();
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -259,10 +261,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setOrderByClause (String OrderByClause)
 	{
+
 		if (OrderByClause != null && OrderByClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OrderByClause = OrderByClause.substring(0, 1999);
+			OrderByClause = OrderByClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_OrderByClause, OrderByClause);
 	}
@@ -281,10 +284,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setWhereClause (String WhereClause)
 	{
+
 		if (WhereClause != null && WhereClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 1999);
+			WhereClause = WhereClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_WF_ActivityResult
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.562
-     */
-    public interface I_AD_WF_ActivityResult 
+/** Generated Interface for AD_WF_ActivityResult
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_WF_ActivityResult 
 {
 
     /** TableName=AD_WF_ActivityResult */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_Activity_ID();
 
-	public I_AD_WF_Activity getI_AD_WF_Activity() throws Exception;
+	public I_AD_WF_Activity getAD_WF_Activity() throws Exception;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";

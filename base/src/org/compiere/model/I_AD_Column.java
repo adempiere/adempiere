@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Column
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:21.375
-     */
-    public interface I_AD_Column 
+/** Generated Interface for AD_Column
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Column 
 {
 
     /** TableName=AD_Column */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -84,6 +82,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Element_ID();
 
+	public I_AD_Element getAD_Element() throws Exception;
+
     /** Column name AD_Process_ID */
     public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 
@@ -97,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getI_AD_Process() throws Exception;
+	public I_AD_Process getAD_Process() throws Exception;
 
     /** Column name AD_Reference_ID */
     public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
@@ -138,7 +138,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_Val_Rule_ID */
     public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
@@ -153,7 +153,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Val_Rule_ID();
 
-	public I_AD_Val_Rule getI_AD_Val_Rule() throws Exception;
+	public I_AD_Val_Rule getAD_Val_Rule() throws Exception;
 
     /** Column name Callout */
     public static final String COLUMNNAME_Callout = "Callout";

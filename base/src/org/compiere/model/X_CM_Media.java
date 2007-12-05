@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Media
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Media extends PO implements I_CM_Media, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
     public X_CM_Media (Properties ctx, int CM_Media_ID, String trxName)
     {
       super (ctx, CM_Media_ID, trxName);
-      /** if (CM_Media_ID == 0)        {			setCM_Media_ID (0);
+      /** if (CM_Media_ID == 0)
+        {
+			setCM_Media_ID (0);
 			setCM_WebProject_ID (0);
 			setIsSummary (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,9 +81,10 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 		set_Value (COLUMNNAME_AD_Image_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -118,7 +120,7 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -164,7 +166,7 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	}
 
 	/** Get Content.
-@return Content	  */
+		@return Content	  */
 	public String getContentText () 
 	{
 		return (String)get_Value(COLUMNNAME_ContentText);
@@ -176,10 +178,11 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -196,16 +199,17 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 		@param DirectDeploy Direct Deploy	  */
 	public void setDirectDeploy (String DirectDeploy)
 	{
+
 		if (DirectDeploy != null && DirectDeploy.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			DirectDeploy = DirectDeploy.substring(0, 0);
+			DirectDeploy = DirectDeploy.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_DirectDeploy, DirectDeploy);
 	}
 
 	/** Get Direct Deploy.
-@return Direct Deploy	  */
+		@return Direct Deploy	  */
 	public String getDirectDeploy () 
 	{
 		return (String)get_Value(COLUMNNAME_DirectDeploy);
@@ -217,10 +221,11 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -257,24 +262,32 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 		return false;
 	}
 
-/** MediaType AD_Reference_ID=388 */
-public static final int MEDIATYPE_AD_Reference_ID=388;/** text/css = CSS */
-public static final String MEDIATYPE_TextCss = "CSS";/** image/gif = GIF */
-public static final String MEDIATYPE_ImageGif = "GIF";/** image/jpeg = JPG */
-public static final String MEDIATYPE_ImageJpeg = "JPG";/** text/js = JS */
-public static final String MEDIATYPE_TextJs = "JS";/** application/pdf = PDF */
-public static final String MEDIATYPE_ApplicationPdf = "PDF";/** image/png = PNG */
-public static final String MEDIATYPE_ImagePng = "PNG";
+	/** MediaType AD_Reference_ID=388 */
+	public static final int MEDIATYPE_AD_Reference_ID=388;
+	/** image/gif = GIF */
+	public static final String MEDIATYPE_ImageGif = "GIF";
+	/** image/jpeg = JPG */
+	public static final String MEDIATYPE_ImageJpeg = "JPG";
+	/** image/png = PNG */
+	public static final String MEDIATYPE_ImagePng = "PNG";
+	/** application/pdf = PDF */
+	public static final String MEDIATYPE_ApplicationPdf = "PDF";
+	/** text/css = CSS */
+	public static final String MEDIATYPE_TextCss = "CSS";
+	/** text/js = JS */
+	public static final String MEDIATYPE_TextJs = "JS";
 	/** Set Media Type.
 		@param MediaType 
 		Defines the media type for the browser
 	  */
 	public void setMediaType (String MediaType)
 	{
-if (MediaType == null || MediaType.equals("CSS") || MediaType.equals("GIF") || MediaType.equals("JPG") || MediaType.equals("JS") || MediaType.equals("PDF") || MediaType.equals("PNG")); else throw new IllegalArgumentException ("MediaType Invalid value - " + MediaType + " - Reference_ID=388 - CSS - GIF - JPG - JS - PDF - PNG");		if (MediaType != null && MediaType.length() > 3)
+
+		if (MediaType == null || MediaType.equals("GIF") || MediaType.equals("JPG") || MediaType.equals("PNG") || MediaType.equals("PDF") || MediaType.equals("CSS") || MediaType.equals("JS")); else throw new IllegalArgumentException ("MediaType Invalid value - " + MediaType + " - Reference_ID=388 - GIF - JPG - PNG - PDF - CSS - JS");
+		if (MediaType != null && MediaType.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			MediaType = MediaType.substring(0, 2);
+			MediaType = MediaType.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_MediaType, MediaType);
 	}
@@ -295,10 +308,11 @@ if (MediaType == null || MediaType.equals("CSS") || MediaType.equals("GIF") || M
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for R_RequestProcessor
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.921
-     */
-    public interface I_R_RequestProcessor 
+/** Generated Interface for R_RequestProcessor
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_R_RequestProcessor 
 {
 
     /** TableName=R_RequestProcessor */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -223,7 +222,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getI_R_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws Exception;
 
     /** Column name RemindDays */
     public static final String COLUMNNAME_RemindDays = "RemindDays";

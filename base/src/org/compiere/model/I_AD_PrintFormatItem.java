@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_PrintFormatItem
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:25.593
-     */
-    public interface I_AD_PrintFormatItem 
+/** Generated Interface for AD_PrintFormatItem
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_PrintFormatItem 
 {
 
     /** TableName=AD_PrintFormatItem */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_PrintColor_ID */
     public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getI_AD_PrintColor() throws Exception;
+	public I_AD_PrintColor getAD_PrintColor() throws Exception;
 
     /** Column name AD_PrintFont_ID */
     public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
@@ -101,7 +99,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFont_ID();
 
-	public I_AD_PrintFont getI_AD_PrintFont() throws Exception;
+	public I_AD_PrintFont getAD_PrintFont() throws Exception;
 
     /** Column name AD_PrintFormatChild_ID */
     public static final String COLUMNNAME_AD_PrintFormatChild_ID = "AD_PrintFormatChild_ID";
@@ -142,7 +140,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception;
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception;
 
     /** Column name AD_PrintGraph_ID */
     public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";
@@ -157,7 +155,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintGraph_ID();
 
-	public I_AD_PrintGraph getI_AD_PrintGraph() throws Exception;
+	public I_AD_PrintGraph getAD_PrintGraph() throws Exception;
 
     /** Column name ArcDiameter */
     public static final String COLUMNNAME_ArcDiameter = "ArcDiameter";
@@ -513,12 +511,12 @@ import org.compiere.util.*;
     /** Column name IsVarianceCalc */
     public static final String COLUMNNAME_IsVarianceCalc = "IsVarianceCalc";
 
-	/** Set Calculate Variance (??).
+	/** Set Calculate Variance (?�).
 	  * Calculate Variance
 	  */
 	public void setIsVarianceCalc (boolean IsVarianceCalc);
 
-	/** Get Calculate Variance (??).
+	/** Get Calculate Variance (?�).
 	  * Calculate Variance
 	  */
 	public boolean isVarianceCalc();

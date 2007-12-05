@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ChangeRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
     public X_M_ChangeRequest (Properties ctx, int M_ChangeRequest_ID, String trxName)
     {
       super (ctx, M_ChangeRequest_ID, trxName);
-      /** if (M_ChangeRequest_ID == 0)        {			setDocumentNo (null);
+      /** if (M_ChangeRequest_ID == 0)
+        {
+			setDocumentNo (null);
 			setIsApproved (false);
 // N
 			setM_ChangeRequest_ID (0);
 			setName (null);
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,10 +83,11 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -123,10 +125,11 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -153,10 +156,11 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -193,7 +197,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return false;
 	}
 
-	public I_M_BOM getI_M_BOM() throws Exception 
+	public I_M_BOM getM_BOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
         I_M_BOM result = null;
@@ -215,9 +219,10 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setM_BOM_ID (int M_BOM_ID)
 	{
-		if (M_BOM_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+		if (M_BOM_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
 	}
 
 	/** Get BOM.
@@ -231,7 +236,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getI_M_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -253,9 +258,10 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
+		if (M_ChangeNotice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
 	}
 
 	/** Get Change Notice.
@@ -291,17 +297,18 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return ii.intValue();
 	}
 
-/** M_FixChangeNotice_ID AD_Reference_ID=351 */
-public static final int M_FIXCHANGENOTICE_ID_AD_Reference_ID=351;
+	/** M_FixChangeNotice_ID AD_Reference_ID=351 */
+	public static final int M_FIXCHANGENOTICE_ID_AD_Reference_ID=351;
 	/** Set Fixed in.
 		@param M_FixChangeNotice_ID 
 		Fixed in Change Notice
 	  */
 	public void setM_FixChangeNotice_ID (int M_FixChangeNotice_ID)
 	{
-		if (M_FixChangeNotice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_FixChangeNotice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_FixChangeNotice_ID, Integer.valueOf(M_FixChangeNotice_ID));
+		if (M_FixChangeNotice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_FixChangeNotice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_FixChangeNotice_ID, Integer.valueOf(M_FixChangeNotice_ID));
 	}
 
 	/** Get Fixed in.
@@ -323,10 +330,11 @@ public static final int M_FIXCHANGENOTICE_ID_AD_Reference_ID=351;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

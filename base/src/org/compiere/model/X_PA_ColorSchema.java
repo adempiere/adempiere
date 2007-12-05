@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ColorSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persistent 
 {
 
@@ -39,7 +36,9 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
     public X_PA_ColorSchema (Properties ctx, int PA_ColorSchema_ID, String trxName)
     {
       super (ctx, PA_ColorSchema_ID, trxName);
-      /** if (PA_ColorSchema_ID == 0)        {			setAD_PrintColor1_ID (0);
+      /** if (PA_ColorSchema_ID == 0)
+        {
+			setAD_PrintColor1_ID (0);
 			setAD_PrintColor2_ID (0);
 			setEntityType (null);
 // U
@@ -47,7 +46,7 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 			setMark2Percent (0);
 			setName (null);
 			setPA_ColorSchema_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,8 +77,8 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
       return sb.toString();
     }
 
-/** AD_PrintColor1_ID AD_Reference_ID=266 */
-public static final int AD_PRINTCOLOR1_ID_AD_Reference_ID=266;
+	/** AD_PrintColor1_ID AD_Reference_ID=266 */
+	public static final int AD_PRINTCOLOR1_ID_AD_Reference_ID=266;
 	/** Set Color 1.
 		@param AD_PrintColor1_ID 
 		First color used
@@ -102,8 +101,8 @@ public static final int AD_PRINTCOLOR1_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** AD_PrintColor2_ID AD_Reference_ID=266 */
-public static final int AD_PRINTCOLOR2_ID_AD_Reference_ID=266;
+	/** AD_PrintColor2_ID AD_Reference_ID=266 */
+	public static final int AD_PRINTCOLOR2_ID_AD_Reference_ID=266;
 	/** Set Color 2.
 		@param AD_PrintColor2_ID 
 		Second color used
@@ -126,17 +125,18 @@ public static final int AD_PRINTCOLOR2_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** AD_PrintColor3_ID AD_Reference_ID=266 */
-public static final int AD_PRINTCOLOR3_ID_AD_Reference_ID=266;
+	/** AD_PrintColor3_ID AD_Reference_ID=266 */
+	public static final int AD_PRINTCOLOR3_ID_AD_Reference_ID=266;
 	/** Set Color 3.
 		@param AD_PrintColor3_ID 
 		Third color used
 	  */
 	public void setAD_PrintColor3_ID (int AD_PrintColor3_ID)
 	{
-		if (AD_PrintColor3_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintColor3_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintColor3_ID, Integer.valueOf(AD_PrintColor3_ID));
+		if (AD_PrintColor3_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintColor3_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor3_ID, Integer.valueOf(AD_PrintColor3_ID));
 	}
 
 	/** Get Color 3.
@@ -150,17 +150,18 @@ public static final int AD_PRINTCOLOR3_ID_AD_Reference_ID=266;
 		return ii.intValue();
 	}
 
-/** AD_PrintColor4_ID AD_Reference_ID=266 */
-public static final int AD_PRINTCOLOR4_ID_AD_Reference_ID=266;
+	/** AD_PrintColor4_ID AD_Reference_ID=266 */
+	public static final int AD_PRINTCOLOR4_ID_AD_Reference_ID=266;
 	/** Set Color 4.
 		@param AD_PrintColor4_ID 
 		Forth color used
 	  */
 	public void setAD_PrintColor4_ID (int AD_PrintColor4_ID)
 	{
-		if (AD_PrintColor4_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintColor4_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintColor4_ID, Integer.valueOf(AD_PrintColor4_ID));
+		if (AD_PrintColor4_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintColor4_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor4_ID, Integer.valueOf(AD_PrintColor4_ID));
 	}
 
 	/** Get Color 4.
@@ -180,10 +181,11 @@ public static final int AD_PRINTCOLOR4_ID_AD_Reference_ID=266;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -196,14 +198,15 @@ public static final int AD_PRINTCOLOR4_ID_AD_Reference_ID=266;
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -308,10 +311,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

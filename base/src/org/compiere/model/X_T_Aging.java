@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_Aging extends PO implements I_T_Aging, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
     public X_T_Aging (Properties ctx, int T_Aging_ID, String trxName)
     {
       super (ctx, T_Aging_ID, trxName);
-      /** if (T_Aging_ID == 0)        {			setAD_PInstance_ID (0);
+      /** if (T_Aging_ID == 0)
+        {
+			setAD_PInstance_ID (0);
 			setC_BP_Group_ID (0);
 			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
@@ -69,7 +72,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 			setPastDue91_Plus (Env.ZERO);
 			setPastDueAmt (Env.ZERO);
 			setStatementDate (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -100,7 +103,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getI_AD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -138,7 +141,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -160,9 +163,10 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -176,7 +180,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -214,6 +218,22 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -236,7 +256,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -258,9 +278,10 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -274,7 +295,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -312,7 +333,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_InvoicePaySchedule getI_C_InvoicePaySchedule() throws Exception 
+	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoicePaySchedule.Table_Name);
         I_C_InvoicePaySchedule result = null;
@@ -334,9 +355,10 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
 	{
-		if (C_InvoicePaySchedule_ID <= 0) 		set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
- else 
-		set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+		if (C_InvoicePaySchedule_ID <= 0) 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
 	}
 
 	/** Get Invoice Payment Schedule.
@@ -350,15 +372,32 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -372,7 +411,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -394,9 +433,10 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -440,7 +480,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due Today.
-@return Due Today	  */
+		@return Due Today	  */
 	public BigDecimal getDue0 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due0);
@@ -459,7 +499,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due Today-30.
-@return Due Today-30	  */
+		@return Due Today-30	  */
 	public BigDecimal getDue0_30 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due0_30);
@@ -478,7 +518,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due Today-7.
-@return Due Today-7	  */
+		@return Due Today-7	  */
 	public BigDecimal getDue0_7 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due0_7);
@@ -497,7 +537,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due 1-7.
-@return Due 1-7	  */
+		@return Due 1-7	  */
 	public BigDecimal getDue1_7 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due1_7);
@@ -516,7 +556,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due 31-60.
-@return Due 31-60	  */
+		@return Due 31-60	  */
 	public BigDecimal getDue31_60 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due31_60);
@@ -535,7 +575,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due > 31.
-@return Due > 31	  */
+		@return Due > 31	  */
 	public BigDecimal getDue31_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due31_Plus);
@@ -554,7 +594,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due 61-90.
-@return Due 61-90	  */
+		@return Due 61-90	  */
 	public BigDecimal getDue61_90 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due61_90);
@@ -573,7 +613,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due > 61.
-@return Due > 61	  */
+		@return Due > 61	  */
 	public BigDecimal getDue61_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due61_Plus);
@@ -592,7 +632,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due 8-30.
-@return Due 8-30	  */
+		@return Due 8-30	  */
 	public BigDecimal getDue8_30 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due8_30);
@@ -611,7 +651,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Due > 91.
-@return Due > 91	  */
+		@return Due > 91	  */
 	public BigDecimal getDue91_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due91_Plus);
@@ -763,7 +803,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due 1-30.
-@return Past Due 1-30	  */
+		@return Past Due 1-30	  */
 	public BigDecimal getPastDue1_30 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue1_30);
@@ -782,7 +822,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due 1-7.
-@return Past Due 1-7	  */
+		@return Past Due 1-7	  */
 	public BigDecimal getPastDue1_7 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue1_7);
@@ -801,7 +841,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due 31-60.
-@return Past Due 31-60	  */
+		@return Past Due 31-60	  */
 	public BigDecimal getPastDue31_60 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue31_60);
@@ -820,7 +860,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due > 31.
-@return Past Due > 31	  */
+		@return Past Due > 31	  */
 	public BigDecimal getPastDue31_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue31_Plus);
@@ -839,7 +879,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due 61-90.
-@return Past Due 61-90	  */
+		@return Past Due 61-90	  */
 	public BigDecimal getPastDue61_90 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue61_90);
@@ -858,7 +898,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due > 61.
-@return Past Due > 61	  */
+		@return Past Due > 61	  */
 	public BigDecimal getPastDue61_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue61_Plus);
@@ -877,7 +917,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due 8-30.
-@return Past Due 8-30	  */
+		@return Past Due 8-30	  */
 	public BigDecimal getPastDue8_30 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue8_30);
@@ -896,7 +936,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due > 91.
-@return Past Due > 91	  */
+		@return Past Due > 91	  */
 	public BigDecimal getPastDue91_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue91_Plus);
@@ -915,7 +955,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	}
 
 	/** Get Past Due.
-@return Past Due	  */
+		@return Past Due	  */
 	public BigDecimal getPastDueAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDueAmt);

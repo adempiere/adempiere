@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_Group extends PO implements I_R_Group, I_Persistent 
 {
 
@@ -39,9 +38,11 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
     public X_R_Group (Properties ctx, int R_Group_ID, String trxName)
     {
       super (ctx, R_Group_ID, trxName);
-      /** if (R_Group_ID == 0)        {			setName (null);
+      /** if (R_Group_ID == 0)
+        {
+			setName (null);
 			setR_Group_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +79,11 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -100,10 +102,11 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -116,15 +119,32 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	public I_M_BOM getM_BOM() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
+        I_M_BOM result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_BOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_BOM_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set BOM.
 		@param M_BOM_ID 
 		Bill of Material
 	  */
 	public void setM_BOM_ID (int M_BOM_ID)
 	{
-		if (M_BOM_ID <= 0) 		set_Value (COLUMNNAME_M_BOM_ID, null);
- else 
-		set_Value (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+		if (M_BOM_ID <= 0) 
+			set_Value (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
 	}
 
 	/** Get BOM.
@@ -138,7 +158,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getI_M_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -160,9 +180,10 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 		set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
+		if (M_ChangeNotice_ID <= 0) 
+			set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
 	}
 
 	/** Get Change Notice.
@@ -184,10 +205,11 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

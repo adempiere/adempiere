@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ModelValidator
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ModelValidator extends PO implements I_AD_ModelValidator, I_Persistent 
 {
 
@@ -115,14 +115,14 @@ public class X_AD_ModelValidator extends PO implements I_AD_ModelValidator, I_Pe
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
-		if (EntityType == null)
-			throw new IllegalArgumentException ("EntityType is mandatory.");
 
 		if (EntityType.length() > 40)
 		{

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WikiToken
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
     public X_CM_WikiToken (Properties ctx, int CM_WikiToken_ID, String trxName)
     {
       super (ctx, CM_WikiToken_ID, trxName);
-      /** if (CM_WikiToken_ID == 0)        {			setCM_WikiToken_ID (0);
+      /** if (CM_WikiToken_ID == 0)
+        {
+			setCM_WikiToken_ID (0);
 			setName (null);
 			setTokenType (null);
 // I
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -96,9 +97,10 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -140,10 +142,11 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -162,10 +165,11 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setMacro (String Macro)
 	{
+
 		if (Macro != null && Macro.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Macro = Macro.substring(0, 1999);
+			Macro = Macro.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Macro, Macro);
 	}
@@ -186,10 +190,11 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -216,10 +221,11 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setSelectClause (String SelectClause)
 	{
+
 		if (SelectClause != null && SelectClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			SelectClause = SelectClause.substring(0, 1999);
+			SelectClause = SelectClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
@@ -232,22 +238,28 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 		return (String)get_Value(COLUMNNAME_SelectClause);
 	}
 
-/** TokenType AD_Reference_ID=397 */
-public static final int TOKENTYPE_AD_Reference_ID=397;/** External Link = E */
-public static final String TOKENTYPE_ExternalLink = "E";/** Internal Link = I */
-public static final String TOKENTYPE_InternalLink = "I";/** SQL Command = Q */
-public static final String TOKENTYPE_SQLCommand = "Q";/** Style = S */
-public static final String TOKENTYPE_Style = "S";
+	/** TokenType AD_Reference_ID=397 */
+	public static final int TOKENTYPE_AD_Reference_ID=397;
+	/** SQL Command = Q */
+	public static final String TOKENTYPE_SQLCommand = "Q";
+	/** Internal Link = I */
+	public static final String TOKENTYPE_InternalLink = "I";
+	/** External Link = E */
+	public static final String TOKENTYPE_ExternalLink = "E";
+	/** Style = S */
+	public static final String TOKENTYPE_Style = "S";
 	/** Set TokenType.
 		@param TokenType 
 		Wiki Token Type
 	  */
 	public void setTokenType (String TokenType)
 	{
-if (TokenType == null) throw new IllegalArgumentException ("TokenType is mandatory");if (TokenType.equals("E") || TokenType.equals("I") || TokenType.equals("Q") || TokenType.equals("S")); else throw new IllegalArgumentException ("TokenType Invalid value - " + TokenType + " - Reference_ID=397 - E - I - Q - S");		if (TokenType.length() > 1)
+		if (TokenType == null) throw new IllegalArgumentException ("TokenType is mandatory");
+		if (TokenType.equals("Q") || TokenType.equals("I") || TokenType.equals("E") || TokenType.equals("S")); else throw new IllegalArgumentException ("TokenType Invalid value - " + TokenType + " - Reference_ID=397 - Q - I - E - S");
+		if (TokenType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			TokenType = TokenType.substring(0, 0);
+			TokenType = TokenType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_TokenType, TokenType);
 	}
@@ -266,10 +278,11 @@ if (TokenType == null) throw new IllegalArgumentException ("TokenType is mandato
 	  */
 	public void setWhereClause (String WhereClause)
 	{
+
 		if (WhereClause != null && WhereClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 1999);
+			WhereClause = WhereClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}

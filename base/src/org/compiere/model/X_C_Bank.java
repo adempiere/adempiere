@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Bank
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Bank extends PO implements I_C_Bank, I_Persistent 
 {
 
@@ -39,12 +36,14 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
     public X_C_Bank (Properties ctx, int C_Bank_ID, String trxName)
     {
       super (ctx, C_Bank_ID, trxName);
-      /** if (C_Bank_ID == 0)        {			setC_Bank_ID (0);
+      /** if (C_Bank_ID == 0)
+        {
+			setC_Bank_ID (0);
 			setIsOwnBank (true);
 // Y
 			setName (null);
 			setRoutingNo (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -103,9 +102,10 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -125,10 +125,11 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -173,10 +174,11 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -205,10 +207,11 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	{
 		if (RoutingNo == null)
 			throw new IllegalArgumentException ("RoutingNo is mandatory.");
+
 		if (RoutingNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			RoutingNo = RoutingNo.substring(0, 19);
+			RoutingNo = RoutingNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
 	}
@@ -227,10 +230,11 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	  */
 	public void setSwiftCode (String SwiftCode)
 	{
+
 		if (SwiftCode != null && SwiftCode.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			SwiftCode = SwiftCode.substring(0, 19);
+			SwiftCode = SwiftCode.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_SwiftCode, SwiftCode);
 	}

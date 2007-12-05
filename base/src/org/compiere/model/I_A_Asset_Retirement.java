@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for A_Asset_Retirement
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:32.078
-     */
-    public interface I_A_Asset_Retirement 
+/** Generated Interface for A_Asset_Retirement
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_A_Asset_Retirement 
 {
 
     /** TableName=A_Asset_Retirement */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getI_A_Asset() throws Exception;
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name A_Asset_Retirement_ID */
     public static final String COLUMNNAME_A_Asset_Retirement_ID = "A_Asset_Retirement_ID";
@@ -124,4 +122,6 @@ import org.compiere.util.*;
 	  * Invoice Detail Line
 	  */
 	public int getC_InvoiceLine_ID();
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
 }

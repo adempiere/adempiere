@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persistent 
 {
 
@@ -39,12 +39,14 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
     public X_C_PaymentBatch (Properties ctx, int C_PaymentBatch_ID, String trxName)
     {
       super (ctx, C_PaymentBatch_ID, trxName);
-      /** if (C_PaymentBatch_ID == 0)        {			setC_PaymentBatch_ID (0);
+      /** if (C_PaymentBatch_ID == 0)
+        {
+			setC_PaymentBatch_ID (0);
 			setC_PaymentProcessor_ID (0);
 			setName (null);
 			setProcessed (false);
 			setProcessing (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,7 +99,7 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_PaymentProcessor getI_C_PaymentProcessor() throws Exception 
+	public I_C_PaymentProcessor getC_PaymentProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentProcessor.Table_Name);
         I_C_PaymentProcessor result = null;
@@ -141,10 +143,11 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
+
 		if (DocumentNo != null && DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -173,10 +176,11 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -221,7 +225,7 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -242,7 +246,7 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	}
 
 	/** Get Processing date.
-@return Processing date	  */
+		@return Processing date	  */
 	public Timestamp getProcessingDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ProcessingDate);

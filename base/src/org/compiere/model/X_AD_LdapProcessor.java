@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LdapProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Persistent 
 {
 
@@ -39,14 +37,16 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
     public X_AD_LdapProcessor (Properties ctx, int AD_LdapProcessor_ID, String trxName)
     {
       super (ctx, AD_LdapProcessor_ID, trxName);
-      /** if (AD_LdapProcessor_ID == 0)        {			setAD_LdapProcessor_ID (0);
+      /** if (AD_LdapProcessor_ID == 0)
+        {
+			setAD_LdapProcessor_ID (0);
 			setKeepLogDays (0);
 // 7
 			setLdapPort (0);
 // 389
 			setName (null);
 			setSupervisor_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -139,10 +139,11 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -203,10 +204,11 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -235,7 +237,7 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -248,8 +250,8 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 		return false;
 	}
 
-/** Supervisor_ID AD_Reference_ID=110 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=110;
+	/** Supervisor_ID AD_Reference_ID=110 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

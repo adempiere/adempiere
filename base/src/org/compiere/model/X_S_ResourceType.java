@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
     public X_S_ResourceType (Properties ctx, int S_ResourceType_ID, String trxName)
     {
       super (ctx, S_ResourceType_ID, trxName);
-      /** if (S_ResourceType_ID == 0)        {			setAllowUoMFractions (false);
+      /** if (S_ResourceType_ID == 0)
+        {
+			setAllowUoMFractions (false);
 // N
 			setC_TaxCategory_ID (0);
 			setC_UOM_ID (0);
@@ -62,7 +64,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 // Y
 			setS_ResourceType_ID (0);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -117,7 +119,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
-	public I_C_TaxCategory getI_C_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -155,7 +157,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -201,7 +203,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	}
 
 	/** Get Chargeable Quantity.
-@return Chargeable Quantity	  */
+		@return Chargeable Quantity	  */
 	public int getChargeableQty () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
@@ -216,10 +218,11 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -304,7 +307,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -350,10 +353,11 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -552,7 +556,7 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	}
 
 	/** Get Resource Type.
-@return Resource Type	  */
+		@return Resource Type	  */
 	public int getS_ResourceType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceType_ID);
@@ -603,10 +607,11 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

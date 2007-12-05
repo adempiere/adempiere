@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Sequence_No
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persiste
     public X_AD_Sequence_No (Properties ctx, int AD_Sequence_No_ID, String trxName)
     {
       super (ctx, AD_Sequence_No_ID, trxName);
-      /** if (AD_Sequence_No_ID == 0)        {			setAD_Sequence_ID (0);
+      /** if (AD_Sequence_No_ID == 0)
+        {
+			setAD_Sequence_ID (0);
 			setCalendarYear (null);
 			setCurrentNext (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +73,7 @@ public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Sequence getI_AD_Sequence() throws Exception 
+	public I_AD_Sequence getAD_Sequence() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Sequence.Table_Name);
         I_AD_Sequence result = null;
@@ -119,10 +119,11 @@ public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persiste
 	{
 		if (CalendarYear == null)
 			throw new IllegalArgumentException ("CalendarYear is mandatory.");
+
 		if (CalendarYear.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			CalendarYear = CalendarYear.substring(0, 3);
+			CalendarYear = CalendarYear.substring(0, 4);
 		}
 		set_ValueNoCheck (COLUMNNAME_CalendarYear, CalendarYear);
 	}

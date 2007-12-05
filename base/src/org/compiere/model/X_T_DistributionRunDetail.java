@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRunDetail, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
     public X_T_DistributionRunDetail (Properties ctx, int T_DistributionRunDetail_ID, String trxName)
     {
       super (ctx, T_DistributionRunDetail_ID, trxName);
-      /** if (T_DistributionRunDetail_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (T_DistributionRunDetail_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setM_DistributionListLine_ID (0);
 			setM_DistributionList_ID (0);
@@ -49,7 +52,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 			setMinQty (Env.ZERO);
 			setQty (Env.ZERO);
 			setRatio (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,6 +83,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -101,6 +120,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
+        I_C_BPartner_Location result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_Location_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Partner Location.
 		@param C_BPartner_Location_ID 
@@ -124,6 +159,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
+	public I_M_DistributionListLine getM_DistributionListLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_DistributionListLine.Table_Name);
+        I_M_DistributionListLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_DistributionListLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionListLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Distribution List Line.
 		@param M_DistributionListLine_ID 
 		Distribution List Line with Business Partner and Quantity/Percentage
@@ -145,6 +196,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_DistributionList getM_DistributionList() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_DistributionList.Table_Name);
+        I_M_DistributionList result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_DistributionList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionList_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Distribution List.
 		@param M_DistributionList_ID 
@@ -168,6 +235,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
+	public I_M_DistributionRunLine getM_DistributionRunLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_DistributionRunLine.Table_Name);
+        I_M_DistributionRunLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_DistributionRunLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionRunLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Distribution Run Line.
 		@param M_DistributionRunLine_ID 
 		Distribution Run Lines define Distribution List, the Product and Quantiries
@@ -189,6 +272,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_DistributionRun getM_DistributionRun() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_DistributionRun.Table_Name);
+        I_M_DistributionRun result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_DistributionRun)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionRun_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Distribution Run.
 		@param M_DistributionRun_ID 
@@ -218,6 +317,22 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
     public KeyNamePair getKeyNamePair() 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
+    }
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
     }
 
 	/** Set Product.

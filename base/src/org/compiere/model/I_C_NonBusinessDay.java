@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_NonBusinessDay
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:41.453
-     */
-    public interface I_C_NonBusinessDay 
+/** Generated Interface for C_NonBusinessDay
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_NonBusinessDay 
 {
 
     /** TableName=C_NonBusinessDay */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getI_C_Calendar() throws Exception;
+	public I_C_Calendar getC_Calendar() throws Exception;
 
     /** Column name C_NonBusinessDay_ID */
     public static final String COLUMNNAME_C_NonBusinessDay_ID = "C_NonBusinessDay_ID";

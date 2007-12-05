@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSetInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInstance, I_Persistent 
 {
 
@@ -39,9 +39,11 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
     public X_M_AttributeSetInstance (Properties ctx, int M_AttributeSetInstance_ID, String trxName)
     {
       super (ctx, M_AttributeSetInstance_ID, trxName);
-      /** if (M_AttributeSetInstance_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_AttributeSetInstance_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_AttributeSet_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +80,11 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -117,10 +120,11 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	  */
 	public void setLot (String Lot)
 	{
+
 		if (Lot != null && Lot.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Lot = Lot.substring(0, 39);
+			Lot = Lot.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
@@ -163,7 +167,7 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()));
     }
 
-	public I_M_AttributeSet getI_M_AttributeSet() throws Exception 
+	public I_M_AttributeSet getM_AttributeSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
         I_M_AttributeSet result = null;
@@ -201,15 +205,32 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 		return ii.intValue();
 	}
 
+	public I_M_Lot getM_Lot() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Lot.Table_Name);
+        I_M_Lot result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Lot)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Lot_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Lot.
 		@param M_Lot_ID 
 		Product Lot Definition
 	  */
 	public void setM_Lot_ID (int M_Lot_ID)
 	{
-		if (M_Lot_ID <= 0) 		set_Value (COLUMNNAME_M_Lot_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
+		if (M_Lot_ID <= 0) 
+			set_Value (COLUMNNAME_M_Lot_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
 	}
 
 	/** Get Lot.
@@ -229,10 +250,11 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	  */
 	public void setSerNo (String SerNo)
 	{
+
 		if (SerNo != null && SerNo.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			SerNo = SerNo.substring(0, 39);
+			SerNo = SerNo.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}

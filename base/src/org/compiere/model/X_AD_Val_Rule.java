@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Val_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent 
 {
 
@@ -39,12 +36,14 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
     public X_AD_Val_Rule (Properties ctx, int AD_Val_Rule_ID, String trxName)
     {
       super (ctx, AD_Val_Rule_ID, trxName);
-      /** if (AD_Val_Rule_ID == 0)        {			setAD_Val_Rule_ID (0);
+      /** if (AD_Val_Rule_ID == 0)
+        {
+			setAD_Val_Rule_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
 			setType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -103,10 +102,11 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setCode (String Code)
 	{
+
 		if (Code != null && Code.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 1999);
+			Code = Code.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
@@ -125,10 +125,11 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -141,17 +142,18 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
-			log.warning("Length > 4 - truncated");
+			log.warning("Length > 40 - truncated");
 			EntityType = EntityType.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
@@ -173,10 +175,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -197,21 +200,26 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Type AD_Reference_ID=101 */
-public static final int TYPE_AD_Reference_ID=101;/** Java Script = E */
-public static final String TYPE_JavaScript = "E";/** Java Language = J */
-public static final String TYPE_JavaLanguage = "J";/** SQL = S */
-public static final String TYPE_SQL = "S";
+	/** Type AD_Reference_ID=101 */
+	public static final int TYPE_AD_Reference_ID=101;
+	/** SQL = S */
+	public static final String TYPE_SQL = "S";
+	/** Java Language = J */
+	public static final String TYPE_JavaLanguage = "J";
+	/** Java Script = E */
+	public static final String TYPE_JavaScript = "E";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)
 	  */
 	public void setType (String Type)
 	{
-if (Type == null) throw new IllegalArgumentException ("Type is mandatory");if (Type.equals("E") || Type.equals("J") || Type.equals("S")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=101 - E - J - S");		if (Type.length() > 1)
+		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
+		if (Type.equals("S") || Type.equals("J") || Type.equals("E")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=101 - S - J - E");
+		if (Type.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Type = Type.substring(0, 0);
+			Type = Type.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Type, Type);
 	}

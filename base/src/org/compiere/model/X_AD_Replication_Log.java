@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
     public X_AD_Replication_Log (Properties ctx, int AD_Replication_Log_ID, String trxName)
     {
       super (ctx, AD_Replication_Log_ID, trxName);
-      /** if (AD_Replication_Log_ID == 0)        {			setAD_Replication_Log_ID (0);
+      /** if (AD_Replication_Log_ID == 0)
+        {
+			setAD_Replication_Log_ID (0);
 			setAD_Replication_Run_ID (0);
 			setIsReplicated (false);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
       return sb.toString();
     }
 
-	public I_AD_ReplicationTable getI_AD_ReplicationTable() throws Exception 
+	public I_AD_ReplicationTable getAD_ReplicationTable() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReplicationTable.Table_Name);
         I_AD_ReplicationTable result = null;
@@ -96,9 +97,10 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 	  */
 	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
 	{
-		if (AD_ReplicationTable_ID <= 0) 		set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
+		if (AD_ReplicationTable_ID <= 0) 
+			set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
 	}
 
 	/** Get Replication Table.
@@ -134,7 +136,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Replication_Run getI_AD_Replication_Run() throws Exception 
+	public I_AD_Replication_Run getAD_Replication_Run() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Replication_Run.Table_Name);
         I_AD_Replication_Run result = null;
@@ -208,16 +210,17 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 		@param P_Msg Process Message	  */
 	public void setP_Msg (String P_Msg)
 	{
+
 		if (P_Msg != null && P_Msg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			P_Msg = P_Msg.substring(0, 1999);
+			P_Msg = P_Msg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_P_Msg, P_Msg);
 	}
 
 	/** Get Process Message.
-@return Process Message	  */
+		@return Process Message	  */
 	public String getP_Msg () 
 	{
 		return (String)get_Value(COLUMNNAME_P_Msg);

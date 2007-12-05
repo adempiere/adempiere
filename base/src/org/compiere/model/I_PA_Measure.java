@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_Measure
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:53.437
-     */
-    public interface I_PA_Measure 
+/** Generated Interface for PA_Measure
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_Measure 
 {
 
     /** TableName=PA_Measure */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ProjectType_ID();
 
-	public I_C_ProjectType getI_C_ProjectType() throws Exception;
+	public I_C_ProjectType getC_ProjectType() throws Exception;
 
     /** Column name CalculationClass */
     public static final String COLUMNNAME_CalculationClass = "CalculationClass";
@@ -177,7 +175,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_Benchmark_ID();
 
-	public I_PA_Benchmark getI_PA_Benchmark() throws Exception;
+	public I_PA_Benchmark getPA_Benchmark() throws Exception;
 
     /** Column name PA_Hierarchy_ID */
     public static final String COLUMNNAME_PA_Hierarchy_ID = "PA_Hierarchy_ID";
@@ -192,7 +190,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_Hierarchy_ID();
 
-	public I_PA_Hierarchy getI_PA_Hierarchy() throws Exception;
+	public I_PA_Hierarchy getPA_Hierarchy() throws Exception;
 
     /** Column name PA_MeasureCalc_ID */
     public static final String COLUMNNAME_PA_MeasureCalc_ID = "PA_MeasureCalc_ID";
@@ -207,7 +205,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_MeasureCalc_ID();
 
-	public I_PA_MeasureCalc getI_PA_MeasureCalc() throws Exception;
+	public I_PA_MeasureCalc getPA_MeasureCalc() throws Exception;
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
@@ -235,7 +233,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_Ratio_ID();
 
-	public I_PA_Ratio getI_PA_Ratio() throws Exception;
+	public I_PA_Ratio getPA_Ratio() throws Exception;
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -250,5 +248,5 @@ import org.compiere.util.*;
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getI_R_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws Exception;
 }

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_SubAcct
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:45.5
-     */
-    public interface I_C_SubAcct 
+/** Generated Interface for C_SubAcct
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_SubAcct 
 {
 
     /** TableName=C_SubAcct */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getI_C_ElementValue() throws Exception;
+	public I_C_ElementValue getC_ElementValue() throws Exception;
 
     /** Column name C_SubAcct_ID */
     public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";

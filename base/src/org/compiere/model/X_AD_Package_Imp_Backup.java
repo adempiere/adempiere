@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Backup, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
     public X_AD_Package_Imp_Backup (Properties ctx, int AD_Package_Imp_Backup_ID, String trxName)
     {
       super (ctx, AD_Package_Imp_Backup_ID, trxName);
-      /** if (AD_Package_Imp_Backup_ID == 0)        {			setAD_Package_Imp_Backup_ID (0);
+      /** if (AD_Package_Imp_Backup_ID == 0)
+        {
+			setAD_Package_Imp_Backup_ID (0);
 			setAD_Package_Imp_Detail_ID (0);
 			setAD_Package_Imp_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,17 +72,18 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
       return sb.toString();
     }
 
-/** AD_Column_ID AD_Reference_ID=251 */
-public static final int AD_COLUMN_ID_AD_Reference_ID=251;
+	/** AD_Column_ID AD_Reference_ID=251 */
+	public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -107,7 +107,7 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	}
 
 	/** Get AD_Package_Imp_Backup_ID.
-@return AD_Package_Imp_Backup_ID	  */
+		@return AD_Package_Imp_Backup_ID	  */
 	public int getAD_Package_Imp_Backup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Backup_ID);
@@ -128,16 +128,17 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 		@param AD_Package_Imp_Bck_Dir AD_Package_Imp_Bck_Dir	  */
 	public void setAD_Package_Imp_Bck_Dir (String AD_Package_Imp_Bck_Dir)
 	{
+
 		if (AD_Package_Imp_Bck_Dir != null && AD_Package_Imp_Bck_Dir.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			AD_Package_Imp_Bck_Dir = AD_Package_Imp_Bck_Dir.substring(0, 254);
+			AD_Package_Imp_Bck_Dir = AD_Package_Imp_Bck_Dir.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_AD_Package_Imp_Bck_Dir, AD_Package_Imp_Bck_Dir);
 	}
 
 	/** Get AD_Package_Imp_Bck_Dir.
-@return AD_Package_Imp_Bck_Dir	  */
+		@return AD_Package_Imp_Bck_Dir	  */
 	public String getAD_Package_Imp_Bck_Dir () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Imp_Bck_Dir);
@@ -153,7 +154,7 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	}
 
 	/** Get AD_Package_Imp_Detail_ID.
-@return AD_Package_Imp_Detail_ID	  */
+		@return AD_Package_Imp_Detail_ID	  */
 	public int getAD_Package_Imp_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Detail_ID);
@@ -172,7 +173,7 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	}
 
 	/** Get AD_Package_Imp_ID.
-@return AD_Package_Imp_ID	  */
+		@return AD_Package_Imp_ID	  */
 	public int getAD_Package_Imp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_ID);
@@ -185,32 +186,34 @@ public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 		@param AD_Package_Imp_Org_Dir AD_Package_Imp_Org_Dir	  */
 	public void setAD_Package_Imp_Org_Dir (String AD_Package_Imp_Org_Dir)
 	{
+
 		if (AD_Package_Imp_Org_Dir != null && AD_Package_Imp_Org_Dir.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			AD_Package_Imp_Org_Dir = AD_Package_Imp_Org_Dir.substring(0, 254);
+			AD_Package_Imp_Org_Dir = AD_Package_Imp_Org_Dir.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_AD_Package_Imp_Org_Dir, AD_Package_Imp_Org_Dir);
 	}
 
 	/** Get AD_Package_Imp_Org_Dir.
-@return AD_Package_Imp_Org_Dir	  */
+		@return AD_Package_Imp_Org_Dir	  */
 	public String getAD_Package_Imp_Org_Dir () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Imp_Org_Dir);
 	}
 
-/** AD_Reference_ID AD_Reference_ID=1 */
-public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
+	/** AD_Reference_ID AD_Reference_ID=1 */
+	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID <= 0) 		set_Value (COLUMNNAME_AD_Reference_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -230,9 +233,10 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -250,16 +254,17 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 		@param ColValue ColValue	  */
 	public void setColValue (String ColValue)
 	{
+
 		if (ColValue != null && ColValue.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ColValue = ColValue.substring(0, 1999);
+			ColValue = ColValue.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ColValue, ColValue);
 	}
 
 	/** Get ColValue.
-@return ColValue	  */
+		@return ColValue	  */
 	public String getColValue () 
 	{
 		return (String)get_Value(COLUMNNAME_ColValue);
@@ -273,7 +278,7 @@ public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	}
 
 	/** Get Uninstall.
-@return Uninstall	  */
+		@return Uninstall	  */
 	public boolean isUninstall () 
 	{
 		Object oo = get_Value(COLUMNNAME_Uninstall);

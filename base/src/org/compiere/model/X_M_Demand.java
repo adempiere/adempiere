@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Demand
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Demand extends PO implements I_M_Demand, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
     public X_M_Demand (Properties ctx, int M_Demand_ID, String trxName)
     {
       super (ctx, M_Demand_ID, trxName);
-      /** if (M_Demand_ID == 0)        {			setC_Calendar_ID (0);
+      /** if (M_Demand_ID == 0)
+        {
+			setC_Calendar_ID (0);
 			setC_Year_ID (0);
 			setIsDefault (false);
 			setM_Demand_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -75,7 +76,7 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Calendar getI_C_Calendar() throws Exception 
+	public I_C_Calendar getC_Calendar() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
         I_C_Calendar result = null;
@@ -113,7 +114,7 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Year getI_C_Year() throws Exception 
+	public I_C_Year getC_Year() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Year.Table_Name);
         I_C_Year result = null;
@@ -157,10 +158,11 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -179,10 +181,11 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -249,10 +252,11 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -281,7 +285,7 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

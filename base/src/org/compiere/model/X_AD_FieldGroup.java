@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_FieldGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent 
 {
 
@@ -129,9 +129,7 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	/** Collapse = C */
 	public static final String FIELDGROUPTYPE_Collapse = "C";
 	/** Set Field Group Type.
-		@param FieldGroupType 
-		Field Group
-	  */
+		@param FieldGroupType Field Group Type	  */
 	public void setFieldGroupType (String FieldGroupType)
 	{
 
@@ -139,14 +137,13 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 		if (FieldGroupType != null && FieldGroupType.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			FieldGroupType = FieldGroupType.substring(0, 9);
+			FieldGroupType = FieldGroupType.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_FieldGroupType, FieldGroupType);
 	}
 
 	/** Get Field Group Type.
-		@return Field Group
-	  */
+		@return Field Group Type	  */
 	public String getFieldGroupType () 
 	{
 		return (String)get_Value(COLUMNNAME_FieldGroupType);
@@ -164,7 +161,7 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

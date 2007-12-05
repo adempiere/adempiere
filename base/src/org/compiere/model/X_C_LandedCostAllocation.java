@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCostAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAllocation, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
     public X_C_LandedCostAllocation (Properties ctx, int C_LandedCostAllocation_ID, String trxName)
     {
       super (ctx, C_LandedCostAllocation_ID, trxName);
-      /** if (C_LandedCostAllocation_ID == 0)        {			setAmt (Env.ZERO);
+      /** if (C_LandedCostAllocation_ID == 0)
+        {
+			setAmt (Env.ZERO);
 			setBase (Env.ZERO);
 			setC_InvoiceLine_ID (0);
 			setC_LandedCostAllocation_ID (0);
 			setM_CostElement_ID (0);
 			setM_Product_ID (0);
 			setQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -121,6 +124,22 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 		return bd;
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
@@ -179,9 +198,10 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -195,7 +215,7 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getI_M_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -232,6 +252,22 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

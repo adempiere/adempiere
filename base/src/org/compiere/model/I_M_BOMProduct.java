@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_BOMProduct
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:49.343
-     */
-    public interface I_M_BOMProduct 
+/** Generated Interface for M_BOMProduct
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_BOMProduct 
 {
 
     /** TableName=M_BOMProduct */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -175,7 +173,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_BOMAlternative_ID();
 
-	public I_M_BOMAlternative getI_M_BOMAlternative() throws Exception;
+	public I_M_BOMAlternative getM_BOMAlternative() throws Exception;
 
     /** Column name M_BOMProduct_ID */
     public static final String COLUMNNAME_M_BOMProduct_ID = "M_BOMProduct_ID";
@@ -203,7 +201,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_BOM_ID();
 
-	public I_M_BOM getI_M_BOM() throws Exception;
+	public I_M_BOM getM_BOM() throws Exception;
 
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
@@ -218,7 +216,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_ChangeNotice_ID();
 
-	public I_M_ChangeNotice getI_M_ChangeNotice() throws Exception;
+	public I_M_ChangeNotice getM_ChangeNotice() throws Exception;
 
     /** Column name M_ProductBOM_ID */
     public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
@@ -246,7 +244,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_ProductOperation_ID();
 
-	public I_M_ProductOperation getI_M_ProductOperation() throws Exception;
+	public I_M_ProductOperation getM_ProductOperation() throws Exception;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

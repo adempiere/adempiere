@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for PA_ReportColumn
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:53.625
-     */
-    public interface I_PA_ReportColumn 
+/** Generated Interface for PA_ReportColumn
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_PA_ReportColumn 
 {
 
     /** TableName=PA_ReportColumn */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getI_C_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -129,7 +127,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getI_C_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws Exception;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -144,7 +142,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getI_C_ElementValue() throws Exception;
+	public I_C_ElementValue getC_ElementValue() throws Exception;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -172,7 +170,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getI_C_Project() throws Exception;
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -187,7 +185,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws Exception;
 
     /** Column name CalculationType */
     public static final String COLUMNNAME_CalculationType = "CalculationType";
@@ -255,7 +253,7 @@ import org.compiere.util.*;
 	  */
 	public int getGL_Budget_ID();
 
-	public I_GL_Budget getI_GL_Budget() throws Exception;
+	public I_GL_Budget getGL_Budget() throws Exception;
 
     /** Column name IsAdhocConversion */
     public static final String COLUMNNAME_IsAdhocConversion = "IsAdhocConversion";
@@ -296,7 +294,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getI_M_Product() throws Exception;
+	public I_M_Product getM_Product() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -363,7 +361,7 @@ import org.compiere.util.*;
 	  */
 	public int getPA_ReportColumnSet_ID();
 
-	public I_PA_ReportColumnSet getI_PA_ReportColumnSet() throws Exception;
+	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws Exception;
 
     /** Column name PA_ReportColumn_ID */
     public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";

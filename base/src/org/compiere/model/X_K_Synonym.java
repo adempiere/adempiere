@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Synonym
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
     public X_K_Synonym (Properties ctx, int K_Synonym_ID, String trxName)
     {
       super (ctx, K_Synonym_ID, trxName);
-      /** if (K_Synonym_ID == 0)        {			setAD_Language (null);
+      /** if (K_Synonym_ID == 0)
+        {
+			setAD_Language (null);
 			setK_Synonym_ID (0);
 			setName (null);
 			setSynonymName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,18 +73,19 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
       return sb.toString();
     }
 
-/** AD_Language AD_Reference_ID=106 */
-public static final int AD_LANGUAGE_AD_Reference_ID=106;
+	/** AD_Language AD_Reference_ID=106 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -128,10 +128,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -160,10 +161,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (SynonymName == null)
 			throw new IllegalArgumentException ("SynonymName is mandatory.");
+
 		if (SynonymName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SynonymName = SynonymName.substring(0, 59);
+			SynonymName = SynonymName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SynonymName, SynonymName);
 	}

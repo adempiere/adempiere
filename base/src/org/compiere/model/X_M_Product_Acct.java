@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for M_Product_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persistent 
 {
 
@@ -39,7 +37,9 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
     public X_M_Product_Acct (Properties ctx, int M_Product_Acct_ID, String trxName)
     {
       super (ctx, M_Product_Acct_ID, trxName);
-      /** if (M_Product_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (M_Product_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setM_Product_ID (0);
 			setP_Asset_Acct (0);
 			setP_COGS_Acct (0);
@@ -51,7 +51,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
 			setP_Revenue_Acct (0);
 			setP_TradeDiscountGrant_Acct (0);
 			setP_TradeDiscountRec_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -82,7 +82,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -120,7 +120,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Product getI_M_Product() throws Exception 
+	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;

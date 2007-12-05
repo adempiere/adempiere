@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for I_BankStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persistent 
 {
 
@@ -39,9 +40,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
     public X_I_BankStatement (Properties ctx, int I_BankStatement_ID, String trxName)
     {
       super (ctx, I_BankStatement_ID, trxName);
-      /** if (I_BankStatement_ID == 0)        {			setI_BankStatement_ID (0);
+      /** if (I_BankStatement_ID == 0)
+        {
+			setI_BankStatement_ID (0);
 			setI_IsImported (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,10 +81,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setBPartnerValue (String BPartnerValue)
 	{
+
 		if (BPartnerValue != null && BPartnerValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			BPartnerValue = BPartnerValue.substring(0, 39);
+			BPartnerValue = BPartnerValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
@@ -100,10 +104,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setBankAccountNo (String BankAccountNo)
 	{
+
 		if (BankAccountNo != null && BankAccountNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			BankAccountNo = BankAccountNo.substring(0, 19);
+			BankAccountNo = BankAccountNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_BankAccountNo, BankAccountNo);
 	}
@@ -116,15 +121,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return (String)get_Value(COLUMNNAME_BankAccountNo);
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -138,7 +160,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -160,9 +182,10 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID <= 0) 		set_Value (COLUMNNAME_C_BankAccount_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID <= 0) 
+			set_Value (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -176,15 +199,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_BankStatementLine getC_BankStatementLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BankStatementLine.Table_Name);
+        I_C_BankStatementLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BankStatementLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BankStatementLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Bank statement line.
 		@param C_BankStatementLine_ID 
 		Line on a statement from this Bank
 	  */
 	public void setC_BankStatementLine_ID (int C_BankStatementLine_ID)
 	{
-		if (C_BankStatementLine_ID <= 0) 		set_Value (COLUMNNAME_C_BankStatementLine_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BankStatementLine_ID, Integer.valueOf(C_BankStatementLine_ID));
+		if (C_BankStatementLine_ID <= 0) 
+			set_Value (COLUMNNAME_C_BankStatementLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankStatementLine_ID, Integer.valueOf(C_BankStatementLine_ID));
 	}
 
 	/** Get Bank statement line.
@@ -198,15 +238,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_BankStatement getC_BankStatement() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BankStatement.Table_Name);
+        I_C_BankStatement result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BankStatement)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BankStatement_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Bank Statement.
 		@param C_BankStatement_ID 
 		Bank Statement of account
 	  */
 	public void setC_BankStatement_ID (int C_BankStatement_ID)
 	{
-		if (C_BankStatement_ID <= 0) 		set_Value (COLUMNNAME_C_BankStatement_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
+		if (C_BankStatement_ID <= 0) 
+			set_Value (COLUMNNAME_C_BankStatement_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
 	}
 
 	/** Get Bank Statement.
@@ -220,7 +277,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Charge getI_C_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -242,9 +299,10 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 		set_Value (COLUMNNAME_C_Charge_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID <= 0) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -258,7 +316,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -280,9 +338,10 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -296,15 +355,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_Value (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -318,15 +394,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_Value (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -366,10 +459,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setChargeName (String ChargeName)
 	{
+
 		if (ChargeName != null && ChargeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ChargeName = ChargeName.substring(0, 59);
+			ChargeName = ChargeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ChargeName, ChargeName);
 	}
@@ -386,16 +480,17 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		@param CreatePayment Create Payment	  */
 	public void setCreatePayment (String CreatePayment)
 	{
+
 		if (CreatePayment != null && CreatePayment.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CreatePayment = CreatePayment.substring(0, 0);
+			CreatePayment = CreatePayment.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_CreatePayment, CreatePayment);
 	}
 
 	/** Get Create Payment.
-@return Create Payment	  */
+		@return Create Payment	  */
 	public String getCreatePayment () 
 	{
 		return (String)get_Value(COLUMNNAME_CreatePayment);
@@ -424,10 +519,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -466,10 +562,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftCheckNo (String EftCheckNo)
 	{
+
 		if (EftCheckNo != null && EftCheckNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			EftCheckNo = EftCheckNo.substring(0, 19);
+			EftCheckNo = EftCheckNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_EftCheckNo, EftCheckNo);
 	}
@@ -488,10 +585,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftCurrency (String EftCurrency)
 	{
+
 		if (EftCurrency != null && EftCurrency.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			EftCurrency = EftCurrency.substring(0, 19);
+			EftCurrency = EftCurrency.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_EftCurrency, EftCurrency);
 	}
@@ -510,10 +608,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftMemo (String EftMemo)
 	{
+
 		if (EftMemo != null && EftMemo.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			EftMemo = EftMemo.substring(0, 1999);
+			EftMemo = EftMemo.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_EftMemo, EftMemo);
 	}
@@ -532,10 +631,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftPayee (String EftPayee)
 	{
+
 		if (EftPayee != null && EftPayee.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			EftPayee = EftPayee.substring(0, 254);
+			EftPayee = EftPayee.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_EftPayee, EftPayee);
 	}
@@ -554,10 +654,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftPayeeAccount (String EftPayeeAccount)
 	{
+
 		if (EftPayeeAccount != null && EftPayeeAccount.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			EftPayeeAccount = EftPayeeAccount.substring(0, 39);
+			EftPayeeAccount = EftPayeeAccount.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_EftPayeeAccount, EftPayeeAccount);
 	}
@@ -576,10 +677,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftReference (String EftReference)
 	{
+
 		if (EftReference != null && EftReference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EftReference = EftReference.substring(0, 59);
+			EftReference = EftReference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EftReference, EftReference);
 	}
@@ -632,10 +734,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftStatementReference (String EftStatementReference)
 	{
+
 		if (EftStatementReference != null && EftStatementReference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			EftStatementReference = EftStatementReference.substring(0, 59);
+			EftStatementReference = EftStatementReference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_EftStatementReference, EftStatementReference);
 	}
@@ -654,10 +757,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftTrxID (String EftTrxID)
 	{
+
 		if (EftTrxID != null && EftTrxID.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			EftTrxID = EftTrxID.substring(0, 39);
+			EftTrxID = EftTrxID.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_EftTrxID, EftTrxID);
 	}
@@ -676,10 +780,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setEftTrxType (String EftTrxType)
 	{
+
 		if (EftTrxType != null && EftTrxType.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			EftTrxType = EftTrxType.substring(0, 19);
+			EftTrxType = EftTrxType.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_EftTrxType, EftTrxType);
 	}
@@ -715,10 +820,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setISO_Code (String ISO_Code)
 	{
+
 		if (ISO_Code != null && ISO_Code.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 2);
+			ISO_Code = ISO_Code.substring(0, 3);
 		}
 		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
@@ -759,10 +865,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -825,10 +932,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setInvoiceDocumentNo (String InvoiceDocumentNo)
 	{
+
 		if (InvoiceDocumentNo != null && InvoiceDocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			InvoiceDocumentNo = InvoiceDocumentNo.substring(0, 29);
+			InvoiceDocumentNo = InvoiceDocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_InvoiceDocumentNo, InvoiceDocumentNo);
 	}
@@ -891,10 +999,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setLineDescription (String LineDescription)
 	{
+
 		if (LineDescription != null && LineDescription.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LineDescription = LineDescription.substring(0, 254);
+			LineDescription = LineDescription.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_LineDescription, LineDescription);
 	}
@@ -911,16 +1020,17 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		@param MatchStatement Match Statement	  */
 	public void setMatchStatement (String MatchStatement)
 	{
+
 		if (MatchStatement != null && MatchStatement.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MatchStatement = MatchStatement.substring(0, 0);
+			MatchStatement = MatchStatement.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MatchStatement, MatchStatement);
 	}
 
 	/** Get Match Statement.
-@return Match Statement	  */
+		@return Match Statement	  */
 	public String getMatchStatement () 
 	{
 		return (String)get_Value(COLUMNNAME_MatchStatement);
@@ -932,10 +1042,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setMemo (String Memo)
 	{
+
 		if (Memo != null && Memo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Memo = Memo.substring(0, 254);
+			Memo = Memo.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Memo, Memo);
 	}
@@ -954,10 +1065,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setName (String Name)
 	{
+
 		if (Name != null && Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -976,10 +1088,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setPaymentDocumentNo (String PaymentDocumentNo)
 	{
+
 		if (PaymentDocumentNo != null && PaymentDocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			PaymentDocumentNo = PaymentDocumentNo.substring(0, 29);
+			PaymentDocumentNo = PaymentDocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_PaymentDocumentNo, PaymentDocumentNo);
 	}
@@ -1024,7 +1137,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -1043,10 +1156,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setReferenceNo (String ReferenceNo)
 	{
+
 		if (ReferenceNo != null && ReferenceNo.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			ReferenceNo = ReferenceNo.substring(0, 39);
+			ReferenceNo = ReferenceNo.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_ReferenceNo, ReferenceNo);
 	}
@@ -1065,10 +1179,11 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setRoutingNo (String RoutingNo)
 	{
+
 		if (RoutingNo != null && RoutingNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			RoutingNo = RoutingNo.substring(0, 19);
+			RoutingNo = RoutingNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
 	}
@@ -1155,24 +1270,32 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return bd;
 	}
 
-/** TrxType AD_Reference_ID=215 */
-public static final int TRXTYPE_AD_Reference_ID=215;/** Authorization = A */
-public static final String TRXTYPE_Authorization = "A";/** Credit (Payment) = C */
-public static final String TRXTYPE_CreditPayment = "C";/** Delayed Capture = D */
-public static final String TRXTYPE_DelayedCapture = "D";/** Voice Authorization = F */
-public static final String TRXTYPE_VoiceAuthorization = "F";/** Sales = S */
-public static final String TRXTYPE_Sales = "S";/** Void = V */
-public static final String TRXTYPE_Void = "V";
+	/** TrxType AD_Reference_ID=215 */
+	public static final int TRXTYPE_AD_Reference_ID=215;
+	/** Sales = S */
+	public static final String TRXTYPE_Sales = "S";
+	/** Delayed Capture = D */
+	public static final String TRXTYPE_DelayedCapture = "D";
+	/** Credit (Payment) = C */
+	public static final String TRXTYPE_CreditPayment = "C";
+	/** Voice Authorization = F */
+	public static final String TRXTYPE_VoiceAuthorization = "F";
+	/** Authorization = A */
+	public static final String TRXTYPE_Authorization = "A";
+	/** Void = V */
+	public static final String TRXTYPE_Void = "V";
 	/** Set Transaction Type.
 		@param TrxType 
 		Type of credit card transaction
 	  */
 	public void setTrxType (String TrxType)
 	{
-if (TrxType == null || TrxType.equals("A") || TrxType.equals("C") || TrxType.equals("D") || TrxType.equals("F") || TrxType.equals("S") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - A - C - D - F - S - V");		if (TrxType != null && TrxType.length() > 20)
+
+		if (TrxType == null || TrxType.equals("S") || TrxType.equals("D") || TrxType.equals("C") || TrxType.equals("F") || TrxType.equals("A") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - S - D - C - F - A - V");
+		if (TrxType != null && TrxType.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			TrxType = TrxType.substring(0, 19);
+			TrxType = TrxType.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_TrxType, TrxType);
 	}

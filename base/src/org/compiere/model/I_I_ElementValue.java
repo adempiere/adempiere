@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for I_ElementValue
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:47.796
-     */
-    public interface I_I_ElementValue 
+/** Generated Interface for I_ElementValue
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_I_ElementValue 
 {
 
     /** TableName=I_ElementValue */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -110,7 +108,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getI_C_ElementValue() throws Exception;
+	public I_C_ElementValue getC_ElementValue() throws Exception;
 
     /** Column name C_Element_ID */
     public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
@@ -125,7 +123,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Element_ID();
 
-	public I_C_Element getI_C_Element() throws Exception;
+	public I_C_Element getC_Element() throws Exception;
 
     /** Column name Default_Account */
     public static final String COLUMNNAME_Default_Account = "Default_Account";

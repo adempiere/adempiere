@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchemaBreak
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBreak, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
     public X_M_DiscountSchemaBreak (Properties ctx, int M_DiscountSchemaBreak_ID, String trxName)
     {
       super (ctx, M_DiscountSchemaBreak_ID, trxName);
-      /** if (M_DiscountSchemaBreak_ID == 0)        {			setBreakDiscount (Env.ZERO);
+      /** if (M_DiscountSchemaBreak_ID == 0)
+        {
+			setBreakDiscount (Env.ZERO);
 			setBreakValue (Env.ZERO);
 			setIsBPartnerFlatDiscount (false);
 // N
@@ -47,7 +50,7 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 			setM_DiscountSchema_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_DiscountSchemaBreak WHERE M_DiscountSchema_ID=@M_DiscountSchema_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -168,7 +171,7 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 		return ii.intValue();
 	}
 
-	public I_M_DiscountSchema getI_M_DiscountSchema() throws Exception 
+	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
         I_M_DiscountSchema result = null;
@@ -206,7 +209,7 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -228,9 +231,10 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -244,15 +248,32 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

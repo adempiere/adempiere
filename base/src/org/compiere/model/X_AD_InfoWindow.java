@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
     public X_AD_InfoWindow (Properties ctx, int AD_InfoWindow_ID, String trxName)
     {
       super (ctx, AD_InfoWindow_ID, trxName);
-      /** if (AD_InfoWindow_ID == 0)        {			setAD_InfoWindow_ID (0);
+      /** if (AD_InfoWindow_ID == 0)
+        {
+			setAD_InfoWindow_ID (0);
 			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setFromClause (null);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -98,7 +99,7 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -142,10 +143,11 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -158,14 +160,15 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -190,10 +193,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (FromClause == null)
 			throw new IllegalArgumentException ("FromClause is mandatory.");
+
 		if (FromClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			FromClause = FromClause.substring(0, 1999);
+			FromClause = FromClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_FromClause, FromClause);
 	}
@@ -212,10 +216,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -236,10 +241,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -266,10 +272,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setOtherClause (String OtherClause)
 	{
+
 		if (OtherClause != null && OtherClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 1999);
+			OtherClause = OtherClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
@@ -290,7 +297,7 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

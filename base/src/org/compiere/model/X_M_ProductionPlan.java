@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
     public X_M_ProductionPlan (Properties ctx, int M_ProductionPlan_ID, String trxName)
     {
       super (ctx, M_ProductionPlan_ID, trxName);
-      /** if (M_ProductionPlan_ID == 0)        {			setLine (0);
+      /** if (M_ProductionPlan_ID == 0)
+        {
+			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_ProductionPlan WHERE M_Production_ID=@M_Production_ID@
 			setM_Locator_ID (0);
 // @M_Locator_ID@
@@ -49,7 +52,7 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 			setProcessed (false);
 			setProductionQty (Env.ZERO);
 // 1
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -86,10 +89,11 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -152,8 +156,8 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 		return ii.intValue();
 	}
 
-/** M_Product_ID AD_Reference_ID=211 */
-public static final int M_PRODUCT_ID_AD_Reference_ID=211;
+	/** M_Product_ID AD_Reference_ID=211 */
+	public static final int M_PRODUCT_ID_AD_Reference_ID=211;
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -198,7 +202,7 @@ public static final int M_PRODUCT_ID_AD_Reference_ID=211;
 		return ii.intValue();
 	}
 
-	public I_M_Production getI_M_Production() throws Exception 
+	public I_M_Production getM_Production() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Production.Table_Name);
         I_M_Production result = null;

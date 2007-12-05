@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for K_IndexStop
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:48.921
-     */
-    public interface I_K_IndexStop 
+/** Generated Interface for K_IndexStop
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_K_IndexStop 
 {
 
     /** TableName=K_IndexStop */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_WebProject_ID();
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception;
+	public I_CM_WebProject getCM_WebProject() throws Exception;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getI_C_DocType() throws Exception;
+	public I_C_DocType getC_DocType() throws Exception;
 
     /** Column name IsManual */
     public static final String COLUMNNAME_IsManual = "IsManual";
@@ -140,5 +138,5 @@ import org.compiere.util.*;
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getI_R_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws Exception;
 }

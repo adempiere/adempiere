@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_Chat
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:34.265
-     */
-    public interface I_CM_Chat 
+/** Generated Interface for CM_Chat
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_Chat 
 {
 
     /** TableName=CM_Chat */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name CM_ChatType_ID */
     public static final String COLUMNNAME_CM_ChatType_ID = "CM_ChatType_ID";
@@ -86,7 +84,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_ChatType_ID();
 
-	public I_CM_ChatType getI_CM_ChatType() throws Exception;
+	public I_CM_ChatType getCM_ChatType() throws Exception;
 
     /** Column name CM_Chat_ID */
     public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";

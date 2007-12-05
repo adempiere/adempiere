@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_Container_URL
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:34.828
-     */
-    public interface I_CM_Container_URL 
+/** Generated Interface for CM_Container_URL
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_Container_URL 
 {
 
     /** TableName=CM_Container_URL */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Container_ID();
 
-	public I_CM_Container getI_CM_Container() throws Exception;
+	public I_CM_Container getCM_Container() throws Exception;
 
     /** Column name CM_Container_URL_ID */
     public static final String COLUMNNAME_CM_Container_URL_ID = "CM_Container_URL_ID";

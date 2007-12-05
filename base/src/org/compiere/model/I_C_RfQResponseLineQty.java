@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_RfQResponseLineQty
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:45.0
-     */
-    public interface I_C_RfQResponseLineQty 
+/** Generated Interface for C_RfQResponseLineQty
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_RfQResponseLineQty 
 {
 
     /** TableName=C_RfQResponseLineQty */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_RfQLineQty_ID();
 
-	public I_C_RfQLineQty getI_C_RfQLineQty() throws Exception;
+	public I_C_RfQLineQty getC_RfQLineQty() throws Exception;
 
     /** Column name C_RfQResponseLineQty_ID */
     public static final String COLUMNNAME_C_RfQResponseLineQty_ID = "C_RfQResponseLineQty_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_RfQResponseLine_ID();
 
-	public I_C_RfQResponseLine getI_C_RfQResponseLine() throws Exception;
+	public I_C_RfQResponseLine getC_RfQResponseLine() throws Exception;
 
     /** Column name Discount */
     public static final String COLUMNNAME_Discount = "Discount";

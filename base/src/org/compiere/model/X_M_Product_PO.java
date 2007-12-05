@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
     public X_M_Product_PO (Properties ctx, int M_Product_PO_ID, String trxName)
     {
       super (ctx, M_Product_PO_ID, trxName);
-      /** if (M_Product_PO_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (M_Product_PO_ID == 0)
+        {
+			setC_BPartner_ID (0);
 // 0
 			setIsCurrentVendor (true);
 // Y
@@ -47,7 +50,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 // @M_Product_ID@
 			setVendorProductNo (null);
 // @Value@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,6 +81,22 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -100,7 +119,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -122,9 +141,10 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -138,7 +158,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -160,9 +180,10 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 		set_Value (COLUMNNAME_C_UOM_ID, null);
- else 
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID <= 0) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -301,6 +322,22 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return false;
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -329,10 +366,11 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setManufacturer (String Manufacturer)
 	{
+
 		if (Manufacturer != null && Manufacturer.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			Manufacturer = Manufacturer.substring(0, 29);
+			Manufacturer = Manufacturer.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
 	}
@@ -528,10 +566,11 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setUPC (String UPC)
 	{
+
 		if (UPC != null && UPC.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			UPC = UPC.substring(0, 19);
+			UPC = UPC.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
@@ -550,10 +589,11 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setVendorCategory (String VendorCategory)
 	{
+
 		if (VendorCategory != null && VendorCategory.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			VendorCategory = VendorCategory.substring(0, 29);
+			VendorCategory = VendorCategory.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_VendorCategory, VendorCategory);
 	}
@@ -574,10 +614,11 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	{
 		if (VendorProductNo == null)
 			throw new IllegalArgumentException ("VendorProductNo is mandatory.");
+
 		if (VendorProductNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			VendorProductNo = VendorProductNo.substring(0, 29);
+			VendorProductNo = VendorProductNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_VendorProductNo, VendorProductNo);
 	}

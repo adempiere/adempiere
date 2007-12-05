@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Subscription
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Subscription extends PO implements I_C_Subscription, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
     public X_C_Subscription (Properties ctx, int C_Subscription_ID, String trxName)
     {
       super (ctx, C_Subscription_ID, trxName);
-      /** if (C_Subscription_ID == 0)        {			setC_BPartner_ID (0);
+      /** if (C_Subscription_ID == 0)
+        {
+			setC_BPartner_ID (0);
 			setC_SubscriptionType_ID (0);
 			setC_Subscription_ID (0);
 			setIsDue (false);
@@ -48,7 +50,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 			setPaidUntilDate (new Timestamp(System.currentTimeMillis()));
 			setRenewalDate (new Timestamp(System.currentTimeMillis()));
 			setStartDate (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,6 +81,22 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -101,7 +119,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_SubscriptionType getI_C_SubscriptionType() throws Exception 
+	public I_C_SubscriptionType getC_SubscriptionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SubscriptionType.Table_Name);
         I_C_SubscriptionType result = null;
@@ -185,6 +203,22 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 		return false;
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -215,10 +249,11 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -268,7 +303,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	}
 
 	/** Get Renewal Date.
-@return Renewal Date	  */
+		@return Renewal Date	  */
 	public Timestamp getRenewalDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_RenewalDate);

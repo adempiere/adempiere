@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_System
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_System extends PO implements I_AD_System, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
     public X_AD_System (Properties ctx, int AD_System_ID, String trxName)
     {
       super (ctx, AD_System_ID, trxName);
-      /** if (AD_System_ID == 0)        {			setAD_System_ID (0);
+      /** if (AD_System_ID == 0)
+        {
+			setAD_System_ID (0);
 // 0
 			setInfo (null);
 			setIsAllowStatistics (false);
@@ -53,7 +55,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 // E
 			setUserName (null);
 			setVersion (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -112,10 +114,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setCustomPrefix (String CustomPrefix)
 	{
+
 		if (CustomPrefix != null && CustomPrefix.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			CustomPrefix = CustomPrefix.substring(0, 59);
+			CustomPrefix = CustomPrefix.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_CustomPrefix, CustomPrefix);
 	}
@@ -134,10 +137,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setDBAddress (String DBAddress)
 	{
+
 		if (DBAddress != null && DBAddress.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			DBAddress = DBAddress.substring(0, 254);
+			DBAddress = DBAddress.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_DBAddress, DBAddress);
 	}
@@ -156,10 +160,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setDBInstance (String DBInstance)
 	{
+
 		if (DBInstance != null && DBInstance.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			DBInstance = DBInstance.substring(0, 59);
+			DBInstance = DBInstance.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_DBInstance, DBInstance);
 	}
@@ -178,10 +183,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -200,10 +206,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setEncryptionKey (String EncryptionKey)
 	{
+
 		if (EncryptionKey != null && EncryptionKey.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			EncryptionKey = EncryptionKey.substring(0, 254);
+			EncryptionKey = EncryptionKey.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_EncryptionKey, EncryptionKey);
 	}
@@ -264,10 +271,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	{
 		if (Info == null)
 			throw new IllegalArgumentException ("Info is mandatory.");
+
 		if (Info.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Info = Info.substring(0, 254);
+			Info = Info.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_Info, Info);
 	}
@@ -358,10 +366,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setLDAPDomain (String LDAPDomain)
 	{
+
 		if (LDAPDomain != null && LDAPDomain.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LDAPDomain = LDAPDomain.substring(0, 254);
+			LDAPDomain = LDAPDomain.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_LDAPDomain, LDAPDomain);
 	}
@@ -380,10 +389,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setLDAPHost (String LDAPHost)
 	{
+
 		if (LDAPHost != null && LDAPHost.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			LDAPHost = LDAPHost.substring(0, 59);
+			LDAPHost = LDAPHost.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_LDAPHost, LDAPHost);
 	}
@@ -404,10 +414,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -452,16 +463,17 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 		@param OldName Old Name	  */
 	public void setOldName (String OldName)
 	{
+
 		if (OldName != null && OldName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			OldName = OldName.substring(0, 59);
+			OldName = OldName.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_OldName, OldName);
 	}
 
 	/** Get Old Name.
-@return Old Name	  */
+		@return Old Name	  */
 	public String getOldName () 
 	{
 		return (String)get_Value(COLUMNNAME_OldName);
@@ -475,10 +487,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	{
 		if (Password == null)
 			throw new IllegalArgumentException ("Password is mandatory.");
+
 		if (Password.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Password = Password.substring(0, 19);
+			Password = Password.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
@@ -499,7 +512,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -518,10 +531,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setProfileInfo (String ProfileInfo)
 	{
+
 		if (ProfileInfo != null && ProfileInfo.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProfileInfo = ProfileInfo.substring(0, 59);
+			ProfileInfo = ProfileInfo.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_ProfileInfo, ProfileInfo);
 	}
@@ -540,9 +554,10 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_Value (COLUMNNAME_Record_ID, null);
- else 
-		set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_Value (COLUMNNAME_Record_ID, null);
+		else 
+			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -562,10 +577,11 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
+
 		if (ReleaseNo != null && ReleaseNo.length() > 4)
 		{
 			log.warning("Length > 4 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 3);
+			ReleaseNo = ReleaseNo.substring(0, 4);
 		}
 		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
@@ -578,21 +594,26 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 		return (String)get_Value(COLUMNNAME_ReleaseNo);
 	}
 
-/** ReplicationType AD_Reference_ID=126 */
-public static final int REPLICATIONTYPE_AD_Reference_ID=126;/** Local = L */
-public static final String REPLICATIONTYPE_Local = "L";/** Merge = M */
-public static final String REPLICATIONTYPE_Merge = "M";/** Reference = R */
-public static final String REPLICATIONTYPE_Reference = "R";
+	/** ReplicationType AD_Reference_ID=126 */
+	public static final int REPLICATIONTYPE_AD_Reference_ID=126;
+	/** Local = L */
+	public static final String REPLICATIONTYPE_Local = "L";
+	/** Merge = M */
+	public static final String REPLICATIONTYPE_Merge = "M";
+	/** Reference = R */
+	public static final String REPLICATIONTYPE_Reference = "R";
 	/** Set Replication Type.
 		@param ReplicationType 
 		Type of Data Replication
 	  */
 	public void setReplicationType (String ReplicationType)
 	{
-if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");		if (ReplicationType.length() > 1)
+		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
+		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");
+		if (ReplicationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ReplicationType = ReplicationType.substring(0, 0);
+			ReplicationType = ReplicationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
@@ -611,10 +632,11 @@ if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationTyp
 	  */
 	public void setStatisticsInfo (String StatisticsInfo)
 	{
+
 		if (StatisticsInfo != null && StatisticsInfo.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			StatisticsInfo = StatisticsInfo.substring(0, 59);
+			StatisticsInfo = StatisticsInfo.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_StatisticsInfo, StatisticsInfo);
 	}
@@ -633,10 +655,11 @@ if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationTyp
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Summary = Summary.substring(0, 254);
+			Summary = Summary.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
@@ -655,10 +678,11 @@ if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationTyp
 	  */
 	public void setSupportEMail (String SupportEMail)
 	{
+
 		if (SupportEMail != null && SupportEMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SupportEMail = SupportEMail.substring(0, 59);
+			SupportEMail = SupportEMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SupportEMail, SupportEMail);
 	}
@@ -708,21 +732,26 @@ if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationTyp
 		return ii.intValue();
 	}
 
-/** SystemStatus AD_Reference_ID=374 */
-public static final int SYSTEMSTATUS_AD_Reference_ID=374;/** Evaluation = E */
-public static final String SYSTEMSTATUS_Evaluation = "E";/** Implementation = I */
-public static final String SYSTEMSTATUS_Implementation = "I";/** Production = P */
-public static final String SYSTEMSTATUS_Production = "P";
+	/** SystemStatus AD_Reference_ID=374 */
+	public static final int SYSTEMSTATUS_AD_Reference_ID=374;
+	/** Evaluation = E */
+	public static final String SYSTEMSTATUS_Evaluation = "E";
+	/** Implementation = I */
+	public static final String SYSTEMSTATUS_Implementation = "I";
+	/** Production = P */
+	public static final String SYSTEMSTATUS_Production = "P";
 	/** Set System Status.
 		@param SystemStatus 
 		Status of the system - Support priority depends on system status
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");		if (SystemStatus.length() > 1)
+		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+		if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");
+		if (SystemStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			SystemStatus = SystemStatus.substring(0, 0);
+			SystemStatus = SystemStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
@@ -743,10 +772,11 @@ if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is m
 	{
 		if (UserName == null)
 			throw new IllegalArgumentException ("UserName is mandatory.");
+
 		if (UserName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			UserName = UserName.substring(0, 59);
+			UserName = UserName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_UserName, UserName);
 	}
@@ -767,10 +797,11 @@ if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is m
 	{
 		if (Version == null)
 			throw new IllegalArgumentException ("Version is mandatory.");
+
 		if (Version.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Version = Version.substring(0, 19);
+			Version = Version.substring(0, 20);
 		}
 		set_ValueNoCheck (COLUMNNAME_Version, Version);
 	}

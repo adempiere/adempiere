@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InventoryLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_InventoryLineMA extends PO implements I_M_InventoryLineMA, I_Persistent 
 {
 
@@ -39,10 +40,12 @@ public class X_M_InventoryLineMA extends PO implements I_M_InventoryLineMA, I_Pe
     public X_M_InventoryLineMA (Properties ctx, int M_InventoryLineMA_ID, String trxName)
     {
       super (ctx, M_InventoryLineMA_ID, trxName);
-      /** if (M_InventoryLineMA_ID == 0)        {			setM_AttributeSetInstance_ID (0);
+      /** if (M_InventoryLineMA_ID == 0)
+        {
+			setM_AttributeSetInstance_ID (0);
 			setM_InventoryLine_ID (0);
 			setMovementQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -94,6 +97,22 @@ public class X_M_InventoryLineMA extends PO implements I_M_InventoryLineMA, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 

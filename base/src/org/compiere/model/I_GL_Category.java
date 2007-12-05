@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for GL_Category
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:47.25
-     */
-    public interface I_GL_Category 
+/** Generated Interface for GL_Category
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_GL_Category 
 {
 
     /** TableName=GL_Category */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -83,19 +81,6 @@ import org.compiere.util.*;
 	  * Optional short description of the record
 	  */
 	public String getDescription();
-
-    /** Column name DocBaseType */
-    public static final String COLUMNNAME_DocBaseType = "DocBaseType";
-
-	/** Set Document BaseType.
-	  * Logical type of document
-	  */
-	public void setDocBaseType (String DocBaseType);
-
-	/** Get Document BaseType.
-	  * Logical type of document
-	  */
-	public String getDocBaseType();
 
     /** Column name GL_Category_ID */
     public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";

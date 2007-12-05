@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxPostal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
     public X_C_TaxPostal (Properties ctx, int C_TaxPostal_ID, String trxName)
     {
       super (ctx, C_TaxPostal_ID, trxName);
-      /** if (C_TaxPostal_ID == 0)        {			setC_TaxPostal_ID (0);
+      /** if (C_TaxPostal_ID == 0)
+        {
+			setC_TaxPostal_ID (0);
 			setC_Tax_ID (0);
 			setPostal (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getI_C_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -141,10 +142,11 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	{
 		if (Postal == null)
 			throw new IllegalArgumentException ("Postal is mandatory.");
+
 		if (Postal.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 9);
+			Postal = Postal.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
@@ -171,10 +173,11 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	  */
 	public void setPostal_To (String Postal_To)
 	{
+
 		if (Postal_To != null && Postal_To.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			Postal_To = Postal_To.substring(0, 9);
+			Postal_To = Postal_To.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_Postal_To, Postal_To);
 	}

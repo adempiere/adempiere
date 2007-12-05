@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Recurring
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
     public X_C_Recurring (Properties ctx, int C_Recurring_ID, String trxName)
     {
       super (ctx, C_Recurring_ID, trxName);
-      /** if (C_Recurring_ID == 0)        {			setC_Recurring_ID (0);
+      /** if (C_Recurring_ID == 0)
+        {
+			setC_Recurring_ID (0);
 			setDateNextRun (new Timestamp(System.currentTimeMillis()));
 			setFrequencyType (null);
 // M
@@ -47,7 +49,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 			setRecurringType (null);
 			setRunsMax (0);
 			setRunsRemaining (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,15 +80,32 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
       return sb.toString();
     }
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_Value (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -100,15 +119,32 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_Value (COLUMNNAME_C_Order_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -122,15 +158,32 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_Value (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -144,15 +197,32 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -230,10 +300,11 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -266,22 +337,28 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-/** FrequencyType AD_Reference_ID=283 */
-public static final int FREQUENCYTYPE_AD_Reference_ID=283;/** Daily = D */
-public static final String FREQUENCYTYPE_Daily = "D";/** Monthly = M */
-public static final String FREQUENCYTYPE_Monthly = "M";/** Quarterly = Q */
-public static final String FREQUENCYTYPE_Quarterly = "Q";/** Weekly = W */
-public static final String FREQUENCYTYPE_Weekly = "W";
+	/** FrequencyType AD_Reference_ID=283 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=283;
+	/** Daily = D */
+	public static final String FREQUENCYTYPE_Daily = "D";
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Monthly = M */
+	public static final String FREQUENCYTYPE_Monthly = "M";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");if (FrequencyType.equals("D") || FrequencyType.equals("M") || FrequencyType.equals("Q") || FrequencyType.equals("W")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=283 - D - M - Q - W");		if (FrequencyType.length() > 1)
+		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+		if (FrequencyType.equals("D") || FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=283 - D - W - M - Q");
+		if (FrequencyType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 0);
+			FrequencyType = FrequencyType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
@@ -294,15 +371,32 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 		return (String)get_Value(COLUMNNAME_FrequencyType);
 	}
 
+	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
+        I_GL_JournalBatch result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Journal Batch.
 		@param GL_JournalBatch_ID 
 		General Ledger Journal Batch
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 		set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
- else 
-		set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
+		if (GL_JournalBatch_ID <= 0) 
+			set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
 	}
 
 	/** Get Journal Batch.
@@ -322,10 +416,11 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -346,10 +441,11 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -378,7 +474,7 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -391,22 +487,28 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 		return false;
 	}
 
-/** RecurringType AD_Reference_ID=282 */
-public static final int RECURRINGTYPE_AD_Reference_ID=282;/** GL Journal = G */
-public static final String RECURRINGTYPE_GLJournal = "G";/** Invoice = I */
-public static final String RECURRINGTYPE_Invoice = "I";/** Project = J */
-public static final String RECURRINGTYPE_Project = "J";/** Order = O */
-public static final String RECURRINGTYPE_Order = "O";
+	/** RecurringType AD_Reference_ID=282 */
+	public static final int RECURRINGTYPE_AD_Reference_ID=282;
+	/** Invoice = I */
+	public static final String RECURRINGTYPE_Invoice = "I";
+	/** Order = O */
+	public static final String RECURRINGTYPE_Order = "O";
+	/** GL Journal = G */
+	public static final String RECURRINGTYPE_GLJournal = "G";
+	/** Project = J */
+	public static final String RECURRINGTYPE_Project = "J";
 	/** Set Recurring Type.
 		@param RecurringType 
 		Type of Recurring Document
 	  */
 	public void setRecurringType (String RecurringType)
 	{
-if (RecurringType == null) throw new IllegalArgumentException ("RecurringType is mandatory");if (RecurringType.equals("G") || RecurringType.equals("I") || RecurringType.equals("J") || RecurringType.equals("O")); else throw new IllegalArgumentException ("RecurringType Invalid value - " + RecurringType + " - Reference_ID=282 - G - I - J - O");		if (RecurringType.length() > 1)
+		if (RecurringType == null) throw new IllegalArgumentException ("RecurringType is mandatory");
+		if (RecurringType.equals("I") || RecurringType.equals("O") || RecurringType.equals("G") || RecurringType.equals("J")); else throw new IllegalArgumentException ("RecurringType Invalid value - " + RecurringType + " - Reference_ID=282 - I - O - G - J");
+		if (RecurringType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			RecurringType = RecurringType.substring(0, 0);
+			RecurringType = RecurringType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_RecurringType, RecurringType);
 	}

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for W_Click
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:56.421
-     */
-    public interface I_W_Click 
+/** Generated Interface for W_Click
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_W_Click 
 {
 
     /** TableName=W_Click */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -188,7 +186,7 @@ import org.compiere.util.*;
 	  */
 	public int getW_ClickCount_ID();
 
-	public I_W_ClickCount getI_W_ClickCount() throws Exception;
+	public I_W_ClickCount getW_ClickCount() throws Exception;
 
     /** Column name W_Click_ID */
     public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";

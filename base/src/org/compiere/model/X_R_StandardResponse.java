@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StandardResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_Persistent 
 {
 
@@ -39,10 +36,12 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
     public X_R_StandardResponse (Properties ctx, int R_StandardResponse_ID, String trxName)
     {
       super (ctx, R_StandardResponse_ID, trxName);
-      /** if (R_StandardResponse_ID == 0)        {			setName (null);
+      /** if (R_StandardResponse_ID == 0)
+        {
+			setName (null);
 			setR_StandardResponse_ID (0);
 			setResponseText (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,10 +80,11 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -135,10 +135,11 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	{
 		if (ResponseText == null)
 			throw new IllegalArgumentException ("ResponseText is mandatory.");
+
 		if (ResponseText.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ResponseText = ResponseText.substring(0, 1999);
+			ResponseText = ResponseText.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ResponseText, ResponseText);
 	}

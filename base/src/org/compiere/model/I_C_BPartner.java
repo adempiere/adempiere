@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_BPartner
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:37.265
-     */
-    public interface I_C_BPartner 
+/** Generated Interface for C_BPartner
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_BPartner 
 {
 
     /** TableName=C_BPartner */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -136,7 +135,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception;
+	public I_C_BP_Group getC_BP_Group() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -164,7 +163,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getI_C_Dunning() throws Exception;
+	public I_C_Dunning getC_Dunning() throws Exception;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -179,7 +178,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getI_C_Greeting() throws Exception;
+	public I_C_Greeting getC_Greeting() throws Exception;
 
     /** Column name C_InvoiceSchedule_ID */
     public static final String COLUMNNAME_C_InvoiceSchedule_ID = "C_InvoiceSchedule_ID";
@@ -194,7 +193,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_InvoiceSchedule_ID();
 
-	public I_C_InvoiceSchedule getI_C_InvoiceSchedule() throws Exception;
+	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws Exception;
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -209,7 +208,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getI_C_PaymentTerm() throws Exception;
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
 
     /** Column name DUNS */
     public static final String COLUMNNAME_DUNS = "DUNS";
@@ -275,6 +274,15 @@ import org.compiere.util.*;
 	  * Number of copies to be printed
 	  */
 	public int getDocumentCopies();
+
+    /** Column name DunningGrace */
+    public static final String COLUMNNAME_DunningGrace = "DunningGrace";
+
+	/** Set Dunning Grace	  */
+	public void setDunningGrace (Timestamp DunningGrace);
+
+	/** Get Dunning Grace	  */
+	public Timestamp getDunningGrace();
 
     /** Column name FirstSale */
     public static final String COLUMNNAME_FirstSale = "FirstSale";
@@ -480,7 +488,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getI_M_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws Exception;
 
     /** Column name NAICS */
     public static final String COLUMNNAME_NAICS = "NAICS";

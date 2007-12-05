@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
     public X_C_CashLine (Properties ctx, int C_CashLine_ID, String trxName)
     {
       super (ctx, C_CashLine_ID, trxName);
-      /** if (C_CashLine_ID == 0)        {			setAmount (Env.ZERO);
+      /** if (C_CashLine_ID == 0)
+        {
+			setAmount (Env.ZERO);
 			setC_CashLine_ID (0);
 			setC_Cash_ID (0);
 			setCashType (null);
@@ -47,7 +50,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM C_CashLine WHERE C_Cash_ID=@C_Cash_ID@
 			setProcessed (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -100,7 +103,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return bd;
 	}
 
-	public I_C_BankAccount getI_C_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -122,9 +125,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID <= 0) 		set_Value (COLUMNNAME_C_BankAccount_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID <= 0) 
+			set_Value (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -160,6 +164,22 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Cash getC_Cash() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Cash.Table_Name);
+        I_C_Cash result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Cash)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Cash_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Cash Journal.
 		@param C_Cash_ID 
 		Cash Journal
@@ -190,7 +210,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Cash_ID()));
     }
 
-	public I_C_Charge getI_C_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -212,9 +232,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 		set_Value (COLUMNNAME_C_Charge_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID <= 0) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -228,7 +249,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -250,9 +271,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -266,15 +288,32 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -288,24 +327,32 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return ii.intValue();
 	}
 
-/** CashType AD_Reference_ID=217 */
-public static final int CASHTYPE_AD_Reference_ID=217;/** Charge = C */
-public static final String CASHTYPE_Charge = "C";/** Difference = D */
-public static final String CASHTYPE_Difference = "D";/** General Expense = E */
-public static final String CASHTYPE_GeneralExpense = "E";/** Invoice = I */
-public static final String CASHTYPE_Invoice = "I";/** General Receipts = R */
-public static final String CASHTYPE_GeneralReceipts = "R";/** Bank Account Transfer = T */
-public static final String CASHTYPE_BankAccountTransfer = "T";
+	/** CashType AD_Reference_ID=217 */
+	public static final int CASHTYPE_AD_Reference_ID=217;
+	/** Bank Account Transfer = T */
+	public static final String CASHTYPE_BankAccountTransfer = "T";
+	/** Invoice = I */
+	public static final String CASHTYPE_Invoice = "I";
+	/** General Expense = E */
+	public static final String CASHTYPE_GeneralExpense = "E";
+	/** General Receipts = R */
+	public static final String CASHTYPE_GeneralReceipts = "R";
+	/** Charge = C */
+	public static final String CASHTYPE_Charge = "C";
+	/** Difference = D */
+	public static final String CASHTYPE_Difference = "D";
 	/** Set Cash Type.
 		@param CashType 
 		Source of Cash
 	  */
 	public void setCashType (String CashType)
 	{
-if (CashType == null) throw new IllegalArgumentException ("CashType is mandatory");if (CashType.equals("C") || CashType.equals("D") || CashType.equals("E") || CashType.equals("I") || CashType.equals("R") || CashType.equals("T")); else throw new IllegalArgumentException ("CashType Invalid value - " + CashType + " - Reference_ID=217 - C - D - E - I - R - T");		if (CashType.length() > 1)
+		if (CashType == null) throw new IllegalArgumentException ("CashType is mandatory");
+		if (CashType.equals("T") || CashType.equals("I") || CashType.equals("E") || CashType.equals("R") || CashType.equals("C") || CashType.equals("D")); else throw new IllegalArgumentException ("CashType Invalid value - " + CashType + " - Reference_ID=217 - T - I - E - R - C - D");
+		if (CashType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			CashType = CashType.substring(0, 0);
+			CashType = CashType.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_CashType, CashType);
 	}
@@ -324,10 +371,11 @@ if (CashType == null) throw new IllegalArgumentException ("CashType is mandatory
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}

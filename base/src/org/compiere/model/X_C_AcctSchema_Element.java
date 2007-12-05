@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
     public X_C_AcctSchema_Element (Properties ctx, int C_AcctSchema_Element_ID, String trxName)
     {
       super (ctx, C_AcctSchema_Element_ID, trxName);
-      /** if (C_AcctSchema_Element_ID == 0)        {			setC_AcctSchema_Element_ID (0);
+      /** if (C_AcctSchema_Element_ID == 0)
+        {
+			setC_AcctSchema_Element_ID (0);
 			setC_AcctSchema_ID (0);
 			setC_Element_ID (0);
 			setElementType (null);
@@ -49,7 +50,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 			setOrg_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM C_AcctSchema_Element WHERE C_AcctSchema_ID=@C_AcctSchema_ID@
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +81,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -102,9 +103,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -128,7 +130,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	}
 
 	/** Get Acct.Schema Element.
-@return Acct.Schema Element	  */
+		@return Acct.Schema Element	  */
 	public int getC_AcctSchema_Element_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_Element_ID);
@@ -137,7 +139,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -175,7 +177,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -197,9 +199,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_Value (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_Value (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -213,15 +216,32 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -235,7 +255,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getI_C_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -257,9 +277,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 		set_Value (COLUMNNAME_C_Campaign_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID <= 0) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -273,15 +294,32 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
+	public I_C_ElementValue getC_ElementValue() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
+        I_C_ElementValue result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ElementValue)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ElementValue_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Account Element.
 		@param C_ElementValue_ID 
 		Account Element
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID <= 0) 		set_Value (COLUMNNAME_C_ElementValue_ID, null);
- else 
-		set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+		if (C_ElementValue_ID <= 0) 
+			set_Value (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
 	}
 
 	/** Get Account Element.
@@ -295,7 +333,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Element getI_C_Element() throws Exception 
+	public I_C_Element getC_Element() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
         I_C_Element result = null;
@@ -339,9 +377,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -355,15 +394,32 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_Value (COLUMNNAME_C_Project_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -377,7 +433,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getI_C_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -399,9 +455,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 		set_Value (COLUMNNAME_C_SalesRegion_ID, null);
- else 
-		set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+		if (C_SalesRegion_ID <= 0) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
 	}
 
 	/** Get Sales Region.
@@ -415,34 +472,52 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-/** ElementType AD_Reference_ID=181 */
-public static final int ELEMENTTYPE_AD_Reference_ID=181;/** Account = AC */
-public static final String ELEMENTTYPE_Account = "AC";/** Activity = AY */
-public static final String ELEMENTTYPE_Activity = "AY";/** BPartner = BP */
-public static final String ELEMENTTYPE_BPartner = "BP";/** Location From = LF */
-public static final String ELEMENTTYPE_LocationFrom = "LF";/** Location To = LT */
-public static final String ELEMENTTYPE_LocationTo = "LT";/** Campaign = MC */
-public static final String ELEMENTTYPE_Campaign = "MC";/** Organization = OO */
-public static final String ELEMENTTYPE_Organization = "OO";/** Org Trx = OT */
-public static final String ELEMENTTYPE_OrgTrx = "OT";/** Project = PJ */
-public static final String ELEMENTTYPE_Project = "PJ";/** Product = PR */
-public static final String ELEMENTTYPE_Product = "PR";/** Sub Account = SA */
-public static final String ELEMENTTYPE_SubAccount = "SA";/** Sales Region = SR */
-public static final String ELEMENTTYPE_SalesRegion = "SR";/** User List 1 = U1 */
-public static final String ELEMENTTYPE_UserList1 = "U1";/** User List 2 = U2 */
-public static final String ELEMENTTYPE_UserList2 = "U2";/** User Element 1 = X1 */
-public static final String ELEMENTTYPE_UserElement1 = "X1";/** User Element 2 = X2 */
-public static final String ELEMENTTYPE_UserElement2 = "X2";
+	/** ElementType AD_Reference_ID=181 */
+	public static final int ELEMENTTYPE_AD_Reference_ID=181;
+	/** Organization = OO */
+	public static final String ELEMENTTYPE_Organization = "OO";
+	/** Account = AC */
+	public static final String ELEMENTTYPE_Account = "AC";
+	/** Product = PR */
+	public static final String ELEMENTTYPE_Product = "PR";
+	/** BPartner = BP */
+	public static final String ELEMENTTYPE_BPartner = "BP";
+	/** Org Trx = OT */
+	public static final String ELEMENTTYPE_OrgTrx = "OT";
+	/** Location From = LF */
+	public static final String ELEMENTTYPE_LocationFrom = "LF";
+	/** Location To = LT */
+	public static final String ELEMENTTYPE_LocationTo = "LT";
+	/** Sales Region = SR */
+	public static final String ELEMENTTYPE_SalesRegion = "SR";
+	/** Project = PJ */
+	public static final String ELEMENTTYPE_Project = "PJ";
+	/** Campaign = MC */
+	public static final String ELEMENTTYPE_Campaign = "MC";
+	/** User List 1 = U1 */
+	public static final String ELEMENTTYPE_UserList1 = "U1";
+	/** User List 2 = U2 */
+	public static final String ELEMENTTYPE_UserList2 = "U2";
+	/** Activity = AY */
+	public static final String ELEMENTTYPE_Activity = "AY";
+	/** Sub Account = SA */
+	public static final String ELEMENTTYPE_SubAccount = "SA";
+	/** User Element 1 = X1 */
+	public static final String ELEMENTTYPE_UserElement1 = "X1";
+	/** User Element 2 = X2 */
+	public static final String ELEMENTTYPE_UserElement2 = "X2";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)
 	  */
 	public void setElementType (String ElementType)
 	{
-if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");if (ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2");		if (ElementType.length() > 2)
+		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
+		if (ElementType.equals("OO") || ElementType.equals("AC") || ElementType.equals("PR") || ElementType.equals("BP") || ElementType.equals("OT") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("SR") || ElementType.equals("PJ") || ElementType.equals("MC") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("AY") || ElementType.equals("SA") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - OO - AC - PR - BP - OT - LF - LT - SR - PJ - MC - U1 - U2 - AY - SA - X1 - X2");
+		if (ElementType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			ElementType = ElementType.substring(0, 1);
+			ElementType = ElementType.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
@@ -463,7 +538,7 @@ if (ElementType == null) throw new IllegalArgumentException ("ElementType is man
 	}
 
 	/** Get Balanced.
-@return Balanced	  */
+		@return Balanced	  */
 	public boolean isBalanced () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsBalanced);
@@ -500,15 +575,32 @@ if (ElementType == null) throw new IllegalArgumentException ("ElementType is man
 		return false;
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -530,10 +622,11 @@ if (ElementType == null) throw new IllegalArgumentException ("ElementType is man
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -554,8 +647,8 @@ if (ElementType == null) throw new IllegalArgumentException ("ElementType is man
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Org_ID AD_Reference_ID=130 */
-public static final int ORG_ID_AD_Reference_ID=130;
+	/** Org_ID AD_Reference_ID=130 */
+	public static final int ORG_ID_AD_Reference_ID=130;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client

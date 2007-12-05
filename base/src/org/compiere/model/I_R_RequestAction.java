@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for R_RequestAction
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.859
-     */
-    public interface I_R_RequestAction 
+/** Generated Interface for R_RequestAction
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_R_RequestAction 
 {
 
     /** TableName=R_RequestAction */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -86,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -101,6 +100,8 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_ID();
 
+	public I_A_Asset getA_Asset() throws Exception;
+
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -114,7 +115,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -129,6 +130,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -141,6 +144,8 @@ import org.compiere.util.*;
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws Exception;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -155,6 +160,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Order_ID();
 
+	public I_C_Order getC_Order() throws Exception;
+
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 
@@ -167,6 +174,8 @@ import org.compiere.util.*;
 	  * Payment identifier
 	  */
 	public int getC_Payment_ID();
+
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -181,7 +190,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getI_C_Project() throws Exception;
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
@@ -300,6 +309,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOut_ID();
 
+	public I_M_InOut getM_InOut() throws Exception;
+
     /** Column name M_ProductSpent_ID */
     public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
 
@@ -326,6 +337,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
@@ -339,7 +352,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_RMA_ID();
 
-	public I_M_RMA getI_M_RMA() throws Exception;
+	public I_M_RMA getM_RMA() throws Exception;
 
     /** Column name NullColumns */
     public static final String COLUMNNAME_NullColumns = "NullColumns";
@@ -432,7 +445,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Category_ID();
 
-	public I_R_Category getI_R_Category() throws Exception;
+	public I_R_Category getR_Category() throws Exception;
 
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
@@ -447,7 +460,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Group_ID();
 
-	public I_R_Group getI_R_Group() throws Exception;
+	public I_R_Group getR_Group() throws Exception;
 
     /** Column name R_RequestAction_ID */
     public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
@@ -475,7 +488,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getI_R_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws Exception;
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -490,7 +503,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getI_R_Request() throws Exception;
+	public I_R_Request getR_Request() throws Exception;
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";
@@ -505,7 +518,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Resolution_ID();
 
-	public I_R_Resolution getI_R_Resolution() throws Exception;
+	public I_R_Resolution getR_Resolution() throws Exception;
 
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
@@ -520,7 +533,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Status_ID();
 
-	public I_R_Status getI_R_Status() throws Exception;
+	public I_R_Status getR_Status() throws Exception;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

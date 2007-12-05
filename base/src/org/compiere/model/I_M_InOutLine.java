@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_InOutLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.171
-     */
-    public interface I_M_InOutLine 
+/** Generated Interface for M_InOutLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_InOutLine 
 {
 
     /** TableName=M_InOutLine */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getI_C_Charge() throws Exception;
+	public I_C_Charge getC_Charge() throws Exception;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -129,7 +127,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getI_C_OrderLine() throws Exception;
+	public I_C_OrderLine getC_OrderLine() throws Exception;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -144,7 +142,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ProjectPhase_ID();
 
-	public I_C_ProjectPhase getI_C_ProjectPhase() throws Exception;
+	public I_C_ProjectPhase getC_ProjectPhase() throws Exception;
 
     /** Column name C_ProjectTask_ID */
     public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
@@ -159,7 +157,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ProjectTask_ID();
 
-	public I_C_ProjectTask getI_C_ProjectTask() throws Exception;
+	public I_C_ProjectTask getC_ProjectTask() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -174,7 +172,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getI_C_Project() throws Exception;
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -189,7 +187,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getI_C_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name ConfirmedQty */
     public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
@@ -295,6 +293,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_InOut_ID();
 
+	public I_M_InOut getM_InOut() throws Exception;
+
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -321,6 +321,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_RMALine_ID */
     public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
 
@@ -334,7 +336,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_RMALine_ID();
 
-	public I_M_RMALine getI_M_RMALine() throws Exception;
+	public I_M_RMALine getM_RMALine() throws Exception;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

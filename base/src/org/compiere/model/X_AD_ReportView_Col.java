@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReportView_Col
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
     public X_AD_ReportView_Col (Properties ctx, int AD_ReportView_Col_ID, String trxName)
     {
       super (ctx, AD_ReportView_Col_ID, trxName);
-      /** if (AD_ReportView_Col_ID == 0)        {			setAD_ReportView_Col_ID (0);
+      /** if (AD_ReportView_Col_ID == 0)
+        {
+			setAD_ReportView_Col_ID (0);
 			setAD_ReportView_ID (0);
 			setFunctionColumn (null);
 			setIsGroupFunction (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -96,9 +97,10 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -122,7 +124,7 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 	}
 
 	/** Get Report view Column.
-@return Report view Column	  */
+		@return Report view Column	  */
 	public int getAD_ReportView_Col_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReportView_Col_ID);
@@ -131,7 +133,7 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getI_AD_ReportView() throws Exception 
+	public I_AD_ReportView getAD_ReportView() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
         I_AD_ReportView result = null;
@@ -185,10 +187,11 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 	{
 		if (FunctionColumn == null)
 			throw new IllegalArgumentException ("FunctionColumn is mandatory.");
+
 		if (FunctionColumn.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			FunctionColumn = FunctionColumn.substring(0, 59);
+			FunctionColumn = FunctionColumn.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_FunctionColumn, FunctionColumn);
 	}

@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for M_CostQueue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
     public X_M_CostQueue (Properties ctx, int M_CostQueue_ID, String trxName)
     {
       super (ctx, M_CostQueue_ID, trxName);
-      /** if (M_CostQueue_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (M_CostQueue_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setCurrentCostPrice (Env.ZERO);
 			setCurrentQty (Env.ZERO);
 			setM_AttributeSetInstance_ID (0);
@@ -47,7 +49,7 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
 			setM_CostQueue_ID (0);
 			setM_CostType_ID (0);
 			setM_Product_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -78,7 +80,7 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -182,7 +184,7 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getI_M_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -242,7 +244,7 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostType getI_M_CostType() throws Exception 
+	public I_M_CostType getM_CostType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_CostType.Table_Name);
         I_M_CostType result = null;
@@ -279,6 +281,22 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Product.
 		@param M_Product_ID 

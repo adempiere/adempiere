@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent 
 {
 
@@ -39,8 +38,10 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
     public X_AD_AccessLog (Properties ctx, int AD_AccessLog_ID, String trxName)
     {
       super (ctx, AD_AccessLog_ID, trxName);
-      /** if (AD_AccessLog_ID == 0)        {			setAD_AccessLog_ID (0);
-} */
+      /** if (AD_AccessLog_ID == 0)
+        {
+			setAD_AccessLog_ID (0);
+        } */
     }
 
     /** Load Constructor */
@@ -101,15 +102,32 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getAD_AccessLog_ID()));
     }
 
+	public I_AD_Column getAD_Column() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
+        I_AD_Column result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 		set_Value (COLUMNNAME_AD_Column_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -123,15 +141,32 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Table getAD_Table() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
+        I_AD_Table result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 		set_Value (COLUMNNAME_AD_Table_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -151,10 +186,11 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -173,9 +209,10 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_Value (COLUMNNAME_Record_ID, null);
- else 
-		set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_Value (COLUMNNAME_Record_ID, null);
+		else 
+			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -195,10 +232,11 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -217,10 +255,11 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Host = Remote_Host.substring(0, 59);
+			Remote_Host = Remote_Host.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
@@ -239,10 +278,11 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setReply (String Reply)
 	{
+
 		if (Reply != null && Reply.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Reply = Reply.substring(0, 1999);
+			Reply = Reply.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Reply, Reply);
 	}
@@ -261,10 +301,11 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
+
 		if (TextMsg != null && TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}

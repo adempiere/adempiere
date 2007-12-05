@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Scheduler
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
     public X_AD_Scheduler (Properties ctx, int AD_Scheduler_ID, String trxName)
     {
       super (ctx, AD_Scheduler_ID, trxName);
-      /** if (AD_Scheduler_ID == 0)        {			setAD_Process_ID (0);
+      /** if (AD_Scheduler_ID == 0)
+        {
+			setAD_Process_ID (0);
 			setAD_Scheduler_ID (0);
 			setFrequency (0);
 			setFrequencyType (null);
@@ -49,7 +51,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 			setScheduleType (null);
 // F
 			setSupervisor_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,7 +82,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Process getI_AD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -180,10 +182,11 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -216,21 +219,26 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 		return ii.intValue();
 	}
 
-/** FrequencyType AD_Reference_ID=221 */
-public static final int FREQUENCYTYPE_AD_Reference_ID=221;/** Day = D */
-public static final String FREQUENCYTYPE_Day = "D";/** Hour = H */
-public static final String FREQUENCYTYPE_Hour = "H";/** Minute = M */
-public static final String FREQUENCYTYPE_Minute = "M";
+	/** FrequencyType AD_Reference_ID=221 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=221;
+	/** Minute = M */
+	public static final String FREQUENCYTYPE_Minute = "M";
+	/** Hour = H */
+	public static final String FREQUENCYTYPE_Hour = "H";
+	/** Day = D */
+	public static final String FREQUENCYTYPE_Day = "D";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");if (FrequencyType.equals("D") || FrequencyType.equals("H") || FrequencyType.equals("M")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - D - H - M");		if (FrequencyType.length() > 1)
+		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");
+		if (FrequencyType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 0);
+			FrequencyType = FrequencyType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
@@ -291,10 +299,11 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -323,7 +332,7 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -336,21 +345,26 @@ if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is
 		return false;
 	}
 
-/** ScheduleType AD_Reference_ID=318 */
-public static final int SCHEDULETYPE_AD_Reference_ID=318;/** Frequency = F */
-public static final String SCHEDULETYPE_Frequency = "F";/** Month Day = M */
-public static final String SCHEDULETYPE_MonthDay = "M";/** Week Day = W */
-public static final String SCHEDULETYPE_WeekDay = "W";
+	/** ScheduleType AD_Reference_ID=318 */
+	public static final int SCHEDULETYPE_AD_Reference_ID=318;
+	/** Frequency = F */
+	public static final String SCHEDULETYPE_Frequency = "F";
+	/** Week Day = W */
+	public static final String SCHEDULETYPE_WeekDay = "W";
+	/** Month Day = M */
+	public static final String SCHEDULETYPE_MonthDay = "M";
 	/** Set Schedule Type.
 		@param ScheduleType 
 		Type of schedule
 	  */
 	public void setScheduleType (String ScheduleType)
 	{
-if (ScheduleType == null) throw new IllegalArgumentException ("ScheduleType is mandatory");if (ScheduleType.equals("F") || ScheduleType.equals("M") || ScheduleType.equals("W")); else throw new IllegalArgumentException ("ScheduleType Invalid value - " + ScheduleType + " - Reference_ID=318 - F - M - W");		if (ScheduleType.length() > 1)
+		if (ScheduleType == null) throw new IllegalArgumentException ("ScheduleType is mandatory");
+		if (ScheduleType.equals("F") || ScheduleType.equals("W") || ScheduleType.equals("M")); else throw new IllegalArgumentException ("ScheduleType Invalid value - " + ScheduleType + " - Reference_ID=318 - F - W - M");
+		if (ScheduleType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ScheduleType = ScheduleType.substring(0, 0);
+			ScheduleType = ScheduleType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
 	}
@@ -363,8 +377,8 @@ if (ScheduleType == null) throw new IllegalArgumentException ("ScheduleType is m
 		return (String)get_Value(COLUMNNAME_ScheduleType);
 	}
 
-/** Supervisor_ID AD_Reference_ID=316 */
-public static final int SUPERVISOR_ID_AD_Reference_ID=316;
+	/** Supervisor_ID AD_Reference_ID=316 */
+	public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
@@ -387,25 +401,34 @@ public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 		return ii.intValue();
 	}
 
-/** WeekDay AD_Reference_ID=167 */
-public static final int WEEKDAY_AD_Reference_ID=167;/** Monday = 1 */
-public static final String WEEKDAY_Monday = "1";/** Tuesday = 2 */
-public static final String WEEKDAY_Tuesday = "2";/** Wednesday = 3 */
-public static final String WEEKDAY_Wednesday = "3";/** Thursday = 4 */
-public static final String WEEKDAY_Thursday = "4";/** Friday = 5 */
-public static final String WEEKDAY_Friday = "5";/** Saturday = 6 */
-public static final String WEEKDAY_Saturday = "6";/** Sunday = 7 */
-public static final String WEEKDAY_Sunday = "7";
+	/** WeekDay AD_Reference_ID=167 */
+	public static final int WEEKDAY_AD_Reference_ID=167;
+	/** Sunday = 7 */
+	public static final String WEEKDAY_Sunday = "7";
+	/** Monday = 1 */
+	public static final String WEEKDAY_Monday = "1";
+	/** Tuesday = 2 */
+	public static final String WEEKDAY_Tuesday = "2";
+	/** Wednesday = 3 */
+	public static final String WEEKDAY_Wednesday = "3";
+	/** Thursday = 4 */
+	public static final String WEEKDAY_Thursday = "4";
+	/** Friday = 5 */
+	public static final String WEEKDAY_Friday = "5";
+	/** Saturday = 6 */
+	public static final String WEEKDAY_Saturday = "6";
 	/** Set Day of the Week.
 		@param WeekDay 
 		Day of the Week
 	  */
 	public void setWeekDay (String WeekDay)
 	{
-if (WeekDay == null || WeekDay.equals("1") || WeekDay.equals("2") || WeekDay.equals("3") || WeekDay.equals("4") || WeekDay.equals("5") || WeekDay.equals("6") || WeekDay.equals("7")); else throw new IllegalArgumentException ("WeekDay Invalid value - " + WeekDay + " - Reference_ID=167 - 1 - 2 - 3 - 4 - 5 - 6 - 7");		if (WeekDay != null && WeekDay.length() > 1)
+
+		if (WeekDay == null || WeekDay.equals("7") || WeekDay.equals("1") || WeekDay.equals("2") || WeekDay.equals("3") || WeekDay.equals("4") || WeekDay.equals("5") || WeekDay.equals("6")); else throw new IllegalArgumentException ("WeekDay Invalid value - " + WeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
+		if (WeekDay != null && WeekDay.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			WeekDay = WeekDay.substring(0, 0);
+			WeekDay = WeekDay.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_WeekDay, WeekDay);
 	}

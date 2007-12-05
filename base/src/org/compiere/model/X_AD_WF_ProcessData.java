@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ProcessData
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Persistent 
 {
 
@@ -39,10 +38,12 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
     public X_AD_WF_ProcessData (Properties ctx, int AD_WF_ProcessData_ID, String trxName)
     {
       super (ctx, AD_WF_ProcessData_ID, trxName);
-      /** if (AD_WF_ProcessData_ID == 0)        {			setAD_WF_ProcessData_ID (0);
+      /** if (AD_WF_ProcessData_ID == 0)
+        {
+			setAD_WF_ProcessData_ID (0);
 			setAD_WF_Process_ID (0);
 			setAttributeName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,7 +96,7 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Process getI_AD_WF_Process() throws Exception 
+	public I_AD_WF_Process getAD_WF_Process() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Process.Table_Name);
         I_AD_WF_Process result = null;
@@ -149,10 +150,11 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 	{
 		if (AttributeName == null)
 			throw new IllegalArgumentException ("AttributeName is mandatory.");
+
 		if (AttributeName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 59);
+			AttributeName = AttributeName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
@@ -171,10 +173,11 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
+
 		if (AttributeValue != null && AttributeValue.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			AttributeValue = AttributeValue.substring(0, 59);
+			AttributeValue = AttributeValue.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}

@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionAmt
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
     public X_C_CommissionAmt (Properties ctx, int C_CommissionAmt_ID, String trxName)
     {
       super (ctx, C_CommissionAmt_ID, trxName);
-      /** if (C_CommissionAmt_ID == 0)        {			setActualQty (Env.ZERO);
+      /** if (C_CommissionAmt_ID == 0)
+        {
+			setActualQty (Env.ZERO);
 			setC_CommissionAmt_ID (0);
 			setC_CommissionLine_ID (0);
 			setC_CommissionRun_ID (0);
 			setCommissionAmt (Env.ZERO);
 			setConvertedAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -120,7 +123,7 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionLine getI_C_CommissionLine() throws Exception 
+	public I_C_CommissionLine getC_CommissionLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_CommissionLine.Table_Name);
         I_C_CommissionLine result = null;
@@ -158,7 +161,7 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionRun getI_C_CommissionRun() throws Exception 
+	public I_C_CommissionRun getC_CommissionRun() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_CommissionRun.Table_Name);
         I_C_CommissionRun result = null;

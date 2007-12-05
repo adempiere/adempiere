@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent 
 {
 
@@ -39,11 +40,13 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
     public X_M_PackageLine (Properties ctx, int M_PackageLine_ID, String trxName)
     {
       super (ctx, M_PackageLine_ID, trxName);
-      /** if (M_PackageLine_ID == 0)        {			setM_InOutLine_ID (0);
+      /** if (M_PackageLine_ID == 0)
+        {
+			setM_InOutLine_ID (0);
 			setM_PackageLine_ID (0);
 			setM_Package_ID (0);
 			setQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -80,10 +83,11 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -96,7 +100,7 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_InOutLine getI_M_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -156,7 +160,7 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Package getI_M_Package() throws Exception 
+	public I_M_Package getM_Package() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Package.Table_Name);
         I_M_Package result = null;

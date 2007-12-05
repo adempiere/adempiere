@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine, I_Persistent 
 {
 
@@ -39,7 +41,9 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
     public X_M_DiscountSchemaLine (Properties ctx, int M_DiscountSchemaLine_ID, String trxName)
     {
       super (ctx, M_DiscountSchemaLine_ID, trxName);
-      /** if (M_DiscountSchemaLine_ID == 0)        {			setC_ConversionType_ID (0);
+      /** if (M_DiscountSchemaLine_ID == 0)
+        {
+			setC_ConversionType_ID (0);
 			setConversionDate (new Timestamp(System.currentTimeMillis()));
 // @#Date@
 			setLimit_AddAmt (Env.ZERO);
@@ -70,7 +74,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 			setStd_MinAmt (Env.ZERO);
 			setStd_Rounding (null);
 // C
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -101,15 +105,32 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -123,7 +144,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getI_C_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -202,22 +223,28 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return bd;
 	}
 
-/** Limit_Base AD_Reference_ID=194 */
-public static final int LIMIT_BASE_AD_Reference_ID=194;/** Fixed Price = F */
-public static final String LIMIT_BASE_FixedPrice = "F";/** List Price = L */
-public static final String LIMIT_BASE_ListPrice = "L";/** Standard Price = S */
-public static final String LIMIT_BASE_StandardPrice = "S";/** Limit (PO) Price = X */
-public static final String LIMIT_BASE_LimitPOPrice = "X";
+	/** Limit_Base AD_Reference_ID=194 */
+	public static final int LIMIT_BASE_AD_Reference_ID=194;
+	/** List Price = L */
+	public static final String LIMIT_BASE_ListPrice = "L";
+	/** Standard Price = S */
+	public static final String LIMIT_BASE_StandardPrice = "S";
+	/** Limit (PO) Price = X */
+	public static final String LIMIT_BASE_LimitPOPrice = "X";
+	/** Fixed Price = F */
+	public static final String LIMIT_BASE_FixedPrice = "F";
 	/** Set Limit price Base.
 		@param Limit_Base 
 		Base price for calculation of the new price
 	  */
 	public void setLimit_Base (String Limit_Base)
 	{
-if (Limit_Base == null) throw new IllegalArgumentException ("Limit_Base is mandatory");if (Limit_Base.equals("F") || Limit_Base.equals("L") || Limit_Base.equals("S") || Limit_Base.equals("X")); else throw new IllegalArgumentException ("Limit_Base Invalid value - " + Limit_Base + " - Reference_ID=194 - F - L - S - X");		if (Limit_Base.length() > 1)
+		if (Limit_Base == null) throw new IllegalArgumentException ("Limit_Base is mandatory");
+		if (Limit_Base.equals("L") || Limit_Base.equals("S") || Limit_Base.equals("X") || Limit_Base.equals("F")); else throw new IllegalArgumentException ("Limit_Base Invalid value - " + Limit_Base + " - Reference_ID=194 - L - S - X - F");
+		if (Limit_Base.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Limit_Base = Limit_Base.substring(0, 0);
+			Limit_Base = Limit_Base.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Limit_Base, Limit_Base);
 	}
@@ -316,26 +343,36 @@ if (Limit_Base == null) throw new IllegalArgumentException ("Limit_Base is manda
 		return bd;
 	}
 
-/** Limit_Rounding AD_Reference_ID=155 */
-public static final int LIMIT_ROUNDING_AD_Reference_ID=155;/** Whole Number .00 = 0 */
-public static final String LIMIT_ROUNDING_WholeNumber00 = "0";/** Nickel .05, .10, .15, ... = 5 */
-public static final String LIMIT_ROUNDING_Nickel051015 = "5";/** Ending in 9/5 = 9 */
-public static final String LIMIT_ROUNDING_EndingIn95 = "9";/** Currency Precision = C */
-public static final String LIMIT_ROUNDING_CurrencyPrecision = "C";/** Dime .10, .20, .30, ... = D */
-public static final String LIMIT_ROUNDING_Dime102030 = "D";/** No Rounding = N */
-public static final String LIMIT_ROUNDING_NoRounding = "N";/** Quarter .25 .50 .75 = Q */
-public static final String LIMIT_ROUNDING_Quarter255075 = "Q";/** Ten 10.00, 20.00, .. = T */
-public static final String LIMIT_ROUNDING_Ten10002000 = "T";
+	/** Limit_Rounding AD_Reference_ID=155 */
+	public static final int LIMIT_ROUNDING_AD_Reference_ID=155;
+	/** Whole Number .00 = 0 */
+	public static final String LIMIT_ROUNDING_WholeNumber00 = "0";
+	/** No Rounding = N */
+	public static final String LIMIT_ROUNDING_NoRounding = "N";
+	/** Quarter .25 .50 .75 = Q */
+	public static final String LIMIT_ROUNDING_Quarter255075 = "Q";
+	/** Dime .10, .20, .30, ... = D */
+	public static final String LIMIT_ROUNDING_Dime102030 = "D";
+	/** Nickel .05, .10, .15, ... = 5 */
+	public static final String LIMIT_ROUNDING_Nickel051015 = "5";
+	/** Ten 10.00, 20.00, .. = T */
+	public static final String LIMIT_ROUNDING_Ten10002000 = "T";
+	/** Currency Precision = C */
+	public static final String LIMIT_ROUNDING_CurrencyPrecision = "C";
+	/** Ending in 9/5 = 9 */
+	public static final String LIMIT_ROUNDING_EndingIn95 = "9";
 	/** Set Limit price Rounding.
 		@param Limit_Rounding 
 		Rounding of the final result
 	  */
 	public void setLimit_Rounding (String Limit_Rounding)
 	{
-if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding is mandatory");if (Limit_Rounding.equals("0") || Limit_Rounding.equals("5") || Limit_Rounding.equals("9") || Limit_Rounding.equals("C") || Limit_Rounding.equals("D") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("T")); else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - 5 - 9 - C - D - N - Q - T");		if (Limit_Rounding.length() > 1)
+		if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding is mandatory");
+		if (Limit_Rounding.equals("0") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("D") || Limit_Rounding.equals("5") || Limit_Rounding.equals("T") || Limit_Rounding.equals("C") || Limit_Rounding.equals("9")); else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");
+		if (Limit_Rounding.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Limit_Rounding = Limit_Rounding.substring(0, 0);
+			Limit_Rounding = Limit_Rounding.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Limit_Rounding, Limit_Rounding);
 	}
@@ -370,22 +407,28 @@ if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding 
 		return bd;
 	}
 
-/** List_Base AD_Reference_ID=194 */
-public static final int LIST_BASE_AD_Reference_ID=194;/** Fixed Price = F */
-public static final String LIST_BASE_FixedPrice = "F";/** List Price = L */
-public static final String LIST_BASE_ListPrice = "L";/** Standard Price = S */
-public static final String LIST_BASE_StandardPrice = "S";/** Limit (PO) Price = X */
-public static final String LIST_BASE_LimitPOPrice = "X";
+	/** List_Base AD_Reference_ID=194 */
+	public static final int LIST_BASE_AD_Reference_ID=194;
+	/** List Price = L */
+	public static final String LIST_BASE_ListPrice = "L";
+	/** Standard Price = S */
+	public static final String LIST_BASE_StandardPrice = "S";
+	/** Limit (PO) Price = X */
+	public static final String LIST_BASE_LimitPOPrice = "X";
+	/** Fixed Price = F */
+	public static final String LIST_BASE_FixedPrice = "F";
 	/** Set List price Base.
 		@param List_Base 
 		Price used as the basis for price list calculations
 	  */
 	public void setList_Base (String List_Base)
 	{
-if (List_Base == null) throw new IllegalArgumentException ("List_Base is mandatory");if (List_Base.equals("F") || List_Base.equals("L") || List_Base.equals("S") || List_Base.equals("X")); else throw new IllegalArgumentException ("List_Base Invalid value - " + List_Base + " - Reference_ID=194 - F - L - S - X");		if (List_Base.length() > 1)
+		if (List_Base == null) throw new IllegalArgumentException ("List_Base is mandatory");
+		if (List_Base.equals("L") || List_Base.equals("S") || List_Base.equals("X") || List_Base.equals("F")); else throw new IllegalArgumentException ("List_Base Invalid value - " + List_Base + " - Reference_ID=194 - L - S - X - F");
+		if (List_Base.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			List_Base = List_Base.substring(0, 0);
+			List_Base = List_Base.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_List_Base, List_Base);
 	}
@@ -484,26 +527,36 @@ if (List_Base == null) throw new IllegalArgumentException ("List_Base is mandato
 		return bd;
 	}
 
-/** List_Rounding AD_Reference_ID=155 */
-public static final int LIST_ROUNDING_AD_Reference_ID=155;/** Whole Number .00 = 0 */
-public static final String LIST_ROUNDING_WholeNumber00 = "0";/** Nickel .05, .10, .15, ... = 5 */
-public static final String LIST_ROUNDING_Nickel051015 = "5";/** Ending in 9/5 = 9 */
-public static final String LIST_ROUNDING_EndingIn95 = "9";/** Currency Precision = C */
-public static final String LIST_ROUNDING_CurrencyPrecision = "C";/** Dime .10, .20, .30, ... = D */
-public static final String LIST_ROUNDING_Dime102030 = "D";/** No Rounding = N */
-public static final String LIST_ROUNDING_NoRounding = "N";/** Quarter .25 .50 .75 = Q */
-public static final String LIST_ROUNDING_Quarter255075 = "Q";/** Ten 10.00, 20.00, .. = T */
-public static final String LIST_ROUNDING_Ten10002000 = "T";
+	/** List_Rounding AD_Reference_ID=155 */
+	public static final int LIST_ROUNDING_AD_Reference_ID=155;
+	/** Whole Number .00 = 0 */
+	public static final String LIST_ROUNDING_WholeNumber00 = "0";
+	/** No Rounding = N */
+	public static final String LIST_ROUNDING_NoRounding = "N";
+	/** Quarter .25 .50 .75 = Q */
+	public static final String LIST_ROUNDING_Quarter255075 = "Q";
+	/** Dime .10, .20, .30, ... = D */
+	public static final String LIST_ROUNDING_Dime102030 = "D";
+	/** Nickel .05, .10, .15, ... = 5 */
+	public static final String LIST_ROUNDING_Nickel051015 = "5";
+	/** Ten 10.00, 20.00, .. = T */
+	public static final String LIST_ROUNDING_Ten10002000 = "T";
+	/** Currency Precision = C */
+	public static final String LIST_ROUNDING_CurrencyPrecision = "C";
+	/** Ending in 9/5 = 9 */
+	public static final String LIST_ROUNDING_EndingIn95 = "9";
 	/** Set List price Rounding.
 		@param List_Rounding 
 		Rounding rule for final list price
 	  */
 	public void setList_Rounding (String List_Rounding)
 	{
-if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is mandatory");if (List_Rounding.equals("0") || List_Rounding.equals("5") || List_Rounding.equals("9") || List_Rounding.equals("C") || List_Rounding.equals("D") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("T")); else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - 5 - 9 - C - D - N - Q - T");		if (List_Rounding.length() > 1)
+		if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is mandatory");
+		if (List_Rounding.equals("0") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("D") || List_Rounding.equals("5") || List_Rounding.equals("T") || List_Rounding.equals("C") || List_Rounding.equals("9")); else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");
+		if (List_Rounding.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			List_Rounding = List_Rounding.substring(0, 0);
+			List_Rounding = List_Rounding.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_List_Rounding, List_Rounding);
 	}
@@ -538,7 +591,7 @@ if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is
 		return ii.intValue();
 	}
 
-	public I_M_DiscountSchema getI_M_DiscountSchema() throws Exception 
+	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
         I_M_DiscountSchema result = null;
@@ -576,7 +629,7 @@ if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -598,9 +651,10 @@ if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -614,15 +668,32 @@ if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -686,22 +757,28 @@ if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is
 		return bd;
 	}
 
-/** Std_Base AD_Reference_ID=194 */
-public static final int STD_BASE_AD_Reference_ID=194;/** Fixed Price = F */
-public static final String STD_BASE_FixedPrice = "F";/** List Price = L */
-public static final String STD_BASE_ListPrice = "L";/** Standard Price = S */
-public static final String STD_BASE_StandardPrice = "S";/** Limit (PO) Price = X */
-public static final String STD_BASE_LimitPOPrice = "X";
+	/** Std_Base AD_Reference_ID=194 */
+	public static final int STD_BASE_AD_Reference_ID=194;
+	/** List Price = L */
+	public static final String STD_BASE_ListPrice = "L";
+	/** Standard Price = S */
+	public static final String STD_BASE_StandardPrice = "S";
+	/** Limit (PO) Price = X */
+	public static final String STD_BASE_LimitPOPrice = "X";
+	/** Fixed Price = F */
+	public static final String STD_BASE_FixedPrice = "F";
 	/** Set Standard price Base.
 		@param Std_Base 
 		Base price for calculating new standard price
 	  */
 	public void setStd_Base (String Std_Base)
 	{
-if (Std_Base == null) throw new IllegalArgumentException ("Std_Base is mandatory");if (Std_Base.equals("F") || Std_Base.equals("L") || Std_Base.equals("S") || Std_Base.equals("X")); else throw new IllegalArgumentException ("Std_Base Invalid value - " + Std_Base + " - Reference_ID=194 - F - L - S - X");		if (Std_Base.length() > 1)
+		if (Std_Base == null) throw new IllegalArgumentException ("Std_Base is mandatory");
+		if (Std_Base.equals("L") || Std_Base.equals("S") || Std_Base.equals("X") || Std_Base.equals("F")); else throw new IllegalArgumentException ("Std_Base Invalid value - " + Std_Base + " - Reference_ID=194 - L - S - X - F");
+		if (Std_Base.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Std_Base = Std_Base.substring(0, 0);
+			Std_Base = Std_Base.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Std_Base, Std_Base);
 	}
@@ -800,26 +877,36 @@ if (Std_Base == null) throw new IllegalArgumentException ("Std_Base is mandatory
 		return bd;
 	}
 
-/** Std_Rounding AD_Reference_ID=155 */
-public static final int STD_ROUNDING_AD_Reference_ID=155;/** Whole Number .00 = 0 */
-public static final String STD_ROUNDING_WholeNumber00 = "0";/** Nickel .05, .10, .15, ... = 5 */
-public static final String STD_ROUNDING_Nickel051015 = "5";/** Ending in 9/5 = 9 */
-public static final String STD_ROUNDING_EndingIn95 = "9";/** Currency Precision = C */
-public static final String STD_ROUNDING_CurrencyPrecision = "C";/** Dime .10, .20, .30, ... = D */
-public static final String STD_ROUNDING_Dime102030 = "D";/** No Rounding = N */
-public static final String STD_ROUNDING_NoRounding = "N";/** Quarter .25 .50 .75 = Q */
-public static final String STD_ROUNDING_Quarter255075 = "Q";/** Ten 10.00, 20.00, .. = T */
-public static final String STD_ROUNDING_Ten10002000 = "T";
+	/** Std_Rounding AD_Reference_ID=155 */
+	public static final int STD_ROUNDING_AD_Reference_ID=155;
+	/** Whole Number .00 = 0 */
+	public static final String STD_ROUNDING_WholeNumber00 = "0";
+	/** No Rounding = N */
+	public static final String STD_ROUNDING_NoRounding = "N";
+	/** Quarter .25 .50 .75 = Q */
+	public static final String STD_ROUNDING_Quarter255075 = "Q";
+	/** Dime .10, .20, .30, ... = D */
+	public static final String STD_ROUNDING_Dime102030 = "D";
+	/** Nickel .05, .10, .15, ... = 5 */
+	public static final String STD_ROUNDING_Nickel051015 = "5";
+	/** Ten 10.00, 20.00, .. = T */
+	public static final String STD_ROUNDING_Ten10002000 = "T";
+	/** Currency Precision = C */
+	public static final String STD_ROUNDING_CurrencyPrecision = "C";
+	/** Ending in 9/5 = 9 */
+	public static final String STD_ROUNDING_EndingIn95 = "9";
 	/** Set Standard price Rounding.
 		@param Std_Rounding 
 		Rounding rule for calculated price
 	  */
 	public void setStd_Rounding (String Std_Rounding)
 	{
-if (Std_Rounding == null) throw new IllegalArgumentException ("Std_Rounding is mandatory");if (Std_Rounding.equals("0") || Std_Rounding.equals("5") || Std_Rounding.equals("9") || Std_Rounding.equals("C") || Std_Rounding.equals("D") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("T")); else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - 5 - 9 - C - D - N - Q - T");		if (Std_Rounding.length() > 1)
+		if (Std_Rounding == null) throw new IllegalArgumentException ("Std_Rounding is mandatory");
+		if (Std_Rounding.equals("0") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("D") || Std_Rounding.equals("5") || Std_Rounding.equals("T") || Std_Rounding.equals("C") || Std_Rounding.equals("9")); else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");
+		if (Std_Rounding.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Std_Rounding = Std_Rounding.substring(0, 0);
+			Std_Rounding = Std_Rounding.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Std_Rounding, Std_Rounding);
 	}

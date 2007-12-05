@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
     public X_AD_UserBPAccess (Properties ctx, int AD_UserBPAccess_ID, String trxName)
     {
       super (ctx, AD_UserBPAccess_ID, trxName);
-      /** if (AD_UserBPAccess_ID == 0)        {			setAD_UserBPAccess_ID (0);
+      /** if (AD_UserBPAccess_ID == 0)
+        {
+			setAD_UserBPAccess_ID (0);
 			setAD_User_ID (0);
 			setBPAccessType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -95,6 +95,22 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -117,21 +133,26 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 		return ii.intValue();
 	}
 
-/** BPAccessType AD_Reference_ID=358 */
-public static final int BPACCESSTYPE_AD_Reference_ID=358;/** Assets, Download = A */
-public static final String BPACCESSTYPE_AssetsDownload = "A";/** Business Documents = B */
-public static final String BPACCESSTYPE_BusinessDocuments = "B";/** Requests = R */
-public static final String BPACCESSTYPE_Requests = "R";
+	/** BPAccessType AD_Reference_ID=358 */
+	public static final int BPACCESSTYPE_AD_Reference_ID=358;
+	/** Business Documents = B */
+	public static final String BPACCESSTYPE_BusinessDocuments = "B";
+	/** Requests = R */
+	public static final String BPACCESSTYPE_Requests = "R";
+	/** Assets, Download = A */
+	public static final String BPACCESSTYPE_AssetsDownload = "A";
 	/** Set Access Type.
 		@param BPAccessType 
 		Type of Access of the user/contact to Business Partner information and resources
 	  */
 	public void setBPAccessType (String BPAccessType)
 	{
-if (BPAccessType == null) throw new IllegalArgumentException ("BPAccessType is mandatory");if (BPAccessType.equals("A") || BPAccessType.equals("B") || BPAccessType.equals("R")); else throw new IllegalArgumentException ("BPAccessType Invalid value - " + BPAccessType + " - Reference_ID=358 - A - B - R");		if (BPAccessType.length() > 1)
+		if (BPAccessType == null) throw new IllegalArgumentException ("BPAccessType is mandatory");
+		if (BPAccessType.equals("B") || BPAccessType.equals("R") || BPAccessType.equals("A")); else throw new IllegalArgumentException ("BPAccessType Invalid value - " + BPAccessType + " - Reference_ID=358 - B - R - A");
+		if (BPAccessType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			BPAccessType = BPAccessType.substring(0, 0);
+			BPAccessType = BPAccessType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_BPAccessType, BPAccessType);
 	}
@@ -144,41 +165,66 @@ if (BPAccessType == null) throw new IllegalArgumentException ("BPAccessType is m
 		return (String)get_Value(COLUMNNAME_BPAccessType);
 	}
 
-/** DocBaseType AD_Reference_ID=183 */
-public static final int DOCBASETYPE_AD_Reference_ID=183;/** AP Credit Memo = APC */
-public static final String DOCBASETYPE_APCreditMemo = "APC";/** AP Invoice = API */
-public static final String DOCBASETYPE_APInvoice = "API";/** AP Payment = APP */
-public static final String DOCBASETYPE_APPayment = "APP";/** AR Credit Memo = ARC */
-public static final String DOCBASETYPE_ARCreditMemo = "ARC";/** AR Pro Forma Invoice = ARF */
-public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";/** AR Invoice = ARI */
-public static final String DOCBASETYPE_ARInvoice = "ARI";/** AR Receipt = ARR */
-public static final String DOCBASETYPE_ARReceipt = "ARR";/** Payment Allocation = CMA */
-public static final String DOCBASETYPE_PaymentAllocation = "CMA";/** Bank Statement = CMB */
-public static final String DOCBASETYPE_BankStatement = "CMB";/** Cash Journal = CMC */
-public static final String DOCBASETYPE_CashJournal = "CMC";/** GL Document = GLD */
-public static final String DOCBASETYPE_GLDocument = "GLD";/** GL Journal = GLJ */
-public static final String DOCBASETYPE_GLJournal = "GLJ";/** Material Physical Inventory = MMI */
-public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";/** Material Movement = MMM */
-public static final String DOCBASETYPE_MaterialMovement = "MMM";/** Material Production = MMP */
-public static final String DOCBASETYPE_MaterialProduction = "MMP";/** Material Receipt = MMR */
-public static final String DOCBASETYPE_MaterialReceipt = "MMR";/** Material Delivery = MMS */
-public static final String DOCBASETYPE_MaterialDelivery = "MMS";/** Match Invoice = MXI */
-public static final String DOCBASETYPE_MatchInvoice = "MXI";/** Match PO = MXP */
-public static final String DOCBASETYPE_MatchPO = "MXP";/** Project Issue = PJI */
-public static final String DOCBASETYPE_ProjectIssue = "PJI";/** Purchase Order = POO */
-public static final String DOCBASETYPE_PurchaseOrder = "POO";/** Purchase Requisition = POR */
-public static final String DOCBASETYPE_PurchaseRequisition = "POR";/** Sales Order = SOO */
-public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** DocBaseType AD_Reference_ID=183 */
+	public static final int DOCBASETYPE_AD_Reference_ID=183;
+	/** GL Journal = GLJ */
+	public static final String DOCBASETYPE_GLJournal = "GLJ";
+	/** GL Document = GLD */
+	public static final String DOCBASETYPE_GLDocument = "GLD";
+	/** AP Invoice = API */
+	public static final String DOCBASETYPE_APInvoice = "API";
+	/** AP Payment = APP */
+	public static final String DOCBASETYPE_APPayment = "APP";
+	/** AR Invoice = ARI */
+	public static final String DOCBASETYPE_ARInvoice = "ARI";
+	/** AR Receipt = ARR */
+	public static final String DOCBASETYPE_ARReceipt = "ARR";
+	/** Sales Order = SOO */
+	public static final String DOCBASETYPE_SalesOrder = "SOO";
+	/** AR Pro Forma Invoice = ARF */
+	public static final String DOCBASETYPE_ARProFormaInvoice = "ARF";
+	/** Material Delivery = MMS */
+	public static final String DOCBASETYPE_MaterialDelivery = "MMS";
+	/** Material Receipt = MMR */
+	public static final String DOCBASETYPE_MaterialReceipt = "MMR";
+	/** Material Movement = MMM */
+	public static final String DOCBASETYPE_MaterialMovement = "MMM";
+	/** Purchase Order = POO */
+	public static final String DOCBASETYPE_PurchaseOrder = "POO";
+	/** Purchase Requisition = POR */
+	public static final String DOCBASETYPE_PurchaseRequisition = "POR";
+	/** Material Physical Inventory = MMI */
+	public static final String DOCBASETYPE_MaterialPhysicalInventory = "MMI";
+	/** AP Credit Memo = APC */
+	public static final String DOCBASETYPE_APCreditMemo = "APC";
+	/** AR Credit Memo = ARC */
+	public static final String DOCBASETYPE_ARCreditMemo = "ARC";
+	/** Bank Statement = CMB */
+	public static final String DOCBASETYPE_BankStatement = "CMB";
+	/** Cash Journal = CMC */
+	public static final String DOCBASETYPE_CashJournal = "CMC";
+	/** Payment Allocation = CMA */
+	public static final String DOCBASETYPE_PaymentAllocation = "CMA";
+	/** Material Production = MMP */
+	public static final String DOCBASETYPE_MaterialProduction = "MMP";
+	/** Match Invoice = MXI */
+	public static final String DOCBASETYPE_MatchInvoice = "MXI";
+	/** Match PO = MXP */
+	public static final String DOCBASETYPE_MatchPO = "MXP";
+	/** Project Issue = PJI */
+	public static final String DOCBASETYPE_ProjectIssue = "PJI";
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document
 	  */
 	public void setDocBaseType (String DocBaseType)
 	{
-if (DocBaseType == null || DocBaseType.equals("APC") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARC") || DocBaseType.equals("ARF") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("CMA") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("GLD") || DocBaseType.equals("GLJ") || DocBaseType.equals("MMI") || DocBaseType.equals("MMM") || DocBaseType.equals("MMP") || DocBaseType.equals("MMR") || DocBaseType.equals("MMS") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("SOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - APC - API - APP - ARC - ARF - ARI - ARR - CMA - CMB - CMC - GLD - GLJ - MMI - MMM - MMP - MMR - MMS - MXI - MXP - PJI - POO - POR - SOO");		if (DocBaseType != null && DocBaseType.length() > 10)
+
+		if (DocBaseType == null || DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI");
+		if (DocBaseType != null && DocBaseType.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");
-			DocBaseType = DocBaseType.substring(0, 9);
+			DocBaseType = DocBaseType.substring(0, 10);
 		}
 		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
 	}
@@ -191,7 +237,7 @@ if (DocBaseType == null || DocBaseType.equals("APC") || DocBaseType.equals("API"
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
-	public I_R_RequestType getI_R_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -213,9 +259,10 @@ if (DocBaseType == null || DocBaseType.equals("APC") || DocBaseType.equals("API"
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 		set_Value (COLUMNNAME_R_RequestType_ID, null);
- else 
-		set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+		if (R_RequestType_ID <= 0) 
+			set_Value (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
 	}
 
 	/** Get Request Type.

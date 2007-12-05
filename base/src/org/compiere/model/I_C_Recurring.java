@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_Recurring
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:43.875
-     */
-    public interface I_C_Recurring 
+/** Generated Interface for C_Recurring
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_Recurring 
 {
 
     /** TableName=C_Recurring */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -71,6 +70,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Invoice_ID();
 
+	public I_C_Invoice getC_Invoice() throws Exception;
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -83,6 +84,8 @@ import org.compiere.util.*;
 	  * Order
 	  */
 	public int getC_Order_ID();
+
+	public I_C_Order getC_Order() throws Exception;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -97,6 +100,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Payment_ID();
 
+	public I_C_Payment getC_Payment() throws Exception;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -109,6 +114,8 @@ import org.compiere.util.*;
 	  * Financial Project
 	  */
 	public int getC_Project_ID();
+
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name C_Recurring_ID */
     public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
@@ -200,6 +207,8 @@ import org.compiere.util.*;
 	  * General Ledger Journal Batch
 	  */
 	public int getGL_JournalBatch_ID();
+
+	public I_GL_JournalBatch getGL_JournalBatch() throws Exception;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

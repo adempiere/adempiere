@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_NextCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
     public X_AD_WF_NextCondition (Properties ctx, int AD_WF_NextCondition_ID, String trxName)
     {
       super (ctx, AD_WF_NextCondition_ID, trxName);
-      /** if (AD_WF_NextCondition_ID == 0)        {			setAD_Column_ID (0);
+      /** if (AD_WF_NextCondition_ID == 0)
+        {
+			setAD_Column_ID (0);
 			setAD_WF_NextCondition_ID (0);
 			setAD_WF_NodeNext_ID (0);
 			setAndOr (null);
@@ -50,7 +51,7 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 			setSeqNo (0);
 // @SQL=SELECT COALESCE(MAX(SeqNo),0)+10 AS DefaultValue FROM AD_WF_NextCondition WHERE AD_WF_NodeNext_ID=@AD_WF_NodeNext_ID@
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -81,7 +82,7 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
       return sb.toString();
     }
 
-	public I_AD_Column getI_AD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -141,7 +142,7 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 		return ii.intValue();
 	}
 
-	public I_AD_WF_NodeNext getI_AD_WF_NodeNext() throws Exception 
+	public I_AD_WF_NodeNext getAD_WF_NodeNext() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_NodeNext.Table_Name);
         I_AD_WF_NodeNext result = null;
@@ -179,20 +180,24 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 		return ii.intValue();
 	}
 
-/** AndOr AD_Reference_ID=204 */
-public static final int ANDOR_AD_Reference_ID=204;/** And = A */
-public static final String ANDOR_And = "A";/** Or = O */
-public static final String ANDOR_Or = "O";
+	/** AndOr AD_Reference_ID=204 */
+	public static final int ANDOR_AD_Reference_ID=204;
+	/** And = A */
+	public static final String ANDOR_And = "A";
+	/** Or = O */
+	public static final String ANDOR_Or = "O";
 	/** Set And/Or.
 		@param AndOr 
 		Logical operation: AND or OR
 	  */
 	public void setAndOr (String AndOr)
 	{
-if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");		if (AndOr.length() > 1)
+		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
+		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");
+		if (AndOr.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AndOr = AndOr.substring(0, 0);
+			AndOr = AndOr.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
@@ -205,14 +210,15 @@ if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");if 
 		return (String)get_Value(COLUMNNAME_AndOr);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -229,27 +235,38 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
-/** Operation AD_Reference_ID=205 */
-public static final int OPERATION_AD_Reference_ID=205;/** != = != */
-public static final String OPERATION_NotEq = "!=";/** < = << */
-public static final String OPERATION_Le = "<<";/** <= = <= */
-public static final String OPERATION_LeEq = "<=";/**  = = == */
-public static final String OPERATION_Eq = "==";/** >= = >= */
-public static final String OPERATION_GtEq = ">=";/** > = >> */
-public static final String OPERATION_Gt = ">>";/** |<x>| = AB */
-public static final String OPERATION_X = "AB";/** sql = SQ */
-public static final String OPERATION_Sql = "SQ";/**  ~ = ~~ */
-public static final String OPERATION_Like = "~~";
+	/** Operation AD_Reference_ID=205 */
+	public static final int OPERATION_AD_Reference_ID=205;
+	/**  = = == */
+	public static final String OPERATION_Eq = "==";
+	/** >= = >= */
+	public static final String OPERATION_GtEq = ">=";
+	/** > = >> */
+	public static final String OPERATION_Gt = ">>";
+	/** < = << */
+	public static final String OPERATION_Le = "<<";
+	/**  ~ = ~~ */
+	public static final String OPERATION_Like = "~~";
+	/** <= = <= */
+	public static final String OPERATION_LeEq = "<=";
+	/** |<x>| = AB */
+	public static final String OPERATION_X = "AB";
+	/** sql = SQ */
+	public static final String OPERATION_Sql = "SQ";
+	/** != = != */
+	public static final String OPERATION_NotEq = "!=";
 	/** Set Operation.
 		@param Operation 
 		Compare Operation
 	  */
 	public void setOperation (String Operation)
 	{
-if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");if (Operation.equals("!=") || Operation.equals("<<") || Operation.equals("<=") || Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("~~")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - != - << - <= - == - >= - >> - AB - SQ - ~~");		if (Operation.length() > 2)
+		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
+		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");
+		if (Operation.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			Operation = Operation.substring(0, 1);
+			Operation = Operation.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_Operation, Operation);
 	}
@@ -290,10 +307,11 @@ if (Operation == null) throw new IllegalArgumentException ("Operation is mandato
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -320,10 +338,11 @@ if (Operation == null) throw new IllegalArgumentException ("Operation is mandato
 	  */
 	public void setValue2 (String Value2)
 	{
+
 		if (Value2 != null && Value2.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value2 = Value2.substring(0, 39);
+			Value2 = Value2.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value2, Value2);
 	}

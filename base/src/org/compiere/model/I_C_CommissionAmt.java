@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_CommissionAmt
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:39.078
-     */
-    public interface I_C_CommissionAmt 
+/** Generated Interface for C_CommissionAmt
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_CommissionAmt 
 {
 
     /** TableName=C_CommissionAmt */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -97,7 +95,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_CommissionLine_ID();
 
-	public I_C_CommissionLine getI_C_CommissionLine() throws Exception;
+	public I_C_CommissionLine getC_CommissionLine() throws Exception;
 
     /** Column name C_CommissionRun_ID */
     public static final String COLUMNNAME_C_CommissionRun_ID = "C_CommissionRun_ID";
@@ -112,7 +110,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_CommissionRun_ID();
 
-	public I_C_CommissionRun getI_C_CommissionRun() throws Exception;
+	public I_C_CommissionRun getC_CommissionRun() throws Exception;
 
     /** Column name CommissionAmt */
     public static final String COLUMNNAME_CommissionAmt = "CommissionAmt";

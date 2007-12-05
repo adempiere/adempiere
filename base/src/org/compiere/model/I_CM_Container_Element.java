@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for CM_Container_Element
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:34.796
-     */
-    public interface I_CM_Container_Element 
+/** Generated Interface for CM_Container_Element
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_CM_Container_Element 
 {
 
     /** TableName=CM_Container_Element */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getCM_Container_ID();
 
-	public I_CM_Container getI_CM_Container() throws Exception;
+	public I_CM_Container getCM_Container() throws Exception;
 
     /** Column name ContentHTML */
     public static final String COLUMNNAME_ContentHTML = "ContentHTML";

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for M_InOutLineMA
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:50.25
-     */
-    public interface I_M_InOutLineMA 
+/** Generated Interface for M_InOutLineMA
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_M_InOutLineMA 
 {
 
     /** TableName=M_InOutLineMA */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -83,6 +81,8 @@ import org.compiere.util.*;
 	  * Line on Shipment or Receipt document
 	  */
 	public int getM_InOutLine_ID();
+
+	public I_M_InOutLine getM_InOutLine() throws Exception;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

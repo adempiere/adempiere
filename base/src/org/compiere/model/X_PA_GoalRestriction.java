@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
     public X_PA_GoalRestriction (Properties ctx, int PA_GoalRestriction_ID, String trxName)
     {
       super (ctx, PA_GoalRestriction_ID, trxName);
-      /** if (PA_GoalRestriction_ID == 0)        {			setGoalRestrictionType (null);
+      /** if (PA_GoalRestriction_ID == 0)
+        {
+			setGoalRestrictionType (null);
 			setName (null);
 			setPA_GoalRestriction_ID (0);
 			setPA_Goal_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
       return sb.toString();
     }
 
-	public I_C_BP_Group getI_C_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -96,9 +97,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BP_Group_ID <= 0) 		set_Value (COLUMNNAME_C_BP_Group_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+		if (C_BP_Group_ID <= 0) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
 	}
 
 	/** Get Business Partner Group.
@@ -112,15 +114,32 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_Value (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -134,23 +153,30 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-/** GoalRestrictionType AD_Reference_ID=368 */
-public static final int GOALRESTRICTIONTYPE_AD_Reference_ID=368;/** Business Partner = B */
-public static final String GOALRESTRICTIONTYPE_BusinessPartner = "B";/** Product Category = C */
-public static final String GOALRESTRICTIONTYPE_ProductCategory = "C";/** Bus.Partner Group = G */
-public static final String GOALRESTRICTIONTYPE_BusPartnerGroup = "G";/** Organization = O */
-public static final String GOALRESTRICTIONTYPE_Organization = "O";/** Product = P */
-public static final String GOALRESTRICTIONTYPE_Product = "P";
+	/** GoalRestrictionType AD_Reference_ID=368 */
+	public static final int GOALRESTRICTIONTYPE_AD_Reference_ID=368;
+	/** Organization = O */
+	public static final String GOALRESTRICTIONTYPE_Organization = "O";
+	/** Business Partner = B */
+	public static final String GOALRESTRICTIONTYPE_BusinessPartner = "B";
+	/** Product = P */
+	public static final String GOALRESTRICTIONTYPE_Product = "P";
+	/** Bus.Partner Group = G */
+	public static final String GOALRESTRICTIONTYPE_BusPartnerGroup = "G";
+	/** Product Category = C */
+	public static final String GOALRESTRICTIONTYPE_ProductCategory = "C";
 	/** Set Restriction Type.
 		@param GoalRestrictionType 
 		Goal Restriction Type
 	  */
 	public void setGoalRestrictionType (String GoalRestrictionType)
 	{
-if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestrictionType is mandatory");if (GoalRestrictionType.equals("B") || GoalRestrictionType.equals("C") || GoalRestrictionType.equals("G") || GoalRestrictionType.equals("O") || GoalRestrictionType.equals("P")); else throw new IllegalArgumentException ("GoalRestrictionType Invalid value - " + GoalRestrictionType + " - Reference_ID=368 - B - C - G - O - P");		if (GoalRestrictionType.length() > 1)
+		if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestrictionType is mandatory");
+		if (GoalRestrictionType.equals("O") || GoalRestrictionType.equals("B") || GoalRestrictionType.equals("P") || GoalRestrictionType.equals("G") || GoalRestrictionType.equals("C")); else throw new IllegalArgumentException ("GoalRestrictionType Invalid value - " + GoalRestrictionType + " - Reference_ID=368 - O - B - P - G - C");
+		if (GoalRestrictionType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			GoalRestrictionType = GoalRestrictionType.substring(0, 0);
+			GoalRestrictionType = GoalRestrictionType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_GoalRestrictionType, GoalRestrictionType);
 	}
@@ -163,7 +189,7 @@ if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestri
 		return (String)get_Value(COLUMNNAME_GoalRestrictionType);
 	}
 
-	public I_M_Product_Category getI_M_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -185,9 +211,10 @@ if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestri
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 		set_Value (COLUMNNAME_M_Product_Category_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -201,15 +228,32 @@ if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestri
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -231,10 +275,11 @@ if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestri
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -255,17 +300,18 @@ if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestri
         return new KeyNamePair(get_ID(), getName());
     }
 
-/** Org_ID AD_Reference_ID=322 */
-public static final int ORG_ID_AD_Reference_ID=322;
+	/** Org_ID AD_Reference_ID=322 */
+	public static final int ORG_ID_AD_Reference_ID=322;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client
 	  */
 	public void setOrg_ID (int Org_ID)
 	{
-		if (Org_ID <= 0) 		set_Value (COLUMNNAME_Org_ID, null);
- else 
-		set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));
+		if (Org_ID <= 0) 
+			set_Value (COLUMNNAME_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));
 	}
 
 	/** Get Organization.
@@ -301,7 +347,7 @@ public static final int ORG_ID_AD_Reference_ID=322;
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getI_PA_Goal() throws Exception 
+	public I_PA_Goal getPA_Goal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
         I_PA_Goal result = null;

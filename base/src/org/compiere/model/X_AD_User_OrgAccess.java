@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_User_OrgAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_User_OrgAccess extends PO implements I_AD_User_OrgAccess, I_Persistent 
 {
 
@@ -39,10 +37,12 @@ public class X_AD_User_OrgAccess extends PO implements I_AD_User_OrgAccess, I_Pe
     public X_AD_User_OrgAccess (Properties ctx, int AD_User_OrgAccess_ID, String trxName)
     {
       super (ctx, AD_User_OrgAccess_ID, trxName);
-      /** if (AD_User_OrgAccess_ID == 0)        {			setAD_User_ID (0);
+      /** if (AD_User_OrgAccess_ID == 0)
+        {
+			setAD_User_ID (0);
 			setIsReadOnly (false);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +73,7 @@ public class X_AD_User_OrgAccess extends PO implements I_AD_User_OrgAccess, I_Pe
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;

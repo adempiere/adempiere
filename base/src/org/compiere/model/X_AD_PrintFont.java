@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFont
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_PrintFont extends PO implements I_AD_PrintFont, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_AD_PrintFont extends PO implements I_AD_PrintFont, I_Persistent
     public X_AD_PrintFont (Properties ctx, int AD_PrintFont_ID, String trxName)
     {
       super (ctx, AD_PrintFont_ID, trxName);
-      /** if (AD_PrintFont_ID == 0)        {			setAD_PrintFont_ID (0);
+      /** if (AD_PrintFont_ID == 0)
+        {
+			setAD_PrintFont_ID (0);
 			setCode (null);
 			setIsDefault (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,10 +103,11 @@ public class X_AD_PrintFont extends PO implements I_AD_PrintFont, I_Persistent
 	{
 		if (Code == null)
 			throw new IllegalArgumentException ("Code is mandatory.");
+
 		if (Code.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 1999);
+			Code = Code.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
@@ -152,10 +152,11 @@ public class X_AD_PrintFont extends PO implements I_AD_PrintFont, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

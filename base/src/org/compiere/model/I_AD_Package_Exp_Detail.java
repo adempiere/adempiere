@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_Package_Exp_Detail
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:25.031
-     */
-    public interface I_AD_Package_Exp_Detail 
+/** Generated Interface for AD_Package_Exp_Detail
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_Package_Exp_Detail 
 {
 
     /** TableName=AD_Package_Exp_Detail */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -71,6 +69,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Form_ID();
 
+	public I_AD_Form getAD_Form() throws Exception;
+
     /** Column name AD_ImpFormat_ID */
     public static final String COLUMNNAME_AD_ImpFormat_ID = "AD_ImpFormat_ID";
 
@@ -80,7 +80,7 @@ import org.compiere.util.*;
 	/** Get Import Format	  */
 	public int getAD_ImpFormat_ID();
 
-	public I_AD_ImpFormat getI_AD_ImpFormat() throws Exception;
+	public I_AD_ImpFormat getAD_ImpFormat() throws Exception;
 
     /** Column name AD_Menu_ID */
     public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
@@ -95,7 +95,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Menu_ID();
 
-	public I_AD_Menu getI_AD_Menu() throws Exception;
+	public I_AD_Menu getAD_Menu() throws Exception;
 
     /** Column name AD_Message_ID */
     public static final String COLUMNNAME_AD_Message_ID = "AD_Message_ID";
@@ -110,7 +110,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Message_ID();
 
-	public I_AD_Message getI_AD_Message() throws Exception;
+	public I_AD_Message getAD_Message() throws Exception;
 
     /** Column name AD_Package_Code_New */
     public static final String COLUMNNAME_AD_Package_Code_New = "AD_Package_Code_New";
@@ -161,7 +161,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception;
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception;
 
     /** Column name AD_Process_ID */
     public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
@@ -176,6 +176,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Process_ID();
 
+	public I_AD_Process getAD_Process() throws Exception;
+
     /** Column name AD_ReportView_ID */
     public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
 
@@ -188,6 +190,8 @@ import org.compiere.util.*;
 	  * View used to generate this report
 	  */
 	public int getAD_ReportView_ID();
+
+	public I_AD_ReportView getAD_ReportView() throws Exception;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -202,7 +206,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -216,6 +220,8 @@ import org.compiere.util.*;
 	  * Database Table information
 	  */
 	public int getAD_Table_ID();
+
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_Val_Rule_ID */
     public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
@@ -243,6 +249,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Window_ID();
 
+	public I_AD_Window getAD_Window() throws Exception;
+
     /** Column name AD_Workbench_ID */
     public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 
@@ -256,6 +264,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Workbench_ID();
 
+	public I_AD_Workbench getAD_Workbench() throws Exception;
+
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
@@ -268,6 +278,8 @@ import org.compiere.util.*;
 	  * Workflow or combination of tasks
 	  */
 	public int getAD_Workflow_ID();
+
+	public I_AD_Workflow getAD_Workflow() throws Exception;
 
     /** Column name DBType */
     public static final String COLUMNNAME_DBType = "DBType";

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Country extends PO implements I_C_Country, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
     public X_C_Country (Properties ctx, int C_Country_ID, String trxName)
     {
       super (ctx, C_Country_ID, trxName);
-      /** if (C_Country_ID == 0)        {			setC_Country_ID (0);
+      /** if (C_Country_ID == 0)
+        {
+			setC_Country_ID (0);
 			setCountryCode (null);
 			setDisplaySequence (null);
 // @C@, @R@ @P@
@@ -48,7 +49,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 			setIsAddressLinesLocalReverse (false);
 			setIsAddressLinesReverse (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,18 +80,19 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
       return sb.toString();
     }
 
-/** AD_Language AD_Reference_ID=106 */
-public static final int AD_LANGUAGE_AD_Reference_ID=106;
+	/** AD_Language AD_Reference_ID=106 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language != null && AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -125,7 +127,7 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -147,9 +149,10 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -171,10 +174,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (CountryCode == null)
 			throw new IllegalArgumentException ("CountryCode is mandatory.");
+
 		if (CountryCode.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			CountryCode = CountryCode.substring(0, 1);
+			CountryCode = CountryCode.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_CountryCode, CountryCode);
 	}
@@ -193,10 +197,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -217,10 +222,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (DisplaySequence == null)
 			throw new IllegalArgumentException ("DisplaySequence is mandatory.");
+
 		if (DisplaySequence.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			DisplaySequence = DisplaySequence.substring(0, 19);
+			DisplaySequence = DisplaySequence.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_DisplaySequence, DisplaySequence);
 	}
@@ -239,10 +245,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setDisplaySequenceLocal (String DisplaySequenceLocal)
 	{
+
 		if (DisplaySequenceLocal != null && DisplaySequenceLocal.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			DisplaySequenceLocal = DisplaySequenceLocal.substring(0, 19);
+			DisplaySequenceLocal = DisplaySequenceLocal.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_DisplaySequenceLocal, DisplaySequenceLocal);
 	}
@@ -261,10 +268,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setExpressionBankAccountNo (String ExpressionBankAccountNo)
 	{
+
 		if (ExpressionBankAccountNo != null && ExpressionBankAccountNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ExpressionBankAccountNo = ExpressionBankAccountNo.substring(0, 19);
+			ExpressionBankAccountNo = ExpressionBankAccountNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ExpressionBankAccountNo, ExpressionBankAccountNo);
 	}
@@ -283,10 +291,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setExpressionBankRoutingNo (String ExpressionBankRoutingNo)
 	{
+
 		if (ExpressionBankRoutingNo != null && ExpressionBankRoutingNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ExpressionBankRoutingNo = ExpressionBankRoutingNo.substring(0, 19);
+			ExpressionBankRoutingNo = ExpressionBankRoutingNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ExpressionBankRoutingNo, ExpressionBankRoutingNo);
 	}
@@ -305,10 +314,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setExpressionPhone (String ExpressionPhone)
 	{
+
 		if (ExpressionPhone != null && ExpressionPhone.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ExpressionPhone = ExpressionPhone.substring(0, 19);
+			ExpressionPhone = ExpressionPhone.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ExpressionPhone, ExpressionPhone);
 	}
@@ -327,10 +337,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setExpressionPostal (String ExpressionPostal)
 	{
+
 		if (ExpressionPostal != null && ExpressionPostal.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ExpressionPostal = ExpressionPostal.substring(0, 19);
+			ExpressionPostal = ExpressionPostal.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ExpressionPostal, ExpressionPostal);
 	}
@@ -349,10 +360,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setExpressionPostal_Add (String ExpressionPostal_Add)
 	{
+
 		if (ExpressionPostal_Add != null && ExpressionPostal_Add.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ExpressionPostal_Add = ExpressionPostal_Add.substring(0, 19);
+			ExpressionPostal_Add = ExpressionPostal_Add.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ExpressionPostal_Add, ExpressionPostal_Add);
 	}
@@ -491,10 +503,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setLookupClassName (String LookupClassName)
 	{
+
 		if (LookupClassName != null && LookupClassName.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			LookupClassName = LookupClassName.substring(0, 254);
+			LookupClassName = LookupClassName.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_LookupClassName, LookupClassName);
 	}
@@ -513,10 +526,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setLookupClientID (String LookupClientID)
 	{
+
 		if (LookupClientID != null && LookupClientID.length() > 50)
 		{
 			log.warning("Length > 50 - truncated");
-			LookupClientID = LookupClientID.substring(0, 49);
+			LookupClientID = LookupClientID.substring(0, 50);
 		}
 		set_Value (COLUMNNAME_LookupClientID, LookupClientID);
 	}
@@ -535,10 +549,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setLookupPassword (String LookupPassword)
 	{
+
 		if (LookupPassword != null && LookupPassword.length() > 50)
 		{
 			log.warning("Length > 50 - truncated");
-			LookupPassword = LookupPassword.substring(0, 49);
+			LookupPassword = LookupPassword.substring(0, 50);
 		}
 		set_Value (COLUMNNAME_LookupPassword, LookupPassword);
 	}
@@ -557,10 +572,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setLookupUrl (String LookupUrl)
 	{
+
 		if (LookupUrl != null && LookupUrl.length() > 100)
 		{
 			log.warning("Length > 100 - truncated");
-			LookupUrl = LookupUrl.substring(0, 99);
+			LookupUrl = LookupUrl.substring(0, 100);
 		}
 		set_Value (COLUMNNAME_LookupUrl, LookupUrl);
 	}
@@ -579,10 +595,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setMediaSize (String MediaSize)
 	{
+
 		if (MediaSize != null && MediaSize.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			MediaSize = MediaSize.substring(0, 39);
+			MediaSize = MediaSize.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_MediaSize, MediaSize);
 	}
@@ -603,10 +620,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -633,10 +651,11 @@ public static final int AD_LANGUAGE_AD_Reference_ID=106;
 	  */
 	public void setRegionName (String RegionName)
 	{
+
 		if (RegionName != null && RegionName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 59);
+			RegionName = RegionName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}

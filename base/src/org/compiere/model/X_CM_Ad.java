@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent 
 {
 
@@ -39,7 +39,9 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
     public X_CM_Ad (Properties ctx, int CM_Ad_ID, String trxName)
     {
       super (ctx, CM_Ad_ID, trxName);
-      /** if (CM_Ad_ID == 0)        {			setActualClick (0);
+      /** if (CM_Ad_ID == 0)
+        {
+			setActualClick (0);
 			setActualImpression (0);
 			setCM_Ad_Cat_ID (0);
 			setCM_Ad_ID (0);
@@ -52,7 +54,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 			setStartDate (new Timestamp(System.currentTimeMillis()));
 			setStartImpression (0);
 			setTarget_Frame (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -123,7 +125,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Ad_Cat getI_CM_Ad_Cat() throws Exception 
+	public I_CM_Ad_Cat getCM_Ad_Cat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Ad_Cat.Table_Name);
         I_CM_Ad_Cat result = null;
@@ -183,7 +185,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Media getI_CM_Media() throws Exception 
+	public I_CM_Media getCM_Media() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
         I_CM_Media result = null;
@@ -227,10 +229,11 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setContentHTML (String ContentHTML)
 	{
+
 		if (ContentHTML != null && ContentHTML.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ContentHTML = ContentHTML.substring(0, 1999);
+			ContentHTML = ContentHTML.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_ContentHTML, ContentHTML);
 	}
@@ -249,10 +252,11 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -288,10 +292,11 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -400,10 +405,11 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -469,10 +475,11 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setTargetURL (String TargetURL)
 	{
+
 		if (TargetURL != null && TargetURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			TargetURL = TargetURL.substring(0, 119);
+			TargetURL = TargetURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_TargetURL, TargetURL);
 	}
@@ -493,10 +500,11 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	{
 		if (Target_Frame == null)
 			throw new IllegalArgumentException ("Target_Frame is mandatory.");
+
 		if (Target_Frame.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Target_Frame = Target_Frame.substring(0, 19);
+			Target_Frame = Target_Frame.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
 	}

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ImpFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
     public X_AD_ImpFormat (Properties ctx, int AD_ImpFormat_ID, String trxName)
     {
       super (ctx, AD_ImpFormat_ID, trxName);
-      /** if (AD_ImpFormat_ID == 0)        {			setAD_ImpFormat_ID (0);
+      /** if (AD_ImpFormat_ID == 0)
+        {
+			setAD_ImpFormat_ID (0);
 			setAD_Table_ID (0);
 			setFormatType (null);
 			setName (null);
 			setProcessing (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,7 +86,7 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	}
 
 	/** Get Import Format.
-@return Import Format	  */
+		@return Import Format	  */
 	public int getAD_ImpFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ImpFormat_ID);
@@ -94,7 +95,7 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -138,10 +139,11 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -154,22 +156,28 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** FormatType AD_Reference_ID=209 */
-public static final int FORMATTYPE_AD_Reference_ID=209;/** Comma Separated = C */
-public static final String FORMATTYPE_CommaSeparated = "C";/** Fixed Position = F */
-public static final String FORMATTYPE_FixedPosition = "F";/** Tab Separated = T */
-public static final String FORMATTYPE_TabSeparated = "T";/** XML = X */
-public static final String FORMATTYPE_XML = "X";
+	/** FormatType AD_Reference_ID=209 */
+	public static final int FORMATTYPE_AD_Reference_ID=209;
+	/** Fixed Position = F */
+	public static final String FORMATTYPE_FixedPosition = "F";
+	/** Comma Separated = C */
+	public static final String FORMATTYPE_CommaSeparated = "C";
+	/** Tab Separated = T */
+	public static final String FORMATTYPE_TabSeparated = "T";
+	/** XML = X */
+	public static final String FORMATTYPE_XML = "X";
 	/** Set Format.
 		@param FormatType 
 		Format of the data
 	  */
 	public void setFormatType (String FormatType)
 	{
-if (FormatType == null) throw new IllegalArgumentException ("FormatType is mandatory");if (FormatType.equals("C") || FormatType.equals("F") || FormatType.equals("T") || FormatType.equals("X")); else throw new IllegalArgumentException ("FormatType Invalid value - " + FormatType + " - Reference_ID=209 - C - F - T - X");		if (FormatType.length() > 1)
+		if (FormatType == null) throw new IllegalArgumentException ("FormatType is mandatory");
+		if (FormatType.equals("F") || FormatType.equals("C") || FormatType.equals("T") || FormatType.equals("X")); else throw new IllegalArgumentException ("FormatType Invalid value - " + FormatType + " - Reference_ID=209 - F - C - T - X");
+		if (FormatType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			FormatType = FormatType.substring(0, 0);
+			FormatType = FormatType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_FormatType, FormatType);
 	}
@@ -190,10 +198,11 @@ if (FormatType == null) throw new IllegalArgumentException ("FormatType is manda
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -222,7 +231,7 @@ if (FormatType == null) throw new IllegalArgumentException ("FormatType is manda
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

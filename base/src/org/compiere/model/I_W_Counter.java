@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for W_Counter
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:56.468
-     */
-    public interface I_W_Counter 
+/** Generated Interface for W_Counter
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_W_Counter 
 {
 
     /** TableName=W_Counter */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -184,7 +182,7 @@ import org.compiere.util.*;
 	  */
 	public int getW_CounterCount_ID();
 
-	public I_W_CounterCount getI_W_CounterCount() throws Exception;
+	public I_W_CounterCount getW_CounterCount() throws Exception;
 
     /** Column name W_Counter_ID */
     public static final String COLUMNNAME_W_Counter_ID = "W_Counter_ID";

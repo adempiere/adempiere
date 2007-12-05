@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Document_Action_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Document_Action_Access extends PO implements I_AD_Document_Action_Access, I_Persistent 
 {
 

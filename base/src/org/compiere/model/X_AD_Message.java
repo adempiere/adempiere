@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Message
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Message extends PO implements I_AD_Message, I_Persistent 
 {
 
@@ -39,14 +36,16 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
     public X_AD_Message (Properties ctx, int AD_Message_ID, String trxName)
     {
       super (ctx, AD_Message_ID, trxName);
-      /** if (AD_Message_ID == 0)        {			setAD_Message_ID (0);
+      /** if (AD_Message_ID == 0)
+        {
+			setAD_Message_ID (0);
 			setEntityType (null);
 // U
 			setMsgText (null);
 			setMsgType (null);
 // I
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -99,14 +98,15 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 		return ii.intValue();
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -131,10 +131,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (MsgText == null)
 			throw new IllegalArgumentException ("MsgText is mandatory.");
+
 		if (MsgText.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MsgText = MsgText.substring(0, 1999);
+			MsgText = MsgText.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MsgText, MsgText);
 	}
@@ -153,10 +154,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setMsgTip (String MsgTip)
 	{
+
 		if (MsgTip != null && MsgTip.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			MsgTip = MsgTip.substring(0, 1999);
+			MsgTip = MsgTip.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_MsgTip, MsgTip);
 	}
@@ -169,21 +171,26 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_MsgTip);
 	}
 
-/** MsgType AD_Reference_ID=103 */
-public static final int MSGTYPE_AD_Reference_ID=103;/** Error = E */
-public static final String MSGTYPE_Error = "E";/** Information = I */
-public static final String MSGTYPE_Information = "I";/** Menu = M */
-public static final String MSGTYPE_Menu = "M";
+	/** MsgType AD_Reference_ID=103 */
+	public static final int MSGTYPE_AD_Reference_ID=103;
+	/** Error = E */
+	public static final String MSGTYPE_Error = "E";
+	/** Information = I */
+	public static final String MSGTYPE_Information = "I";
+	/** Menu = M */
+	public static final String MSGTYPE_Menu = "M";
 	/** Set Message Type.
 		@param MsgType 
 		Type of message (Informational, Menu or Error)
 	  */
 	public void setMsgType (String MsgType)
 	{
-if (MsgType == null) throw new IllegalArgumentException ("MsgType is mandatory");if (MsgType.equals("E") || MsgType.equals("I") || MsgType.equals("M")); else throw new IllegalArgumentException ("MsgType Invalid value - " + MsgType + " - Reference_ID=103 - E - I - M");		if (MsgType.length() > 1)
+		if (MsgType == null) throw new IllegalArgumentException ("MsgType is mandatory");
+		if (MsgType.equals("E") || MsgType.equals("I") || MsgType.equals("M")); else throw new IllegalArgumentException ("MsgType Invalid value - " + MsgType + " - Reference_ID=103 - E - I - M");
+		if (MsgType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MsgType = MsgType.substring(0, 0);
+			MsgType = MsgType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MsgType, MsgType);
 	}
@@ -204,10 +211,11 @@ if (MsgType == null) throw new IllegalArgumentException ("MsgType is mandatory")
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}

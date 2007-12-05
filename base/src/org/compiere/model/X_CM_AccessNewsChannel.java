@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for CM_AccessNewsChannel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel, I_Persistent 
 {
 
@@ -39,9 +37,11 @@ public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel
     public X_CM_AccessNewsChannel (Properties ctx, int CM_AccessNewsChannel_ID, String trxName)
     {
       super (ctx, CM_AccessNewsChannel_ID, trxName);
-      /** if (CM_AccessNewsChannel_ID == 0)        {			setCM_AccessProfile_ID (0);
+      /** if (CM_AccessNewsChannel_ID == 0)
+        {
+			setCM_AccessProfile_ID (0);
 			setCM_NewsChannel_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +72,7 @@ public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel
       return sb.toString();
     }
 
-	public I_CM_AccessProfile getI_CM_AccessProfile() throws Exception 
+	public I_CM_AccessProfile getCM_AccessProfile() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
         I_CM_AccessProfile result = null;
@@ -110,7 +110,7 @@ public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel
 		return ii.intValue();
 	}
 
-	public I_CM_NewsChannel getI_CM_NewsChannel() throws Exception 
+	public I_CM_NewsChannel getCM_NewsChannel() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_NewsChannel.Table_Name);
         I_CM_NewsChannel result = null;

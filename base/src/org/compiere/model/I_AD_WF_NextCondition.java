@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_WF_NextCondition
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:30.64
-     */
-    public interface I_AD_WF_NextCondition 
+/** Generated Interface for AD_WF_NextCondition
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_WF_NextCondition 
 {
 
     /** TableName=AD_WF_NextCondition */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getI_AD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws Exception;
 
     /** Column name AD_WF_NextCondition_ID */
     public static final String COLUMNNAME_AD_WF_NextCondition_ID = "AD_WF_NextCondition_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_WF_NodeNext_ID();
 
-	public I_AD_WF_NodeNext getI_AD_WF_NodeNext() throws Exception;
+	public I_AD_WF_NodeNext getAD_WF_NodeNext() throws Exception;
 
     /** Column name AndOr */
     public static final String COLUMNNAME_AndOr = "AndOr";

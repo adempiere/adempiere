@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_Persistent 
 {
 
@@ -39,14 +40,16 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
     public X_I_InOutLineConfirm (Properties ctx, int I_InOutLineConfirm_ID, String trxName)
     {
       super (ctx, I_InOutLineConfirm_ID, trxName);
-      /** if (I_InOutLineConfirm_ID == 0)        {			setConfirmationNo (null);
+      /** if (I_InOutLineConfirm_ID == 0)
+        {
+			setConfirmationNo (null);
 			setConfirmedQty (Env.ZERO);
 			setDifferenceQty (Env.ZERO);
 			setI_InOutLineConfirm_ID (0);
 			setI_IsImported (false);
 			setM_InOutLineConfirm_ID (0);
 			setScrappedQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -85,10 +88,11 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	{
 		if (ConfirmationNo == null)
 			throw new IllegalArgumentException ("ConfirmationNo is mandatory.");
+
 		if (ConfirmationNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ConfirmationNo = ConfirmationNo.substring(0, 19);
+			ConfirmationNo = ConfirmationNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
 	}
@@ -129,10 +133,11 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -173,10 +178,11 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
+
 		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 1999);
+			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
@@ -243,6 +249,22 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 		return false;
 	}
 
+	public I_M_InOutLineConfirm getM_InOutLineConfirm() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOutLineConfirm.Table_Name);
+        I_M_InOutLineConfirm result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOutLineConfirm)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLineConfirm_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Ship/Receipt Confirmation Line.
 		@param M_InOutLineConfirm_ID 
 		Material Shipment or Receipt Confirmation Line
@@ -297,7 +319,7 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
@@ -39,13 +38,15 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
     public X_CM_ChatEntry (Properties ctx, int CM_ChatEntry_ID, String trxName)
     {
       super (ctx, CM_ChatEntry_ID, trxName);
-      /** if (CM_ChatEntry_ID == 0)        {			setCM_ChatEntry_ID (0);
+      /** if (CM_ChatEntry_ID == 0)
+        {
+			setCM_ChatEntry_ID (0);
 			setCM_Chat_ID (0);
 			setCharacterData (null);
 			setChatEntryType (null);
 // N
 			setConfidentialType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -76,7 +77,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -98,9 +99,10 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -114,17 +116,18 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return ii.intValue();
 	}
 
-/** CM_ChatEntryGrandParent_ID AD_Reference_ID=399 */
-public static final int CM_CHATENTRYGRANDPARENT_ID_AD_Reference_ID=399;
+	/** CM_ChatEntryGrandParent_ID AD_Reference_ID=399 */
+	public static final int CM_CHATENTRYGRANDPARENT_ID_AD_Reference_ID=399;
 	/** Set Chat Entry Grandparent.
 		@param CM_ChatEntryGrandParent_ID 
 		Link to Grand Parent (root level)
 	  */
 	public void setCM_ChatEntryGrandParent_ID (int CM_ChatEntryGrandParent_ID)
 	{
-		if (CM_ChatEntryGrandParent_ID <= 0) 		set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, null);
- else 
-		set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, Integer.valueOf(CM_ChatEntryGrandParent_ID));
+		if (CM_ChatEntryGrandParent_ID <= 0) 
+			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, Integer.valueOf(CM_ChatEntryGrandParent_ID));
 	}
 
 	/** Get Chat Entry Grandparent.
@@ -138,17 +141,18 @@ public static final int CM_CHATENTRYGRANDPARENT_ID_AD_Reference_ID=399;
 		return ii.intValue();
 	}
 
-/** CM_ChatEntryParent_ID AD_Reference_ID=399 */
-public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
+	/** CM_ChatEntryParent_ID AD_Reference_ID=399 */
+	public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
 	/** Set Chat Entry Parent.
 		@param CM_ChatEntryParent_ID 
 		Link to direct Parent
 	  */
 	public void setCM_ChatEntryParent_ID (int CM_ChatEntryParent_ID)
 	{
-		if (CM_ChatEntryParent_ID <= 0) 		set_Value (COLUMNNAME_CM_ChatEntryParent_ID, null);
- else 
-		set_Value (COLUMNNAME_CM_ChatEntryParent_ID, Integer.valueOf(CM_ChatEntryParent_ID));
+		if (CM_ChatEntryParent_ID <= 0) 
+			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, Integer.valueOf(CM_ChatEntryParent_ID));
 	}
 
 	/** Get Chat Entry Parent.
@@ -192,7 +196,7 @@ public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
         return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
     }
 
-	public I_CM_Chat getI_CM_Chat() throws Exception 
+	public I_CM_Chat getCM_Chat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Chat.Table_Name);
         I_CM_Chat result = null;
@@ -249,21 +253,26 @@ public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
 		return (String)get_Value(COLUMNNAME_CharacterData);
 	}
 
-/** ChatEntryType AD_Reference_ID=398 */
-public static final int CHATENTRYTYPE_AD_Reference_ID=398;/** Forum (threaded) = F */
-public static final String CHATENTRYTYPE_ForumThreaded = "F";/** Note (flat) = N */
-public static final String CHATENTRYTYPE_NoteFlat = "N";/** Wiki = W */
-public static final String CHATENTRYTYPE_Wiki = "W";
+	/** ChatEntryType AD_Reference_ID=398 */
+	public static final int CHATENTRYTYPE_AD_Reference_ID=398;
+	/** Wiki = W */
+	public static final String CHATENTRYTYPE_Wiki = "W";
+	/** Note (flat) = N */
+	public static final String CHATENTRYTYPE_NoteFlat = "N";
+	/** Forum (threaded) = F */
+	public static final String CHATENTRYTYPE_ForumThreaded = "F";
 	/** Set Chat Entry Type.
 		@param ChatEntryType 
 		Type of Chat/Forum Entry
 	  */
 	public void setChatEntryType (String ChatEntryType)
 	{
-if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is mandatory");if (ChatEntryType.equals("F") || ChatEntryType.equals("N") || ChatEntryType.equals("W")); else throw new IllegalArgumentException ("ChatEntryType Invalid value - " + ChatEntryType + " - Reference_ID=398 - F - N - W");		if (ChatEntryType.length() > 1)
+		if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is mandatory");
+		if (ChatEntryType.equals("W") || ChatEntryType.equals("N") || ChatEntryType.equals("F")); else throw new IllegalArgumentException ("ChatEntryType Invalid value - " + ChatEntryType + " - Reference_ID=398 - W - N - F");
+		if (ChatEntryType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ChatEntryType = ChatEntryType.substring(0, 0);
+			ChatEntryType = ChatEntryType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
 	}
@@ -276,22 +285,28 @@ if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is
 		return (String)get_Value(COLUMNNAME_ChatEntryType);
 	}
 
-/** ConfidentialType AD_Reference_ID=340 */
-public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;/** Public Information = A */
-public static final String CONFIDENTIALTYPE_PublicInformation = "A";/** Partner Confidential = C */
-public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";/** Internal = I */
-public static final String CONFIDENTIALTYPE_Internal = "I";/** Private Information = P */
-public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
+	/** ConfidentialType AD_Reference_ID=340 */
+	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
+	/** Public Information = A */
+	public static final String CONFIDENTIALTYPE_PublicInformation = "A";
+	/** Partner Confidential = C */
+	public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";
+	/** Internal = I */
+	public static final String CONFIDENTIALTYPE_Internal = "I";
+	/** Private Information = P */
+	public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
 	/** Set Confidentiality.
 		@param ConfidentialType 
 		Type of Confidentiality
 	  */
 	public void setConfidentialType (String ConfidentialType)
 	{
-if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		if (ConfidentialType.length() > 1)
+		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
+		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
+		if (ConfidentialType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ConfidentialType = ConfidentialType.substring(0, 0);
+			ConfidentialType = ConfidentialType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
@@ -304,22 +319,28 @@ if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialT
 		return (String)get_Value(COLUMNNAME_ConfidentialType);
 	}
 
-/** ModeratorStatus AD_Reference_ID=396 */
-public static final int MODERATORSTATUS_AD_Reference_ID=396;/** Not Displayed = N */
-public static final String MODERATORSTATUS_NotDisplayed = "N";/** Published = P */
-public static final String MODERATORSTATUS_Published = "P";/** To be reviewed = R */
-public static final String MODERATORSTATUS_ToBeReviewed = "R";/** Suspicious = S */
-public static final String MODERATORSTATUS_Suspicious = "S";
+	/** ModeratorStatus AD_Reference_ID=396 */
+	public static final int MODERATORSTATUS_AD_Reference_ID=396;
+	/** Not Displayed = N */
+	public static final String MODERATORSTATUS_NotDisplayed = "N";
+	/** Published = P */
+	public static final String MODERATORSTATUS_Published = "P";
+	/** To be reviewed = R */
+	public static final String MODERATORSTATUS_ToBeReviewed = "R";
+	/** Suspicious = S */
+	public static final String MODERATORSTATUS_Suspicious = "S";
 	/** Set Moderation Status.
 		@param ModeratorStatus 
 		Status of Moderation
 	  */
 	public void setModeratorStatus (String ModeratorStatus)
 	{
-if (ModeratorStatus == null || ModeratorStatus.equals("N") || ModeratorStatus.equals("P") || ModeratorStatus.equals("R") || ModeratorStatus.equals("S")); else throw new IllegalArgumentException ("ModeratorStatus Invalid value - " + ModeratorStatus + " - Reference_ID=396 - N - P - R - S");		if (ModeratorStatus != null && ModeratorStatus.length() > 1)
+
+		if (ModeratorStatus == null || ModeratorStatus.equals("N") || ModeratorStatus.equals("P") || ModeratorStatus.equals("R") || ModeratorStatus.equals("S")); else throw new IllegalArgumentException ("ModeratorStatus Invalid value - " + ModeratorStatus + " - Reference_ID=396 - N - P - R - S");
+		if (ModeratorStatus != null && ModeratorStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ModeratorStatus = ModeratorStatus.substring(0, 0);
+			ModeratorStatus = ModeratorStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ModeratorStatus, ModeratorStatus);
 	}
@@ -338,10 +359,11 @@ if (ModeratorStatus == null || ModeratorStatus.equals("N") || ModeratorStatus.eq
 	  */
 	public void setSubject (String Subject)
 	{
+
 		if (Subject != null && Subject.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Subject = Subject.substring(0, 254);
+			Subject = Subject.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Subject, Subject);
 	}

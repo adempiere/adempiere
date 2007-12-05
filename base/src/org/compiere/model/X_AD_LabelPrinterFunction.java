@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LabelPrinterFunction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFunction, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
     public X_AD_LabelPrinterFunction (Properties ctx, int AD_LabelPrinterFunction_ID, String trxName)
     {
       super (ctx, AD_LabelPrinterFunction_ID, trxName);
-      /** if (AD_LabelPrinterFunction_ID == 0)        {			setAD_LabelPrinterFunction_ID (0);
+      /** if (AD_LabelPrinterFunction_ID == 0)
+        {
+			setAD_LabelPrinterFunction_ID (0);
 			setAD_LabelPrinter_ID (0);
 			setIsXYPosition (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +97,7 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 		return ii.intValue();
 	}
 
-	public I_AD_LabelPrinter getI_AD_LabelPrinter() throws Exception 
+	public I_AD_LabelPrinter getAD_LabelPrinter() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_LabelPrinter.Table_Name);
         I_AD_LabelPrinter result = null;
@@ -140,10 +141,11 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -162,10 +164,11 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setFunctionPrefix (String FunctionPrefix)
 	{
+
 		if (FunctionPrefix != null && FunctionPrefix.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			FunctionPrefix = FunctionPrefix.substring(0, 39);
+			FunctionPrefix = FunctionPrefix.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_FunctionPrefix, FunctionPrefix);
 	}
@@ -184,10 +187,11 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setFunctionSuffix (String FunctionSuffix)
 	{
+
 		if (FunctionSuffix != null && FunctionSuffix.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			FunctionSuffix = FunctionSuffix.substring(0, 39);
+			FunctionSuffix = FunctionSuffix.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_FunctionSuffix, FunctionSuffix);
 	}
@@ -232,10 +236,11 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -262,10 +267,11 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setXYSeparator (String XYSeparator)
 	{
+
 		if (XYSeparator != null && XYSeparator.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			XYSeparator = XYSeparator.substring(0, 19);
+			XYSeparator = XYSeparator.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_XYSeparator, XYSeparator);
 	}

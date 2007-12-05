@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_Persistent 
 {
 
@@ -39,13 +40,15 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
     public X_C_CommissionDetail (Properties ctx, int C_CommissionDetail_ID, String trxName)
     {
       super (ctx, C_CommissionDetail_ID, trxName);
-      /** if (C_CommissionDetail_ID == 0)        {			setActualAmt (Env.ZERO);
+      /** if (C_CommissionDetail_ID == 0)
+        {
+			setActualAmt (Env.ZERO);
 			setActualQty (Env.ZERO);
 			setC_CommissionAmt_ID (0);
 			setC_CommissionDetail_ID (0);
 			setC_Currency_ID (0);
 			setConvertedAmt (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -120,7 +123,7 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return bd;
 	}
 
-	public I_C_CommissionAmt getI_C_CommissionAmt() throws Exception 
+	public I_C_CommissionAmt getC_CommissionAmt() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_CommissionAmt.Table_Name);
         I_C_CommissionAmt result = null;
@@ -180,7 +183,7 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -218,15 +221,32 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
 		Invoice Detail Line
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -240,15 +260,32 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
+	public I_C_OrderLine getC_OrderLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
+        I_C_OrderLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_OrderLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Sales Order Line.
 		@param C_OrderLine_ID 
 		Sales Order Line
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+		if (C_OrderLine_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
 	}
 
 	/** Get Sales Order Line.
@@ -290,10 +327,11 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setInfo (String Info)
 	{
+
 		if (Info != null && Info.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Info = Info.substring(0, 59);
+			Info = Info.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Info, Info);
 	}
@@ -312,10 +350,11 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setReference (String Reference)
 	{
+
 		if (Reference != null && Reference.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 59);
+			Reference = Reference.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}

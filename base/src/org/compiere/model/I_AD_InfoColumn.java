@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for AD_InfoColumn
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:22.453
-     */
-    public interface I_AD_InfoColumn 
+/** Generated Interface for AD_InfoColumn
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_AD_InfoColumn 
 {
 
     /** TableName=AD_InfoColumn */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = new BigDecimal(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -71,7 +69,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Element_ID();
 
-	public I_AD_Element getI_AD_Element() throws Exception;
+	public I_AD_Element getAD_Element() throws Exception;
 
     /** Column name AD_InfoColumn_ID */
     public static final String COLUMNNAME_AD_InfoColumn_ID = "AD_InfoColumn_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_InfoWindow_ID();
 
-	public I_AD_InfoWindow getI_AD_InfoWindow() throws Exception;
+	public I_AD_InfoWindow getAD_InfoWindow() throws Exception;
 
     /** Column name AD_Reference_ID */
     public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";

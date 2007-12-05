@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
     public X_CM_CStageTTable (Properties ctx, int CM_CStageTTable_ID, String trxName)
     {
       super (ctx, CM_CStageTTable_ID, trxName);
-      /** if (CM_CStageTTable_ID == 0)        {			setCM_CStageTTable_ID (0);
+      /** if (CM_CStageTTable_ID == 0)
+        {
+			setCM_CStageTTable_ID (0);
 			setCM_CStage_ID (0);
 			setCM_TemplateTable_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -96,7 +97,7 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_CStage getI_CM_CStage() throws Exception 
+	public I_CM_CStage getCM_CStage() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_CStage.Table_Name);
         I_CM_CStage result = null;
@@ -134,7 +135,7 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_TemplateTable getI_CM_TemplateTable() throws Exception 
+	public I_CM_TemplateTable getCM_TemplateTable() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_TemplateTable.Table_Name);
         I_CM_TemplateTable result = null;
@@ -178,10 +179,11 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -202,10 +204,11 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -232,10 +235,11 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setOtherClause (String OtherClause)
 	{
+
 		if (OtherClause != null && OtherClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 1999);
+			OtherClause = OtherClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
@@ -254,9 +258,10 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Record_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -276,10 +281,11 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setWhereClause (String WhereClause)
 	{
+
 		if (WhereClause != null && WhereClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 1999);
+			WhereClause = WhereClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}

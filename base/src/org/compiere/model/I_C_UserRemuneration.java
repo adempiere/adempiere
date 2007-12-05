@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_UserRemuneration
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:46.453
-     */
-    public interface I_C_UserRemuneration 
+/** Generated Interface for C_UserRemuneration
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_UserRemuneration 
 {
 
     /** TableName=C_UserRemuneration */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -71,6 +70,8 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
+	public I_AD_User getAD_User() throws Exception;
+
     /** Column name C_Remuneration_ID */
     public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
 
@@ -84,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Remuneration_ID();
 
-	public I_C_Remuneration getI_C_Remuneration() throws Exception;
+	public I_C_Remuneration getC_Remuneration() throws Exception;
 
     /** Column name C_UserRemuneration_ID */
     public static final String COLUMNNAME_C_UserRemuneration_ID = "C_UserRemuneration_ID";

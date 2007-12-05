@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tree
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent 
 {
 
@@ -39,13 +36,15 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
     public X_AD_Tree (Properties ctx, int AD_Tree_ID, String trxName)
     {
       super (ctx, AD_Tree_ID, trxName);
-      /** if (AD_Tree_ID == 0)        {			setAD_Tree_ID (0);
+      /** if (AD_Tree_ID == 0)
+        {
+			setAD_Tree_ID (0);
 			setIsAllNodes (false);
 			setIsDefault (false);
 // N
 			setName (null);
 			setTreeType (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -104,10 +103,11 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -176,10 +176,11 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -208,7 +209,7 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -221,37 +222,58 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 		return false;
 	}
 
-/** TreeType AD_Reference_ID=120 */
-public static final int TREETYPE_AD_Reference_ID=120;/** Activity = AY */
-public static final String TREETYPE_Activity = "AY";/** BoM = BB */
-public static final String TREETYPE_BoM = "BB";/** BPartner = BP */
-public static final String TREETYPE_BPartner = "BP";/** CM Container = CC */
-public static final String TREETYPE_CMContainer = "CC";/** CM Media = CM */
-public static final String TREETYPE_CMMedia = "CM";/** CM Container Stage = CS */
-public static final String TREETYPE_CMContainerStage = "CS";/** CM Template = CT */
-public static final String TREETYPE_CMTemplate = "CT";/** Element Value = EV */
-public static final String TREETYPE_ElementValue = "EV";/** Campaign = MC */
-public static final String TREETYPE_Campaign = "MC";/** Menu = MM */
-public static final String TREETYPE_Menu = "MM";/** Organization = OO */
-public static final String TREETYPE_Organization = "OO";/** Product Category = PC */
-public static final String TREETYPE_ProductCategory = "PC";/** Project = PJ */
-public static final String TREETYPE_Project = "PJ";/** Product = PR */
-public static final String TREETYPE_Product = "PR";/** Sales Region = SR */
-public static final String TREETYPE_SalesRegion = "SR";/** User 1 = U1 */
-public static final String TREETYPE_User1 = "U1";/** User 2 = U2 */
-public static final String TREETYPE_User2 = "U2";/** User 3 = U3 */
-public static final String TREETYPE_User3 = "U3";/** User 4 = U4 */
-public static final String TREETYPE_User4 = "U4";
+	/** TreeType AD_Reference_ID=120 */
+	public static final int TREETYPE_AD_Reference_ID=120;
+	/** Menu = MM */
+	public static final String TREETYPE_Menu = "MM";
+	/** Element Value = EV */
+	public static final String TREETYPE_ElementValue = "EV";
+	/** Product = PR */
+	public static final String TREETYPE_Product = "PR";
+	/** BPartner = BP */
+	public static final String TREETYPE_BPartner = "BP";
+	/** Organization = OO */
+	public static final String TREETYPE_Organization = "OO";
+	/** BoM = BB */
+	public static final String TREETYPE_BoM = "BB";
+	/** Project = PJ */
+	public static final String TREETYPE_Project = "PJ";
+	/** Sales Region = SR */
+	public static final String TREETYPE_SalesRegion = "SR";
+	/** Product Category = PC */
+	public static final String TREETYPE_ProductCategory = "PC";
+	/** Campaign = MC */
+	public static final String TREETYPE_Campaign = "MC";
+	/** Activity = AY */
+	public static final String TREETYPE_Activity = "AY";
+	/** User 1 = U1 */
+	public static final String TREETYPE_User1 = "U1";
+	/** User 2 = U2 */
+	public static final String TREETYPE_User2 = "U2";
+	/** User 3 = U3 */
+	public static final String TREETYPE_User3 = "U3";
+	/** User 4 = U4 */
+	public static final String TREETYPE_User4 = "U4";
+	/** CM Container = CC */
+	public static final String TREETYPE_CMContainer = "CC";
+	/** CM Container Stage = CS */
+	public static final String TREETYPE_CMContainerStage = "CS";
+	/** CM Template = CT */
+	public static final String TREETYPE_CMTemplate = "CT";
+	/** CM Media = CM */
+	public static final String TREETYPE_CMMedia = "CM";
 	/** Set Type | Area.
 		@param TreeType 
 		Element this tree is built on (i.e Product, Business Partner)
 	  */
 	public void setTreeType (String TreeType)
 	{
-if (TreeType == null) throw new IllegalArgumentException ("TreeType is mandatory");if (TreeType.equals("AY") || TreeType.equals("BB") || TreeType.equals("BP") || TreeType.equals("CC") || TreeType.equals("CM") || TreeType.equals("CS") || TreeType.equals("CT") || TreeType.equals("EV") || TreeType.equals("MC") || TreeType.equals("MM") || TreeType.equals("OO") || TreeType.equals("PC") || TreeType.equals("PJ") || TreeType.equals("PR") || TreeType.equals("SR") || TreeType.equals("U1") || TreeType.equals("U2") || TreeType.equals("U3") || TreeType.equals("U4")); else throw new IllegalArgumentException ("TreeType Invalid value - " + TreeType + " - Reference_ID=120 - AY - BB - BP - CC - CM - CS - CT - EV - MC - MM - OO - PC - PJ - PR - SR - U1 - U2 - U3 - U4");		if (TreeType.length() > 2)
+		if (TreeType == null) throw new IllegalArgumentException ("TreeType is mandatory");
+		if (TreeType.equals("MM") || TreeType.equals("EV") || TreeType.equals("PR") || TreeType.equals("BP") || TreeType.equals("OO") || TreeType.equals("BB") || TreeType.equals("PJ") || TreeType.equals("SR") || TreeType.equals("PC") || TreeType.equals("MC") || TreeType.equals("AY") || TreeType.equals("U1") || TreeType.equals("U2") || TreeType.equals("U3") || TreeType.equals("U4") || TreeType.equals("CC") || TreeType.equals("CS") || TreeType.equals("CT") || TreeType.equals("CM")); else throw new IllegalArgumentException ("TreeType Invalid value - " + TreeType + " - Reference_ID=120 - MM - EV - PR - BP - OO - BB - PJ - SR - PC - MC - AY - U1 - U2 - U3 - U4 - CC - CS - CT - CM");
+		if (TreeType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			TreeType = TreeType.substring(0, 1);
+			TreeType = TreeType.substring(0, 2);
 		}
 		set_ValueNoCheck (COLUMNNAME_TreeType, TreeType);
 	}

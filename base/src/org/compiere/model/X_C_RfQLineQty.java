@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
     public X_C_RfQLineQty (Properties ctx, int C_RfQLineQty_ID, String trxName)
     {
       super (ctx, C_RfQLineQty_ID, trxName);
-      /** if (C_RfQLineQty_ID == 0)        {			setBenchmarkPrice (Env.ZERO);
+      /** if (C_RfQLineQty_ID == 0)
+        {
+			setBenchmarkPrice (Env.ZERO);
 			setC_RfQLineQty_ID (0);
 			setC_RfQLine_ID (0);
 			setC_UOM_ID (0);
@@ -49,7 +52,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 // Y
 			setQty (Env.ZERO);
 // 1
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -144,7 +147,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_RfQLine getI_C_RfQLine() throws Exception 
+	public I_C_RfQLine getC_RfQLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQLine.Table_Name);
         I_C_RfQLine result = null;
@@ -182,7 +185,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getI_C_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;

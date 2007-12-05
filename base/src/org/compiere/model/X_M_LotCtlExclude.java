@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for M_LotCtlExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
     public X_M_LotCtlExclude (Properties ctx, int M_LotCtlExclude_ID, String trxName)
     {
       super (ctx, M_LotCtlExclude_ID, trxName);
-      /** if (M_LotCtlExclude_ID == 0)        {			setAD_Table_ID (0);
+      /** if (M_LotCtlExclude_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setIsSOTrx (false);
 			setM_LotCtlExclude_ID (0);
 			setM_LotCtl_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +74,7 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -158,7 +158,7 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 		return ii.intValue();
 	}
 
-	public I_M_LotCtl getI_M_LotCtl() throws Exception 
+	public I_M_LotCtl getM_LotCtl() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
         I_M_LotCtl result = null;

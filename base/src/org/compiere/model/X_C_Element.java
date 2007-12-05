@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Element extends PO implements I_C_Element, I_Persistent 
 {
 
@@ -39,14 +38,16 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
     public X_C_Element (Properties ctx, int C_Element_ID, String trxName)
     {
       super (ctx, C_Element_ID, trxName);
-      /** if (C_Element_ID == 0)        {			setAD_Tree_ID (0);
+      /** if (C_Element_ID == 0)
+        {
+			setAD_Tree_ID (0);
 			setC_Element_ID (0);
 			setElementType (null);
 // A
 			setIsBalancing (false);
 			setIsNaturalAccount (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -77,7 +78,7 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getI_AD_Tree() throws Exception 
+	public I_AD_Tree getAD_Tree() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tree.Table_Name);
         I_AD_Tree result = null;
@@ -143,10 +144,11 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -159,20 +161,24 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** ElementType AD_Reference_ID=116 */
-public static final int ELEMENTTYPE_AD_Reference_ID=116;/** Account = A */
-public static final String ELEMENTTYPE_Account = "A";/** User defined = U */
-public static final String ELEMENTTYPE_UserDefined = "U";
+	/** ElementType AD_Reference_ID=116 */
+	public static final int ELEMENTTYPE_AD_Reference_ID=116;
+	/** Account = A */
+	public static final String ELEMENTTYPE_Account = "A";
+	/** User defined = U */
+	public static final String ELEMENTTYPE_UserDefined = "U";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)
 	  */
 	public void setElementType (String ElementType)
 	{
-if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");if (ElementType.equals("A") || ElementType.equals("U")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=116 - A - U");		if (ElementType.length() > 1)
+		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
+		if (ElementType.equals("A") || ElementType.equals("U")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=116 - A - U");
+		if (ElementType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ElementType = ElementType.substring(0, 0);
+			ElementType = ElementType.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_ElementType, ElementType);
 	}
@@ -241,10 +247,11 @@ if (ElementType == null) throw new IllegalArgumentException ("ElementType is man
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -271,10 +278,11 @@ if (ElementType == null) throw new IllegalArgumentException ("ElementType is man
 	  */
 	public void setVFormat (String VFormat)
 	{
+
 		if (VFormat != null && VFormat.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			VFormat = VFormat.substring(0, 39);
+			VFormat = VFormat.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_VFormat, VFormat);
 	}

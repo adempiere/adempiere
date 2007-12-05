@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for R_Request
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:54.765
-     */
-    public interface I_R_Request 
+/** Generated Interface for R_Request
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_R_Request 
 {
 
     /** TableName=R_Request */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -71,7 +70,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getI_AD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws Exception;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -86,7 +85,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getI_AD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws Exception;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -101,7 +100,7 @@ import org.compiere.util.*;
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getI_AD_User() throws Exception;
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -116,6 +115,8 @@ import org.compiere.util.*;
 	  */
 	public int getA_Asset_ID();
 
+	public I_A_Asset getA_Asset() throws Exception;
+
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -129,7 +130,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getI_C_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -144,6 +145,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
@@ -157,7 +160,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getI_C_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws Exception;
 
     /** Column name C_InvoiceRequest_ID */
     public static final String COLUMNNAME_C_InvoiceRequest_ID = "C_InvoiceRequest_ID";
@@ -185,6 +188,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Invoice_ID();
 
+	public I_C_Invoice getC_Invoice() throws Exception;
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -197,6 +202,8 @@ import org.compiere.util.*;
 	  * Order
 	  */
 	public int getC_Order_ID();
+
+	public I_C_Order getC_Order() throws Exception;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -211,6 +218,8 @@ import org.compiere.util.*;
 	  */
 	public int getC_Payment_ID();
 
+	public I_C_Payment getC_Payment() throws Exception;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -224,7 +233,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getI_C_Project() throws Exception;
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name CloseDate */
     public static final String COLUMNNAME_CloseDate = "CloseDate";
@@ -434,6 +443,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_ChangeRequest_ID();
 
+	public I_M_ChangeRequest getM_ChangeRequest() throws Exception;
+
     /** Column name M_FixChangeNotice_ID */
     public static final String COLUMNNAME_M_FixChangeNotice_ID = "M_FixChangeNotice_ID";
 
@@ -459,6 +470,8 @@ import org.compiere.util.*;
 	  * Material Shipment Document
 	  */
 	public int getM_InOut_ID();
+
+	public I_M_InOut getM_InOut() throws Exception;
 
     /** Column name M_ProductSpent_ID */
     public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
@@ -486,6 +499,8 @@ import org.compiere.util.*;
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws Exception;
+
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
@@ -498,6 +513,8 @@ import org.compiere.util.*;
 	  * Return Material Authorization
 	  */
 	public int getM_RMA_ID();
+
+	public I_M_RMA getM_RMA() throws Exception;
 
     /** Column name NextAction */
     public static final String COLUMNNAME_NextAction = "NextAction";
@@ -603,7 +620,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Category_ID();
 
-	public I_R_Category getI_R_Category() throws Exception;
+	public I_R_Category getR_Category() throws Exception;
 
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
@@ -618,7 +635,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Group_ID();
 
-	public I_R_Group getI_R_Group() throws Exception;
+	public I_R_Group getR_Group() throws Exception;
 
     /** Column name R_MailText_ID */
     public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
@@ -633,7 +650,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getI_R_MailText() throws Exception;
+	public I_R_MailText getR_MailText() throws Exception;
 
     /** Column name R_RequestRelated_ID */
     public static final String COLUMNNAME_R_RequestRelated_ID = "R_RequestRelated_ID";
@@ -661,7 +678,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getI_R_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws Exception;
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -689,7 +706,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Resolution_ID();
 
-	public I_R_Resolution getI_R_Resolution() throws Exception;
+	public I_R_Resolution getR_Resolution() throws Exception;
 
     /** Column name R_StandardResponse_ID */
     public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
@@ -704,7 +721,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_StandardResponse_ID();
 
-	public I_R_StandardResponse getI_R_StandardResponse() throws Exception;
+	public I_R_StandardResponse getR_StandardResponse() throws Exception;
 
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
@@ -719,7 +736,7 @@ import org.compiere.util.*;
 	  */
 	public int getR_Status_ID();
 
-	public I_R_Status getI_R_Status() throws Exception;
+	public I_R_Status getR_Status() throws Exception;
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";

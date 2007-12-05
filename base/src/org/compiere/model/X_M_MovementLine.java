@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
     public X_M_MovementLine (Properties ctx, int M_MovementLine_ID, String trxName)
     {
       super (ctx, M_MovementLine_ID, trxName);
-      /** if (M_MovementLine_ID == 0)        {			setLine (0);
+      /** if (M_MovementLine_ID == 0)
+        {
+			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_MovementLine WHERE M_Movement_ID=@M_Movement_ID@
 			setM_AttributeSetInstance_ID (0);
 			setM_LocatorTo_ID (0);
@@ -54,7 +57,7 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
 // 0
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -111,10 +114,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -161,9 +165,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
 	{
-		if (M_AttributeSetInstanceTo_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));
+		if (M_AttributeSetInstanceTo_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));
 	}
 
 	/** Get Attribute Set Instance To.
@@ -199,8 +204,8 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-/** M_LocatorTo_ID AD_Reference_ID=191 */
-public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
+	/** M_LocatorTo_ID AD_Reference_ID=191 */
+	public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
 	/** Set Locator To.
 		@param M_LocatorTo_ID 
 		Location inventory is moved to
@@ -267,7 +272,7 @@ public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
 		return ii.intValue();
 	}
 
-	public I_M_Movement getI_M_Movement() throws Exception 
+	public I_M_Movement getM_Movement() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Movement.Table_Name);
         I_M_Movement result = null;
@@ -305,8 +310,8 @@ public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
 		return ii.intValue();
 	}
 
-/** M_Product_ID AD_Reference_ID=171 */
-public static final int M_PRODUCT_ID_AD_Reference_ID=171;
+	/** M_Product_ID AD_Reference_ID=171 */
+	public static final int M_PRODUCT_ID_AD_Reference_ID=171;
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item

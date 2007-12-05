@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Remuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
     public X_C_Remuneration (Properties ctx, int C_Remuneration_ID, String trxName)
     {
       super (ctx, C_Remuneration_ID, trxName);
-      /** if (C_Remuneration_ID == 0)        {			setC_Remuneration_ID (0);
+      /** if (C_Remuneration_ID == 0)
+        {
+			setC_Remuneration_ID (0);
 			setGrossRAmt (Env.ZERO);
 			setGrossRCost (Env.ZERO);
 			setName (null);
@@ -47,7 +48,7 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 			setOvertimeCost (Env.ZERO);
 			setRemunerationType (null);
 			setStandardHours (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -106,10 +107,11 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -172,10 +174,11 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -196,10 +199,11 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -264,24 +268,32 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 		return bd;
 	}
 
-/** RemunerationType AD_Reference_ID=346 */
-public static final int REMUNERATIONTYPE_AD_Reference_ID=346;/** Bi-Weekly = B */
-public static final String REMUNERATIONTYPE_Bi_Weekly = "B";/** Daily = D */
-public static final String REMUNERATIONTYPE_Daily = "D";/** Hourly = H */
-public static final String REMUNERATIONTYPE_Hourly = "H";/** Monthly = M */
-public static final String REMUNERATIONTYPE_Monthly = "M";/** Twice Monthly = T */
-public static final String REMUNERATIONTYPE_TwiceMonthly = "T";/** Weekly = W */
-public static final String REMUNERATIONTYPE_Weekly = "W";
+	/** RemunerationType AD_Reference_ID=346 */
+	public static final int REMUNERATIONTYPE_AD_Reference_ID=346;
+	/** Hourly = H */
+	public static final String REMUNERATIONTYPE_Hourly = "H";
+	/** Daily = D */
+	public static final String REMUNERATIONTYPE_Daily = "D";
+	/** Weekly = W */
+	public static final String REMUNERATIONTYPE_Weekly = "W";
+	/** Monthly = M */
+	public static final String REMUNERATIONTYPE_Monthly = "M";
+	/** Twice Monthly = T */
+	public static final String REMUNERATIONTYPE_TwiceMonthly = "T";
+	/** Bi-Weekly = B */
+	public static final String REMUNERATIONTYPE_Bi_Weekly = "B";
 	/** Set Remuneration Type.
 		@param RemunerationType 
 		Type of Remuneration
 	  */
 	public void setRemunerationType (String RemunerationType)
 	{
-if (RemunerationType == null) throw new IllegalArgumentException ("RemunerationType is mandatory");if (RemunerationType.equals("B") || RemunerationType.equals("D") || RemunerationType.equals("H") || RemunerationType.equals("M") || RemunerationType.equals("T") || RemunerationType.equals("W")); else throw new IllegalArgumentException ("RemunerationType Invalid value - " + RemunerationType + " - Reference_ID=346 - B - D - H - M - T - W");		if (RemunerationType.length() > 1)
+		if (RemunerationType == null) throw new IllegalArgumentException ("RemunerationType is mandatory");
+		if (RemunerationType.equals("H") || RemunerationType.equals("D") || RemunerationType.equals("W") || RemunerationType.equals("M") || RemunerationType.equals("T") || RemunerationType.equals("B")); else throw new IllegalArgumentException ("RemunerationType Invalid value - " + RemunerationType + " - Reference_ID=346 - H - D - W - M - T - B");
+		if (RemunerationType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			RemunerationType = RemunerationType.substring(0, 0);
+			RemunerationType = RemunerationType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_RemunerationType, RemunerationType);
 	}

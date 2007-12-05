@@ -17,16 +17,18 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persistent 
 {
 
@@ -39,13 +41,15 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
     public X_C_CommissionRun (Properties ctx, int C_CommissionRun_ID, String trxName)
     {
       super (ctx, C_CommissionRun_ID, trxName);
-      /** if (C_CommissionRun_ID == 0)        {			setC_CommissionRun_ID (0);
+      /** if (C_CommissionRun_ID == 0)
+        {
+			setC_CommissionRun_ID (0);
 			setC_Commission_ID (0);
 			setDocumentNo (null);
 			setGrandTotal (Env.ZERO);
 			setProcessed (false);
 			setStartDate (new Timestamp(System.currentTimeMillis()));
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -98,7 +102,7 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Commission getI_C_Commission() throws Exception 
+	public I_C_Commission getC_Commission() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Commission.Table_Name);
         I_C_Commission result = null;
@@ -142,10 +146,11 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -166,10 +171,11 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+
 		if (DocumentNo.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 29);
+			DocumentNo = DocumentNo.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -244,7 +250,7 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

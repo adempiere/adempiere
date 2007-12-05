@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Client extends PO implements I_AD_Client, I_Persistent 
 {
 
@@ -39,7 +36,9 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
     public X_AD_Client (Properties ctx, int AD_Client_ID, String trxName)
     {
       super (ctx, AD_Client_ID, trxName);
-      /** if (AD_Client_ID == 0)        {			setAutoArchive (null);
+      /** if (AD_Client_ID == 0)
+        {
+			setAutoArchive (null);
 // N
 			setIsCostImmediate (false);
 // N
@@ -57,7 +56,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 			setStoreArchiveOnFileSystem (false);
 			setStoreAttachmentsOnFileSystem (false);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -88,18 +87,19 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
       return sb.toString();
     }
 
-/** AD_Language AD_Reference_ID=327 */
-public static final int AD_LANGUAGE_AD_Reference_ID=327;
+	/** AD_Language AD_Reference_ID=327 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=327;
 	/** Set Language.
 		@param AD_Language 
 		Language for this entity
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		if (AD_Language != null && AD_Language.length() > 6)
 		{
 			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 5);
+			AD_Language = AD_Language.substring(0, 6);
 		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
@@ -112,22 +112,28 @@ public static final int AD_LANGUAGE_AD_Reference_ID=327;
 		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
-/** AutoArchive AD_Reference_ID=334 */
-public static final int AUTOARCHIVE_AD_Reference_ID=334;/** All (Reports, Documents) = 1 */
-public static final String AUTOARCHIVE_AllReportsDocuments = "1";/** Documents = 2 */
-public static final String AUTOARCHIVE_Documents = "2";/** External Documents = 3 */
-public static final String AUTOARCHIVE_ExternalDocuments = "3";/** None = N */
-public static final String AUTOARCHIVE_None = "N";
+	/** AutoArchive AD_Reference_ID=334 */
+	public static final int AUTOARCHIVE_AD_Reference_ID=334;
+	/** None = N */
+	public static final String AUTOARCHIVE_None = "N";
+	/** All (Reports, Documents) = 1 */
+	public static final String AUTOARCHIVE_AllReportsDocuments = "1";
+	/** Documents = 2 */
+	public static final String AUTOARCHIVE_Documents = "2";
+	/** External Documents = 3 */
+	public static final String AUTOARCHIVE_ExternalDocuments = "3";
 	/** Set Auto Archive.
 		@param AutoArchive 
 		Enable and level of automatic Archive of documents
 	  */
 	public void setAutoArchive (String AutoArchive)
 	{
-if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is mandatory");if (AutoArchive.equals("1") || AutoArchive.equals("2") || AutoArchive.equals("3") || AutoArchive.equals("N")); else throw new IllegalArgumentException ("AutoArchive Invalid value - " + AutoArchive + " - Reference_ID=334 - 1 - 2 - 3 - N");		if (AutoArchive.length() > 1)
+		if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is mandatory");
+		if (AutoArchive.equals("N") || AutoArchive.equals("1") || AutoArchive.equals("2") || AutoArchive.equals("3")); else throw new IllegalArgumentException ("AutoArchive Invalid value - " + AutoArchive + " - Reference_ID=334 - N - 1 - 2 - 3");
+		if (AutoArchive.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AutoArchive = AutoArchive.substring(0, 0);
+			AutoArchive = AutoArchive.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AutoArchive, AutoArchive);
 	}
@@ -146,10 +152,11 @@ if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is man
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -168,10 +175,11 @@ if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is man
 	  */
 	public void setDocumentDir (String DocumentDir)
 	{
+
 		if (DocumentDir != null && DocumentDir.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			DocumentDir = DocumentDir.substring(0, 59);
+			DocumentDir = DocumentDir.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_DocumentDir, DocumentDir);
 	}
@@ -190,10 +198,11 @@ if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is man
 	  */
 	public void setEMailTest (String EMailTest)
 	{
+
 		if (EMailTest != null && EMailTest.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			EMailTest = EMailTest.substring(0, 0);
+			EMailTest = EMailTest.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_EMailTest, EMailTest);
 	}
@@ -350,20 +359,24 @@ if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is man
 		return false;
 	}
 
-/** MMPolicy AD_Reference_ID=335 */
-public static final int MMPOLICY_AD_Reference_ID=335;/** FiFo = F */
-public static final String MMPOLICY_FiFo = "F";/** LiFo = L */
-public static final String MMPOLICY_LiFo = "L";
+	/** MMPolicy AD_Reference_ID=335 */
+	public static final int MMPOLICY_AD_Reference_ID=335;
+	/** LiFo = L */
+	public static final String MMPOLICY_LiFo = "L";
+	/** FiFo = F */
+	public static final String MMPOLICY_FiFo = "F";
 	/** Set Material Policy.
 		@param MMPolicy 
 		Material Movement Policy
 	  */
 	public void setMMPolicy (String MMPolicy)
 	{
-if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");if (MMPolicy.equals("F") || MMPolicy.equals("L")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - F - L");		if (MMPolicy.length() > 1)
+		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
+		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");
+		if (MMPolicy.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			MMPolicy = MMPolicy.substring(0, 0);
+			MMPolicy = MMPolicy.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
@@ -382,10 +395,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setModelValidationClasses (String ModelValidationClasses)
 	{
-		if (ModelValidationClasses != null && ModelValidationClasses.length() > 2000)
+
+		if (ModelValidationClasses != null && ModelValidationClasses.length() > 255)
 		{
-			log.warning("Length > 2000 - truncated");
-			ModelValidationClasses = ModelValidationClasses.substring(0, 2000);
+			log.warning("Length > 255 - truncated");
+			ModelValidationClasses = ModelValidationClasses.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_ModelValidationClasses, ModelValidationClasses);
 	}
@@ -406,10 +420,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -436,10 +451,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setRequestEMail (String RequestEMail)
 	{
+
 		if (RequestEMail != null && RequestEMail.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			RequestEMail = RequestEMail.substring(0, 59);
+			RequestEMail = RequestEMail.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_RequestEMail, RequestEMail);
 	}
@@ -458,10 +474,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setRequestFolder (String RequestFolder)
 	{
+
 		if (RequestFolder != null && RequestFolder.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			RequestFolder = RequestFolder.substring(0, 19);
+			RequestFolder = RequestFolder.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_RequestFolder, RequestFolder);
 	}
@@ -480,10 +497,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setRequestUser (String RequestUser)
 	{
+
 		if (RequestUser != null && RequestUser.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			RequestUser = RequestUser.substring(0, 59);
+			RequestUser = RequestUser.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_RequestUser, RequestUser);
 	}
@@ -502,10 +520,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setRequestUserPW (String RequestUserPW)
 	{
+
 		if (RequestUserPW != null && RequestUserPW.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			RequestUserPW = RequestUserPW.substring(0, 19);
+			RequestUserPW = RequestUserPW.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_RequestUserPW, RequestUserPW);
 	}
@@ -524,10 +543,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	  */
 	public void setSMTPHost (String SMTPHost)
 	{
+
 		if (SMTPHost != null && SMTPHost.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			SMTPHost = SMTPHost.substring(0, 59);
+			SMTPHost = SMTPHost.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_SMTPHost, SMTPHost);
 	}
@@ -548,7 +568,7 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	}
 
 	/** Get Store Archive On File System.
-@return Store Archive On File System	  */
+		@return Store Archive On File System	  */
 	public boolean isStoreArchiveOnFileSystem () 
 	{
 		Object oo = get_Value(COLUMNNAME_StoreArchiveOnFileSystem);
@@ -569,7 +589,7 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	}
 
 	/** Get Store Attachments On File System.
-@return Store Attachments On File System	  */
+		@return Store Attachments On File System	  */
 	public boolean isStoreAttachmentsOnFileSystem () 
 	{
 		Object oo = get_Value(COLUMNNAME_StoreAttachmentsOnFileSystem);
@@ -586,16 +606,17 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 		@param UnixArchivePath Unix Archive Path	  */
 	public void setUnixArchivePath (String UnixArchivePath)
 	{
+
 		if (UnixArchivePath != null && UnixArchivePath.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			UnixArchivePath = UnixArchivePath.substring(0, 254);
+			UnixArchivePath = UnixArchivePath.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_UnixArchivePath, UnixArchivePath);
 	}
 
 	/** Get Unix Archive Path.
-@return Unix Archive Path	  */
+		@return Unix Archive Path	  */
 	public String getUnixArchivePath () 
 	{
 		return (String)get_Value(COLUMNNAME_UnixArchivePath);
@@ -605,16 +626,17 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 		@param UnixAttachmentPath Unix Attachment Path	  */
 	public void setUnixAttachmentPath (String UnixAttachmentPath)
 	{
+
 		if (UnixAttachmentPath != null && UnixAttachmentPath.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			UnixAttachmentPath = UnixAttachmentPath.substring(0, 254);
+			UnixAttachmentPath = UnixAttachmentPath.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_UnixAttachmentPath, UnixAttachmentPath);
 	}
 
 	/** Get Unix Attachment Path.
-@return Unix Attachment Path	  */
+		@return Unix Attachment Path	  */
 	public String getUnixAttachmentPath () 
 	{
 		return (String)get_Value(COLUMNNAME_UnixAttachmentPath);
@@ -628,10 +650,11 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -648,16 +671,17 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 		@param WindowsArchivePath Windows Archive Path	  */
 	public void setWindowsArchivePath (String WindowsArchivePath)
 	{
+
 		if (WindowsArchivePath != null && WindowsArchivePath.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			WindowsArchivePath = WindowsArchivePath.substring(0, 254);
+			WindowsArchivePath = WindowsArchivePath.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_WindowsArchivePath, WindowsArchivePath);
 	}
 
 	/** Get Windows Archive Path.
-@return Windows Archive Path	  */
+		@return Windows Archive Path	  */
 	public String getWindowsArchivePath () 
 	{
 		return (String)get_Value(COLUMNNAME_WindowsArchivePath);
@@ -667,16 +691,17 @@ if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory
 		@param WindowsAttachmentPath Windows Attachment Path	  */
 	public void setWindowsAttachmentPath (String WindowsAttachmentPath)
 	{
+
 		if (WindowsAttachmentPath != null && WindowsAttachmentPath.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			WindowsAttachmentPath = WindowsAttachmentPath.substring(0, 254);
+			WindowsAttachmentPath = WindowsAttachmentPath.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_WindowsAttachmentPath, WindowsAttachmentPath);
 	}
 
 	/** Get Windows Attachment Path.
-@return Windows Attachment Path	  */
+		@return Windows Attachment Path	  */
 	public String getWindowsAttachmentPath () 
 	{
 		return (String)get_Value(COLUMNNAME_WindowsAttachmentPath);

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
     {
       super (ctx, PA_Report_ID, trxName);
-      /** if (PA_Report_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (PA_Report_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_Calendar_ID (0);
 			setListSources (false);
 			setListTrx (false);
@@ -48,7 +49,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			setPA_ReportLineSet_ID (0);
 			setPA_Report_ID (0);
 			setProcessing (false);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +80,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -101,9 +102,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+		if (AD_PrintFormat_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
 	}
 
 	/** Get Print Format.
@@ -117,7 +119,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -155,7 +157,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getI_C_Calendar() throws Exception 
+	public I_C_Calendar getC_Calendar() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
         I_C_Calendar result = null;
@@ -199,10 +201,11 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -271,10 +274,11 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -295,7 +299,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_ReportColumnSet getI_PA_ReportColumnSet() throws Exception 
+	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportColumnSet.Table_Name);
         I_PA_ReportColumnSet result = null;
@@ -333,7 +337,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_ReportLineSet getI_PA_ReportLineSet() throws Exception 
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
         I_PA_ReportLineSet result = null;
@@ -359,7 +363,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	}
 
 	/** Get Report Line Set.
-@return Report Line Set	  */
+		@return Report Line Set	  */
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
@@ -398,7 +402,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);

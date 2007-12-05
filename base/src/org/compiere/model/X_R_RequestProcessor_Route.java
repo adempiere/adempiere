@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestProcessor_Route
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcessor_Route, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
     public X_R_RequestProcessor_Route (Properties ctx, int R_RequestProcessor_Route_ID, String trxName)
     {
       super (ctx, R_RequestProcessor_Route_ID, trxName);
-      /** if (R_RequestProcessor_Route_ID == 0)        {			setAD_User_ID (0);
+      /** if (R_RequestProcessor_Route_ID == 0)
+        {
+			setAD_User_ID (0);
 			setR_RequestProcessor_ID (0);
 			setR_RequestProcessor_Route_ID (0);
 			setSeqNo (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
       return sb.toString();
     }
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -118,10 +119,11 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	  */
 	public void setKeyword (String Keyword)
 	{
+
 		if (Keyword != null && Keyword.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Keyword = Keyword.substring(0, 59);
+			Keyword = Keyword.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Keyword, Keyword);
 	}
@@ -134,7 +136,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 		return (String)get_Value(COLUMNNAME_Keyword);
 	}
 
-	public I_R_RequestProcessor getI_R_RequestProcessor() throws Exception 
+	public I_R_RequestProcessor getR_RequestProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestProcessor.Table_Name);
         I_R_RequestProcessor result = null;
@@ -194,7 +196,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getI_R_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -216,9 +218,10 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 		set_Value (COLUMNNAME_R_RequestType_ID, null);
- else 
-		set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+		if (R_RequestType_ID <= 0) 
+			set_Value (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
 	}
 
 	/** Get Request Type.

@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AttachmentNote
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Persistent 
 {
 
@@ -39,12 +38,14 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
     public X_AD_AttachmentNote (Properties ctx, int AD_AttachmentNote_ID, String trxName)
     {
       super (ctx, AD_AttachmentNote_ID, trxName);
-      /** if (AD_AttachmentNote_ID == 0)        {			setAD_AttachmentNote_ID (0);
+      /** if (AD_AttachmentNote_ID == 0)
+        {
+			setAD_AttachmentNote_ID (0);
 			setAD_Attachment_ID (0);
 			setAD_User_ID (0);
 			setTextMsg (null);
 			setTitle (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -97,7 +98,7 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_Attachment getI_AD_Attachment() throws Exception 
+	public I_AD_Attachment getAD_Attachment() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Attachment.Table_Name);
         I_AD_Attachment result = null;
@@ -135,6 +136,22 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -165,10 +182,11 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	{
 		if (TextMsg == null)
 			throw new IllegalArgumentException ("TextMsg is mandatory.");
+
 		if (TextMsg.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 1999);
+			TextMsg = TextMsg.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
@@ -189,10 +207,11 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	{
 		if (Title == null)
 			throw new IllegalArgumentException ("Title is mandatory.");
+
 		if (Title.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Title = Title.substring(0, 59);
+			Title = Title.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Title, Title);
 	}

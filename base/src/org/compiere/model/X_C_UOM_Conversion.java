@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_UOM_Conversion
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Persistent 
 {
 
@@ -39,12 +40,14 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
     public X_C_UOM_Conversion (Properties ctx, int C_UOM_Conversion_ID, String trxName)
     {
       super (ctx, C_UOM_Conversion_ID, trxName);
-      /** if (C_UOM_Conversion_ID == 0)        {			setC_UOM_Conversion_ID (0);
+      /** if (C_UOM_Conversion_ID == 0)
+        {
+			setC_UOM_Conversion_ID (0);
 			setC_UOM_ID (0);
 			setC_UOM_To_ID (0);
 			setDivideRate (Env.ZERO);
 			setMultiplyRate (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -105,9 +108,9 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_UOM_Conversion_ID()));
     }
 
-/** C_UOM_ID AD_Reference_ID=114 */
-public static final int C_UOM_ID_AD_Reference_ID=114;
-	public I_C_UOM getI_C_UOM() throws Exception 
+	/** C_UOM_ID AD_Reference_ID=114 */
+	public static final int C_UOM_ID_AD_Reference_ID=114;
+	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -145,8 +148,8 @@ public static final int C_UOM_ID_AD_Reference_ID=114;
 		return ii.intValue();
 	}
 
-/** C_UOM_To_ID AD_Reference_ID=114 */
-public static final int C_UOM_TO_ID_AD_Reference_ID=114;
+	/** C_UOM_To_ID AD_Reference_ID=114 */
+	public static final int C_UOM_TO_ID_AD_Reference_ID=114;
 	/** Set UoM To.
 		@param C_UOM_To_ID 
 		Target or destination Unit of Measure
@@ -191,15 +194,32 @@ public static final int C_UOM_TO_ID_AD_Reference_ID=114;
 		return bd;
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_Value (COLUMNNAME_M_Product_ID, null);
- else 
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

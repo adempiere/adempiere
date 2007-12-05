@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
@@ -250,7 +250,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Classification != null && Classification.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Classification = Classification.substring(0, 0);
+			Classification = Classification.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_Classification, Classification);
 	}
@@ -273,7 +273,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -296,7 +296,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (DescriptionURL != null && DescriptionURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 119);
+			DescriptionURL = DescriptionURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
@@ -360,7 +360,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (DocumentNote != null && DocumentNote.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 1999);
+			DocumentNote = DocumentNote.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
@@ -381,7 +381,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Group1 != null && Group1.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Group1 = Group1.substring(0, 254);
+			Group1 = Group1.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Group1, Group1);
 	}
@@ -401,7 +401,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Group2 != null && Group2.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Group2 = Group2.substring(0, 254);
+			Group2 = Group2.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Group2, Group2);
 	}
@@ -463,7 +463,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -486,7 +486,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (ImageURL != null && ImageURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 119);
+			ImageURL = ImageURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -984,7 +984,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -1049,7 +1049,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (ProductType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ProductType = ProductType.substring(0, 0);
+			ProductType = ProductType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ProductType, ProductType);
 	}
@@ -1111,7 +1111,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (SKU != null && SKU.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 29);
+			SKU = SKU.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_SKU, SKU);
 	}
@@ -1297,7 +1297,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (UPC != null && UPC.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 29);
+			UPC = UPC.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
@@ -1342,7 +1342,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -1365,7 +1365,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (VersionNo != null && VersionNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 19);
+			VersionNo = VersionNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_VersionNo, VersionNo);
 	}

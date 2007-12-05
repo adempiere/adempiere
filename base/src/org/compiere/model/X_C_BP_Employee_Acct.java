@@ -17,16 +17,14 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for C_BP_Employee_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_BP_Employee_Acct extends PO implements I_C_BP_Employee_Acct, I_Persistent 
 {
 
@@ -39,11 +37,13 @@ public class X_C_BP_Employee_Acct extends PO implements I_C_BP_Employee_Acct, I_
     public X_C_BP_Employee_Acct (Properties ctx, int C_BP_Employee_Acct_ID, String trxName)
     {
       super (ctx, C_BP_Employee_Acct_ID, trxName);
-      /** if (C_BP_Employee_Acct_ID == 0)        {			setC_AcctSchema_ID (0);
+      /** if (C_BP_Employee_Acct_ID == 0)
+        {
+			setC_AcctSchema_ID (0);
 			setC_BPartner_ID (0);
 			setE_Expense_Acct (0);
 			setE_Prepayment_Acct (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +74,7 @@ public class X_C_BP_Employee_Acct extends PO implements I_C_BP_Employee_Acct, I_
       return sb.toString();
     }
 
-	public I_C_AcctSchema getI_C_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -112,7 +112,7 @@ public class X_C_BP_Employee_Acct extends PO implements I_C_BP_Employee_Acct, I_
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getI_C_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;

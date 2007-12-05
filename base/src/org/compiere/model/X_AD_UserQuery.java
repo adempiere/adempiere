@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserQuery
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent 
 {
 
@@ -39,10 +38,13 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
     public X_AD_UserQuery (Properties ctx, int AD_UserQuery_ID, String trxName)
     {
       super (ctx, AD_UserQuery_ID, trxName);
-      /** if (AD_UserQuery_ID == 0)        {			setAD_Table_ID (0);
+      /** if (AD_UserQuery_ID == 0)
+        {
+			setAD_Tab_ID (0);
+			setAD_Table_ID (0);
 			setAD_UserQuery_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -73,7 +75,45 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Tab getAD_Tab() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
+        I_AD_Tab result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Tab_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Tab.
+		@param AD_Tab_ID 
+		Tab within a Window
+	  */
+	public void setAD_Tab_ID (int AD_Tab_ID)
+	{
+		if (AD_Tab_ID < 1)
+			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
+		set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+	}
+
+	/** Get Tab.
+		@return Tab within a Window
+	  */
+	public int getAD_Tab_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tab_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -88,24 +128,6 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
         }
         return result;
     }
-	
-	/** Set Tab.
-	@param AD_Tab_ID Tab within a Window */
-	public void setAD_Tab_ID (int AD_Tab_ID)
-	{
-		if (AD_Tab_ID <= 0) set_Value ("AD_Tab_ID", null);
-		else 
-			set_Value ("AD_Tab_ID", new Integer(AD_Tab_ID));
-	}
-	
-	/** Get Tab.
-	@return Tab within a Window */
-	public int getAD_Tab_ID() 
-	{
-		Integer ii = (Integer)get_Value("AD_Tab_ID");
-		if (ii == null) return 0;
-		return ii.intValue();
-	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -151,15 +173,32 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_Value (COLUMNNAME_AD_User_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -196,10 +235,11 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -220,10 +260,11 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

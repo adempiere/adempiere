@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_TemplateTable
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Persistent 
 {
 
@@ -39,11 +38,13 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
     public X_CM_TemplateTable (Properties ctx, int CM_TemplateTable_ID, String trxName)
     {
       super (ctx, CM_TemplateTable_ID, trxName);
-      /** if (CM_TemplateTable_ID == 0)        {			setAD_Table_ID (0);
+      /** if (CM_TemplateTable_ID == 0)
+        {
+			setAD_Table_ID (0);
 			setCM_TemplateTable_ID (0);
 			setCM_Template_ID (0);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -74,7 +75,7 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Table getI_AD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -134,7 +135,7 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 		return ii.intValue();
 	}
 
-	public I_CM_Template getI_CM_Template() throws Exception 
+	public I_CM_Template getCM_Template() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Template.Table_Name);
         I_CM_Template result = null;
@@ -178,10 +179,11 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -202,10 +204,11 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -232,10 +235,11 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setOtherClause (String OtherClause)
 	{
+
 		if (OtherClause != null && OtherClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 1999);
+			OtherClause = OtherClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
@@ -254,10 +258,11 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setWhereClause (String WhereClause)
 	{
+
 		if (WhereClause != null && WhereClause.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 1999);
+			WhereClause = WhereClause.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}

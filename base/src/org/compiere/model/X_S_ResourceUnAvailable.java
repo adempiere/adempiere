@@ -17,16 +17,16 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceUnAvailable
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailable, I_Persistent 
 {
 
@@ -39,10 +39,12 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
     public X_S_ResourceUnAvailable (Properties ctx, int S_ResourceUnAvailable_ID, String trxName)
     {
       super (ctx, S_ResourceUnAvailable_ID, trxName);
-      /** if (S_ResourceUnAvailable_ID == 0)        {			setDateFrom (new Timestamp(System.currentTimeMillis()));
+      /** if (S_ResourceUnAvailable_ID == 0)
+        {
+			setDateFrom (new Timestamp(System.currentTimeMillis()));
 			setS_ResourceUnAvailable_ID (0);
 			setS_Resource_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -115,10 +117,11 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -141,7 +144,7 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 	}
 
 	/** Get Resource Unavailability.
-@return Resource Unavailability	  */
+		@return Resource Unavailability	  */
 	public int getS_ResourceUnAvailable_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceUnAvailable_ID);
@@ -150,7 +153,7 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 		return ii.intValue();
 	}
 
-	public I_S_Resource getI_S_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;

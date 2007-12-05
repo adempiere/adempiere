@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfirm, I_Persistent 
 {
 
@@ -39,7 +40,9 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
     public X_M_MovementLineConfirm (Properties ctx, int M_MovementLineConfirm_ID, String trxName)
     {
       super (ctx, M_MovementLineConfirm_ID, trxName);
-      /** if (M_MovementLineConfirm_ID == 0)        {			setConfirmedQty (Env.ZERO);
+      /** if (M_MovementLineConfirm_ID == 0)
+        {
+			setConfirmedQty (Env.ZERO);
 			setDifferenceQty (Env.ZERO);
 			setM_MovementConfirm_ID (0);
 			setM_MovementLineConfirm_ID (0);
@@ -47,7 +50,7 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 			setProcessed (false);
 			setScrappedQty (Env.ZERO);
 			setTargetQty (Env.ZERO);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -106,10 +109,11 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -144,15 +148,32 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 		return bd;
 	}
 
+	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
+        I_M_InventoryLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
 		Unique line in an Inventory document
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 		set_Value (COLUMNNAME_M_InventoryLine_ID, null);
- else 
-		set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+		if (M_InventoryLine_ID <= 0) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
 	}
 
 	/** Get Phys.Inventory Line.
@@ -166,7 +187,7 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 		return ii.intValue();
 	}
 
-	public I_M_MovementConfirm getI_M_MovementConfirm() throws Exception 
+	public I_M_MovementConfirm getM_MovementConfirm() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_MovementConfirm.Table_Name);
         I_M_MovementConfirm result = null;
@@ -233,6 +254,22 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_MovementLine getM_MovementLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_MovementLine.Table_Name);
+        I_M_MovementLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_MovementLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_MovementLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Move Line.
 		@param M_MovementLine_ID 

@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_POS
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:42.406
-     */
-    public interface I_C_POS 
+/** Generated Interface for C_POS
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_POS 
 {
 
     /** TableName=C_POS */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 2 - Client 
      */
-    BigDecimal accessLevel = new BigDecimal(2);
+    BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_CashBook_ID();
 
-	public I_C_CashBook getI_C_CashBook() throws Exception;
+	public I_C_CashBook getC_CashBook() throws Exception;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -99,7 +97,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getI_C_DocType() throws Exception;
+	public I_C_DocType getC_DocType() throws Exception;
 
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
@@ -114,7 +112,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_POSKeyLayout_ID();
 
-	public I_C_POSKeyLayout getI_C_POSKeyLayout() throws Exception;
+	public I_C_POSKeyLayout getC_POSKeyLayout() throws Exception;
 
     /** Column name C_POS_ID */
     public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
@@ -128,6 +126,15 @@ import org.compiere.util.*;
 	  * Point of Sales Terminal
 	  */
 	public int getC_POS_ID();
+
+    /** Column name CashDrawer */
+    public static final String COLUMNNAME_CashDrawer = "CashDrawer";
+
+	/** Set CashDrawer	  */
+	public void setCashDrawer (String CashDrawer);
+
+	/** Get CashDrawer	  */
+	public String getCashDrawer();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -181,7 +188,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getI_M_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws Exception;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -196,7 +203,7 @@ import org.compiere.util.*;
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getI_M_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws Exception;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

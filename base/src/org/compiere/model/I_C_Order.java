@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Order
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_C_Order 
 {
@@ -170,6 +170,8 @@ public interface I_C_Order
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 
@@ -212,6 +214,8 @@ public interface I_C_Order
 	  * Cash Journal Line
 	  */
 	public int getC_CashLine_ID();
+
+	public I_C_CashLine getC_CashLine() throws Exception;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -300,10 +304,14 @@ public interface I_C_Order
     /** Column name C_POS_ID */
     public static final String COLUMNNAME_C_POS_ID = "C_POS_ID";
 
-	/** Set C_POS_ID	  */
+	/** Set POS Terminal.
+	  * Point of Sales Terminal
+	  */
 	public void setC_POS_ID (int C_POS_ID);
 
-	/** Get C_POS_ID	  */
+	/** Get POS Terminal.
+	  * Point of Sales Terminal
+	  */
 	public int getC_POS_ID();
 
 	public I_C_POS getC_POS() throws Exception;
@@ -335,6 +343,8 @@ public interface I_C_Order
 	  * Payment identifier
 	  */
 	public int getC_Payment_ID();
+
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";

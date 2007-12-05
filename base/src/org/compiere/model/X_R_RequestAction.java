@@ -17,16 +17,17 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /** Generated Model for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persistent 
 {
 
@@ -39,9 +40,11 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
     public X_R_RequestAction (Properties ctx, int R_RequestAction_ID, String trxName)
     {
       super (ctx, R_RequestAction_ID, trxName);
-      /** if (R_RequestAction_ID == 0)        {			setR_RequestAction_ID (0);
+      /** if (R_RequestAction_ID == 0)
+        {
+			setR_RequestAction_ID (0);
 			setR_Request_ID (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -72,7 +75,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Role getI_AD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -94,9 +97,10 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -110,7 +114,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_User getI_AD_User() throws Exception 
+	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -132,9 +136,10 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -148,15 +153,32 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
+	public I_A_Asset getA_Asset() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
+        I_A_Asset result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_A_Asset)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Asset.
 		@param A_Asset_ID 
 		Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -170,7 +192,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Activity getI_C_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -192,9 +214,10 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -208,15 +231,32 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -230,15 +270,32 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Invoice.
 		@param C_Invoice_ID 
 		Invoice Identifier
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -252,15 +309,32 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -274,15 +348,32 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
+        I_C_Payment result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -296,7 +387,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Project getI_C_Project() throws Exception 
+	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -318,9 +409,10 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -334,22 +426,28 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
-/** ConfidentialType AD_Reference_ID=340 */
-public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;/** Public Information = A */
-public static final String CONFIDENTIALTYPE_PublicInformation = "A";/** Partner Confidential = C */
-public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";/** Internal = I */
-public static final String CONFIDENTIALTYPE_Internal = "I";/** Private Information = P */
-public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
+	/** ConfidentialType AD_Reference_ID=340 */
+	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
+	/** Public Information = A */
+	public static final String CONFIDENTIALTYPE_PublicInformation = "A";
+	/** Partner Confidential = C */
+	public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";
+	/** Internal = I */
+	public static final String CONFIDENTIALTYPE_Internal = "I";
+	/** Private Information = P */
+	public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
 	/** Set Confidentiality.
 		@param ConfidentialType 
 		Type of Confidentiality
 	  */
 	public void setConfidentialType (String ConfidentialType)
 	{
-if (ConfidentialType == null || ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		if (ConfidentialType != null && ConfidentialType.length() > 1)
+
+		if (ConfidentialType == null || ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
+		if (ConfidentialType != null && ConfidentialType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ConfidentialType = ConfidentialType.substring(0, 0);
+			ConfidentialType = ConfidentialType.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
@@ -430,20 +528,24 @@ if (ConfidentialType == null || ConfidentialType.equals("A") || ConfidentialType
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-/** IsEscalated AD_Reference_ID=319 */
-public static final int ISESCALATED_AD_Reference_ID=319;/** No = N */
-public static final String ISESCALATED_No = "N";/** Yes = Y */
-public static final String ISESCALATED_Yes = "Y";
+	/** IsEscalated AD_Reference_ID=319 */
+	public static final int ISESCALATED_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISESCALATED_Yes = "Y";
+	/** No = N */
+	public static final String ISESCALATED_No = "N";
 	/** Set Escalated.
 		@param IsEscalated 
 		This request has been escalated
 	  */
 	public void setIsEscalated (String IsEscalated)
 	{
-if (IsEscalated == null || IsEscalated.equals("N") || IsEscalated.equals("Y")); else throw new IllegalArgumentException ("IsEscalated Invalid value - " + IsEscalated + " - Reference_ID=319 - N - Y");		if (IsEscalated != null && IsEscalated.length() > 1)
+
+		if (IsEscalated == null || IsEscalated.equals("Y") || IsEscalated.equals("N")); else throw new IllegalArgumentException ("IsEscalated Invalid value - " + IsEscalated + " - Reference_ID=319 - Y - N");
+		if (IsEscalated != null && IsEscalated.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsEscalated = IsEscalated.substring(0, 0);
+			IsEscalated = IsEscalated.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_IsEscalated, IsEscalated);
 	}
@@ -456,20 +558,24 @@ if (IsEscalated == null || IsEscalated.equals("N") || IsEscalated.equals("Y")); 
 		return (String)get_Value(COLUMNNAME_IsEscalated);
 	}
 
-/** IsInvoiced AD_Reference_ID=319 */
-public static final int ISINVOICED_AD_Reference_ID=319;/** No = N */
-public static final String ISINVOICED_No = "N";/** Yes = Y */
-public static final String ISINVOICED_Yes = "Y";
+	/** IsInvoiced AD_Reference_ID=319 */
+	public static final int ISINVOICED_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISINVOICED_Yes = "Y";
+	/** No = N */
+	public static final String ISINVOICED_No = "N";
 	/** Set Invoiced.
 		@param IsInvoiced 
 		Is this invoiced?
 	  */
 	public void setIsInvoiced (String IsInvoiced)
 	{
-if (IsInvoiced == null || IsInvoiced.equals("N") || IsInvoiced.equals("Y")); else throw new IllegalArgumentException ("IsInvoiced Invalid value - " + IsInvoiced + " - Reference_ID=319 - N - Y");		if (IsInvoiced != null && IsInvoiced.length() > 1)
+
+		if (IsInvoiced == null || IsInvoiced.equals("Y") || IsInvoiced.equals("N")); else throw new IllegalArgumentException ("IsInvoiced Invalid value - " + IsInvoiced + " - Reference_ID=319 - Y - N");
+		if (IsInvoiced != null && IsInvoiced.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsInvoiced = IsInvoiced.substring(0, 0);
+			IsInvoiced = IsInvoiced.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_IsInvoiced, IsInvoiced);
 	}
@@ -482,20 +588,24 @@ if (IsInvoiced == null || IsInvoiced.equals("N") || IsInvoiced.equals("Y")); els
 		return (String)get_Value(COLUMNNAME_IsInvoiced);
 	}
 
-/** IsSelfService AD_Reference_ID=319 */
-public static final int ISSELFSERVICE_AD_Reference_ID=319;/** No = N */
-public static final String ISSELFSERVICE_No = "N";/** Yes = Y */
-public static final String ISSELFSERVICE_Yes = "Y";
+	/** IsSelfService AD_Reference_ID=319 */
+	public static final int ISSELFSERVICE_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISSELFSERVICE_Yes = "Y";
+	/** No = N */
+	public static final String ISSELFSERVICE_No = "N";
 	/** Set Self-Service.
 		@param IsSelfService 
 		This is a Self-Service entry or this entry can be changed via Self-Service
 	  */
 	public void setIsSelfService (String IsSelfService)
 	{
-if (IsSelfService == null || IsSelfService.equals("N") || IsSelfService.equals("Y")); else throw new IllegalArgumentException ("IsSelfService Invalid value - " + IsSelfService + " - Reference_ID=319 - N - Y");		if (IsSelfService != null && IsSelfService.length() > 1)
+
+		if (IsSelfService == null || IsSelfService.equals("Y") || IsSelfService.equals("N")); else throw new IllegalArgumentException ("IsSelfService Invalid value - " + IsSelfService + " - Reference_ID=319 - Y - N");
+		if (IsSelfService != null && IsSelfService.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			IsSelfService = IsSelfService.substring(0, 0);
+			IsSelfService = IsSelfService.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_IsSelfService, IsSelfService);
 	}
@@ -508,15 +618,32 @@ if (IsSelfService == null || IsSelfService.equals("N") || IsSelfService.equals("
 		return (String)get_Value(COLUMNNAME_IsSelfService);
 	}
 
+	public I_M_InOut getM_InOut() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
+        I_M_InOut result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_InOut)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOut_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Shipment/Receipt.
 		@param M_InOut_ID 
 		Material Shipment Document
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_InOut_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+		if (M_InOut_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.
@@ -530,17 +657,18 @@ if (IsSelfService == null || IsSelfService.equals("N") || IsSelfService.equals("
 		return ii.intValue();
 	}
 
-/** M_ProductSpent_ID AD_Reference_ID=162 */
-public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
+	/** M_ProductSpent_ID AD_Reference_ID=162 */
+	public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 	/** Set Product Used.
 		@param M_ProductSpent_ID 
 		Product/Resource/Service used in Request
 	  */
 	public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 	{
-		if (M_ProductSpent_ID <= 0) 		set_Value (COLUMNNAME_M_ProductSpent_ID, null);
- else 
-		set_Value (COLUMNNAME_M_ProductSpent_ID, Integer.valueOf(M_ProductSpent_ID));
+		if (M_ProductSpent_ID <= 0) 
+			set_Value (COLUMNNAME_M_ProductSpent_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductSpent_ID, Integer.valueOf(M_ProductSpent_ID));
 	}
 
 	/** Get Product Used.
@@ -554,15 +682,32 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_Product() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
+        I_M_Product result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -576,7 +721,7 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 		return ii.intValue();
 	}
 
-	public I_M_RMA getI_M_RMA() throws Exception 
+	public I_M_RMA getM_RMA() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_RMA.Table_Name);
         I_M_RMA result = null;
@@ -598,9 +743,10 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 	  */
 	public void setM_RMA_ID (int M_RMA_ID)
 	{
-		if (M_RMA_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
+		if (M_RMA_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
 	}
 
 	/** Get RMA.
@@ -620,10 +766,11 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 	  */
 	public void setNullColumns (String NullColumns)
 	{
+
 		if (NullColumns != null && NullColumns.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			NullColumns = NullColumns.substring(0, 254);
+			NullColumns = NullColumns.substring(0, 255);
 		}
 		set_ValueNoCheck (COLUMNNAME_NullColumns, NullColumns);
 	}
@@ -636,23 +783,30 @@ public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 		return (String)get_Value(COLUMNNAME_NullColumns);
 	}
 
-/** Priority AD_Reference_ID=154 */
-public static final int PRIORITY_AD_Reference_ID=154;/** Urgent = 1 */
-public static final String PRIORITY_Urgent = "1";/** High = 3 */
-public static final String PRIORITY_High = "3";/** Medium = 5 */
-public static final String PRIORITY_Medium = "5";/** Low = 7 */
-public static final String PRIORITY_Low = "7";/** Minor = 9 */
-public static final String PRIORITY_Minor = "9";
+	/** Priority AD_Reference_ID=154 */
+	public static final int PRIORITY_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITY_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITY_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITY_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITY_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITY_Minor = "9";
 	/** Set Priority.
 		@param Priority 
 		Indicates if this request is of a high, medium or low priority.
 	  */
 	public void setPriority (String Priority)
 	{
-if (Priority == null || Priority.equals("1") || Priority.equals("3") || Priority.equals("5") || Priority.equals("7") || Priority.equals("9")); else throw new IllegalArgumentException ("Priority Invalid value - " + Priority + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");		if (Priority != null && Priority.length() > 1)
+
+		if (Priority == null || Priority.equals("3") || Priority.equals("5") || Priority.equals("7") || Priority.equals("1") || Priority.equals("9")); else throw new IllegalArgumentException ("Priority Invalid value - " + Priority + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
+		if (Priority != null && Priority.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			Priority = Priority.substring(0, 0);
+			Priority = Priority.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_Priority, Priority);
 	}
@@ -665,23 +819,30 @@ if (Priority == null || Priority.equals("1") || Priority.equals("3") || Priority
 		return (String)get_Value(COLUMNNAME_Priority);
 	}
 
-/** PriorityUser AD_Reference_ID=154 */
-public static final int PRIORITYUSER_AD_Reference_ID=154;/** Urgent = 1 */
-public static final String PRIORITYUSER_Urgent = "1";/** High = 3 */
-public static final String PRIORITYUSER_High = "3";/** Medium = 5 */
-public static final String PRIORITYUSER_Medium = "5";/** Low = 7 */
-public static final String PRIORITYUSER_Low = "7";/** Minor = 9 */
-public static final String PRIORITYUSER_Minor = "9";
+	/** PriorityUser AD_Reference_ID=154 */
+	public static final int PRIORITYUSER_AD_Reference_ID=154;
+	/** High = 3 */
+	public static final String PRIORITYUSER_High = "3";
+	/** Medium = 5 */
+	public static final String PRIORITYUSER_Medium = "5";
+	/** Low = 7 */
+	public static final String PRIORITYUSER_Low = "7";
+	/** Urgent = 1 */
+	public static final String PRIORITYUSER_Urgent = "1";
+	/** Minor = 9 */
+	public static final String PRIORITYUSER_Minor = "9";
 	/** Set User Importance.
 		@param PriorityUser 
 		Priority of the issue for the User
 	  */
 	public void setPriorityUser (String PriorityUser)
 	{
-if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3") || PriorityUser.equals("5") || PriorityUser.equals("7") || PriorityUser.equals("9")); else throw new IllegalArgumentException ("PriorityUser Invalid value - " + PriorityUser + " - Reference_ID=154 - 1 - 3 - 5 - 7 - 9");		if (PriorityUser != null && PriorityUser.length() > 1)
+
+		if (PriorityUser == null || PriorityUser.equals("3") || PriorityUser.equals("5") || PriorityUser.equals("7") || PriorityUser.equals("1") || PriorityUser.equals("9")); else throw new IllegalArgumentException ("PriorityUser Invalid value - " + PriorityUser + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
+		if (PriorityUser != null && PriorityUser.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			PriorityUser = PriorityUser.substring(0, 0);
+			PriorityUser = PriorityUser.substring(0, 1);
 		}
 		set_ValueNoCheck (COLUMNNAME_PriorityUser, PriorityUser);
 	}
@@ -754,7 +915,7 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return bd;
 	}
 
-	public I_R_Category getI_R_Category() throws Exception 
+	public I_R_Category getR_Category() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Category.Table_Name);
         I_R_Category result = null;
@@ -776,9 +937,10 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 	  */
 	public void setR_Category_ID (int R_Category_ID)
 	{
-		if (R_Category_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_Category_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_Category_ID, Integer.valueOf(R_Category_ID));
+		if (R_Category_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Category_ID, Integer.valueOf(R_Category_ID));
 	}
 
 	/** Get Category.
@@ -792,7 +954,7 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return ii.intValue();
 	}
 
-	public I_R_Group getI_R_Group() throws Exception 
+	public I_R_Group getR_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Group.Table_Name);
         I_R_Group result = null;
@@ -814,9 +976,10 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 	  */
 	public void setR_Group_ID (int R_Group_ID)
 	{
-		if (R_Group_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_Group_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_Group_ID, Integer.valueOf(R_Group_ID));
+		if (R_Group_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_Group_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Group_ID, Integer.valueOf(R_Group_ID));
 	}
 
 	/** Get Group.
@@ -852,7 +1015,7 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getI_R_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -874,9 +1037,10 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+		if (R_RequestType_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
 	}
 
 	/** Get Request Type.
@@ -890,7 +1054,7 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return ii.intValue();
 	}
 
-	public I_R_Request getI_R_Request() throws Exception 
+	public I_R_Request getR_Request() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
         I_R_Request result = null;
@@ -928,7 +1092,7 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return ii.intValue();
 	}
 
-	public I_R_Resolution getI_R_Resolution() throws Exception 
+	public I_R_Resolution getR_Resolution() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Resolution.Table_Name);
         I_R_Resolution result = null;
@@ -950,9 +1114,10 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 	  */
 	public void setR_Resolution_ID (int R_Resolution_ID)
 	{
-		if (R_Resolution_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, Integer.valueOf(R_Resolution_ID));
+		if (R_Resolution_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, Integer.valueOf(R_Resolution_ID));
 	}
 
 	/** Get Resolution.
@@ -966,7 +1131,7 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return ii.intValue();
 	}
 
-	public I_R_Status getI_R_Status() throws Exception 
+	public I_R_Status getR_Status() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_Status.Table_Name);
         I_R_Status result = null;
@@ -988,9 +1153,10 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 	  */
 	public void setR_Status_ID (int R_Status_ID)
 	{
-		if (R_Status_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_R_Status_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
+		if (R_Status_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_R_Status_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
 	}
 
 	/** Get Status.
@@ -1004,17 +1170,18 @@ if (PriorityUser == null || PriorityUser.equals("1") || PriorityUser.equals("3")
 		return ii.intValue();
 	}
 
-/** SalesRep_ID AD_Reference_ID=110 */
-public static final int SALESREP_ID_AD_Reference_ID=110;
+	/** SalesRep_ID AD_Reference_ID=110 */
+	public static final int SALESREP_ID_AD_Reference_ID=110;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_SalesRep_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
@@ -1051,10 +1218,11 @@ public static final int SALESREP_ID_AD_Reference_ID=110;
 	  */
 	public void setSummary (String Summary)
 	{
+
 		if (Summary != null && Summary.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 1999);
+			Summary = Summary.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_Summary, Summary);
 	}
@@ -1067,27 +1235,38 @@ public static final int SALESREP_ID_AD_Reference_ID=110;
 		return (String)get_Value(COLUMNNAME_Summary);
 	}
 
-/** TaskStatus AD_Reference_ID=366 */
-public static final int TASKSTATUS_AD_Reference_ID=366;/**  0% Not Started = 0 */
-public static final String TASKSTATUS_0NotStarted = "0";/**  20% Started = 2 */
-public static final String TASKSTATUS_20Started = "2";/**  40% Busy = 4 */
-public static final String TASKSTATUS_40Busy = "4";/**  60% Good Progress = 6 */
-public static final String TASKSTATUS_60GoodProgress = "6";/**  80% Nearly Done = 8 */
-public static final String TASKSTATUS_80NearlyDone = "8";/**  90% Finishing = 9 */
-public static final String TASKSTATUS_90Finishing = "9";/**  95% Almost Done = A */
-public static final String TASKSTATUS_95AlmostDone = "A";/**  99% Cleaning up = C */
-public static final String TASKSTATUS_99CleaningUp = "C";/** 100% Complete = D */
-public static final String TASKSTATUS_100Complete = "D";
+	/** TaskStatus AD_Reference_ID=366 */
+	public static final int TASKSTATUS_AD_Reference_ID=366;
+	/**  0% Not Started = 0 */
+	public static final String TASKSTATUS_0NotStarted = "0";
+	/** 100% Complete = D */
+	public static final String TASKSTATUS_100Complete = "D";
+	/**  20% Started = 2 */
+	public static final String TASKSTATUS_20Started = "2";
+	/**  80% Nearly Done = 8 */
+	public static final String TASKSTATUS_80NearlyDone = "8";
+	/**  40% Busy = 4 */
+	public static final String TASKSTATUS_40Busy = "4";
+	/**  60% Good Progress = 6 */
+	public static final String TASKSTATUS_60GoodProgress = "6";
+	/**  90% Finishing = 9 */
+	public static final String TASKSTATUS_90Finishing = "9";
+	/**  95% Almost Done = A */
+	public static final String TASKSTATUS_95AlmostDone = "A";
+	/**  99% Cleaning up = C */
+	public static final String TASKSTATUS_99CleaningUp = "C";
 	/** Set Task Status.
 		@param TaskStatus 
 		Status of the Task
 	  */
 	public void setTaskStatus (String TaskStatus)
 	{
-if (TaskStatus == null || TaskStatus.equals("0") || TaskStatus.equals("2") || TaskStatus.equals("4") || TaskStatus.equals("6") || TaskStatus.equals("8") || TaskStatus.equals("9") || TaskStatus.equals("A") || TaskStatus.equals("C") || TaskStatus.equals("D")); else throw new IllegalArgumentException ("TaskStatus Invalid value - " + TaskStatus + " - Reference_ID=366 - 0 - 2 - 4 - 6 - 8 - 9 - A - C - D");		if (TaskStatus != null && TaskStatus.length() > 1)
+
+		if (TaskStatus == null || TaskStatus.equals("0") || TaskStatus.equals("D") || TaskStatus.equals("2") || TaskStatus.equals("8") || TaskStatus.equals("4") || TaskStatus.equals("6") || TaskStatus.equals("9") || TaskStatus.equals("A") || TaskStatus.equals("C")); else throw new IllegalArgumentException ("TaskStatus Invalid value - " + TaskStatus + " - Reference_ID=366 - 0 - D - 2 - 8 - 4 - 6 - 9 - A - C");
+		if (TaskStatus != null && TaskStatus.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			TaskStatus = TaskStatus.substring(0, 0);
+			TaskStatus = TaskStatus.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_TaskStatus, TaskStatus);
 	}

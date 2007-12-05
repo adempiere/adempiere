@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Greeting
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent 
 {
 
@@ -39,11 +36,13 @@ public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent
     public X_C_Greeting (Properties ctx, int C_Greeting_ID, String trxName)
     {
       super (ctx, C_Greeting_ID, trxName);
-      /** if (C_Greeting_ID == 0)        {			setC_Greeting_ID (0);
+      /** if (C_Greeting_ID == 0)
+        {
+			setC_Greeting_ID (0);
 			setIsDefault (false);
 			setIsFirstNameOnly (false);
 			setName (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -102,10 +101,11 @@ public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent
 	  */
 	public void setGreeting (String Greeting)
 	{
+
 		if (Greeting != null && Greeting.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Greeting = Greeting.substring(0, 59);
+			Greeting = Greeting.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Greeting, Greeting);
 	}
@@ -174,10 +174,11 @@ public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}

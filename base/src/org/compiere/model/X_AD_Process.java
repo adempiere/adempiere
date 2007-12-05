@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Process extends PO implements I_AD_Process, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
     public X_AD_Process (Properties ctx, int AD_Process_ID, String trxName)
     {
       super (ctx, AD_Process_ID, trxName);
-      /** if (AD_Process_ID == 0)        {			setAD_Process_ID (0);
+      /** if (AD_Process_ID == 0)
+        {
+			setAD_Process_ID (0);
 			setAccessLevel (null);
 			setEntityType (null);
 // U
@@ -48,7 +49,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 			setIsServerProcess (false);
 			setName (null);
 			setValue (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -79,7 +80,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getI_AD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -101,9 +102,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 		set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+		if (AD_PrintFormat_ID <= 0) 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
 	}
 
 	/** Get Print Format.
@@ -139,7 +141,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getI_AD_ReportView() throws Exception 
+	public I_AD_ReportView getAD_ReportView() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
         I_AD_ReportView result = null;
@@ -161,9 +163,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 		set_Value (COLUMNNAME_AD_ReportView_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
+		if (AD_ReportView_ID <= 0) 
+			set_Value (COLUMNNAME_AD_ReportView_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
 	}
 
 	/** Get Report View.
@@ -177,7 +180,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getI_AD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -199,9 +202,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 		set_Value (COLUMNNAME_AD_Workflow_ID, null);
- else 
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID <= 0) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -215,24 +219,32 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-/** AccessLevel AD_Reference_ID=5 */
-public static final int ACCESSLEVEL_AD_Reference_ID=5;/** Organization = 1 */
-public static final String ACCESSLEVEL_Organization = "1";/** Client only = 2 */
-public static final String ACCESSLEVEL_ClientOnly = "2";/** Client+Organization = 3 */
-public static final String ACCESSLEVEL_ClientPlusOrganization = "3";/** System only = 4 */
-public static final String ACCESSLEVEL_SystemOnly = "4";/** System+Client = 6 */
-public static final String ACCESSLEVEL_SystemPlusClient = "6";/** All = 7 */
-public static final String ACCESSLEVEL_All = "7";
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
 	/** Set Data Access Level.
 		@param AccessLevel 
 		Access Level required
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");if (AccessLevel.equals("1") || AccessLevel.equals("2") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("6") || AccessLevel.equals("7")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 2 - 3 - 4 - 6 - 7");		if (AccessLevel.length() > 1)
+		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
+		if (AccessLevel.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AccessLevel = AccessLevel.substring(0, 0);
+			AccessLevel = AccessLevel.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
@@ -251,10 +263,11 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 	  */
 	public void setClassname (String Classname)
 	{
+
 		if (Classname != null && Classname.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Classname = Classname.substring(0, 59);
+			Classname = Classname.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Classname, Classname);
 	}
@@ -273,10 +286,11 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -289,14 +303,15 @@ if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is man
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-/** EntityType AD_Reference_ID=389 */
-public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
 		@param EntityType 
 		Dictionary Entity Type; Determines ownership and synchronization
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
@@ -319,10 +334,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -435,16 +451,17 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		@param JasperReport Jasper Report	  */
 	public void setJasperReport (String JasperReport)
 	{
+
 		if (JasperReport != null && JasperReport.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			JasperReport = JasperReport.substring(0, 254);
+			JasperReport = JasperReport.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_JasperReport, JasperReport);
 	}
 
 	/** Get Jasper Report.
-@return Jasper Report	  */
+		@return Jasper Report	  */
 	public String getJasperReport () 
 	{
 		return (String)get_Value(COLUMNNAME_JasperReport);
@@ -458,10 +475,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -480,10 +498,11 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 	  */
 	public void setProcedureName (String ProcedureName)
 	{
+
 		if (ProcedureName != null && ProcedureName.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ProcedureName = ProcedureName.substring(0, 59);
+			ProcedureName = ProcedureName.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ProcedureName, ProcedureName);
 	}
@@ -496,26 +515,32 @@ public static final int ENTITYTYPE_AD_Reference_ID=389;
 		return (String)get_Value(COLUMNNAME_ProcedureName);
 	}
 
-/** ShowHelp AD_Reference_ID=50007 */
-public static final int SHOWHELP_AD_Reference_ID=50007;/** Ask user (for future use) = A */
-public static final String SHOWHELP_AskUserForFutureUse = "A";/** Don't show help = N */
-public static final String SHOWHELP_DonTShowHelp = "N";/** Run silently - Take Defaults = S */
-public static final String SHOWHELP_RunSilently_TakeDefaults = "S";/** Show Help = Y */
-public static final String SHOWHELP_ShowHelp = "Y";
+	/** ShowHelp AD_Reference_ID=50007 */
+	public static final int SHOWHELP_AD_Reference_ID=50007;
+	/** Ask user (for future use) = A */
+	public static final String SHOWHELP_AskUserForFutureUse = "A";
+	/** Don't show help = N */
+	public static final String SHOWHELP_DonTShowHelp = "N";
+	/** Show Help = Y */
+	public static final String SHOWHELP_ShowHelp = "Y";
+	/** Run silently - Take Defaults = S */
+	public static final String SHOWHELP_RunSilently_TakeDefaults = "S";
 	/** Set Show Help.
 		@param ShowHelp Show Help	  */
 	public void setShowHelp (String ShowHelp)
 	{
-if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp.equals("S") || ShowHelp.equals("Y")); else throw new IllegalArgumentException ("ShowHelp Invalid value - " + ShowHelp + " - Reference_ID=50007 - A - N - S - Y");		if (ShowHelp != null && ShowHelp.length() > 1)
+
+		if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp.equals("Y") || ShowHelp.equals("S")); else throw new IllegalArgumentException ("ShowHelp Invalid value - " + ShowHelp + " - Reference_ID=50007 - A - N - Y - S");
+		if (ShowHelp != null && ShowHelp.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ShowHelp = ShowHelp.substring(0, 0);
+			ShowHelp = ShowHelp.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ShowHelp, ShowHelp);
 	}
 
 	/** Get Show Help.
-@return Show Help	  */
+		@return Show Help	  */
 	public String getShowHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_ShowHelp);
@@ -569,10 +594,11 @@ if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
+
 		if (Value.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 39);
+			Value = Value.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
@@ -599,10 +625,11 @@ if (ShowHelp == null || ShowHelp.equals("A") || ShowHelp.equals("N") || ShowHelp
 	  */
 	public void setWorkflowValue (String WorkflowValue)
 	{
+
 		if (WorkflowValue != null && WorkflowValue.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
-			WorkflowValue = WorkflowValue.substring(0, 39);
+			WorkflowValue = WorkflowValue.substring(0, 40);
 		}
 		set_Value (COLUMNNAME_WorkflowValue, WorkflowValue);
 	}

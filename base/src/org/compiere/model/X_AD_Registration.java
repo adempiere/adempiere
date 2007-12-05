@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
 
 /** Generated Model for AD_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Registration extends PO implements I_AD_Registration, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
     public X_AD_Registration (Properties ctx, int AD_Registration_ID, String trxName)
     {
       super (ctx, AD_Registration_ID, trxName);
-      /** if (AD_Registration_ID == 0)        {			setAD_Registration_ID (0);
+      /** if (AD_Registration_ID == 0)
+        {
+			setAD_Registration_ID (0);
 // 0
 			setAD_System_ID (0);
 // 0
@@ -50,7 +51,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 			setIsInProduction (false);
 			setIsRegistered (false);
 // N
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -103,7 +104,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_System getI_AD_System() throws Exception 
+	public I_AD_System getAD_System() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_System.Table_Name);
         I_AD_System result = null;
@@ -141,7 +142,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getI_C_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -163,9 +164,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 		set_Value (COLUMNNAME_C_Currency_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID <= 0) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -185,9 +187,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 		set_Value (COLUMNNAME_C_Location_ID, null);
- else 
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID <= 0) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -207,10 +210,11 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 254);
+			Description = Description.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -229,10 +233,11 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setIndustryInfo (String IndustryInfo)
 	{
+
 		if (IndustryInfo != null && IndustryInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			IndustryInfo = IndustryInfo.substring(0, 254);
+			IndustryInfo = IndustryInfo.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_IndustryInfo, IndustryInfo);
 	}
@@ -367,10 +372,11 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setPlatformInfo (String PlatformInfo)
 	{
+
 		if (PlatformInfo != null && PlatformInfo.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			PlatformInfo = PlatformInfo.substring(0, 254);
+			PlatformInfo = PlatformInfo.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_PlatformInfo, PlatformInfo);
 	}
@@ -391,7 +397,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -410,9 +416,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 		set_ValueNoCheck (COLUMNNAME_Record_ID, null);
- else 
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID <= 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -432,10 +439,11 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
+
 		if (Remote_Addr != null && Remote_Addr.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 59);
+			Remote_Addr = Remote_Addr.substring(0, 60);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
@@ -454,10 +462,11 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
+
 		if (Remote_Host != null && Remote_Host.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 119);
+			Remote_Host = Remote_Host.substring(0, 120);
 		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
 	}

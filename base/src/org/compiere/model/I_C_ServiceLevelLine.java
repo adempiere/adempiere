@@ -32,16 +32,15 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_ServiceLevelLine
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:45.328
-     */
-    public interface I_C_ServiceLevelLine 
+/** Generated Interface for C_ServiceLevelLine
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_ServiceLevelLine 
 {
 
     /** TableName=C_ServiceLevelLine */
@@ -54,7 +53,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +83,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_ServiceLevel_ID();
 
-	public I_C_ServiceLevel getI_C_ServiceLevel() throws Exception;
+	public I_C_ServiceLevel getC_ServiceLevel() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

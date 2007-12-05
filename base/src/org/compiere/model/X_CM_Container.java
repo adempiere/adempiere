@@ -17,16 +17,15 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
 import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Container
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_CM_Container extends PO implements I_CM_Container, I_Persistent 
 {
 
@@ -39,7 +38,9 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
     public X_CM_Container (Properties ctx, int CM_Container_ID, String trxName)
     {
       super (ctx, CM_Container_ID, trxName);
-      /** if (CM_Container_ID == 0)        {			setCM_Container_ID (0);
+      /** if (CM_Container_ID == 0)
+        {
+			setCM_Container_ID (0);
 			setCM_Template_ID (0);
 			setCM_WebProject_ID (0);
 			setContainerType (null);
@@ -52,7 +53,7 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
 			setName (null);
 			setNotice (null);
 			setPriority (0);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -83,17 +84,18 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
       return sb.toString();
     }
 
-/** CM_ContainerLink_ID AD_Reference_ID=386 */
-public static final int CM_CONTAINERLINK_ID_AD_Reference_ID=386;
+	/** CM_ContainerLink_ID AD_Reference_ID=386 */
+	public static final int CM_CONTAINERLINK_ID_AD_Reference_ID=386;
 	/** Set Container Link.
 		@param CM_ContainerLink_ID 
 		Link to another Container in the Web Project
 	  */
 	public void setCM_ContainerLink_ID (int CM_ContainerLink_ID)
 	{
-		if (CM_ContainerLink_ID <= 0) 		set_Value (COLUMNNAME_CM_ContainerLink_ID, null);
- else 
-		set_Value (COLUMNNAME_CM_ContainerLink_ID, Integer.valueOf(CM_ContainerLink_ID));
+		if (CM_ContainerLink_ID <= 0) 
+			set_Value (COLUMNNAME_CM_ContainerLink_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_ContainerLink_ID, Integer.valueOf(CM_ContainerLink_ID));
 	}
 
 	/** Get Container Link.
@@ -129,7 +131,7 @@ public static final int CM_CONTAINERLINK_ID_AD_Reference_ID=386;
 		return ii.intValue();
 	}
 
-	public I_CM_Template getI_CM_Template() throws Exception 
+	public I_CM_Template getCM_Template() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Template.Table_Name);
         I_CM_Template result = null;
@@ -167,7 +169,7 @@ public static final int CM_CONTAINERLINK_ID_AD_Reference_ID=386;
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getI_CM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -211,10 +213,11 @@ public static final int CM_CONTAINERLINK_ID_AD_Reference_ID=386;
 	  */
 	public void setContainerLinkURL (String ContainerLinkURL)
 	{
+
 		if (ContainerLinkURL != null && ContainerLinkURL.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			ContainerLinkURL = ContainerLinkURL.substring(0, 59);
+			ContainerLinkURL = ContainerLinkURL.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_ContainerLinkURL, ContainerLinkURL);
 	}
@@ -227,21 +230,26 @@ public static final int CM_CONTAINERLINK_ID_AD_Reference_ID=386;
 		return (String)get_Value(COLUMNNAME_ContainerLinkURL);
 	}
 
-/** ContainerType AD_Reference_ID=385 */
-public static final int CONTAINERTYPE_AD_Reference_ID=385;/** Document = D */
-public static final String CONTAINERTYPE_Document = "D";/** Internal Link = L */
-public static final String CONTAINERTYPE_InternalLink = "L";/** External URL = U */
-public static final String CONTAINERTYPE_ExternalURL = "U";
+	/** ContainerType AD_Reference_ID=385 */
+	public static final int CONTAINERTYPE_AD_Reference_ID=385;
+	/** Document = D */
+	public static final String CONTAINERTYPE_Document = "D";
+	/** Internal Link = L */
+	public static final String CONTAINERTYPE_InternalLink = "L";
+	/** External URL = U */
+	public static final String CONTAINERTYPE_ExternalURL = "U";
 	/** Set Web Container Type.
 		@param ContainerType 
 		Web Container Type
 	  */
 	public void setContainerType (String ContainerType)
 	{
-if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is mandatory");if (ContainerType.equals("D") || ContainerType.equals("L") || ContainerType.equals("U")); else throw new IllegalArgumentException ("ContainerType Invalid value - " + ContainerType + " - Reference_ID=385 - D - L - U");		if (ContainerType.length() > 1)
+		if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is mandatory");
+		if (ContainerType.equals("D") || ContainerType.equals("L") || ContainerType.equals("U")); else throw new IllegalArgumentException ("ContainerType Invalid value - " + ContainerType + " - Reference_ID=385 - D - L - U");
+		if (ContainerType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			ContainerType = ContainerType.substring(0, 0);
+			ContainerType = ContainerType.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_ContainerType, ContainerType);
 	}
@@ -260,10 +268,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setContainerXML (String ContainerXML)
 	{
+
 		if (ContainerXML != null && ContainerXML.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			ContainerXML = ContainerXML.substring(0, 1999);
+			ContainerXML = ContainerXML.substring(0, 2000);
 		}
 		set_ValueNoCheck (COLUMNNAME_ContainerXML, ContainerXML);
 	}
@@ -282,10 +291,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setDescription (String Description)
 	{
+
 		if (Description != null && Description.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Description = Description.substring(0, 1999);
+			Description = Description.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -304,10 +314,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setHelp (String Help)
 	{
+
 		if (Help != null && Help.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 1999);
+			Help = Help.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
@@ -422,10 +433,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setMeta_Author (String Meta_Author)
 	{
+
 		if (Meta_Author != null && Meta_Author.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Author = Meta_Author.substring(0, 1999);
+			Meta_Author = Meta_Author.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Author, Meta_Author);
 	}
@@ -444,10 +456,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setMeta_Content (String Meta_Content)
 	{
+
 		if (Meta_Content != null && Meta_Content.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Content = Meta_Content.substring(0, 1999);
+			Meta_Content = Meta_Content.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Content, Meta_Content);
 	}
@@ -466,10 +479,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setMeta_Copyright (String Meta_Copyright)
 	{
+
 		if (Meta_Copyright != null && Meta_Copyright.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Copyright = Meta_Copyright.substring(0, 1999);
+			Meta_Copyright = Meta_Copyright.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Copyright, Meta_Copyright);
 	}
@@ -490,10 +504,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	{
 		if (Meta_Description == null)
 			throw new IllegalArgumentException ("Meta_Description is mandatory.");
+
 		if (Meta_Description.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Description = Meta_Description.substring(0, 1999);
+			Meta_Description = Meta_Description.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Description, Meta_Description);
 	}
@@ -514,10 +529,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	{
 		if (Meta_Keywords == null)
 			throw new IllegalArgumentException ("Meta_Keywords is mandatory.");
+
 		if (Meta_Keywords.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Keywords = Meta_Keywords.substring(0, 1999);
+			Meta_Keywords = Meta_Keywords.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Keywords, Meta_Keywords);
 	}
@@ -536,10 +552,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setMeta_Language (String Meta_Language)
 	{
+
 		if (Meta_Language != null && Meta_Language.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
-			Meta_Language = Meta_Language.substring(0, 1);
+			Meta_Language = Meta_Language.substring(0, 2);
 		}
 		set_Value (COLUMNNAME_Meta_Language, Meta_Language);
 	}
@@ -558,10 +575,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setMeta_Publisher (String Meta_Publisher)
 	{
+
 		if (Meta_Publisher != null && Meta_Publisher.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_Publisher = Meta_Publisher.substring(0, 1999);
+			Meta_Publisher = Meta_Publisher.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_Publisher, Meta_Publisher);
 	}
@@ -580,10 +598,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setMeta_RobotsTag (String Meta_RobotsTag)
 	{
+
 		if (Meta_RobotsTag != null && Meta_RobotsTag.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Meta_RobotsTag = Meta_RobotsTag.substring(0, 1999);
+			Meta_RobotsTag = Meta_RobotsTag.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Meta_RobotsTag, Meta_RobotsTag);
 	}
@@ -604,10 +623,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 119);
+			Name = Name.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -636,10 +656,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	{
 		if (Notice == null)
 			throw new IllegalArgumentException ("Notice is mandatory.");
+
 		if (Notice.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			Notice = Notice.substring(0, 1999);
+			Notice = Notice.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_Notice, Notice);
 	}
@@ -678,10 +699,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setRelativeURL (String RelativeURL)
 	{
+
 		if (RelativeURL != null && RelativeURL.length() > 120)
 		{
 			log.warning("Length > 120 - truncated");
-			RelativeURL = RelativeURL.substring(0, 119);
+			RelativeURL = RelativeURL.substring(0, 120);
 		}
 		set_Value (COLUMNNAME_RelativeURL, RelativeURL);
 	}
@@ -700,10 +722,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setStructureXML (String StructureXML)
 	{
+
 		if (StructureXML != null && StructureXML.length() > 2000)
 		{
 			log.warning("Length > 2000 - truncated");
-			StructureXML = StructureXML.substring(0, 1999);
+			StructureXML = StructureXML.substring(0, 2000);
 		}
 		set_Value (COLUMNNAME_StructureXML, StructureXML);
 	}
@@ -722,10 +745,11 @@ if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is
 	  */
 	public void setTitle (String Title)
 	{
+
 		if (Title != null && Title.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Title = Title.substring(0, 59);
+			Title = Title.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Title, Title);
 	}

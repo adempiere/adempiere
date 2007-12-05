@@ -17,16 +17,13 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.3.0 - $Id$ */
+ *  @version Release 3.3.1b - $Id$ */
 public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persistent 
 {
 
@@ -39,7 +36,9 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
     public X_AD_Package_Exp (Properties ctx, int AD_Package_Exp_ID, String trxName)
     {
       super (ctx, AD_Package_Exp_ID, trxName);
-      /** if (AD_Package_Exp_ID == 0)        {			setAD_Package_Exp_ID (0);
+      /** if (AD_Package_Exp_ID == 0)
+        {
+			setAD_Package_Exp_ID (0);
 			setDescription (null);
 			setEMail (null);
 			setFile_Directory (null);
@@ -50,7 +49,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 			setReleaseNo (null);
 			setUserName (null);
 			setVersion (null);
-} */
+        } */
     }
 
     /** Load Constructor */
@@ -91,7 +90,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	}
 
 	/** Get AD_Package_Exp_ID.
-@return AD_Package_Exp_ID	  */
+		@return AD_Package_Exp_ID	  */
 	public int getAD_Package_Exp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_ID);
@@ -108,25 +107,30 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_ID()));
     }
 
-/** AD_Package_Type AD_Reference_ID=50001 */
-public static final int AD_PACKAGE_TYPE_AD_Reference_ID=50001;/** Local Transfer = L */
-public static final String AD_PACKAGE_TYPE_LocalTransfer = "L";/** Remote Transfer = R */
-public static final String AD_PACKAGE_TYPE_RemoteTransfer = "R";/** XML File = X */
-public static final String AD_PACKAGE_TYPE_XMLFile = "X";
+	/** AD_Package_Type AD_Reference_ID=50001 */
+	public static final int AD_PACKAGE_TYPE_AD_Reference_ID=50001;
+	/** Local Transfer = L */
+	public static final String AD_PACKAGE_TYPE_LocalTransfer = "L";
+	/** Remote Transfer = R */
+	public static final String AD_PACKAGE_TYPE_RemoteTransfer = "R";
+	/** XML File = X */
+	public static final String AD_PACKAGE_TYPE_XMLFile = "X";
 	/** Set AD_Package_Type.
 		@param AD_Package_Type AD_Package_Type	  */
 	public void setAD_Package_Type (String AD_Package_Type)
 	{
-if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.equals("R") || AD_Package_Type.equals("X")); else throw new IllegalArgumentException ("AD_Package_Type Invalid value - " + AD_Package_Type + " - Reference_ID=50001 - L - R - X");		if (AD_Package_Type != null && AD_Package_Type.length() > 1)
+
+		if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.equals("R") || AD_Package_Type.equals("X")); else throw new IllegalArgumentException ("AD_Package_Type Invalid value - " + AD_Package_Type + " - Reference_ID=50001 - L - R - X");
+		if (AD_Package_Type != null && AD_Package_Type.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
-			AD_Package_Type = AD_Package_Type.substring(0, 0);
+			AD_Package_Type = AD_Package_Type.substring(0, 1);
 		}
 		set_Value (COLUMNNAME_AD_Package_Type, AD_Package_Type);
 	}
 
 	/** Get AD_Package_Type.
-@return AD_Package_Type	  */
+		@return AD_Package_Type	  */
 	public String getAD_Package_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Type);
@@ -140,10 +144,11 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
+
 		if (Description.length() > 1000)
 		{
 			log.warning("Length > 1000 - truncated");
-			Description = Description.substring(0, 999);
+			Description = Description.substring(0, 1000);
 		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
@@ -164,10 +169,11 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	{
 		if (EMail == null)
 			throw new IllegalArgumentException ("EMail is mandatory.");
+
 		if (EMail.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			EMail = EMail.substring(0, 29);
+			EMail = EMail.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
@@ -186,16 +192,17 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	{
 		if (File_Directory == null)
 			throw new IllegalArgumentException ("File_Directory is mandatory.");
+
 		if (File_Directory.length() > 255)
 		{
 			log.warning("Length > 255 - truncated");
-			File_Directory = File_Directory.substring(0, 254);
+			File_Directory = File_Directory.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_File_Directory, File_Directory);
 	}
 
 	/** Get File_Directory.
-@return File_Directory	  */
+		@return File_Directory	  */
 	public String getFile_Directory () 
 	{
 		return (String)get_Value(COLUMNNAME_File_Directory);
@@ -207,16 +214,17 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	{
 		if (Instructions == null)
 			throw new IllegalArgumentException ("Instructions is mandatory.");
+
 		if (Instructions.length() > 1000)
 		{
 			log.warning("Length > 1000 - truncated");
-			Instructions = Instructions.substring(0, 999);
+			Instructions = Instructions.substring(0, 1000);
 		}
 		set_Value (COLUMNNAME_Instructions, Instructions);
 	}
 
 	/** Get Instructions.
-@return Instructions	  */
+		@return Instructions	  */
 	public String getInstructions () 
 	{
 		return (String)get_Value(COLUMNNAME_Instructions);
@@ -230,10 +238,11 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
+
 		if (Name.length() > 60)
 		{
 			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 59);
+			Name = Name.substring(0, 60);
 		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
@@ -252,16 +261,17 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	{
 		if (PK_Version == null)
 			throw new IllegalArgumentException ("PK_Version is mandatory.");
+
 		if (PK_Version.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			PK_Version = PK_Version.substring(0, 19);
+			PK_Version = PK_Version.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_PK_Version, PK_Version);
 	}
 
 	/** Get Package Version.
-@return Package Version	  */
+		@return Package Version	  */
 	public String getPK_Version () 
 	{
 		return (String)get_Value(COLUMNNAME_PK_Version);
@@ -299,7 +309,7 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 	}
 
 	/** Get Process Now.
-@return Process Now	  */
+		@return Process Now	  */
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
@@ -312,26 +322,36 @@ if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.eq
 		return false;
 	}
 
-/** ReleaseNo AD_Reference_ID=50002 */
-public static final int RELEASENO_AD_Reference_ID=50002;/** Release 2.5.2a = Release 2.5.2a */
-public static final String RELEASENO_Release252a = "Release 2.5.2a";/** Release 2.5.2b = Release 2.5.2b */
-public static final String RELEASENO_Release252b = "Release 2.5.2b";/** Release 2.5.2c = Release 2.5.2c */
-public static final String RELEASENO_Release252c = "Release 2.5.2c";/** Release 2.5.2d = Release 2.5.2d */
-public static final String RELEASENO_Release252d = "Release 2.5.2d";/** Release 2.5.2e = Release 2.5.2e */
-public static final String RELEASENO_Release252e = "Release 2.5.2e";/** Release 2.5.3a = Release 2.5.3a */
-public static final String RELEASENO_Release253a = "Release 2.5.3a";/** Release 2.5.3b = Release 2.5.3b */
-public static final String RELEASENO_Release253b = "Release 2.5.3b";/** No specific release = all */
-public static final String RELEASENO_NoSpecificRelease = "all";
+	/** ReleaseNo AD_Reference_ID=50002 */
+	public static final int RELEASENO_AD_Reference_ID=50002;
+	/** Release 2.5.2a = Release 2.5.2a */
+	public static final String RELEASENO_Release252a = "Release 2.5.2a";
+	/** Release 2.5.2b = Release 2.5.2b */
+	public static final String RELEASENO_Release252b = "Release 2.5.2b";
+	/** Release 2.5.2c = Release 2.5.2c */
+	public static final String RELEASENO_Release252c = "Release 2.5.2c";
+	/** Release 2.5.2d = Release 2.5.2d */
+	public static final String RELEASENO_Release252d = "Release 2.5.2d";
+	/** Release 2.5.2e = Release 2.5.2e */
+	public static final String RELEASENO_Release252e = "Release 2.5.2e";
+	/** Release 2.5.3a = Release 2.5.3a */
+	public static final String RELEASENO_Release253a = "Release 2.5.3a";
+	/** Release 2.5.3b = Release 2.5.3b */
+	public static final String RELEASENO_Release253b = "Release 2.5.3b";
+	/** No specific release = all */
+	public static final String RELEASENO_NoSpecificRelease = "all";
 	/** Set Release No.
 		@param ReleaseNo 
 		Internal Release Number
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
-if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandatory");if (ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all");		if (ReleaseNo.length() > 20)
+		if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandatory");
+		if (ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all");
+		if (ReleaseNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 19);
+			ReleaseNo = ReleaseNo.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
@@ -352,10 +372,11 @@ if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandato
 	{
 		if (UserName == null)
 			throw new IllegalArgumentException ("UserName is mandatory.");
+
 		if (UserName.length() > 30)
 		{
 			log.warning("Length > 30 - truncated");
-			UserName = UserName.substring(0, 29);
+			UserName = UserName.substring(0, 30);
 		}
 		set_Value (COLUMNNAME_UserName, UserName);
 	}
@@ -376,10 +397,11 @@ if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandato
 	{
 		if (Version == null)
 			throw new IllegalArgumentException ("Version is mandatory.");
+
 		if (Version.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");
-			Version = Version.substring(0, 19);
+			Version = Version.substring(0, 20);
 		}
 		set_Value (COLUMNNAME_Version, Version);
 	}

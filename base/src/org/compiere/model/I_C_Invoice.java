@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Invoice
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.0
+ *  @version Release 3.3.1b
  */
 public interface I_C_Invoice 
 {
@@ -113,6 +113,8 @@ public interface I_C_Invoice
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws Exception;
+
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
 
@@ -155,6 +157,8 @@ public interface I_C_Invoice
 	  * Cash Journal Line
 	  */
 	public int getC_CashLine_ID();
+
+	public I_C_CashLine getC_CashLine() throws Exception;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -230,14 +234,10 @@ public interface I_C_Invoice
     /** Column name C_DunningLevel_ID */
     public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 
-	/** Set Dunning Level.
-	  * Dunning Level
-	  */
+	/** Set Dunning Level	  */
 	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
 
-	/** Get Dunning Level.
-	  * Dunning Level
-	  */
+	/** Get Dunning Level	  */
 	public int getC_DunningLevel_ID();
 
 	public I_C_DunningLevel getC_DunningLevel() throws Exception;
@@ -268,6 +268,8 @@ public interface I_C_Invoice
 	  */
 	public int getC_Order_ID();
 
+	public I_C_Order getC_Order() throws Exception;
+
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 
@@ -295,6 +297,8 @@ public interface I_C_Invoice
 	  * Payment identifier
 	  */
 	public int getC_Payment_ID();
+
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -457,14 +461,10 @@ public interface I_C_Invoice
     /** Column name DunningGrace */
     public static final String COLUMNNAME_DunningGrace = "DunningGrace";
 
-	/** Set Dunning Grace.
-	  * Delay/block the dunning until this date is reached.
-	  */
+	/** Set Dunning Grace	  */
 	public void setDunningGrace (Timestamp DunningGrace);
 
-	/** Get Dunning Grace.
-	  * Delay/block the dunning until this date is reached.
-	  */
+	/** Get Dunning Grace	  */
 	public Timestamp getDunningGrace();
 
     /** Column name GenerateTo */
@@ -800,5 +800,4 @@ public interface I_C_Invoice
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
-
 }

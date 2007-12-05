@@ -32,16 +32,14 @@
  **********************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import org.compiere.util.KeyNamePair;
 
-    /** Generated Interface for C_PaymentAllocate
-     *  @author Trifon Trifonov (generated) 
-     *  @version Release 3.3.0 - 2007-08-24 11:39:43.062
-     */
-    public interface I_C_PaymentAllocate 
+/** Generated Interface for C_PaymentAllocate
+ *  @author Trifon Trifonov (generated) 
+ *  @version Release 3.3.1b
+ */
+public interface I_C_PaymentAllocate 
 {
 
     /** TableName=C_PaymentAllocate */
@@ -54,7 +52,7 @@ import org.compiere.util.*;
 
     /** AccessLevel = 1 - Org 
      */
-    BigDecimal accessLevel = new BigDecimal(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
 
@@ -84,7 +82,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_AllocationLine_ID();
 
-	public I_C_AllocationLine getI_C_AllocationLine() throws Exception;
+	public I_C_AllocationLine getC_AllocationLine() throws Exception;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -98,6 +96,8 @@ import org.compiere.util.*;
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws Exception;
 
     /** Column name C_PaymentAllocate_ID */
     public static final String COLUMNNAME_C_PaymentAllocate_ID = "C_PaymentAllocate_ID";
@@ -125,7 +125,7 @@ import org.compiere.util.*;
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getI_C_Payment() throws Exception;
+	public I_C_Payment getC_Payment() throws Exception;
 
     /** Column name DiscountAmt */
     public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
