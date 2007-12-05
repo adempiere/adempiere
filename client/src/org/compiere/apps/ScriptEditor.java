@@ -34,8 +34,10 @@ import org.compiere.util.*;
  *  @author     Jorg Janke
  *  @version    $Id: ScriptEditor.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
-public class ScriptEditor extends CFrame implements ActionListener
+public class ScriptEditor extends CDialog implements ActionListener
 {
+	private Frame m_owner;
+
 	/**
 	 *  Minimum Constructor
 	 */
@@ -45,6 +47,14 @@ public class ScriptEditor extends CFrame implements ActionListener
 	}   //  ScriptEditor
 
 	/**
+	 *  Minimum Constructor
+	 */
+	public ScriptEditor(Frame owner)
+	{
+		this (owner, Msg.getMsg(Env.getCtx(), "Script"), null, 0);
+	}   //  ScriptEditor
+	
+	/**
 	 *  Constructor
 	 *
 	 *  @param title Field Name
@@ -52,7 +62,25 @@ public class ScriptEditor extends CFrame implements ActionListener
 	 */
 	public ScriptEditor (String title, Scriptlet script, int WindowNo)
 	{
-		super(title);
+		this(null, title, script, WindowNo);
+	}
+	
+	/**
+	 *  Constructor
+	 *
+	 *	@param owner Owner frame
+	 *  @param title Field Name
+	 *  @param script The Script
+	 */
+	public ScriptEditor (Frame owner, String title, Scriptlet script, int WindowNo)
+	{
+		super(owner);		
+		setTitle(title);
+		if (owner != null)
+		{
+			setModal(true);
+		}
+		m_owner = owner;
 		m_WindowNo = WindowNo;
 		if (m_WindowNo == 0)
 			m_WindowNo = Env.createWindowNo(this);
@@ -116,7 +144,6 @@ public class ScriptEditor extends CFrame implements ActionListener
 	 */
 	void jbInit() throws Exception
 	{
-		this.setIconImage(Env.getImage("Bean16.gif"));
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		titledBorder1 = new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),
 			Msg.getMsg(Env.getCtx(), "ScriptVariables"));
@@ -247,7 +274,10 @@ public class ScriptEditor extends CFrame implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == bOK)
+		{
+			m_script.setScript(editor.getText());
 			dispose();
+		}
 		else if (e.getSource() == bCancel)
 		{
 			m_script.setScript(m_origScript);
@@ -258,7 +288,7 @@ public class ScriptEditor extends CFrame implements ActionListener
 			actionProcess();
 		else if (e.getSource() == bHelp)
 		{
-			Help h = new Help (this ,
+			Help h = new Help (m_owner ,
 				Msg.getMsg(Env.getCtx(), "ScriptHelp"),
 				getClass().getResource("Script.html"));
 			h.setVisible(true);
@@ -305,11 +335,27 @@ public class ScriptEditor extends CFrame implements ActionListener
 	 *  @param script   ScriptCode
 	 *  @param editable
 	 *  @return updated Script
+	 *  
+	 *  @deprecated since 3.3.1
 	 */
 	public static String start (String header, String script, boolean editable, int WindowNo)
 	{
+		return start(null, header, script, editable, WindowNo);
+	}
+	
+	/**
+	 *  Start ScriptEditor
+	 *
+	 *  @param owner
+	 *  @param header   Title
+	 *  @param script   ScriptCode
+	 *  @param editable
+	 *  @return updated Script
+	 */
+	public static String start (Frame owner, String header, String script, boolean editable, int WindowNo)
+	{
 		Scriptlet scr = new Scriptlet (Scriptlet.VARIABLE, script, Env.getCtx(), WindowNo);
-		ScriptEditor se = new ScriptEditor (header, scr, WindowNo);
+		ScriptEditor se = new ScriptEditor (owner, header, scr, WindowNo);
 		return scr.getScript();
 	}   //  start
 

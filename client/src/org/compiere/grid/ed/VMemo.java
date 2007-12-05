@@ -136,8 +136,11 @@ public class VMemo extends CTextArea
 		{
 			menuEditor.setEnabled(false);
 			String s = null;
-			if (m_columnName.equals("Script"))
-				s = ScriptEditor.start (Msg.translate(Env.getCtx(), m_columnName), getText(), isEditable(), 0);
+			if (m_columnName.equals("Script") || m_columnName.endsWith("_Script"))
+				s = ScriptEditor.start (
+						Env.getFrame(this.getParent()),
+						Msg.translate(Env.getCtx(), m_columnName), getText(), isEditable(), 
+						findWindowNo());
 			else
 				s = Editor.startEditor (this, Msg.translate(Env.getCtx(), m_columnName), 
 					getText(), isEditable(), m_fieldLength);
@@ -151,6 +154,11 @@ public class VMemo extends CTextArea
 			catch (PropertyVetoException pve)	{}
 		}
 	}	//	actionPerformed
+	
+	private int findWindowNo() {
+		Container c = this.getParent();		
+		return c != null ? Env.getWindowNo(c) : 0;
+	}
 
 	/**
 	 *  Action Listener Interface - NOP

@@ -414,7 +414,7 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Script"))
 		{
-			new ScriptEditor();
+			new ScriptEditor(Env.getFrame(c));
 		}
 		else if (actionCommand.equals("Preference"))
 		{
