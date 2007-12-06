@@ -65,7 +65,7 @@ JOIN M_WAREHOUSE mw ON ml.m_warehouse_id = mw.m_warehouse_id
 ORDER BY mw.NAME;
 
 
-CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATE_V AS
+CREATE OR REPLACE VIEW M_PRODUCT_SUBSTITUTERELATED_V AS
 SELECT s.AD_Client_ID, s.AD_Org_ID, s.IsActive, s.Created, s.CreatedBy, s.Updated, s.UpdatedBy, s.m_product_id, s.substitute_id, s.description, 'S' AS ROWTYPE, (ms.qtyonhand - ms.qtyreserved) AS qtyavailable, ms.qtyonhand, ms.qtyreserved, mpr.pricestd, mpr.m_pricelist_version_id, mw.m_warehouse_id
 FROM M_SUBSTITUTE s
 JOIN M_STORAGE ms ON ms.m_product_id = s.substitute_id
