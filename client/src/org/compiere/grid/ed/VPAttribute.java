@@ -292,24 +292,6 @@ public class VPAttribute extends JComponent
 		
 		//	Exclude ability to enter ASI
 		boolean exclude = true;
-		//auto save for new product
-		if (M_Product_ID == 0) 
-		{
-			JFrame frame = Env.getWindow(m_WindowNo);
-			if (frame instanceof AWindow) 
-			{
-				AWindow aWindow = (AWindow)frame;
-				if (aWindow.getAPanel().getCurrentTab().getTableName().equalsIgnoreCase("M_Product"))
-				{
-					if (aWindow.getAPanel().cmd_save(true))
-					{
-						Object value = aWindow.getAPanel().getCurrentTab().getValue("M_Product_ID");
-						if (value != null && value instanceof Integer)
-							M_Product_ID = ((Integer)value).intValue();
-					}
-				}
-			}
-		}
 		
 		if (M_Product_ID != 0)
 		{

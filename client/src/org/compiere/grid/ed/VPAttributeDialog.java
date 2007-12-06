@@ -148,20 +148,32 @@ public class VPAttributeDialog extends CDialog
 	 */
 	private boolean initAttributes ()
 	{
-		if (m_M_Product_ID == 0)
+		if (m_M_Product_ID == 0 && !m_productWindow)
 			return false;
-			
-		//	Get Model
-		m_masi = MAttributeSetInstance.get(Env.getCtx(), m_M_AttributeSetInstance_ID, m_M_Product_ID);
-		if (m_masi == null)
+		
+		MAttributeSet as = null;
+		
+		if (m_M_Product_ID != 0)
 		{
-			log.severe ("No Model for M_AttributeSetInstance_ID=" + m_M_AttributeSetInstance_ID + ", M_Product_ID=" + m_M_Product_ID);
-			return false;
+			//	Get Model
+			m_masi = MAttributeSetInstance.get(Env.getCtx(), m_M_AttributeSetInstance_ID, m_M_Product_ID);
+			if (m_masi == null)
+			{
+				log.severe ("No Model for M_AttributeSetInstance_ID=" + m_M_AttributeSetInstance_ID + ", M_Product_ID=" + m_M_Product_ID);
+				return false;
+			}
+			Env.setContext(Env.getCtx(), m_WindowNo, "M_AttributeSet_ID", m_masi.getM_AttributeSet_ID());
+	
+			//	Get Attribute Set
+			as = m_masi.getMAttributeSet();
 		}
-		Env.setContext(Env.getCtx(), m_WindowNo, "M_AttributeSet_ID", m_masi.getM_AttributeSet_ID());
-
-		//	Get Attribute Set
-		MAttributeSet as = m_masi.getMAttributeSet();
+		else 
+		{
+			int M_AttributeSet_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "M_AttributeSet_ID");
+			m_masi = new MAttributeSetInstance (Env.getCtx(), 0, M_AttributeSet_ID, null);
+			as = m_masi.getMAttributeSet();
+		}
+		
 		//	Product has no Attribute Set
 		if (as == null)		
 		{
