@@ -41,7 +41,7 @@ public class AWindow extends CFrame
 	{
 		super();
 		//	Set UI Components
-		this.setIconImage(org.compiere.Adempiere.getImage16());
+		this.setIconImage(Env.getImage("mWindow.gif"));
 		this.getContentPane().add(m_APanel, BorderLayout.CENTER);
 		this.setGlassPane(m_glassPane);
 	}	//	AWindow
