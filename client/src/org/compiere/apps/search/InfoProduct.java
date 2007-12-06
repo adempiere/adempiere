@@ -242,7 +242,7 @@ public final class InfoProduct extends Info implements ActionListener
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.M_Product_ID)",
+    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
     					String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
@@ -262,7 +262,7 @@ public final class InfoProduct extends Info implements ActionListener
         ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
-    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.M_Product_ID)",
+    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
     					String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
