@@ -2,7 +2,7 @@
 -- http://sourceforge.net/tracker/?func=detail&atid=879332&aid=1824260&group_id=176962
 --
 CREATE OR REPLACE FUNCTION trunc(datetime TIMESTAMP WITH TIME ZONE)
-RETURNS DATE AS $$
+RETURNS TIMESTAMP WITH TIME ZONE AS $$
 BEGIN
 	RETURN CAST(datetime AS DATE);
 END;

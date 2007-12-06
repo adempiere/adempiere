@@ -27,7 +27,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION trunc(datetime TIMESTAMP WITH TIME ZONE, format varchar)
-RETURNS DATE AS $$
+RETURNS TIMESTAMP WITH TIME ZONE AS $$
 BEGIN
 	IF format = 'Q' THEN
 		RETURN CAST(DATE_Trunc('quarter',datetime) as DATE);
