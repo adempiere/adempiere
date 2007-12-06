@@ -504,7 +504,7 @@ public class MTable extends X_AD_Table
 			}
 			
 			PO po = (PO)constructor.newInstance(new Object[] {getCtx(), new Integer(Record_ID), trxName});
-			if (po != null && po.get_ID() != Record_ID)
+			if (po != null && po.get_ID() != Record_ID && Record_ID > 0)
 				return null;
 			return po;
 		}
