@@ -527,7 +527,7 @@ public abstract class Convert
 		// log statement
 		os.writeBytes(statement);
 		// close statement
-		os.writeBytes("\n/\n\n");
+		os.writeBytes("\n;\n\n");
 	}
 
 }   //  Convert
