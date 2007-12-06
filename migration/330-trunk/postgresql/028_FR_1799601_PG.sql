@@ -130,7 +130,7 @@ ALTER TABLE C_BPartner ADD DunningGrace date NULL;
 ALTER TABLE C_Invoice ADD DunningGrace date NULL;
 
 DROP VIEW c_invoiceline_v;
---DROP VIEW rv_bpartneropen;
+DROP VIEW rv_bpartneropen;
 DROP VIEW c_invoice_v;
 
 CREATE OR REPLACE VIEW C_INVOICE_V
@@ -142,7 +142,7 @@ SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.Cre
     i.AD_User_ID, i.POReference, i.DateOrdered, i.C_Currency_ID, i.C_ConversionType_ID, i.PaymentRule,
     i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
     i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
-    i.IsPayScheduleValid, cast(null as numeric) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,i.DunningGrace
+    i.IsPayScheduleValid, cast(null as numeric) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,i.DunningGrace,
     cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.ChargeAmt*-1 ELSE i.ChargeAmt END as numeric) AS ChargeAmt,
     cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END as numeric) AS TotalLines,
     cast(CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END as numeric) AS GrandTotal,
@@ -160,7 +160,7 @@ SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.Cre
     i.AD_User_ID, i.POReference, i.DateOrdered, i.C_Currency_ID, i.C_ConversionType_ID, i.PaymentRule,
     i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
     i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
-    i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType, i.DunningGrace
+    i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType, i.DunningGrace,
     null AS ChargeAmt,
     null AS TotalLines,
     CASE WHEN charAt(d.DocBaseType,3)='C' THEN ips.DueAmt*-1 ELSE ips.DueAmt END AS GrandTotal,
@@ -182,7 +182,7 @@ SELECT il.AD_Client_ID, il.AD_Org_ID,
 	ROUND(i.Multiplier*LineNetAmt, 2) AS LineNetAmt,
 	ROUND(i.Multiplier*PriceList*QtyInvoiced, 2) AS LineListAmt,
 	CASE WHEN COALESCE(il.PriceLimit, 0)=0 THEN ROUND(i.Multiplier*LineNetAmt,2) ELSE ROUND(i.Multiplier*il.PriceLimit*il.QtyInvoiced,2) END AS LineLimitAmt,
-	ROUND(i.Multiplier*il.PriceList*ilQtyInvoiced-il.LineNetAmt,2) AS LineDiscountAmt,
+	ROUND(i.Multiplier*il.PriceList*il.QtyInvoiced-il.LineNetAmt,2) AS LineDiscountAmt,
 	CASE WHEN COALESCE(il.PriceLimit,0)=0 THEN 0 ELSE ROUND(i.Multiplier*il.LineNetAmt-il.PriceLimit*il.QtyInvoiced,2) END AS LineOverLimitAmt,
 	il.QtyInvoiced, il.QtyEntered,
 	il.Line, il.C_OrderLine_ID, il.C_UOM_ID,
