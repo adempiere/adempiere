@@ -868,6 +868,14 @@ public abstract class PO
 	 */
 	public final void set_CustomColumn (String columnName, Object value)
 	{
+		// [ 1845793 ] PO.set_CustomColumn not updating correctly m_newValues
+		// this is for columns not in PO - verify and call proper method if exists
+		int poIndex = get_ColumnIndex(columnName);
+		if (poIndex > 0) {
+			// is not custom column - it exists in the PO
+			set_Value(columnName, value);
+			return;
+		}
 		if (m_custom == null)
 			m_custom = new HashMap<String,String>();
 		String valueString = "NULL";
