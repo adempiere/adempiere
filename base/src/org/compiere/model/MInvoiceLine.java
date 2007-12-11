@@ -402,9 +402,6 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			return false;
 		}
 		setC_Tax_ID (C_Tax_ID);
-		if (m_IsSOTrx)
-		{
-		}
 		return true;
 	}	//	setTax
 
