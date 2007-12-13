@@ -108,9 +108,17 @@ public class TabElementHandler extends AbstractElementHandler {
 				m_Tab.setAD_Image_ID(id);
 			}
 			if (getStringValue(atts,"ADProcessNameID")!= null){
-				name = atts.getValue("ADProcessNameID");	    
-				id = get_IDWithColumn(ctx, "AD_Process", "Name", name);
-				m_Tab.setAD_Process_ID(id);
+				
+				name = atts.getValue("ADProcessNameID");
+				if (name != null && name.trim().length() > 0) {
+					id = get_IDWithColumn(ctx, "AD_Process", "Name", name);			
+					if (id <= 0) {
+						element.defer = true;
+						element.unresolved = "AD_Process: " + name;
+						return;
+					}
+					m_Tab.setAD_Process_ID(id);
+				}
 			}		    
 			if (getStringValue(atts,"ADTableNameID")!= null){
 				name = atts.getValue("ADTableNameID");	    
