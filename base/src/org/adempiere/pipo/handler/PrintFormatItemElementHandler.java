@@ -77,9 +77,7 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 			return;
 		}
 		m_PrintFormatItem.setAD_PrintFormat_ID(id);
-		// name = atts.getValue("ADPrintFormatChildNameID");
-		// id = get_IDWithColumn("AD_PrintFormat", "Name", name);
-		// m_PrintFormatItem.setAD_PrintFormatChild_ID(id);
+				
 		name = atts.getValue("ADTableNameID");
 		int tableid = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
 		name = atts.getValue("ADColumnNameID");
@@ -87,6 +85,17 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 				"AD_Table", tableid);
 		if (id > 0)
 			m_PrintFormatItem.setAD_Column_ID(id);
+		
+		name = atts.getValue("ADPrintFormatChildNameID");
+		if (name != null && name.trim().length() > 0) {
+			id = get_IDWithColumn(ctx, "AD_PrintFormat", "Name", name);			
+			if (id <= 0) {
+				element.defer = true;
+				element.unresolved = "AD_PrintFormat: " + name;
+				return;
+			}
+			m_PrintFormatItem.setAD_PrintFormatChild_ID(id);
+		}
 
 		name = atts.getValue("ADPrintGraphID");
 		if (name != null && name.trim().length() > 0) {
