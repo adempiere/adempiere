@@ -241,7 +241,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 
 			if (recreateColumn || syncDatabase) {
 				MTable table = new MTable(ctx, m_Column.getAD_Table_ID(), getTrxName(ctx));
-				if (!table.isView()) {
+				if (!table.isView() && !m_Column.isVirtualColumn()) {
 					success = createColumn(ctx, table, m_Column, recreateColumn);
 	
 					if (success == 1) {
