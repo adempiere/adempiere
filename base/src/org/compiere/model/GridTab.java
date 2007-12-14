@@ -2352,6 +2352,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	
 	private List<String> activeCallouts = new ArrayList<String>();
+	private List<Callout> activeCalloutInstance = new ArrayList<Callout>();
 	
 	/**
 	 * 
@@ -2361,6 +2362,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		String[] list = new String[activeCallouts.size()];
 		return activeCallouts.toArray(list);
+	}
+	
+	/**
+	 * 
+	 * @return list of active call out instance for this tab
+	 */
+	public Callout[] getActiveCalloutInstance()
+	{
+		Callout[] list = new Callout[activeCalloutInstance.size()];
+		return activeCalloutInstance.toArray(list);
 	}
 
 	/**************************************************************************
@@ -2425,6 +2436,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			try
 			{
 				activeCallouts.add(cmd);
+				activeCalloutInstance.add(call);
 				retValue = call.start(m_vo.ctx, method, m_vo.WindowNo, this, field, value, oldValue);
 			}
 			catch (Exception e)
@@ -2436,6 +2448,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			finally
 			{
 				activeCallouts.remove(cmd);
+				activeCalloutInstance.remove(call);
 			}
 			
 			if (!retValue.equals(""))		//	interrupt on first error

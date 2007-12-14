@@ -41,6 +41,8 @@ public class CalloutEngine implements Callout
 
 	/** Logger					*/
 	protected CLogger		log = CLogger.getCLogger(getClass());
+	private GridTab m_mTab;
+	private GridField m_mField;
 
 	/**
 	 *	Start Callout.
@@ -64,6 +66,10 @@ public class CalloutEngine implements Callout
 	{
 		if (methodName == null || methodName.length() == 0)
 			throw new IllegalArgumentException ("No Method Name");
+		
+		m_mTab = mTab;
+		m_mField = mField;
+		
 		//
 		String retValue = "";
 		StringBuffer msg = new StringBuffer(methodName).append(" - ")
@@ -102,6 +108,11 @@ public class CalloutEngine implements Callout
 			log.log(Level.SEVERE, "start: " + methodName, ex);
 			ex.printStackTrace(System.err);
 			retValue = ex.getLocalizedMessage();
+		}
+		finally
+		{
+			m_mTab = null;
+			m_mField = null;
 		}
 		return retValue;
 	}	//	start
@@ -165,24 +176,32 @@ public class CalloutEngine implements Callout
 
 	/*************************************************************************/
 	
-	private static boolean s_calloutActive = false;
+	//private static boolean s_calloutActive = false;
 	
 	/**
-	 * 	Is Callout Active.
+	 * 	Is the current callout being called in the middle of 
+     *  another callout doing her works.
+     *  Callout can use GridTab.getActiveCalloutInstance() method
+     *  to find out callout for which field is running.
 	 *	@return true if active
 	 */
-	protected static boolean isCalloutActive()
+	protected boolean isCalloutActive()
 	{
-		return s_calloutActive;
+		//greater than 1 instead of 0 to discount this callout instance
+		return m_mTab != null ? m_mTab.getActiveCallouts().length > 1 : false;
 	}	//	isCalloutActive
 
 	/**
 	 * 	Set Callout (in)active.
+     *  Deprecated as the implementation is not thread safe and
+     *  fragile - break other callout if developer forget to call
+     *  setCalloutActive(false) after calling setCalloutActive(true).
+	 *  @deprecated
 	 *	@param active active
 	 */
 	protected static void setCalloutActive (boolean active)
 	{
-		s_calloutActive = active;
+		;
 	}	//	setCalloutActive
 	
 	/**
@@ -238,5 +257,23 @@ public class CalloutEngine implements Callout
 		setCalloutActive(false);
 		return "";
 	}	//	rate
+	
+	/**
+	 * 
+	 * @return gridTab
+	 */
+	public GridTab getGridTab() 
+	{
+		return m_mTab;
+	}
+	
+	/**
+	 * 
+	 * @return gridField
+	 */
+	public GridField getGridField() 
+	{
+		return m_mField;
+	}
 
 }	//	CalloutEngine
