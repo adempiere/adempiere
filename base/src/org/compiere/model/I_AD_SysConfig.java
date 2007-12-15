@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_SysConfig
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_AD_SysConfig 
 {
@@ -65,6 +65,19 @@ public interface I_AD_SysConfig
 	/** Get System Configurator	  */
 	public int getAD_SysConfig_ID();
 
+    /** Column name ConfigurationLevel */
+    public static final String COLUMNNAME_ConfigurationLevel = "ConfigurationLevel";
+
+	/** Set Configuration Level.
+	  * Configuration Level for this parameter
+	  */
+	public void setConfigurationLevel (String ConfigurationLevel);
+
+	/** Get Configuration Level.
+	  * Configuration Level for this parameter
+	  */
+	public String getConfigurationLevel();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -77,6 +90,21 @@ public interface I_AD_SysConfig
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name EntityType */
+    public static final String COLUMNNAME_EntityType = "EntityType";
+
+	/** Set Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType);
+
+	/** Get Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public String getEntityType();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

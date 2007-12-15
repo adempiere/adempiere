@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_SysConfig
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent 
 {
 
@@ -39,6 +39,8 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
       /** if (AD_SysConfig_ID == 0)
         {
 			setAD_SysConfig_ID (0);
+			setEntityType (null);
+// U
 			setName (null);
 			setValue (null);
         } */
@@ -91,6 +93,38 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 		return ii.intValue();
 	}
 
+	/** ConfigurationLevel AD_Reference_ID=53222 */
+	public static final int CONFIGURATIONLEVEL_AD_Reference_ID=53222;
+	/** System = S */
+	public static final String CONFIGURATIONLEVEL_System = "S";
+	/** Client = C */
+	public static final String CONFIGURATIONLEVEL_Client = "C";
+	/** Organization = O */
+	public static final String CONFIGURATIONLEVEL_Organization = "O";
+	/** Set Configuration Level.
+		@param ConfigurationLevel 
+		Configuration Level for this parameter
+	  */
+	public void setConfigurationLevel (String ConfigurationLevel)
+	{
+
+		if (ConfigurationLevel == null || ConfigurationLevel.equals("S") || ConfigurationLevel.equals("C") || ConfigurationLevel.equals("O")); else throw new IllegalArgumentException ("ConfigurationLevel Invalid value - " + ConfigurationLevel + " - Reference_ID=53222 - S - C - O");
+		if (ConfigurationLevel != null && ConfigurationLevel.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			ConfigurationLevel = ConfigurationLevel.substring(0, 1);
+		}
+		set_Value (COLUMNNAME_ConfigurationLevel, ConfigurationLevel);
+	}
+
+	/** Get Configuration Level.
+		@return Configuration Level for this parameter
+	  */
+	public String getConfigurationLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_ConfigurationLevel);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -112,6 +146,31 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** Set Entity Type.
+		@param EntityType 
+		Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType)
+	{
+
+		if (EntityType.length() > 40)
+		{
+			log.warning("Length > 40 - truncated");
+			EntityType = EntityType.substring(0, 40);
+		}
+		set_Value (COLUMNNAME_EntityType, EntityType);
+	}
+
+	/** Get Entity Type.
+		@return Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public String getEntityType () 
+	{
+		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
 	/** Set Name.
