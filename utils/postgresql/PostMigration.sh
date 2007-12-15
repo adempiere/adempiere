@@ -1,7 +1,5 @@
-# $Id: ImportAdempiere.sh,v 1.10 2005/12/20 07:12:17 jjanke Exp $
-echo	Adempiere Database Import		$Revision: 1.10 $
-
-echo	Importing Adempiere DB from $ADEMPIERE_HOME/data/Adempiere_pg.dmp 
+# $Id: PostMigration.sh
+echo	Postgresql Post Migration Scripts
 
 if [ $# -le 2 ] 
   then
@@ -19,7 +17,7 @@ fi
 
 export PGPASSWORD=$3
 echo -------------------------------------
-echo Import Adempiere_pg.dmp
+echo Add missing translations
 echo -------------------------------------
 psql -d $ADEMPIERE_DB_NAME -U $2 -f 01_add_missing_translations.sql
 export PGPASSWORD=

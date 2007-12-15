@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: RUN_ImportAdempiere.sh,v 1.9 2005/01/22 21:59:15 jjanke Exp $
+# $Id: RUN_PostMigration.sh
 
 if [ $ADEMPIERE_HOME ]; then
   cd $ADEMPIERE_HOME/utils
@@ -53,9 +53,9 @@ echo
 # Parameter: <systemAccount> <AdempiereID> <AdempierePwd> <SystemPwd>
 sh $ADEMPIERE_DB_PATH/PostMigration.sh $SYSUSER/$ADEMPIERE_DB_SYSTEM $ADEMPIERE_DB_USER $ADEMPIERE_DB_PASSWORD $ADEMPIERE_DB_SYSTEM
 
-#Run Synchronized Terminology
+#Run Synchronize Terminology
 echo
-echo Synchronized Terminology
+echo Synchronize Terminology
 echo
 
 $JAVA_HOME/bin/java $JAVA_OPTS $ADEMPIERE_OPTS -classpath $MYCLASSPATH org.compiere.process.SynchronizeTerminology
