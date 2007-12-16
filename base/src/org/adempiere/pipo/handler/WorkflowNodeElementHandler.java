@@ -186,6 +186,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			 * AD_Task_ID FROM AD_Task WHERE Name= ?"); taskid =
 			 * DB.getSQLValue(m_trxName,sqlB.toString(),name); }
 			 */
+			m_WFNode.setValue(atts.getValue("Value"));
 			m_WFNode.setEntityType(atts.getValue("EntityType"));
 			m_WFNode.setAction(getStringValue(atts,"Action"));
 			m_WFNode.setDocAction(getStringValue(atts, "DocAction"));
@@ -363,6 +364,9 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
+		
+		atts.addAttribute("", "", "Value", "CDATA", (m_WF_Node
+				.getValue() != null ? m_WF_Node.getValue() : ""));
 		
 		atts.addAttribute("", "", "isActive", "CDATA",
 				(m_WF_Node.isActive() == true ? "true" : "false"));
