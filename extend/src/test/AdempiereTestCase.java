@@ -40,7 +40,7 @@ public class AdempiereTestCase extends TestCase {
 
 	// Filename
 	public final String fileName_Key = "AdempiereProperties";
-	private String fileName_DefaultValue = "J:/Trifon-CD-0.3/workspace/adempiere-trunk/adempiere/Adempiere/Adempiere.properties";
+	private String fileName_DefaultValue = "Adempiere.properties";
 	private String fileName_Value = "";
 
 	// IsClient
@@ -50,12 +50,12 @@ public class AdempiereTestCase extends TestCase {
 
 	// AD_User
 	public final String AD_User_ID_Key = "AD_User_ID";
-	private String AD_User_ID_DefaultValue = "0";
+	private String AD_User_ID_DefaultValue = "100"; //SuperUser
 	private int AD_User_ID_Value = 0;
 
 	// AD_Client
 	public final String AD_Client_ID_Key = "AD_Client_ID";
-	private String AD_Client_ID_DefaultValue = "11";
+	private String AD_Client_ID_DefaultValue = "11"; //GardenWorld
 	private int AD_Client_ID_Value = 11;
 
 	// LogLevel:
@@ -66,22 +66,42 @@ public class AdempiereTestCase extends TestCase {
 	// Trx name
 	private String trxName = "test";
 
+	/**
+	 * 
+	 * @return environment context
+	 */
 	public Properties getCtx() {
 		return m_Ctx;
 	}
 
+	/**
+	 * 
+	 * @return active transaction name
+	 */
 	public String getTrxName() {
 		return trxName;
 	}
 	
+	/**
+	 * 
+	 * @return client id
+	 */
 	public int getAD_Client_ID() {
 		return AD_Client_ID_Value;
 	}
 
+	/**
+	 * 
+	 * @return user id
+	 */
 	public int getAD_User_ID() {
 		return AD_User_ID_Value;
 	}
 	
+	/**
+	 * 
+	 * @return is running as client
+	 */
 	public boolean isClient() {
 		return isClient_Value;
 	}
@@ -130,6 +150,10 @@ public class AdempiereTestCase extends TestCase {
 		CLogMgt.setLevel(LogLevel_Value);
 	}
 
+	/**
+	 * Commit active transaction
+	 * @throws Exception
+	 */
 	protected void commit() throws Exception {
 		Trx trx = null;
 		if (trxName != null)
@@ -137,6 +161,23 @@ public class AdempiereTestCase extends TestCase {
 		if (trx != null && trx.isActive()) {
 			try {
 				trx.commit(true);
+			} finally {
+				trx.close();
+			}
+		}
+		trx = null;
+	}
+	
+	/**
+	 * Rollback active transaction
+	 */
+	protected void rollback() {
+		Trx trx = null;
+		if (trxName != null)
+			trx = Trx.get(trxName, false);
+		if (trx != null && trx.isActive()) {
+			try {
+				trx.rollback();
 			} finally {
 				trx.close();
 			}
