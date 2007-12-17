@@ -178,8 +178,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				MWorkflow m_Workflow = new MWorkflow(ctx, element.recordId, getTrxName(ctx));
 				int id = get_IDWithColumn(ctx, "AD_WF_Node", "Name", name);
 				if (id <= 0) {
-					log.warning("Failed to resolve start node reference for workflow element. Workflow=" 
-							+ m_Workflow.getName() + " StartNode=" + name);
+					element.defer = true;
+					element.unresolved = "AD_WF_Node=" + name;
 					return;
 				}
 				m_Workflow.setAD_WF_Node_ID(id);

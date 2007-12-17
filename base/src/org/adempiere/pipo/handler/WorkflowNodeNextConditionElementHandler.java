@@ -65,6 +65,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 			int wfNodeId = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
 					workflowId, workflowNodeName);
 			if (wfNodeId <= 0) {
+				element.unresolved = "AD_WF_Node=" + workflowNodeName;
 				element.defer = true;
 				return;
 			}
@@ -72,6 +73,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 			int wfNodeNextId = DB.getSQLValue(getTrxName(ctx), sqlB.toString(),
 					workflowId, workflowNodeNextName);
 			if (wfNodeNextId <= 0) {
+				element.unresolved = "AD_WF_Node=" + workflowNodeNextName;
 				element.defer = true;
 				return;
 			}

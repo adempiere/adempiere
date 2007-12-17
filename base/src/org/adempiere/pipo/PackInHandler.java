@@ -640,13 +640,17 @@ public class PackInHandler extends DefaultHandler {
     		setupHandlers();
     	} else {
     		Element e = stack.pop();
-    		ElementHandler handler = handlers.get(elementValue);
-    		if (handler != null)
-    			handler.endElement(m_ctx, e);
-    		if (e.defer)
-				defer.add(new DeferEntry(e, false));
-    		else if (!e.skip)
-    			System.out.println("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
+    		if (e.defer) {
+    			defer.add(new DeferEntry(e, false));
+    		} else {
+	    		ElementHandler handler = handlers.get(elementValue);
+	    		if (handler != null)
+	    			handler.endElement(m_ctx, e);
+	    		if (e.defer)
+					defer.add(new DeferEntry(e, false));
+	    		else if (!e.skip)
+	    			System.out.println("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
+    		}
     	}
     }   // endElement
     
@@ -666,12 +670,24 @@ public class PackInHandler extends DefaultHandler {
     	do {
     		int startSize = defer.size();
     		List<DeferEntry> tmp = new ArrayList<DeferEntry>(defer);
+    		List<Element> startElements = new ArrayList<Element>();
     		defer.clear();
     		for (DeferEntry d : tmp) {
     			if (d.startElement) {
 	    			d.element.defer = false;
 	    			d.element.unresolved = "";
 	    			d.element.pass++;
+	    			startElements.add(d.element);
+    			} else {
+    				if (d.element.defer && startElements.contains(d.element)) {
+    					defer.add(d);
+    					continue;
+    				} else {
+    					//only defer endElement
+    					d.element.defer = false;
+    	    			d.element.unresolved = "";
+    	    			d.element.pass++;
+    				}
     			}
     			ElementHandler handler = handlers.get(d.element.getElementValue());
     			if (handler != null) {
