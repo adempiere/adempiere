@@ -114,6 +114,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 
 			}
 			
+			m_Workflow.setValue(atts.getValue("Value"));
 			m_Workflow.setName(workflowName);
 			m_Workflow.setAccessLevel(atts.getValue("AccessLevel"));
 			m_Workflow.setDescription(getStringValue(atts,"Description"));
@@ -333,6 +334,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		atts.addAttribute("", "", "Value", "CDATA", (m_Workflow.getValue() != null ? m_Workflow.getValue() : ""));
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_Workflow.getName() != null ? m_Workflow.getName() : ""));
 		if (m_Workflow.getAD_Table_ID() > 0) {
