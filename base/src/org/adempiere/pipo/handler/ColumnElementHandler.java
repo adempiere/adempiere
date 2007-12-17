@@ -36,6 +36,7 @@ import org.compiere.model.MTable;
 import org.compiere.model.X_AD_Column;
 import org.compiere.model.X_AD_Element;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.xml.sax.Attributes;
@@ -193,6 +194,13 @@ public class ColumnElementHandler extends AbstractElementHandler {
 					|| m_Column.is_ValueChanged("FieldLength")
 					|| m_Column.is_ValueChanged("ColumnName") || m_Column
 					.is_ValueChanged("IsMandatory"));
+			
+			//ignore fieldlength change for clob and lob
+			if (!m_Column.is_ValueChanged("AD_Reference_ID") && m_Column.is_ValueChanged("FieldLength")) {
+				if (DisplayType.isLOB(m_Column.getAD_Reference_ID())) {
+					recreateColumn = false;
+				}
+			}
 
 			// changed default ??
 			// m_Column.is_ValueChanged("DefaultValue") doesn't work well with
