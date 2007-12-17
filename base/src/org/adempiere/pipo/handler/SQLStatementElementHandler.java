@@ -43,7 +43,10 @@ public class SQLStatementElementHandler extends AbstractElementHandler {
 		log.info(elementValue);
 		Attributes atts = element.attributes;
 		String DBType = atts.getValue("DBType");
-		PreparedStatement pstmt = DB.prepareStatement(atts.getValue("statement"), getTrxName(ctx));	    
+		String sql = atts.getValue("statement").trim();
+		if (sql.endsWith(";"))
+			sql = sql.substring(0, sql.length() - 1);
+		PreparedStatement pstmt = DB.prepareStatement(sql, getTrxName(ctx));	    
 		try {
 			if(DBType.equals("ALL")) {
 				int n = pstmt.executeUpdate();				
