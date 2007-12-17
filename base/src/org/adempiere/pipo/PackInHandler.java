@@ -33,6 +33,7 @@ import java.util.Stack;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.sax.TransformerHandler;
@@ -116,7 +117,7 @@ public class PackInHandler extends DefaultHandler {
     private int m_AD_Client_ID = 0;
     private int AD_Package_Imp_ID=0;
 	private int AD_Package_Imp_Inst_ID=0;
-    private CLogger log = CLogger.getCLogger("PackIn");
+    private CLogger log = CLogger.getCLogger(PackInHandler.class);
     private OutputStream  fw_document = null;
     private TransformerHandler logDocument = null;
     private StreamResult streamResult_document = null;		
@@ -648,8 +649,10 @@ public class PackInHandler extends DefaultHandler {
 	    			handler.endElement(m_ctx, e);
 	    		if (e.defer)
 					defer.add(new DeferEntry(e, false));
-	    		else if (!e.skip)
-	    			System.out.println("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
+	    		else if (!e.skip) {
+	    			if (log.isLoggable(Level.INFO))
+	    				log.info("Processed: " + e.getElementValue() + " - " + e.attributes.getValue(0));
+	    		}
     		}
     	}
     }   // endElement
@@ -698,9 +701,11 @@ public class PackInHandler extends DefaultHandler {
     			}
     			if (d.element.defer)
     				defer.add(d);
-    			else if (!d.startElement)
-    				System.out.println("Processed: " + d.element.getElementValue() + " - " 
-    					+ d.element.attributes.getValue(0));
+    			else if (!d.startElement) {
+    				if (log.isLoggable(Level.INFO))
+    					log.info("Processed: " + d.element.getElementValue() + " - " 
+    							+ d.element.attributes.getValue(0));
+    			}
     		}
     		int endSize = defer.size();
     		if (startSize == endSize) break;
@@ -711,7 +716,8 @@ public class PackInHandler extends DefaultHandler {
     		for (DeferEntry d : defer) {
     			if (d.startElement) {
     				count++;
-    				System.out.println("Unresolved: " + d.element.getElementValue() + " - " + d.element.attributes.getValue(0) + ", " + d.element.unresolved);
+    				if (log.isLoggable(Level.INFO))
+    					log.info("Unresolved: " + d.element.getElementValue() + " - " + d.element.attributes.getValue(0) + ", " + d.element.unresolved);
     			}
     		}
     		throw new RuntimeException("Failed to resolve dependency for " + count + " elements.");

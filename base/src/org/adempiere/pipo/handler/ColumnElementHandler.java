@@ -229,10 +229,6 @@ public class ColumnElementHandler extends AbstractElementHandler {
 					recreateColumn = false;
 			}
 
-			/*if (tableName.equals("A_Depreciation") && columnName.equals("Processed")) {
-				System.out.println("A_Depreciation.Processed: " + recreateColumn);
-			}*/
-			
 			if (m_Column.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Column.getName(), "Column", m_Column
 						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
@@ -343,14 +339,12 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				log.info(sql);
 	
 				if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1) {
-					System.out.println(sql);
 					no = DB.executeUpdate(sql, false, trx.getTrxName());
 					if (no == -1)
 						return 0;
 				} else {
 					String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
 					for (int i = 0; i < statements.length; i++) {
-						System.out.println(statements[i]);
 						int count = DB.executeUpdate(statements[i], false,
 								trx.getTrxName());
 						if (count == -1) {
