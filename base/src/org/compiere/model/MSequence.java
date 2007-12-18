@@ -157,7 +157,7 @@ public class MSequence extends X_AD_Sequence
 					if (adempiereSys) {
 
 						String isUseCentralizedID = MSysConfig.getValue("DICTIONARY_ID_USE_CENTRALIZED_ID", "Y"); // defaults to Y
-						if (! isUseCentralizedID.equals("N")) {
+						if (! isUseCentralizedID.equals("N") && ! isExceptionCentralized(TableName)) {
 							// get ID from http site
 							retValue = getNextOfficialID_HTTP(TableName);
 							if (retValue > 0) {
@@ -174,7 +174,7 @@ public class MSequence extends X_AD_Sequence
 					}
 
 					// If not official dictionary try to get the ID from http custom server - if configured
-					if (hasEntityType && ! adempiereSys) {
+					if (hasEntityType && ! adempiereSys && ! isExceptionCentralized(TableName)) {
 
 						String isUseProjectCentralizedID = MSysConfig.getValue("PROJECT_ID_USE_CENTRALIZED_ID", "N"); // defaults to N
 						if (isUseProjectCentralizedID.equals("Y")) {
@@ -1323,4 +1323,50 @@ public class MSequence extends X_AD_Sequence
 		return retValue;
 	}
 	
+	private static boolean isExceptionCentralized(String tableName) {
+		String [] exceptionTables = new String[] {
+				"AD_ACCESSLOG",
+				"AD_ALERTPROCESSORLOG",
+				"AD_CHANGELOG",
+				"AD_ISSUE",
+				"AD_LDAPPROCESSORLOG",
+				"AD_PACKAGE_IMP",
+				"AD_PACKAGE_IMP_BACKUP",
+				"AD_PACKAGE_IMP_DETAIL",
+				"AD_PACKAGE_IMP_INST",
+				"AD_PACKAGE_IMP_PROC",
+				"AD_PINSTANCE",
+				"AD_PINSTANCE_LOG",
+				"AD_PINSTANCE_PARA",
+				"AD_REPLICATION_LOG",
+				"AD_SCHEDULERLOG",
+				"AD_SESSION",
+				"AD_WORKFLOWPROCESSORLOG",
+				"CM_WEBACCESSLOG",
+				"C_ACCTPROCESSORLOG",
+				"K_INDEXLOG",
+				"R_REQUESTPROCESSORLOG",
+				"T_AGING",
+				"T_ALTER_COLUMN",
+				"T_DISTRIBUTIONRUNDETAIL",
+				"T_INVENTORYVALUE",
+				"T_INVOICEGL",
+				"T_REPLENISH",
+				"T_REPORT",
+				"T_REPORTSTATEMENT",
+				"T_SELECTION",
+				"T_SELECTION2",
+				"T_SPOOL",
+				"T_TRANSACTION",
+				"T_TRIALBALANCE"
+			};
+		for (int i = 0; i < exceptionTables.length; i++) {
+			if (tableName.equalsIgnoreCase(exceptionTables[i]))
+				return true;
+		}
+
+		// don't log selects or insert/update for exception tables (i.e. AD_Issue, AD_ChangeLog)
+		return false;
+	}
+
 }	//	MSequence
