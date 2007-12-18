@@ -157,7 +157,7 @@ public class MSequence extends X_AD_Sequence
 					if (adempiereSys) {
 
 						String isUseCentralizedID = MSysConfig.getValue("DICTIONARY_ID_USE_CENTRALIZED_ID", "Y"); // defaults to Y
-						if (! isUseCentralizedID.equals("N") && ! isExceptionCentralized(TableName)) {
+						if ( ( ! isUseCentralizedID.equals("N") ) && ( ! isExceptionCentralized(TableName) ) ) {
 							// get ID from http site
 							retValue = getNextOfficialID_HTTP(TableName);
 							if (retValue > 0) {
@@ -174,7 +174,7 @@ public class MSequence extends X_AD_Sequence
 					}
 
 					// If not official dictionary try to get the ID from http custom server - if configured
-					if (hasEntityType && ! adempiereSys && ! isExceptionCentralized(TableName)) {
+					if (hasEntityType && ( ! adempiereSys ) && ( ! isExceptionCentralized(TableName) ) ) {
 
 						String isUseProjectCentralizedID = MSysConfig.getValue("PROJECT_ID_USE_CENTRALIZED_ID", "N"); // defaults to N
 						if (isUseProjectCentralizedID.equals("Y")) {
