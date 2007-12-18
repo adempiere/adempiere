@@ -77,13 +77,8 @@ public final class VPanel extends CTabbedPane
 		m_tablist.put("main", m_main);
 		this.setBorder(marginBorder);
 		CPanel dummy = new CPanel();
-		FlowLayout f = new FlowLayout();
-		f.setAlignment(FlowLayout.LEFT);
-		f.setHgap(0);
-		f.setVgap(0);
-		dummy.setBorder(BorderFactory.createEmptyBorder());
-		dummy.setLayout(f);
-		dummy.add(m_main);
+		dummy.setLayout(new BorderLayout());
+		dummy.add(m_main, BorderLayout.NORTH);
 		dummy.setName(m_main.getName());
 		this.add(dummy);		
 
@@ -326,13 +321,8 @@ public final class VPanel extends CTabbedPane
 			m_tab.setLayout(new GridBagLayout());
 			m_tab.setName(fieldGroup);
 			CPanel dummy = new CPanel();
-			FlowLayout f = new FlowLayout();
-			f.setAlignment(FlowLayout.LEFT);
-			f.setHgap(0);
-			f.setVgap(0);
-			dummy.setLayout(f);
-			dummy.setBorder(BorderFactory.createEmptyBorder());
-			dummy.add(m_tab);
+			dummy.setLayout(new BorderLayout());
+			dummy.add(m_tab, BorderLayout.NORTH);
 			dummy.setName(m_tab.getName());
 			this.add(dummy);			  
 			m_tablist.put(fieldGroup, m_tab);
