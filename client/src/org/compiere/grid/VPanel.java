@@ -119,6 +119,8 @@ public final class VPanel extends CTabbedPane
 	private boolean 			m_hGapAdded = false;					//	only once
 	/** Previous Field Group Header     */
 	private String              m_oldFieldGroup = null;
+	/** Previous Field Group Type */
+	private String              m_oldFieldGroupType = null;
 	//[ 1757088 ]  	
 	private java.util.Hashtable m_tablist = new java.util.Hashtable();
 	private java.util.Hashtable m_tabincludelist = new java.util.Hashtable();
@@ -199,6 +201,7 @@ public final class VPanel extends CTabbedPane
 		if (fieldGroup == "")
 		{	
 			fieldGroup = m_oldFieldGroup;
+			fieldGroupType = m_oldFieldGroupType;
 		}
 		
 		if (addGroup(fieldGroup, fieldGroupType)) //	sets top														
@@ -206,6 +209,7 @@ public final class VPanel extends CTabbedPane
 		else
 		{
 			fieldGroup = m_oldFieldGroup;
+			fieldGroupType = m_oldFieldGroupType;
 		}
 
 		if (sameLine)    							//	Set line #
@@ -302,6 +306,7 @@ public final class VPanel extends CTabbedPane
 		{
 			addTop();
 			m_oldFieldGroup = "";
+			m_oldFieldGroupType = "";
 		}
 
 		if (fieldGroup == null || fieldGroup.length() == 0 || fieldGroup.equals(m_oldFieldGroup))
@@ -331,9 +336,6 @@ public final class VPanel extends CTabbedPane
 			dummy.setName(m_tab.getName());
 			this.add(dummy);			  
 			m_tablist.put(fieldGroup, m_tab);
-			m_oldFieldGroup= fieldGroup;
-			return true;
-
 		}
 		else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 		{				  
@@ -358,8 +360,6 @@ public final class VPanel extends CTabbedPane
 			m_gbc.ipadx = 0;					  			  
 			m_main.add(GroupPaneContainer,m_gbc);
 			m_tablist.put(fieldGroup, m_tab);
-			m_oldFieldGroup = fieldGroup;
-			return true;
 		}									
 		else // Label or null
 		{
@@ -372,18 +372,19 @@ public final class VPanel extends CTabbedPane
 			m_main.add(group, m_gbc);
 			//	reset
 			m_gbc.gridwidth = 1;
-			m_oldFieldGroup = fieldGroup;
-			return true;
 		}
+		m_oldFieldGroup = fieldGroup;
+		m_oldFieldGroupType = fieldGroupType;
+		return true;
 	}	//	addGroup
 
 	private JXTaskPaneContainer createTaskPaneContainer() {
 		Color c = AdempierePLAF.getFormBackground();			  
-		  Color containerBg = new Color(Math.max((int)(c.getRed()  * 0.97), 0), 
-					 Math.max((int)(c.getGreen()*0.97), 0),
-					 Math.max((int)(c.getBlue() *0.97), 0));			  
-		  JXTaskPaneContainer GroupPaneContainer = new JXTaskPaneContainer();
-		  GroupPaneContainer.setBackground(containerBg);
+		Color containerBg = new Color(Math.max((int)(c.getRed()  * 0.97), 0), 
+				Math.max((int)(c.getGreen()*0.97), 0),
+				Math.max((int)(c.getBlue() *0.97), 0));			  
+		JXTaskPaneContainer GroupPaneContainer = new JXTaskPaneContainer();
+		GroupPaneContainer.setBackground(containerBg);
 		return GroupPaneContainer;
 	}
 
