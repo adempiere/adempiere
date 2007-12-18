@@ -127,6 +127,8 @@ public class GridFieldVO implements Serializable
 					vo.ValueMax = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("FieldGroup"))
 					vo.FieldGroup = rs.getString (i);
+				else if (columnName.equalsIgnoreCase("FieldGroupType"))
+					vo.FieldGroupType = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("IsKey"))
 					vo.IsKey = "Y".equals(rs.getString (i));
 				else if (columnName.equalsIgnoreCase("IsParent"))
@@ -373,6 +375,8 @@ public class GridFieldVO implements Serializable
 	public String       ValueMax = "";
 	/**	Field Group		*/
 	public String       FieldGroup = "";
+	/**	Field Group	Type	*/
+	public String       FieldGroupType = "";
 	/**	PK				*/
 	public boolean      IsKey = false;
 	/**	FK				*/
@@ -434,6 +438,8 @@ public class GridFieldVO implements Serializable
 			DefaultValue = "";
 		if (FieldGroup == null)
 			FieldGroup = "";
+		if (FieldGroupType == null)
+			FieldGroupType = "";
 		if (Description == null)
 			Description = "";
 		if (Help == null)
@@ -508,6 +514,7 @@ public class GridFieldVO implements Serializable
 		clone.ValueMin = ValueMin;
 		clone.ValueMax = ValueMax;
 		clone.FieldGroup = FieldGroup;
+		clone.FieldGroupType = FieldGroupType;
 		clone.IsKey = IsKey;
 		clone.IsParent = IsParent;
 		clone.Callout = Callout;

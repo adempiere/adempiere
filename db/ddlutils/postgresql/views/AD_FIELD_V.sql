@@ -1,39 +1,63 @@
-CREATE OR REPLACE VIEW AD_FIELD_V
-(AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, 
- NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, 
- DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, 
- ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, 
- COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, 
- ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, 
- CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
- READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, 
- VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID)
-AS 
-SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
-	f.Name, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
-	f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
-	f.IsEncrypted AS IsEncryptedField, f.ObscureType,
-	c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
-	COALESCE(f.DefaultValue, c.DefaultValue) as DefaultValue,
-	c.IsKey, c.IsParent, 
-	COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
-    c.IsIdentifier, c.IsTranslated, c.AD_Reference_Value_ID, 
-	c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
-    c.AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
-	c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
-    c.IsSelectionColumn,
-	tbl.TableName, c.ValueMin, c.ValueMax, 
-	fg.Name AS FieldGroup, vr.Code AS ValidationCode,
-	f.Included_Tab_ID
-FROM AD_Field f 
-  INNER JOIN AD_Tab t ON (f.AD_Tab_ID = t.AD_Tab_ID)
-  LEFT OUTER JOIN AD_FieldGroup fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
-  LEFT OUTER JOIN AD_Column c ON (f.AD_Column_ID = c.AD_Column_ID)
-	INNER JOIN AD_Table tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
-	INNER JOIN AD_Reference r ON (c.AD_Reference_ID = r.AD_Reference_ID)
-	LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)
-WHERE f.IsActive = 'Y' 
-  AND c.IsActive = 'Y';
-
-
-
+CREATE OR
+REPLACE VIEW ad_field_v AS 
+SELECT t.ad_window_id,
+	f.ad_tab_id,
+	f.ad_field_id,
+	tbl.ad_table_id,
+	f.ad_column_id,
+	f.NAME,
+	f.description,
+	f.help,
+	f.isdisplayed,
+	f.displaylogic,
+	f.displaylength,
+	f.seqno,
+	f.sortno,
+	f.issameline,
+	f.isheading,
+	f.isfieldonly,
+	f.isreadonly,
+	f.isencrypted                                  AS isencryptedfield,
+	f.obscuretype,
+	C.columnname,
+	C.columnsql,
+	C.fieldlength,
+	C.vformat,
+	C.defaultvalue,
+	C.iskey,
+	C.isparent,
+	COALESCE(f.ismandatory, C.ismandatory)         AS ismandatory,
+	C.isidentifier,
+	C.istranslated,
+	C.ad_reference_value_id,
+	C.callout,
+	COALESCE(f.ad_reference_id, C.ad_reference_id) AS ad_reference_id,
+	C.ad_val_rule_id,
+	C.ad_process_id,
+	C.isalwaysupdateable,
+	C.readonlylogic,
+	C.isupdateable,
+	C.isencrypted                                  AS isencryptedcolumn,
+	C.isselectioncolumn,
+	tbl.tablename,
+	C.valuemin,
+	C.valuemax,
+	fg.NAME                                        AS fieldgroup,
+	vr.code                                        AS validationcode,
+	f.Included_Tab_ID,
+	fg.FieldGroupType 
+FROM ((((((AD_FIELD f 
+		JOIN AD_TAB t 
+		ON ((f.ad_tab_id = t.ad_tab_id))) 
+		LEFT JOIN AD_FIELDGROUP fg 
+		ON ((f.ad_fieldgroup_id = fg.ad_fieldgroup_id))) 
+		LEFT JOIN AD_COLUMN C 
+		ON ((f.ad_column_id = C.ad_column_id))) 
+		JOIN AD_TABLE tbl 
+		ON ((C.ad_table_id = tbl.ad_table_id))) 
+		JOIN AD_REFERENCE r 
+		ON ((C.ad_reference_id = r.ad_reference_id))) 
+		LEFT JOIN AD_VAL_RULE vr 
+		ON ((C.ad_val_rule_id = vr.ad_val_rule_id))) 
+WHERE ((f.isactive = 'Y'::bpchar) AND
+	(C.isactive = 'Y'::bpchar))

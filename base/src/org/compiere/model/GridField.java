@@ -1025,6 +1025,14 @@ public class GridField
 		return m_vo.FieldGroup;
 	}
 	/**
+	 * 	Get Field Group Type
+	 *	@return field group type
+	 */
+	public String getFieldGroupType()
+	{
+		return m_vo.FieldGroupType;
+	}
+	/**
 	 * 	Key
 	 *	@return key
 	 */
