@@ -807,14 +807,9 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (tax != null) {
 			if (!tax.calculateTaxFromLines())
 				return false;
-			if (tax.getTaxAmt().signum() != 0 || tax.getTaxAmt().signum() == 0 ) { //red1 - added zero condition to solve bugs stated below
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
-			else { //red1 - this may become redundant due to above ZERO condition for BUGS #[ 1701331 ] , #[ 1786103 ]
-				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
-					return false;
-			}
+			// red1 - solving BUGS #[ 1701331 ] , #[ 1786103 ]
+			if (!tax.save(get_TrxName()))
+				return false;
 		}
 		return true;
 	}
