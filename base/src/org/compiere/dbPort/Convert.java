@@ -506,6 +506,8 @@ public abstract class Convert
 				return true;
 			if (uppStmt.startsWith("UPDATE " + exceptionTables[i] + " "))
 				return true;
+			if (uppStmt.startsWith("INSERT INTO " + exceptionTables[i] + "("))
+				return true;
 		}
 		
 		// don't log selects or insert/update for exception tables (i.e. AD_Issue, AD_ChangeLog)
