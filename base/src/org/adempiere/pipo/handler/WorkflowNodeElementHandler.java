@@ -50,6 +50,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			}
 			if (element.parent != null && element.parent.getElementValue().equals("workflow")
 				&& element.parent.defer) {
+				element.unresolved = "Parent element mark as defer: " + atts.getValue("ADWorkflowNameID");
 				element.defer = true;
 				return;
 			}

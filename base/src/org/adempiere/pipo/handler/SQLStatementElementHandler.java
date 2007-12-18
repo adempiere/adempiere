@@ -70,16 +70,13 @@ public class SQLStatementElementHandler extends AbstractElementHandler {
 					// Postgres needs to commit DDL statements
 					if (m_con != null && !m_con.getAutoCommit())
 						m_con.commit();
+					stmt.close();
 				} finally {
 					m_con.close();
 				}
 			}
-			/*			else if(DB.isSybase() == true && DBType.equals("Sybase")){
-			 pstmt.executeUpdate();
-			 log.info("Exceuted SQL Statement for Sybase");
-			 }
-			 */		}
-		catch (Exception e)	{
+			pstmt.close();
+		} catch (Exception e)	{
 			log.log(Level.SEVERE,"SQLSatement", e);
 		}
 	}

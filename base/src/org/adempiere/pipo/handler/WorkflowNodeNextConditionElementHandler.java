@@ -52,6 +52,7 @@ public class WorkflowNodeNextConditionElementHandler extends
 					workflowName);
 			if (workflowId <= 0) {
 				element.defer = true;
+				element.unresolved = "AD_Workflow: " + workflowName;
 				return;
 			}
 

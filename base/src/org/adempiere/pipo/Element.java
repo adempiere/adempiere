@@ -43,6 +43,8 @@ public class Element {
 	//skip this node
 	public boolean skip = false;
 	
+	public boolean deferEnd = false;
+	
 	/**
 	 * @param uri
 	 * @param localName

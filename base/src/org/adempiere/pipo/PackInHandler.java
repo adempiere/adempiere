@@ -647,7 +647,7 @@ public class PackInHandler extends DefaultHandler {
 	    		ElementHandler handler = handlers.get(elementValue);
 	    		if (handler != null)
 	    			handler.endElement(m_ctx, e);
-	    		if (e.defer)
+	    		if (e.defer || e.deferEnd)
 					defer.add(new DeferEntry(e, false));
 	    		else if (!e.skip) {
 	    			if (log.isLoggable(Level.INFO))
@@ -673,24 +673,21 @@ public class PackInHandler extends DefaultHandler {
     	do {
     		int startSize = defer.size();
     		List<DeferEntry> tmp = new ArrayList<DeferEntry>(defer);
-    		List<Element> startElements = new ArrayList<Element>();
     		defer.clear();
     		for (DeferEntry d : tmp) {
     			if (d.startElement) {
 	    			d.element.defer = false;
 	    			d.element.unresolved = "";
 	    			d.element.pass++;
-	    			startElements.add(d.element);
-    			} else {
-    				if (d.element.defer && startElements.contains(d.element)) {
-    					defer.add(d);
-    					continue;
-    				} else {
-    					//only defer endElement
-    					d.element.defer = false;
+    			} else {    				
+    				if (d.element.deferEnd) {
+    					d.element.deferEnd = false;
     	    			d.element.unresolved = "";
-    	    			d.element.pass++;
-    				}
+    				}    				
+    			}
+    			if (log.isLoggable(Level.INFO)) {
+    				log.info("Processeing Defer Element: " + d.element.getElementValue() + " - " 
+						+ d.element.attributes.getValue(0));
     			}
     			ElementHandler handler = handlers.get(d.element.getElementValue());
     			if (handler != null) {
@@ -702,9 +699,13 @@ public class PackInHandler extends DefaultHandler {
     			if (d.element.defer)
     				defer.add(d);
     			else if (!d.startElement) {
-    				if (log.isLoggable(Level.INFO))
-    					log.info("Processed: " + d.element.getElementValue() + " - " 
-    							+ d.element.attributes.getValue(0));
+    				if (d.element.deferEnd)
+    					defer.add(d);
+    				else {
+	    				if (log.isLoggable(Level.INFO))
+	    					log.info("Imported Defer Element: " + d.element.getElementValue() + " - " 
+	    							+ d.element.attributes.getValue(0));
+    				}
     			}
     		}
     		int endSize = defer.size();
@@ -714,10 +715,10 @@ public class PackInHandler extends DefaultHandler {
     	if (defer.size() > 0) {
     		int count = 0;
     		for (DeferEntry d : defer) {
-    			if (d.startElement) {
+    			if (!d.startElement) {
     				count++;
-    				if (log.isLoggable(Level.INFO))
-    					log.info("Unresolved: " + d.element.getElementValue() + " - " + d.element.attributes.getValue(0) + ", " + d.element.unresolved);
+    				if (log.isLoggable(Level.SEVERE))
+    					log.severe("Unresolved: " + d.element.getElementValue() + " - " + d.element.attributes.getValue(0) + ", " + d.element.unresolved);
     			}
     		}
     		throw new RuntimeException("Failed to resolve dependency for " + count + " elements.");

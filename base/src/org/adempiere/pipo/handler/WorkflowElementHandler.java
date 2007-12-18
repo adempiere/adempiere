@@ -178,7 +178,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				MWorkflow m_Workflow = new MWorkflow(ctx, element.recordId, getTrxName(ctx));
 				int id = get_IDWithColumn(ctx, "AD_WF_Node", "Name", name);
 				if (id <= 0) {
-					element.defer = true;
+					element.deferEnd = true;
 					element.unresolved = "AD_WF_Node=" + name;
 					return;
 				}
