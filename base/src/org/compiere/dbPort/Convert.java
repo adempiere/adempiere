@@ -495,7 +495,7 @@ public abstract class Convert
 		if (uppStmt.startsWith("SELECT "))
 			return true;
 		// don't log update to statistic process
-		if (uppStmt.startsWith("UPDATE AD_PROCESS SET STATISTIC_COUNT="))
+		if (uppStmt.startsWith("UPDATE AD_PROCESS SET STATISTIC_"))
 			return true;
 		for (int i = 0; i < exceptionTables.length; i++) {
 			if (uppStmt.startsWith("INSERT INTO " + exceptionTables[i] + " "))
