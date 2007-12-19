@@ -224,7 +224,7 @@ public class VAllocation extends CPanel
 		infoPanel.add(paymentPanel, JSplitPane.TOP);
 		infoPanel.add(invoicePanel, JSplitPane.BOTTOM);
 		infoPanel.setContinuousLayout(true);
-		infoPanel.setPreferredSize(new Dimension(670,250));
+		infoPanel.setPreferredSize(new Dimension(800,250));
 		infoPanel.setDividerLocation(110);
 	}   //  jbInit
 
