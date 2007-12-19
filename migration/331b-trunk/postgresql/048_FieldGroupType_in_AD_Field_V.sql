@@ -1,3 +1,9 @@
+drop view ad_field_v
+;
+
+drop view ad_field_vt
+;
+
 CREATE OR
 REPLACE VIEW ad_field_v AS 
 SELECT t.ad_window_id,
