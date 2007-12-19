@@ -257,7 +257,7 @@ public class ModelClassGenerator
 			 .append("    /** Load Meta Data */").append(NL)
 			 .append("    protected POInfo initPO (Properties ctx)").append(NL)
 			 .append("    {").append(NL)
-			 .append("      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);").append(NL)
+			 .append("      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());").append(NL)
 			 .append("      return poi;").append(NL)
 			 .append("    }").append(NL)
 			// initPO

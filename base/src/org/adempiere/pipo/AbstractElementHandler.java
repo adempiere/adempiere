@@ -224,7 +224,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
     	int idBackup = 0;
     	String colValue=null;
     	int tableID = get_IDWithColumn(ctx, "AD_Table", "TableName", tableName);    	
-		POInfo poInfo = POInfo.getPOInfo(ctx, tableID);
+		POInfo poInfo = POInfo.getPOInfo(ctx, tableID, getTrxName(ctx));
 		for (int i = 0; i < poInfo.getColumnCount(); i++){
 			String colName = poInfo.getColumnName(i);
 			colValue=null;

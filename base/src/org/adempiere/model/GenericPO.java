@@ -84,7 +84,7 @@ public class GenericPO extends PO {
 		tableName = wrapper.tableName;
 		tableID = MTable.getTable_ID(tableName);
 		// log.info("Table_ID: "+Table_ID);
-		POInfo poi = POInfo.getPOInfo(ctx, tableID);
+		POInfo poi = POInfo.getPOInfo(ctx, tableID, this.get_TrxName());
 		return poi;
 	}
 

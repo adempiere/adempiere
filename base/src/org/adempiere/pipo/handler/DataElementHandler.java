@@ -160,7 +160,7 @@ public class DataElementHandler extends AbstractElementHandler {
 			
 			// for debug GenericPO.
 			if (false) {
-				POInfo poInfo = POInfo.getPOInfo(ctx, get_ID(ctx, "AD_Table", d_tablename));
+				POInfo poInfo = POInfo.getPOInfo(ctx, get_ID(ctx, "AD_Table", d_tablename), getTrxName(ctx));
 				if (poInfo == null)
 					log.info("poInfo is null.");
 				for (int i = 0; i < poInfo.getColumnCount(); i++) {
