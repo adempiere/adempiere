@@ -59,10 +59,10 @@ public class POInfo implements Serializable
 		POInfo retValue = (POInfo)s_cache.get(key);
 		if (retValue == null)
 		{
-			retValue = new POInfo(ctx, AD_Table_ID, false);
+			retValue = new POInfo(ctx, AD_Table_ID, false, trxName);
 			if (retValue.getColumnCount() == 0)
 				//	May be run before Language verification
-				retValue = new POInfo(ctx, AD_Table_ID, true);
+				retValue = new POInfo(ctx, AD_Table_ID, true, trxName);
 			else
 				s_cache.put(key, retValue);
 		}
