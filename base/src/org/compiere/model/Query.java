@@ -89,7 +89,7 @@ public class Query {
 	public List<PO> list() throws SQLException {
 		List<PO> list = new ArrayList<PO>();
 		
-		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID());
+		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
 		if (info == null) return null;
 		StringBuffer sqlBuffer = info.buildSelect();
 		if (whereClause != null && whereClause.trim().length() > 0)
@@ -210,7 +210,7 @@ public class Query {
 	 * @throws SQLException 
 	 */
 	public POResultSet scroll() throws SQLException {
-		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID());
+		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
 		if (info == null) return null;
 		StringBuffer sqlBuffer = info.buildSelect();
 		if (whereClause != null && whereClause.trim().length() > 0)

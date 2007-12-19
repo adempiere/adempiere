@@ -594,7 +594,7 @@ public class MTable extends X_AD_Table
 			return null;
 		//
 		PO po = null;
-		POInfo info = POInfo.getPOInfo(getCtx(), getAD_Table_ID());
+		POInfo info = POInfo.getPOInfo(getCtx(), getAD_Table_ID(), trxName);
 		if (info == null) return null;
 		StringBuffer sqlBuffer = info.buildSelect();
 		sqlBuffer.append(" WHERE ").append(whereClause);

@@ -115,6 +115,8 @@ public abstract class PO
 		if (ctx == null)
 			throw new IllegalArgumentException ("No Context");
 		p_ctx = ctx;
+		m_trxName = trxName;
+		
 		p_info = initPO(ctx);
 		if (p_info == null || p_info.getTableName() == null)
 			throw new IllegalArgumentException ("Invalid PO Info - " + p_info);
@@ -122,7 +124,7 @@ public abstract class PO
 		int size = p_info.getColumnCount();
 		m_oldValues = new Object[size];
 		m_newValues = new Object[size];
-		m_trxName = trxName;
+		
 		if (rs != null)
 			load(rs);		//	will not have virtual columns
 		else

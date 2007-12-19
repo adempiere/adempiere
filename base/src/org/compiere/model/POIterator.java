@@ -94,7 +94,7 @@ public class POIterator implements Iterator<PO> {
 			} else {
 				if (keyWhereClause == null) {
 					String[] keys = table.getKeyColumns();
-					POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID());
+					POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
 					if (info == null) return null;
 					StringBuffer sqlBuffer = info.buildSelect();
 					sqlBuffer.append(" WHERE ");

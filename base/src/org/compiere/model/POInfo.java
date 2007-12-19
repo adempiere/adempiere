@@ -43,6 +43,18 @@ public class POInfo implements Serializable
 	 */
 	public static POInfo getPOInfo (Properties ctx, int AD_Table_ID)
 	{
+		return getPOInfo(ctx, AD_Table_ID, null);
+	}
+	
+	/**
+	 *  POInfo Factory
+	 *  @param ctx context
+	 *  @param AD_Table_ID AD_Table_ID
+	 *  @param trxName Transaction name
+	 *  @return POInfo
+	 */
+	public static POInfo getPOInfo (Properties ctx, int AD_Table_ID, String trxName)
+	{
 		Integer key = new Integer(AD_Table_ID);
 		POInfo retValue = (POInfo)s_cache.get(key);
 		if (retValue == null)
@@ -68,10 +80,22 @@ public class POInfo implements Serializable
 	 */
 	private POInfo (Properties ctx, int AD_Table_ID, boolean baseLanguageOnly)
 	{
+		this(ctx, AD_Table_ID, baseLanguageOnly, null);
+	}
+	
+	/**************************************************************************
+	 *  Create Persistent Info
+	 *  @param ctx context
+	 *  @param AD_Table_ID AD_ Table_ID
+	 * 	@param baseLanguageOnly get in base language
+	 *  @param trxName transaction name
+	 */
+	private POInfo (Properties ctx, int AD_Table_ID, boolean baseLanguageOnly, String trxName)
+	{
 		m_ctx = ctx;
 		m_AD_Table_ID = AD_Table_ID;
 		boolean baseLanguage = baseLanguageOnly ? true : Env.isBaseLanguage(m_ctx, "AD_Table");
-		loadInfo (baseLanguage);
+		loadInfo (baseLanguage, trxName);
 	}   //  PInfo
 
 	/** Context             	*/
@@ -91,8 +115,9 @@ public class POInfo implements Serializable
 	/**
 	 *  Load Table/Column Info
 	 * 	@param baseLanguage in English
+	 *  @param trxName
 	 */
-	private void loadInfo (boolean baseLanguage)
+	private void loadInfo (boolean baseLanguage, String trxName)
 	{
 		ArrayList<POInfoColumn> list = new ArrayList<POInfoColumn>(15);
 		StringBuffer sql = new StringBuffer();
@@ -116,9 +141,10 @@ public class POInfo implements Serializable
 		if (!baseLanguage)
 			sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
 		//
+		PreparedStatement pstmt = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), trxName);
 			pstmt.setInt(1, m_AD_Table_ID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
@@ -158,12 +184,22 @@ public class POInfo implements Serializable
 					IsTranslated, IsEncrypted);
 				list.add(col);
 			}
-			rs.close();
-			pstmt.close();
+			rs.close();			
 		}
 		catch (SQLException e)
 		{
 			CLogger.get().log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			if( pstmt != null) 
+			{
+				try 
+				{
+					pstmt.close();
+				} 
+				catch (SQLException e) {}
+			}
 		}
 		//  convert to array
 		m_columns = new POInfoColumn[list.size()];
