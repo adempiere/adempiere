@@ -255,7 +255,7 @@ public class GridTabVO implements Evaluatee, Serializable
 			return mTabVO.initFields;
 		}
 		
-		if (CConnection.get().isRMIoverHTTP() || CConnection.get().getDatabase().getStatus() == null)
+		if (CConnection.get().isServerObjects())
 		{
 			CLogger.get().log(Level.SEVERE, "Application server not available.");
 			return false;
@@ -331,8 +331,8 @@ public class GridTabVO implements Evaluatee, Serializable
 		}
 		else
 		{
-			if (CConnection.get().isRMIoverHTTP())
-				CLogger.get().log(Level.SEVERE, "WAN - Application server not available.");
+			if (CConnection.get().isServerObjects())
+				CLogger.get().log(Level.SEVERE, "Remote Connection - Application server not available.");
 		}
 		return false;
 	}

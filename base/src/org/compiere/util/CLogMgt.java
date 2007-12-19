@@ -593,14 +593,12 @@ public class CLogMgt
 		boolean remoteObjects = DB.isRemoteObjects();
 		boolean remoteProcess = DB.isRemoteProcess();
 		String realCP = CConnection.PROFILE_LAN;
-		if (cc.isRMIoverHTTP() && cc.isAppsServerOK(false))
+		if (cc.isRMIoverHTTP())
 			realCP = CConnection.PROFILE_WAN;
 		else if (remoteObjects && remoteProcess)
 			realCP = CConnection.PROFILE_VPN;
-		else if (remoteProcess)
-			realCP = CConnection.PROFILE_TERMINAL;
 		sb.append(cc.getConnectionProfileText(realCP));
-		sb.append(": Tunnel=").append(cc.isRMIoverHTTP() && cc.isAppsServerOK(false))
+		sb.append(": Tunnel=").append(cc.isRMIoverHTTP())
 			.append(", Objects=").append(remoteObjects)
 			.append(", Process=").append(remoteProcess);
 

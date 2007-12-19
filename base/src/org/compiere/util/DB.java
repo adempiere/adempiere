@@ -245,13 +245,9 @@ public final class DB
 	 * @return True if success, false otherwise
 	 */
 	public static boolean connect() {
-		//wan profile
-		if (CConnection.get().isRMIoverHTTP()) 
+		//wan and vpn profile ( remote connection )
+		if (isRemoteObjects()) 
 			return CConnection.get().isAppsServerOK(true);
-		
-		//vpn profile
-		if (isRemoteObjects() && CConnection.get().isAppsServerOK(true))
-			return true;
 		
 		//direct connection
 		boolean success =false;
@@ -306,13 +302,9 @@ public final class DB
 		//bug [1637432]
 		if (s_cc == null) return false;
 		
-		//wan profile
-		if (CConnection.get().isRMIoverHTTP()) 
+		//wan/vpn profile ( remote connection )
+		if (CConnection.get().isServerObjects()) 
 			return s_cc.isAppsServerOK(createNew);
-		
-		//vpn
-		if (isRemoteObjects() && s_cc.isAppsServerOK(createNew))
-			return true;
 		
 		//direct connection
 		boolean success = false;
@@ -387,11 +379,8 @@ public final class DB
 	 */
 	public static Connection createConnection (boolean autoCommit, int trxLevel)
 	{
-		//wan/vpn profile
-		if (CConnection.get().isRMIoverHTTP() ||
-		   (CConnection.get().isServerObjects() && 
-			CConnection.get().isAppsServerOK(false) &&
-			CConnection.get().getDatabase().getStatus() == null)) 
+		//wan/vpn profile ( remote connection )
+		if (CConnection.get().isServerObjects()) 
         	return new ServerConnection();
 		
 		Connection conn = s_cc.getConnection (autoCommit, trxLevel);
@@ -423,11 +412,8 @@ public final class DB
      */
     public static Connection createConnection (boolean autoCommit, boolean readOnly, int trxLevel)
     {
-        //wan/vpn profile
-        if (CConnection.get().isRMIoverHTTP() ||
-        	( CConnection.get().isServerObjects() &&
-        	  CConnection.get().isAppsServerOK(false) &&
-        	  CConnection.get().getDatabase().getStatus() == null )) 
+        //wan/vpn profile ( remote connection )
+        if (CConnection.get().isServerObjects()) 
         	return new ServerConnection();
 
         Connection conn = s_cc.getConnection (autoCommit, trxLevel);
@@ -1478,8 +1464,7 @@ public final class DB
 		//avoid infinite loop
 		if (s_cc == null) return false;
 		
-		return CConnection.get().isServerObjects()
-			&& CConnection.get().isAppsServerOK(false);
+		return CConnection.get().isServerObjects();
 	}	//	isRemoteObjects
 	
 	/**

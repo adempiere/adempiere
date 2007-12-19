@@ -47,13 +47,15 @@ public class CConnection implements Serializable, Cloneable
 	/** Connection profiles		*/
 	public static ValueNamePair[] CONNECTIONProfiles = new ValueNamePair[]{
 		new ValueNamePair("L", "LAN"),
-		new ValueNamePair("T", "Terminal Server"),
 		new ValueNamePair("V", "VPN"),
 		new ValueNamePair("W", "WAN") };
 
 	/** Connection Profile LAN			*/
 	public static final String	PROFILE_LAN = "L";
-	/** Connection Profile Terminal Server	*/
+	/** 
+	 * Connection Profile Terminal Server
+	 * @deprecated	
+	 **/
 	public static final String	PROFILE_TERMINAL = "T";
 	/** Connection Profile VPM			*/
 	public static final String	PROFILE_VPN = "V";
@@ -572,8 +574,10 @@ public class CConnection implements Serializable, Cloneable
 				&& m_connectionProfile.equals(connectionProfile)))	//	same
 			return;
 		
+		if (PROFILE_TERMINAL.equals(connectionProfile))
+			connectionProfile = PROFILE_LAN;
+		
 		if (PROFILE_LAN.equals(connectionProfile)
-				|| PROFILE_TERMINAL.equals(connectionProfile)
 				|| PROFILE_VPN.equals(connectionProfile)
 				|| PROFILE_WAN.equals(connectionProfile))
 		{
@@ -665,18 +669,18 @@ public class CConnection implements Serializable, Cloneable
 	public boolean isServerProcess()
 	{
 		return (Ini.isClient()
-			&& (getConnectionProfile().equals(PROFILE_TERMINAL)
-				|| getConnectionProfile().equals(PROFILE_VPN)
+			&& (getConnectionProfile().equals(PROFILE_VPN)
 				|| getConnectionProfile().equals(PROFILE_WAN) ));
 	}   //  isServerProcess
 
 	/**
 	 *  Is this a Terminal Server ?
 	 *  @return true if client and Terminal
+	 *  @deprecated
 	 */
 	public boolean isTerminalServer()
 	{
-		return Ini.isClient() && getConnectionProfile().equals(PROFILE_TERMINAL);
+		return false;
 	}   //  isTerminalServer
 
 	/**
@@ -953,8 +957,9 @@ public class CConnection implements Serializable, Cloneable
 	public Exception testDatabase(boolean retest)
 	{
 		//	At this point Application Server Connection is tested.
-		if (DB.isRemoteObjects() || isRMIoverHTTP())
+		if (DB.isRemoteObjects())
 			return null;
+		
 		if (!retest && m_ds != null && m_okDB)
 			return null;
 		
@@ -1213,7 +1218,7 @@ public class CConnection implements Serializable, Cloneable
 	                     } 	 
 	             }
 		         //hengsin, don't test datasource for wan profile
-		         if (!DB.isRemoteObjects() && !isRMIoverHTTP())
+		         if (!DB.isRemoteObjects())
 		         {
 			         if (m_db != null)		//	test class loader ability
 			        	 m_db.getDataSource(this);
@@ -1595,7 +1600,7 @@ public class CConnection implements Serializable, Cloneable
 		setDbPort (svr.getDbPort ());
 		setDbName (svr.getDbName ());
 		setDbUid (svr.getDbUid ());
-		if (isRMIoverHTTP() || DB.isRemoteObjects())
+		if (DB.isRemoteObjects())
 			setDbPwd ("");
 		else
 			setDbPwd (svr.getDbPwd ());

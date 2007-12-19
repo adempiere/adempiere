@@ -76,7 +76,10 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				Connection conn = null;
 				Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), true);
 				if (trx != null)
+				{
 					conn = trx.getConnection();
+					useTransactionConnection = true;
+				}
 				else
 				{
 					if (p_vo.getResultSetConcurrency() == ResultSet.CONCUR_UPDATABLE)
@@ -152,19 +155,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			else
 				throw new RuntimeException(ex);
 		}
-		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
-		{
-			log.warning("Execute locally");
-			p_stmt = local_getPreparedStatement (false, null);	// shared connection
-			p_vo.clearParameters();		//	re-use of result set
-			ResultSet rs = ((PreparedStatement)p_stmt).executeQuery();
-			return rs;
-		}
-		else
-		{
-			throw new IllegalStateException("WAN - Application server not available");
-		}
+		throw new IllegalStateException("Remote Connection - Application server not available");
 	}	//	executeQuery
 
 	/**
@@ -222,18 +213,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			else
 				throw new RuntimeException(ex);
 		}
-		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
-		{
-			log.warning("execute locally");
-			p_stmt = local_getPreparedStatement (false, null);	//	shared connection
-			p_vo.clearParameters();		//	re-use of result set
-			return ((PreparedStatement)p_stmt).executeUpdate();
-		}
-		else
-		{
-			throw new IllegalStateException("WAN - Application server not available");
-		}
+		throw new IllegalStateException("Remote Connection - Application server not available");
 	}	//	executeUpdate
 
 	/**
@@ -940,18 +920,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 			else
 				throw new RuntimeException(ex);
 		}
-		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
-		{
-			log.warning("Execute locally");
-			p_stmt = local_getPreparedStatement (false, null);	// shared connection
-			p_vo.clearParameters();		//	re-use of result set
-			return local_getRowSet();
-		}
-		else
-		{
-			throw new IllegalStateException("WAN - Application server not available");
-		}
+		throw new IllegalStateException("Remote Connection - Application server not available");
 	}
 	
 	/**

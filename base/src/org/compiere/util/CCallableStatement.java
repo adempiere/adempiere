@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.logging.Level;
 
+
 /**
  *  Adempiere Callable Statement
  *
@@ -71,13 +72,16 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
                 Connection conn = null;
                 Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), true);
                 if (trx != null)
+                {
                     conn = trx.getConnection();
+                    useTransactionConnection = true;
+                }
                 else
                 {
                     if (p_vo.getResultSetConcurrency() == ResultSet.CONCUR_UPDATABLE)
                         conn = DB.getConnectionRW ();
                     else
-                        conn = DB.getConnectionRO();
+                        conn = DB.getConnectionRO();                    
                 }
                 if (conn == null)
                     throw new DBException("No Connection");

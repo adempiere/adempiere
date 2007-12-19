@@ -38,6 +38,11 @@ import org.compiere.interfaces.*;
  */
 public class CStatement implements Statement
 {
+	protected boolean useTransactionConnection = false;
+	
+	private boolean close = false;
+
+
 	/**
 	 *	Prepared Statement Constructor
 	 *
@@ -67,7 +72,10 @@ public class CStatement implements Statement
 				Connection conn = null;
 				Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), true);
 				if (trx != null)
+				{
 					conn = trx.getConnection();
+					useTransactionConnection = true;
+				}
 				else
 				{
 					if (p_vo.getResultSetConcurrency() == ResultSet.CONCUR_UPDATABLE)
@@ -164,17 +172,7 @@ public class CStatement implements Statement
 			else
 				throw new RuntimeException(ex);
 		}
-		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
-		{
-			log.warning("execute locally");
-			p_stmt = local_getStatement (false, null);	// shared connection
-			return p_stmt.executeQuery(p_vo.getSql());
-		}
-		else
-		{
-			throw new IllegalStateException("WAN - Application server not available");
-		}
+		throw new IllegalStateException("Remote Connection - Application server not available");
 	}	//	executeQuery
 
 
@@ -223,17 +221,7 @@ public class CStatement implements Statement
 			else
 				throw new RuntimeException(ex);
 		}
-		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
-		{
-			log.warning("execute locally");
-			p_stmt = local_getStatement (false, null);	//	shared connection
-			return p_stmt.executeUpdate(p_vo.getSql());
-		}
-		else
-		{
-			throw new IllegalStateException("WAN - Application server not available");
-		}
+		throw new IllegalStateException("Remote Connection - Application server not available");
 	}	//	executeUpdate
 
 	/**
@@ -752,11 +740,12 @@ public class CStatement implements Statement
             Connection conn = p_stmt.getConnection();
             p_stmt.close();
             
-            if (!conn.isClosed() && conn.getAutoCommit())
+            if (!close && !useTransactionConnection)
             {
                 conn.close();
             }
         }
+        close = true;
 	}	//	close
 
 	/*************************************************************************
@@ -927,18 +916,7 @@ public class CStatement implements Statement
 			else
 				throw new RuntimeException(ex);
 		}
-		//	Try locally
-		if (!CConnection.get().isRMIoverHTTP() && CConnection.get().getDatabase().getStatus() != null)
-		{
-			log.warning("Execute locally");
-			p_stmt = local_getStatement(false, null);	// shared connection
-			p_vo.clearParameters();		//	re-use of result set
-			return local_getRowSet();
-		}
-		else
-		{
-			throw new IllegalStateException("WAN - Application server not available");
-		}
+		throw new IllegalStateException("Remote Connection - Application server not available");
 	}
 	
 	/*************************************************************************
@@ -967,14 +945,22 @@ public class CStatement implements Statement
 		return rowSet;
 	}	//	local_getRowSet
         
-       public boolean isPoolable() throws SQLException{ return false;}
+    public boolean isPoolable() throws SQLException{ return false;}
       
-       public void setPoolable(boolean a) throws SQLException{};
+    public void setPoolable(boolean a) throws SQLException{};
        
-       public boolean isClosed() throws SQLException{ return false;}
+    public boolean isClosed() throws SQLException{ return close;}
        
-       public boolean isWrapperFor(java.lang.Class c) throws SQLException{ return false;}
+    public boolean isWrapperFor(java.lang.Class c) throws SQLException{ return false;}
        
-       public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException{return null;}
+    public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException{return null;}
+
+    /**
+     * 
+     * @return is using transaction connection
+     */
+	public boolean isUseTransactionConnection() {
+		return useTransactionConnection;
+	}
 
 }	//	CStatement

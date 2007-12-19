@@ -70,7 +70,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		/** Connection Profiles					*/
 		CConnection.CONNECTIONProfiles = new ValueNamePair[]{
 			new ValueNamePair("L", res.getString("LAN")),
-			new ValueNamePair("T", res.getString("TerminalServer")),
 			new ValueNamePair("V", res.getString("VPN")),
 			new ValueNamePair("W", res.getString("WAN"))
 		};
@@ -119,7 +118,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 	private CLabel appsPortLabel = new CLabel();
 	private CTextField appsPortField = new CTextField();
 	private CButton bTestApps = new CButton();
-	private CCheckBox cbOverwrite = new CCheckBox();
+	//private CCheckBox cbOverwrite = new CCheckBox();
 	private CLabel dbUidLabel = new CLabel();
 	private CTextField dbUidField = new CTextField();
 	private JPasswordField dbPwdField = new JPasswordField();
@@ -164,7 +163,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		appsPortField.setColumns(10);
 		bTestApps.setText(res.getString("TestApps"));
 		bTestApps.setHorizontalAlignment(JLabel.LEFT);
-		cbOverwrite.setText(res.getString("Overwrite"));
+		//cbOverwrite.setText(res.getString("Overwrite"));
 		dbUidLabel.setText(res.getString("DBUidPwd"));
 		dbUidField.setColumns(10);
 		connectionProfileLabel.setText(res.getString("ConnectionProfile"));
@@ -195,8 +194,8 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		//
 		centerPanel.add(bTestApps, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
 			,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 12, 0), 0, 0));
-		centerPanel.add(cbOverwrite, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 5, 0, 12), 0, 0));
+		//centerPanel.add(cbOverwrite, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
+			//,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 5, 0, 12), 0, 0));
 		//	DB
 		centerPanel.add(dbTypeLabel, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
@@ -238,7 +237,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		nameField.addActionListener(this);
 		appsHostField.addActionListener(this);
 		appsPortField.addActionListener(this);
-		cbOverwrite.addActionListener(this);
+		//cbOverwrite.addActionListener(this);
 		bTestApps.addActionListener(this);
 		//
 		dbTypeField.addActionListener(this);
@@ -437,8 +436,8 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		bTestApps.setIcon(getStatusIcon(m_cc.isAppsServerOK(false)));
 	//	bTestApps.setToolTipText(m_cc.getRmiUri());
 
-		cbOverwrite.setVisible(m_cc.isAppsServerOK(false));
-		boolean rw = cbOverwrite.isSelected() || !m_cc.isAppsServerOK(false);
+		//cbOverwrite.setVisible(m_cc.isAppsServerOK(false));
+		boolean rw = !m_cc.isAppsServerOK(false);
 		//
 		dbTypeLabel.setReadWrite(rw);
 		dbTypeField.setReadWrite(rw);
