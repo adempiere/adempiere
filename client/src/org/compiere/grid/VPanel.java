@@ -326,8 +326,8 @@ public final class VPanel extends CTabbedPane
 		{				  
 			CollapsiblePanel collapsibleSection = new CollapsiblePanel(fieldGroup);
 			JXCollapsiblePane m_tab = collapsibleSection.getCollapsiblePane();
-			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());			  
-			m_tab.getContentPane().setLayout(new GridBagLayout());
+			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());
+			setupCollapsiblePaneLayout(m_tab);
 			m_tab.setName(fieldGroup);
 			m_gbc.anchor = GridBagConstraints.NORTHWEST;
 			//m_gbc.gridy = 0;			//	line
@@ -358,6 +358,38 @@ public final class VPanel extends CTabbedPane
 		m_oldFieldGroupType = fieldGroupType;
 		return true;
 	}	//	addGroup
+
+	private void setupCollapsiblePaneLayout(JXCollapsiblePane m_tab) {
+		m_tab.getContentPane().setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridy = 0;			//	line
+		gbc.gridx = 0;
+		gbc.gridheight = 1;
+		gbc.gridwidth = 1;
+		gbc.insets = m_labelInset;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		gbc.ipadx = 0;
+		gbc.ipady = 0;
+		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		
+		gbc.weightx = 1;
+		gbc.gridx = 1;
+		gbc.insets = m_fieldInset;
+		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		
+		gbc.weightx = 0;
+		gbc.gridx = 2;
+		gbc.insets = m_labelInset;
+		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		
+		gbc.weightx = 1;
+		gbc.gridx = 3;
+		gbc.insets = m_fieldInset;
+		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+	}
 
 	/**
 	 *	Add Top (10) and right (12) gap
