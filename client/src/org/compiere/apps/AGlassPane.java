@@ -98,7 +98,7 @@ public class AGlassPane extends JPanel implements MouseListener, ActionListener
 	{
 		log.config("Time=" + time);
 		//  should we display a progress bar?
-		if (time < 2 || CConnection.get().isTerminalServer())
+		if (time < 2 )
 		{
 			m_timermax = 0;
 			if (isVisible())

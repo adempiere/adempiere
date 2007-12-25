@@ -105,8 +105,7 @@ public class AWindow extends CFrame
 	 */
 	public void setBusy (boolean busy)
 	{
-		if (busy == m_glassPane.isVisible()
-			|| CConnection.get().isTerminalServer())
+		if (busy == m_glassPane.isVisible())
 			return;
 		log.config(getName() + " - " + busy);
 		m_glassPane.setMessage(null);
