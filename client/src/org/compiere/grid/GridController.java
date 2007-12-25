@@ -447,31 +447,32 @@ public class GridController extends CPanel
 		int c = VTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
 		vTable.getInputMap(c).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), aPanel.aSave.getName());
 		vTable.getActionMap().put(aPanel.aSave.getName(), aPanel.aSave);
-		org.jdesktop.swingx.JXTaskPane taskpanetab = vPanel.getTaskPane(detail.getMTab().getAD_Tab_ID());
+		CollapsiblePanel section = vPanel.getIncludedSection(detail.getMTab().getAD_Tab_ID());
 		gc.isDetailGrid(true);	
 		
-			if(taskpanetab != null)
-			{	
-				APanel painel = new APanel(gc);
-				String name = detail.getMTab().getName() + "";		
-				taskpanetab.setTitle(name);
-				painel.add(detail);
-				taskpanetab.add(painel);
-			}
+		if(section != null)
+		{	
+			APanel panel = new APanel(gc);
+			String name = detail.getMTab().getName() + "";		
+			section.setTitle(name);
+			panel.add(detail);
+			section.getCollapsiblePane().getContentPane().setLayout(new BorderLayout());
+			section.getCollapsiblePane().getContentPane().add(panel, BorderLayout.CENTER);
+		}
 		
 		JRootPane rt = SwingUtilities.getRootPane(this);
 		if (rt == null)
-			System.out.println("Root pane null");
+			log.info("Root pane null");
 		else
 		{
-			System.out.println("Root=" + rt);
+			log.info("Root=" + rt);
 			rt.addMouseListener(detail);
 			Component gp = rt.getGlassPane();
 			if (gp == null)
-				System.out.println("No Glass Pane");
+				log.info("No Glass Pane");
 			else
 			{
-				System.out.println("Glass=" + gp);
+				log.info("Glass=" + gp);
 				gp.addMouseListener(detail);
 			}
 

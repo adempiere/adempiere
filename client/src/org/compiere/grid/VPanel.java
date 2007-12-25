@@ -29,8 +29,7 @@ import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
-import org.jdesktop.swingx.JXTaskPane;
-import org.jdesktop.swingx.JXTaskPaneContainer;
+import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
 /**
@@ -167,11 +166,7 @@ public final class VPanel extends CTabbedPane
 			m_gbc.gridx = 0;
 			m_gbc.gridy = m_line++;
 			m_gbc.gridwidth = 4;		  		
-			JXTaskPaneContainer GroupPaneContainer = createTaskPaneContainer();	
-			JXTaskPane m_tab = new JXTaskPane();
-			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());
-			m_tab.setLayout(new BorderLayout());
-			GroupPaneContainer.add(m_tab);
+			CollapsiblePanel m_tab = new CollapsiblePanel("");
 			m_tabincludelist.put(AD_Tab_ID, m_tab);
 			m_gbc.anchor = GridBagConstraints.NORTHWEST;
 			m_gbc.gridx = 0;
@@ -182,7 +177,7 @@ public final class VPanel extends CTabbedPane
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
 			m_gbc.weightx = 0;			  
 			m_gbc.ipadx = 0;					  			  
-			m_main.add(GroupPaneContainer,m_gbc);
+			m_main.add(m_tab,m_gbc);
 			return;
 		}		  
 		CLabel label = VEditorFactory.getLabel(mField); 
@@ -239,8 +234,8 @@ public final class VPanel extends CTabbedPane
 			}			
 			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 			{
-				JXTaskPane m_tab = (JXTaskPane)m_tablist.get(fieldGroup);					
-				m_tab.add(label, m_gbc);			
+				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
+				m_tab.getCollapsiblePane().getContentPane().add(label, m_gbc);			
 			}
 			else // Label or null
 			{
@@ -273,8 +268,8 @@ public final class VPanel extends CTabbedPane
 			}			
 			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 			{
-				JXTaskPane m_tab = (JXTaskPane)m_tablist.get(fieldGroup);					
-				m_tab.add(field, m_gbc);			
+				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
+				m_tab.getCollapsiblePane().getContentPane().add(field, m_gbc);			
 			}
 			else // Label or null
 			{								
@@ -329,15 +324,11 @@ public final class VPanel extends CTabbedPane
 		}
 		else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 		{				  
-			JXTaskPaneContainer GroupPaneContainer = createTaskPaneContainer();
-			JXTaskPane m_tab = new JXTaskPane();
+			CollapsiblePanel collapsibleSection = new CollapsiblePanel(fieldGroup);
+			JXCollapsiblePane m_tab = collapsibleSection.getCollapsiblePane();
 			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());			  
-
-			m_tab.setLayout(new GridBagLayout());
-			m_tab.setTitle(fieldGroup);		
+			m_tab.getContentPane().setLayout(new GridBagLayout());
 			m_tab.setName(fieldGroup);
-			m_tab.setAnimated(true);
-			GroupPaneContainer.add(m_tab);
 			m_gbc.anchor = GridBagConstraints.NORTHWEST;
 			//m_gbc.gridy = 0;			//	line
 			m_gbc.gridx = 0;
@@ -348,8 +339,8 @@ public final class VPanel extends CTabbedPane
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
 			m_gbc.weightx = 0;			  
 			m_gbc.ipadx = 0;					  			  
-			m_main.add(GroupPaneContainer,m_gbc);
-			m_tablist.put(fieldGroup, m_tab);
+			m_main.add(collapsibleSection,m_gbc);
+			m_tablist.put(fieldGroup, collapsibleSection);
 		}									
 		else // Label or null
 		{
@@ -367,16 +358,6 @@ public final class VPanel extends CTabbedPane
 		m_oldFieldGroupType = fieldGroupType;
 		return true;
 	}	//	addGroup
-
-	private JXTaskPaneContainer createTaskPaneContainer() {
-		Color c = AdempierePLAF.getFormBackground();			  
-		Color containerBg = new Color(Math.max((int)(c.getRed()  * 0.97), 0), 
-				Math.max((int)(c.getGreen()*0.97), 0),
-				Math.max((int)(c.getBlue() *0.97), 0));			  
-		JXTaskPaneContainer GroupPaneContainer = new JXTaskPaneContainer();
-		GroupPaneContainer.setBackground(containerBg);
-		return GroupPaneContainer;
-	}
 
 	/**
 	 *	Add Top (10) and right (12) gap
@@ -610,9 +591,9 @@ public final class VPanel extends CTabbedPane
 	}   //  setBackground
 
 	//[ 1757088 ]
-	public JXTaskPane getTaskPane(int AD_Tab_ID)
+	public CollapsiblePanel getIncludedSection(int AD_Tab_ID)
 	{	
-		return (JXTaskPane)m_tabincludelist.get(AD_Tab_ID);
+		return (CollapsiblePanel)m_tabincludelist.get(AD_Tab_ID);
 	}  	
 	
 	private void findChildComponents(CPanel container, List list) 
@@ -621,24 +602,29 @@ public final class VPanel extends CTabbedPane
 		for (int c = 0; c < comp.length; c++)
 		{
 			list.add(comp[c]);
-			if ( comp [c] instanceof JXTaskPaneContainer)
+			if ( comp [c] instanceof CollapsiblePanel)
 			{
-				JXTaskPaneContainer panetaskcontainer = (JXTaskPaneContainer)comp [c];     
+				CollapsiblePanel collapsiblePanel = (CollapsiblePanel)comp [c];     
 
-				Component[] comppanetask = panetaskcontainer.getComponents();
+				Component[] nestedComps = collapsiblePanel.getCollapsiblePane()
+					.getContentPane().getComponents();
 
-				for (int y = 0; y < comppanetask.length; y++)
+				for (int y = 0; y < nestedComps.length; y++)
 				{
 
-					if (  comppanetask [y] instanceof JXTaskPane)
+					if (  nestedComps [y] instanceof CPanel)
 					{                        		  
-						JXTaskPane tabtask = (JXTaskPane)comppanetask[y]; 
-						Component[] comptabtask  = tabtask.getContentPane().getComponents();
+						CPanel nestedPanel = (CPanel)nestedComps[y]; 
+						Component[] nestedPanelComps  = nestedPanel.getComponents();
 
-						for (int x = 0; x < comptabtask.length; x++)
+						for (int x = 0; x < nestedPanelComps.length; x++)
 						{
-							list.add(comptabtask[x]);
+							list.add(nestedPanelComps[x]);
 						}
+					}
+					else
+					{
+						list.add(nestedComps[y]);
 					}
 				} 
 			} else if (comp[c] instanceof CPanel) 
