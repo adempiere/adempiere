@@ -63,7 +63,7 @@ public class PaymentOnline extends SvrProcess
 		msg = MPaymentValidate.validateCreditCardExp(pp.getCreditCardExpMM(), pp.getCreditCardExpYY());
 		if (msg != null && msg.length() > 0)
 			throw new IllegalArgumentException(Msg.getMsg(getCtx(), msg));
-		if (pp.getCreditCardVV().length() > 0)
+		if (pp.getCreditCardVV() != null && pp.getCreditCardVV().length() > 0)
 		{
 			msg = MPaymentValidate.validateCreditCardVV(pp.getCreditCardVV(), pp.getCreditCardType());
 			if (msg != null && msg.length() > 0)
