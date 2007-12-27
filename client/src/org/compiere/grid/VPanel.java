@@ -363,13 +363,15 @@ public final class VPanel extends CTabbedPane
 		if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Tab))
 		{
 
-			CPanel m_tab = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());
-			m_tab.setLayout(new GridBagLayout());
+			CPanel m_tab = new CPanel();
+			m_tab.setBackground(AdempierePLAF.getFormBackground());
+			setupTabPanelLayout(m_tab);
 			m_tab.setName(fieldGroup);
 			CPanel dummy = new CPanel();
 			dummy.setLayout(new BorderLayout());
 			dummy.add(m_tab, BorderLayout.NORTH);
 			dummy.setName(m_tab.getName());
+			dummy.setBorder(BorderFactory.createEmptyBorder(10,12,0,12));
 			this.add(dummy);			  
 			m_tablist.put(fieldGroup, m_tab);
 		}
@@ -411,6 +413,47 @@ public final class VPanel extends CTabbedPane
 		m_oldFieldGroupType = fieldGroupType;
 		return true;
 	}	//	addGroup
+
+	private void setupTabPanelLayout(CPanel m_tab) {
+		m_tab.setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridy = 0;			//	line
+		gbc.gridx = 0;
+		gbc.gridheight = 0;
+		gbc.gridwidth = 1;
+		gbc.insets = m_firstLabelInset;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		gbc.ipadx = 0;
+		gbc.ipady = 0;
+		CLabel label = new CLabel("");
+		fillers.get(0).add(label);
+		m_tab.add(label, gbc);
+		
+		gbc.weightx = 1;
+		gbc.gridx = 1;
+		gbc.insets = m_fieldInset;
+		label = new CLabel("");
+		fields.get(1).add(label);
+		m_tab.add(label, gbc);
+		
+		gbc.weightx = 0;
+		gbc.gridx = 2;
+		gbc.insets = m_labelInset;
+		label = new CLabel("");
+		fillers.get(2).add(label);
+		m_tab.add(label, gbc);
+		
+		gbc.weightx = 1;
+		gbc.gridx = 3;
+		gbc.insets = m_fieldInset;
+		label = new CLabel("");
+		fields.get(3).add(label);
+		m_tab.add(label, gbc);
+	}
 
 	/**
 	 * Set up the grid bag layout of collapsible pane
