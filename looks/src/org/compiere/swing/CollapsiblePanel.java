@@ -191,6 +191,13 @@ public class CollapsiblePanel extends JPanel {
 
 		public void paintBorder(Component c, Graphics g, int x, int y,
 				int width, int height) {
+			// if the collapsible is collapsed, we do not want its border to be
+			// painted.
+			if (c instanceof JXCollapsiblePane) {
+				if (((JXCollapsiblePane) c).isCollapsed()) {
+					return;
+				}
+			}
 			g.setColor(getSeparatorColor());
 			if (isFirst(c)) {
 		        g.drawLine(x, y + 2, x + width, y + 2);
