@@ -28,7 +28,7 @@ public class Attributes implements HttpSessionAttributeListener {
 		if (se.getName().equals("isy.user.project_id")) {
 			String project_id = se.getValue().toString();
 			int projectSessionCount = 0;
-			// Es gibt bereits einen Eintrag in der Hashtable
+			// There is already an entry in the Hashtable
 			if (projectSessions.containsKey(project_id)) {
 				projectSessionCount= ((Integer)projectSessions.get(project_id)).intValue();
 				projectSessionCount++;
@@ -44,7 +44,7 @@ public class Attributes implements HttpSessionAttributeListener {
 		if (se.getName().equals("isy.user.project_id")) {
 			String project_id = se.getValue().toString();
 			int projectSessionCount = 0;
-			// Es gibt bereits einen Eintrag in der Hashtable
+			// There is already an entry in the Hashtable
 			if (projectSessions.containsKey(project_id)) {
 				projectSessionCount= ((Integer)projectSessions.get(project_id)).intValue();
 				if (projectSessionCount>0) projectSessionCount--;
