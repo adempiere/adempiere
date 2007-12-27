@@ -414,6 +414,10 @@ public final class VPanel extends CTabbedPane
 		return true;
 	}	//	addGroup
 
+	/**
+	 * Set up the gridbaglayout for additonal field group tab
+	 * @param m_tab
+	 */
 	private void setupTabPanelLayout(CPanel m_tab) {
 		m_tab.setLayout(new GridBagLayout());
 		
@@ -453,6 +457,14 @@ public final class VPanel extends CTabbedPane
 		label = new CLabel("");
 		fields.get(3).add(label);
 		m_tab.add(label, gbc);
+		
+		//Right gap		
+		gbc.gridx = 4;  //	5th column
+		gbc.gridwidth = 1;
+		gbc.weightx = 1;
+		gbc.insets = m_zeroInset;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		m_tab.add(Box.createHorizontalStrut(1), gbc);
 	}
 
 	/**
