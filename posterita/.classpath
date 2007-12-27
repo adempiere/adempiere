@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/looks"/>
+	<classpathentry kind="src" path="/base"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/barcode4j.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/commons-collections.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/commons-digester.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/commons-validator.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/jcommon-1.0.10.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/jfreechart-1.0.2.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="src/web/WEB-INF/lib/struts.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/itext-1.4.8.jar"/>
+	<classpathentry kind="src" path="/JasperReports"/>
+	<classpathentry kind="src" path="/serverApps"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tools"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>
