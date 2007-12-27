@@ -20,6 +20,7 @@ package org.compiere.grid;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 
 import java.util.*;
 import java.util.List;
@@ -61,9 +62,6 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  */
 public final class VPanel extends CTabbedPane
 {
-	static {
-		UIManager.put("TaskPaneContainer.useGradient", Boolean.FALSE);
-	}
 	
 	/**
 	 *	Constructor
@@ -73,14 +71,16 @@ public final class VPanel extends CTabbedPane
         //[ 1757088 ]	
 		m_main.setName(Name);
 		m_main.setLayout(new GridBagLayout());
+		m_main.setBorder(new CompoundBorder(m_main.getBorder(), BorderFactory.createEmptyBorder(10, 12, 0, 12)));
 		m_tablist.put("main", m_main);
 		this.setBorder(marginBorder);
+		
 		CPanel dummy = new CPanel();
 		dummy.setLayout(new BorderLayout());
 		dummy.add(m_main, BorderLayout.NORTH);
 		dummy.setName(m_main.getName());
-		this.add(dummy);		
-
+		this.add(dummy);
+		
 		//	Set initial values of constraint
 		m_gbc.anchor = GridBagConstraints.NORTHWEST;
 		m_gbc.gridy = 0;			//	line
@@ -93,6 +93,15 @@ public final class VPanel extends CTabbedPane
 		m_gbc.weighty = 0;
 		m_gbc.ipadx = 0;
 		m_gbc.ipady = 0;
+		
+		labels.put(0, new ArrayList<CLabel>());
+		labels.put(2, new ArrayList<CLabel>());
+		
+		fields.put(1, new ArrayList<Component>());
+		fields.put(3, new ArrayList<Component>());
+		
+		fillers.put(0, new ArrayList<CLabel>());
+		fillers.put(2, new ArrayList<CLabel>());
 	}	//	VPanel
 	
 	/** GridBag Constraint      */
@@ -102,10 +111,12 @@ public final class VPanel extends CTabbedPane
 	private final boolean       m_leftToRight = Language.getLoginLanguage().isLeftToRight();
 	/** Label Inset             */
 	private final Insets 		m_labelInset =
-		m_leftToRight ? new Insets(2,12,3,0) : new Insets(2,5,3,0);     // 	top,left,bottom,right
+		m_leftToRight ? new Insets(1,12,1,0) : new Insets(1,5,1,0);     // 	top,left,bottom,right
+	private final Insets 		m_firstLabelInset =
+			m_leftToRight ? new Insets(1,0,1,0) : new Insets(1,5,1,0);     // 	top,left,bottom,right	
 	/** Field Inset             */
 	private final Insets 		m_fieldInset =
-		m_leftToRight ? new Insets(2,5,3,0)  : new Insets(2,12,3,0);	// 	top,left,bottom,right
+		m_leftToRight ? new Insets(1,5,1,0)  : new Insets(1,12,1,0);	// 	top,left,bottom,right
 	/** Zero Inset              */
 	private final Insets 		m_zeroInset = new Insets(0,0,0,0);
 	//
@@ -120,6 +131,12 @@ public final class VPanel extends CTabbedPane
 	private java.util.Hashtable m_tabincludelist = new java.util.Hashtable();
 	private CPanel m_main = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());		
 	private DropShadowBorder marginBorder = new DropShadowBorder();
+
+	private HashMap<Integer,Collection<CLabel>> labels = new HashMap<Integer, Collection<CLabel>>();
+	
+	private HashMap<Integer,Collection<Component>> fields = new HashMap<Integer, Collection<Component>>();
+
+	private HashMap<Integer,Collection<CLabel>> fillers = new HashMap<Integer, Collection<CLabel>>();
 
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (VPanel.class);
@@ -218,6 +235,8 @@ public final class VPanel extends CTabbedPane
 				m_gbc.gridx = sameLine ? 2 : 0;
 			else
 				m_gbc.gridx = sameLine | mField.isLongField() ? 3 : 1;
+			if (m_gbc.gridx == 0)
+				m_gbc.insets = m_firstLabelInset;
 			//	Weight factor for Label
 			m_gbc.weightx = 0;
 			//
@@ -235,11 +254,15 @@ public final class VPanel extends CTabbedPane
 			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 			{
 				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
-				m_tab.getCollapsiblePane().getContentPane().add(label, m_gbc);			
+				if (m_gbc.gridx == 0)
+					m_gbc.insets = m_firstLabelInset;
+				m_tab.getCollapsiblePane().getContentPane().add(label, m_gbc);
+				labels.get(m_gbc.gridx).add(label);
 			}
 			else // Label or null
 			{
 				m_main.add(label, m_gbc);
+				labels.get(m_gbc.gridx).add(label);
 			}
 		}
 
@@ -269,11 +292,15 @@ public final class VPanel extends CTabbedPane
 			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 			{
 				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
-				m_tab.getCollapsiblePane().getContentPane().add(field, m_gbc);			
+				m_tab.getCollapsiblePane().getContentPane().add(field, m_gbc);
+				if (!mField.isLongField())
+					fields.get(m_gbc.gridx).add(field);
 			}
 			else // Label or null
 			{								
 				m_main.add(field, m_gbc);
+				if (!mField.isLongField())
+					fields.get(m_gbc.gridx).add(field);
 			}	
 			//	Link Label to Field
 			if (label != null)
@@ -326,19 +353,21 @@ public final class VPanel extends CTabbedPane
 		{				  
 			CollapsiblePanel collapsibleSection = new CollapsiblePanel(fieldGroup);
 			JXCollapsiblePane m_tab = collapsibleSection.getCollapsiblePane();
+			m_tab.setAnimated(false);
 			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());
 			setupCollapsiblePaneLayout(m_tab);
+			CompoundBorder border = (CompoundBorder)m_tab.getBorder();
+			m_tab.setBorder(new CompoundBorder(border.getOutsideBorder(), BorderFactory.createEmptyBorder(0, 0, 2, 0)));
 			m_tab.setName(fieldGroup);
 			m_gbc.anchor = GridBagConstraints.NORTHWEST;
 			//m_gbc.gridy = 0;			//	line
 			m_gbc.gridx = 0;
 			m_gbc.gridheight = 1;
-			m_gbc.insets = new Insets(2,12,0,0);
+			m_gbc.insets = new Insets(2,0,0,0);
 			m_gbc.gridy = m_line++;
 			m_gbc.gridwidth = 4;
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
-			m_gbc.weightx = 0;			  
-			m_gbc.ipadx = 0;					  			  
+			m_gbc.weightx = 1;			  
 			m_main.add(collapsibleSection,m_gbc);
 			m_tablist.put(fieldGroup, collapsibleSection);
 		}									
@@ -361,52 +390,67 @@ public final class VPanel extends CTabbedPane
 
 	private void setupCollapsiblePaneLayout(JXCollapsiblePane m_tab) {
 		m_tab.getContentPane().setLayout(new GridBagLayout());
+		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy = 0;			//	line
 		gbc.gridx = 0;
-		gbc.gridheight = 1;
+		gbc.gridheight = 0;
 		gbc.gridwidth = 1;
-		gbc.insets = m_labelInset;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = m_firstLabelInset;
+		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
 		gbc.ipadx = 0;
 		gbc.ipady = 0;
-		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		CLabel label = new CLabel("");
+		fillers.get(0).add(label);
+		m_tab.getContentPane().add(label, gbc);
 		
 		gbc.weightx = 1;
 		gbc.gridx = 1;
 		gbc.insets = m_fieldInset;
-		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		label = new CLabel("");
+		fields.get(1).add(label);
+		m_tab.getContentPane().add(label, gbc);
 		
 		gbc.weightx = 0;
 		gbc.gridx = 2;
 		gbc.insets = m_labelInset;
-		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		label = new CLabel("");
+		fillers.get(2).add(label);
+		m_tab.getContentPane().add(label, gbc);
 		
 		gbc.weightx = 1;
 		gbc.gridx = 3;
 		gbc.insets = m_fieldInset;
-		m_tab.getContentPane().add(Box.createHorizontalGlue() , gbc);
+		label = new CLabel("");
+		fields.get(3).add(label);
+		m_tab.getContentPane().add(label, gbc);
+		
+		gbc.gridheight = 2;
+		gbc.gridy = 99;
+		gbc.gridx = 0;
+		gbc.weightx = 0;
+		m_tab.getContentPane().add(Box.createVerticalStrut(1), gbc);
+		
+		JPanel p = (JPanel)m_tab.getContentPane();
+		
 	}
 
 	/**
-	 *	Add Top (10) and right (12) gap
+	 *	Add right gap
 	 */
 	private void addTop()
 	{
-		//	Top Gap
 		m_gbc.gridy = m_line++;
-        //[ 1757088 ]
-		m_main.add(Box.createVerticalStrut(10), m_gbc);    	//	top gap
-		//	Right gap
+        //	Right gap		
 		m_gbc.gridx = 4;									//	5th column
 		m_gbc.gridwidth = 1;
-		m_gbc.weightx = 0;
+		m_gbc.weightx = 1;
 		m_gbc.insets = m_zeroInset;
-		m_gbc.fill = GridBagConstraints.NONE;
-		m_main.add(Box.createHorizontalStrut(12), m_gbc);
+		m_gbc.fill = GridBagConstraints.HORIZONTAL;
+		m_main.add(Box.createHorizontalStrut(1), m_gbc);		
 	}	//	addTop
 
 	/**
@@ -685,6 +729,123 @@ public final class VPanel extends CTabbedPane
 		Component[] result = new Component[list.size ()];
 		list.toArray (result);             
 		return result;
-	} 
+	}
 
+	@Override
+	public void doLayout() {
+		int w = 0;
+		Collection<CLabel> clabels = labels.get(0);
+		for (CLabel l : clabels) {
+			if (l.isVisible()) {
+				int lw = l.getPreferredSize().width;
+				if (lw > w) w = lw;
+			}
+		}
+		
+		for (CLabel l : clabels) {
+			if (l.isVisible()) {
+				Dimension d = l.getMinimumSize();
+				if (d.width != w) {
+					d.width = w;
+					l.setMinimumSize(d);
+				}
+				
+			}
+		}
+		
+		clabels = fillers.get(0);
+		for (CLabel l : clabels) {
+			if (l.isVisible()) {
+				Dimension d = l.getMinimumSize();
+				if (d.width != w) {
+					d.width = w;
+					l.setMinimumSize(d);
+				}
+			}
+		}
+		
+		w = 0;
+		clabels = labels.get(2);
+		for (CLabel l : clabels) {
+			if (l.isVisible()) {
+				int lw = l.getPreferredSize().width;
+				if (lw > w) w = lw;
+			}
+		}
+		
+		for (CLabel l : clabels) {
+			if (l.isVisible()) {
+				Dimension d = l.getMinimumSize();
+				if (d.width != w) {
+					d.width = w;
+					l.setMinimumSize(d);
+				}
+			}
+		}
+		
+		clabels = fillers.get(2);
+		for (CLabel l : clabels) {
+			if (l.isVisible()) {
+				Dimension d = l.getMinimumSize();
+				if (d.width != w) {
+					d.width = w;
+					l.setMinimumSize(d);
+				}
+			}
+		}
+		
+		w = 0;
+		Collection<Component> collection = fields.get(1);
+		for (Component c : collection) {
+			if (c.isVisible()) {
+				int cw = c.getPreferredSize().width;
+				if ( cw > w )
+					w = cw;
+			}
+		}
+		
+		for (Component c : collection) {
+			if (c.isVisible()) {
+				Dimension d = c.getMinimumSize();
+				if ( d.width != w ) {
+					d.width = w;
+					c.setMinimumSize(d);
+				}
+				d = c.getPreferredSize();
+				if (d.width != w) {
+					d.width = w;
+					c.setPreferredSize(d);
+				}
+			}
+		}
+		
+		w = 0;
+		collection = fields.get(3);
+		for (Component c : collection) {
+			if (c.isVisible()) {
+				int cw = c.getPreferredSize().width;
+				if ( cw > w )
+					w = cw;
+			}
+		}
+		
+		for (Component c : collection) {
+			if (c.isVisible()) {
+				Dimension d = c.getMinimumSize();
+				if ( d.width != w ) {
+					d.width = w;
+					c.setMinimumSize(d);
+				}
+				d = c.getPreferredSize();
+				if (d.width != w) {
+					d.width = w;
+					c.setPreferredSize(d);
+				}
+			}
+		}
+		
+		super.doLayout();
+	}
+
+	
 }	//	VPanel

@@ -73,9 +73,6 @@ public final class VNumber extends JComponent
 		//
 		LookAndFeel.installBorder(this, "TextField.border");
 		this.setLayout(new BorderLayout());
-//		this.setPreferredSize(m_text.getPreferredSize());		//	causes r/o to be the same length
-//		int height = m_text.getPreferredSize().height;
-//		setMinimumSize(new Dimension (30,height));
 
 		//	***	Text	***
 		m_text.setBorder(null);
@@ -93,11 +90,8 @@ public final class VNumber extends JComponent
 		m_button.addActionListener(this);
 		this.add (m_button, BorderLayout.EAST);
 
-		//	Prefereed Size
-		this.setPreferredSize(this.getPreferredSize());		//	causes r/o to be the same length
-
 		//  Size
-		setColumns(SIZE, CComboBox.FIELD_HIGHT-4);	
+		setColumns(SIZE, 0);	
 		//	ReadWrite
 		if (isReadOnly || !isUpdateable)
 			setReadWrite(false);
@@ -157,19 +151,34 @@ public final class VNumber extends JComponent
 	/**
 	 * 	Set no of Columns
 	 *	@param columns columns
+	 *  @param height 0 to use default
 	 */
 	public void setColumns (int columns, int height)
 	{
 		m_text.setPreferredSize(null);
+		m_text.setMinimumSize(null);
 		m_text.setColumns(columns);
-		Dimension size = m_text.getPreferredSize();
-		if (height > size.height)			//	default 16
-			size.height = height;
-		if (CComboBox.FIELD_HIGHT-4 > size.height)
-			size.height = VLookup.FIELD_HIGHT-4;
-		this.setPreferredSize(size);		//	causes r/o to be the same length
-		this.setMinimumSize(new Dimension (columns*10, size.height));
-		m_button.setPreferredSize(new Dimension(size.height, size.height));
+		if (height > 0) {
+			Dimension size = m_text.getPreferredSize();
+			if (height > size.height)			//	default 16
+				size.height = height;
+			if (CComboBox.FIELD_HIGHT-4 > size.height)
+				size.height = VLookup.FIELD_HIGHT-4;
+			m_text.setPreferredSize(size);
+			m_text.setMinimumSize(size);
+		} else {
+			StringBuffer s = new StringBuffer();
+			for(int i = 0; i < SIZE; i++) {
+				s.append("0");
+			}
+			CTextField f = new CTextField(s.toString());
+			m_text.setPreferredSize(f.getPreferredSize());
+			m_text.setMinimumSize(f.getMinimumSize());
+		}
+		this.setPreferredSize(m_text.getPreferredSize());		//	causes r/o to be the same length
+		this.setMinimumSize(m_text.getMinimumSize());
+		int h = m_text.getPreferredSize().height;
+		m_button.setPreferredSize(new Dimension(h, h));
 	}	//	setColumns
 	
 	/**
