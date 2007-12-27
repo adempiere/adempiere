@@ -94,6 +94,7 @@ public final class VPanel extends CTabbedPane
 		m_gbc.ipadx = 0;
 		m_gbc.ipady = 0;
 		
+		//set up map used for label and field alignment
 		labels.put(0, new ArrayList<CLabel>());
 		labels.put(2, new ArrayList<CLabel>());
 		
@@ -137,6 +138,8 @@ public final class VPanel extends CTabbedPane
 	private HashMap<Integer,Collection<Component>> fields = new HashMap<Integer, Collection<Component>>();
 
 	private HashMap<Integer,Collection<CLabel>> fillers = new HashMap<Integer, Collection<CLabel>>();
+
+	private HashMap<JXCollapsiblePane,Component> collapsibleEndFiller = new HashMap<JXCollapsiblePane, Component>();
 
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (VPanel.class);
@@ -258,6 +261,8 @@ public final class VPanel extends CTabbedPane
 					m_gbc.insets = m_firstLabelInset;
 				m_tab.getCollapsiblePane().getContentPane().add(label, m_gbc);
 				labels.get(m_gbc.gridx).add(label);
+				
+				moveCollapsibleEndFiller(m_tab.getCollapsiblePane());				
 			}
 			else // Label or null
 			{
@@ -295,6 +300,8 @@ public final class VPanel extends CTabbedPane
 				m_tab.getCollapsiblePane().getContentPane().add(field, m_gbc);
 				if (!mField.isLongField())
 					fields.get(m_gbc.gridx).add(field);
+				
+				moveCollapsibleEndFiller(m_tab.getCollapsiblePane());
 			}
 			else // Label or null
 			{								
@@ -309,6 +316,23 @@ public final class VPanel extends CTabbedPane
 				setMnemonic(editor, mField.getMnemonic());
 		}
 	}	//	addField
+
+	/**
+	 * Move the end spacer of the collapsible pane
+	 * @param collapsiblePane
+	 */
+	private void moveCollapsibleEndFiller(JXCollapsiblePane collapsiblePane) {
+		Component end = collapsibleEndFiller.get(collapsiblePane);
+		if (end != null) {
+			collapsiblePane.getContentPane().remove(end);
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridheight = 1;
+			gbc.gridwidth = 1;
+			gbc.gridx = 0;
+			gbc.gridy = m_gbc.gridy + 1;
+			collapsiblePane.getContentPane().add(end, gbc);
+		}		
+	}
 
 	/**
 	 *	Add Group
@@ -388,6 +412,10 @@ public final class VPanel extends CTabbedPane
 		return true;
 	}	//	addGroup
 
+	/**
+	 * Set up the grid bag layout of collapsible pane
+	 * @param m_tab
+	 */
 	private void setupCollapsiblePaneLayout(JXCollapsiblePane m_tab) {
 		m_tab.getContentPane().setLayout(new GridBagLayout());
 		
@@ -428,14 +456,14 @@ public final class VPanel extends CTabbedPane
 		fields.get(3).add(label);
 		m_tab.getContentPane().add(label, gbc);
 		
-		gbc.gridheight = 2;
-		gbc.gridy = 99;
+		Component c = Box.createVerticalStrut(3);
+		gbc.gridheight = 1;
+		gbc.gridy = GridBagConstraints.RELATIVE;
 		gbc.gridx = 0;
 		gbc.weightx = 0;
-		m_tab.getContentPane().add(Box.createVerticalStrut(1), gbc);
-		
-		JPanel p = (JPanel)m_tab.getContentPane();
-		
+		gbc.insets = m_zeroInset;		
+		m_tab.getContentPane().add(c, gbc);
+		collapsibleEndFiller.put(m_tab, c);
 	}
 
 	/**
@@ -733,6 +761,7 @@ public final class VPanel extends CTabbedPane
 
 	@Override
 	public void doLayout() {
+		//align labels
 		int w = 0;
 		Collection<CLabel> clabels = labels.get(0);
 		for (CLabel l : clabels) {
@@ -794,6 +823,7 @@ public final class VPanel extends CTabbedPane
 			}
 		}
 		
+		//align fields
 		w = 0;
 		Collection<Component> collection = fields.get(1);
 		for (Component c : collection) {
