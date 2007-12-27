@@ -185,17 +185,16 @@ public final class VPanel extends CTabbedPane
 		{
 			m_gbc.gridx = 0;
 			m_gbc.gridy = m_line++;
-			m_gbc.gridwidth = 4;		  		
 			CollapsiblePanel m_tab = new CollapsiblePanel("");
 			m_tabincludelist.put(AD_Tab_ID, m_tab);
 			m_gbc.anchor = GridBagConstraints.NORTHWEST;
 			m_gbc.gridx = 0;
 			m_gbc.gridheight = 1;
-			m_gbc.insets = new Insets(2,12,0,0);
+			m_gbc.insets = new Insets(2,0,0,0);
 			m_gbc.gridy = m_line++;
 			m_gbc.gridwidth = 4;
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
-			m_gbc.weightx = 0;			  
+			m_gbc.weightx = 1;			  
 			m_gbc.ipadx = 0;					  			  
 			m_main.add(m_tab,m_gbc);
 			return;
@@ -345,7 +344,6 @@ public final class VPanel extends CTabbedPane
 		//	First time - add top
 		if (m_oldFieldGroup == null)
 		{
-			addTop();
 			m_oldFieldGroup = "";
 			m_oldFieldGroupType = "";
 		}
@@ -458,13 +456,6 @@ public final class VPanel extends CTabbedPane
 		fields.get(3).add(label);
 		m_tab.add(label, gbc);
 		
-		//Right gap		
-		gbc.gridx = 4;  //	5th column
-		gbc.gridwidth = 1;
-		gbc.weightx = 1;
-		gbc.insets = m_zeroInset;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		m_tab.add(Box.createHorizontalStrut(1), gbc);
 	}
 
 	/**
@@ -520,21 +511,6 @@ public final class VPanel extends CTabbedPane
 		m_tab.getContentPane().add(c, gbc);
 		collapsibleEndFiller.put(m_tab, c);
 	}
-
-	/**
-	 *	Add right gap
-	 */
-	private void addTop()
-	{
-		m_gbc.gridy = m_line++;
-        //	Right gap		
-		m_gbc.gridx = 4;									//	5th column
-		m_gbc.gridwidth = 1;
-		m_gbc.weightx = 1;
-		m_gbc.insets = m_zeroInset;
-		m_gbc.fill = GridBagConstraints.HORIZONTAL;
-		m_main.add(Box.createHorizontalStrut(1), m_gbc);		
-	}	//	addTop
 
 	/**
 	 *	Add End (9) of Form

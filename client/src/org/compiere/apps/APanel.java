@@ -56,29 +56,41 @@ import org.compiere.util.*;
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
 {
+	private boolean isNested = false;
+	
 	/**
 	 * Constructs a new instance.
 	 * Need to call initPanel for dynamic initialization
 	 */
 	//FR [ 1757088 ]
-	public APanel(GridController gc){
+	public APanel(GridController gc, int windowNo){
 		super();
+		isNested = true;
 		m_ctx = Env.getCtx();
 		try{
 			m_curGC = gc;
+			gc.addDataStatusListener(this);
 			m_curTab = gc.getMTab();
+			
 			Component tabElement = null;
 			tabElement = gc;
 			VTabbedPane tabPane = new VTabbedPane(false);
 			tabPane.addTab(m_curTab.getName().toString(), m_curTab, tabElement);
 			m_curWinTab = tabPane;
+			m_curWindowNo = windowNo;
 			jbInit();
 			initSwitchLineAction();
 		}
 		catch(Exception e){
 			log.log(Level.SEVERE, "", e);
 		}
+		
 		createMenu();
+		
+		MRole role = MRole.getDefault(); 
+		m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
+		m_curTab.navigateCurrent();     //  updates counter
+		m_curGC.dynamicDisplay(0);
 	}
 	
 	public APanel(AWindow window)
@@ -445,7 +457,7 @@ public final class APanel extends CPanel
 	 */
 	public String getTitle()
 	{
-		if (m_mWorkbench.getWindowCount() > 1)
+		if (m_mWorkbench != null && m_mWorkbench.getWindowCount() > 1)
 		{
 			StringBuffer sb = new StringBuffer();
 			sb.append(m_mWorkbench.getName()).append("  ")
@@ -669,11 +681,11 @@ public final class APanel extends CPanel
 						int m_tab_id = 0;
 						for(int f =0 ; f < fields.length ; f ++)
 						{
-						  m_tab_id = fields[f].getIncluded_Tab_ID();						  
-						  if ( m_tab_id != 0)
-						  {
-						  includedMap.put(m_tab_id, gc);
-						  }
+							m_tab_id = fields[f].getIncluded_Tab_ID();						  
+							if ( m_tab_id != 0)
+							{
+								includedMap.put(m_tab_id, gc);
+							}
 						}  
 
 						//	Is this tab included?
@@ -683,22 +695,25 @@ public final class APanel extends CPanel
 							if (parent != null)
 							{
 								// FR [ 1757088 ]
-								gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, false);  //  will set color on Tab level
+								gc.removeDataStatusListener(this);
+								//gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, false);  //  will set color on Tab level
+								m_mWorkbench.getMWindow(0).initTab(tab);
+								gc.activate();
 								included = parent.includeTab(gc,this);
 								TabSwitcher ts = new TabSwitcher(parent, this);
 								Component[] comp = parent.getvPanel().getComponentsRecursive();
 								for (int i = 0; i < comp.length; i++)
 								{
-								  ts.addTabSwitchingSupport((JComponent)comp[i]);
+									ts.addTabSwitchingSupport((JComponent)comp[i]);
 								}
-								  ts = new TabSwitcher(gc, this);
-								  comp = gc.getvPanel().getComponentsRecursive();
+								ts = new TabSwitcher(gc, this);
+								comp = gc.getvPanel().getComponentsRecursive();
 								for (int i = 0; i < comp.length; i++)
 								{
-								  ts.addTabSwitchingSupport((JComponent)comp[i]);
+									ts.addTabSwitchingSupport((JComponent)comp[i]);
 								}
-								  ts = new TabSwitcher(gc, this);
-								  ts.addTabSwitchingSupport((JComponent)gc.getTable());		
+								ts = new TabSwitcher(gc, this);
+								ts.addTabSwitchingSupport((JComponent)gc.getTable());		
 								  						  
 								if (!included)
 									log.log(Level.SEVERE, "Not Included = " + gc);
@@ -881,7 +896,8 @@ public final class APanel extends CPanel
 		if (m_curTab != null && m_curTab.isQueryActive())
 			dbInfo = "[ " + dbInfo + " ]";
 		statusBar.setStatusDB(dbInfo, e);
-		m_window.setTitle(getTitle());
+		if (!isNested)
+			m_window.setTitle(getTitle());
 
 		//	Set Message / Info
 		if (e.getAD_Message() != null || e.getInfo() != null)
@@ -1695,7 +1711,8 @@ public final class APanel extends CPanel
 		m_curGC.rowChanged(true, m_curTab.getRecord_ID());
 		if (manualCmd) {
 			m_curGC.dynamicDisplay(0);
-			m_window.setTitle(getTitle());
+			if (!isNested)
+				m_window.setTitle(getTitle());
 		}
 		return retValue;
 	}   //  cmd_save
@@ -2506,5 +2523,9 @@ public final class APanel extends CPanel
 	 	m_curWinTab.requestFocusInWindow();
 	 	setBusy(false,true);  
 	 }
+
+	public boolean isNested() {
+		return isNested;
+	}
 
 }	//	APanel

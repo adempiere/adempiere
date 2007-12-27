@@ -436,6 +436,7 @@ public class GridController extends CPanel
 	    int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 630;
 	    // Set screen dimension
 	    detail.setPreferredSize(new Dimension(screenWidth, 250));
+	    /*
 		ArrayList parents = detail.getMTab().getParentColumnNames();
 		//	No Parent - no link
 		if (parents.size() == 0)
@@ -443,16 +444,16 @@ public class GridController extends CPanel
 		//	Standard case
 		else if (parents.size() == 1)
 		detail.getMTab().setLinkColumnName((String)parents.get(0));
-		detail.getMTab().query(false, 0, 0);
+		detail.getMTab().query(false, 0, 0);*/
 		int c = VTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
 		vTable.getInputMap(c).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), aPanel.aSave.getName());
 		vTable.getActionMap().put(aPanel.aSave.getName(), aPanel.aSave);
 		CollapsiblePanel section = vPanel.getIncludedSection(detail.getMTab().getAD_Tab_ID());
-		gc.isDetailGrid(true);	
+		gc.setDetailGrid(true);	
 		
 		if(section != null)
-		{	
-			APanel panel = new APanel(gc);
+		{				
+			APanel panel = new APanel(gc, m_WindowNo);
 			String name = detail.getMTab().getName() + "";		
 			section.setTitle(name);
 			panel.add(detail);
@@ -481,11 +482,12 @@ public class GridController extends CPanel
 
 		detail.addMouseListener(detail);
 		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
+		detail.activate();
 		return true;
 	}	//	IncludeTab
 
 	//FR [ 1757088 ]
-	public void isDetailGrid(boolean value){
+	public void setDetailGrid(boolean value){
 		detailGrid = value;
 	}
 	
