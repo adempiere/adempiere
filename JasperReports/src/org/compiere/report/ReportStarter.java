@@ -347,7 +347,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
      */
     protected Connection getConnection()
     {
-    	if (DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false))
+    	if (DB.isRemoteObjects())
     	{
     		return new ServerConnection();
     	}

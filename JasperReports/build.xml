@@ -66,11 +66,11 @@
 	      <pathelement path="../lib/oracle.jar"/>
 		  <pathelement path="../JasperReportsTools/lib/jasperreports-1.3.0.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>
-	      <pathelement path="../JasperReportsTools/lib/commons-collections-3.1.jar"/>
-	      <pathelement path="../JasperReportsTools/lib/commons-logging-1.4.jar"/>
+	      <pathelement path="../tools/lib/commons-collections-3.1.jar"/>
+	      <pathelement path="../tools/lib/commons-logging.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>      	
-      	  <pathelement path="../JasperReportsTools/lib/xercesImpl.jar"/>
-      	  <pathelement path="../JasperReportsTools/lib/xml-apis.jar"/>
+      	  <pathelement path="../tools/lib/xercesImpl.jar"/>
+      	  <pathelement path="../tools/lib/xml-apis.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
 		  <pathelement path="../tools/lib/itext-1.4.8.jar"/>
      	  <pathelement location="../tools/lib/j2ee.jar" />
@@ -137,19 +137,19 @@
   	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/commons-collections-3.1.jar" >
+  	  <zipfileset src="../tools/lib/commons-collections-3.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/commons-logging-1.4.jar" >
+  	  <zipfileset src="../tools/lib/commons-logging.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/commons-beanutils-1.7.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/xercesImpl.jar" >
+  	  <zipfileset src="../tools/lib/xercesImpl.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/xml-apis.jar" >
+  	  <zipfileset src="../tools/lib/xml-apis.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/poi-2.0-final-20040126.jar" >
