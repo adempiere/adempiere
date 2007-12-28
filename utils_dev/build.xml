@@ -16,7 +16,7 @@
 		<!-- Create the time stamp -->
 		<tstamp/>
 	</target>
-	<target name="build" depends="init">
+	<target name="jar" depends="init">
 		<ant inheritAll="false" dir="tools"/>
 		<ant inheritAll="false" dir="looks"/>
 		<ant inheritAll="false" dir="base"/>
@@ -30,9 +30,10 @@
 		<ant inheritAll="false" dir="webCM"/>
 		<ant inheritAll="false" dir="sqlj"/>
 		<ant inheritAll="false" dir="posterita"/>
-		<ant inheritAll="false" dir="install"/>
-		
 	</target>
+	<target name="build" depends="jar">
+		<ant inheritAll="false" dir="install"/>		
+	</target>	
 	<target name="clean">
 		<ant inheritAll="false" dir="tools" target="clean"/>
 		<ant inheritAll="false" dir="looks" target="clean"/>
