@@ -18,8 +18,10 @@ package org.compiere.process;
 
 import java.io.*;
 import java.math.*;
+import java.sql.Timestamp;
 import java.util.*;
 import org.compiere.model.*;
+import org.compiere.util.DB;
 
 /**
  *	Template for DocAction
@@ -159,6 +161,9 @@ public class DocActionTemplate extends PO implements DocAction
 		}
 		**/
 		//	Add up Amounts
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 		m_justPrepared = true;
 	//	if (!DOCACTION_Complete.equals(getDocAction()))
 	//		setDocAction(DOCACTION_Complete);
@@ -200,6 +205,11 @@ public class DocActionTemplate extends PO implements DocAction
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
+
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		//	Implicit Approval
 	//	if (!isApproved())
 			approveIt();
@@ -213,11 +223,36 @@ public class DocActionTemplate extends PO implements DocAction
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
+		// setDefiniteDocumentNo();
+
 	//	setProcessed(true);
 	//	setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	/*
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateInvoiced(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = null;
+			int index = p_info.getColumnIndex("C_DocType_ID");
+			if (index == -1)
+				index = p_info.getColumnIndex("C_DocTypeTarget_ID");
+			if (index != -1)		//	get based on Doc Type (might return null)
+				value = DB.getDocumentNo(get_ValueAsInt(index), get_TrxName(), true);
+			if (value != null) {
+				setDocumentNo(value);
+			}
+		}
+	}
+	*/
+
 	/**
 	 * 	Void Document.
 	 * 	Same as Close.

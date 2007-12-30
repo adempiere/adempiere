@@ -1478,13 +1478,30 @@ public class MInOut extends X_M_InOut implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 
+		// Set the definite document number after completed (if needed)
+		setDefiniteDocumentNo();
+
 		m_processMsg = info.toString();
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 
-	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setMovementDate(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			if (value != null)
+				setDocumentNo(value);
+		}
+	}
+
 	/**
 	 * 	Check Material Policy
 	 * 	Sets line ASI

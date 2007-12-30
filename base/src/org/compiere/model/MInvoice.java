@@ -1858,6 +1858,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
+		
+		// Set the definite document number after completed (if needed)
+		setDefiniteDocumentNo();
 
 		//	Counter Documents
 		MInvoice counter = createCounterDoc();
@@ -1869,7 +1872,22 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
-	
+
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateInvoiced(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			if (value != null)
+				setDocumentNo(value);
+		}
+	}
+
 	/**
 	 * 	Create Counter Document
 	 * 	@return counter invoice

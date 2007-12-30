@@ -497,7 +497,7 @@ public class MSequence extends X_AD_Sequence
 	 * 	@param trxName optional Transaction Name
 	 *	@return document no or null
 	 */
-	public static synchronized String getDocumentNo (int C_DocType_ID, String trxName)
+	public static synchronized String getDocumentNo (int C_DocType_ID, String trxName, boolean definite)
 	{
 		if (C_DocType_ID == 0)
 		{
@@ -513,7 +513,7 @@ public class MSequence extends X_AD_Sequence
 			{
 				if (server != null)
 				{	//	See ServerBean
-					String dn = server.getDocumentNo (C_DocType_ID, trxName);
+					String dn = server.getDocumentNo (C_DocType_ID, trxName, definite);
 					s_log.finest("Server => " + dn);
 					if (dn != null)
 						return dn;
@@ -533,9 +533,18 @@ public class MSequence extends X_AD_Sequence
 			s_log.finer("DocType_ID=" + C_DocType_ID + " Not DocNo controlled");
 			return null;
 		}
+		if (definite && ! dt.isOverwriteSeqOnComplete()) {
+			s_log.finer("DocType_ID=" + C_DocType_ID + " Not Sequence Overwrite on Complete");
+			return null;
+		}
 		if (dt == null || dt.getDocNoSequence_ID() == 0)
 		{
 			s_log.warning ("No Sequence for DocType - " + dt);
+			return null;
+		}
+		if (definite && dt.getDefiniteSequence_ID() == 0)
+		{
+			s_log.warning ("No Definite Sequence for DocType - " + dt);
 			return null;
 		}
 			
@@ -584,7 +593,11 @@ public class MSequence extends X_AD_Sequence
 			//
 			pstmt = conn.prepareStatement(selectSQL,
 				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
-			pstmt.setInt(1, dt.getDocNoSequence_ID());
+			if (definite)
+				pstmt.setInt(1, dt.getDefiniteSequence_ID());
+			else
+				pstmt.setInt(1, dt.getDocNoSequence_ID());
+				
 			//
 			ResultSet rs = pstmt.executeQuery();
 		//	s_log.fine("AC=" + conn.getAutoCommit() + " -Iso=" + conn.getTransactionIsolation() 

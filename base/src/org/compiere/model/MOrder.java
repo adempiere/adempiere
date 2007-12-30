@@ -1668,6 +1668,11 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 			if (m_processMsg != null)
 				return DocAction.STATUS_Invalid;
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+			if (m_processMsg != null)
+				return DocAction.STATUS_Invalid;
+			// Set the definite document number after completed (if needed)
+			setDefiniteDocumentNo();
 			setProcessed(true);
 			return DocAction.STATUS_Completed;
 		}
@@ -1750,6 +1755,9 @@ public class MOrder extends X_C_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 
+		// Set the definite document number after completed (if needed)
+		setDefiniteDocumentNo();
+
 		setProcessed(true);	
 		m_processMsg = info.toString();
 		//
@@ -1757,6 +1765,21 @@ public class MOrder extends X_C_Order implements DocAction
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateOrdered(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			if (value != null)
+				setDocumentNo(value);
+		}
+	}
+
 	/**
 	 * 	Create Shipment
 	 *	@param dt order document type

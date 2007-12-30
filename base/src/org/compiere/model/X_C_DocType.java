@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
@@ -248,6 +248,28 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** DefiniteSequence_ID AD_Reference_ID=128 */
+	public static final int DEFINITESEQUENCE_ID_AD_Reference_ID=128;
+	/** Set Definite Sequence.
+		@param DefiniteSequence_ID Definite Sequence	  */
+	public void setDefiniteSequence_ID (int DefiniteSequence_ID)
+	{
+		if (DefiniteSequence_ID <= 0) 
+			set_Value (COLUMNNAME_DefiniteSequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_DefiniteSequence_ID, Integer.valueOf(DefiniteSequence_ID));
+	}
+
+	/** Get Definite Sequence.
+		@return Definite Sequence	  */
+	public int getDefiniteSequence_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DefiniteSequence_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -679,6 +701,48 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isIndexed () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsIndexed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Overwrite Date on Complete.
+		@param IsOverwriteDateOnComplete Overwrite Date on Complete	  */
+	public void setIsOverwriteDateOnComplete (boolean IsOverwriteDateOnComplete)
+	{
+		set_Value (COLUMNNAME_IsOverwriteDateOnComplete, Boolean.valueOf(IsOverwriteDateOnComplete));
+	}
+
+	/** Get Overwrite Date on Complete.
+		@return Overwrite Date on Complete	  */
+	public boolean isOverwriteDateOnComplete () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOverwriteDateOnComplete);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Overwrite Sequence on Complete.
+		@param IsOverwriteSeqOnComplete Overwrite Sequence on Complete	  */
+	public void setIsOverwriteSeqOnComplete (boolean IsOverwriteSeqOnComplete)
+	{
+		set_Value (COLUMNNAME_IsOverwriteSeqOnComplete, Boolean.valueOf(IsOverwriteSeqOnComplete));
+	}
+
+	/** Get Overwrite Sequence on Complete.
+		@return Overwrite Sequence on Complete	  */
+	public boolean isOverwriteSeqOnComplete () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOverwriteSeqOnComplete);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

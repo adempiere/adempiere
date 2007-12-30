@@ -78,8 +78,9 @@ public interface Server
     * Get Document No based on Document Type
     * @param C_DocType_ID document type
     * @param trxName optional Transaction Name
+    * @param definite is definite sequence
     * @return document no or null    */
-   public java.lang.String getDocumentNo( int C_DocType_ID,java.lang.String trxName )
+   public java.lang.String getDocumentNo( int C_DocType_ID, java.lang.String trxName, boolean definite )
       throws java.rmi.RemoteException;
 
    /**

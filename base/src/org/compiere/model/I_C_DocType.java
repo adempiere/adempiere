@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DocType
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_C_DocType 
 {
@@ -135,6 +135,15 @@ public interface I_C_DocType
 	  * Document type or rules
 	  */
 	public int getC_DocType_ID();
+
+    /** Column name DefiniteSequence_ID */
+    public static final String COLUMNNAME_DefiniteSequence_ID = "DefiniteSequence_ID";
+
+	/** Set Definite Sequence	  */
+	public void setDefiniteSequence_ID (int DefiniteSequence_ID);
+
+	/** Get Definite Sequence	  */
+	public int getDefiniteSequence_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -332,6 +341,24 @@ public interface I_C_DocType
 	  * Index the document for the internal search engine
 	  */
 	public boolean isIndexed();
+
+    /** Column name IsOverwriteDateOnComplete */
+    public static final String COLUMNNAME_IsOverwriteDateOnComplete = "IsOverwriteDateOnComplete";
+
+	/** Set Overwrite Date on Complete	  */
+	public void setIsOverwriteDateOnComplete (boolean IsOverwriteDateOnComplete);
+
+	/** Get Overwrite Date on Complete	  */
+	public boolean isOverwriteDateOnComplete();
+
+    /** Column name IsOverwriteSeqOnComplete */
+    public static final String COLUMNNAME_IsOverwriteSeqOnComplete = "IsOverwriteSeqOnComplete";
+
+	/** Set Overwrite Sequence on Complete	  */
+	public void setIsOverwriteSeqOnComplete (boolean IsOverwriteSeqOnComplete);
+
+	/** Get Overwrite Sequence on Complete	  */
+	public boolean isOverwriteSeqOnComplete();
 
     /** Column name IsPickQAConfirm */
     public static final String COLUMNNAME_IsPickQAConfirm = "IsPickQAConfirm";

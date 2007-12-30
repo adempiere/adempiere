@@ -310,7 +310,7 @@ public class ServerBean implements SessionBean
 	 * 	@param trxName optional Transaction Name
 	 *	@return document no or null
 	 */
-	public String getDocumentNo (int C_DocType_ID, String trxName)
+	public String getDocumentNo (int C_DocType_ID, String trxName, boolean definite)
 	{
 		if (trxName != null) {
 			if (Trx.get(trxName, false) == null) {
@@ -318,9 +318,9 @@ public class ServerBean implements SessionBean
 			}
 		}
 		m_nextSeqCount++;
-		String dn = MSequence.getDocumentNo (C_DocType_ID, trxName);
+		String dn = MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
 		if (dn == null)		//	try again
-			dn = MSequence.getDocumentNo (C_DocType_ID, trxName);
+			dn = MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
 		return dn;
 	}	//	getDocumentNo
 

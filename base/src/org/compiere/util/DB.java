@@ -1395,11 +1395,12 @@ public final class DB
 	 * 	Get Document No based on Document Type
 	 *	@param C_DocType_ID document type
 	 * 	@param trxName optional Transaction Name
+	 * @param definite 
 	 *	@return document no or null
 	 */
-	public static String getDocumentNo(int C_DocType_ID, String trxName)
+	public static String getDocumentNo(int C_DocType_ID, String trxName, boolean definite)
 	{
-		return MSequence.getDocumentNo (C_DocType_ID, trxName);
+		return MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
 	}	//	getDocumentNo
 
 
@@ -1449,7 +1450,7 @@ public final class DB
 			return getDocumentNo (AD_Client_ID, TableName, trxName);
 		}
 
-		String retValue = getDocumentNo (C_DocType_ID, trxName);
+		String retValue = getDocumentNo (C_DocType_ID, trxName, false);
 		if (!onlyDocType && retValue == null)
 			return getDocumentNo (AD_Client_ID, TableName, trxName);
 		return retValue;

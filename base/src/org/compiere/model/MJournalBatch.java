@@ -477,12 +477,31 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
+
+		// Set the definite document number after completed (if needed)
+		setDefiniteDocumentNo();
+
 		//
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateDoc(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			if (value != null)
+				setDocumentNo(value);
+		}
+	}
+
 	/**
 	 * 	Void Document.
 	 * 	@return false 

@@ -336,12 +336,31 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
+
+		// Set the definite document number after completed (if needed)
+		setDefiniteDocumentNo();
+
 		//
 		setProcessed(true);
 		setDocAction(ACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateDoc(new Timestamp (System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			if (value != null)
+				setDocumentNo(value);
+		}
+	}
+
 	/**
 	 * 	Void Document.
 	 * 	Same as Close.
