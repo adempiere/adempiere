@@ -21,7 +21,7 @@ package org.adempiere.util;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
+import java.util.logging.*;
 
 import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
@@ -67,7 +67,7 @@ public class GenerateModel
 	 */
 	public static void main (String[] args)
 	{
-		Adempiere.startupEnvironment(false);
+		Adempiere.startupEnvironment(true);
 		CLogMgt.setLevel(Level.FINE);
 		log.info("Generate Model   $Revision: 1.42 $");
 		log.info("----------------------------------");
