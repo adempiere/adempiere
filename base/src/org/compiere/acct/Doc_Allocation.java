@@ -159,6 +159,7 @@ public class Doc_Allocation extends Doc
 
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
+		Fact factForRGL = new Fact(this, as, Fact.POST_Actual); // dummy fact (not posted) to calculate Realized Gain & Loss
 
 		for (int i = 0; i < p_lines.length; i++)
 		{
@@ -177,13 +178,12 @@ public class Doc_Allocation extends Doc
 			BigDecimal allocationSource = line.getAmtSource()
 				.add(line.getDiscountAmt())
 				.add(line.getWriteOffAmt());
-			//Modified Lines by Armen
-			//Old:
-			//BigDecimal allocationAccounted = null;	// AR/AP balance corrected
+			BigDecimal allocationSourceForRGL = allocationSource; // for realized gain & loss purposes
 			BigDecimal allocationAccounted = Env.ZERO;	// AR/AP balance corrected
-			//End of Modified Lines
+			BigDecimal allocationAccountedForRGL = Env.ZERO; // for realized gain & loss purposes
 
 			FactLine fl = null;
+			FactLine flForRGL = null;
 			MAccount bpAcct = null;		//	Liability/Receivables
 			//
 			MPayment payment = null;
@@ -284,11 +284,18 @@ public class Doc_Allocation extends Doc
 						allocationAccounted = fl.getAcctBalance().negate();
 					if (fl != null && invoice != null)
 						fl.setAD_Org_ID(invoice.getAD_Org_ID());
+					
+					// for Realized Gain & Loss
+					flForRGL = factForRGL.createLine (line, bpAcct,
+						getC_Currency_ID(), null, allocationSourceForRGL);		//	payment currency 
+					if (flForRGL != null)
+						allocationAccountedForRGL = flForRGL.getAcctBalance().negate();
 				}
 				else	//	Cash Based
 				{
 					allocationAccounted = createCashBasedAcct (as, fact, 
 						invoice, allocationSource);
+					allocationAccountedForRGL = allocationAccounted;
 				}
 			}
 			//	Purchase Invoice
@@ -305,6 +312,9 @@ public class Doc_Allocation extends Doc
 					acct_payment_select = getCashAcct(as, line.getC_CashLine_ID());
 				MAccount acct_liability = getAccount(Doc.ACCTTYPE_V_Liability, as);
 				boolean isUsingClearing = true;
+				
+				// Save original allocation source for realized gain & loss purposes
+				allocationSourceForRGL = allocationSourceForRGL.negate();
 				
 				if ((!as.isPostIfClearingEqual()) && acct_payment_select != null && acct_payment_select.equals(acct_liability)) {
 					
@@ -327,11 +337,18 @@ public class Doc_Allocation extends Doc
 						allocationAccounted = fl.getAcctBalance();
 					if (fl != null && invoice != null)
 						fl.setAD_Org_ID(invoice.getAD_Org_ID());
+
+					// for Realized Gain & Loss
+					flForRGL = factForRGL.createLine (line, bpAcct,
+						getC_Currency_ID(), allocationSourceForRGL, null);		//	payment currency
+					if (flForRGL != null)
+						allocationAccountedForRGL = flForRGL.getAcctBalance();
 				}
 				else	//	Cash Based
 				{
 					allocationAccounted = createCashBasedAcct (as, fact, 
 						invoice, allocationSource);
+					allocationAccountedForRGL = allocationAccounted;
 				}
 							
 				//	Discount		CR
@@ -395,7 +412,7 @@ public class Doc_Allocation extends Doc
 					|| getC_Currency_ID() != line.getInvoiceC_Currency_ID()))	//	allocation <> invoice currency
 			{
 				p_Error = createRealizedGainLoss (as, fact, bpAcct, invoice, 
-					allocationSource, allocationAccounted);
+					allocationSourceForRGL, allocationAccountedForRGL);
 				if (p_Error != null)
 					return null;
 			}
