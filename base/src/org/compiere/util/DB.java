@@ -197,7 +197,7 @@ public final class DB
 		sql = new StringBuffer("UPDATE AD_User SET ")
 			.append(" EMail=").append(DB.TO_STRING(adminEMail))
 			.append(", EMailUser=").append(DB.TO_STRING(mailUser))
-			.append(", EMailUserPW=").append(DB.TO_STRING(mailUser))
+			.append(", EMailUserPW=").append(DB.TO_STRING(mailPassword))
 			.append(" WHERE AD_User_ID IN (0,100)");
 		no = DB.executeUpdate(sql.toString(), null);
 		//
