@@ -20,6 +20,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 /**
@@ -234,6 +235,7 @@ public class MWindow extends X_AD_Window
 		}
 		catch (SQLException e)
 		{
+			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
 		}
 		return retValue;

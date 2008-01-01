@@ -435,6 +435,7 @@ public class MProcess extends X_AD_Process
 		}
 		catch (Exception e)
 		{
+			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
 		}
 		return retValue;

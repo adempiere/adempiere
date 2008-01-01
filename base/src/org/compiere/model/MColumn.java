@@ -18,6 +18,8 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+
 import org.compiere.util.*;
 
 /**
@@ -63,6 +65,8 @@ public class MColumn extends X_AD_Column
 	/**	Cache						*/
 	private static CCache<Integer,MColumn>	s_cache	= new CCache<Integer,MColumn>("AD_Column", 20);
 	
+	/**	Static Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (MColumn.class);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -509,6 +513,7 @@ public class MColumn extends X_AD_Column
 		}
 		catch (SQLException e)
 		{
+			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
 		}
 		return retValue;

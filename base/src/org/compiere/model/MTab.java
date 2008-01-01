@@ -20,6 +20,7 @@ import java.sql.*;
 import java.util.*;
 
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 /**
@@ -99,6 +100,10 @@ public class MTab extends X_AD_Tab
 	/**	The Fields						*/
 	private MField[]		m_fields	= null;
 
+	/**	Static Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (MTab.class);
+	
+	/**	Packages for Model Classes	*/
 	/**
 	 * 	Get Fields
 	 *	@param reload reload data
@@ -179,6 +184,7 @@ public class MTab extends X_AD_Tab
 		}
 		catch (SQLException e)
 		{
+			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
 		}
 		return retValue;

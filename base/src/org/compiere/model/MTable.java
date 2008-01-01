@@ -761,6 +761,7 @@ public class MTable extends X_AD_Table
 		}
 		catch (Exception e)
 		{
+			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
 		}
 		return retValue;

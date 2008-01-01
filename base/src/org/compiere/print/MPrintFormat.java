@@ -79,6 +79,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	/** Table Format					*/
 	private MPrintTableFormat 		m_tFormat;
 
+	/**	Static Logger	*/
 	private static CLogger			s_log = CLogger.getCLogger (MPrintFormat.class);
 
 	/**
@@ -840,33 +841,6 @@ public class MPrintFormat extends X_AD_PrintFormat
 		Integer key = new Integer(AD_PrintFormat_ID);
 		s_formats.put(key, null);
 	}	//	deleteFromCache
-	
-    //begin vpj-cd e-evolution
-	/**
-	 *  Get ID of Print Format use Name
-	 *	@param String formatName
-	 *	@return int retValue
-	 */
-	public static int getPrintFormat_ID(String formatName) {
-		int retValue = 0;
-		String SQL = "SELECT AD_PrintFormat_ID FROM AD_PrintFormat WHERE Name = ?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setString(1, formatName);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			retValue = -1;
-		}
-		return retValue;
-	}
-	//end vpj-cd e-evolution
 	
 	/**
 	 * @param AD_Table_ID
