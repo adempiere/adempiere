@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ElementValue
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_I_ElementValue 
 {

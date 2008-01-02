@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Ref_List
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_AD_Ref_List 
 {

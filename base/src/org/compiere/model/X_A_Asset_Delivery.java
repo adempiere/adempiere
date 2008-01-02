@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Persistent 
 {
 
@@ -64,7 +64,7 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

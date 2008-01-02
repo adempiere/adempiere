@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persistent 
 {
 
@@ -69,7 +69,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

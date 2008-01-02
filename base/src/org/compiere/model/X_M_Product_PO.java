@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent 
 {
 
@@ -70,7 +70,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

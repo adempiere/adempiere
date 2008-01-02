@@ -63,7 +63,7 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
@@ -101,7 +101,7 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	public static final String CONFIGURATIONLEVEL_Client = "C";
 	/** Organization = O */
 	public static final String CONFIGURATIONLEVEL_Organization = "O";
-	/** Set Configuration Level.
+	/** Set Configuration LEVEL.
 		@param ConfigurationLevel 
 		Configuration Level for this parameter
 	  */
@@ -117,7 +117,7 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 		set_Value (COLUMNNAME_ConfigurationLevel, ConfigurationLevel);
 	}
 
-	/** Get Configuration Level.
+	/** Get Configuration LEVEL.
 		@return Configuration Level for this parameter
 	  */
 	public String getConfigurationLevel () 

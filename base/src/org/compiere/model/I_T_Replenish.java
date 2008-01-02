@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Replenish
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_T_Replenish 
 {

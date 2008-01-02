@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent 
 {
 
@@ -72,7 +72,7 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

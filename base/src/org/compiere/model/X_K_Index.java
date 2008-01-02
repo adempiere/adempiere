@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_K_Index extends PO implements I_K_Index, I_Persistent 
 {
 
@@ -66,7 +66,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

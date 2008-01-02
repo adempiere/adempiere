@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_AttributeSetExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclude, I_Persistent 
 {
 
@@ -63,7 +63,7 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

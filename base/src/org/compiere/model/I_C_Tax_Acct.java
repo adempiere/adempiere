@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Tax_Acct
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_C_Tax_Acct 
 {

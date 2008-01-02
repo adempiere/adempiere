@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationAttribute
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAttribute, I_Persistent 
 {
 
@@ -64,7 +64,7 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

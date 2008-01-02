@@ -68,12 +68,12 @@ public interface I_AD_SysConfig
     /** Column name ConfigurationLevel */
     public static final String COLUMNNAME_ConfigurationLevel = "ConfigurationLevel";
 
-	/** Set Configuration Level.
+	/** Set Configuration LEVEL.
 	  * Configuration Level for this parameter
 	  */
 	public void setConfigurationLevel (String ConfigurationLevel);
 
-	/** Get Configuration Level.
+	/** Get Configuration LEVEL.
 	  * Configuration Level for this parameter
 	  */
 	public String getConfigurationLevel();

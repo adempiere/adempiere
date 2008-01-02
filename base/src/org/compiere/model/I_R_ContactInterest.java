@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_ContactInterest
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1b
+ *  @version Release 3.3.1t
  */
 public interface I_R_ContactInterest 
 {

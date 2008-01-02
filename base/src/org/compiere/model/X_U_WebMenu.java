@@ -24,7 +24,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for U_WebMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent 
 {
 
@@ -65,7 +65,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

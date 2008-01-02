@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 

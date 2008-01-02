@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Sequence_Audit
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1b - $Id$ */
+ *  @version Release 3.3.1t - $Id$ */
 public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Persistent 
 {
 
@@ -63,7 +63,7 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
     /** Load Meta Data */
     protected POInfo initPO (Properties ctx)
     {
-      POInfo poi = POInfo.getPOInfo (ctx, Table_ID);
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
       return poi;
     }
 
