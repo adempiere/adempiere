@@ -71,11 +71,10 @@ public class AcctSchemaCopyAcct extends SvrProcess
 		if (source.get_ID() == 0)
 			throw new AdempiereSystemError("NotFound Source C_AcctSchema_ID=" + p_SourceAcctSchema_ID);
 		MAcctSchema target = new MAcctSchema (getCtx(), p_TargetAcctSchema_ID, get_TrxName());
-		if (source.get_ID() == 0)
+		if (target.get_ID() == 0)
 			throw new AdempiereSystemError("NotFound Target C_AcctSchema_ID=" + p_TargetAcctSchema_ID);
 		
 		//
-		MAcctSchemaElement[] sourceElements = source.getAcctSchemaElements();
 		MAcctSchemaElement[] targetElements = target.getAcctSchemaElements();
 		if (targetElements.length == 0)
 			throw new AdempiereUserError("NotFound Target C_AcctSchema_Element");
