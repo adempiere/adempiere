@@ -826,8 +826,8 @@ public class VAllocation extends CPanel
 			}
 			
 			//	Warning if write Off > 30%
-			if (writeOff.doubleValue()/open.doubleValue() > .30)
-			ADialog.warn(m_WindowNo, this, "AllocationWriteOffWarn");
+			if (autoWriteOff.isSelected() && writeOff.doubleValue()/open.doubleValue() > .30)
+				ADialog.warn(m_WindowNo, this, "AllocationWriteOffWarn");
 			
 
 			invoice.setValueAt(discount, row, i_discount);
