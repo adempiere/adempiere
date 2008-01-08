@@ -25,6 +25,8 @@ import org.compiere.wf.MWorkflow;
  */
 public final class ProcessUtil {
 
+	private static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
+
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(ProcessUtil.class);
 	
@@ -71,7 +73,7 @@ public final class ProcessUtil {
 		if (className == null) {
 			MProcess proc = new MProcess(ctx, pi.getAD_Process_ID(), trx.getTrxName());
 			if (proc.getJasperReport() != null)
-				className = org.compiere.apps.ProcessCtl.JASPER_STARTER_CLASS;
+				className = JASPER_STARTER_CLASS;
 		}
 		//Get Class
 		Class processClass = null;

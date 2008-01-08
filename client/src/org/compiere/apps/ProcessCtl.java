@@ -48,7 +48,7 @@ import org.compiere.wf.*;
  */
 public class ProcessCtl implements Runnable
 {
-	public static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
+	private static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
 
 	/**
 	 *	Process Control
