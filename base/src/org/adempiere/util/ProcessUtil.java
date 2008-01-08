@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.MProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.SvrProcess;
@@ -67,6 +68,11 @@ public final class ProcessUtil {
 	
 	public static boolean startJavaProcess(Properties ctx, ProcessInfo pi, Trx trx) {
 		String className = pi.getClassName();
+		if (className == null) {
+			MProcess proc = new MProcess(ctx, pi.getAD_Process_ID(), trx.getTrxName());
+			if (proc.getJasperReport() != null)
+				className = org.compiere.apps.ProcessCtl.JASPER_STARTER_CLASS;
+		}
 		//Get Class
 		Class processClass = null;
 		try

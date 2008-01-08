@@ -114,6 +114,28 @@ public interface I_PA_Report
 	  */
 	public String getDescription();
 
+    /** Column name JasperProcess_ID */
+    public static final String COLUMNNAME_JasperProcess_ID = "JasperProcess_ID";
+
+	/** Set Jasper Process.
+	  * The Jasper Process used by the printengine if any process defined
+	  */
+	public void setJasperProcess_ID (int JasperProcess_ID);
+
+	/** Get Jasper Process.
+	  * The Jasper Process used by the printengine if any process defined
+	  */
+	public int getJasperProcess_ID();
+
+    /** Column name JasperProcessing */
+    public static final String COLUMNNAME_JasperProcessing = "JasperProcessing";
+
+	/** Set Jasper Process Now	  */
+	public void setJasperProcessing (String JasperProcessing);
+
+	/** Get Jasper Process Now	  */
+	public String getJasperProcessing();
+
     /** Column name ListSources */
     public static final String COLUMNNAME_ListSources = "ListSources";
 

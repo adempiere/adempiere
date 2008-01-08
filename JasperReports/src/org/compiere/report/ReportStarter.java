@@ -54,6 +54,7 @@ import org.compiere.model.MProcess;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoParameter;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -398,6 +399,8 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 			
 			addProcessParameters( AD_PInstance_ID, params, trxName);
 			
+			addProcessInfoParameters(params, pi.getParameter());
+			
 			reportFile = getReportFile(reportPath, (String)params.get("ReportType"));
 			
 			if (reportFile == null || reportFile.exists() == false) 
@@ -526,7 +529,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
         return true;
     }
 
-    /**
+	/**
      * Get .property resource file from process attachment
      * @param jasperName
      * @param currLang
@@ -740,7 +743,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     }
 
 
-    protected void addProcessParameters( int AD_PInstance_ID, Map params, String trxName) {
+    protected void addProcessParameters( int AD_PInstance_ID, Map<String, Object> params, String trxName) {
         log.info("");
         String sql = "SELECT ParameterName, "+
                         "P_String, "+
@@ -798,6 +801,17 @@ public class ReportStarter implements ProcessCall, ClientProcess {
             DBUtils.close( pstmt);
         }
     }
+
+    private void addProcessInfoParameters(Map<String, Object> params, ProcessInfoParameter[] para) {
+		for (int i = 0; i < para.length; i++) {
+			if (para[i].getParameter_To() == null) {
+				params.put(para[i].getParameterName(), para[i].getParameter());
+			} else {
+                params.put( para[i].getParameterName()+"1", para[i].getParameter());
+                params.put( para[i].getParameterName()+"2", para[i].getParameter_To());
+			}
+		}
+	}
 
     /**
      * @author rlemeill

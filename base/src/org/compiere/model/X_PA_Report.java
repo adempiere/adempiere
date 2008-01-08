@@ -218,6 +218,51 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** JasperProcess_ID AD_Reference_ID=400 */
+	public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
+	/** Set Jasper Process.
+		@param JasperProcess_ID 
+		The Jasper Process used by the printengine if any process defined
+	  */
+	public void setJasperProcess_ID (int JasperProcess_ID)
+	{
+		if (JasperProcess_ID <= 0) 
+			set_Value (COLUMNNAME_JasperProcess_ID, null);
+		else 
+			set_Value (COLUMNNAME_JasperProcess_ID, Integer.valueOf(JasperProcess_ID));
+	}
+
+	/** Get Jasper Process.
+		@return The Jasper Process used by the printengine if any process defined
+	  */
+	public int getJasperProcess_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_JasperProcess_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Jasper Process Now.
+		@param JasperProcessing Jasper Process Now	  */
+	public void setJasperProcessing (String JasperProcessing)
+	{
+
+		if (JasperProcessing != null && JasperProcessing.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			JasperProcessing = JasperProcessing.substring(0, 1);
+		}
+		set_Value (COLUMNNAME_JasperProcessing, JasperProcessing);
+	}
+
+	/** Get Jasper Process Now.
+		@return Jasper Process Now	  */
+	public String getJasperProcessing () 
+	{
+		return (String)get_Value(COLUMNNAME_JasperProcessing);
+	}
+
 	/** Set List Sources.
 		@param ListSources 
 		List Report Line Sources
