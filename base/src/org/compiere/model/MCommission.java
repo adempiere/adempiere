@@ -27,6 +27,7 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCommission.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ *  @author victor.perez@e-evolution.com www.e-evolution.com [ 1867477 ] http://sourceforge.net/tracker/index.php?func=detail&aid=1867477&group_id=176962&atid=879332
  */
 public class MCommission extends X_C_Commission
 {
@@ -70,7 +71,8 @@ public class MCommission extends X_C_Commission
 	 */
 	public MCommissionLine[] getLines()
 	{
-		String sql = "SELECT * FROM C_CommissionLine WHERE C_Commission_ID=? ORDER BY Line";
+		//[ 1867477 ]
+		String sql = "SELECT * FROM C_CommissionLine WHERE IsActive='Y' AND C_Commission_ID=? ORDER BY Line";
 		ArrayList<MCommissionLine> list = new ArrayList<MCommissionLine>();
 		PreparedStatement pstmt = null;
 		try
