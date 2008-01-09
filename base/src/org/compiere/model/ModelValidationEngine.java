@@ -49,7 +49,9 @@ public class ModelValidationEngine
 	}	//	get
 	
 	/** Engine Singleton				*/
-	private static ModelValidationEngine s_engine = null; 
+	private static ModelValidationEngine s_engine = null;
+	/* flag to indicate a missing model validation class */
+	private static String missingModelValidationMessage = null; 
 	
 	
 	/**************************************************************************
@@ -77,7 +79,8 @@ public class ModelValidationEngine
 		{
 			//logging to db will try to init ModelValidationEngine again!
 			//log.warning(e.getLocalizedMessage());
-			System.err.println(e.getLocalizedMessage());
+			// System.err.println(e.getLocalizedMessage());
+			missingModelValidationMessage = missingModelValidationMessage + e.toString() + " global" + '\n';
 		}
 		
 		// Go through all Clients and start Validators 
@@ -91,7 +94,7 @@ public class ModelValidationEngine
 		}
 		//logging to db will try to init ModelValidationEngine again!
 		//log.config(toString());
-		System.out.println(toString());
+		// System.out.println(toString());
 	}	//	ModelValidatorEngine
 	
 	private void loadValidatorClasses(MClient client, String classNames) 
@@ -115,7 +118,8 @@ public class ModelValidationEngine
 			{
 				//logging to db will try to init ModelValidationEngine again!
 				//log.log(Level.SEVERE, className + ": " + e.getMessage());
-				System.err.println(className + ": " + e.getMessage());
+				// System.err.println(className + ": " + e.getMessage());
+				missingModelValidationMessage = missingModelValidationMessage + e.toString() + " on client " + client.getName() + '\n';
 			}
 		}
 	}
@@ -132,7 +136,8 @@ public class ModelValidationEngine
 		{
 			//logging to db will try to init ModelValidationEngine again!
 			//log.log(Level.SEVERE, className + ": " + e.getMessage());
-			System.err.println(className + ": " + e.getMessage());
+			// System.err.println(e.toString());
+			missingModelValidationMessage = missingModelValidationMessage + e.toString() + " on client " + client.getName() + '\n';
 		}
 	}
 	
@@ -187,6 +192,14 @@ public class ModelValidationEngine
 					return error;
 			}
 		}
+		if (AD_User_ID == 0 && AD_Role_ID == 0)
+			; // don't validate for user system on role system
+		else
+			if (missingModelValidationMessage != null) {
+				MSystem system = MSystem.get(Env.getCtx());
+				if (system.isFailOnMissingModelValidator())
+					return missingModelValidationMessage;
+			}
 		return null;
 	}	//	loginComplete
 	

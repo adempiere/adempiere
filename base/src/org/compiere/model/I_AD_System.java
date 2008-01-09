@@ -200,6 +200,15 @@ public interface I_AD_System
 	  */
 	public boolean isAutoErrorReport();
 
+    /** Column name IsFailOnMissingModelValidator */
+    public static final String COLUMNNAME_IsFailOnMissingModelValidator = "IsFailOnMissingModelValidator";
+
+	/** Set Fail on Missing Model Validator	  */
+	public void setIsFailOnMissingModelValidator (boolean IsFailOnMissingModelValidator);
+
+	/** Get Fail on Missing Model Validator	  */
+	public boolean isFailOnMissingModelValidator();
+
     /** Column name IsJustMigrated */
     public static final String COLUMNNAME_IsJustMigrated = "IsJustMigrated";
 

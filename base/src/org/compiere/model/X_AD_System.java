@@ -47,6 +47,8 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 			setIsAllowStatistics (false);
 			setIsAutoErrorReport (true);
 // Y
+			setIsFailOnMissingModelValidator (true);
+// Y
 			setName (null);
 			setPassword (null);
 			setReplicationType (null);
@@ -327,6 +329,27 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public boolean isAutoErrorReport () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsAutoErrorReport);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Fail on Missing Model Validator.
+		@param IsFailOnMissingModelValidator Fail on Missing Model Validator	  */
+	public void setIsFailOnMissingModelValidator (boolean IsFailOnMissingModelValidator)
+	{
+		set_Value (COLUMNNAME_IsFailOnMissingModelValidator, Boolean.valueOf(IsFailOnMissingModelValidator));
+	}
+
+	/** Get Fail on Missing Model Validator.
+		@return Fail on Missing Model Validator	  */
+	public boolean isFailOnMissingModelValidator () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsFailOnMissingModelValidator);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
