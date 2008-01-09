@@ -20,6 +20,7 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 
@@ -28,6 +29,7 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutInOut.java,v 1.7 2006/07/30 00:51:05 jjanke Exp $
+ *  @author victor.perez@e-evolution.com www.e-evolution.com [ 1867464 ] http://sourceforge.net/tracker/index.php?func=detail&aid=1867464&group_id=176962&atid=879332
  */
 public class CalloutInOut extends CalloutEngine
 {
@@ -71,6 +73,8 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("FreightAmt", order.getFreightAmt());
 
 			mTab.setValue("C_BPartner_ID", new Integer(order.getC_BPartner_ID()));
+			
+			//[ 1867464 ]
 			mTab.setValue("C_BPartner_Location_ID", new Integer(order.getC_BPartner_Location_ID()));
 			mTab.setValue("AD_User_ID", new Integer(order.getAD_User_ID()));
 		}
@@ -165,11 +169,7 @@ public class CalloutInOut extends CalloutEngine
 		Integer C_BPartner_ID = (Integer)value;
 		if (C_BPartner_ID == null || C_BPartner_ID.intValue() == 0)
 			return "";
-		
-		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
-		if (!IsSOTrx)
-		{	
-			//When Is Receipt
+
 			String sql = "SELECT p.AD_Language,p.C_PaymentTerm_ID,"
 				+ "p.M_PriceList_ID,p.PaymentRule,p.POReference,"
 				+ "p.SO_Description,p.IsDiscountPrinted,"
@@ -188,22 +188,26 @@ public class CalloutInOut extends CalloutEngine
 				BigDecimal bd;
 				if (rs.next())
 				{
-					//	Location
-					Integer ii = new Integer(rs.getInt("C_BPartner_Location_ID"));
-					if (rs.wasNull())
-						mTab.setValue("C_BPartner_Location_ID", null);
-					else
-						mTab.setValue("C_BPartner_Location_ID", ii);
-					//	Contact
-					ii = new Integer(rs.getInt("AD_User_ID"));
-					if (rs.wasNull())
-						mTab.setValue("AD_User_ID", null);
-					else
-						mTab.setValue("AD_User_ID", ii);
+					//[ 1867464 ]
+					boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
+					if(!IsSOTrx)
+					{	
+						//	Location
+						Integer ii = new Integer(rs.getInt("C_BPartner_Location_ID"));
+						if (rs.wasNull())
+							mTab.setValue("C_BPartner_Location_ID", null);
+						else
+							mTab.setValue("C_BPartner_Location_ID", ii);
+						//	Contact
+						ii = new Integer(rs.getInt("AD_User_ID"));
+						if (rs.wasNull())
+							mTab.setValue("AD_User_ID", null);
+						else
+							mTab.setValue("AD_User_ID", ii);
+					}
 	
 					//Bugs item #1679818: checking for SOTrx only
 					//boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
-					
 					if (IsSOTrx)
 					{
 						//	CreditAvailable
@@ -222,12 +226,7 @@ public class CalloutInOut extends CalloutEngine
 				log.log(Level.SEVERE, sql, e);
 				return e.getLocalizedMessage();
 			}
-		}
-		else
-		{
 			
-		}
-
 		return "";
 	}	//	bpartner
 
