@@ -65,6 +65,7 @@ public class ModelValidationEngine
 		
 		MTable table = MTable.get(new Properties(), X_AD_ModelValidator.Table_ID);
 		Query query = table.createQuery("IsActive='Y'", null);
+		query.setOrderBy("SeqNo");
 		try {
 			List<PO> entityTypes = query.list();
 			for (PO po : entityTypes)
