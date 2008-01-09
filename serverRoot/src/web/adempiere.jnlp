@@ -1,7 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <jnlp spec = "1.5+" version = "3.3.1b" 
-	codebase = "$$context/adempiereHome" 
-	href = "$$context/adempiere.jnlp">  
+	codebase = "$$context/adempiereHome">  
 	<information>
 		<title>Adempiere Client 3.3.1b $$context</title>
 		<vendor>ADempiere, Inc.</vendor>
