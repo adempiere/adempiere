@@ -14,10 +14,11 @@
 			<desktop/>
 			<menu submenu="Adempiere 3.3.1b $$context"/>
 		</shortcut>
-	</information>  
+	</information>
 	<security>
 		<all-permissions/>  
 	</security>
+	<update check="always" policy="always"/>
 	<resources>
 		<j2se version = "1.5+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
 		<jar href = "Adempiere.jar" main = "true" download = "eager"/>
