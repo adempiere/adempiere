@@ -1915,3 +1915,138 @@ ALTER TABLE ASP_WINDOW ADD (CONSTRAINT asplevel_aspwindow FOREIGN KEY (asp_level
 ALTER TABLE ASP_WORKFLOW ADD (CONSTRAINT adworkflow_aspworkflow FOREIGN KEY (ad_workflow_id) REFERENCES AD_WORKFLOW);
 
 ALTER TABLE ASP_WORKFLOW ADD (CONSTRAINT asplevel_aspworkflow FOREIGN KEY (asp_level_id) REFERENCES ASP_LEVEL);
+
+-- Jan 10, 2008 1:06:02 AM COT
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,AD_Reference_Value_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,110,0,53067,53128,18,105,'AD_Menu_ID',TO_DATE('2008-01-10 01:05:57','YYYY-MM-DD HH24:MI:SS'),100,'U',0,'Y','Y','N','N','AD_Menu_ID',20,TO_DATE('2008-01-10 01:05:57','YYYY-MM-DD HH24:MI:SS'),100)
+;
+
+INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_Para_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process_Para t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_Para_ID=53128 AND EXISTS (SELECT * FROM AD_Process_Para_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Process_Para_ID!=t.AD_Process_Para_ID)
+;
+
+
+UPDATE AD_Process_Para SET Description='Identifies a Menu', Help='The Menu identifies a unique Menu.  Menus are used to control the display of those screens a user has access to.', Name='Menu',Updated=TO_DATE('2008-01-10 01:06:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53128
+;
+
+UPDATE AD_Process_Para_Trl SET IsTranslated='N' WHERE AD_Process_Para_ID=53128
+;
+
+UPDATE AD_Element SET Name='Client Exception', PrintName='Client Exception',Updated=TO_DATE('2008-01-10 01:15:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53331
+;
+
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53331
+;
+
+UPDATE AD_Column SET ColumnName='ASP_ClientException_ID', Name='Client Exception', Description=NULL, Help=NULL WHERE AD_Element_ID=53331
+;
+
+UPDATE AD_Field SET Name='Client Exception', Description=NULL, Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53331) AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_ClientException_ID', Name='Client Exception', Description=NULL, Help=NULL, AD_Element_ID=53331 WHERE UPPER(ColumnName)='ASP_CLIENTEXCEPTION_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_ClientException_ID', Name='Client Exception', Description=NULL, Help=NULL WHERE AD_Element_ID=53331 AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='Client Exception', Name='Client Exception' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53331)
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='Client Exception', Name='Client Exception' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53331)
+;
+
+UPDATE AD_Element SET Name='Client Level', PrintName='Client Level',Updated=TO_DATE('2008-01-10 01:15:42','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53330
+;
+
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53330
+;
+
+UPDATE AD_Column SET ColumnName='ASP_ClientLevel_ID', Name='Client Level', Description=NULL, Help=NULL WHERE AD_Element_ID=53330
+;
+
+UPDATE AD_Field SET Name='Client Level', Description=NULL, Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53330) AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_ClientLevel_ID', Name='Client Level', Description=NULL, Help=NULL, AD_Element_ID=53330 WHERE UPPER(ColumnName)='ASP_CLIENTLEVEL_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_ClientLevel_ID', Name='Client Level', Description=NULL, Help=NULL WHERE AD_Element_ID=53330 AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='Client Level', Name='Client Level' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53330)
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='Client Level', Name='Client Level' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53330)
+;
+
+UPDATE AD_Element SET Name='ASP Level', PrintName='ASP Level',Updated=TO_DATE('2008-01-10 01:15:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53326
+;
+
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53326
+;
+
+UPDATE AD_Column SET ColumnName='ASP_Level_ID', Name='ASP Level', Description=NULL, Help=NULL WHERE AD_Element_ID=53326
+;
+
+UPDATE AD_Field SET Name='ASP Level', Description=NULL, Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53326) AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_Level_ID', Name='ASP Level', Description=NULL, Help=NULL, AD_Element_ID=53326 WHERE UPPER(ColumnName)='ASP_LEVEL_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_Level_ID', Name='ASP Level', Description=NULL, Help=NULL WHERE AD_Element_ID=53326 AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='ASP Level', Name='ASP Level' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53326)
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='ASP Level', Name='ASP Level' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53326)
+;
+
+UPDATE AD_Element SET Name='ASP Module', PrintName='ASP Module',Updated=TO_DATE('2008-01-10 01:15:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53329
+;
+
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53329
+;
+
+UPDATE AD_Column SET ColumnName='ASP_Module_ID', Name='ASP Module', Description=NULL, Help=NULL WHERE AD_Element_ID=53329
+;
+
+UPDATE AD_Field SET Name='ASP Module', Description=NULL, Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53329) AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_Module_ID', Name='ASP Module', Description=NULL, Help=NULL, AD_Element_ID=53329 WHERE UPPER(ColumnName)='ASP_MODULE_ID' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_Module_ID', Name='ASP Module', Description=NULL, Help=NULL WHERE AD_Element_ID=53329 AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='ASP Module', Name='ASP Module' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53329)
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='ASP Module', Name='ASP Module' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53329)
+;
+
+UPDATE AD_Element SET Name='ASP Status', PrintName='ASP Status',Updated=TO_DATE('2008-01-10 01:16:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53327
+;
+
+UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53327
+;
+
+UPDATE AD_Column SET ColumnName='ASP_Status', Name='ASP Status', Description=NULL, Help=NULL WHERE AD_Element_ID=53327
+;
+
+UPDATE AD_Field SET Name='ASP Status', Description=NULL, Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53327) AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_Status', Name='ASP Status', Description=NULL, Help=NULL, AD_Element_ID=53327 WHERE UPPER(ColumnName)='ASP_STATUS' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+;
+
+UPDATE AD_Process_Para SET ColumnName='ASP_Status', Name='ASP Status', Description=NULL, Help=NULL WHERE AD_Element_ID=53327 AND IsCentrallyMaintained='Y'
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='ASP Status', Name='ASP Status' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53327)
+;
+
+UPDATE AD_PrintFormatItem pi SET PrintName='ASP Status', Name='ASP Status' WHERE IsCentrallyMaintained='Y' AND EXISTS (SELECT * FROM AD_Column c WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=53327)
+;
+
