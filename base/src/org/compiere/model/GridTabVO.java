@@ -344,13 +344,47 @@ public class GridTabVO implements Evaluatee, Serializable
 	 */
 	protected static String getSQL (Properties ctx)
 	{
+		MClient client = MClient.get(ctx);
+		String ASPFilter = "";
+		if (client.isUseASP())
+			ASPFilter =
+				"     AND (   AD_Tab_ID IN ( "
+				// Just ASP subscribed tabs for client "
+				+ "              SELECT w.AD_Tab_ID "
+				+ "                FROM ASP_Tab w, ASP_Level l, ASP_ClientLevel cl "
+				+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+				+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+				+ "                 AND w.IsActive = 'Y' "
+				+ "                 AND l.IsActive = 'Y' "
+				+ "                 AND cl.IsActive = 'Y' "
+				+ "                 AND w.ASP_Status = 'S') " // Show
+				+ "        OR AD_Tab_ID IN ( "
+				// + show ASP exceptions for client
+				+ "              SELECT AD_Tab_ID "
+				+ "                FROM ASP_ClientException ce "
+				+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "                 AND ce.IsActive = 'Y' "
+				+ "                 AND ce.AD_Tab_ID IS NOT NULL "
+				+ "                 AND ce.AD_Field_ID IS NULL "
+				+ "                 AND ce.ASP_Status = 'S') " // Show
+				+ "       ) "
+				+ "   AND AD_Tab_ID NOT IN ( "
+				// minus hide ASP exceptions for client
+				+ "          SELECT AD_Tab_ID "
+				+ "            FROM ASP_ClientException ce "
+				+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "             AND ce.IsActive = 'Y' "
+				+ "             AND ce.AD_Tab_ID IS NOT NULL "
+				+ "             AND ce.AD_Field_ID IS NULL "
+				+ "             AND ce.ASP_Status = 'H')"; // Hide
 		//  View only returns IsActive='Y'
 		String sql = "SELECT * FROM AD_Tab_v WHERE AD_Window_ID=?"
-			+ " ORDER BY SeqNo";
+			+ ASPFilter + " ORDER BY SeqNo";
 		if (!Env.isBaseLanguage(ctx, "AD_Window"))
 			sql = "SELECT * FROM AD_Tab_vt WHERE AD_Window_ID=?"
 				+ " AND AD_Language='" + Env.getAD_Language(ctx) + "'"
-				+ " ORDER BY SeqNo";
+				+ ASPFilter + " ORDER BY SeqNo";
 		return sql;
 	}   //  getSQL
 	

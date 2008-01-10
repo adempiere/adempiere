@@ -149,6 +149,10 @@ public class GridWindowVO implements Serializable
 			CLogger.get().log(Level.SEVERE, sql.toString(), ex);
 			return null;
 		}
+		// Ensure ASP exceptions
+		MRole role = MRole.getDefault(ctx, false);
+		if (role.getWindowAccess(AD_Window_ID) == null)
+			vo = null;
 		//	Not found
 		if (vo == null)
 		{

@@ -176,6 +176,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		//Processes
 		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Process");
 		String lang = Env.getAD_Language(Env.getCtx());
+		// TODO: ASP - implement process and window access ASP control
 		String sql = "SELECT DISTINCT p.AD_Process_ID,"
 				+ (trl ? "trl.Name" : "p.Name ")
 			+ " FROM AD_Process p INNER JOIN AD_Process_Access pa ON (p.AD_Process_ID=pa.AD_Process_ID) "

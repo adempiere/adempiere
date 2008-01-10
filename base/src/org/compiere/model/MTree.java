@@ -57,18 +57,27 @@ public class MTree extends MTree_Base
 	public MTree (Properties ctx, int AD_Tree_ID, 
 		boolean editable, boolean clientTree, String trxName)
 	{
+		this (ctx, AD_Tree_ID, editable, clientTree, false, trxName);
+	}   //  MTree
+
+	public MTree (Properties ctx, int AD_Tree_ID, 
+			boolean editable, boolean clientTree, boolean allNodes, String trxName)
+	{
 		this (ctx, AD_Tree_ID, trxName);
 		m_editable = editable;
-		int AD_User_ID = Env.getContextAsInt(ctx, "AD_User_ID");
+		int AD_User_ID;
+		if (allNodes)
+			AD_User_ID = -1;
+		else
+			AD_User_ID = Env.getContextAsInt(ctx, "AD_User_ID");
 		m_clientTree = clientTree;
 		log.info("AD_Tree_ID=" + AD_Tree_ID
-			+ ", AD_User_ID=" + AD_User_ID 
-			+ ", Editable=" + editable
-			+ ", OnClient=" + clientTree);
+				+ ", AD_User_ID=" + AD_User_ID 
+				+ ", Editable=" + editable
+				+ ", OnClient=" + clientTree);
 		//
 		loadNodes(AD_User_ID);
 	}   //  MTree
-
 
 	/** Is Tree editable    	*/
 	private boolean     		m_editable = false;
@@ -174,7 +183,9 @@ public class MTree extends MTree_Base
 			+ "tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive "
 			+ "FROM ").append(getNodeTableName()).append(" tn"
 			+ " LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID"
-			+ " AND tn.Node_ID=tb.Node_ID AND tb.AD_User_ID=?) "	//	#1
+			+ " AND tn.Node_ID=tb.Node_ID "
+			+ (AD_User_ID != -1 ? " AND tb.AD_User_ID=? ": "") 	//	#1 (conditional)
+			+ ") "
 			+ "WHERE tn.AD_Tree_ID=?");								//	#2
 		if (!m_editable)
 			sql.append(" AND tn.IsActive='Y'");
@@ -188,8 +199,10 @@ public class MTree extends MTree_Base
 			getNodeDetails(); 
 			//
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, AD_User_ID);
-			pstmt.setInt(2, getAD_Tree_ID());
+			int idx = 1;
+			if (AD_User_ID != -1)
+				pstmt.setInt(idx++, AD_User_ID);
+			pstmt.setInt(idx++, getAD_Tree_ID());
 			//	Get Tree & Bar
 			ResultSet rs = pstmt.executeQuery();
 			m_root = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);

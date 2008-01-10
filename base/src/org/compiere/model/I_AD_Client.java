@@ -186,6 +186,15 @@ public interface I_AD_Client
 	  */
 	public boolean isSmtpAuthorization();
 
+    /** Column name IsUseASP */
+    public static final String COLUMNNAME_IsUseASP = "IsUseASP";
+
+	/** Set Use ASP	  */
+	public void setIsUseASP (boolean IsUseASP);
+
+	/** Get Use ASP	  */
+	public boolean isUseASP();
+
     /** Column name IsUseBetaFunctions */
     public static final String COLUMNNAME_IsUseBetaFunctions = "IsUseBetaFunctions";
 

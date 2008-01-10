@@ -48,6 +48,8 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 			setIsServerEMail (false);
 			setIsSmtpAuthorization (false);
 // N
+			setIsUseASP (false);
+// N
 			setIsUseBetaFunctions (true);
 // Y
 			setMMPolicy (null);
@@ -326,6 +328,27 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	public boolean isSmtpAuthorization () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSmtpAuthorization);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Use ASP.
+		@param IsUseASP Use ASP	  */
+	public void setIsUseASP (boolean IsUseASP)
+	{
+		set_Value (COLUMNNAME_IsUseASP, Boolean.valueOf(IsUseASP));
+	}
+
+	/** Get Use ASP.
+		@return Use ASP	  */
+	public boolean isUseASP () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUseASP);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

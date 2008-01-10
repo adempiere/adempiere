@@ -166,6 +166,72 @@ public class GridFieldVO implements Serializable
 			CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, e);
 			return null;
 		}
+		// ASP
+		if (vo.IsDisplayed) {
+			MClient client = MClient.get(ctx);
+			if (client.isUseASP()) {
+				// ASP for fields has a different approach - it must be defined as a field but hidden
+				//   in order to have the proper context variable filled with defaults
+				// Validate field and put IsDisplayed=N if must be hidden
+				try {
+					// TODO : Optimize ASP field code - catch this query
+					int AD_Field_ID = rs.getInt("AD_Field_ID");
+					String sqlvalidate =
+						"SELECT AD_Field_ID "
+						 + "  FROM AD_Field "
+						 + " WHERE AD_Field_ID = ? "
+						 + "   AND (   AD_Field_ID IN ( "
+						 // ASP subscribed fields for client
+						 + "              SELECT w.AD_Field_ID "
+						 + "                FROM ASP_Field w, ASP_Level l, ASP_ClientLevel cl "
+						 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+						 + "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+						 + "                 AND cl.ASP_Level_ID = l.asp_level_ID "
+						 + "                 AND w.IsActive = 'Y' "
+						 + "                 AND l.IsActive = 'Y' "
+						 + "                 AND cl.IsActive = 'Y' "
+						 + "                 AND w.ASP_Status = 'S') "
+						 + "        OR AD_Tab_ID IN ( "
+						 // ASP subscribed fields for client
+						 + "              SELECT w.AD_Tab_ID "
+						 + "                FROM ASP_Tab w, ASP_Level l, ASP_ClientLevel cl "
+						 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+						 + "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+						 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+						 + "                 AND w.IsActive = 'Y' "
+						 + "                 AND l.IsActive = 'Y' "
+						 + "                 AND cl.IsActive = 'Y' "
+						 + "                 AND w.AllFields = 'Y' "
+						 + "                 AND w.ASP_Status = 'S') "
+						 + "        OR AD_Field_ID IN ( "
+						 // ASP show exceptions for client
+						 + "              SELECT AD_Field_ID "
+						 + "                FROM ASP_ClientException ce "
+						 + "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+						 + "                 AND ce.IsActive = 'Y' "
+						 + "                 AND ce.AD_Field_ID IS NOT NULL "
+						 + "                 AND ce.ASP_Status = 'S') "
+						 + "       ) "
+						 + "   AND AD_Field_ID NOT IN ( "
+						 // minus ASP hide exceptions for client
+						 + "          SELECT AD_Field_ID "
+						 + "            FROM ASP_ClientException ce "
+						 + "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+						 + "             AND ce.IsActive = 'Y' "
+						 + "             AND ce.AD_Field_ID IS NOT NULL "
+						 + "             AND ce.ASP_Status = 'H')";
+					int validField_ID = DB.getSQLValue(null, sqlvalidate, AD_Field_ID);
+					if (validField_ID != AD_Field_ID)
+						vo.IsDisplayed = false;
+				}
+				catch (SQLException e)
+				{
+					CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, e);
+					return null;
+				}
+			}
+		}
+		//
 		vo.initFinish();
 		return vo;
 	}   //  create

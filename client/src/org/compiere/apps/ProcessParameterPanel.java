@@ -36,6 +36,7 @@ import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
+import org.compiere.model.MClient;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CPanel;
@@ -137,6 +138,43 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	top gap 10+2=12
 
+			// ASP
+			MClient client = MClient.get(Env.getCtx());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Process_Para_ID IN ( "
+					// Just ASP subscribed process parameters for client "
+					+ "              SELECT w.AD_Process_Para_ID "
+					+ "                FROM ASP_Process_Para w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "        OR AD_Process_Para_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Process_Para_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Process_Para_ID IS NOT NULL "
+					+ "                 AND ce.AD_Tab_ID IS NULL "
+					+ "                 AND ce.AD_Field_ID IS NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Process_Para_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Process_Para_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Process_Para_ID IS NOT NULL "
+					+ "             AND ce.AD_Tab_ID IS NULL "
+					+ "             AND ce.AD_Field_ID IS NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
 			//
 			String sql = null;
 			if (Env.isBaseLanguage(Env.getCtx(), "AD_Process_Para"))
@@ -149,7 +187,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
 					+ "WHERE p.AD_Process_ID=?"		//	1
 					+ " AND p.IsActive='Y' "
-					+ "ORDER BY SeqNo";
+					+ ASPFilter + " ORDER BY SeqNo";
 			else
 				sql = "SELECT t.Name, t.Description, t.Help, "
 					+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
@@ -162,7 +200,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					+ "WHERE p.AD_Process_ID=?"		//	1
 					+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "'"
 					+ " AND p.IsActive='Y' "
-					+ "ORDER BY SeqNo";
+					+ ASPFilter + " ORDER BY SeqNo";
 
 			//	Create Fields
 			boolean hasFields = false;

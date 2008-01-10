@@ -42,6 +42,7 @@ import org.compiere.util.Trace;
  *	
  *  @author Jorg Janke
  *  @author Karsten Thiemann FR [ 1782412 ]
+ *  @author Carlos Ruiz - globalqss - FR [ 1846929 ] - implement ASP
  *  @version $Id: MRole.java,v 1.5 2006/08/09 16:38:47 jjanke Exp $
  */
 public final class MRole extends X_AD_Role
@@ -1485,7 +1486,44 @@ public final class MRole extends X_AD_Role
 		if (m_windowAccess == null)
 		{
 			m_windowAccess = new HashMap<Integer,Boolean>(100);
-			String sql = "SELECT AD_Window_ID, IsReadWrite FROM AD_Window_Access WHERE AD_Role_ID=? AND IsActive='Y'";
+
+			MClient client = MClient.get(getCtx(), getAD_Client_ID());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Window_ID IN ( "
+					// Just ASP subscribed windows for client "
+					+ "              SELECT w.AD_Window_ID "
+					+ "                FROM ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "        OR AD_Window_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Window_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Window_ID IS NOT NULL "
+					+ "                 AND ce.AD_Tab_ID IS NULL "
+					+ "                 AND ce.AD_Field_ID IS NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Window_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Window_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Window_ID IS NOT NULL "
+					+ "             AND ce.AD_Tab_ID IS NULL "
+					+ "             AND ce.AD_Field_ID IS NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
+			String sql = "SELECT AD_Window_ID, IsReadWrite FROM AD_Window_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			try
 			{
@@ -1529,7 +1567,42 @@ public final class MRole extends X_AD_Role
 		if (m_processAccess == null)
 		{
 			m_processAccess = new HashMap<Integer,Boolean>(50);
-			String sql = "SELECT AD_Process_ID, IsReadWrite FROM AD_Process_Access WHERE AD_Role_ID=? AND IsActive='Y'";
+			
+			MClient client = MClient.get(getCtx(), getAD_Client_ID());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Process_ID IN ( "
+					// Just ASP subscribed processes for client "
+					+ "              SELECT w.AD_Process_ID "
+					+ "                FROM ASP_Process w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "        OR AD_Process_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Process_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Process_ID IS NOT NULL "
+					+ "                 AND ce.AD_Process_Para_ID IS NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Process_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Process_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Process_ID IS NOT NULL "
+					+ "             AND ce.AD_Process_Para_ID IS NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
+			String sql = "SELECT AD_Process_ID, IsReadWrite FROM AD_Process_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			try
 			{
@@ -1570,8 +1643,39 @@ public final class MRole extends X_AD_Role
 		if (m_taskAccess == null)
 		{
 			m_taskAccess = new HashMap<Integer,Boolean>(10);
-			String sql = "SELECT AD_Task_ID, IsReadWrite FROM AD_Task_Access "
-				+ "WHERE AD_Role_ID=? AND IsActive='Y'";
+			MClient client = MClient.get(getCtx(), getAD_Client_ID());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Task_ID IN ( "
+					// Just ASP subscribed tasks for client "
+					+ "              SELECT w.AD_Task_ID "
+					+ "                FROM ASP_Task w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "        OR AD_Task_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Task_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Task_ID IS NOT NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Task_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Task_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Task_ID IS NOT NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
+			String sql = "SELECT AD_Task_ID, IsReadWrite FROM AD_Task_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			try
 			{
@@ -1612,8 +1716,40 @@ public final class MRole extends X_AD_Role
 		if (m_formAccess == null)
 		{
 			m_formAccess = new HashMap<Integer,Boolean>(20);
-			String sql = "SELECT AD_Form_ID, IsReadWrite FROM AD_Form_Access "
-				+ "WHERE AD_Role_ID=? AND IsActive='Y'";
+
+			MClient client = MClient.get(getCtx(), getAD_Client_ID());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Form_ID IN ( "
+					// Just ASP subscribed forms for client "
+					+ "              SELECT w.AD_Form_ID "
+					+ "                FROM ASP_Form w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "        OR AD_Form_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Form_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Form_ID IS NOT NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Form_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Form_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Form_ID IS NOT NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
+			String sql = "SELECT AD_Form_ID, IsReadWrite FROM AD_Form_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			try
 			{
@@ -1654,8 +1790,39 @@ public final class MRole extends X_AD_Role
 		if (m_workflowAccess == null)
 		{
 			m_workflowAccess = new HashMap<Integer,Boolean>(20);
-			String sql = "SELECT AD_Workflow_ID, IsReadWrite FROM AD_Workflow_Access "
-				+ "WHERE AD_Role_ID=? AND IsActive='Y'";
+			MClient client = MClient.get(getCtx(), getAD_Client_ID());
+			String ASPFilter = "";
+			if (client.isUseASP())
+				ASPFilter =
+					  "   AND (   AD_Workflow_ID IN ( "
+					// Just ASP subscribed workflows for client "
+					+ "              SELECT w.AD_Workflow_ID "
+					+ "                FROM ASP_Workflow w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "        OR AD_Workflow_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Workflow_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Workflow_ID IS NOT NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Workflow_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Workflow_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Workflow_ID IS NOT NULL "
+					+ "             AND ce.ASP_Status = 'H')"; // Hide
+			String sql = "SELECT AD_Workflow_ID, IsReadWrite FROM AD_Workflow_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			try
 			{
