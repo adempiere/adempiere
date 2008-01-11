@@ -331,7 +331,10 @@ public final class AEnv
 		else if (actionCommand.equals("Exit"))
 		{
 			if (ADialog.ask(WindowNo, c, "ExitApplication?"))
-				Env.exitEnv(0);
+			{
+				AMenu aMenu = (AMenu)Env.getWindow(0);
+				aMenu.dispose() ;
+			}
 		}
 		else if (actionCommand.equals("Logout"))
 		{
