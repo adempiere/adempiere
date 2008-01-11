@@ -68,9 +68,19 @@ public final class VPanel extends CTabbedPane
 	 */
 	public VPanel(String Name)
 	{
+		//set up map used for label and field alignment
+		labels.put(0, new ArrayList<CLabel>());
+		labels.put(2, new ArrayList<CLabel>());
+		
+		fields.put(1, new ArrayList<Component>());
+		fields.put(3, new ArrayList<Component>());
+		
+		fillers.put(0, new ArrayList<CLabel>());
+		fillers.put(2, new ArrayList<CLabel>());
+		
         //[ 1757088 ]	
 		m_main.setName(Name);
-		m_main.setLayout(new GridBagLayout());
+		setupMainPanelLayout(m_main);
 		m_main.setBorder(new CompoundBorder(m_main.getBorder(), BorderFactory.createEmptyBorder(10, 12, 0, 12)));
 		m_tablist.put("main", m_main);
 		this.setBorder(marginBorder);
@@ -94,15 +104,7 @@ public final class VPanel extends CTabbedPane
 		m_gbc.ipadx = 0;
 		m_gbc.ipady = 0;
 		
-		//set up map used for label and field alignment
-		labels.put(0, new ArrayList<CLabel>());
-		labels.put(2, new ArrayList<CLabel>());
 		
-		fields.put(1, new ArrayList<Component>());
-		fields.put(3, new ArrayList<Component>());
-		
-		fillers.put(0, new ArrayList<CLabel>());
-		fillers.put(2, new ArrayList<CLabel>());
 	}	//	VPanel
 	
 	/** GridBag Constraint      */
@@ -192,7 +194,7 @@ public final class VPanel extends CTabbedPane
 			m_gbc.gridheight = 1;
 			m_gbc.insets = new Insets(2,0,0,0);
 			m_gbc.gridy = m_line++;
-			m_gbc.gridwidth = 4;
+			m_gbc.gridwidth = 5;
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
 			m_gbc.weightx = 1;			  
 			m_gbc.ipadx = 0;					  			  
@@ -387,7 +389,10 @@ public final class VPanel extends CTabbedPane
 			//m_gbc.gridy = 0;			//	line
 			m_gbc.gridx = 0;
 			m_gbc.gridheight = 1;
-			m_gbc.insets = new Insets(2,0,0,0);
+			if (m_oldFieldGroup.length() > 0 && m_oldFieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
+				m_gbc.insets = new Insets(0,0,3,0);
+			else
+				m_gbc.insets = new Insets(3,0,3,0);
 			m_gbc.gridy = m_line++;
 			m_gbc.gridwidth = 4;
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -416,7 +421,7 @@ public final class VPanel extends CTabbedPane
 	 * Set up the gridbaglayout for additonal field group tab
 	 * @param m_tab
 	 */
-	private void setupTabPanelLayout(CPanel m_tab) {
+	private void setupMainPanelLayout(CPanel m_tab) {
 		m_tab.setLayout(new GridBagLayout());
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -455,6 +460,58 @@ public final class VPanel extends CTabbedPane
 		label = new CLabel("");
 		fields.get(3).add(label);
 		m_tab.add(label, gbc);
+		
+		//right gap
+		gbc.weightx = 1;
+		gbc.gridx = 4;
+		m_tab.add(Box.createHorizontalGlue(), gbc);
+		
+	}
+	
+	/**
+	 * Set up the gridbaglayout for additonal field group tab
+	 * @param m_tab
+	 */
+	private void setupTabPanelLayout(CPanel m_tab) {
+		m_tab.setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridy = 0;			//	line
+		gbc.gridx = 0;
+		gbc.gridheight = 0;
+		gbc.gridwidth = 1;
+		gbc.insets = m_firstLabelInset;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+		gbc.ipadx = 0;
+		gbc.ipady = 0;
+		CLabel label = new CLabel("");
+		m_tab.add(label, gbc);
+		
+		gbc.weightx = 1;
+		gbc.gridx = 1;
+		gbc.insets = m_fieldInset;
+		label = new CLabel("");
+		m_tab.add(label, gbc);
+		
+		gbc.weightx = 0;
+		gbc.gridx = 2;
+		gbc.insets = m_labelInset;
+		label = new CLabel("");
+		m_tab.add(label, gbc);
+		
+		gbc.weightx = 1;
+		gbc.gridx = 3;
+		gbc.insets = m_fieldInset;
+		fields.get(3).add(label);
+		m_tab.add(label, gbc);
+		
+		//right gap
+		gbc.weightx = 1;
+		gbc.gridx = 4;
+		m_tab.add(Box.createHorizontalGlue(), gbc);
 		
 	}
 
@@ -501,6 +558,12 @@ public final class VPanel extends CTabbedPane
 		label = new CLabel("");
 		fields.get(3).add(label);
 		m_tab.getContentPane().add(label, gbc);
+		
+		//right gap
+		/*
+		gbc.weightx = 1;
+		gbc.gridx = 4;
+		m_tab.getContentPane().add(Box.createHorizontalGlue(), gbc);*/
 		
 		Component c = Box.createVerticalStrut(3);
 		gbc.gridheight = 1;
