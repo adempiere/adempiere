@@ -803,14 +803,16 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     }
 
     private void addProcessInfoParameters(Map<String, Object> params, ProcessInfoParameter[] para) {
-		for (int i = 0; i < para.length; i++) {
-			if (para[i].getParameter_To() == null) {
-				params.put(para[i].getParameterName(), para[i].getParameter());
-			} else {
-                params.put( para[i].getParameterName()+"1", para[i].getParameter());
-                params.put( para[i].getParameterName()+"2", para[i].getParameter_To());
+    	if (para != null) {
+			for (int i = 0; i < para.length; i++) {
+				if (para[i].getParameter_To() == null) {
+					params.put(para[i].getParameterName(), para[i].getParameter());
+				} else {
+	                params.put( para[i].getParameterName()+"1", para[i].getParameter());
+	                params.put( para[i].getParameterName()+"2", para[i].getParameter_To());
+				}
 			}
-		}
+    	}
 	}
 
     /**
