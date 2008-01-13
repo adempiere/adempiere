@@ -273,10 +273,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			{
 				GridField field = new GridField (voF);
 				String columnName = field.getColumnName();
-				//FR [ 1757088 ] 
+				//FR [ 1757088 ] - this create Bug [ 1866793 ]
+				/*
 				if(this.isReadOnly()) {
 				   voF.IsReadOnly = true;
-				}
+				}*/
 				//	Record Info
 				if (field.isKey())
 					m_keyColumnName = columnName;
