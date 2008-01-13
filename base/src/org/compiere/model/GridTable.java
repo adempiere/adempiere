@@ -2121,6 +2121,7 @@ public class GridTable extends AbstractTableModel
 		//	fill data
 		if (copyCurrent)
 		{
+			boolean hasDocTypeTargetField = (getField("C_DocTypeTarget_ID") != null);
 			MSort sort = (MSort) m_sort.get(currentRow);
 			Object[] origData = (Object[])m_buffer.get(sort.index);
 			for (int i = 0; i < size; i++)
@@ -2142,6 +2143,8 @@ public class GridTable extends AbstractTableModel
 					|| columnName.equals("GrandTotal") || columnName.equals("TotalLines")
 					|| columnName.equals("C_CashLine_ID") || columnName.equals("C_Payment_ID")
 					|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
+					// Bug [ 1807947 ] 
+					|| ( columnName.equals("C_DocType_ID") && hasDocTypeTargetField )
 				)
 				{
 					rowData[i] = field.getDefault();
