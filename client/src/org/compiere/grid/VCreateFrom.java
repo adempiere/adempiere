@@ -382,18 +382,15 @@ public abstract class VCreateFrom extends CDialog
 			.append("||' - '||")
 			.append(DB.TO_CHAR("o.GrandTotal", DisplayType.Amount, Env.getAD_Language(Env.getCtx())));
 		//
-		String column = "m.M_InOutLine_ID";
+		String column = "ol.QtyDelivered";
 		if (forInvoice)
-			column = "m.C_InvoiceLine_ID";
+			column = "ol.QtyInvoiced";
 		StringBuffer sql = new StringBuffer("SELECT o.C_Order_ID,").append(display)
 			.append(" FROM C_Order o "
 			+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx='N' AND o.DocStatus IN ('CL','CO')"
 			+ " AND o.C_Order_ID IN "
 				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
-				  + " LEFT OUTER JOIN M_MatchPO m ON (ol.C_OrderLine_ID=m.C_OrderLine_ID) "
-				  + "GROUP BY ol.C_Order_ID,ol.C_OrderLine_ID, ol.QtyOrdered,").append(column)
-				  .append(" HAVING (ol.QtyOrdered <> SUM(m.Qty) AND ").append(column)
-				  .append(" IS NOT NULL) OR ").append(column).append(" IS NULL) "
+				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) "
 			+ "ORDER BY o.DateOrdered");
 		try
 		{
