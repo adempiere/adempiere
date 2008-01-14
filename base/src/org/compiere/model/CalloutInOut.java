@@ -170,62 +170,60 @@ public class CalloutInOut extends CalloutEngine
 		if (C_BPartner_ID == null || C_BPartner_ID.intValue() == 0)
 			return "";
 
-			String sql = "SELECT p.AD_Language,p.C_PaymentTerm_ID,"
-				+ "p.M_PriceList_ID,p.PaymentRule,p.POReference,"
-				+ "p.SO_Description,p.IsDiscountPrinted,"
-				+ "p.SO_CreditLimit-p.SO_CreditUsed AS CreditAvailable,"
-				+ "l.C_BPartner_Location_ID,c.AD_User_ID "
-				+ "FROM C_BPartner p, C_BPartner_Location l, AD_User c "
-				+ "WHERE l.IsActive='Y' AND p.C_BPartner_ID=l.C_BPartner_ID(+)"
-				+ " AND p.C_BPartner_ID=c.C_BPartner_ID(+)"
-				+ " AND p.C_BPartner_ID=?";		//	1
-	
-			try
+		String sql = "SELECT p.AD_Language,p.C_PaymentTerm_ID,"
+			+ "p.M_PriceList_ID,p.PaymentRule,p.POReference,"
+			+ "p.SO_Description,p.IsDiscountPrinted,"
+			+ "p.SO_CreditLimit-p.SO_CreditUsed AS CreditAvailable,"
+			+ "l.C_BPartner_Location_ID,c.AD_User_ID "
+			+ "FROM C_BPartner p, C_BPartner_Location l, AD_User c "
+			+ "WHERE l.IsActive='Y' AND p.C_BPartner_ID=l.C_BPartner_ID(+)"
+			+ " AND p.C_BPartner_ID=c.C_BPartner_ID(+)"
+			+ " AND p.C_BPartner_ID=?";		//	1
+
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, C_BPartner_ID.intValue());
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, C_BPartner_ID.intValue());
-				ResultSet rs = pstmt.executeQuery();
-				BigDecimal bd;
-				if (rs.next())
+				//[ 1867464 ]
+				boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+				if (!IsSOTrx)
+				{	
+					//	Location
+					Integer ii = new Integer(rs.getInt("C_BPartner_Location_ID"));
+					if (rs.wasNull())
+						mTab.setValue("C_BPartner_Location_ID", null);
+					else
+						mTab.setValue("C_BPartner_Location_ID", ii);
+					//	Contact
+					ii = new Integer(rs.getInt("AD_User_ID"));
+					if (rs.wasNull())
+						mTab.setValue("AD_User_ID", null);
+					else
+						mTab.setValue("AD_User_ID", ii);
+				}
+
+				//Bugs item #1679818: checking for SOTrx only
+				if (IsSOTrx)
 				{
-					//[ 1867464 ]
-					boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
-					if(!IsSOTrx)
-					{	
-						//	Location
-						Integer ii = new Integer(rs.getInt("C_BPartner_Location_ID"));
-						if (rs.wasNull())
-							mTab.setValue("C_BPartner_Location_ID", null);
-						else
-							mTab.setValue("C_BPartner_Location_ID", ii);
-						//	Contact
-						ii = new Integer(rs.getInt("AD_User_ID"));
-						if (rs.wasNull())
-							mTab.setValue("AD_User_ID", null);
-						else
-							mTab.setValue("AD_User_ID", ii);
-					}
-	
-					//Bugs item #1679818: checking for SOTrx only
-					//boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
-					if (IsSOTrx)
-					{
-						//	CreditAvailable
-						double CreditAvailable = rs.getDouble("CreditAvailable");
-						if (!rs.wasNull() && CreditAvailable < 0)
-							mTab.fireDataStatusEEvent("CreditLimitOver",
+					//	CreditAvailable
+					double CreditAvailable = rs.getDouble("CreditAvailable");
+					if (!rs.wasNull() && CreditAvailable < 0)
+						mTab.fireDataStatusEEvent("CreditLimitOver",
 								DisplayType.getNumberFormat(DisplayType.Amount).format(CreditAvailable),
 								false);
-					}//
-				}
-				rs.close();
-				pstmt.close();
+				}//
 			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sql, e);
-				return e.getLocalizedMessage();
-			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			return e.getLocalizedMessage();
+		}
 			
 		return "";
 	}	//	bpartner
@@ -259,7 +257,6 @@ public class CalloutInOut extends CalloutEngine
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Warehouse_ID.intValue());
 			ResultSet rs = pstmt.executeQuery();
-			BigDecimal bd;
 			if (rs.next())
 			{
 				//	Org
