@@ -287,6 +287,7 @@ public class RequisitionPOCreate extends SvrProcess
 		m_order.setIsSOTrx(false);
 		m_order.setC_DocTypeTarget_ID();
 		m_order.setBPartner(m_bpartner);
+		m_order.setM_PriceList_ID(rLine.getParent().getM_PriceList_ID());
 		//	default po document type
 		if (!p_ConsolidateDocument)
 			m_order.setDescription(Msg.getElement(getCtx(), "M_Requisition_ID") 
