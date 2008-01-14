@@ -498,7 +498,8 @@ public class VLookup extends JComponent
 			if (notFound)	//	<key>
 			{
 				m_value = null;
-				actionCombo (null);             //  data binding
+				if (!m_inserting)
+					actionCombo (null);             //  data binding
 				log.fine(m_columnName + "=" + value + ": Not found");
 			}
 			//  we have lookup
@@ -517,7 +518,8 @@ public class VLookup extends JComponent
 			if (m_combo.getSelectedItem() == null)
 			{
 				log.info(m_columnName + "=" + value + ": not in Lookup - set to NULL");
-				actionCombo (null);             //  data binding (calls setValue again)
+				if (!m_inserting)
+					actionCombo (null);             //  data binding (calls setValue again)
 				m_value = null;
 			}
 		}

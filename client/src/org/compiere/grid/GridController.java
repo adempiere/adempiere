@@ -777,8 +777,14 @@ public class GridController extends CPanel
 		}
 		else
 		{
-			if (rowTable != rowCurrent)
-				m_mTab.navigate(rowTable);
+			if (rowTable != rowCurrent) {
+				//make sure table selection is consistent with model
+				int t = m_mTab.navigate(rowTable);
+				if (t != rowTable) {
+					rowTable = t;
+					vTable.setRowSelectionInterval(rowTable, rowTable);
+				}
+			}
 			dynamicDisplay(0);
 		}
 
