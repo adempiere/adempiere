@@ -870,7 +870,8 @@ public class GridTable extends AbstractTableModel
 		//	Can we edit?
 		if (!m_open || m_readOnly       //  not accessible
 				|| row < 0 || col < 0   //  invalid index
-				|| m_rowCount == 0)     //  no rows
+				|| m_rowCount == 0	//  no rows
+				|| row >= m_rowCount )     //invalid row
 		{
 			log.finest("r=" + row + " c=" + col + " - R/O=" + m_readOnly + ", Rows=" + m_rowCount + " - Ignored");
 			return;

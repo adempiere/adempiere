@@ -2065,10 +2065,19 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 		//  Row range check
 		int newRow = verifyRow(targetRow);
-
+		
 		//  Check, if we have old uncommitted data
-		m_mTable.dataSave(newRow, false);
+		if (m_mTable.dataSave(newRow, false) == false) 
+			return m_currentRow;
 
+		//remove/ignore new and unchange row
+		if (m_mTable.isInserting())
+		{
+			if (newRow > m_currentRow)
+				newRow--;
+			dataIgnore();
+		}
+		
 		//  new position
 		return setCurrentRow(newRow, true);
 	}   //  navigate
