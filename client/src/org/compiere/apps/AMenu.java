@@ -131,6 +131,10 @@ public final class AMenu extends CFrame
 		m_AD_Role_ID = Env.getContextAsInt(m_ctx, "#AD_Role_ID");
 		updateInfo();
 		//
+		infoUpdater = new InfoUpdater();
+		infoUpdaterThread = new Thread(infoUpdater, "InfoUpdater");
+		infoUpdaterThread.start();
+		//
 		splash.dispose();
 		splash = null;		
 	}	//	AMenu
@@ -157,6 +161,11 @@ public final class AMenu extends CFrame
 	private DecimalFormat	m_memoryFormat = DisplayType.getNumberFormat(DisplayType.Integer);
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AMenu.class);
+	
+	/** The Info Update instance **/
+	private InfoUpdater infoUpdater = null;
+	/** The Info Update thread **/
+	private Thread infoUpdaterThread = null;
 	
 	private WindowManager windowManager = new WindowManager();
 	
@@ -436,6 +445,16 @@ public final class AMenu extends CFrame
 		Ini.setDividerLocation(treePanel.getDividerLocation());
 		Ini.setWindowLocation(0, getLocation());
 		Ini.saveProperties(true);
+		//
+		infoUpdater.stop = true;
+		try {
+			infoUpdaterThread.join(50);
+		} catch(InterruptedException ire) {	
+		} finally {
+			infoUpdaterThread = null;
+			infoUpdater = null;
+		}
+		//
 		super.dispose();
 		AEnv.exit(0);
 	}	//	dispose
@@ -512,7 +531,7 @@ public final class AMenu extends CFrame
 			gotoRequests();
 		else if (!AEnv.actionPerformed(e.getActionCommand(), m_WindowNo, this))
 			log.log(Level.SEVERE, "unknown action=" + e.getActionCommand());
-		updateInfo();
+		//updateInfo();
 	}	//	actionPerformed
 
 	/**
@@ -677,7 +696,7 @@ public final class AMenu extends CFrame
 	 */
 	public void stateChanged (ChangeEvent e)
 	{
-		updateInfo();
+		//updateInfo();
 		//	show activities
 		if (centerPane.getSelectedIndex() == m_tabActivities)
 			wfActivity.display();
@@ -701,7 +720,7 @@ public final class AMenu extends CFrame
 			if (e.getClickCount() > 1)
 			{
 				System.gc();
-				updateInfo();
+				//updateInfo();
 			}
 		}
 	}	//	AMenu_MouseAdapter
@@ -717,5 +736,26 @@ public final class AMenu extends CFrame
 		Adempiere.startup(true);	//	needs to be here for UI
 		AMenu menu = new AMenu();
 	}	//	main
+	
+	class InfoUpdater implements Runnable
+	{
+		boolean stop = false;
+		
+		public void InfoUpdater()
+		{
+		}
+	
+		public void run()
+		{
+			while(stop == false)
+			{
+				updateInfo();
+	
+				try {
+					Thread.currentThread().sleep(60000);
+				} catch(InterruptedException ire) { }
+			}
+		}
+	}
 
 }	//	AMenu

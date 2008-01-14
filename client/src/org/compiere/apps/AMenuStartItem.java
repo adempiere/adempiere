@@ -186,7 +186,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 		SwingUtilities.invokeLater(m_resetPB);
 		if (m_menu != null)
 		{
-			m_menu.updateInfo();
+			//m_menu.updateInfo();
 			m_menu.setBusy(false);
 		}
 	}	//	run
