@@ -658,7 +658,7 @@ public final class AMenu extends CFrame
 		int notes = getNotes();
 		bNotes.setText(Msg.translate(m_ctx, "AD_Note_ID") + ": " + notes);
 		//	Activities
-		int activities = wfActivity.loadActivities();
+		int activities = wfActivity.getActivitiesCount();
 		centerPane.setTitleAt(m_tabActivities, Msg.getMsg (m_ctx, "WorkflowActivities") + ": " + activities);
 		//
 		log.config(msg
@@ -699,7 +699,10 @@ public final class AMenu extends CFrame
 		//updateInfo();
 		//	show activities
 		if (centerPane.getSelectedIndex() == m_tabActivities)
+		{
+			wfActivity.loadActivities();
 			wfActivity.display();
+		}
 	}	//	stateChanged
 
 	public WindowManager getWindowManager() {
