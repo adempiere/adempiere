@@ -107,6 +107,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		
 		//	Create new PaySelection
 		MPaySelection ps = new MPaySelection(ctx, 0, trxName);
+		ps.setAD_Org_ID(payment.getAD_Org_ID());
 		ps.setC_BankAccount_ID (payment.getC_BankAccount_ID());
 		ps.setName (Msg.translate(ctx, "C_Payment_ID") + ": " + payment.getDocumentNo());
 		ps.setDescription(payment.getDescription());
