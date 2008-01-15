@@ -440,7 +440,14 @@ public final class AMenu extends CFrame
 	 */
 	public void dispose()
 	{
-		//	clean up - close windows
+		preDispose();
+		//
+		super.dispose();
+		AEnv.exit(0);
+	}	//	dispose
+
+	private void preDispose() {
+		//	clean up - save window state
 		Ini.setWindowDimension(0, getSize());
 		Ini.setDividerLocation(treePanel.getDividerLocation());
 		Ini.setWindowLocation(0, getLocation());
@@ -454,15 +461,12 @@ public final class AMenu extends CFrame
 			infoUpdaterThread = null;
 			infoUpdater = null;
 		}
-		//
-		super.dispose();
-		AEnv.exit(0);
-	}	//	dispose
+	}
 	
 	public void logout()
 	{
 		windowManager.close();
-		Ini.saveProperties(true);
+		preDispose();
 		super.dispose();
 		AEnv.logout();
 	}
