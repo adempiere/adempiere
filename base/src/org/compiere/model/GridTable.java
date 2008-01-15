@@ -2115,10 +2115,27 @@ public class GridTable extends AbstractTableModel
 
 
 		m_inserting = true;
-		//	Create default data
+		
+		// Setup the buffer first so that event will be handle properly
+		// Create default data
 		int size = m_fields.size();
 		m_rowData = new Object[size];	//	"original" data
 		Object[] rowData = new Object[size];
+		
+		m_changed = true;
+		m_compareDB = true;		
+		m_newRow = currentRow + 1;
+		//  if there is no record, the current row could be 0 (and not -1)
+		if (m_buffer.size() < m_newRow)
+			m_newRow = m_buffer.size();
+
+		//	add Data at end of buffer
+		MSort newSort = new MSort(m_buffer.size(), null);	//	index
+		m_buffer.add(rowData);
+		//	add Sort pointer
+		m_sort.add(m_newRow, newSort);
+		m_rowCount++;
+		
 		//	fill data
 		if (copyCurrent)
 		{
@@ -2164,20 +2181,8 @@ public class GridTable extends AbstractTableModel
 				field.setValue(rowData[i], m_inserting);
 			}
 		}
-		m_changed = true;
-		m_compareDB = true;
+		
 		m_rowChanged = -1;  //  only changed in setValueAt
-		m_newRow = currentRow + 1;
-		//  if there is no record, the current row could be 0 (and not -1)
-		if (m_buffer.size() < m_newRow)
-			m_newRow = m_buffer.size();
-
-		//	add Data at end of buffer
-		MSort sort = new MSort(m_buffer.size(), null);	//	index
-		m_buffer.add(rowData);
-		//	add Sort pointer
-		m_sort.add(m_newRow, sort);
-		m_rowCount++;
 
 		//	inform
 		log.fine("Current=" + currentRow + ", New=" + m_newRow);

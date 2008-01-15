@@ -900,10 +900,18 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (isDetail() && m_parentNeedSave)
 			return false;
 		
-		boolean retValue = m_mTable.dataNew (m_currentRow, copy);
+		/**
+		 * temporary set currentrow to point to the new row to ensure even cause by m_mTable.dataNew
+		 * is handle properly.
+		 */
+		int oldCurrentRow = m_currentRow;
+		m_currentRow = m_currentRow + 1;
+		boolean retValue = m_mTable.dataNew (oldCurrentRow, copy);
+		m_currentRow = oldCurrentRow;
 		if (!retValue)
 			return retValue;
 		setCurrentRow(m_currentRow + 1, true);
+		
 		//  process all Callouts (no dependency check - assumed that settings are valid)
 		for (int i = 0; i < getFieldCount(); i++)
 			processCallout(getField(i));
@@ -2668,6 +2676,6 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			m_mTable.sort(lineCol, true);
 		}
 		navigate(to);
-	}	
+	}
 
 }	//	MTab
