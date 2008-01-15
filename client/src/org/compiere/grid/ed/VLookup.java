@@ -36,7 +36,7 @@ import org.compiere.util.*;
  *		When STABLE - display a ComboBox
  *		Otherwise show Selection Dialog
  *  <p>
- *  Sepecial handling of BPartner and Product
+ *  Special handling of BPartner and Product
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VLookup.java,v 1.5 2006/10/06 00:42:38 jjanke Exp $
@@ -294,7 +294,7 @@ public class VLookup extends JComponent
 	private static CLogger log = CLogger.getCLogger(VLookup.class);
 
 	/**
-	 *  Set Content and Size of Compoments
+	 *  Set Content and Size of Components
 	 *  @param initial if true, size and margins will be set
 	 */
 	private void setUI (boolean initial)
@@ -377,7 +377,7 @@ public class VLookup extends JComponent
 	}	//	isReadWrite
 
 	/**
-	 *	Set Mandatory (and back bolor)
+	 *	Set Mandatory (and back color)
 	 *  @param mandatory mandatory
 	 */
 	public void setMandatory (boolean mandatory)
@@ -1164,7 +1164,54 @@ public class VLookup extends JComponent
 		if (zoomQuery == null || value != null)
 		{
 			zoomQuery = new MQuery();	//	ColumnName might be changed in MTab.validateQuery
-			zoomQuery.addRestriction(m_columnName, MQuery.EQUAL, value);
+			String keyColumnName = null;
+			//	Check if it is a Table Reference
+			if (m_lookup != null && m_lookup instanceof MLookup)
+			{
+				int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
+				if (AD_Reference_ID != 0)
+				{
+					String query = "SELECT kc.ColumnName"
+						+ " FROM AD_Ref_Table rt"
+						+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
+						+ "WHERE rt.AD_Reference_ID=?";
+					
+					PreparedStatement pstmt = null;
+					try
+					{
+						pstmt = DB.prepareStatement(query, null);
+						pstmt.setInt(1, AD_Reference_ID);
+						ResultSet rs = pstmt.executeQuery();
+						if (rs.next())
+						{
+							keyColumnName = rs.getString(1);
+						}
+						rs.close();
+						pstmt.close();
+						pstmt = null;
+					}
+					catch (Exception e)
+					{
+						log.log(Level.SEVERE, query, e);
+					}
+					try
+					{
+						if (pstmt != null)
+							pstmt.close();
+						pstmt = null;
+					}
+					catch (Exception e)
+					{
+						pstmt = null;
+					}
+				}	//	Table Reference
+			}	//	MLookup
+
+			if(keyColumnName != null && keyColumnName.length() !=0)
+				zoomQuery.addRestriction(keyColumnName, MQuery.EQUAL, value);
+			else
+				zoomQuery.addRestriction(m_columnName, MQuery.EQUAL, value);
+
 			zoomQuery.setRecordCount(1);	//	guess
 		}
 		int AD_Window_ID = m_lookup.getZoom(zoomQuery);
