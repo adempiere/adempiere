@@ -502,6 +502,7 @@ public class GridTable extends AbstractTableModel
 		//
 		m_changed = false;
 		m_rowChanged = -1;
+		m_inserting = false;
 		return true;
 	}	//	open
 

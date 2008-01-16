@@ -789,6 +789,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 		}
 		setCurrentRow(m_currentRow, true);
+		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_REFRESH_ALL));
 	}   //  dataRefreshAll
 
 	/**
@@ -808,6 +809,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - row=" + row);
 		m_mTable.dataRefresh(row);
 		setCurrentRow(row, true);
+		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_REFRESH));
 	}   //  dataRefresh
 
 
@@ -824,6 +826,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			boolean retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
 			if (manualCmd)
 				setCurrentRow(m_currentRow, false);
+			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_SAVE));
 			return retValue;
 		}
 		catch (Exception e)
@@ -864,6 +867,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo);
 		m_mTable.dataIgnore();
 		setCurrentRow(m_currentRow, false);    //  re-load data
+		
+		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_IGNORE));
 		log.fine("#" + m_vo.TabNo + "- fini");
 	}   //  dataIgnore
 
@@ -922,6 +927,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			getField(i).validateValue();
 		}
 		m_mTable.setChanged(false);
+		
+		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_NEW));
 		return retValue;
 	}   //  dataNew
 
@@ -934,6 +941,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - row=" + m_currentRow);
 		boolean retValue = m_mTable.dataDelete(m_currentRow);
 		setCurrentRow(m_currentRow, true);
+		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_DELETE));
 		return retValue;
 	}   //  dataDelete
 
@@ -2590,7 +2598,23 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		m_listenerList.add(DataStatusListener.class, l);
 	}
+	
+	/**
+	 * @param l
+	 */
+	public synchronized void addStateChangeListener(StateChangeListener l) 
+	{
+		m_listenerList.add(StateChangeListener.class, l);
+	}
 
+	/**
+	 * @param l
+	 */
+	public synchronized void removeStateChangeListener(StateChangeListener l) 
+	{
+		m_listenerList.remove(StateChangeListener.class, l);
+	}
+	
 	/**
 	 * Feature Request [1707462]
 	 * Enable runtime change of VFormat
@@ -2676,6 +2700,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			m_mTable.sort(lineCol, true);
 		}
 		navigate(to);
+	}
+	
+	private void fireStateChangeEvent(StateChangeEvent e)
+	{
+		StateChangeListener[] listeners = m_listenerList.getListeners(StateChangeListener.class);
+		if (listeners.length == 0)
+			return;
+		for(int i = 0; i < listeners.length; i++) {
+			listeners[i].stateChange(e);
+		}
+		
 	}
 
 }	//	MTab
