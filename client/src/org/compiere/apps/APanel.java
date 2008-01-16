@@ -367,7 +367,8 @@ public final class APanel extends CPanel
 		toolBar.add(aSave.getButton());
 		toolBar.addSeparator();
 		toolBar.add(aRefresh.getButton());      //  F5
-		toolBar.add(aFind.getButton());
+		if (!isNested())
+			toolBar.add(aFind.getButton());
 		toolBar.add(aAttachment.getButton());
 		toolBar.add(aChat.getButton());
 		toolBar.add(aMulti.getButton());
@@ -700,20 +701,6 @@ public final class APanel extends CPanel
 								m_mWorkbench.getMWindow(0).initTab(tab);
 								gc.activate();
 								included = parent.includeTab(gc,this);
-								TabSwitcher ts = new TabSwitcher(parent, this);
-								Component[] comp = parent.getvPanel().getComponentsRecursive();
-								for (int i = 0; i < comp.length; i++)
-								{
-									ts.addTabSwitchingSupport((JComponent)comp[i]);
-								}
-								ts = new TabSwitcher(gc, this);
-								comp = gc.getvPanel().getComponentsRecursive();
-								for (int i = 0; i < comp.length; i++)
-								{
-									ts.addTabSwitchingSupport((JComponent)comp[i]);
-								}
-								ts = new TabSwitcher(gc, this);
-								ts.addTabSwitchingSupport((JComponent)gc.getTable());		
 								  						  
 								if (!included)
 									log.log(Level.SEVERE, "Not Included = " + gc);
@@ -2478,52 +2465,6 @@ public final class APanel extends CPanel
 		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
 	}
 	
-    //FR [ 1757088 ]
-	public void dispatchTabSwitch(GridController gc)
-	{
-	 	log.info("Current Grid " + gc.getName());
-	 	if(gc == null || gc.equals(m_curGC)) 
-	 	{
-		 	return;
-	 	}
-	 
-	 	if(m_curTab.getRecord_ID() == -1 )
-	 	{
-	 		gc.getMTab().navigateCurrent();
-	 		gc.dynamicDisplay(0);
-	 		gc.getMTab().dataRefresh();
-	 		return;
-	 	}
-	 
-	 	gc.getMTab().dataSave(true);
-	 	m_curGC = gc;
-	 	m_curGC.activate();
-	 	m_curTab = gc.getMTab();
-	 	aDetail.setEnabled(m_curTabIndex != m_curWinTab.getTabCount()-1);
-	 	aParent.setEnabled(m_curTabIndex != 0 && m_curWinTab.getTabCount() > 1);
-	  
-	 	if (m_mWorkbench.getMWindow(getWindowIndex()).isTransaction()) { 
-	 		aHistory.setEnabled(isFirstTab());
-	 	}
-	 	else 
-	 	{	  
-	 		aHistory.setPressed(false);
-	 		aHistory.setEnabled(false);
-	 	}
-	 
-	 	aPrint.setEnabled(m_curTab.isPrinted());
-	 	aFind.setPressed(m_curTab.isQueryActive());
-	 
-	 	aMulti.setEnabled(true);
-	 	aMulti.setPressed(!m_curGC.isSingleRow());
-	 	aFind.setEnabled(true);
-	 	aRefresh.setEnabled(true);
-	 	aAttachment.setEnabled(true);
-	 
-	 	m_curWinTab.requestFocusInWindow();
-	 	setBusy(false,true);  
-	 }
-
 	public boolean isNested() {
 		return isNested;
 	}

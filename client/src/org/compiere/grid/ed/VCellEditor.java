@@ -119,6 +119,11 @@ public final class VCellEditor extends AbstractCellEditor
 			table.setRowSelectionInterval(row,row);     //  force moving to new row
 		if (m_editor == null)
 			createEditor();
+		
+		if ( m_editor instanceof VLookup) 
+		{
+			((VLookup)m_editor).setStopEditing(false);
+		}
 
 		m_table = table;
 
@@ -210,5 +215,25 @@ public final class VCellEditor extends AbstractCellEditor
 		m_mField = null;
 		m_table = null;
 	}	//	dispose
+
+	@Override
+	public boolean stopCellEditing() {
+		if (super.stopCellEditing()) {
+			if (m_editor instanceof VLookup) {
+				((VLookup)m_editor).setStopEditing(true);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void cancelCellEditing() {
+		super.cancelCellEditing();
+		if (m_editor instanceof VLookup) {
+			((VLookup)m_editor).setStopEditing(true);
+		}
+	}
 
 }	//	VCellEditor

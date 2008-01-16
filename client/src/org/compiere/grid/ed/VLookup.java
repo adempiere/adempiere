@@ -277,6 +277,8 @@ public class VLookup extends JComponent
 	private boolean				m_comboActive = true;
 	/** The Value								*/
 	private Object				m_value;
+	
+	private boolean 			m_stopediting = false;
 
 	//	Popup
 	JPopupMenu 					popupMenu = new JPopupMenu();
@@ -530,6 +532,9 @@ public class VLookup extends JComponent
 	 */
 	public void propertyChange (PropertyChangeEvent evt)
 	{
+		if (m_stopediting) 
+			return;
+		
 	//	log.fine( "VLookup.propertyChange", evt);
 		if (evt.getPropertyName().equals(GridField.PROPERTY))
 		{
@@ -587,7 +592,7 @@ public class VLookup extends JComponent
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		if (m_settingValue || m_settingFocus)
+		if (m_settingValue || m_settingFocus || m_stopediting)
 			return;
 		log.config(m_columnName + " - " + e.getActionCommand() + ", ComboValue=" + m_combo.getSelectedItem());
 	//	log.fine("Hash=" + this.hashCode());
@@ -1414,6 +1419,14 @@ public class VLookup extends JComponent
 		
 		return m_lookup.refresh();
 	}	//	refresh
+
+	/**
+	 * Use by vcelleditor to indicate editing is off and don't invoke databinding
+	 * @param stopediting
+	 */
+	public void setStopEditing(boolean stopediting) {
+		m_stopediting = stopediting;
+	}
 
 
 }	//	VLookup

@@ -145,8 +145,6 @@ public class GridController extends CPanel
 	private CardLayout cardLayout = new CardLayout();
 	private JSplitPane srPane = new JSplitPane();
 	private JScrollPane vPane = new JScrollPane();
-	//FR [ 1757088 ]
-	private GridController detail = null;
 	private CScrollPane mrPane = new CScrollPane();
 	private CPanel xPanel = new CPanel();
 	private BorderLayout xLayout = new BorderLayout();
@@ -432,7 +430,7 @@ public class GridController extends CPanel
 	//FR [ 1757088 ]
 	public boolean includeTab (GridController gc , APanel aPanel)
 	{	
-		detail = gc;
+		GridController detail = gc;
 	    int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 630;
 	    // Set screen dimension
 	    detail.setPreferredSize(new Dimension(screenWidth, 250));
@@ -445,9 +443,10 @@ public class GridController extends CPanel
 		else if (parents.size() == 1)
 		detail.getMTab().setLinkColumnName((String)parents.get(0));
 		detail.getMTab().query(false, 0, 0);*/
+	    /*
 		int c = VTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
 		vTable.getInputMap(c).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), aPanel.aSave.getName());
-		vTable.getActionMap().put(aPanel.aSave.getName(), aPanel.aSave);
+		vTable.getActionMap().put(aPanel.aSave.getName(), aPanel.aSave);*/
 		CollapsiblePanel section = vPanel.getIncludedSection(detail.getMTab().getAD_Tab_ID());
 		gc.setDetailGrid(true);	
 		
@@ -460,29 +459,13 @@ public class GridController extends CPanel
 			section.getCollapsiblePane().getContentPane().setLayout(new BorderLayout());
 			section.getCollapsiblePane().getContentPane().add(panel, BorderLayout.CENTER);
 		}
-		
-		JRootPane rt = SwingUtilities.getRootPane(this);
-		if (rt == null)
-			log.info("Root pane null");
-		else
-		{
-			log.info("Root=" + rt);
-			rt.addMouseListener(detail);
-			Component gp = rt.getGlassPane();
-			if (gp == null)
-				log.info("No Glass Pane");
-			else
-			{
-				log.info("Glass=" + gp);
-				gp.addMouseListener(detail);
-			}
-
-		}
-
 
 		detail.addMouseListener(detail);
 		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
 		detail.activate();
+		
+		new GridSynchronizer(this, detail);
+		
 		return true;
 	}	//	IncludeTab
 
@@ -795,10 +778,6 @@ public class GridController extends CPanel
 	//	log.config( "GridController.valueChanged (" + m_mTab.toString() + ") - fini",
 	//		"Row in Table=" + rowTable + ", in Model=" + rowCurrent);
 
-		// FR [ 1757088 ]
-		//	Query Included Tab
-		if (detail != null)
-			detail.getMTab().query(false, 0, 0);
 	}   //  valueChanged
 
 	/**
