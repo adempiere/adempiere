@@ -1,4 +1,5 @@
 #ORACLE_HOME
+#Example Value: oracle.home=C:/oracle/xe/app/oracle/product/10.2.0/server
 oracle.home=
 
 #sqlplus connection string

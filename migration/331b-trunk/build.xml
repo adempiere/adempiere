@@ -1,4 +1,4 @@
-<project name="migrate-db" default="run-scripts" basedir=".">
+<project name="migrate-db-oracle" default="run-scripts" basedir=".">
 	<property file="../oracle.properties" />
 	<path id="lib.path">
 		<fileset dir="../../tools/lib">

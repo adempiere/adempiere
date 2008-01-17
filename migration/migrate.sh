@@ -2,7 +2,7 @@
 
 # This formats all the SQL files in the specified directory so that
 # they can be executed by SQL*Plus. There are two modes -- a 'testing'
-# mode (the default mode -- this stips out all the "commit" statements)
+# mode (the default mode -- this strips out all the "commit" statements)
 # and a commit mode for deployment. You need to pipe the output of this
 # script into sqlplus, for example:
 # ./migrate.sh 313-314 commit | sqlplus adempiere/adempiere
