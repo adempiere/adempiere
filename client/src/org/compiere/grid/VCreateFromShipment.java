@@ -668,7 +668,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
         if (m_rma != null && m_rma.getM_RMA_ID() != 0)
         {
             MInOut originalIO = m_rma.getShipment();
-            inout.setIsSOTrx(!m_rma.isSOTrx());
+            inout.setIsSOTrx(m_rma.isSOTrx());
             inout.setC_Order_ID(0);
             inout.setC_Invoice_ID(0);
             inout.setM_RMA_ID(m_rma.getM_RMA_ID());

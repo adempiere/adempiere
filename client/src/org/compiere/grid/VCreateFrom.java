@@ -65,6 +65,12 @@ public abstract class VCreateFrom extends CDialog
 			retValue = new VCreateFromShipment (mTab);
 		else if (AD_Table_ID == 426)		//	C_PaySelection
 			return null;	//	ignore - will call process C_PaySelection_CreateFrom
+		/**
+		 * Modification to support create Lines from for RMA
+		 * @author ashley
+		 */
+		else if (AD_Table_ID == 661)
+			retValue = new VCreateFromRMA(mTab); // RMA
 		else    //  Not supported CreateFrom
 		{
 			s_log.info("Unsupported AD_Table_ID=" + AD_Table_ID);
@@ -132,7 +138,7 @@ public abstract class VCreateFrom extends CDialog
 	private GridBagLayout parameterStdLayout = new GridBagLayout();
 	private GridBagLayout parameterBankLayout = new GridBagLayout();
 	protected VLookup bPartnerField;
-	private JLabel orderLabel = new JLabel();
+	protected JLabel orderLabel = new JLabel();
 	protected JComboBox orderField = new JComboBox();
 	protected JLabel invoiceLabel = new JLabel();
 	protected JComboBox invoiceField = new JComboBox();

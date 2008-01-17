@@ -45,6 +45,7 @@ public class AZoomAcross implements ActionListener
 	public AZoomAcross (JComponent invoker, String tableName, MQuery query)
 	{
 		log.config("TableName=" + tableName + " - " + query);
+		m_tableName = tableName;
 		m_query = query;
 		
 		//	See What is there
@@ -59,6 +60,8 @@ public class AZoomAcross implements ActionListener
 	private ArrayList<KeyNamePair>	m_list = new ArrayList<KeyNamePair>();
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AZoomAcross.class);
+	/** Table Name */
+	private String m_tableName;
 
 	/**
 	 * 	Get the Zomm Targets for the table.
@@ -162,7 +165,19 @@ public class AZoomAcross implements ActionListener
 			+ " WHERE " + m_query.getWhereClause(false);
 		String sqlAdd = "";
 		if (isSO != null)
+		{
+			/*
+			For RMA, Material Receipt window should be loaded for IsSOTrx=true
+		    and Shipment for IsSOTrx=false
+			 */ 
+			
+			if (MRMA.Table_Name.equals(m_tableName) && (AD_Window_ID == 169 
+					|| AD_Window_ID == 184))
+			{
+				isSO = !isSO;
+			}
 			sqlAdd = " AND IsSOTrx=" + (isSO.booleanValue() ? "'Y'" : "'N'");
+		}
 		int count = DB.getSQLValue(null, sql+sqlAdd);
 		if (count < 0 && isSO != null)	//	error try again w/o SO
 			count = DB.getSQLValue(null, sql);
