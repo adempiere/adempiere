@@ -282,9 +282,9 @@ public class WFActivity extends CPanel
 			+ " AND r.AD_User_ID=?)"		//	#3
 			//	Responsible Role
 			+ " OR EXISTS (SELECT * FROM AD_WF_Responsible r INNER JOIN AD_User_Roles ur ON (r.AD_Role_ID=ur.AD_Role_ID)"
-			+ " WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID AND ur.AD_User_ID=?)"	//	#4
+			+ " WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID AND ur.AD_User_ID=?))";	//	#4
 			//
-			+ ") ORDER BY a.Priority DESC, Created";
+			//+ ") ORDER BY a.Priority DESC, Created";
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
 		PreparedStatement pstmt = null;
 		try
