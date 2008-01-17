@@ -36,7 +36,7 @@ public class MPrintFont extends X_AD_PrintFont
 	 *  @param AD_PrintFont_ID ID
 	 *  @param trxName transaction
 	 */
-	private MPrintFont(Properties ctx, int AD_PrintFont_ID, String trxName)
+	public MPrintFont(Properties ctx, int AD_PrintFont_ID, String trxName)
 	{
 		super (ctx, AD_PrintFont_ID, trxName);
 		if (AD_PrintFont_ID == 0)
