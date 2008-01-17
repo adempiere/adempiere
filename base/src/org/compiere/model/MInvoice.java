@@ -2319,5 +2319,39 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		return getGrandTotal();
 	}	//	getApprovalAmt
 	
+	/**
+	 * 
+	 * @param rma
+	 */
+	public void setRMA(MRMA rma)
+	{
+		setM_RMA_ID(rma.getM_RMA_ID());
+        setAD_Org_ID(rma.getAD_Org_ID());
+        setDescription(rma.getDescription());
+        setC_BPartner_ID(rma.getC_BPartner_ID());
+        setSalesRep_ID(rma.getSalesRep_ID());
+        
+        setGrandTotal(rma.getAmt());
+        setIsSOTrx(rma.isSOTrx());
+        setTotalLines(rma.getAmt());
+        
+        MInvoice originalInvoice = rma.getOriginalInvoice();
+        
+        if (originalInvoice == null)
+        {
+            throw new IllegalStateException("Not invoiced - RMA: " + rma.getDocumentNo());
+        }
+        
+        setC_BPartner_Location_ID(originalInvoice.getC_BPartner_Location_ID());
+        setAD_User_ID(originalInvoice.getAD_User_ID());
+        setC_Currency_ID(originalInvoice.getC_Currency_ID());
+        setIsTaxIncluded(originalInvoice.isTaxIncluded());
+        setM_PriceList_ID(originalInvoice.getM_PriceList_ID());
+        setC_Project_ID(originalInvoice.getC_Project_ID());
+        setC_Activity_ID(originalInvoice.getC_Activity_ID());
+        setC_Campaign_ID(originalInvoice.getC_Campaign_ID());
+        setUser1_ID(originalInvoice.getUser1_ID());
+        setUser2_ID(originalInvoice.getUser2_ID());
+	}
 	
 }	//	MInvoice

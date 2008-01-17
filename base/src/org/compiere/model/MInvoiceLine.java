@@ -1169,4 +1169,27 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		return count;
 	}	//	copyLinesFrom
 	// end MZ
+	
+	/**
+	 * @param rmaline
+	 */
+	public void setRMALine(MRMALine rmaLine)
+	{
+		setAD_Org_ID(rmaLine.getAD_Org_ID());
+        setM_RMALine_ID(rmaLine.getM_RMALine_ID());
+        setDescription(rmaLine.getDescription());
+        setLine(rmaLine.getLine());
+        setC_Charge_ID(rmaLine.getC_Charge_ID());
+        setM_Product_ID(rmaLine.getM_Product_ID());
+        setC_UOM_ID(rmaLine.getC_UOM_ID());
+        setC_Tax_ID(rmaLine.getC_Tax_ID());
+        setPrice(rmaLine.getAmt());
+        setQty(rmaLine.getQty());
+        setLineNetAmt();
+        setTaxAmt();
+        setLineTotalAmt(rmaLine.getLineNetAmt());
+        setC_Project_ID(rmaLine.getC_Project_ID());
+        setC_Activity_ID(rmaLine.getC_Activity_ID());
+        setC_Campaign_ID(rmaLine.getC_Campaign_ID());
+	}
 }	//	MInvoiceLine

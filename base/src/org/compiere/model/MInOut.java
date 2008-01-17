@@ -947,7 +947,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			return false;
 		}
         
-        if (!isSOTrx() && getM_RMA_ID() != 0)
+        if (isSOTrx() && getM_RMA_ID() != 0)
         {
             // Set Document and Movement type for this Receipt
             MRMA rma = new MRMA(getCtx(), getM_RMA_ID(), get_TrxName());
@@ -1348,11 +1348,11 @@ public class MInOut extends X_M_InOut implements DocAction
             {
                 if (isSOTrx())
                 {
-                    rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().subtract(Qty));
+                    rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().add(Qty));
                 }
                 else
                 {
-                    rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().add(Qty));
+                    rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().subtract(Qty));
                 }
                 if (!rmaLine.save())
                 {

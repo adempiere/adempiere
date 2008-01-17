@@ -145,35 +145,9 @@ public class InvoiceGenerateRMA extends SvrProcess
         }
         
         MInvoice invoice = new MInvoice(getCtx(), 0, get_TrxName());
+        invoice.setRMA(rma);
         
-        invoice.setM_RMA_ID(rma.getM_RMA_ID());
-        invoice.setAD_Org_ID(rma.getAD_Org_ID());
-        invoice.setDescription(rma.getDescription());
-        invoice.setC_BPartner_ID(rma.getC_BPartner_ID());
-        invoice.setSalesRep_ID(rma.getSalesRep_ID());
         invoice.setC_DocTypeTarget_ID(docTypeId);
-        invoice.setGrandTotal(rma.getAmt());
-        invoice.setIsSOTrx(rma.isSOTrx());
-        invoice.setTotalLines(rma.getAmt());
-        
-        MInvoice originalInvoice = rma.getOriginalInvoice();
-        
-        if (originalInvoice == null)
-        {
-            throw new IllegalStateException("Not invoiced - RMA: " + rma.getDocumentNo());
-        }
-        
-        invoice.setC_BPartner_Location_ID(originalInvoice.getC_BPartner_Location_ID());
-        invoice.setAD_User_ID(originalInvoice.getAD_User_ID());
-        invoice.setC_Currency_ID(originalInvoice.getC_Currency_ID());
-        invoice.setIsTaxIncluded(originalInvoice.isTaxIncluded());
-        invoice.setM_PriceList_ID(originalInvoice.getM_PriceList_ID());
-        invoice.setC_Project_ID(originalInvoice.getC_Project_ID());
-        invoice.setC_Activity_ID(originalInvoice.getC_Activity_ID());
-        invoice.setC_Campaign_ID(originalInvoice.getC_Campaign_ID());
-        invoice.setUser1_ID(originalInvoice.getUser1_ID());
-        invoice.setUser2_ID(originalInvoice.getUser2_ID());
-        
         if (!invoice.save())
         {
             throw new IllegalStateException("Could not create invoice");
@@ -197,22 +171,7 @@ public class InvoiceGenerateRMA extends SvrProcess
             }
             
             MInvoiceLine invLine = new MInvoiceLine(invoice);
-            invLine.setAD_Org_ID(rmaLine.getAD_Org_ID());
-            invLine.setM_RMALine_ID(rmaLine.getM_RMALine_ID());
-            invLine.setDescription(rmaLine.getDescription());
-            invLine.setLine(rmaLine.getLine());
-            invLine.setC_Charge_ID(rmaLine.getC_Charge_ID());
-            invLine.setM_Product_ID(rmaLine.getM_Product_ID());
-            invLine.setC_UOM_ID(rmaLine.getC_UOM_ID());
-            invLine.setC_Tax_ID(rmaLine.getC_Tax_ID());
-            invLine.setPrice(rmaLine.getAmt());
-            invLine.setQty(rmaLine.getQty());
-            invLine.setLineNetAmt();
-            invLine.setTaxAmt();
-            invLine.setLineTotalAmt(rmaLine.getLineNetAmt());
-            invLine.setC_Project_ID(rmaLine.getC_Project_ID());
-            invLine.setC_Activity_ID(rmaLine.getC_Activity_ID());
-            invLine.setC_Campaign_ID(rmaLine.getC_Campaign_ID());
+            invLine.setRMALine(rmaLine);
             
             if (!invLine.save())
             {

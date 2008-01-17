@@ -134,7 +134,7 @@ public class MRMA extends X_M_RMA implements DocAction
     public MOrder getOriginalOrder()
     {
        MInOut shipment = getShipment();
-       if (shipment == null)
+       if (shipment == null || shipment.getC_Order_ID() == 0)
        {
            return null;
        }
