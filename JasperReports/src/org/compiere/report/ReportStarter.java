@@ -1,5 +1,4 @@
 /*
- * Class .
  */
 package org.compiere.report;
 
@@ -10,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -443,6 +443,11 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 				{
 					subreports = getAttachmentSubreports(reportPath);
 				}
+				else if (reportPath.startsWith("resource:")) 
+				{
+					subreports = getResourceSubreports(jasperName + "Subreport", reportPath, fileExtension);
+				}
+				// TODO: Implement file:/ lookup for subreports
 				else
 				{
 					// Locate subreports from local/remote filesystem
@@ -468,6 +473,9 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                 File resFile = null;
                 if (reportPath.startsWith("attachment:") && attachment != null) {
                 	resFile = getAttachmentResourceFile(jasperName, currLang);
+                } else if (reportPath.startsWith("resource:")) {
+                    	resFile = getResourcesForResourceFile(jasperName, currLang);
+                // TODO: Implement file:/ for resources
                 } else {
 	                File[] resources = reportDir.listFiles( new FileFilter( jasperName, reportDir, ".properties"));                
 	                // try baseName + "_" + language
@@ -558,6 +566,22 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	}
 
 	/**
+     * Get .property resource file from resources
+     * @param jasperName
+     * @param currLang
+     * @return File
+     */
+    private File getResourcesForResourceFile(String jasperName, Language currLang) {
+    	File resFile = null;
+		try {
+			resFile = getFileAsResource(jasperName+currLang.getLocale().getLanguage()+".properties");
+		} catch (Exception e) {
+			// ignore exception - file couldn't exist
+		}
+		return resFile;
+	}
+
+	/**
      * Get subreports from attachment. Assume all other jasper attachment is subreport.
      * @param reportPath
      * @return File[]
@@ -575,6 +599,39 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 			}
 		}
 		File[] files = new File[subreports.size()];
+		File[] subreportsTemp = new File[0];
+		subreportsTemp = subreports.toArray(subreportsTemp);
+		return subreportsTemp;
+	}
+
+	/**
+	 * Search for additional subreports deployed as resources
+	 * @param reportName The original reportname
+	 * @param reportPath The full path to the parent report
+	 * @param fileExtension The file extension of the parent report
+	 * @return An Array of File objects referencing to the downloaded subreports
+	 */
+	private File[] getResourceSubreports(String reportName, String reportPath, String fileExtension)
+	{
+		ArrayList<File> subreports = new ArrayList<File>();
+		String remoteDir = reportPath.substring(0, reportPath.lastIndexOf("/"));
+		
+		// Currently check hardcoded for max. 10 subreports
+		for(int i=1; i<10; i++)
+		{
+			// Check if subreport number i exists
+			File subreport = null;
+			try {
+				subreport = getFileAsResource(remoteDir + "/" + reportName + i + fileExtension);
+			} catch (Exception e) {
+				// just ignore it
+			}
+			if(subreport == null) // Subreport doesn't exist, abort further approaches
+				break;
+			
+			subreports.add(subreport);
+		}
+		
 		File[] subreportsTemp = new File[0];
 		subreportsTemp = subreports.toArray(subreportsTemp);
 		return subreportsTemp;
@@ -620,12 +677,49 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 				log.warning(e.getLocalizedMessage());
 				reportFile = null;
 			}
+		} else if (reportPath.startsWith("resource:")) {
+			try {
+				reportFile = getFileAsResource(reportPath);
+			} catch (Exception e) {
+				log.warning(e.getLocalizedMessage());
+				reportFile = null;
+			}
 		} else {
 			reportFile = new File(REPORT_HOME, reportPath);
 		}
 		
 		// Set org.compiere.report.path because it is used in reports which refer to subreports
 		System.setProperty("org.compiere.report.path", reportFile.getParentFile().getAbsolutePath());
+		return reportFile;
+	}
+
+	/**
+	 * @param reportPath
+	 * @return
+	 * @throws Exception 
+	 */
+	private File getFileAsResource(String reportPath) throws Exception {
+		File reportFile;
+		String name = reportPath.substring("resource:".length()).trim();
+		String localName = name.replace('/', '_');
+		log.info("reportPath = " + reportPath);
+		log.info("getting resource from = " + getClass().getClassLoader().getResource(name));
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(name);
+		String localFile = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + localName;
+		log.info("localFile = " + localFile);
+		reportFile = new File(localFile);
+
+		OutputStream out = null;
+		out = new FileOutputStream(reportFile);
+		if (out != null){
+			byte buf[]=new byte[1024];
+			int len;
+			while((len=inputStream.read(buf))>0)
+				out.write(buf,0,len);
+			out.close();
+			inputStream.close();
+		}
+
 		return reportFile;
 	}
 
