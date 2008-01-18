@@ -43,7 +43,6 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.action.AbstractActionExt;
 
-import com.sun.jmx.mbeanserver.MetaData;
 
 /**
  *	Search Product and return selection
