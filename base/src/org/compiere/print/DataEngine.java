@@ -87,9 +87,10 @@ public class DataEngine
 				+ "FROM AD_Table t"
 				+ " INNER JOIN AD_ReportView rv ON (t.AD_Table_ID=rv.AD_Table_ID) "
 				+ "WHERE rv.AD_ReportView_ID=?";	//	1
+			PreparedStatement pstmt = null;
 			try
-			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			{				
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, format.getAD_ReportView_ID());
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next())
@@ -101,32 +102,39 @@ public class DataEngine
 					if (!Util.isEmpty(whereClause))
 						query.addRestriction(whereClause);
 				}
-				rs.close();
-				pstmt.close();
+				rs.close();				
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
 				return null;
 			}
+			finally
+			{
+				DB.close(pstmt);
+			}
 		}
 		else
 		{
 			String sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";	//	#1
+			PreparedStatement pstmt = null;
 			try
-			{
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			{				
+				pstmt = DB.prepareStatement(sql.toString(), null);
 				pstmt.setInt(1, format.getAD_Table_ID());
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next())
 					tableName = rs.getString(1);		//  TableName
-				rs.close();
-				pstmt.close();
+				rs.close();				
 			}
 			catch (SQLException e1)
 			{
 				log.log(Level.SEVERE, sql, e1);
 				return null;
+			}
+			finally
+			{
+				DB.close(pstmt);
 			}
 		}
 		if (tableName == null)
@@ -659,9 +667,10 @@ public class DataEngine
 			+ " INNER JOIN AD_Column cd ON (rt.AD_Display = cd.AD_Column_ID) "
 			+ "WHERE rt.AD_Reference_ID=?"			//	1
 			+ " AND rt.IsActive = 'Y' AND t.IsActive = 'Y'";
+		PreparedStatement pstmt = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setInt (1, AD_Reference_Value_ID);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
@@ -673,11 +682,14 @@ public class DataEngine
 				tr.IsTranslated = "Y".equals(rs.getString(5));
 			}
 			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException ex)
 		{
 			log.log(Level.SEVERE, SQL, ex);
+		}
+		finally
+		{
+			DB.close(pstmt);
 		}
 		return tr;
 	}	//  getTableReference
@@ -698,9 +710,10 @@ public class DataEngine
 		boolean hasLevelNo = pd.hasLevelNo();
 		int levelNo = 0;
 		//
+		PreparedStatement pstmt = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(pd.getSQL(), null);
+			pstmt = DB.prepareStatement(pd.getSQL(), null);
 			ResultSet rs = pstmt.executeQuery();
 			//	Row Loop
 			while (rs.next())
@@ -888,11 +901,14 @@ public class DataEngine
 
 			}	//	for all rows
 			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, pdc + " - " + e.getMessage() + "\nSQL=" + pd.getSQL());
+		}
+		finally
+		{
+			DB.close(pstmt);
 		}
 
 		//	--	we have all rows - finish
