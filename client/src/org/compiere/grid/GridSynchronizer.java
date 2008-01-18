@@ -16,6 +16,7 @@ package org.compiere.grid;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.compiere.model.GridWindow;
 import org.compiere.model.StateChangeEvent;
 import org.compiere.model.StateChangeListener;
 import org.compiere.model.GridTab;
@@ -30,13 +31,16 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 	
 	private GridController parent;
 	private GridController child;
+	private GridWindow window;
 
 	/**
 	 * 
+	 * @param window 
 	 * @param parent
 	 * @param child
 	 */
-	public GridSynchronizer(GridController parent, GridController child) {
+	public GridSynchronizer(GridWindow window, GridController parent, GridController child) {
+		this.window = window;
 		this.parent = parent;
 		this.child = child;
 	
@@ -68,6 +72,14 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 			MRole role = MRole.getDefault(); 
 			child.query (false, 0, role.getMaxQueryRecords());
 		}
+	}
+
+	/**
+	 * trigger when parent gc activate
+	 */
+	public void activateChild() {
+		window.initTab(window.getTabIndex(child.getMTab()));
+		child.activate();		
 	}
 
 }

@@ -143,7 +143,8 @@ public class GridController extends CPanel
 	private BorderLayout graphLayout = new BorderLayout();
 	private CPanel cardPanel = new CPanel();
 	private CardLayout cardLayout = new CardLayout();
-	private JSplitPane srPane = new JSplitPane();
+	//private JSplitPane srPane = new JSplitPane();
+	
 	private JScrollPane vPane = new JScrollPane();
 	private CScrollPane mrPane = new CScrollPane();
 	private CPanel xPanel = new CPanel();
@@ -170,17 +171,19 @@ public class GridController extends CPanel
 		splitPane.setName("gc_splitPane");
 		//
 		cardPanel.setLayout(cardLayout);
-		cardPanel.add(srPane, "srPane");	//	Sequence Important!
+		cardPanel.add(vPane, "vPane");	//	Sequence Important!
 		cardPanel.add(mrPane, "mrPane");
 		cardPanel.setBorder(null);
-		cardPanel.setName("gc_cardPanel");
+		cardPanel.setName("gc_cardPanel");		
 		//  single row (w/o xPane it would be centered)
+		/*
 		srPane.setBorder(null);
 		srPane.setName("gc_srPane");
 		srPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		srPane.add(vPane, JSplitPane.TOP);
 		srPane.setTopComponent(vPane);
 		srPane.setBottomComponent(null);	//	otherwise a button is created/displayed
+		*/
 		//FR [ 1757088 ] vPane.getViewport().add(xPanel, null);
 		//FR [ 1757088 ] xPanel.add(vPanel);
 		xPanel.setLayout(xLayout);
@@ -196,7 +199,7 @@ public class GridController extends CPanel
 		//
 		graphPanel.setBorder(null);
 		graphPanel.setName("gc_graphPanel");
-		srPane.setDividerLocation(200);
+		//srPane.setDividerLocation(200);
 		
 		vPane.setBorder(BorderFactory.createEmptyBorder());
 	}   //  jbInit
@@ -247,8 +250,8 @@ public class GridController extends CPanel
 		vTable = null;
 		vPanel.removeAll();
 		vPanel = null;
-		srPane.removeAll();
-		srPane = null;
+		//srPane.removeAll();
+		//srPane = null;
 		splitPane.removeAll();
 		splitPane = null;
 		m_mTab = null;
@@ -272,6 +275,8 @@ public class GridController extends CPanel
 	private APanel m_aPanel;
 
 	private boolean init;
+
+	private ArrayList<GridSynchronizer> synchronizerList = new ArrayList<GridSynchronizer>();
 
 	public boolean initGrid (GridTab mTab, boolean onlyMultiRow, 
 			int WindowNo, APanel aPanel, GridWindow mWindow)
@@ -304,7 +309,7 @@ public class GridController extends CPanel
 		m_aPanel = aPanel;
 		setName("GC-" + mTab);
 		//FR [ 1757088 ]
-		vPanel = new VPanel(mTab.getName());
+		vPanel = new VPanel(mTab.getName(), m_WindowNo);
 		vPanel.putClientProperty(AdempiereLookAndFeel.HIDE_IF_ONE_TAB, Boolean.TRUE);
 		vPane.getViewport().add(xPanel, null);
 		xPanel.add(vPanel, BorderLayout.CENTER);
@@ -315,8 +320,8 @@ public class GridController extends CPanel
 			init();
 		else
 		{
-			if (Ini.isPropertyBool(Ini.P_LOAD_TAB_META_DATA_BG))
-				m_mTab.initTab(true);
+			//Load tab meta data, needed for includeTab to work
+			m_mTab.initTab(false);
 		}
 			
 		
@@ -371,10 +376,11 @@ public class GridController extends CPanel
 			}   //  for all fields
 
 			//	No Included Grid Controller
+			/*
 			srPane.setResizeWeight(1);	//	top part gets all
 			srPane.setDividerSize (0);
 			srPane.setDividerLocation (9999);
-
+			*/
 			//  Use SR to size MR
 			mrPane.setPreferredSize(vPanel.getPreferredSize());
 		}   //  Single-Row
@@ -421,52 +427,37 @@ public class GridController extends CPanel
 		
 		init = true;
 	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public boolean isInit() 
+	{
+		return init;
+	}
 
 	/**
 	 * 	Include Tab
-	 * 	@param gc grod controller to add
-	 * 	@return true if included
+	 * 	@param gc grid controller to add
+	 * 	@return GridSynchronizer
 	 */
 	//FR [ 1757088 ]
-	public boolean includeTab (GridController gc , APanel aPanel)
+	public boolean includeTab (GridController gc , APanel aPanel, GridSynchronizer sync)
 	{	
 		GridController detail = gc;
 	    int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 630;
 	    // Set screen dimension
-	    detail.setPreferredSize(new Dimension(screenWidth, 250));
-	    /*
-		ArrayList parents = detail.getMTab().getParentColumnNames();
-		//	No Parent - no link
-		if (parents.size() == 0)
-			;
-		//	Standard case
-		else if (parents.size() == 1)
-		detail.getMTab().setLinkColumnName((String)parents.get(0));
-		detail.getMTab().query(false, 0, 0);*/
-	    /*
-		int c = VTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
-		vTable.getInputMap(c).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0), aPanel.aSave.getName());
-		vTable.getActionMap().put(aPanel.aSave.getName(), aPanel.aSave);*/
-		CollapsiblePanel section = vPanel.getIncludedSection(detail.getMTab().getAD_Tab_ID());
-		gc.setDetailGrid(true);	
-		
-		if(section != null)
-		{				
-			APanel panel = new APanel(gc, m_WindowNo);
-			String name = detail.getMTab().getName() + "";		
-			section.setTitle(name);
-			panel.add(detail);
-			section.getCollapsiblePane().getContentPane().setLayout(new BorderLayout());
-			section.getCollapsiblePane().getContentPane().add(panel, BorderLayout.CENTER);
-		}
-
+	    //detail.setPreferredSize(new Dimension(screenWidth, 250));	   				
+		detail.setDetailGrid(true);			
 		detail.addMouseListener(detail);
 		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
-		detail.activate();
 		
-		new GridSynchronizer(this, detail);
-		
+		vPanel.includeTab(detail);
+				
+		synchronizerList.add(sync);
 		return true;
+		
 	}	//	IncludeTab
 
 	//FR [ 1757088 ]
@@ -510,7 +501,18 @@ public class GridController extends CPanel
 			//
 			if (mField.getColumnName().equals(tc.getIdentifier().toString()))
 			{
-				if (mField.getDisplayType () == DisplayType.RowID)
+				//don't show included tab field in grid
+				if (mField.getIncluded_Tab_ID() > 0) 
+				{
+					TableCellNone tcn = new TableCellNone(mField.getColumnName());
+					tc.setCellRenderer (tcn);
+					tc.setCellEditor (tcn);
+					tc.setHeaderValue (null);
+					tc.setMinWidth (0);
+					tc.setMaxWidth (0);
+					tc.setPreferredWidth (0);
+				} 
+				else if (mField.getDisplayType () == DisplayType.RowID)
 				{
 					tc.setCellRenderer (new VRowIDRenderer (false));
 					tc.setCellEditor (new VRowIDEditor (false));
@@ -593,8 +595,20 @@ public class GridController extends CPanel
 			if (m_tree != null)
 				m_tree.initTree (AD_Tree_ID);
 		}
+		
+		activateChilds();
 	}	//	activate
 
+	/**
+	 * activate child grid controller ( included tab )
+	 */
+	private void activateChilds() 
+	{
+		for (GridSynchronizer s : synchronizerList ) 
+		{
+			s.activateChild();
+		}		
+	}
 
 	/**
 	 *  Register ESC Actions

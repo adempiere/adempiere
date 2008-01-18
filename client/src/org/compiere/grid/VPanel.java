@@ -26,6 +26,7 @@ import java.util.*;
 import java.util.List;
 //
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.APanel;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
@@ -63,11 +64,22 @@ import org.jdesktop.swingx.border.DropShadowBorder;
 public final class VPanel extends CTabbedPane
 {
 	
-	/**
-	 *	Constructor
-	 */
-	public VPanel(String Name)
+	private int m_WindowNo;
+
+	public VPanel(String Name) 
 	{
+		this(Name, 0);
+	}
+	
+	/**
+	 * 
+	 * @param Name
+	 * @param WindowNo
+	 */
+	public VPanel(String Name, int WindowNo)
+	{
+		m_WindowNo = WindowNo;
+		
 		//set up map used for label and field alignment
 		labels.put(0, new ArrayList<CLabel>());
 		labels.put(2, new ArrayList<CLabel>());
@@ -196,11 +208,17 @@ public final class VPanel extends CTabbedPane
 			m_gbc.gridy = m_line++;
 			m_gbc.gridwidth = 5;
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
-			m_gbc.weightx = 1;			  
+			m_gbc.weightx = 1;		
 			m_gbc.ipadx = 0;					  			  
 			m_main.add(m_tab,m_gbc);
+			
+			if (includedTabList.containsKey(AD_Tab_ID)) 
+			{
+				includeTab(includedTabList.get(AD_Tab_ID));
+			}
 			return;
 		}		  
+		
 		CLabel label = VEditorFactory.getLabel(mField); 
 		if (label == null && editor == null)
 			return;
@@ -742,6 +760,8 @@ public final class VPanel extends CTabbedPane
 	private ArrayList<Character> m_mnemonics = new ArrayList<Character>(30);
 	/** Mnemonic Fields		*/
 	private ArrayList<Component> m_fields = new ArrayList<Component>(30);
+
+	private HashMap<Integer, GridController> includedTabList = new HashMap<Integer, GridController>();
 	
 	/**
 	 * 	Set Window level Mnemonics
@@ -788,11 +808,6 @@ public final class VPanel extends CTabbedPane
 	{
 	}   //  setBackground
 
-	//[ 1757088 ]
-	public CollapsiblePanel getIncludedSection(int AD_Tab_ID)
-	{	
-		return (CollapsiblePanel)m_tabincludelist.get(AD_Tab_ID);
-	}  	
 	
 	private void findChildComponents(CPanel container, List list) 
 	{
@@ -969,6 +984,26 @@ public final class VPanel extends CTabbedPane
 		}
 		
 		super.doLayout();
+	}
+
+	/**
+	 * 
+	 * @param detail
+	 */
+	public void includeTab(GridController detail) {
+		CollapsiblePanel section = (CollapsiblePanel)m_tabincludelist.get(detail.getMTab().getAD_Tab_ID());
+		if(section != null)
+		{				
+			APanel panel = new APanel(detail, m_WindowNo);
+			String name = detail.getMTab().getName() + "";		
+			section.setTitle(name);
+			section.getCollapsiblePane().getContentPane().setLayout(new BorderLayout());
+			section.getCollapsiblePane().getContentPane().add(panel, BorderLayout.CENTER);
+		}		
+
+		//this can be call before addField
+		if (!includedTabList.containsKey(detail.getMTab().getAD_Tab_ID()))
+			includedTabList.put(detail.getMTab().getAD_Tab_ID(), detail);
 	}
 
 	

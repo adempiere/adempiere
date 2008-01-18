@@ -183,11 +183,16 @@ public final class APanel extends CPanel
 		//	tabPanel
 		mainLayout.setHgap(2);
 		mainLayout.setVgap(2);
-		CPanel dummy = new CPanel();
-		dummy.setLayout(new BorderLayout());
-		dummy.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 2));
-		dummy.add(tabPanel, BorderLayout.CENTER);
-		this.add(dummy, BorderLayout.CENTER);
+		if (isNested)
+			this.add(m_curGC, BorderLayout.CENTER);
+		else
+		{
+			CPanel dummy = new CPanel();
+			dummy.setLayout(new BorderLayout());
+			dummy.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 2));
+			dummy.add(tabPanel, BorderLayout.CENTER);
+			this.add(dummy, BorderLayout.CENTER);
+		}
 		//	southPanel
 		this.add(statusBar, BorderLayout.SOUTH);
 		//	northPanel
@@ -697,13 +702,10 @@ public final class APanel extends CPanel
 							{
 								// FR [ 1757088 ]
 								gc.removeDataStatusListener(this);
-								//gc.initGrid(gTab, false, m_curWindowNo, this, mWindow, false);  //  will set color on Tab level
-								m_mWorkbench.getMWindow(0).initTab(tab);
-								gc.activate();
-								included = parent.includeTab(gc,this);
-								  						  
-								if (!included)
-									log.log(Level.SEVERE, "Not Included = " + gc);
+								GridSynchronizer synchronizer = new GridSynchronizer(mWindow, parent, gc);
+								if (parent == m_curGC)
+									synchronizer.activateChild();
+								included = parent.includeTab(gc,this,synchronizer);								
 							}
 						}
 						initSwitchLineAction();
