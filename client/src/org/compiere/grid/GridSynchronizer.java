@@ -52,26 +52,16 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 	 * @param evt
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(GridTab.PROPERTY)) {
-			if (child.isCurrent()) {
-				child.getMTab().dataRefresh();
-			} else {
-				MRole role = MRole.getDefault(); 
-				child.query (false, 0, role.getMaxQueryRecords());
-			}
-		}
+		MRole role = MRole.getDefault(); 
+		child.query (false, 0, role.getMaxQueryRecords());
 	}
 
 	/**
 	 * @param event
 	 */
 	public void stateChange(StateChangeEvent event) {
-		if (child.isCurrent()) {
-			child.getMTab().dataRefresh();
-		} else {
-			MRole role = MRole.getDefault(); 
-			child.query (false, 0, role.getMaxQueryRecords());
-		}
+		MRole role = MRole.getDefault(); 
+		child.query (false, 0, role.getMaxQueryRecords());
 	}
 
 	/**
@@ -80,6 +70,8 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 	public void activateChild() {
 		window.initTab(window.getTabIndex(child.getMTab()));
 		child.activate();		
+		MRole role = MRole.getDefault(); 
+		child.query (false, 0, role.getMaxQueryRecords());
 	}
 
 }
