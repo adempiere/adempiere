@@ -24,6 +24,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.APanel;
 import org.compiere.model.*;
 import org.compiere.util.*;
 
@@ -60,6 +61,8 @@ public final class VCellEditor extends AbstractCellEditor
 	private VEditor	        m_editor = null;
 	/** Table                   */
 	private JTable          m_table = null;
+	private ActionListener buttonListener;
+	private ActionListener actionListener;
 	/** ClickCount              */
 	private static int      CLICK_TO_START = 1;
 	/**	Logger			*/
@@ -203,7 +206,8 @@ public final class VCellEditor extends AbstractCellEditor
 	public void actionPerformed (ActionEvent e)
 	{
 		log.finer(m_mField.getColumnName() + ": Value=" + m_editor.getValue());
-//		super.stopCellEditing();	//	causes VLookup.Search Text not to work
+		if (e.getSource() == m_editor && actionListener != null)
+			actionListener.actionPerformed(e);
 	}   //  actionPerformed
 
 	/**
@@ -236,4 +240,7 @@ public final class VCellEditor extends AbstractCellEditor
 		}
 	}
 
+	public void setActionListener(ActionListener listener) {
+		actionListener = listener;
+	}
 }	//	VCellEditor

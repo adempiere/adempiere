@@ -535,9 +535,7 @@ public class GridController extends CPanel
 						//  Enable Button actions in grid
 						if (mField.getDisplayType () == DisplayType.Button)
 						{
-							VEditor button = ce.getEditor ();
-							if (button != null && aPanel != null)
-								((JButton)button).addActionListener (aPanel);
+							ce.setActionListener(aPanel);
 						}
 					}
 					else //  column not displayed
