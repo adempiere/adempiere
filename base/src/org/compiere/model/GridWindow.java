@@ -279,6 +279,11 @@ public class GridWindow implements Serializable
 			return null;
 		return (GridTab)m_tabs.get(i);
 	}	//	getTab
+	
+	public int getTabIndex(GridTab tab)
+	{
+		return m_tabs.indexOf(tab);
+	}
 
 	/**
 	 *	Get Window_ID
