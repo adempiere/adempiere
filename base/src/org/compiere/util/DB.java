@@ -1390,19 +1390,30 @@ public final class DB
 	{		
 		return MSequence.getNextID (AD_Client_ID, TableName, trxName);	
 	}	//	getNextID
-		
+
+	/**
+	 * 	Get Document No based on Document Type (backward compatibility)
+	 *	@param C_DocType_ID document type
+	 * 	@param trxName optional Transaction Name
+	 *	@return document no or null
+	 *  @deprecated
+	 */
+	public static String getDocumentNo(int C_DocType_ID, String trxName)
+	{
+		return MSequence.getDocumentNo (C_DocType_ID, trxName, false);
+	}	//	getDocumentNo
+
 	/**
 	 * 	Get Document No based on Document Type
 	 *	@param C_DocType_ID document type
 	 * 	@param trxName optional Transaction Name
-	 * @param definite 
+	 *  @param definite asking for a definitive or temporary sequence 
 	 *	@return document no or null
 	 */
 	public static String getDocumentNo(int C_DocType_ID, String trxName, boolean definite)
 	{
 		return MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
 	}	//	getDocumentNo
-
 
 	/**
 	 * 	Get Document No from table

@@ -496,6 +496,19 @@ public class MSequence extends X_AD_Sequence
 	 *	@param C_DocType_ID document type
 	 * 	@param trxName optional Transaction Name
 	 *	@return document no or null
+	 *  @deprecated
+	 */
+	public static String getDocumentNo(int C_DocType_ID, String trxName)
+	{
+		return getDocumentNo (C_DocType_ID, trxName, false);
+	}	//	getDocumentNo
+
+	/**
+	 * 	Get Document No based on Document Type
+	 *	@param C_DocType_ID document type
+	 * 	@param trxName optional Transaction Name
+	 *  @param definite asking for a definitive or temporary sequence 
+	 *	@return document no or null
 	 */
 	public static synchronized String getDocumentNo (int C_DocType_ID, String trxName, boolean definite)
 	{
