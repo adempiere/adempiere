@@ -428,6 +428,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public static final String BARCODETYPE_Code393Of9LinearWithChecksum = "3O9";
 	/** Code 39 linear w/o Checksum = c39 */
 	public static final String BARCODETYPE_Code39LinearWOChecksum = "c39";
+	/** EAN 13 = E13 */
+	public static final String BARCODETYPE_EAN13 = "E13";
 	/** Set Barcode Type.
 		@param BarcodeType 
 		Type of barcode
@@ -435,7 +437,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setBarcodeType (String BarcodeType)
 	{
 
-		if (BarcodeType == null || BarcodeType.equals("2o9") || BarcodeType.equals("3o9") || BarcodeType.equals("COD") || BarcodeType.equals("C28") || BarcodeType.equals("28A") || BarcodeType.equals("28B") || BarcodeType.equals("28C") || BarcodeType.equals("C39") || BarcodeType.equals("E28") || BarcodeType.equals("GTN") || BarcodeType.equals("MON") || BarcodeType.equals("NW7") || BarcodeType.equals("417") || BarcodeType.equals("C14") || BarcodeType.equals("SID") || BarcodeType.equals("U28") || BarcodeType.equals("US3") || BarcodeType.equals("US4") || BarcodeType.equals("USP") || BarcodeType.equals("C18") || BarcodeType.equals("us3") || BarcodeType.equals("3O9") || BarcodeType.equals("c39")); else throw new IllegalArgumentException ("BarcodeType Invalid value - " + BarcodeType + " - Reference_ID=377 - 2o9 - 3o9 - COD - C28 - 28A - 28B - 28C - C39 - E28 - GTN - MON - NW7 - 417 - C14 - SID - U28 - US3 - US4 - USP - C18 - us3 - 3O9 - c39");
+		if (BarcodeType == null || BarcodeType.equals("2o9") || BarcodeType.equals("3o9") || BarcodeType.equals("COD") || BarcodeType.equals("C28") || BarcodeType.equals("28A") || BarcodeType.equals("28B") || BarcodeType.equals("28C") || BarcodeType.equals("C39") || BarcodeType.equals("E28") || BarcodeType.equals("GTN") || BarcodeType.equals("MON") || BarcodeType.equals("NW7") || BarcodeType.equals("417") || BarcodeType.equals("C14") || BarcodeType.equals("SID") || BarcodeType.equals("U28") || BarcodeType.equals("US3") || BarcodeType.equals("US4") || BarcodeType.equals("USP") || BarcodeType.equals("C18") || BarcodeType.equals("us3") || BarcodeType.equals("3O9") || BarcodeType.equals("c39") || BarcodeType.equals("E13")); else throw new IllegalArgumentException ("BarcodeType Invalid value - " + BarcodeType + " - Reference_ID=377 - 2o9 - 3o9 - COD - C28 - 28A - 28B - 28C - C39 - E28 - GTN - MON - NW7 - 417 - C14 - SID - U28 - US3 - US4 - USP - C18 - us3 - 3O9 - c39 - E13");
 		if (BarcodeType != null && BarcodeType.length() > 3)
 		{
 			log.warning("Length > 3 - truncated");

@@ -121,6 +121,8 @@ public class BarcodeElement extends PrintElement
 				m_barcode = BarcodeFactory.createSSCC18(code);
 			else if (type.equals(MPrintFormatItem.BARCODETYPE_UCC128))
 				m_barcode = BarcodeFactory.createUCC128(UCCEAN128Barcode.EAN128_AI, code);
+			else if (type.equals(MPrintFormatItem.BARCODETYPE_EAN13)) //@Trifon
+				m_barcode = BarcodeFactory.createEAN13(code); //@Trifon
 			
 			//	http://www.usps.com/cpim/ftp/pubs/pub97/97apxs_006.html#_Toc481397331
 			else if (type.equals(MPrintFormatItem.BARCODETYPE_USPostalServiceUCCEAN128))
