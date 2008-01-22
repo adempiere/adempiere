@@ -1021,34 +1021,41 @@ public final class MPayment extends X_C_Payment
 		}
 		
 		documentNo = "";
+		// globalqss - read configuration to assign credit card or check number number for Payments
 		//	Credit Card
 		if (TENDERTYPE_CreditCard.equals(getTenderType()))
 		{
-			documentNo = getCreditCardType()
-				+ " " + Obscure.obscure(getCreditCardNumber())
-				+ " " + getCreditCardExpMM() 
-				+ "/" + getCreditCardExpYY();
+			if (MSysConfig.getBooleanValue("PAYMENT_OVERWRITE_DOCUMENTNO_WITH_CREDIT_CARD", true, getAD_Client_ID())) {
+				documentNo = getCreditCardType()
+					+ " " + Obscure.obscure(getCreditCardNumber())
+					+ " " + getCreditCardExpMM() 
+					+ "/" + getCreditCardExpYY();
+			}
 		}
 		//	Own Check No
 		else if (TENDERTYPE_Check.equals(getTenderType())
 			&& !isReceipt()
 			&& getCheckNo() != null && getCheckNo().length() > 0)
 		{
-			documentNo = getCheckNo();
+			if (MSysConfig.getBooleanValue("PAYMENT_OVERWRITE_DOCUMENTNO_WITH_CHECK_ON_PAYMENT", true, getAD_Client_ID())) {
+				documentNo = getCheckNo();
+			}
 		}
 		//	Customer Check: Routing: Account #Check 
 		else if (TENDERTYPE_Check.equals(getTenderType())
 			&& isReceipt())
 		{
-			if (getRoutingNo() != null)
-				documentNo = getRoutingNo() + ": ";
-			if (getAccountNo() != null)
-				documentNo += getAccountNo();
-			if (getCheckNo() != null)
-			{
-				if (documentNo.length() > 0)
-					documentNo += " ";
-				documentNo += "#" + getCheckNo();
+			if (MSysConfig.getBooleanValue("PAYMENT_OVERWRITE_DOCUMENTNO_WITH_CHECK_ON_RECEIPT", true, getAD_Client_ID())) {
+				if (getRoutingNo() != null)
+					documentNo = getRoutingNo() + ": ";
+				if (getAccountNo() != null)
+					documentNo += getAccountNo();
+				if (getCheckNo() != null)
+				{
+					if (documentNo.length() > 0)
+						documentNo += " ";
+					documentNo += "#" + getCheckNo();
+				}
 			}
 		}
 
