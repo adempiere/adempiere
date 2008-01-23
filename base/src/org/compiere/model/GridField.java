@@ -1084,6 +1084,14 @@ public class GridField
 		return m_vo.Callout;
 	}
 	/**
+	 * 	Get bsh Callout Code
+	 *	@return bsh callout code
+	 */
+	public String getBshCalloutCode()
+	{
+		return m_vo.bshCalloutCode;
+	}
+	/**
 	 * 	Get AD_Process_ID
 	 *	@return process
 	 */

@@ -26,6 +26,8 @@ import java.util.*;
 
 import java.util.logging.*;
 import javax.swing.event.*;
+
+import org.compiere.apps.ADialog;
 import org.compiere.util.*;
 
 /**
@@ -2437,45 +2439,111 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			//detect infinite loop
 			if (activeCallouts.contains(cmd)) continue;
 			
-			Callout call = null;
-			String method = null;
-			int methodStart = cmd.lastIndexOf('.');
-			try
-			{
-				if (methodStart != -1)      //  no class
-				{
-					Class cClass = Class.forName(cmd.substring(0,methodStart));
-					call = (Callout)cClass.newInstance();
-					method = cmd.substring(methodStart+1);
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "class", e);
-				return "Callout Invalid: " + cmd + " (" + e.toString() + ")";
-			}
-
-			if (call == null || method == null || method.length() == 0)
-				return "Callout Invalid: " + method;
-
 			String retValue = "";
-			try
-			{
+
+			// CarlosRuiz - globalqss - implement beanshell callout
+			if (cmd.toLowerCase().startsWith("@bsh:")) {
+				
+				if (field.getBshCalloutCode() == null || field.getBshCalloutCode().length() == 0) {
+					retValue = "Callout Invalid: " + cmd + " (no code found for beanshell)"; 
+					log.log(Level.SEVERE, retValue);
+					return retValue;
+				}
+				
+				String code = field.getBshCalloutCode();
+				
+				/** The Script      */
+			    Scriptlet   m_script;
+			    
+			    // Convert from ctx to hashmap
+				HashMap<String, Object> script_ctx = new HashMap<String,Object>();
+				//  Convert properties to HashMap
+				Enumeration en = m_vo.ctx.keys();
+				while (en.hasMoreElements())
+				{
+					String key = en.nextElement().toString();
+					//  filter
+					if (key == null || key.length() == 0
+						|| key.startsWith("P")              //  Preferences
+						|| (key.indexOf('|') != -1 && !key.startsWith(String.valueOf(m_vo.WindowNo)))    //  other Window Settings
+						|| (key.indexOf('|') != -1 && key.indexOf('|') != key.lastIndexOf('|')) //other tab
+						)
+						continue;
+					Object obj = m_vo.ctx.get(key);
+					if (key != null && key.length() > 0)
+					{
+					//	log.fine( "Scriptlet.setEnvironment " + key, value);
+						if (value == null)
+							script_ctx.remove(key);
+						else
+							script_ctx.put(convertKey(key, m_vo.WindowNo), obj);
+					}
+				}
+				// Window context are    _
+				// Login context  are    __
+				// Parameter context are ___
+				// Now Add windowNo, tab, field, value, oldValue to the hashmap
+				script_ctx.put("___WindowNo", m_vo.WindowNo);
+				script_ctx.put("___Tab", this);
+				script_ctx.put("___Field", field);
+				script_ctx.put("___Value", value);
+				script_ctx.put("___OldValue", oldValue);
+
+				m_script = new Scriptlet (Scriptlet.VARIABLE, code, script_ctx);
+
 				activeCallouts.add(cmd);
-				activeCalloutInstance.add(call);
-				retValue = call.start(m_vo.ctx, method, m_vo.WindowNo, this, field, value, oldValue);
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "start", e);
-				retValue = 	"Callout Invalid: " + e.toString();
-				return retValue;
-			} 
-			finally
-			{
+				Exception e = m_script.execute();
 				activeCallouts.remove(cmd);
-				activeCalloutInstance.remove(call);
-			}
+				if (e != null) {
+					log.log(Level.SEVERE, "execute", e);
+					retValue = 	"Callout Invalid: " + e.toString();
+					return retValue;
+				}
+				Object result = m_script.getResult(false);
+				retValue = result.toString();
+				
+			} else {
+
+				Callout call = null;
+				String method = null;
+				int methodStart = cmd.lastIndexOf('.');
+				try
+				{
+					if (methodStart != -1)      //  no class
+					{
+						Class cClass = Class.forName(cmd.substring(0,methodStart));
+						call = (Callout)cClass.newInstance();
+						method = cmd.substring(methodStart+1);
+					}
+				}
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE, "class", e);
+					return "Callout Invalid: " + cmd + " (" + e.toString() + ")";
+				}
+
+				if (call == null || method == null || method.length() == 0)
+					return "Callout Invalid: " + method;
+
+				try
+				{
+					activeCallouts.add(cmd);
+					activeCalloutInstance.add(call);
+					retValue = call.start(m_vo.ctx, method, m_vo.WindowNo, this, field, value, oldValue);
+				}
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE, "start", e);
+					retValue = 	"Callout Invalid: " + e.toString();
+					return retValue;
+				} 
+				finally
+				{
+					activeCallouts.remove(cmd);
+					activeCalloutInstance.remove(call);
+				}
+				
+			}			
 			
 			if (!retValue.equals(""))		//	interrupt on first error
 			{
@@ -2487,6 +2555,30 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	}	//	processCallout
 
 
+	/**
+	 *  Convert Key
+	 *  # -> _
+	 *  @param key
+	 * @param m_windowNo 
+	 *  @return converted key
+	 */
+	private String convertKey (String key, int m_windowNo)
+	{
+		String k = m_windowNo + "|";
+		if (key.startsWith(k))
+		{
+			String retValue = "_" + key.substring(k.length());
+			retValue = Util.replace(retValue, "|", "_");
+			return retValue;
+		}
+		else
+		{
+			String retValue = Util.replace(key, "#", "__");
+			return retValue;
+		}
+	}   //  convertKey
+
+	
 	/**
 	 *  Get Value of Field with columnName
 	 *  @param columnName column name

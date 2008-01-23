@@ -33,6 +33,7 @@ import org.compiere.util.*;
  */
 public class GridFieldVO implements Serializable
 {
+
 	/**
 	 *  Return the SQL statement used for the MFieldVO.create
 	 *  @param ctx context
@@ -137,8 +138,26 @@ public class GridFieldVO implements Serializable
 					vo.Description = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("Help"))
 					vo.Help = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("Callout"))
+				else if (columnName.equalsIgnoreCase("Callout")) {
 					vo.Callout = rs.getString (i);
+					// CarlosRuiz - globalqss - FR [ 1877902 ] Implement beanshell callout
+					if (vo.Callout != null && vo.Callout.toLowerCase().startsWith("@bsh:")) {
+						String bshcmd = vo.Callout.substring(5).trim();
+						// TODO: Write MRule and create accessor by Value, EventType and RuleType
+						int bsh_id = DB.getSQLValue(
+										null,
+										"SELECT AD_Rule_ID FROM AD_Rule WHERE Value=? AND EventType='C' AND RuleType='B' AND IsActive='Y'",
+										bshcmd);
+						if (bsh_id > 0) {
+							X_AD_Rule bsh = new X_AD_Rule(ctx, bsh_id, null);
+							vo.bshCalloutCode = bsh.getScript();
+							// TODO: pre-parse for better performance
+							// http://beanshell.org/manual/parser.html#Parsing_and_Performance
+						} else {
+							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, "Wrong callout " + vo.Callout);
+						}
+					}
+				}
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
@@ -449,6 +468,8 @@ public class GridFieldVO implements Serializable
 	public boolean      IsParent = false;
 	/**	Callout			*/
 	public String       Callout = "";
+	/**	Callout			*/
+	public String       bshCalloutCode = null;
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
 	/**	Description		*/
