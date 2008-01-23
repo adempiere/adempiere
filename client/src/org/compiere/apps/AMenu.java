@@ -664,12 +664,13 @@ public final class AMenu extends CFrame
 		//	Activities
 		int activities = wfActivity.getActivitiesCount();
 		centerPane.setTitleAt(m_tabActivities, Msg.getMsg (m_ctx, "WorkflowActivities") + ": " + activities);
-		//
+		/*
 		log.config(msg
 				+ ", Processors=" + Runtime.getRuntime().availableProcessors()
 				+ ", Requests=" + requests + ", Notes=" + notes + ", Activities=" + activities 
 				+ "," + CConnection.get().getStatus()
 			);
+		*/
 		MSystem.get(m_ctx).info();
 	}	//	updateInfo
 

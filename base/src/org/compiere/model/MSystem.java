@@ -494,7 +494,7 @@ public class MSystem extends X_AD_System
 	//		+ " Processors=" + os.getAvailableProcessors());
 		//	Runtime
 		RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
-		log.fine(rt.getName() + " (" + rt.getVmVersion() + ") Up=" + TimeUtil.formatElapsed(rt.getUptime()));
+		// log.fine(rt.getName() + " (" + rt.getVmVersion() + ") Up=" + TimeUtil.formatElapsed(rt.getUptime()));
 		//	Memory
 		if (CLogMgt.isLevelFiner())
 		{
@@ -503,23 +503,27 @@ public class MSystem extends X_AD_System
 			while (it.hasNext())
 			{
 				MemoryPoolMXBean pool = (MemoryPoolMXBean)it.next();
+				/*
 				log.finer(pool.getName() + " " + pool.getType() 
 					+ ": " + new CMemoryUsage(pool.getUsage()));
+				*/
 			}
 		}
 		else
 		{
 			MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
-			log.fine("VM: " + new CMemoryUsage(memory.getNonHeapMemoryUsage()));
-			log.fine("Heap: " + new CMemoryUsage(memory.getHeapMemoryUsage()));
+			// log.fine("VM: " + new CMemoryUsage(memory.getNonHeapMemoryUsage()));
+			// log.fine("Heap: " + new CMemoryUsage(memory.getHeapMemoryUsage()));
 		}
 		//	Thread
 		ThreadMXBean th = ManagementFactory.getThreadMXBean();
+		/*
 		log.fine("Threads=" + th.getThreadCount()
 			+ ", Peak=" + th.getPeakThreadCount()
 			+ ", Demons=" + th.getDaemonThreadCount()
 			+ ", Total=" + th.getTotalStartedThreadCount()
 		);
+		*/
 	}	//	info
 	
 	
