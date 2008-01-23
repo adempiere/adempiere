@@ -562,3 +562,99 @@ UPDATE AD_Field SET Name='Script', Description='Dynamic Java Language Script to 
 CREATE TABLE AD_Rule (AD_Client_ID NUMERIC(10) DEFAULT NULL NOT NULL, AD_Org_ID NUMERIC(10) DEFAULT NULL NOT NULL, AD_Rule_ID NUMERIC(10) NOT NULL, AccessLevel CHAR(1), Created TIMESTAMP NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Description VARCHAR(255), EntityType VARCHAR(40) DEFAULT 'U', EventType CHAR(1), Help VARCHAR(2000), IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL, Name VARCHAR(60) NOT NULL, RuleType CHAR(1), Script VARCHAR(2000), Updated TIMESTAMP NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, Value VARCHAR(40) NOT NULL, CONSTRAINT AD_Rule_Key PRIMARY KEY (AD_Rule_ID))
 ;
 
+-- Jan 23, 2008 12:27:34 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Column SET Callout='@bsh:FillDescriptionWithName',Updated=TO_TIMESTAMP('2008-01-23 12:27:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=54249
+;
+
+-- Jan 23, 2008 12:27:34 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Field SET Name='Name', Description='Alphanumeric identifier of the entity', Help='The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.' WHERE AD_Column_ID=54249 AND IsCentrallyMaintained='Y'
+;
+
+-- Jan 23, 2008 12:28:55 PM COT
+-- 1877902 - Implement beanshell callout
+INSERT INTO AD_Rule (AD_Client_ID,AD_Org_ID,AD_Rule_ID,Created,CreatedBy,EntityType,EventType,IsActive,Name,RuleType,Script,Updated,UpdatedBy,Value) VALUES (0,0,50000,TO_TIMESTAMP('2008-01-23 12:28:51','YYYY-MM-DD HH24:MI:SS'),100,'U','C','Y','bsh:FillDescriptionWithName','B','if (___Tab.getName() != null) {
+    ___Tab.setValue("Name", ___Tab.getName());
+}
+result = "";',TO_TIMESTAMP('2008-01-23 12:28:51','YYYY-MM-DD HH24:MI:SS'),100,'FillDescriptionWithName')
+;
+
+-- Jan 23, 2008 12:29:02 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Rule SET Name='bsh:FillDescriptionWithNamek',Updated=TO_TIMESTAMP('2008-01-23 12:29:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50000
+;
+
+-- Jan 23, 2008 12:29:29 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Rule SET Name='Rule', Script='if (___Tab.getName() != null) {
+    ___Tab.setValue("Description", ___Tab.getName());
+}
+result = "";',Updated=TO_TIMESTAMP('2008-01-23 12:29:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50000
+;
+
+-- Jan 23, 2008 12:30:44 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Rule SET Description='Rule',Updated=TO_TIMESTAMP('2008-01-23 12:30:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50000
+;
+
+-- Jan 23, 2008 12:30:49 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Rule SET Name='Ru',Updated=TO_TIMESTAMP('2008-01-23 12:30:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50000
+;
+
+-- Jan 23, 2008 12:31:21 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Rule SET Name='poPOPOP',Updated=TO_TIMESTAMP('2008-01-23 12:31:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50000
+;
+
+-- Jan 23, 2008 12:31:30 PM COT
+-- 1877902 - Implement beanshell callout
+UPDATE AD_Rule SET Name='ppppoPOPOP',Updated=TO_TIMESTAMP('2008-01-23 12:31:30','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Rule_ID=50000
+;
+
+-- Jan 23, 2008 12:59:35 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Field SET DisplayLength=20,Updated=TO_TIMESTAMP('2008-01-23 12:59:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=54340
+;
+
+-- Jan 23, 2008 1:00:29 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Column SET AD_Reference_ID=14,Updated=TO_TIMESTAMP('2008-01-23 13:00:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=54257
+;
+
+-- Jan 23, 2008 1:00:29 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Field SET Name='Script', Description='Dynamic Java Language Script to calculate result', Help='Use Java language constructs to define the result of the calculation' WHERE AD_Column_ID=54257 AND IsCentrallyMaintained='Y'
+;
+
+-- Jan 23, 2008 1:01:43 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Column SET AD_Reference_ID=34, FieldLength=20000,Updated=TO_TIMESTAMP('2008-01-23 13:01:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=54257
+;
+
+-- Jan 23, 2008 1:01:43 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Field SET Name='Script', Description='Dynamic Java Language Script to calculate result', Help='Use Java language constructs to define the result of the calculation' WHERE AD_Column_ID=54257 AND IsCentrallyMaintained='Y'
+;
+
+-- Jan 23, 2008 1:01:46 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Column SET FieldLength=2000,Updated=TO_TIMESTAMP('2008-01-23 13:01:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=54257
+;
+
+-- Jan 23, 2008 1:01:46 PM COT
+-- Default comment for updating dictionary
+UPDATE AD_Field SET Name='Script', Description='Dynamic Java Language Script to calculate result', Help='Use Java language constructs to define the result of the calculation' WHERE AD_Column_ID=54257 AND IsCentrallyMaintained='Y'
+;
+
+-- Jan 23, 2008 1:03:35 PM COT
+-- Default comment for updating dictionary
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53298,53235,TO_TIMESTAMP('2008-01-23 13:03:34','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Groovy',TO_TIMESTAMP('2008-01-23 13:03:34','YYYY-MM-DD HH24:MI:SS'),100,'G')
+;
+
+-- Jan 23, 2008 1:03:35 PM COT
+-- Default comment for updating dictionary
+INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Ref_List_ID, t.Description,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Ref_List t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Ref_List_ID=53298 AND EXISTS (SELECT * FROM AD_Ref_List_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Ref_List_ID!=t.AD_Ref_List_ID)
+;
+

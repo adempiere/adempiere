@@ -279,12 +279,14 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public static final String RULETYPE_JSR94RuleEngineAPI = "R";
 	/** SQL = S */
 	public static final String RULETYPE_SQL = "S";
+	/** Groovy = G */
+	public static final String RULETYPE_Groovy = "G";
 	/** Set Rule Type.
 		@param RuleType Rule Type	  */
 	public void setRuleType (String RuleType)
 	{
 
-		if (RuleType == null || RuleType.equals("A") || RuleType.equals("B") || RuleType.equals("R") || RuleType.equals("S")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - B - R - S");
+		if (RuleType == null || RuleType.equals("A") || RuleType.equals("B") || RuleType.equals("R") || RuleType.equals("S") || RuleType.equals("G")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - B - R - S - G");
 		if (RuleType != null && RuleType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
