@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.event.*;
 
-import org.compiere.apps.ADialog;
+//import org.compiere.apps.ADialog;
 import org.compiere.util.*;
 
 /**
