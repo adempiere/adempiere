@@ -1,5 +1,6 @@
 -- Synchronize Terminology
 
+/*
 -- take account of the output for these two selects
 
 SELECT DISTINCT columnname, NAME, description, HELP, entitytype
@@ -14,6 +15,7 @@ SELECT DISTINCT columnname, NAME, description, HELP, entitytype
                               FROM AD_ELEMENT e
                              WHERE UPPER (p.columnname) = UPPER (e.columnname));
 
+*/
 -- execute							 
 
 INSERT INTO AD_ELEMENT_TRL
