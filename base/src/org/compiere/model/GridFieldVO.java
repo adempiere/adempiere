@@ -170,7 +170,11 @@ public class GridFieldVO implements Serializable
 						// TODO: Write MRule and create accessor by Value, EventType and RuleType
 						int script_id = DB.getSQLValue(
 										null,
-										"SELECT AD_Rule_ID FROM AD_Rule WHERE TRIM(Value)=? AND EventType='C' AND RuleType='B' AND IsActive='Y'",
+										"SELECT AD_Rule_ID FROM AD_Rule WHERE TRIM(Value)=? AND EventType='"
+												+ X_AD_Rule.EVENTTYPE_Callout
+												+ "' AND RuleType='"
+												+ X_AD_Rule.RULETYPE_JSR223ScriptingAPIs
+												+ "' AND IsActive='Y'",
 										rule_value);
 						if (script_id > 0) {
 							X_AD_Rule rule = new X_AD_Rule(ctx, script_id, null);
