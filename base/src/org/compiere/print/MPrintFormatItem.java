@@ -424,7 +424,7 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 	 */
 	public static MPrintFormatItem createFromColumn (MPrintFormat format, int AD_Column_ID, int seqNo)
 	{
-		MPrintFormatItem pfi = new MPrintFormatItem (format.getCtx(), 0, null);
+		MPrintFormatItem pfi = new MPrintFormatItem (format.getCtx(), 0, format.get_TrxName());
 		pfi.setAD_PrintFormat_ID (format.getAD_PrintFormat_ID());
 		pfi.setClientOrg(format);
 		pfi.setAD_Column_ID(AD_Column_ID);
@@ -446,13 +446,15 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 				+ "WHERE c.AD_Column_ID=?"
 				+ " AND c.AD_Element_ID=e.AD_Element_ID"
 				+ " AND e.AD_Language=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, format.get_TrxName());
 			pstmt.setInt(1, AD_Column_ID);
 			if (trl)
 				pstmt.setString(2, language.getAD_Language());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				String ColumnName = rs.getString(1);
@@ -494,12 +496,14 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 			else
 				s_log.log(Level.SEVERE, "Not Found AD_Column_ID=" + AD_Column_ID
 					+ " Trl=" + trl + " " + language.getAD_Language());
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (!pfi.save())
 			return null;
