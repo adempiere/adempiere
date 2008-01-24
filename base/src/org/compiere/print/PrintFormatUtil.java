@@ -27,6 +27,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: PrintFormatUtil.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1841834 ] PrintFormatUtil: work in transaction
  */
 public class PrintFormatUtil
 {
@@ -47,37 +50,37 @@ public class PrintFormatUtil
 	
 
 	/**
-	 * 	Add Missing Columns for all Print Format
+	 * @deprecated use {@link #addMissingColumns(String)}
 	 */
 	public void addMissingColumns ()
+	{
+		addMissingColumns((String)null);
+	}
+	/**
+	 * 	Add Missing Columns for all Print Format
+	 */
+	public void addMissingColumns (String trxName)
 	{
 		int total = 0;
 		String sql = "SELECT * FROM AD_PrintFormat pf "
 			+ "ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql, trxName);
+			rs = pstmt.executeQuery();
 			while (rs.next())
-				total += addMissingColumns(new MPrintFormat (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+				total += addMissingColumns(new MPrintFormat (m_ctx, rs, trxName));
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.info ("Total = " + total);
 	}	//	addMissingColumns
@@ -103,13 +106,14 @@ public class PrintFormatUtil
 			+ " AND c.AD_Table_ID=? "				//	2
 			+ "ORDER BY 1";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int counter = 0;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, pf.get_TrxName());
 			pstmt.setInt(1, pf.getAD_PrintFormat_ID());
 			pstmt.setInt(2, pf.getAD_Table_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int AD_Column_ID = rs.getInt(1);
@@ -128,15 +132,10 @@ public class PrintFormatUtil
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (counter == 0)
 			log.fine("None"
@@ -161,7 +160,7 @@ public class PrintFormatUtil
 		org.compiere.Adempiere.startupEnvironment(true);
 		//
 		PrintFormatUtil pfu = new PrintFormatUtil (Env.getCtx());
-		pfu.addMissingColumns();
+		pfu.addMissingColumns((String)null);
 	}	//	main
 	
 }	//	PrintFormatUtils

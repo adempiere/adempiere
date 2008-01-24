@@ -41,7 +41,7 @@ public class MigrateData
 		
 		//	Update existing Print Format
 		PrintFormatUtil pfu = new PrintFormatUtil (Env.getCtx());
-		pfu.addMissingColumns();
+		pfu.addMissingColumns((String)null);
 	}	//	MigrateData
 	
 	/**	Logger	*/
