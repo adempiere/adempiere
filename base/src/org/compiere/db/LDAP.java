@@ -49,8 +49,9 @@ public class LDAP
 		env.put(Context.PROVIDER_URL, ldapURL);
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");
 		//	jjanke@compiere.org
-		StringBuffer principal = new StringBuffer (userName)
-			.append("@").append(domain);
+		// For OpenLDAP uncomment the next line  
+		// StringBuffer principal = new StringBuffer("uid=").append(userName).append(",").append(domain);
+		StringBuffer principal = new StringBuffer(userName).append("@").append(domain);
 		env.put(Context.SECURITY_PRINCIPAL, principal.toString());
 		env.put(Context.SECURITY_CREDENTIALS, password);
 		//
