@@ -97,7 +97,7 @@ public class MWFProcess extends X_AD_WF_Process
 		//	Lock Entity
 		getPO();
 		if (m_po != null)
-				m_po.lock();
+			m_po.lock();
 	}	//	MWFProcess
 
 	/**	State Machine				*/
@@ -227,7 +227,7 @@ public class MWFProcess extends X_AD_WF_Process
 	 * 	- start new activity
 	 * 	@param trxName transaction
 	 */
-	public void checkActivities(String trxName)
+	public void checkActivities(String trxName, PO lastPO)
 	{
 		log.info("(" + getAD_Workflow_ID() + ") - " + getWFState() 
 			+ (trxName == null ? "" : "[" + trxName + "]"));
@@ -246,7 +246,7 @@ public class MWFProcess extends X_AD_WF_Process
 			//	Completed - Start Next
 			if (activityState.isCompleted())
 			{
-				if (startNext (activity, activities))
+				if (startNext (activity, activities, lastPO))
 					continue;		
 			}
 			//
@@ -303,7 +303,7 @@ public class MWFProcess extends X_AD_WF_Process
 	 *	@param activities all activities
 	 *	@return true if there is a next activity
 	 */
-	private boolean startNext (MWFActivity last, MWFActivity[] activities)
+	private boolean startNext (MWFActivity last, MWFActivity[] activities, PO lastPO)
 	{
 		log.fine("Last=" + last);
 		//	transitions from the last processed node
@@ -331,9 +331,11 @@ public class MWFProcess extends X_AD_WF_Process
 			if (!transitions[i].isValidFor(last))
 				continue;
 			
-			//	Start new Activity
-			MWFActivity activity = new MWFActivity (this, transitions[i].getAD_WF_Next_ID());
-			new Thread(activity).start();
+			//	Start new Activity...
+			MWFActivity activity = new MWFActivity (this, transitions[i].getAD_WF_Next_ID(), lastPO);
+			//new Thread(activity).start();
+			//..but not in another thread
+			activity.run();
 			
 			//	only the first valid if XOR
 			if (MWFNode.SPLITELEMENT_XOR.equals(split))

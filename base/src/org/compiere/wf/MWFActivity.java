@@ -41,7 +41,7 @@ import org.compiere.util.*;
 public class MWFActivity extends X_AD_WF_Activity implements Runnable
 {
 	/**
-	 * 	Get Activities for table/tecord 
+	 * 	Get Activities for table/record 
 	 *	@param ctx context
 	 *	@param AD_Table_ID table
 	 *	@param Record_ID record
@@ -182,6 +182,22 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		m_process = process;
 	}	//	MWFActivity
 
+	/**
+	 * 	Parent Contructor
+	 *	@param process process
+	 *	@param AD_WF_Node_ID start node
+	 *	@param lastPO PO from the previously executed node
+	 */
+	public MWFActivity(MWFProcess process, int next_ID, PO lastPO) {
+		this(process, next_ID);
+		if (lastPO != null) {
+			// Compare if the last PO is the same type and record needed here, if yes, use it
+			if (lastPO.get_Table_ID() == getAD_Table_ID() && lastPO.get_ID() == getRecord_ID()) {
+				m_po = lastPO;
+			}
+		}
+	}
+
 	/**	State Machine				*/
 	private StateEngine			m_state = null;
 	/**	Workflow Node				*/
@@ -238,7 +254,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			if (m_process == null)
 				m_process = new MWFProcess (getCtx(), getAD_WF_Process_ID(), 
 					m_trx == null ? null : m_trx.getTrxName());
-			m_process.checkActivities(m_trx == null ? null : m_trx.getTrxName());
+			m_process.checkActivities(m_trx == null ? null : m_trx.getTrxName(), m_po);
 		}
 		else
 		{
@@ -307,8 +323,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 */
 	public PO getPO (Trx trx)
 	{
-		if (m_po != null)
+		if (m_po != null) {
 			return m_po;
+		}
 		
 		MTable table = MTable.get (getCtx(), getAD_Table_ID());
 		if (trx != null)
