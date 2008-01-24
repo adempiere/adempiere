@@ -148,22 +148,26 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 			m_translationLabel = new HashMap<String,String>();
 			m_translationSuffix = new HashMap<String,String>();
 			String sql = "SELECT AD_Language, PrintName, PrintNameSuffix FROM AD_PrintFormatItem_Trl WHERE AD_PrintFormatItem_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, get_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
 					m_translationLabel.put (rs.getString (1), rs.getString (2));
 					m_translationSuffix.put (rs.getString (1), rs.getString (3));
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, "loadTrl", e);
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 	}	//	loadTranslations
@@ -391,25 +395,9 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 		if (retValue == null)
 		{
 			String sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
-			try
-			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, AD_Column_ID.intValue());
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-				{
-					retValue = rs.getString(1);
-					s_columns.put(AD_Column_ID, retValue);
-				}
-				else
-					s_log.log(Level.SEVERE, "Not found AD_Column_ID=" + AD_Column_ID);
-				rs.close();
-				pstmt.close();
-			}
-			catch (SQLException e)
-			{
-				s_log.log(Level.SEVERE, "AD_Column_ID=" + AD_Column_ID, e);
-			}
+			retValue = DB.getSQLValueString(null, sql, AD_Column_ID.intValue());
+			if (retValue != null)
+				s_columns.put(AD_Column_ID, retValue);
 		}
 		return retValue;
 	}	//	getColumnName
