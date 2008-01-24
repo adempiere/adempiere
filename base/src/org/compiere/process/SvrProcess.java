@@ -26,14 +26,14 @@ import org.compiere.util.*;
 
 /**
  *  Server Process Template
- * <p>
- * Change log:
- * <ul>
- * <li>2007-02-05 - teo_sarca - [ 1646891 ] SvrProcess - post process support
- * </ul>
  *
  *  @author     Jorg Janke
  *  @version    $Id: SvrProcess.java,v 1.4 2006/08/10 01:00:44 jjanke Exp $
+ *  
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1646891 ] SvrProcess - post process support
+ * 			<li>BF [ 1877935 ] SvrProcess.process should catch all throwables
+ * 			<li>FR [ 1877937 ] SvrProcess: added commitEx method
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -132,7 +132,7 @@ public abstract class SvrProcess implements ProcessCall
 			prepare();
 			msg = doIt();
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			msg = e.getLocalizedMessage();
 			if (msg == null)
@@ -209,6 +209,16 @@ public abstract class SvrProcess implements ProcessCall
 		if (m_trx != null)
 			m_trx.commit();
 	}	//	commit
+	
+	/**
+	 * Commit and throw exception if error
+	 * @throws SQLException on commit error
+	 */
+	protected void commitEx() throws SQLException
+	{
+		if (m_trx != null)
+			m_trx.commit(true);
+	}
 	
 	/**
 	 * 	Rollback
@@ -329,22 +339,26 @@ public abstract class SvrProcess implements ProcessCall
 		if (m_pi.getAD_User_ID() == null || m_pi.getAD_Client_ID() == null)
 		{
 			String sql = "SELECT AD_User_ID, AD_Client_ID FROM AD_PInstance WHERE AD_PInstance_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, m_pi.getAD_PInstance_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					m_pi.setAD_User_ID (rs.getInt (1));
 					m_pi.setAD_Client_ID (rs.getInt(2));
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		if (m_pi.getAD_User_ID() == null)
@@ -419,7 +433,7 @@ public abstract class SvrProcess implements ProcessCall
 	{
 		try
 		{
-			Class clazz = Class.forName(className);
+			Class<?> clazz = Class.forName(className);
 			Object object = clazz.newInstance();
 			Method[] methods = clazz.getMethods();
 			for (int i = 0; i < methods.length; i++)
