@@ -38,7 +38,9 @@ import org.compiere.util.*;
  *  Usually editors listen to their fields.
  *
  *  @author Jorg Janke
- *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ], [1877902] Implement JSR 223 Scripting APIs to Callout
+ *  @author Carlos Ruiz, qss FR [1877902]
+ *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -1083,13 +1085,15 @@ public class GridField
 	{
 		return m_vo.Callout;
 	}
+	
+	//FR [1877902]
 	/**
-	 * 	Get bsh Callout Code
-	 *	@return bsh callout code
+	 * 	Get Script Code
+	 *	@return Script Code
 	 */
-	public String getBshCalloutCode()
+	public String getScriptCode()
 	{
-		return m_vo.bshCalloutCode;
+		return m_vo.scriptCode;
 	}
 	/**
 	 * 	Get AD_Process_ID

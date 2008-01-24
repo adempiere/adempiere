@@ -28,7 +28,9 @@ import org.compiere.util.*;
  *  Field Model Value Object
  *
  *  @author Jorg Janke
- *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ] , [1877902] Implement JSR 223 Scripting APIs to Callout
+ *  @author Carlos Ruiz, qss FR [1877902]
+ *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class GridFieldVO implements Serializable
@@ -141,20 +143,42 @@ public class GridFieldVO implements Serializable
 				else if (columnName.equalsIgnoreCase("Callout")) {
 					vo.Callout = rs.getString (i);
 					// CarlosRuiz - globalqss - FR [ 1877902 ] Implement beanshell callout
-					if (vo.Callout != null && vo.Callout.toLowerCase().startsWith("@bsh:")) {
-						String bshcmd = vo.Callout.substring(5).trim();
+					// Vitor Perez - vpj-cd - FR [ 1877902 ]  Implement JSR 223 Scripting APIs to Callout
+					String callout =  vo.Callout;
+					int script_end = 8;
+					int engine_end = 0;
+					if (callout != null && callout.toLowerCase().startsWith("@script:")) {
+						engine_end = callout.indexOf(":", script_end);		
+						if (engine_end <= 0)
+						{	
+							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Call Invalid "+ callout +" error in syntax please use something like @script:groovy:mycallout");
+							continue;
+						}							
+						String engine =  callout.substring(script_end,engine_end);
+						if (engine== null)
+						{
+							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Call Invalid "+ callout +" error in syntax please use something like @script:groovy:mycallout");
+							continue;
+						}
+						String calloutname =  callout.substring(engine_end);
+						if (calloutname== null)
+						{
+							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Call Invalid "+ callout +" error in syntax please use something like @script:groovy:mycallout");
+							continue;
+						}
+						String rule_value =engine + calloutname.trim();
 						// TODO: Write MRule and create accessor by Value, EventType and RuleType
-						int bsh_id = DB.getSQLValue(
+						int script_id = DB.getSQLValue(
 										null,
-										"SELECT AD_Rule_ID FROM AD_Rule WHERE Value=? AND EventType='C' AND RuleType='B' AND IsActive='Y'",
-										bshcmd);
-						if (bsh_id > 0) {
-							X_AD_Rule bsh = new X_AD_Rule(ctx, bsh_id, null);
-							vo.bshCalloutCode = bsh.getScript();
+										"SELECT AD_Rule_ID FROM AD_Rule WHERE TRIM(Value)=? AND EventType='C' AND RuleType='B' AND IsActive='Y'",
+										rule_value);
+						if (script_id > 0) {
+							X_AD_Rule rule = new X_AD_Rule(ctx, script_id, null);
+							vo.scriptCode = rule.getScript();
 							// TODO: pre-parse for better performance
 							// http://beanshell.org/manual/parser.html#Parsing_and_Performance
 						} else {
-							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, "Wrong callout " + vo.Callout);
+							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Rule not found:" + rule_value);
 						}
 					}
 				}
@@ -469,7 +493,7 @@ public class GridFieldVO implements Serializable
 	/**	Callout			*/
 	public String       Callout = "";
 	/**	Callout			*/
-	public String       bshCalloutCode = null;
+	public String       scriptCode = null;
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
 	/**	Description		*/

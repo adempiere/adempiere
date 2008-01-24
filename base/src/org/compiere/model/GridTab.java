@@ -25,10 +25,18 @@ import java.text.*;
 import java.util.*;
 
 import java.util.logging.*;
+
 import javax.swing.event.*;
 
 //import org.compiere.apps.ADialog;
 import org.compiere.util.*;
+
+import bsh.EvalError;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.Invocable;
+import javax.script.ScriptException;
 
 /**
  *	Tab Model.
@@ -54,7 +62,9 @@ import org.compiere.util.*;
  *  @version 	$Id: GridTab.java,v 1.10 2006/10/02 05:18:39 jjanke Exp $
  *  
  *  @author Teo Sarca - BF [ 1742159 ]
- *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ] 
+ *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
+ *  @author Carlos Ruiz, qss FR [1877902]
+ *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -2440,20 +2450,30 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			if (activeCallouts.contains(cmd)) continue;
 			
 			String retValue = "";
-
+			// FR [1877902]
 			// CarlosRuiz - globalqss - implement beanshell callout
-			if (cmd.toLowerCase().startsWith("@bsh:")) {
+			// Victor Perez  - vpj-cd implement JSR 223 Scripting
+			if (cmd.toLowerCase().startsWith("@script:")) {
 				
-				if (field.getBshCalloutCode() == null || field.getBshCalloutCode().length() == 0) {
-					retValue = "Callout Invalid: " + cmd + " (no code found for beanshell)"; 
+				if (field.getScriptCode() == null || field.getScriptCode().length() == 0) {
+					retValue = "Callout invalid error in syntax: " + cmd +  " error in syntax please use something like @script:groovy:mycallout"; 
 					log.log(Level.SEVERE, retValue);
 					return retValue;
 				}
 				
-				String code = field.getBshCalloutCode();
-				
-				/** The Script      */
-			    Scriptlet   m_script;
+				int engine_end = 0;
+				engine_end = callout.indexOf(":", 8);		
+				if (engine_end <= 0)
+				{	
+						CLogger.get().log(Level.SEVERE, "Callout Invalid: " + cmd  , " error in syntax please use something like @script:groovy:mycallout");
+						return retValue;
+				}							
+				String engine_name =  callout.substring(8,engine_end);
+				if (engine_name== null)
+				{	
+						CLogger.get().log(Level.SEVERE, "Callout Invalid: " + cmd  , " error in syntax please use something like @script:groovy:mycallout");
+						return retValue;
+				}
 			    
 			    // Convert from ctx to hashmap
 				HashMap<String, Object> script_ctx = new HashMap<String,Object>();
@@ -2472,7 +2492,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					Object obj = m_vo.ctx.get(key);
 					if (key != null && key.length() > 0)
 					{
-					//	log.fine( "Scriptlet.setEnvironment " + key, value);
+						//log.fine( "Script.setEnvironment " + key, value);
 						if (value == null)
 							script_ctx.remove(key);
 						else
@@ -2489,18 +2509,37 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				script_ctx.put("___Value", value);
 				script_ctx.put("___OldValue", oldValue);
 
-				m_script = new Scriptlet (Scriptlet.VARIABLE, code, script_ctx);
-
-				activeCallouts.add(cmd);
-				Exception e = m_script.execute();
-				activeCallouts.remove(cmd);
-				if (e != null) {
-					log.log(Level.SEVERE, "execute", e);
+				ScriptEngineManager factory = new ScriptEngineManager();
+				ScriptEngine engine = factory.getEngineByName(engine_name);
+		        
+				try 
+				{
+						Iterator it = script_ctx.keySet().iterator();
+						while (it.hasNext())
+						{
+							String key = (String)it.next();
+							Object script_value = script_ctx.get(key);
+								if (script_value instanceof Boolean)
+									engine.put(key, ((Boolean)script_value).booleanValue());
+								else if (script_value instanceof Integer)
+									engine.put(key,((Integer)script_value).intValue());
+								else if (script_value instanceof Double)
+									engine.put(key,((Integer)script_value).intValue());
+								else
+									engine.put(key,script_value);
+						}
+					
+						activeCallouts.add(cmd);
+						retValue = engine.eval(field.getScriptCode()).toString();
+						activeCallouts.remove(cmd);
+						
+				}
+				catch (ScriptException e)
+				{
+					log.log(Level.SEVERE, "", e);
 					retValue = 	"Callout Invalid: " + e.toString();
 					return retValue;
 				}
-				Object result = m_script.getResult(false);
-				retValue = result.toString();
 				
 			} else {
 

@@ -30,7 +30,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/j2ee.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss/client/jboss-common-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-1.3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss/client/jboss-j2ee.jar"/>
@@ -76,5 +75,12 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-1.3.0.jar"/>
 	<classpathentry kind="src" path="webCM/src/main/servlet"/>
 	<classpathentry kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/bsh-2.0b5.jar"/>
+	<classpathentry kind="lib" path="tools/lib/bsh-engine.jar"/>
+	<classpathentry kind="lib" path="tools/lib/groovy-all-1.5.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/groovy-engine.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jython.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jython-engine.jar"/>
+	<classpathentry kind="lib" path="tools/lib/script-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

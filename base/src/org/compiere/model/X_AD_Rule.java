@@ -273,20 +273,18 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public static final int RULETYPE_AD_Reference_ID=53235;
 	/** Aspect Orient Program = A */
 	public static final String RULETYPE_AspectOrientProgram = "A";
-	/** BeanShell = B */
-	public static final String RULETYPE_BeanShell = "B";
+	/** JSR 223 Scripting APIs = S */
+	public static final String RULETYPE_JSR223ScriptingAPIs = "S";
 	/** JSR 94 Rule Engine API = R */
 	public static final String RULETYPE_JSR94RuleEngineAPI = "R";
-	/** SQL = S */
-	public static final String RULETYPE_SQL = "S";
-	/** Groovy = G */
-	public static final String RULETYPE_Groovy = "G";
+	/** SQL = Q */
+	public static final String RULETYPE_SQL = "Q";
 	/** Set Rule Type.
 		@param RuleType Rule Type	  */
 	public void setRuleType (String RuleType)
 	{
 
-		if (RuleType == null || RuleType.equals("A") || RuleType.equals("B") || RuleType.equals("R") || RuleType.equals("S") || RuleType.equals("G")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - B - R - S - G");
+		if (RuleType == null || RuleType.equals("A") || RuleType.equals("S") || RuleType.equals("R") || RuleType.equals("Q")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - S - R - Q");
 		if (RuleType != null && RuleType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
