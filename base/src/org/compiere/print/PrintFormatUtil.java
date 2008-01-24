@@ -124,9 +124,6 @@ public class PrintFormatUtil
 				else
 					log.warning("Not added: " + ColumnName);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
