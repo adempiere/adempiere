@@ -565,30 +565,23 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 			+ "ORDER BY IsDefault DESC, AD_Client_ID DESC";
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				tf = new MPrintTableFormat (ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return tf;
 	}	//	get
