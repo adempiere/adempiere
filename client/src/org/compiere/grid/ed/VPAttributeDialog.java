@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -501,7 +501,17 @@ public class VPAttributeDialog extends CDialog
 	private boolean cmd_select()
 	{
 		log.config("");
+		
 		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "M_Warehouse_ID");
+		
+		int C_DocType_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "C_DocType_ID");
+		if (C_DocType_ID > 0) {
+			MDocType doctype = new MDocType (Env.getCtx(), C_DocType_ID, null);
+			String docbase = doctype.getDocBaseType();
+			if (docbase.equals(MDocType.DOCBASETYPE_MaterialReceipt))
+				M_Warehouse_ID = 0;
+		}
+		
 		// teo_sarca [ 1564520 ] Inventory Move: can't select existing attributes
 		int M_Locator_ID = 0;
 		if (m_AD_Column_ID == 8551) { // TODO: hardcoded: M_MovementLine[324].M_AttributeSetInstance_ID[8551]

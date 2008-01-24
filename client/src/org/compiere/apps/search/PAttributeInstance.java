@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -22,7 +22,6 @@ import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.table.*;
 import org.compiere.apps.*;
 import org.compiere.minigrid.*;
 import org.compiere.swing.*;
@@ -107,7 +106,6 @@ public class PAttributeInstance extends CDialog
 	private CCheckBox showAll = new CCheckBox (Msg.getMsg(Env.getCtx(), "ShowAll"));
 	//
 	private MiniTable 			m_table = new MiniTable();
-	private DefaultTableModel 	m_model;
 	//	Parameter
 	private int			 		m_M_Warehouse_ID;
 	private int			 		m_M_Locator_ID;
@@ -163,7 +161,8 @@ public class PAttributeInstance extends CDialog
 		+ " INNER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
 		+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)";
 	/** Where Clause						*/
-	private static String s_sqlWhere = "l.M_Warehouse_ID=? AND s.M_Product_ID=?"; 
+	private static String s_sqlWhere = "s.M_Product_ID=? AND l.M_Warehouse_ID=?"; 
+	private static String s_sqlWhereWithoutWarehouse = " s.M_Product_ID=?"; 
 
 	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
 	private String	m_sqlMinLife = "";
@@ -230,8 +229,8 @@ public class PAttributeInstance extends CDialog
 		}	//	BPartner != 0
 
 		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-			s_sqlWhere, false, "s")
-			+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
+					m_M_Warehouse_ID == 0 ? s_sqlWhereWithoutWarehouse : s_sqlWhere, false, "s")
+				+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setRowSelectionAllowed(true);
 		m_table.setMultiSelection(false);
@@ -262,8 +261,9 @@ public class PAttributeInstance extends CDialog
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_M_Warehouse_ID);
-			pstmt.setInt(2, m_M_Product_ID);
+			pstmt.setInt(1, m_M_Product_ID);
+			if (m_M_Warehouse_ID != 0)
+				pstmt.setInt(2, m_M_Warehouse_ID);
 			ResultSet rs = pstmt.executeQuery();
 			m_table.loadTable(rs);
 			rs.close();
