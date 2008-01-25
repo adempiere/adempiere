@@ -155,6 +155,15 @@ public interface I_C_PaySelectionCheck
 	  */
 	public String getDocumentNo();
 
+    /** Column name IsGeneratedDraft */
+    public static final String COLUMNNAME_IsGeneratedDraft = "IsGeneratedDraft";
+
+	/** Set Generated Draft	  */
+	public void setIsGeneratedDraft (boolean IsGeneratedDraft);
+
+	/** Get Generated Draft	  */
+	public boolean isGeneratedDraft();
+
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 

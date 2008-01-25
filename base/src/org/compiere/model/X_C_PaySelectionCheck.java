@@ -45,6 +45,8 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 			setC_PaySelectionCheck_ID (0);
 			setC_PaySelection_ID (0);
 			setDiscountAmt (Env.ZERO);
+			setIsGeneratedDraft (false);
+// N
 			setIsPrinted (false);
 			setIsReceipt (false);
 			setPayAmt (Env.ZERO);
@@ -302,6 +304,27 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Generated Draft.
+		@param IsGeneratedDraft Generated Draft	  */
+	public void setIsGeneratedDraft (boolean IsGeneratedDraft)
+	{
+		set_Value (COLUMNNAME_IsGeneratedDraft, Boolean.valueOf(IsGeneratedDraft));
+	}
+
+	/** Get Generated Draft.
+		@return Generated Draft	  */
+	public boolean isGeneratedDraft () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsGeneratedDraft);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Printed.

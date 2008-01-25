@@ -126,6 +126,9 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		psc.setQty (1);
 		psc.setDocumentNo(payment.getDocumentNo());
 		psc.setProcessed(true);
+		// afalcone - [ 1871567 ] Wrong value in Payment document
+		psc.setIsGeneratedDraft( ! payment.isProcessed() );
+		//
 		psc.save();
 		
 		//	Create new PaySelection Line
@@ -753,5 +756,39 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		return m_lines;
 	}	//	getPaySelectionLines
 
+	
+	/**
+	 *	Delete Payment Selection when generated as Draft (Print Preview) 
+	 *	@param ctx context
+	 *	@param C_Payment_ID id
+	 *	@param trxName transaction
+	 * @return
+	 */
+	public static boolean deleteGeneratedDraft(Properties ctx, int C_Payment_ID, String trxName)
+	{
+		
+		MPaySelectionCheck mpsc = MPaySelectionCheck.getOfPayment (ctx, C_Payment_ID, trxName);
+		
+		if (mpsc != null && mpsc.isGeneratedDraft())  
+		{
+			MPaySelection mps = new MPaySelection(ctx, mpsc.getC_PaySelection_ID(),trxName);
+			MPaySelectionLine[] mpsl = mps.getLines(true);
+			
+			// Delete Pay Selection lines 
+			for (int i = 0; i < mpsl.length; i++) 
+			{
+				if (!mpsl[i].delete(true, trxName))
+					return false;
+			}
+			// Delete Pay Selection Check
+			if (!mpsc.delete(true, trxName))
+				return false;
+			
+			// Delete Pay Selection
+			if (!mps.delete(true, trxName))
+				return false;
+		}
+	return true;	
+	}
 	
 }   //  MPaySelectionCheck
