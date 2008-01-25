@@ -1,14 +1,19 @@
 package org.adempiere.util;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.script.ScriptEngine;
+
 import org.compiere.model.MProcess;
+import org.compiere.model.MRule;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
-import org.compiere.process.SvrProcess;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -127,6 +132,117 @@ public final class ProcessUtil {
 			return false;
 		}
 		return true;
+	}
+	
+	public static boolean startScriptProcess(Properties ctx, ProcessInfo pi, Trx trx) {
+		String msg = null;
+		boolean success = true;
+		try 
+		{
+			String cmd = pi.getClassName();
+			MRule rule = MRule.get(ctx, cmd.substring(MRule.SCRIPT_PREFIX.length()));
+			if (rule == null) {
+				log.log(Level.WARNING, cmd + " not found");
+				pi.setSummary ("ScriptNotFound", true);
+				return false;
+			}
+			if ( !  (rule.getEventType().equals(MRule.EVENTTYPE_Process) 
+				  && rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
+				log.log(Level.WARNING, cmd + " must be of type JSR 223 and event Process");
+				pi.setSummary ("ScriptNotFound", true);
+				return false;
+			}
+
+			ScriptEngine engine = rule.getScriptEngine();
+
+			// Window context are    _
+			// Login context  are    __
+			// Parameter context are ___
+			MRule.setContext(engine, ctx, 0);  // no window
+			// now add the process parameters to the engine 
+			// Parameter context are ___
+			engine.put("___Ctx", ctx);
+			if (trx == null)
+				trx = Trx.get(pi.getTitle()+"_"+pi.getAD_PInstance_ID(), true);
+			engine.put("___Trx", trx);
+			engine.put("___TrxName", trx.getTrxName());
+			engine.put("___Record_ID", pi.getRecord_ID());
+			engine.put("___AD_Client_ID", pi.getAD_Client_ID());
+			engine.put("___AD_User_ID", pi.getAD_User_ID());
+			engine.put("___AD_PInstance_ID", pi.getAD_PInstance_ID());
+			engine.put("___Table_ID", pi.getTable_ID());
+			// Add process parameters
+			ProcessInfoParameter[] para = pi.getParameter();
+			if (para == null) {
+				ProcessInfoUtil.setParameterFromDB(pi);
+				para = pi.getParameter();
+			}
+			if (para != null) {
+				engine.put("___Parameter", pi.getParameter());
+				for (int i = 0; i < para.length; i++)
+				{
+					String name = para[i].getParameterName();
+					if (para[i].getParameter_To() == null) {
+						Object value = para[i].getParameter();
+						if (name.endsWith("_ID") && (value instanceof BigDecimal))
+							engine.put("___" + name, ((BigDecimal)value).intValue());
+						else
+							engine.put("___" + name, value);
+					} else {
+						Object value1 = para[i].getParameter();
+						Object value2 = para[i].getParameter_To();
+						if (name.endsWith("_ID") && (value1 instanceof BigDecimal))
+							engine.put("___" + name + "1", ((BigDecimal)value1).intValue());
+						else
+							engine.put("___" + name + "1", value1);
+						if (name.endsWith("_ID") && (value2 instanceof BigDecimal))
+							engine.put("___" + name + "2", ((BigDecimal)value2).intValue());
+						else
+							engine.put("___" + name + "2", value2);
+					}
+				}
+			}
+			engine.put("___ProcessInfo", pi);
+		
+			msg = engine.eval(rule.getScript()).toString();
+			//transaction should rollback if there are error in process
+			if ("@Error@".equals(msg))
+				success = false;
+			
+			//	Parse Variables
+			msg = Msg.parseTranslation(ctx, msg);
+			pi.setSummary (msg, !success);
+			
+		}
+		catch (Exception e)
+		{
+			pi.setSummary("ScriptError", true);
+			log.log(Level.SEVERE, pi.getClassName(), e);
+			success = false;
+		}
+		if (success) {
+			if (trx != null)
+			{
+				try 
+				{
+					trx.commit(true);
+				} catch (Exception e)
+				{
+					log.log(Level.SEVERE, "Commit failed.", e);
+					pi.addSummary("Commit Failed.");
+					pi.setError(true);
+					success = false;
+				}
+				trx.close();
+			}
+		} else {
+			if (trx != null)
+			{
+				trx.rollback();
+				trx.close();
+			}
+		}
+		return success;
 	}
 	
 	public static MWFProcess startWorkFlow(Properties ctx, ProcessInfo pi, int AD_Workflow_ID) {

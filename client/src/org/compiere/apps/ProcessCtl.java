@@ -584,12 +584,14 @@ public class ProcessCtl implements Runnable
 		
 		//hengsin, bug [ 1633995 ]
 		boolean clientOnly = false;
-		Class processClass = null;
-		try {
-			processClass = Class.forName(m_pi.getClassName());
-			if (ClientProcess.class.isAssignableFrom(processClass))
-				clientOnly = true;
-		} catch (Exception e) {}
+		if (! m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
+			Class processClass = null;
+			try {
+				processClass = Class.forName(m_pi.getClassName());
+				if (ClientProcess.class.isAssignableFrom(processClass))
+					clientOnly = true;
+			} catch (Exception e) {}
+		}
 		
 		if (DB.isRemoteProcess() && !clientOnly)
 		{
@@ -635,7 +637,11 @@ public class ProcessCtl implements Runnable
 		//	Run locally
 		if (!started && (!m_IsServerProcess || clientOnly ))
 		{
-			return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+			if (m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
+				return ProcessUtil.startScriptProcess(Env.getCtx(), m_pi, m_trx);
+			} else {
+				return ProcessUtil.startJavaProcess(Env.getCtx(), m_pi, m_trx);
+			}
 		}
 		return !m_pi.isError();
 	}   //  startProcess
