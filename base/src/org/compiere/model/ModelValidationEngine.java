@@ -17,10 +17,16 @@
 package org.compiere.model;
 
 import java.beans.*;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.logging.*;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+
 import org.compiere.acct.Fact;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.*;
 
 /**
@@ -193,6 +199,38 @@ public class ModelValidationEngine
 					return error;
 			}
 		}
+		
+		// now process the script model validator login
+		ArrayList<MRule> loginRules = MRule.getModelValidatorLoginRules (Env.getCtx());
+		if (loginRules != null) {
+			for (MRule loginRule : loginRules) {
+				// currently just JSR 223 supported
+				if (loginRule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)) {
+					String error;
+					try {
+						ScriptEngine engine = loginRule.getScriptEngine();
+
+						MRule.setContext(engine, Env.getCtx(), 0);  // no window
+						// now add the process parameters to the engine 
+						// Parameter context are ___
+						engine.put("___Ctx", Env.getCtx());
+						engine.put("___AD_Client_ID", AD_Client_ID);
+						engine.put("___AD_Org_ID", AD_Org_ID);
+						engine.put("___AD_Role_ID", AD_Role_ID);
+						engine.put("___AD_User_ID", AD_User_ID);
+					
+						error = engine.eval(loginRule.getScript()).toString();
+					} catch (Exception e) {
+						e.printStackTrace();
+						error = e.toString();
+					}
+					if (error != null && error.length() > 0)
+						return error;
+				}
+			}
+		}
+		//
+		
 		if (AD_User_ID == 0 && AD_Role_ID == 0)
 			; // don't validate for user system on role system
 		else
