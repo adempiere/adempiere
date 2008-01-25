@@ -246,8 +246,14 @@ public class ReportCtl
 	 */
 	public static boolean startCheckPrint (int C_Payment_ID, boolean IsDirectPrint)
 	{
+		
+		// afalcone - [ 1871567 ] Wrong value in Payment document
+		boolean ok = MPaySelectionCheck.deleteGeneratedDraft(Env.getCtx(), C_Payment_ID, null);
+		//
+		
 		int C_PaySelectionCheck_ID = 0;
 		MPaySelectionCheck psc = MPaySelectionCheck.getOfPayment(Env.getCtx(), C_Payment_ID, null);
+		
 		if (psc != null)
 			C_PaySelectionCheck_ID = psc.getC_PaySelectionCheck_ID();
 		else
