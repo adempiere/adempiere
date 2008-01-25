@@ -28,14 +28,9 @@ import java.util.logging.*;
 
 import javax.swing.event.*;
 
-//import org.compiere.apps.ADialog;
 import org.compiere.util.*;
 
-import bsh.EvalError;
-
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.Invocable;
 import javax.script.ScriptException;
 
 /**
@@ -2453,92 +2448,49 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			// FR [1877902]
 			// CarlosRuiz - globalqss - implement beanshell callout
 			// Victor Perez  - vpj-cd implement JSR 223 Scripting
-			if (cmd.toLowerCase().startsWith("@script:")) {
+			if (cmd.toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
 				
-				if (field.getScriptCode() == null || field.getScriptCode().length() == 0) {
-					retValue = "Callout invalid error in syntax: " + cmd +  " error in syntax please use something like @script:groovy:mycallout"; 
+				MRule rule = MRule.get(m_vo.ctx, cmd.substring(MRule.SCRIPT_PREFIX.length()));
+				if (rule == null) {
+					retValue = "Callout " + cmd + " not found"; 
 					log.log(Level.SEVERE, retValue);
 					return retValue;
 				}
-				
-				int engine_end = 0;
-				engine_end = callout.indexOf(":", 8);		
-				if (engine_end <= 0)
-				{	
-						CLogger.get().log(Level.SEVERE, "Callout Invalid: " + cmd  , " error in syntax please use something like @script:groovy:mycallout");
-						return retValue;
-				}							
-				String engine_name =  callout.substring(8,engine_end);
-				if (engine_name== null)
-				{	
-						CLogger.get().log(Level.SEVERE, "Callout Invalid: " + cmd  , " error in syntax please use something like @script:groovy:mycallout");
-						return retValue;
+				if ( !  (rule.getEventType().equals(MRule.EVENTTYPE_Callout) 
+					  && rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
+					retValue = "Callout " + cmd
+						+ " must be of type JSR 223 and event Callout"; 
+					log.log(Level.SEVERE, retValue);
+					return retValue;
 				}
-			    
-			    // Convert from ctx to hashmap
-				HashMap<String, Object> script_ctx = new HashMap<String,Object>();
-				//  Convert properties to HashMap
-				Enumeration en = m_vo.ctx.keys();
-				while (en.hasMoreElements())
-				{
-					String key = en.nextElement().toString();
-					//  filter
-					if (key == null || key.length() == 0
-						|| key.startsWith("P")              //  Preferences
-						|| (key.indexOf('|') != -1 && !key.startsWith(String.valueOf(m_vo.WindowNo)))    //  other Window Settings
-						|| (key.indexOf('|') != -1 && key.indexOf('|') != key.lastIndexOf('|')) //other tab
-						)
-						continue;
-					Object obj = m_vo.ctx.get(key);
-					if (key != null && key.length() > 0)
-					{
-						//log.fine( "Script.setEnvironment " + key, value);
-						if (value == null)
-							script_ctx.remove(key);
-						else
-							script_ctx.put(convertKey(key, m_vo.WindowNo), obj);
-					}
-				}
+
+				ScriptEngine engine = rule.getScriptEngine();
+
 				// Window context are    _
 				// Login context  are    __
+				MRule.setContext(engine, m_vo.ctx, m_vo.WindowNo);
+				// now add the callout parameters windowNo, tab, field, value, oldValue to the engine 
 				// Parameter context are ___
-				// Now Add windowNo, tab, field, value, oldValue to the hashmap
-				script_ctx.put("___WindowNo", m_vo.WindowNo);
-				script_ctx.put("___Tab", this);
-				script_ctx.put("___Field", field);
-				script_ctx.put("___Value", value);
-				script_ctx.put("___OldValue", oldValue);
+				engine.put("___WindowNo", m_vo.WindowNo);
+				engine.put("___Tab", this);
+				engine.put("___Field", field);
+				engine.put("___Value", value);
+				engine.put("___OldValue", oldValue);
 
-				ScriptEngineManager factory = new ScriptEngineManager();
-				ScriptEngine engine = factory.getEngineByName(engine_name);
-		        
 				try 
 				{
-						Iterator it = script_ctx.keySet().iterator();
-						while (it.hasNext())
-						{
-							String key = (String)it.next();
-							Object script_value = script_ctx.get(key);
-								if (script_value instanceof Boolean)
-									engine.put(key, ((Boolean)script_value).booleanValue());
-								else if (script_value instanceof Integer)
-									engine.put(key,((Integer)script_value).intValue());
-								else if (script_value instanceof Double)
-									engine.put(key,((Integer)script_value).intValue());
-								else
-									engine.put(key,script_value);
-						}
-					
-						activeCallouts.add(cmd);
-						retValue = engine.eval(field.getScriptCode()).toString();
-						activeCallouts.remove(cmd);
-						
+					activeCallouts.add(cmd);
+					retValue = engine.eval(rule.getScript()).toString();
 				}
-				catch (ScriptException e)
+				catch (Exception e)
 				{
 					log.log(Level.SEVERE, "", e);
 					retValue = 	"Callout Invalid: " + e.toString();
 					return retValue;
+				}
+				finally
+				{
+					activeCallouts.remove(cmd);
 				}
 				
 			} else {
@@ -2575,7 +2527,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					log.log(Level.SEVERE, "start", e);
 					retValue = 	"Callout Invalid: " + e.toString();
 					return retValue;
-				} 
+				}
 				finally
 				{
 					activeCallouts.remove(cmd);
@@ -2593,31 +2545,6 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return "";
 	}	//	processCallout
 
-
-	/**
-	 *  Convert Key
-	 *  # -> _
-	 *  @param key
-	 * @param m_windowNo 
-	 *  @return converted key
-	 */
-	private String convertKey (String key, int m_windowNo)
-	{
-		String k = m_windowNo + "|";
-		if (key.startsWith(k))
-		{
-			String retValue = "_" + key.substring(k.length());
-			retValue = Util.replace(retValue, "|", "_");
-			return retValue;
-		}
-		else
-		{
-			String retValue = Util.replace(key, "#", "__");
-			return retValue;
-		}
-	}   //  convertKey
-
-	
 	/**
 	 *  Get Value of Field with columnName
 	 *  @param columnName column name

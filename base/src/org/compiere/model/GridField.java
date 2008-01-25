@@ -1086,15 +1086,6 @@ public class GridField
 		return m_vo.Callout;
 	}
 	
-	//FR [1877902]
-	/**
-	 * 	Get Script Code
-	 *	@return Script Code
-	 */
-	public String getScriptCode()
-	{
-		return m_vo.scriptCode;
-	}
 	/**
 	 * 	Get AD_Process_ID
 	 *	@return process

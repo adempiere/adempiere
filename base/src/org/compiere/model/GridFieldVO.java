@@ -140,52 +140,8 @@ public class GridFieldVO implements Serializable
 					vo.Description = rs.getString (i);
 				else if (columnName.equalsIgnoreCase("Help"))
 					vo.Help = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("Callout")) {
+				else if (columnName.equalsIgnoreCase("Callout"))
 					vo.Callout = rs.getString (i);
-					// CarlosRuiz - globalqss - FR [ 1877902 ] Implement beanshell callout
-					// Vitor Perez - vpj-cd - FR [ 1877902 ]  Implement JSR 223 Scripting APIs to Callout
-					String callout =  vo.Callout;
-					int script_end = 8;
-					int engine_end = 0;
-					if (callout != null && callout.toLowerCase().startsWith("@script:")) {
-						engine_end = callout.indexOf(":", script_end);		
-						if (engine_end <= 0)
-						{	
-							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Call Invalid "+ callout +" error in syntax please use something like @script:groovy:mycallout");
-							continue;
-						}							
-						String engine =  callout.substring(script_end,engine_end);
-						if (engine== null)
-						{
-							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Call Invalid "+ callout +" error in syntax please use something like @script:groovy:mycallout");
-							continue;
-						}
-						String calloutname =  callout.substring(engine_end);
-						if (calloutname== null)
-						{
-							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Call Invalid "+ callout +" error in syntax please use something like @script:groovy:mycallout");
-							continue;
-						}
-						String rule_value =engine + calloutname.trim();
-						// TODO: Write MRule and create accessor by Value, EventType and RuleType
-						int script_id = DB.getSQLValue(
-										null,
-										"SELECT AD_Rule_ID FROM AD_Rule WHERE TRIM(Value)=? AND EventType='"
-												+ X_AD_Rule.EVENTTYPE_Callout
-												+ "' AND RuleType='"
-												+ X_AD_Rule.RULETYPE_JSR223ScriptingAPIs
-												+ "' AND IsActive='Y'",
-										rule_value);
-						if (script_id > 0) {
-							X_AD_Rule rule = new X_AD_Rule(ctx, script_id, null);
-							vo.scriptCode = rule.getScript();
-							// TODO: pre-parse for better performance
-							// http://beanshell.org/manual/parser.html#Parsing_and_Performance
-						} else {
-							CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, " Rule not found:" + rule_value);
-						}
-					}
-				}
 				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
 					vo.AD_Process_ID = rs.getInt (i);
 				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
@@ -496,8 +452,6 @@ public class GridFieldVO implements Serializable
 	public boolean      IsParent = false;
 	/**	Callout			*/
 	public String       Callout = "";
-	/**	Callout			*/
-	public String       scriptCode = null;
 	/**	Process			*/
 	public int          AD_Process_ID = 0;
 	/**	Description		*/
