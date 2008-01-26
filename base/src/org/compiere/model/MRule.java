@@ -72,29 +72,21 @@ public class MRule extends X_AD_Rule
 		MRule retValue = null;
 		String sql = "SELECT * FROM AD_Rule WHERE Value=? AND IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setString(1, ruleValue);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MRule (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+		finally {
+			DB.close(rs, pstmt);
 			pstmt = null;
 		}
 		
@@ -117,31 +109,23 @@ public class MRule extends X_AD_Rule
 		MRule rule = null;
 		String sql = "SELECT * FROM AD_Rule WHERE EventType=? AND IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setString(1, EVENTTYPE_ModelValidatorLoginEvent);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ()) {
 				rule = new MRule (ctx, rs, null);
 				rules.add(rule);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+		finally {
+			DB.close(rs, pstmt);
 			pstmt = null;
 		}
 		
