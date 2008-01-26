@@ -184,12 +184,13 @@ public class PAttributeInstance extends CDialog
 				+	" ON (bp.C_BPartner_ID=bpp.C_BPartner_ID AND bpp.M_Product_ID=?) "
 				+ "WHERE bp.C_BPartner_ID=?";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, m_M_Product_ID);
 				pstmt.setInt(2, C_BPartner_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					ShelfLifeMinPct = rs.getInt(1);		//	BP
@@ -198,23 +199,14 @@ public class PAttributeInstance extends CDialog
 						ShelfLifeMinDays = pct;
 					ShelfLifeMinDays = rs.getInt(3);
 				}
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			if (ShelfLifeMinPct > 0)
 			{
@@ -258,31 +250,23 @@ public class PAttributeInstance extends CDialog
 		//
 		log.finest(sql);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			if (m_M_Warehouse_ID != 0)
 				pstmt.setInt(2, m_M_Warehouse_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			m_table.loadTable(rs);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		enableButtons();
 	}	//	refresh
