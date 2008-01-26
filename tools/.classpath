@@ -9,8 +9,14 @@
 	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mail.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/j2ee.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/bsh-1.3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xdoclet-1.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jpayment.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/bsh-2.0b5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/script-api.jar"/>
+	<classpathentry kind="lib" path="lib/bsh-engine.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-engine.jar"/>
+	<classpathentry kind="lib" path="lib/jython.jar"/>
+	<classpathentry kind="lib" path="lib/jython-engine.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
