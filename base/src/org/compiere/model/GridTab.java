@@ -2471,11 +2471,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				MRule.setContext(engine, m_vo.ctx, m_vo.WindowNo);
 				// now add the callout parameters windowNo, tab, field, value, oldValue to the engine 
 				// Parameter context are ___
-				engine.put("___WindowNo", m_vo.WindowNo);
-				engine.put("___Tab", this);
-				engine.put("___Field", field);
-				engine.put("___Value", value);
-				engine.put("___OldValue", oldValue);
+				engine.put("$$$WindowNo", m_vo.WindowNo);
+				engine.put("$$$Tab", this);
+				engine.put("$$$Field", field);
+				engine.put("$$$Value", value);
+				engine.put("$$$OldValue", oldValue);
 
 				try 
 				{

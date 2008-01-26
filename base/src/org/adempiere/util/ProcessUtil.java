@@ -161,16 +161,16 @@ public final class ProcessUtil {
 			MRule.setContext(engine, ctx, 0);  // no window
 			// now add the process parameters to the engine 
 			// Parameter context are ___
-			engine.put("___Ctx", ctx);
+			engine.put("$$$Ctx", ctx);
 			if (trx == null)
 				trx = Trx.get(pi.getTitle()+"_"+pi.getAD_PInstance_ID(), true);
-			engine.put("___Trx", trx);
-			engine.put("___TrxName", trx.getTrxName());
-			engine.put("___Record_ID", pi.getRecord_ID());
-			engine.put("___AD_Client_ID", pi.getAD_Client_ID());
-			engine.put("___AD_User_ID", pi.getAD_User_ID());
-			engine.put("___AD_PInstance_ID", pi.getAD_PInstance_ID());
-			engine.put("___Table_ID", pi.getTable_ID());
+			engine.put("$$$Trx", trx);
+			engine.put("$$$TrxName", trx.getTrxName());
+			engine.put("$$$Record_ID", pi.getRecord_ID());
+			engine.put("$$$AD_Client_ID", pi.getAD_Client_ID());
+			engine.put("$$$AD_User_ID", pi.getAD_User_ID());
+			engine.put("$$$AD_PInstance_ID", pi.getAD_PInstance_ID());
+			engine.put("$$$Table_ID", pi.getTable_ID());
 			// Add process parameters
 			ProcessInfoParameter[] para = pi.getParameter();
 			if (para == null) {
@@ -178,31 +178,31 @@ public final class ProcessUtil {
 				para = pi.getParameter();
 			}
 			if (para != null) {
-				engine.put("___Parameter", pi.getParameter());
+				engine.put("$$$Parameter", pi.getParameter());
 				for (int i = 0; i < para.length; i++)
 				{
 					String name = para[i].getParameterName();
 					if (para[i].getParameter_To() == null) {
 						Object value = para[i].getParameter();
 						if (name.endsWith("_ID") && (value instanceof BigDecimal))
-							engine.put("___" + name, ((BigDecimal)value).intValue());
+							engine.put("$$$" + name, ((BigDecimal)value).intValue());
 						else
-							engine.put("___" + name, value);
+							engine.put("$$$" + name, value);
 					} else {
 						Object value1 = para[i].getParameter();
 						Object value2 = para[i].getParameter_To();
 						if (name.endsWith("_ID") && (value1 instanceof BigDecimal))
-							engine.put("___" + name + "1", ((BigDecimal)value1).intValue());
+							engine.put("$$$" + name + "1", ((BigDecimal)value1).intValue());
 						else
-							engine.put("___" + name + "1", value1);
+							engine.put("$$$" + name + "1", value1);
 						if (name.endsWith("_ID") && (value2 instanceof BigDecimal))
-							engine.put("___" + name + "2", ((BigDecimal)value2).intValue());
+							engine.put("$$$" + name + "2", ((BigDecimal)value2).intValue());
 						else
-							engine.put("___" + name + "2", value2);
+							engine.put("$$$" + name + "2", value2);
 					}
 				}
 			}
-			engine.put("___ProcessInfo", pi);
+			engine.put("$$$ProcessInfo", pi);
 		
 			msg = engine.eval(rule.getScript()).toString();
 			//transaction should rollback if there are error in process

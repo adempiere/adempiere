@@ -213,11 +213,11 @@ public class ModelValidationEngine
 						MRule.setContext(engine, Env.getCtx(), 0);  // no window
 						// now add the process parameters to the engine 
 						// Parameter context are ___
-						engine.put("___Ctx", Env.getCtx());
-						engine.put("___AD_Client_ID", AD_Client_ID);
-						engine.put("___AD_Org_ID", AD_Org_ID);
-						engine.put("___AD_Role_ID", AD_Role_ID);
-						engine.put("___AD_User_ID", AD_User_ID);
+						engine.put("$$$Ctx", Env.getCtx());
+						engine.put("$$$AD_Client_ID", AD_Client_ID);
+						engine.put("$$$AD_Org_ID", AD_Org_ID);
+						engine.put("$$$AD_Role_ID", AD_Role_ID);
+						engine.put("$$$AD_User_ID", AD_User_ID);
 					
 						error = engine.eval(loginRule.getScript()).toString();
 					} catch (Exception e) {

@@ -283,13 +283,13 @@ public class MRule extends X_AD_Rule
 		String k = m_windowNo + "|";
 		if (key.startsWith(k))
 		{
-			String retValue = "_" + key.substring(k.length());
-			retValue = Util.replace(retValue, "|", "_");
+			String retValue = "$" + key.substring(k.length());
+			retValue = Util.replace(retValue, "|", "$");
 			return retValue;
 		}
 		else
 		{
-			String retValue = Util.replace(key, "#", "__");
+			String retValue = Util.replace(key, "#", "$$");
 			return retValue;
 		}
 	}   //  convertKey
