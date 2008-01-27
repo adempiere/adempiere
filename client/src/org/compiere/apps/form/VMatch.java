@@ -121,7 +121,7 @@ public class VMatch extends CPanel
 	private String          m_dateColumn = "";
 	private String          m_qtyColumn = "";
 	private String          m_groupBy = "";
-
+	private StringBuffer			m_linetype = null;
 	private BigDecimal      m_xMatched = Env.ZERO;
 	private BigDecimal      m_xMatchedTo = Env.ZERO;
 
@@ -672,10 +672,21 @@ public class VMatch extends CPanel
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
 				+ " INNER JOIN C_DocType dt ON (hdr.C_DocType_ID=dt.C_DocType_ID AND dt.DocBaseType='POO')"
 				+ " FULL JOIN M_MatchPO mo ON (lin.C_OrderLine_ID=mo.C_OrderLine_ID) "
-				+ "WHERE mo.")
-				.append(matchToType == MATCH_SHIPMENT ? "M_InOutLine_ID" : "C_InvoiceLine_ID")
-				.append(matched ? " IS NOT NULL" : " IS NULL"
-				+ " AND hdr.DocStatus IN ('CO','CL')");
+				+ " WHERE " ) ; //[ 1876972 ] Can't match partially matched PO with an unmatched receipt SOLVED BY BOJANA, AGENDA_GM
+			m_linetype = new StringBuffer();
+			m_linetype.append( matchToType == MATCH_SHIPMENT ? "M_InOutLine_ID" : "C_InvoiceLine_ID") ;
+			if ( matched ) {
+				m_sql.append( " mo." + m_linetype + " IS NOT NULL " ) ; 
+			} else {
+ 				m_sql.append( " ( mo." + m_linetype + " IS NULL OR "
+				+ " (lin.QtyOrdered <>  (SELECT sum(mo1.Qty) AS Qty" 
+				+ " FROM m_matchpo mo1 WHERE "
+				+ " mo1.C_ORDERLINE_ID=lin.C_ORDERLINE_ID AND "
+				+ " hdr.C_ORDER_ID=lin.C_ORDER_ID AND "
+				+ " mo1." + m_linetype
+				+ " IS NOT NULL group by mo1.C_ORDERLINE_ID))) " );	
+			}
+			m_sql.append( " AND hdr.DocStatus IN ('CO','CL')" );
 			m_groupBy = " GROUP BY hdr.C_Order_ID,hdr.DocumentNo,hdr.DateOrdered,bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.C_OrderLine_ID,p.Name,lin.M_Product_ID,lin.QtyOrdered "
 				+ "HAVING "
