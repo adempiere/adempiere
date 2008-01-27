@@ -353,9 +353,6 @@ UPDATE AD_Column SET AD_Reference_ID=34,Updated=TO_TIMESTAMP('2008-01-23 12:03:3
 UPDATE AD_Field SET Name='Comment/Help', Description='Comment or Hint', Help='The Help field contains a hint, comment or help about the use of this item.' WHERE AD_Column_ID=54246 AND IsCentrallyMaintained='Y'
 ;
 
-insert into t_alter_column values('ad_rule','Help','VARCHAR(2000)',null,'NULL')
-;
-
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,54257,54347,0,53068,TO_TIMESTAMP('2008-01-23 12:04:09','YYYY-MM-DD HH24:MI:SS'),100,'Dynamic Java Language Script to calculate result',4000,'D','Use Java language constructs to define the result of the calculation','Y','Y','Y','N','N','N','N','N','Script',TO_TIMESTAMP('2008-01-23 12:04:09','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
