@@ -192,6 +192,31 @@
       <fileset dir="${build.dir}">
 	   <include name="**/apache/ecs/**"/>
       </fileset>
+      <!-- Installing Script Based in JSR 223 Scripting APIs -->
+      <zipfileset src="lib/script-api.jar" >
+  	  	<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- BeanShell -->		
+      <zipfileset src="lib/bsh-2.0b5.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset> 	
+      <zipfileset src="lib/bsh-engine.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- Groovy -->
+      <zipfileset src="lib/groovy-all-1.5.1.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset> 	
+      <zipfileset src="lib/groovy-engine.jar" >
+    	<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- Groovy -->
+      <zipfileset src="lib/jython.jar" >
+   		<patternset refid="manifest.exclude"/>
+      </zipfileset> 	
+      <zipfileset src="lib/jython-engine.jar" >
+      	<patternset refid="manifest.exclude"/>
+      </zipfileset>   		
       <!-- Payment Processors		-->
       <zipfileset src="lib/Verisign.jar" >
 		<patternset refid="manifest.exclude"/>
