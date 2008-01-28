@@ -1163,6 +1163,29 @@ public class GridField
 	}   //  setValue
 
 	/**
+	 *  Set Value to null.
+	 *  <p>
+	 *  Do update context - called from GridTab.setCurrentRow
+	 *  Send Bean PropertyChange if there is a change
+	 */
+	public void setValueAndUpdateContext ()
+	{
+	//	log.fine(ColumnName + "=" + newValue);
+		if (m_valueNoFire)      //  set the old value
+			m_oldValue = m_value;
+		m_value = null;
+		m_inserting = false;
+		m_error = false;        //  reset error
+
+		// [ 1881480 ] Navigation problem between tabs
+		Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (String) m_value);
+
+		//  Does not fire, if same value
+		m_propertyChangeListeners.firePropertyChange(PROPERTY, m_oldValue, m_value);
+	//	m_propertyChangeListeners.firePropertyChange(PROPERTY, s_oldValue, null);
+	}   //  setValue
+
+	/**
 	 *  Set Value.
 	 *  <p>
 	 *  Update context, if not text or RowID;

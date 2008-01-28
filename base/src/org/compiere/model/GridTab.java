@@ -2190,7 +2190,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 //				Object value = null;
 //				if (mField.isKey() || mField.isParent() || mField.getColumnName().equals(m_linkColumnName))
 //					value = mField.getDefault();
-				mField.setValue();
+				
+				// CarlosRuiz - globalqss [ 1881480 ] Navigation problem between tabs
+				// the implementation of linking with window context variables is very weak
+				// you must be careful when defining a column in a detail tab with a field
+				// with the same column name as some of the links of the tabs above
+				// this can cause bad behavior of linking
+				if (mField.getColumnName().equals(m_linkColumnName))
+					mField.setValue();
+				else
+					mField.setValueAndUpdateContext();
 			}
 		}
 		loadDependentInfo();
