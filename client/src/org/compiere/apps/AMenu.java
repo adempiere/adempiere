@@ -651,9 +651,9 @@ public final class AMenu extends CFrame
 		memoryBar.setToolTipText(msg);
 	//	progressBar.repaint();
 		
-		//
-		if (percent > 50)
-			System.gc();
+		// CarlosRuiz - globalqss - [ 1881285 ] Remove unnecessary calls to System.gc
+		// if (percent > 50)
+			// System.gc();
 
 		//	Requests
 		int requests = getRequests();
