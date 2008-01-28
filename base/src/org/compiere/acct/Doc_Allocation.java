@@ -191,7 +191,7 @@ public class Doc_Allocation extends Doc
 				payment = new MPayment (getCtx(), line.getC_Payment_ID(), getTrxName());
 			MInvoice invoice = null;
 			if (line.getC_Invoice_ID() != 0)
-				invoice = new MInvoice (getCtx(), line.getC_Invoice_ID(), null);
+				invoice = new MInvoice (getCtx(), line.getC_Invoice_ID(), getTrxName());
 			
 			//	No Invoice
 			if (invoice == null)
