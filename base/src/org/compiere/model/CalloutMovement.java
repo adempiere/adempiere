@@ -26,6 +26,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutMovement.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1879568 ] CalloutMouvement QtyAvailable issues
  */
 public class CalloutMovement extends CalloutEngine
 {
@@ -52,23 +55,7 @@ public class CalloutMovement extends CalloutEngine
 		else
 			mTab.setValue("M_AttributeSetInstance_ID", null);
 		 
-		// Begin Armen 2006/10/01
-		MProduct product = MProduct.get(ctx, M_Product_ID.intValue());
-		if (product.isStocked()) {
-			BigDecimal MovementQty = (BigDecimal) mTab.getValue("MovementQty");
-			int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
-			int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
-			BigDecimal available = MStorage.getQtyAvailable(M_Warehouse_ID,
-					M_Product_ID.intValue(), M_AttributeSetInstance_ID, null);
-			if (available == null)
-				available = Env.ZERO;
-			if (available.signum() == 0)
-				mTab.fireDataStatusEEvent("NoQtyAvailable", "0", false);
-			else if (available.compareTo(MovementQty) < 0)
-				mTab.fireDataStatusEEvent("InsufficientQtyAvailable", available.toString(), false);
-		}
-		// End Armen
-
+		checkQtyAvailable(ctx, mTab, WindowNo, M_Product_ID, null);
 		return "";
 	}   //  product
 	
@@ -90,29 +77,61 @@ public class CalloutMovement extends CalloutEngine
 		setCalloutActive(true);
 
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
-		// log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
+		checkQtyAvailable(ctx, mTab, WindowNo, M_Product_ID, (BigDecimal)value);
+		//
+		setCalloutActive(false);
+		return "";
+	} //  qty
+	
+	/**
+	 * Movement Line - Locator modified
+	 * 
+	 * @param ctx      Context
+	 * @param WindowNo current Window No
+	 * @param GridTab     Model Tab
+	 * @param GridField   Model Field
+	 * @param value    The new value
+	 * @return Error message or ""
+	 */
+	public String locator(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value) {
+		if (value == null)
+			return "";
+		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
+		checkQtyAvailable(ctx, mTab, WindowNo, M_Product_ID, null);
+		return "";
+	}
 
+	/**
+	 * Check available qty
+	 * 
+	 * @param ctx context
+	 * @param mTab Model Tab
+	 * @param WindowNo current Window No
+	 * @param M_Product_ID product ID
+	 * @param MovementQty movement qty (if null will be get from context "MovementQty")
+	 */
+	private void checkQtyAvailable(Properties ctx, GridTab mTab, int WindowNo, int M_Product_ID, BigDecimal MovementQty) {
+		// Begin Armen 2006/10/01
 		if (M_Product_ID != 0) {
 			MProduct product = MProduct.get(ctx, M_Product_ID);
 			if (product.isStocked()) {
-				BigDecimal MovementQty = (BigDecimal) value;
-				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
-				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx,
-						WindowNo, "M_AttributeSetInstance_ID");
-				BigDecimal available = MStorage.getQtyAvailable(M_Warehouse_ID,
-						M_Product_ID, M_AttributeSetInstance_ID, null);
+				if (MovementQty == null)
+					MovementQty = (BigDecimal) mTab.getValue("MovementQty");
+				int M_Locator_ID = Env.getContextAsInt(ctx, WindowNo, "M_Locator_ID");
+				// If no locator, don't check anything and assume is ok
+				if (M_Locator_ID <= 0)
+					return;
+				int M_Warehouse_ID = MLocator.get(ctx, M_Locator_ID).getM_Warehouse_ID();
+				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
+				BigDecimal available = MStorage.getQtyAvailable(M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID, null);
 				if (available == null)
 					available = Env.ZERO;
 				if (available.signum() == 0)
 					mTab.fireDataStatusEEvent("NoQtyAvailable", "0", false);
 				else if (available.compareTo(MovementQty) < 0)
-					mTab.fireDataStatusEEvent("InsufficientQtyAvailable",
-							available.toString(), false);
+					mTab.fireDataStatusEEvent("InsufficientQtyAvailable", available.toString(), false);
 			}
 		}
-		//
-		setCalloutActive(false);
-		return "";
-	} //  qty
-		
+		// End Armen
+	}
 }	//	CalloutMove
