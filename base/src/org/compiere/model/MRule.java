@@ -33,6 +33,15 @@ import org.compiere.util.*;
  */
 public class MRule extends X_AD_Rule
 {
+	//global or login context variable prefix
+	public final static String GLOBAL_CONTEXT_PREFIX = "G_";
+	//window context variable prefix
+	public final static String WINDOW_CONTEXT_PREFIX = "W_";
+	//method call arguments prefix
+	public final static String ARGUMENTS_PREFIX = "A_";
+	//process parameters prefix
+	public final static String PARAMETERS_PREFIX = "P_";
+	
 	/**
 	 * 	Get Rule from Cache
 	 *	@param ctx context
@@ -267,13 +276,18 @@ public class MRule extends X_AD_Rule
 		String k = m_windowNo + "|";
 		if (key.startsWith(k))
 		{
-			String retValue = "$" + key.substring(k.length());
-			retValue = Util.replace(retValue, "|", "$");
+			String retValue = WINDOW_CONTEXT_PREFIX + key.substring(k.length());
+			retValue = Util.replace(retValue, "|", "_");
 			return retValue;
 		}
 		else
 		{
-			String retValue = Util.replace(key, "#", "$$");
+			String retValue = null;
+			if (key.startsWith("#"))
+				retValue = GLOBAL_CONTEXT_PREFIX + key.substring(1);
+			else
+				retValue = key;
+			retValue = Util.replace(retValue, "#", "_");
 			return retValue;
 		}
 	}   //  convertKey

@@ -2466,16 +2466,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 				ScriptEngine engine = rule.getScriptEngine();
 
-				// Window context are    _
-				// Login context  are    __
+				// Window context are    W_
+				// Login context  are    G_
 				MRule.setContext(engine, m_vo.ctx, m_vo.WindowNo);
 				// now add the callout parameters windowNo, tab, field, value, oldValue to the engine 
-				// Parameter context are ___
-				engine.put("$$$WindowNo", m_vo.WindowNo);
-				engine.put("$$$Tab", this);
-				engine.put("$$$Field", field);
-				engine.put("$$$Value", value);
-				engine.put("$$$OldValue", oldValue);
+				// Method arguments context are A_
+				engine.put(MRule.ARGUMENTS_PREFIX + "WindowNo", m_vo.WindowNo);
+				engine.put(MRule.ARGUMENTS_PREFIX + "Tab", this);
+				engine.put(MRule.ARGUMENTS_PREFIX + "Field", field);
+				engine.put(MRule.ARGUMENTS_PREFIX + "Value", value);
+				engine.put(MRule.ARGUMENTS_PREFIX + "OldValue", oldValue);
+				engine.put(MRule.ARGUMENTS_PREFIX + "Ctx", m_vo.ctx);
 
 				try 
 				{
