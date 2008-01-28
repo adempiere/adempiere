@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -47,6 +47,9 @@ import org.compiere.util.*;
 public class VFileImport extends CPanel
 	implements FormPanel, ActionListener
 {
+	private static final int MAX_LOADED_LINES = 100;
+	private static final int MAX_SHOWN_LINES = 10;
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -124,7 +127,7 @@ public class VFileImport extends CPanel
 		bNext.setMargin(new Insets(2, 2, 2, 2));
 		bNext.setText(">");
 		bNext.addActionListener(this);
-		record.setText("-");
+		record.setText("------");
 		bPrevious.setToolTipText(Msg.getMsg(Env.getCtx(), "Previous"));
 		bPrevious.setMargin(new Insets(2, 2, 2, 2));
 		bPrevious.setText("<");
@@ -143,7 +146,7 @@ public class VFileImport extends CPanel
 		centerPanel.setLayout(centerLayout);
 		rawData.setFont(new java.awt.Font("Monospaced", 0, 10));
 		rawData.setColumns(80);
-		rawData.setRows(5);
+		rawData.setRows(MAX_SHOWN_LINES);
 		rawDataPane.getViewport().add(rawData, null);
 		centerPanel.add(rawDataPane, BorderLayout.CENTER);
 		centerPanel.add(previewPane, BorderLayout.SOUTH);
@@ -298,7 +301,7 @@ public class VFileImport extends CPanel
 			while ((s = in.readLine()) != null)
 			{
 				m_data.add(s);
-				if (m_data.size() < 100)
+				if (m_data.size() <= MAX_LOADED_LINES)
 				{
 					rawData.append(s);
 					rawData.append("\n");
@@ -364,7 +367,7 @@ public class VFileImport extends CPanel
 				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 		}
 		m_record = -1;
-		record.setText("-");
+		record.setText("------");
 		previewPanel.invalidate();
 		previewPanel.repaint();
 	}	//	cmd_format
