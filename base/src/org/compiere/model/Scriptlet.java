@@ -346,18 +346,7 @@ public class Scriptlet
 	 */
 	private String convertKey (String key)
 	{
-		String k = m_windowNo + "|";
-		if (key.startsWith(k))
-		{
-			String retValue = "$" + key.substring(k.length());
-			retValue = Util.replace(retValue, "|", "$");
-			return retValue;
-		}
-		else
-		{
-			String retValue = Util.replace(key, "#", "$$");
-			return retValue;
-		}
+		return MRule.convertKey(key, m_windowNo);
 	}   //  convertKey
 
 	/**

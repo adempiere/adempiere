@@ -271,7 +271,7 @@ public class MRule extends X_AD_Rule
 	 * @param m_windowNo 
 	 *  @return converted key
 	 */
-	private static String convertKey (String key, int m_windowNo)
+	public static String convertKey (String key, int m_windowNo)
 	{
 		String k = m_windowNo + "|";
 		if (key.startsWith(k))
