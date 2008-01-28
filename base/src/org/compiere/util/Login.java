@@ -229,17 +229,17 @@ public class Login
 		if (system == null)
 			throw new IllegalStateException("No System Info");
 		
+		if (app_pwd == null || app_pwd.length() == 0)
+		{
+			log.warning("No Apps Password");
+			return null;
+		}
 		if (system.isLDAP())
 		{
 			authenticated = system.isLDAP(app_user, app_pwd);
 			if (authenticated)
 				app_pwd = null;
-			//	if not authenticated, use AD_User as backup
-		}
-		else if (app_pwd == null || app_pwd.length() == 0)
-		{
-			log.warning("No Apps Password");
-			return null;
+			// if not authenticated, use AD_User as backup
 		}
 		
 		KeyNamePair[] retValue = null;
