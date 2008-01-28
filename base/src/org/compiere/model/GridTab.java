@@ -572,7 +572,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					m_parentNeedSave = true;
 					if (where.length() != 0)
 						where.append(" AND ");
-					where.append(lc).append(" is null ");
+					// where.append(lc).append(" is null ");
+					// as opened by this fix [ 1881480 ] Navigation problem between tabs
+					// it's safer to avoid retrieving details at all if there is no parent value
+					where.append (" 2=3");
 				}
 				else
 				{
