@@ -222,14 +222,15 @@ public final class InfoProduct extends Info implements ActionListener
         
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
-        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class)};
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "sum(QtyOnHand)", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "sum(QtyReserved)", Double.class)};
         /**	From Clause							*/
         String s_sqlFrom = " M_PRODUCT_STOCK_V ";
         /** Where Clause						*/
         String s_sqlWhere = "Value = ?";
         m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
+		m_sqlWarehouse += " Group By Warehouse, documentnote ";
 		warehouseTbl.setRowSelectionAllowed(true);
 		warehouseTbl.setMultiSelection(false);
 		warehouseTbl.addMouseListener(this);
