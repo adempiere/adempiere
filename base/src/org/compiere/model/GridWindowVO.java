@@ -150,17 +150,12 @@ public class GridWindowVO implements Serializable
 			return null;
 		}
 		// Ensure ASP exceptions
-		MClient client = MClient.get(ctx);
-		if (client.isUseASP()) 
-		{		
-			MRole role = MRole.getDefault(ctx, false);
-			if (role.getWindowAccess(AD_Window_ID) == null)
-				vo = null;
-		}
-		//	Not found
+		MRole role = MRole.getDefault(ctx, false);
+		if (role.getWindowAccess(vo.AD_Window_ID) == null)
+			vo = null;		//	Not found
 		if (vo == null)
 		{
-			CLogger.get().log(Level.SEVERE, "No Window - AD_Window_ID=" + AD_Window_ID
+			CLogger.get().log(Level.SEVERE, "No Window - AD_Window_ID=" + vo.AD_Window_ID
 				+ ", AD_Role_ID=" + AD_Role_ID + " - " + sql);
 			CLogger.get().saveError("AccessTableNoView", "(Not found)");
 			return null;
