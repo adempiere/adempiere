@@ -77,8 +77,12 @@ public class Scheduler extends AdempiereServer
 			log.log(Level.WARNING, process.toString(), e);
 			m_summary.append(e.toString());
 		}
-		if (m_trx != null)
-			m_trx.close();
+		finally 
+		{
+			if (m_trx != null)
+				m_trx.close();
+		}
+		
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);

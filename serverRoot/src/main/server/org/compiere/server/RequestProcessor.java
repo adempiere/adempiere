@@ -116,12 +116,14 @@ public class RequestProcessor extends AdempiereServer
 				}
 			}
 			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(pstmt);
 		}
 		m_summary.append("New Due #").append(count);
 		if (countEMails > 0)
@@ -169,12 +171,14 @@ public class RequestProcessor extends AdempiereServer
 				}
 			}
 			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(pstmt);
 		}
 		m_summary.append("New Overdue #").append(count);
 		if (countEMails > 0)
@@ -224,11 +228,14 @@ public class RequestProcessor extends AdempiereServer
 					count++;
 				}
 				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(pstmt);
 			}
 			m_summary.append("Alerts #").append(count);
 			if (countEMails > 0)
@@ -265,11 +272,14 @@ public class RequestProcessor extends AdempiereServer
 						count++;
 				}
 				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(pstmt);
 			}
 			m_summary.append("Escalated #").append(count).append(" - ");
 		}	//	Esacalate
@@ -316,29 +326,20 @@ public class RequestProcessor extends AdempiereServer
 					}
 				}
 				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
+			finally
+			{
+				DB.close(pstmt);
+			}
 			m_summary.append("Inactivity #").append(count);
 			if (countEMails > 0)
 				m_summary.append(" (").append(countEMails).append(" EMail)");
 			m_summary.append (" - ");
-		}	//	Inactivity
-		
-		//	
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		}	//	Inactivity		
 	}	//  processRequests
 
 	/**
@@ -442,22 +443,14 @@ public class RequestProcessor extends AdempiereServer
 					count++;
 			}
 			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(pstmt);
 		}
 		
 		m_summary.append("Status Timeout #").append(count)
@@ -506,23 +499,16 @@ public class RequestProcessor extends AdempiereServer
 					failure++;
 			}
 			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(pstmt);
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		m_summary.append("Auto Change Request #").append(count);
 		if (failure > 0)
 			m_summary.append("(fail=").append(failure).append(")");
@@ -578,20 +564,14 @@ public class RequestProcessor extends AdempiereServer
 					notFound++;
 			}
 			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
+			DB.close(pstmt);
 		}
 		pstmt = null;
 		//

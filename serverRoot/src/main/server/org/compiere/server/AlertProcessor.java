@@ -270,20 +270,17 @@ public class AlertProcessor extends AdempiereServer
 			pstmt.close ();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			error = e;
+			if (e instanceof Exception)
+				error = (Exception)e;
+			else
+				error = new Exception(e.getMessage(), e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(pstmt);
 		}
 		
 		//	Error occured

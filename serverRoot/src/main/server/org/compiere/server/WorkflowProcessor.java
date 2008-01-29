@@ -104,13 +104,15 @@ public class WorkflowProcessor extends AdempiereServer
 				// saves and calls MWFProcess.checkActivities();
 				count++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+			rs.close ();			
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "wakeup", e);
+		}
+		finally
+		{
+			DB.close(pstmt);
 		}
 		m_summary.append("Wakeup #").append(count).append (" - ");
 	}	//	wakeup
@@ -149,26 +151,17 @@ public class WorkflowProcessor extends AdempiereServer
 				count++;
 			}
 			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		m_summary.append("DynPriority #").append(count).append (" - ");
-		    
-		//	Clean-up
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(pstmt);
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
+		m_summary.append("DynPriority #").append(count).append (" - ");		    
 	}	//	setPriority
 	
 	
@@ -194,9 +187,10 @@ public class WorkflowProcessor extends AdempiereServer
 					+ " AND (wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?))";
 			int count = 0;
 			int countEMails = 0;
+			PreparedStatement pstmt = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt (1, m_model.getAlertOverPriority());
 				pstmt.setInt (2, m_model.getAD_WorkflowProcessor_ID());
 				ResultSet rs = pstmt.executeQuery();
@@ -216,6 +210,10 @@ public class WorkflowProcessor extends AdempiereServer
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, "(Priority) - " + sql, e);
+			}
+			finally
+			{
+				DB.close(pstmt);
 			}
 			m_summary.append("OverPriority #").append(count);
 			if (countEMails > 0)
@@ -258,13 +256,16 @@ public class WorkflowProcessor extends AdempiereServer
 				count++;
 			}
 			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "(EndWaitTime) - " + sql, e);
 		}
+		finally
+		{
+			DB.close(pstmt);
+		}
+		
 		m_summary.append("EndWaitTime #").append(count);
 		if (countEMails > 0)
 			m_summary.append(" (").append(countEMails).append(" EMail)");
@@ -311,24 +312,15 @@ public class WorkflowProcessor extends AdempiereServer
 			{
 				log.log(Level.SEVERE, "(Inactivity): " + sql, e);
 			}
+			finally
+			{
+				DB.close(pstmt);
+			}
 			m_summary.append("Inactivity #").append(count);
 			if (countEMails > 0)
 				m_summary.append(" (").append(countEMails).append(" EMail)");
 			m_summary.append (" - ");
-		}	//	Inactivity
-
-		
-		//	Clean-up
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		}	//	Inactivity		
 	}	//	sendAlerts
 	
 	/**

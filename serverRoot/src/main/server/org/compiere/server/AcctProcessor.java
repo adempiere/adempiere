@@ -129,23 +129,16 @@ public class AcctProcessor extends AdempiereServer
 						countError++;
 				}
 				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql.toString(), e);
 			}
-			if (pstmt != null)
+			finally
 			{
-				try
-				{
-					pstmt.close();
-				}
-				catch (Exception e)
-				{
-				}
+				DB.close(pstmt);
 			}
+			
 			//
 			if (count > 0)
 			{
