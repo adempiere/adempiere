@@ -287,6 +287,7 @@ public class WFActivity extends CPanel
 			//+ ") ORDER BY a.Priority DESC, Created";
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -294,25 +295,19 @@ public class WFActivity extends CPanel
 			pstmt.setInt (2, AD_User_ID);
 			pstmt.setInt (3, AD_User_ID);
 			pstmt.setInt (4, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ()) {
 				count = rs.getInt(1);
 			}
-			rs.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		return count;
@@ -344,6 +339,7 @@ public class WFActivity extends CPanel
 			+ ") ORDER BY a.Priority DESC, Created";
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -351,7 +347,7 @@ public class WFActivity extends CPanel
 			pstmt.setInt (2, AD_User_ID);
 			pstmt.setInt (3, AD_User_ID);
 			pstmt.setInt (4, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				list.add (new MWFActivity(Env.getCtx(), rs, null));
@@ -361,23 +357,15 @@ public class WFActivity extends CPanel
 					break;
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		m_activities = new MWFActivity[list.size ()];
 		list.toArray (m_activities);
