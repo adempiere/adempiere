@@ -1,3 +1,6 @@
+-- BF [ 1846279 ] No Translation for "name" in c_order_linetax_vt
+-- View: "c_order_linetax_vt"
+
 CREATE OR REPLACE VIEW C_ORDER_LINETAX_VT
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, AD_LANGUAGE, C_ORDER_ID, C_ORDERLINE_ID, 
@@ -91,6 +94,3 @@ SELECT ot.AD_Client_ID, ot.AD_Org_ID, ot.IsActive, ot.Created, ot.CreatedBy, ot.
     null,null,null,null,null
 FROM C_OrderTax ot
 	INNER JOIN C_Tax_Trl t ON (ot.C_Tax_ID=t.C_Tax_ID);
-
-
-
