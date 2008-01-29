@@ -418,6 +418,31 @@ public class Doc_Allocation extends Doc
 			}
 			
 		}	//	for all lines
+
+		// FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual
+		if ( ( ! as.isPostIfClearingEqual() ) && p_lines.length > 0) {
+			boolean allEquals = true;
+			// more than one line (i.e. crossing one payment+ with a payment-, or an invoice against a credit memo)
+			// verify if the sum of all facts is zero net
+			FactLine[] factlines = fact.getLines();
+			BigDecimal netBalance = Env.ZERO;
+			FactLine prevFactLine = null;
+			for (FactLine factLine : factlines) {
+				netBalance = netBalance.add(factLine.getAmtSourceDr()).subtract(factLine.getAmtSourceCr());
+				if (prevFactLine != null) {
+					if (! equalFactLineIDs(prevFactLine, factLine)) {
+						allEquals = false;
+						break;
+					}
+				}
+				prevFactLine = factLine;
+			}
+			if (netBalance.compareTo(Env.ZERO) == 0 && allEquals) {
+				// delete the postings
+				for (FactLine factline : factlines)
+					fact.remove(factline);
+			}
+		}
 		
 		//	reset line info
 		setC_BPartner_ID(0);
@@ -425,6 +450,44 @@ public class Doc_Allocation extends Doc
 		m_facts.add(fact);
 		return m_facts;
 	}   //  createFact
+
+	/**
+	 * Compare the dimension ID's from two factlines 
+	 * @param allEquals
+	 * @param prevFactLine
+	 * @param factLine
+	 * @return boolean indicating if both dimension ID's are equal
+	 */
+	private boolean equalFactLineIDs(FactLine prevFactLine, FactLine factLine) {
+		return (factLine.getA_Asset_ID() == prevFactLine.getA_Asset_ID()
+				&& factLine.getAccount_ID() == prevFactLine.getAccount_ID()
+				&& factLine.getAD_Client_ID() == prevFactLine.getAD_Client_ID()
+				&& factLine.getAD_Org_ID() == prevFactLine.getAD_Org_ID()
+				&& factLine.getAD_OrgTrx_ID() == prevFactLine.getAD_OrgTrx_ID()
+				&& factLine.getC_AcctSchema_ID() == prevFactLine.getC_AcctSchema_ID()
+				&& factLine.getC_Activity_ID() == prevFactLine.getC_Activity_ID()
+				&& factLine.getC_BPartner_ID() == prevFactLine.getC_BPartner_ID()
+				&& factLine.getC_Campaign_ID() == prevFactLine.getC_Campaign_ID()
+				&& factLine.getC_Currency_ID() == prevFactLine.getC_Currency_ID()
+				&& factLine.getC_LocFrom_ID() == prevFactLine.getC_LocFrom_ID()
+				&& factLine.getC_LocTo_ID() == prevFactLine.getC_LocTo_ID()
+				&& factLine.getC_Period_ID() == prevFactLine.getC_Period_ID()
+				&& factLine.getC_Project_ID() == prevFactLine.getC_Project_ID()
+				&& factLine.getC_ProjectPhase_ID() == prevFactLine.getC_ProjectPhase_ID() 
+				&& factLine.getC_ProjectTask_ID() == prevFactLine.getC_ProjectTask_ID() 
+				&& factLine.getC_SalesRegion_ID() == prevFactLine.getC_SalesRegion_ID()
+				&& factLine.getC_SubAcct_ID() == prevFactLine.getC_SubAcct_ID()
+				&& factLine.getC_Tax_ID() == prevFactLine.getC_Tax_ID()
+				&& factLine.getC_UOM_ID() == prevFactLine.getC_UOM_ID()
+				&& factLine.getGL_Budget_ID() == prevFactLine.getGL_Budget_ID()
+				&& factLine.getGL_Category_ID() == prevFactLine.getGL_Category_ID()
+				&& factLine.getM_Locator_ID() == prevFactLine.getM_Locator_ID()
+				&& factLine.getM_Product_ID() == prevFactLine.getM_Product_ID()
+				&& factLine.getUserElement1_ID() == prevFactLine.getUserElement1_ID()
+				&& factLine.getUserElement2_ID() == prevFactLine.getUserElement2_ID()
+				&& factLine.getUser1_ID() == prevFactLine.getUser1_ID() 
+				&& factLine.getUser2_ID() == prevFactLine.getUser2_ID());
+	}
 
 	/**
 	 * 	Create Cash Based Acct
