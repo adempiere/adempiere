@@ -74,8 +74,10 @@ public class WebField
 		m_recordID = AD_Record_ID;
 		m_fieldLength = fieldLength;
 		m_displayLength = displayLength;
-		if (m_displayLength == 0)
-			m_displayLength = 20;	//	default length	
+		if (m_displayLength <= 22)
+			m_displayLength = 22;	//	default length
+		else
+			m_displayLength = 44;	//	default length
 		m_longField = longField;
 		//
 		m_readOnly = readOnly;
