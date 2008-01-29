@@ -2199,10 +2199,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				// you must be careful when defining a column in a detail tab with a field
 				// with the same column name as some of the links of the tabs above
 				// this can cause bad behavior of linking
-				if (mField.getColumnName().equals(m_linkColumnName))
-					mField.setValue();
-				else
+				if (mField.isKey())
 					mField.setValueAndUpdateContext();
+				else
+					mField.setValue();
 			}
 		}
 		loadDependentInfo();
