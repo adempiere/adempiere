@@ -150,9 +150,13 @@ public class GridWindowVO implements Serializable
 			return null;
 		}
 		// Ensure ASP exceptions
-		MRole role = MRole.getDefault(ctx, false);
-		if (role.getWindowAccess(AD_Window_ID) == null)
-			vo = null;
+		MClient client = MClient.get(ctx);
+		if (client.isUseASP()) 
+		{		
+			MRole role = MRole.getDefault(ctx, false);
+			if (role.getWindowAccess(AD_Window_ID) == null)
+				vo = null;
+		}
 		//	Not found
 		if (vo == null)
 		{
