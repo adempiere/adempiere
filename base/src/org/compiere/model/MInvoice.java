@@ -1736,7 +1736,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				&& line.getM_Product_ID() != 0
 				&& !isReversal())
 			{
+				MInOutLine receiptLine = new MInOutLine (getCtx(),line.getM_InOutLine_ID(), get_TrxName());
 				BigDecimal matchQty = line.getQtyInvoiced();
+
+				if (receiptLine.getMovementQty().compareTo(matchQty) < 0)
+					matchQty = receiptLine.getMovementQty();
+					
 				MMatchInv inv = new MMatchInv(line, getDateInvoiced(), matchQty);
 				if (!inv.save(get_TrxName()))
 				{

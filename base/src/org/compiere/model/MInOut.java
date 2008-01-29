@@ -1401,6 +1401,9 @@ public class MInOut extends X_M_InOut implements DocAction
 				MInvoiceLine iLine = MInvoiceLine.getOfInOutLine (sLine);
 				if (iLine != null && iLine.getM_Product_ID() != 0)
 				{
+					if (matchQty.compareTo(iLine.getQtyInvoiced())>0)
+						matchQty = iLine.getQtyInvoiced();
+
 					MMatchInv[] matches = MMatchInv.get(getCtx(), 
 						sLine.getM_InOutLine_ID(), iLine.getC_InvoiceLine_ID(), get_TrxName());
 					if (matches == null || matches.length == 0)
