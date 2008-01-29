@@ -77,6 +77,7 @@ public class WebSessionCtx implements Serializable
 			wsc = new WebSessionCtx (request);
 			session.setAttribute(NAME, wsc);
 		}
+		wsc.setLanguage(request);
 		return wsc;
 	}	//	get
 	
