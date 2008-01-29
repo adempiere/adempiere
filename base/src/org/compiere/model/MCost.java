@@ -645,6 +645,7 @@ public class MCost extends X_M_Cost
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
+			success = false;
 		}
 		try
 		{
