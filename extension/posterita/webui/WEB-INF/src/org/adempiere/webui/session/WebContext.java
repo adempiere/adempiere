@@ -43,7 +43,7 @@ public final class WebContext extends Properties
     private static InheritableThreadLocal context = new InheritableThreadLocal() {
         protected WebContext initialValue()
         {
-            return null;
+            return new WebContext();
         }
     };
     
