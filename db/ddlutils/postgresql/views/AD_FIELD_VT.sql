@@ -46,7 +46,8 @@ SELECT trl.AD_LANGUAGE,
 	fgt.NAME                                       AS fieldgroup,
 	vr.code                                        AS validationcode,
 	f.Included_Tab_ID,
-	fg.FieldGroupType 
+	fg.FieldGroupType,
+	fg.IsCollapsedByDefault						   AS iscollapsedbydefault 
 FROM (((((((AD_FIELD f 
 		JOIN AD_FIELD_TRL trl 
 		ON ((f.ad_field_id = trl.ad_field_id))) 

@@ -45,7 +45,8 @@ SELECT t.ad_window_id,
 	fg.NAME                                        AS fieldgroup,
 	vr.code                                        AS validationcode,
 	f.Included_Tab_ID,
-	fg.FieldGroupType 
+	fg.FieldGroupType,
+	fg.IsCollapsedByDefault						   AS iscollapsedbydefault 
 FROM ((((((AD_FIELD f 
 		JOIN AD_TAB t 
 		ON ((f.ad_tab_id = t.ad_tab_id))) 

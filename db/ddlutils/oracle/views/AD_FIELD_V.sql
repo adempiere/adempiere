@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW AD_FIELD_V
  CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, 
  TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, 
- INCLUDED_TAB_ID, FIELDGROUPTYPE)
+ INCLUDED_TAB_ID, FIELDGROUPTYPE, IsCollapsedByDefault)
 AS 
 SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
  f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
@@ -25,7 +25,7 @@ SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_
     c.IsSelectionColumn,
  tbl.TableName, c.ValueMin, c.ValueMax,
  fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
- f.Included_Tab_ID, fg.FieldGroupType
+ f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault
 FROM AD_FIELD f 
   INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
   LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
