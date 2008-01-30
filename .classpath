@@ -82,5 +82,8 @@
 	<classpathentry kind="lib" path="tools/lib/jython.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jython-engine.jar"/>
 	<classpathentry kind="lib" path="tools/lib/script-api.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/poi-2.0-final-20040126.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-0.9.21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
