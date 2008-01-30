@@ -30,6 +30,7 @@ import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.process.*;
+import org.compiere.sqlj.Invoice;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 
@@ -432,6 +433,8 @@ public class VPayment extends CDialog
 			ADialog.error(m_WindowNo, this, "PaymentZero");
 			return false;
 		}
+		
+
 		bAmountField.setValue(m_Amount);
 		sAmountField.setValue(m_Amount);
 		kAmountField.setValue(m_Amount);
@@ -792,6 +795,18 @@ public class VPayment extends CDialog
 					s = X_C_Order.PAYMENTRULE_DirectDeposit.toLowerCase();
 				s += "Panel";	
 				centerLayout.show(centerPanel, s);	//	switch to panel
+				//Bojana&Daniel
+				//If Invoice is Vendor invoice then Cash has to be created by negative amount
+				int C_Invoice_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Invoice_ID");
+				MInvoice invoice_tmp = new MInvoice (Env.getCtx(), C_Invoice_ID, null);
+				if (! invoice_tmp.isSOTrx())
+				{
+					bAmountField.setValue(m_Amount.negate());
+				}else {
+					bAmountField.setValue(m_Amount);
+				}
+				invoice_tmp = null;
+				
 			}
 		}
 
@@ -978,6 +993,7 @@ public class VPayment extends CDialog
 		
 		BigDecimal payAmount = m_Amount;
 		
+
 		if (negateAmt)
 			payAmount = m_Amount.negate();
 		// Info
