@@ -93,6 +93,19 @@ public interface I_AD_FieldGroup
 	/** Get Field Group Type	  */
 	public String getFieldGroupType();
 
+    /** Column name IsCollapsedByDefault */
+    public static final String COLUMNNAME_IsCollapsedByDefault = "IsCollapsedByDefault";
+
+	/** Set Collapsed By Default.
+	  * Flag to set the initial state of collapsible field group.
+	  */
+	public void setIsCollapsedByDefault (boolean IsCollapsedByDefault);
+
+	/** Get Collapsed By Default.
+	  * Flag to set the initial state of collapsible field group.
+	  */
+	public boolean isCollapsedByDefault();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

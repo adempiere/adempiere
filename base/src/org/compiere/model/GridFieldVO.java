@@ -160,6 +160,9 @@ public class GridFieldVO implements Serializable
 				//Feature Request FR [ 1757088 ]
 				else if (columnName.equalsIgnoreCase("Included_Tab_ID"))
 					vo.Included_Tab_ID = rs.getInt(i);
+				// Collapse Default State
+				else if (columnName.equalsIgnoreCase("IsCollapsedByDefault"))
+					vo.IsCollapsedByDefault = "Y".equals(rs.getString(i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -483,6 +486,8 @@ public class GridFieldVO implements Serializable
 	//*  Feature Request FR [ 1757088 ]
 	public int          Included_Tab_ID = 0;
 
+	/** Collapse By Default * */
+	public boolean IsCollapsedByDefault = false;
 	
 	/**
 	 *  Set Context including contained elements

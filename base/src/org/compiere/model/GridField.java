@@ -1614,4 +1614,20 @@ public class GridField
 	{	 
 	 return m_vo.Included_Tab_ID;
 	}
+	
+	/**
+	 * Set the default state of collapse field group type
+	 * @param flag
+	 */
+	public void setIsCollapsedByDefault(boolean flag) {
+		m_vo.IsCollapsedByDefault = flag;
+	}
+
+	/**
+	 * Get the default state of collapse field group type
+	 * @param collapseDefaultState
+	 */
+	public boolean getIsCollapsedByDefault() {
+		return m_vo.IsCollapsedByDefault;
+	}
 }   //  MField

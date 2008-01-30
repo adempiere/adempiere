@@ -149,6 +149,30 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 		return (String)get_Value(COLUMNNAME_FieldGroupType);
 	}
 
+	/** Set Collapsed By Default.
+		@param IsCollapsedByDefault 
+		Flag to set the initial state of collapsible field group.
+	  */
+	public void setIsCollapsedByDefault (boolean IsCollapsedByDefault)
+	{
+		set_Value (COLUMNNAME_IsCollapsedByDefault, Boolean.valueOf(IsCollapsedByDefault));
+	}
+
+	/** Get Collapsed By Default.
+		@return Flag to set the initial state of collapsible field group.
+	  */
+	public boolean isCollapsedByDefault () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollapsedByDefault);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
