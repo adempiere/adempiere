@@ -45,31 +45,24 @@ public class MUserQuery extends X_AD_UserQuery
 		int AD_Client_ID = Env.getAD_Client_ID (ctx);
 		ArrayList<MUserQuery> list = new ArrayList<MUserQuery>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, AD_Client_ID);
 			pstmt.setInt (2, AD_Tab_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next ())
 				list.add(new MUserQuery (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MUserQuery[] retValue = new MUserQuery[list.size()];
 		list.toArray(retValue);
@@ -95,32 +88,25 @@ public class MUserQuery extends X_AD_UserQuery
 			name = "%";
 		MUserQuery retValue = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, AD_Client_ID);
 			pstmt.setInt (2, AD_Tab_ID);
 			pstmt.setString (3, name.toUpperCase());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MUserQuery (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	get
