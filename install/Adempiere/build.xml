@@ -33,6 +33,7 @@
 		<!-- create the time stamp and environment -->
 		<tstamp />
 		<available file="${envFile}" property="envFileExists" />
+		<available file="lib/AdempiereOriginal.jar" type="file" property="adempiereOriginal.exists"/>
 		<fail message="**** RUN_setup was not successful - please re-run ****" unless="envFileExists" />
 		<property file="${envFile}" />
 		<filter filtersfile="${envFile}" />
@@ -118,8 +119,11 @@
 
 	</target>
 
+	<target name="backupAdempiereOriginal" unless="adempiereOriginal.exists">
+		<copy file="lib/Adempiere.jar" tofile="lib/AdempiereOriginal.jar" overwrite="yes" />
+	</target>
 	<!-- rebuild Adempiere.jar to include possible customization and patches -->
-	<target name="setupALib" depends="setupInit">
+	<target name="setupALib" depends="setupInit, backupAdempiereOriginal">
 		<jar jarfile="lib/Adempiere1.jar" index="yes" duplicate="preserve">
 			<!-- pack patches.jar and customization.jar into Adempiere.jar -->
 			<zipfileset src="lib/customization.jar" >
@@ -136,7 +140,7 @@
 			<zipgroupfileset dir="packages" includes="**/lib/*.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipgroupfileset>
-			<zipfileset src="lib/Adempiere.jar" >
+			<zipfileset src="lib/AdempiereOriginal.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<indexjars>
