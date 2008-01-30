@@ -86,7 +86,7 @@ public class StatusBar extends CPanel
 		statusDB.addMouseListener(new StatusBar_mouseAdapter(this));
 		this.setLayout(mainLayout);
 		infoLine.setFont(AdempierePLAF.getFont_Label());
-		infoLine.setBorder(BorderFactory.createRaisedBevelBorder());
+		infoLine.setBorder(BorderFactory.createLineBorder(AdempierePLAF.getSecondary2()));
 		infoLine.setHorizontalAlignment(SwingConstants.CENTER);
 		infoLine.setHorizontalTextPosition(SwingConstants.CENTER);
 		infoLine.setText("info");

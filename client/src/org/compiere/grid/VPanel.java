@@ -211,6 +211,7 @@ public final class VPanel extends CTabbedPane
 			m_gbc.weightx = 1;		
 			m_gbc.ipadx = 0;					  			  
 			m_main.add(m_tab,m_gbc);
+			m_tab.setName("IncludedTab#"+AD_Tab_ID);
 			
 			if (includedTabList.containsKey(AD_Tab_ID)) 
 			{
@@ -233,8 +234,15 @@ public final class VPanel extends CTabbedPane
 			fieldGroupType = m_oldFieldGroupType;
 		}
 		
-		if (addGroup(fieldGroup, fieldGroupType)) //	sets top														
-			sameLine = false;		
+		if (addGroup(fieldGroup, fieldGroupType)) //	sets top			
+		{
+			if (X_AD_FieldGroup.FIELDGROUPTYPE_Collapse.equals(fieldGroupType))
+			{
+				CollapsiblePanel panel = (CollapsiblePanel) m_tablist.get(fieldGroup);
+				panel.getCollapsiblePane().setCollapsed(mField.getIsCollapsedByDefault());
+			}
+			sameLine = false;
+		}
 		else
 		{
 			fieldGroup = m_oldFieldGroup;
@@ -402,7 +410,7 @@ public final class VPanel extends CTabbedPane
 			setupCollapsiblePaneLayout(m_tab);
 			CompoundBorder border = (CompoundBorder)m_tab.getBorder();
 			m_tab.setBorder(new CompoundBorder(border.getOutsideBorder(), BorderFactory.createEmptyBorder(0, 0, 2, 0)));
-			m_tab.setName(fieldGroup);
+			collapsibleSection.setName(fieldGroup);
 			m_gbc.anchor = GridBagConstraints.NORTHWEST;
 			//m_gbc.gridy = 0;			//	line
 			m_gbc.gridx = 0;

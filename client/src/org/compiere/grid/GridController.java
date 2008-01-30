@@ -28,6 +28,7 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 
 import org.adempiere.plaf.AdempiereLookAndFeel;
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.grid.tree.*;
@@ -311,6 +312,10 @@ public class GridController extends CPanel
 		//FR [ 1757088 ]
 		vPanel = new VPanel(mTab.getName(), m_WindowNo);
 		vPanel.putClientProperty(AdempiereLookAndFeel.HIDE_IF_ONE_TAB, Boolean.TRUE);
+		if (this.isDetailGrid())
+		{
+			vPanel.setBorder(BorderFactory.createLineBorder(AdempierePLAF.getPrimary2()));
+		}
 		vPane.getViewport().add(xPanel, null);
 		xPanel.add(vPanel, BorderLayout.CENTER);
 
@@ -463,6 +468,8 @@ public class GridController extends CPanel
 	//FR [ 1757088 ]
 	public void setDetailGrid(boolean value){
 		detailGrid = value;
+		if (detailGrid && vPanel != null)
+			vPanel.setBorder(BorderFactory.createLineBorder(AdempierePLAF.getPrimary2()));
 	}
 	
 	public boolean isDetailGrid(){
@@ -907,13 +914,15 @@ public class GridController extends CPanel
 		boolean noData = m_mTab.getRowCount() == 0;
 		log.config(m_mTab.toString() + " - Rows=" + m_mTab.getRowCount());
 		//  All Components in vPanel (Single Row)
+		
+		Set hiddens = new HashSet<String>();
 		Component[] comps = vPanel.getComponentsRecursive();
 		for (int i = 0; i < comps.length; i++)
 		{
 			Component comp = comps[i];
 			String columnName = comp.getName();
 			
-			if (columnName != null)
+			if (columnName != null && columnName.length() > 0)
 			{
 				GridField mField = m_mTab.getField(columnName);
 				if (mField != null)
@@ -952,12 +961,63 @@ public class GridController extends CPanel
 							}
 						}
 					}
-					else if (comp.isVisible())
-						comp.setVisible(false);
+					else 
+					{ 
+						if (comp.isVisible())
+							comp.setVisible(false);
+						hiddens.add(columnName);
+					}
 				}
 			}
 		}   //  all components
-		log.config(m_mTab.toString() + " - fini - " + (col<=0 ? "complete" : "seletive"));
+
+		// hide empty field group based on the environment
+		Map<String, CollapsiblePanel> hiddensPanel = new HashMap<String, CollapsiblePanel>();
+		Set<CollapsiblePanel> visiblePanel = new HashSet<CollapsiblePanel>();
+		for (int i = 0; i < comps.length; i++) {
+			Component comp = comps[i];
+			
+			if (comp instanceof CollapsiblePanel) 
+			{
+				if (comp.getName() != null && !comp.getName().startsWith("IncludedTab#"))
+					hiddensPanel.put(comp.getName(), (CollapsiblePanel)comp);
+			}
+			else
+			{
+				String columnName = comp.getName();
+				if (columnName != null && columnName.length() > 0) {
+					GridField mField = m_mTab.getField(columnName);
+					if (mField != null) 
+					{
+						String fieldGroup = mField.getFieldGroup();
+						if (fieldGroup != null && fieldGroup.length() > 0)
+						{
+							if (hiddensPanel.containsKey(fieldGroup) && !hiddens.contains(columnName))
+							{
+								visiblePanel.add((CollapsiblePanel)hiddensPanel.remove(fieldGroup));
+							}
+						}								
+					}
+				}
+			}
+		}
+		
+		for (CollapsiblePanel panel : hiddensPanel.values()) 
+		{
+			if (panel.isVisible())
+				panel.setVisible(false);
+		}
+		
+		for (CollapsiblePanel panel : visiblePanel)
+		{
+			if (!panel.isVisible())
+				panel.setVisible(true);
+		}
+		
+		//
+
+		log.config(m_mTab.toString() + " - fini - "
+				+ (col <= 0 ? "complete" : "seletive"));
 	}   //  dynamicDisplay
 
 	/**
