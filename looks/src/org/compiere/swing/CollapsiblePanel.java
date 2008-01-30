@@ -78,7 +78,6 @@ public class CollapsiblePanel extends JPanel {
 
 		link = new JXHyperlink(toggleAction);
 		link.setText(title);
-		link.setFont(link.getFont().deriveFont(Font.BOLD));
 		link.setOpaque(true);
 		link.setBackground(getTitleBackgroundColor());
 		link.setFocusPainted(false);
