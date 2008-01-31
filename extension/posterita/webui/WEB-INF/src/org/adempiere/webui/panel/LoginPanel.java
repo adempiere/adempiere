@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.panel;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.adempiere.webui.component.Grid;
@@ -27,12 +28,18 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Login;
+import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 
 /**
  *
@@ -49,8 +56,10 @@ public class LoginPanel extends Window implements EventListener
     private Properties ctx;
     private Label lblUserId;
     private Label lblPassword;
+    private Label lblLanguage;
     private Textbox txtUserId;
     private Textbox txtPassword;
+    private Listbox lstLanguage;
 /*    private Button btnOk;
     private Button btnCancel;*/
     private LoginWindow wndLogin;
@@ -73,6 +82,8 @@ public class LoginPanel extends Window implements EventListener
         rowUser.setId("rowUser");
         Row rowPassword = new Row();
         rowPassword.setId("rowPassword");
+        Row rowLanguage = new Row();
+        rowLanguage.setId("rowLanguage");
 
         rowUser.appendChild(lblUserId);
         rowUser.appendChild(this.txtUserId);
@@ -80,6 +91,8 @@ public class LoginPanel extends Window implements EventListener
         rowPassword.appendChild(lblPassword);
         rowPassword.appendChild(txtPassword);
 
+        rowLanguage.appendChild(lblLanguage);
+        rowLanguage.appendChild(lstLanguage);
 
         Row rowButtons = new Row();
         //rowButtons.setAlign("right");
@@ -94,6 +107,7 @@ public class LoginPanel extends Window implements EventListener
 
         rows.appendChild(rowUser);
         rows.appendChild(rowPassword);
+        rows.appendChild(rowLanguage);
         rows.appendChild(rowButtons);
         grid.appendChild(rows);
         this.appendChild(grid);
@@ -109,6 +123,10 @@ public class LoginPanel extends Window implements EventListener
         lblPassword.setId("lblPassword");
         lblPassword.setValue("Password: ");
 
+        lblLanguage = new Label();
+        lblLanguage.setId("lblLanguage");
+        lblLanguage.setValue("Language: ");
+
         txtUserId = new Textbox();
         txtUserId.setId("txtUserId");
         txtUserId.setConstraint("no empty");
@@ -121,6 +139,21 @@ public class LoginPanel extends Window implements EventListener
         txtPassword.setType("password");
         txtPassword.setCols(25);
         txtPassword.setMaxlength(40);
+
+        lstLanguage = new Listbox();
+        lstLanguage.setId("lstLanguage");
+        lstLanguage.setRows(1);
+        lstLanguage.setMold("select");
+        lstLanguage.addEventListener(Events.ON_SELECT, this);
+        lstLanguage.setWidth("180px");
+        
+        // Update Language List
+        lstLanguage.getItems().clear();
+        String[] availableLanguages = Language.getNames();
+        for (String langName : availableLanguages) {
+    		Language language = Language.getLanguage(langName);
+			lstLanguage.appendItem(langName, language.getAD_Language());
+		}
 
 /*        btnOk = new Button();
         btnOk.setName("btnOk");
@@ -140,6 +173,15 @@ public class LoginPanel extends Window implements EventListener
         if (event.getName().equals(WConfirmPanel.A_OK))
         {
             validateLogin();
+        }
+        if (event.getName().equals("onSelect"))
+        {
+            if(eventComp.getId().equals(lstLanguage.getId())) {
+            	String langName = (String) lstLanguage.getSelectedItem().getValue();
+            	Env.setContext(ctx, Env.LANGUAGE, langName);
+        		Language language = Language.getLanguage(langName);
+            	Env.verifyLanguage(ctx, language);
+            }
         }
     }
     /**

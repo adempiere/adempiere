@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.zkoss.zk.ui.event.ClientInfoEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -94,8 +95,13 @@ public class AdempiereWebUI extends Window implements EventListener
         Properties ctx = Env.getCtx();
         String langLogin = Env.getContext(ctx, Env.LANGUAGE);
         if (langLogin == null || langLogin.length() <= 0) {
+        	langLogin = langSession;
         	Env.setContext(ctx, Env.LANGUAGE, langSession);
         }
+        
+        // Validate language
+		Language language = Language.getLanguage(langLogin);
+    	Env.verifyLanguage(ctx, language);
         
     }
 
