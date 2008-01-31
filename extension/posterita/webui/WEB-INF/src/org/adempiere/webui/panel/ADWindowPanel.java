@@ -303,10 +303,13 @@ public class ADWindowPanel extends Vbox implements ToolbarListener,
             FindWindow find = new FindWindow(curWindowNo,
                     mTab.getName(), mTab.getAD_Table_ID(), mTab.getTableName(),
                     where.toString(), findFields, 10); // no query below 10
-            find.setVisible(true);
-            AEnv.showWindow(find);
-            query = find.getQuery();  
-            find = null;
+            if (find.getTitle() != null && find.getTitle().length() > 0) {
+            	// Title is not set when the number of rows is below the minRecords parameter (10)
+                find.setVisible(true);
+                AEnv.showWindow(find);
+                query = find.getQuery();  
+                find = null;
+            }
         }
         return query;
     } // initialQuery
