@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,19 +16,33 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.GridTab;
+import org.compiere.process.DocumentEngine;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.wf.MWFActivity;
 
 /**
  *	Displays valid Document Action Options based on context
@@ -190,7 +204,7 @@ public class VDocAction extends CDialog
 		int index = 0;
 
 		/**
-		 * 	Check Existence of Workflow Acrivities
+		 * 	Check Existence of Workflow Activities
 		 */
 		String wfStatus = MWFActivity.getActiveInfo(Env.getCtx(), m_AD_Table_ID, Record_ID); 
 		if (wfStatus != null)
@@ -212,6 +226,18 @@ public class VDocAction extends CDialog
 		String[] docActionHolder = new String[] {DocAction};
 		index = DocumentEngine.getValidActions(DocStatus, Processing, OrderType, IsSOTrx, m_AD_Table_ID, 
 				docActionHolder, options);
+
+		Integer doctypeId = (Integer)m_mTab.getValue("C_DocType_ID");
+		if(doctypeId==null || doctypeId.intValue()==0){
+			doctypeId = (Integer)m_mTab.getValue("C_DocTypeTarget_ID");
+		}
+		log.fine("get doctype: " + doctypeId);
+		if (doctypeId != null) {
+			index = DocumentEngine.checkActionAccess(Env.getAD_Client_ID(Env.getCtx()),
+					Env.getAD_Role_ID(Env.getCtx()), 
+					doctypeId, options, index);
+		}
+
 		DocAction = docActionHolder[0];
 
 		/**
@@ -219,7 +245,7 @@ public class VDocAction extends CDialog
 		 */
 		for (int i = 0; i < index; i++)
 		{
-			//	Serach for option and add it
+			//	Search for option and add it
 			boolean added = false;
 			for (int j = 0; j < s_value.length && !added; j++)
 				if (options[i].equals(s_value[j]))
@@ -337,7 +363,7 @@ public class VDocAction extends CDialog
 		 *	ActionCombo: display the description for the selection
 		 */
 		int index = getSelectedIndex();
-		//	Display descriprion
+		//	Display description
 		if (index != -1)
 		{
 			message.setText(s_description[index]);
