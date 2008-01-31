@@ -117,9 +117,11 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		editorbox.setText(m_mLocator.getDisplay(value));	//	loads value
 		
 		//	Data Binding
+		if (fire) {
+			ValueChangeEvent val = new ValueChangeEvent(this, m_columnName, null, value); 
+			fireValueChange(val);
+		}
 
-		ValueChangeEvent val = new ValueChangeEvent(this, m_columnName, null, value); 
-		fireValueChange(val);
 	}	
 	
 	/**
