@@ -668,7 +668,7 @@ public final class MLookup extends Lookup implements Serializable
 					// Bug 1843862 - Lookups not working on Report Viewer window
 					// globalqss - when called from Viewer window ignore error about unparsabe context variables
 					// there is no context in report viewer windows
-					if (! Env.getWindow(m_info.WindowNo).getClass().getName().equals("org.compiere.print.Viewer")) {
+					if (Ini.isClient() == false || !Env.getWindow(m_info.WindowNo).getClass().getName().equals("org.compiere.print.Viewer")) {
 						m_lookup.clear();
 						return;
 					}
