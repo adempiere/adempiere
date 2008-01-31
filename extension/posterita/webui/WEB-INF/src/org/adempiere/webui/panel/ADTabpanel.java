@@ -38,6 +38,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
+import org.compiere.model.MLookup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
@@ -380,6 +381,25 @@ DataStatusListener, ValueChangeListener
             {
                 FDialog.error(windowNo, this, msg);
             }
+            
+            // Refresh the list on dependant fields
+    		ArrayList list = gridTab.getDependantFields(mField.getColumnName());
+    		for (int i = 0; i < list.size(); i++)
+    		{
+    			GridField dependentField = (GridField)list.get(i);
+    		//	log.trace(log.l5_DData, "Dependent Field", dependentField==null ? "null" : dependentField.getColumnName());
+    			//  if the field has a lookup
+    			if (dependentField != null && dependentField.getLookup() instanceof MLookup)
+    			{
+    				MLookup mLookup = (MLookup)dependentField.getLookup();
+    				//  if the lookup is dynamic (i.e. contains this columnName as variable)
+    				if (mLookup.getValidation().indexOf("@"+mField.getColumnName()+"@") != -1)
+    				{
+    					mLookup.refresh();
+    				}
+    			}
+    		}   //  for all dependent fields
+            
         }
         //if (col >= 0)
         dynamicDisplay(col);
