@@ -47,6 +47,8 @@ public class AdempiereWebUI extends Window implements EventListener
 
     private ClientInfo		   clientInfo;
 
+	private String langSession;
+
     public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
@@ -56,6 +58,7 @@ public class AdempiereWebUI extends Window implements EventListener
         this.getPage().setTitle(APP_NAME);
 
         Properties ctx = Env.getCtx();
+        langSession = Env.getContext(ctx, Env.LANGUAGE);
         SessionManager.setSessionApplication(this);
         if (!SessionManager.isUserLoggedIn(ctx))
         {
@@ -87,6 +90,13 @@ public class AdempiereWebUI extends Window implements EventListener
         this.setWidth("100%");
         this.setHeight("100%");
         this.appendChild(appDesktop);
+        
+        Properties ctx = Env.getCtx();
+        String langLogin = Env.getContext(ctx, Env.LANGUAGE);
+        if (langLogin == null || langLogin.length() <= 0) {
+        	Env.setContext(ctx, Env.LANGUAGE, langSession);
+        }
+        
     }
 
     public void logout()
