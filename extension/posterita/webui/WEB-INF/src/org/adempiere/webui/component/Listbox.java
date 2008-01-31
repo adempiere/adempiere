@@ -95,11 +95,22 @@ public class Listbox extends org.zkoss.zul.Listbox
         List<ListItem> items = getItems();
         for (ListItem item : items)
         {
-            if (value.equals(item.getValue()))
-            {
-                setSelectedItem(item);
-                break;
-            }
+        	if (value.getClass() != item.getValue().getClass()) {
+        		// if the classes of value and item are different convert both to String
+        		String stringValue = value.toString();
+        		String stringItem = item.getValue().toString();
+                if (stringValue.equals(stringItem))
+                {
+                    setSelectedItem(item);
+                    break;
+                }
+        	} else {
+                if (value.equals(item.getValue()))
+                {
+                    setSelectedItem(item);
+                    break;
+                }
+        	}
         }
     }
     
