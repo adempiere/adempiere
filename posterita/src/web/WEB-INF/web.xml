@@ -42,7 +42,7 @@
 	</context-param>
 	<context-param>
 		<param-name>#W_Store_ID</param-name>
-		<param-value>1000000</param-value>
+		<param-value>0</param-value>
 	</context-param>
 	<context-param>
 		<param-name>REPORT_DIRECTORY</param-name>
