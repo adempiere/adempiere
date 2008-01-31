@@ -50,7 +50,7 @@ public class AmtInWords_EN implements AmtInWords
 		"Ten", 
 		"Twenty",
 		"Thirty", 
-		"Fourty", 
+		"Forty", 
 		"Fifty", 
 		"Sixty", 
 		"Seventy",
