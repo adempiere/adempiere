@@ -419,8 +419,12 @@ public final class DisplayType
 			return "CLOB";
 		if (displayType == DisplayType.YesNo)
 			return "CHAR(1)";
-		if (displayType == DisplayType.List)
-			return "CHAR(" + fieldLength + ")";
+		if (displayType == DisplayType.List) {
+			if (fieldLength == 1)
+				return "CHAR(" + fieldLength + ")";
+			else
+				return "NVARCHAR2(" + fieldLength + ")";			
+		}
 		if (displayType == DisplayType.Color)
 		{
 			if (columnName.endsWith("_ID"))
