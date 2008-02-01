@@ -1352,7 +1352,7 @@ public final class Env
 		URL url = Adempiere.class.getResource("images/" + fileNameInImageDir);
 		if (url == null)
 		{
-			s_log.log(Level.SEVERE, "Not found: " +  fileNameInImageDir);
+			s_log.log(Level.INFO, "Not found: " +  fileNameInImageDir);
 			return null;
 		}
 		return new ImageIcon(url);
@@ -1374,7 +1374,7 @@ public final class Env
 			url = Adempiere.class.getResource("images/" + fileName+".png");
 		if (url == null)
 		{
-			s_log.log(Level.WARNING, "GIF/PNG Not found: " + fileName);
+			s_log.log(Level.INFO, "GIF/PNG Not found: " + fileName);
 			return null;
 		}
 		return new ImageIcon(url);
