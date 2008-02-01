@@ -19,6 +19,7 @@ package org.compiere.apps;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.logging.*;
 
@@ -218,9 +219,12 @@ public final class APanel extends CPanel
 	//	Local (added to toolbar)
 	private AppsAction	    aReport, aEnd, aHome, aHelp, aProduct, aLogout,
 							aAccount, aCalculator, aCalendar, aEditor, aPreference, aScript,
-							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, aDeleteSelection;
+							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, 
+							aDeleteSelection, aShowAllWindow;
 	
 	private SwitchAction aSwitchLinesDownAction, aSwitchLinesUpAction;
+
+	private WindowMenu m_WindowMenu;
 	/**************************************************************************
 	 *	Create Menu and Toolbar and registers keyboard actions.
 	 *  - started from constructor
@@ -349,8 +353,9 @@ public final class APanel extends CPanel
 		
 		//Window
 		AMenu aMenu = (AMenu)Env.getWindow(0);
-		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), m_window);
-		menuBar.add(mWindow);
+		m_WindowMenu = new WindowMenu(aMenu.getWindowManager(), m_window);
+		menuBar.add(m_WindowMenu);
+		aShowAllWindow = addAction("ShowAllWindow", null, KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK),	false);
 		
 		//								Help
 		JMenu mHelp = AEnv.getMenu("Help");
@@ -1376,7 +1381,8 @@ public final class APanel extends CPanel
 		}
 
 		//  Problem: doubleClick detection - can't disable button as clicking button may change button status
-		setBusy (true, true);
+		if (!cmd.equals(aShowAllWindow.getName()))
+			setBusy (true, true);
 		//  Command Buttons
 		if (e.getSource() instanceof VButton)
 		{
@@ -1506,6 +1512,8 @@ public final class APanel extends CPanel
 			//  General Commands (Environment)
 			else if (cmd.equals(aLogout.getName()))
 				cmd_logout();
+			else if (cmd.equals(aShowAllWindow.getName()))
+				m_WindowMenu.expose();
 			else if (!AEnv.actionPerformed (e.getActionCommand(), m_curWindowNo, this))
 				log.log(Level.SEVERE, "No action for: " + cmd);
 		}

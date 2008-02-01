@@ -232,6 +232,7 @@ public final class AMenu extends CFrame
 	private VTreePanel	treePanel = null;
 	private WFActivity	wfActivity = null;
 	private WFPanel		wfPanel = null;
+	private WindowMenu m_WindowMenu;
 
 	/**
 	 *	Static Init.
@@ -424,8 +425,13 @@ public final class AMenu extends CFrame
 		}
 		
 		//Window Menu
-		JMenu mWindow = new WindowMenu(windowManager, this);
-		menuBar.add(mWindow);
+		m_WindowMenu = new WindowMenu(windowManager, this);
+		menuBar.add(m_WindowMenu);
+		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK);
+		this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ks, "ShowAllWindow");
+		AppsAction action = new AppsAction("ShowAllWindow", ks, false);
+		this.getRootPane().getActionMap().put("ShowAllWindow", action);
+		action.setDelegate(this);
 
 		//      Help
 		JMenu mHelp = AEnv.getMenu("Help");
@@ -533,6 +539,8 @@ public final class AMenu extends CFrame
 			gotoNotes();
 		else if (e.getSource() == bRequests)
 			gotoRequests();
+		else if (e.getActionCommand().equals("ShowAllWindow"))
+			m_WindowMenu.expose();
 		else if (!AEnv.actionPerformed(e.getActionCommand(), m_WindowNo, this))
 			log.log(Level.SEVERE, "unknown action=" + e.getActionCommand());
 		//updateInfo();
