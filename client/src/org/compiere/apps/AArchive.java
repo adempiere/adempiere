@@ -106,9 +106,6 @@ public class AArchive implements ActionListener
 				else
 					documentCount += rs.getInt(2);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
