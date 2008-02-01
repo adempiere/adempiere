@@ -373,13 +373,6 @@ public class GridField
 		}
 		
 
-		//  Always editable if Active
-		if (m_vo.ColumnName.equals("Processing")
-				|| m_vo.ColumnName.equals("PaymentRule")
-				|| m_vo.ColumnName.equals("DocAction")
-				|| m_vo.ColumnName.equals("GenerateTo"))
-			return true;
-
 		//  Record is Processed	***	
 		if (checkContext 
 			&& (Env.getContext(m_vo.ctx, m_vo.WindowNo, "Processed").equals("Y")
@@ -393,6 +386,14 @@ public class GridField
 		//  Record is not Active
 		if (checkContext && !Env.getContext(m_vo.ctx, m_vo.WindowNo, "IsActive").equals("Y"))
 			return false;
+
+		// Bahman: Moved this check to here -after isActive check.
+		//  Always editable if Active
+		if (m_vo.ColumnName.equals("Processing")
+				|| m_vo.ColumnName.equals("PaymentRule")
+				|| m_vo.ColumnName.equals("DocAction")
+				|| m_vo.ColumnName.equals("GenerateTo"))
+			return true;
 
 		//  ultimately visibily decides
 		return isDisplayed (checkContext);
