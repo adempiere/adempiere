@@ -2627,8 +2627,7 @@ public abstract class PO
 				MSession session = MSession.get (p_ctx, false);
 				if (session == null)
 					log.fine("No Session found");
-				else if (m_IDs.length == 1 
-					&& MChangeLog.isLogged(AD_Table_ID))
+				else if (m_IDs.length == 1)
 				{
 					int AD_ChangeLog_ID = 0;
 					int size = get_ColumnCount();
@@ -2642,7 +2641,7 @@ public abstract class PO
 							)
 						{
 							MChangeLog cLog = session.changeLog (
-								m_trxName, AD_ChangeLog_ID, 
+								m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
 								AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
 								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null);
 							if (cLog != null)
