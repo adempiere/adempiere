@@ -533,7 +533,7 @@ public class MBPartnerLocationTest extends AdempiereTestCase {
 			m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
 			m_group.save();
 	
-			m_partner = new MBPartner (getCtx(), 0, "test");
+			m_partner = new MBPartner (getCtx(), 0, getTrxName());
 			m_partner.setValue ("");
 			m_partner.setName ("Test Business Partner Location");
 			m_partner.setName2 (null);
@@ -553,7 +553,7 @@ public class MBPartnerLocationTest extends AdempiereTestCase {
 			m_partner.setBPGroup(m_group);
 			// Reset Created, Updated to current system time ( teo_sarca )
 			if(m_partner.save()) {
-				bpl = new MBPartnerLocation (getCtx(), 0, "test");
+				bpl = new MBPartnerLocation (getCtx(), 0, getTrxName());
 				bpl.setIsActive(true);
 				bpl.setName("Test Business Partner Location");
 				bpl.setC_BPartner_ID(m_partner.get_ID());

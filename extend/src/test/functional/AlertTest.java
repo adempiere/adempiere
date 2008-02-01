@@ -28,15 +28,10 @@
 ***********************************************************************/
 package test.functional;
 
-//import org.compiere.model.I_AD_Alert;
-//import org.compiere.model.I_AD_AlertProcessor;
 import org.compiere.model.MAlert;
-import org.compiere.model.PO;
-import org.compiere.model.X_AD_Alert;
 import org.compiere.model.X_AD_AlertProcessor;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Trx;
 
 import test.AdempiereTestCase;
 
@@ -58,16 +53,14 @@ public class AlertTest extends AdempiereTestCase
 	 */
 	public void testAlertCreation() throws Exception 
 	{
-		Trx trx = Trx.get(Trx.createTrxName("Test"), true);
-		trx.start();
-		log.info("trx = " + trx.toString());
+		log.info("trx = " + getTrxName());
 		boolean resultSave = false;
 		
 		//----- Old way:
-		MAlert alertOldWay = new MAlert(Env.getCtx(), 100, trx.getTrxName());
+		MAlert alertOldWay = new MAlert(Env.getCtx(), 100, getTrxName());
 		log.info(alertOldWay.toString());
 		
-		X_AD_AlertProcessor alertProcessorOldWay = new X_AD_AlertProcessor(Env.getCtx(), alertOldWay.getAD_AlertProcessor_ID(), trx.getTrxName());
+		X_AD_AlertProcessor alertProcessorOldWay = new X_AD_AlertProcessor(Env.getCtx(), alertOldWay.getAD_AlertProcessor_ID(), getTrxName());
 		log.info("alertProcessorOldWay.getAD_AlertProcessor_ID = " + alertProcessorOldWay.getAD_AlertProcessor_ID());
 		
 		alertOldWay.setDescription("Trifon test");
@@ -95,8 +88,7 @@ public class AlertTest extends AdempiereTestCase
 		System.out.println("New value of Description = " + alert.getDescription());
 */
 		
-		trx.commit();
-		trx.close();
+		commit();
 	}
 	
 }
