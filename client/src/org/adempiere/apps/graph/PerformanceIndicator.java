@@ -16,39 +16,40 @@
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.*;
-import java.text.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-
-//vpj-cd e-evolution 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-//import java.awt.R`;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.EventListenerList;
+
+import org.compiere.model.MColorSchema;
+import org.compiere.model.MGoal;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.*;
-import org.jfree.data.general.*;
+import org.jfree.chart.plot.DialShape;
+import org.jfree.chart.plot.MeterInterval;
+import org.jfree.chart.plot.MeterPlot;
 import org.jfree.data.Range;
+import org.jfree.data.general.DefaultValueDataset;
 import org.jfree.ui.RectangleInsets;
-//vpj-cd e-evolution 
-
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.compiere.apps.graph.*;
-import java.net.*;
-import java.io.*;
-import org.jfree.chart.ChartUtilities;
 
 /**
  * 	Performance Indicator

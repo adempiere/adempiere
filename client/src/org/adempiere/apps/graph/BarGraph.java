@@ -16,31 +16,41 @@
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.util.*;
-import java.util.logging.*;
-import java.math.*;
-import java.sql.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.model.MAchievement;
+import org.compiere.model.MGoal;
+import org.compiere.model.MMeasure;
+import org.compiere.model.MMeasureCalc;
+import org.compiere.model.MProjectType;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRequestType;
+import org.compiere.model.MRole;
+import org.compiere.model.MStatus;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.entity.CategoryItemEntity;
-import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultValueDataset;
 
 /**
  * 	Bar Graph
@@ -120,10 +130,11 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 				m_goal.getMeasureDisplay(), null, 
 				MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				ArrayList<Timestamp> dataList = new ArrayList<Timestamp>();
 				while (rs.next ())
 				{
@@ -137,23 +148,15 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 					dataList.add(date); // list of dates
 					list.add(pos, bgc);
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log (Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		else if (MMeasure.MEASURETYPE_Achievements.equals(measure.getMeasureType()))
@@ -188,11 +191,12 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 					.append("GROUP BY ").append(trunc)
 					.append(" ORDER BY ").append(trunc);
 				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				try
 				{
 					pstmt = DB.prepareStatement (sql.toString(), null);
 					pstmt.setInt(1, measure.getPA_Measure_ID());
-					ResultSet rs = pstmt.executeQuery ();
+					rs = pstmt.executeQuery ();
 					while (rs.next ())
 					{
 						BigDecimal data = rs.getBigDecimal(1);
@@ -201,23 +205,15 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 						bgc.setLabel(date, m_goal.getMeasureDisplay());
 						list.add(bgc);
 					}
-					rs.close ();
-					pstmt.close ();
-					pstmt = null;
 				}
 				catch (Exception e)
 				{
 					log.log (Level.SEVERE, sql.toString(), e);
 				}
-				try
+				finally
 				{
-					if (pstmt != null)
-						pstmt.close ();
-					pstmt = null;
-				}
-				catch (Exception e)
-				{
-					pstmt = null;
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
 				}
 			}	//	Achievement in time
 		}	//	Achievement
@@ -230,10 +226,11 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 				m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
 				null, MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
 				{
 					BigDecimal data = rs.getBigDecimal(1);
@@ -251,23 +248,15 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 					}
 					list.add(bgc);
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log (Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}	//	Request
 		
@@ -279,10 +268,11 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 				m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
 				null, MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
 				{
 					BigDecimal data = rs.getBigDecimal(1);
@@ -292,23 +282,15 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 					bgc.setLabel(date, m_goal.getMeasureDisplay());
 					list.add(bgc);
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log (Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}	//	Project
 		
@@ -496,15 +478,10 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 
 	/*
 	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	public void componentResized(ComponentEvent e) {
-		// TODO Auto-generated method stub
 		float aspectRatio = 1.6f;
 		Dimension size = getSize();
 		if (size.width > size.height * aspectRatio)
@@ -517,7 +494,6 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 							java.lang.Math.round(size.width / aspectRatio)));
 	}
 	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub	
 	}
 	*/
 }	//	BarGraph

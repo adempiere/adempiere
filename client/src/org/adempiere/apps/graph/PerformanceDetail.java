@@ -16,13 +16,15 @@
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import org.compiere.*;
-import org.compiere.apps.*;
-import org.compiere.swing.*;
-import org.compiere.model.*;
+import org.compiere.Adempiere;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MGoal;
+import org.compiere.swing.CFrame;
 
 
 /**

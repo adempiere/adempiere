@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.util.ArrayList;
+
+import org.compiere.util.CLogger;
 
 /**
  * 	Graphic Utilities

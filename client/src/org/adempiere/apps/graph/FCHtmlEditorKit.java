@@ -1,13 +1,16 @@
 package org.adempiere.apps.graph;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.html.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.net.MalformedURLException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.net.URL;
-import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
+import javax.swing.text.Element;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.ImageView;
 
 public class FCHtmlEditorKit extends HTMLEditorKit {
 	public ViewFactory getViewFactory() {

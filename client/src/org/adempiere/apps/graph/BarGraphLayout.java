@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.LayoutManager;
+import java.awt.Point;
+import java.util.ArrayList;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 /**
  * 	Bar Graph Layout
@@ -117,7 +122,7 @@ public class BarGraphLayout
 		//
 		//Dimension size = m_parent.getPreferredSize();
 		Dimension size =m_parent.getSize();
-		System.out.println("bgl: " +size.width + " x " + size.height);
+		log.fine("bgl: " +size.width + " x " + size.height);
 
 		Point point0_0 = m_parent.getPoint0_0();
 		

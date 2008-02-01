@@ -372,7 +372,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 		g2D.setColor(getBackground());
 		//Dimension size = getPreferredSize();
 		Dimension size =getSize();
-		System.out.println("bgc: " + size.width + " x " + size.height);
+		log.fine("bgc: " + size.width + " x " + size.height);
 		g2D.fill3DRect(0, 0, size.width, size.height, true);
 		
 		//	Paint Label & Value

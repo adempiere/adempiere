@@ -3,10 +3,6 @@
  */
 package org.adempiere.apps.graph;
 
-import javax.swing.JPanel;
-import javax.swing.event.*;
-import javax.swing.text.Document;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -19,19 +15,25 @@ import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JEditorPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.Document;
 
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AWindow;
 import org.compiere.model.MAchievement;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMeasureCalc;
@@ -45,9 +47,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
-
-import org.compiere.apps.AEnv;
-import org.compiere.apps.AWindow;
 
 /**
  * @author fcsku
@@ -119,8 +118,7 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 			while ((cssLine = bufferedReader.readLine()) != null) 
 				result += cssLine + "\n";
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			log.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
 		}
 		//System.out.println(result);
 		switch (requestPage) {
@@ -142,13 +140,15 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 				String sql =  " SELECT x.AD_CLIENT_ID, x.NAME, x.DESCRIPTION, x.AD_WINDOW_ID, x.PA_GOAL_ID, x.LINE, x.HTML, m.AD_MENU_ID"
 							+ " FROM PA_DASHBOARDCONTENT x"
 							+ " LEFT OUTER JOIN AD_MENU m ON x.ad_window_id=m.ad_window_id" 
-							+ " WHERE x.AD_Client_ID=0 OR x.AD_Client_ID=?"
+							+ " WHERE (x.AD_Client_ID=0 OR x.AD_Client_ID=?) AND x.IsActive='Y'"
 							+ " ORDER BY LINE";
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				try
 				{
-					PreparedStatement pstmt = DB.prepareStatement(sql, null);
+					pstmt = DB.prepareStatement(sql, null);
 					pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
-					ResultSet rs = pstmt.executeQuery();
+					rs = pstmt.executeQuery();
 					while (rs.next()) {				
 						appendToHome = rs.getString("HTML");
 						if (appendToHome != null) {
@@ -170,20 +170,22 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 							result += goalsDetail(rs.getInt("PA_GOAL_ID"));
 							//result += goalsDetail(rs.getInt("AD_TABLE_ID"));
 					}
-					rs.close();
-					pstmt.close();
 				}
 				catch (SQLException e)
 				{
-					System.out.println("dashboard: "  + e); //TODO catch-block
+					log.log(Level.SEVERE, sql, e);
+				}
+				finally
+				{
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
 				}
 				result += "<br><br><br>\n"
 				+ "</div>\n</body>\n</html>\n";
-			break;
+				break;
 			default: //************************************************************** 
-				System.out.println("error");
+				log.warning("Unknown option - "+requestPage);
 		}
-		//System.out.println(result);
 		return result;
 	}
 
@@ -286,7 +288,7 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 		try {
 			htmlUpdate( new URL( url ) );
 		} catch( MalformedURLException e )	{
-		    System.out.println( "Malformed URL: " + e );
+		    log.warning("Malformed URL: " + e );
 		}
 	}
 	
@@ -361,7 +363,6 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if (SwingUtilities.isRightMouseButton(e))
 			popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
 	}
@@ -370,38 +371,30 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == mRefresh)
 		{
 			if (m_goals != null)

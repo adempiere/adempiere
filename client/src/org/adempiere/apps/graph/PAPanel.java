@@ -18,13 +18,17 @@ package org.adempiere.apps.graph;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.model.MGoal;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * 	Performance Analysis Panel.
