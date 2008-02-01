@@ -40,6 +40,8 @@ public final class Fact
 		m_doc = document;
 		m_acctSchema = acctSchema;
 		m_postingType = defaultPostingType;
+		// Fix [ 1884676 ] Fact not setting transaction
+		m_trxName = document.getTrxName();
 		//
 		log.config(toString());
 	}	//	Fact
@@ -764,6 +766,7 @@ public final class Fact
 	 */
 	public boolean save (String trxName)
 	{
+		m_trxName = trxName;
 		//  save Lines
 		for (int i = 0; i < m_lines.size(); i++)
 		{
