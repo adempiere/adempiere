@@ -36,10 +36,6 @@ import org.compiere.process.*;
 
 /**
  *  General Database Interface
- * <p>
- * <ul>
- * <li>2007-01-30 - teo_sarca - [ 1647864 ] WAN: delete record error
- * </ul>
  * 
  *  @author     Jorg Janke
  *  @version    $Id: DB.java,v 1.8 2006/10/09 00:22:29 jjanke Exp $
@@ -48,6 +44,10 @@ import org.compiere.process.*;
  *  get a new connection from database pool manager which manages all connections
  *                 set rw/ro properties for the connection accordingly.
  *  @author Ashley Ramdass (Posterita) 
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 		<li>BF [ 1647864 ] WAN: delete record error
+ * 		<li>FR [ 1884435 ] Add more DB.getSQLValue helper methods
  */
 public final class DB
 {
@@ -1177,6 +1177,42 @@ public final class DB
     }   //  getSQLValue
 
     /**
+     * Get int Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or -1
+     */
+    public static int getSQLValue (String trxName, String sql, Object... params)
+    {
+    	int retValue = -1;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		for (int i = 0; i < params.length; i++) {
+    			pstmt.setObject(i+1, params[i]);
+    		}
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getInt(1);
+    		else
+    			log.info("No Value " + sql);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, e);
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }
+
+    /**
      *  Get String Value from sql
      *  @param trxName trx
      *  @param sql sql
@@ -1213,6 +1249,42 @@ public final class DB
     }   //  getSQLValueString
 
     /**
+     * Get String Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or null
+     */
+    public static String getSQLValueString (String trxName, String sql, Object... params)
+    {
+    	String retValue = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		for (int i = 0; i < params.length; i++) {
+    			pstmt.setObject(i+1, params[i]);
+    		}
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getString(1);
+    		else
+    			log.info("No Value " + sql);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, e);
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }
+
+    /**
      *  Get BigDecimal Value from sql
      *  @param trxName trx
      *  @param sql sql
@@ -1247,7 +1319,79 @@ public final class DB
         }
         return retValue;
     }   //  getSQLValueBD
-	
+
+    /**
+     * Get BigDecimal Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or null
+     */
+    public static BigDecimal getSQLValueBD (String trxName, String sql, Object... params)
+    {
+    	BigDecimal retValue = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		for (int i = 0; i < params.length; i++) {
+    			pstmt.setObject(i+1, params[i]);
+    		}
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getBigDecimal(1);
+    		else
+    			log.info("No Value " + sql);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, e);
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }
+
+    /**
+     * Get Timestamp Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or null
+     */
+    public static Timestamp getSQLValueTS (String trxName, String sql, Object... params)
+    {
+    	Timestamp retValue = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		for (int i = 0; i < params.length; i++) {
+    			pstmt.setObject(i+1, params[i]);
+    		}
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getTimestamp(1);
+    		else
+    			log.info("No Value " + sql);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, e);
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }
+
 	/**
 	 * 	Get Array of Key Name Pairs
 	 *	@param sql select with id / name as first / second column
