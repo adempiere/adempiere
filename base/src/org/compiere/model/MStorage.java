@@ -503,46 +503,53 @@ public class MStorage extends X_M_Storage
 	 *	@param M_AttributeSetInstance_ID masi
 	 *	@param trxName transaction
 	 *	@return qty available (QtyOnHand-QtyReserved) or null
+	 * @deprecated Since 331b. Please use {@link #getQtyAvailable(int, int, int, int, String)}.
 	 */
 	public static BigDecimal getQtyAvailable (int M_Warehouse_ID, 
 		int M_Product_ID, int M_AttributeSetInstance_ID, String trxName)
 	{
-		BigDecimal retValue = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT SUM(QtyOnHand-QtyReserved) "
-			+ "FROM M_Storage s"
-			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID) "
-			+ "WHERE s.M_Product_ID=?"		//	#1
-			+ " AND l.M_Warehouse_ID=?";
-		if (M_AttributeSetInstance_ID != 0)
-			sql += " AND M_AttributeSetInstance_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_ID);
-			pstmt.setInt (2, M_Warehouse_ID);
-			if (M_AttributeSetInstance_ID != 0)
-				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = rs.getBigDecimal(1);
-				if (rs.wasNull())
-					retValue = null;
-			}
+		return getQtyAvailable(M_Warehouse_ID, 0, M_Product_ID, M_AttributeSetInstance_ID, trxName);
+	}
+	
+	/**
+	 * Get Warehouse/Locator Available Qty.
+	 * The call is accurate only if there is a storage record 
+	 * and assumes that the product is stocked 
+	 * @param M_Warehouse_ID wh (if the M_Locator_ID!=0 then M_Warehouse_ID is ignored)
+	 * @param M_Locator_ID locator (if 0, the whole warehouse will be evaluated)
+	 * @param M_Product_ID product
+	 * @param M_AttributeSetInstance_ID masi
+	 * @param trxName transaction
+	 * @return qty available (QtyOnHand-QtyReserved) or null if error
+	 */
+	public static BigDecimal getQtyAvailable (int M_Warehouse_ID, int M_Locator_ID, 
+		int M_Product_ID, int M_AttributeSetInstance_ID, String trxName)
+	{
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(s.QtyOnHand-s.QtyReserved),0)")
+								.append(" FROM M_Storage s")
+								.append(" WHERE s.M_Product_ID=?");
+		params.add(M_Product_ID);
+		// Warehouse level
+		if (M_Locator_ID == 0) {
+			sql.append(" AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID=l.M_Locator_ID AND l.M_Warehouse_ID=?)");
+			params.add(M_Warehouse_ID);
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
+		// Locator level
+		else {
+			sql.append(" AND s.M_Locator_ID=?");
+			params.add(M_Locator_ID);
 		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+		// With ASI
+		if (M_AttributeSetInstance_ID != 0) {
+			sql.append(" AND s.M_AttributeSetInstance_ID=?");
+			params.add(M_AttributeSetInstance_ID);
 		}
-		s_log.fine("M_Warehouse_ID=" + M_Warehouse_ID 
-			+ ",M_Product_ID=" + M_Product_ID + " = " + retValue);
+		//
+		BigDecimal retValue = DB.getSQLValueBD(trxName, sql.toString(), params);
+		if (CLogMgt.isLevelFine())
+			s_log.fine("M_Warehouse_ID=" + M_Warehouse_ID + ", M_Locator_ID=" + M_Locator_ID 
+				+ ",M_Product_ID=" + M_Product_ID + " = " + retValue);
 		return retValue;
 	}	//	getQtyAvailable
 	

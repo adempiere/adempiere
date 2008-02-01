@@ -121,9 +121,8 @@ public class CalloutMovement extends CalloutEngine
 				// If no locator, don't check anything and assume is ok
 				if (M_Locator_ID <= 0)
 					return;
-				int M_Warehouse_ID = MLocator.get(ctx, M_Locator_ID).getM_Warehouse_ID();
 				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
-				BigDecimal available = MStorage.getQtyAvailable(M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID, null);
+				BigDecimal available = MStorage.getQtyAvailable(0, M_Locator_ID, M_Product_ID, M_AttributeSetInstance_ID, null);
 				if (available == null)
 					available = Env.ZERO;
 				if (available.signum() == 0)
