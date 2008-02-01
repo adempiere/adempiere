@@ -90,6 +90,7 @@ public class AArchive implements ActionListener
 			sql.append(" OR C_BPartner_ID=?");
 		sql.append(" GROUP BY IsReport"); 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString(), null);
@@ -97,7 +98,7 @@ public class AArchive implements ActionListener
 			pstmt.setInt(2, m_Record_ID);
 			if (m_AD_Table_ID == MBPartner.Table_ID)
 				pstmt.setInt(3, m_Record_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				if ("Y".equals(rs.getString(1)))
@@ -113,16 +114,12 @@ public class AArchive implements ActionListener
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		//
 		if (documentCount > 0)
 		{
