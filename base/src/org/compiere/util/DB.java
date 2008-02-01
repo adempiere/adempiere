@@ -30,6 +30,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -1231,6 +1232,20 @@ public final class DB
     }
 
     /**
+     * Get int Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null
+     */
+    public static int getSQLValue (String trxName, String sql, Collection<Object> params)
+    {
+		Object[] arr = new Object[params.size()];
+		params.toArray(arr);
+		return getSQLValue(trxName, sql, arr);
+    }
+    
+    /**
      *  Get String Value from sql
      *  @param trxName trx
      *  @param sql sql
@@ -1300,6 +1315,20 @@ public final class DB
     		rs = null; pstmt = null;
     	}
     	return retValue;
+    }
+
+    /**
+     * Get String Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null
+     */
+    public static String getSQLValueString (String trxName, String sql, Collection<Object> params)
+    {
+		Object[] arr = new Object[params.size()];
+		params.toArray(arr);
+		return getSQLValueString(trxName, sql, arr);
     }
 
     /**
@@ -1375,6 +1404,20 @@ public final class DB
     }
 
     /**
+     * Get BigDecimal Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null
+     */
+    public static BigDecimal getSQLValueBD (String trxName, String sql, Collection<Object> params)
+    {
+		Object[] arr = new Object[params.size()];
+		params.toArray(arr);
+		return getSQLValueBD(trxName, sql, arr);
+    }
+
+    /**
      * Get Timestamp Value from sql
      * @param trxName trx
      * @param sql sql
@@ -1408,6 +1451,20 @@ public final class DB
     		rs = null; pstmt = null;
     	}
     	return retValue;
+    }
+
+    /**
+     * Get Timestamp Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null
+     */
+    public static Timestamp getSQLValueTS (String trxName, String sql, Collection<Object> params)
+    {
+		Object[] arr = new Object[params.size()];
+		params.toArray(arr);
+		return getSQLValueTS(trxName, sql, arr);
     }
 
 	/**
