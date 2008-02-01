@@ -16,22 +16,38 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.math.*;
-import java.rmi.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import javax.sql.*;
-import javax.swing.*;
-//
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
+import javax.sql.RowSet;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
+import org.compiere.Adempiere;
+import org.compiere.db.AdempiereDatabase;
+import org.compiere.db.CConnection;
+import org.compiere.db.Database;
+import org.compiere.db.ServerConnection;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MLanguage;
+import org.compiere.model.MRole;
+import org.compiere.model.MSequence;
+import org.compiere.model.MSystem;
+import org.compiere.process.SequenceCheck;
 
 
 /**
@@ -53,16 +69,16 @@ public final class DB
 {
 	/** Connection Descriptor           */
 	private static CConnection      s_cc = null;
-	/** Connection Cache r/o            */
-	private static Connection[]		s_connections = null;
-	/** Connection Cache Size           */
-	private static int              s_conCacheSize = Ini.isClient() ? 1 : 3;
-	/** Connection counter              */
-	private static int              s_conCount = 0;
-	/** Connection r/w                  */
-	private static Connection		s_connectionRW = null;
-	/** Connection r/w for ID           */
-	private static Connection		s_connectionID = null;
+//	/** Connection Cache r/o            */
+//	private static Connection[]		s_connections = null;
+//	/** Connection Cache Size           */
+//	private static int              s_conCacheSize = Ini.isClient() ? 1 : 3;
+//	/** Connection counter              */
+//	private static int              s_conCount = 0;
+//	/** Connection r/w                  */
+//	private static Connection		s_connectionRW = null;
+//	/** Connection r/w for ID           */
+//	private static Connection		s_connectionID = null;
 	/**	Logger							*/
 	private static CLogger			log = CLogger.getCLogger (DB.class);
 	
@@ -113,7 +129,7 @@ public final class DB
 		//	Release Specif stuff & Print Format
 		try
 		{
-			Class clazz = Class.forName("org.compiere.MigrateData");
+			Class<?> clazz = Class.forName("org.compiere.MigrateData");
 			clazz.newInstance();
 		}
 		catch (Exception e)
@@ -193,6 +209,7 @@ public final class DB
 			.append(", RequestUserPW=").append(DB.TO_STRING(mailPassword))
 			.append(", IsSMTPAuthorization='Y' WHERE AD_Client_ID=0");
 		int no = DB.executeUpdate(sql.toString(), null);
+		log.fine("Client #"+no);
 		//
 		sql = new StringBuffer("UPDATE AD_User SET ")
 			.append(" EMail=").append(DB.TO_STRING(adminEMail))
@@ -200,6 +217,7 @@ public final class DB
 			.append(", EMailUserPW=").append(DB.TO_STRING(mailPassword))
 			.append(" WHERE AD_User_ID IN (0,100)");
 		no = DB.executeUpdate(sql.toString(), null);
+		log.fine("User #"+no);
 		//
 		try
 		{
