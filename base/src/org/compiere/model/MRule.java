@@ -42,6 +42,8 @@ public class MRule extends X_AD_Rule
 	//process parameters prefix
 	public final static String PARAMETERS_PREFIX = "P_";
 	
+	public static final String SCRIPT_PREFIX = "@script:";
+
 	/**
 	 * 	Get Rule from Cache
 	 *	@param ctx context
@@ -149,8 +151,6 @@ public class MRule extends X_AD_Rule
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MRule.class);
-	
-	public static final String SCRIPT_PREFIX = "@script:";
 	
 	/* Engine Manager */
 	private ScriptEngineManager factory = null;

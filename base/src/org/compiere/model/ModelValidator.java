@@ -41,7 +41,18 @@ public interface ModelValidator
 	public static final int	TYPE_BEFORE_DELETE = 3;		// teo_sarca [ 1675490 ] 
 	public static final int	TYPE_DELETE = 3;
 	public static final int	CHANGETYPE_DELETE = 3;			// Compatibility with Compiere 260c
-	public static final int	TYPE_AFTER_DELETE = 6;			// teo_sarca [ 1675490 ] 
+	public static final int	TYPE_AFTER_DELETE = 6;			// teo_sarca [ 1675490 ]
+	
+	// Correlation between constant events and list of event script model validators
+	public static String[] tableEventValidators = new String[] {
+		"", // 0
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableBeforeNew,    // TYPE_BEFORE_NEW = 1
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableBeforeChange, // TYPE_BEFORE_CHANGE = 2
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableBeforeDelete, // TYPE_BEFORE_DELETE = 3
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterNew,     // TYPE_AFTER_NEW = 4
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterChange,  // TYPE_AFTER_CHANGE = 5
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterDelete   // TYPE_AFTER_DELETE = 6 
+	};
 	
 	/** Called before document is prepared */
 	public static final int TIMING_BEFORE_PREPARE = 1;
@@ -77,6 +88,27 @@ public interface ModelValidator
 	public static final int TIMING_BEFORE_POST = 15;
 	/** Called after document is posted */
 	public static final int TIMING_AFTER_POST = 16;
+	
+	// Correlation between constant events and list of event script model validators
+	public static String[] documentEventValidators = new String[] {
+		"", // 0
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforePrepare,        // TIMING_BEFORE_PREPARE = 1
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforeVoid,           // TIMING_BEFORE_VOID = 2
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforeClose,          // TIMING_BEFORE_CLOSE = 3
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforeReactivate,     // TIMING_BEFORE_REACTIVATE = 4
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforeReverseCorrect, // TIMING_BEFORE_REVERSECORRECT = 5
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforeReverseAccrual, // TIMING_BEFORE_REVERSEACCRUAL = 6
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforeComplete,       // TIMING_BEFORE_COMPLETE = 7
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterPrepare,         // TIMING_AFTER_PREPARE = 8
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterComplete,        // TIMING_AFTER_COMPLETE = 9
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterVoid,            // TIMING_AFTER_VOID = 10
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterClose,           // TIMING_AFTER_CLOSE = 11
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterReactivate,      // TIMING_AFTER_REACTIVATE = 12
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterReverseCorrect,  // TIMING_AFTER_REVERSECORRECT = 13
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterReverseAccrual,  // TIMING_AFTER_REVERSEACCRUAL = 14
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentBeforePost,           // TIMING_BEFORE_POST = 15
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_DocumentAfterPost             // TIMING_AFTER_POST = 16
+	};
 	
 	/**
 	 * 	Initialize Validation

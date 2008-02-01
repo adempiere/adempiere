@@ -200,7 +200,8 @@ public class ModelValidationEngine
 		if (loginRules != null) {
 			for (MRule loginRule : loginRules) {
 				// currently just JSR 223 supported
-				if (loginRule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)) {
+				if (   loginRule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)
+					&& loginRule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorLoginEvent)) {
 					String error;
 					try {
 						ScriptEngine engine = loginRule.getScriptEngine();
@@ -315,6 +316,42 @@ public class ModelValidationEngine
 				return error;
 		}
 		
+		// now process the script model validator for this event
+		ArrayList<MTableScriptValidator> scriptValidators = 
+			MTableScriptValidator.getModelValidatorRules(
+					po.getCtx(), 
+					po.get_Table_ID(),
+					ModelValidator.tableEventValidators[changeType]);
+		if (scriptValidators != null) {
+			for (MTableScriptValidator scriptValidator : scriptValidators) {
+				MRule rule = MRule.get(po.getCtx(), scriptValidator.getAD_Rule_ID());
+				// currently just JSR 223 supported
+				if (   rule != null 
+					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)
+					&& rule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorTableEvent)) {
+					String error;
+					try {
+						ScriptEngine engine = rule.getScriptEngine();
+
+						MRule.setContext(engine, po.getCtx(), 0);  // no window
+						// now add the method arguments to the engine 
+						engine.put(MRule.ARGUMENTS_PREFIX + "Ctx", po.getCtx());
+						engine.put(MRule.ARGUMENTS_PREFIX + "PO", po);
+						engine.put(MRule.ARGUMENTS_PREFIX + "Type", changeType);
+						engine.put(MRule.ARGUMENTS_PREFIX + "Event", ModelValidator.tableEventValidators[changeType]);
+					
+						error = engine.eval(rule.getScript()).toString();
+					} catch (Exception e) {
+						e.printStackTrace();
+						error = e.toString();
+					}
+					if (error != null && error.length() > 0)
+						return error;
+				}
+			}
+		}
+		//
+		
 		return null;
 	}	//	fireModelChange
 	
@@ -423,6 +460,42 @@ public class ModelValidationEngine
 				return error;
 		}
 		
+		// now process the script model validator for this event
+		ArrayList<MTableScriptValidator> scriptValidators = 
+			MTableScriptValidator.getModelValidatorRules(
+					po.getCtx(), 
+					po.get_Table_ID(),
+					ModelValidator.documentEventValidators[docTiming]);
+		if (scriptValidators != null) {
+			for (MTableScriptValidator scriptValidator : scriptValidators) {
+				MRule rule = MRule.get(po.getCtx(), scriptValidator.getAD_Rule_ID());
+				// currently just JSR 223 supported
+				if (   rule != null 
+					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)
+					&& rule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorDocumentEvent)) {
+					String error;
+					try {
+						ScriptEngine engine = rule.getScriptEngine();
+
+						MRule.setContext(engine, po.getCtx(), 0);  // no window
+						// now add the method arguments to the engine 
+						engine.put(MRule.ARGUMENTS_PREFIX + "Ctx", po.getCtx());
+						engine.put(MRule.ARGUMENTS_PREFIX + "PO", po);
+						engine.put(MRule.ARGUMENTS_PREFIX + "Type", docTiming);
+						engine.put(MRule.ARGUMENTS_PREFIX + "Event", ModelValidator.documentEventValidators[docTiming]);
+					
+						error = engine.eval(rule.getScript()).toString();
+					} catch (Exception e) {
+						e.printStackTrace();
+						error = e.toString();
+					}
+					if (error != null && error.length() > 0)
+						return error;
+				}
+			}
+		}
+		//
+
 		return null;
 	}	//	fireDocValidate
 	
