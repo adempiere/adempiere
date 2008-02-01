@@ -98,7 +98,7 @@ public class MRule extends X_AD_Rule
 		}
 		finally {
 			DB.close(rs, pstmt);
-			pstmt = null;
+			rs = null; pstmt = null;
 		}
 		
 		if (retValue != null)
@@ -137,7 +137,7 @@ public class MRule extends X_AD_Rule
 		}
 		finally {
 			DB.close(rs, pstmt);
-			pstmt = null;
+			rs = null; pstmt = null;
 		}
 		
 		if (rules != null && rules.size() > 0)

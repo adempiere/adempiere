@@ -80,7 +80,7 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 		}
 		finally {
 			DB.close(rs, pstmt);
-			pstmt = null;
+			rs = null; pstmt = null;
 		}
 		
 		if (mvrs != null && mvrs.size() > 0)
