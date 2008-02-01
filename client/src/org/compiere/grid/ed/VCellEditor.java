@@ -127,6 +127,7 @@ public final class VCellEditor extends AbstractCellEditor
 		{
 			((VLookup)m_editor).setStopEditing(false);
 		}
+		m_editor.setReadWrite(m_mField.isEditable (true));
 
 		m_table = table;
 
