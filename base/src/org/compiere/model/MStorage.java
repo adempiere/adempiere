@@ -50,30 +50,25 @@ public class MStorage extends X_M_Storage
 		else
 			sql += "M_AttributeSetInstance_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Locator_ID);
 			pstmt.setInt (2, M_Product_ID);
 			pstmt.setInt (3, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MStorage (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		pstmt = null;
 		if (retValue == null)
@@ -86,7 +81,7 @@ public class MStorage extends X_M_Storage
 	}	//	get
 
 	/**
-	 * 	Get all Storages for Product with ASI
+	 * 	Get all Storages for Product with ASI and QtyOnHand > 0
 	 *	@param ctx context
 	 *	@param M_Product_ID product
 	 *	@param M_Locator_ID locator
@@ -106,29 +101,24 @@ public class MStorage extends X_M_Storage
 		if (!FiFo)
 			sql += " DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
 			pstmt.setInt (2, M_Locator_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MStorage (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		pstmt = null;
 		MStorage[] retValue = new MStorage[list.size()];
@@ -153,29 +143,24 @@ public class MStorage extends X_M_Storage
 			+ " AND QtyOnHand <> 0 "
 			+ "ORDER BY M_AttributeSetInstance_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
 			pstmt.setInt (2, M_Locator_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MStorage (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		pstmt = null;
 		MStorage[] retValue = new MStorage[list.size()];
@@ -197,30 +182,24 @@ public class MStorage extends X_M_Storage
 		String sql = "SELECT * FROM M_Storage "
 			+ "WHERE M_Product_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MStorage (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		MStorage[] retValue = new MStorage[list.size()];
 		list.toArray(retValue);
 		return retValue;
@@ -297,6 +276,7 @@ public class MStorage extends X_M_Storage
 			}
 		} 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
@@ -306,26 +286,18 @@ public class MStorage extends X_M_Storage
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
 			else if (minGuaranteeDate != null)
 				pstmt.setTimestamp(3, minGuaranteeDate);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MStorage (ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MStorage[] retValue = new MStorage[list.size()];
 		list.toArray(retValue);
@@ -488,13 +460,14 @@ public class MStorage extends X_M_Storage
 			+ "ORDER BY l.PriorityNo DESC, s.QtyOnHand DESC";
 		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, M_Warehouse_ID);
 			pstmt.setInt(2, M_Product_ID);
 			pstmt.setInt(3, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				BigDecimal QtyOnHand = rs.getBigDecimal(2);
@@ -506,23 +479,16 @@ public class MStorage extends X_M_Storage
 				if (firstM_Locator_ID == 0)
 					firstM_Locator_ID = rs.getInt(1);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		if (M_Locator_ID != 0)
 			return M_Locator_ID;
 		return firstM_Locator_ID;
@@ -543,6 +509,7 @@ public class MStorage extends X_M_Storage
 	{
 		BigDecimal retValue = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT SUM(QtyOnHand-QtyReserved) "
 			+ "FROM M_Storage s"
 			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID) "
@@ -557,30 +524,22 @@ public class MStorage extends X_M_Storage
 			pstmt.setInt (2, M_Warehouse_ID);
 			if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				retValue = rs.getBigDecimal(1);
 				if (rs.wasNull())
 					retValue = null;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		s_log.fine("M_Warehouse_ID=" + M_Warehouse_ID 
 			+ ",M_Product_ID=" + M_Product_ID + " = " + retValue);
