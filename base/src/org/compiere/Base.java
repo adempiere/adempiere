@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere;
 
-import java.math.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.Properties;
+
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MUOMConversion;
+import org.compiere.util.Env;
+import org.compiere.util.Login;
 
 /**
  *  Base Library Test Classes mainly for Optimize it
