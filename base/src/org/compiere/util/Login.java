@@ -257,6 +257,7 @@ public class Login
 			sql.append(" AND (u.Password=? OR u.Password=?)");	//  #2/3
 		sql.append(" ORDER BY r.Name");
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
@@ -267,7 +268,7 @@ public class Login
 				pstmt.setString(3, SecureEngine.encrypt(app_pwd));
 			}
 			//	execute a query
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (!rs.next())		//	no record found
 				if (force)
@@ -324,11 +325,7 @@ public class Login
 				list.add(p);
 			}
 			while (rs.next());
-
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-			//
+		//
 			retValue = new KeyNamePair[list.size()];
 			list.toArray(retValue);
 			log.fine("User=" + app_user + " - roles #" + retValue.length);
@@ -340,15 +337,10 @@ public class Login
 			retValue = null;
 		}
 		//
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		long ms = System.currentTimeMillis () - start;
 		return retValue;
@@ -379,12 +371,13 @@ public class Login
 			+ " AND r.IsActive='Y' AND c.IsActive='Y'";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		//	get Role details
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, role.getKey());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (!rs.next())
 			{
@@ -437,15 +430,10 @@ public class Login
 			log.log(Level.SEVERE, sql, ex);
 			retValue = null;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}   //  getClients
@@ -488,13 +476,14 @@ public class Login
 		//
 		PreparedStatement pstmt = null;
 		MRole role = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Role_ID);
 			pstmt.setInt(2, client.getKey());
 			pstmt.setInt(3, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//  load Orgs
 			while (rs.next())
 			{
@@ -514,9 +503,6 @@ public class Login
 						list.add(p);
 				}
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 			//
 			retValue = new KeyNamePair[list.size()];
 			list.toArray(retValue);
@@ -530,15 +516,10 @@ public class Login
 			log.log(Level.SEVERE, sql, ex);
 			retValue = null;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	No Orgs
 		if (retValue == null || retValue.length == 0)
@@ -586,12 +567,13 @@ public class Login
 			+ " WHERE AD_Tree_ID=? AND Parent_ID=? AND IsActive='Y') "
 			+ "ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, tree.getAD_Tree_ID());
 			pstmt.setInt (2, Summary_Org_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int AD_Client_ID = rs.getInt(1);
@@ -608,23 +590,15 @@ public class Login
 						list.add(p);
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	getOrgAddSummary
 
@@ -647,11 +621,12 @@ public class Login
 			+ "WHERE AD_Org_ID=? AND IsActive='Y' "
 			+ "ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, org.getKey());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (!rs.next())
 			{
@@ -685,15 +660,10 @@ public class Login
 			log.log(Level.SEVERE, "getWarehouses", ex);
 			retValue = null;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}   //  getWarehouses
@@ -802,12 +772,13 @@ public class Login
 			+ "WHERE a.C_AcctSchema_ID=c.C_AcctSchema1_ID "
 			+ "AND c.AD_Client_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			int C_AcctSchema_ID = 0;
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (!rs.next())
 			{
@@ -891,15 +862,10 @@ public class Login
 		{
 			log.log(Level.SEVERE, "loadPreferences", e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		Ini.saveProperties(Ini.isClient());
@@ -928,10 +894,11 @@ public class Login
 		sql = MRole.getDefault(m_ctx, false).addAccessSQL(sql, 
 			TableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				value = rs.getString(1);
 			rs.close();
@@ -943,15 +910,10 @@ public class Login
 			log.log(Level.SEVERE, TableName + " (" + sql + ")", e);
 			return;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Set Context Value
 		if (value != null && value.length() != 0)
