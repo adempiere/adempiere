@@ -18,7 +18,9 @@ package org.compiere.model;
 
 import java.math.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -52,8 +54,9 @@ public class CalloutInvoice extends CalloutEngine
 		if (C_DocType_ID == null || C_DocType_ID.intValue() == 0)
 			return "";
 
-		String sql = "SELECT d.HasCharges,'N',d.IsDocNoControlled,"
-			+ "s.CurrentNext, d.DocBaseType "
+		String sql = "SELECT d.HasCharges,'N',d.IsDocNoControlled," // 1..3
+			+ "s.CurrentNext, d.DocBaseType, " // 4..5
+			+ "s.StartNewYear, s.DateColumn, s.AD_Sequence_ID " //6..8
 			+ "FROM C_DocType d, AD_Sequence s "
 			+ "WHERE C_DocType_ID=?"		//	1
 			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
@@ -68,7 +71,18 @@ public class CalloutInvoice extends CalloutEngine
 				Env.setContext(ctx, WindowNo, "HasCharges", rs.getString(1));
 				//	DocumentNo
 				if (rs.getString(3).equals("Y"))
-					mTab.setValue("DocumentNo", "<" + rs.getString(4) + ">");
+				{
+					if ("Y".equals(rs.getString(6)))
+					{
+						String dateColumn = rs.getString(7);
+						mTab.setValue("DocumentNo", 
+								"<" 
+								+ MSequence.getPreliminaryNoByYear(mTab, rs.getInt(8), dateColumn, null) 
+								+ ">");
+					}
+					else
+						mTab.setValue("DocumentNo", "<" + rs.getString(4) + ">");
+				}
 				//  DocBaseType - Set Context
 				String s = rs.getString(5);
 				Env.setContext(ctx, WindowNo, "DocBaseType", s);
@@ -88,7 +102,6 @@ public class CalloutInvoice extends CalloutEngine
 		}
 		return "";
 	}	//	docType
-
 
 	/**
 	 *	Invoice Header- BPartner.

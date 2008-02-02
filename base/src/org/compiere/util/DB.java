@@ -48,6 +48,7 @@ import org.compiere.model.MLanguage;
 import org.compiere.model.MRole;
 import org.compiere.model.MSequence;
 import org.compiere.model.MSystem;
+import org.compiere.model.PO;
 import org.compiere.process.SequenceCheck;
 
 
@@ -1466,7 +1467,7 @@ public final class DB
 		params.toArray(arr);
 		return getSQLValueTS(trxName, sql, arr);
     }
-
+	
 	/**
 	 * 	Get Array of Key Name Pairs
 	 *	@param sql select with id / name as first / second column
@@ -1629,9 +1630,21 @@ public final class DB
 	 *  @param definite asking for a definitive or temporary sequence 
 	 *	@return document no or null
 	 */
-	public static String getDocumentNo(int C_DocType_ID, String trxName, boolean definite)
+	public static String getDocumentNo(int C_DocType_ID, String trxName, boolean definite) {
+		return getDocumentNo(C_DocType_ID, trxName, definite, null);
+	}
+	
+	/**
+	 * 	Get Document No based on Document Type
+	 *	@param C_DocType_ID document type
+	 * 	@param trxName optional Transaction Name
+	 *  @param definite asking for a definitive or temporary sequence 
+	 *  @param PO
+	 *	@return document no or null
+	 */
+	public static String getDocumentNo(int C_DocType_ID, String trxName, boolean definite, PO po)
 	{
-		return MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
+		return MSequence.getDocumentNo (C_DocType_ID, trxName, definite, po);
 	}	//	getDocumentNo
 
 	/**
@@ -1643,7 +1656,20 @@ public final class DB
 	 */
 	public static String getDocumentNo (int AD_Client_ID, String TableName, String trxName)
 	{
-		String dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName);
+		return getDocumentNo(AD_Client_ID, TableName, trxName, null);
+	}
+	
+	/**
+	 * 	Get Document No from table
+	 *	@param AD_Client_ID client
+	 *	@param TableName table name
+	 * 	@param trxName optional Transaction Name
+	 *  @param po
+	 *	@return document no or null
+	 */
+	public static String getDocumentNo (int AD_Client_ID, String TableName, String trxName, PO po)
+	{
+		String dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName, po);
 		if (dn == null)
 			throw new DBException ("No DocumentNo");
 		return dn;

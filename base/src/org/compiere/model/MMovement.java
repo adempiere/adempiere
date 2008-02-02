@@ -549,7 +549,7 @@ public class MMovement extends X_M_Movement implements DocAction
 			setMovementDate(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
 			if (value != null)
 				setDocumentNo(value);
 		}

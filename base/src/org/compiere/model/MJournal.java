@@ -330,7 +330,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
-			return success;
+			return success;		
 		return updateBatch();
 	}	//	afterSave
 	
@@ -567,7 +567,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 			setDateDoc(new Timestamp (System.currentTimeMillis()));
 		}
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
 			if (value != null)
 				setDocumentNo(value);
 		}

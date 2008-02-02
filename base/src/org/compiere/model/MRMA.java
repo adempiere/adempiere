@@ -422,7 +422,7 @@ public class MRMA extends X_M_RMA implements DocAction
 		}
 		*/
 		if (dt.isOverwriteSeqOnComplete()) {
-			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true);
+			String value = DB.getDocumentNo(getC_DocType_ID(), get_TrxName(), true, this);
 			if (value != null)
 				setDocumentNo(value);
 		}

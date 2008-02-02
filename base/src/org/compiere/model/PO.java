@@ -2134,9 +2134,9 @@ public abstract class PO
 					if (index == -1)
 						index = p_info.getColumnIndex("C_DocType_ID");
 					if (index != -1)		//	get based on Doc Type (might return null)
-						value = DB.getDocumentNo(get_ValueAsInt(index), m_trxName, false);
+						value = DB.getDocumentNo(get_ValueAsInt(index), m_trxName, false, this);
 					if (value == null)	//	not overwritten by DocType and not manually entered
-						value = DB.getDocumentNo(AD_Client_ID, p_info.getTableName(), m_trxName);
+						value = DB.getDocumentNo(AD_Client_ID, p_info.getTableName(), m_trxName, this);
 				}
 				else
 					log.warning("DocumentNo updated: " + m_oldValues[i] + " -> " + value);
@@ -2291,9 +2291,9 @@ public abstract class PO
 				if (dt == -1)
 					dt = p_info.getColumnIndex("C_DocType_ID");
 				if (dt != -1)		//	get based on Doc Type (might return null)
-					value = DB.getDocumentNo(get_ValueAsInt(dt), m_trxName, false);
+					value = DB.getDocumentNo(get_ValueAsInt(dt), m_trxName, false, this);
 				if (value == null)	//	not overwritten by DocType and not manually entered
-					value = DB.getDocumentNo(getAD_Client_ID(), p_info.getTableName(), m_trxName);
+					value = DB.getDocumentNo(getAD_Client_ID(), p_info.getTableName(), m_trxName, this);
 				set_ValueNoCheck(columnName, value);
 			}
 		}
@@ -2305,7 +2305,7 @@ public abstract class PO
 			String value = (String)get_Value(index);
 			if (value == null || value.length() == 0)
 			{
-				value = DB.getDocumentNo (getAD_Client_ID(), p_info.getTableName(), m_trxName);
+				value = DB.getDocumentNo (getAD_Client_ID(), p_info.getTableName(), m_trxName, this);
 				set_ValueNoCheck(columnName, value);
 			}
 		}

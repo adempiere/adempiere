@@ -99,7 +99,8 @@ public class CalloutInOut extends CalloutEngine
 		if (C_DocType_ID == null || C_DocType_ID.intValue() == 0)
 			return "";
 
-		String sql = "SELECT d.DocBaseType, d.IsDocNoControlled, s.CurrentNext "
+		String sql = "SELECT d.DocBaseType, d.IsDocNoControlled, s.CurrentNext, " //1..3
+			+ "s.AD_Sequence_ID, s.StartNewYear, s.DateColumn " //4..6
 			+ "FROM C_DocType d, AD_Sequence s "
 			+ "WHERE C_DocType_ID=?"		//	1
 			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
@@ -139,7 +140,19 @@ public class CalloutInOut extends CalloutEngine
 
 				//	DocumentNo
 				if (rs.getString("IsDocNoControlled").equals("Y"))
-					mTab.setValue("DocumentNo", "<" + rs.getString("CurrentNext") + ">");
+				{
+					if ("Y".equals(rs.getString(5)))
+					{
+						String dateColumn = rs.getString(6);
+						int AD_Sequence_ID = rs.getInt(4);
+						mTab.setValue("DocumentNo", 
+								"<" 
+								+ MSequence.getPreliminaryNoByYear(mTab, AD_Sequence_ID, dateColumn, null) 
+								+ ">");
+					}
+					else
+						mTab.setValue("DocumentNo", "<" + rs.getString("CurrentNext") + ">");
+				}
 			}
 			rs.close();
 			pstmt.close();

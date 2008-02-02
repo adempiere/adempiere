@@ -18,7 +18,9 @@ package org.compiere.model;
 
 import java.math.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -65,7 +67,8 @@ public class CalloutOrder extends CalloutEngine
 
 		String sql = "SELECT d.DocSubTypeSO,d.HasCharges,'N',"			//	1..3
 			+ "d.IsDocNoControlled,s.CurrentNext,s.CurrentNextSys,"     //  4..6
-			+ "s.AD_Sequence_ID,d.IsSOTrx "                             //	7..8
+			+ "s.AD_Sequence_ID,d.IsSOTrx, "                             //	7..8
+			+ "s.StartNewYear, s.DateColumn "							//  9..10
 			+ "FROM C_DocType d, AD_Sequence s "
 			+ "WHERE C_DocType_ID=?"	//	#1
 			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
@@ -80,7 +83,7 @@ public class CalloutOrder extends CalloutEngine
 				pstmt.setInt(1, oldC_DocType_ID.intValue());
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next())
-					AD_Sequence_ID = rs.getInt(6);
+					AD_Sequence_ID = rs.getInt(7);
 				rs.close();
 				pstmt.close();
 			}
@@ -138,7 +141,20 @@ public class CalloutOrder extends CalloutEngine
 						if (Ini.isPropertyBool(Ini.P_ADEMPIERESYS) && Env.getAD_Client_ID(Env.getCtx()) < 1000000)
 							mTab.setValue("DocumentNo", "<" + rs.getString(6) + ">");
 						else
-							mTab.setValue("DocumentNo", "<" + rs.getString(5) + ">");
+						{
+							if ("Y".equals(rs.getString(9)))
+							{
+								String dateColumn = rs.getString(10);
+								mTab.setValue("DocumentNo", 
+										"<" 
+										+ MSequence.getPreliminaryNoByYear(mTab, rs.getInt(7), dateColumn, null) 
+										+ ">");
+							}
+							else
+							{
+								mTab.setValue("DocumentNo", "<" + rs.getString(5) + ">");
+							}
+						}
 				}
 			}
 			rs.close();
@@ -207,7 +223,6 @@ public class CalloutOrder extends CalloutEngine
 
 		return "";
 	}	//	docType
-
 
 	/**
 	 *	Order Header - BPartner.
