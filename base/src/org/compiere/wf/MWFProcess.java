@@ -459,11 +459,14 @@ public class MWFProcess extends X_AD_WF_Process
 		{
 			//	Start first Activity with first Node
 			MWFActivity activity = new MWFActivity (this, AD_WF_Node_ID);
-			Thread workerWF = new Thread(activity);
-			workerWF.setName(activity.getAD_Workflow().getName() + " "
-					+ activity.getAD_Table().getName() + " "
-					+ activity.getRecord_ID());
-			workerWF.start();
+			//
+			// Thread workerWF = new Thread(activity);
+			// workerWF.setName(activity.getAD_Workflow().getName() + " "
+			//		+ activity.getAD_Table().getName() + " "
+			//		+ activity.getRecord_ID());
+			// workerWF.start();
+			activity.run();
+
 		}
 		catch (Exception e)
 		{
