@@ -34,6 +34,7 @@ import org.compiere.util.*;
  * 			<li>FR [ 1646891 ] SvrProcess - post process support
  * 			<li>BF [ 1877935 ] SvrProcess.process should catch all throwables
  * 			<li>FR [ 1877937 ] SvrProcess: added commitEx method
+ * 			<li>BF [ 1878743 ] SvrProcess.getAD_User_ID
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -332,7 +333,7 @@ public abstract class SvrProcess implements ProcessCall
 
 	/**
 	 *  Get AD_User_ID
-	 *  @return AD_User_ID of Process owner
+	 *  @return AD_User_ID of Process owner or -1 if not found
 	 */
 	protected int getAD_User_ID()
 	{
@@ -362,7 +363,7 @@ public abstract class SvrProcess implements ProcessCall
 			}
 		}
 		if (m_pi.getAD_User_ID() == null)
-			return 0;
+			return -1;
 		return m_pi.getAD_User_ID().intValue();
 	}   //  getAD_User_ID
 
