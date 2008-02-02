@@ -13,66 +13,48 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowStateListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import org.compiere.swing.CDialog;
 import org.compiere.swing.CFrame;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.jdesktop.swingx.JXButton;
-import org.jdesktop.swingx.JXDialog;
-import org.jdesktop.swingx.JXHyperlink;
-import org.jdesktop.swingx.JXImagePanel;
 import org.jdesktop.swingx.JXImageView;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.plaf.PainterUIResource;
 
 /**
  * Menu component that handles the functionality expected of a standard
@@ -177,7 +159,7 @@ public class WindowMenu extends JMenu {
     
     public void expose() {
 		
-		final JDialog dialog = new JDialog(frame);				
+		final JDialog dialog = new JDialog();				
 		dialog.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		dialog.setUndecorated(true);
 		dialog.setModal(true);
@@ -199,8 +181,8 @@ public class WindowMenu extends JMenu {
 		dialog.setVisible(true);		
 	}
 
-	private JXTitledPanel createImageBox(JPanel p, final JDialog dialog,
-			int width, int height, final CFrame window) {
+	private JXTitledPanel createImageBox(JPanel p, JDialog dialog,
+			int width, int height, CFrame window) {
 		BufferedImage bi = new BufferedImage (window.getWidth(), window.getHeight(),
 				BufferedImage.TYPE_INT_RGB);	//	TYPE_INT_ARGB is tinted red
 		window.paintAll(bi.createGraphics());
@@ -220,28 +202,21 @@ public class WindowMenu extends JMenu {
 		box.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		box.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				dialog.dispose();
-				AEnv.showWindow(window);
-			}
-
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				box.requestFocus();
 			}				
 		});
 		imageView.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				dialog.dispose();
-				AEnv.showWindow(window);
-			}		
-			
-			@Override
 			public void mouseEntered(MouseEvent e) {
 				box.requestFocus();					
 			}
 		});
+		
+		PreviewMouseAdapter adapter = new PreviewMouseAdapter(dialog, window);
+		box.addMouseListener(adapter);
+		imageView.addMouseListener(adapter);
+		
 		imageView.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		box.addFocusListener(new FocusAdapter(){
 
@@ -416,5 +391,26 @@ public class WindowMenu extends JMenu {
 		}
     	
     }
+    
+    class PreviewMouseAdapter extends MouseAdapter {
+    	private JDialog dialog;
+    	private Window window;
+
+		PreviewMouseAdapter(JDialog d, Window w) {
+    		dialog = d;
+    		window = w;
+    	}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			dialog.dispose();
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					AEnv.showWindow(window);
+				}
+			});			
+		}
+    }
 }
 
+ 
