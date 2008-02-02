@@ -380,7 +380,7 @@ public final class VBPartner extends CDialog implements ActionListener
 		if (value == null || value.length() == 0)
 		{
 			//	get Table Documet No
-			value = DB.getDocumentNo (Env.getAD_Client_ID(Env.getCtx()), "C_BPartner", null);
+			value = DB.getDocumentNo (Env.getAD_Client_ID(Env.getCtx()), "C_BPartner", null, m_partner);
 			fValue.setText(value);
 		}
 		m_partner.setValue(fValue.getText());
