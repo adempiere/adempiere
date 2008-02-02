@@ -1175,6 +1175,7 @@ public abstract class PO
 		if (CLogMgt.isLevelFinest())
 			log.finest(get_WhereClause(true));
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), m_trxName);	//	local trx only
@@ -1186,7 +1187,7 @@ public abstract class PO
 				else
 					pstmt.setString(i+1, m_IDs[i].toString());
 			}
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				success = load(rs);
@@ -1198,9 +1199,6 @@ public abstract class PO
 				success = false;
 			//	throw new DBException("NO Data found for " + get_WhereClause(true));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 			m_createNew = false;
 			//	reset new values
 			m_newValues = new Object[size];
@@ -1221,14 +1219,9 @@ public abstract class PO
 		//	throw new DBException(e);
 		}
 		//	Finish
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException e1)
-		{
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		loadComplete(success);
 		return success;
@@ -1746,31 +1739,23 @@ public abstract class PO
 			.append(m_KeyColumns[0]).append("=?")
 			.append(" AND AD_Language=?");
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
 			pstmt.setInt (1, ID);
 			pstmt.setString (2, AD_Language);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = rs.getString(1);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	get_Translation
@@ -2898,30 +2883,22 @@ public abstract class PO
 				+ "FROM AD_Column c INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
 				+ "WHERE t.TableName=? AND c.IsActive='Y' AND c.AD_Reference_ID=25 ORDER BY 1";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, null);
 				pstmt.setString (1, acctTable);
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
 					s_acctColumns.add (rs.getString(1));
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, acctTable, e);
 			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			if (s_acctColumns.size() == 0)
 			{
@@ -3270,19 +3247,23 @@ public abstract class PO
 		sql.append(TableName).append("_ID FROM ").append(TableName);
 		if (WhereClause != null && WhereClause.length() > 0)
 			sql.append(" WHERE ").append(WhereClause);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), trxName);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql.toString(), trxName);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new Integer(rs.getInt(1)));
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql.toString(), e);
 			return null;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Convert to array
 		int[] retValue = new int[list.size()];
@@ -3424,6 +3405,7 @@ public abstract class PO
 			DOMSource source = new DOMSource(get_xmlDocument(xml.length()!=0));
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			Transformer transformer = tFactory.newTransformer();
+			transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
 			transformer.transform (source, result);
 			StringBuffer newXML = writer.getBuffer();
 			//
