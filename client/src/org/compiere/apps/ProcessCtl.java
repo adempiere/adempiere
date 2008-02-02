@@ -334,7 +334,7 @@ public class ProcessCtl implements Runnable
 			rs.close();
 			pstmt.close();
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoProcedure") + " " + e.getLocalizedMessage(), true);
 			unlock();
@@ -361,7 +361,7 @@ public class ProcessCtl implements Runnable
 		boolean isJasper = false;
 		if (JasperReport != null && JasperReport.trim().length() > 0) {
 			isJasper = true;
-			if (m_pi.getClassName().equals(JASPER_STARTER_CLASS)) {
+			if (JASPER_STARTER_CLASS.equals(m_pi.getClassName())) {
 				m_pi.setClassName(null);
 			}
 		}
