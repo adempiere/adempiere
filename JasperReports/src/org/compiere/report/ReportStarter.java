@@ -391,146 +391,145 @@ public class ReportStarter implements ProcessCall, ClientProcess {
             reportResult( AD_PInstance_ID, "Can not find report", trxName);
             return false;
         }
-        if (Record_ID!=-1) {
-			JasperData data = null;
-			File reportFile = null;
-			String fileExtension = "";
-			HashMap params = new HashMap( ctx);
-			
-			addProcessParameters( AD_PInstance_ID, params, trxName);
-			
-			addProcessInfoParameters(params, pi.getParameter());
-			
-			reportFile = getReportFile(reportPath, (String)params.get("ReportType"));
-			
-			if (reportFile == null || reportFile.exists() == false) 
-			{
-				log.severe("No report file found for given type, falling back to " + reportPath);
-				reportFile = getReportFile(reportPath);
-			}
-			
-			if (reportFile == null || reportFile.exists() == false) {
-				String tmp = "Can not find report file at path - " + reportPath;
-				log.severe(tmp);
-				reportResult(AD_PInstance_ID, tmp, trxName);
-			}
+        
+		JasperData data = null;
+		File reportFile = null;
+		String fileExtension = "";
+		HashMap params = new HashMap( ctx);
+		
+		addProcessParameters( AD_PInstance_ID, params, trxName);
+		
+		addProcessInfoParameters(params, pi.getParameter());
+		
+		reportFile = getReportFile(reportPath, (String)params.get("ReportType"));
+		
+		if (reportFile == null || reportFile.exists() == false) 
+		{
+			log.severe("No report file found for given type, falling back to " + reportPath);
+			reportFile = getReportFile(reportPath);
+		}
+		
+		if (reportFile == null || reportFile.exists() == false) {
+			String tmp = "Can not find report file at path - " + reportPath;
+			log.severe(tmp);
+			reportResult(AD_PInstance_ID, tmp, trxName);
+		}
 
-			if (reportFile != null)
+		if (reportFile != null)
+		{
+			data = processReport(reportFile);
+			fileExtension = reportFile.getName().substring(reportFile.getName().lastIndexOf("."),
+					reportFile.getName().length());
+		}
+		else
+		{
+			return false;
+		}
+		
+		JasperReport jasperReport = data.getJasperReport();
+        String jasperName = data.getJasperName();
+        File reportDir = data.getReportDir();
+
+        if (jasperReport != null) {
+			File[] subreports;
+			
+            // Subreports
+			if(reportPath.startsWith("http://") || reportPath.startsWith("https://"))
 			{
-				data = processReport(reportFile);
-				fileExtension = reportFile.getName().substring(reportFile.getName().lastIndexOf("."),
-						reportFile.getName().length());
+				// Locate and download subreports from remote webcontext
+				subreports = getHttpSubreports(jasperName + "Subreport", reportPath, fileExtension);
 			}
+			else if (reportPath.startsWith("attachment:")) 
+			{
+				subreports = getAttachmentSubreports(reportPath);
+			}
+			else if (reportPath.startsWith("resource:")) 
+			{
+				subreports = getResourceSubreports(jasperName + "Subreport", reportPath, fileExtension);
+			}
+			// TODO: Implement file:/ lookup for subreports
 			else
 			{
-				return false;
+				// Locate subreports from local/remote filesystem
+				subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, fileExtension));
 			}
 			
-			JasperReport jasperReport = data.getJasperReport();
-            String jasperName = data.getJasperName();
-            File reportDir = data.getReportDir();
-
-            if (jasperReport != null) {
-				File[] subreports;
-				
-                // Subreports
-				if(reportPath.startsWith("http://") || reportPath.startsWith("https://"))
-				{
-					// Locate and download subreports from remote webcontext
-					subreports = getHttpSubreports(jasperName + "Subreport", reportPath, fileExtension);
-				}
-				else if (reportPath.startsWith("attachment:")) 
-				{
-					subreports = getAttachmentSubreports(reportPath);
-				}
-				else if (reportPath.startsWith("resource:")) 
-				{
-					subreports = getResourceSubreports(jasperName + "Subreport", reportPath, fileExtension);
-				}
-				// TODO: Implement file:/ lookup for subreports
-				else
-				{
-					// Locate subreports from local/remote filesystem
-					subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, fileExtension));
-				}
-				
-                for( int i=0; i<subreports.length; i++) {
-                    JasperData subData = processReport( subreports[i]);
-                    if (subData.getJasperReport()!=null) {
-                        params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
-                    }
-                }
-
-                params.put("RECORD_ID", new Integer( Record_ID));
-                
-                // contribution from Ricardo (ralexsander)
-                // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
-                params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
-                
-                Language currLang = Env.getLanguage(Env.getCtx());
-                params.put("CURRENT_LANG", currLang.getAD_Language());
-                // Resources
-                File resFile = null;
-                if (reportPath.startsWith("attachment:") && attachment != null) {
-                	resFile = getAttachmentResourceFile(jasperName, currLang);
-                } else if (reportPath.startsWith("resource:")) {
-                    	resFile = getResourcesForResourceFile(jasperName, currLang);
-                // TODO: Implement file:/ for resources
-                } else {
-	                File[] resources = reportDir.listFiles( new FileFilter( jasperName, reportDir, ".properties"));                
-	                // try baseName + "_" + language
-	                for( int i=0; i<resources.length; i++) {
-	                    if ( resources[i].getName().equals( jasperName+currLang.getLocale().getLanguage()+".properties")) {
-	                        resFile=resources[i];
-	                        break;
-	                    }
-	                }
-	                if (resFile==null) {
-	                    // try baseName only
-	                    for( int i=0; i<resources.length; i++) {
-	                        if ( resources[i].getName().equals( jasperName+".properties")) {
-	                            resFile=resources[i];
-	                            break;
-	                        }
-	                    }
-	                }
-                }
-                if (resFile!=null) {
-                    try {
-                        PropertyResourceBundle res = new PropertyResourceBundle( new FileInputStream(resFile));
-                        params.put("RESOURCE", res);
-                    } catch (IOException e) {
-                        ;
-                    }
-                }
-
-                Connection conn = null;
-                try {
-                    //JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
-                	conn = getConnection();
-                    JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
-                    if (reportData.isDirectPrint()) {
-                        log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
-                        JasperPrintManager.printReport( jasperPrint, false);
-                        
-                        // You can use JasperPrint to create PDF
-//                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
-                    } else {
-                        log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
-                        JRViewerProvider viewerLauncher = getReportViewerProvider();
-                        viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
-                    }
-                } catch (JRException e) {
-                    log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
-                } finally {
-                	if (conn != null)
-						try {
-							conn.close();
-						} catch (SQLException e) {
-						}
+            for( int i=0; i<subreports.length; i++) {
+                JasperData subData = processReport( subreports[i]);
+                if (subData.getJasperReport()!=null) {
+                    params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
                 }
             }
 
+            if (Record_ID > 0)
+            	params.put("RECORD_ID", new Integer( Record_ID));
+            
+            // contribution from Ricardo (ralexsander)
+            // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
+            params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
+            
+            Language currLang = Env.getLanguage(Env.getCtx());
+            params.put("CURRENT_LANG", currLang.getAD_Language());
+            // Resources
+            File resFile = null;
+            if (reportPath.startsWith("attachment:") && attachment != null) {
+            	resFile = getAttachmentResourceFile(jasperName, currLang);
+            } else if (reportPath.startsWith("resource:")) {
+                	resFile = getResourcesForResourceFile(jasperName, currLang);
+            // TODO: Implement file:/ for resources
+            } else {
+                File[] resources = reportDir.listFiles( new FileFilter( jasperName, reportDir, ".properties"));                
+                // try baseName + "_" + language
+                for( int i=0; i<resources.length; i++) {
+                    if ( resources[i].getName().equals( jasperName+currLang.getLocale().getLanguage()+".properties")) {
+                        resFile=resources[i];
+                        break;
+                    }
+                }
+                if (resFile==null) {
+                    // try baseName only
+                    for( int i=0; i<resources.length; i++) {
+                        if ( resources[i].getName().equals( jasperName+".properties")) {
+                            resFile=resources[i];
+                            break;
+                        }
+                    }
+                }
+            }
+            if (resFile!=null) {
+                try {
+                    PropertyResourceBundle res = new PropertyResourceBundle( new FileInputStream(resFile));
+                    params.put("RESOURCE", res);
+                } catch (IOException e) {
+                    ;
+                }
+            }
+
+            Connection conn = null;
+            try {
+                //JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
+            	conn = getConnection();
+                JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
+                if (reportData.isDirectPrint()) {
+                    log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
+                    JasperPrintManager.printReport( jasperPrint, false);
+                    
+                    // You can use JasperPrint to create PDF
+//                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
+                } else {
+                    log.info( "ReportStarter.startProcess run report -"+jasperPrint.getName());
+                    JRViewerProvider viewerLauncher = getReportViewerProvider();
+                    viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
+                }
+            } catch (JRException e) {
+                log.severe("ReportStarter.startProcess: Can not run report - "+ e.getMessage());
+            } finally {
+            	if (conn != null)
+					try {
+						conn.close();
+					} catch (SQLException e) {
+					}
+            }
         }
 
         reportResult( AD_PInstance_ID, null, trxName);
