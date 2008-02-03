@@ -16,17 +16,27 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogMgt;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
 
 /**
  *	Product Attribute Lookup Model (not Cached)
  *	
  *  @author Jorg Janke
  *  @version $Id: MPAttributeLookup.java,v 1.2 2006/07/30 00:58:38 jjanke Exp $
+ *  
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1885260 ] MPAttributeLookup: throws SQLException sometimes
  */
 public class MPAttributeLookup extends Lookup
 	implements Serializable
@@ -40,13 +50,11 @@ public class MPAttributeLookup extends Lookup
 	public MPAttributeLookup(Properties ctx, int WindowNo)
 	{
 		super(DisplayType.TableDir, WindowNo);
-		m_ctx = ctx;
+//		m_ctx = ctx;
 	}	//	MPAttribute
 
-	/**	Properties					*/
-	private Properties 			m_ctx;
-	/**	Statement					*/
-	private PreparedStatement	m_pstmt = null;
+//	/**	Properties					*/
+//	private Properties 			m_ctx;
 	/**	No Instance Value			*/
 	private static KeyNamePair	NO_INSTANCE = new KeyNamePair (0,"");
 
@@ -101,17 +109,16 @@ public class MPAttributeLookup extends Lookup
 		if (M_AttributeSetInstance_ID == 0)
 			return NO_INSTANCE;
 		//
-		//	Statement
-		if (m_pstmt == null)
-			m_pstmt = DB.prepareStatement("SELECT Description "
-				+ "FROM M_AttributeSetInstance "
-				+ "WHERE M_AttributeSetInstance_ID=?", null);
-		//
 		String Description = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			m_pstmt.setInt(1, M_AttributeSetInstance_ID);
-			ResultSet rs = m_pstmt.executeQuery();
+			pstmt = DB.prepareStatement("SELECT Description "
+					+ "FROM M_AttributeSetInstance "
+					+ "WHERE M_AttributeSetInstance_ID=?", null);
+			pstmt.setInt(1, M_AttributeSetInstance_ID);
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				Description = rs.getString(1);			//	Description
@@ -123,11 +130,15 @@ public class MPAttributeLookup extends Lookup
 						Description = "";
 				}
 			}
-			rs.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "get", e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (Description == null)
 			return null;
@@ -140,16 +151,6 @@ public class MPAttributeLookup extends Lookup
 	 */
 	public void dispose()
 	{
-		try
-		{
-			if (m_pstmt != null)
-				m_pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			//no need to log close exception
-			//log.log(Level.SEVERE, "dispose", e);
-		}
 		log.fine("");
 		super.dispose();
 	}	//	dispose
