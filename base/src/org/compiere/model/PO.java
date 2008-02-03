@@ -2165,11 +2165,11 @@ public abstract class PO
 					oldV = null;
 				if (newV != null && newV == Null.NULL)
 					newV = null;
-				//
+				// change log on update
 				MChangeLog cLog = session.changeLog (
 					m_trxName, AD_ChangeLog_ID, 
 					p_info.getAD_Table_ID(), p_info.getColumn(i).AD_Column_ID, 
-					get_ID(), getAD_Client_ID(), getAD_Org_ID(), oldV, newV);
+					get_ID(), getAD_Client_ID(), getAD_Org_ID(), oldV, newV, "UPDATE");
 				if (cLog != null)
 					AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
 			}
@@ -2296,6 +2296,12 @@ public abstract class PO
 		}
 		
 		lobReset();
+		
+		//	Change Log
+		MSession session = MSession.get (p_ctx, false);
+		if (session == null)
+			log.fine("No Session found");
+		int AD_ChangeLog_ID = 0;
 
 		//	SQL
 		StringBuffer sqlInsert = new StringBuffer("INSERT INTO ");
@@ -2368,6 +2374,25 @@ public abstract class PO
 				log.log(Level.SEVERE, msg, e);
 				throw new DBException(e);	//	fini
 			}
+			
+			//	Change Log	- Only 
+			if (session != null
+				&& m_IDs.length == 1 
+				&& !p_info.isEncrypted(i)		//	not encrypted
+				&& !p_info.isVirtualColumn(i)	//	no virtual column
+				&& !"Password".equals(columnName)
+				&& p_info.getColumn(i).IsKey // log just the key - to log all columns comment this line 
+				)
+			{
+				// change log on new
+				MChangeLog cLog = session.changeLog (
+						m_trxName, AD_ChangeLog_ID, 
+						p_info.getAD_Table_ID(), p_info.getColumn(i).AD_Column_ID, 
+						get_ID(), getAD_Client_ID(), getAD_Org_ID(), null, value, "INSERT");
+				if (cLog != null)
+					AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
+			}
+			
 		}
 		//	Custom Columns
 		if (m_custom != null)
@@ -2625,10 +2650,11 @@ public abstract class PO
 							&& !"Password".equals(p_info.getColumnName(i))
 							)
 						{
+							// change log on delete
 							MChangeLog cLog = session.changeLog (
 								m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
 								AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
-								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null);
+								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, "DELETE");
 							if (cLog != null)
 								AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
 						}

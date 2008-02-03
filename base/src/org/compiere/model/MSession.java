@@ -215,6 +215,20 @@ public class MSession extends X_AD_Session
 		log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
 	}	//	logout
 
+	/**
+	 * 	Preserved for backward compatibility
+	 *@deprecated
+	 */
+	public MChangeLog changeLog (
+		String TrxName, int AD_ChangeLog_ID,
+		int AD_Table_ID, int AD_Column_ID, int Record_ID,
+		int AD_Client_ID, int AD_Org_ID,
+		Object OldValue, Object NewValue)
+	{
+		return changeLog(TrxName, AD_ChangeLog_ID, AD_Table_ID, AD_Column_ID,
+				Record_ID, AD_Client_ID, AD_Org_ID, OldValue, NewValue,
+				(String) null);
+	}	// changeLog
 
 	/**
 	 * 	Create Change Log only if table is logged
@@ -233,7 +247,7 @@ public class MSession extends X_AD_Session
 		String TrxName, int AD_ChangeLog_ID,
 		int AD_Table_ID, int AD_Column_ID, int Record_ID,
 		int AD_Client_ID, int AD_Org_ID,
-		Object OldValue, Object NewValue)
+		Object OldValue, Object NewValue, String event)
 	{
 		//	Null handling
 		if (OldValue == null && NewValue == null)
@@ -268,7 +282,7 @@ public class MSession extends X_AD_Session
 			MChangeLog cl = new MChangeLog(getCtx(), 
 				AD_ChangeLog_ID, TrxName, getAD_Session_ID(),
 				AD_Table_ID, AD_Column_ID, Record_ID, AD_Client_ID, AD_Org_ID,
-				OldValue, NewValue);
+				OldValue, NewValue, event);
 			if (cl.save())
 				return cl;
 		}

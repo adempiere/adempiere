@@ -122,6 +122,21 @@ public class MChangeLog extends X_AD_ChangeLog
 	}	//	MChangeLog
 	
 	/**
+	 *	Preserved for backward compatibility
+	 *@deprecated
+	 */
+	public MChangeLog (Properties ctx, 
+			int AD_ChangeLog_ID, String TrxName, int AD_Session_ID, 
+			int AD_Table_ID, int AD_Column_ID, int Record_ID,
+			int AD_Client_ID, int AD_Org_ID,
+			Object OldValue, Object NewValue)
+	{
+		this(ctx, AD_ChangeLog_ID, TrxName, AD_Session_ID, AD_Table_ID,
+				AD_Column_ID, Record_ID, AD_Client_ID, AD_Org_ID, OldValue,
+				NewValue, (String) null /*event*/ );
+	}	// MChangeLog
+
+	/**
 	 * 	Full Constructor
 	 *	@param ctx context
 	 *	@param AD_ChangeLog_ID 0 for new change log
@@ -139,7 +154,7 @@ public class MChangeLog extends X_AD_ChangeLog
 		int AD_ChangeLog_ID, String TrxName, int AD_Session_ID, 
 		int AD_Table_ID, int AD_Column_ID, int Record_ID,
 		int AD_Client_ID, int AD_Org_ID,
-		Object OldValue, Object NewValue)
+		Object OldValue, Object NewValue, String event)
 	{
 		this (ctx, 0, TrxName);	
 		if (AD_ChangeLog_ID == 0)
@@ -160,9 +175,13 @@ public class MChangeLog extends X_AD_ChangeLog
 		//
 		setOldValue (OldValue);
 		setNewValue (NewValue);
-		//	R2.5.2f_2005-09-25  2.5.2f_20050925-2201
-		setDescription(Adempiere.MAIN_VERSION + "_" 
-			+ Adempiere.DATE_VERSION + " " + Adempiere.getImplementationVersion());
+		//	EVENT / Release 3.3.1t_2007-12-05 ADempiere
+		if (event != null)
+			setDescription(event + " / " + Adempiere.MAIN_VERSION + "_" 
+					+ Adempiere.DATE_VERSION + " " + Adempiere.getImplementationVersion());
+		else
+			setDescription(Adempiere.MAIN_VERSION + "_" 
+					+ Adempiere.DATE_VERSION + " " + Adempiere.getImplementationVersion());
 	}	//	MChangeLog
 
 	
