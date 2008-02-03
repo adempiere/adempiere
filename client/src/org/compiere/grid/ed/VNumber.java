@@ -35,7 +35,9 @@ import org.compiere.util.*;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VNumber.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  * 
- * @author Teo Sarca - BF [ 1739516 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1739516 ] Warning on numeric field with range set
+ * 			<li>BF [ 1834393 ] VNumber.setFocusable not working
  */
 public final class VNumber extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
@@ -244,6 +246,7 @@ public final class VNumber extends JComponent
 		//	Don't show button if not ReadWrite
 		if (m_button.isVisible() != value)
 			m_button.setVisible(value);
+		setFocusable(value == true);
 	}	//	setReadWrite
 
 	/**
@@ -651,6 +654,14 @@ public final class VNumber extends JComponent
 			ValuePreference.addMenu (this, popupMenu);
 		**/
 	}   //  setField
+	
+	/*
+	 * BF [ 1834393 ] VNumber.setFocusable not working
+	 */
+	@Override
+	public void setFocusable(boolean value) {
+		m_text.setFocusable(value);
+	}
 
 	
 	/**************************************************************************
