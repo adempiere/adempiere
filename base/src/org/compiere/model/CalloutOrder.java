@@ -16,13 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Date;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 /**
  *	Order Callouts.
@@ -72,6 +79,8 @@ public class CalloutOrder extends CalloutEngine
 			+ "FROM C_DocType d, AD_Sequence s "
 			+ "WHERE C_DocType_ID=?"	//	#1
 			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			int AD_Sequence_ID = 0;
@@ -79,18 +88,15 @@ public class CalloutOrder extends CalloutEngine
 			//	Get old AD_SeqNo for comparison
 			if (!newDocNo && oldC_DocType_ID.intValue() != 0)
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, oldC_DocType_ID.intValue());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 					AD_Sequence_ID = rs.getInt(7);
-				rs.close();
-				pstmt.close();
 			}
-
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_DocType_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			String DocSubTypeSO = "";
 			boolean IsSOTrx = true;
 			if (rs.next())		//	we found document type
@@ -132,6 +138,7 @@ public class CalloutOrder extends CalloutEngine
 
 				//	Set Context:
 				Env.setContext(ctx, WindowNo, "HasCharges", rs.getString(2));
+
 				//	DocumentNo
 				if (rs.getString(4).equals("Y"))			//	IsDocNoControlled
 				{
@@ -157,8 +164,6 @@ public class CalloutOrder extends CalloutEngine
 						}
 				}
 			}
-			rs.close();
-			pstmt.close();
 			//  When BPartner is changed, the Rules are not set if
 			//  it is a POS or Credit Order (i.e. defaults from Standard BPartner)
 			//  This re-reads the Rules and applies them.
@@ -211,16 +216,19 @@ public class CalloutOrder extends CalloutEngine
 					if (s != null && s.length() != 0)
 						mTab.setValue("DeliveryViaRule", s);
 				}
-				rs.close();
-				pstmt.close();
-			}   //  re-read customer rules
+			} 
+			//  re-read customer rules
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	docType
 
@@ -247,8 +255,6 @@ public class CalloutOrder extends CalloutEngine
 		Integer C_BPartner_ID = (Integer)value;
 		if (C_BPartner_ID == null || C_BPartner_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
-		
 		String sql = "SELECT p.AD_Language,p.C_PaymentTerm_ID,"
 			+ " COALESCE(p.M_PriceList_ID,g.M_PriceList_ID) AS M_PriceList_ID, p.PaymentRule,p.POReference,"
 			+ " p.SO_Description,p.IsDiscountPrinted,"
@@ -266,12 +272,13 @@ public class CalloutOrder extends CalloutEngine
 			+ "WHERE p.C_BPartner_ID=? AND p.IsActive='Y'";		//	#1
 
 		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
-
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_BPartner_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				// Sales Rep - If BP has a default SalesRep then default it
@@ -411,16 +418,17 @@ public class CalloutOrder extends CalloutEngine
 						mTab.setValue("DeliveryViaRule", s);
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
-		setCalloutActive(false);
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	bPartner
 
@@ -463,12 +471,13 @@ public class CalloutOrder extends CalloutEngine
 			+ "WHERE p.C_BPartner_ID=? AND p.IsActive='Y'";		//	#1
 
 		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
-
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, bill_BPartner_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	PriceList (indirect: IsTaxIncluded & Currency)
@@ -570,15 +579,17 @@ public class CalloutOrder extends CalloutEngine
 						mTab.setValue("InvoiceRule", s);
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "bPartnerBill", e);
 			return e.getLocalizedMessage();
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	bPartnerBill
 
@@ -605,7 +616,8 @@ public class CalloutOrder extends CalloutEngine
 		if (M_PriceList_ID == null || M_PriceList_ID.intValue()== 0)
 			return "";
 		if (steps) log.warning("init");
-
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT pl.IsTaxIncluded,pl.EnforcePriceLimit,pl.C_Currency_ID,c.StdPrecision,"
 			+ "plv.M_PriceList_Version_ID,plv.ValidFrom "
 			+ "FROM M_PriceList pl,C_Currency c,M_PriceList_Version plv "
@@ -616,9 +628,9 @@ public class CalloutOrder extends CalloutEngine
 		//	Use newest price list - may not be future
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_PriceList_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Tax Included
@@ -631,13 +643,16 @@ public class CalloutOrder extends CalloutEngine
 				//	PriceList Version
 				Env.setContext(ctx, WindowNo, "M_PriceList_Version_ID", rs.getInt(5));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (steps) log.warning("fini");
 
@@ -664,7 +679,6 @@ public class CalloutOrder extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		if (steps) log.warning("init");
 		//
 		mTab.setValue("C_Charge_ID", null);
@@ -755,7 +769,6 @@ public class CalloutOrder extends CalloutEngine
 			}
 		}
 		//
-		setCalloutActive(false);
 		if (steps) log.warning("fini");
 		return tax (ctx, WindowNo, mTab, mField, value);
 	}	//	product
@@ -789,11 +802,13 @@ public class CalloutOrder extends CalloutEngine
 		
 		Env.setContext(ctx, WindowNo, "DiscountSchema", "N");
 		String sql = "SELECT ChargeAmt FROM C_Charge WHERE C_Charge_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Charge_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				mTab.setValue ("PriceEntered", rs.getBigDecimal (1));
@@ -802,14 +817,18 @@ public class CalloutOrder extends CalloutEngine
 				mTab.setValue ("PriceList", Env.ZERO);
 				mTab.setValue ("Discount", Env.ZERO);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+
 		//
 		return tax (ctx, WindowNo, mTab, mField, value);
 	}	//	charge
@@ -910,7 +929,6 @@ public class CalloutOrder extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		if (steps) log.warning("init");
 		int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
@@ -1057,7 +1075,6 @@ public class CalloutOrder extends CalloutEngine
 		log.info("LineNetAmt=" + LineNetAmt);
 		mTab.setValue("LineNetAmt", LineNetAmt);
 		//
-		setCalloutActive(false);
 		return "";
 	}	//	amt
 
@@ -1076,8 +1093,6 @@ public class CalloutOrder extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
-
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		if (steps) log.warning("init - M_Product_ID=" + M_Product_ID + " - " );
 		BigDecimal QtyOrdered = Env.ZERO;
@@ -1218,7 +1233,6 @@ public class CalloutOrder extends CalloutEngine
 			}
 		}
 		//
-		setCalloutActive(false);
 		return "";
 	}	//	qty
 	
