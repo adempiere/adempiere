@@ -103,6 +103,7 @@ public class Query {
 		}
 		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
@@ -113,27 +114,20 @@ public class Query {
 					pstmt.setObject(i+1, parameters[i]);
 				}
 			}
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				PO po = table.getPO(rs, trxName);
 				list.add(po);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			throw e;
 		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close ();				
-			}
-			catch (Exception e){}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return list;
 	}
@@ -164,6 +158,7 @@ public class Query {
 			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		List<Object[]> idList = new ArrayList<Object[]>();
 		try
 		{
@@ -175,7 +170,7 @@ public class Query {
 					pstmt.setObject(i+1, parameters[i]);
 				}
 			}
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				Object[] ids = new Object[keys.length];
@@ -184,21 +179,14 @@ public class Query {
 				}
 				idList.add(ids);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			throw e;
 		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e) {}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return new POIterator(table, idList, trxName);
 	}
