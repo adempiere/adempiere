@@ -1132,10 +1132,11 @@ public class VPayment extends CDialog
 			}
 			m_mPayment.setDateTrx(m_DateAcct);
 			m_mPayment.setDateAcct(m_DateAcct);
-			m_mPayment.save();
+			if (!m_mPayment.save())
+				ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");;
 			
 			//  Save/Post
-			if (MPayment.DOCSTATUS_Drafted.equals(m_mPayment.getDocStatus()))
+			if (m_mPayment.get_ID() > 0 && MPayment.DOCSTATUS_Drafted.equals(m_mPayment.getDocStatus()))
 			{
 				boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
 				m_mPayment.save();
@@ -1390,26 +1391,29 @@ public class VPayment extends CDialog
 			m_mPayment.setDateTrx(m_DateAcct);
 			//  Set Amount
 			m_mPayment.setAmount(m_C_Currency_ID, m_Amount);
-
-			approved = m_mPayment.processOnline();
-			info = m_mPayment.getR_RespMsg() + " (" + m_mPayment.getR_AuthCode()
-				+ ") ID=" + m_mPayment.getR_PnRef();
-			boolean saved = m_mPayment.save();
-
-			if (approved)
-			{
-				boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
+			if (!m_mPayment.save()) {
+				ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
+			} else {
+				approved = m_mPayment.processOnline();
+				info = m_mPayment.getR_RespMsg() + " (" + m_mPayment.getR_AuthCode()
+					+ ") ID=" + m_mPayment.getR_PnRef();
 				m_mPayment.save();
-				if (ok)
-					ADialog.info(m_WindowNo, this, "PaymentProcessed", info + "\n" + m_mPayment.getDocumentNo());
+
+				if (approved)
+				{
+					boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
+					m_mPayment.save();
+					if (ok)
+						ADialog.info(m_WindowNo, this, "PaymentProcessed", info + "\n" + m_mPayment.getDocumentNo());
+					else
+						ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
+					saveChanges();
+					dispose();
+				}
 				else
-					ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
-				saveChanges();
-				dispose();
-			}
-			else
-			{
-				ADialog.error(m_WindowNo, this, "PaymentNotProcessed", info);
+				{
+					ADialog.error(m_WindowNo, this, "PaymentNotProcessed", info);
+				}
 			}
 		}
 		else

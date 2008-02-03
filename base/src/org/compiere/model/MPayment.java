@@ -595,6 +595,25 @@ public final class MPayment extends X_C_Payment
 				setAD_Org_ID(ba.getAD_Org_ID());
 		}
 		
+		// [ adempiere-Bugs-1885417 ] Validate BP on Payment Prepare or BeforeSave
+		// there is bp and (invoice or order)
+		if (getC_BPartner_ID() != 0 && (getC_Invoice_ID() != 0 || getC_Order_ID() != 0)) {
+			if (getC_Invoice_ID() != 0) {
+				MInvoice inv = new MInvoice(getCtx(), getC_Invoice_ID(), get_TrxName());
+				if (inv.getC_BPartner_ID() != getC_BPartner_ID()) {
+					log.saveError("Error", Msg.parseTranslation(getCtx(), "BP different from BP Invoice"));
+					return false;
+				}
+			}
+			if (getC_Order_ID() != 0) {
+				MOrder ord = new MOrder(getCtx(), getC_Order_ID(), get_TrxName());
+				if (ord.getC_BPartner_ID() != getC_BPartner_ID()) {
+					log.saveError("Error", Msg.parseTranslation(getCtx(), "BP different from BP Order"));
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}	//	beforeSave
 	
