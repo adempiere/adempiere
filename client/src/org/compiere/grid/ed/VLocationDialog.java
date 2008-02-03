@@ -34,6 +34,9 @@ import org.adempiere.model.*;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VLocationDialog.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1831060 ] Location dialog should use Address1, Address2 ... elements
  */
 public class VLocationDialog extends CDialog 
 	implements ActionListener
@@ -109,10 +112,10 @@ public class VLocationDialog extends CDialog
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private BorderLayout southLayout = new BorderLayout();
 	//
-	private CLabel		lAddress1   = new CLabel(Msg.getMsg(Env.getCtx(), "Address")+ " 1");
-	private CLabel		lAddress2   = new CLabel(Msg.getMsg(Env.getCtx(), "Address")+ " 2");
-	private CLabel		lAddress3   = new CLabel(Msg.getMsg(Env.getCtx(), "Address")+ " 3");
-	private CLabel		lAddress4   = new CLabel(Msg.getMsg(Env.getCtx(), "Address")+ " 4");
+	private CLabel		lAddress1   = new CLabel(Msg.getElement(Env.getCtx(), "Address1"));
+	private CLabel		lAddress2   = new CLabel(Msg.getElement(Env.getCtx(), "Address2"));
+	private CLabel		lAddress3   = new CLabel(Msg.getElement(Env.getCtx(), "Address3"));
+	private CLabel		lAddress4   = new CLabel(Msg.getElement(Env.getCtx(), "Address4"));
 	private CLabel		lCity       = new CLabel(Msg.getMsg(Env.getCtx(), "City"));
 	private CLabel		lCountry    = new CLabel(Msg.getMsg(Env.getCtx(), "Country"));
 	private CLabel		lRegion     = new CLabel(Msg.getMsg(Env.getCtx(), "Region"));
@@ -320,7 +323,7 @@ public class VLocationDialog extends CDialog
 				// TODO: fix bug that occurs when the new region name is shorter than the old region name
 			}
 			
-			//			refrseh
+			//			refresh
 			mainPanel.removeAll();
 			
 			initLocation();
