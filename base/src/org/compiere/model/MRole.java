@@ -502,7 +502,7 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Process_ID@ #" + proc
 			+ " -  @AD_Form_ID@ #" + form
 			+ " -  @AD_Workflow_ID@ #" + wf
-			+ " -  AD_Document_Action_Access #" + docact;
+			+ " -  @DocAction@ #" + docact;
 		
 	}	//	createAccessRecords
 
