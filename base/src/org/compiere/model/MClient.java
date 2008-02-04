@@ -34,9 +34,11 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version $Id: MClient.java,v 1.2 2006/07/30 00:58:37 jjanke Exp $
  *  
- *  Carlos Ruiz - globalqss
+ * @author Carlos Ruiz - globalqss
  *    integrate bug fix reported by Teo Sarca
  *    [ 1619085 ] Client setup creates duplicate trees
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1886480 ] Print Format Item Trl not updated even if not multilingual
  */
 public class MClient extends X_AD_Client
 {
@@ -430,7 +432,7 @@ public class MClient extends X_AD_Client
 		if (TableName == null)
 			return false;
 		//	Not Multi-Lingual Documents - only Doc Related
-		if (TableName.startsWith("AD"))
+		if (TableName.startsWith("AD") && getAD_Client_ID() == 0)
 			return false;
 		return true;
 	}	//	isMultiLingualDocument
