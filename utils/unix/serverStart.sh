@@ -19,6 +19,7 @@
 # adjust these variables to your environment
 EXECDIR=/home/adempiere/Adempiere
 ENVFILE=/home/adempiere/.bash_profile
+ADEMPIEREUSER=adempiere
 
 . /etc/rc.d/init.d/functions
  
@@ -41,7 +42,8 @@ start () {
     echo -n "Starting ADempiere ERP: "
     source $ENVFILE 
     export LOGFILE=$ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_`date +%Y%m%d%H%M%S`.log
-    su adempiere -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2.sh &> $LOGFILE &"
+    su $ADEMPIEREUSER -c "mkdir -p $ADEMPIERE_HOME/jboss/server/adempiere/log"
+    su $ADEMPIEREUSER -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2.sh &> $LOGFILE &"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
 	# wait for server to be confirmed as started in logfile
@@ -81,7 +83,7 @@ stop () {
     echo -n "Stopping ADempiere ERP: "
     source $ENVFILE 
     export LASTLOG=`ls -t $ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_??????????????.log | head -1`
-    su adempiere -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2Stop.sh &> /dev/null &"
+    su $ADEMPIEREUSER -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2Stop.sh &> /dev/null &"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
 	# wait for server to be confirmed as halted in logfile
