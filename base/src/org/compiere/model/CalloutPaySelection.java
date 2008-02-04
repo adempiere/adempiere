@@ -61,14 +61,12 @@ public class CalloutPaySelection extends CalloutEngine
 		BigDecimal OpenAmt = (BigDecimal)mTab.getValue("OpenAmt");
 		BigDecimal PayAmt = (BigDecimal)mTab.getValue("PayAmt");
 		BigDecimal DiscountAmt = (BigDecimal)mTab.getValue("DiscountAmt");
-		setCalloutActive(true);
 		BigDecimal DifferenceAmt = OpenAmt.subtract(PayAmt).subtract(DiscountAmt);
 		log.fine(" - OpenAmt=" + OpenAmt + " - PayAmt=" + PayAmt
 			+ ", Discount=" + DiscountAmt + ", Difference=" + DifferenceAmt);
 		
 		mTab.setValue("DifferenceAmt", DifferenceAmt);
 
-		setCalloutActive(false);
 		return "";
 	}	//	PaySel_PayAmt
 
@@ -96,7 +94,6 @@ public class CalloutPaySelection extends CalloutEngine
 		/* ARHIPAC: TEO: BEGIN: END ------------------------------------------------------------------------------------------ */
 		if (PayDate == null)
 			PayDate = new Timestamp(System.currentTimeMillis());
-		setCalloutActive(true);
 
 		BigDecimal OpenAmt = Env.ZERO;
 		BigDecimal DiscountAmt = Env.ZERO;
@@ -106,35 +103,37 @@ public class CalloutPaySelection extends CalloutEngine
 			+ " paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?), i.IsSOTrx "
 			+ "FROM C_Invoice_v i, C_BankAccount ba "
 			+ "WHERE i.C_Invoice_ID=? AND ba.C_BankAccount_ID=?";	//	#1..2
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(2, C_Invoice_ID);
 			pstmt.setInt(3, C_BankAccount_ID);
 			pstmt.setTimestamp(1, PayDate);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				OpenAmt = rs.getBigDecimal(1);
 				DiscountAmt = rs.getBigDecimal(2);
 				IsSOTrx = new Boolean ("Y".equals(rs.getString(3)));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		log.fine(" - OpenAmt=" + OpenAmt + " (Invoice=" + C_Invoice_ID + ",BankAcct=" + C_BankAccount_ID + ")");
 		mTab.setValue("OpenAmt", OpenAmt);
 		mTab.setValue("PayAmt", OpenAmt.subtract(DiscountAmt));
 		mTab.setValue("DiscountAmt", DiscountAmt);
 		mTab.setValue("DifferenceAmt", Env.ZERO);
 		mTab.setValue("IsSOTrx", IsSOTrx);
-
-		setCalloutActive(false);
 		return "";
 	}	//	PaySel_Invoice
 

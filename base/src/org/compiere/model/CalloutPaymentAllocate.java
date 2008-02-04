@@ -58,7 +58,6 @@ public class CalloutPaymentAllocate extends CalloutEngine
 			|| payment.getC_Order_ID() != 0)
 			return Msg.getMsg(ctx, "PaymentIsAllocated");
 		
-		setCalloutActive(true);
 		//
 		mTab.setValue("DiscountAmt", Env.ZERO);
 		mTab.setValue("WriteOffAmt", Env.ZERO);
@@ -76,14 +75,16 @@ public class CalloutPaymentAllocate extends CalloutEngine
 			+ " invoiceOpen(C_Invoice_ID, ?),"					//	3		#1
 			+ " invoiceDiscount(C_Invoice_ID,?,?), IsSOTrx "	//	4..5	#2/3
 			+ "FROM C_Invoice WHERE C_Invoice_ID=?";			//			#4
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_InvoicePaySchedule_ID);
 			pstmt.setTimestamp(2, ts);
 			pstmt.setInt(3, C_InvoicePaySchedule_ID);
 			pstmt.setInt(4, C_Invoice_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 			//	mTab.setValue("C_BPartner_ID", new Integer(rs.getInt(1)));
@@ -103,17 +104,17 @@ public class CalloutPaymentAllocate extends CalloutEngine
 				Env.setContext(ctx, WindowNo, "C_Invoice_ID", C_Invoice_ID.toString());
 				mTab.setValue("C_Invoice_ID", C_Invoice_ID);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
-
-		setCalloutActive(false);
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	invoice
 
@@ -141,7 +142,6 @@ public class CalloutPaymentAllocate extends CalloutEngine
 		int C_Invoice_ID = Env.getContextAsInt(ctx, WindowNo, "C_Invoice_ID");
 		if (C_Invoice_ID == 0)
 			return "";
-		setCalloutActive(true);
 		//	Get Info from Tab
 		BigDecimal Amount = (BigDecimal)mTab.getValue("Amount");
 		BigDecimal DiscountAmt = (BigDecimal)mTab.getValue("DiscountAmt");
@@ -166,7 +166,6 @@ public class CalloutPaymentAllocate extends CalloutEngine
 			mTab.setValue("Amount", Amount);
 		}
 
-		setCalloutActive(false);
 		return "";
 	}	//	amounts
 

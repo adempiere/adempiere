@@ -74,12 +74,10 @@ public class CalloutMovement extends CalloutEngine
 	public String qty(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value) {
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		checkQtyAvailable(ctx, mTab, WindowNo, M_Product_ID, (BigDecimal)value);
 		//
-		setCalloutActive(false);
 		return "";
 	} //  qty
 	

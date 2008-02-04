@@ -104,12 +104,14 @@ public class CalloutInOut extends CalloutEngine
 			+ "FROM C_DocType d, AD_Sequence s "
 			+ "WHERE C_DocType_ID=?"		//	1
 			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
-		try
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+			try
 		{
 			Env.setContext(ctx, WindowNo, "C_DocTypeTarget_ID", C_DocType_ID.intValue());
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_DocType_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Set Movement Type
@@ -154,13 +156,16 @@ public class CalloutInOut extends CalloutEngine
 						mTab.setValue("DocumentNo", "<" + rs.getString("CurrentNext") + ">");
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return "";
 	}	//	docType
@@ -258,7 +263,6 @@ public class CalloutInOut extends CalloutEngine
 		Integer M_Warehouse_ID = (Integer)value;
 		if (M_Warehouse_ID == null || M_Warehouse_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 
 		String sql = "SELECT w.AD_Org_ID, l.M_Locator_ID "
 			+ "FROM M_Warehouse w"
@@ -293,11 +297,9 @@ public class CalloutInOut extends CalloutEngine
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
 
-		setCalloutActive(false);
 		return "";
 	}	//	warehouse
 
@@ -316,7 +318,6 @@ public class CalloutInOut extends CalloutEngine
 		Integer C_OrderLine_ID = (Integer)value;
 		if (C_OrderLine_ID == null || C_OrderLine_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		
 		//	Get Details
 		MOrderLine ol = new MOrderLine (ctx, C_OrderLine_ID.intValue(), null);
@@ -343,7 +344,6 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("User1_ID", new Integer(ol.getUser1_ID()));
 			mTab.setValue("User2_ID", new Integer(ol.getUser2_ID()));
 		}
-		setCalloutActive(false);
 		return "";
 	}	//	orderLine
 
@@ -363,7 +363,6 @@ public class CalloutInOut extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		
 		//	Set Attribute & Locator
 		int M_Locator_ID = 0;
@@ -383,7 +382,6 @@ public class CalloutInOut extends CalloutEngine
 		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		if (IsSOTrx)
 		{
-			setCalloutActive(false);
 			return "";
 		}
 
@@ -404,7 +402,6 @@ public class CalloutInOut extends CalloutEngine
 		}
 		else
 			log.fine("No Locator for M_Product_ID=" + M_Product_ID);
-		setCalloutActive(false);
 		return "";
 	}	//	product
 
@@ -423,7 +420,6 @@ public class CalloutInOut extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		//	log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
@@ -518,7 +514,6 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("QtyEntered", QtyEntered);
 		}
 		//
-		setCalloutActive(false);
 		return "";
 	}	//	qty
 
@@ -538,7 +533,6 @@ public class CalloutInOut extends CalloutEngine
 		Integer M_ASI_ID = (Integer)value;
 		if (M_ASI_ID == null || M_ASI_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		//
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
@@ -558,7 +552,6 @@ public class CalloutInOut extends CalloutEngine
 				mTab.setValue("M_Locator_ID", new Integer (selectedM_Locator_ID));
 			}
 		}
-		setCalloutActive(false);
 		return "";
 	}	//	asi
 

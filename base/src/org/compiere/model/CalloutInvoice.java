@@ -139,11 +139,13 @@ public class CalloutInvoice extends CalloutEngine
 			+ "WHERE p.C_BPartner_ID=? AND p.IsActive='Y'";		//	#1
 
 		boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_BPartner_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//
 			if (rs.next())
 			{
@@ -232,15 +234,17 @@ public class CalloutInvoice extends CalloutEngine
 				else
 					mTab.setValue("IsDiscountPrinted", "N");
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "bPartner", e);
 			return e.getLocalizedMessage();
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	bPartner
 
@@ -291,7 +295,6 @@ public class CalloutInvoice extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		mTab.setValue("C_Charge_ID", null);
 		
 		//	Set Attribute
@@ -331,7 +334,6 @@ public class CalloutInvoice extends CalloutEngine
 		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 		//
-		setCalloutActive(false);
 		return tax (ctx, WindowNo, mTab, mField, value);
 	}	//	product
 
@@ -365,11 +367,13 @@ public class CalloutInvoice extends CalloutEngine
 
 		Env.setContext(ctx, WindowNo, "DiscountSchema", "N");
 		String sql = "SELECT ChargeAmt FROM C_Charge WHERE C_Charge_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Charge_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				mTab.setValue ("PriceEntered", rs.getBigDecimal (1));
@@ -378,13 +382,16 @@ public class CalloutInvoice extends CalloutEngine
 				mTab.setValue ("PriceList", Env.ZERO);
 				mTab.setValue ("Discount", Env.ZERO);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql + e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		return tax (ctx, WindowNo, mTab, mField, value);
@@ -395,7 +402,7 @@ public class CalloutInvoice extends CalloutEngine
 	 *	Invoice Line - Tax.
 	 *		- basis: Product, Charge, BPartner Location
 	 *		- sets C_Tax_ID
-	 *  Calles Amount
+	 *  Calls Amount
 	 *	@param ctx context
 	 *	@param WindowNo window no
 	 *	@param mTab tab
@@ -474,7 +481,6 @@ public class CalloutInvoice extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 	//	log.log(Level.WARNING,"amt - init");
 		int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
@@ -645,7 +651,6 @@ public class CalloutInvoice extends CalloutEngine
 			mTab.setValue("LineTotalAmt", LineNetAmt.add(TaxAmt));
 		}
 
-		setCalloutActive(false);
 		return "";
 	}	//	amt
 
@@ -688,7 +693,6 @@ public class CalloutInvoice extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 	//	log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
@@ -783,7 +787,6 @@ public class CalloutInvoice extends CalloutEngine
 			mTab.setValue("QtyEntered", QtyEntered);
 		}
 		//
-		setCalloutActive(false);
 		return "";
 	}	//	qty
 	

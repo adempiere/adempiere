@@ -44,7 +44,6 @@ public class CalloutProject extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		BigDecimal PlannedQty, PlannedPrice;
 		int StdPrecision = Env.getContextAsInt(ctx, WindowNo, "StdPrecision");
@@ -64,7 +63,6 @@ public class CalloutProject extends CalloutEngine
 		//
 		log.fine("PlannedQty=" + PlannedQty + " * PlannedPrice=" + PlannedPrice + " -> PlannedAmt=" + PlannedAmt + " (Precision=" + StdPrecision+ ")");
 		mTab.setValue("PlannedAmt", PlannedAmt);
-		setCalloutActive(false);
 		return "";
 	}	//	planned
 

@@ -47,7 +47,6 @@ public class CalloutTimeExpense extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		BigDecimal priceActual = null;
 
 		//	get expense date - or default to today's date
@@ -56,6 +55,8 @@ public class CalloutTimeExpense extends CalloutEngine
 			DateExpense = new Timestamp(System.currentTimeMillis());
 
 		String sql = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			boolean noPrice = true;
@@ -73,10 +74,10 @@ public class CalloutTimeExpense extends CalloutEngine
 				+ " AND p.M_Product_ID=?"		//	1
 				+ " AND pl.M_PriceList_ID=?"	//	2
 				+ " ORDER BY pv.ValidFrom DESC";
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID.intValue());
 			pstmt.setInt(2, Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID"));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next() && noPrice)
 			{
 				java.sql.Date plDate = rs.getDate("ValidFrom");
@@ -97,8 +98,6 @@ public class CalloutTimeExpense extends CalloutEngine
 						mTab.setValue("C_Currency_ID", ii);
 				}
 			}
-			rs.close();
-			pstmt.close();
 
 			//	no prices yet - look base pricelist
 			if (noPrice)
@@ -142,19 +141,19 @@ public class CalloutTimeExpense extends CalloutEngine
 							mTab.setValue("C_Currency_ID", ii);
 					}
 				}
-				rs.close();
-				pstmt.close();
 			}
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		//	finish
-		setCalloutActive(false);	//	calculate amount
 		if (priceActual == null)
 			priceActual = Env.ZERO;
 		mTab.setValue("ExpenseAmt", priceActual);
@@ -176,7 +175,6 @@ public class CalloutTimeExpense extends CalloutEngine
 	{
 		if (isCalloutActive())
 			return "";
-		setCalloutActive(true);
 
 		//	get values
 		BigDecimal ExpenseAmt = (BigDecimal)mTab.getValue("ExpenseAmt");
@@ -199,7 +197,6 @@ public class CalloutTimeExpense extends CalloutEngine
 		mTab.setValue("ConvertedAmt", ConvertedAmt);
 		log.fine("= ConvertedAmt=" + ConvertedAmt);
 
-		setCalloutActive(false);
 		return "";
 	}	//	Expense_Amount
 

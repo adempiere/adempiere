@@ -52,7 +52,6 @@ public class CalloutPayment extends CalloutEngine
 		if (isCalloutActive()		//	assuming it is resetting value
 			|| C_Invoice_ID == null || C_Invoice_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		mTab.setValue("C_Order_ID", null);
 		mTab.setValue("C_Charge_ID", null);
 		mTab.setValue("IsPrepayment", Boolean.FALSE);
@@ -108,11 +107,9 @@ public class CalloutPayment extends CalloutEngine
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
 
-		setCalloutActive(false);
 		return docType(ctx, WindowNo, mTab, mField, value);
 	}	//	invoice
 
@@ -137,7 +134,6 @@ public class CalloutPayment extends CalloutEngine
 		if (isCalloutActive()		//	assuming it is resetting value
 			|| C_Order_ID == null || C_Order_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		mTab.setValue("C_Invoice_ID", null);
 		mTab.setValue("C_Charge_ID", null);
 		mTab.setValue("IsPrepayment", Boolean.TRUE);
@@ -176,11 +172,9 @@ public class CalloutPayment extends CalloutEngine
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
 
-		setCalloutActive(false);
 		return docType(ctx, WindowNo, mTab, mField, value);
 	}	//	order
 
@@ -201,9 +195,7 @@ public class CalloutPayment extends CalloutEngine
 		if (isCalloutActive()		//	assuming it is resetting value
 			|| C_Project_ID == null || C_Project_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		mTab.setValue("C_Charge_ID", null);
-		setCalloutActive(false);
 		return "";
 	}	//	project
 
@@ -224,7 +216,6 @@ public class CalloutPayment extends CalloutEngine
 		if (isCalloutActive()		//	assuming it is resetting value
 			|| C_Charge_ID == null || C_Charge_ID.intValue() == 0)
 			return "";
-		setCalloutActive(true);
 		mTab.setValue("C_Invoice_ID", null);
 		mTab.setValue("C_Order_ID", null);
 		mTab.setValue("C_Project_ID", null);
@@ -234,7 +225,6 @@ public class CalloutPayment extends CalloutEngine
 		mTab.setValue("WriteOffAmt", Env.ZERO);
 		mTab.setValue("IsOverUnderPayment", Boolean.FALSE);
 		mTab.setValue("OverUnderAmt", Env.ZERO);
-		setCalloutActive(false);
 		return "";
 	}	//	charge
 
@@ -315,7 +305,6 @@ public class CalloutPayment extends CalloutEngine
 			&& Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID") == 0
 			&& C_Invoice_ID == 0)
 			return "";
-		setCalloutActive(true);
 
 		//	Changed Column
 		String colName = mField.getColumnName();
@@ -340,14 +329,16 @@ public class CalloutPayment extends CalloutEngine
 				+ " invoiceOpen(C_Invoice_ID,?),"					//	3		#1
 				+ " invoiceDiscount(C_Invoice_ID,?,?), IsSOTrx "	//	4..5	#2/3
 				+ "FROM C_Invoice WHERE C_Invoice_ID=?";			//			#4
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, C_InvoicePaySchedule_ID);
 				pstmt.setTimestamp(2, ts);
 				pstmt.setInt(3, C_InvoicePaySchedule_ID);
 				pstmt.setInt(4, C_Invoice_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					C_Currency_Invoice_ID= rs.getInt(2);
@@ -355,14 +346,16 @@ public class CalloutPayment extends CalloutEngine
 					if (InvoiceOpenAmt == null)
 						InvoiceOpenAmt = Env.ZERO;
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
-				setCalloutActive(false);
 				return e.getLocalizedMessage();
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}	//	get Invoice Info
 		log.fine("Open=" + InvoiceOpenAmt + ", C_Invoice_ID=" + C_Invoice_ID 
@@ -399,7 +392,6 @@ public class CalloutPayment extends CalloutEngine
 			if (CurrencyRate == null || CurrencyRate.compareTo(Env.ZERO) == 0)
 			{
 			//	mTab.setValue("C_Currency_ID", new Integer(C_Currency_Invoice_ID));	//	does not work
-				setCalloutActive(false);
 				if (C_Currency_Invoice_ID == 0)
 					return "";		//	no error message when no invoice is selected
 				return "NoCurrencyConversion";
@@ -467,8 +459,6 @@ public class CalloutPayment extends CalloutEngine
 			PayAmt = InvoiceOpenAmt.subtract(DiscountAmt).subtract(WriteOffAmt).subtract(OverUnderAmt);
 			mTab.setValue("PayAmt", PayAmt);
 		}
-
-		setCalloutActive(false);
 		return "";
 	}	//	amounts
 

@@ -66,7 +66,6 @@ public class CalloutBankStatement extends CalloutEngine
 	{
 		if (isCalloutActive())
 			return "";
-		setCalloutActive(true);
 
 		//  Get Stmt & Trx
 		BigDecimal stmt = (BigDecimal)mTab.getValue("StmtAmt");
@@ -97,7 +96,6 @@ public class CalloutBankStatement extends CalloutEngine
 		//	log.trace(log.l5_DData, "Charge (" + bd + ") = Stmt(" + stmt + ") - Trx(" + trx + ") - Interest(" + interest + ")");
 			mTab.setValue("ChargeAmt", bd);
 		}
-		setCalloutActive(false);
 		return "";
 	}   //  amount
 
@@ -123,11 +121,13 @@ public class CalloutBankStatement extends CalloutEngine
 			stmt = Env.ZERO;
 
 		String sql = "SELECT PayAmt FROM C_Payment_v WHERE C_Payment_ID=?";		//	1
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Payment_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				BigDecimal bd = rs.getBigDecimal(1);
@@ -135,13 +135,16 @@ public class CalloutBankStatement extends CalloutEngine
 				if (stmt.compareTo(Env.ZERO) == 0)
 					mTab.setValue("StmtAmt", bd);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "BankStmt_Payment", e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  Recalculate Amounts
 		amount (ctx, WindowNo, mTab, mField, value);

@@ -63,7 +63,6 @@ public class CalloutInventory extends CalloutEngine
 		if (M_Locator_ID == 0)
 			return "";
 		
-		setCalloutActive(true);
 		//	Set Attribute
 		int M_AttributeSetInstance_ID = 0; 
 		Integer ASI = (Integer)mTab.getValue("M_AttributeSetInstance_ID");
@@ -89,35 +88,38 @@ public class CalloutInventory extends CalloutEngine
 			sql = "SELECT SUM(QtyOnHand) FROM M_Storage "
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?";	//	2
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
 			pstmt.setInt(2, M_Locator_ID);
 			if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				bd = rs.getBigDecimal(1);
 				if (bd != null)
 					mTab.setValue("QtyBook", bd);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		log.info("M_Product_ID=" + M_Product_ID 
 			+ ", M_Locator_ID=" + M_Locator_ID
 			+ ", M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
 			+ " - QtyBook=" + bd);
-		setCalloutActive(false);
 		return "";
 	}   //  product
 

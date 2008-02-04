@@ -46,7 +46,6 @@ public class CalloutGLJournal extends CalloutEngine
 		String colName = mField.getColumnName();
 		if (value == null || isCalloutActive())
 			return "";
-		setCalloutActive(true);
 
 		int AD_Client_ID = Env.getContextAsInt(ctx, WindowNo, "AD_Client_ID");
 		Timestamp DateAcct = null;
@@ -91,7 +90,6 @@ public class CalloutGLJournal extends CalloutEngine
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
-				setCalloutActive(false);
 				return e.getLocalizedMessage();
 			}
 			if (C_Period_ID != 0)
@@ -103,11 +101,13 @@ public class CalloutGLJournal extends CalloutEngine
 		{
 			String sql = "SELECT PeriodType, StartDate, EndDate "
 				+ "FROM C_Period WHERE C_Period_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, C_Period_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					String PeriodType = rs.getString(1);
@@ -121,17 +121,18 @@ public class CalloutGLJournal extends CalloutEngine
 							mTab.setValue("DateAcct", EndDate);
 					}
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
-				setCalloutActive(false);
 				return e.getLocalizedMessage();
 			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 		}
-		setCalloutActive(false);
 		return "";
 	}   //  	Journal_Period
 
@@ -191,8 +192,6 @@ public class CalloutGLJournal extends CalloutEngine
 		if (value == null || isCalloutActive())
 			return "";
 
-		setCalloutActive(true);
-
 		//  Get Target Currency & Precision from C_AcctSchema.C_Currency_ID
 		int C_AcctSchema_ID = Env.getContextAsInt(ctx, WindowNo, "C_AcctSchema_ID");
 		MAcctSchema as = MAcctSchema.get(ctx, C_AcctSchema_ID);
@@ -220,7 +219,6 @@ public class CalloutGLJournal extends CalloutEngine
 		AmtAcctCr = AmtAcctCr.setScale(Precision, BigDecimal.ROUND_HALF_UP);
 		mTab.setValue("AmtAcctCr", AmtAcctCr);
 
-		setCalloutActive(false);
 		return "";
 	}   //  amt
 	

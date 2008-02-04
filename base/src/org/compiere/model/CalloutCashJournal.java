@@ -45,13 +45,11 @@ public class CalloutCashJournal extends CalloutEngine
 	{
 		if (isCalloutActive())		//	assuming it is resetting value
 			return "";
-		setCalloutActive(true);
 
 		Integer C_Invoice_ID = (Integer)value;
 		if (C_Invoice_ID == null || C_Invoice_ID.intValue() == 0)
 		{
 			mTab.setValue("C_Currency_ID", null);
-			setCalloutActive(false);
 			return "";
 		}
 
@@ -64,12 +62,14 @@ public class CalloutCashJournal extends CalloutEngine
 			+ "invoiceOpen(C_Invoice_ID, 0), IsSOTrx, "			//	3..4
 			+ "paymentTermDiscount(invoiceOpen(C_Invoice_ID, 0),C_Currency_ID,C_PaymentTerm_ID,DateInvoiced,?) "
 			+ "FROM C_Invoice WHERE C_Invoice_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setTimestamp(1, ts);
 			pstmt.setInt(2, C_Invoice_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				mTab.setValue("C_Currency_ID", new Integer(rs.getInt(2)));
@@ -87,16 +87,17 @@ public class CalloutCashJournal extends CalloutEngine
 				mTab.setValue("WriteOffAmt", Env.ZERO);
 				Env.setContext(ctx, WindowNo, "InvTotalAmt", PayAmt.toString());
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "invoice", e);
-			setCalloutActive(false);
 			return e.getLocalizedMessage();
 		}
-		setCalloutActive(false);
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	CashJournal_Invoice
 
@@ -122,7 +123,6 @@ public class CalloutCashJournal extends CalloutEngine
 		if (total == null || total.length() == 0)
 			return "";
 		BigDecimal InvTotalAmt = new BigDecimal(total);
-		setCalloutActive(true);
 
 		BigDecimal PayAmt = (BigDecimal)mTab.getValue("Amount");
 		BigDecimal DiscountAmt = (BigDecimal)mTab.getValue("DiscountAmt");
@@ -143,7 +143,6 @@ public class CalloutCashJournal extends CalloutEngine
 			mTab.setValue("Amount", PayAmt);
 		}
 
-		setCalloutActive(false);
 		return "";
 	}	//	amounts
 

@@ -50,40 +50,38 @@ public class CalloutProductCategory extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		//	get values
 		Integer newParentCategoryId = (Integer) mTab.getValue(MProductCategory.COLUMNNAME_M_Product_Category_Parent_ID);
 		Integer productCategoryId = (Integer) mTab.getValue(MProductCategory.COLUMNNAME_M_Product_Category_ID);
 		if (productCategoryId == null)
 			productCategoryId = new Integer(0);
-
+		ResultSet rs = null;
+		Statement stmt = null;
 		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
 		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
 		try {
-			Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			stmt = DB.createStatement();
+			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				if(rs.getInt(1)==productCategoryId.intValue()) {
 					categories.add(new SimpleTreeNode(rs.getInt(1), newParentCategoryId));
 				}
 				categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
 			}
-			rs.close();
-			stmt.close();
-			if (hasLoop(newParentCategoryId, categories, productCategoryId.intValue())) {
+ 			if (hasLoop(newParentCategoryId, categories, productCategoryId.intValue())) {
 				mTab.setValue(MProductCategory.COLUMNNAME_M_Product_Category_Parent_ID, oldValue);
-
-				setCalloutActive(false);
 				return "ProductCategoryLoopDetected";
 			}
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
-			setCalloutActive(false);
 			return e.getMessage();
 		}
-
-		setCalloutActive(false);
+		finally
+		{
+			DB.close(rs, stmt);
+			rs = null; stmt = null;
+		}
 		return "";
 	}	//	testForLoop
 	

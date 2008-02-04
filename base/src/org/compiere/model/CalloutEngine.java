@@ -101,7 +101,6 @@ public class CalloutEngine implements Callout
 		}
 		catch (Exception e)
 		{
-			setCalloutActive(false);
 			Throwable ex = e.getCause();	//	InvocationTargetException
 			if (ex == null)
 				ex = e;
@@ -151,7 +150,6 @@ public class CalloutEngine implements Callout
 		}
 		catch (Exception e)
 		{
-			setCalloutActive(false);
 			log.log(Level.SEVERE, "convert: " + methodName, e);
 			e.printStackTrace(System.err);
 		}
@@ -218,11 +216,9 @@ public class CalloutEngine implements Callout
 	{
 		if (isCalloutActive())		//	assuming it is resetting value
 			return "";
-	//	setCalloutActive(true);
 		if (value == null || !(value instanceof Timestamp))
 			return "";
 		mTab.setValue("DateAcct", value);
-	//	setCalloutActive(false);
 		return "";
 	}	//	dateAcct
 
@@ -240,7 +236,6 @@ public class CalloutEngine implements Callout
 	{
 		if (isCalloutActive() || value == null)		//	assuming it is Conversion_Rate
 			return "";
-		setCalloutActive(true);
 
 		BigDecimal rate1 = (BigDecimal)value;
 		BigDecimal rate2 = Env.ZERO;
@@ -254,7 +249,6 @@ public class CalloutEngine implements Callout
 		else
 			mTab.setValue("MultiplyRate", rate2);
 		log.info(mField.getColumnName() + "=" + rate1 + " => " + rate2);
-		setCalloutActive(false);
 		return "";
 	}	//	rate
 	

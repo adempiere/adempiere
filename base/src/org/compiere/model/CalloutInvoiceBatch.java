@@ -238,22 +238,27 @@ public class CalloutInvoiceBatch extends CalloutEngine
 			return "";
 
 		String sql = "SELECT ChargeAmt FROM C_Charge WHERE C_Charge_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Charge_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				mTab.setValue ("PriceEntered", rs.getBigDecimal (1));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		return tax (ctx, WindowNo, mTab, mField, value);
@@ -334,7 +339,6 @@ public class CalloutInvoiceBatch extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 		
 		int StdPrecision = 2;		//	temporary
 
@@ -384,7 +388,6 @@ public class CalloutInvoiceBatch extends CalloutEngine
 			mTab.setValue("LineNetAmt", LineNetAmt);
 			mTab.setValue("LineTotalAmt", LineNetAmt.add(TaxAmt));
 		}
-		setCalloutActive(false);
 		return "";
 	}	//	amt
 

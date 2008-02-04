@@ -89,7 +89,6 @@ public class CalloutRequisition extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
 		//	Qty changed - recalc price
 		if (mField.getColumnName().equals("Qty") 
@@ -126,7 +125,6 @@ public class CalloutRequisition extends CalloutEngine
 		mTab.setValue("LineNetAmt", LineNetAmt);
 		log.info("amt - LineNetAmt=" + LineNetAmt);
 		//
-		setCalloutActive(false);
 		return "";
 	}	//	amt
 

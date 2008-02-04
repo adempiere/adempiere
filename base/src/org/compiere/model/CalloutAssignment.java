@@ -52,7 +52,6 @@ public class CalloutAssignment extends CalloutEngine
 		int S_ResourceAssignment_ID = ((Integer)value).intValue();
 		if (S_ResourceAssignment_ID == 0)
 			return "";
-		setCalloutActive(true);
 
 		int M_Product_ID = 0;
 		String Name = null;
@@ -62,11 +61,13 @@ public class CalloutAssignment extends CalloutEngine
 			+ "FROM S_ResourceAssignment ra"
 			+ " INNER JOIN M_Product p ON (p.S_Resource_ID=ra.S_Resource_ID) "
 			+ "WHERE ra.S_ResourceAssignment_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, S_ResourceAssignment_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				M_Product_ID = rs.getInt (1);
@@ -74,12 +75,15 @@ public class CalloutAssignment extends CalloutEngine
 				Description = rs.getString(3);
 				Qty = rs.getBigDecimal(4);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "product", e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		log.fine("S_ResourceAssignment_ID=" + S_ResourceAssignment_ID + " - M_Product_ID=" + M_Product_ID);
@@ -99,7 +103,6 @@ public class CalloutAssignment extends CalloutEngine
 			if (Qty != null)
 				mTab.setValue(variable, Qty);
 		}
-		setCalloutActive(false);
 		return "";
 	}	//	product
 
