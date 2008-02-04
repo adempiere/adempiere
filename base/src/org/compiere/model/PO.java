@@ -16,19 +16,45 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import org.compiere.*;
+import java.io.Serializable;
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
-import org.compiere.util.*;
-import org.w3c.dom.*;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.CacheMgt;
+import org.compiere.util.DB;
+import org.compiere.util.DBException;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Evaluatee;
+import org.compiere.util.Msg;
+import org.compiere.util.SecureEngine;
+import org.compiere.util.Trace;
+import org.compiere.util.Trx;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *  Persistent Object.
@@ -1243,7 +1269,7 @@ public abstract class PO
 		for (index = 0; index < size; index++)
 		{
 			String columnName = p_info.getColumnName(index);
-			Class clazz = p_info.getColumnClass(index);
+			Class<?> clazz = p_info.getColumnClass(index);
 			int dt = p_info.getColumnDisplayType(index);
 			try
 			{
@@ -1306,7 +1332,7 @@ public abstract class PO
 			String value = (String)hmIn.get(columnName);
 			if (value == null)
 				continue;
-			Class clazz = p_info.getColumnClass(index);
+			Class<?> clazz = p_info.getColumnClass(index);
 			int dt = p_info.getColumnDisplayType(index);
 			try
 			{
@@ -1368,7 +1394,7 @@ public abstract class PO
 			//	Display Type
 			int dt = p_info.getColumnDisplayType(i);
 			//  Based on class of definition, not class of value
-			Class c = p_info.getColumnClass(i);
+			Class<?> c = p_info.getColumnClass(i);
 			String stringValue = null;
 			if (c == Object.class)
 				;	//	saveNewSpecial (value, i));
@@ -1400,11 +1426,11 @@ public abstract class PO
 		//	Custom Columns
 		if (m_custom != null)
 		{
-			Iterator it = m_custom.keySet().iterator();
+			Iterator<String> it = m_custom.keySet().iterator();
 			while (it.hasNext())
 			{
 				String column = (String)it.next();
-				int index = p_info.getColumnIndex(column);
+//				int index = p_info.getColumnIndex(column);
 				String value = (String)m_custom.get(column);
 				if (value != null)
 					hmOut.put(column, value);
@@ -2076,7 +2102,7 @@ public abstract class PO
 				|| p_info.isVirtualColumn(i))
 				continue;
 			//  we have a change
-			Class c = p_info.getColumnClass(i);
+			Class<?> c = p_info.getColumnClass(i);
 			int dt = p_info.getColumnDisplayType(i);
 			String columnName = p_info.getColumnName(i); 
 			//
@@ -2178,7 +2204,7 @@ public abstract class PO
 		//	Custom Columns (cannot be logged as no column)
 		if (m_custom != null)
 		{
-			Iterator it = m_custom.keySet().iterator();
+			Iterator<String> it = m_custom.keySet().iterator();
 			while (it.hasNext())
 			{
 				if (changes)
@@ -2336,7 +2362,7 @@ public abstract class PO
 			sqlInsert.append(p_info.getColumnName(i));
 			//
 			//  Based on class of definition, not class of value
-			Class c = p_info.getColumnClass(i);
+			Class<?> c = p_info.getColumnClass(i);
 			try
 			{
 				if (c == Object.class) //  may have need to deal with null values differently
@@ -2397,7 +2423,7 @@ public abstract class PO
 		//	Custom Columns
 		if (m_custom != null)
 		{
-			Iterator it = m_custom.keySet().iterator();
+			Iterator<String> it = m_custom.keySet().iterator();
 			while (it.hasNext())
 			{
 				String column = (String)it.next();
@@ -2498,7 +2524,7 @@ public abstract class PO
 		String colName = p_info.getColumnName(index);
 		String colClass = p_info.getColumnClass(index).toString();
 		String colValue = value == null ? "null" : value.getClass().toString();
-		int dt = p_info.getColumnDisplayType(index);
+//		int dt = p_info.getColumnDisplayType(index);
 
 		log.log(Level.SEVERE, "Unknown class for column " + colName
 			+ " (" + colClass + ") - Value=" + colValue);
@@ -3496,7 +3522,7 @@ public abstract class PO
 			//	Display Type
 			int dt = p_info.getColumnDisplayType(i);
 			//  Based on class of definition, not class of value
-			Class c = p_info.getColumnClass(i);
+			Class<?> c = p_info.getColumnClass(i);
 			if (value == null || value.equals (Null.NULL))
 				;
 			else if (c == Object.class)
@@ -3526,11 +3552,11 @@ public abstract class PO
 		//	Custom Columns
 		if (m_custom != null)
 		{
-			Iterator it = m_custom.keySet().iterator();
+			Iterator<String> it = m_custom.keySet().iterator();
 			while (it.hasNext())
 			{
 				String columnName = (String)it.next();
-				int index = p_info.getColumnIndex(columnName);
+//				int index = p_info.getColumnIndex(columnName);
 				String value = (String)m_custom.get(columnName);
 				//
 				Element col = document.createElement(columnName);
