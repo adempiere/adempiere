@@ -36,6 +36,7 @@
 
 	<target name="clean" description="delete class directory">
 	   <delete dir="${classes.dir}/org" />
+	   <delete dir="${dist.dir}" />
 	</target>
 
 	<target name="compile" depends="clean" description="Compile Java sources">

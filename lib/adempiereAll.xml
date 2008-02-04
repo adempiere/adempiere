@@ -48,4 +48,10 @@
 			<context-root>/posterita</context-root>
 		</web>
 	</module>
+	<module>
+		<web>
+			<web-uri>webui.war</web-uri>
+			<context-root>/webui</context-root>
+		</web>
+	</module>
 </application>
