@@ -79,7 +79,9 @@ public final class VTreePanel extends CPanel
 		jbInit();
 		if (!hasBar)
 		{
-			bar.setPreferredSize(new Dimension(0,0));
+			barScrollPane.setPreferredSize(new Dimension(0,0));
+			barScrollPane.setMaximumSize(new Dimension(0,0));
+			barScrollPane.setMinimumSize(new Dimension(0,0));
 			centerSplitPane.setDividerLocation(0);
 			centerSplitPane.setDividerSize(0);
 			popMenuTree.remove(mBarAdd);
@@ -222,6 +224,8 @@ public final class VTreePanel extends CPanel
 	private MTreeNode   m_selectedNode;	//	the selected model node
 	private CButton     m_buttonSelected;
 
+	private JScrollPane barScrollPane;
+
 	/**	Property Listener NodeSelected			*/
 	public static final String NODE_SELECTION = "NodeSelected";
 
@@ -276,9 +280,9 @@ public final class VTreePanel extends CPanel
 		treePart.add(southPanel, BorderLayout.SOUTH);
 		//
 		centerSplitPane.setOpaque(false);
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.getViewport().add(bar);
-		centerSplitPane.add(scrollPane, JSplitPane.LEFT); //hengsin, jxtaskpane
+		barScrollPane = new JScrollPane();
+		barScrollPane.getViewport().add(bar);
+		centerSplitPane.add(barScrollPane, JSplitPane.LEFT); //hengsin, jxtaskpane
 		centerSplitPane.add(treePart, JSplitPane.RIGHT);
 		centerSplitPane.setBorder(BorderFactory.createEmptyBorder());
 		removeSplitPaneBorder();
