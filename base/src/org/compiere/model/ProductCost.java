@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * 	Product Cost Model.
@@ -158,20 +162,24 @@ public class ProductCost
 			+ "WHERE M_Product_ID=? AND C_AcctSchema_ID=?";
 		//
 		int validCombination_ID = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				validCombination_ID = rs.getInt(AcctType);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (validCombination_ID == 0)
 			return null;
@@ -200,19 +208,23 @@ public class ProductCost
 			+ "ORDER BY pc.IsDefault DESC, pc.Created";
 		//
 		int validCombination_ID = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				validCombination_ID = rs.getInt(AcctType);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (validCombination_ID == 0)
 			return null;
@@ -296,23 +308,27 @@ public class ProductCost
 			sql.append("COSTSTANDARD");
 		sql.append(" FROM M_Product_Costing WHERE M_Product_ID=? AND C_AcctSchema_ID=?");
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				current = rs.getBigDecimal(1);
 				cost = rs.getBigDecimal(2);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//  Return Costs
@@ -415,11 +431,13 @@ public class ProductCost
 		BigDecimal PriceList = null;
 		BigDecimal PriceStd = null;
 		BigDecimal PriceLimit = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				C_Currency_ID = rs.getInt(1);
@@ -427,12 +445,14 @@ public class ProductCost
 				PriceStd = rs.getBigDecimal(3);
 				PriceLimit = rs.getBigDecimal(4);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  nothing found
 		if (C_Currency_ID == 0)
@@ -466,11 +486,13 @@ public class ProductCost
 		BigDecimal PriceList = null;
 		BigDecimal PricePO = null;
 		BigDecimal PriceLastPO = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				C_Currency_ID = rs.getInt(1);
@@ -478,12 +500,14 @@ public class ProductCost
 				PricePO = rs.getBigDecimal(3);
 				PriceLastPO = rs.getBigDecimal(4);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  nothing found
 		if (C_Currency_ID == 0)

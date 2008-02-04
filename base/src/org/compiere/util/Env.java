@@ -961,10 +961,12 @@ public final class Env
 		boolean isSystemLanguage = false;
 		ArrayList<String> AD_Languages = new ArrayList<String>();
 		String sql = "SELECT DISTINCT AD_Language FROM AD_Message_Trl";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String AD_Language = rs.getString(1);
@@ -975,12 +977,14 @@ public final class Env
 				}
 				AD_Languages.add(AD_Language);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "", e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Found it
 		if (isSystemLanguage)

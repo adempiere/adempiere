@@ -16,10 +16,18 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Tax Handling
@@ -111,7 +119,6 @@ public class Tax
 			log.warning("No Warehouse - C_Charge_ID=" + C_Charge_ID);
 			return 0;
 		}
-		String variable = "";
 		int C_TaxCategory_ID = 0;
 		int shipFromC_Location_ID = 0;
 		int shipToC_Location_ID = 0;
@@ -130,15 +137,17 @@ public class Tax
 			 + " AND il.C_BPartner_Location_ID=?"
 			 + " AND w.M_Warehouse_ID=?"
 			 + " AND sl.C_BPartner_Location_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, C_Charge_ID);
 			pstmt.setInt (2, AD_Org_ID);
 			pstmt.setInt (3, billC_BPartner_Location_ID);
 			pstmt.setInt (4, M_Warehouse_ID);
 			pstmt.setInt (5, shipC_BPartner_Location_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			boolean found = false;
 			if (rs.next ())
 			{
@@ -150,8 +159,7 @@ public class Tax
 				shipToC_Location_ID = rs.getInt (6);
 				found = true;
 			}
-			rs.close ();
-			pstmt.close ();
+			DB.close(rs, pstmt);
 			//
 			if (!found)
 			{
@@ -168,6 +176,10 @@ public class Tax
 		{
 			log.log(Level.SEVERE, sql, e);
 			return 0;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//	Reverese for PO
@@ -230,6 +242,8 @@ public class Tax
 		int billToC_Location_ID = 0;
 		String IsTaxExempt = null;
 
+		PreparedStatement  pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			//	Get all at once
@@ -243,13 +257,13 @@ public class Tax
 				+ " AND il.C_BPartner_Location_ID=?"
 				+ " AND w.M_Warehouse_ID=?"
 				+ " AND sl.C_BPartner_Location_ID=?";
-			PreparedStatement  pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
 			pstmt.setInt(2, AD_Org_ID);
 			pstmt.setInt(3, billC_BPartner_Location_ID);
 			pstmt.setInt(4, M_Warehouse_ID);
 			pstmt.setInt(5, shipC_BPartner_Location_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			boolean found = false;
 			if (rs.next())
 			{
@@ -261,8 +275,7 @@ public class Tax
 				shipToC_Location_ID = rs.getInt(6);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 			//
 			if (found && "Y".equals(IsTaxExempt))
 			{
@@ -307,8 +320,7 @@ public class Tax
 				C_TaxCategory_ID = rs.getInt(1);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 			if (C_TaxCategory_ID == 0)
 			{
 				log.saveError("TaxCriteriaNotFound", Msg.translate(ctx, variable)
@@ -330,8 +342,7 @@ public class Tax
 				billFromC_Location_ID = rs.getInt (1);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 			if (billFromC_Location_ID == 0)
 			{
 				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
@@ -354,8 +365,7 @@ public class Tax
 				IsTaxExempt = rs.getString(2);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 			if (billToC_Location_ID == 0)
 			{
 				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
@@ -390,8 +400,7 @@ public class Tax
 				shipFromC_Location_ID = rs.getInt (1);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 			if (shipFromC_Location_ID == 0)
 			{
 				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
@@ -412,8 +421,7 @@ public class Tax
 				shipToC_Location_ID = rs.getInt (1);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 			if (shipToC_Location_ID == 0)
 			{
 				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
@@ -434,6 +442,12 @@ public class Tax
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "getProduct (" + variable + ")", e);
+		}
+		finally
+		{
+			DB.close(rs);
+			DB.close(pstmt);
+			rs = null; pstmt = null;
 		}
 
 		return get (ctx, C_TaxCategory_ID, IsSOTrx,
@@ -456,22 +470,26 @@ public class Tax
 			+ "WHERE t.IsTaxExempt='Y' AND o.AD_Org_ID=? "
 			+ "ORDER BY t.Rate DESC";
 		boolean found = false;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				C_Tax_ID = rs.getInt (1);
 				found = true;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "getExemptTax", e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("getExemptTax - TaxExempt=Y - C_Tax_ID=" + C_Tax_ID);
 		if (C_Tax_ID == 0)

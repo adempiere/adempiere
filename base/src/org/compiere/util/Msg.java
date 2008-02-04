@@ -108,9 +108,10 @@ public final class Msg
 			s_log.log(Level.SEVERE, "No DB Connection");
 			return null;
 		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = null;
 			if (AD_Language == null || AD_Language.length() == 0 || Env.isBaseLanguage(AD_Language, "AD_Language"))
 				pstmt = DB.prepareStatement("SELECT Value, MsgText, MsgTip FROM AD_Message",  null);
 			else
@@ -121,7 +122,7 @@ public final class Msg
 					+ " AND t.AD_Language=?", null);
 				pstmt.setString(1, AD_Language);
 			}
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			//	get values
 			while (rs.next())
@@ -135,14 +136,15 @@ public final class Msg
 					MsgText.append(" ").append(SEPARATOR).append(MsgTip);
 				msg.put(AD_Message, MsgText.toString());
 			}
-
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "initMsg", e);
 			return null;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		if (msg.size() < 100)
@@ -460,9 +462,10 @@ public final class Msg
 
 		//	Check AD_Element
 		String retStr = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = null;
 			try
 			{
 				if (AD_Language == null || AD_Language.length() == 0 || Env.isBaseLanguage(AD_Language, "AD_Element"))
@@ -479,8 +482,12 @@ public final class Msg
 			{
 				return ColumnName;
 			}
+			finally {
+				DB.close(rs);
+				rs = null;
+			}
 			pstmt.setString(1, ColumnName.toUpperCase());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				retStr = rs.getString(1);
@@ -491,13 +498,15 @@ public final class Msg
 						retStr = temp;
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "getElement", e);
 			return "";
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (retStr != null)
 			return retStr.trim();
