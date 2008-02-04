@@ -327,6 +327,7 @@ public class ModelValidationEngine
 				MRule rule = MRule.get(po.getCtx(), scriptValidator.getAD_Rule_ID());
 				// currently just JSR 223 supported
 				if (   rule != null 
+					&& rule.isActive()
 					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)
 					&& rule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorTableEvent)) {
 					String error;
@@ -471,6 +472,7 @@ public class ModelValidationEngine
 				MRule rule = MRule.get(po.getCtx(), scriptValidator.getAD_Rule_ID());
 				// currently just JSR 223 supported
 				if (   rule != null 
+					&& rule.isActive()
 					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs)
 					&& rule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorDocumentEvent)) {
 					String error;
