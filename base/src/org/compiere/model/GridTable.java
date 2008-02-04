@@ -1188,16 +1188,15 @@ public class GridTable extends AbstractTableModel
 		else	//  FOR UPDATE causes  -  ORA-01002 fetch out of sequence
 			select.append(" WHERE ").append(getWhereClause(rowData));
 		PreparedStatement pstmt = null;
+		ResultSet rs =  null;
 		try
 		{
 			pstmt = DB.prepareStatement (select.toString(), 
 				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//	only one row
 			if (!(m_inserting || rs.next()))
 			{
-				rs.close();
-				pstmt.close();
 				fireDataStatusEEvent("SaveErrorRowNotFound", "", true);
 				dataRefresh(m_rowChanged);
 				return SAVE_ERROR;
@@ -1601,8 +1600,6 @@ public class GridTable extends AbstractTableModel
 					createUpdateSqlReset();
 				else
 					rs.cancelRowUpdates();
-				rs.close();
-				pstmt.close();
 				fireDataStatusEEvent("SaveErrorDataChanged", "", true);
 				dataRefresh(m_rowChanged);
 				return SAVE_ERROR;
@@ -1646,8 +1643,6 @@ public class GridTable extends AbstractTableModel
 			DB.commit(true, null);	//	no Trx
 			//
 			lobSave(whereClause);
-			rs.close();
-			pstmt.close();
 			
 			//	Need to re-read row to get ROWID, Key, DocumentNo, Trigger, virtual columns
 			log.fine("Reading ... " + whereClause);
@@ -1665,21 +1660,9 @@ public class GridTable extends AbstractTableModel
 			else
 				log.log(Level.SEVERE, "Inserted row not found");
 			//
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException e)
 		{
-			try
-			{
-				if (pstmt != null)
-				  pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception ex)
-			{
-			}
 
 			String msg = "SaveError";
 			if (e.getErrorCode() == 1)		//	Unique Constraint
@@ -1692,7 +1675,12 @@ public class GridTable extends AbstractTableModel
 			fireDataStatusEEvent(msg, e.getLocalizedMessage(), true);
 			return SAVE_ERROR;
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; 
+			pstmt = null;
+		}
 		//	everything ok
 		m_rowData = null;
 		m_changed = false;
