@@ -16,12 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *  Persistet Object Info.
@@ -142,11 +150,12 @@ public class POInfo implements Serializable
 			sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), trxName);
 			pstmt.setInt(1, m_AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (m_TableName == null)
@@ -184,22 +193,14 @@ public class POInfo implements Serializable
 					IsTranslated, IsEncrypted);
 				list.add(col);
 			}
-			rs.close();			
 		}
 		catch (SQLException e)
 		{
 			CLogger.get().log(Level.SEVERE, sql.toString(), e);
 		}
-		finally
-		{
-			if( pstmt != null) 
-			{
-				try 
-				{
-					pstmt.close();
-				} 
-				catch (SQLException e) {}
-			}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  convert to array
 		m_columns = new POInfoColumn[list.size()];
