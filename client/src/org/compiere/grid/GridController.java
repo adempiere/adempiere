@@ -820,8 +820,8 @@ public class GridController extends CPanel
 		//  We Have a TreeNode
 		int nodeID = ((MTreeNode)value).getNode_ID();
 		//  root of tree selected - ignore
-		if (nodeID == 0)
-			return;
+		//if (nodeID == 0)
+			//return;
 
 		//  Search all rows for mode id
 		int size = m_mTab.getRowCount();
@@ -836,7 +836,8 @@ public class GridController extends CPanel
 		}
 		if (row == -1)
 		{
-			log.log(Level.SEVERE, "Tab does not have ID with Node_ID=" + nodeID);
+			if (nodeID > 0)
+				log.log(Level.WARNING, "Tab does not have ID with Node_ID=" + nodeID);
 			return;
 		}
 
