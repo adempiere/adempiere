@@ -16,22 +16,37 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.rmi.RemoteException;
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.logging.*;
-
-import java.io.*;
-import java.net.*;
+import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Level;
 
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
-import org.compiere.util.*;
-import org.postgresql.jdbc2.optional.SimpleDataSource;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DBException;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Trx;
 
 /**
  *	Sequence Model.
