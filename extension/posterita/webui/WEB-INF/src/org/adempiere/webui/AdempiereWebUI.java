@@ -38,7 +38,7 @@ public class AdempiereWebUI extends Window implements EventListener
 {
     private static final long  serialVersionUID = 1L;
 
-    public static final String APP_NAME = "Posterita Ajax UI";
+    public static final String APP_NAME = "Adempiere ZK webUI";
 
     public static final String UID          = "0.2";
 

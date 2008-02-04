@@ -35,6 +35,7 @@ import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MClient;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -51,9 +52,9 @@ import org.zkoss.zul.Iframe;
  */
 public class Desktop extends Window implements MenuListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private static final CLogger logger = CLogger.getCLogger(Desktop.class);
+	private static final long serialVersionUID = 9056511175189603883L;
+
+	private static final CLogger logger = CLogger.getCLogger(Desktop.class);
 
     private HeaderPanel 	pnlHead;
     
@@ -96,7 +97,8 @@ public class Desktop extends Window implements MenuListener
         hbox.appendChild(pnlSide);
         hbox.appendChild(pnlMain);
 
-        showURL("http://www.posterita.org/", "Home", false);
+		String homeURL = MSysConfig.getValue("WEBUI_HOMEURL", "http://www.adempiere.com/");
+        showURL(homeURL, "Home", false);
         
         verticalBox.appendChild(pnlHead);
         verticalBox.appendChild(hbox);
@@ -109,7 +111,7 @@ public class Desktop extends Window implements MenuListener
     }
     
     /**
-     * Retrives the Client website url
+     * Retrieves the Client website url
      * @return website url
      */
     private String getClientWebsiteURL()
