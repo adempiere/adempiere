@@ -67,10 +67,11 @@ public class MClient extends X_AD_Client
 		ArrayList<MClient> list = new ArrayList<MClient>();
 		String sql = "SELECT * FROM AD_Client";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MClient client = new MClient (ctx, rs, null);
@@ -85,15 +86,10 @@ public class MClient extends X_AD_Client
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MClient[] retValue = new MClient[list.size ()];
 		list.toArray (retValue);
