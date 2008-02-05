@@ -86,12 +86,13 @@ public class MLookupFactory
 			+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
 			+ "WHERE c.AD_Column_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, Column_ID);
 			//
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				ColumnName = rs.getString(1);
@@ -101,24 +102,17 @@ public class MLookupFactory
 			}
 			else
 				s_log.log(Level.SEVERE, "Column Not Found - AD_Column_ID=" + Column_ID);
-			rs.close();
-			//
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, "create", ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		//
 		MLookupInfo info = getLookupInfo (ctx, WindowNo, Column_ID, AD_Reference_ID,
 			Env.getLanguage(ctx), ColumnName, AD_Reference_Value_ID, IsParent, ValidationCode);
@@ -346,11 +340,13 @@ public class MLookupFactory
 		//int AD_Table_ID = 0;
 		boolean loaded = false;
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql0, null);
+			pstmt = DB.prepareStatement(sql0, null);
 			pstmt.setInt(1, AD_Reference_Value_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				TableName = rs.getString(1);
@@ -365,14 +361,19 @@ public class MLookupFactory
 				//AD_Table_ID = rs.getInt(10);
 				loaded = true;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql0, e);
 			return null;
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		
 		if (!loaded)
 		{
 			s_log.log(Level.SEVERE, "No Table Reference Table ID=" + AD_Reference_Value_ID);
@@ -476,17 +477,17 @@ public class MLookupFactory
 		String	KeyColumn, DisplayColumn, TableName, TableNameAlias;
 		boolean IsTranslated, isValueDisplayed;
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Reference_Value_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (!rs.next())
 			{
 				s_log.log(Level.SEVERE, "Cannot find Reference Table, ID=" + AD_Reference_Value_ID
 					+ ", Base=" + BaseTable + "." + BaseColumn);
-				rs.close();
-				pstmt.close();
 				return null;
 			}
 
@@ -496,13 +497,17 @@ public class MLookupFactory
 			isValueDisplayed = rs.getString(4).equals("Y");
 			IsTranslated = rs.getString(5).equals("Y");
 
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 			return null;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 		
 		// If it's self referencing then use other alias - teo_sarca [ 1739544 ]
@@ -590,11 +595,13 @@ public class MLookupFactory
 		ArrayList<LookupDisplayColumn> list = new ArrayList<LookupDisplayColumn>();
 		boolean isTranslated = false;
 		//
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql0, null);
+			pstmt = DB.prepareStatement(sql0, null);
 			pstmt.setString(1, TableName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				LookupDisplayColumn ldc = new LookupDisplayColumn (rs.getString(1),
@@ -607,14 +614,19 @@ public class MLookupFactory
 				ZoomWindow = rs.getInt(5);
 				ZoomWindowPO = rs.getInt(6);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql0, e);
 			return null;
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		
 		//  Do we have columns ?
 		if (list.size() == 0)
 		{
@@ -736,11 +748,13 @@ public class MLookupFactory
 		ArrayList<LookupDisplayColumn> list = new ArrayList<LookupDisplayColumn>();
 		boolean isTranslated = false;
 		//
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, TableName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				LookupDisplayColumn ldc = new LookupDisplayColumn (rs.getString(1),
@@ -751,14 +765,19 @@ public class MLookupFactory
 				if (!isTranslated && ldc.IsTranslated)
 					isTranslated = true;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 			return "";
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		
 		//  Do we have columns ?
 		if (list.size() == 0)
 		{
