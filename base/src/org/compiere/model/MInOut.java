@@ -1435,7 +1435,8 @@ public class MInOut extends X_M_InOut implements DocAction
 						return DocAction.STATUS_Invalid;
 					}
 					//	Update PO with ASI
-					if (oLine != null && oLine.getM_AttributeSetInstance_ID() == 0)
+					if (   oLine != null && oLine.getM_AttributeSetInstance_ID() == 0
+						&& sLine.getMovementQty().compareTo(oLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
 					{
 						oLine.setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 						oLine.save(get_TrxName());
@@ -1458,7 +1459,8 @@ public class MInOut extends X_M_InOut implements DocAction
 						}
 						//	Update PO with ASI
 						oLine = new MOrderLine (getCtx(), po.getC_OrderLine_ID(), get_TrxName());
-						if (oLine != null && oLine.getM_AttributeSetInstance_ID() == 0)
+						if (   oLine != null && oLine.getM_AttributeSetInstance_ID() == 0 
+							&& sLine.getMovementQty().compareTo(oLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
 						{
 							oLine.setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 							oLine.save(get_TrxName());
