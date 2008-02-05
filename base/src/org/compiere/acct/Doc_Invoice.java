@@ -328,11 +328,14 @@ public class Doc_Invoice extends Doc
 					{
 						amt = amt.add(discount);
 						dAmt = discount;
+						fact.createLine (p_lines[i],
+								p_lines[i].getAccount(ProductCost.ACCTTYPE_P_TDiscountGrant, as),
+								getC_Currency_ID(), dAmt, null);
 					}
 				}
 				fact.createLine (p_lines[i],
 					p_lines[i].getAccount(ProductCost.ACCTTYPE_P_Revenue, as),
-					getC_Currency_ID(), dAmt, amt);
+					getC_Currency_ID(), null, amt);
 				if (!p_lines[i].isItem())
 				{
 					grossAmt = grossAmt.subtract(amt);
@@ -406,11 +409,14 @@ public class Doc_Invoice extends Doc
 					{
 						amt = amt.add(discount);
 						dAmt = discount;
+						fact.createLine (p_lines[i],
+								p_lines[i].getAccount (ProductCost.ACCTTYPE_P_TDiscountGrant, as),
+								getC_Currency_ID(), null, dAmt);
 					}
 				}
 				fact.createLine (p_lines[i],
 					p_lines[i].getAccount (ProductCost.ACCTTYPE_P_Revenue, as),
-					getC_Currency_ID(), amt, dAmt);
+					getC_Currency_ID(), amt, null);
 				if (!p_lines[i].isItem())
 				{
 					grossAmt = grossAmt.subtract(amt);
@@ -499,10 +505,13 @@ public class Doc_Invoice extends Doc
 						{
 							amt = amt.add(discount);
 							dAmt = discount;
+							MAccount tradeDiscountReceived = line.getAccount(ProductCost.ACCTTYPE_P_TDiscountRec, as);
+							fact.createLine (line, tradeDiscountReceived,
+									getC_Currency_ID(), null, dAmt);
 						}
 					}
 					fact.createLine (line, expense,
-						getC_Currency_ID(), amt, dAmt);
+						getC_Currency_ID(), amt, null);
 					if (!line.isItem())
 					{
 						grossAmt = grossAmt.subtract(amt);
@@ -602,10 +611,13 @@ public class Doc_Invoice extends Doc
 						{
 							amt = amt.add(discount);
 							dAmt = discount;
+							MAccount tradeDiscountReceived = line.getAccount(ProductCost.ACCTTYPE_P_TDiscountRec, as);
+							fact.createLine (line, tradeDiscountReceived,
+									getC_Currency_ID(), dAmt, null);
 						}
 					}
 					fact.createLine (line, expense,
-						getC_Currency_ID(), dAmt, amt);
+						getC_Currency_ID(), null, amt);
 					if (!line.isItem())
 					{
 						grossAmt = grossAmt.subtract(amt);
