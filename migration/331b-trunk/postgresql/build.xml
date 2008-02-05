@@ -37,6 +37,7 @@
 	<target name="load">
 		<echo message="Loading file ${file.name}" />
 		<exec dir="${postgresql.home}/bin" executable="${postgresql.home}/bin/psql" resultproperty="psql.result" output="psql.log" append="true">
+			<arg line="-h ${postgresql.host}" />
 			<arg line="-d ${postgresql.database} -q" />
 			<arg line="-U ${postgresql.user}" />                       
 			<arg line="-f ${file.name}" />
