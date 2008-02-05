@@ -320,6 +320,11 @@ public class GridFieldVO implements Serializable
 		voT.ValueMax = voF.ValueMax;
 		voT.isRange = voF.isRange;
 		//
+		// Genied: For a range parameter the second field 
+		// lookup behaviour should match the first one.
+		voT.AD_Reference_Value_ID = voF.AD_Reference_Value_ID;
+		voT.initFinish();
+		
 		return voT;
 	}   //  createParameter
 
