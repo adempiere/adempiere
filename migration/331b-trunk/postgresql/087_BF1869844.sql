@@ -5,5 +5,6 @@ SELECT ad_column_id
   FROM AD_TABLE t, AD_COLUMN c
  WHERE t.ad_table_id = c.ad_table_id
    AND columnname = 'AD_Client_ID'
-   AND t.accesslevel IN (1, 2, 3)
-   AND c.ad_val_rule_id IS NULL);
+   AND t.accesslevel IN ('1', '2', '3')
+   AND c.ad_val_rule_id IS NULL)
+;
