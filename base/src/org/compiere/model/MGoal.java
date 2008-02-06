@@ -32,6 +32,7 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1887674 ] Deadlock when try to modify PA Goal's Measure Target
+ * 			<li>BF [ 1760482 ] New Dashboard broke old functionality
  */
 public class MGoal extends X_PA_Goal
 {
@@ -52,7 +53,7 @@ public class MGoal extends X_PA_Goal
 			+ " AND ((AD_User_ID IS NULL AND AD_Role_ID IS NULL)"
 				+ " OR AD_User_ID=?"	//	#2
 				+ " OR EXISTS (SELECT * FROM AD_User_Roles ur "
-					+ "WHERE g.AD_User_ID=ur.AD_User_ID AND g.AD_Role_ID=ur.AD_Role_ID AND ur.IsActive='Y')) "
+					+ "WHERE ur.AD_User_ID=? AND g.AD_Role_ID=ur.AD_Role_ID AND ur.IsActive='Y')) "
 			+ "ORDER BY SeqNo";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -61,6 +62,7 @@ public class MGoal extends X_PA_Goal
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
 			pstmt.setInt (2, AD_User_ID);
+			pstmt.setInt (3, AD_User_ID);
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
