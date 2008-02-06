@@ -27,6 +27,9 @@ import org.compiere.util.*;
  */
 public class SynchronizeTerminology extends SvrProcess
 {
+	/**	Static Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (SynchronizeTerminology.class);
+	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -759,7 +762,10 @@ public class SynchronizeTerminology extends SvrProcess
 	//add main method, preparing for nightly build
 	public static void main(String[] args) 
 	{
-		Adempiere.startupEnvironment(false);
+		Adempiere.startupEnvironment(true);
+		CLogMgt.setLevel(Level.FINE);
+		s_log.info("Synchronize Terminology");
+		s_log.info("-----------------------");
 		ProcessInfo pi = new ProcessInfo("Synchronize Terminology", 172);
 		pi.setAD_Client_ID(0);
 		pi.setAD_User_ID(100);

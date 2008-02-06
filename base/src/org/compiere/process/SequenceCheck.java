@@ -296,7 +296,7 @@ public class SequenceCheck extends SvrProcess
 	public static void main(String[] args) 
 	{
 		Adempiere.startupEnvironment(true);
-		CLogMgt.setLevel(Level.FINEST);
+		CLogMgt.setLevel(Level.FINE);
 		s_log.info("Sequence Check");
 		s_log.info("--------------");
 		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);

@@ -21,6 +21,7 @@ import java.sql.*;
 import org.compiere.Adempiere;
 import org.compiere.model.*;
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 /**
@@ -31,6 +32,9 @@ import org.compiere.util.*;
  */
 public class RoleAccessUpdate extends SvrProcess
 {
+	/**	Static Logger	*/
+	private static CLogger	s_log	= CLogger.getCLogger (RoleAccessUpdate.class);
+	
 	/**	Update Role				*/
 	private int	p_AD_Role_ID = 0;
 	/**	Update Roles of Client	*/
@@ -120,7 +124,10 @@ public class RoleAccessUpdate extends SvrProcess
 	//add main method, preparing for nightly build
 	public static void main(String[] args) 
 	{
-		Adempiere.startupEnvironment(false);
+		Adempiere.startupEnvironment(true);
+		CLogMgt.setLevel(Level.FINE);
+		s_log.info("Role Access Update");
+		s_log.info("------------------");
 		ProcessInfo pi = new ProcessInfo("Role Access Update", 295);
 		pi.setAD_Client_ID(0);
 		pi.setAD_User_ID(100);
