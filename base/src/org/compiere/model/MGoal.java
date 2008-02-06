@@ -29,6 +29,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MGoal.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1887674 ] Deadlock when try to modify PA Goal's Measure Target
  */
 public class MGoal extends X_PA_Goal
 {
@@ -375,6 +378,7 @@ public class MGoal extends X_PA_Goal
 			|| getDateLastRun() == null
 			|| !TimeUtil.isSameHour(getDateLastRun(), null))
 		{
+			measure.set_TrxName(get_TrxName());
 			if (measure.updateGoals())		//	saves
 			{
 				load(get_ID(), get_TrxName());

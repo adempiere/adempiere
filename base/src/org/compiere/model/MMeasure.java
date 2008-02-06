@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MMeasure.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1887674 ] Deadlock when try to modify PA Goal's Measure Target
  */
 public class MMeasure extends X_PA_Measure
 {
@@ -185,7 +188,7 @@ public class MMeasure extends X_PA_Measure
 		{
 			MGoal goal = goals[i];
 			goal.setMeasureActual(getManualActual());
-			goal.save();
+			goal.save(get_TrxName());
 		}
 		return true;
 	}	//	updateManualGoals
@@ -228,7 +231,7 @@ public class MMeasure extends X_PA_Measure
 				}
 			}
 			goal.setMeasureActual(ManualActual);
-			goal.save();
+			goal.save(get_TrxName());
 		}
 		return true;
 	}	//	updateAchievementGoals
@@ -275,7 +278,7 @@ public class MMeasure extends X_PA_Measure
 				log.fine("No Value = " + sql);
 			}
 			goal.setMeasureActual(ManualActual);
-			goal.save();
+			goal.save(get_TrxName());
 		}
 		return true;
 	}	//	updateCalculatedGoals
@@ -329,7 +332,7 @@ public class MMeasure extends X_PA_Measure
 				log.fine("No Value = " + sql);
 			}
 			goal.setMeasureActual(ManualActual);
-			goal.save();
+			goal.save(get_TrxName());
 		}
 		return true;
 	}		//	updateRequests
@@ -372,7 +375,7 @@ public class MMeasure extends X_PA_Measure
 				log.fine("No Value = " + sql);
 			}
 			goal.setMeasureActual(ManualActual);
-			goal.save();
+			goal.save(get_TrxName());
 		}
 		return true;
 	}	//	updateProjects
