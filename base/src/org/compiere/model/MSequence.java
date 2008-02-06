@@ -142,22 +142,15 @@ public class MSequence extends X_AD_Sequence
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		boolean autocommit = false;
 		for (int i = 0; i < 3; i++)
 		{
 			try
 			{
-				//if (trx != null)
-					//conn = trx.getConnection();
-				//else
 				conn = DB.getConnectionID();
 				//	Error
 				if (conn == null)
 					return -1;
-				//
-				//jz auto commit off here
-				autocommit = conn.getAutoCommit();
-				conn.setAutoCommit(false);
+
 				pstmt = conn.prepareStatement(selectSQL,
 					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 				pstmt.setString(1, TableName);
@@ -270,14 +263,9 @@ public class MSequence extends X_AD_Sequence
 				s_log.log(Level.SEVERE, TableName + " - " + e.getMessage(), e);
 				try 
 				{
-					conn.rollback();
-					conn.setAutoCommit(autocommit); //jz set back
-					if (pstmt != null)
-						pstmt.close();
-				}
-				catch (SQLException e1) 
-				{
-				}
+					if (conn != null)
+						conn.rollback();
+				} catch (SQLException e1) { }
 			}
 			finally
 			{
@@ -286,9 +274,6 @@ public class MSequence extends X_AD_Sequence
 				rs = null;
 				if (conn != null)
 				{
-					try {
-						conn.setAutoCommit(autocommit); //jz set back
-					} catch (SQLException e) {} 
 					try {
 						conn.close();
 					} catch (SQLException e) {}
@@ -616,9 +601,10 @@ public class MSequence extends X_AD_Sequence
 			DB.close(rs, pstmt);			
 			try
 			{
-				if (trx == null && conn != null)
+				if (trx == null && conn != null) {
 					conn.close();
-				conn = null;
+					conn = null;
+				}
 			}
 			catch (Exception e)
 			{
@@ -984,9 +970,10 @@ public class MSequence extends X_AD_Sequence
 			try
 			{
 				DB.close(rs, pstmt);
-				if (trx == null && conn != null)
+				if (trx == null && conn != null) {
 					conn.close();
-				conn = null;
+					conn = null;
+				}
 			}
 			catch (Exception e)
 			{
