@@ -303,7 +303,7 @@ public class SequenceCheck extends SvrProcess
 	//add main method, preparing for nightly build
 	public static void main(String[] args) 
 	{
-		Adempiere.startupEnvironment(true);
+		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.FINE);
 		s_log.info("Sequence Check");
 		s_log.info("--------------");

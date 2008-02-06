@@ -124,7 +124,7 @@ public class RoleAccessUpdate extends SvrProcess
 	//add main method, preparing for nightly build
 	public static void main(String[] args) 
 	{
-		Adempiere.startupEnvironment(true);
+		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.FINE);
 		s_log.info("Role Access Update");
 		s_log.info("------------------");
