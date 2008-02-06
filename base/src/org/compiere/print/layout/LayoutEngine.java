@@ -1274,7 +1274,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		PrintElement e = null;
 		if (data.getDisplayType() == DisplayType.Location)
 		{
-			e = new LocationElement(m_printCtx, ((KeyNamePair)ID).getKey(), font, color);
+			e = new LocationElement(m_printCtx, ((KeyNamePair)ID).getKey(), font, color,
+					item.isHeightOneLine(), label, labelSuffix);
 			e.layout (maxWidth, item.getMaxHeight(), item.isHeightOneLine(), FieldAlignmentType);
 		}
 		else

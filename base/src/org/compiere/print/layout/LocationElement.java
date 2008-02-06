@@ -28,26 +28,42 @@ import org.compiere.model.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: LocationElement.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1888085 ] One line location field not working
+ * 			<li>BF [ 1888094 ] PF: label & label suffix not working for location field
  */
 public class LocationElement extends GridElement
 {
 	/**
-	 *	Constructor
-	 * 	@param ctx context
-	 * 	@param C_Location_ID location
-	 * 	@param font font
-	 * 	@param color color
+	 * Constructor
+	 * @param ctx context
+	 * @param C_Location_ID location
+	 * @param font font
+	 * @param color color
+	 * @param isHeightOneLine
+	 * @param label
+	 * @param labelSuffix
 	 */
-	public LocationElement(Properties ctx, int C_Location_ID, Font font, Paint color)
+	public LocationElement(Properties ctx, int C_Location_ID, Font font, Paint color,
+			boolean isHeightOneLine,
+			String label, String labelSuffix)
 	{
-		super(10,1);		//	max
+		super(isHeightOneLine ? 1 : 10, 1);		//	max
 		setGap(0,0);
 		MLocation ml = MLocation.get (ctx, C_Location_ID, null);
 	//	log.fine("C_Location_ID=" + C_Location_ID);
 		if (ml != null)
 		{
 			int index = 0;
-			if (ml.isAddressLinesReverse())
+			if (isHeightOneLine)
+			{
+				String line = (label != null ? label : "") 
+								+ ml.toString()
+								+ (labelSuffix != null ? labelSuffix : "");
+				setData(index++, 0, line, font, color);
+			}
+			else if (ml.isAddressLinesReverse())
 			{
 				setData(index++, 0, ml.getCountry(true), font, color);
 				String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(ml.getCityRegionPostal());
@@ -79,5 +95,13 @@ public class LocationElement extends GridElement
 			}
 		}
 	}	//	LocationElement
+	
+	/**
+	 * @deprecated since 3.3.1b
+	 * @see #LocationElement(Properties, int, Font, Paint, boolean, String, String)
+	 */
+	public LocationElement(Properties ctx, int C_Location_ID, Font font, Paint color) {
+		this(ctx, C_Location_ID, font, color, false, null, null);
+	}
 	
 }	//	LocationElement
