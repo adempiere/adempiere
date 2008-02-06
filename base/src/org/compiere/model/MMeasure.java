@@ -265,34 +265,9 @@ public class MMeasure extends X_PA_Measure
 				log.log(Level.SEVERE, "Not found PA_MeasureCalc_ID=" + getPA_MeasureCalc_ID());
 				return false;
 			}
-			BigDecimal ManualActual = null;
 			String sql = mc.getSqlPI(goal.getRestrictions(false), 
-				goal.getMeasureScope(), getMeasureDataType(), null, role);		
-			PreparedStatement pstmt = null;
-			try		//	SQL statement could be wrong
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					ManualActual = rs.getBigDecimal(1);
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+				goal.getMeasureScope(), getMeasureDataType(), null, role);
+			BigDecimal ManualActual = DB.getSQLValueBD(null, sql, new Object[]{});
 			//	SQL may return no rows or null
 			if (ManualActual == null)
 			{
@@ -343,35 +318,10 @@ public class MMeasure extends X_PA_Measure
 			if (role == null)
 				role = MRole.getDefault(getCtx(), false);	//	could result in wrong data
 			//
-			BigDecimal ManualActual = null;
 			MRequestType rt = MRequestType.get(getCtx(), getR_RequestType_ID());
 			String sql = rt.getSqlPI(goal.getRestrictions(false), 
-				goal.getMeasureScope(), getMeasureDataType(), null, role);		
-			PreparedStatement pstmt = null;
-			try		//	SQL statement could be wrong
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					ManualActual = rs.getBigDecimal(1);
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+				goal.getMeasureScope(), getMeasureDataType(), null, role);
+			BigDecimal ManualActual = DB.getSQLValueBD(null, sql, new Object[]{});
 			//	SQL may return no rows or null
 			if (ManualActual == null)
 			{
@@ -411,35 +361,10 @@ public class MMeasure extends X_PA_Measure
 			if (role == null)
 				role = MRole.getDefault(getCtx(), false);	//	could result in wrong data
 			//
-			BigDecimal ManualActual = null;
 			MProjectType pt = MProjectType.get(getCtx(), getC_ProjectType_ID());
 			String sql = pt.getSqlPI(goal.getRestrictions(false), 
 				goal.getMeasureScope(), getMeasureDataType(), null, role);		
-			PreparedStatement pstmt = null;
-			try		//	SQL statement could be wrong
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					ManualActual = rs.getBigDecimal(1);
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+			BigDecimal ManualActual = DB.getSQLValueBD(null, sql, new Object[]{});
 			//	SQL may return no rows or null
 			if (ManualActual == null)
 			{
