@@ -295,7 +295,10 @@ public class SequenceCheck extends SvrProcess
 	//add main method, preparing for nightly build
 	public static void main(String[] args) 
 	{
-		Adempiere.startupEnvironment(false);
+		Adempiere.startupEnvironment(true);
+		CLogMgt.setLevel(Level.FINEST);
+		s_log.info("Sequence Check");
+		s_log.info("--------------");
 		ProcessInfo pi = new ProcessInfo("Sequence Check", 258);
 		pi.setAD_Client_ID(0);
 		pi.setAD_User_ID(100);
