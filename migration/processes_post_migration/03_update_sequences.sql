@@ -1,3 +1,4 @@
+-- TODO: Currently not inserting new sequences
 DECLARE
    cmdsys           VARCHAR2 (1000);
    cmdnosys         VARCHAR2 (1000);

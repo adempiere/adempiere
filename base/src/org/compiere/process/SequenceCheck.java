@@ -280,6 +280,14 @@ public class SequenceCheck extends SvrProcess
 		String trxName = null;
 		if (sp != null)
 			trxName = sp.get_TrxName();
+
+		// CarlosRuiz - globalqss - [ 1887608 ] SequenceCheck deadlock 
+		// Commit previous work on AD_Sequence
+		// previously could update a sequence record needed now that is going to create new ones
+		Trx trx = Trx.get(trxName, false);
+		trx.commit();
+		
+		
 		//	Sequence for DocumentNo/Value
 		MClient[] clients = MClient.getAll(ctx);
 		for (int i = 0; i < clients.length; i++)
