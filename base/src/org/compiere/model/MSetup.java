@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *
  * @author Jorg Janke
  * @version $Id: MSetup.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1795384 ] Setup: create default accounts records is too rigid
  */
 public final class MSetup
 {
@@ -76,8 +79,6 @@ public final class MSetup
 	private boolean         m_hasProject = false;
 	private boolean         m_hasMCampaign = false;
 	private boolean         m_hasSRegion = false;
-	/** Account Creation OK		*/
-	private boolean m_accountsOK = false;
 
 	/**
 	 *  Create Client Info.
@@ -435,14 +436,13 @@ public final class MSetup
 			sql2 = "SELECT l.Value, t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
 				+ "WHERE l.AD_Reference_ID=181 AND l.AD_Ref_List_ID=t.AD_Ref_List_ID"
 				+ " AND t.AD_Language=" + DB.TO_STRING(m_lang); //bug [ 1638421 ]
-		//
-		int Element_OO=0, Element_AC=0, Element_PR=0, Element_BP=0, Element_PJ=0,
-			Element_MC=0, Element_SR=0;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try
 		{
 			int AD_Client_ID = m_client.getAD_Client_ID();
-			PreparedStatement stmt = DB.prepareStatement(sql2, m_trx.getTrxName());
-			ResultSet rs = stmt.executeQuery();
+			stmt = DB.prepareStatement(sql2, m_trx.getTrxName());
+			rs = stmt.executeQuery();
 			while (rs.next())
 			{
 				String ElementType = rs.getString(1);
@@ -456,7 +456,6 @@ public final class MSetup
 				if (ElementType.equals("OO"))
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_OO = C_AcctSchema_Element_ID;
 					IsMandatory = "Y";
 					IsBalanced = "Y";
 					SeqNo = 10;
@@ -464,42 +463,36 @@ public final class MSetup
 				else if (ElementType.equals("AC"))
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_AC = C_AcctSchema_Element_ID;
 					IsMandatory = "Y";
 					SeqNo = 20;
 				}
 				else if (ElementType.equals("PR") && hasProduct)
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_PR = C_AcctSchema_Element_ID;
 					IsMandatory = "N";
 					SeqNo = 30;
 				}
 				else if (ElementType.equals("BP") && hasBPartner)
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_BP = C_AcctSchema_Element_ID;
 					IsMandatory = "N";
 					SeqNo = 40;
 				}
 				else if (ElementType.equals("PJ") && hasProject)
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_PJ = C_AcctSchema_Element_ID;
 					IsMandatory = "N";
 					SeqNo = 50;
 				}
 				else if (ElementType.equals("MC") && hasMCampaign)
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_MC = C_AcctSchema_Element_ID;
 					IsMandatory = "N";
 					SeqNo = 60;
 				}
 				else if (ElementType.equals("SR") && hasSRegion)
 				{
 					C_AcctSchema_Element_ID = getNextID(AD_Client_ID, "C_AcctSchema_Element");
-					Element_SR = C_AcctSchema_Element_ID;
 					IsMandatory = "N";
 					SeqNo = 70;
 				}
@@ -537,8 +530,6 @@ public final class MSetup
 					}
 				}
 			}
-			rs.close();
-			stmt.close();
 		}
 		catch (SQLException e1)
 		{
@@ -548,150 +539,21 @@ public final class MSetup
 			m_trx.close();
 			return false;
 		}
+		finally
+		{
+			DB.close(rs, stmt);
+			rs = null; stmt = null;
+		}
 		//  Create AcctSchema
 
 
-		//  Create GL Accounts
-		m_accountsOK = true;
-		sqlCmd = new StringBuffer ("INSERT INTO C_AcctSCHEMA_GL (");
-		sqlCmd.append(m_stdColumns).append(",C_AcctSCHEMA_ID,"
-			+ "USESUSPENSEBALANCING,SUSPENSEBALANCING_Acct,"
-			+ "USESUSPENSEERROR,SUSPENSEERROR_Acct,"
-			+ "USECURRENCYBALANCING,CURRENCYBALANCING_Acct,"
-			+ "RETAINEDEARNING_Acct,INCOMESUMMARY_Acct,"
-			+ "INTERCOMPANYDUETO_Acct,INTERCOMPANYDUEFROM_Acct,"
-			+ "PPVOFFSET_Acct, CommitmentOffset_Acct, CommitmentOffsetSales_Acct) VALUES (");
-		sqlCmd.append(m_stdValues).append(",").append(m_as.getC_AcctSchema_ID()).append(",")
-			.append("'Y',").append(getAcct("SUSPENSEBALANCING_Acct")).append(",")
-			.append("'Y',").append(getAcct("SUSPENSEERROR_Acct")).append(",")
-			.append("'Y',").append(getAcct("CURRENCYBALANCING_Acct")).append(",");
-		//  RETAINEDEARNING_Acct,INCOMESUMMARY_Acct,
-		sqlCmd.append(getAcct("RETAINEDEARNING_Acct")).append(",")
-			.append(getAcct("INCOMESUMMARY_Acct")).append(",")
-		//  INTERCOMPANYDUETO_Acct,INTERCOMPANYDUEFROM_Acct)
-			.append(getAcct("INTERCOMPANYDUETO_Acct")).append(",")
-			.append(getAcct("INTERCOMPANYDUEFROM_Acct")).append(",")
-			.append(getAcct("PPVOFFSET_Acct")).append(",")
-			.append(getAcct("CommitmentOffset_Acct")).append(",")
-			.append(getAcct("CommitmentOffsetSales_Acct"))
-			.append(")");
-		if (m_accountsOK)
-			no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
-		else
-			no = -1;
-		if (no != 1)
-		{
-			String err = "GL Accounts NOT inserted";
-			log.log(Level.SEVERE, err);
-			m_info.append(err);
-			m_trx.rollback();
-			m_trx.close();
-			return false;
+		//  Create Defaults Accounts
+		try {
+			createAccountingRecord(X_C_AcctSchema_GL.Table_Name);
+			createAccountingRecord(X_C_AcctSchema_Default.Table_Name);
 		}
-
-		//	Create Std Accounts
-		sqlCmd = new StringBuffer ("INSERT INTO C_AcctSchema_Default (");
-		sqlCmd.append(m_stdColumns).append(",C_AcctSchema_ID,"
-			+ "W_INVENTORY_Acct,W_DIFFERENCES_Acct,W_REVALUATION_Acct,W_INVACTUALADJUST_Acct, "
-			+ "P_REVENUE_Acct,P_EXPENSE_Acct,P_CostAdjustment_Acct,P_InventoryClearing_Acct,P_ASSET_Acct,P_COGS_Acct, "
-			+ "P_PURCHASEPRICEVARIANCE_Acct,P_INVOICEPRICEVARIANCE_Acct,P_TRADEDISCOUNTREC_Acct,P_TRADEDISCOUNTGRANT_Acct, "
-			+ "C_RECEIVABLE_Acct,C_Receivable_Services_Acct,C_PREPAYMENT_Acct, "
-			+ "V_LIABILITY_Acct,V_LIABILITY_SERVICES_Acct,V_PREPAYMENT_Acct, "
-			+ "PAYDISCOUNT_EXP_Acct,PAYDISCOUNT_REV_Acct,WRITEOFF_Acct, "
-			+ "UNREALIZEDGAIN_Acct,UNREALIZEDLOSS_Acct,REALIZEDGAIN_Acct,REALIZEDLOSS_Acct, "
-			+ "WITHHOLDING_Acct,E_PREPAYMENT_Acct,E_EXPENSE_Acct, "
-			+ "PJ_ASSET_Acct,PJ_WIP_Acct,"
-			+ "T_EXPENSE_Acct,T_LIABILITY_Acct,T_RECEIVABLES_Acct,T_DUE_Acct,T_CREDIT_Acct, "
-			+ "B_INTRANSIT_Acct,B_ASSET_Acct,B_EXPENSE_Acct,B_INTERESTREV_Acct,B_INTERESTEXP_Acct,"
-			+ "B_UNIDENTIFIED_Acct,B_SETTLEMENTGAIN_Acct,B_SETTLEMENTLOSS_Acct,"
-			+ "B_REVALUATIONGAIN_Acct,B_REVALUATIONLOSS_Acct,B_PAYMENTSELECT_Acct,B_UNALLOCATEDCASH_Acct, "
-			+ "CH_EXPENSE_Acct,CH_REVENUE_Acct, "
-			+ "UNEARNEDREVENUE_Acct,NOTINVOICEDRECEIVABLES_Acct,NOTINVOICEDREVENUE_Acct,NOTINVOICEDRECEIPTS_Acct, "
-			+ "CB_ASSET_Acct,CB_CASHTRANSFER_Acct,CB_DIFFERENCES_Acct,CB_EXPENSE_Acct,CB_RECEIPT_Acct) VALUES (");
-		sqlCmd.append(m_stdValues).append(",").append(m_as.getC_AcctSchema_ID()).append(",");
-		//  W_INVENTORY_Acct,W_DIFFERENCES_Acct,W_REVALUATION_Acct,W_INVACTUALADJUST_Acct
-		sqlCmd.append(getAcct("W_INVENTORY_Acct")).append(",");
-		sqlCmd.append(getAcct("W_DIFFERENCES_Acct")).append(",");
-		sqlCmd.append(getAcct("W_REVALUATION_Acct")).append(",");
-		sqlCmd.append(getAcct("W_INVACTUALADJUST_Acct")).append(", ");
-		//  P_REVENUE_Acct,P_EXPENSE_Acct,P_ASSET_Acct,P_COGS_Acct,
-		sqlCmd.append(getAcct("P_REVENUE_Acct")).append(",");
-		sqlCmd.append(getAcct("P_EXPENSE_Acct")).append(",");
-		sqlCmd.append(getAcct("P_CostAdjustment_Acct")).append(",");
-		sqlCmd.append(getAcct("P_InventoryClearing_Acct")).append(",");
-		sqlCmd.append(getAcct("P_ASSET_Acct")).append(",");
-		sqlCmd.append(getAcct("P_COGS_Acct")).append(", ");
-		//  P_PURCHASEPRICEVARIANCE_Acct,P_INVOICEPRICEVARIANCE_Acct,P_TRADEDISCOUNTREC_Acct,P_TRADEDISCOUNTGRANT_Acct,
-		sqlCmd.append(getAcct("P_PURCHASEPRICEVARIANCE_Acct")).append(",");
-		sqlCmd.append(getAcct("P_INVOICEPRICEVARIANCE_Acct")).append(",");
-		sqlCmd.append(getAcct("P_TRADEDISCOUNTREC_Acct")).append(",");
-		sqlCmd.append(getAcct("P_TRADEDISCOUNTGRANT_Acct")).append(", ");
-		//  C_RECEIVABLE_Acct,C_Receivable_Services_Acct,C_PREPAYMENT_Acct,
-		sqlCmd.append(getAcct("C_RECEIVABLE_Acct")).append(",");
-		sqlCmd.append(getAcct("C_RECEIVABLE_SERVICES_Acct")).append(",");
-		sqlCmd.append(getAcct("C_PREPAYMENT_Acct")).append(", ");
-		//  V_LIABILITY_Acct,V_LIABILITY_SERVICES_Acct,V_PREPAYMENT_Acct,
-		sqlCmd.append(getAcct("V_LIABILITY_Acct")).append(",");
-		sqlCmd.append(getAcct("V_LIABILITY_SERVICES_Acct")).append(",");
-		sqlCmd.append(getAcct("V_PREPAYMENT_Acct")).append(", ");
-		//  PAYDISCOUNT_EXP_Acct,PAYDISCOUNT_REV_Acct,WRITEOFF_Acct,
-		sqlCmd.append(getAcct("PAYDISCOUNT_EXP_Acct")).append(",");
-		sqlCmd.append(getAcct("PAYDISCOUNT_REV_Acct")).append(",");
-		sqlCmd.append(getAcct("WRITEOFF_Acct")).append(", ");
-		//  UNREALIZEDGAIN_Acct,UNREALIZEDLOSS_Acct,REALIZEDGAIN_Acct,REALIZEDLOSS_Acct,
-		sqlCmd.append(getAcct("UNREALIZEDGAIN_Acct")).append(",");
-		sqlCmd.append(getAcct("UNREALIZEDLOSS_Acct")).append(",");
-		sqlCmd.append(getAcct("REALIZEDGAIN_Acct")).append(",");
-		sqlCmd.append(getAcct("REALIZEDLOSS_Acct")).append(", ");
-		//  WITHHOLDING_Acct,E_PREPAYMENT_Acct,E_EXPENSE_Acct,
-		sqlCmd.append(getAcct("WITHHOLDING_Acct")).append(",");
-		sqlCmd.append(getAcct("E_PREPAYMENT_Acct")).append(",");
-		sqlCmd.append(getAcct("E_EXPENSE_Acct")).append(", ");
-		//  PJ_ASSET_Acct,PJ_WIP_Acct,
-		sqlCmd.append(getAcct("PJ_ASSET_Acct")).append(",");
-		sqlCmd.append(getAcct("PJ_WIP_Acct")).append(",");
-		//  T_EXPENSE_Acct,T_LIABILITY_Acct,T_RECEIVABLES_Acct,T_DUE_Acct,T_CREDIT_Acct,
-		sqlCmd.append(getAcct("T_EXPENSE_Acct")).append(",");
-		sqlCmd.append(getAcct("T_LIABILITY_Acct")).append(",");
-		sqlCmd.append(getAcct("T_RECEIVABLES_Acct")).append(",");
-		sqlCmd.append(getAcct("T_DUE_Acct")).append(",");
-		sqlCmd.append(getAcct("T_CREDIT_Acct")).append(", ");
-		//  B_INTRANSIT_Acct,B_ASSET_Acct,B_EXPENSE_Acct,B_INTERESTREV_Acct,B_INTERESTEXP_Acct,
-		sqlCmd.append(getAcct("B_INTRANSIT_Acct")).append(",");
-		sqlCmd.append(getAcct("B_ASSET_Acct")).append(",");
-		sqlCmd.append(getAcct("B_EXPENSE_Acct")).append(",");
-		sqlCmd.append(getAcct("B_INTERESTREV_Acct")).append(",");
-		sqlCmd.append(getAcct("B_INTERESTEXP_Acct")).append(",");
-		//  B_UNIDENTIFIED_Acct,B_SETTLEMENTGAIN_Acct,B_SETTLEMENTLOSS_Acct,
-		sqlCmd.append(getAcct("B_UNIDENTIFIED_Acct")).append(",");
-		sqlCmd.append(getAcct("B_SETTLEMENTGAIN_Acct")).append(",");
-		sqlCmd.append(getAcct("B_SETTLEMENTLOSS_Acct")).append(",");
-		//  B_REVALUATIONGAIN_Acct,B_REVALUATIONLOSS_Acct,B_PAYMENTSELECT_Acct,B_UNALLOCATEDCASH_Acct,
-		sqlCmd.append(getAcct("B_REVALUATIONGAIN_Acct")).append(",");
-		sqlCmd.append(getAcct("B_REVALUATIONLOSS_Acct")).append(",");
-		sqlCmd.append(getAcct("B_PAYMENTSELECT_Acct")).append(",");
-		sqlCmd.append(getAcct("B_UNALLOCATEDCASH_Acct")).append(", ");
-		//  CH_EXPENSE_Acct,CH_REVENUE_Acct,
-		sqlCmd.append(getAcct("CH_EXPENSE_Acct")).append(",");
-		sqlCmd.append(getAcct("CH_REVENUE_Acct")).append(", ");
-		//  UNEARNEDREVENUE_Acct,NOTINVOICEDRECEIVABLES_Acct,NOTINVOICEDREVENUE_Acct,NOTINVOICEDRECEIPTS_Acct,
-		sqlCmd.append(getAcct("UNEARNEDREVENUE_Acct")).append(",");
-		sqlCmd.append(getAcct("NOTINVOICEDRECEIVABLES_Acct")).append(",");
-		sqlCmd.append(getAcct("NOTINVOICEDREVENUE_Acct")).append(",");
-		sqlCmd.append(getAcct("NOTINVOICEDRECEIPTS_Acct")).append(", ");
-		//  CB_ASSET_Acct,CB_CASHTRANSFER_Acct,CB_DIFFERENCES_Acct,CB_EXPENSE_Acct,CB_RECEIPT_Acct)
-		sqlCmd.append(getAcct("CB_ASSET_Acct")).append(",");
-		sqlCmd.append(getAcct("CB_CASHTRANSFER_Acct")).append(",");
-		sqlCmd.append(getAcct("CB_DIFFERENCES_Acct")).append(",");
-		sqlCmd.append(getAcct("CB_EXPENSE_Acct")).append(",");
-		sqlCmd.append(getAcct("CB_RECEIPT_Acct")).append(")");
-		if (m_accountsOK)
-			no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
-		else
-			no = -1;
-		if (no != 1)
-		{
-			String err = "Default Accounts NOT inserted";
+		catch (Exception e) {
+			String err = e.getLocalizedMessage();
 			log.log(Level.SEVERE, err);
 			m_info.append(err);
 			m_trx.rollback();
@@ -834,22 +696,49 @@ public final class MSetup
 		log.info("fini");
 		return true;
 	}   //  createAccounting
+	
+	private void createAccountingRecord(String tableName) throws Exception
+	{
+		MTable table = MTable.get(m_ctx, tableName);
+		PO acct = table.getPO(0, m_trx.getTrxName());
+		
+		MColumn[] cols = table.getColumns(false);
+		for (MColumn c : cols) {
+			String columnName = c.getColumnName();
+			if (c.isStandardColumn()) {
+			}
+			else if (DisplayType.Account == c.getAD_Reference_ID()) {
+				acct.set_Value(columnName, getAcct(columnName));
+				log.info("Account: " + columnName);
+			}
+			else if (DisplayType.YesNo == c.getAD_Reference_ID()) {
+				acct.set_Value(columnName, Boolean.TRUE);
+				log.info("YesNo: " + c.getColumnName());
+			}
+		}
+		acct.setAD_Client_ID(m_client.getAD_Client_ID());
+		acct.set_Value(I_C_AcctSchema.COLUMNNAME_C_AcctSchema_ID, m_as.getC_AcctSchema_ID());
+		//
+		if (!acct.save()) {
+			throw new AdempiereUserError(CLogger.retrieveErrorString(table.getName() + " not created"));
+		}
+	}
+
 
 	/**
-	 *  Get Account ID for key
-	 *  @param key key
-	 *  @return C_ValidCombination_ID
+	 * Get Account ID for key
+	 * @param key key
+	 * @return C_ValidCombination_ID
+	 * @throws AdempiereUserError 
 	 */
-	private int getAcct (String key)
+	private Integer getAcct (String key) throws AdempiereUserError
 	{
 		log.fine(key);
 		//  Element
 		int C_ElementValue_ID = m_nap.getC_ElementValue_ID(key.toUpperCase());
 		if (C_ElementValue_ID == 0)
 		{
-			log.severe("Account not defined: " + key);
-			m_accountsOK = false;
-			return 0;
+			throw new AdempiereUserError("Account not defined: " + key);
 		}
 
 		MAccount vc = MAccount.getDefault(m_as, true);	//	optional null
@@ -857,15 +746,12 @@ public final class MSetup
 		vc.setAccount_ID(C_ElementValue_ID);
 		if (!vc.save())
 		{
-			log.severe("Not Saved - Key=" + key + ", C_ElementValue_ID=" + C_ElementValue_ID);
-			m_accountsOK = false;
-			return 0;
+			throw new AdempiereUserError("Not Saved - Key=" + key + ", C_ElementValue_ID=" + C_ElementValue_ID);
 		}
 		int C_ValidCombination_ID = vc.getC_ValidCombination_ID();
 		if (C_ValidCombination_ID == 0)
 		{
-			log.severe("No account - Key=" + key + ", C_ElementValue_ID=" + C_ElementValue_ID);
-			m_accountsOK = false;
+			throw new AdempiereUserError("No account - Key=" + key + ", C_ElementValue_ID=" + C_ElementValue_ID);
 		}
 		return C_ValidCombination_ID;
 	}   //  getAcct

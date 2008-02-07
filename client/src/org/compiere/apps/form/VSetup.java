@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -221,22 +221,27 @@ public class VSetup extends CPanel
 		Currency currency = Currency.getInstance(locale);
 		//	Currency
 		String sql = "SELECT C_Currency_ID, Description, ISO_Code FROM C_Currency ORDER BY 2";	// teo_sarca [ 1691388 ]
+		Statement stmt = null;
+		ResultSet rs = null;
 		try
 		{
-			Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			stmt = DB.createStatement();
+			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				fCurrency.addItem(new KeyNamePair(rs.getInt(1) , rs.getString(2)));
 				// Currency from locale will be the default currency - teo_sarca [ 1691388 ]
 				if (currency != null && currency.getCurrencyCode().equals(rs.getString(3)))
 					fCurrency.setSelectedIndex(fCurrency.getItemCount() - 1);
 			}
-			rs.close();
-			stmt.close();
 		}
 		catch (SQLException e1)
 		{
 			log.log(Level.SEVERE, "VSetup.dynInit -currency", e1);
+		}
+		finally
+		{
+			DB.close(rs, stmt);
+			rs = null; stmt = null;
 		}
 
 		//	Country
@@ -244,8 +249,8 @@ public class VSetup extends CPanel
 		sql = "SELECT C_Country_ID, Name, CountryCode FROM C_Country ORDER BY 2";     // teo_sarca [ 1691388 ]
 		try
 		{
-			Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			stmt = DB.createStatement();
+			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				fCountry.addItem(new KeyNamePair(rs.getInt(1) , rs.getString(2)));
 				// Country from locale will be the default country - teo_sarca [ 1691388 ]
@@ -254,12 +259,15 @@ public class VSetup extends CPanel
 					C_Country_ID = rs.getInt(1);
 				}
 			}
-			rs.close();
-			stmt.close();
 		}
 		catch (SQLException e1)
 		{
 			log.log(Level.SEVERE, "VSetup.dynInit -country", e1);
+		}
+		finally
+		{
+			DB.close(rs, stmt);
+			rs = null; stmt = null;
 		}
 
 		//	Region (optional)
@@ -268,8 +276,8 @@ public class VSetup extends CPanel
 		try
 		{
 			fRegion.addItem(new KeyNamePair(0, " "));
-			Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			stmt = DB.createStatement();
+			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				fRegion.addItem(new KeyNamePair(rs.getInt(1) , rs.getString(2)));
 				// First region for selected country will be the default - teo_sarca [ 1691388 ]
@@ -278,12 +286,15 @@ public class VSetup extends CPanel
 					isSelected = true;
 				}
 			}
-			rs.close();
-			stmt.close();
 		}
 		catch (SQLException e1)
 		{
 			log.log(Level.SEVERE, "VSetup.dynInit -region", e1);
+		}
+		finally
+		{
+			DB.close(rs, stmt);
+			rs = null; stmt = null;
 		}
 
 		//  General Listeners
@@ -451,16 +462,17 @@ public class VSetup extends CPanel
 			{
 				ADialog.error(m_WindowNo, this, "AccountSetupError");
 				dispose();
+			} else {
+				//  Generate Entities
+				KeyNamePair p = (KeyNamePair)fCountry.getSelectedItem();
+				int C_Country_ID = p.getKey();
+				p = (KeyNamePair)fRegion.getSelectedItem();
+				int C_Region_ID = p.getKey();
+				ms.createEntities(C_Country_ID, fCity.getText(), C_Region_ID, currency.getKey());
+				info += ms.getInfo();
+				//	Create Print Documents
+				PrintUtil.setupPrintForm(ms.getAD_Client_ID());
 			}
-			//  Generate Entities
-			KeyNamePair p = (KeyNamePair)fCountry.getSelectedItem();
-			int C_Country_ID = p.getKey();
-			p = (KeyNamePair)fRegion.getSelectedItem();
-			int C_Region_ID = p.getKey();
-			ms.createEntities(C_Country_ID, fCity.getText(), C_Region_ID, currency.getKey());
-			info += ms.getInfo();
-			//	Create Print Documents
-			PrintUtil.setupPrintForm(ms.getAD_Client_ID());
 		}
 
 		ADialog.info(m_WindowNo, this, "VSetup", info);
