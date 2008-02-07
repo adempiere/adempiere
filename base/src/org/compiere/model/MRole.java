@@ -930,6 +930,8 @@ public final class MRole extends X_AD_Role
 	 */
 	private boolean isView(String tableName)
 	{
+		if (m_viewName == null)
+			loadAccess(true);
 		return m_viewName.contains(tableName.toUpperCase());
 	}
 	
