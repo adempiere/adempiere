@@ -176,11 +176,12 @@ public class FinReport extends SvrProcess
 			+ "ORDER BY p.StartDate";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_report.getC_Calendar_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				FinReportPeriod frp = new FinReportPeriod (rs.getInt(1), rs.getString(2),
@@ -189,9 +190,6 @@ public class FinReport extends SvrProcess
 				if (p_C_Period_ID == 0 && frp.inPeriod(today))
 					p_C_Period_ID = frp.getC_Period_ID();
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -199,14 +197,8 @@ public class FinReport extends SvrProcess
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	convert to Array
 		m_periods = new FinReportPeriod[list.size()];
@@ -693,8 +685,27 @@ public class FinReport extends SvrProcess
 	private String getLineIDs (int fromID, int toID)
 	{
 		log.finest("From=" + fromID + " To=" + toID);
+		int firstPA_ReportLine_ID = 0;
+		int lastPA_ReportLine_ID = 0;
+		
+		// find the first and last ID 
+		for (int line = 0; line < m_lines.length; line++)
+		{
+			int PA_ReportLine_ID = m_lines[line].getPA_ReportLine_ID();
+			if (PA_ReportLine_ID == fromID || PA_ReportLine_ID == toID)
+			{
+				if (firstPA_ReportLine_ID == 0) { 
+					firstPA_ReportLine_ID = PA_ReportLine_ID;
+				} else {
+					lastPA_ReportLine_ID = PA_ReportLine_ID;
+					break;
+				}
+			}
+		}
+
+		// add to the list
 		StringBuffer sb = new StringBuffer();
-		sb.append(fromID);
+		sb.append(firstPA_ReportLine_ID);
 		boolean addToList = false;
 		for (int line = 0; line < m_lines.length; line++)
 		{
@@ -704,15 +715,15 @@ public class FinReport extends SvrProcess
 			if (addToList)
 			{
 				sb.append (",").append (PA_ReportLine_ID);
-				if (PA_ReportLine_ID == toID)		//	done
+				if (PA_ReportLine_ID == lastPA_ReportLine_ID)		//	done
 					break;
 			}
-			else if (PA_ReportLine_ID == fromID)	//	from already added
+			else if (PA_ReportLine_ID == firstPA_ReportLine_ID)	//	from already added
 				addToList = true;
 		}
 		return sb.toString();
 	}	//	getLineIDs
-
+	
 	/**
 	 * 	Get Column Index
 	 * 	@param PA_ReportColumn_ID PA_ReportColumn_ID
