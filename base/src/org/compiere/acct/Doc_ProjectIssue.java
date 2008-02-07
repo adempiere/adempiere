@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -22,6 +22,7 @@ import java.sql.*;
 import org.compiere.model.*;
 import java.util.*;
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 /**
@@ -113,7 +114,7 @@ public class Doc_ProjectIssue extends Doc
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID (as.getC_Currency_ID());
 
-		MProject project = new MProject (getCtx(), m_issue.getC_Project_ID(), null);
+		MProject project = new MProject (getCtx(), m_issue.getC_Project_ID(), getTrxName());
 		String ProjectCategory = project.getProjectCategory();
 		MProduct product = MProduct.get(getCtx(), m_issue.getM_Product_ID());
 			
@@ -168,14 +169,15 @@ public class Doc_ProjectIssue extends Doc
 			+ " INNER JOIN C_Order o ON (o.C_Order_ID=ol.C_Order_ID) "
 			+ "WHERE iol.M_InOutLine_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, getTrxName());
 			pstmt.setInt(1, as.getC_Currency_ID());
 			pstmt.setInt(2, getAD_Client_ID());
 			pstmt.setInt(3, getAD_Org_ID());
 			pstmt.setInt(4, m_issue.getM_InOutLine_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				retValue = rs.getBigDecimal(1);
@@ -183,23 +185,15 @@ public class Doc_ProjectIssue extends Doc
 			}
 			else
 				log.warning("Not found for M_InOutLine_ID=" + m_issue.getM_InOutLine_ID());
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			pstmt = null; rs = null;
 		}
 		return retValue;
 	}	//	getPOCost();
@@ -209,13 +203,45 @@ public class Doc_ProjectIssue extends Doc
 	 *	@param as Account Schema
 	 *	@return Unit Labor Cost
 	 */
+
 	private BigDecimal getLaborCost(MAcctSchema as)
 	{
-		BigDecimal retValue = null;
-		
-		/** TODO Labor Cost	*/		
+		// Todor Lulov 30.01.2008		
+		BigDecimal retValue = Env.ZERO;
+		BigDecimal qty = Env.ZERO;
+
+		String sql = "SELECT ConvertedAmt, Qty FROM S_TimeExpenseLine " + 
+			  " WHERE S_TimeExpenseLine.S_TimeExpenseLine_ID = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql.toString (), getTrxName());
+			pstmt.setInt(1, m_issue.getS_TimeExpenseLine_ID());	
+			rs = pstmt.executeQuery();			
+			if (rs.next())
+			{
+				retValue = rs.getBigDecimal(1);
+				qty = rs.getBigDecimal(2);
+				retValue = retValue.multiply(qty); 
+				log.fine("ExpLineCost = " + retValue);
+			}
+			else
+				log.warning("Not found for S_TimeExpenseLine_ID=" + m_issue.getS_TimeExpenseLine_ID());
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			pstmt = null; rs = null;
+		}		
 		return retValue;
 	}	//	getLaborCost
 
 }	//	DocProjectIssue
-
