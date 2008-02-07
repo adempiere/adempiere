@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.model.DocWorkflowMgr;
+import org.compiere.model.PO;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Evaluator;
 
 
 /**
@@ -163,6 +168,7 @@ public class DocWorkflowManager implements DocWorkflowMgr
 				.append(" AND wfp.AD_Workflow_ID=?")	//	#4
 				.append(" AND SUBSTR(wfp.WFState,1,1)='O')");
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString(), document.get_TrxName());
@@ -170,28 +176,22 @@ public class DocWorkflowManager implements DocWorkflowMgr
 			pstmt.setInt (2, document.get_ID());
 			pstmt.setInt (3, document.get_Table_ID());
 			pstmt.setInt (4, wf.getAD_Workflow_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = true;
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, "Logic=" + logic
 				+ " - SQL=" + sql.toString(), e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
+			DB.close(rs, pstmt);
+			rs = null; 
 			pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		return retValue;
 	}	//	testStart
 	
