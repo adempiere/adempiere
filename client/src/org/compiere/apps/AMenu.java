@@ -16,25 +16,62 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.event.*;
-//
-import org.compiere.*;
-import org.compiere.apps.wf.*;
-import org.adempiere.apps.graph.*;
-import org.compiere.db.*;
-import org.compiere.grid.tree.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JProgressBar;
+import javax.swing.KeyStroke;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.adempiere.apps.graph.PAPanel;
+import org.compiere.Adempiere;
+import org.compiere.apps.wf.WFActivity;
+import org.compiere.apps.wf.WFPanel;
+import org.compiere.grid.tree.VTreePanel;
+import org.compiere.model.MRole;
+import org.compiere.model.MSession;
+import org.compiere.model.MSystem;
+import org.compiere.model.MTreeNode;
+import org.compiere.model.MUser;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CFrame;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.Splash;
 /**
  *	Application Menu Controller
  *
@@ -158,7 +195,7 @@ public final class AMenu extends CFrame
 	private int			m_request_Menu_ID = 0;
 	private int			m_note_Menu_ID = 0;
 	private String		m_requestSQL = null;
-	private DecimalFormat	m_memoryFormat = DisplayType.getNumberFormat(DisplayType.Integer);
+//	private DecimalFormat	m_memoryFormat = DisplayType.getNumberFormat(DisplayType.Integer);
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AMenu.class);
 	
@@ -209,9 +246,7 @@ public final class AMenu extends CFrame
 		}
 
 		//  Check DB	(AppsServer Version checked in Login)
-		boolean dbOK = DB.isDatabaseOK(m_ctx);
-	//	if (!dbOK)
-	//		AEnv.exit(1);
+		DB.isDatabaseOK(m_ctx);
 	}	//	initSystem
 
 	//	UI
@@ -548,29 +583,14 @@ public final class AMenu extends CFrame
 
 	/**
 	 *  Get number of open Notes
-	 *  @return bumber of notes
+	 *  @return number of notes
 	 */
 	private int getNotes()
 	{
-		int retValue = 0;
 		String sql = "SELECT COUNT(1) FROM AD_Note "
 			+ "WHERE AD_Client_ID=? AND AD_User_ID IN (0,?)"
 			+ " AND Processed='N'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
-			pstmt.setInt(2, m_AD_User_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		int retValue = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()), m_AD_User_ID);
 		return retValue;
 	}	//	getNotes
 
@@ -596,28 +616,13 @@ public final class AMenu extends CFrame
 	 */
 	private int getRequests()
 	{
-		int retValue = 0;
 		if (m_requestSQL == null)
 			m_requestSQL = MRole.getDefault().addAccessSQL ("SELECT COUNT(1) FROM R_Request "
 				+ "WHERE (SalesRep_ID=? OR AD_Role_ID=?) AND Processed='N'"
 				+ " AND (DateNextAction IS NULL OR TRUNC(DateNextAction) <= TRUNC(SysDate))"
 				+ " AND (R_Status_ID IS NULL OR R_Status_ID IN (SELECT R_Status_ID FROM R_Status WHERE IsClosed='N'))",
 					"R_Request", false, true);	//	not qualified - RW
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(m_requestSQL, null);
-			pstmt.setInt(1, m_AD_User_ID);
-			pstmt.setInt(2, m_AD_Role_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, m_requestSQL, e);
-		}
+		int retValue = DB.getSQLValue(null, m_requestSQL, m_AD_User_ID, m_AD_Role_ID); 
 		return retValue;
 	}	//	getRequests
 
@@ -748,19 +753,15 @@ public final class AMenu extends CFrame
 	 */
 	public static void main(String[] args)
 	{
-		Splash splash = Splash.getSplash();
+		Splash.getSplash();
 		Adempiere.startup(true);	//	needs to be here for UI
-		AMenu menu = new AMenu();
+		new AMenu();
 	}	//	main
 	
 	class InfoUpdater implements Runnable
 	{
 		boolean stop = false;
 		
-		public void InfoUpdater()
-		{
-		}
-	
 		public void run()
 		{
 			while(stop == false)
@@ -768,7 +769,7 @@ public final class AMenu extends CFrame
 				updateInfo();
 	
 				try {
-					Thread.currentThread().sleep(60000);
+					Thread.sleep(60000);
 				} catch(InterruptedException ire) { }
 			}
 		}
