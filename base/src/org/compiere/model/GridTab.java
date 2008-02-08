@@ -17,21 +17,33 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.beans.*;
-import java.io.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-
-import java.util.logging.*;
-
-import javax.swing.event.*;
-
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import javax.swing.event.EventListenerList;
+
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Evaluatee;
+import org.compiere.util.Evaluator;
+import org.compiere.util.Msg;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Tab Model.
@@ -1576,12 +1588,14 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			 */
 			Object[] arguments = new Object[5];
 			boolean filled = false;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			//
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+				pstmt = DB.prepareStatement(sql.toString(), null);
 				pstmt.setInt(1, Record_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					//	{0} - Number of lines
@@ -1601,13 +1615,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					arguments[4] = grandEuro;
 					filled = true;
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, m_vo.TableName + "\nSQL=" + sql, e);
 			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+	
 			if (filled)
 				return mf.format (arguments);
 			return " ";
@@ -1645,11 +1663,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				+ "WHERE S_TimeExpense_ID=?";
 
 			//
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+				pstmt = DB.prepareStatement(SQL, null);
 				pstmt.setInt(1, Record_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					//	{0} - Number of lines
@@ -1662,13 +1682,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					arguments[2] = " ";
 					filled = true;
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, m_vo.TableName + "\nSQL=" + SQL, e);
 			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+	
 			if (filled)
 				return mf.format (arguments);
 			return " ";
@@ -1697,20 +1721,26 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				return;
 
 			String sql = "SELECT DocSubTypeSO FROM C_DocType WHERE C_DocType_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, C_DocTyp_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 					Env.setContext(m_vo.ctx, m_vo.WindowNo, "OrderType", rs.getString(1));
-				rs.close();
-				pstmt.close();
-			}
+ 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+	
 		}   //  loadOrderInfo
 	}   //  loadDependentInfo
 
@@ -2373,7 +2403,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return;
 
 		//  Get dependent MFields (may be because of display or dynamic lookup)
-		ArrayList list = getDependantFields(columnName);
+		ArrayList<GridField> list = getDependantFields(columnName);
 		for (int i = 0; i < list.size(); i++)
 		{
 			GridField dependentField = (GridField)list.get(i);
