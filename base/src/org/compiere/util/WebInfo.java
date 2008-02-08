@@ -280,17 +280,15 @@ public class WebInfo
 		}
 		String sql = "SELECT * FROM C_Order WHERE Bill_BPartner_ID=? AND C_Order_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
 			pstmt.setInt(2, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MOrder (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -298,14 +296,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("C_Order_ID=" + m_id + " - " + retValue);
 		return retValue;
@@ -332,16 +324,14 @@ public class WebInfo
 			+ " AND DocStatus NOT IN ('DR','IN') "
 			+ " ORDER BY DocumentNo DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MInOut (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -349,14 +339,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -406,6 +390,7 @@ public class WebInfo
 				+ " AND R_Status_ID IN (SELECT R_Status_ID FROM R_Status WHERE IsClosed='N')"
 				+ "ORDER BY DocumentNo DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
@@ -416,12 +401,9 @@ public class WebInfo
 				pstmt.setInt(3, getAD_User_ID());
 				pstmt.setInt(4, getAD_User_ID());
 			}
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MRequest (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -429,14 +411,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("Own=" + own +" #" + list.size());
 		return list;
@@ -500,11 +476,12 @@ public class WebInfo
 		String sql = "SELECT * FROM R_RequestType "
 			+ "WHERE IsSelfService='Y' AND AD_Client_ID=? ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getAD_Client_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MRequestType (m_ctx, rs, null));
 			rs.close();
@@ -517,14 +494,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -540,16 +511,14 @@ public class WebInfo
 		MRequestType retValue = null;
 		String sql = "SELECT * FROM R_RequestType WHERE IsSelfService='Y' AND R_RequestType_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MRequestType (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -557,14 +526,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("R_RequestType_ID=" + m_id + " - " + retValue);
 		return retValue;
@@ -591,16 +554,14 @@ public class WebInfo
 			+ " AND DocStatus NOT IN ('DR','IN') "
 			+ "ORDER BY DocumentNo DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MInvoice (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -608,14 +569,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -640,17 +595,15 @@ public class WebInfo
 		}
 		String sql = "SELECT * FROM C_Invoice WHERE C_BPartner_ID=? AND C_Invoice_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
 			pstmt.setInt(2, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MInvoice (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -658,14 +611,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("C_Invoice_ID=" + m_id + " - " + retValue);
 		return retValue;
@@ -690,16 +637,14 @@ public class WebInfo
 			+ " AND DocStatus NOT IN ('DR','IN') "
 			+ "ORDER BY DocumentNo DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MPayment (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -707,14 +652,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -743,16 +682,14 @@ public class WebInfo
 		}
 		String sql = "SELECT * FROM A_Asset WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MAsset (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -760,14 +697,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -788,20 +719,18 @@ public class WebInfo
 			+ " AND AD_Client_ID=? "
 			+ "ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				MInterestArea ia = new MInterestArea (m_ctx, rs, null);
 				ia.setSubscriptionInfo(getAD_User_ID());
 				list.add (ia);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -809,14 +738,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -832,16 +755,14 @@ public class WebInfo
 		ArrayList<MAdvertisement> list = new ArrayList<MAdvertisement>();
 		String sql = "SELECT * FROM W_Advertisement WHERE C_BPartner_ID=? ORDER BY ValidFrom DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MAdvertisement (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -849,14 +770,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -872,15 +787,13 @@ public class WebInfo
 		ArrayList<MAdvertisement> list = new ArrayList<MAdvertisement>();
 		String sql = "SELECT * FROM W_Advertisement WHERE IsActive='Y' ORDER BY Description";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MAdvertisement (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -888,14 +801,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -916,18 +823,16 @@ public class WebInfo
 			+ " AND DocStatus NOT IN ('DR','IN') "
 			+ "ORDER BY DocumentNo DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getAD_User_ID());
 			pstmt.setInt(2, getAD_User_ID());
 			pstmt.setInt(3, getAD_User_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MInvoice (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -935,14 +840,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -961,16 +860,14 @@ public class WebInfo
 				+ "WHERE C_CommissionRun.C_Commission_ID=c.C_Commission_ID AND c.C_BPartner_ID=?) "
 			+ "ORDER BY DocumentNo";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MCommissionRun (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -978,14 +875,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -1004,16 +895,14 @@ public class WebInfo
 			+ " AND (Processed='N' OR Processed IS NULL) "
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getAD_User_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MNote (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1021,14 +910,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -1046,17 +929,15 @@ public class WebInfo
 		MNote retValue = null;
 		String sql = "SELECT * FROM AD_Note WHERE AD_User_ID=? AND AD_Note_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getAD_User_ID());
 			pstmt.setInt(2, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MNote (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1064,14 +945,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("AD_Note_ID=" + m_id + " - " + retValue);
 		return retValue;
@@ -1090,16 +965,14 @@ public class WebInfo
 			+ " AND Processed='N' "
 			+ "ORDER BY Priority DESC, Created";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getAD_User_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MWFActivity (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1107,14 +980,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -1132,17 +999,15 @@ public class WebInfo
 		MWFActivity retValue = null;
 		String sql = "SELECT * FROM AD_WF_Activity WHERE AD_User_ID=? AND AD_WF_Activity_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getAD_User_ID());
 			pstmt.setInt(2, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MWFActivity (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1150,14 +1015,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("AD_WF_Activity_ID=" + m_id + " - " + retValue);
 		return retValue;
@@ -1209,17 +1068,15 @@ public class WebInfo
 		MTimeExpense retValue = null;
 		String sql = "SELECT * FROM S_TimeExpense WHERE C_BPartner_ID=? AND S_TimeExpense_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
 			pstmt.setInt(2, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MTimeExpense (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1227,14 +1084,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (retValue == null)
 			retValue = new MTimeExpense (m_ctx, 0, null);
@@ -1255,16 +1106,14 @@ public class WebInfo
 			+ "WHERE C_BPartner_ID=? "
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MRegistration (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1272,14 +1121,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -1296,17 +1139,15 @@ public class WebInfo
 		MRegistration retValue = null;
 		String sql = "SELECT * FROM A_Registration WHERE C_BPartner_ID=? AND A_Registration_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
 			pstmt.setInt(2, m_id);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MRegistration (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1314,14 +1155,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	new registration
 		if (retValue == null)
@@ -1351,16 +1186,14 @@ public class WebInfo
 			+ "ORDER BY r.Name";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MRfQ (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1368,14 +1201,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -1394,17 +1221,15 @@ public class WebInfo
 			+ "WHERE C_RfQ_ID=?"
 			+ " AND C_BPartner_ID=? AND IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_id);
 			pstmt.setInt(2, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MRfQResponse (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1412,14 +1237,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	No Response existing
 		if (retValue == null)
