@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.DB;
 
 /**
  *	Alert Model
@@ -80,31 +83,25 @@ public class MAlert extends X_AD_Alert
 			+ "WHERE AD_Alert_ID=?";
 		ArrayList<MAlertRule> list = new ArrayList<MAlertRule>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getAD_Alert_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MAlertRule (getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		//
 		m_rules = new MAlertRule[list.size ()];
 		list.toArray (m_rules);
