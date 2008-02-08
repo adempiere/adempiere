@@ -16,12 +16,22 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_WF_Process;
+import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.StateEngine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 
 
 /**
@@ -70,7 +80,7 @@ public class MWFProcess extends X_AD_WF_Process
 		if (!TimeUtil.isValid(wf.getValidFrom(), wf.getValidTo()))
 			throw new IllegalStateException("Workflow not valid");
 		m_wf = wf;
-		m_pi = pi;
+//TODO  m_pi = pi; red1 - never used  -check later	
 		setAD_Workflow_ID (wf.getAD_Workflow_ID());
 		setPriority(wf.getPriority());
 		super.setWFState (WFSTATE_NotStarted);
@@ -107,7 +117,10 @@ public class MWFProcess extends X_AD_WF_Process
 	/**	Workflow					*/
 	private MWorkflow			m_wf = null;
 	/**	Process Info				*/
+/*TODO red1 - never used
+ * 
 	private ProcessInfo			m_pi = null;
+ */
 	/**	Persistent Object			*/
 	private PO					m_po = null;
 	/** Message from Activity		*/
@@ -126,6 +139,7 @@ public class MWFProcess extends X_AD_WF_Process
 		//
 		ArrayList<MWFActivity> list = new ArrayList<MWFActivity>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_WF_Activity WHERE AD_WF_Process_ID=?";
 		if (onlyActive)
 			sql += " AND Processed='N'";
@@ -133,27 +147,20 @@ public class MWFProcess extends X_AD_WF_Process
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getAD_WF_Process_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MWFActivity(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+	 	}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		m_activities = new MWFActivity[list.size ()];
 		list.toArray (m_activities);
 		return m_activities;
