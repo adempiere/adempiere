@@ -149,16 +149,6 @@ public class ARequest implements ActionListener
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
 		finally
 		{
 			DB.close(rs, pstmt);
