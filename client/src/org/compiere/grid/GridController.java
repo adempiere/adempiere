@@ -939,7 +939,9 @@ public class GridController extends CPanel
 						 */
 						if (comp instanceof VString){
 							VString vs = (VString)comp;
-							if(!vs.getVFormat().equals(mField.getVFormat()) && mField.getVFormat() != null){
+							if ((vs.getVFormat() != null && mField.getVFormat() == null)
+									|| (vs.getVFormat() == null && mField.getVFormat() != null)
+									|| (vs.getVFormat() != null && !vs.getVFormat().equals(mField.getVFormat()))) {
 								vs.setVFormat(mField.getVFormat());
 							}
 						}
