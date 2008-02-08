@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MLocator;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
+import org.compiere.model.MRefList;
+import org.compiere.model.MStorage;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * 	StorageCleanup
@@ -90,33 +96,26 @@ public class StorageCleanup extends SvrProcess
 				+ " AND s.M_Locator_ID=sl.M_Locator_ID"
 				+ " AND sl.M_Warehouse_ID=swl.M_Warehouse_ID)";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int lines = 0;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt(1, Env.getAD_Client_ID(getCtx()));
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				lines += move (new MStorage(getCtx(), rs, get_TrxName()));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		return "#" + lines;
@@ -260,35 +259,27 @@ public class StorageCleanup extends SvrProcess
 				+ " AND sl.M_Warehouse_ID=x.M_Warehouse_ID) "
 			+ "ORDER BY M_AttributeSetInstance_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, M_Product_ID);
 			pstmt.setInt (2, M_Locator_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				list.add (new MStorage (getCtx(), rs, get_TrxName()));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
 		MStorage[] retValue = new MStorage[list.size()];
 		list.toArray(retValue);
 		return retValue;
