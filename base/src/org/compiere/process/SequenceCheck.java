@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MClient;
+import org.compiere.model.MSequence;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  *	System + Document Sequence Check
@@ -94,10 +100,11 @@ public class SequenceCheck extends SvrProcess
 			+ " AND NOT EXISTS (SELECT * FROM AD_Sequence s "
 			+ "WHERE UPPER(s.Name)=UPPER(t.TableName) AND s.IsTableID='Y')";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String tableName = rs.getString(1);
@@ -114,23 +121,15 @@ public class SequenceCheck extends SvrProcess
 					throw new Exception ("Error creating Table Sequence for " + tableName);
 				}
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		//	Sync Table Name case
@@ -161,30 +160,22 @@ public class SequenceCheck extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				String TableName = rs.getString(1);
 				String SeqName = rs.getString(2);
 				sp.addLog(0, null, null, "ERROR: TableName=" + TableName + " - Sequence=" + SeqName);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	checkTableSequences
 	
