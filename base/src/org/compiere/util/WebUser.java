@@ -16,11 +16,21 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.servlet.http.*;
-import org.compiere.model.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.model.MBPBankAccount;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MLocation;
+import org.compiere.model.MRefList;
+import org.compiere.model.MUser;
 
 /**
  *  Web User Info.
@@ -161,20 +171,18 @@ public class WebUser
 			email = "";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_AD_Client_ID);
 			pstmt.setString(2, email.trim());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_bpc = new MUser (m_ctx, rs, null);
 				log.fine("Found BPC=" + m_bpc);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -182,14 +190,8 @@ public class WebUser
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//	Check Password
@@ -453,35 +455,27 @@ public class WebUser
 			{
 				String sql = "SELECT * FROM C_BPartner WHERE AD_Client_ID=? AND Value=?";
 				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				try
 				{
 					pstmt = DB.prepareStatement(sql, null);
 					pstmt.setInt (1, m_AD_Client_ID);
 					pstmt.setString (2, m_bp.getValue());
-					ResultSet rs = pstmt.executeQuery();
+					rs = pstmt.executeQuery();
 					if (rs.next())
 					{
 						m_bp = new MBPartner (m_ctx, m_bpc.getC_BPartner_ID (), null);
 						log.fine("BP loaded =" + m_bp);
 					}
-					rs.close();
-					pstmt.close();
-					pstmt = null;
-				}
+  			}
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, "save-check", e);
 				}
 				finally
 				{
-					try
-					{
-						if (pstmt != null)
-							pstmt.close ();
-					}
-					catch (Exception e)
-					{}
-					pstmt = null;
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
 				}
 			}
 
