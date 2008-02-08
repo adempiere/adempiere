@@ -16,16 +16,50 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.lang.reflect.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.report.*;
-import org.compiere.util.*;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MCash;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MJournal;
+import org.compiere.model.MMatchInv;
+import org.compiere.model.MMatchPO;
+import org.compiere.model.MMovement;
+import org.compiere.model.MNote;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.MPeriod;
+import org.compiere.model.MProjectIssue;
+import org.compiere.model.MRequisition;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
+import org.compiere.model.X_M_Production;
+import org.compiere.process.DocumentEngine;
+import org.compiere.report.MReportTree;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 /**
  *  Posting Document Root.
@@ -232,33 +266,27 @@ public abstract class Doc
 			.append(TableName)
 			.append(" WHERE ").append(TableName).append("_ID=? AND Processed='Y'");
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString(), trxName);
 			pstmt.setInt (1, Record_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				doc = get (ass, AD_Table_ID, rs, trxName);
 			}
 			else
 				s_log.severe("Not Found: " + TableName + "_ID=" + Record_ID);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql.toString(), e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null; 
 			pstmt = null;
 		}
 		return doc;
@@ -893,22 +921,28 @@ public abstract class Doc
 		if (m_DocumentType == null && getC_DocType_ID() != 0)
 		{
 			String sql = "SELECT DocBaseType, GL_Category_ID FROM C_DocType WHERE C_DocType_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rsDT = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, getC_DocType_ID());
-				ResultSet rsDT = pstmt.executeQuery();
+				rsDT = pstmt.executeQuery();
 				if (rsDT.next())
 				{
 					m_DocumentType = rsDT.getString(1);
 					m_GL_Category_ID = rsDT.getInt(2);
 				}
-				rsDT.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rsDT, pstmt);
+				rsDT = null; 
+				pstmt = null;
 			}
 		}
 		if (m_DocumentType == null)
@@ -1018,7 +1052,7 @@ public abstract class Doc
 		}
 
 		boolean convertible = true;
-		Iterator it = set.iterator();
+		Iterator<Integer> it = set.iterator();
 		while (it.hasNext() && convertible)
 		{
 			int C_Currency_ID = ((Integer)it.next()).intValue();
