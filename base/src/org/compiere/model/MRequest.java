@@ -16,12 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 /**
  * 	Request Model
@@ -963,7 +970,9 @@ public class MRequest extends X_R_Request
 	 *  Check the ability to send email.
 	 *  @return AD_Message or null if no error
 	 */
-	private String checkEMail()
+/*
+ * TODO red1 - Never Used Locally - to check later
+ 	private String checkEMail()
 	{
 		//  Mail Host
 		MClient client = MClient.get(getCtx());
@@ -999,7 +1008,7 @@ public class MRequest extends X_R_Request
 		
 		return null;
 	}   //  checkEMail
-
+*/
 	/**
 	 * 	Set SalesRep_ID
 	 *	@param SalesRep_ID id
@@ -1031,7 +1040,7 @@ public class MRequest extends X_R_Request
 		}
 		//	Initial Mail
 		if (newRecord)
-			sendNotices(new ArrayList());
+			sendNotices(new ArrayList<String>());
 
 		//	ChangeRequest - created in Request Processor
 		if (getM_ChangeRequest_ID() != 0
@@ -1068,7 +1077,8 @@ public class MRequest extends X_R_Request
 	/**
 	 * 	Send transfer Message
 	 */
-	private void sendTransferMessage ()
+/*TODO - red1 Never used locally  - check later
+ * 	private void sendTransferMessage ()  
 	{
 		//	Sender
 		int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
@@ -1094,13 +1104,13 @@ public class MRequest extends X_R_Request
 		//
 		client.sendEMail(from, to, subject, message, createPDF());
 	}	//	afterSaveTransfer
-
+*/
 	
 	/**
 	 * 	Send Update EMail/Notices
 	 * 	@param list list of changes
 	 */
-	public void sendNotices(ArrayList list)
+	public void sendNotices(ArrayList<String> list)
 	{
 		//	Subject
 		String subject = Msg.translate(getCtx(), "R_Request_ID") 
@@ -1157,11 +1167,12 @@ public class MRequest extends X_R_Request
 			+ "WHERE ru.R_Request_ID=? "
 			+ "GROUP BY u.AD_User_ID, u.NotificationType, u.EMail, u.Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getR_Request_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int AD_User_ID = rs.getInt(1);
@@ -1246,25 +1257,16 @@ public class MRequest extends X_R_Request
 						notices++;
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
 		log.info("EMail Success=" + success + ", Failure=" + failure
 			+ " - Notices=" + notices);
 	}	//	sendNotice
