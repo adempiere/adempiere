@@ -42,30 +42,23 @@ public class MUser extends X_AD_User
 		ArrayList<MUser> list = new ArrayList<MUser>();
 		String sql = "SELECT * FROM AD_User WHERE C_BPartner_ID=? AND IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MUser(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} 
+ 		} 
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		} 
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		MUser[] retValue = new MUser[list.size ()];
@@ -171,6 +164,7 @@ public class MUser extends X_AD_User
 		String sql = "SELECT * FROM AD_User "
 			+ "WHERE Name=? AND (Password=? OR Password=?) AND IsActive='Y' AND AD_Client_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -178,7 +172,7 @@ public class MUser extends X_AD_User
 			pstmt.setString (2, password);
 			pstmt.setString(3, SecureEngine.encrypt(password));
 			pstmt.setInt(4, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				retValue = new MUser (ctx, rs, null);
@@ -187,23 +181,15 @@ public class MUser extends X_AD_User
 			}
 			else
 				s_log.fine("No record");
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	get
@@ -676,6 +662,7 @@ public class MUser extends X_AD_User
 			+ " ) "
 			+ "ORDER BY AD_Role_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
@@ -683,26 +670,18 @@ public class MUser extends X_AD_User
 			pstmt.setInt (2, AD_Org_ID);
 			pstmt.setInt (3, getAD_User_ID());
 			pstmt.setInt (4, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MRole(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		m_rolesAD_Org_ID = AD_Org_ID;
