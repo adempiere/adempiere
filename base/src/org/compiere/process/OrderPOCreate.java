@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.awt.geom.*;
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.awt.geom.IllegalPathStateException;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.util.DB;
 
 /**
  *	Generate PO from Sales Order
@@ -114,6 +119,7 @@ public class OrderPOCreate extends SvrProcess
 				sql += "AND TRUNC(o.DateOrdered) <= ?";
 		}
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int counter = 0;
 		try
 		{
@@ -139,28 +145,20 @@ public class OrderPOCreate extends SvrProcess
 				else if (p_DateOrdered_From == null && p_DateOrdered_To != null)
 					pstmt.setTimestamp(index++, p_DateOrdered_To);
 			}
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				counter += createPOFromSO (new MOrder (getCtx(), rs, get_TrxName()));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (counter == 0)
 			log.fine(sql);
@@ -190,12 +188,13 @@ public class OrderPOCreate extends SvrProcess
 			+ "WHERE ol.C_Order_ID=? AND po.IsCurrentVendor='Y' "
 			+ "ORDER BY 1";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		MOrder po = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, so.getC_Order_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				//	New Order
@@ -227,23 +226,15 @@ public class OrderPOCreate extends SvrProcess
 					}
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Set Reference to PO
 		if (counter == 1 && po != null)
