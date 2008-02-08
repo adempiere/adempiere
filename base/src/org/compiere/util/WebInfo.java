@@ -16,11 +16,31 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.wf.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MAdvertisement;
+import org.compiere.model.MAsset;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MCommissionRun;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInterestArea;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MNote;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.MRegistration;
+import org.compiere.model.MRequest;
+import org.compiere.model.MRequestType;
+import org.compiere.model.MRfQ;
+import org.compiere.model.MRfQResponse;
+import org.compiere.model.MTimeExpense;
+import org.compiere.model.X_AD_UserBPAccess;
+import org.compiere.wf.MWFActivity;
 
 
 /**
@@ -220,16 +240,14 @@ public class WebInfo
 			+ " AND DocStatus NOT IN ('DR','IN') "
 			+ "ORDER BY DocumentNo DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MOrder (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -237,14 +255,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
@@ -354,7 +366,7 @@ public class WebInfo
 	 * 	Get Own Requests
 	 *	@return Array of Own Requests
 	 */
-	public ArrayList getRequestsOwn ()
+	public ArrayList<MRequest> getRequestsOwn ()
 	{
 		return getRequests(true);
 	}	//	getRequestsOwn
@@ -363,7 +375,7 @@ public class WebInfo
 	 * 	Get Own Requests
 	 *	@return Array of Assigned Requests
 	 */
-	public ArrayList getRequestsAssigned ()
+	public ArrayList<MRequest> getRequestsAssigned ()
 	{
 		return getRequests(false);
 	}	//	getRequestsAssigned
@@ -1164,16 +1176,14 @@ public class WebInfo
 			+ "WHERE C_BPartner_ID=? "
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MTimeExpense (m_ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -1181,14 +1191,8 @@ public class WebInfo
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + list.size());
 		return list;
