@@ -16,12 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.servlet.http.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.EMail;
+import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 
 /**
  *  Asset Model
