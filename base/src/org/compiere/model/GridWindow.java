@@ -16,15 +16,37 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.plaf.*;
-import org.compiere.util.*;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+import java.util.logging.Level;
+
+import javax.swing.Icon;
+
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.h2;
+import org.apache.ecs.xhtml.h3;
+import org.apache.ecs.xhtml.h4;
+import org.apache.ecs.xhtml.i;
+import org.apache.ecs.xhtml.p;
+import org.apache.ecs.xhtml.strong;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.th;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.WebDoc;
 
 /**
  *	Window Model
@@ -147,7 +169,7 @@ public class GridWindow implements Serializable
 		//		Set Link Column
 		if (mTab.getLinkColumnName().length() == 0)
 		{
-			ArrayList parents = mTab.getParentColumnNames();
+			ArrayList<String> parents = mTab.getParentColumnNames();
 			//	No Parent - no link
 			if (parents.size() == 0)
 				;
@@ -520,11 +542,12 @@ public class GridWindow implements Serializable
 				+ " INNER JOIN AD_Column c ON (f.AD_Column_ID=c.AD_Column_ID) "
 				+ "WHERE w.AD_Window_ID=?";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, null);
 				pstmt.setInt (1, getAD_Window_ID());
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				if (rs.next ())
 				{
 					m_modelUpdated = rs.getTimestamp(1);	//	Window
@@ -541,23 +564,15 @@ public class GridWindow implements Serializable
 					if (ts.after(m_modelUpdated))
 						m_modelUpdated = ts;
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log (Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		return m_modelUpdated;
