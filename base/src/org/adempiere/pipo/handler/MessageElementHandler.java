@@ -85,11 +85,12 @@ public class MessageElementHandler extends AbstractElementHandler {
 		String sql = "SELECT value FROM AD_Message WHERE  AD_Message_ID= " + AD_Message_ID;
 		AttributesImpl atts = new AttributesImpl();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		pstmt = DB.prepareStatement (sql, getTrxName(ctx));		
 
 		try {
 
-			ResultSet rs = pstmt.executeQuery();		
+			rs = pstmt.executeQuery();		
 
 			while (rs.next())
 			{
@@ -98,21 +99,15 @@ public class MessageElementHandler extends AbstractElementHandler {
 				document.startElement("","","message",atts);
 				document.endElement("","","message");
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 
 		catch (Exception e){
 			log.log(Level.SEVERE,"getProcess", e);
 		}
-		finally{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e){}
-			pstmt = null;
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}
 
