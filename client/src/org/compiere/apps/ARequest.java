@@ -16,14 +16,33 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.event.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+
+import org.compiere.model.GridTab;
+import org.compiere.model.MAsset;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MCampaign;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProject;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRMA;
+import org.compiere.model.MUser;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
@@ -113,10 +132,11 @@ public class ARequest implements ActionListener
 			+ " GROUP BY Processed "
 			+ "ORDER BY Processed DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				if ("Y".equals(rs.getString(1)))
@@ -124,9 +144,6 @@ public class ARequest implements ActionListener
 				else
 					activeCount += rs.getInt(2);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -142,7 +159,12 @@ public class ARequest implements ActionListener
 		{
 			pstmt = null;
 		}
-
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; 
+			pstmt = null;
+		}
 		//
 		if (activeCount > 0)
 		{

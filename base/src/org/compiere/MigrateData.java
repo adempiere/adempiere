@@ -16,13 +16,16 @@
  *****************************************************************************/
 package org.compiere;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
+import org.compiere.model.MProductDownload;
+import org.compiere.print.PrintFormatUtil;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * 	Migrate Data
@@ -65,10 +68,11 @@ public class MigrateData
 			+ "FROM M_Product "
 			+ "WHERE DownloadURL IS NOT NULL";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int AD_Client_ID = rs.getInt(1);
@@ -97,24 +101,17 @@ public class MigrateData
 				else
 					log.warning("Product Download not created M_Product_ID=" + M_Product_ID);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		log.info("#" + count);
 	}	//	release252c
 	

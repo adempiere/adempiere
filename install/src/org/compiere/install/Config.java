@@ -131,33 +131,27 @@ public abstract class Config
 	{
 		String sql = "SELECT WebContext FROM W_Store WHERE IsActive='Y'";
 		Statement stmt = null;
+		ResultSet rs = null;
 		StringBuffer result = new StringBuffer();
 		try
 		{
 			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 			while (rs.next ())
 			{
 				if (result.length() > 0)
 					result.append(",");
 				result.append(rs.getString(1));
 			}
-			rs.close ();
-			stmt.close ();
-			stmt = null;
 		}
 		catch (Exception e)
 		{
 			log.severe(e.toString());
 		}
-		try
+		finally
 		{
-			if (stmt != null)
-				stmt.close ();
-			stmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, stmt);
+			rs = null; 
 			stmt = null;
 		}
 		return result.toString();
