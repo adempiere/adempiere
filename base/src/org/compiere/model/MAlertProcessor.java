@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 
 /**
@@ -41,29 +46,22 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 		ArrayList<MAlertProcessor> list = new ArrayList<MAlertProcessor>();
 		String sql = "SELECT * FROM AD_AlertProcessor WHERE IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MAlertProcessor (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MAlertProcessor[] retValue = new MAlertProcessor[list.size ()];
 		list.toArray (retValue);
@@ -132,30 +130,23 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 			+ "WHERE AD_AlertProcessor_ID=? " 
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getAD_AlertProcessor_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MAlertProcessorLog (getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MAlertProcessorLog[] retValue = new MAlertProcessorLog[list.size ()];
 		list.toArray (retValue);
@@ -191,30 +182,23 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 			+ "WHERE AD_AlertProcessor_ID=?";
 		ArrayList<MAlert> list = new ArrayList<MAlert>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getAD_AlertProcessor_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MAlert (getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		m_alerts = new MAlert[list.size ()];
