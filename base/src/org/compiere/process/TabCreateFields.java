@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+
+import org.compiere.model.MColumn;
+import org.compiere.model.MField;
+import org.compiere.model.MTab;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
 
 
 /**
@@ -65,13 +70,14 @@ public class TabCreateFields extends SvrProcess
 			+ " AND IsActive='Y' "
 			+ "ORDER BY Name";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, tab.getAD_Table_ID());
 			pstmt.setInt (2, tab.getAD_Tab_ID());
 			pstmt.setInt (3, tab.getAD_Table_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MColumn column = new MColumn (getCtx(), rs, get_TrxName());
@@ -86,23 +92,15 @@ public class TabCreateFields extends SvrProcess
 					count++;
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return "@Created@ #" + count;
 	}	//	doIt
