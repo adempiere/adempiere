@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.DB;
+import org.compiere.util.TimeUtil;
 
 /**
  *	RfQ Model
@@ -103,30 +108,23 @@ public class MRfQ extends X_C_RfQ
 			+ "WHERE C_RfQ_ID=? AND IsActive='Y' "
 			+ "ORDER BY Line";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getC_RfQ_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MRfQLine (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MRfQLine[] retValue = new MRfQLine[list.size ()];
 		list.toArray (retValue);
@@ -150,30 +148,23 @@ public class MRfQ extends X_C_RfQ
 			sql += " AND IsComplete='Y'";
 		sql += " ORDER BY Price";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getC_RfQ_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MRfQResponse (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MRfQResponse[] retValue = new MRfQResponse[list.size ()];
 		list.toArray (retValue);
