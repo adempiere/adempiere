@@ -140,8 +140,10 @@ public class MDiscountSchema extends X_M_DiscountSchema
 	 */
 	public MDiscountSchemaLine[] getLines(boolean reload)
 	{
-		if (m_lines != null && !reload)
+		if (m_lines != null && !reload) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		
 		String sql = "SELECT * FROM M_DiscountSchemaLine WHERE M_DiscountSchema_ID=? ORDER BY SeqNo";
 		ArrayList<MDiscountSchemaLine> list = new ArrayList<MDiscountSchemaLine>();

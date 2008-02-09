@@ -147,8 +147,10 @@ public class MRfQResponse extends X_C_RfQResponse
 	 */
 	public MRfQResponseLine[] getLines(boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		ArrayList<MRfQResponseLine> list = new ArrayList<MRfQResponseLine>();
 		String sql = "SELECT * FROM C_RfQResponseLine "
 			+ "WHERE C_RfQResponse_ID=? AND IsActive='Y'";

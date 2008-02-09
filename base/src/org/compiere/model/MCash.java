@@ -239,8 +239,10 @@ public class MCash extends X_C_Cash implements DocAction
 	 */
 	public MCashLine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		ArrayList<MCashLine> list = new ArrayList<MCashLine>();
 		String sql = "SELECT * FROM C_CashLine WHERE C_Cash_ID=? ORDER BY Line";
 		PreparedStatement pstmt = null;

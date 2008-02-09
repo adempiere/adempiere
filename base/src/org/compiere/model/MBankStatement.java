@@ -103,8 +103,10 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
  	 */
  	public MBankStatementLine[] getLines (boolean requery)
  	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		//
  		ArrayList<MBankStatementLine> list = new ArrayList<MBankStatementLine>();
  		String sql = "SELECT * FROM C_BankStatementLine "

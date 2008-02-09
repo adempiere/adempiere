@@ -77,8 +77,10 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	 */
 	public MRequisitionLine[] getLines()
 	{
-		if (m_lines != null)
+		if (m_lines != null) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		
 		ArrayList<MRequisitionLine> list = new ArrayList<MRequisitionLine>();
 		String sql = "SELECT * FROM M_RequisitionLine WHERE M_Requisition_ID=? ORDER BY Line";

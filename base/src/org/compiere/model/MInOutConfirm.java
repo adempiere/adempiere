@@ -131,8 +131,10 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 	 */
 	public MInOutLineConfirm[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		String sql = "SELECT * FROM M_InOutLineConfirm "
 			+ "WHERE M_InOutConfirm_ID=?";
 		ArrayList<MInOutLineConfirm> list = new ArrayList<MInOutLineConfirm>();

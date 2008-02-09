@@ -75,8 +75,10 @@ public class MInvoiceBatch extends X_C_InvoiceBatch
 	 */
 	public MInvoiceBatchLine[] getLines (boolean reload)
 	{
-		if (m_lines != null && !reload)
+		if (m_lines != null && !reload) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		String sql = "SELECT * FROM C_InvoiceBatchLine WHERE C_InvoiceBatch_ID=? ORDER BY Line";
 		ArrayList<MInvoiceBatchLine> list = new ArrayList<MInvoiceBatchLine>();
 		PreparedStatement pstmt = null;

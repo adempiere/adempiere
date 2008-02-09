@@ -62,8 +62,10 @@ public class MDistributionRun extends X_M_DistributionRun
 	 */
 	public MDistributionRunLine[] getLines (boolean reload)
 	{
-		if (!reload && m_lines != null)
+		if (!reload && m_lines != null) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		//
 		String sql = "SELECT * FROM M_DistributionRunLine "
 			+ "WHERE M_DistributionRun_ID=? AND IsActive='Y' AND TotalQty IS NOT NULL AND TotalQty<> 0 ORDER BY Line";

@@ -73,8 +73,10 @@ public class MPaySelection extends X_C_PaySelection
 	 */
 	public MPaySelectionLine[] getLines(boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		ArrayList<MPaySelectionLine> list = new ArrayList<MPaySelectionLine>();
 		String sql = "SELECT * FROM C_PaySelectionLine WHERE C_PaySelection_ID=? ORDER BY Line";
 		PreparedStatement pstmt = null;

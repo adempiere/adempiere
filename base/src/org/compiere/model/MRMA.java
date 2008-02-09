@@ -79,8 +79,10 @@ public class MRMA extends X_M_RMA implements DocAction
 	 */
 	public MRMALine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		ArrayList<MRMALine> list = new ArrayList<MRMALine>();
 
 		String sql = "SELECT * FROM M_RMALine WHERE M_RMA_ID=?";

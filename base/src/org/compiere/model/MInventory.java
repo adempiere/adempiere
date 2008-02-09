@@ -110,8 +110,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 */
 	public MInventoryLine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		//
 		ArrayList<MInventoryLine> list = new ArrayList<MInventoryLine>();
 		String sql = "SELECT * FROM M_InventoryLine WHERE M_Inventory_ID=? ORDER BY Line";

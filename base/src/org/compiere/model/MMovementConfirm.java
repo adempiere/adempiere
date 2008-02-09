@@ -122,8 +122,10 @@ public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 	 */
 	public MMovementLineConfirm[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		String sql = "SELECT * FROM M_MovementLineConfirm "
 			+ "WHERE M_MovementConfirm_ID=?";
 		ArrayList<MMovementLineConfirm> list = new ArrayList<MMovementLineConfirm>();

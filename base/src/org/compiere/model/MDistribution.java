@@ -243,8 +243,10 @@ public class MDistribution extends X_GL_Distribution
 	 */
 	public MDistributionLine[] getLines (boolean reload)
 	{
-		if (m_lines != null && !reload)
+		if (m_lines != null && !reload) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		
 		BigDecimal PercentTotal = Env.ZERO;
 		ArrayList<MDistributionLine> list = new ArrayList<MDistributionLine>();

@@ -540,8 +540,10 @@ public class MInOut extends X_M_InOut implements DocAction
 	 */
 	public MInOutLine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		ArrayList<MInOutLine> list = new ArrayList<MInOutLine>();
 		String sql = "SELECT * FROM M_InOutLine WHERE M_InOut_ID=? ORDER BY Line";
 		PreparedStatement pstmt = null;

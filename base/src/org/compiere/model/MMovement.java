@@ -77,8 +77,10 @@ public class MMovement extends X_M_Movement implements DocAction
 	 */
 	public MMovementLine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		//
 		ArrayList<MMovementLine> list = new ArrayList<MMovementLine>();
 		String sql = "SELECT * FROM M_MovementLine WHERE M_Movement_ID=? ORDER BY Line";

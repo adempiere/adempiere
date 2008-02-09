@@ -199,8 +199,12 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	 */
 	public MAllocationLine[] getLines (boolean requery)
 	{
-		if (m_lines != null && m_lines.length != 0 && !requery)
-			return m_lines;
+		if (m_lines != null && m_lines.length != 0 && !requery) {
+			if (m_lines != null && m_lines.length != 0 && !requery) {
+				set_TrxName(m_lines, get_TrxName());
+				return m_lines;
+			}
+		}
 		//
 		String sql = "SELECT * FROM C_AllocationLine WHERE C_AllocationHdr_ID=?";
 		ArrayList<MAllocationLine> list = new ArrayList<MAllocationLine>();

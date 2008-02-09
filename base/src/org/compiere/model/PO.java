@@ -3586,6 +3586,15 @@ public abstract class PO
 	 */
 	public Doc getDoc() {
 		return m_doc;
-	}	
+	}
+	
+	/**
+	 *  PO.setTrxName - set given trxName to an array of POs
+	 *  As suggested by teo in [ 1854603 ]
+	 */
+	public static void set_TrxName(PO[] lines, String trxName) {
+		for (PO line : lines)
+			line.set_TrxName(trxName);
+	}
 	
 }   //  PO

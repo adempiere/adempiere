@@ -89,8 +89,10 @@ public class MTimeExpense extends X_S_TimeExpense implements DocAction
 	 */
 	public MTimeExpenseLine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		//
 		int C_Currency_ID = getC_Currency_ID();
 		ArrayList<MTimeExpenseLine> list = new ArrayList<MTimeExpenseLine>();

@@ -639,6 +639,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	{
 		if (m_lines == null || m_lines.length == 0 || requery)
 			m_lines = getLines(null);
+		set_TrxName(m_lines, get_TrxName());
 		return m_lines;
 	}	//	getLines
 
