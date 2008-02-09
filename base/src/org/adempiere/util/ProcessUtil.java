@@ -30,7 +30,7 @@ import org.compiere.wf.MWorkflow;
  */
 public final class ProcessUtil {
 
-	private static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
+	public static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
 
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(ProcessUtil.class);
@@ -81,7 +81,7 @@ public final class ProcessUtil {
 				className = JASPER_STARTER_CLASS;
 		}
 		//Get Class
-		Class processClass = null;
+		Class<?> processClass = null;
 		try
 		{
 			processClass = Class.forName (className);

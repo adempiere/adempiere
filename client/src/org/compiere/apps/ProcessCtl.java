@@ -61,8 +61,6 @@ import org.compiere.wf.MWFProcess;
  */
 public class ProcessCtl implements Runnable
 {
-	private static final String JASPER_STARTER_CLASS = "org.compiere.report.ReportStarter";
-
 	/**
 	 *	Process Control
 	 *  <code>
@@ -379,7 +377,7 @@ public class ProcessCtl implements Runnable
 		boolean isJasper = false;
 		if (JasperReport != null && JasperReport.trim().length() > 0) {
 			isJasper = true;
-			if (JASPER_STARTER_CLASS.equals(m_pi.getClassName())) {
+			if (ProcessUtil.JASPER_STARTER_CLASS.equals(m_pi.getClassName())) {
 				m_pi.setClassName(null);
 			}
 		}
@@ -442,7 +440,7 @@ public class ProcessCtl implements Runnable
 
 			if (isJasper)
 			{
-				m_pi.setClassName(JASPER_STARTER_CLASS);
+				m_pi.setClassName(ProcessUtil.JASPER_STARTER_CLASS);
 				startProcess();
 				unlock();
 				return;
@@ -603,9 +601,8 @@ public class ProcessCtl implements Runnable
 		//hengsin, bug [ 1633995 ]
 		boolean clientOnly = false;
 		if (! m_pi.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
-			Class processClass = null;
 			try {
-				processClass = Class.forName(m_pi.getClassName());
+				Class<?> processClass = Class.forName(m_pi.getClassName());
 				if (ClientProcess.class.isAssignableFrom(processClass))
 					clientOnly = true;
 			} catch (Exception e) {}
