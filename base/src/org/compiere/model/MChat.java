@@ -16,12 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.apache.ecs.xhtml.b;
+import org.apache.ecs.xhtml.hr;
+import org.apache.ecs.xhtml.p;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  * 	Chat Model
@@ -45,34 +55,28 @@ public class MChat extends X_CM_Chat
 		String sql = "SELECT * FROM CM_Chat "
 			+ "WHERE AD_Client_ID=? AND AD_Table_ID=? ORDER BY Record_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, AD_Client_ID);
 			pstmt.setInt (2, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				list.add (new MChat (ctx, rs, null));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		//
 		MChat[] retValue = new MChat[list.size()];
 		list.toArray (retValue);
@@ -148,33 +152,27 @@ public class MChat extends X_CM_Chat
 		ArrayList<MChatEntry> list = new ArrayList<MChatEntry>();
 		String sql = "SELECT * FROM CM_ChatEntry WHERE CM_Chat_ID=? ORDER BY Created";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getCM_Chat_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				list.add (new MChatEntry (getCtx(), rs, get_TrxName()));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		//
 		m_entries = new MChatEntry[list.size ()];
 		list.toArray (m_entries);
