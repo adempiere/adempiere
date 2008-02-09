@@ -622,12 +622,10 @@ public class MSequence extends X_AD_Sequence
 		StringBuffer doc = new StringBuffer();
 		if (prefix != null && prefix.length() > 0)
 			doc.append(parseVariable(prefix, po, trxName));
-		if (decimalPattern != null && decimalPattern.length() > 0) {
+		if (decimalPattern != null && decimalPattern.length() > 0)
 			doc.append(new DecimalFormat(decimalPattern).format(next));
-		} else {
+		else
 			doc.append(next);
-		}
-		doc.append(next);
 		if (suffix != null && suffix.length() > 0)
 			doc.append(parseVariable(suffix, po, trxName));
 		String documentNo = doc.toString();
