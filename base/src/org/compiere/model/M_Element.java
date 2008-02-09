@@ -16,10 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
 
 /**
@@ -53,11 +57,12 @@ public class M_Element extends X_AD_Element
 		String retValue = columnName;
 		String sql = "SELECT ColumnName FROM AD_Element WHERE UPPER(ColumnName)=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setString (1, columnName.toUpperCase());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				retValue = rs.getString(1);
@@ -67,24 +72,17 @@ public class M_Element extends X_AD_Element
 			}
 			else
 				s_log.warning("No found: " + columnName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, columnName, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		return retValue;
 	}	//	getColumnName
 
@@ -113,11 +111,12 @@ public class M_Element extends X_AD_Element
 		M_Element retValue = null;
 		String sql = "SELECT * FROM AD_Element WHERE UPPER(ColumnName)=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setString (1, columnName.toUpperCase());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				retValue = new M_Element (ctx, rs, trxName);
@@ -125,23 +124,15 @@ public class M_Element extends X_AD_Element
 					s_log.warning("Not unique: " + columnName 
 						+ " -> " + retValue + " - " + rs.getString("ColumnName"));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	get
@@ -163,31 +154,25 @@ public class M_Element extends X_AD_Element
 			+ "WHERE EXISTS (SELECT * FROM AD_Column c "
 				+ "WHERE c.AD_Element_ID=e.AD_Element_ID AND c.AD_Column_ID=?)";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, AD_Column_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new M_Element (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+
 		return retValue;
 	}	//	get
 
