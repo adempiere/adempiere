@@ -146,30 +146,23 @@ public final class MRole extends X_AD_Role
 		String sql = "SELECT * FROM AD_Role WHERE AD_Client_ID=?";
 		ArrayList<MRole> list = new ArrayList<MRole> ();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MRole(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MRole[] retValue = new MRole[list.size ()];
 		list.toArray (retValue);
@@ -189,29 +182,22 @@ public final class MRole extends X_AD_Role
 			sql += " WHERE " + whereClause;
 		ArrayList<MRole> list = new ArrayList<MRole> ();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MRole(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MRole[] retValue = new MRole[list.size ()];
 		list.toArray (retValue);
@@ -790,35 +776,28 @@ public final class MRole extends X_AD_Role
 			+ tree.getNodeTableName()
 			+ " WHERE AD_Tree_ID=? AND Parent_ID=? AND IsActive='Y')";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, tree.getAD_Tree_ID());
 			pstmt.setInt(2, org.getAD_Org_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int AD_Client_ID = rs.getInt(1);
 				int AD_Org_ID = rs.getInt(2);
 				loadOrgAccessAdd (list, new OrgAccess(AD_Client_ID, AD_Org_ID, oa.readOnly));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	loadOrgAccessAdd
 
