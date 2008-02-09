@@ -218,9 +218,15 @@ public class Doc_Bank extends Doc
 			// End Avoid usage of clearing accounts
 			
 			//  Charge          DR          (Charge)
-			fl = fact.createLine(line,
-				line.getChargeAccount(as, line.getChargeAmt().negate()),
-				line.getC_Currency_ID(), line.getChargeAmt().negate(), null);
+			if (line.getChargeAmt().compareTo(Env.ZERO) > 0) {
+				fl = fact.createLine(line,
+						line.getChargeAccount(as, line.getChargeAmt().negate()),
+						line.getC_Currency_ID(), null, line.getChargeAmt());
+			} else {
+				fl = fact.createLine(line,
+						line.getChargeAccount(as, line.getChargeAmt().negate()),
+						line.getC_Currency_ID(), line.getChargeAmt().negate(), null);
+			}
 			if (fl != null && C_BPartner_ID != 0)
 				fl.setC_BPartner_ID(C_BPartner_ID);
 
