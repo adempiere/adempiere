@@ -449,7 +449,7 @@ public class MSequence extends X_AD_Sequence
 		if (DB.isOracle() == false || DB.isRemoteObjects())
 		{	
 			if (isStartNewYear) {
-				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.AD_Sequence_ID "
+				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.DecimalPattern, s.AD_Sequence_ID "
 						+ "FROM AD_Sequence_No y, AD_Sequence s "
 						+ "WHERE y.AD_Sequence_ID = s.AD_Sequence_ID "						
 						+ "AND s.Name = ? "
@@ -459,7 +459,7 @@ public class MSequence extends X_AD_Sequence
 						+ "ORDER BY s.AD_Client_ID DESC "
 						+ "FOR UPDATE OF AD_Sequence_No";
 			} else {				
-				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "
+				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, DecimalPattern, AD_Sequence_ID "
 						+ "FROM AD_Sequence "
 						+ "WHERE Name = ? "
 						+ "AND AD_Client_ID = ? "
@@ -472,7 +472,7 @@ public class MSequence extends X_AD_Sequence
 		else
 		{
 			if (isStartNewYear) {
-				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, Prefix, Suffix, s.AD_Sequence_ID "
+				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, Prefix, Suffix, DecimalPattern, s.AD_Sequence_ID "
 						+ "FROM AD_Sequence_No y, AD_Sequence s "
 						+ "WHERE y.AD_Sequence_ID = s.AD_Sequence_ID "						
 						+ "AND s.Name = ? "
@@ -481,7 +481,7 @@ public class MSequence extends X_AD_Sequence
 						+ "AND s.IsActive='Y' AND s.IsTableID='N' AND s.IsAutoSequence='Y' "
 						+ "ORDER BY s.AD_Client_ID DESC";
 			} else {
-				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Sequence_ID "
+				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, DecimalPattern, AD_Sequence_ID "
 						+ "FROM AD_Sequence "
 						+ "WHERE Name = ? "
 						+ "AND AD_Client_ID = ? "
@@ -498,6 +498,7 @@ public class MSequence extends X_AD_Sequence
 		int next = -1;
 		String prefix = "";
 		String suffix = "";
+		String decimalPattern = "";
 		String calendarYear = "";
 		try
 		{
@@ -538,9 +539,10 @@ public class MSequence extends X_AD_Sequence
 		//		+ " - Type=" + pstmt.getResultSetType() + " - Concur=" + pstmt.getResultSetConcurrency());
 			if (rs.next())
 			{
-				AD_Sequence_ID = rs.getInt(6);
+				AD_Sequence_ID = rs.getInt(7);
 				prefix = rs.getString(4);
 				suffix = rs.getString(5);
+				decimalPattern = rs.getString(6);
 				incrementNo = rs.getInt(3);
 				if (USE_PROCEDURE)
 				{
@@ -620,6 +622,11 @@ public class MSequence extends X_AD_Sequence
 		StringBuffer doc = new StringBuffer();
 		if (prefix != null && prefix.length() > 0)
 			doc.append(parseVariable(prefix, po, trxName));
+		if (decimalPattern != null && decimalPattern.length() > 0) {
+			doc.append(new DecimalFormat(decimalPattern).format(next));
+		} else {
+			doc.append(next);
+		}
 		doc.append(next);
 		if (suffix != null && suffix.length() > 0)
 			doc.append(parseVariable(suffix, po, trxName));
@@ -822,7 +829,7 @@ public class MSequence extends X_AD_Sequence
 		{	
 			if (isStartNewYear) 
 			{
-				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.AD_Client_ID, s.AD_Sequence_ID "
+				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.DecimalPattern, s.AD_Client_ID, s.AD_Sequence_ID "
 						+ "FROM AD_Sequence_No y, AD_Sequence s "
 						+ "WHERE y.AD_Sequence_ID = s.AD_Sequence_ID "						
 						+ "AND s.AD_Sequence_ID = ? "
@@ -832,7 +839,7 @@ public class MSequence extends X_AD_Sequence
 			} 
 			else 
 			{				
-				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID "
+				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, DecimalPattern, AD_Client_ID, AD_Sequence_ID "
 						+ "FROM AD_Sequence "
 						+ "WHERE AD_Sequence_ID = ? "
 						+ "AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' "
@@ -843,14 +850,14 @@ public class MSequence extends X_AD_Sequence
 		else		
 		{
 			if (isStartNewYear) {
-				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.AD_Client_ID, s.AD_Sequence_ID "
+				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.DecimalPattern, s.AD_Client_ID, s.AD_Sequence_ID "
 						+ "FROM AD_Sequence_No y, AD_Sequence s "
 						+ "WHERE y.AD_Sequence_ID = s.AD_Sequence_ID "						
 						+ "AND s.AD_Sequence_ID = ? "
 						+ "AND y.CalendarYear = ? "
 						+ "AND s.IsActive='Y' AND s.IsTableID='N' AND s.IsAutoSequence='Y' ";
 			} else {
-				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, AD_Client_ID, AD_Sequence_ID "
+				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, DecimalPattern, AD_Client_ID, AD_Sequence_ID "
 						+ "FROM AD_Sequence "
 						+ "WHERE AD_Sequence_ID = ? "
 						+ "AND IsActive='Y' AND IsTableID='N' AND IsAutoSequence='Y' ";
@@ -865,6 +872,7 @@ public class MSequence extends X_AD_Sequence
 		int next = -1;
 		String prefix = "";
 		String suffix = "";
+		String decimalPattern = "";
 		String calendarYear = "";
 		try
 		{
@@ -909,10 +917,11 @@ public class MSequence extends X_AD_Sequence
 				incrementNo = rs.getInt(3);
 				prefix = rs.getString(4);
 				suffix = rs.getString(5);
-				int AD_Client_ID = rs.getInt(6);
+				decimalPattern = rs.getString(6);
+				int AD_Client_ID = rs.getInt(7);
 				if (adempiereSys && AD_Client_ID > 11)
 					adempiereSys = false;
-				AD_Sequence_ID = rs.getInt(7);
+				AD_Sequence_ID = rs.getInt(8);
 				
 				if (USE_PROCEDURE)
 				{
@@ -988,7 +997,10 @@ public class MSequence extends X_AD_Sequence
 		StringBuffer doc = new StringBuffer();
 		if (prefix != null && prefix.length() > 0)
 			doc.append(parseVariable(prefix, po, trxName));
-		doc.append(next);
+		if (decimalPattern != null && decimalPattern.length() > 0)
+			doc.append(new DecimalFormat(decimalPattern).format(next));
+		else
+			doc.append(next);
 		if (suffix != null && suffix.length() > 0)
 			doc.append(parseVariable(suffix, po, trxName));
 		String documentNo = doc.toString();
