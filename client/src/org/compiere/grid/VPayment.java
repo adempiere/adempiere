@@ -505,6 +505,7 @@ public class VPayment extends CDialog
 			{
 				m_cashLine = new MCashLine (Env.getCtx(), m_C_CashLine_ID, null);
 				m_DateAcct = m_cashLine.getStatementDate();
+				m_C_CashBook_ID = m_cashLine.getCashBook().getC_CashBook_ID();
 				bAmountField.setValue(m_cashLine.getAmount()); 
 			}
 		}
