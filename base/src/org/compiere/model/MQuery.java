@@ -16,11 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Query Descriptor.
@@ -47,22 +57,8 @@ public class MQuery implements Serializable
 			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID);
 
 		//	How many rows do we have?
-		int rows = 0;
 		String SQL = "SELECT COUNT(*) FROM AD_PInstance_Para WHERE AD_PInstance_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setInt(1, AD_PInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				rows = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e1)
-		{
-			s_log.log(Level.SEVERE, SQL, e1);
-		}
+		int rows = DB.getSQLValue(null, SQL, AD_PInstance_ID);
 
 		if (rows < 1)
 			return query;
@@ -90,13 +86,15 @@ public class MQuery implements Serializable
 				+ " AND pp.AD_Process_Para_ID=ppt.AD_Process_Para_ID"
 				+ " AND ip.AD_PInstance_ID=?"
 				+ " AND ppt.AD_Language=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setInt(1, AD_PInstance_ID);
 			if (trl)
 				pstmt.setString(2, Env.getAD_Language(ctx));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//	all records
 			for (int row = 0; rs.next(); row++)
 			{
@@ -192,12 +190,15 @@ public class MQuery implements Serializable
 					}
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e2)
 		{
 			s_log.log(Level.SEVERE, SQL, e2);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		s_log.info(query.toString());
 		return query;
