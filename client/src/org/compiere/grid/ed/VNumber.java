@@ -547,13 +547,15 @@ public final class VNumber extends JComponent
 	 */
 	public void focusLost (FocusEvent e)
 	{
-	//	log.finest(e.toString());
 		//	APanel - Escape
+		// hengsin: bug [ 1890205 ]
+		/*
 		if (e.getOppositeComponent() instanceof AGlassPane)
 		{
 			m_text.setText(m_initialText);
 			return;
-		}
+		}*/
+		
 		Object oo = getValue();
 		if (m_rangeSet)
 		{
