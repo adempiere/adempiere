@@ -16,22 +16,35 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.rmi.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.Container;
+import java.io.InvalidClassException;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.rmi.RemoteException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.util.ProcessUtil;
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MRule;
+import org.compiere.print.ReportCtl;
+import org.compiere.process.ClientProcess;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.SecurityToken;
+import org.compiere.util.Trx;
+import org.compiere.wf.MWFProcess;
 
 /**
  *	Process Interface Controller.
@@ -294,12 +307,14 @@ public class ProcessCtl implements Runnable
 				+ "WHERE p.IsActive='Y'"
 				+ " AND i.AD_PInstance_ID=?";
 		//
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, 
+			pstmt = DB.prepareStatement(sql, 
 				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
 			pstmt.setInt(1, m_pi.getAD_PInstance_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_pi.setTitle (rs.getString(1));
@@ -331,8 +346,6 @@ public class ProcessCtl implements Runnable
 			}
 			else
 				log.log(Level.SEVERE, "No AD_PInstance_ID=" + m_pi.getAD_PInstance_ID());
-			rs.close();
-			pstmt.close();
 		}
 		catch (Throwable e)
 		{
@@ -340,6 +353,11 @@ public class ProcessCtl implements Runnable
 			unlock();
 			log.log(Level.SEVERE, "run", e);
 			return;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//  No PL/SQL Procedure
