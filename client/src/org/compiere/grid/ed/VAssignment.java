@@ -340,7 +340,7 @@ public class VAssignment extends JComponent
 			setValue(new Integer(ma.getS_ResourceAssignment_ID()));
 			try
 			{
-				fireVetoableChange("S_ResourceAssignment_ID", new Object(), getValue());
+				fireVetoableChange(this.getName(), new Object(), getValue());
 			}
 			catch (PropertyVetoException pve)
 			{
