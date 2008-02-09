@@ -316,7 +316,7 @@ public class MJournalLine extends X_GL_JournalLine
 	{
 		//	Update Journal Total
 		String sql = "UPDATE GL_Journal j"
-			+ " SET (TotalDr, TotalCr) = (SELECT COALESCE(SUM(AmtSourceDr),0), COALESCE(SUM(AmtSourceCr),0)"
+			+ " SET (TotalDr, TotalCr) = (SELECT COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0)" // croo Bug# 1789935
 				+ " FROM GL_JournalLine jl WHERE jl.IsActive='Y' AND j.GL_Journal_ID=jl.GL_Journal_ID) "
 			+ "WHERE GL_Journal_ID=" + getGL_Journal_ID();
 		int no = DB.executeUpdate(sql, get_TrxName());
