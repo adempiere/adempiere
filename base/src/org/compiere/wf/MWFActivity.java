@@ -16,19 +16,50 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.io.*;
-import java.math.*;
-import java.rmi.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
+import org.compiere.model.MAttachment;
+import org.compiere.model.MClient;
+import org.compiere.model.MColumn;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MMailText;
+import org.compiere.model.MNote;
+import org.compiere.model.MOrg;
+import org.compiere.model.MOrgInfo;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MProcess;
+import org.compiere.model.MRefList;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.MUser;
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_WF_Activity;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.StateEngine;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trace;
+import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 /**
  *	Workflow Activity Model.
@@ -52,6 +83,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		ArrayList<MWFActivity> list = new ArrayList<MWFActivity>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_WF_Activity WHERE AD_Table_ID=? AND Record_ID=?";
 		if (activeOnly)
 			sql += " AND Processed<>'Y'";
@@ -61,27 +93,20 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, AD_Table_ID);
 			pstmt.setInt (2, Record_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MWFActivity (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		MWFActivity[] retValue = new MWFActivity[list.size ()];
 		list.toArray (retValue);
 		return retValue;
