@@ -148,7 +148,7 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 			bg = table.getSelectionBackground();
 			fg = table.getSelectionForeground();
 			if (hasFocus)
-				bg = GraphUtil.brighter(bg, .9);
+				bg = org.adempiere.apps.graph.GraphUtil.brighter(bg, .9);
 		}
 		
 		//  Set Color
