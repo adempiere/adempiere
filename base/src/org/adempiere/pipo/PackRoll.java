@@ -23,11 +23,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.*;
+import java.util.logging.Level;
 
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.process.*;
 
 /**
  * Reverse Package Install.
@@ -83,7 +84,6 @@ public class PackRoll extends SvrProcess {
 				+ "WHERE AD_Package_Imp_ID=" + m_AD_Package_Imp_ID
 				+ " ORDER BY AD_Package_Imp_Detail_ID DESC");
 		log.info(sql.toString());
-		int x = 0;
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = DB.prepareStatement(sql.toString(), null);
@@ -430,7 +430,7 @@ public class PackRoll extends SvrProcess {
 		sqlD = new StringBuffer("UPDATE AD_Package_Imp"
 				+ " SET Uninstall = 'Y'" + " WHERE AD_Package_Imp_ID = "
 				+ m_AD_Package_Imp_ID);
-		no = DB.executeUpdate(sqlD.toString(), null);
+		no = DB.executeUpdate(sqlD.toString(), get_TrxName());
 
 		sqlB = new StringBuffer("UPDATE AD_Package_Imp "
 				+ " SET PK_Status = 'Uninstalled'"
