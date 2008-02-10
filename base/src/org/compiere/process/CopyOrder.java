@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -64,7 +64,7 @@ public class CopyOrder extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */
@@ -83,7 +83,7 @@ public class CopyOrder extends SvrProcess
 		//
 		MOrder from = new MOrder (getCtx(), p_C_Order_ID, get_TrxName());
 		MOrder newOrder = MOrder.copyFrom (from, p_DateDoc, 
-			dt.getC_DocType_ID(), dt.isSOTrx(), false, true, null);		//	copy ASI
+			dt.getC_DocType_ID(), dt.isSOTrx(), false, true, get_TrxName());		//	copy ASI
 		newOrder.setC_DocTypeTarget_ID(p_C_DocType_ID);
 		boolean OK = newOrder.save();
 		if (!OK)
