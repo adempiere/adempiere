@@ -44,6 +44,9 @@ import org.compiere.util.*;
  *  </code>
  *  @author     Jorg Janke
  *  @version    $Id: MiniTable.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1891082 ] NPE on MiniTable when you hide some columns
  */
 public class MiniTable extends CTable
 {
@@ -117,8 +120,10 @@ public class MiniTable extends CTable
 				renderer = getCellRenderer(row, col);
 				comp = renderer.getTableCellRendererComponent
 					(this, getValueAt(row, col), false, false, row, col);
-				int rowWidth = comp.getPreferredSize().width + SLACK;
-				width = Math.max(width, rowWidth);
+				if (comp != null) {
+					int rowWidth = comp.getPreferredSize().width + SLACK;
+					width = Math.max(width, rowWidth);
+				}
 			}
 			//	Width not greater ..
 			width = Math.min(MAXSIZE, width);
