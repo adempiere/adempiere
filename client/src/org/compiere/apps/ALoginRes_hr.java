@@ -21,48 +21,48 @@ import java.util.*;
 /**
  *  Base Resource Bundle
  *
- * 	@author 	Marko Bubalo
- * 	@version 	$Id: ALoginRes_hr.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 	@author 	Marko Bubalo, Mislav Kašner
+ * 	@version 	$Id: ALoginRes_hr.java,v 1.3 2008/01/11 00:51:27 jjanke Exp $
  */
 public final class ALoginRes_hr extends ListResourceBundle
 {
-	// TODO Run native2ascii to convert to plain ASCII !! 
+	// converted to plain ASCII   
 	
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Connection",         "Veza" },
-	{ "Defaults",           "Uobi�ajeno" },
-	{ "Login",              "Adempiere Login" },	
-	{ "File",               "Datoteka" },
-	{ "Exit",               "Izlaz" },
-	{ "Help",               "Pomo�" },
-	{ "About",              "O programu" },
-	{ "Host",               "Host" },
-	{ "Database",           "Baza podataka" },
-	{ "User",               "Korisnik" },
-	{ "EnterUser",          "Unos korisnika" },
-	{ "Password",           "Lozinka" },
-	{ "EnterPassword",      "Unos lozinke" },
-	{ "Language",           "Jezika" },
-	{ "SelectLanguage",     "Izbor jezika" },
-	{ "Role",               "Uloga" },
-	{ "Client",             "Klijent" },
-	{ "Organization",       "Organizacija" },
-	{ "Date",               "Datum" },
-	{ "Warehouse",          "Skladi�te" },
-	{ "Printer",            "Pisac" },
-	{ "Connected",          "Spojeno" },
-	{ "NotConnected",       "Nije spojeno" },
-	{ "DatabaseNotFound",   "Baza podataka nije pronadena" },
-	{ "UserPwdError",       "Lozinka ne odgovara korisniku" },
-	{ "RoleNotFound",       "Uloga nije pronadena" },
-	{ "Authorized",         "Autoriziran" },
-	{ "Ok",                 "U redu" },
-	{ "Cancel",             "Otkazati" },
-	{ "VersionConflict",    "Konflikt verzija" },
-	{ "VersionInfo",        "Server <> Klijent" },
-	{ "PleaseUpgrade",      "Molim pokrenite nadogradnju programa" }
+		{ "Connection",         "Veza" },
+		{ "Defaults",           "Uobi\u010dajeno" },
+		{ "Login",              "Adempiere Login" },	
+		{ "File",               "Datoteka" },
+		{ "Exit",               "Izlaz" },
+		{ "Help",               "Pomo\u0107" },
+		{ "About",              "O programu" },
+		{ "Host",               "Host" },
+		{ "Database",           "Baza podataka" },
+		{ "User",               "Korisnik" },
+		{ "EnterUser",          "Unos korisnika" },
+		{ "Password",           "Lozinka" },
+		{ "EnterPassword",      "Unos lozinke" },
+		{ "Language",           "Jezik" },
+		{ "SelectLanguage",     "Izbor jezika" },
+		{ "Role",               "Uloga" },
+		{ "Client",             "Klijent" },
+		{ "Organization",       "Organizacija" },
+		{ "Date",               "Datum" },
+		{ "Warehouse",          "Skladi\u0161te" },
+		{ "Printer",            "Pisa\u010d" },
+		{ "Connected",          "Spojeno" },
+		{ "NotConnected",       "Nije spojeno" },
+		{ "DatabaseNotFound",   "Baza podataka nije prona\u0111ena" },
+		{ "UserPwdError",       "Lozinka ne odgovara korisniku" },
+		{ "RoleNotFound",       "Uloga nije prona\u0111ena" },
+		{ "Authorized",         "Autoriziran" },
+		{ "Ok",                 "U redu" },
+		{ "Cancel",             "Otkazati" },
+		{ "VersionConflict",    "Konflikt verzija" },
+		{ "VersionInfo",        "Server <> Klijent" },
+		{ "PleaseUpgrade",      "Molim pokrenite nadogradnju programa" }
 	};
 
 	/**
