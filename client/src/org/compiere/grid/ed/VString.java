@@ -276,7 +276,11 @@ public final class VString extends CTextField
 		} catch(ClassCastException ex ){
 			log.fine("VString.setVFormat - No caret Listeners");
 		}
+		
+		//hengsin: [ adempiere-Bugs-1891037 ], preserve current data before change of format		
+		String s = getText();
 		setDocument(new MDocString(m_VFormat, m_fieldLength, this));
+		setText(s);
 	}   //  setVFormat
 	
 	/**
