@@ -106,8 +106,6 @@ UPDATE ad_sequence
  AD_ROLE_ID , 
  AD_REF_LIST_ID 
  ) 
- 
- (
  SELECT
  client.AD_Client_ID,
  0,
@@ -123,7 +121,7 @@ UPDATE ad_sequence
  INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID)
  INNER JOIN AD_Ref_List action ON (action.AD_Reference_ID=135)
  INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID)
- );
+ ;
 
 
 COMMIT;
