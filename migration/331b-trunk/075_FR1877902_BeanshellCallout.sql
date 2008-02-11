@@ -1,3 +1,4 @@
+SET SQLBLANKLINES ON
 -- Jan 23, 2008 11:41:33 AM COT
 -- 1877902 - Implement beanshell callout
 INSERT INTO AD_Table (AD_Client_ID,AD_Org_ID,AD_Table_ID,AccessLevel,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES (0,0,53058,'4','N',TO_DATE('2008-01-23 11:41:30','YYYY-MM-DD HH24:MI:SS'),100,'D','N','Y','N','Y','N','N','N',0,'Rule','L','AD_Rule',TO_DATE('2008-01-23 11:41:30','YYYY-MM-DD HH24:MI:SS'),100)
