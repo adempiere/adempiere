@@ -1,3 +1,5 @@
+-- Review optional scripts at the end
+
 -- Jan 24, 2008 5:45:28 PM GMT-03:00
 -- BUG 1871567  -  Wrong value in Payment document
 INSERT INTO AD_ELEMENT (AD_Org_ID,UpdatedBy,Updated,PrintName,NAME,IsActive,EntityType,CreatedBy,Created,ColumnName,AD_Element_ID,AD_Client_ID) VALUES (0,100,TO_DATE('2008-01-24 17:45:27','YYYY-MM-DD HH24:MI:SS'),'Generated Draft','Generated Draft','Y','D',100,TO_DATE('2008-01-24 17:45:27','YYYY-MM-DD HH24:MI:SS'),'IsGeneratedDraft',53334,0)
@@ -14,3 +16,53 @@ INSERT INTO AD_COLUMN_TRL (AD_LANGUAGE,AD_Column_ID, NAME, IsTranslated,AD_Clien
 
 ALTER TABLE C_PAYSELECTIONCHECK ADD IsGeneratedDraft CHAR(1) DEFAULT 'N' CHECK (IsGeneratedDraft IN ('Y','N')) NOT NULL
 ;
+
+/*
+
+-- The following SQL's are not executed by default
+-- they are provided to fix C_PaySelectionCheck if you're having the problem described
+-- in BUG 1871567  -  Wrong value in Payment document
+
+-- Mark as Generated in Draft the checks from payments still not processed
+
+UPDATE C_PAYSELECTIONCHECK
+   SET isgenerateddraft = 'Y'
+ WHERE isgenerateddraft = 'N'
+   AND c_payselectioncheck_id IN (
+                 SELECT psc.c_payselectioncheck_id
+                   FROM C_PAYSELECTIONCHECK psc, C_PAYMENT p
+                  WHERE psc.c_payment_id = p.c_payment_id
+                        AND p.processed = 'N');
+						
+-- Mark as Generated in Draft the checks from payments with different amounts
+
+UPDATE C_PAYSELECTIONCHECK
+   SET isgenerateddraft = 'Y'
+ WHERE isgenerateddraft = 'N'
+   AND c_payselectioncheck_id IN (
+          SELECT psl.c_payselectioncheck_id
+            FROM C_PAYSELECTIONLINE psl, C_PAYMENT p
+           WHERE p.c_payment_id = psl.c_invoice_id
+             AND (   psl.openamt <> (p.payamt - p.discountamt)
+                  OR psl.payamt <> p.payamt
+                 )
+             AND p.c_invoice_id > 0);
+
+
+-- Mark as Generated in Draft the checks from payment allocates with different amounts
+
+UPDATE C_PAYSELECTIONCHECK
+   SET isgenerateddraft = 'Y'
+ WHERE isgenerateddraft = 'N'
+   AND c_payselectioncheck_id IN (
+          SELECT   psl.c_payselectioncheck_id
+              FROM C_PAYSELECTIONLINE psl, C_PAYMENT p, C_PAYMENTALLOCATE pa
+             WHERE p.c_payment_id = psl.c_invoice_id
+               AND (p.c_invoice_id IS NULL OR p.c_invoice_id = 0)
+               AND p.c_payment_id = pa.c_payment_id
+            HAVING (   psl.openamt <> SUM (pa.amount - pa.discountamt)
+                    OR psl.payamt <> SUM (pa.amount)
+                   )
+          GROUP BY psl.c_payselectioncheck_id, psl.openamt, psl.payamt);
+
+*/ 
