@@ -24,7 +24,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.APanel;
 import org.compiere.model.*;
 import org.compiere.util.*;
 
@@ -44,6 +43,7 @@ import org.compiere.util.*;
 public final class VCellEditor extends AbstractCellEditor
 	implements TableCellEditor, VetoableChangeListener, ActionListener
 {
+
 	/**
 	 *	Constructor for Grid
 	 *  @param mField
@@ -59,10 +59,12 @@ public final class VCellEditor extends AbstractCellEditor
 	private GridField          m_mField = null;
 	/** The Table Editor        */
 	private VEditor	        m_editor = null;
+	
 	/** Table                   */
 	private JTable          m_table = null;
 	private ActionListener buttonListener;
 	private ActionListener actionListener;
+	
 	/** ClickCount              */
 	private static int      CLICK_TO_START = 1;
 	/**	Logger			*/
@@ -76,6 +78,7 @@ public final class VCellEditor extends AbstractCellEditor
 		m_editor = VEditorFactory.getEditor(m_mField, true);
 		m_editor.addVetoableChangeListener(this);
 		m_editor.addActionListener(this);
+				
 	}   //  createEditor
 
 	/**
@@ -120,20 +123,21 @@ public final class VCellEditor extends AbstractCellEditor
 		log.finest(m_mField.getColumnName() + ": Value=" + value + ", row=" + row + ", col=" + col);
 		if (row >= 0)
 			table.setRowSelectionInterval(row,row);     //  force moving to new row
-		if (m_editor == null)
+		if (m_editor == null ) 
 			createEditor();
 		
 		if ( m_editor instanceof VLookup) 
 		{
 			((VLookup)m_editor).setStopEditing(false);
 		}
+		
 		m_editor.setReadWrite(m_mField.isEditable (true));
 
 		m_table = table;
 
 		//	Set Value
 		m_editor.setValue(value);
-
+		
 		//	Set Background/Foreground to "normal" (unselected) colors
 		m_editor.setBackground(m_mField.isError());
 		m_editor.setForeground(AdempierePLAF.getTextColor_Normal());
