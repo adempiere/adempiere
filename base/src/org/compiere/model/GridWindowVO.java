@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Model Window Value Object
@@ -63,11 +69,13 @@ public class GridWindowVO implements Serializable
 		{
 			String sql = "SELECT AD_Window_ID, IsSOTrx, IsReadOnly FROM AD_Menu "
 				+ "WHERE AD_Menu_ID=? AND Action='W'";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, AD_Menu_ID);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					vo.AD_Window_ID = rs.getInt(1);
@@ -80,13 +88,16 @@ public class GridWindowVO implements Serializable
 					else
 						vo.IsReadWrite = "N";
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				CLogger.get().log(Level.SEVERE, "Menu", e);
 				return null;
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			CLogger.get().config("AD_Window_ID=" + vo.AD_Window_ID);
 		}
@@ -111,14 +122,16 @@ public class GridWindowVO implements Serializable
 				.append(Env.getAD_Language(vo.ctx)).append("'");
 
 		int AD_Role_ID = Env.getContextAsInt(vo.ctx, "#AD_Role_ID");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			//	create statement
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, vo.AD_Window_ID);
 			pstmt.setInt(2, AD_Role_ID);
 			// 	get data
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				vo.Name = rs.getString(1);
@@ -141,13 +154,16 @@ public class GridWindowVO implements Serializable
 			}
 			else
 				vo = null;
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException ex)
 		{
 			CLogger.get().log(Level.SEVERE, sql.toString(), ex);
 			return null;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		// Ensure ASP exceptions
 		MRole role = MRole.getDefault(ctx, false);
@@ -186,12 +202,14 @@ public class GridWindowVO implements Serializable
 
 		String sql = GridTabVO.getSQL(mWindowVO.ctx);
 		int TabNo = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			//	create statement
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, mWindowVO.AD_Window_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			boolean firstTab = true;
 			while (rs.next())
 			{
@@ -212,13 +230,16 @@ public class GridWindowVO implements Serializable
 					firstTab = false;
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			CLogger.get().log(Level.SEVERE, "createTabs", e);
 			return false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//  No Tabs
