@@ -167,11 +167,11 @@ public class GridWindowVO implements Serializable
 		}
 		// Ensure ASP exceptions
 		MRole role = MRole.getDefault(ctx, false);
-		if (role.getWindowAccess(vo.AD_Window_ID) == null)
+		if (vo != null && role.getWindowAccess(vo.AD_Window_ID) == null)
 			vo = null;		//	Not found
 		if (vo == null)
 		{
-			CLogger.get().log(Level.SEVERE, "No Window - AD_Window_ID=" + vo.AD_Window_ID
+			CLogger.get().log(Level.SEVERE, "No Window - AD_Window_ID=" + AD_Window_ID
 				+ ", AD_Role_ID=" + AD_Role_ID + " - " + sql);
 			CLogger.get().saveError("AccessTableNoView", "(Not found)");
 			return null;
