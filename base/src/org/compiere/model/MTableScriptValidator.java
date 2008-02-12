@@ -17,16 +17,23 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	Table Validator Scripts
  *  @author Carlos Ruiz
  *  @version $Id: MTableScriptValidator.java
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1885496 ] Performance NEEDS
  */
 public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 {
@@ -54,11 +61,18 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 	 *	@param ctx context
 	 *	@param table_id AD_Table_ID
 	 *	@param event Event
-	 *	@return array of MTableScriptValidator
+	 *	@return array of MTableScriptValidator or null if error or no validators found
 	 */
 	public static ArrayList<MTableScriptValidator> getModelValidatorRules (Properties ctx, int ad_table_id, String event)
 	{
-		ArrayList<MTableScriptValidator> mvrs = new ArrayList<MTableScriptValidator>();
+		// Try cache
+		String key = ""+ad_table_id+"_"+event;
+		ArrayList<MTableScriptValidator> mvrs = s_cacheTableEvent.get(key);
+		if (mvrs != null)
+			return mvrs;
+		//
+		// Fetch now
+		mvrs = new ArrayList<MTableScriptValidator>();
 		MTableScriptValidator rule = null;
 		String sql = "SELECT * FROM AD_Table_ScriptValidator WHERE AD_Table_ID=? AND EventModelValidator=? AND IsActive='Y' ORDER BY SeqNo";
 		PreparedStatement pstmt = null;
@@ -72,17 +86,24 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 			while (rs.next ()) {
 				rule = new MTableScriptValidator (ctx, rs, null);
 				mvrs.add(rule);
+				// Cache
+				s_cache.put(rule.get_ID(), rule);
 			}
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+			mvrs = null;
 		}
 		finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
 		
+		// Store to cache
+		if (mvrs != null)
+			s_cacheTableEvent.put(key, mvrs);
+		//
 		if (mvrs != null && mvrs.size() > 0)
 			return mvrs;
 		else
@@ -90,7 +111,11 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 	}	//	getModelValidatorLoginRules
 
 	/**	Cache						*/
-	private static CCache<Integer,MTableScriptValidator> s_cache = new CCache<Integer,MTableScriptValidator>("AD_Table_ScriptValidator", 20);
+	private static CCache<Integer,MTableScriptValidator> s_cache
+					= new CCache<Integer,MTableScriptValidator>(Table_Name, 20);
+	/** Cache / Table Event			*/
+	private static CCache<String,ArrayList<MTableScriptValidator>> s_cacheTableEvent
+					= new CCache<String,ArrayList<MTableScriptValidator>>(Table_Name+"_TableEvent", 20);
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MTableScriptValidator.class);
