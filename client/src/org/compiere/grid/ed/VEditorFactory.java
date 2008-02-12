@@ -206,8 +206,12 @@ public class VEditorFactory
 		//	Account
 		else if (displayType == DisplayType.Account)
 		{
+			//hengsin: bug [ 1711795 ] Combination copied itself in Grid mode
+			/*
 			VAccount acct = new VAccount (columnName, mandatory, readOnly, updateable,
-				(MAccountLookup)mField.getLookup(), mField.getHeader());
+				(MAccountLookup)mField.getLookup(), mField.getHeader());*/
+			VAccount acct = new VAccount (columnName, mandatory, readOnly, updateable,
+					new MAccountLookup (mField.getVO().ctx, mField.getWindowNo()), mField.getHeader());
 			acct.setName(columnName);
 			acct.setField (mField);
 			editor = acct;
