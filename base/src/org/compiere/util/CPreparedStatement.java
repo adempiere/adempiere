@@ -243,7 +243,8 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 	{
 		if (p_stmt != null)
 			return ((PreparedStatement)p_stmt).execute();
-		throw new java.lang.UnsupportedOperationException ("Method execute() not yet implemented.");
+		
+		return remote_execute();				
 	}
 
 
@@ -769,35 +770,17 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		return "CPreparedStatement[" + p_vo + "]";
 	}	//	toString
 
-	/**************************************************************************
-	 * 	Get Prepared Statement to create RowSet and set parameters.
-	 * 	Method called on Remote to execute locally.
-	 * 	@param dedicatedConnection if true gets new connection - if false gets anormal RO/RW connection
-	 * 	@param trxName transaction
-	 * 	@return Prepared Statement
+	/**
+	 * 
 	 */
-	private PreparedStatement local_getPreparedStatement (boolean dedicatedConnection, String trxName)
+	public void fillParametersFromVO()
 	{
 		log.finest(p_vo.getSql());
-		Connection conn = null;
-		Trx trx = trxName == null ? null : Trx.get(trxName, true);
-		if (trx != null)
-			conn = trx.getConnection();
-		else
-		{
-			if (dedicatedConnection)
-				conn = DB.createConnection (false, Connection.TRANSACTION_READ_COMMITTED);
-			else
-				conn = local_getConnection (trxName);
-		}
-		if (conn == null)
-			throw new IllegalStateException("Local - No Connection");
-		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = conn.prepareStatement(p_vo.getSql(), p_vo.getResultSetType(), p_vo.getResultSetConcurrency());
 			//	Set Parameters
 			ArrayList parameters = p_vo.getParameters();
+			PreparedStatement pstmt = (PreparedStatement)p_stmt;
 			for (int i = 0; i < parameters.size(); i++)
 			{
 				Object o = parameters.get(i);
@@ -829,15 +812,25 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 					pstmt.setBigDecimal(i+1, (BigDecimal)o);
 					log.finest("#" + (i+1) + " - BigDecimal=" + o);
 				}
+				else if (o instanceof java.sql.Date)
+                {
+                    pstmt.setDate(i+1, (java.sql.Date)o);
+                    log.finest("#" + (i+1) + " - Date=" + o);
+                }
                 else if (o instanceof java.util.Date)
                 {
                     pstmt.setTimestamp(i+1, new Timestamp(((java.util.Date)o).getTime()));
                     log.finest("#" + (i+1) + " - Date=" + o);
-                }
-                else if (o instanceof java.sql.Date)
+                }                
+                else if (o instanceof Double)
                 {
-                    pstmt.setTimestamp(i+1, new Timestamp(((java.sql.Date)o).getTime()));
-                    log.finest("#" + (i+1) + " - Date=" + o);
+                	pstmt.setDouble(i+1, (Double)o);
+                    log.finest("#" + (i+1) + " - Double=" + o);
+                }
+                else if (o instanceof Float)
+                {
+                	pstmt.setFloat(i+1, (Float)o);
+                    log.finest("#" + (i+1) + " - Double=" + o);
                 }
 				else
 					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
@@ -845,210 +838,50 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 		}
 		catch (SQLException ex)
 		{
-            log.log(Level.SEVERE, "local", ex);
-            if (pstmt != null)
-            {
-                try
-                {
-                    pstmt.close();
-                }
-                catch (Exception e)
-                {
-                    log.log(Level.SEVERE, "Could not close prepared statement", e);
-                }
-            }
-            
-            if (conn != null && p_vo.getTrxName() == null)
-            {
-                try
-                {
-                    conn.close();
-                }
-                catch (Exception e)
-                {
-                    log.log(Level.SEVERE, "Could not close connection", e);
-                }
-            }
-            
-            pstmt = null;
+            log.log(Level.SEVERE, "fillParametersFromVO", ex);
 		}
-		return pstmt;
 	}	//	local_getPreparedStatement
 
-
-	/**
-	 * 	Execute Query
-	 * 	@return ResultSet or RowSet
-	 * 	@throws SQLException
-	 * @see java.sql.PreparedStatement#executeQuery()
-	 */
-	public RowSet getRowSet()
-	{
-		if (p_stmt != null)	//	local
-			return local_getRowSet();
-		//
-		//	Client -> remote sever
-		log.finest("server => " + p_vo + ", Remote=" + DB.isRemoteObjects());
-		try
-		{
-			boolean remote = DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false);
-			if (remote && p_remoteErrors > 1)
-				remote = CConnection.get().isAppsServerOK(true);
-			if (remote)
-			{
-				Server server = CConnection.get().getServer();
-				if (server != null)
-				{
-					RowSet rs = server.pstmt_getRowSet (p_vo, SecurityToken.getInstance());
-					p_vo.clearParameters();		//	re-use of result set
-					if (rs == null)
-						log.warning("RowSet is null - " + p_vo);
-					else
-						p_remoteErrors = 0;
-					return rs;
-				}
-				log.log(Level.SEVERE, "AppsServer not found");
-				p_remoteErrors++;
-			}
-		}
-		catch (Exception ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-			p_remoteErrors++;
-			if (ex instanceof RuntimeException)
-				throw (RuntimeException)ex;
-			else
-				throw new RuntimeException(ex);
-		}
-		throw new IllegalStateException("Remote Connection - Application server not available");
-	}
-	
 	/**
 	 * 	Get Result as RowSet for local system.
 	 * 	Note that connection is closed when closing Oracle CachedRowSet!
-	 *	@return result as RowSet
-	 */
+	 *	@return result as RowSet	 
+	 **/
+	@Override
 	protected RowSet local_getRowSet()
 	{
-		log.finest("local");
+		log.finest("local_getRowSet");
 		
 		RowSet rowSet = null;
+		ResultSet rs = null;
 		PreparedStatement pstmt = (PreparedStatement)p_stmt;
 		try
 		{
-			//	Set Parameters
-			ArrayList parameters = p_vo.getParameters();
-			for (int i = 0; i < parameters.size(); i++)
-			{
-				Object o = parameters.get(i);
-				if (o == null)
-					throw new IllegalArgumentException ("Null Parameter #" + i);
-				else if (o instanceof NullParameter)
-				{
-					int type = ((NullParameter)o).getType();
-					pstmt.setNull(i+1, type);
-					log.finest("#" + (i+1) + " - Null");
-				}
-				else if (o instanceof Integer)
-				{
-					pstmt.setInt(i+1, ((Integer)o).intValue());
-					log.finest("#" + (i+1) + " - int=" + o);
-				}
-				else if (o instanceof String)
-				{
-					pstmt.setString(i+1, (String)o);
-					log.finest("#" + (i+1) + " - String=" + o);
-				}
-				else if (o instanceof Timestamp)
-				{
-					pstmt.setTimestamp(i+1, (Timestamp)o);
-					log.finest("#" + (i+1) + " - Timestamp=" + o);
-				}
-				else if (o instanceof BigDecimal)
-				{
-					pstmt.setBigDecimal(i+1, (BigDecimal)o);
-					log.finest("#" + (i+1) + " - BigDecimal=" + o);
-				}
-                else if (o instanceof java.util.Date)
-                {
-                    pstmt.setTimestamp(i+1, new Timestamp(((java.util.Date)o).getTime()));
-                    log.finest("#" + (i+1) + " - Date=" + o);
-                }
-                else if (o instanceof java.sql.Date)
-                {
-                    pstmt.setTimestamp(i+1, new Timestamp(((java.sql.Date)o).getTime()));
-                    log.finest("#" + (i+1) + " - Date=" + o);
-                }
-				else
-					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
-			}
+			fillParametersFromVO();
 			//
-			ResultSet rs = pstmt.executeQuery();
-			rowSet = CCachedRowSet.getRowSet(rs);
-			rs.close();			
+			rs = pstmt.executeQuery();
+			rowSet = CCachedRowSet.getRowSet(rs);						
 		}
 		catch (Exception ex)
 		{
 			log.log(Level.SEVERE, p_vo.toString(), ex);
 			throw new RuntimeException (ex);
 		}		
+		finally
+		{
+			DB.close(rs);
+		}
 		return rowSet;
 	}	//	local_getRowSet
-
-	/*************************************************************************
-	 * 	Execute Update.
-	 *	@return row count
-	 */
-	public int remote_executeUpdate()
-	{
-		log.finest("Update");
-		PreparedStatement pstmt = null;
-		try
-		{
-			AdempiereDatabase db = CConnection.get().getDatabase();
-			if (db == null)
-				throw new NullPointerException("Remote - No Database");
-			//
-			pstmt = local_getPreparedStatement (false, p_vo.getTrxName());	
-			int result = pstmt.executeUpdate();
-			//
-			return result;
-		}
-		catch (Exception ex)
-		{
-			log.log(Level.SEVERE, p_vo.toString(), ex);
-			throw new RuntimeException (ex);
-		}
-		finally 
-        {
-            if (pstmt != null) 
-            {
-                try 
-                {
-                    Connection conn = pstmt.getConnection();
-                    pstmt.close();
-                    if (p_vo.getTrxName() == null && !conn.isClosed())
-                    {
-                        conn.close();
-                    }
-                } 
-                catch (SQLException e) 
-                {
-                    log.log(Level.SEVERE, e.getMessage(), e);
-                }
-                pstmt = null;
-            }
-		}
-	}	//	remote_executeUpdate
-        
-	   //remove this commnet if you want use JAVA 6
+	   
         	
-        public void setAsciiStream(int parameterIndex, java.io.InputStream x, long length)
-	    throws SQLException
-        {
-            
-        }
-            
+    public void setAsciiStream(int parameterIndex, java.io.InputStream x, long length)
+    throws SQLException
+    {
+        
+    }
+         
+        //uncomment the following methods to compile using jdk 6
         //vpj-cd add support java 6    
         /*
         public void setBinaryStream(int parameterIndex, java.io.InputStream x, 
@@ -1140,9 +973,6 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
        {
            
        }
-       
-       //In order to compile in Java 6 you must add these methods
-     
        
        public void setSQLXML(int parameterIndex, java.sql.SQLXML xmlObject) throws SQLException
        {

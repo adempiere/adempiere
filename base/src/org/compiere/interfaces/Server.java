@@ -56,6 +56,12 @@ public interface Server
    public int stmt_executeUpdate( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
       throws java.rmi.RemoteException;
 
+   public org.compiere.util.ExecuteResult stmt_execute( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
+      throws java.rmi.RemoteException;
+
+   public org.compiere.util.CallableResult callable_execute( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
+      throws java.rmi.RemoteException;
+
    /**
     * Get next number for Key column = 0 is Error.
     * @param AD_Client_ID client
@@ -78,9 +84,8 @@ public interface Server
     * Get Document No based on Document Type
     * @param C_DocType_ID document type
     * @param trxName optional Transaction Name
-    * @param definite is definite sequence
     * @return document no or null    */
-   public java.lang.String getDocumentNo( int C_DocType_ID, java.lang.String trxName, boolean definite )
+   public java.lang.String getDocumentNo( int C_DocType_ID,java.lang.String trxName,boolean definite )
       throws java.rmi.RemoteException;
 
    /**
@@ -153,9 +158,10 @@ public interface Server
     * @param sql table name
     * @param displayType display type (i.e. BLOB/CLOB)
     * @param value the data
+    * @param trxName
     * @param token Security Token
     * @return true if updated    */
-   public boolean updateLOB( java.lang.String sql,int displayType,java.lang.Object value,org.compiere.util.SecurityToken token )
+   public boolean updateLOB( java.lang.String sql,int displayType,java.lang.Object value,java.lang.String trxName,org.compiere.util.SecurityToken token )
       throws java.rmi.RemoteException;
 
    /**

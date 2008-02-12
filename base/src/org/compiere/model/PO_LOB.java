@@ -118,7 +118,7 @@ public class PO_LOB implements Serializable
 			{
 				if (server != null)
 				{	//	See ServerBean
-					success = server.updateLOB (sql.toString(), m_displayType, m_value, SecurityToken.getInstance()); 
+					success = server.updateLOB (sql.toString(), m_displayType, m_value, trxName, SecurityToken.getInstance()); 
 					if (CLogMgt.isLevelFinest())
 						log.fine("server.updateLOB => " + success);
 					return success;

@@ -18,6 +18,8 @@ package org.compiere.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *	Adempiere Statement Value Object
@@ -63,6 +65,10 @@ public class CStatementVO implements Serializable
 	private ArrayList<Object>	m_parameters = new ArrayList<Object>();
 	/** Transaction Name **/
 	private String				m_trxName = null;
+	
+	private Map<String, OutputParameter> m_namedOutput = new HashMap<String, OutputParameter>();
+	
+	private Map<String, Object>m_namedParameters = new HashMap<String, Object>();
 
 	/**
 	 * 	String representation
@@ -100,6 +106,18 @@ public class CStatementVO implements Serializable
 		}
 		else
 			m_parameters.set(zeroIndex, element);
+	}	//	setParameter
+	
+	/**
+	 * 	Set Parameter
+	 * 	@param index1 1 based index
+	 * 	@param element element
+	 */
+	public void setParameter (String name, Object element)
+	{
+		if (element != null && !(element instanceof Serializable))
+			throw new java.lang.RuntimeException("setParameter not Serializable - " + element.getClass().toString());
+		m_namedParameters.put(name, element);
 	}	//	setParametsr
 
 	/**
@@ -108,16 +126,26 @@ public class CStatementVO implements Serializable
 	public void clearParameters()
 	{
 		m_parameters = new ArrayList<Object>();
+		m_namedParameters = new HashMap<String, Object>();
 	}	//	clearParameters
 
 	/**
 	 * 	Get Parameters
 	 *	@return arraylist
 	 */
-	public ArrayList getParameters()
+	public ArrayList<Object> getParameters()
 	{
 		return m_parameters;
 	}	//	getParameters
+	
+	/***
+	 * get named parameters for callable statement
+	 * @return map
+	 */
+	public Map<String, Object> getNamedParameters()
+	{
+		return m_namedParameters;
+	}
 	
 	/**
 	 * 	Get Parameter Count
@@ -211,4 +239,53 @@ public class CStatementVO implements Serializable
 		m_trxName = trxName;
 	}
 
+	public void registerOutParameter(String parameterName, int sqlType,
+			int scale) 
+	{
+		OutputParameter o = new OutputParameter(sqlType, scale, null);
+		m_namedOutput.put(parameterName, o);		
+	}
+
+	public void registerOutParameter(int paramIndex, int sqlType,
+			String typeName) 
+	{
+		OutputParameter o = new OutputParameter(sqlType, -1, typeName);
+		this.setParameter(paramIndex, o);		
+	}
+
+	public void registerOutParameter(int parameterIndex, int sqlType, int scale) 
+	{
+		OutputParameter o = new OutputParameter(sqlType, scale, null);
+		this.setParameter(parameterIndex, o);
+		
+	}
+
+	public void registerOutParameter(String parameterName, int sqlType) 
+	{
+		OutputParameter o = new OutputParameter(sqlType, -1, null);
+		m_namedOutput.put(parameterName, o);		
+	}
+
+	public void registerOutParameter(int parameterIndex, int sqlType) 
+	{
+		OutputParameter o = new OutputParameter(sqlType, -1, null);
+		this.setParameter(parameterIndex, o);		
+	}
+
+	public void registerOutParameter(String parameterName, int sqlType,
+			String typeName) 
+	{
+		OutputParameter o = new OutputParameter(sqlType, -1, typeName);
+		m_namedOutput.put(parameterName, o);		
+	}
+
+	public Map<String, OutputParameter> getNamedOutput()
+	{
+		return m_namedOutput;
+	}
+
+	/*
+	public boolean hasOutputParameters() {
+		return m_ordinalOutput.size() > 0 || m_namedOutput.size() > 0;
+	}*/
 }	//	CStatementVO

@@ -31,9 +31,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.logging.Level;
+
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
 
 
 /**
@@ -58,8 +62,11 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         super(resultSetType, resultSetConcurrency, sql, trxName);
     }
     
-    
-    /**
+    public CCallableStatement(CStatementVO vo) {
+		super(vo);
+	}
+
+	/**
      * Initialise the prepared statement wrapper object 
      */
     protected void init()
@@ -95,7 +102,11 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
     }
 
-
+    /**
+     * @param i
+     * @return Array
+     * @see java.sql.CallableStatement#getArray(int)
+     */
     public Array getArray(int i) throws SQLException
     {
         if (p_stmt != null)
@@ -105,7 +116,11 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         throw new java.lang.UnsupportedOperationException ("Method getArray() not yet implemented.");
     }
 
-
+    /**
+     * @param parameterName
+     * @return Array
+     * @see java.sql.CallableStatement#getArray(String)
+     */
     public Array getArray(String parameterName) throws SQLException
     {
         if (p_stmt != null)
@@ -115,37 +130,72 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         throw new java.lang.UnsupportedOperationException ("Method getArray() not yet implemented.");
     }
 
-
+    /**
+     * @param parameterIndex
+     * @return BigDecimal
+     * @see java.sql.CallableStatement#getBigDecimal(int)
+     */
     public BigDecimal getBigDecimal(int parameterIndex) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBigDecimal(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBigDecimal() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (BigDecimal)o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterName
+     * @return BigDecimal
+     * @see java.sql.CallableStatement#getBigDecimal(String)
+     */
     public BigDecimal getBigDecimal(String parameterName) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBigDecimal(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBigDecimal() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (BigDecimal)o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterIndex
+     * @param scale
+     * @return BigDecimal
+     * @see java.sql.CallableStatement#getBigDecimal(int, int)
+     */
     public BigDecimal getBigDecimal(int parameterIndex, int scale) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBigDecimal(parameterIndex, scale);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBigDecimal() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (BigDecimal)o.getValue() : null;
     }
 
-
+    /**
+     * @param i
+     * @return Blob
+     * @see java.sql.CallableStatement#getBlob(int)
+     */
     public Blob getBlob(int i) throws SQLException
     {
         if (p_stmt != null)
@@ -155,7 +205,11 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         throw new java.lang.UnsupportedOperationException ("Method getBlob() not yet implemented.");
     }
 
-
+    /**
+     * @param parameterName
+     * @return Blob
+     * @see java.sql.CallableStatement#getBlob(String)
+     */
     public Blob getBlob(String parameterName) throws SQLException
     {
         if (p_stmt != null)
@@ -165,67 +219,130 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         throw new java.lang.UnsupportedOperationException ("Method getBlob() not yet implemented.");
     }
 
-
+    /**
+     * @param parameterIndex
+     * @return boolean
+     * @see java.sql.CallableStatement#getBoolean(int)
+     */
     public boolean getBoolean(int parameterIndex) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBoolean(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBoolean() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (Boolean)o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterName
+     * @return boolean
+     * @see java.sql.CallableStatement#getBoolean(String)
+     */
     public boolean getBoolean(String parameterName) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBoolean(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBoolean() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (Boolean)o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterIndex
+     * @see java.sql.CallableStatement#getByte(int)
+     */
     public byte getByte(int parameterIndex) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getByte(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getByte() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (Byte)o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterName
+     * @return byte
+     * @see java.sql.CallableStatement#getByte(String)
+     */
     public byte getByte(String parameterName) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getByte(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getByte() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (Byte)o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterIndex
+     * @return byte[]
+     * @see java.sql.CallableStatement#getBytes(int)
+     */
     public byte[] getBytes(int parameterIndex) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBytes(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBytes() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (byte[])o.getValue() : null;
     }
 
-
+    /**
+     * @param parameterName
+     * @return byte[]
+     * @see java.sql.CallableStatement#getBytes(String)
+     */
     public byte[] getBytes(String parameterName) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getBytes(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getBytes() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (byte[])o.getValue() : null;
     }
 
-
+    /**
+     * @param i
+     * @return Clob
+     * @see java.sql.CallableStatement#getClob(int)
+     */
     public Clob getClob(int i) throws SQLException
     {
         if (p_stmt != null)
@@ -235,7 +352,11 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         throw new java.lang.UnsupportedOperationException ("Method getClob() not yet implemented.");
     }
 
-
+    /**
+     * @param parameterName
+     * @return @Clob
+     * @see java.sql.CallableStatement#getClob(String)
+     */
     public Clob getClob(String parameterName) throws SQLException
     {
         if (p_stmt != null)
@@ -245,14 +366,24 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         throw new java.lang.UnsupportedOperationException ("Method getClob() not yet implemented.");
     }
 
-
+    /**
+     * @param parameterIndex
+     * @return Date
+     * @see java.sql.CallableStatement#getDate(int)
+     */
     public Date getDate(int parameterIndex) throws SQLException
     {
         if (p_stmt != null)
         {
             return ((CallableStatement)p_stmt).getDate(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getDate() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (Date)o.getValue() : null;
     }
 
 
@@ -262,7 +393,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getDate(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getDate() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (Date)o.getValue() : null;
     }
 
 
@@ -272,7 +409,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getDate(parameterIndex, cal);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getDate() not yet implemented.");
+        throw new java.lang.UnsupportedOperationException ("Method getDate(parameterIndex, calendar) not yet implemented.");
     }
 
 
@@ -282,7 +419,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getDate(parameterName, cal);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getDate() not yet implemented.");
+        throw new java.lang.UnsupportedOperationException ("Method getDate(parameterName, calendar) not yet implemented.");
     }
 
 
@@ -292,7 +429,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getDouble(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getDouble() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? ((Number)o.getValue()).doubleValue() : 0;
     }
 
 
@@ -302,7 +445,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getDouble(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getDouble() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? ((Number)o.getValue()).doubleValue() : 0;
     }
 
 
@@ -312,7 +461,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getFloat(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getFloat() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? ((Number)o.getValue()).floatValue() : 0;
     }
 
 
@@ -322,7 +477,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getFloat(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getFloat() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? ((Number)o.getValue()).floatValue() : 0;
     }
 
 
@@ -332,7 +493,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getInt(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getInt() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? ((Number)o.getValue()).intValue() : 0;
     }
 
 
@@ -342,7 +509,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getInt(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getInt() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? ((Number)o.getValue()).intValue() : 0;
     }
 
 
@@ -352,7 +525,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getLong(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getLong() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? ((Number)o.getValue()).longValue() : 0;
     }
 
 
@@ -362,7 +541,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getLong(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getLong() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? ((Number)o.getValue()).longValue() : 0;
     }
 
 
@@ -372,7 +557,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getObject(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getObject() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? o.getValue() : null;
     }
 
 
@@ -382,7 +573,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getObject(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getObject() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? o.getValue() : null;
     }
 
 
@@ -392,7 +589,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getObject(i, map);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getObject() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(i);
+        }
+        return o != null ? o.getValue() : null;
     }
 
 
@@ -402,7 +605,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getObject(parameterName, map);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getObject() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? o.getValue() : null;
     }
 
 
@@ -432,7 +641,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getShort(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getShort() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? ((Number)o.getValue()).shortValue() : 0;
     }
 
 
@@ -442,7 +657,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getShort(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getShort() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? ((Number)o.getValue()).shortValue() : 0;
     }
 
 
@@ -452,7 +673,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getString(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getString() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (o.getValue() != null ? o.getValue().toString() : null) : null;
     }
 
 
@@ -462,7 +689,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getString(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getString() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (o.getValue() != null ? o.getValue().toString() : null) : null;
     }
 
 
@@ -472,7 +705,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getTime(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getTime() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (Time)o.getValue() : null;
     }
 
 
@@ -482,7 +721,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getTime(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getTime() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (Time)o.getValue() : null;
     }
 
 
@@ -512,7 +757,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getTimestamp(parameterIndex);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getTimestamp() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getOrdinalOutput().get(parameterIndex);
+        }
+        return o != null ? (Timestamp)o.getValue() : null;
     }
 
 
@@ -522,7 +773,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         {
             return ((CallableStatement)p_stmt).getTimestamp(parameterName);
         }
-        throw new java.lang.UnsupportedOperationException ("Method getTimestamp() not yet implemented.");
+        OutputParameter o = null;
+        if (executeResult != null)
+        {
+        	CallableResult cr = (CallableResult)executeResult;
+        	o = cr.getNamedOutput().get(parameterName);
+        }
+        return o != null ? (Timestamp)o.getValue() : null;
     }
 
 
@@ -574,7 +831,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method registerOutParameter() not yet implemented.");  
+            p_vo.registerOutParameter(parameterIndex, sqlType);  
         }
     }
 
@@ -587,7 +844,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method registerOutParameter() not yet implemented.");  
+            p_vo.registerOutParameter(parameterName, sqlType);  
         }
         
     }
@@ -601,7 +858,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method registerOutParameter() not yet implemented.");  
+            p_vo.registerOutParameter(parameterIndex, sqlType, scale);  
         }        
     }
 
@@ -614,7 +871,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method registerOutParameter() not yet implemented.");  
+            p_vo.registerOutParameter(paramIndex, sqlType, typeName);  
         }
     }
 
@@ -627,7 +884,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method registerOutParameter() not yet implemented.");  
+            p_vo.registerOutParameter(parameterName, sqlType, scale);  
         }
     }
 
@@ -640,12 +897,45 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method registerOutParameter() not yet implemented.");  
+            p_vo.registerOutParameter(parameterName, sqlType, typeName);  
         }
     }
+    
+    @Override
+    protected boolean remote_execute() throws SQLException {
+		//	Client -> remote sever
+		log.finest("server => " + p_vo + ", Remote=" + DB.isRemoteObjects());
+		try
+		{
+			if (DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false))
+			{
+				Server server = CConnection.get().getServer();
+				if (server != null)
+				{
+					executeResult = server.callable_execute(p_vo, SecurityToken.getInstance());
+					p_vo.clearParameters();		//	re-use of result set
+					return executeResult.isFirstResult();
+				}
+				log.log(Level.SEVERE, "AppsServer not found");
+			}
+			throw new IllegalStateException("Remote Connection - Application server not available");
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.SEVERE, "AppsServer error", ex);
+			if (ex instanceof SQLException)
+				throw (SQLException)ex;
+			else if (ex instanceof RuntimeException)
+				throw (RuntimeException)ex;
+			else
+				throw new RuntimeException(ex);
+		}
+	}
 
-
-    public void setAsciiStream(String parameterName, InputStream x, int length) throws SQLException
+    /**
+     * @see java.sql.CallableStatement#setAsciiStream(String, InputStream, int)
+     */
+	public void setAsciiStream(String parameterName, InputStream x, int length) throws SQLException
     {
         if (p_stmt != null)
         {
@@ -657,7 +947,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
     }
 
-
+	/**
+	 * @see java.sql.CallableStatement#setBigDecimal(String, BigDecimal)
+	 */
     public void setBigDecimal(String parameterName, BigDecimal x) throws SQLException
     {        
         if (p_stmt != null)
@@ -666,11 +958,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setBigDecimal() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setBinaryStream(String, InputStream, int)
+     */
     public void setBinaryStream(String parameterName, InputStream x, int length) throws SQLException
     {
         if (p_stmt != null)
@@ -684,7 +978,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setBoolean(String, boolean)
+     */
     public void setBoolean(String parameterName, boolean x) throws SQLException
     {
         if (p_stmt != null)
@@ -693,11 +989,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setBoolean() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setByte(String, byte)
+     */
     public void setByte(String parameterName, byte x) throws SQLException
     {
         if (p_stmt != null)
@@ -706,11 +1004,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setByte() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }       
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setBytes(String, byte[])
+     */
     public void setBytes(String parameterName, byte[] x) throws SQLException
     {
         if (p_stmt != null)
@@ -719,11 +1019,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setBytes() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setCharacterStream(String, Reader, int)
+     */
     public void setCharacterStream(String parameterName, Reader reader, int length) throws SQLException
     {
         if (p_stmt != null)
@@ -736,7 +1038,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setDate(String, Date)
+     */
     public void setDate(String parameterName, Date x) throws SQLException
     {
         if (p_stmt != null)
@@ -745,11 +1049,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setDate() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setDate(String, Date, Calendar)
+     */
     public void setDate(String parameterName, Date x, Calendar cal) throws SQLException
     {
         if (p_stmt != null)
@@ -762,7 +1068,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setDouble(String, double)
+     */
     public void setDouble(String parameterName, double x) throws SQLException
     {
         if (p_stmt != null)
@@ -771,11 +1079,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setDouble() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setFloat(String, float)
+     */
     public void setFloat(String parameterName, float x) throws SQLException
     {
         if (p_stmt != null)
@@ -784,11 +1094,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setFloat() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setLong(String, long)
+     */
     public void setInt(String parameterName, int x) throws SQLException
     {
         if (p_stmt != null)
@@ -797,11 +1109,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setInt() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setLong(String, long)
+     */
     public void setLong(String parameterName, long x) throws SQLException
     {
         if (p_stmt != null)
@@ -810,11 +1124,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setLong() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         }        
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setNull(String, int)
+     */
     public void setNull(String parameterName, int sqlType) throws SQLException
     {
         if (p_stmt != null)
@@ -823,11 +1139,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setNull() not yet implemented.");  
+            p_vo.setParameter(parameterName, new NullParameter(sqlType));  
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setNull(String, int, String)
+     */
     public void setNull(String parameterName, int sqlType, String typeName) throws SQLException
     {
         if (p_stmt != null)
@@ -836,11 +1154,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setNull() not yet implemented.");  
+            p_vo.setParameter(parameterName, new NullParameter(sqlType));  
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setObject(String, Object)
+     */
     public void setObject(String parameterName, Object x) throws SQLException
     {
         if (p_stmt != null)
@@ -849,11 +1169,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setObject() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setObject(String, Object, int)
+     */
     public void setObject(String parameterName, Object x, int targetSqlType) throws SQLException
     {
         if (p_stmt != null)
@@ -866,7 +1188,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setObject(String, Object, int, int)
+     */
     public void setObject(String parameterName, Object x, int targetSqlType, int scale) throws SQLException
     {
         if (p_stmt != null)
@@ -879,7 +1203,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }         
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setShort(String, short)
+     */
     public void setShort(String parameterName, short x) throws SQLException
     {
         if (p_stmt != null)
@@ -888,11 +1214,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setShort() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setString(String, String)
+     */
     public void setString(String parameterName, String x) throws SQLException
     {
         if (p_stmt != null)
@@ -901,11 +1229,13 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setString() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setTime(String, Time)
+     */
     public void setTime(String parameterName, Time x) throws SQLException
     {
         if (p_stmt != null)
@@ -914,11 +1244,14 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setTime() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         } 
     }
 
 
+    /**
+     * @see java.sql.CallableStatement#setTime(String, Time, Calendar)
+     */
     public void setTime(String parameterName, Time x, Calendar cal) throws SQLException
     {
         if (p_stmt != null)
@@ -931,7 +1264,9 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         } 
     }
 
-
+    /**
+     * @see java.sql.CallableStatement#setTime(String, Time)
+     */
     public void setTimestamp(String parameterName, Timestamp x) throws SQLException
     {
         if (p_stmt != null)
@@ -940,7 +1275,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         }
         else
         {
-            throw new java.lang.UnsupportedOperationException ("Method setTimestamp() not yet implemented.");  
+            p_vo.setParameter(parameterName, x);  
         } 
     }
 
@@ -983,6 +1318,148 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
         } 
     }
 
+	@Override
+	public void fillParametersFromVO() {
+		try
+		{
+			//ordinal input parameters
+			ArrayList paramList = p_vo.getParameters();
+			CallableStatement pstmt = (CallableStatement)p_stmt;
+			for (int i = 0; i < paramList.size(); i++)
+			{
+				Object o = paramList.get(i);
+				if (o == null)
+				{
+					throw new IllegalArgumentException ("Local - Null Parameter #" + i);
+				}
+				else if ( o instanceof OutputParameter)
+				{
+					OutputParameter op = (OutputParameter)o;
+					if (op.getScale() != -1 )
+						pstmt.registerOutParameter(i+1, op.getSqlType(), op.getScale());
+					else if (op.getTypeName() != null)
+						pstmt.registerOutParameter(i+1, op.getSqlType(), op.getTypeName());
+					else
+						pstmt.registerOutParameter(i+1, op.getSqlType());
+				}
+				else if (o instanceof NullParameter)
+				{
+					int type = ((NullParameter)o).getType();
+					pstmt.setNull(i+1, type);
+					log.finest("#" + (i+1) + " - Null");
+				}
+				else if (o instanceof Integer)
+				{
+					pstmt.setInt(i+1, ((Integer)o).intValue());
+					log.finest("#" + (i+1) + " - int=" + o);
+				}
+				else if (o instanceof String)
+				{
+					pstmt.setString(i+1, (String)o);
+					log.finest("#" + (i+1) + " - String=" + o);
+				}
+				else if (o instanceof Timestamp)
+				{
+					pstmt.setTimestamp(i+1, (Timestamp)o);
+					log.finest("#" + (i+1) + " - Timestamp=" + o);
+				}
+				else if (o instanceof BigDecimal)
+				{
+					pstmt.setBigDecimal(i+1, (BigDecimal)o);
+					log.finest("#" + (i+1) + " - BigDecimal=" + o);
+				}
+				else if (o instanceof java.sql.Date)
+                {
+                    pstmt.setDate(i+1, (java.sql.Date)o);
+                    log.finest("#" + (i+1) + " - Date=" + o);
+                }
+	            else if (o instanceof java.util.Date)
+	            {
+	                pstmt.setTimestamp(i+1, new Timestamp(((java.util.Date)o).getTime()));
+	                log.finest("#" + (i+1) + " - Date=" + o);
+	            }
+	            else if (o instanceof Double)
+                {
+                	pstmt.setDouble(i+1, (Double)o);
+                    log.finest("#" + (i+1) + " - Double=" + o);
+                }
+                else if (o instanceof Float)
+                {
+                	pstmt.setFloat(i+1, (Float)o);
+                    log.finest("#" + (i+1) + " - Double=" + o);
+                }
+				else
+					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
+			}
+					
+			//named input parameters					
+			Map<String, Object> parameters = p_vo.getNamedParameters();
+			for (Map.Entry<String, Object> e : parameters.entrySet())
+			{
+				Object o = e.getValue();
+				if (o == null)
+					throw new IllegalArgumentException ("Local - Null Parameter for " + e.getKey());
+				else if (o instanceof NullParameter)
+				{
+					int type = ((NullParameter)o).getType();
+					pstmt.setNull(e.getKey(), type);
+					log.finest("#" + e.getKey() + " - Null");
+				}
+				else if (o instanceof Integer)
+				{
+					pstmt.setInt(e.getKey(), ((Integer)o).intValue());
+					log.finest("#" + e.getKey() + " - int=" + o);
+				}
+				else if (o instanceof String)
+				{
+					pstmt.setString(e.getKey(), (String)o);
+					log.finest("#" + e.getKey() + " - String=" + o);
+				}
+				else if (o instanceof Timestamp)
+				{
+					pstmt.setTimestamp(e.getKey(), (Timestamp)o);
+					log.finest("#" + e.getKey() + " - Timestamp=" + o);
+				}
+				else if (o instanceof BigDecimal)
+				{
+					pstmt.setBigDecimal(e.getKey(), (BigDecimal)o);
+					log.finest("#" + e.getKey() + " - BigDecimal=" + o);
+				}
+                else if (o instanceof java.util.Date)
+                {
+                    pstmt.setTimestamp(e.getKey(), new Timestamp(((java.util.Date)o).getTime()));
+                    log.finest("#" + e.getKey() + " - Date=" + o);
+                }
+                else if (o instanceof java.sql.Date)
+                {
+                    pstmt.setTimestamp(e.getKey(), new Timestamp(((java.sql.Date)o).getTime()));
+                    log.finest("#" + e.getKey() + " - Date=" + o);
+                }
+				else
+					throw new java.lang.UnsupportedOperationException ("Unknown Parameter Class=" + o.getClass());
+			}
+			
+			//named output parameters
+			Map<String, OutputParameter>named = p_vo.getNamedOutput();
+			for (Map.Entry<String, OutputParameter> e : named.entrySet())
+			{
+				String oi = e.getKey();
+				OutputParameter op = e.getValue();
+				if (op.getScale() != -1 )
+					pstmt.registerOutParameter(oi, op.getSqlType(), op.getScale());
+				else if (op.getTypeName() != null)
+					pstmt.registerOutParameter(oi, op.getSqlType(), op.getTypeName());
+				else
+					pstmt.registerOutParameter(oi, op.getSqlType());
+			}
+		}
+		catch (SQLException ex)
+		{
+            log.log(Level.SEVERE, "fillParametersFromVO", ex);
+		}
+	}
+
+    
 
 	/* Java 6 support - teo_sarca BF [ 1806700 ] *
 	public Reader getCharacterStream(int parameterIndex) throws SQLException {
