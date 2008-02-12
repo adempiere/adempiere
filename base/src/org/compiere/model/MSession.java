@@ -31,6 +31,7 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1810182 ] Session lost after cache reset 
+ * 			<li>BF [ 1892156 ] MSession is not really cached 
  */
 public class MSession extends X_AD_Session
 {
@@ -52,8 +53,8 @@ public class MSession extends X_AD_Session
 			session = new MSession(ctx, AD_Session_ID, null);
 			if (session.get_ID() != AD_Session_ID) {
 				Env.setContext (ctx, "#AD_Session_ID", AD_Session_ID);
-				s_sessions.put(AD_Session_ID, session);
 			}
+			s_sessions.put(AD_Session_ID, session);
 		}
 		// Create New
 		if (session == null && createNew)
