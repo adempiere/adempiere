@@ -21,7 +21,6 @@ import java.rmi.*;
 import java.sql.*;
 import java.util.logging.*;
 
-import org.compiere.Adempiere;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 import org.compiere.util.*;
@@ -121,16 +120,16 @@ public class PO_LOB implements Serializable
 				{	//	See ServerBean
 					success = server.updateLOB (sql.toString(), m_displayType, m_value, SecurityToken.getInstance()); 
 					if (CLogMgt.isLevelFinest())
-						log.fine("server => " + success);
-					if (success)
-						return true;
+						log.fine("server.updateLOB => " + success);
+					return success;
 				}
-				log.log(Level.SEVERE, "AppsServer not found"); 
+				log.log(Level.SEVERE, "AppsServer not found");				
 			}
 			catch (RemoteException ex)
 			{
 				log.log(Level.SEVERE, "AppsServer error", ex);
 			}
+			return false;
 		}
 		
 		log.fine("[" + trxName + "] - Local - " + m_value);
@@ -162,27 +161,18 @@ public class PO_LOB implements Serializable
 			int no = pstmt.executeUpdate();
 			if (no != 1)
 			{
-				log.fine("[" + trxName + "] - Not updated #" + no + " - " + sql);
+				log.warning("[" + trxName + "] - Not updated #" + no + " - " + sql);
 				success = false;
 			}
-			//
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			log.log(Level.SEVERE, "[" + trxName + "] - " + sql, e);
 			success = false;
 		}
-		//	Close Statement
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(pstmt);
 			pstmt = null;
 		}
 		
@@ -198,14 +188,20 @@ public class PO_LOB implements Serializable
 			{
 				try
 				{
-					con.commit();
-					con.close();
-					con = null;
+					con.commit();					
 				}
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, "[" + trxName + "] - commit " , e);
 					success = false;
+				}
+				finally
+				{
+					try {
+						con.close();
+					} catch (SQLException e) {
+					}
+					con = null;
 				}
 			}
 		}
@@ -224,27 +220,22 @@ public class PO_LOB implements Serializable
 				try
 				{
 					con.rollback();
-					con.close();
-					con = null;
 				}
 				catch (Exception ee)
 				{
 					log.log(Level.SEVERE, "[" + trxName + "] - rollback" , ee);
 				}
+				finally
+				{
+					try {
+						con.close();
+					} catch (SQLException e) {
+					}
+					con = null;
+				}
 			}
 		}
 		
-		//	Clean Connection
-		try
-		{
-			if (con != null)
-				con.close();
-			con = null;
-		}
-		catch (Exception e)
-		{
-			con = null;
-		}
 		return success;
 	}	//	save
 
