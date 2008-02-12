@@ -187,7 +187,7 @@ public class ServerBean implements SessionBean
 				throw new RuntimeException("Transaction lost - " + info.getTrxName());
 		}
 		m_stmt_rowSetCount++;
-		CStatement stmt = new CStatement(info);
+		CPreparedStatement stmt = new CPreparedStatement(info);
 		RowSet rowset = null;
 		try
 		{
@@ -195,14 +195,7 @@ public class ServerBean implements SessionBean
 		}
 		finally
 		{
-			try
-			{
-				stmt.close();
-			}
-			catch (Exception ex)
-			{
-				log.log(Level.SEVERE, "Could not close statement", ex);
-			}
+			DB.close(stmt);
 		}
 		return rowset;
 	}	//	stmt_getRowSet
@@ -225,37 +218,235 @@ public class ServerBean implements SessionBean
 		}
 		
 		m_stmt_updateCount++;
-		CStatement stmt = null;
-		int retVal = -1;
-		if (info.getParameterCount() == 0)
-		{
-			stmt = new CStatement(info);
-		}
-		else 
-		{
-			stmt = new CPreparedStatement(info);
-		}
-		        
+		CPreparedStatement stmt = null;
+		int retVal = -1;				        
 		try
 		{
-			retVal = stmt.remote_executeUpdate();
+			stmt = new CPreparedStatement(info);
+			if (info.getParameterCount() > 0)
+				stmt.fillParametersFromVO();
+			retVal = stmt.executeUpdate();
+		}
+		catch (SQLException e) 
+		{
+			log.log(Level.SEVERE, info.toString(), e);
+			throw new RuntimeException (e);
 		}
 		finally
 		{
-			if (stmt != null)
-			{
-				try
-				{
-					stmt.close();
-				}
-				catch (Exception ex)
-				{
-					log.log(Level.SEVERE, "Could not close statement", ex);
-				}
-			}
+			DB.close(stmt);
 		}
 		return retVal;
 	}	//	stmt_executeUpdate
+	
+	/**
+	 * @ejb.interface-method view-type="both"
+	 * 
+	 * @param info
+	 * @param token
+	 * @return ExecuteResult
+	 */
+	public ExecuteResult stmt_execute( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
+	{
+		ExecuteResult result = new ExecuteResult();
+		if (info.getTrxName() != null) 
+		{
+			if (Trx.get(info.getTrxName(), false) == null)
+				throw new RuntimeException("Transaction lost - " + info.getTrxName());
+		}
+		
+		CPreparedStatement stmt = null;		
+		try 
+		{
+			stmt = new CPreparedStatement(info);
+			stmt.fillParametersFromVO();
+			boolean b = stmt.execute();
+			result.setFirstResult(b);
+			while (b) 
+			{
+				ResultSet rs = stmt.getResultSet();
+				result.addResultSet(CCachedRowSet.getRowSet(rs));
+				rs.close();
+				b = stmt.getMoreResults();
+			}
+			result.setUpdateCount(stmt.getUpdateCount());
+		} 
+		catch (SQLException e) 
+		{
+			log.log(Level.SEVERE, info.toString(), e);
+			throw new RuntimeException (e);
+		}
+		finally
+		{
+			DB.close(stmt);
+		}
+		
+		return result;
+	}
+	
+	/***
+	 * @ejb.interface-method view-type="both"
+	 * 
+	 * @param info
+	 * @param token
+	 * @return CallableResult
+	 */
+	public CallableResult callable_execute( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token )
+	{
+		CallableResult result = new CallableResult();
+		
+		if (info.getTrxName() != null) {
+			if (Trx.get(info.getTrxName(), false) == null)
+				throw new RuntimeException("Transaction lost - " + info.getTrxName());
+		}
+		
+		CCallableStatement stmt = null;
+		try
+		{
+			stmt = new CCallableStatement(info);
+			stmt.fillParametersFromVO();
+			boolean b = stmt.execute();
+			result.setFirstResult(b);
+			
+			//retrieve result set and update count
+			while (b) {
+				ResultSet rs = stmt.getResultSet();
+				result.addResultSet(CCachedRowSet.getRowSet(rs));
+				rs.close();
+				b = stmt.getMoreResults();
+			}
+			result.setUpdateCount(stmt.getUpdateCount());
+			
+			//get ordinal outputparameter value
+			ArrayList ordinal = info.getParameters();
+			Map ordinalOutput = new HashMap();
+			for (int i = 0; i < ordinal.size(); i++) 
+			{	
+				Object o = ordinal.get(i);
+				if (o instanceof OutputParameter)
+				{
+					OutputParameter output = (OutputParameter)o;
+					retrieveOutputParameter(stmt, output, i+1, null);
+					ordinalOutput.put((i+1), o);
+				}
+			}
+			result.setOrdinalOutput(ordinalOutput);
+			
+			//get named output parameter value
+			Map named = info.getNamedOutput();
+			for (Iterator iter = named.entrySet().iterator(); iter.hasNext(); ) 
+			{
+				Map.Entry e = (Map.Entry)iter.next();
+				String s = (String)e.getKey();
+				OutputParameter output = (OutputParameter)e.getValue();
+				retrieveOutputParameter(stmt, output, -1, s);				
+			}
+			result.setNamedOutput(named);
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, info.toString(), e);
+			throw new RuntimeException (e);
+		}
+		finally
+		{
+			DB.close(stmt);
+		}
+		
+		return result;
+	}
+	
+	private void retrieveOutputParameter(CallableStatement stmt, OutputParameter o, int i, String s) throws SQLException
+	{
+		switch (o.getSqlType()) {
+		case Types.BIGINT:
+			if (i > 0)
+				o.setValue(stmt.getLong(i));
+			else
+				o.setValue(stmt.getLong(s));
+			break;
+		case Types.BINARY:
+		case Types.LONGVARBINARY:
+		case Types.VARBINARY:
+			if (i > 0)
+				o.setValue(stmt.getBytes(i));
+			else
+				o.setValue(stmt.getBytes(s));
+			break;
+		case Types.BOOLEAN:
+			if (i > 0)
+				o.setValue(stmt.getBoolean(i));
+			else
+				o.setValue(stmt.getBoolean(s));
+			break;
+		case Types.CHAR:
+		case Types.LONGVARCHAR:
+		case Types.VARCHAR:
+			if (i > 0)
+				o.setValue(stmt.getString(i));
+			else
+				o.setValue(stmt.getString(s));
+			break;
+		case Types.DATE:
+			if (i > 0)
+				o.setValue(stmt.getDate(i));
+			else
+				o.setValue(stmt.getDate(s));
+			break;
+		case Types.DECIMAL:
+		case Types.NUMERIC:
+			if (i > 0)
+				o.setValue(stmt.getBigDecimal(i));
+			else
+				o.setValue(stmt.getBigDecimal(s));
+			break;
+		case Types.DOUBLE:
+			if (i > 0)
+				o.setValue(stmt.getDouble(i));
+			else
+				o.setValue(stmt.getDouble(s));
+			break;
+		case Types.FLOAT:
+		case Types.REAL:
+			if (i > 0)
+				o.setValue(stmt.getFloat(i));
+			else
+				o.setValue(stmt.getFloat(s));
+			break;
+		case Types.INTEGER:
+		case Types.BIT:
+			if (i > 0)
+				o.setValue(stmt.getInt(i));
+			else
+				o.setValue(stmt.getInt(s));
+			break;
+		case Types.SMALLINT:
+		case Types.TINYINT:
+			if (i > 0)
+				o.setValue(stmt.getShort(i));
+			else
+				o.setValue(stmt.getShort(s));
+			break;
+		case Types.TIME:					
+			if (i > 0)
+				o.setValue(stmt.getTime(i));
+			else
+				o.setValue(stmt.getTime(s));
+			break;
+		case Types.TIMESTAMP:
+			if (i > 0)
+				o.setValue(stmt.getTimestamp(i));
+			else
+				o.setValue(stmt.getTimestamp(s));
+			break;
+		default:
+			try {
+				if (i > 0)
+					o.setValue((Serializable)stmt.getObject(i));
+				else
+					o.setValue((Serializable)stmt.getObject(s));
+			} catch (Throwable t) {}
+			break;
+		}
+	}
 
 	/*************************************************************************
 	 *	Get next number for Key column = 0 is Error.
@@ -489,10 +680,11 @@ public class ServerBean implements SessionBean
 	 *  @param sql table name
 	 *  @param displayType display type (i.e. BLOB/CLOB)
 	 * 	@param value the data
+	 *  @param trxName
 	 *  @param token Security Token
 	 * 	@return true if updated
 	 */
-	public boolean updateLOB (String sql, int displayType, Object value, SecurityToken token)
+	public boolean updateLOB (String sql, int displayType, Object value, String trxName, SecurityToken token)
 	{
 		validateSecurityToken(token);
 		
@@ -502,9 +694,17 @@ public class ServerBean implements SessionBean
 			return false;
 		}
 		log.fine(sql);
+		
+		Trx trx = null;
+		if (trxName != null && trxName.trim().length() > 0) {
+			trx = Trx.get(trxName, false); 
+			if ( trx == null)
+				throw new RuntimeException("Transaction lost - " + trxName);
+		}
+		
 		m_updateLOBCount++;
 		boolean success = true;
-		Connection con = DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED);
+		Connection con = trx != null ? trx.getConnection() : DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED);
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -515,68 +715,67 @@ public class ServerBean implements SessionBean
 				pstmt.setBytes(1, (byte[])value);
 			int no = pstmt.executeUpdate();
 			//
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.FINE, sql, e);
 			success = false;
 		}
-		//	Close Statement
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(pstmt);
 			pstmt = null;
 		}
 		
 		//	Success - commit local trx
-		if (success)
+		if (success && trx == null)
 		{
 			try
 			{
-				con.commit();
-				con.close();
-				con = null;
+				con.commit();				
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, "commit" , e);
 				success = false;
 			}
+			finally
+			{
+				try {
+					con.close();
+				} catch (SQLException e) {
+				}
+				con = null;
+			}
 		}
 		//	Error - roll back
 		if (!success)
 		{
 			log.severe ("rollback");
-			try
+			if ( trx == null)
 			{
-				con.rollback();
-				con.close();
-				con = null;
+				try
+				{
+					con.rollback();				
+				}
+				catch (Exception ee)
+				{
+					log.log(Level.SEVERE, "rollback" , ee);
+				}
+				finally
+				{
+					try {
+						con.close();
+					} catch (SQLException e) {
+					}
+					con = null;
+				}
 			}
-			catch (Exception ee)
+			else
 			{
-				log.log(Level.SEVERE, "rollback" , ee);
+				trx.rollback();
 			}
-		}
-		
-		//	Clean Connection
-		try
-		{
-			if (con != null)
-				con.close();
-			con = null;
-		}
-		catch (Exception e)
-		{
-			con = null;
-		}
+		}		
 		return success;
 	}	//	updateLOB
 
