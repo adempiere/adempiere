@@ -129,30 +129,31 @@ public final class MAccountLookup extends Lookup implements Serializable
 
 		String	SQL = "SELECT C_ValidCombination_ID, Combination, Description "
 			+ "FROM C_ValidCombination WHERE C_ValidCombination_ID=?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			//	Prepare Statement
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setInt(1, ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (!rs.next())
 			{
-				rs.close();
-				pstmt.close();
 				return false;
 			}
 			//
 			C_ValidCombination_ID = rs.getInt(1);
 			Combination = rs.getString(2);
 			Description = rs.getString(3);
-			//
-			rs.close();
-			pstmt.close();
-
 		}
 		catch (SQLException e)
 		{
 			return false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 		return true;
 	}	//	load
@@ -187,19 +188,23 @@ public final class MAccountLookup extends Lookup implements Serializable
 		if (onlyActive)
 			sql.append(" AND IsActive='Y'");
 		sql.append(" ORDER BY 2");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, Env.getAD_Client_ID(m_ctx));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new KeyNamePair(rs.getInt(1), rs.getString(2) + " - " + rs.getString(3)));
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 
 		//  Sort & return
