@@ -20,34 +20,35 @@ SELECT trl.AD_LANGUAGE,
 	f.isreadonly,
 	f.isencrypted                                  AS isencryptedfield,
 	f.obscuretype,
-	C.columnname,
-	C.columnsql,
-	C.fieldlength,
-	C.vformat,
-	C.defaultvalue,
-	C.iskey,
-	C.isparent,
-	COALESCE(f.ismandatory, C.ismandatory)         AS ismandatory,
-	C.isidentifier,
-	C.istranslated,
-	C.ad_reference_value_id,
-	C.callout,
-	COALESCE(f.ad_reference_id, C.ad_reference_id) AS ad_reference_id,
-	C.ad_val_rule_id,
-	C.ad_process_id,
-	C.isalwaysupdateable,
-	C.readonlylogic,
-	C.isupdateable,
-	C.isencrypted                                  AS isencryptedcolumn,
-	C.isselectioncolumn,
+	c.columnname,
+	c.columnsql,
+	c.fieldlength,
+	c.vformat,
+	c.defaultvalue,
+	c.iskey,
+	c.isparent,
+	COALESCE(f.ismandatory, c.ismandatory)         AS ismandatory,
+	c.isidentifier,
+	c.istranslated,
+	COALESCE(f.ad_reference_value_id, c.ad_reference_value_id) AS ad_reference_value_id,
+	c.callout,
+	COALESCE(f.ad_reference_id, c.ad_reference_id) AS ad_reference_id,
+	COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id,
+	c.ad_process_id,
+	c.isalwaysupdateable,
+	c.readonlylogic,
+	c.isupdateable,
+	c.isencrypted                                  AS isencryptedcolumn,
+	c.isselectioncolumn,
 	tbl.tablename,
-	C.valuemin,
-	C.valuemax,
+	c.valuemin,
+	c.valuemax,
 	fgt.NAME                                       AS fieldgroup,
 	vr.code                                        AS validationcode,
 	f.Included_Tab_ID,
 	fg.FieldGroupType,
-	fg.IsCollapsedByDefault						   AS iscollapsedbydefault 
+	fg.IsCollapsedByDefault						   AS iscollapsedbydefault ,
+	COALESCE(f.infofactoryclass, c.infofactoryclass) as infofactoryclass
 FROM (((((((AD_FIELD f 
 		JOIN AD_FIELD_TRL trl 
 		ON ((f.ad_field_id = trl.ad_field_id))) 
@@ -58,13 +59,13 @@ FROM (((((((AD_FIELD f
 			LEFT JOIN AD_FIELDGROUP_TRL fgt 
 			ON (((f.ad_fieldgroup_id = fgt.ad_fieldgroup_id) AND
 			((trl.AD_LANGUAGE)::text = (fgt.AD_LANGUAGE)::text)))) 
-		LEFT JOIN AD_COLUMN C 
-		ON ((f.ad_column_id = C.ad_column_id))) 
+		LEFT JOIN AD_COLUMN c 
+		ON ((f.ad_column_id = c.ad_column_id))) 
 		JOIN AD_TABLE tbl 
-		ON ((C.ad_table_id = tbl.ad_table_id))) 
+		ON ((c.ad_table_id = tbl.ad_table_id))) 
 		JOIN AD_REFERENCE r 
-		ON ((C.ad_reference_id = r.ad_reference_id))) 
+		ON ((c.ad_reference_id = r.ad_reference_id))) 
 		LEFT JOIN AD_VAL_RULE vr 
-		ON ((C.ad_val_rule_id = vr.ad_val_rule_id))) 
+		ON ((vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)))) 
 WHERE ((f.isactive = 'Y'::bpchar) AND
-	(C.isactive = 'Y'::bpchar))
+	(c.isactive = 'Y'::bpchar))
