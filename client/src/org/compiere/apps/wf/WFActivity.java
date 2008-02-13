@@ -418,7 +418,8 @@ public class WFActivity extends CPanel
 			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFNoActivities"));
 			bNext.setEnabled(false);
 			bPrevious.setEnabled(false);
-			m_menu.updateActivities(0);
+			if (m_menu != null)
+				m_menu.updateActivities(0);
 			return;
 		}
 		//	Display Activity
