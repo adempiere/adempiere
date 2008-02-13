@@ -18,14 +18,11 @@ package org.compiere.apps.search;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.grid.ed.VComboBox;
-import org.compiere.model.*;
 import org.compiere.swing.CEditor;
 import org.compiere.util.*;
 
