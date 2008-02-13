@@ -16,13 +16,23 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Payment Allocation Model.
@@ -48,30 +58,23 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 				+ "WHERE h.C_AllocationHdr_ID=l.C_AllocationHdr_ID AND l.C_Payment_ID=?)";
 		ArrayList<MAllocationHdr> list = new ArrayList<MAllocationHdr>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, C_Payment_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MAllocationHdr(ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MAllocationHdr[] retValue = new MAllocationHdr[list.size()];
 		list.toArray(retValue);
@@ -93,30 +96,23 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 				+ "WHERE h.C_AllocationHdr_ID=l.C_AllocationHdr_ID AND l.C_Invoice_ID=?)";
 		ArrayList<MAllocationHdr> list = new ArrayList<MAllocationHdr>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, C_Invoice_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MAllocationHdr(ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MAllocationHdr[] retValue = new MAllocationHdr[list.size()];
 		list.toArray(retValue);
@@ -207,33 +203,27 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		String sql = "SELECT * FROM C_AllocationLine WHERE C_AllocationHdr_ID=?";
 		ArrayList<MAllocationLine> list = new ArrayList<MAllocationLine>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getC_AllocationHdr_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MAllocationLine line = new MAllocationLine(getCtx(), rs, get_TrxName());
 				line.setParent(this);
 				list.add (line);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		} 
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		} catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		m_lines = new MAllocationLine[list.size ()];
@@ -706,9 +696,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			throw new IllegalStateException("Cannot de-activate allocation");
 			
 		//	Delete Posting
-		String sql = "DELETE FROM Fact_Acct WHERE AD_Table_ID=" + MAllocationHdr.Table_ID
-			+ " AND Record_ID=" + getC_AllocationHdr_ID();
-		int no = DB.executeUpdate(sql, get_TrxName());
+		int no = MFactAcct.delete(MAllocationHdr.Table_ID, getC_AllocationHdr_ID(), get_TrxName());
 		log.fine("Fact_Acct deleted #" + no);
 		
 		//	Unlink Invoices
