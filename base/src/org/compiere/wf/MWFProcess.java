@@ -134,6 +134,17 @@ public class MWFProcess extends X_AD_WF_Process
 	 */
 	public MWFActivity[] getActivities (boolean requery, boolean onlyActive)
 	{
+		return getActivities(requery, onlyActive, get_TrxName());
+	}
+	
+	/**
+	 * 	Get active Activities of Process
+	 *	@param requery if true requery
+	 *	@param onlyActive only active activities
+	 *	@return array of activities
+	 */
+	public MWFActivity[] getActivities (boolean requery, boolean onlyActive, String trxName)
+	{
 		if (!requery && m_activities != null)
 			return m_activities;
 		//
@@ -145,11 +156,11 @@ public class MWFProcess extends X_AD_WF_Process
 			sql += " AND Processed='N'";
 		try
 		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
+			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, getAD_WF_Process_ID());
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MWFActivity(getCtx(), rs, get_TrxName()));
+				list.add (new MWFActivity(getCtx(), rs, trxName));
 	 	}
 		catch (Exception e)
 		{
@@ -241,7 +252,7 @@ public class MWFProcess extends X_AD_WF_Process
 		if (m_state.isClosed())
 			return;
 		//
-		MWFActivity[] activities = getActivities (true, true);	//	requery active
+		MWFActivity[] activities = getActivities (true, true, trxName);	//	requery active
 		String closedState = null;
 		boolean suspended = false;
 		boolean running = false;
@@ -253,7 +264,7 @@ public class MWFProcess extends X_AD_WF_Process
 			//	Completed - Start Next
 			if (activityState.isCompleted())
 			{
-				if (startNext (activity, activities, lastPO))
+				if (startNext (activity, activities, lastPO, trxName))
 					continue;		
 			}
 			//
@@ -310,7 +321,7 @@ public class MWFProcess extends X_AD_WF_Process
 	 *	@param activities all activities
 	 *	@return true if there is a next activity
 	 */
-	private boolean startNext (MWFActivity last, MWFActivity[] activities, PO lastPO)
+	private boolean startNext (MWFActivity last, MWFActivity[] activities, PO lastPO, String trxName)
 	{
 		log.fine("Last=" + last);
 		//	transitions from the last processed node
@@ -340,6 +351,7 @@ public class MWFProcess extends X_AD_WF_Process
 			
 			//	Start new Activity...
 			MWFActivity activity = new MWFActivity (this, transitions[i].getAD_WF_Next_ID(), lastPO);
+			activity.set_TrxName(trxName);
 			activity.run();
 			
 			//	only the first valid if XOR

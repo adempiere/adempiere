@@ -278,8 +278,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//	Inform Process
 			if (m_process == null)
 				m_process = new MWFProcess (getCtx(), getAD_WF_Process_ID(), 
-					m_trx == null ? null : m_trx.getTrxName());
-			m_process.checkActivities(m_trx == null ? null : m_trx.getTrxName(), m_po);
+					this.get_TrxName());
+			m_process.checkActivities(this.get_TrxName(), m_po);
 		}
 		else
 		{
@@ -735,18 +735,21 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		log.info ("Node=" + getNode());
 		m_newValue = null;
-		if (!m_state.isValidAction(StateEngine.ACTION_Start))
-		{
-			setTextMsg("State=" + getWFState() + " - cannot start");
-			setWFState(StateEngine.STATE_Terminated);
-			return;
-		}
-		//
-		setWFState(StateEngine.STATE_Running);
-		m_trx = Trx.get(Trx.createTrxName("WF"), true);
+		
+		String trxName = Trx.createTrxName("WF");
+		m_trx = Trx.get(trxName, true);
 		//
 		try
 		{
+			if (!m_state.isValidAction(StateEngine.ACTION_Start))
+			{
+				setTextMsg("State=" + getWFState() + " - cannot start");
+				setWFState(StateEngine.STATE_Terminated);
+				return;
+			}
+			//
+			setWFState(StateEngine.STATE_Running);
+			
 			if (getNode().get_ID() == 0)
 			{
 				setTextMsg("Node not found - AD_WF_Node_ID=" + getAD_WF_Node_ID());
@@ -766,9 +769,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			// teo_sarca [ 1708835 ]
 			// Reason: if the commit fails the document should be put in Invalid state
 			try {
-				m_trx.commit(true);
-				m_trx.close();
-				m_trx = null;
+				m_trx.commit(true);					
 			} catch (Exception e) {
 				// If we have a DocStatus, change it to Invalid, and throw the exception to the next level
 				if (m_docStatus != null)
@@ -787,8 +788,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			log.log(Level.WARNING, "" + getNode(), e);
 			/****	Trx Rollback	****/
 			m_trx.rollback();
-			m_trx.close();
-			m_trx = null;
+						
 			//
 			if (e.getCause() != null)
 				log.log(Level.WARNING, "Cause", e.getCause());
@@ -807,7 +807,14 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				m_po.save();
 			}
 		}
-		m_trx = null;
+		finally
+		{
+			if (m_trx != null)
+			{
+				m_trx.close();
+			}
+			m_trx = null;
+		}
 	}	//	run
 	
 	
