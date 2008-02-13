@@ -38,6 +38,9 @@ import org.compiere.util.NamePair;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: MLocatorLookup.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1892920 ] Locators fieldshould be ordered by Warehouse/Value
  */
 public final class MLocatorLookup extends Lookup implements Serializable
 {
@@ -321,6 +324,10 @@ public final class MLocatorLookup extends Lookup implements Serializable
 					.append("WHERE p.M_Locator_ID=M_Locator.M_Locator_ID AND p.M_Product_ID=?)")
 					.append("OR EXISTS (SELECT * FROM M_Storage s ")	//	Storage Locator
 					.append("WHERE s.M_Locator_ID=M_Locator.M_Locator_ID AND s.M_Product_ID=?))");
+			sql.append(" ORDER BY ");
+			if (local_only_warehouse_id == 0)
+				sql.append("(SELECT wh.Name FROM M_Warehouse wh WHERE wh.M_Warehouse_ID=M_Locator.M_Warehouse_ID),");
+			sql.append("M_Locator.Value");
 			String finalSql = MRole.getDefault(m_ctx, false).addAccessSQL(
 				sql.toString(), "M_Locator", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 			if (isInterrupted())
