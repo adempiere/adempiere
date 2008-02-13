@@ -453,7 +453,7 @@ public final class DB
 
         if (conn == null)
         {
-            throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@");
+            throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@. " + s_cc.getDatabaseException());
         }
 
         return conn;
