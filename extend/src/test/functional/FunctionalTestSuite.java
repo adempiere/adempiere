@@ -16,6 +16,7 @@ public class FunctionalTestSuite {
 		suite.addTestSuite(MLocationTest.class);
 		suite.addTestSuite(POTest.class);
 		suite.addTestSuite(MStorageTest.class);
+		suite.addTestSuite(MSysConfigTest.class);
 		//$JUnit-END$
 		return suite;
 	}

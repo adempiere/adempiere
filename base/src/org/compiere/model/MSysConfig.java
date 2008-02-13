@@ -13,11 +13,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	System Configuration
@@ -25,6 +29,8 @@ import org.compiere.util.*;
  *  @author Armen Rizal
  *  @version $Id: MSysConfig.java,v 1.5 2005/11/28 11:56:45 armen Exp $
  *  Contributor: Carlos Ruiz - globalqss - [ 1800371 ] System Configurator Enhancements
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1885496 ] Performance NEEDS
  */
 public class MSysConfig extends X_AD_SysConfig
 {
@@ -55,6 +61,8 @@ public class MSysConfig extends X_AD_SysConfig
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MSysConfig.class);
+	/** Cache			*/
+	private static CCache<String, String> s_cache = new CCache<String, String>(Table_Name, 40, 0);
 	
 	/**
 	 * Get system configuration property of type string
@@ -64,25 +72,7 @@ public class MSysConfig extends X_AD_SysConfig
 	 */
 	public static String getValue(String Name, String defaultValue)
 	{
-		String str = null;
-		String sql = "SELECT Value FROM AD_SysConfig WHERE Name=? AND AD_Client_ID = 0 AND AD_Org_ID = 0 AND IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, Name);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				str = rs.getString(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, "getValue", e);
-		} 
-		if (str == null)
-			return defaultValue;
-		return (str.trim());
+		return getValue(Name, defaultValue, 0, 0);
 	}
 	
 	/**
@@ -92,7 +82,7 @@ public class MSysConfig extends X_AD_SysConfig
 	 */
 	public static String getValue(String Name)
 	{
-		return (getValue(Name, null));
+		return getValue(Name, null);
 	}
 	
 	/**
@@ -173,28 +163,7 @@ public class MSysConfig extends X_AD_SysConfig
 	 */
 	public static String getValue(String Name, String defaultValue, int AD_Client_ID)
 	{
-		String str = null;
-		String sql = "SELECT Value FROM AD_SysConfig WHERE Name=? AND AD_Client_ID = ? AND AD_Org_ID = 0 AND IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, Name);
-			pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				str = rs.getString(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, "getValue", e);
-		} 
-		if (str == null) {
-			// if not found by client - get the system parameter
-			return getValue(Name, defaultValue);
-		}
-		return (str.trim());
+		return getValue(Name, defaultValue, AD_Client_ID, 0);
 	}
 	
 	/**
@@ -290,29 +259,44 @@ public class MSysConfig extends X_AD_SysConfig
 	 */
 	public static String getValue(String Name, String defaultValue, int AD_Client_ID, int AD_Org_ID)
 	{
-		String str = null;
-		String sql = "SELECT Value FROM AD_SysConfig WHERE Name=? AND AD_Client_ID = ? AND AD_Org_ID = ? AND IsActive='Y'";
+		String key = ""+AD_Client_ID+"_"+AD_Org_ID+"_"+Name;
+		String str = s_cache.get(key);
+		if (str != null)
+			return str;
+		//
+		String sql = "SELECT Value FROM AD_SysConfig"
+						+ " WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?) AND IsActive='Y'"
+						+ " ORDER BY AD_Client_ID DESC, AD_Org_ID DESC";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, Name);
 			pstmt.setInt(2, AD_Client_ID);
 			pstmt.setInt(3, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				str = rs.getString(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "getValue", e);
-		} 
-		if (str == null) {
-			// if not found by organization - get the client parameter
-			return getValue(Name, defaultValue, AD_Client_ID);
 		}
-		return (str.trim());
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//
+		if (str != null) {
+			str = str.trim();
+			s_cache.put(key, str);
+			return str;
+		}
+		else {
+			return defaultValue;
+		}
 	}
 	
 	/**
@@ -324,7 +308,7 @@ public class MSysConfig extends X_AD_SysConfig
 	 */
 	public static String getValue(String Name, int AD_Client_ID, int AD_Org_ID)
 	{
-		return (getValue(Name, null, AD_Client_ID, AD_Org_ID));
+		return getValue(Name, null, AD_Client_ID, AD_Org_ID);
 	}
 	
 	/**
@@ -416,19 +400,24 @@ public class MSysConfig extends X_AD_SysConfig
 			// Get the configuration level from the System Record
 			String configLevel = null;
 			String sql = "SELECT ConfigurationLevel FROM AD_SysConfig WHERE Name=? AND AD_Client_ID = 0 AND AD_Org_ID = 0";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setString(1, getName());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 					configLevel = rs.getString(1);
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				s_log.log(Level.SEVERE, "getValue", e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			
 			if (configLevel == null) {
@@ -439,18 +428,21 @@ public class MSysConfig extends X_AD_SysConfig
 					sql = "SELECT ConfigurationLevel FROM AD_SysConfig WHERE Name=? AND AD_Client_ID = ? AND AD_Org_ID = 0";
 					try
 					{
-						PreparedStatement pstmt = DB.prepareStatement(sql, null);
+						pstmt = DB.prepareStatement(sql, null);
 						pstmt.setString(1, getName());
 						pstmt.setInt(2, getAD_Client_ID());
-						ResultSet rs = pstmt.executeQuery();
+						rs = pstmt.executeQuery();
 						if (rs.next())
 							configLevel = rs.getString(1);
-						rs.close();
-						pstmt.close();
 					}
 					catch (SQLException e)
 					{
 						s_log.log(Level.SEVERE, "getValue", e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
 					}
 				}
 			}
