@@ -406,7 +406,7 @@ public class VPAttribute extends JComponent
 				log.log(Level.SEVERE, "", pve);
 			}
 			if (M_AttributeSetInstance_ID == oldValue)
-				m_GridTab.processCallout(m_GridField); // fire value changed
+				m_GridTab.processFieldChange(m_GridField); // fire value changed
 		}	//	change
 		m_button.setEnabled(true);
 		requestFocus();
