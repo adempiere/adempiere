@@ -19,9 +19,14 @@ package org.adempiere.webui;
 
 import java.util.Properties;
 
+import javax.servlet.http.HttpSession;
+
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.model.MSession;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.ClientInfoEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -103,10 +108,21 @@ public class AdempiereWebUI extends Window implements EventListener
 		Language language = Language.getLanguage(langLogin);
     	Env.verifyLanguage(ctx, language);
         
+		//	Create adempiere Session - user id in ctx
+        Session currSess = Executions.getCurrent().getDesktop().getSession();
+        HttpSession httpSess = (HttpSession) currSess.getNativeSession();
+
+		MSession.get (ctx, currSess.getClientAddr(), 
+			currSess.getClientHost(), httpSess.getId() );
     }
 
     public void logout()
     {
+    	MSession mSession = MSession.get(Env.getCtx(), false);
+    	if (mSession != null) {
+    		mSession.logout();
+    	}
+    	
         SessionManager.clearSession();
         super.getChildren().clear();
         loginDesktop = new WLogin(this);
