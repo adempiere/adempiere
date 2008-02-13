@@ -229,6 +229,7 @@ public final class AMenu extends CFrame
 		 *	Show Login Screen - if not successful - exit
 		 */
 		log.finer("Login");
+
 		ALogin login = new ALogin(splash);
 		if (!login.initLogin())		//	no automatic login
 		{
@@ -244,6 +245,10 @@ public final class AMenu extends CFrame
 			if (!login.isConnected() || !login.isOKpressed())
 				AEnv.exit(1);
 		}
+
+		//  Check Build
+		if (!DB.isBuildOK(m_ctx))
+			AEnv.exit(1);
 
 		//  Check DB	(AppsServer Version checked in Login)
 		DB.isDatabaseOK(m_ctx);

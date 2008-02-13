@@ -13,4 +13,6 @@
 @Rem globalqss - cruiz - 2007-10-09 - added fourth parameter for postgres (ignored in oracle)
 @call %ADEMPIERE_DB_PATH%\DBRestore system/%ADEMPIERE_DB_SYSTEM% %ADEMPIERE_DB_USER% %ADEMPIERE_DB_PASSWORD% %ADEMPIERE_DB_SYSTEM%
 
+@call %ADEMPIERE_HOME%\RUN_SignDatabaseBuild
+
 @pause

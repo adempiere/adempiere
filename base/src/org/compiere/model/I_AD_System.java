@@ -200,6 +200,15 @@ public interface I_AD_System
 	  */
 	public boolean isAutoErrorReport();
 
+    /** Column name IsFailOnBuildDiffer */
+    public static final String COLUMNNAME_IsFailOnBuildDiffer = "IsFailOnBuildDiffer";
+
+	/** Set Fail if Build Differ	  */
+	public void setIsFailOnBuildDiffer (boolean IsFailOnBuildDiffer);
+
+	/** Get Fail if Build Differ	  */
+	public boolean isFailOnBuildDiffer();
+
     /** Column name IsFailOnMissingModelValidator */
     public static final String COLUMNNAME_IsFailOnMissingModelValidator = "IsFailOnMissingModelValidator";
 
@@ -247,6 +256,15 @@ public interface I_AD_System
 	  * Connection String to LDAP server starting with ldap://
 	  */
 	public String getLDAPHost();
+
+    /** Column name LastBuildInfo */
+    public static final String COLUMNNAME_LastBuildInfo = "LastBuildInfo";
+
+	/** Set Last Build Info	  */
+	public void setLastBuildInfo (String LastBuildInfo);
+
+	/** Get Last Build Info	  */
+	public String getLastBuildInfo();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

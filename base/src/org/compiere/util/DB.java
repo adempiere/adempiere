@@ -578,6 +578,64 @@ public final class DB
 
 	
 	/**************************************************************************
+	 *  Check Build Version of Database against running client
+	 *  @param ctx context
+	 *  @return true if Database version (date) is the same
+	 */
+	public static boolean isBuildOK (Properties ctx)
+	{
+//    Check Build
+        String buildClient = Adempiere.getImplementationVersion();
+        String buildDatabase = "";
+        boolean failOnBuild = false;
+        String sql = "SELECT LastBuildInfo, IsFailOnBuildDiffer FROM AD_System";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, null);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                buildDatabase = rs.getString(1);
+                failOnBuild = rs.getString(2).equals("Y");
+            }
+        }
+        catch (SQLException e)
+        {
+            log.log(Level.SEVERE, "Problem with AD_System Table - Run system.sql script - " + e.toString());
+            return false;
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        log.info("Build DB=" + buildDatabase);
+        log.info("Build Cl=" + buildClient);
+        //  Identical DB version
+        if (buildClient.equals(buildDatabase))
+            return true;
+        
+        String AD_Message = "BuildVersionError";
+        String title = org.compiere.Adempiere.getName() + " " +  Msg.getMsg(ctx, AD_Message, true);
+        // The program assumes build version {0}, but database has build Version {1}. 
+        String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
+        msg = MessageFormat.format(msg, new Object[] {buildClient, buildDatabase});
+        if (! failOnBuild) {
+        	log.warning(msg);
+        	return true;
+        }
+    	JOptionPane.showMessageDialog (null,
+    			msg,
+    			title, JOptionPane.ERROR_MESSAGE);
+    	Env.exitEnv(1);
+    	return false;
+	}   //  isDatabaseOK
+
+
+	/**************************************************************************
 	 *	Close Target
 	 */
 	public static void closeTarget()

@@ -28,6 +28,8 @@ ARGS=CONFIG
 
 $JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.Setup $ARGS
 
+# Sign database build
+$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.SignDatabaseBuild
 
 #echo ===================================
 #echo Setup Adempiere Server Environment

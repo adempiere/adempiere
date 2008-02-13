@@ -25,6 +25,8 @@ ARGS=CONFIG
 
 $JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.SilentSetup $ARGS
 
+# Sign database build
+$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.SignDatabaseBuild
 
 echo ===================================
 echo Make .sh executable & set Env

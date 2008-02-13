@@ -32,9 +32,9 @@ goto START
 @Echo ErrorLevel = %ERRORLEVEL%
 @IF NOT ERRORLEVEL = 1 GOTO NEXT
 @Echo ***************************************
-@Echo Check the error messabe above.
+@Echo Check the error message above.
 @Echo ***************************************
-@Echo Maske sure that the environment is set correctly!
+@Echo Make sure that the environment is set correctly!
 @Echo Set environment variable JAVA_HOME manually
 @Echo or use WinEnv.js in the util directory
 @Echo ***************************************
@@ -44,6 +44,12 @@ goto START
 
 
 :NEXT
+
+@Rem ===================================
+@Rem Sign Database Build
+@Rem ===================================
+@"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.SignDatabaseBuild
+
 @Rem ===================================
 @Rem Setup Adempiere Environment
 @Rem ===================================

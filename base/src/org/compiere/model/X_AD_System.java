@@ -47,6 +47,8 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 			setIsAllowStatistics (false);
 			setIsAutoErrorReport (true);
 // Y
+			setIsFailOnBuildDiffer (false);
+// N
 			setIsFailOnMissingModelValidator (true);
 // Y
 			setName (null);
@@ -338,6 +340,27 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 		return false;
 	}
 
+	/** Set Fail if Build Differ.
+		@param IsFailOnBuildDiffer Fail if Build Differ	  */
+	public void setIsFailOnBuildDiffer (boolean IsFailOnBuildDiffer)
+	{
+		set_Value (COLUMNNAME_IsFailOnBuildDiffer, Boolean.valueOf(IsFailOnBuildDiffer));
+	}
+
+	/** Get Fail if Build Differ.
+		@return Fail if Build Differ	  */
+	public boolean isFailOnBuildDiffer () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsFailOnBuildDiffer);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Fail on Missing Model Validator.
 		@param IsFailOnMissingModelValidator Fail on Missing Model Validator	  */
 	public void setIsFailOnMissingModelValidator (boolean IsFailOnMissingModelValidator)
@@ -427,6 +450,26 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public String getLDAPHost () 
 	{
 		return (String)get_Value(COLUMNNAME_LDAPHost);
+	}
+
+	/** Set Last Build Info.
+		@param LastBuildInfo Last Build Info	  */
+	public void setLastBuildInfo (String LastBuildInfo)
+	{
+
+		if (LastBuildInfo != null && LastBuildInfo.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			LastBuildInfo = LastBuildInfo.substring(0, 255);
+		}
+		set_Value (COLUMNNAME_LastBuildInfo, LastBuildInfo);
+	}
+
+	/** Get Last Build Info.
+		@return Last Build Info	  */
+	public String getLastBuildInfo () 
+	{
+		return (String)get_Value(COLUMNNAME_LastBuildInfo);
 	}
 
 	/** Set Name.
@@ -577,7 +620,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
