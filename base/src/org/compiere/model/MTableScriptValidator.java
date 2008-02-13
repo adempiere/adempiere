@@ -68,8 +68,12 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 		// Try cache
 		String key = ""+ad_table_id+"_"+event;
 		ArrayList<MTableScriptValidator> mvrs = s_cacheTableEvent.get(key);
-		if (mvrs != null)
-			return mvrs;
+		if (mvrs != null) {
+			if (mvrs.size() > 0)
+				return mvrs;
+			else
+				return null;
+		}
 		//
 		// Fetch now
 		mvrs = new ArrayList<MTableScriptValidator>();
