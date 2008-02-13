@@ -1171,10 +1171,11 @@ public final class APanel extends CPanel
 		}
 		else	//	Cur Tab Setting
 		{
+			int gwTabIndex = m_mWorkbench.getMWindow(0).getTabIndex(m_curGC.getMTab());
 			//boolean needValidate = false;
-			if (m_mWorkbench.getMWindow(0).isTabInitialized(m_curTabIndex) == false)
+			if (m_mWorkbench.getMWindow(0).isTabInitialized(gwTabIndex) == false)
 			{
-				m_mWorkbench.getMWindow(0).initTab(m_curTabIndex);
+				m_mWorkbench.getMWindow(0).initTab(gwTabIndex);
 				//needValidate = true;
 			}
 			m_curGC.activate();
