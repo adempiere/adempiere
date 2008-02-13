@@ -30,8 +30,6 @@ import java.util.*;
 import java.util.logging.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
 import org.compiere.util.*;
 
 /**

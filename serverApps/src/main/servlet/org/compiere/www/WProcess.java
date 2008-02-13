@@ -18,7 +18,6 @@ package org.compiere.www;
 
 import java.io.*;
 import java.math.*;
-import java.net.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.*;
@@ -27,15 +26,11 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
-import org.compiere.apps.ADialog;
-//import org.compiere.apps.WProcessCtl;
-import org.compiere.grid.ed.VDocAction;
 import org.compiere.model.*;
 import org.compiere.print.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
 import org.compiere.wf.MWFActivity;
-import org.compiere.wf.MWFResponsible;
 
 
 /**

@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.awt.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.rmi.*;
@@ -25,7 +24,6 @@ import java.util.Properties;
 import java.util.logging.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
 
 import org.compiere.apps.Waiting;
 import org.compiere.db.*;

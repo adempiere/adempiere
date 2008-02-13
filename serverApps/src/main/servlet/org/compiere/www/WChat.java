@@ -17,32 +17,21 @@
 package org.compiere.www;
 
 import java.io.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.logging.Level;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.apache.ecs.AlignType;
 import org.apache.ecs.Element;
-import org.apache.ecs.xhtml.b;
 import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.hr;
 import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.p;
 import org.apache.ecs.xhtml.table;
 import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.textarea;
 import org.apache.ecs.xhtml.tr;
-import org.compiere.apps.AChat;
 import org.compiere.model.GridField;
 import org.compiere.model.MChat;
 import org.compiere.model.MChatEntry;
-import org.compiere.model.MUser;
 import org.compiere.util.*;
 
 

@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.sql.Timestamp;
-import java.util.logging.*;
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
 import org.compiere.model.*;

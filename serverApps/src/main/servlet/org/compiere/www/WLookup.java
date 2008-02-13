@@ -26,9 +26,7 @@ import java.util.logging.Level;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import org.apache.ecs.AlignType;
 import org.apache.ecs.xhtml.*;
-import org.compiere.grid.ed.VLookup;
 import org.compiere.model.*;
 import org.compiere.util.*;
 

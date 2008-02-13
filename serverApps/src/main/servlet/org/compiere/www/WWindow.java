@@ -18,7 +18,6 @@ package org.compiere.www;
 
 import java.io.*;
 import java.math.*;
-import java.net.URLEncoder;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
@@ -28,10 +27,7 @@ import javax.servlet.http.*;
 
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.*;
-import org.compiere.print.ReportEngine;
-import org.compiere.process.ProcessInfo;
 import org.compiere.util.*;
 
 /**
