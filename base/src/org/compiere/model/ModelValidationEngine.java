@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.beans.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
 import org.compiere.acct.Fact;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /**
  *	Model Validation Engine
@@ -130,7 +136,7 @@ public class ModelValidationEngine
 		try
 		{
 			//
-			Class clazz = Class.forName(className);
+			Class<?> clazz = Class.forName(className);
 			ModelValidator validator = (ModelValidator)clazz.newInstance();
 			initialize(validator, client);					
 		}
@@ -145,8 +151,8 @@ public class ModelValidationEngine
 	
 	/**	Logger					*/
 	private static CLogger log = CLogger.getCLogger(ModelValidationEngine.class);
-	/** Change Support			*/
-	private VetoableChangeSupport m_changeSupport = new VetoableChangeSupport(this);
+//	/** Change Support			*/
+//	private VetoableChangeSupport m_changeSupport = new VetoableChangeSupport(this);
 
 	/**	Validators						*/
 	private ArrayList<ModelValidator>	m_validators = new ArrayList<ModelValidator>();
@@ -276,7 +282,7 @@ public class ModelValidationEngine
 			m_globalValidators.contains(listener) 
 				? tableName + "*"
 				: tableName + listener.getAD_Client_ID();
-		ArrayList list = (ArrayList)m_modelChangeListeners.get(propertyName);
+		ArrayList<ModelValidator> list = m_modelChangeListeners.get(propertyName);
 		if (list == null)
 			return;
 		list.remove(listener);
@@ -421,7 +427,7 @@ public class ModelValidationEngine
 			m_globalValidators.contains(listener) 
 				? tableName + "*"
 				: tableName + listener.getAD_Client_ID();
-		ArrayList list = (ArrayList)m_docValidateListeners.get(propertyName);
+		ArrayList<ModelValidator> list = m_docValidateListeners.get(propertyName);
 		if (list == null)
 			return;
 		list.remove(listener);
@@ -568,7 +574,7 @@ public class ModelValidationEngine
 			m_globalValidators.contains(listener) 
 				? tableName + "*"
 				: tableName + listener.getAD_Client_ID();
-		ArrayList list = (ArrayList)m_factsValidateListeners.get(propertyName);
+		ArrayList<FactsValidator> list = m_factsValidateListeners.get(propertyName);
 		if (list == null)
 			return;
 		list.remove(listener);
