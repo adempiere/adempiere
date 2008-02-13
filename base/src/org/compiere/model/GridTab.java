@@ -1740,8 +1740,37 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				DB.close(rs, pstmt);
 				rs = null; pstmt = null;
 			}
-	
 		}   //  loadOrderInfo
+
+		// Set the Phone Format on BPartnerLocation based on Country
+		if (m_vo.TableName.equals("C_BPartner_Location"))
+		{
+			Integer location_int = (Integer) getValue(X_C_BPartner_Location.COLUMNNAME_C_Location_ID);
+			String phone_frm = null;
+			if (location_int != null)
+				// take the phone format from country
+				phone_frm = DB.getSQLValueString(null, "SELECT ExpressionPhone FROM C_Country c, C_Location l WHERE c.C_Country_ID = l.C_Country_ID AND l.C_location_ID = ?", location_int);
+			GridField fPhone = getField(X_C_BPartner_Location.COLUMNNAME_Phone);
+			MColumn colPhone = null;
+			if (fPhone != null)
+				colPhone = MColumn.get(Env.getCtx(), fPhone.getAD_Column_ID());
+			GridField fPhone2 = getField(X_C_BPartner_Location.COLUMNNAME_Phone2);
+			MColumn colPhone2 = null;
+			if (fPhone2 != null)
+				colPhone2 = MColumn.get(Env.getCtx(), fPhone2.getAD_Column_ID());
+			GridField fFax = getField(X_C_BPartner_Location.COLUMNNAME_Fax);
+			MColumn colFax = null;
+			if (fFax != null)
+				colFax = MColumn.get(Env.getCtx(), fFax.getAD_Column_ID());
+			// Apply the country format if the column doesn't have format
+			if (colPhone != null && (colPhone.getVFormat() == null || colPhone.getVFormat().length() == 0))
+				fPhone.setVFormat(phone_frm);
+			if (colPhone2 != null && (colPhone2.getVFormat() == null || colPhone2.getVFormat().length() == 0))
+				fPhone2.setVFormat(phone_frm);
+			if (colFax != null && (colFax.getVFormat() == null || colFax.getVFormat().length() == 0))
+				fFax.setVFormat(phone_frm);
+		}
+		
 	}   //  loadDependentInfo
 
 
