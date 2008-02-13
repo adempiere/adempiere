@@ -20,7 +20,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Feb 13, 2008 4:17:19 PM SGT
 -- [ 1892475 ] AD_Reference list is hardcoded to always sort by name
-ALTER TABLE AD_Reference MODIFY IsOrderByValue CHAR(1) DEFAULT 'N'
+ALTER TABLE AD_Reference ADD IsOrderByValue CHAR(1) DEFAULT 'N'
 ;
 
 -- Feb 13, 2008 4:19:22 PM SGT

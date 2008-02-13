@@ -10,7 +10,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Feb 13, 2008 4:40:02 PM SGT
 -- [ 1887651 ] Add Ad_Reference_Value_ID and AD_Val_Rule_ID to AD_Field
-insert into t_alter_column values('ad_field','AD_Reference_Value_ID','NUMERIC(10)',null,'NULL')
+ALTER TABLE AD_Field ADD COLUMN AD_Reference_Value_ID NUMERIC(10) DEFAULT  NULL
 ;
 
 -- Feb 13, 2008 4:41:01 PM SGT
@@ -25,7 +25,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Feb 13, 2008 4:41:12 PM SGT
 -- [ 1887651 ] Add Ad_Reference_Value_ID and AD_Val_Rule_ID to AD_Field
-insert into t_alter_column values('ad_field','AD_Val_Rule_ID','NUMERIC(10)',null,'NULL')
+ALTER TABLE AD_Field ADD COLUMN AD_Val_Rule_ID NUMERIC(10) DEFAULT  NULL
 ;
 
 -- Feb 13, 2008 4:46:04 PM SGT
