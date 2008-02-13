@@ -405,8 +405,11 @@ public class VPAttribute extends JComponent
 			{
 				log.log(Level.SEVERE, "", pve);
 			}
-			if (M_AttributeSetInstance_ID == oldValue)
-				m_GridTab.processFieldChange(m_GridField); // fire value changed
+			if (M_AttributeSetInstance_ID == oldValue && m_GridTab != null && m_GridField != null)
+			{
+				//  force Change - user does not realize that embedded object is already saved.
+				m_GridTab.processFieldChange(m_GridField); 
+			}
 		}	//	change
 		m_button.setEnabled(true);
 		requestFocus();
