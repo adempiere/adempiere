@@ -16,11 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
 
 /**
  *	Warehouse Locator Lookup Model.
@@ -280,6 +290,8 @@ public final class MLocatorLookup extends Lookup implements Serializable
 	 */
 	class Loader extends Thread implements Serializable
 	{
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * 	Loader
 		 */
@@ -320,9 +332,11 @@ public final class MLocatorLookup extends Lookup implements Serializable
 			//	Reset
 			m_lookup.clear();
 			int rows = 0;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(finalSql, null);
+				pstmt = DB.prepareStatement(finalSql, null);
 				int index = 1;
 				if (local_only_warehouse_id != 0)
 					pstmt.setInt(index++, getOnly_Warehouse_ID());
@@ -331,7 +345,7 @@ public final class MLocatorLookup extends Lookup implements Serializable
 					pstmt.setInt(index++, getOnly_Product_ID());
 					pstmt.setInt(index++, getOnly_Product_ID());
 				}
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				//
 				while (rs.next())
 				{
@@ -345,12 +359,15 @@ public final class MLocatorLookup extends Lookup implements Serializable
 					int M_Locator_ID = loc.getM_Locator_ID();
 					m_lookup.put(new Integer(M_Locator_ID), loc);
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, finalSql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			log.fine("Complete #" + m_lookup.size());
 			if (m_lookup.size() == 0)
@@ -362,7 +379,7 @@ public final class MLocatorLookup extends Lookup implements Serializable
 	 *	Return info as ArrayList containing Locator, waits for the loader to finish
 	 *  @return Collection of lookup values
 	 */
-	public Collection getData ()
+	public Collection<MLocator> getData ()
 	{
 		if (m_loader.isAlive())
 		{
@@ -390,12 +407,12 @@ public final class MLocatorLookup extends Lookup implements Serializable
 	public ArrayList<Object> getData (boolean mandatory, boolean onlyValidated, boolean onlyActive, boolean temporary)
 	{
 		//	create list
-		Collection collection = getData();
+		Collection<MLocator> collection = getData();
 		ArrayList<Object> list = new ArrayList<Object>(collection.size());
-		Iterator it = collection.iterator();
+		Iterator<MLocator> it = collection.iterator();
 		while (it.hasNext())
 		{
-			MLocator loc = (MLocator)it.next();
+			MLocator loc = it.next();
 			if (isValid(loc))				//	only valid warehouses
 				list.add(loc);
 		}
