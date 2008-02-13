@@ -16,26 +16,36 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import java.math.*;
-import java.net.*;
-import java.sql.*;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.apps.ADialog;
-//import org.compiere.apps.WProcessCtl;
-import org.compiere.grid.ed.VDocAction;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
-import org.compiere.wf.MWFActivity;
-import org.compiere.wf.MWFResponsible;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.Element;
+import org.apache.ecs.xhtml.form;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.label;
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.select;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.MRole;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUtil;
 
 
 /**

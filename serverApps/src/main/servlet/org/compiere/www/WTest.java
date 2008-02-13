@@ -20,11 +20,6 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.compiere.util.*;
-import java.util.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
 
 /**
  *	Web (window) Help
