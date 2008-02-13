@@ -2195,7 +2195,7 @@ public abstract class PO
 				MChangeLog cLog = session.changeLog (
 					m_trxName, AD_ChangeLog_ID, 
 					p_info.getAD_Table_ID(), p_info.getColumn(i).AD_Column_ID, 
-					get_ID(), getAD_Client_ID(), getAD_Org_ID(), oldV, newV, "UPDATE");
+					get_ID(), getAD_Client_ID(), getAD_Org_ID(), oldV, newV, MChangeLog.EVENTCHANGELOG_Update);
 				if (cLog != null)
 					AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
 			}
@@ -2407,14 +2407,14 @@ public abstract class PO
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
-				&& p_info.getColumn(i).IsKey // log just the key - to log all columns comment this line 
+				// && p_info.getColumn(i).IsKey // log all record - to log just ID uncomment this line 
 				)
 			{
 				// change log on new
 				MChangeLog cLog = session.changeLog (
 						m_trxName, AD_ChangeLog_ID, 
 						p_info.getAD_Table_ID(), p_info.getColumn(i).AD_Column_ID, 
-						get_ID(), getAD_Client_ID(), getAD_Org_ID(), null, value, "INSERT");
+						get_ID(), getAD_Client_ID(), getAD_Org_ID(), null, value, MChangeLog.EVENTCHANGELOG_Insert);
 				if (cLog != null)
 					AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
 			}
@@ -2680,7 +2680,7 @@ public abstract class PO
 							MChangeLog cLog = session.changeLog (
 								m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
 								AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
-								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, "DELETE");
+								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, MChangeLog.EVENTCHANGELOG_Delete);
 							if (cLog != null)
 								AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
 						}

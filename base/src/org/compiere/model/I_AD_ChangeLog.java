@@ -127,6 +127,19 @@ public interface I_AD_ChangeLog
 	  */
 	public String getDescription();
 
+    /** Column name EventChangeLog */
+    public static final String COLUMNNAME_EventChangeLog = "EventChangeLog";
+
+	/** Set Event Change Log.
+	  * Type of Event in Change Log
+	  */
+	public void setEventChangeLog (String EventChangeLog);
+
+	/** Get Event Change Log.
+	  * Type of Event in Change Log
+	  */
+	public String getEventChangeLog();
+
     /** Column name IsCustomization */
     public static final String COLUMNNAME_IsCustomization = "IsCustomization";
 

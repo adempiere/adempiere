@@ -17,8 +17,11 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
+import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
+import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Session
@@ -71,6 +74,45 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Role getAD_Role() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
+        I_AD_Role result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Role.
+		@param AD_Role_ID 
+		Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID)
+	{
+		if (AD_Role_ID < 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+	}
+
+	/** Get Role.
+		@return Responsibility Role
+	  */
+	public int getAD_Role_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Session.
 		@param AD_Session_ID 
 		User Session Online or Web
@@ -100,6 +142,43 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Session_ID()));
     }
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+
+		if (Description != null && Description.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			Description = Description.substring(0, 255);
+		}
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Login date.
+		@param LoginDate Login date	  */
+	public void setLoginDate (Timestamp LoginDate)
+	{
+		set_Value (COLUMNNAME_LoginDate, LoginDate);
+	}
+
+	/** Get Login date.
+		@return Login date	  */
+	public Timestamp getLoginDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_LoginDate);
+	}
 
 	/** Set Processed.
 		@param Processed 

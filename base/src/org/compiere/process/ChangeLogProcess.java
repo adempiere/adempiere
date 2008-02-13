@@ -200,7 +200,8 @@ public class ChangeLogProcess extends SvrProcess
 			m_oldRecord_ID = cLog.getRecord_ID();
 			
 			//	Insert - new value is null and UnDo only
-			m_isInsert = cLog.isNewNull() && p_CheckNewValue != null;
+			// m_isInsert = cLog.isNewNull() && p_CheckNewValue != null;
+			m_isInsert = MChangeLog.EVENTCHANGELOG_Insert.equals(cLog.getEventChangeLog());
 			if (m_isInsert)
 			{
 				m_sqlInsert = new StringBuffer ("INSERT INTO ")

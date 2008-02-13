@@ -244,6 +244,38 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** EventChangeLog AD_Reference_ID=53238 */
+	public static final int EVENTCHANGELOG_AD_Reference_ID=53238;
+	/** Insert = I */
+	public static final String EVENTCHANGELOG_Insert = "I";
+	/** Delete = D */
+	public static final String EVENTCHANGELOG_Delete = "D";
+	/** Update = U */
+	public static final String EVENTCHANGELOG_Update = "U";
+	/** Set Event Change Log.
+		@param EventChangeLog 
+		Type of Event in Change Log
+	  */
+	public void setEventChangeLog (String EventChangeLog)
+	{
+
+		if (EventChangeLog == null || EventChangeLog.equals("I") || EventChangeLog.equals("D") || EventChangeLog.equals("U")); else throw new IllegalArgumentException ("EventChangeLog Invalid value - " + EventChangeLog + " - Reference_ID=53238 - I - D - U");
+		if (EventChangeLog != null && EventChangeLog.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			EventChangeLog = EventChangeLog.substring(0, 1);
+		}
+		set_Value (COLUMNNAME_EventChangeLog, EventChangeLog);
+	}
+
+	/** Get Event Change Log.
+		@return Type of Event in Change Log
+	  */
+	public String getEventChangeLog () 
+	{
+		return (String)get_Value(COLUMNNAME_EventChangeLog);
+	}
+
 	/** Set Customization.
 		@param IsCustomization 
 		The change is a customization of the data dictionary and can be applied after Migration

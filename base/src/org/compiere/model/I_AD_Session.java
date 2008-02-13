@@ -33,6 +33,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Session
@@ -56,6 +57,21 @@ public interface I_AD_Session
 
     /** Load Meta Data */
 
+    /** Column name AD_Role_ID */
+    public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
+
+	/** Set Role.
+	  * Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID);
+
+	/** Get Role.
+	  * Responsibility Role
+	  */
+	public int getAD_Role_ID();
+
+	public I_AD_Role getAD_Role() throws Exception;
+
     /** Column name AD_Session_ID */
     public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";
 
@@ -68,6 +84,28 @@ public interface I_AD_Session
 	  * User Session Online or Web
 	  */
 	public int getAD_Session_ID();
+
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
+    /** Column name LoginDate */
+    public static final String COLUMNNAME_LoginDate = "LoginDate";
+
+	/** Set Login date	  */
+	public void setLoginDate (Timestamp LoginDate);
+
+	/** Get Login date	  */
+	public Timestamp getLoginDate();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
