@@ -724,8 +724,25 @@ public class VLookup extends JComponent
 			+ ", Zoom=" + m_lookup.getZoom()
 			+ " (" + whereClause + ")");
 		//
-		boolean resetValue = false;	//	reset value so that is always treated as new entry    
-		if (col.equals("M_Product_ID"))
+		boolean resetValue = false;	//	reset value so that is always treated as new entry
+		String infoFactoryClass = m_lookup.getInfoFactoryClass();
+		if (infoFactoryClass != null && infoFactoryClass.trim().length() > 0)
+		{
+			try {
+				Class<InfoFactory> clazz = (Class<InfoFactory>)this.getClass().getClassLoader().loadClass(infoFactoryClass);
+				InfoFactory factory = clazz.newInstance();
+				if (m_tableName == null)	//	sets table name & key column
+					getDirectAccessSQL("*");
+				Info ig = factory.create (frame, true, m_lookup.getWindowNo(), 
+					m_tableName, m_keyColumnName, queryValue, false, whereClause);
+				ig.setVisible(true);
+				cancelled = ig.isCancelled();
+				result = ig.getSelectedKey();
+			} catch (Exception e) {
+				log.log(Level.SEVERE, "Failed to load custom InfoFactory - " + e.getLocalizedMessage(), e);
+			}
+		}
+		else if (col.equals("M_Product_ID"))
 		{
 			//	Reset
 			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
