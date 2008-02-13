@@ -53,6 +53,8 @@ public class GridFieldVO implements Serializable
 		return sql;
 	}   //  getSQL
 
+	private String InfoFactoryClass = null;
+
 	/**
 	 *  Create Field Value Object
 	 *  @param ctx context
@@ -163,6 +165,9 @@ public class GridFieldVO implements Serializable
 				// Collapse Default State
 				else if (columnName.equalsIgnoreCase("IsCollapsedByDefault"))
 					vo.IsCollapsedByDefault = "Y".equals(rs.getString(i));
+				//Info Factory class
+				else if (columnName.equalsIgnoreCase("InfoFactoryClass"))
+					vo.InfoFactoryClass  = rs.getString(i);
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -539,6 +544,7 @@ public class GridFieldVO implements Serializable
 				lookupInfo = MLookupFactory.getLookupInfo (ctx, WindowNo, AD_Column_ID, displayType,
 					Env.getLanguage(ctx), ColumnName, AD_Reference_Value_ID,
 					IsParent, ValidationCode);
+				lookupInfo.InfoFactoryClass = this.InfoFactoryClass;
 			}
 			catch (Exception e)     //  Cannot create Lookup
 			{

@@ -183,6 +183,8 @@ public class MLookupInfo implements Serializable, Cloneable
 	
 	public String		parsedValidationCode = "";
 
+	public String InfoFactoryClass = null;
+
 	/**
 	 * String representation
 	 * @return info

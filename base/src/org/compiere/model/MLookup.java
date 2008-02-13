@@ -631,6 +631,13 @@ public final class MLookup extends Lookup implements Serializable
 		return false;
 	}
 	
+	@Override
+	public String getInfoFactoryClass() {
+		return m_info.InfoFactoryClass != null ? m_info.InfoFactoryClass : "";
+	}
+
+
+
 	/**************************************************************************
 	 *	MLookup Loader
 	 */
