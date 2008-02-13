@@ -257,7 +257,7 @@ public class VEditorFactory
 		//  PAttribute
 		else if (displayType == DisplayType.PAttribute)
 		{
-			VPAttribute attrib = new VPAttribute (mandatory, readOnly, updateable, WindowNo,
+			VPAttribute attrib = new VPAttribute (mTab, mandatory, readOnly, updateable, WindowNo,
 				(MPAttributeLookup)mField.getLookup());
 			attrib.setName(columnName);
 			attrib.setField (mField);

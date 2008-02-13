@@ -42,7 +42,7 @@ public class VPAttribute extends JComponent
 	 */
 	public VPAttribute()
 	{
-		this (false, false, true, 0, null);
+		this (null, false, false, true, 0, null);
 	}	//	VAssigment
 
 	/**
@@ -56,7 +56,23 @@ public class VPAttribute extends JComponent
 	public VPAttribute (boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
 		int WindowNo, MPAttributeLookup lookup)
 	{
+		this(null, mandatory, isReadOnly, isUpdateable, WindowNo, lookup);
+	}
+	
+	/**
+	 *	Create Product Attribute Set Instance Editor.
+	 *  @param gridTab
+	 *  @param mandatory mandatory
+	 *  @param isReadOnly read only
+	 *  @param isUpdateable updateable
+	 * 	@param WindowNo WindowNo
+	 * 	@param lookup Model Product Attribute
+	 */
+	public VPAttribute (GridTab gridTab, boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
+		int WindowNo, MPAttributeLookup lookup)
+	{
 		super.setName("M_AttributeSetInstance_ID");
+		m_GridTab = gridTab; // added for processCallout
 		m_WindowNo = WindowNo;
 		m_mPAttribute = lookup;
 		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, "C_BPartner_ID");
@@ -115,6 +131,10 @@ public class VPAttribute extends JComponent
 	private boolean				m_mandatory;
 	private int					m_WindowNo;
 	private int					m_C_BPartner_ID;
+	/** The Grid Tab * */
+	private GridTab m_GridTab; // added for processCallout
+	/** The Grid Field * */
+	private GridField m_GridField; // added for processCallout
 	
 	/**	Calling Window Info				*/
 	private int					m_AD_Column_ID = 0;
@@ -122,6 +142,7 @@ public class VPAttribute extends JComponent
 	private static Integer		NO_INSTANCE = new Integer(0);
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VPAttribute.class);
+		
 
 	/**
 	 * 	Dispose resources
@@ -132,6 +153,8 @@ public class VPAttribute extends JComponent
 		m_button = null;
 		m_mPAttribute.dispose();
 		m_mPAttribute = null;
+		m_GridField = null;
+		m_GridTab = null;
 	}	//	dispose
 
 	/**
@@ -258,6 +281,7 @@ public class VPAttribute extends JComponent
 	{
 		//	To determine behavior
 		m_AD_Column_ID = mField.getAD_Column_ID();
+		m_GridField = mField;
 	}	//	setField
 
 	/**
@@ -381,6 +405,8 @@ public class VPAttribute extends JComponent
 			{
 				log.log(Level.SEVERE, "", pve);
 			}
+			if (M_AttributeSetInstance_ID == oldValue)
+				m_GridTab.processCallout(m_GridField); // fire value changed
 		}	//	change
 		m_button.setEnabled(true);
 		requestFocus();
