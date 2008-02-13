@@ -260,6 +260,7 @@ public class MLookupFactory
 	 */
 	static public MLookupInfo getLookup_List(Language language, int AD_Reference_Value_ID)
 	{
+		String byValue = DB.getSQLValueString(null, "SELECT IsOrderByValue FROM AD_Reference WHERE AD_Reference_ID = ? ", AD_Reference_Value_ID);
 		StringBuffer realSQL = new StringBuffer ("SELECT NULL, AD_Ref_List.Value,");
 		if (Env.isBaseLanguage(language, "AD_Ref_List"))
 			realSQL.append("AD_Ref_List.Name,AD_Ref_List.IsActive FROM AD_Ref_List");
@@ -269,7 +270,10 @@ public class MLookupFactory
 				+ " ON (AD_Ref_List.AD_Ref_List_ID=trl.AD_Ref_List_ID AND trl.AD_Language='")
 					.append(language.getAD_Language()).append("')");
 		realSQL.append(" WHERE AD_Ref_List.AD_Reference_ID=").append(AD_Reference_Value_ID);
-		realSQL.append(" ORDER BY 3"); // sort by name/translated name - teo_sarca, [ 1672820 ] 
+		if ("Y".equals(byValue))
+			realSQL.append(" ORDER BY 2");
+		else
+			realSQL.append(" ORDER BY 3"); // sort by name/translated name - teo_sarca, [ 1672820 ] 
 		//
 		return new MLookupInfo(realSQL.toString(), "AD_Ref_List", "AD_Ref_List.Value",
 			101,101, MQuery.getEqualQuery("AD_Reference_ID", AD_Reference_Value_ID));	//	Zoom Window+Query
