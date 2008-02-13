@@ -48,8 +48,25 @@ public class VLocation extends JComponent
 	public VLocation(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
 		MLocationLookup mLocation)
 	{
+		this(null, columnName, mandatory, isReadOnly, isUpdateable, mLocation);
+	}
+	
+	/**
+	 *	Constructor
+	 * 
+	 *  @param gridTab
+	 * 	@param columnName column name
+	 * 	@param mandatory mandatory
+	 * 	@param isReadOnly read only
+	 * 	@param isUpdateable updateable
+	 * 	@param mLocation location model
+	 */
+	public VLocation(GridTab gridTab, String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+		MLocationLookup mLocation)
+	{
 		super();
 		super.setName(columnName);
+		m_GridTab = gridTab;
 		m_columnName = columnName;
 		m_mLocation = mLocation;
 		//
@@ -95,6 +112,8 @@ public class VLocation extends JComponent
 		m_text = null;
 		m_button = null;
 		m_mLocation = null;
+		m_GridField = null;
+		m_GridTab = null;
 	}   //  dispose
 
 	/** The Text Field                  */
@@ -113,6 +132,11 @@ public class VLocation extends JComponent
 	JPopupMenu 					popupMenu = new JPopupMenu();
 	private CMenuItem 			mDelete;
 
+	/** The Grid Tab * */
+	private GridTab m_GridTab; // added for processCallout
+	/** The Grid Field * */
+	private GridField m_GridField; // added for processCallout
+	
 	/**
 	 *	Enable/disable
 	 *  @param value true if ReadWrite
@@ -271,6 +295,7 @@ public class VLocation extends JComponent
 		VLocationDialog ld = new VLocationDialog(Env.getFrame(this),
 			Msg.getMsg(Env.getCtx(), "Location"), m_value);
 		ld.setVisible(true);
+		Object oldValue = getValue();
 		m_value = ld.getValue();
 		//
 		if (e.getSource() == mDelete)
@@ -285,11 +310,15 @@ public class VLocation extends JComponent
 			if (m_value != null)
 				C_Location_ID = m_value.getC_Location_ID();
 			Integer ii = new Integer(C_Location_ID);
-			//  force Change - user does not realize that embedded object is already saved.
-			fireVetoableChange(m_columnName, null, null);   //  resets m_mLocation
+			
 			if (C_Location_ID != 0)
-				fireVetoableChange(m_columnName, null, ii);
+				fireVetoableChange(m_columnName, oldValue, ii);
 			setValue(ii);
+			if (ii.equals(oldValue) && m_GridTab != null && m_GridField != null)
+			{
+				//  force Change - user does not realize that embedded object is already saved.
+				m_GridTab.processFieldChange(m_GridField);
+			}
 		}
 		catch (PropertyVetoException pve)
 		{
@@ -313,6 +342,7 @@ public class VLocation extends JComponent
 	 */
 	public void setField (org.compiere.model.GridField mField)
 	{
+		m_GridField = mField;
 	}   //  setField
 
 }	//	VLocation

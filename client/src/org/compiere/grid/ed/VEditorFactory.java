@@ -186,7 +186,7 @@ public class VEditorFactory
 		//	Location
 		else if (displayType == DisplayType.Location)
 		{
-			VLocation loc = new VLocation (columnName, mandatory, readOnly, updateable,
+			VLocation loc = new VLocation (mTab, columnName, mandatory, readOnly, updateable,
 				(MLocationLookup)mField.getLookup());
 			loc.setName(columnName);
 			loc.setField (mField);
