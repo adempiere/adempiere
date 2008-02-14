@@ -90,30 +90,22 @@ public class MUser extends X_AD_User
 			+ " AND EXISTS (SELECT * FROM AD_User_Roles ur "
 				+ "WHERE ur.AD_User_ID=u.AD_User_ID AND ur.AD_Role_ID=? AND ur.IsActive='Y')";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, role.getAD_Role_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MUser(role.getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		} 
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		} 
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		
 		MUser[] retValue = new MUser[list.size ()];
@@ -215,19 +207,23 @@ public class MUser extends X_AD_User
 		String name = "?";
 		//	Get ID
 		String sql = "SELECT Name FROM AD_User WHERE AD_User_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				name = rs.getString(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 		return name;
 	}	//	getNameOfUser
@@ -756,32 +752,24 @@ public class MUser extends X_AD_User
 		String sql = "SELECT * FROM AD_UserBPAccess WHERE AD_User_ID=? AND IsActive='Y'";
 		ArrayList<X_AD_UserBPAccess> list = new ArrayList<X_AD_UserBPAccess>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getAD_User_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				list.add (new X_AD_UserBPAccess (getCtx(), rs, null));
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		m_bpAccess = new X_AD_UserBPAccess[list.size ()];
 		list.toArray (m_bpAccess);
