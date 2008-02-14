@@ -774,7 +774,7 @@ public final class EMail implements Serializable
 		throws MessagingException, IOException
 	{
 		//	Local Character Set
-		String charSetName = System.getProperty("file.encoding"); 	//	Cp1252
+		String charSetName = Ini.getCharset().name();
 		if (charSetName == null || charSetName.length() == 0)
 			charSetName = "iso-8859-1";	// WebEnv.ENCODING - alternative iso-8859-1
 		//
