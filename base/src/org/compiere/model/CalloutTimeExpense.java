@@ -117,6 +117,8 @@ public class CalloutTimeExpense extends CalloutEngine
 					+ " AND pl.M_PriceList_ID=?"	//	2
 					+ " ORDER BY pv.ValidFrom DESC";
 
+				//close previous statement
+				DB.close(rs, pstmt);
 				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, M_Product_ID.intValue());
 				pstmt.setInt(2, Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID"));
