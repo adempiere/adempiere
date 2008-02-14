@@ -18,9 +18,7 @@ package org.compiere.model;
 
 import java.math.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -60,11 +58,13 @@ public class CalloutInvoice extends CalloutEngine
 			+ "FROM C_DocType d, AD_Sequence s "
 			+ "WHERE C_DocType_ID=?"		//	1
 			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_DocType_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Charges - Set Context
@@ -92,13 +92,15 @@ public class CalloutInvoice extends CalloutEngine
 				else if (s.endsWith("C"))
 					mTab.setValue("PaymentRule", "P");    //  OnCredit
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 		return "";
 	}	//	docType
