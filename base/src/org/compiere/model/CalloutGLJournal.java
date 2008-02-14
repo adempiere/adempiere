@@ -75,12 +75,14 @@ public class CalloutGLJournal extends CalloutEngine
 				// globalqss - cruiz - Bug [ 1577712 ] Financial Period Bug
 				+ " AND IsActive='Y'"
 				+ " AND PeriodType='S'";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, AD_Client_ID);
 				pstmt.setTimestamp(2, DateAcct);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 					C_Period_ID = rs.getInt(1);
 				rs.close();
@@ -91,6 +93,10 @@ public class CalloutGLJournal extends CalloutEngine
 			{
 				log.log(Level.SEVERE, sql, e);
 				return e.getLocalizedMessage();
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
 			}
 			if (C_Period_ID != 0)
 				mTab.setValue("C_Period_ID", new Integer(C_Period_ID));
