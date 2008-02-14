@@ -254,7 +254,8 @@ public class Login
 			.append(" AND u.IsActive='Y'")
 			.append(" AND EXISTS (SELECT * FROM AD_Client c WHERE u.AD_Client_ID=c.AD_Client_ID AND c.IsActive='Y')");
 		if (app_pwd != null)
-			sql.append(" AND (u.Password=? OR u.Password=?)");	//  #2/3
+			sql.append(" AND ((u.Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='N') " 
+					+     "OR (u.Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='Y'))");	//  #2/3
 		sql.append(" ORDER BY r.Name");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
