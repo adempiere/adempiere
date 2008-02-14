@@ -16,14 +16,22 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.event.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.apps.form.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+
+import org.compiere.apps.form.FormFrame;
+import org.compiere.model.MTask;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 
 /**
@@ -113,14 +121,17 @@ public class AMenuStartItem extends Thread implements ActionListener
 		SwingUtilities.invokeLater(m_resetPB);
 		m_timer.start();
 		SwingUtilities.invokeLater(m_updatePB);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String errmsg = null;
 		try
 		{
 			String sql = "SELECT * FROM AD_Menu WHERE AD_Menu_ID=?";
 			if (!m_isMenu)
 				sql = "SELECT * FROM AD_WF_Node WHERE AD_WF_Node_ID=?";
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			SwingUtilities.invokeLater(m_updatePB);
 			if (rs.next())	//	should only be one
@@ -169,14 +180,20 @@ public class AMenuStartItem extends Thread implements ActionListener
 			}	//	for all records
 
 			SwingUtilities.invokeLater(m_updatePB);
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "ID=" + m_ID, e);
-			ADialog.error(0, null, "Error", Msg.parseTranslation(Env.getCtx(), e.getMessage()));
+			errmsg = Msg.parseTranslation(Env.getCtx(), e.getMessage());
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		// Show error if any
+		if (errmsg != null)
+			ADialog.error(0, null, "Error", errmsg);
 
 		try	{Thread.sleep(1000);}	//	1 sec
 		catch (InterruptedException ie) {}
@@ -291,24 +308,12 @@ public class AMenuStartItem extends Thread implements ActionListener
 		SwingUtilities.invokeLater(m_updatePB);			//	1
 		//	Get Command
 		MTask task = null;
-		String sql = "SELECT * FROM AD_Task WHERE AD_Task_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Task_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				task = new MTask (Env.getCtx(), rs, null);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		if (AD_Task_ID > 0)
+			task = new MTask(Env.getCtx(), AD_Task_ID, null);
+		if (task.get_ID() != AD_Task_ID)
+			task = null;
 		if (task == null)
 			return;
-
 		SwingUtilities.invokeLater(m_updatePB);			//	2
 		m_menu.getWindowManager().add(new ATask(m_name, task));
 	//	ATask.start(m_name, task);
