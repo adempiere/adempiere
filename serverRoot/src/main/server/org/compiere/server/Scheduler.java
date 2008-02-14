@@ -171,6 +171,8 @@ public class Scheduler extends AdempiereServer
 		pi.setAD_Client_ID(m_model.getAD_Client_ID());
 		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
 		//notify supervisor if error
+		
+		MUser from = new MUser(getCtx(), pi.getAD_User_ID(), null);
 		if ( !process.processIt(pi, m_trx) ) 
 		{
 			int supervisor = m_model.getSupervisor_ID();
@@ -185,7 +187,7 @@ public class Scheduler extends AdempiereServer
 				if (email) 
 				{
 					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
-					client.sendEMail(supervisor, process.getName(), pi.getSummary(), null);
+					client.sendEMail(from, user, process.getName(), pi.getSummary(), null);
 				}
 				if (notice) {
 					int AD_Message_ID = 442; //ProcessRunError
@@ -212,8 +214,8 @@ public class Scheduler extends AdempiereServer
 					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
 				if (email) 
 				{
-					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
-					client.sendEMail(userIDs[i].intValue(), process.getName(), pi.getSummary(), null);
+					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());					
+					client.sendEMail(from, user, process.getName(), pi.getSummary(), null);
 				}
 				if (notice) {
 					int AD_Message_ID = 441; //ProcessOK
