@@ -199,7 +199,7 @@ public class FormFrame extends CFrame
 	{
 		log.config("");
 		//	recursive calls
-		if (Trace.isCalledFrom("JFrame"))	//	[x] close window pressed
+		if (Trace.isCalledFrom("JFrame") && m_panel != null)	//	[x] close window pressed
 			m_panel.dispose();
 		m_panel = null;
 		Env.clearWinContext(m_WindowNo);

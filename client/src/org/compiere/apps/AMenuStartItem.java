@@ -329,9 +329,13 @@ public class AMenuStartItem extends Thread implements ActionListener
 			}
 		}
 		ff = new FormFrame();
-		m_menu.getWindowManager().add(ff);
 		SwingUtilities.invokeLater(m_updatePB);			//	1
-		ff.openForm(AD_Form_ID);
+		boolean ok = ff.openForm(AD_Form_ID);
+		if (!ok) {
+			ff.dispose();
+			return;
+		}
+		m_menu.getWindowManager().add(ff);
 		SwingUtilities.invokeLater(m_updatePB);			//	2
 		
 		//	Center the window
