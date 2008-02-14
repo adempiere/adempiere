@@ -41,30 +41,22 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		ArrayList<MBPartnerLocation> list = new ArrayList<MBPartnerLocation>();
 		String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add(new MBPartnerLocation(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, "getForBPartner", e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		MBPartnerLocation[] retValue = new MBPartnerLocation[list.size ()];
 		list.toArray (retValue);
