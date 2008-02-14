@@ -93,7 +93,11 @@ public class CalloutOrder extends CalloutEngine
 				rs = pstmt.executeQuery();
 				if (rs.next())
 					AD_Sequence_ID = rs.getInt(7);
+				DB.close(rs, pstmt);
+				rs = null;
+				pstmt = null;
 			}
+			
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_DocType_ID.intValue());
 			rs = pstmt.executeQuery();
@@ -164,6 +168,11 @@ public class CalloutOrder extends CalloutEngine
 						}
 				}
 			}
+			
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+			
 			//  When BPartner is changed, the Rules are not set if
 			//  it is a POS or Credit Order (i.e. defaults from Standard BPartner)
 			//  This re-reads the Rules and applies them.
