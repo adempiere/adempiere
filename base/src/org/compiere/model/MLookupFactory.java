@@ -328,7 +328,7 @@ public class MLookupFactory
 		String sql0 = "SELECT t.TableName,ck.ColumnName AS KeyColumn,"				//	1..2
 			+ "cd.ColumnName AS DisplayColumn,rt.IsValueDisplayed,cd.IsTranslated,"	//	3..5
 			+ "rt.WhereClause,rt.OrderByClause,t.AD_Window_ID,t.PO_Window_ID, "		//	6..9
-			+ "t.AD_Table_ID "														//	10
+			+ "t.AD_Table_ID, cd.ColumnSQL as DisplayColumnSQL "					//	10..11
 			+ "FROM AD_Ref_Table rt"
 			+ " INNER JOIN AD_Table t ON (rt.AD_Table_ID=t.AD_Table_ID)"
 			+ " INNER JOIN AD_Column ck ON (rt.AD_Key=ck.AD_Column_ID)"
@@ -337,6 +337,7 @@ public class MLookupFactory
 			+ " AND rt.IsActive='Y' AND t.IsActive='Y'";
 		//
 		String	KeyColumn = null, DisplayColumn = null, TableName = null, WhereClause = null, OrderByClause = null;
+		String displayColumnSQL = null;
 		boolean IsTranslated = false, isValueDisplayed = false;
 		//boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		int ZoomWindow = 0;
@@ -363,6 +364,7 @@ public class MLookupFactory
 				ZoomWindow = rs.getInt(8);
 				ZoomWindowPO = rs.getInt(9);
 				//AD_Table_ID = rs.getInt(10);
+				displayColumnSQL = rs.getString(11);
 				loaded = true;
 			}
 		}
@@ -396,8 +398,11 @@ public class MLookupFactory
 				realSQL.append("NULL,");
 			if (isValueDisplayed)
 				realSQL.append(TableName).append(".Value || '-' || ");
-			realSQL.append(TableName).append("_Trl.").append(DisplayColumn)
-				.append(",").append(TableName).append(".IsActive");
+			if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
+				realSQL.append(displayColumnSQL);
+			else
+				realSQL.append(TableName).append("_Trl.").append(DisplayColumn);
+			realSQL.append(",").append(TableName).append(".IsActive");
 			realSQL.append(" FROM ").append(TableName)
 				.append(" INNER JOIN ").append(TableName).append("_TRL ON (")
 				.append(TableName).append(".").append(KeyColumn)
@@ -413,7 +418,10 @@ public class MLookupFactory
 				realSQL.append("NULL,");
 			if (isValueDisplayed)
 				realSQL.append(TableName).append(".Value || '-' || ");
-			realSQL.append(TableName).append(".").append(DisplayColumn);
+			if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
+				realSQL.append(displayColumnSQL);
+			else
+				realSQL.append(TableName).append(".").append(DisplayColumn);
 			realSQL.append(",").append(TableName).append(".IsActive");
 			realSQL.append(" FROM ").append(TableName);
 		}
