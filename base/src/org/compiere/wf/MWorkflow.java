@@ -119,6 +119,8 @@ public class MWorkflow extends X_AD_Workflow
 		}
 		//	Look for Entry
 		MWorkflow[] retValue = (MWorkflow[])s_cacheDocValue.get(key);
+		//hengsin: this is not threadsafe
+		/*
 		//set trxName to all workflow instance
 		if ( retValue != null && retValue.length > 0 )
 		{
@@ -126,7 +128,7 @@ public class MWorkflow extends X_AD_Workflow
 			{
 				retValue[i].set_TrxName(trxName);
 			}
-		}
+		}*/
 		return retValue;
 	}	//	getDocValue
 	
@@ -643,27 +645,49 @@ public class MWorkflow extends X_AD_Workflow
 		return success;
 	}   //  afterSave
 
+	/**************************************************************************
+	 * 	Start Workflow.
+	 * 	@param pi Process Info (Record_ID)
+	 *  @deprecated
+	 *	@return process
+	 */
+	public MWFProcess start (ProcessInfo pi)
+	{
+		return start(pi, null);
+	}
 	
 	/**************************************************************************
 	 * 	Start Workflow.
 	 * 	@param pi Process Info (Record_ID)
 	 *	@return process
 	 */
-	public MWFProcess start (ProcessInfo pi)
+	public MWFProcess start (ProcessInfo pi, String trxName)
 	{
 		MWFProcess retValue = null;
+		Trx localTrx = null;
+		if (trxName == null)
+			localTrx = Trx.get(Trx.createTrxName("WFP"), true);
 		try
 		{
-			retValue = new MWFProcess (this, pi);
+			retValue = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
 			retValue.save();
-			retValue.startWork();
 			pi.setSummary(Msg.getMsg(getCtx(), "Processing"));
+			retValue.startWork();
+			if (localTrx != null)
+				localTrx.commit(true);
 		}
 		catch (Exception e)
 		{
+			if (localTrx != null)
+				localTrx.rollback();
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			pi.setSummary(e.getMessage(), true);
 			retValue = null;
+		}
+		finally 
+		{
+			if (localTrx != null)
+				localTrx.close();
 		}
 		return retValue;
 	}	//	MWFProcess
@@ -678,7 +702,7 @@ public class MWorkflow extends X_AD_Workflow
 		final int SLEEP = 500;		//	1/2 sec
 		final int MAXLOOPS = 30;	//	15 sec	
 		//
-		MWFProcess process = start(pi);
+		MWFProcess process = start(pi, null);
 		if (process == null)
 			return null;
 		Thread.yield();

@@ -736,8 +736,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		log.info ("Node=" + getNode());
 		m_newValue = null;
 		
-		String trxName = Trx.createTrxName("WF");
-		m_trx = Trx.get(trxName, true);
+		
+		m_trx = Trx.get(Trx.createTrxName("WFA"), true);
+		
 		//
 		try
 		{
@@ -759,11 +760,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//	Do Work
 			/****	Trx Start	****/
 			boolean done = performWork(m_trx);
-			//begin vpj-cd e-evolution 03/08/2005 PostgreSQL
-			// Reason: When is execute setWFState create a transaction for same table is generate a clicle Trx 			
-			//         is cause that PostgreSQL wait into transaction idle
-			//setWFState (done ? StateEngine.STATE_Completed : StateEngine.STATE_Suspended);
-			//end vpj-cd e-evolution 03/08/2005 PostgreSQL
 			
 			/****	Trx End		****/
 			// teo_sarca [ 1708835 ]
@@ -776,9 +772,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					m_docStatus = DocAction.STATUS_Invalid;
 				throw e;
 			}
-			//begin vpj-cd e-evolution 03/08/2005 PostgreSQL
-			//Reason: setWFState moved for the first trx be finished
+			
 			setWFState (done ? StateEngine.STATE_Completed : StateEngine.STATE_Suspended);
+			
 			//end vpj-cd e-evolution 03/08/2005 PostgreSQL
 			if (m_postImmediate != null)
 				postImmediate();
@@ -792,6 +788,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//
 			if (e.getCause() != null)
 				log.log(Level.WARNING, "Cause", e.getCause());
+			
 			String processMsg = e.getLocalizedMessage();
 			if (processMsg == null || processMsg.length() == 0)
 				processMsg = e.getMessage();

@@ -72,11 +72,24 @@ public class MWFProcess extends X_AD_WF_Process
 	 * 	New Constructor
 	 *	@param wf workflow
 	 *	@param pi Process Info (Record_ID)
+	 *  @deprecated
 	 *	@throws Exception
 	 */
 	public MWFProcess (MWorkflow wf, ProcessInfo pi) throws Exception
 	{
-		super (wf.getCtx(), 0, wf.get_TrxName());
+		this(wf, pi, wf.get_TrxName());
+	}
+	
+	/**
+	 * 	New Constructor
+	 *	@param wf workflow
+	 *	@param pi Process Info (Record_ID)
+	 *  @param trxName 
+	 *	@throws Exception
+	 */
+	public MWFProcess (MWorkflow wf, ProcessInfo pi, String trxName) throws Exception
+	{
+		super (wf.getCtx(), 0, trxName);
 		if (!TimeUtil.isValid(wf.getValidFrom(), wf.getValidTo()))
 			throw new IllegalStateException("Workflow not valid");
 		m_wf = wf;
@@ -251,6 +264,10 @@ public class MWFProcess extends X_AD_WF_Process
 			+ (trxName == null ? "" : "[" + trxName + "]"));
 		if (m_state.isClosed())
 			return;
+		
+		if (lastPO != null && lastPO.get_ID() == this.getRecord_ID())
+			m_po = lastPO;
+		
 		//
 		MWFActivity[] activities = getActivities (true, true, trxName);	//	requery active
 		String closedState = null;
@@ -306,7 +323,7 @@ public class MWFProcess extends X_AD_WF_Process
 			setWFState(closedState);
 			getPO();
 			if (m_po != null)
-				m_po.unlock(trxName);
+				m_po.unlock(null);
 		}
 		else if (suspended)
 			setWFState(WFSTATE_Suspended);
@@ -487,7 +504,7 @@ public class MWFProcess extends X_AD_WF_Process
 			activity.run();
 
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			log.log(Level.SEVERE, "AD_WF_Node_ID=" + AD_WF_Node_ID, e);
 			setTextMsg(e.toString());
