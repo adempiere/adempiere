@@ -220,20 +220,24 @@ public class MWindow extends X_AD_Window
 	public static int getWindow_ID(String windowName) {
 		int retValue = 0;
 		String SQL = "SELECT AD_Window_ID FROM AD_Window WHERE Name = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setString(1, windowName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, SQL, e);
 			retValue = -1;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 		return retValue;
 	}
