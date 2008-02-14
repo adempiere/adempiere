@@ -955,6 +955,19 @@ public class GridField
 		return m_vo.IsEncryptedField;
 	}
 	/**
+	 * 	Is Encrypted Field (display) or obscured
+	 *	@return encrypted field
+	 */
+	public boolean isEncrypted()
+	{
+		if (m_vo.IsEncryptedField)
+			return true;
+		String ob = getObscureType();
+		if (ob != null && ob.length() > 0)
+			return true;
+		return m_vo.ColumnName.equals("Password");
+	}
+	/**
 	 * 	Is Encrypted Column (data)
 	 *	@return encrypted column
 	 */
@@ -1207,7 +1220,8 @@ public class GridField
 			|| m_vo.displayType == DisplayType.Memo
 			|| m_vo.displayType == DisplayType.TextLong
 			|| m_vo.displayType == DisplayType.Binary
-			|| m_vo.displayType == DisplayType.RowID)
+			|| m_vo.displayType == DisplayType.RowID
+			|| isEncrypted())
 			;	//	ignore
 		else if (newValue instanceof Boolean)
 		{
