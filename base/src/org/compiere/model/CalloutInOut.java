@@ -198,11 +198,13 @@ public class CalloutInOut extends CalloutEngine
 			+ " AND p.C_BPartner_ID=c.C_BPartner_ID(+)"
 			+ " AND p.C_BPartner_ID=?";		//	1
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_BPartner_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//[ 1867464 ]
@@ -234,13 +236,15 @@ public class CalloutInOut extends CalloutEngine
 								false);
 				}//
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 			
 		return "";
@@ -269,11 +273,13 @@ public class CalloutInOut extends CalloutEngine
 			+ " LEFT OUTER JOIN M_Locator l ON (l.M_Warehouse_ID=w.M_Warehouse_ID AND l.IsDefault='Y') "
 			+ "WHERE w.M_Warehouse_ID=?";		//	1
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Warehouse_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Org
@@ -291,13 +297,15 @@ public class CalloutInOut extends CalloutEngine
 					Env.setContext(ctx, WindowNo, "M_Locator_ID", ii.intValue());
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 
 		return "";
