@@ -40,6 +40,8 @@ import org.compiere.util.*;
  *  - Merge process parameter dialog into process dialog.
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
+ *  @author		Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  				<li>BF [ 1893525 ] ProcessDialog: Cannot select the text from text field
  */
 public class ProcessDialog extends CFrame
 	implements ActionListener, ASyncProcess
@@ -151,7 +153,7 @@ public class ProcessDialog extends CFrame
 		message.setContentType("text/html");
 		message.setEditable(false);
 		message.setBackground(Color.white);
-		message.setFocusable(false);
+		message.setFocusable(true);
 		getContentPane().add(dialog);
 		dialog.add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(bPrint, null);
