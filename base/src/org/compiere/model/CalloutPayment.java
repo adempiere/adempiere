@@ -75,14 +75,16 @@ public class CalloutPayment extends CalloutEngine
 			+ " invoiceOpen(C_Invoice_ID, ?),"					//	3		#1
 			+ " invoiceDiscount(C_Invoice_ID,?,?), IsSOTrx "	//	4..5	#2/3
 			+ "FROM C_Invoice WHERE C_Invoice_ID=?";			//			#4
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_InvoicePaySchedule_ID);
 			pstmt.setTimestamp(2, ts);
 			pstmt.setInt(3, C_InvoicePaySchedule_ID);
 			pstmt.setInt(4, C_Invoice_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				mTab.setValue("C_BPartner_ID", new Integer(rs.getInt(1)));
@@ -101,13 +103,15 @@ public class CalloutPayment extends CalloutEngine
 				Env.setContext(ctx, WindowNo, "C_Invoice_ID", C_Invoice_ID.toString());
 				mTab.setValue("C_Invoice_ID", C_Invoice_ID);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 
 		return docType(ctx, WindowNo, mTab, mField, value);
@@ -150,11 +154,13 @@ public class CalloutPayment extends CalloutEngine
 		//
 		String sql = "SELECT C_BPartner_ID,C_Currency_ID, GrandTotal "
 			+ "FROM C_Order WHERE C_Order_ID=?"; 	// #1
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Order_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				mTab.setValue("C_BPartner_ID", new Integer(rs.getInt(1)));
@@ -166,13 +172,15 @@ public class CalloutPayment extends CalloutEngine
 					GrandTotal = Env.ZERO;
 				mTab.setValue("PayAmt", GrandTotal);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 
 		return docType(ctx, WindowNo, mTab, mField, value);
