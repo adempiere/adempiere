@@ -1807,10 +1807,12 @@ public class GridTable extends AbstractTableModel
 		log.fine("Reading ... " + whereClause);
 		StringBuffer refreshSQL = new StringBuffer(m_SQL_Select)
 			.append(" WHERE ").append(whereClause);
-		PreparedStatement pstmt = DB.prepareStatement(refreshSQL.toString(), null);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(refreshSQL.toString(), null);
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				Object[] rowDataDB = readData(rs);
@@ -1818,26 +1820,19 @@ public class GridTable extends AbstractTableModel
 				m_buffer.set(sort.index, rowDataDB);
 				fireTableRowsUpdated(m_rowChanged, m_rowChanged);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException e)
 		{
-			try
-			{
-				if (pstmt != null)
-				  pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception ex)
-			{
-			}
-
 			String msg = "SaveError";
 			log.log(Level.SEVERE, refreshSQL.toString(), e);
 			fireDataStatusEEvent(msg, e.getLocalizedMessage(), true);
 			return SAVE_ERROR;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 
 		//	everything ok
@@ -2262,12 +2257,12 @@ public class GridTable extends AbstractTableModel
 			StringBuffer sql = new StringBuffer("DELETE ");
 			sql.append(m_tableName).append(" WHERE ").append(getWhereClause(rowData));
 			int no = 0;
+			PreparedStatement pstmt = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement (sql.toString(), 
+				pstmt = DB.prepareStatement (sql.toString(), 
 						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE, null);
 				no = pstmt.executeUpdate();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
@@ -2277,6 +2272,11 @@ public class GridTable extends AbstractTableModel
 					msg = "DeleteErrorDependent";
 				fireDataStatusEEvent(msg, e.getLocalizedMessage(), true);
 				return false;
+			}
+			finally
+			{
+				DB.close(pstmt);
+				pstmt = null;
 			}
 			//	Check Result
 			if (no != 1)
@@ -2387,15 +2387,15 @@ public class GridTable extends AbstractTableModel
 		String sql = m_SQL_Select + " WHERE " + where;
 		sort = (MSort)m_sort.get(row);
 		Object[] rowDataDB = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
 			//	only one row
 			if (rs.next())
 				rowDataDB = readData(rs);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
@@ -2403,6 +2403,12 @@ public class GridTable extends AbstractTableModel
 			fireTableRowsUpdated(row, row);
 			fireDataStatusEEvent("RefreshError", sql, true);
 			return;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 
 		//	update buffer
@@ -2892,15 +2898,15 @@ public class GridTable extends AbstractTableModel
 		//	log.config( "MTable Loader.open");
 			//	Get Number of Rows
 			int rows = 0;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(m_SQL_Count, null);
+				pstmt = DB.prepareStatement(m_SQL_Count, null);
 				setParameter (pstmt, true);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 					rows = rs.getInt(1);
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e0)
 			{
@@ -2910,6 +2916,10 @@ public class GridTable extends AbstractTableModel
 				else
 					log.log(Level.SEVERE, "Count SQL=" + m_SQL_Count, e0);
 				return 0;
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
 			}
 			StringBuffer info = new StringBuffer("Rows=");
 			info.append(rows);
@@ -2945,17 +2955,7 @@ public class GridTable extends AbstractTableModel
 		private void close()
 		{
 		//	log.config( "MTable Loader.close");
-			try
-			{
-				if (m_rs != null)
-					m_rs.close();
-				if (m_pstmt != null)
-					m_pstmt.close();
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, "closeRS", e);
-			}
+			DB.close(m_rs, m_pstmt);
 			m_rs = null;
 			m_pstmt = null;
 		}	//	close
