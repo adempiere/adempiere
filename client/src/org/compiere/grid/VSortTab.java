@@ -16,30 +16,64 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.AWTEvent;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.logging.Level;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 
-import org.compiere.apps.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.APanel;
 import org.compiere.model.MRole;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.NamePair;
 
 /**
  *	Tab to maintain Order/Sequence
  *
  * 	@author 	Jorg Janke
- *  @author 	Teo Sarca
  * 	@version 	$Id: VSortTab.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				FR [ 1779410 ] VSortTab: display ID for not visible columns
  */
 public class VSortTab extends CPanel implements APanelTab
 {
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 *	Tab Order Constructor
@@ -73,7 +107,7 @@ public class VSortTab extends CPanel implements APanelTab
 	private String		m_ColumnSortName= null;
 	private String		m_ColumnYesNoName = null;
 	private String		m_KeyColumnName = null;
-	private String		m_IdentifierColumnName = null;
+	private String		m_IdentifierSql = null;
 	private boolean		m_IdentifierTranslated = false;
 
 	private String		m_ParentColumnName = null;
@@ -90,8 +124,9 @@ public class VSortTab extends CPanel implements APanelTab
 	//
 	DefaultListModel noModel = new DefaultListModel()
 	{
-		public void addElement(Object obj)
-		{
+		private static final long serialVersionUID = 1L;
+		@Override
+		public void addElement(Object obj) {
 			Object[] elements = toArray();
 			Arrays.sort(elements);
 			int index = Arrays.binarySearch(elements, obj);
@@ -102,14 +137,14 @@ public class VSortTab extends CPanel implements APanelTab
 			else
 				super.add(index, obj);
 		}
-
-		public void add(int index, Object obj)
-		{
+		@Override
+		public void add(int index, Object obj) {
 			addElement(obj);
 		}
 	};
 	DefaultListModel yesModel = new DefaultListModel();
 	DefaultListCellRenderer listRenderer = new DefaultListCellRenderer() {
+		private static final long serialVersionUID = 1L;
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -136,6 +171,8 @@ public class VSortTab extends CPanel implements APanelTab
 	private void dynInit (int AD_Table_ID, int AD_ColumnSortOrder_ID, int AD_ColumnSortYesNo_ID)
 	{
 		m_AD_Table_ID = AD_Table_ID;
+		int identifiersCount = 0;
+		StringBuffer identifierSql = new StringBuffer();
 		String sql = "SELECT t.TableName, c.AD_Column_ID, c.ColumnName, e.Name,"	//	1..4
 			+ "c.IsParent, c.IsKey, c.IsIdentifier, c.IsTranslated "				//	4..8
 			+ "FROM AD_Table t, AD_Column c, AD_Element e "
@@ -155,15 +192,18 @@ public class VSortTab extends CPanel implements APanelTab
 				+ "	OR c.IsParent='Y' OR c.IsKey='Y' OR c.IsIdentifier='Y')"
 				+ " AND c.AD_Element_ID=et.AD_Element_ID"
 				+ " AND et.AD_Language=?";						//	#4
+		sql += " ORDER BY c.SeqNo";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
 			pstmt.setInt(2, AD_ColumnSortOrder_ID);
 			pstmt.setInt(3, AD_ColumnSortYesNo_ID);
 			if (trl)
 				pstmt.setString(4, Env.getAD_Language(Env.getCtx()));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				m_TableName = rs.getString(1);
@@ -196,20 +236,36 @@ public class VSortTab extends CPanel implements APanelTab
 				else if (rs.getString(7).equals("Y"))
 				{
 					log.fine("Identifier=" + rs.getString(1) + "." + rs.getString(3));
-					m_IdentifierColumnName = rs.getString(3);
-					if (trl)
-						m_IdentifierTranslated = "Y".equals(rs.getString(8));
+					boolean isTranslated = trl && "Y".equals(rs.getString(8));
+					if (identifierSql.length() > 0)
+						identifierSql.append(",");
+					identifierSql.append(isTranslated ? "tt." : "t.").append(rs.getString(3));
+					identifiersCount++;
+//					m_IdentifierColumnName = rs.getString(3);
+					if (isTranslated)
+						m_IdentifierTranslated = true;
 				}
 				else
 					log.fine("??NotUsed??=" + rs.getString(1) + "." + rs.getString(3));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//
+		if (identifiersCount == 0)
+			m_IdentifierSql = "NULL";
+		else if (identifiersCount == 1)
+			m_IdentifierSql = identifierSql.toString();
+		else 
+			m_IdentifierSql = identifierSql.insert(0, "COALESCE(").append(")").toString();
+		//
 		noLabel.setText(Msg.getMsg(Env.getCtx(), "Available"));
 		log.fine(m_ColumnSortName);
 	}	//	dynInit
@@ -341,8 +397,7 @@ public class VSortTab extends CPanel implements APanelTab
 		StringBuffer sql = new StringBuffer();
 		//	Columns
 		sql.append("SELECT t.").append(m_KeyColumnName)				//	1
-		.append(m_IdentifierTranslated ? ",tt." : ",t.")
-		.append(m_IdentifierColumnName)						//	2
+		.append(",").append(m_IdentifierSql)						//	2
 		.append(",t.").append(m_ColumnSortName)				//	3
 		.append(", t.AD_Client_ID, t.AD_Org_ID");		// 4, 5
 		if (m_ColumnYesNoName != null)
@@ -363,13 +418,15 @@ public class VSortTab extends CPanel implements APanelTab
 		sql.append("3,2");				//	t.SeqNo, tt.Name 
 		int ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, m_ParentColumnName);
 		log.fine(sql.toString() + " - ID=" + ID);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, ID);
 			if (m_IdentifierTranslated)
 				pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int key = rs.getInt(1);
@@ -392,12 +449,15 @@ public class VSortTab extends CPanel implements APanelTab
 					isReadWrite = false;
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		setIsChanged(false);
@@ -617,6 +677,8 @@ public class VSortTab extends CPanel implements APanelTab
 	 * @author Teo Sarca
 	 */
 	private class ListItem extends NamePair {
+		private static final long serialVersionUID = 1L;
+		
 		private int		m_key;
 		private int		m_AD_Client_ID;
 		private int		m_AD_Org_ID;
@@ -682,6 +744,13 @@ public class VSortTab extends CPanel implements APanelTab
 			}
 			return false;
 		}	//	equals
+		@Override
+		public String toString() {
+			String s = super.toString();
+			if (s == null || s.trim().length() == 0)
+				s = "<" + getKey() + ">";
+			return s;
+		}
 	}
 
 	/**
