@@ -16,17 +16,34 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.Cursor;
+import java.awt.Event;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.KeyStroke;
+
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AGlassPane;
+import org.compiere.apps.AMenu;
+import org.compiere.apps.Help;
+import org.compiere.apps.WindowMenu;
+import org.compiere.model.MRole;
+import org.compiere.model.MUser;
+import org.compiere.swing.CFrame;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Trace;
 
 /**
  *	Form Framework
@@ -224,10 +241,11 @@ public class FormFrame extends CFrame
 				+ "FROM AD_Form f INNER JOIN AD_Form_Trl t"
 				+ " ON (f.AD_Form_ID=t.AD_Form_ID AND AD_Language=?)"
 				+ "WHERE f.AD_Form_ID=?";
-
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement (sql, null);
+			pstmt = DB.prepareStatement (sql, null);
 			if (trl)
 			{
 				pstmt.setString(1, Env.getAD_Language(ctx));
@@ -235,7 +253,7 @@ public class FormFrame extends CFrame
 			}
 			else
 				pstmt.setInt(1, AD_Form_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				name = rs.getString(1);
@@ -243,12 +261,15 @@ public class FormFrame extends CFrame
 				className = rs.getString(3);
 				m_Help = rs.getString(4);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (className == null)
 			return false;
