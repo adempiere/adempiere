@@ -134,9 +134,11 @@ public class MAccount extends X_C_ValidCombination
 			sql.append(" AND UserElement2_ID=?");
 		sql.append(" AND IsActive='Y'");
 	//	sql.append(" ORDER BY IsFullyQualified DESC");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			//  --  Mandatory Accounting fields
 			int index = 1;
 			pstmt.setInt(index++, AD_Client_ID);
@@ -179,15 +181,17 @@ public class MAccount extends X_C_ValidCombination
 			if (UserElement2_ID != 0)
 				pstmt.setInt(index++, UserElement2_ID);
 			//
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				existingAccount = new MAccount (ctx, rs, null);
-			rs.close();
-			pstmt.close();
 		}
 		catch(SQLException e)
 		{
 			s_log.log(Level.SEVERE, info + "\n" + sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 		//	Existing
 		if (existingAccount != null)
