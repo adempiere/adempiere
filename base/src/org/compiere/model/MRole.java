@@ -681,35 +681,27 @@ public final class MRole extends X_AD_Role
 	private void loadOrgAccessUser(ArrayList<OrgAccess> list)
 	{
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_User_OrgAccess "
 			+ "WHERE AD_User_ID=? AND IsActive='Y'";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_User_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				MUserOrgAccess oa = new MUserOrgAccess(getCtx(), rs, get_TrxName()); 
 				loadOrgAccessAdd (list, new OrgAccess(oa.getAD_Client_ID(), oa.getAD_Org_ID(), oa.isReadOnly()));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 	}	//	loadOrgAccessRole
 
@@ -720,35 +712,27 @@ public final class MRole extends X_AD_Role
 	private void loadOrgAccessRole(ArrayList<OrgAccess> list)
 	{
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_Role_OrgAccess "
 			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Role_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				MRoleOrgAccess oa = new MRoleOrgAccess(getCtx(), rs, get_TrxName()); 
 				loadOrgAccessAdd (list, new OrgAccess(oa.getAD_Client_ID(), oa.getAD_Org_ID(), oa.isReadOnly()));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 	}	//	loadOrgAccessRole
 	
@@ -812,32 +796,24 @@ public final class MRole extends X_AD_Role
 			return;
 		ArrayList<MTableAccess> list = new ArrayList<MTableAccess>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_Table_Access "
 			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Role_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MTableAccess(getCtx(), rs, get_TrxName())); 
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		m_tableAccess = new MTableAccess[list.size()];
 		list.toArray(m_tableAccess); 
@@ -857,13 +833,14 @@ public final class MRole extends X_AD_Role
 		m_viewName = new HashSet<String>(300);
 		m_tableIdName = new HashMap<String,String>(300);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT AD_Table_ID, AccessLevel, TableName, IsView, "
 			+ "(SELECT ColumnName FROM AD_COLUMN WHERE AD_COLUMN.AD_TABLE_ID = AD_TABLE.AD_TABLE_ID AND AD_COLUMN.COLUMNNAME = AD_TABLE.TABLENAME || '_ID') "
 			+ "FROM AD_Table WHERE IsActive='Y'";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Integer ii = new Integer(rs.getInt(1));
@@ -881,23 +858,14 @@ public final class MRole extends X_AD_Role
 					m_tableIdName.put(tableName.toUpperCase(), idColumn);
 				}
 			} 
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		log.fine("#" + m_tableAccessLevel.size()); 
 	}	//	loadTableAccessLevel
@@ -929,32 +897,24 @@ public final class MRole extends X_AD_Role
 			return;
 		ArrayList<MColumnAccess> list = new ArrayList<MColumnAccess>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_Column_Access "
 			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Role_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MColumnAccess(getCtx(), rs, get_TrxName())); 
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		m_columnAccess = new MColumnAccess[list.size()];
 		list.toArray(m_columnAccess); 
@@ -972,13 +932,14 @@ public final class MRole extends X_AD_Role
 		ArrayList<MRecordAccess> list = new ArrayList<MRecordAccess>();
 		ArrayList<MRecordAccess> dependent = new ArrayList<MRecordAccess>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_Record_Access "
 			+ "WHERE AD_Role_ID=? AND IsActive='Y' ORDER BY AD_Table_ID";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Role_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				MRecordAccess ra = new MRecordAccess(getCtx(), rs, get_TrxName());
@@ -986,23 +947,14 @@ public final class MRole extends X_AD_Role
 				if (ra.isDependentEntities())
 					dependent.add(ra);
 			} 
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
 		}
 		m_recordAccess = new MRecordAccess[list.size()];
 		list.toArray(m_recordAccess);
@@ -1506,30 +1458,22 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.ASP_Status = 'H')"; // Hide
 			String sql = "SELECT AD_Window_ID, IsReadWrite FROM AD_Window_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getAD_Role_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 					m_windowAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
 			}
 			log.fine("#" + m_windowAccess.size());
 		}	//	reload
@@ -1585,30 +1529,22 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.ASP_Status = 'H')"; // Hide
 			String sql = "SELECT AD_Process_ID, IsReadWrite FROM AD_Process_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getAD_Role_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 					m_processAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
 			}
 		}	//	reload
 		return (Boolean)m_processAccess.get(new Integer(AD_Process_ID));
@@ -1658,30 +1594,22 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.ASP_Status = 'H')"; // Hide
 			String sql = "SELECT AD_Task_ID, IsReadWrite FROM AD_Task_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getAD_Role_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 					m_taskAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
 			}
 		}	//	reload
 		return (Boolean)m_taskAccess.get(new Integer(AD_Task_ID));
@@ -1732,30 +1660,22 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.ASP_Status = 'H')"; // Hide
 			String sql = "SELECT AD_Form_ID, IsReadWrite FROM AD_Form_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getAD_Role_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 					m_formAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
 			}
 		}	//	reload
 		return (Boolean)m_formAccess.get(new Integer(AD_Form_ID));
@@ -1805,30 +1725,22 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.ASP_Status = 'H')"; // Hide
 			String sql = "SELECT AD_Workflow_ID, IsReadWrite FROM AD_Workflow_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getAD_Role_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 					m_workflowAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
 			}
 		}	//	reload
 		return (Boolean)m_workflowAccess.get(new Integer(AD_Workflow_ID));
