@@ -297,7 +297,7 @@ public class ImportProduct extends SvrProcess
 		//	Verify ProductType
 		sql = new StringBuffer ("UPDATE I_Product "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid ProductType,' "
-			+ "WHERE ProductType NOT IN ('I','S')"
+			+ "WHERE ProductType NOT IN ('E','I','R','S')"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
