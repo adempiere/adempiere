@@ -46,6 +46,7 @@ import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
+import org.compiere.model.MUserRoles;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
@@ -349,6 +350,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	public PO getPO (Trx trx)
 	{
 		if (m_po != null) {
+			if (trx != null)
+				m_po.set_TrxName(trx.getTrxName());
 			return m_po;
 		}
 		
@@ -851,7 +854,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			if (m_po == null)
 				throw new Exception("Persistent Object not found - AD_Table_ID=" 
 					+ getAD_Table_ID() + ", Record_ID=" + getRecord_ID());
-			m_po.set_TrxName(trx.getTrxName());
 			boolean success = false;
 			String processMsg = null;
 			DocAction doc = null;
@@ -1026,9 +1028,27 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				else	//	fixed Approver
 				{
 					MWFResponsible resp = getResponsible();
-					autoApproval = resp.getAD_User_ID() == getAD_User_ID();
-					if (!autoApproval && resp.getAD_User_ID() != 0)
-						setAD_User_ID(resp.getAD_User_ID());
+					// MZ Goodwill
+					// [ 1742751 ] Workflow: User Choice is not working
+					if (resp.isHuman())
+					{
+						autoApproval = resp.getAD_User_ID() == m_process.getAD_User_ID();
+						if (!autoApproval && resp.getAD_User_ID() != 0)
+							setAD_User_ID(resp.getAD_User_ID());
+					}
+					else if(resp.isRole())
+					{
+						MUserRoles[] urs = MUserRoles.getOfRole(getCtx(), resp.getAD_Role_ID());
+						for (int i = 0; i < urs.length; i++)
+						{
+							if(urs[i].getAD_User_ID() == m_process.getAD_User_ID())
+							{
+								autoApproval = true;
+								break;
+							}
+						}
+					}
+					// end MZ
 				}
 				if (autoApproval
 					&& doc.processIt(DocAction.ACTION_Approve)
