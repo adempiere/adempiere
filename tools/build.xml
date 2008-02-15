@@ -256,6 +256,10 @@
       <zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar" >
     		<patternset refid="manifest.exclude"/>
       </zipfileset>
+      <!-- POI -->
+      <zipfileset src="lib/poi-2.0-final-20040126.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset>
       <manifest>
 		<attribute name="Specification-Title" value="Adempiere Server Tools"/>
 		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
@@ -373,6 +377,10 @@
 			<patternset refid="manifest.exclude"/>
       </zipfileset>
       <zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- POI -->
+      <zipfileset src="lib/poi-2.0-final-20040126.jar" >
     		<patternset refid="manifest.exclude"/>
       </zipfileset>
       <manifest>

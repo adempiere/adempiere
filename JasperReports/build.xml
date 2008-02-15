@@ -152,9 +152,6 @@
   	  <zipfileset src="../tools/lib/xml-apis.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-  	  <zipfileset src="../JasperReportsTools/lib/poi-2.0-final-20040126.jar" >
-		<patternset refid="manifest.exclude"/>
-	  </zipfileset>
       <manifest>
 	<attribute name="Specification-Title" value="Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter"/>
 	<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
