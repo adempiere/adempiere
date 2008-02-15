@@ -14,7 +14,6 @@
 
 @SET ANT_OPTS=-Xms128m -Xmx512m
 
-echo %ANT_CLASSPATH%
 @echo Cleanup ...
 @"%JAVA_HOME%\bin\java" %ANT_OPTS% -classpath "%ANT_CLASSPATH%" -Dant.home="." org.apache.tools.ant.Main clean
 
