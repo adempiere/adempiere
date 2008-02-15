@@ -29,6 +29,7 @@ import org.compiere.util.*;
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1779438 ] Minor auto period control bug
+ * 				<li>BF [ 1893486 ] Auto Period Control return that period is always open
  */
 public class MPeriod extends X_C_Period
 {
@@ -148,7 +149,7 @@ public class MPeriod extends X_C_Period
 			s_log.warning("No Period for " + DateAcct + " (" + DocBaseType + ")");
 			return false;
 		}
-		boolean open = period.isOpen(DocBaseType);
+		boolean open = period.isOpen(DocBaseType, DateAcct);
 		if (!open)
 			s_log.warning(period.getName()
 				+ ": Not open for " + DocBaseType + " (" + DateAcct + ")");
@@ -340,11 +341,27 @@ public class MPeriod extends X_C_Period
 	}	//	isInPeriod
 	
 	/**
-	 * 	Is Period Open for Doc Base Type
-	 *	@param DocBaseType document base type
-	 *	@return true if open
+	 * Is Period Open for Doc Base Type
+	 * @param DocBaseType document base type
+	 * @return true if open
+	 * @deprecated since 3.3.1b; use {@link #isOpen(String, Timestamp)} instead
 	 */
 	public boolean isOpen (String DocBaseType)
+	{
+		return isOpen(DocBaseType, null);
+	}
+	
+	/**
+	 * Is Period Open for Doc Base Type
+	 * @param DocBaseType document base type
+	 * @param dateAcct date;
+	 * 			Applies only for "Auto Period Control":
+	 * 			<li>if not null, date should be in auto period range (today - OpenHistory, today+OpenHistory)
+	 * 			<li>if null, this period should be in auto period range
+	 * @return true if open
+	 * @since 3.3.1b
+	 */
+	public boolean isOpen (String DocBaseType, Timestamp dateAcct)
 	{
 		if (!isActive())
 		{
@@ -355,19 +372,27 @@ public class MPeriod extends X_C_Period
 		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
 		if (as != null && as.isAutoPeriodControl())
 		{
-		//	if (as.getC_Period_ID() == getC_Period_ID())
-		//		return true;
 			Timestamp today = TimeUtil.trunc(new Timestamp (System.currentTimeMillis()), TimeUtil.TRUNC_DAY);
 			Timestamp first = TimeUtil.addDays(today, - as.getPeriod_OpenHistory()); 
 			Timestamp last = TimeUtil.addDays(today, as.getPeriod_OpenFuture());
-			if (today.before(first))
+			Timestamp date1, date2;
+			if (dateAcct != null) {
+				date1 = TimeUtil.trunc(dateAcct, TimeUtil.TRUNC_DAY);
+				date2 = date1;
+			}
+			else {
+				date1 = getStartDate();
+				date2 = getEndDate();
+			}
+			//
+			if (date1.before(first))
 			{
-				log.warning ("Today before first day - " + first);
+				log.warning ("" + date1 + " before first day - " + first);
 				return false;
 			}
-			if (today.after(last))
+			if (date2.after(last))
 			{
-				log.warning ("Today after last day - " + first);
+				log.warning ("" + date2 + " after last day - " + first);
 				return false;
 			}
 			//	We are OK

@@ -428,7 +428,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 			m_processMsg = "@PeriodNotValid@";
 			return DocAction.STATUS_Invalid;
 		}
-		boolean open = period.isOpen(dt.getDocBaseType());
+		boolean open = period.isOpen(dt.getDocBaseType(), getDateAcct());
 		if (!open)
 		{
 			log.warning(period.getName()

@@ -98,7 +98,7 @@ public class Doc_Bank extends Doc
 			if (i == 0)
 				setDateAcct(line.getDateAcct());
 			MPeriod period = MPeriod.get(getCtx(), line.getDateAcct());
-			if (period != null && period.isOpen(DOCTYPE_BankStatement))
+			if (period != null && period.isOpen(DOCTYPE_BankStatement, line.getDateAcct()))
 				docLine.setC_Period_ID(period.getC_Period_ID());
 			//
 			list.add(docLine);
