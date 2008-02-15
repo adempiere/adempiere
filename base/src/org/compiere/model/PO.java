@@ -2174,8 +2174,15 @@ public abstract class PO
 			}
 			else if (value instanceof Timestamp)
 				sql.append(DB.TO_DATE((Timestamp)encrypt(i,value),p_info.getColumnDisplayType(i) == DisplayType.Date));
-			else
-				sql.append(encrypt(i,DB.TO_STRING(value.toString())));
+			else {
+				if (value.toString().length() == 0) {
+					// [ 1722057 ] Encrypted columns throw error if saved as null
+					// don't encrypt NULL
+					sql.append(DB.TO_STRING(value.toString()));
+				} else {
+					sql.append(encrypt(i,DB.TO_STRING(value.toString())));
+				}
+			}
 			
 			//	Change Log	- Only 
 			if (session != null
