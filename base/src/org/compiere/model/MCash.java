@@ -29,6 +29,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCash.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1831997 ] Cash journal allocation reversed
  */
 public class MCash extends X_C_Cash implements DocAction
 {
@@ -501,36 +504,22 @@ public class MCash extends X_C_Cash implements DocAction
 		//
 		log.info(toString());
 		
-		//	Allocation Header
-		MAllocationHdr alloc = new MAllocationHdr(getCtx(), false, 
-			getDateAcct(), getC_Currency_ID(),
-			Msg.translate(getCtx(), "C_Cash_ID") + ": " + getName(), get_TrxName());
-		alloc.setAD_Org_ID(getAD_Org_ID());
-		if (!alloc.save())
-		{
-			m_processMsg = "Could not create Allocation Hdr";
-			return DocAction.STATUS_Invalid;
-		}
-		//
 		MCashLine[] lines = getLines(false);
 		for (int i = 0; i < lines.length; i++)
 		{
 			MCashLine line = lines[i];
 			if (MCashLine.CASHTYPE_Invoice.equals(line.getCashType()))
 			{
-				boolean differentCurrency = getC_Currency_ID() != line.getC_Currency_ID();
-				MAllocationHdr hdr = alloc;
-				if (differentCurrency)
-				{
-					hdr = new MAllocationHdr(getCtx(), false, 
+				String name = Msg.translate(getCtx(), "C_Cash_ID") + ": " + getName()
+								+ " - " + Msg.translate(getCtx(), "Line") + " " + line.getLine();
+				MAllocationHdr hdr = new MAllocationHdr(getCtx(), false, 
 						getDateAcct(), line.getC_Currency_ID(),
-						Msg.translate(getCtx(), "C_Cash_ID") + ": " + getName(), get_TrxName());
-					hdr.setAD_Org_ID(getAD_Org_ID());
-					if (!hdr.save())
-					{
-						m_processMsg = "Could not create Allocation Hdr";
-						return DocAction.STATUS_Invalid;
-					}
+						name, get_TrxName());
+				hdr.setAD_Org_ID(getAD_Org_ID());
+				if (!hdr.save())
+				{
+					m_processMsg = "Could not create Allocation Hdr";
+					return DocAction.STATUS_Invalid;
 				}
 				//	Allocation Line
 				MAllocationLine aLine = new MAllocationLine (hdr, line.getAmount(),
@@ -542,11 +531,14 @@ public class MCash extends X_C_Cash implements DocAction
 					m_processMsg = "Could not create Allocation Line";
 					return DocAction.STATUS_Invalid;
 				}
-				if (differentCurrency)
-				{
-					//	Should start WF
-					hdr.processIt(DocAction.ACTION_Complete);
-					hdr.save();
+				//	Should start WF
+				if(!hdr.processIt(DocAction.ACTION_Complete)) {
+					m_processMsg = CLogger.retrieveErrorString("Could not process Allocation");
+					return DocAction.STATUS_Invalid;
+				}
+				if (!hdr.save()) {
+					m_processMsg = CLogger.retrieveErrorString("Could not save Allocation");
+					return DocAction.STATUS_Invalid;
 				}
 			}
 			else if (MCashLine.CASHTYPE_BankAccountTransfer.equals(line.getCashType()))
@@ -578,9 +570,6 @@ public class MCash extends X_C_Cash implements DocAction
 				}
 			}
 		}
-		//	Should start WF
-		alloc.processIt(DocAction.ACTION_Complete);
-		alloc.save();
 		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
