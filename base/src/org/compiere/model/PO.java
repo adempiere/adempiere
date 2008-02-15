@@ -1114,7 +1114,9 @@ public abstract class PO
 					|| colName.startsWith("Updated")
 					|| colName.equals("IsActive")
 					|| colName.equals("AD_Client_ID") 
-					|| colName.equals("AD_Org_ID"))
+					|| colName.equals("AD_Org_ID")
+					|| colName.equals("Processing")
+					)
 					;	//	ignore
 				else
 				{
@@ -1142,7 +1144,9 @@ public abstract class PO
 					|| colName.startsWith("Updated")
 					|| colName.equals("IsActive")
 					|| colName.equals("AD_Client_ID") 
-					|| colName.equals("AD_Org_ID"))
+					|| colName.equals("AD_Org_ID")
+					|| colName.equals("Processing")
+					)
 					;	//	ignore
 				else
 					to.m_newValues[i] = from.m_oldValues[i];
