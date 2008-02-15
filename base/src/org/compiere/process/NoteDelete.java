@@ -22,14 +22,20 @@ import java.util.logging.*;
 import org.compiere.util.*;
 
 /**
- *	Delere Notes (Notice)
+ *	Delete Notes (Notice)
  *	
  *  @author Jorg Janke
  *  @version $Id: NoteDelete.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  
+ *  CarlosRuiz - globalqss
+ *  [ 1639204 ] Delete Old Notes is deleting all notes
+ *  Add parameter KeepLogDays
  */
 public class NoteDelete extends SvrProcess
 {
 	private int		p_AD_User_ID = -1;
+	
+	private int		p_KeepLogDays = 0;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -44,13 +50,15 @@ public class NoteDelete extends SvrProcess
 				;
 			else if (name.equals("AD_User_ID"))
 				p_AD_User_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("KeepLogDays"))
+				p_KeepLogDays = ((BigDecimal)para[i].getParameter()).intValue();
 			else
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
 		}
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */
@@ -61,6 +69,8 @@ public class NoteDelete extends SvrProcess
 		String sql = "DELETE FROM AD_Note WHERE AD_Client_ID=" + getAD_Client_ID();
 		if (p_AD_User_ID > 0)
 			sql += " AND AD_User_ID=" + p_AD_User_ID;
+		if (p_KeepLogDays > 0)
+			sql += " AND (Created+" + p_KeepLogDays + ") < SysDate";
 		//
 		int no = DB.executeUpdate(sql, get_TrxName());
 		return "@Deleted@ = " + no;
