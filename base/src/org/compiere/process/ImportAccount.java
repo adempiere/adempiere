@@ -287,7 +287,7 @@ public class ImportAccount extends SvrProcess
 				}
 				else							//	Update existing
 				{
-					MElementValue ev = new MElementValue (getCtx(), C_ElementValue_ID, null);
+					MElementValue ev = new MElementValue (getCtx(), C_ElementValue_ID, get_TrxName());
 					if (ev.get_ID() != C_ElementValue_ID)
 					{
 						
@@ -474,7 +474,7 @@ public class ImportAccount extends SvrProcess
 	{
 		log.config("C_AcctSchema_ID=" + C_AcctSchema_ID);
 
-		MAcctSchema as = new MAcctSchema (getCtx(), C_AcctSchema_ID, null);
+		MAcctSchema as = new MAcctSchema (getCtx(), C_AcctSchema_ID, get_TrxName());
 		if (as.getAcctSchemaElement("AC").getC_Element_ID() != m_C_Element_ID)
 		{
 			log.log(Level.SEVERE, "C_Element_ID=" + m_C_Element_ID + " not in AcctSchema=" + as);
