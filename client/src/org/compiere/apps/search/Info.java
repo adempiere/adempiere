@@ -221,7 +221,7 @@ public abstract class Info extends CDialog
 	}   //  showAssignment
 
 	/** Window Width                */
-	static final int        INFO_WIDTH = 800;
+	protected static final int        INFO_WIDTH = 800;
 
 	
 	/**************************************************************************
@@ -451,7 +451,7 @@ public abstract class Info extends CDialog
 	/**************************************************************************
 	 *  Execute Query
 	 */
-	void executeQuery()
+	protected void executeQuery()
 	{
 		//  ignore when running
 		if (m_worker != null && m_worker.isAlive())
@@ -690,7 +690,7 @@ public abstract class Info extends CDialog
 	 *  @param AD_Window_ID window id
 	 *  @param zoomQuery zoom query
 	 */
-	void zoom (int AD_Window_ID, MQuery zoomQuery)
+	protected void zoom (int AD_Window_ID, MQuery zoomQuery)
 	{
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		final AWindow frame = new AWindow();
@@ -759,7 +759,7 @@ public abstract class Info extends CDialog
 	 *  Get Table name Synonym
 	 *  @return table name
 	 */
-	String getTableName()
+	protected String getTableName()
 	{
 		return p_tableName;
 	}   //  getTableName
@@ -768,7 +768,7 @@ public abstract class Info extends CDialog
 	 *  Get Key Column Name
 	 *  @return column name
 	 */
-	String getKeyColumn()
+	protected String getKeyColumn()
 	{
 		return p_keyColumn;
 	}   //  getKeyColumn
@@ -788,7 +788,7 @@ public abstract class Info extends CDialog
 	/**
 	 *  Enable OK, History, Zoom if row selected
 	 */
-	void enableButtons ()
+	protected void enableButtons ()
 	{
 		boolean enable = p_table.getSelectedRow() != -1;
 		confirmPanel.getOKButton().setEnabled(enable);
@@ -805,7 +805,7 @@ public abstract class Info extends CDialog
 	 *	To be overwritten by concrete classes
 	 *  @return WHERE clause
 	 */
-	abstract String getSQLWhere();
+	protected abstract String getSQLWhere();
 	
 	/**
 	 *  Set Parameters for Query
@@ -814,58 +814,58 @@ public abstract class Info extends CDialog
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	abstract void setParameters (PreparedStatement pstmt, boolean forCount) 
+	protected abstract void setParameters (PreparedStatement pstmt, boolean forCount) 
 		throws SQLException;
 
 	/**
 	 *  Reset Parameters
 	 *	To be overwritten by concrete classes
 	 */
-	void doReset()					{}
+	protected void doReset()					{}
 	/**
 	 *  Has Reset (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has reset (default false)
 	 */
-	boolean hasReset()				{return false;}
+	protected boolean hasReset()				{return false;}
 	/**
 	 *  History dialog
 	 *	To be overwritten by concrete classes
 	 */
-	void showHistory()					{}
+	protected void showHistory()					{}
 	/**
 	 *  Has History (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has history (default false)
 	 */
-	boolean hasHistory()				{return false;}
+	protected boolean hasHistory()				{return false;}
 	/**
 	 *  Customize dialog
 	 *	To be overwritten by concrete classes
 	 */
-	void customize()					{}
+	protected void customize()					{}
 	/**
 	 *  Has Customize (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has customize (default false)
 	 */
-	boolean hasCustomize()				{return false;}
+	protected boolean hasCustomize()				{return false;}
 	/**
 	 *  Zoom action
 	 *	To be overwritten by concrete classes
 	 */
-	void zoom()							{}
+	protected void zoom()							{}
 	/**
 	 *  Has Zoom (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has zoom (default false)
 	 */
-	boolean hasZoom()					{return false;}
+	protected boolean hasZoom()					{return false;}
 	/**
 	 *  Save Selection Details
 	 *	To be overwritten by concrete classes
 	 */
-	void saveSelectionDetail()          {}
+	protected void saveSelectionDetail()          {}
 
 	/**
 	 * 	Get Zoom Window

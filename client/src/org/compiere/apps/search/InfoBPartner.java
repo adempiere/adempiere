@@ -243,7 +243,7 @@ public class InfoBPartner extends Info
 	 *  Includes first AND
 	 *  @return WHERE clause
 	 */
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		ArrayList<String> list = new ArrayList<String>();
 		//	=> Value
@@ -311,7 +311,7 @@ public class InfoBPartner extends Info
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 		//	=> Value
@@ -408,7 +408,7 @@ public class InfoBPartner extends Info
 	/**************************************************************************
 	 *	Show History
 	 */
-	void showHistory()
+	protected void showHistory()
 	{
 		log.info("");
 		Integer C_BPartner_ID = getSelectedRowKey();
@@ -424,7 +424,7 @@ public class InfoBPartner extends Info
 	 *	Has History
 	 *  @return true
 	 */
-	boolean hasHistory()
+	protected boolean hasHistory()
 	{
 		return true;
 	}	//	hasHistory
@@ -432,7 +432,7 @@ public class InfoBPartner extends Info
 	/**
 	 *	Zoom
 	 */
-	void zoom()
+	protected void zoom()
 	{
 		log.info( "InfoBPartner.zoom");
 		Integer C_BPartner_ID = getSelectedRowKey();
@@ -451,7 +451,7 @@ public class InfoBPartner extends Info
 	 *	Has Zoom
 	 *  @return true
 	 */
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	}	//	hasZoom
@@ -459,7 +459,7 @@ public class InfoBPartner extends Info
 	/**
 	 *	Customize
 	 */
-	void customize()
+	protected void customize()
 	{
 		log.info( "InfoBPartner.customize");
 	}	//	customize
@@ -468,7 +468,7 @@ public class InfoBPartner extends Info
 	 *	Has Customize
 	 *  @return false
 	 */
-	boolean hasCustomize()
+	protected boolean hasCustomize()
 	{
 		return false;	//	for now
 	}	//	hasCustomize

@@ -24,11 +24,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.plaf.ColorUIResource;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 //
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.plaf.AdempiereTaskPaneUI;
@@ -38,10 +34,7 @@ import org.compiere.minigrid.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTaskPane;
-import org.jdesktop.swingx.JXTaskPaneContainer;
-import org.jdesktop.swingx.action.AbstractActionExt;
 
 
 /**
@@ -612,7 +605,7 @@ public final class InfoProduct extends Info implements ActionListener
 	 *  Includes first AND
 	 *  @return SQL WHERE clause
 	 */
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer where = new StringBuffer();
 		
@@ -666,7 +659,7 @@ public final class InfoProduct extends Info implements ActionListener
 	 *  @param forCount for counting records
 	 * @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 
@@ -796,7 +789,7 @@ public final class InfoProduct extends Info implements ActionListener
 	/**
 	 *  Enable PAttribute if row selected/changed
 	 */
-	void enableButtons ()
+	protected void enableButtons ()
 	{
 		m_M_AttributeSetInstance_ID = -1;
 		if (m_PAttributeButton != null)
@@ -833,7 +826,7 @@ public final class InfoProduct extends Info implements ActionListener
 	/**
 	 *	Show History
 	 */
-	void showHistory()
+	protected void showHistory()
 	{
 		log.info("");
 		Integer M_Product_ID = getSelectedRowKey();
@@ -856,7 +849,7 @@ public final class InfoProduct extends Info implements ActionListener
 	 *
 	 * @return true (has history)
 	 */
-	boolean hasHistory()
+	protected boolean hasHistory()
 	{
 		return true;
 	}	//	hasHistory
@@ -864,7 +857,7 @@ public final class InfoProduct extends Info implements ActionListener
 	/**
 	 *	Zoom
 	 */
-	void zoom()
+	protected void zoom()
 	{
 		log.info("");
 		Integer M_Product_ID = getSelectedRowKey();
@@ -883,7 +876,7 @@ public final class InfoProduct extends Info implements ActionListener
 	 *	Has Zoom
 	 *  @return (has zoom)
 	 */
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	}	//	hasZoom
@@ -891,7 +884,7 @@ public final class InfoProduct extends Info implements ActionListener
 	/**
 	 *	Customize
 	 */
-	void customize()
+	protected void customize()
 	{
 		log.info("");
 	}	//	customize
@@ -900,7 +893,7 @@ public final class InfoProduct extends Info implements ActionListener
 	 *	Has Customize
 	 *  @return false (no customize)
 	 */
-	boolean hasCustomize()
+	protected boolean hasCustomize()
 	{
 		return false;	//	for now
 	}	//	hasCustomize
@@ -908,7 +901,7 @@ public final class InfoProduct extends Info implements ActionListener
 	/**
 	 *	Save Selection Settings for PriceList
 	 */
-	void saveSelectionDetail()
+	protected void saveSelectionDetail()
 	{
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();

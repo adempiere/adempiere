@@ -199,7 +199,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *	To be overwritten by concrete classes
 	 *  @return WHERE clause
 	 */
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 		//
@@ -228,7 +228,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	void setParameters (PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters (PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 	}
 
@@ -236,7 +236,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *  History dialog
 	 *	To be overwritten by concrete classes
 	 */
-	void showHistory()
+	protected void showHistory()
 	{
 	}
 
@@ -245,7 +245,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has history (default false)
 	 */
-	boolean hasHistory()
+	protected boolean hasHistory()
 	{
 		return false;
 	}
@@ -254,7 +254,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *  Customize dialog
 	 *	To be overwritten by concrete classes
 	 */
-	void customize()
+	protected void customize()
 	{
 	}
 
@@ -263,7 +263,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has customize (default false)
 	 */
-	boolean hasCustomize()
+	protected boolean hasCustomize()
 	{
 		return false;
 	}
@@ -272,7 +272,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *  Zoom action
 	 *	To be overwritten by concrete classes
 	 */
-	void zoom()
+	protected void zoom()
 	{
 	}
 
@@ -281,7 +281,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has zoom (default false)
 	 */
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return false;
 	}
@@ -290,7 +290,7 @@ AND rt.C_UOM_ID=uom.C_UOM_ID
 	 *  Save Selection Details
 	 *	To be overwritten by concrete classes
 	 */
-	void saveSelectionDetail()
+	protected void saveSelectionDetail()
 	{
 	}
 

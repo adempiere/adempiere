@@ -237,7 +237,7 @@ public class InfoCashLine extends Info
 	 *  Includes first AND
 	 *  @return sql where clause
 	 */
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 		if (fName.getText().length() > 0)
@@ -294,7 +294,7 @@ public class InfoCashLine extends Info
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 		if (fName.getText().length() > 0)

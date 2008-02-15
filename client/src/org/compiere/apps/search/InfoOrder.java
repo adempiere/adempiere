@@ -219,7 +219,7 @@ public class InfoOrder extends Info
 	 *  Includes first AND
 	 *  @return sql
 	 */
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 		if (fDocumentNo.getText().length() > 0)
@@ -268,7 +268,7 @@ public class InfoOrder extends Info
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 		if (fDocumentNo.getText().length() > 0)
@@ -337,7 +337,7 @@ public class InfoOrder extends Info
 	/**
 	 *	Zoom
 	 */
-	void zoom()
+	protected void zoom()
 	{
 		log.info("");
 		Integer C_Order_ID = getSelectedRowKey();
@@ -354,7 +354,7 @@ public class InfoOrder extends Info
 	 *	Has Zoom
 	 *  @return true
 	 */
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	}	//	hasZoom

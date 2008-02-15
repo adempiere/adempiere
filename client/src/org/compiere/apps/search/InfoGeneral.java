@@ -359,7 +359,7 @@ public class InfoGeneral extends Info
 	 *  Includes first AND
 	 * 	@return where clause
 	 */
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 		addSQLWhere (sql, 0, textField1.getText().toUpperCase());
@@ -395,7 +395,7 @@ public class InfoGeneral extends Info
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 	}   //  setParameters
