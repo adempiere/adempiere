@@ -16,10 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 
 /**
  *  Calendar Period Model
@@ -64,7 +74,7 @@ public class MPeriod extends X_C_Period
 		if (DateAcct == null)
 			return null;
 		//	Search in Cache first
-		Iterator it = s_cache.values().iterator();
+		Iterator<MPeriod> it = s_cache.values().iterator();
 		while (it.hasNext())
 		{
 			MPeriod period = (MPeriod)it.next();
@@ -82,12 +92,14 @@ public class MPeriod extends X_C_Period
 					+ "(SELECT C_Calendar_ID FROM AD_ClientInfo WHERE AD_Client_ID=?))"
 			+ " AND ? BETWEEN TRUNC(StartDate) AND TRUNC(EndDate)"
 			+ " AND IsActive='Y' AND PeriodType='S'";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt (1, AD_Client_ID);
 			pstmt.setTimestamp (2, TimeUtil.getDay(DateAcct));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				MPeriod period = new MPeriod(ctx, rs, null);
@@ -96,13 +108,15 @@ public class MPeriod extends X_C_Period
 				if (period.isStandardPeriod())
 					retValue = period;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "DateAcct=" + DateAcct, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (retValue == null)
 			s_log.warning("No Standard Period for " + DateAcct 
@@ -177,20 +191,25 @@ public class MPeriod extends X_C_Period
 				+ "	AND ? BETWEEN StartDate AND EndDate)"
 			+ " AND IsActive='Y' AND PeriodType='S' "
 			+ "ORDER BY StartDate";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt (1, AD_Client_ID);
 			pstmt.setTimestamp (2, DateAcct);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())	//	first only
 				retValue = new MPeriod(ctx, rs, null);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	getFirstInYear
@@ -271,30 +290,23 @@ public class MPeriod extends X_C_Period
 		String sql = "SELECT * FROM C_PeriodControl "
 			+ "WHERE C_Period_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_Period_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MPeriodControl (getCtx(), rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		m_controls = new MPeriodControl[list.size ()];
