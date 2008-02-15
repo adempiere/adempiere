@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutPayment.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1803316 ] CalloutPayment: use C_Order.Bill_BPartner_ID
  */
 public class CalloutPayment extends CalloutEngine
 {
@@ -152,7 +155,9 @@ public class CalloutPayment extends CalloutEngine
 		if (ts == null)
 			ts = new Timestamp(System.currentTimeMillis());
 		//
-		String sql = "SELECT C_BPartner_ID,C_Currency_ID, GrandTotal "
+		String sql = "SELECT COALESCE(Bill_BPartner_ID, C_BPartner_ID) as C_BPartner_ID "
+							+", C_Currency_ID "
+							+", GrandTotal "
 			+ "FROM C_Order WHERE C_Order_ID=?"; 	// #1
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
