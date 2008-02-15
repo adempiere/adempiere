@@ -112,7 +112,7 @@ public class ImportProduct extends SvrProcess
 		//
 		sql = new StringBuffer ("UPDATE I_Product "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid BPartner,' "
-			+ "WHERE C_BPartner_ID IS NULL"
+			+ "WHERE C_BPartner_ID IS NULL AND BPartner_Value IS NOT NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
