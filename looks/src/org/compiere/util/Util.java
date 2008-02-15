@@ -209,7 +209,23 @@ public class Util
 	 */
 	public static boolean isEmpty (String str)
 	{
-		return (str == null || str.length() == 0);
+		return isEmpty(str, false);
+	}	//	isEmpty
+	
+	/**
+	 * Is String Empty
+	 * @param str string
+	 * @param trimWhitespaces trim whitespaces
+	 * @return true if >= 1 char
+	 */
+	public static boolean isEmpty (String str, boolean trimWhitespaces)
+	{
+		if (str == null)
+			return true;
+		if (trimWhitespaces)
+			return str.trim().length() == 0;
+		else
+			return str.length() == 0;
 	}	//	isEmpty
 	
 	/**************************************************************************
@@ -633,5 +649,29 @@ public class Util
 		aString.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, 2, 4);
 		getIterator (aString, new AttributedCharacterIterator.Attribute[] {TextAttribute.UNDERLINE});
 	}	//	main
+
+	/**
+	 * String diacritics from given string
+	 * @param s	original string
+	 * @return string without diacritics
+	 */
+	public static String stripDiacritics(String s) {
+		/* JAVA5 behaviour */
+		return s;
+		/* JAVA6 behaviour *
+		if (s == null) {
+			return s;
+		}
+		String normStr = java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD);
+		
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < normStr.length(); i++) {
+			char ch = normStr.charAt(i);
+			if (ch < 255)
+				sb.append(ch);
+		}
+		return sb.toString();
+		/* */
+	}
 
 }   //  Util

@@ -40,6 +40,7 @@ public class DefaultContextProvider implements ContextProvider {
 	}
 
 	public void showURL(String url) {
+		/* JAVA5 */
 		if (!Ini.isClient()) return;
 	//  OS command
 		String cmd = "rundll32 url.dll,FileProtocolHandler ";
@@ -77,7 +78,15 @@ public class DefaultContextProvider implements ContextProvider {
 				s_log.severe(execute + " - " + e);
 			}
 		}
-		
+		/* JAVA6 *
+		try {
+			java.net.URI uri = new java.net.URI(url);
+			java.awt.Desktop.getDesktop().browse(uri);
+		}
+		catch (Exception e) {
+			s_log.warning(e.getLocalizedMessage());
+		}
+		/**/
 	}
 
 }

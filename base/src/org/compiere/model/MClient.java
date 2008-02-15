@@ -513,7 +513,24 @@ public class MClient extends X_AD_Client
 	 *	@return true if sent
 	 */
 	public boolean sendEMail (int AD_User_ID, 
-		String subject, String message, File attachment)
+			String subject, String message, File attachment)
+	{
+		Collection<File> attachments = new ArrayList<File>();
+		if (attachment != null)
+			attachments.add(attachment);
+		return sendEMailAttachments(AD_User_ID, subject, message, attachments);
+	}
+	
+	/**
+	 * 	Send EMail from Request User - with trace
+	 *	@param AD_User_ID recipient
+	 *	@param subject subject
+	 *	@param message message
+	 *	@param attachment optional collection of attachments
+	 *	@return true if sent
+	 */
+	public boolean sendEMailAttachments (int AD_User_ID, 
+		String subject, String message, Collection<File> attachments)
 	{
 		MUser to = MUser.get(getCtx(), AD_User_ID);
 		String toEMail = to.getEMail(); 
@@ -525,8 +542,7 @@ public class MClient extends X_AD_Client
 		EMail email = createEMail(null, to, subject, message);
 		if (email == null)
 			return false;
-		if (attachment != null)
-			email.addAttachment(attachment);
+		email.addAttachments(attachments);
 		try
 		{
 			return sendEmailNow(null, to, email);

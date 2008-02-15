@@ -725,6 +725,19 @@ public final class EMail implements Serializable
 			m_attachments = new ArrayList<Object>();
 		m_attachments.add(file);
 	}	//	addAttachment
+	
+	/**
+	 * Add a collection of attachments
+	 * @param files collection of files
+	 */
+	public void addAttachments(Collection<File> files)
+	{
+		if (files == null || files.size() == 0)
+			return;
+		for (File f : files) {
+			addAttachment(f);
+		}
+	}
 
 	/**
 	 *	Add url based file Attachment

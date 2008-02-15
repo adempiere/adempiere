@@ -19,7 +19,9 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Properties;
+import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.compiere.util.DB;
@@ -29,6 +31,9 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: MAlert.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1894573 ] Alert Processor Improvements
  */
 public class MAlert extends X_AD_Alert
 {
@@ -194,6 +199,32 @@ public class MAlert extends X_AD_Alert
 		}
 		return -1;
 	}	//	getFirstAD_User_ID
+	
+	/**
+	 * @return unique list of recipient users
+	 */
+	public Collection<Integer> getRecipientUsers() {
+		MAlertRecipient[] recipients = getRecipients(false);
+		TreeSet<Integer> users = new TreeSet<Integer>();
+		for (int i = 0; i < recipients.length; i++)
+		{
+			MAlertRecipient recipient = recipients[i];
+			if (recipient.getAD_User_ID() >= 0)		//	System == 0
+				users.add(recipient.getAD_User_ID());
+			if (recipient.getAD_Role_ID() >= 0)		//	SystemAdministrator == 0
+			{
+				MUserRoles[] urs = MUserRoles.getOfRole(getCtx(), recipient.getAD_Role_ID());
+				for (int j = 0; j < urs.length; j++)
+				{
+					MUserRoles ur = urs[j];
+					if (!ur.isActive())
+						continue;
+					users.add(ur.getAD_User_ID());
+				}
+			}
+		}
+		return users;
+	}
 	
 	/**
 	 * 	String Representation

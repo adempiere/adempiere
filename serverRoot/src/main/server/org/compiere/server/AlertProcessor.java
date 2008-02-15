@@ -16,11 +16,32 @@
  *****************************************************************************/
 package org.compiere.server;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+
+import org.adempiere.impexp.ArrayExcelExporter;
+import org.compiere.Adempiere;
+import org.compiere.model.MAlert;
+import org.compiere.model.MAlertProcessor;
+import org.compiere.model.MAlertProcessorLog;
+import org.compiere.model.MAlertRule;
+import org.compiere.model.MClient;
+import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
+import org.compiere.model.MUser;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
+import org.compiere.util.ValueNamePair;
 
 
 /**
@@ -28,6 +49,9 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: AlertProcessor.java,v 1.4 2006/07/30 00:53:33 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1894573 ] Alert Processor Improvements
  */
 public class AlertProcessor extends AdempiereServer
 {
@@ -101,11 +125,12 @@ public class AlertProcessor extends AdempiereServer
 		//
 		boolean valid = true;
 		boolean processed = false;
+		ArrayList<File> attachments = new ArrayList<File>();
 		MAlertRule[] rules = alert.getRules(false);
 		for (int i = 0; i < rules.length; i++)
 		{
 			if (i > 0)
-				message.append(Env.NL).append("================================").append(Env.NL);
+				message.append(Env.NL);
 			String trxName = null;		//	assume r/o
 			
 			MAlertRule rule = rules[i];
@@ -147,7 +172,11 @@ public class AlertProcessor extends AdempiereServer
 			
 			try
 			{
-				String text = listSqlSelect(sql, trxName);
+				String text = null;
+				if (MSysConfig.getBooleanValue("ALERT_SEND_ATTACHMENT_AS_XLS", true, Env.getAD_Client_ID(getCtx())))
+					text = getExcelReport(rule, sql, trxName, attachments);
+				else
+					text = getPlainTextReport(rule, sql, trxName, attachments);
 				if (text != null && text.length() > 0)
 				{
 					message.append(text);
@@ -208,51 +237,120 @@ public class AlertProcessor extends AdempiereServer
 			return true;
 		}
 		
-		//	Send Message
-		int countMail = 0;
-		MAlertRecipient[] recipients = alert.getRecipients(false);
-		for (int i = 0; i < recipients.length; i++)
-		{
-			MAlertRecipient recipient = recipients[i];
-			if (recipient.getAD_User_ID() >= 0)		//	System == 0
-				if (m_client.sendEMail(recipient.getAD_User_ID(), 
-					alert.getAlertSubject(), message.toString(), null))
-					countMail++;
-			if (recipient.getAD_Role_ID() >= 0)		//	SystemAdministrator == 0
-			{
-				MUserRoles[] urs = MUserRoles.getOfRole(getCtx(), recipient.getAD_Role_ID());
-				for (int j = 0; j < urs.length; j++)
-				{
-					MUserRoles ur = urs[j];
-					if (!ur.isActive())
-						continue;
-					if (m_client.sendEMail (ur.getAD_User_ID(), 
-						alert.getAlertSubject(), message.toString(), null))
-						countMail++;
-				}
-			}
-		}
+		Collection<Integer> users = alert.getRecipientUsers();
+		int countMail = notifyUsers(users, alert.getAlertSubject(), message.toString(), attachments);
 		
 		m_summary.append(alert.getName()).append(" (EMails=").append(countMail).append(") - ");
 		return valid;
 	}	//	processAlert
 	
 	/**
-	 * 	List Sql Select
-	 *	@param sql sql select
-	 *	@param trxName transaction
-	 *	@return list of rows & values
-	 *	@throws Exception
+	 * Notify users
+	 * @param users AD_User_ID list
+	 * @param subject email subject
+	 * @param message email message
+	 * @param attachments 
+	 * @return how many email were sent
 	 */
-	private String listSqlSelect (String sql, String trxName) throws Exception
+	private int notifyUsers(Collection<Integer> users, String subject, String message, Collection<File> attachments)
 	{
-		StringBuffer result = new StringBuffer();
+		int countMail = 0;
+		for (int user_id : users) {
+			MUser user = MUser.get(getCtx(), user_id);
+			if (user.isNotificationEMail()) {
+				if (m_client.sendEMailAttachments (user_id, subject, message, attachments))
+				{
+					countMail++;
+				}
+			}
+			if (user.isNotificationNote()) {
+				// TODO: implement
+			}
+		}
+		return countMail;
+	}
+	
+	/**
+	 * Get Alert Data
+	 * @param sql
+	 * @param trxName
+	 * @return data
+	 * @throws Exception
+	 */
+	private ArrayList<ArrayList<Object>> getData (String sql, String trxName) throws Exception
+	{
+		ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		Exception error = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
+			ResultSetMetaData meta = rs.getMetaData();
+			boolean isFirstRow = true;
+			while (rs.next ())
+			{
+				ArrayList<Object> header = (isFirstRow ? new ArrayList<Object>() : null);
+				ArrayList<Object> row = new ArrayList<Object>();
+				for (int col = 1; col <= meta.getColumnCount(); col++)
+				{
+					if (isFirstRow) {
+						String columnName = meta.getColumnLabel(col);
+						header.add(columnName);
+					}
+					Object o = rs.getObject(col);
+					row.add(o);
+				}	//	for all columns
+				if (isFirstRow)
+					data.add(header);
+				data.add(row);
+				isFirstRow = false;
+			}
+		}
+		catch (Throwable e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			if (e instanceof Exception)
+				error = (Exception)e;
+			else
+				error = new Exception(e.getMessage(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		//	Error occured
+		if (error != null)
+			throw new Exception ("(" + sql + ") " + Env.NL 
+				+ error.getLocalizedMessage());
+		
+		return data;
+	}	//	getData
+	
+	/**
+	 * Get Plain Text Report (old functionality) 
+	 * @param rule (ignored)
+	 * @param sql sql select
+	 * @param trxName transaction
+	 * @param attachments (ignored)
+	 * @return list of rows & values
+	 * @throws Exception
+	 * @deprecated
+	 */
+	private String getPlainTextReport(MAlertRule rule, String sql, String trxName, Collection<File> attachments)
+	throws Exception
+	{
+		StringBuffer result = new StringBuffer();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Exception error = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			rs = pstmt.executeQuery ();
 			ResultSetMetaData meta = rs.getMetaData();
 			while (rs.next ())
 			{
@@ -266,9 +364,6 @@ public class AlertProcessor extends AdempiereServer
 			}
 			if (result.length() == 0)
 				log.fine("No rows selected");
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Throwable e)
 		{
@@ -280,7 +375,8 @@ public class AlertProcessor extends AdempiereServer
 		}
 		finally
 		{
-			DB.close(pstmt);
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		//	Error occured
@@ -289,9 +385,33 @@ public class AlertProcessor extends AdempiereServer
 				+ error.getLocalizedMessage());
 		
 		return result.toString();
-	}	//	listSqlSelect
-	
-	
+	}
+
+	/**
+	 * Get Excel Report
+	 * @param rule
+	 * @param sql
+	 * @param trxName
+	 * @param attachments
+	 * @return summary message to be added into mail content
+	 * @throws Exception
+	 */
+	private String getExcelReport(MAlertRule rule, String sql, String trxName, Collection<File> attachments)
+	throws Exception
+	{
+		ArrayList<ArrayList<Object>> data = getData(sql, trxName);
+		if (data.size() <= 1)
+			return null;
+		// File
+		String filePrefix = "Alert_"; // TODO: add AD_AlertRule.FileName (maybe)
+		File file = File.createTempFile(filePrefix, ".xls");
+		//
+		ArrayExcelExporter exporter = new ArrayExcelExporter(getCtx(), data);
+		exporter.export(file, null, false);
+		attachments.add(file);
+		String msg = rule.getName() + " (@SeeAttachment@ "+file.getName()+")"+Env.NL;
+		return Msg.parseTranslation(Env.getCtx(), msg);
+	}
 	
 	/**
 	 * 	Get Server Info
