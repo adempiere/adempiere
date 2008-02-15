@@ -530,6 +530,8 @@ public abstract class Convert
 		os.writeBytes(statement);
 		// close statement
 		os.writeBytes("\n;\n\n");
+		// flush stream - teo_sarca BF [ 1894474 ] 
+		os.flush();
 	}
 
 }   //  Convert
