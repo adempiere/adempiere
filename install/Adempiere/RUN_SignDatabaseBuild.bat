@@ -20,6 +20,6 @@ goto START
 @Echo =======================================
 @Echo Sign Database Build
 @Echo =======================================
-@SET CP=lib\CInstall.jar;lib\Adempiere.jar;lib\CCTools.jar;lib\oracle.jar;lib\fyracle.jar;lib\derby.jar;lib\jboss.jar;lib\postgresql.jar;
+@SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\fyracle.jar;%ADEMPIERE_HOME%\lib\derby.jar;%ADEMPIERE_HOME%\lib\jboss.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
 
 @"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.SignDatabaseBuild
