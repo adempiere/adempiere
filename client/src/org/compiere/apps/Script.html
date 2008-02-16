@@ -5,18 +5,65 @@
 <body>
 <!-- #BeginLibraryItem "/Library/Script.lbi" -->
 <h2>Adempiere Scripting Help</h2>
-<h3>Variables</h3>
-<p>The available variables are loaded from the environment. The variables starting 
-  with '_' are global variables. The color codes are:</p>
+<h3>Context Variables</h3>
+<p>Window context variables start with a W_ prefix.<br>
+Login context variables start with G_ prefix.</p>
+
+<h3>Event Variables</h3>
+<dl>
+<dt><h4>Callout:</h4></dt>
+<dd>
 <ul>
-  <li><font color="#FF9900">boolean (orange)</font></li>
-  <li><font color="#00FFFF">double (cyan)</font></li>
-  <li><font color="#0000FF"> int (blue)</font></li>
-  <li><font color="#FF00FF">Timestamp (magenta)</font></li>
-  <li><font color="#009900">String (green)</font></li>
-  <li><font color="#FF0000">Object (red)</font></li>
+  <li>A_WindowNo</li>
+  <li>A_Tab</li>
+  <li>A_Field</li>
+  <li>A_Value</li>
+  <li>A_OldValue</li>
+  <li>A_Ctx</li>
 </ul>
-<!-- #EndLibraryItem -->Please 
-check the updated online version on <a href="http://www.adempiere.org/technology/integration/scripting.html">http://www.adempiere.org/technology/integration/scripting.html</a> 
+</dd>
+<dt><h4>Process:</h4></dt>
+<dd>
+<ul>
+	<li>Process Parameters for the process start with P_ prefix, for example P_Name. If the parameter is a range then the 
+	parameters will be P_Name1 and P_Name2</li> 
+    <li>A_Ctx - the context</li>
+    <li>A_Trx - the transaction</li>
+    <li>A_TrxName</li>
+    <li>A_Record_ID</li>
+    <li>A_AD_Client_ID</li>
+    <li>A_AD_User_ID</li>
+    <li>A_AD_PInstance_ID</li>
+    <li>A_Table_ID</li>
+</ul> 
+</dd>
+<dt><h4>Login validator:</h4></dt>
+<dd>
+<ul>
+    <li>A_Ctx</li>
+    <li>A_AD_Client_ID</li>
+    <li>A_AD_Org_ID</li>
+    <li>A_AD_Role_ID</li>
+    <li>A_AD_User_ID</li>
+</ul>
+</dd>
+<dt><h4>Table and document model validator:</h4></dt>
+<dd>
+<ul>
+	<li>A_Ctx</li>
+    <li>A_PO</li>
+	<li>A_Type</li>
+	<li>A_Event</li>
+</ul> 
+</dd>
+</dl>
+
+Wiki Reference:
+<ul>
+<li><a href="http://www.adempiere.com/wiki/index.php/Script_Callout">Script Callout</a></li>
+<li><a href="http://www.adempiere.com/wiki/index.php/Script_Process">Script Process</a></li>
+<li><a href="http://www.adempiere.com/wiki/index.php/Script_ModelValidatorLogin">Script Login Validator</a></li>
+<li><a href="http://www.adempiere.com/wiki/index.php/Script_ModelValidator">Script Model Validatior</a></li>
+</ul>
 </body>
 </html>
