@@ -38,7 +38,7 @@ import org.compiere.interfaces.*;
  */
 public class CStatement implements Statement
 {
-	protected boolean useTransactionConnection = false;
+	protected Connection m_conn = null;
 	
 	private boolean close = false;
 
@@ -74,14 +74,14 @@ public class CStatement implements Statement
 				if (trx != null)
 				{
 					conn = trx.getConnection();
-					useTransactionConnection = true;
 				}
 				else
 				{
 					if (p_vo.getResultSetConcurrency() == ResultSet.CONCUR_UPDATABLE)
-						conn = DB.getConnectionRW ();
+						m_conn = DB.getConnectionRW ();
 					else
-						conn = DB.getConnectionRO();
+						m_conn = DB.getConnectionRO();
+					conn = m_conn;
 				}
 				if (conn == null)
 					throw new DBException("No Connection");
@@ -739,17 +739,24 @@ public class CStatement implements Statement
 	 */
 	public void close () throws SQLException
 	{
-        if (p_stmt != null)
-        {
-            Connection conn = p_stmt.getConnection();
-            p_stmt.close();
-            
-            if (!close && !useTransactionConnection)
-            {
-                conn.close();
-            }
-        }
-        close = true;
+		try {
+	        if (p_stmt != null)
+	        {
+	            p_stmt.close();            
+	        }
+		} finally {
+			if (m_conn != null)
+			{
+				try 
+				{
+					m_conn.close();
+				}
+				catch (Exception e)
+				{}
+			}
+			m_conn = null;
+			close = true;
+		}
 	}	//	close
 	
 	/**
@@ -871,12 +878,14 @@ public class CStatement implements Statement
        
     public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException{return null;}
 
-    /**
-     * 
-     * @return is using transaction connection
-     */
-	public boolean isUseTransactionConnection() {
-		return useTransactionConnection;
+	@Override
+	protected void finalize() throws Throwable 
+	{
+		//hengsin: not the best way but it help to reduce connection and statement leakage.
+		if (p_stmt != null && !close) 
+		{
+			this.close();
+		}
 	}
 
 }	//	CStatement

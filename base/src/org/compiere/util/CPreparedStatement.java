@@ -78,14 +78,14 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
 				if (trx != null)
 				{
 					conn = trx.getConnection();
-					useTransactionConnection = true;
 				}
 				else
 				{
 					if (p_vo.getResultSetConcurrency() == ResultSet.CONCUR_UPDATABLE)
-						conn = DB.getConnectionRW ();
+						m_conn = DB.getConnectionRW ();
 					else
-						conn = DB.getConnectionRO();
+						m_conn = DB.getConnectionRO();
+					conn = m_conn;
 				}
 				if (conn == null)
 					throw new DBException("No Connection");

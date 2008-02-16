@@ -570,7 +570,7 @@ public class DB_Oracle implements AdempiereDatabase
                 cpds.setMaxPoolSize(15);
                 cpds.setMaxIdleTimeExcessConnections(1200);
                 cpds.setMaxIdleTime(900);
-                m_maxbusyconnections = 12;
+                m_maxbusyconnections = 10;
             }
             else
             {
@@ -668,10 +668,12 @@ public class DB_Oracle implements AdempiereDatabase
         try
         {
         	if (conn != null) {
-	            int numConnections = m_ds.getNumBusyConnections();
-	            if(numConnections >= m_maxbusyconnections )
+        		int numConnections = m_ds.getNumBusyConnections();
+	            if(numConnections >= m_maxbusyconnections && m_maxbusyconnections > 0)
 	            {
 	                log.warning(getStatus());
+	                //hengsin: make a best effort to reclaim leak connection
+	                Runtime.getRuntime().runFinalization();
 	            }
         	}
         }

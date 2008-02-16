@@ -505,13 +505,24 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			getDataSource(connection);
 		//
 		Connection conn = m_ds.getConnection();
-		ComboPooledDataSource cpds = (ComboPooledDataSource)m_ds;
-		//System.out.println("Num Connections: " + cpds.getNumConnections() + ", Busy Connections: "
-			//	+ cpds.getNumBusyConnections());
-	//	Connection conn = getDriverConnection(connection);
-		//
-		conn.setAutoCommit(autoCommit);
-		conn.setTransactionIsolation(transactionIsolation);
+		if (conn != null) {
+			//
+			conn.setAutoCommit(autoCommit);
+			conn.setTransactionIsolation(transactionIsolation);
+			
+			try
+	        {
+                int numConnections = m_ds.getNumBusyConnections();
+	            if(numConnections >= m_maxbusyconnections && m_maxbusyconnections > 0)
+	            {
+	                log.warning(getStatus());
+	                //hengsin: make a best effort to reclaim leak connection
+	                Runtime.getRuntime().runFinalization();
+	            }
+	        }
+	        catch (Exception ex)
+	        {}
+		}
 		return conn;
 	}	//	getCachedConnection
 	
@@ -551,7 +562,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
                 cpds.setMaxPoolSize(15);
                 cpds.setMaxIdleTimeExcessConnections(1200);
                 cpds.setMaxIdleTime(900);
-                m_maxbusyconnections = 12;
+                m_maxbusyconnections = 10;
             }
             else
             {
