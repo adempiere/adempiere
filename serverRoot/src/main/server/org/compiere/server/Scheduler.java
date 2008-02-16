@@ -187,7 +187,7 @@ public class Scheduler extends AdempiereServer
 				if (email) 
 				{
 					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
-					client.sendEMail(from, user, process.getName(), pi.getSummary(), null);
+					client.sendEMail(from, user, process.getName(), pi.getSummary() + " " + pi.getLogInfo(), null);
 				}
 				if (notice) {
 					int AD_Message_ID = 442; //ProcessRunError
@@ -215,7 +215,7 @@ public class Scheduler extends AdempiereServer
 				if (email) 
 				{
 					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());					
-					client.sendEMail(from, user, process.getName(), pi.getSummary(), null);
+					client.sendEMail(from, user, process.getName(), pi.getSummary() + " " + pi.getLogInfo(), null);
 				}
 				if (notice) {
 					int AD_Message_ID = 441; //ProcessOK
