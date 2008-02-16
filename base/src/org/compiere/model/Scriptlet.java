@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.StringReader;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
@@ -143,6 +144,14 @@ public class Scriptlet
 		return null;
 	}   //  execute
 
+	public void validate() throws ParseException
+	{
+		Parser parser = new Parser(new StringReader(m_script));
+		 while( !parser.Line()/*eof*/ )
+		 {}
+		
+	}
+	
 	/**
 	 *  Set Environment for Interpreter
 	 *

@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="/tools/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/script-api.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/poi-2.0-final-20040126.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
