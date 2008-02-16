@@ -84,6 +84,28 @@ public class Help extends CDialog
 		}
 		AEnv.positionCenterWindow(frame, this);
 	}	//	Help
+	
+	/**
+	 *	Help System
+	 *
+	 * @param dialog Parent
+	 * @param title Window
+	 * @param url   URL to display
+	 */
+	public Help (JDialog dialog, String title, URL url)
+	{
+		super(dialog, title, false);
+		try
+		{
+			jbInit();
+			info.setPage(url);
+		}
+		catch(Exception ex)
+		{
+			log.log(Level.SEVERE, "", ex);
+		}
+		AEnv.positionCenterWindow(dialog, this);
+	}	//	Help
 
 	/**
 	 *	Help System
