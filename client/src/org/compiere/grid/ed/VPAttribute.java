@@ -33,6 +33,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: VPAttribute.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1895041 ] NPE when move product with attribute set
  */
 public class VPAttribute extends JComponent
 	implements VEditor, ActionListener
@@ -303,7 +306,8 @@ public class VPAttribute extends JComponent
 		m_button.setEnabled (false);
 		//
 		Integer oldValue = (Integer)getValue ();
-		int M_AttributeSetInstance_ID = oldValue == null ? 0 : oldValue.intValue ();
+		int oldValueInt = oldValue == null ? 0 : oldValue.intValue ();
+		int M_AttributeSetInstance_ID = oldValueInt;
 		int M_Product_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Product_ID");
 		int M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_ProductBOM_ID");
 
@@ -405,7 +409,7 @@ public class VPAttribute extends JComponent
 			{
 				log.log(Level.SEVERE, "", pve);
 			}
-			if (M_AttributeSetInstance_ID == oldValue && m_GridTab != null && m_GridField != null)
+			if (M_AttributeSetInstance_ID == oldValueInt && m_GridTab != null && m_GridField != null)
 			{
 				//  force Change - user does not realize that embedded object is already saved.
 				m_GridTab.processFieldChange(m_GridField); 
