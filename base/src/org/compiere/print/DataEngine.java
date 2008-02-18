@@ -16,11 +16,30 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.Clob;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
 
 /**
  * Data Engine.
@@ -88,11 +107,12 @@ public class DataEngine
 				+ " INNER JOIN AD_ReportView rv ON (t.AD_Table_ID=rv.AD_Table_ID) "
 				+ "WHERE rv.AD_ReportView_ID=?";	//	1
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{				
 				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, format.getAD_ReportView_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					tableName = rs.getString(2);  	//	TableName
@@ -102,7 +122,6 @@ public class DataEngine
 					if (!Util.isEmpty(whereClause))
 						query.addRestriction(whereClause);
 				}
-				rs.close();				
 			}
 			catch (SQLException e)
 			{
@@ -111,31 +130,13 @@ public class DataEngine
 			}
 			finally
 			{
-				DB.close(pstmt);
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		else
 		{
-			String sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";	//	#1
-			PreparedStatement pstmt = null;
-			try
-			{				
-				pstmt = DB.prepareStatement(sql.toString(), null);
-				pstmt.setInt(1, format.getAD_Table_ID());
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					tableName = rs.getString(1);		//  TableName
-				rs.close();				
-			}
-			catch (SQLException e1)
-			{
-				log.log(Level.SEVERE, sql, e1);
-				return null;
-			}
-			finally
-			{
-				DB.close(pstmt);
-			}
+			tableName = MTable.getTableName(ctx, format.getAD_Table_ID());
 		}
 		if (tableName == null)
 		{
@@ -525,7 +526,6 @@ public class DataEngine
 
 				columns.add(pdc);
 			}	//	for all Fields in Tab
-			rs.close();
 		}
 		catch (SQLException e)
 		{
@@ -668,11 +668,12 @@ public class DataEngine
 			+ "WHERE rt.AD_Reference_ID=?"			//	1
 			+ " AND rt.IsActive = 'Y' AND t.IsActive = 'Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setInt (1, AD_Reference_Value_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				tr.TableName = rs.getString(1);
@@ -681,7 +682,6 @@ public class DataEngine
 				tr.IsValueDisplayed = "Y".equals(rs.getString(4));
 				tr.IsTranslated = "Y".equals(rs.getString(5));
 			}
-			rs.close();
 		}
 		catch (SQLException ex)
 		{
@@ -689,7 +689,8 @@ public class DataEngine
 		}
 		finally
 		{
-			DB.close(pstmt);
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return tr;
 	}	//  getTableReference
@@ -711,10 +712,11 @@ public class DataEngine
 		int levelNo = 0;
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(pd.getSQL(), null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//	Row Loop
 			while (rs.next())
 			{
@@ -900,7 +902,6 @@ public class DataEngine
 				}	//	for all columns
 
 			}	//	for all rows
-			rs.close();
 		}
 		catch (SQLException e)
 		{
@@ -908,7 +909,8 @@ public class DataEngine
 		}
 		finally
 		{
-			DB.close(pstmt);
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//	--	we have all rows - finish
