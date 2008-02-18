@@ -975,46 +975,36 @@ public class GridController extends CPanel
 		}   //  all components
 
 		// hide empty field group based on the environment
-		Map<String, CollapsiblePanel> hiddensPanel = new HashMap<String, CollapsiblePanel>();
-		Set<CollapsiblePanel> visiblePanel = new HashSet<CollapsiblePanel>();
 		for (int i = 0; i < comps.length; i++) {
 			Component comp = comps[i];
 			
 			if (comp instanceof CollapsiblePanel) 
 			{
-				if (comp.getName() != null && !comp.getName().startsWith("IncludedTab#"))
-					hiddensPanel.put(comp.getName(), (CollapsiblePanel)comp);
-			}
-			else
-			{
-				String columnName = comp.getName();
-				if (columnName != null && columnName.length() > 0) {
-					GridField mField = m_mTab.getField(columnName);
-					if (mField != null) 
-					{
-						String fieldGroup = mField.getFieldGroup();
-						if (fieldGroup != null && fieldGroup.length() > 0)
+				if (comp.getName() == null || comp.getName().startsWith("IncludedTab#"))
+					continue;
+				else
+				{
+					boolean hasVisible = false;
+					Component[] childs = ((CollapsiblePanel)comp).getCollapsiblePane().getContentPane().getComponents();
+					for (int j = 0; j < childs.length; j++) {
+						if (childs[j].isVisible())
 						{
-							if (hiddensPanel.containsKey(fieldGroup) && !hiddens.contains(columnName))
+							String columnName = childs[j].getName();
+							if (columnName != null && columnName.length() > 0) 
 							{
-								visiblePanel.add((CollapsiblePanel)hiddensPanel.remove(fieldGroup));
+								GridField mField = m_mTab.getField(columnName);
+								if (mField != null) 
+								{
+									hasVisible = true;
+									break;
+								}
 							}
-						}								
+						}						
 					}
+					if (comp.isVisible() != hasVisible)
+						comp.setVisible(hasVisible);
 				}
 			}
-		}
-		
-		for (CollapsiblePanel panel : hiddensPanel.values()) 
-		{
-			if (panel.isVisible())
-				panel.setVisible(false);
-		}
-		
-		for (CollapsiblePanel panel : visiblePanel)
-		{
-			if (!panel.isVisible())
-				panel.setVisible(true);
 		}
 		
 		//
