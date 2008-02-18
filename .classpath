@@ -80,7 +80,7 @@
 	<classpathentry kind="lib" path="tools/lib/jython.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jython-engine.jar"/>
 	<classpathentry kind="lib" path="tools/lib/script-api.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/poi-2.0-final-20040126.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-2.0-final-20040126.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
 	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/junit.jar"/>
 	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/yuiextz.jar"/>
