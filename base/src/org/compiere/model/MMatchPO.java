@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Match PO Model.
@@ -50,31 +56,24 @@ public class MMatchPO extends X_M_MatchPO
 		String sql = "SELECT * FROM M_MatchPO WHERE C_OrderLine_ID=? AND C_InvoiceLine_ID=?";
 		ArrayList<MMatchPO> list = new ArrayList<MMatchPO>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_OrderLine_ID);
 			pstmt.setInt (2, C_InvoiceLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchPO (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchPO[] retValue = new MMatchPO[list.size()];
 		list.toArray (retValue);
@@ -99,30 +98,23 @@ public class MMatchPO extends X_M_MatchPO
 			+ "WHERE l.M_InOut_ID=?"; 
 		ArrayList<MMatchPO> list = new ArrayList<MMatchPO>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_InOut_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchPO (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchPO[] retValue = new MMatchPO[list.size()];
 		list.toArray (retValue);
@@ -147,30 +139,23 @@ public class MMatchPO extends X_M_MatchPO
 			+ "WHERE il.C_Invoice_ID=?";
 		ArrayList<MMatchPO> list = new ArrayList<MMatchPO>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_Invoice_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchPO (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchPO[] retValue = new MMatchPO[list.size()];
 		list.toArray (retValue);
@@ -193,30 +178,23 @@ public class MMatchPO extends X_M_MatchPO
 		String sql = "SELECT * FROM M_MatchPO WHERE C_OrderLine_ID=?";
 		ArrayList<MMatchPO> list = new ArrayList<MMatchPO>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_OrderLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchPO (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchPO[] retValue = new MMatchPO[list.size()];
 		list.toArray (retValue);
@@ -253,13 +231,13 @@ public class MMatchPO extends X_M_MatchPO
 		
 		MMatchPO retValue = null;
 		String sql = "SELECT * FROM M_MatchPO WHERE C_OrderLine_ID=?";
-		ArrayList list = new ArrayList();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_OrderLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MMatchPO mpo = new MMatchPO (ctx, rs, trxName);
@@ -303,23 +281,15 @@ public class MMatchPO extends X_M_MatchPO
 					break;
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		//	Create New
@@ -648,68 +618,27 @@ public class MMatchPO extends X_M_MatchPO
 	 */
 	private Timestamp getNewerDateAcct()
 	{
-		Timestamp orderDate = null;
 		Timestamp invoiceDate = null;
 		Timestamp shipDate = null;
 		
-		String sql = "SELECT i.DateAcct "
-			+ "FROM C_InvoiceLine il"
-			+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
-			+ "WHERE C_InvoiceLine_ID=?";
-		PreparedStatement pstmt = null;
 		if (getC_InvoiceLine_ID() != 0)
 		{
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt (1, getC_InvoiceLine_ID());
-				ResultSet rs = pstmt.executeQuery ();
-				if (rs.next ())
-					invoiceDate = rs.getTimestamp(1);
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
+			String sql = "SELECT i.DateAcct "
+				+ "FROM C_InvoiceLine il"
+				+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
+				+ "WHERE C_InvoiceLine_ID=?";
+			invoiceDate = DB.getSQLValueTS(null, sql, getC_InvoiceLine_ID());
 		}
 		//
-		sql = "SELECT io.DateAcct "
-			+ "FROM M_InOutLine iol"
-			+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
-			+ "WHERE iol.M_InOutLine_ID=?";
 		if (getM_InOutLine_ID() != 0)
 		{
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt (1, getM_InOutLine_ID());
-				ResultSet rs = pstmt.executeQuery ();
-				if (rs.next ())
-					shipDate = rs.getTimestamp(1);
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
+			String sql = "SELECT io.DateAcct "
+				+ "FROM M_InOutLine iol"
+				+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
+				+ "WHERE iol.M_InOutLine_ID=?";
+			shipDate = DB.getSQLValueTS(null, sql, getM_InOutLine_ID());
 		}
 		//
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-
 		//	Assuming that order date is always earlier
 		if (invoiceDate == null)
 			return shipDate;
@@ -818,13 +747,14 @@ public class MMatchPO extends X_M_MatchPO
 			+ " AND AD_Client_ID=?"
 			+ "ORDER BY C_OrderLine_ID, M_InOutLine_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int success = 0;
 		int errors = 0;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt(1, Env.getAD_Client_ID(ctx));
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MMatchPO po1 = new MMatchPO (ctx, rs, null);
@@ -860,23 +790,15 @@ public class MMatchPO extends X_M_MatchPO
 					}
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (errors == 0 && success == 0)
 			;
