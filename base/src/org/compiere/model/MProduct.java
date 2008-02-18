@@ -30,6 +30,7 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1885153 ] Refactor: getMMPolicy code
+ * 			<li>BF [ 1885414 ] ASI should be always mandatory if CostingLevel is Batch/Lot
  */
 public class MProduct extends X_M_Product
 {
@@ -748,4 +749,41 @@ public class MProduct extends X_M_Product
 		return MMPolicy;
 	}
 	
+	/**
+	 * Check if ASI is mandatory
+	 * @param isSOTrx is outgoing trx?
+	 * @return true if ASI is mandatory, false otherwise
+	 */
+	public boolean isASIMandatory(boolean isSOTrx) {
+		//
+		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
+		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
+		for (MAcctSchema as : mass) {
+			MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.getC_AcctSchema_ID(), get_TrxName());
+			String cl = pca.getCostingLevel();
+			if (cl == null)
+				cl = as.getCostingLevel();
+			if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(cl)) {
+				return true;
+			}
+		}
+		//
+		// Check Attribute Set settings
+		int M_AttributeSet_ID = getM_AttributeSet_ID();
+		if (M_AttributeSet_ID != 0)
+		{
+			MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
+			if (mas == null || !mas.isInstanceAttribute())
+				return false;
+			// Outgoing transaction
+			else if (isSOTrx)
+				return mas.isMandatory();
+			// Incoming transaction
+			else // isSOTrx == false
+				return mas.isMandatoryAlways();
+		}
+		//
+		// Default not mandatory
+		return false;
+	}
 }	//	MProduct

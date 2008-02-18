@@ -1096,21 +1096,11 @@ public class MInOut extends X_M_InOut implements DocAction
 			//
 			if (line.getM_AttributeSetInstance_ID() != 0)
 				continue;
-			if (product != null)
+			if (product != null && product.isASIMandatory(isSOTrx()))
 			{
-				int M_AttributeSet_ID = product.getM_AttributeSet_ID();
-				if (M_AttributeSet_ID != 0)
-				{
-					MAttributeSet mas = MAttributeSet.get(getCtx(), M_AttributeSet_ID);
-					if (mas != null 
-						&& ((isSOTrx() && mas.isMandatory())
-							|| (!isSOTrx() && mas.isMandatoryAlways())) )
-					{
-						m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
-							", @M_Product_ID@=" + product.getValue() + ")";
-						return DocAction.STATUS_Invalid;
-					}
-				}
+				m_processMsg = "@M_AttributeSet_ID@ @IsMandatory@ (@Line@ #" + lines[i].getLine() +
+								", @M_Product_ID@=" + product.getValue() + ")";
+				return DocAction.STATUS_Invalid;
 			}
 		}
 		setVolume(Volume);

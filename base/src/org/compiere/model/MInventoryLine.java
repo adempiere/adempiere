@@ -300,15 +300,10 @@ public class MInventoryLine extends X_M_InventoryLine
 			if (getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-				if (product.getM_AttributeSet_ID() != 0)
+				if (product != null && product.isASIMandatory(isSOTrx()))
 				{
-					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
-					if (mas.isInstanceAttribute() 
-						&& (mas.isMandatory() || mas.isMandatoryAlways()))
-					{
-						log.saveError("FillMandatory", Msg.getElement(getCtx(), "M_AttributeSetInstance_ID"));
-						return false;
-					}
+					log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
+					return false;
 				}
 			}	//	No ASI
 		}	//	new or manual
@@ -418,4 +413,38 @@ public class MInventoryLine extends X_M_InventoryLine
 		}
 	}	//	createMA
 	
+	/**
+	 * Is Internal Use Inventory
+	 * @return true if is internal use inventory
+	 */
+	public boolean isInternalUseInventory() {
+		/* TODO: need to add M_Inventory.IsInternalUseInventory flag
+			see FR [ 1879029 ] Added IsInternalUseInventory flag to M_Inventory table
+		MInventory parent = getParent();
+		return parent != null && parent.isInternalUseInventory();
+		*/
+		return getQtyInternalUse().signum() != 0;
+	}
+	
+	/**
+	 * Get Movement Qty (absolute value)
+	 * <li>negative value means outgoing trx
+	 * <li>positive value means incoming trx
+	 * @return movement qty
+	 */
+	public BigDecimal getMovementQty() {
+		if(isInternalUseInventory()) {
+			return getQtyInternalUse().negate();
+		}
+		else {
+			return getQtyCount().subtract(getQtyBook());
+		}
+	}
+	
+	/**
+	 * @return true if is an outgoing transaction
+	 */
+	public boolean isSOTrx() {
+		return getMovementQty().signum() < 0;
+	}
 }	//	MInventoryLine

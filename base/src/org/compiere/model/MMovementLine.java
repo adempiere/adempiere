@@ -177,23 +177,23 @@ public class MMovementLine extends X_M_MovementLine
 			setMovementQty(getMovementQty());
 		
 		//      Mandatory Instance
+		MProduct product = getProduct();
+		if (getM_AttributeSetInstance_ID() == 0) {
+			if (product != null && product.isASIMandatory(false)) {
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstance_ID));
+				return false;
+			}
+		}
 		if (getM_AttributeSetInstanceTo_ID() == 0)
 		{
 			if (getM_AttributeSetInstance_ID() != 0)        //      set to from
 				setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
 			else
 			{
-				MProduct product = getProduct();
-				if (product != null
-						&& product.getM_AttributeSet_ID() != 0)
+				if (product != null && product.isASIMandatory(true))
 				{
-					MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
-					if (mas.isInstanceAttribute()
-							&& (mas.isMandatory() || mas.isMandatoryAlways()))
-					{
-						log.saveError("FillMandatory", Msg.getElement(getCtx(), "M_AttributeSetInstanceTo_ID"));
-						return false;
-					}
+					log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
+					return false;
 				}
 			}
 		}       //      ASI
