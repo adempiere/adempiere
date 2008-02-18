@@ -16,25 +16,61 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.print.*;
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.print.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import javax.print.event.*;
-import javax.xml.transform.stream.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
+import java.awt.print.PrinterJob;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.net.URI;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.print.DocFlavor;
+import javax.print.StreamPrintService;
+import javax.print.StreamPrintServiceFactory;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.JobName;
+import javax.print.event.PrintServiceAttributeEvent;
+import javax.print.event.PrintServiceAttributeListener;
+import javax.xml.transform.stream.StreamResult;
+
+import org.adempiere.pdf.Document;
 import org.adempiere.print.export.PrintDataExcelExporter;
-import org.compiere.print.layout.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
-import org.adempiere.pdf.*;
+import org.apache.ecs.XhtmlDocument;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.th;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.MClient;
+import org.compiere.model.MQuery;
+import org.compiere.model.PrintInfo;
+import org.compiere.model.X_C_DunningRunEntry;
+import org.compiere.model.X_C_Invoice;
+import org.compiere.model.X_C_Order;
+import org.compiere.model.X_C_PaySelectionCheck;
+import org.compiere.model.X_C_Project;
+import org.compiere.model.X_C_RfQResponse;
+import org.compiere.model.X_M_InOut;
+import org.compiere.print.layout.LayoutEngine;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Language;
+import org.compiere.util.Util;
 
 /**
  *	Report Engine.
@@ -879,12 +915,14 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			+ " LEFT OUTER JOIN AD_PrintFormat pf ON (p.AD_ReportView_ID=pf.AD_ReportView_ID AND pf.AD_Client_ID IN (0,?)) "
 			+ "WHERE pi.AD_PInstance_ID=? "		//	#2
 			+ "ORDER BY pf.AD_Client_ID DESC, pf.IsDefault DESC";	//	own first
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
 			pstmt.setInt(2, pi.getAD_PInstance_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//	Just get first
 			if (rs.next())
 			{
@@ -899,12 +937,14 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				IsForm = "Y".equals(rs.getString(6));	//	required
 				Client_ID = rs.getInt(7);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e1)
 		{
 			log.log(Level.SEVERE, "(1) - " + sql, e1);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Nothing found
 		if (AD_ReportView_ID == 0)
@@ -918,9 +958,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ "WHERE pi.AD_PInstance_ID=?";
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, pi.getAD_PInstance_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					whereClause = "";
@@ -930,12 +970,14 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 					IsForm = "Y".equals(rs.getString(4));	//	required
 					Client_ID = AD_Client_ID;
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e1)
 			{
 				log.log(Level.SEVERE, "(2) - " + sql, e1);
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			if (AD_PrintFormat_ID == 0)
 			{
@@ -1131,11 +1173,13 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) "
 				+ "ORDER BY pf.AD_Org_ID DESC";
 		//
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, Record_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())	//	first record only
 			{
 				if (type == CHECK || type == DUNNING || type == REMITTANCE 
@@ -1171,12 +1215,14 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 					DocumentNo = rs.getString(11);
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "Record_ID=" + Record_ID + ", SQL=" + sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (AD_PrintFormat_ID == 0)
 		{
@@ -1226,20 +1272,24 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			+ "WHERE o.C_DocType_ID=dt.C_DocType_ID"
 			+ " AND o.C_Order_ID=?";
 		String DocSubTypeSO = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Order_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				DocSubTypeSO = rs.getString(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e1)
 		{
 			log.log(Level.SEVERE, "(1) - " + sql, e1);
 			return null;		//	error
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (DocSubTypeSO == null)
 			DocSubTypeSO = "";
@@ -1262,9 +1312,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " ORDER BY M_InOut_ID DESC";
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Order_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 			//	if (i == 1 && ADialog.ask(0, null, what[0] == INVOICE ? "PrintOnlyRecentInvoice?" : "PrintOnlyRecentShipment?")) break;
@@ -1272,14 +1322,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			}
 			else	//	No Document Found
 				what[0] = ORDER;
-
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e2)
 		{
 			log.log(Level.SEVERE, "(2) - " + sql, e2);
 			return null;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("Order => " + what[0] + " ID=" + what[1]);
 		return what;
