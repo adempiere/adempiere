@@ -36,6 +36,7 @@ import org.compiere.util.*;
  *  
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1895041 ] NPE when move product with attribute set
+ * 			<li>BF [ 1770177 ] Inventory Move Locator Error
  */
 public class VPAttribute extends JComponent
 	implements VEditor, ActionListener
@@ -351,6 +352,8 @@ public class VPAttribute extends JComponent
 			{
 				m_text.setText(vad.getM_AttributeSetInstanceName());
 				M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
+				if (m_GridTab != null)
+					m_GridTab.setValue("M_Locator_ID", vad.getM_Locator_ID());
 				changed = true;
 			}
 		}

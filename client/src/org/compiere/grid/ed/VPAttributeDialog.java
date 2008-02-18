@@ -739,6 +739,15 @@ public class VPAttributeDialog extends CDialog
 	{
 		return m_M_AttributeSetInstanceName;
 	}	//	getM_AttributeSetInstanceName
+	
+	/**
+	 * Get Locator ID
+	 * @return M_Locator_ID
+	 */
+	public int getM_Locator_ID()
+	{
+		return m_M_Locator_ID; 
+	}
 
 	/**
 	 * 	Value Changed
