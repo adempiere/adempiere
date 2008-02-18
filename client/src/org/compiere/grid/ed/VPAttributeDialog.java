@@ -16,19 +16,60 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.apps.search.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.apps.AWindow;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.search.PAttributeInstance;
+import org.compiere.model.MAttribute;
+import org.compiere.model.MAttributeInstance;
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MAttributeValue;
+import org.compiere.model.MDocType;
+import org.compiere.model.MLot;
+import org.compiere.model.MLotCtl;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MSerNoCtl;
+import org.compiere.model.X_M_MovementLine;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CEditor;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *  Product Attribute Set Product/Instance Dialog Editor.
@@ -524,33 +565,26 @@ public class VPAttributeDialog extends CDialog
 			+ "WHERE p.M_Product_ID=? AND w.M_Warehouse_ID"
 				+ (M_Locator_ID <= 0 ? "=?" : " IN (SELECT M_Warehouse_ID FROM M_Locator where M_Locator_ID=?)"); // teo_sarca [ 1564520 ]
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, M_Locator_ID <= 0 ? M_Warehouse_ID : M_Locator_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				title = rs.getString(1) + " - " + rs.getString(2);
 				M_Warehouse_ID = rs.getInt(3); // fetch the actual warehouse - teo_sarca [ 1564520 ]
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//		
 		PAttributeInstance pai = new PAttributeInstance(this, title, 
