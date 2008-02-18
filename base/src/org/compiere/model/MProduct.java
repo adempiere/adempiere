@@ -27,6 +27,9 @@ import org.compiere.util.*;
  *
  *	@author Jorg Janke
  *	@version $Id: MProduct.java,v 1.5 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1885153 ] Refactor: getMMPolicy code
  */
 public class MProduct extends X_M_Product
 {
@@ -732,4 +735,17 @@ public class MProduct extends X_M_Product
 		return instance;
 	}
 
+	/**
+	 * Gets Material Management Policy.
+	 * Tries: Product Category, Client (in this order) 
+	 * @return Material Management Policy
+	 */
+	public String getMMPolicy() {
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		String MMPolicy = pc.getMMPolicy();
+		if (MMPolicy == null || MMPolicy.length() == 0)
+			MMPolicy = MClient.get(getCtx()).getMMPolicy();
+		return MMPolicy;
+	}
+	
 }	//	MProduct

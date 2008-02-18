@@ -630,9 +630,6 @@ public class MInventory extends X_M_Inventory implements DocAction
 			log.config("Delete old #" + no);
 		MInventoryLine[] lines = getLines(false);
 		
-		//	Incoming Trx
-		MClient client = MClient.get(getCtx());
-		
 		//	Check Lines
 		for (int i = 0; i < lines.length; i++)
 		{
@@ -648,7 +645,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 					qtyDiff = line.getQtyCount().subtract(line.getQtyBook());
 				log.fine("Count=" + line.getQtyCount()
 					+ ",Book=" + line.getQtyBook() + ", Difference=" + qtyDiff); 
-				if (qtyDiff.signum() > 0)	//	In
+				if (qtyDiff.signum() > 0)	//	Incoming Trx
 				{
 					MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
 					asi.setClientOrg(getAD_Client_ID(), 0);
@@ -661,11 +658,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 				else	//	Outgoing Trx
 				{
-					MProductCategory pc = MProductCategory.get(getCtx(), product.getM_Product_Category_ID());
-					String MMPolicy = pc.getMMPolicy();
-					if (MMPolicy == null || MMPolicy.length() == 0)
-						MMPolicy = client.getMMPolicy();
-					//
+					String MMPolicy = product.getMMPolicy();
 					MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
 						line.getM_Product_ID(),	line.getM_Locator_ID(), 
 						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());

@@ -75,13 +75,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			MProduct product = oLines[i].getProduct();
 			if (product != null && product.get_ID() != 0 && product.isStocked())
 			{
-				MProductCategory pc = MProductCategory.get(order.getCtx(), product.getM_Product_Category_ID());
-				String MMPolicy = pc.getMMPolicy();
-				if (MMPolicy == null || MMPolicy.length() == 0)
-				{
-					MClient client = MClient.get(order.getCtx());
-					MMPolicy = client.getMMPolicy();
-				}
+				String MMPolicy = product.getMMPolicy();
 				storages = MStorage.getWarehouse (order.getCtx(), order.getM_Warehouse_ID(), 
 					oLines[i].getM_Product_ID(), oLines[i].getM_AttributeSetInstance_ID(), 
 					product.getM_AttributeSet_ID(),
@@ -1523,7 +1517,6 @@ public class MInOut extends X_M_InOut implements DocAction
 		//	Incoming Trx
 		String MovementType = getMovementType();
 		boolean inTrx = MovementType.charAt(1) == '+';	//	V+ Vendor Receipt
-		MClient client = MClient.get(getCtx());
 		
 		//	Check Lines
 		for (int i = 0; i < lines.length; i++)
@@ -1559,11 +1552,7 @@ public class MInOut extends X_M_InOut implements DocAction
 				}
 				else	//	Outgoing Trx
 				{
-					MProductCategory pc = MProductCategory.get(getCtx(), product.getM_Product_Category_ID());
-					String MMPolicy = pc.getMMPolicy();
-					if (MMPolicy == null || MMPolicy.length() == 0)
-						MMPolicy = client.getMMPolicy();
-					//
+					String MMPolicy = product.getMMPolicy();
 					MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
 						line.getM_Product_ID(),	line.getM_Locator_ID(), 
 						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());

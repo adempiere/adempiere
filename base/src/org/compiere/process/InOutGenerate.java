@@ -283,11 +283,7 @@ public class InOutGenerate extends SvrProcess
 					}
 
 					//	Stored Product
-					MProductCategory pc = MProductCategory.get(order.getCtx(), product.getM_Product_Category_ID());
-					String MMPolicy = pc.getMMPolicy();
-					if (MMPolicy == null || MMPolicy.length() == 0)
-						MMPolicy = client.getMMPolicy();
-					//
+					String MMPolicy = product.getMMPolicy();
 					MStorage[] storages = getStorages(line.getM_Warehouse_ID(), 
 						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
 						product.getM_AttributeSet_ID(),
@@ -371,11 +367,7 @@ public class InOutGenerate extends SvrProcess
 						MStorage[] storages = null;
 						if (product != null && product.isStocked())
 						{
-							MProductCategory pc = MProductCategory.get(order.getCtx(), product.getM_Product_Category_ID());
-							String MMPolicy = pc.getMMPolicy();
-							if (MMPolicy == null || MMPolicy.length() == 0)
-								MMPolicy = client.getMMPolicy();
-							//
+							String MMPolicy = product.getMMPolicy();
 							storages = getStorages(line.getM_Warehouse_ID(), 
 								line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
 								product.getM_AttributeSet_ID(),

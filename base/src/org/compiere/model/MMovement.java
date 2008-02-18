@@ -568,8 +568,6 @@ public class MMovement extends X_M_Movement implements DocAction
 			log.config("Delete old #" + no);
 		MMovementLine[] lines = getLines(false);
 		
-		MClient client = MClient.get(getCtx());
-		
 		//	Check Lines
 		for (int i = 0; i < lines.length; i++)
 		{
@@ -580,11 +578,7 @@ public class MMovement extends X_M_Movement implements DocAction
 			if (line.getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
-				MProductCategory pc = MProductCategory.get(getCtx(), product.getM_Product_Category_ID());
-				String MMPolicy = pc.getMMPolicy();
-				if (MMPolicy == null || MMPolicy.length() == 0)
-					MMPolicy = client.getMMPolicy();
-				//
+				String MMPolicy = product.getMMPolicy();
 				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
 					line.getM_Product_ID(),	line.getM_Locator_ID(), 
 					MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());

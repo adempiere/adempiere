@@ -322,7 +322,7 @@ public class ReplenishReport extends SvrProcess
 			ReplenishInterface custom = null;
 			try
 			{
-				Class clazz = Class.forName(className);
+				Class<?> clazz = Class.forName(className);
 				custom = (ReplenishInterface)clazz.newInstance();
 			}
 			catch (Exception e)
@@ -502,11 +502,7 @@ public class ReplenishReport extends SvrProcess
 			int M_LocatorTo_ID = wh.getDefaultLocator().getM_Locator_ID();
 			//	From: Look-up Storage
 			MProduct product = MProduct.get(getCtx(), replenish.getM_Product_ID());
-			MProductCategory pc = MProductCategory.get(getCtx(), product.getM_Product_Category_ID());
-			String MMPolicy = pc.getMMPolicy();
-			if (MMPolicy == null || MMPolicy.length() == 0)
-				MMPolicy = client.getMMPolicy();
-			//
+			String MMPolicy = product.getMMPolicy();
 			MStorage[] storages = MStorage.getWarehouse(getCtx(), 
 				whSource.getM_Warehouse_ID(), replenish.getM_Product_ID(), 0, 0,
 				true, null, 
