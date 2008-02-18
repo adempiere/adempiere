@@ -42,6 +42,7 @@ import org.compiere.util.TimeUtil;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1831997 ] Cash journal allocation reversed
+ * 			<li>BF [ 1894524 ] Pay an reversed invoice
  */
 public class MCash extends X_C_Cash implements DocAction
 {
@@ -499,6 +500,15 @@ public class MCash extends X_C_Cash implements DocAction
 			MCashLine line = lines[i];
 			if (MCashLine.CASHTYPE_Invoice.equals(line.getCashType()))
 			{
+				// Check if the invoice is completed - teo_sarca BF [ 1894524 ]
+				MInvoice invoice = line.getInvoice();
+				if (!MInvoice.DOCSTATUS_Completed.equals(invoice.getDocStatus())
+						&& !MInvoice.DOCSTATUS_Closed.equals(invoice.getDocStatus()))
+				{
+					m_processMsg = "@Line@ "+line.getLine()+": @InvoiceCreateDocNotCompleted@";
+					return DocAction.STATUS_Invalid;
+				}
+				//
 				String name = Msg.translate(getCtx(), "C_Cash_ID") + ": " + getName()
 								+ " - " + Msg.translate(getCtx(), "Line") + " " + line.getLine();
 				MAllocationHdr hdr = new MAllocationHdr(getCtx(), false, 
@@ -507,7 +517,7 @@ public class MCash extends X_C_Cash implements DocAction
 				hdr.setAD_Org_ID(getAD_Org_ID());
 				if (!hdr.save())
 				{
-					m_processMsg = "Could not create Allocation Hdr";
+					m_processMsg = CLogger.retrieveErrorString("Could not create Allocation Hdr");
 					return DocAction.STATUS_Invalid;
 				}
 				//	Allocation Line
@@ -517,7 +527,7 @@ public class MCash extends X_C_Cash implements DocAction
 				aLine.setC_CashLine_ID(line.getC_CashLine_ID());
 				if (!aLine.save())
 				{
-					m_processMsg = "Could not create Allocation Line";
+					m_processMsg = CLogger.retrieveErrorString("Could not create Allocation Line");
 					return DocAction.STATUS_Invalid;
 				}
 				//	Should start WF
@@ -554,7 +564,7 @@ public class MCash extends X_C_Cash implements DocAction
 				pay.setProcessed(true);		
 				if (!pay.save())
 				{
-					m_processMsg = "Could not create Payment";
+					m_processMsg = CLogger.retrieveErrorString("Could not create Payment");
 					return DocAction.STATUS_Invalid;
 				}
 			}
