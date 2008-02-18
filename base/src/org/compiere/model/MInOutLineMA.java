@@ -89,6 +89,19 @@ public class MInOutLineMA extends X_M_InOutLineMA
 		return DB.executeUpdate(sql, trxName);
 	}	//	deleteInOutMA
 	
+	/**
+	 * 	Delete all Material Allocation for InOutLine
+	 *	@param M_InOutLine_ID Shipment Line
+	 *	@param trxName transaction
+	 *	@return number of rows deleted or -1 for error
+	 */
+	public static int deleteInOutLineMA (int M_InOutLine_ID, String trxName)
+	{
+		String sql = "DELETE FROM M_InOutLineMA ma WHERE ma.M_InOutLine_ID=?";
+		return DB.executeUpdate(sql, M_InOutLine_ID, trxName);
+	}	//	deleteInOutLineMA
+		
+	
 	/**	Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MInOutLineMA.class);
 	

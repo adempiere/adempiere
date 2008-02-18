@@ -1108,7 +1108,6 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		if (!isReversal())	//	don't change reversal
 		{
-			checkMaterialPolicy();	//	set MASI
 			createConfirmation();
 		}
 
@@ -1224,6 +1223,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			
 			log.info("Line=" + sLine.getLine() + " - Qty=" + sLine.getMovementQty());
 
+			checkMaterialPolicy(sLine);
 			//	Stock Movement - Counterpart MOrder.reserveStock
 			if (product != null 
 				&& product.isStocked() )
@@ -1497,115 +1497,109 @@ public class MInOut extends X_M_InOut implements DocAction
 	 * 	Check Material Policy
 	 * 	Sets line ASI
 	 */
-	private void checkMaterialPolicy()
+	private void checkMaterialPolicy(MInOutLine line)
 	{
-		int no = MInOutLineMA.deleteInOutMA(getM_InOut_ID(), get_TrxName());
+		int no = MInOutLineMA.deleteInOutLineMA(line.getM_InOutLine_ID(), get_TrxName());
 		if (no > 0)
 			log.config("Delete old #" + no);
-		MInOutLine[] lines = getLines(false);
 		
 		//	Incoming Trx
 		String MovementType = getMovementType();
 		boolean inTrx = MovementType.charAt(1) == '+';	//	V+ Vendor Receipt
 		
-		//	Check Lines
-		for (int i = 0; i < lines.length; i++)
-		{
-			MInOutLine line = lines[i];
-			boolean needSave = false;
-			MProduct product = line.getProduct();
+		boolean needSave = false;
+		MProduct product = line.getProduct();
 
-			//	Need to have Location
-			if (product != null
-				&& line.getM_Locator_ID() == 0)
+		//	Need to have Location
+		if (product != null
+			&& line.getM_Locator_ID() == 0)
+		{
+			line.setM_Warehouse_ID(getM_Warehouse_ID());
+			line.setM_Locator_ID(inTrx ? Env.ZERO : line.getMovementQty());	//	default Locator
+			needSave = true;
+		}
+		
+		//	Attribute Set Instance
+		if (product != null 
+			&& line.getM_AttributeSetInstance_ID() == 0)
+		{
+			if (inTrx)
 			{
-				line.setM_Warehouse_ID(getM_Warehouse_ID());
-				line.setM_Locator_ID(inTrx ? Env.ZERO : line.getMovementQty());	//	default Locator
-				needSave = true;
-			}
-			
-			//	Attribute Set Instance
-			if (product != null 
-				&& line.getM_AttributeSetInstance_ID() == 0)
-			{
-				if (inTrx)
+				MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
+				asi.setClientOrg(getAD_Client_ID(), 0);
+				asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+				if (asi.save())
 				{
-					MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
-					asi.setClientOrg(getAD_Client_ID(), 0);
-					asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
-					if (asi.save())
-					{
-						line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
-						log.config("New ASI=" + line);
-						needSave = true;
-					}
+					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+					log.config("New ASI=" + line);
+					needSave = true;
 				}
-				else	//	Outgoing Trx
+			}
+			else	//	Outgoing Trx
+			{
+				String MMPolicy = product.getMMPolicy();
+				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
+					line.getM_Product_ID(),	line.getM_Locator_ID(), 
+					MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
+				BigDecimal qtyToDeliver = line.getMovementQty();
+				for (int ii = 0; ii < storages.length; ii++)
 				{
-					String MMPolicy = product.getMMPolicy();
-					MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
-						line.getM_Product_ID(),	line.getM_Locator_ID(), 
-						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
-					BigDecimal qtyToDeliver = line.getMovementQty();
-					for (int ii = 0; ii < storages.length; ii++)
+					MStorage storage = storages[ii];
+					if (ii == 0)
 					{
-						MStorage storage = storages[ii];
-						if (ii == 0)
+						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
 						{
-							if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
-							{
-								line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
-								needSave = true;
-								log.config("Direct - " + line);
-								qtyToDeliver = Env.ZERO;
-							}
-							else
-							{
-								log.config("Split - " + line);
-								MInOutLineMA ma = new MInOutLineMA (line, 
-									storage.getM_AttributeSetInstance_ID(),
-									storage.getQtyOnHand());
-								if (!ma.save())
-									;
-								qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-								log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
-							}
+							line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+							needSave = true;
+							log.config("Direct - " + line);
+							qtyToDeliver = Env.ZERO;
 						}
-						else	//	 create addl material allocation
+						else
 						{
+							log.config("Split - " + line);
 							MInOutLineMA ma = new MInOutLineMA (line, 
 								storage.getM_AttributeSetInstance_ID(),
-								qtyToDeliver);
-							if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
-								qtyToDeliver = Env.ZERO;
-							else
-							{
-								ma.setMovementQty(storage.getQtyOnHand());
-								qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-							}
+								storage.getQtyOnHand());
 							if (!ma.save())
 								;
+							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
 							log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
 						}
-						if (qtyToDeliver.signum() == 0)
-							break;
-					}	//	 for all storages
-					
-					//	No AttributeSetInstance found for remainder
-					if (qtyToDeliver.signum() != 0)
+					}
+					else	//	 create addl material allocation
 					{
 						MInOutLineMA ma = new MInOutLineMA (line, 
-							0, qtyToDeliver);
+							storage.getM_AttributeSetInstance_ID(),
+							qtyToDeliver);
+						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+							qtyToDeliver = Env.ZERO;
+						else
+						{
+							ma.setMovementQty(storage.getQtyOnHand());
+							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+						}
 						if (!ma.save())
 							;
-						log.fine("##: " + ma);
+						log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
 					}
-				}	//	outgoing Trx
-			}	//	attributeSetInstance
+					if (qtyToDeliver.signum() == 0)
+						break;
+				}	//	 for all storages
+				
+				//	No AttributeSetInstance found for remainder
+				if (qtyToDeliver.signum() != 0)
+				{
+					MInOutLineMA ma = new MInOutLineMA (line, 
+						0, qtyToDeliver);
+					if (!ma.save())
+						;
+					log.fine("##: " + ma);
+				}
+			}	//	outgoing Trx
+		}	//	attributeSetInstance
 			
-			if (needSave && !line.save())
-				log.severe("NOT saved " + line);
-		}	//	for all lines
+		if (needSave && !line.save())
+			log.severe("NOT saved " + line);
 	}	//	checkMaterialPolicy
 
 	
