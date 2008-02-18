@@ -30,6 +30,7 @@ import javax.xml.transform.stream.*;
 import org.apache.ecs.*;
 import org.apache.ecs.xhtml.*;
 import org.compiere.model.*;
+import org.adempiere.print.export.PrintDataExcelExporter;
 import org.compiere.print.layout.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
@@ -837,6 +838,18 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return false;
 	}	//	createPS
 
+	/**
+	 * Create Excel file
+	 * @param outFile output file
+	 * @param language
+	 * @throws Exception if error
+	 */
+	public void createXLS(File outFile, Language language)
+	throws Exception
+	{
+		PrintDataExcelExporter exp = new PrintDataExcelExporter(getPrintData(), getPrintFormat());
+		exp.export(outFile, language);
+	}
 
 	/**************************************************************************
 	 * 	Get Report Engine for process info 

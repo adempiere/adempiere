@@ -44,7 +44,9 @@ import org.adempiere.pdf.*;
  * Colin Rooney 2007/03/20 RFE#1670185 & BUG#1684142
  *                         Extend security to Info queries
  *
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL - FR [ 1762466 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>FR [ 1762466 ] Add "Window" menu to report viewer.
+ * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -837,6 +839,7 @@ public class Viewer extends CFrame
 		chooser.addChoosableFileFilter(new ExtensionFileFilter("txt", Msg.getMsg(m_ctx, "FileTXT")));
 		chooser.addChoosableFileFilter(new ExtensionFileFilter("ssv", Msg.getMsg(m_ctx, "FileSSV")));
 		chooser.addChoosableFileFilter(new ExtensionFileFilter("csv", Msg.getMsg(m_ctx, "FileCSV")));
+		chooser.addChoosableFileFilter(new ExtensionFileFilter("xls", Msg.getMsg(m_ctx, "FileXLS")));
 		//
 		if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
 			return;
@@ -865,22 +868,31 @@ public class Viewer extends CFrame
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		if (ext.equals("pdf"))
-			m_reportEngine.createPDF(outFile);
-		else if (ext.equals("ps"))
-			m_reportEngine.createPS(outFile);
-		else if (ext.equals("xml"))
-			m_reportEngine.createXML(outFile);
-		else if (ext.equals("csv"))
-			m_reportEngine.createCSV(outFile, ',', m_reportEngine.getPrintFormat().getLanguage());
-		else if (ext.equals("ssv"))
-			m_reportEngine.createCSV(outFile, ';', m_reportEngine.getPrintFormat().getLanguage());
-		else if (ext.equals("txt"))
-			m_reportEngine.createCSV(outFile, '\t', m_reportEngine.getPrintFormat().getLanguage());
-		else if (ext.equals("html") || ext.equals("htm"))
-			m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
-		else
-			ADialog.error(m_WindowNo, this, "FileInvalidExtension");
+		try {
+			if (ext.equals("pdf"))
+				m_reportEngine.createPDF(outFile);
+			else if (ext.equals("ps"))
+				m_reportEngine.createPS(outFile);
+			else if (ext.equals("xml"))
+				m_reportEngine.createXML(outFile);
+			else if (ext.equals("csv"))
+				m_reportEngine.createCSV(outFile, ',', m_reportEngine.getPrintFormat().getLanguage());
+			else if (ext.equals("ssv"))
+				m_reportEngine.createCSV(outFile, ';', m_reportEngine.getPrintFormat().getLanguage());
+			else if (ext.equals("txt"))
+				m_reportEngine.createCSV(outFile, '\t', m_reportEngine.getPrintFormat().getLanguage());
+			else if (ext.equals("html") || ext.equals("htm"))
+				m_reportEngine.createHTML(outFile, false, m_reportEngine.getPrintFormat().getLanguage());
+			else if (ext.equals("xls"))
+				m_reportEngine.createXLS(outFile, m_reportEngine.getPrintFormat().getLanguage());
+			else
+				ADialog.error(m_WindowNo, this, "FileInvalidExtension");
+		}
+		catch (Exception e) {
+			ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
+			if (CLogMgt.isLevelFinest())
+				e.printStackTrace();
+		}
 		cmd_drill();	//	setCursor
 	}	//	cmd_export
 
