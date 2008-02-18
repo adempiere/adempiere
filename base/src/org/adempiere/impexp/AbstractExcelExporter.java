@@ -40,6 +40,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -331,7 +332,7 @@ public abstract class AbstractExcelExporter
 							value = (Boolean)obj;
 						else
 							value = "Y".equals(obj);
-						cell.setCellValue(value);
+						cell.setCellValue(Msg.getMsg(getLanguage(), value == true ? "Y" : "N"));
 					}
 					else {
 						String value = fixString(obj.toString());	//	formatted
