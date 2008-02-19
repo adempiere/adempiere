@@ -85,7 +85,7 @@ public class Query {
 	/**
 	 * Return a list of all po that match the query criteria.
 	 * @return List
-	 * @throws SQLException 
+	 * @throws DBException 
 	 */
 	public <T extends PO> List<T> list() throws DBException {
 		List<T> list = new ArrayList<T>();
