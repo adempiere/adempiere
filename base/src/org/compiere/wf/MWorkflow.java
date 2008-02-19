@@ -16,12 +16,26 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MMenu;
+import org.compiere.model.MWindow;
+import org.compiere.model.X_AD_WF_Node;
+import org.compiere.model.X_AD_Workflow;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.StateEngine;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 /**
  *	WorkFlow Model
@@ -72,10 +86,11 @@ public class MWorkflow extends X_AD_Workflow
 			String oldKey = "";
 			String newKey = null;
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, trxName); //Bug 1568766
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
 				{
 					MWorkflow wf = new MWorkflow (ctx, rs, null); 
@@ -90,24 +105,17 @@ public class MWorkflow extends X_AD_Workflow
 					oldKey = newKey;
 					list.add(wf);
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				s_log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+			
 			//	Last one
 			if (list.size() > 0)
 			{
