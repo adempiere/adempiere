@@ -15,12 +15,20 @@
  *****************************************************************************/
 package org.adempiere.util;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *  Generate Model Classes extending PO.
@@ -238,11 +246,12 @@ public class GenerateModelJPA
 			+ " AND c.ColumnName NOT LIKE 'Updated%' "
 			+ "ORDER BY c.ColumnName";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String columnName = rs.getString(1);
@@ -273,9 +282,6 @@ public class GenerateModelJPA
 				if (seqNo == 1)
 					sb.append(createKeyNamePair(columnName, displayType));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -283,14 +289,8 @@ public class GenerateModelJPA
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return sb;
 	}	//	createColumns
@@ -555,11 +555,12 @@ public class GenerateModelJPA
 		//
 		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Reference_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String value = rs.getString(1);
@@ -624,10 +625,7 @@ public class GenerateModelJPA
 					.append("_").append(nameClean)
 					.append(" = \"").append(value).append("\";");
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
@@ -635,14 +633,8 @@ public class GenerateModelJPA
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		statement.append(")"
 			+ "; "
@@ -799,34 +791,27 @@ public class GenerateModelJPA
 		//
 		int count = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				new GenerateModelJPA(rs.getInt(1), directory, packageName);
 				count++;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.severe("main - " + e);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
+		
 		log.info("Generated = " + count);
 
 	}	//	main
