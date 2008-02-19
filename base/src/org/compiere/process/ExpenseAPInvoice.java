@@ -16,10 +16,21 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MTimeExpense;
+import org.compiere.model.MTimeExpenseLine;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Create AP Invoices from Expense Reports
@@ -85,6 +96,7 @@ public class ExpenseAPInvoice extends SvrProcess
 		MInvoice invoice = null;
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString (), get_TrxName());
@@ -96,7 +108,7 @@ public class ExpenseAPInvoice extends SvrProcess
 				pstmt.setTimestamp (par++, m_DateFrom);
 			if (m_DateTo != null)
 				pstmt.setTimestamp (par++, m_DateTo);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next())				//	********* Expense Line Loop
 			{
 				MTimeExpense te = new MTimeExpense (getCtx(), rs, get_TrxName());
@@ -177,24 +189,15 @@ public class ExpenseAPInvoice extends SvrProcess
 					line.save();
 				}	//	for all expense lines
 			}								//	********* Expense Line Loop
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		completeInvoice (invoice);
 		return "@Created@=" + m_noInvoices;
