@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Match Invoice (Receipt<>Invoice) Model.
@@ -50,31 +56,24 @@ public class MMatchInv extends X_M_MatchInv
 		String sql = "SELECT * FROM M_MatchInv WHERE M_InOutLine_ID=? AND C_InvoiceLine_ID=?";
 		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_InOutLine_ID);
 			pstmt.setInt (2, C_InvoiceLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchInv (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchInv[] retValue = new MMatchInv[list.size()];
 		list.toArray (retValue);
@@ -97,30 +96,23 @@ public class MMatchInv extends X_M_MatchInv
 		String sql = "SELECT * FROM M_MatchInv WHERE C_InvoiceLine_ID=?";
 		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_InvoiceLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchInv (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchInv[] retValue = new MMatchInv[list.size()];
 		list.toArray (retValue);
@@ -146,30 +138,23 @@ public class MMatchInv extends X_M_MatchInv
 			+ "WHERE l.M_InOut_ID=?"; 
 		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_InOut_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchInv (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchInv[] retValue = new MMatchInv[list.size()];
 		list.toArray (retValue);
@@ -194,30 +179,23 @@ public class MMatchInv extends X_M_MatchInv
 			+ "WHERE il.C_Invoice_ID=?";
 		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, C_Invoice_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MMatchInv (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e); 
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MMatchInv[] retValue = new MMatchInv[list.size()];
 		list.toArray (retValue);
@@ -325,16 +303,14 @@ public class MMatchInv extends X_M_MatchInv
 			+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
 			+ "WHERE C_InvoiceLine_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getC_InvoiceLine_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				invoiceDate = rs.getTimestamp(1);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -348,29 +324,20 @@ public class MMatchInv extends X_M_MatchInv
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, getM_InOutLine_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				shipDate = rs.getTimestamp(1);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
 		//
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
 		if (invoiceDate == null)
 			return shipDate;
 		if (shipDate == null)
