@@ -16,12 +16,21 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProject;
+import org.compiere.model.MTimeExpense;
+import org.compiere.model.MTimeExpenseLine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Create Sales Orders from Expense Reports
@@ -101,6 +110,7 @@ public class ExpenseSOrder extends SvrProcess
 		MTimeExpense te = null;
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
@@ -112,7 +122,7 @@ public class ExpenseSOrder extends SvrProcess
 				pstmt.setTimestamp(par++, p_DateFrom);
 			if (m_DateTo != null)
 				pstmt.setTimestamp(par++, m_DateTo);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())				//	********* Expense Line Loop
 			{
 				MTimeExpenseLine tel = new MTimeExpenseLine(getCtx(), rs, get_TrxName());
@@ -137,24 +147,15 @@ public class ExpenseSOrder extends SvrProcess
 				//
 				processLine (te, tel, oldBPartner);
 			}								//	********* Expense Line Loop
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		completeOrder ();
 
