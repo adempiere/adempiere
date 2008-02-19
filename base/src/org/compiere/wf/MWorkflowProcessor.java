@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.AdempiereProcessor;
+import org.compiere.model.AdempiereProcessorLog;
+import org.compiere.model.X_AD_WorkflowProcessor;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 
 /**
@@ -42,30 +49,24 @@ public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 		ArrayList<MWorkflowProcessor> list = new ArrayList<MWorkflowProcessor>();
 		String sql = "SELECT * FROM AD_WorkflowProcessor WHERE IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MWorkflowProcessor (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		MWorkflowProcessor[] retValue = new MWorkflowProcessor[list.size ()];
 		list.toArray (retValue);
 		return retValue;
@@ -131,31 +132,25 @@ public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 			+ "WHERE AD_WorkflowProcessor_ID=? " 
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getAD_WorkflowProcessor_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MWorkflowProcessorLog (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		MWorkflowProcessorLog[] retValue = new MWorkflowProcessorLog[list.size ()];
 		list.toArray (retValue);
 		return retValue;
