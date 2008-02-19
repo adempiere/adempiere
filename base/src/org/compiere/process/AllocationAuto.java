@@ -16,12 +16,23 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
+import org.compiere.model.MClient;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MPaySelectionLine;
+import org.compiere.model.MPayment;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Automatic Allocation Process
@@ -98,11 +109,12 @@ public class AllocationAuto extends SvrProcess
 		{
 			String sql = "SELECT C_BPartner_ID FROM C_BPartner WHERE C_BP_Group_ID=? ORDER BY Value";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, get_TrxName());
 				pstmt.setInt (1, p_C_BP_Group_ID);
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
 				{
 					int C_BPartner_ID = rs.getInt(1);
@@ -114,34 +126,27 @@ public class AllocationAuto extends SvrProcess
 						commit();
 					}
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		else
 		{
 			String sql = "SELECT C_BPartner_ID FROM C_BPartner WHERE AD_Client_ID=? ORDER BY Value";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement (sql, get_TrxName());
 				pstmt.setInt (1, Env.getAD_Client_ID(getCtx()));
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
 				{
 					int C_BPartner_ID = rs.getInt(1);
@@ -153,23 +158,15 @@ public class AllocationAuto extends SvrProcess
 						commit();
 					}
 				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
+ 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 		//
@@ -270,11 +267,12 @@ public class AllocationAuto extends SvrProcess
 			sql += "AND IsReceipt='Y' ";
 		sql += "ORDER BY DateTrx";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MPayment payment = new MPayment (getCtx(), rs, get_TrxName());
@@ -287,23 +285,15 @@ public class AllocationAuto extends SvrProcess
 				else
 					list.add (payment);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		m_payments = new MPayment[list.size ()];
 		list.toArray (m_payments);
@@ -326,11 +316,12 @@ public class AllocationAuto extends SvrProcess
 			sql += "AND IsSOTrx='Y' ";
 		sql += "ORDER BY DateInvoiced";;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MInvoice invoice = new MInvoice (getCtx(), rs, get_TrxName());
@@ -342,23 +333,15 @@ public class AllocationAuto extends SvrProcess
 				else
 					list.add (invoice);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		m_invoices = new MInvoice[list.size ()];
 		list.toArray (m_invoices);
