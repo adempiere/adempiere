@@ -25,9 +25,9 @@ import java.util.ArrayList;
 
 public class ProductAttributeBean extends UDIBean
 {
-    private ArrayList attributeSets;
-    private ArrayList attributes;
-    private ArrayList attributeValues;    
+    private ArrayList<ProductAttributeBean> attributeSets;
+    private ArrayList<ProductAttributeBean> attributes;
+    private ArrayList<ProductAttributeBean> attributeValues;    
     
     public String getAttribute() 
     {
@@ -69,32 +69,32 @@ public class ProductAttributeBean extends UDIBean
         this.attributeValue = attributeValue;
     }
     
-    public ArrayList getAttributes()
+    public ArrayList<ProductAttributeBean> getAttributes()
     {
         return attributes;
     }
     
-    public void setAttributes(ArrayList attributes) 
+    public void setAttributes(ArrayList<ProductAttributeBean> attributes) 
     {
         this.attributes = attributes;
     }
     
-    public ArrayList getAttributeSets() 
+    public ArrayList<ProductAttributeBean> getAttributeSets() 
     {
         return attributeSets;
     }
     
-    public void setAttributeSets(ArrayList attributeSets) 
+    public void setAttributeSets(ArrayList<ProductAttributeBean> attributeSets) 
     {
         this.attributeSets = attributeSets;
     }
     
-    public ArrayList getAttributeValues() 
+    public ArrayList<ProductAttributeBean> getAttributeValues() 
     {
         return attributeValues;        
     }
     
-    public void setAttributeValues(ArrayList attributeValues)
+    public void setAttributeValues(ArrayList<ProductAttributeBean> attributeValues)
     {
         this.attributeValues = attributeValues;
     }
