@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.KeyNamePair;
 
 /**
  *  Product Lot
@@ -44,30 +50,24 @@ public class MLot extends X_M_Lot
 		String sql = "SELECT * FROM M_Lot WHERE M_Product_ID=?";
 		ArrayList<MLot> list = new ArrayList<MLot>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MLot (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		//
 		MLot[] retValue = new MLot[list.size()];
 		list.toArray(retValue);
@@ -87,31 +87,25 @@ public class MLot extends X_M_Lot
 		String sql = "SELECT * FROM M_Lot WHERE M_Product_ID=? AND Name=?";
 		MLot retValue = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
 			pstmt.setString(2, lot);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				retValue = new MLot (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		return retValue;
 	}	//	getProductLot
 
@@ -126,30 +120,24 @@ public class MLot extends X_M_Lot
 		String sql = "SELECT M_Lot_ID, Name FROM M_Lot WHERE M_Product_ID=?";
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new KeyNamePair (rs.getInt(1), rs.getString(2)));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		//
 		KeyNamePair[] retValue = new KeyNamePair[list.size()];
 		list.toArray(retValue);
