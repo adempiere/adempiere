@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MProductCategory;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *  Price List.
@@ -166,13 +172,14 @@ public class PriceList
 			sql += " ORDER BY pl.IsDefault DESC";
 		m_PriceList_ID = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
 			if (M_PriceList_ID != 0)
 				pstmt.setInt(2, M_PriceList_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_PriceList_ID = rs.getInt(1);
@@ -183,9 +190,6 @@ public class PriceList
 				m_curSymbol = rs.getString(6);
 				m_AD_Language = rs.getString(7);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -193,14 +197,8 @@ public class PriceList
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return m_PriceList_ID;
 	}	//	getM_PriceList_ID
@@ -219,13 +217,14 @@ public class PriceList
 			+ " AND plv.ValidFrom <=? "			//	#2
 			+ "ORDER BY plv.ValidFrom DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		m_PriceList_Version_ID = 0;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_PriceList_ID);
 			pstmt.setTimestamp(2, day);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_PriceList_Version_ID = rs.getInt(1);
@@ -233,9 +232,6 @@ public class PriceList
 				m_description = rs.getString(3);
 			//  m_validFrom = rs.getTimestamp(4);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -243,14 +239,8 @@ public class PriceList
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		return m_PriceList_Version_ID;
@@ -302,6 +292,7 @@ public class PriceList
 	//	log.fine("loadProducts - " + sql);
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
@@ -311,7 +302,7 @@ public class PriceList
 				pstmt.setString(index++, searchString);
 			if (M_Product_Category_ID != 0)
 				pstmt.setInt(index++, M_Product_Category_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			int no = 0;
 			while (rs.next())
 			{
@@ -326,9 +317,6 @@ public class PriceList
 					break;
 				}
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -336,14 +324,8 @@ public class PriceList
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("load #" + m_prices.size() + ", Search=" + m_searchInfo);
 	}	//	load
