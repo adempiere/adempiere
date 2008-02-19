@@ -497,6 +497,7 @@ public class CashManager
                 + " AND c.docstatus='DR'";
 		
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try
         {
             pstmt = DB.prepareStatement (sql, trxName);
@@ -504,7 +505,7 @@ public class CashManager
 				pstmt.setInt (1, C_CashBook_ID);
 				//pstmt.setTimestamp (2, TimeUtil.getDay(dateAcct));
 			
-            ResultSet rs = pstmt.executeQuery ();
+            rs = pstmt.executeQuery ();
             if (rs.next ())
                 retValue = new MCash (ctx, rs, trxName);
             rs.close ();
@@ -513,19 +514,11 @@ public class CashManager
         {
             throw new OperationException(e);
         }
-        finally
-        {
-            try
-            {
-                if (pstmt != null)
-                    pstmt.close ();
-                
-            }
-            catch (Exception e)
-            {}
-            
-            pstmt = null;
-        }
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
         
         return retValue;
         
@@ -638,7 +631,7 @@ public class CashManager
             + " AND TRUNC(c.StatementDate)<?" 
             + " order by c.StatementDate asc";
         PreparedStatement pstmt = null;
-        
+        ResultSet rs = null;
         MCash cash=null;
        BigDecimal endingBalance=null;
         try
@@ -647,7 +640,7 @@ public class CashManager
             pstmt.setInt (1, cashBookId);
             pstmt.setTimestamp (2, TimeUtil.getDay(JulianDate.getTodayDateOnly()));
            
-            ResultSet rs = pstmt.executeQuery ();
+            rs = pstmt.executeQuery ();
             while(rs.next())
             {
               cash=new MCash(ctx,rs.getInt(1),null);
@@ -665,18 +658,11 @@ public class CashManager
         {
             throw new OperationException(e);
         }
-        finally
-        {
-            try
-            {
-            	pstmt.close ();
-            }
-            catch (Exception e)
-            {}
-              
-            pstmt = null;
-        	
-        }
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
         
     }
     
