@@ -22,6 +22,7 @@ package org.compiere.process;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
+
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -76,9 +77,10 @@ public class CopyRole extends SvrProcess
 		//Process AD_Window_Access Values
 		String sql = "SELECT * FROM AD_Window_Access WHERE AD_Role_ID= " + m_AD_Role_ID_From;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		pstmt = DB.prepareStatement (sql, get_TrxName());
 		try {			
-			ResultSet rs = pstmt.executeQuery();		
+			rs = pstmt.executeQuery();		
 			while (rs.next())
 			{							
 					
@@ -117,99 +119,89 @@ public class CopyRole extends SvrProcess
 
 						int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
 					}
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;			
-		}	
-		
+				}
+			}	
 			catch (Exception e)	{
 				log.log(Level.SEVERE,"CreateRoles-Window Access", e);
 			}
-		
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 		//Process AD_Process_Access Values
 		sql = "SELECT * FROM AD_Process_Access WHERE AD_Role_ID= " + m_AD_Role_ID_From;
-		pstmt = null;
 		pstmt = DB.prepareStatement (sql, get_TrxName());
 		try {			
-			ResultSet rs = pstmt.executeQuery();		
+			rs = pstmt.executeQuery();		
 			while (rs.next())
-			{	
-			
-			sqlB = new StringBuffer ("SELECT count(*) FROM AD_Process_Access "
+				{	
+						sqlB = new StringBuffer ("SELECT count(*) FROM AD_Process_Access "
 						+ "WHERE AD_Role_ID=? AND AD_Process_ID=?"
 						+ "AND AD_Client_ID = " + m_AD_Client_ID 
 						+ "and AD_Org_ID= " + m_AD_Org_ID);
-			int count = DB.getSQLValue(null,sqlB.toString(),m_AD_Role_ID_To,rs.getInt("AD_Process_ID"));
+						int count = DB.getSQLValue(null,sqlB.toString(),m_AD_Role_ID_To,rs.getInt("AD_Process_ID"));
 			
-			if (count>0){						
-				sqlB = new StringBuffer ("UPDATE AD_Process_Access "
-						+ "SET isActive = '" + rs.getString("isActive")
-						+ "', isReadWrite = '" + rs.getString("isReadWrite")
-						+ "' WHERE AD_Client_ID = " + m_AD_Client_ID
-						+ " and AD_Org_ID = " + m_AD_Org_ID 
-						+ " and AD_Role_ID = " + m_AD_Role_ID_To
-						+ " and AD_Process_ID = " + rs.getInt("AD_Process_ID") );
-				
-				int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
-			}
-			else{
-				
-	    		sqlB = new StringBuffer ("Insert INTO AD_Process_Access" 
-						+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
-						+   "AD_Role_ID, AD_Process_ID, isActive, isReadWrite) "
-						+	"VALUES(" 
-						+	" "+ m_AD_Client_ID
-						+	", "+ m_AD_Org_ID
-	    				+	", "+ Env.getAD_User_ID(Env.getCtx())
-	    				+	", "+ Env.getAD_User_ID(Env.getCtx())
-						+	", " + m_AD_Role_ID_To
-						+	", " + rs.getInt("AD_Process_ID")
-						+	", '" + rs.getString("isActive")
-						+	"', '" + rs.getString("isReadWrite")+"')");
-
-				int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
-			}
-
-				
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;			
-		}	
-		
+						if (count>0){						
+							sqlB = new StringBuffer ("UPDATE AD_Process_Access "
+									+ "SET isActive = '" + rs.getString("isActive")
+									+ "', isReadWrite = '" + rs.getString("isReadWrite")
+									+ "' WHERE AD_Client_ID = " + m_AD_Client_ID
+									+ " and AD_Org_ID = " + m_AD_Org_ID 
+									+ " and AD_Role_ID = " + m_AD_Role_ID_To
+									+ " and AD_Process_ID = " + rs.getInt("AD_Process_ID") );
+								int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
+							}
+						else{
+					    		sqlB = new StringBuffer ("Insert INTO AD_Process_Access" 
+					    				+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
+					    				+   "AD_Role_ID, AD_Process_ID, isActive, isReadWrite) "
+					    				+	"VALUES(" 
+					    				+	" "+ m_AD_Client_ID
+					    				+	", "+ m_AD_Org_ID
+					    				+	", "+ Env.getAD_User_ID(Env.getCtx())
+					    				+	", "+ Env.getAD_User_ID(Env.getCtx())
+					    				+	", " + m_AD_Role_ID_To
+					    				+	", " + rs.getInt("AD_Process_ID")
+					    				+	", '" + rs.getString("isActive")
+					    				+	"', '" + rs.getString("isReadWrite")+"')");
+					    		int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
+							}
+					}
+			}		
 			catch (Exception e)	{
 				log.log(Level.SEVERE,"CreateRoles-AD_Process", e);
 			}
-			
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 //				Process AD_Form_Access Values
 			sql = "SELECT * FROM AD_Form_Access WHERE AD_Role_ID= " + m_AD_Role_ID_From;
 			pstmt = null;
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			try {			
-				ResultSet rs = pstmt.executeQuery();		
+				rs = pstmt.executeQuery();		
 				while (rs.next())
-				{
+					{
 					sqlB = new StringBuffer ("SELECT count(*) FROM AD_Form_Access "
 							+ "WHERE AD_Role_ID=? AND AD_Form_ID=?"
 							+ "AND AD_Client_ID = " + m_AD_Client_ID 
 							+ "and AD_Org_ID= " + m_AD_Org_ID);
-				int count = DB.getSQLValue(null,sqlB.toString(),m_AD_Role_ID_To,rs.getInt("AD_Form_ID"));
-				
-				if (count>0){						
-					sqlB = new StringBuffer ("UPDATE AD_Form_Access "
+					int count = DB.getSQLValue(null,sqlB.toString(),m_AD_Role_ID_To,rs.getInt("AD_Form_ID"));
+					if (count>0){						
+						sqlB = new StringBuffer ("UPDATE AD_Form_Access "
 							+ "SET isActive = '" + rs.getString("isActive")
 							+ "', isReadWrite = '" + rs.getString("isReadWrite")
 							+ "' WHERE AD_Client_ID = " + m_AD_Client_ID
 							+ " and AD_Org_ID = " + m_AD_Org_ID 
 							+ " and AD_Role_ID = " + m_AD_Role_ID_To
 							+ " and AD_Form_ID = " + rs.getInt("AD_Form_ID") );
-					
-					int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
-				}
-				else{
-					
-		    		sqlB = new StringBuffer ("Insert INTO AD_Form_Access" 
+							int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
+						}
+					else{
+						sqlB = new StringBuffer ("Insert INTO AD_Form_Access" 
 							+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
 							+   "AD_Role_ID, AD_Form_ID, isActive, isReadWrite) "
 							+	"VALUES(" 
@@ -221,26 +213,24 @@ public class CopyRole extends SvrProcess
 							+	", " + rs.getInt("AD_Form_ID")
 							+	", '" + rs.getString("isActive")
 							+	"', '" + rs.getString("isReadWrite")+"')");
-
-					int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
-				}
-						
-				}
-				rs.close();
-				pstmt.close();
-				pstmt = null;			
-			}	
-			
+						int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
+						}
+					}
+ 				}	
 				catch (Exception e)	{
 					log.log(Level.SEVERE,"CreateRoles-Form Access", e);
 				}
-			
+				finally
+				{
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
+				}
 //					Process AD_Workflow_Access Values
 				sql = "SELECT * FROM AD_Workflow_Access WHERE AD_Role_ID= " + m_AD_Role_ID_From;
 				pstmt = null;
 				pstmt = DB.prepareStatement (sql, get_TrxName());
 				try {			
-					ResultSet rs = pstmt.executeQuery();		
+					rs = pstmt.executeQuery();		
 					while (rs.next())
 					{
 					sqlB = new StringBuffer ("SELECT count(*) FROM AD_Workflow_Access "
@@ -278,10 +268,7 @@ public class CopyRole extends SvrProcess
 						int no = DB.executeUpdate (sqlB.toString(), get_TrxName());
 					}						
 					}
-					rs.close();
-					pstmt.close();
-					pstmt = null;			
-				}	
+ 				}	
 				
 					catch (Exception e)	{
 						log.log(Level.SEVERE,"CreateRoles-Workflow", e);
@@ -292,7 +279,7 @@ public class CopyRole extends SvrProcess
 					pstmt = null;
 					pstmt = DB.prepareStatement (sql, get_TrxName());
 					try {			
-						ResultSet rs = pstmt.executeQuery();		
+						rs = pstmt.executeQuery();		
 						while (rs.next())
 						{
 						sqlB = new StringBuffer ("SELECT count(*) FROM AD_Task_Access "
@@ -331,24 +318,16 @@ public class CopyRole extends SvrProcess
 						}						
 							
 						}
-						rs.close();
-						pstmt.close();
-						pstmt = null;			
-					}	
+ 					}	
 					
-						catch (Exception e)	{
+					catch (Exception e)	{
 							log.log(Level.SEVERE,"CreateRoles-Task", e);
-						}
-				finally
-				{
-					try
-					{
-						if (pstmt != null)
-							pstmt.close ();
 					}
-					catch (Exception e)
-					{}
-					pstmt = null;
-				}		return "";
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
+					}
+						return "";
 	}	//	doIt
 			}	//	CopyRole
