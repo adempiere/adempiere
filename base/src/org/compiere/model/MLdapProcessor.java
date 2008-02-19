@@ -15,10 +15,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
 
 /**
@@ -38,31 +44,23 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 		ArrayList<MLdapProcessor> list = new ArrayList<MLdapProcessor>();
 		String sql = "SELECT * FROM AD_LdapProcessor WHERE IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MLdapProcessor (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
 		MLdapProcessor[] retValue = new MLdapProcessor[list.size()];
 		list.toArray(retValue);
 		return retValue;
@@ -145,30 +143,23 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 			+ "WHERE AD_LdapProcessor_ID=? " 
 			+ "ORDER BY Created DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getAD_LdapProcessor_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MLdapProcessorLog (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		MLdapProcessorLog[] retValue = new MLdapProcessorLog[list.size ()];
 		list.toArray (retValue);
@@ -299,6 +290,7 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 			+ "FROM AD_User "
 			+ "WHERE AD_Client_ID=? AND (EMail=? OR Value=? OR LdapUser=?)";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -306,7 +298,7 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 			pstmt.setString (2, usr);
 			pstmt.setString (3, usr);
 			pstmt.setString (4, usr);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next())
 			{
 				AD_User_ID = rs.getInt (1);
@@ -320,24 +312,16 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 				EMailVerify	= rs.getString (8);
 				isUnique = rs.next();
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 			error = "System Error";
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (error != null)
 		{
@@ -405,7 +389,7 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, R_InterestArea_ID);
 			pstmt.setInt (2, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next())
 			{
 				found = true;
@@ -413,24 +397,16 @@ public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProce
 				OptOutDate	= rs.getString (2);
 				isUnique = rs.next();
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 			error = "System Error (2)";
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	System Error
 		if (error != null)
