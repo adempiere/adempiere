@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MChangeLog;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 
 
 /**
@@ -118,33 +123,26 @@ public class ChangeLogProcess extends SvrProcess
 			sql = "SELECT * FROM AD_ChangeLog WHERE IsCustomization='Y' AND IsActive='Y' "
 				+ "ORDER BY AD_Table_ID, AD_ChangeLog_ID, Record_ID, AD_Column_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			if (p_AD_ChangeLog_ID != 0)
 				pstmt.setInt (1, p_AD_ChangeLog_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				createStatement (new MChangeLog(getCtx(), rs, get_TrxName()), get_TrxName());
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	final call
 		executeStatement();
@@ -373,10 +371,11 @@ public class ChangeLogProcess extends SvrProcess
 				+ "WHERE t.AD_Table_ID=l.AD_Table_ID)";
 		StringBuffer update = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MTable table = new MTable (getCtx(), rs, get_TrxName());
@@ -396,23 +395,15 @@ public class ChangeLogProcess extends SvrProcess
 				updateNo += no;
 				
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql + " --- " + update, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		return "@Reset@: " + resetNo + " - @Updated@: " + updateNo;
