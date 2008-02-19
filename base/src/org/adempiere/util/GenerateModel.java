@@ -21,7 +21,7 @@ package org.adempiere.util;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
@@ -125,31 +125,26 @@ public class GenerateModel
 		//
 		int count = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				new ModelInterfaceGenerator(rs.getInt(1), directory, packageName);
 				new ModelClassGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.severe("main - " + e);
 		}
 		finally
 		{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			} catch (Exception e) { /* ignored */ }
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.info("Generated = " + count);
 	}
