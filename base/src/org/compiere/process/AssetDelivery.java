@@ -16,11 +16,21 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.net.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MAsset;
+import org.compiere.model.MAssetDelivery;
+import org.compiere.model.MClient;
+import org.compiere.model.MMailText;
+import org.compiere.model.MProductDownload;
+import org.compiere.model.MUser;
+import org.compiere.model.MUserMail;
+import org.compiere.util.DB;
+import org.compiere.util.EMail;
 
 /**
  *	Deliver Assets Electronically
@@ -128,10 +138,11 @@ public class AssetDelivery extends SvrProcess
 		int count = 0;
 		int errors = 0;
 		int reminders = 0;
+		ResultSet rs = null;
 		try
 		{
 			stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(s);
+			rs = stmt.executeQuery(s);
 			while (rs.next())
 			{
 				int A_Asset_ID = rs.getInt(1);
@@ -156,25 +167,17 @@ public class AssetDelivery extends SvrProcess
 						count++;
 				}
 			}
-			rs.close();
-			stmt.close();
-			stmt = null;
-		}
+  		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, s, e);
 		}
 		finally
 		{
-			try
-			{
-				if (stmt != null)
-					stmt.close ();
-			}
-			catch (Exception e)
-			{}
-			stmt = null;
+			DB.close(rs, stmt);
+			rs = null; stmt = null;
 		}
+		
 		log.info("Count=" + count + ", Errors=" + errors + ", Reminder=" + reminders
 			+ " - " + (System.currentTimeMillis()-start) + "ms");
 		return "@Sent@=" + count + " - @Errors@=" + errors;
