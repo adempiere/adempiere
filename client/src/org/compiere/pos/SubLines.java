@@ -14,20 +14,39 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.KeyStroke;
+import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MOrder;
+import org.compiere.model.PO;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
@@ -239,30 +258,24 @@ public class SubLines extends PosSubPanel implements ActionListener
 		}
 		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (m_sql, null);
 			pstmt.setInt (1, C_Order_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			m_table.loadTable(rs);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, m_sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		setSums(order);
 	}	//	updateTable
 
