@@ -16,12 +16,25 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MClientInfo;
+import org.compiere.model.MCurrency;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MRequisitionLine;
+import org.compiere.model.MTax;
+import org.compiere.model.ProductCost;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Post Order Documents.
@@ -158,11 +171,12 @@ public class Doc_Order extends Doc
 				+ " AND o.C_Order_ID=?) "
 			+ "ORDER BY rl.C_OrderLine_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, order.getC_Order_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MRequisitionLine line = new MRequisitionLine (getCtx(), rs, null);
@@ -184,23 +198,15 @@ public class Doc_Order extends Doc
 				docLine.setAmount (LineNetAmt);	 // DR
 				list.add (docLine);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		// Return Array
@@ -500,12 +506,13 @@ public class Doc_Order extends Doc
 				+ "WHERE po.C_OrderLine_ID=ol.C_OrderLine_ID"
 				+ " AND po.C_InvoiceLine_ID=?)";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, C_InvoiceLine_ID);
 			pstmt.setInt (2, C_InvoiceLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				if (maxQty.signum() == 0)
@@ -553,23 +560,15 @@ public class Doc_Order extends Doc
 				docLine.setAmount (LineNetAmt, PriceList, Qty);
 				list.add(docLine);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		//	Return Array
@@ -648,11 +647,12 @@ public class Doc_Order extends Doc
 				+ "WHERE il.C_OrderLine_ID=ol.C_OrderLine_ID"
 				+ " AND il.M_InOutLine_ID=?)";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, M_InOutLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				if (maxQty.signum() == 0)
@@ -700,23 +700,15 @@ public class Doc_Order extends Doc
 				docLine.setAmount (LineNetAmt, PriceList, Qty);
 				list.add(docLine);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		//	Return Array
