@@ -16,14 +16,25 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MElementValue;
+import org.compiere.model.MPeriod;
+import org.compiere.print.MPrintFormat;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 /**
  *  Statement of Account
@@ -195,34 +206,26 @@ public class FinStatement extends SvrProcess
 
 		String sql = "SELECT StartDate, EndDate FROM C_Period WHERE C_Period_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, p_C_Period_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				p_DateAcct_From = rs.getTimestamp(1);
 				p_DateAcct_To = rs.getTimestamp(2);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	setDateAcct
 
