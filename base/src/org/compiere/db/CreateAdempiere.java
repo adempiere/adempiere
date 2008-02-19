@@ -16,14 +16,31 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.model.M_Element;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DBException;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Util;
 
 /**
  *  Class to Create a new Adempiere Database from a reference DB.
@@ -244,6 +261,7 @@ public class CreateAdempiere
 		sql += " ORDER BY TableName";
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -258,7 +276,7 @@ public class CreateAdempiere
 				throw new DBException("No Connection");
 			}
 			
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next() && success)
 			{
 				MTable table = new MTable (m_ctx, rs, null);
@@ -279,24 +297,16 @@ public class CreateAdempiere
 				else
 					success = false;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 			success = false;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (!success)
 			return false;
@@ -517,10 +527,11 @@ public class CreateAdempiere
 		//	Get Table Data
 		String sql = "SELECT * FROM " + mTable.getTableName();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, mTable.get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				if (createTableDataRow(rs, mTable))
@@ -528,24 +539,16 @@ public class CreateAdempiere
 				else
 					errors++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 			success = false;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		long elapsed = System.currentTimeMillis() - start;
 		log.config("Inserted=" + count + " - Errors=" + errors 
