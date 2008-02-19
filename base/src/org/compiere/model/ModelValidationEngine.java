@@ -74,10 +74,9 @@ public class ModelValidationEngine
 		Query query = table.createQuery("IsActive='Y'", null);
 		query.setOrderBy("SeqNo");
 		try {
-			List<PO> entityTypes = query.list();
-			for (PO po : entityTypes)
+			List<X_AD_ModelValidator> entityTypes = query.list();
+			for (X_AD_ModelValidator entityType : entityTypes)
 			{
-				X_AD_ModelValidator entityType = (X_AD_ModelValidator)po;
 				String className = entityType.getModelValidationClass();
 				if (className == null || className.length() == 0)
 					continue;

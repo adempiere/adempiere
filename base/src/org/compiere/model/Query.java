@@ -27,6 +27,7 @@ import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DBException;
 import org.compiere.util.Env;
 
 /**
@@ -86,8 +87,8 @@ public class Query {
 	 * @return List
 	 * @throws SQLException 
 	 */
-	public List<PO> list() throws SQLException {
-		List<PO> list = new ArrayList<PO>();
+	public <T extends PO> List<T> list() throws DBException {
+		List<T> list = new ArrayList<T>();
 		
 		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
 		if (info == null) return null;
@@ -117,14 +118,14 @@ public class Query {
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				PO po = table.getPO(rs, trxName);
+				T po = (T)table.getPO(rs, trxName);
 				list.add(po);
 			}
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw e;
+			throw new DBException(e);
 		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
