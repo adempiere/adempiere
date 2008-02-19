@@ -91,11 +91,12 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 		String sql = "SELECT Name FROM AD_Val_Rule WHERE  AD_Val_Rule_ID= " + AD_Val_Rule_ID;
 		AttributesImpl atts = new AttributesImpl();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		pstmt = DB.prepareStatement (sql, getTrxName(ctx));		
 
 		try {
 
-			ResultSet rs = pstmt.executeQuery();		
+			rs = pstmt.executeQuery();		
 
 			while (rs.next())
 			{
@@ -104,21 +105,15 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 				document.startElement("","","dynvalrule",atts);
 				document.endElement("","","dynvalrule");
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 
 		catch (Exception e){
 			log.log(Level.SEVERE,"getProcess", e);
 		}
-		finally{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e){}
-			pstmt = null;
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 	}
