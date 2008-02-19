@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MAllocationHdr;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  *	Reset (delete) Allocations	
@@ -116,6 +121,7 @@ public class AllocationReset extends SvrProcess
 			+ "WHERE ah.DateAcct BETWEEN p.StartDate AND p.EndDate)");
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString(), m_trx.getTrxName());
@@ -130,31 +136,23 @@ public class AllocationReset extends SvrProcess
 				pstmt.setTimestamp(index++, p_DateAcct_From);
 			if (p_DateAcct_To != null)
 				pstmt.setTimestamp(index++, p_DateAcct_To);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MAllocationHdr hdr = new MAllocationHdr(getCtx(), rs, m_trx.getTrxName());
 				if (delete(hdr))
 					count++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 			m_trx.rollback();
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		m_trx.close();
 		return "@Deleted@ #" + count;
