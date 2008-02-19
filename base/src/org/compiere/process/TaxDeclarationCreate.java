@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MFactAcct;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceTax;
+import org.compiere.model.MTaxDeclaration;
+import org.compiere.model.MTaxDeclarationAcct;
+import org.compiere.model.MTaxDeclarationLine;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
 
 /**
  * 	Create Tax Declaration
@@ -94,36 +101,30 @@ public class TaxDeclarationCreate extends SvrProcess
 			+ " AND NOT EXISTS (SELECT * FROM C_TaxDeclarationLine tdl "
 				+ "WHERE i.C_Invoice_ID=tdl.C_Invoice_ID)";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int noInvoices = 0;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setTimestamp(1, m_td.getDateFrom());
 			pstmt.setTimestamp(2, m_td.getDateTo());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				create (new MInvoice (getCtx(), rs, null));	//	no lock
 				noInvoices++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		
 		return "@C_Invoice_ID@ #" + noInvoices 
 			+ " (" + m_noLines + ", " + m_noAccts + ")";
@@ -166,12 +167,13 @@ public class TaxDeclarationCreate extends SvrProcess
 		/**	Acct					**/
 		String sql = "SELECT * FROM Fact_Acct WHERE AD_Table_ID=? AND Record_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, MInvoice.Table_ID);
 			pstmt.setInt (2, invoice.getC_Invoice_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MFactAcct fact = new MFactAcct(getCtx(), rs, null);	//	no lock
@@ -180,24 +182,17 @@ public class TaxDeclarationCreate extends SvrProcess
 				if (tda.save())
 					m_noAccts++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		/** **/
 	}	//	invoice
 	
