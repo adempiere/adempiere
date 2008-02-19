@@ -16,16 +16,29 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MOrg;
+import org.compiere.model.MWarehouse;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Util;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebUtil;
 
 /**
  * 	Location Servlet
@@ -412,35 +425,29 @@ public class SearchServlet extends HttpServlet
 		ArrayList<MBPartner> list = new ArrayList<MBPartner>();
 		String sql = "SELECT * FROM C_BPartner";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MBPartner partner = new MBPartner (ctx, rs, null);
 				//s_cache.put (new Integer (partner.getAD_Client_ID()), partner);
 				list.add (partner);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			//s_log.log(Level.SEVERE, sql, e);
 			log.severe(e.getMessage());
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		MBPartner[] retValue = new MBPartner[list.size ()];
 		list.toArray (retValue);
 		return retValue;
