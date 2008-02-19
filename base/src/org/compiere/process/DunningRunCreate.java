@@ -183,6 +183,7 @@ public class DunningRunCreate extends SvrProcess
 		
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
@@ -199,7 +200,7 @@ public class DunningRunCreate extends SvrProcess
 			//
 			pstmt2 = DB.prepareStatement (sql2, get_TrxName());
 			//
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int C_Invoice_ID = rs.getInt(1);
@@ -251,29 +252,16 @@ public class DunningRunCreate extends SvrProcess
 					TimesDunned, DaysAfterLast);
 				count++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-			pstmt2.close();
-			pstmt2 = null;
+ 
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "addInvoices", e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			if (pstmt2 != null)
-				pstmt2.close ();
-			pstmt = null;
-			pstmt2 = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-			pstmt2 = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null; pstmt2 = null;
 		}
 		return count;
 	}	//	addInvoices
@@ -341,6 +329,7 @@ public class DunningRunCreate extends SvrProcess
 		
 		int count = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
@@ -351,7 +340,7 @@ public class DunningRunCreate extends SvrProcess
 			else if (p_C_BP_Group_ID != 0)
 				pstmt.setInt (3, p_C_BP_Group_ID);
 
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int C_Payment_ID = rs.getInt(1);
@@ -367,23 +356,15 @@ public class DunningRunCreate extends SvrProcess
 					C_BPartner_ID);
 				count++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return count;
 	}	//	addPayments
