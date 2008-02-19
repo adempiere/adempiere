@@ -16,12 +16,18 @@
  *****************************************************************************/
 package org.compiere.sla;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MInOut;
+import org.compiere.model.MSLAGoal;
+import org.compiere.model.MSLAMeasure;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	SLA Delivery Accuracy.
@@ -68,12 +74,13 @@ public class DeliveryAccuracy extends SLACriteria
 				+ " AND m.Record_ID=io.M_InOut_ID)";
 		int counter = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, goal.getC_BPartner_ID());
 			pstmt.setInt (2, goal.getPA_SLA_Goal_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				int M_InOut_ID = rs.getInt(1);
@@ -89,23 +96,15 @@ public class DeliveryAccuracy extends SLACriteria
 						counter++;
 				}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "createMeasures", e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return counter;
 	}	//	createMeasures
