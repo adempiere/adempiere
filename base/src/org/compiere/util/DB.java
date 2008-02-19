@@ -680,25 +680,33 @@ public final class DB
 
 	
 	/**************************************************************************
-	 *	Prepare Read Only Statement
-	 *  @param RO_SQL sql (RO)
+	 *	Prepare Statement
+	 *  @param sql
 	 *  @return Prepared Statement
 	 *  @deprecated
 	 */
-	public static CPreparedStatement prepareStatement (String RO_SQL)
+	public static CPreparedStatement prepareStatement (String sql)
 	{
-		return prepareStatement(RO_SQL, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
+		int concurrency = ResultSet.CONCUR_READ_ONLY;
+		String upper = sql.toUpperCase();
+		if (upper.startsWith("UPDATE ") || upper.startsWith("DELETE "))
+			concurrency = ResultSet.CONCUR_UPDATABLE;
+		return prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, concurrency, null);
 	}	//	prepareStatement
 
 	/**
-	 *	Prepare Read Only Statement
-	 *  @param RO_SQL sql (RO)
+	 *	Prepare Statement
+	 *  @param sql
 	 * 	@param trxName transaction
 	 *  @return Prepared Statement
 	 */
-	public static CPreparedStatement prepareStatement (String RO_SQL, String trxName)
+	public static CPreparedStatement prepareStatement (String sql, String trxName)
 	{
-		return prepareStatement(RO_SQL, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
+		int concurrency = ResultSet.CONCUR_READ_ONLY;
+		String upper = sql.toUpperCase();
+		if (upper.startsWith("UPDATE ") || upper.startsWith("DELETE "))
+			concurrency = ResultSet.CONCUR_UPDATABLE;
+		return prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, concurrency, trxName);
 	}	//	prepareStatement
 	
 	/**
