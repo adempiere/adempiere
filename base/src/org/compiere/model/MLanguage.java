@@ -16,12 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 /**
  * 	Language Model
@@ -131,32 +141,25 @@ public class MLanguage extends X_AD_Language
 		String sql = "SELECT * FROM AD_Language "
 			+ "WHERE IsSystemLanguage='Y' AND IsBaseLanguage='N' AND IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MLanguage language = new MLanguage (ctx, rs, null);
 				language.maintain(true);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	maintain
 
