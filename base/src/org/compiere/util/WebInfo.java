@@ -432,33 +432,25 @@ public class WebInfo
 			+ " AND (C_BPartner_ID=?"
 			+ " OR SalesRep_ID IN (SELECT AD_User_ID FROM AD_User WHERE C_BPartner_ID=?))";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_id);
 			pstmt.setInt(2, getC_BPartner_ID());
 			pstmt.setInt(3, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = new MRequest (m_ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+ 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "R_Request_ID=" + m_id, e);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("R_Request_ID=" + m_id + " - " + retValue);
 		return retValue;
