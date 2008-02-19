@@ -453,7 +453,7 @@ public final class DB
 
         if (conn == null)
         {
-            throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@. " + s_cc.getDatabaseException());
+            throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@");
         }
 
         return conn;
@@ -680,25 +680,25 @@ public final class DB
 
 	
 	/**************************************************************************
-	 *	Prepare Statement
-	 *  @param sql
+	 *	Prepare Read Only Statement
+	 *  @param RO_SQL sql (RO)
 	 *  @return Prepared Statement
 	 *  @deprecated
 	 */
-	public static CPreparedStatement prepareStatement (String sql)
+	public static CPreparedStatement prepareStatement (String RO_SQL)
 	{
-		return prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, null);
+		return prepareStatement(RO_SQL, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
 	}	//	prepareStatement
 
 	/**
-	 *	Prepare Statement
-	 *  @param sql
+	 *	Prepare Read Only Statement
+	 *  @param RO_SQL sql (RO)
 	 * 	@param trxName transaction
 	 *  @return Prepared Statement
 	 */
-	public static CPreparedStatement prepareStatement (String sql, String trxName)
+	public static CPreparedStatement prepareStatement (String RO_SQL, String trxName)
 	{
-		return prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, trxName);
+		return prepareStatement(RO_SQL, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
 	}	//	prepareStatement
 	
 	/**
@@ -733,12 +733,12 @@ public final class DB
 	}	//	prepareStatement
 
 	/**
-	 *	Create Statement
+	 *	Create Read Only Statement
 	 *  @return Statement
 	 */
 	public static Statement createStatement()
 	{
-		return createStatement (ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, null);
+		return createStatement (ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
 	}	//	createStatement
 
 	/**
