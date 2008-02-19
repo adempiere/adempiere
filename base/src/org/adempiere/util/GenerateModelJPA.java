@@ -34,8 +34,8 @@ import org.compiere.util.Env;
  *  Generate Model Classes extending PO.
  *  Base class for CMP interface - will be extended to create byte code directly
  *
- *  @author Jorg Janke
- *  @version $Id: GenerateModel.java,v 1.5 2006/07/30 00:54:36 jjanke Exp $
+ *  @author Jorg Janke, Victor Perez (JPA variation)
+ *  @version $Id$
  */
 public class GenerateModelJPA
 {
@@ -60,7 +60,7 @@ public class GenerateModelJPA
 	public static final String COPY = 
 		 "/******************************************************************************\n"
 		+" * Product: Adempiere ERP & CRM Smart Business Solution                        *\n"
-		+" * Copyright (C) 1999-2006 Adempiere Fundation. All Rights Reserved.                *\n"
+		+" * Copyright (C) 2006-2008 Adempiere Bazaar. All Rights Reserved.                *\n"
 		+" * This program is free software; you can redistribute it and/or modify it    *\n"
 		+" * under the terms version 2 of the GNU General Public License as published   *\n"
 		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
@@ -71,9 +71,8 @@ public class GenerateModelJPA
 		+" * with this program; if not, write to the Free Software Foundation, Inc.,    *\n"
 		//+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
 		//+" * For the text or an alternative of this public license, you may reach us    *\n"
-		+" * or via info@adempiere.org or http://www.adempiere.org/license.html           *\n"
-                +" *  Enterprise: e-Evolution,SC     www.e-evolution.com                        *\n"    
-                +" * Contributor: Victor Perez Juarez                                           *\n" 
+		+" * or via www.adempiere.org or http://www.adempiere.org/wiki		           *\n"
+                   +" * Contributor: Victor Perez Juarez                                           *\n" 
 		+" *****************************************************************************/\n";
 	
 	/**	Generated on					*/
@@ -96,19 +95,17 @@ public class GenerateModelJPA
 		int accessLevel = 0;
 		String sql = "SELECT TableName, AccessLevel FROM AD_Table WHERE AD_Table_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				tableName = rs.getString(1);
 				accessLevel = rs.getInt(2);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -116,14 +113,8 @@ public class GenerateModelJPA
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (tableName == null)
 			throw new RuntimeException ("TableName not found for ID=" + AD_Table_ID);
