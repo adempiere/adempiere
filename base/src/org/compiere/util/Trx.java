@@ -213,7 +213,10 @@ public class Trx implements VetoableChangeListener
 			{	//	See ServerBean
 				server.startTransaction(getTrxName());
 			}
-			log.log(Level.WARNING, "AppsServer not found");
+			else
+			{
+				log.log(Level.WARNING, "AppsServer not found");
+			}
 		}
 		catch (RemoteException ex)
 		{
@@ -327,10 +330,13 @@ public class Trx implements VetoableChangeListener
 			{	//	See ServerBean
 				return server.rollback(m_trxName);
 			}
-			log.log(Level.SEVERE, "AppsServer not found");
-			if (throwException)
-				throw new SQLException("AppsServer not found");
-			return false;
+			else
+			{
+				log.log(Level.SEVERE, "AppsServer not found");
+				if (throwException)
+					throw new SQLException("AppsServer not found");
+				return false;
+			}
 		}
 		catch (RemoteException ex)
 		{
@@ -375,8 +381,11 @@ public class Trx implements VetoableChangeListener
 					sp = new SavepointVO(savepoint);
 				return server.rollback(m_trxName, sp);
 			}
-			log.log(Level.SEVERE, "AppsServer not found");
-			throw new SQLException("AppsServer not found");
+			else
+			{
+				log.log(Level.SEVERE, "AppsServer not found");
+				throw new SQLException("AppsServer not found");
+			}
 		}
 		catch (RemoteException ex)
 		{
@@ -449,10 +458,13 @@ public class Trx implements VetoableChangeListener
 			{	//	See ServerBean
 				return server.commit(m_trxName);
 			}
-			log.log(Level.SEVERE, "AppsServer not found");
-			if (throwException)
-				throw new SQLException("AppsServer not found");
-			return false;
+			else
+			{
+				log.log(Level.SEVERE, "AppsServer not found");
+				if (throwException)
+					throw new SQLException("AppsServer not found");
+				return false;
+			}
 		}
 		catch (RemoteException ex)
 		{
@@ -540,7 +552,10 @@ public class Trx implements VetoableChangeListener
 			{	//	See ServerBean
 				server.closeTransaction(getTrxName());
 			}
-			log.log(Level.WARNING, "AppsServer not found");
+			else 
+			{
+				log.log(Level.WARNING, "AppsServer not found");
+			}
 		}
 		catch (RemoteException ex)
 		{
@@ -580,8 +595,11 @@ public class Trx implements VetoableChangeListener
 			{	//	See ServerBean
 				return server.setSavepoint(m_trxName, name);
 			}
-			log.log(Level.SEVERE, "AppsServer not found");
-			throw new SQLException("AppsServer not found");
+			else
+			{
+				log.log(Level.SEVERE, "AppsServer not found");
+				throw new SQLException("AppsServer not found");
+			}
 		}
 		catch (RemoteException ex)
 		{
