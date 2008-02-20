@@ -181,6 +181,11 @@
     <!-- Create CSTools jar		-->
     <jar jarfile="${dist.dir}/CSTools.jar" duplicate="preserve">
 
+      <!-- services entries -->
+      <fileset dir=".">
+        <include name="META-INF/services/**"/>
+	  </fileset>
+    	
       <!-- JSTL				-->
       <zipfileset src="lib/jstl.jar">
 		<patternset refid="manifest.exclude"/>
@@ -282,10 +287,17 @@
   	
     <!-- Create CCTools.jar file 	-->
     <jar jarfile="${dist.dir}/CCTools.jar" duplicate="preserve">
+      
+      <!-- services entries -->
+      <fileset dir=".">
+    	<include name="META-INF/services/**"/>
+      </fileset>
+    	
       <!-- ECS -->
       <fileset dir="${build.dir}">
 	   <include name="**/apache/ecs/**"/>
       </fileset>
+      
       <!-- Mail				-->
       <zipfileset src="lib/activation.jar" >
 		<patternset refid="manifest.exclude"/>
