@@ -45,15 +45,17 @@ goto START
 
 :NEXT
 
+cd utils
+
 @Rem ===================================
 @Rem Sign Database Build
 @Rem ===================================
-@"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.SignDatabaseBuild
+@Call RUN_SignDatabaseBuild.bat > NUL 2>&1
 
 @Rem ===================================
 @Rem Setup Adempiere Environment
 @Rem ===================================
-@Call utils\RUN_WinEnv.bat
+@Call RUN_WinEnv.bat
 
 @Echo .
 @Echo For problems, check log file in base directory
