@@ -293,7 +293,7 @@ public class ModelClassGenerator
 		String sql = "SELECT c.ColumnName, c.IsUpdateable, c.IsMandatory,"		//	1..3
 			+ " c.AD_Reference_ID, c.AD_Reference_Value_ID, DefaultValue, SeqNo, "	//	4..7
 			+ " c.FieldLength, c.ValueMin, c.ValueMax, c.VFormat, c.Callout, "	//	8..12
-			+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted, c.IsKey "
+			+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted, c.IsKey, c.IsIdentifier "  // 13..18
 			+ "FROM AD_Column c "
 			+ "WHERE c.AD_Table_ID=?"
 			+ " AND c.ColumnName <> 'AD_Client_ID'"
@@ -303,6 +303,7 @@ public class ModelClassGenerator
 			+ " AND c.ColumnName NOT LIKE 'Updated%' "
 			+ " AND c.IsActive='Y'"
 			+ " ORDER BY c.ColumnName";
+		boolean isKeyNamePairCreated = false; // true if the method "getKeyNamePair" is already generated
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -329,6 +330,7 @@ public class ModelClassGenerator
 				boolean virtualColumn = ColumnSQL != null && ColumnSQL.length() > 0;
 				boolean IsEncrypted = "Y".equals(rs.getString(16));
 				boolean IsKey = "Y".equals(rs.getString(17));
+				boolean IsIdentifier = "Y".equals(rs.getString(18));
 				//
 				sb.append(
 					createColumnMethods (mandatory,
@@ -338,8 +340,16 @@ public class ModelClassGenerator
 							Callout, Name, Description, virtualColumn, IsEncrypted, IsKey)
 				);
 				//	
-				if (seqNo == 1)
-					sb.append(createKeyNamePair(columnName, displayType));
+				if (seqNo == 1 && IsIdentifier) {
+					if (!isKeyNamePairCreated) {
+						sb.append(createKeyNamePair(columnName, displayType));
+						isKeyNamePairCreated = true;
+					}
+					else {
+						throw new RuntimeException("More than one primary identifier found "
+								+ " (AD_Table_ID=" + AD_Table_ID + ", ColumnName=" + columnName + ")");
+					}
+				}
 			}
 			rs.close();
 			pstmt.close();
