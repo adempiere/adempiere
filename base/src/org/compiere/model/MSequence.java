@@ -30,7 +30,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -621,91 +620,19 @@ public class MSequence extends X_AD_Sequence
 		//	create DocumentNo
 		StringBuffer doc = new StringBuffer();
 		if (prefix != null && prefix.length() > 0)
-			doc.append(parseVariable(prefix, po, trxName));
+			doc.append(Env.parseVariable(prefix, po, trxName, false));
 		if (decimalPattern != null && decimalPattern.length() > 0)
 			doc.append(new DecimalFormat(decimalPattern).format(next));
 		else
 			doc.append(next);
 		if (suffix != null && suffix.length() > 0)
-			doc.append(parseVariable(suffix, po, trxName));
+			doc.append(Env.parseVariable(suffix, po, trxName, false));
 		String documentNo = doc.toString();
 		s_log.finer (documentNo + " (" + incrementNo + ")" 
 				+ " - Table=" + TableName + " [" + trx + "]");
 		return documentNo;
 	}	//	getDocumentNo
-	
-	private static String parseVariable(String value, PO po, String trxName) {
-		if (value == null || value.length() == 0)
-			return "";
-
-		String token;
-		String inStr = new String(value);
-		StringBuffer outStr = new StringBuffer();
-
-		int i = inStr.indexOf('@');
-		while (i != -1)
-		{
-			outStr.append(inStr.substring(0, i));			// up to @
-			inStr = inStr.substring(i+1, inStr.length());	// from first @
-
-			int j = inStr.indexOf('@');						// next @
-			if (j < 0)
-			{
-				s_log.log(Level.SEVERE, "No second tag: " + inStr);
-				return "";						//	no second tag
-			}
-
-			token = inStr.substring(0, j);
-			
-			//format string
-			String format = "";
-			int f = token.indexOf('<');
-			if (f > 0 && token.endsWith(">")) {
-				format = token.substring(f+1, token.length()-1);
-				token = token.substring(0, f);
-			}
-			
-			if (token.startsWith("#") || token.startsWith("$")) {
-				//take from context
-				Properties ctx = po != null ? po.getCtx() : Env.getCtx();
-				String v = Env.getContext(ctx, token);
-				if (v != null && v.length() > 0)
-					outStr.append(v);
-			} else if (po != null) {
-				//take from po
-				Object v = po.get_Value(token);
-				if (v != null) {
-					if (format != null && format.length() > 0) {
-						if (v instanceof Integer && token.endsWith("_ID")) {
-							int tblIndex = format.indexOf(".");
-							String table = tblIndex > 0 ? format.substring(0, tblIndex) : token.substring(0, token.length() - 3);
-							String column = tblIndex > 0 ? format.substring(tblIndex + 1) : format;
-							outStr.append(DB.getSQLValueString(trxName, 
-									"select " + column + " from  " + table + " where " + table + "_id = ?", (Integer)v));
-						} else if (v instanceof Date) {
-							SimpleDateFormat df = new SimpleDateFormat(format);
-							outStr.append(df.format((Date)v));
-						} else if (v instanceof Number) {
-							DecimalFormat df = new DecimalFormat(format);
-							outStr.append(df.format(((Number)v).doubleValue()));
-						} else {
-							MessageFormat mf = new MessageFormat(format);
-							outStr.append(mf.format(v));
-						}
-					} else {
-						outStr.append(v.toString());
-					}
-				}
-			}
-
-			inStr = inStr.substring(j+1, inStr.length());	// from second @
-			i = inStr.indexOf('@');
-		}
-		outStr.append(inStr);						// add the rest of the string
-
-		return outStr.toString();
-	}
-
+		
 	/**
 	 * 	Get Document No based on Document Type
 	 *	@param C_DocType_ID document type
@@ -994,13 +921,13 @@ public class MSequence extends X_AD_Sequence
 		//	create DocumentNo
 		StringBuffer doc = new StringBuffer();
 		if (prefix != null && prefix.length() > 0)
-			doc.append(parseVariable(prefix, po, trxName));
+			doc.append(Env.parseVariable(prefix, po, trxName, false));
 		if (decimalPattern != null && decimalPattern.length() > 0)
 			doc.append(new DecimalFormat(decimalPattern).format(next));
 		else
 			doc.append(next);
 		if (suffix != null && suffix.length() > 0)
-			doc.append(parseVariable(suffix, po, trxName));
+			doc.append(Env.parseVariable(suffix, po, trxName, false));
 		String documentNo = doc.toString();
 		s_log.finer (documentNo + " (" + incrementNo + ")" 
 				+ " - C_DocType_ID=" + C_DocType_ID + " [" + trx + "]");

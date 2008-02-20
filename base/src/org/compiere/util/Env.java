@@ -20,8 +20,13 @@ import java.awt.*;
 import java.math.*;
 import java.net.*;
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.logging.*;
+
 import javax.swing.*;
 
 import org.compiere.*;
@@ -1178,6 +1183,90 @@ public final class Env
 	{
 		return parseContext(ctx, WindowNo, value, onlyWindow, false);
 	}	//	parseContext
+	
+	/**
+	 * Parse expression, replaces global or PO properties @tag@ with actual value. 
+	 * @param expression
+	 * @param po
+	 * @param trxName
+	 * @return String
+	 */
+	public static String parseVariable(String expression, PO po, String trxName, boolean keepUnparseable) {
+		if (expression == null || expression.length() == 0)
+			return "";
+
+		String token;
+		String inStr = new String(expression);
+		StringBuffer outStr = new StringBuffer();
+
+		int i = inStr.indexOf('@');
+		while (i != -1)
+		{
+			outStr.append(inStr.substring(0, i));			// up to @
+			inStr = inStr.substring(i+1, inStr.length());	// from first @
+
+			int j = inStr.indexOf('@');						// next @
+			if (j < 0)
+			{
+				s_log.log(Level.SEVERE, "No second tag: " + inStr);
+				return "";						//	no second tag
+			}
+
+			token = inStr.substring(0, j);
+			
+			//format string
+			String format = "";
+			int f = token.indexOf('<');
+			if (f > 0 && token.endsWith(">")) {
+				format = token.substring(f+1, token.length()-1);
+				token = token.substring(0, f);
+			}
+			
+			if (token.startsWith("#") || token.startsWith("$")) {
+				//take from context
+				Properties ctx = po != null ? po.getCtx() : Env.getCtx();
+				String v = Env.getContext(ctx, token);
+				if (v != null && v.length() > 0)
+					outStr.append(v);
+				else if (keepUnparseable)
+					outStr.append("@"+token+"@");
+			} else if (po != null) {
+				//take from po
+				Object v = po.get_Value(token);
+				if (v != null) {
+					if (format != null && format.length() > 0) {
+						if (v instanceof Integer && token.endsWith("_ID")) {
+							int tblIndex = format.indexOf(".");
+							String table = tblIndex > 0 ? format.substring(0, tblIndex) : token.substring(0, token.length() - 3);
+							String column = tblIndex > 0 ? format.substring(tblIndex + 1) : format;
+							outStr.append(DB.getSQLValueString(trxName, 
+									"select " + column + " from  " + table + " where " + table + "_id = ?", (Integer)v));
+						} else if (v instanceof Date) {
+							SimpleDateFormat df = new SimpleDateFormat(format);
+							outStr.append(df.format((Date)v));
+						} else if (v instanceof Number) {
+							DecimalFormat df = new DecimalFormat(format);
+							outStr.append(df.format(((Number)v).doubleValue()));
+						} else {
+							MessageFormat mf = new MessageFormat(format);
+							outStr.append(mf.format(v));
+						}
+					} else {
+						outStr.append(v.toString());
+					}
+				}
+				else if (keepUnparseable) {
+					outStr.append("@"+token+"@");
+				}
+			}
+
+			inStr = inStr.substring(j+1, inStr.length());	// from second @
+			i = inStr.indexOf('@');
+		}
+		outStr.append(inStr);						// add the rest of the string
+
+		return outStr.toString();
+	}
 
 	/*************************************************************************/
 
