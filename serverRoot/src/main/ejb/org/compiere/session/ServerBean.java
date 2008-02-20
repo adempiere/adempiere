@@ -875,10 +875,6 @@ public class ServerBean implements SessionBean
 			{
 				throw new RuntimeException(e);
 			} 
-			finally 
-			{
-				trx.close();
-			}
 		}
 		return success;
 	}
@@ -902,10 +898,6 @@ public class ServerBean implements SessionBean
 			catch (SQLException e) 
 			{
 				throw new RuntimeException(e);
-			}
-			finally 
-			{
-				trx.close();
 			}
 		}
 		return success;
@@ -931,10 +923,6 @@ public class ServerBean implements SessionBean
 			catch (SQLException e) 
 			{
 				throw new RuntimeException(e);
-			}
-			finally 
-			{
-				trx.close();
 			}
 		}
 		return success;
