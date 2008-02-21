@@ -258,7 +258,9 @@ public class ReplenishReport extends SvrProcess
 		//	Set Minimum / Maximum Maintain Level
 		//	X_M_Replenish.REPLENISHTYPE_ReorderBelowMinimumLevel
 		sql = "UPDATE T_Replenish"
-			+ " SET QtyToOrder = Level_Min - QtyOnHand + QtyReserved - QtyOrdered "
+			+ " SET QtyToOrder = CASE WHEN QtyOnHand - QtyReserved + QtyOrdered <= Level_Min "
+			+ " THEN Level_Max - QtyOnHand + QtyReserved - QtyOrdered "
+			+ " ELSE 0 END "
 			+ "WHERE ReplenishType='1'" 
 			+ " AND AD_PInstance_ID=" + getAD_PInstance_ID();
 		no = DB.executeUpdate(sql, get_TrxName());
