@@ -101,6 +101,8 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		parameterBankPanel.setVisible(false);
 		shipmentLabel.setVisible(false);
 		shipmentField.setVisible(false);
+		sameWarehouseCb.setSelected(true);
+		sameWarehouseCb.addActionListener(this);
 
 		//  load Locator
 		int AD_Column_ID = 3537;            //  M_InOut.M_Locator_ID
@@ -285,6 +287,11 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
                 invoiceField.setSelectedIndex(-1);
                 loadRMA(M_RMA_ID);
             }
+        }
+		//sameWarehouseCb
+        else if (e.getSource().equals(sameWarehouseCb))
+        {
+        	initBPartnerOIS(((Integer)bPartnerField.getValue()).intValue(), false);
         }
 	}   //  actionPerformed
 

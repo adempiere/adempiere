@@ -65,6 +65,7 @@ public class VCreateFromRMA extends VCreateFrom
         shipmentLabel.setVisible(false);
         shipmentField.setVisible(false);
         
+        sameWarehouseCb.setVisible(false);
                
         rmaLabel.setVisible(false);
         rmaField.setVisible(false);

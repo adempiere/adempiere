@@ -32,6 +32,8 @@ import org.compiere.util.*;
  *  @version $Id: MInOut.java,v 1.4 2006/07/30 00:51:03 jjanke Exp $
  *  
  *  Modifications: Added the RMA functionality (Ashley Ramdass)
+ *  @author Karsten Thiemann, Schaeffer AG
+ * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -1230,10 +1232,14 @@ public class MInOut extends X_M_InOut implements DocAction
 			{
 				log.fine("Material Transaction");
 				MTransaction mtrx = null; 
+				//same warehouse in order and receipt?
+				boolean sameWarehouse = true;
 				//	Reservation ASI - assume none
 				int reservationAttributeSetInstance_ID = 0; // sLine.getM_AttributeSetInstance_ID();
-				if (oLine != null)
+				if (oLine != null) {
 					reservationAttributeSetInstance_ID = oLine.getM_AttributeSetInstance_ID();
+					sameWarehouse = oLine.getM_Warehouse_ID()==getM_Warehouse_ID();
+				}
 				//
 				if (sLine.getM_AttributeSetInstance_ID() == 0)
 				{
@@ -1254,15 +1260,32 @@ public class MInOut extends X_M_InOut implements DocAction
 							else
 								QtyPOMA = ma.getMovementQty();
 						}
+						BigDecimal diffQtyOrdered = QtyPOMA.negate();
+						if (!sameWarehouse) {
+							diffQtyOrdered = Env.ZERO;
+						}
 						//	Update Storage - see also VMatch.createMatchRecord
 						if (!MStorage.add(getCtx(), getM_Warehouse_ID(),
 							sLine.getM_Locator_ID(),
 							sLine.getM_Product_ID(), 
 							ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-							QtyMA, QtySOMA.negate(), QtyPOMA.negate(), get_TrxName()))
+							QtyMA, QtySOMA.negate(), diffQtyOrdered, get_TrxName()))
 						{
 							m_processMsg = "Cannot correct Inventory (MA)";
 							return DocAction.STATUS_Invalid;
+						}
+						if (!sameWarehouse) {
+							//correct qtyOrdered in warehouse of order
+							MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
+							if (!MStorage.add(getCtx(), oLine.getM_Warehouse_ID(),
+									wh.getDefaultLocator().getM_Locator_ID(),
+									sLine.getM_Product_ID(), 
+									ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
+									Env.ZERO, Env.ZERO, QtyPOMA.negate(), get_TrxName()))
+								{
+									m_processMsg = "Cannot correct Inventory (MA) in order warehouse";
+									return DocAction.STATUS_Invalid;
+								}
 						}
 						//	Create Transaction
 						mtrx = new MTransaction (getCtx(), sLine.getAD_Org_ID(), 
@@ -1280,15 +1303,32 @@ public class MInOut extends X_M_InOut implements DocAction
 				//	sLine.getM_AttributeSetInstance_ID() != 0
 				if (mtrx == null)
 				{
+					BigDecimal diffQtyOrdered = QtyPO.negate();
+					if (!sameWarehouse) {
+						diffQtyOrdered = Env.ZERO;
+					}
 					//	Fallback: Update Storage - see also VMatch.createMatchRecord
 					if (!MStorage.add(getCtx(), getM_Warehouse_ID(), 
 						sLine.getM_Locator_ID(),
 						sLine.getM_Product_ID(), 
 						sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-						Qty, QtySO.negate(), QtyPO.negate(), get_TrxName()))
+						Qty, QtySO.negate(), diffQtyOrdered, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory";
 						return DocAction.STATUS_Invalid;
+					}
+					if (!sameWarehouse) {
+						//correct qtyOrdered in warehouse of order
+						MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
+						if (!MStorage.add(getCtx(), oLine.getM_Warehouse_ID(), 
+								wh.getDefaultLocator().getM_Locator_ID(),
+								sLine.getM_Product_ID(), 
+								sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
+								Env.ZERO, Env.ZERO, QtyPO.negate(), get_TrxName()))
+							{
+								m_processMsg = "Cannot correct Inventory";
+								return DocAction.STATUS_Invalid;
+							}
 					}
 					//	FallBack: Create Transaction
 					mtrx = new MTransaction (getCtx(), sLine.getAD_Org_ID(),

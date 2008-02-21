@@ -64,6 +64,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 		invoiceField.setVisible(false);
 		locatorLabel.setVisible(false);
 		locatorField.setVisible(false);
+		sameWarehouseCb.setVisible(false);
         
 		// RMA Selection option should only be available for AP Credit Memo
 		Integer docTypeId = (Integer)p_mTab.getValue("C_DocTypeTarget_ID");

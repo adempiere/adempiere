@@ -42,6 +42,8 @@ import org.compiere.util.*;
  * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
  * @author Victor Perez, e-Evolucion 
  *          <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
+ * @author Karsten Thiemann, Schaeffer AG
+ * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
  */
 public abstract class VCreateFrom extends CDialog
 	implements ActionListener, TableModelListener
@@ -137,6 +139,8 @@ public abstract class VCreateFrom extends CDialog
 	protected VString authorizationField = new VString();
 	private GridBagLayout parameterStdLayout = new GridBagLayout();
 	private GridBagLayout parameterBankLayout = new GridBagLayout();
+	// Bug [1759431]
+	protected JCheckBox sameWarehouseCb = new JCheckBox();
 	protected VLookup bPartnerField;
 	protected JLabel orderLabel = new JLabel();
 	protected JComboBox orderField = new JComboBox();
@@ -188,6 +192,9 @@ public abstract class VCreateFrom extends CDialog
 		shipmentLabel.setText(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
 		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
         rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
+        sameWarehouseCb.setText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", true));
+        sameWarehouseCb.setToolTipText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", false));
+        
 		//
 		this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
 		parameterPanel.add(parameterBankPanel, BorderLayout.NORTH);
@@ -229,6 +236,8 @@ public abstract class VCreateFrom extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterStdPanel.add(locatorField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		parameterStdPanel.add(sameWarehouseCb, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
         
         // Add RMA document selection to panel
         parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
@@ -377,7 +386,7 @@ public abstract class VCreateFrom extends CDialog
 	{
 		log.config("C_BPartner_ID=" + C_BPartner_ID);
 		KeyNamePair pp = new KeyNamePair(0,"");
-
+		boolean sameWarehouseOnly = sameWarehouseCb.isVisible() && sameWarehouseCb.isSelected();
 		//  load PO Orders - Closed, Completed
 		orderField.removeActionListener(this);
 		orderField.removeAllItems();
@@ -396,12 +405,19 @@ public abstract class VCreateFrom extends CDialog
 			+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx='N' AND o.DocStatus IN ('CL','CO')"
 			+ " AND o.C_Order_ID IN "
 				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
-				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) "
-			+ "ORDER BY o.DateOrdered");
+				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) ");
+		if(sameWarehouseOnly) {
+			sql = sql.append(" AND o.M_Warehouse_ID=? ");
+		}
+		sql = sql.append("ORDER BY o.DateOrdered");
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
+			if(sameWarehouseOnly) {
+				//only active for material receipts
+				pstmt.setInt(2, Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID"));
+			}
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -417,6 +433,7 @@ public abstract class VCreateFrom extends CDialog
 		}
 		orderField.setSelectedIndex(0);
 		orderField.addActionListener(this);
+		this.pack();
 
 		initBPDetails(C_BPartner_ID);
 	}   //  initBPartnerOIS
