@@ -811,3 +811,4 @@
 84,Control d,Control d Taxexpense Account,Memo,Natural,,,T_EXPENSE_ACCT,8,,,,,,,,,,
 85,Control e,Control e default account,Memo,Natural,Yes,,DEFAULT_ACCT,8,,,,,,,,,,
 87,Control f,Control f Error Balanceo,Memo,Natural,Yes,,SUSPENSEERROR_ACCT,8,,,,,,,,,,
+88,SO Commitment,SO Commitment,Memo,Natural,Yes,,COMMITMENTOFFSETSALES_ACCT,8,,,,,,,,,,
