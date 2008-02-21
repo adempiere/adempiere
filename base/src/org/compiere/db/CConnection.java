@@ -87,14 +87,28 @@ public class CConnection implements Serializable, Cloneable
 				CConnection cc = null;
 				if (apps_host != null && Adempiere.isWebStartClient())
 				{
+					//default to vpn for webstart client
 					cc = new CConnection(apps_host);
-					cc.setConnectionProfile(CConnection.PROFILE_WAN);
-					cc.setAppsPort(80);
+					cc.setConnectionProfile(CConnection.PROFILE_VPN);
+					cc.setAppsPort(DEFAULT_APP_SERVER_PORT);
 					if (cc.testAppsServer() == null)
 					{
 						s_cc = cc;
 						Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
 						Ini.saveProperties(Ini.isClient());
+					}
+					else
+					{
+						//try wan
+						cc = new CConnection(apps_host);
+						cc.setConnectionProfile(CConnection.PROFILE_WAN);
+						cc.setAppsPort(80);
+						if (cc.testAppsServer() == null)
+						{
+							s_cc = cc;
+							Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
+							Ini.saveProperties(Ini.isClient());
+						}
 					}
 				}
 				if (s_cc == null)
