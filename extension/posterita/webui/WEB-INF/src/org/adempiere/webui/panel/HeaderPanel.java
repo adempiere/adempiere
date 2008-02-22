@@ -19,7 +19,6 @@ package org.adempiere.webui.panel;
 
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.model.MSysConfig;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -37,7 +36,7 @@ import org.zkoss.zul.Separator;
 
 public class HeaderPanel extends Panel implements EventListener
 {
-	private static final long serialVersionUID = -4293371180738797244L;
+    private static final long serialVersionUID = 1L;
 
     private Image image = new Image();
     private SideUserPanel pnlSideUser;
@@ -65,9 +64,8 @@ public class HeaderPanel extends Panel implements EventListener
     	left.setStyle("text-align:center");
 
     	right.appendChild(pnlSideUser);
-
-    	String homeURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/logo_ad.png");
-    	image.setSrc(homeURL);
+    	
+    	image.setSrc("/images/PosteritaAjaxUILogo.jpg");
     	image.addEventListener(Events.ON_CLICK, this);
     	left.appendChild(image);
     	
@@ -86,8 +84,7 @@ public class HeaderPanel extends Panel implements EventListener
 			return;
 		
 		if (event.getTarget() == image){
-			String homeURL = MSysConfig.getValue("WEBUI_HOMEURL", "http://www.adempiere.com/");
-			SessionManager.getAppDesktop().showURL(homeURL, true);
+			SessionManager.getAppDesktop().showURL("http://www.posterita.org/", true);
 		}
 		
 	}

@@ -30,7 +30,6 @@
 		<ant inheritAll="false" dir="webCM"/>
 		<ant inheritAll="false" dir="sqlj"/>
 		<ant inheritAll="false" dir="posterita"/>
-		<ant inheritAll="false" dir="extension/posterita/webui"/>
 	</target>
 	<target name="build" depends="jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -50,8 +49,7 @@
 		<ant inheritAll="false" dir="sqlj" target="clean"/>
 		<ant inheritAll="false" dir="posterita" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
-		<ant inheritAll="false" dir="extension/posterita/webui" target="clean"/>
-	</target>
+  </target>
 
   <target name="clean-all" depends="clean">
     <delete dir="${env.ADEMPIERE_ROOT}"/>
