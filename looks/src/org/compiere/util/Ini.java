@@ -18,10 +18,19 @@ package org.compiere.util;
 
 import java.awt.*;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import javax.jnlp.BasicService;
+import javax.jnlp.FileContents;
+import javax.jnlp.PersistenceService;
+import javax.jnlp.ServiceManager;
+import javax.jnlp.UnavailableServiceException;
+
 import org.adempiere.plaf.*;
 
 
@@ -222,27 +231,34 @@ public final class Ini implements Serializable
 	 */
 	public static void saveProperties (boolean tryUserHome)
 	{
-		String fileName = getFileName (tryUserHome);
-		FileOutputStream fos = null;
-		try
+		if (isWebStartClient())
 		{
-			File f = new File(fileName);
-			fos = new FileOutputStream(f);
-			s_prop.store(fos, "Adempiere");
-			fos.flush();
-			fos.close();
+			saveWebStartProperties();
 		}
-		catch (Exception e)
+		else
 		{
-			log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + e.toString());
-			return;
+			String fileName = getFileName (tryUserHome);
+			FileOutputStream fos = null;
+			try
+			{
+				File f = new File(fileName);
+				fos = new FileOutputStream(f);
+				s_prop.store(fos, "Adempiere");
+				fos.flush();
+				fos.close();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + e.toString());
+				return;
+			}
+			catch (Throwable t)
+			{
+				log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + t.toString());
+				return;
+			}
+			log.finer(fileName);
 		}
-		catch (Throwable t)
-		{
-			log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + t.toString());
-			return;
-		}
-		log.finer(fileName);
 	}	//	save
 
 	/**
@@ -252,9 +268,135 @@ public final class Ini implements Serializable
 	public static void loadProperties (boolean reload)
 	{
 		if (reload || s_prop.size() == 0)
-			loadProperties(getFileName(s_client));
+		{
+			if (isWebStartClient())
+			{
+				loadWebStartProperties();
+			}
+			else
+			{
+				loadProperties(getFileName(s_client));
+			}
+		}
 	}	//	loadProperties
 
+	private static boolean loadWebStartProperties() {
+		boolean loadOK = true;
+		boolean firstTime = false;
+		s_prop = new Properties();
+		
+		PersistenceService ps; 
+
+	    try { 
+	        ps = (PersistenceService)ServiceManager.lookup("javax.jnlp.PersistenceService"); 
+	    } catch (UnavailableServiceException e) {	    	
+	        ps = null; 
+	        log.log(Level.SEVERE, e.toString());
+	        return false;
+	    } 
+
+	    FileContents fc = null;
+	    try {
+			fc = ps.get(getCodeBase());
+		} catch (MalformedURLException e) {
+			log.log(Level.SEVERE, e.toString());
+			return false;
+		} catch (FileNotFoundException e) {
+			try {
+				ps.create(getCodeBase(), 16 * 1024);
+				ps.setTag(getCodeBase(), PersistenceService.DIRTY);
+				fc = ps.get(getCodeBase());
+			} catch (Exception e1) {
+				
+			}
+		} catch (IOException e) {
+			log.log(Level.SEVERE, e.toString());
+			return false;
+		}
+	    
+		try
+		{
+			InputStream is = fc.getInputStream(); 
+			s_prop.load(is);
+			is.close();
+		}
+		catch (Throwable t)
+		{
+			log.log(Level.SEVERE, t.toString());
+			loadOK = false;
+		}
+		if (!loadOK || s_prop.getProperty(P_TODAY, "").equals(""))
+		{
+			firstTime = true;
+			if (isShowLicenseDialog())
+				if (!IniDialog.accept())
+					System.exit(-1);
+		}
+
+		checkProperties();
+		
+		//  Save if not exist or could not be read
+		if (!loadOK || firstTime)
+			saveWebStartProperties();
+		s_loaded = true;
+		s_propertyFileName = getCodeBase().toString();
+		
+		return firstTime;
+		
+	}
+
+	private static void saveWebStartProperties() {
+		PersistenceService ps; 
+
+	    try { 
+	        ps = (PersistenceService)ServiceManager.lookup("javax.jnlp.PersistenceService"); 
+	    } catch (UnavailableServiceException e) { 
+	        ps = null; 
+	        log.log(Level.SEVERE, e.toString());
+	        return;
+	    } 
+	    
+	    try
+		{
+	    	OutputStream os = ps.get(getCodeBase()).getOutputStream(true);
+			s_prop.store(os, "Adempiere");
+			os.flush();
+			os.close();
+		}
+		catch (Throwable t)
+		{
+			log.log(Level.SEVERE, "Cannot save Properties to " + getCodeBase() + " - " + t.toString());
+			return;
+		}
+		
+	}
+
+	/**
+	 * 	Get JNLP CodeBase
+	 *	@return code base or null
+	 */
+	public static URL getCodeBase()
+	{
+		try
+		{
+			BasicService bs = (BasicService)ServiceManager.lookup("javax.jnlp.BasicService"); 
+			URL url = bs.getCodeBase();
+	        return url;
+		} 
+		catch(UnavailableServiceException ue) 
+		{
+			return null; 
+		} 
+	}	//	getCodeBase
+	
+	/**
+	 * @return True if client is started using web start
+	 */
+	public static boolean isWebStartClient()
+	{
+		return getCodeBase() != null;
+	}
+	
 	/**
 	 *  Load INI parameters from filename.
 	 *  Logger is on default level (INFO)
@@ -297,6 +439,19 @@ public final class Ini implements Serializable
 					System.exit(-1);
 		}
 
+		checkProperties();
+		
+		//  Save if not exist or could not be read
+		if (!loadOK || firstTime)
+			saveProperties(true);
+		s_loaded = true;
+		log.info(filename + " #" + s_prop.size());
+		s_propertyFileName = filename;
+		
+		return firstTime;
+	}	//	loadProperties
+
+	private static void checkProperties() {
 		//	Check/set properties	defaults
 		for (int i = 0; i < PROPERTIES.length; i++)
 		{
@@ -311,16 +466,7 @@ public final class Ini implements Serializable
 		if (tempDir == null)
 			tempDir = "";
 		checkProperty(P_TEMP_DIR, tempDir);
-		
-		//  Save if not exist or could not be read
-		if (!loadOK || firstTime)
-			saveProperties(true);
-		s_loaded = true;
-		log.info(filename + " #" + s_prop.size());
-		s_propertyFileName = filename;
-		
-		return firstTime;
-	}	//	loadProperties
+	}
 
 	/**
 	 * 	Delete Property file
