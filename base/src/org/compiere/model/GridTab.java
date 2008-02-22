@@ -2817,10 +2817,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return; 
 		}
 		// switch the line numbers and save new values
-		m_mTable.setValueAt(lineNoNextRow, from, lineCol);
+		
+		m_mTable.setValueAt(lineNoCurrentRow, to, lineCol);
 		setCurrentRow(to, false);
 		m_mTable.dataSave(true);
-		m_mTable.setValueAt(lineNoCurrentRow, to, lineCol);
+		m_mTable.setValueAt(lineNoNextRow, from, lineCol);
 		setCurrentRow(from, false);
 		m_mTable.dataSave(true);
 		//resort
