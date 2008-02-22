@@ -221,7 +221,8 @@ public class ReportCtl
 		if(re.getPrintFormat() != null && re.getPrintFormat().getJasperProcess_ID() > 0)
 		{
 			ProcessInfo pi = new ProcessInfo ("", re.getPrintFormat().getJasperProcess_ID());
-			pi.setPrintPreview(!IsDirectPrint);
+			pi.setPrintPreview( !IsDirectPrint );
+			pi.setRecord_ID ( Record_ID );
 			//	Execute Process
 			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
 		}
