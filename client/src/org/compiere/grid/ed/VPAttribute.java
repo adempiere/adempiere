@@ -371,7 +371,7 @@ public class VPAttribute extends JComponent
 			{
 				m_text.setText(vad.getM_AttributeSetInstanceName());
 				M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
-				if (m_GridTab != null)
+				if (m_GridTab != null && !vad.isNew())
 					m_GridTab.setValue("M_Locator_ID", vad.getM_Locator_ID());
 				changed = true;
 			}
