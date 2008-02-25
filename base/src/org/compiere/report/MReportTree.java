@@ -205,7 +205,7 @@ public class MReportTree
 	/**
 	 * 	Get Where Clause
 	 *	@param ID start node
-	 *	@return ColumnName = 1 or ColumnName IN (1,2,3)
+	 *	@return ColumnName = 1 or ( ColumnName = 1 OR ColumnName = 2 OR ColumnName = 3)
 	 */	
 	public String getWhereClause (int ID)
 	{
@@ -216,24 +216,31 @@ public class MReportTree
 		log.finest("Root=" + node);
 		//
 		StringBuffer result = null;
-		if (node != null && node.isSummary())
+		if (node != null && node.isSummary ())
 		{
-			StringBuffer sb = new StringBuffer();
-			Enumeration en = node.preorderEnumeration();
-			while (en.hasMoreElements())
+			
+			Enumeration<MTreeNode> en = node.preorderEnumeration ();
+			StringBuffer sb = new StringBuffer ();
+			while (en.hasMoreElements ())
 			{
-				MTreeNode nn = (MTreeNode)en.nextElement();
-				if (!nn.isSummary())
+				MTreeNode nn = en.nextElement ();
+				if (!nn.isSummary ())
 				{
 					if (sb.length () > 0)
-						sb.append (",");
-					sb.append(nn.getNode_ID());
-					log.finest("- " + nn);
+					{
+						sb.append (" OR ");
+					}
+					sb.append (ColumnName);
+					sb.append ('=');
+					sb.append (nn.getNode_ID ());
+					log.finest ("- " + nn);
 				}
 				else
-					log.finest("- skipped parent (" + nn + ")");
+					log.finest ("- skipped parent (" + nn + ")");
 			}
-			result = new StringBuffer (ColumnName).append(" IN (").append(sb).append(")");
+			result = new StringBuffer (" ( ");
+			result.append (sb);
+			result.append (" ) ");
 		}
 		else	//	not found or not summary 
 			result = new StringBuffer (ColumnName).append("=").append(ID);
