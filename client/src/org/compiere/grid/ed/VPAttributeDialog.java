@@ -138,8 +138,6 @@ public class VPAttributeDialog extends CDialog
 	private boolean					m_productWindow = false;
 	/**	Change							*/
 	private boolean					m_changed = false;
-	/** Was New ASI was created ?		*/
-	private boolean					m_newASI = false;
 	
 	private CLogger					log = CLogger.getCLogger(getClass());
 	/** Row Counter					*/
@@ -524,7 +522,6 @@ public class VPAttributeDialog extends CDialog
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
 			m_changed = false;
-			m_newASI = false;
 			m_M_AttributeSetInstance_ID = 0;
 			m_M_Locator_ID = 0;
 			dispose();
@@ -705,7 +702,6 @@ public class VPAttributeDialog extends CDialog
 			m_masi.save ();
 			m_M_AttributeSetInstance_ID = m_masi.getM_AttributeSetInstance_ID ();
 			m_M_AttributeSetInstanceName = m_masi.getDescription();
-			m_newASI = true;
 		}
 
 		//	Save Instance Attributes
@@ -795,13 +791,6 @@ public class VPAttributeDialog extends CDialog
 	{
 		return m_changed;
 	}	//	isChanged
-	
-	/**
-	 * @return true if new ASI was created
-	 */
-	public boolean isNew() {
-		return m_newASI;
-	}
 
 } //	VPAttributeDialog
 
