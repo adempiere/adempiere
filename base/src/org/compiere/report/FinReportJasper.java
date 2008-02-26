@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -25,7 +25,9 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
 
@@ -79,6 +81,26 @@ public class FinReportJasper extends FinReport
 	    Trx trx = Trx.get(get_TrxName(), true);
 	    trx.commit();
 	    
+	    // CarlosRuiz - globalqss - allow procedure preprocess
+	    if (proc.getProcedureName() != null && proc.getProcedureName().length() > 0) {
+			//  execute on this thread/connection
+			String sql = "{call " + proc.getProcedureName() + "(?)}";
+			try
+			{
+				CallableStatement cstmt = DB.prepareCall(sql);	//	ro??
+				cstmt.setInt(1, getAD_PInstance_ID());
+				cstmt.executeUpdate();
+				cstmt.close();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql, e);
+				poInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
+			}
+	    }
+	    
+	    // TODO - allow java class preprocess if the classname <> ProcessUtil.JASPER_STARTER_CLASS
+
 	    ProcessUtil.startJavaProcess(getCtx(), poInfo, trx);
 	    
 	    return finReportMsg;
