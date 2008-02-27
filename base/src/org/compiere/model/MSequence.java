@@ -390,7 +390,7 @@ public class MSequence extends X_AD_Sequence
 			{
 				if (server != null)
 				{	//	See ServerBean
-					String dn = server.getDocumentNo (AD_Client_ID, TableName, trxName);
+					String dn = server.getDocumentNo (AD_Client_ID, TableName, trxName, po);
 					s_log.finest("Server => " + dn);
 					if (dn != null)
 						return dn;
@@ -674,6 +674,7 @@ public class MSequence extends X_AD_Sequence
 		}
 		
 		//get from server
+		
 		if (DB.isRemoteObjects())
 		{
 			Server server = CConnection.get().getServer();
@@ -681,7 +682,7 @@ public class MSequence extends X_AD_Sequence
 			{
 				if (server != null)
 				{	//	See ServerBean
-					String dn = server.getDocumentNo (C_DocType_ID, trxName, definite);
+					String dn = server.getDocumentNo (C_DocType_ID, trxName, definite, po);
 					s_log.finest("Server => " + dn);
 					if (dn != null)
 						return dn;
@@ -750,7 +751,7 @@ public class MSequence extends X_AD_Sequence
 		}
 		
 		String selectSQL = null;
-		if (DB.isOracle() == false || DB.isRemoteObjects())
+		if (DB.isOracle() == false)
 		{	
 			if (isStartNewYear) 
 			{

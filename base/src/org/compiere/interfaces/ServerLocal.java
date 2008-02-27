@@ -72,11 +72,28 @@ public interface ServerLocal
    public java.lang.String getDocumentNo( int AD_Client_ID,java.lang.String TableName,java.lang.String trxName ) ;
 
    /**
+    * Get Document No from table
+    * @param AD_Client_ID client
+    * @param TableName table name
+    * @param trxName optional Transaction Name
+    * @param po
+    * @return document no or null    */
+   public java.lang.String getDocumentNo( int AD_Client_ID,java.lang.String TableName,java.lang.String trxName,org.compiere.model.PO po ) ;
+
+   /**
     * Get Document No based on Document Type
     * @param C_DocType_ID document type
     * @param trxName optional Transaction Name
     * @return document no or null    */
    public java.lang.String getDocumentNo( int C_DocType_ID,java.lang.String trxName,boolean definite ) ;
+
+   /**
+    * Get Document No based on Document Type
+    * @param C_DocType_ID document type
+    * @param trxName optional Transaction Name
+    * @param po
+    * @return document no or null    */
+   public java.lang.String getDocumentNo( int C_DocType_ID,java.lang.String trxName,boolean definite,org.compiere.model.PO po ) ;
 
    /**
     * Process Remote
