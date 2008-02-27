@@ -1239,8 +1239,32 @@ public class GridController extends CPanel
 	}
 	
      //FR [ 1757088 ]
-	 public VPanel getvPanel()
-	 {
-	 return vPanel;
-	 }
+	public VPanel getvPanel()
+	{
+		return vPanel;
+	}
+	
+	/**
+	 * Accept pending editor changes.
+	 */
+	public void acceptEditorChanges() 
+	{
+		if (isSingleRow())
+		{
+			Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+			if (c != null && this.isAncestorOf(c))
+			{				
+				Component t = c;
+				while (t != null && t != this) 
+				{
+					if (t instanceof VManagedEditor)
+					{
+						((VManagedEditor)t).commitChanges();
+						return;
+					}
+					t = t.getParent();
+				}
+			}
+		}
+	}
 }   //  GridController

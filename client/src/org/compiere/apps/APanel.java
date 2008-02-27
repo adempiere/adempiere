@@ -1313,6 +1313,7 @@ public final class APanel extends CPanel
 				if (tabPane.isEnabledAt(index))
 				{
 					m_curGC.getTable().removeEditor();
+					m_curGC.acceptEditorChanges();
 					tabPane.setSelectedIndex(index);
 					break;
 				}
@@ -1323,6 +1324,7 @@ public final class APanel extends CPanel
 		else
 		{
 			m_curGC.getTable().removeEditor();
+			m_curGC.acceptEditorChanges();
 			m_curWinTab.setSelectedIndex(index+1);
 		}
 			
@@ -1346,6 +1348,7 @@ public final class APanel extends CPanel
 				if (tabPane.isEnabledAt(index))
 				{
 					m_curGC.getTable().removeEditor();
+					m_curGC.acceptEditorChanges();
 					tabPane.setSelectedIndex(index);
 					break;
 				}
@@ -1356,6 +1359,7 @@ public final class APanel extends CPanel
 		else
 		{
 			m_curGC.getTable().removeEditor();
+			m_curGC.acceptEditorChanges();
 			m_curWinTab.setSelectedIndex(index-1);
 		}
 	}	//	navigateParent
@@ -1444,6 +1448,7 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aFirst.getName()))
 			{	/*cmd_save(false);*/
 				m_curGC.getTable().removeEditor();
+				m_curGC.acceptEditorChanges();
 				m_curTab.navigate(0);
 			}
 			else if (cmd.equals(aSwitchLinesUpAction.getName())) 
@@ -1457,6 +1462,7 @@ public final class APanel extends CPanel
 			{ /* cmd_save(false); */
 				//up-image + shift
 				m_curGC.getTable().removeEditor();
+				m_curGC.acceptEditorChanges();
 				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) {
 					m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				} else {
@@ -1474,6 +1480,7 @@ public final class APanel extends CPanel
 			{ /* cmd_save(false); */
 				//down-image + shift
 				m_curGC.getTable().removeEditor();
+				m_curGC.acceptEditorChanges();
 				if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0) {
 					m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				} else {
@@ -1483,6 +1490,7 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aLast.getName()))
 			{	/*cmd_save(false);*/
 				m_curGC.getTable().removeEditor();
+				m_curGC.acceptEditorChanges();
 				m_curTab.navigate(m_curTab.getRowCount()-1);
 			}
 			else if (cmd.equals(aParent.getName()))
@@ -1687,6 +1695,7 @@ public final class APanel extends CPanel
 		log.config("Manual=" + manualCmd);
 		m_errorDisplayed = false;
 		m_curGC.stopEditor(true);
+		m_curGC.acceptEditorChanges();
 
 		if (m_curAPanelTab != null)
 		{

@@ -40,7 +40,7 @@ import org.compiere.util.*;
  * 			<li>BF [ 1834393 ] VNumber.setFocusable not working
  */
 public final class VNumber extends JComponent
-	implements VEditor, ActionListener, KeyListener, FocusListener
+	implements VEditor, ActionListener, KeyListener, FocusListener, VManagedEditor
 {
 	/**	Number of Columns (12)		*/
 	public final static int SIZE = 12;
@@ -524,8 +524,11 @@ public final class VNumber extends JComponent
 				fireVetoableChange (m_columnName, m_oldText, getValue());
 				fireActionPerformed();
 			}
-			else	//	indicate change
-				fireVetoableChange (m_columnName, m_oldText, getValue());	
+			else	
+			{				
+				//	indicate change
+				fireVetoableChange (m_columnName, m_oldText, null);
+			}
 		}
 		catch (PropertyVetoException pve)	{}
 		m_setting = false;
@@ -555,7 +558,10 @@ public final class VNumber extends JComponent
 			m_text.setText(m_initialText);
 			return;
 		}*/
-		
+		commitChanges();
+	}   //  focusLost
+
+	public void commitChanges() {
 		Object oo = getValue();
 		if (m_rangeSet)
 		{
@@ -598,7 +604,7 @@ public final class VNumber extends JComponent
 		}
 		catch (PropertyVetoException pve)	
 		{}
-	}   //  focusLost
+	}
 
 	/**
 	 *	Invalid Entry - Start Calculator
@@ -710,4 +716,15 @@ public final class VNumber extends JComponent
 		}
 	}	//	fireActionPerformed
 	/**/
+
+	public boolean isDirty() {
+		return m_modified;
+	}
+
+	public void rollbackChanges() {
+		m_text.setText (m_oldText);
+		m_initialText = m_oldText;
+		m_modified = false;
+	}
+
 }	//	VNumber
