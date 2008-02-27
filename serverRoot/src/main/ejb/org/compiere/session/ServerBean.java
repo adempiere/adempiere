@@ -494,6 +494,30 @@ public class ServerBean implements SessionBean
 	}	//	GetDocumentNo
 	
 	/**
+	 * 	Get Document No from table
+	 *  @ejb.interface-method view-type="both"
+	 * 
+	 *	@param AD_Client_ID client
+	 *	@param TableName table name
+	 * 	@param trxName optional Transaction Name
+	 *  @param po
+	 *	@return document no or null
+	 */
+	public String getDocumentNo (int AD_Client_ID, String TableName, String trxName, PO po)
+	{
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
+		m_nextSeqCount++;
+		String dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName, po);
+		if (dn == null)		//	try again
+			dn = MSequence.getDocumentNo (AD_Client_ID, TableName, trxName, po);
+		return dn;
+	}	//	GetDocumentNo
+	
+	/**
 	 * 	Get Document No based on Document Type
 	 *  @ejb.interface-method view-type="both"
 	 * 
@@ -512,6 +536,29 @@ public class ServerBean implements SessionBean
 		String dn = MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
 		if (dn == null)		//	try again
 			dn = MSequence.getDocumentNo (C_DocType_ID, trxName, definite);
+		return dn;
+	}	//	getDocumentNo
+	
+	/**
+	 * 	Get Document No based on Document Type
+	 *  @ejb.interface-method view-type="both"
+	 * 
+	 *	@param C_DocType_ID document type
+	 * 	@param trxName optional Transaction Name
+	 *  @param po
+	 *	@return document no or null
+	 */
+	public String getDocumentNo (int C_DocType_ID, String trxName, boolean definite, PO po)
+	{
+		if (trxName != null) {
+			if (Trx.get(trxName, false) == null) {
+				throw new RuntimeException("Transaction lost - " + trxName);
+			}
+		}
+		m_nextSeqCount++;
+		String dn = MSequence.getDocumentNo (C_DocType_ID, trxName, definite, po);
+		if (dn == null)		//	try again
+			dn = MSequence.getDocumentNo (C_DocType_ID, trxName, definite, po);
 		return dn;
 	}	//	getDocumentNo
 
