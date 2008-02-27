@@ -323,8 +323,28 @@ public final class VPanel extends CTabbedPane
 			}			
 			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 			{
+				boolean textArea = false;
 				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
+				if (mField.getDisplayType() == DisplayType.Text 
+					|| mField.getDisplayType() == DisplayType.TextLong
+					|| mField.getDisplayType() == DisplayType.Memo)
+				{
+					textArea = true;					
+				}
+				if (textArea)
+				{
+					m_gbc.gridheight = 3;
+					m_gbc.weighty = 1;
+					m_gbc.fill = GridBagConstraints.BOTH;
+				}
 				m_tab.getCollapsiblePane().getContentPane().add(field, m_gbc);
+				if (textArea)
+				{
+					m_gbc.gridheight = 1;
+					m_gbc.weighty = 0;
+					m_gbc.fill = GridBagConstraints.HORIZONTAL;
+				}
+				
 				if (!mField.isLongField())
 					fields.get(m_gbc.gridx).add(field);
 				
