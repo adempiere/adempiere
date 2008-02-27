@@ -2147,6 +2147,7 @@ public class GridTable extends AbstractTableModel
 					|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
 					// Bug [ 1807947 ] 
 					|| ( columnName.equals("C_DocType_ID") && hasDocTypeTargetField )
+					|| ( columnName.equals("Line") )
 				)
 				{
 					rowData[i] = field.getDefault();
