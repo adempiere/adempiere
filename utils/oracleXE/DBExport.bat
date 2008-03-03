@@ -10,7 +10,7 @@
 @Rem Must have parameter: userAccount
 @if (%1) == () goto usage
 
-@Rem Clanup
+@Rem Cleanup
 @sqlplus %1/%2@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\%ADEMPIERE_DB_PATH%\Daily.sql
 
 @Rem The Export

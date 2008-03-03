@@ -25,6 +25,7 @@
 @Echo Apps Server start of %ADEMPIERE_APPS_TYPE% not supported
 
 :END
-@Sleep 60
-@Exit
+@Rem Sleep 60
+@CHOICE /C YN /T 60 /D N > NUL
 
+@Exit

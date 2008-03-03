@@ -6,4 +6,5 @@
 @CALL %ADEMPIERE_DB_PATH%\Start.bat
 @Echo Done starting database %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 
-@sleep 60
+@Rem Sleep 60
+@CHOICE /C YN /T 60 /D N > NUL

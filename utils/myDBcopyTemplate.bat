@@ -3,7 +3,7 @@
 
 @Echo Modify the script myDBcopy to copy the database backup
 
-@Rem 	This example creates one inique file per day in a month
+@Rem 	This example creates one unique file per day in a month
 @Rem	You may want to copy it to another disk first
 @Rem	Note that the %DATE% parameter is local specific.
 @Rem	In Germany, it is %DATE:~3,2%
@@ -12,10 +12,12 @@
 @Rem		%ADEMPIERE_HOME%\data\ExpDat.log
 @Rem		%ADEMPIERE_HOME%\data\ExpDat.jar (containing the above)
 
-@Echo Creating ExpDat_%DATE:~7,2%.jar
-jar cvfM ExpDat_%DATE:~7,2%.jar %ADEMPIERE_HOME%\data\ExpDat.dmp
-@dir ExpDat_%DATE:~7,2%.jar
+@set DATETIME=%date:~6,4%%date:~3,2%%date:~0,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%
+@Echo Creating ExpDat_%DATETIME%.jar
+ren ExpDat.jar ExpDat%DATETIME%.jar
+@dir ExpDat%DATETIME%.jar
 
-@Echo Copy comes here ...
+@Echo copy %ADEMPIERE_HOME%\data\ExpDat%DATETIME%.jar to backup media
 
-@sleep 30
+@Rem Sleep 30
+@CHOICE /C YN /T 30 /D N > NUL

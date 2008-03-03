@@ -22,5 +22,7 @@ Call shutdown --server=jnp://%ADEMPIERE_APPS_SERVER%:%ADEMPIERE_JNP_PORT% --shut
 @Echo Apps Server stop of %ADEMPIERE_APPS_TYPE% not supported
 
 :END
-@sleep 30
+@Rem Sleep 30
+@CHOICE /C YN /T 30 /D N > NUL
+
 @Exit

@@ -11,5 +11,5 @@
 @Echo If the following statement fails, fix your environment
 IF (%ADEMPIERE_HOME%) == () (CALL myDBcopy.bat) else (CALL %ADEMPIERE_HOME%\utils\myDBcopy.bat)
 
-@Echo Sleeping ... (remove command if you are on XP)
-@sleep 60
+@Rem Sleep 60
+@CHOICE /C YN /T 60 /D N > NUL
