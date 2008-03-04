@@ -113,16 +113,18 @@ public class DataElementHandler extends AbstractElementHandler {
 			else {
 				String sql = "select * from "+d_tablename;
 				String whereand = " where";
-				String CURRENT_KEY = "key1name";		
-				if (!atts.getValue(CURRENT_KEY).equals("")) {		
+				String CURRENT_KEY = "key1name";
+				if (atts.getValue(CURRENT_KEY) != null && !atts.getValue(CURRENT_KEY).equals("")) {
 					sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
 					whereand = " and";
 				}
 				CURRENT_KEY = "key2name";		
-				if (!atts.getValue(CURRENT_KEY).equals("")) {
+				if (atts.getValue(CURRENT_KEY) != null && !atts.getValue(CURRENT_KEY).equals("")) {
 					sql = sql+whereand+" "+atts.getValue(CURRENT_KEY)+"="+atts.getValue("lookup"+CURRENT_KEY);
 					whereand = " and";
 				}
+				if (whereand.equals(" where"))
+					log.warning("no name or keyXname attribute defined.");
 				// Load GenericPO from rs, in fact ID could not exist e.g. Attribute Value
 				try {
 					PreparedStatement pstmt = DB.prepareStatement(sql, getTrxName(ctx));
