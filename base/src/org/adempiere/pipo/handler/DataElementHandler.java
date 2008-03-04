@@ -154,7 +154,7 @@ public class DataElementHandler extends AbstractElementHandler {
 					
 				}
 				catch (Exception e) {
-					log.info ("keyXname attribute. init from rs error."+e);
+					log.warning ("keyXname attribute. init from rs error."+e);
 				}
 			}
 			
