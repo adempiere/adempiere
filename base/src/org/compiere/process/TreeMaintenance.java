@@ -135,8 +135,8 @@ public class TreeMaintenance extends SvrProcess
 					node = new MTree_NodeBP(tree, Node_ID);
 				else if (nodeTableName.equals("AD_TreeNodePR"))
 					node = new MTree_NodePR(tree, Node_ID);
-//				else if (nodeTableName.equals("AD_TreeNodeMM"))
-//					node = new MTree_NodeMM(tree, Node_ID);
+				else if (nodeTableName.equals("AD_TreeNodeMM"))
+					node = new MTree_NodeMM(tree, Node_ID);
 				//				
 				if (node == null)
 					log.log(Level.SEVERE, "No Model for " + nodeTableName);
