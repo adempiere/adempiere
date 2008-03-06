@@ -57,6 +57,7 @@ import org.compiere.apps.wf.WFPanel;
 import org.compiere.grid.tree.VTreePanel;
 import org.compiere.model.MRole;
 import org.compiere.model.MSession;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
 import org.compiere.model.MTreeNode;
 import org.compiere.model.MUser;
@@ -774,7 +775,7 @@ public final class AMenu extends CFrame
 				updateInfo();
 	
 				try {
-					Thread.sleep(60000);
+					Thread.sleep(MSysConfig.getIntValue("MENU_INFOUPDATER_SLEEP_MS", 60000, Env.getAD_Client_ID(Env.getCtx())));
 				} catch(InterruptedException ire) { }
 			}
 		}
