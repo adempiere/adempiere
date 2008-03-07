@@ -238,10 +238,10 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	public void setP_String (String P_String)
 	{
 
-		if (P_String != null && P_String.length() > 60)
+		if (P_String != null && P_String.length() > 255)
 		{
-			log.warning("Length > 60 - truncated");
-			P_String = P_String.substring(0, 60);
+			log.warning("Length > 255 - truncated");
+			P_String = P_String.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_P_String, P_String);
 	}
@@ -261,10 +261,10 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	public void setP_String_To (String P_String_To)
 	{
 
-		if (P_String_To != null && P_String_To.length() > 60)
+		if (P_String_To != null && P_String_To.length() > 255)
 		{
-			log.warning("Length > 60 - truncated");
-			P_String_To = P_String_To.substring(0, 60);
+			log.warning("Length > 255 - truncated");
+			P_String_To = P_String_To.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_P_String_To, P_String_To);
 	}
