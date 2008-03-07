@@ -97,9 +97,6 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			id = get_IDWithColumn(ctx, "AD_Process", "Name", Name);
 			m_Column.setAD_Process_ID(id);
 			Name = atts.getValue("ADReferenceNameID");
-			// log.info("Column Name1 ->"+Name);
-			// log.info("Database Name ->"+m_DatabaseType);
-			// log.info("Column Name2 ->"+Name);
 			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 			m_Column.setAD_Reference_ID(id);
 			// log.info("Column ID ->"+id);
@@ -159,6 +156,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				m_Column.setValueMin(atts.getValue("ValueMin"));
 			if (getStringValue(atts, "Version") != null)
 				m_Column.setVersion(new BigDecimal(atts.getValue("Version")));
+			
+			m_Column.setInfoFactoryClass(getStringValue(atts, "InfoFactoryClass"));
 
 			// Setup Element.
 			id = get_IDWithColumn(ctx, "AD_Element", "ColumnName", m_Column
@@ -497,6 +496,9 @@ public class ColumnElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "Version", "CDATA",
 				(m_Column.getVersion() != null ? "" + m_Column.getVersion()
 						: "0.0"));
+		atts.addAttribute("", "", "InfoFactoryClass", "CDATA", (m_Column.getInfoFactoryClass() != null 
+				? m_Column.getInfoFactoryClass() : ""));
+		
 		return atts;
 	}
 }

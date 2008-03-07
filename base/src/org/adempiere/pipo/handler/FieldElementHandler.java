@@ -143,6 +143,19 @@ public class FieldElementHandler extends AbstractElementHandler {
 				if (sortNo != null)
 					m_Field.setSortNo(new BigDecimal(sortNo));
 				m_Field.setDisplayLogic(getStringValue(atts, "DisplayLogic"));
+				
+				String Name = atts.getValue("ADReferenceNameID");
+				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+				m_Field.setAD_Reference_ID(id);
+				
+				Name = atts.getValue("ADValRuleNameID");
+				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);
+				m_Field.setAD_Val_Rule_ID(id);
+				Name = atts.getValue("ADReferenceNameValueID");
+				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
+				m_Field.setAD_Reference_Value_ID(id);
+				m_Field.setInfoFactoryClass(getStringValue(atts, "InfoFactoryClass"));
+				
 				if (m_Field.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Field.getName(), "Field", m_Field
 							.get_ID(), AD_Backup_ID, Object_Status, "AD_Field",
@@ -261,6 +274,32 @@ public class FieldElementHandler extends AbstractElementHandler {
 				.getDisplayLogic() != null ? m_Field.getDisplayLogic() : ""));
 		atts.addAttribute("", "", "ObscureType", "CDATA", (m_Field
 				.getObscureType() != null ? m_Field.getObscureType() : ""));
+		
+		atts.addAttribute("", "", "InfoFactoryClass", "CDATA", (m_Field.getInfoFactoryClass() != null 
+				? m_Field.getInfoFactoryClass() : ""));
+		
+		if (m_Field.getAD_Reference_ID() > 0) {
+			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Field
+					.getAD_Reference_ID());
+			atts.addAttribute("", "", "ADReferenceNameID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADReferenceNameID", "CDATA", "");
+		if (m_Field.getAD_Reference_Value_ID() > 0) {
+			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Field
+					.getAD_Reference_Value_ID());
+			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", name);
+		} else
+			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", "");
+		if (m_Field.getAD_Val_Rule_ID() > 0) {
+			sql = "SELECT Name FROM AD_Val_Rule WHERE AD_Val_Rule_ID=?";
+			name = DB
+					.getSQLValueString(null, sql, m_Field.getAD_Val_Rule_ID());
+			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", name);
+		} else			
+			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", "");
+		
 		return atts;
 	}
 }
