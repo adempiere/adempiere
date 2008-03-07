@@ -144,7 +144,8 @@ public class ModelValidationEngine
 			//logging to db will try to init ModelValidationEngine again!
 			//log.log(Level.SEVERE, className + ": " + e.getMessage());
 			// System.err.println(e.toString());
-			missingModelValidationMessage = missingModelValidationMessage + e.toString() + " on client " + client.getName() + '\n';
+			missingModelValidationMessage = missingModelValidationMessage + e.toString() + 
+			 (client != null ? (" on client " + client.getName()) : " global") + '\n';
 		}
 	}
 	
