@@ -83,12 +83,22 @@ public final class VPanel extends CTabbedPane
 		//set up map used for label and field alignment
 		labels.put(0, new ArrayList<CLabel>());
 		labels.put(2, new ArrayList<CLabel>());
+		// for the case of a right-to-left-language (e.g. arabic)
+		labels.put(1, new ArrayList<CLabel>());
+		labels.put(3, new ArrayList<CLabel>());
+		
 		
 		fields.put(1, new ArrayList<Component>());
 		fields.put(3, new ArrayList<Component>());
+		// for the case of a right-to-left-language (e.g. arabic)
+		fields.put(0, new ArrayList<Component>());
+		fields.put(2, new ArrayList<Component>());
 		
 		fillers.put(0, new ArrayList<CLabel>());
 		fillers.put(2, new ArrayList<CLabel>());
+		// for the case of a right-to-left-language (e.g. arabic)
+		fillers.put(1, new ArrayList<CLabel>());
+		fillers.put(3, new ArrayList<CLabel>());
 		
         //[ 1757088 ]	
 		m_main.setName(Name);
