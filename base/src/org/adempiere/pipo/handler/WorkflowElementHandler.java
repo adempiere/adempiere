@@ -176,7 +176,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			String name = atts.getValue("ADWorkflowNodeNameID");
 			if (name != null && name.trim().length() > 0) {
 				MWorkflow m_Workflow = new MWorkflow(ctx, element.recordId, getTrxName(ctx));
-				int id = get_IDWithColumn(ctx, "AD_WF_Node", "Name", name);
+				int id = get_IDWithMasterAndColumn(ctx, "AD_WF_Node", "Name", name, "AD_Workflow", m_Workflow.getAD_Workflow_ID()); 
 				if (id <= 0) {
 					element.deferEnd = true;
 					element.unresolved = "AD_WF_Node=" + name;
