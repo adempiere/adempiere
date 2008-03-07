@@ -1,4 +1,4 @@
-CREATE TABLE adempiere.ad_migrationscript ( 
+CREATE TABLE ad_migrationscript ( 
     ad_client_id         	numeric(10,0) NOT NULL,
     ad_migrationscript_id	numeric(10,0) NOT NULL,
     ad_org_id            	numeric(10,0) NOT NULL,
@@ -19,10 +19,10 @@ CREATE TABLE adempiere.ad_migrationscript (
     isapply              	char(1) NOT NULL,
     PRIMARY KEY(ad_migrationscript_id)
 );
-ALTER TABLE adempiere.ad_migrationscript
+ALTER TABLE ad_migrationscript
     ADD CONSTRAINT ad_migrationscript_isapply_check
 	CHECK (isapply = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]));
-ALTER TABLE adempiere.ad_migrationscript
+ALTER TABLE ad_migrationscript
     ADD CONSTRAINT ad_migrationscript_isactive_check
 	CHECK (isactive = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]));
 
@@ -1464,10 +1464,10 @@ insert into t_alter_column values('ad_migrationscript','isApply','CHAR(1)',null,
 insert into t_alter_column values('ad_migrationscript','isApply',null,'NOT NULL',null)
 ;
 
--- Feb 18, 2008 11:35:56 AM BRST
--- [FR 1834749 ] Control applied migration scripts
-UPDATE AD_MigrationScript SET isApply='Y',Updated=TO_TIMESTAMP('2008-02-18 11:35:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_MigrationScript_ID=1000000
-;
+
+
+
+
 
 -- Feb 18, 2008 3:04:58 PM BRST
 -- Default comment for updating dictionary
@@ -1484,10 +1484,10 @@ UPDATE AD_Field SET Name='Roll the Script', Description=NULL, Help=NULL WHERE AD
 insert into t_alter_column values('ad_migrationscript','ScriptRoll','CHAR(1)',null,'NULL')
 ;
 
--- Feb 18, 2008 3:05:45 PM BRST
--- Default comment for updating dictionary
-UPDATE AD_MigrationScript SET isApply='Y',Updated=TO_TIMESTAMP('2008-02-18 15:05:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_MigrationScript_ID=1000000
-;
+
+
+
+
 
 -- Feb 18, 2008 3:07:50 PM BRST
 -- Default comment for updating dictionary
@@ -1503,4 +1503,3 @@ UPDATE AD_Field SET Name='Roll the Script', Description=NULL, Help=NULL WHERE AD
 -- Default comment for updating dictionary
 insert into t_alter_column values('ad_migrationscript','ScriptRoll','CHAR(1)',null,'NULL')
 ;
-
