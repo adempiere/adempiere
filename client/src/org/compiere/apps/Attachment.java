@@ -398,35 +398,41 @@ public final class Attachment extends CDialog
 		JFileChooser chooser = new JFileChooser();
 		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 		chooser.setDialogTitle(Msg.getMsg(Env.getCtx(), "AttachmentNew"));
+		chooser.setMultiSelectionEnabled(true);
 		int returnVal = chooser.showOpenDialog(this);
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return;
 		//
-		String fileName = chooser.getSelectedFile().getName();
-		log.config(fileName);
-		File file = chooser.getSelectedFile();
-		int cnt = m_attachment.getEntryCount();
-		
-		//update
-		for (int i = 0; i < cnt; i++) 
-		{
-			if (m_attachment.getEntryName(i).equals(fileName))
+		File[] files = chooser.getSelectedFiles();
+		for (File file : files) {
+			int cnt = m_attachment.getEntryCount();
+			
+			//update
+			boolean add = true;
+			for (int i = 0; i < cnt; i++) 
 			{
-				if (m_attachment.updateEntry(i, file)) 
+				if (m_attachment.getEntryName(i).equals(file.getName()))
 				{
-					cbContent.setSelectedItem(fileName);
+					if (m_attachment.updateEntry(i, file)) 
+					{
+						cbContent.setSelectedItem(file.getName());
+						m_change = true;
+					}
+					add = false;
+					break;
+				}
+			}
+
+			if (add)
+			{
+				//new
+				if (m_attachment.addEntry(file))
+				{
+					cbContent.addItem(file.getName());
+					cbContent.setSelectedIndex(cbContent.getItemCount()-1);
 					m_change = true;
 				}
-				return;
 			}
-		}
-		
-		//new
-		if (m_attachment.addEntry(file))
-		{
-			cbContent.addItem(fileName);
-			cbContent.setSelectedIndex(cbContent.getItemCount()-1);
-			m_change = true;
 		}
 	}	//	getFileName
 
