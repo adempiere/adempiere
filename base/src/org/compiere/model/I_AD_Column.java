@@ -263,6 +263,19 @@ public interface I_AD_Column
 	  */
 	public String getHelp();
 
+    /** Column name InfoFactoryClass */
+    public static final String COLUMNNAME_InfoFactoryClass = "InfoFactoryClass";
+
+	/** Set Info Factory Class.
+	  * Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass);
+
+	/** Get Info Factory Class.
+	  * Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass();
+
     /** Column name IsAlwaysUpdateable */
     public static final String COLUMNNAME_IsAlwaysUpdateable = "IsAlwaysUpdateable";
 

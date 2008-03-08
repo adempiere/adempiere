@@ -112,6 +112,19 @@ public interface I_AD_Field
 	  */
 	public int getAD_Reference_ID();
 
+    /** Column name AD_Reference_Value_ID */
+    public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
+
+	/** Set Reference Key.
+	  * Required to specify, if data type is Table or List
+	  */
+	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID);
+
+	/** Get Reference Key.
+	  * Required to specify, if data type is Table or List
+	  */
+	public int getAD_Reference_Value_ID();
+
     /** Column name AD_Tab_ID */
     public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
 
@@ -126,6 +139,21 @@ public interface I_AD_Field
 	public int getAD_Tab_ID();
 
 	public I_AD_Tab getAD_Tab() throws Exception;
+
+    /** Column name AD_Val_Rule_ID */
+    public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
+
+	/** Set Dynamic Validation.
+	  * Dynamic Validation Rule
+	  */
+	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID);
+
+	/** Get Dynamic Validation.
+	  * Dynamic Validation Rule
+	  */
+	public int getAD_Val_Rule_ID();
+
+	public I_AD_Val_Rule getAD_Val_Rule() throws Exception;
 
     /** Column name DefaultValue */
     public static final String COLUMNNAME_DefaultValue = "DefaultValue";
@@ -208,6 +236,19 @@ public interface I_AD_Field
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name InfoFactoryClass */
+    public static final String COLUMNNAME_InfoFactoryClass = "InfoFactoryClass";
+
+	/** Set Info Factory Class.
+	  * Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass);
+
+	/** Get Info Factory Class.
+	  * Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass();
 
     /** Column name IsCentrallyMaintained */
     public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";

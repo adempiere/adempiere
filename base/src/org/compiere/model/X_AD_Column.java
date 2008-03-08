@@ -176,7 +176,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -225,7 +225,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 	{
-		if (AD_Reference_Value_ID <= 0) 
+		if (AD_Reference_Value_ID < 1) 
 			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
@@ -302,7 +302,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 	{
-		if (AD_Val_Rule_ID <= 0) 
+		if (AD_Val_Rule_ID < 1) 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
@@ -510,6 +510,29 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Info Factory Class.
+		@param InfoFactoryClass 
+		Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass)
+	{
+
+		if (InfoFactoryClass != null && InfoFactoryClass.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			InfoFactoryClass = InfoFactoryClass.substring(0, 255);
+		}
+		set_Value (COLUMNNAME_InfoFactoryClass, InfoFactoryClass);
+	}
+
+	/** Get Info Factory Class.
+		@return Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass () 
+	{
+		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
 	}
 
 	/** Set Always Updateable.

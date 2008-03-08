@@ -148,7 +148,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setAD_FieldGroup_ID (int AD_FieldGroup_ID)
 	{
-		if (AD_FieldGroup_ID <= 0) 
+		if (AD_FieldGroup_ID < 1) 
 			set_Value (COLUMNNAME_AD_FieldGroup_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_FieldGroup_ID, Integer.valueOf(AD_FieldGroup_ID));
@@ -195,7 +195,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID <= 0) 
+		if (AD_Reference_ID < 1) 
 			set_Value (COLUMNNAME_AD_Reference_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
@@ -207,6 +207,31 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getAD_Reference_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** AD_Reference_Value_ID AD_Reference_ID=4 */
+	public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
+	/** Set Reference Key.
+		@param AD_Reference_Value_ID 
+		Required to specify, if data type is Table or List
+	  */
+	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
+	{
+		if (AD_Reference_Value_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
+	}
+
+	/** Get Reference Key.
+		@return Required to specify, if data type is Table or List
+	  */
+	public int getAD_Reference_Value_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_Value_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -245,6 +270,45 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getAD_Tab_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tab_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Val_Rule getAD_Val_Rule() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Val_Rule.Table_Name);
+        I_AD_Val_Rule result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Val_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Val_Rule_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Dynamic Validation.
+		@param AD_Val_Rule_ID 
+		Dynamic Validation Rule
+	  */
+	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
+	{
+		if (AD_Val_Rule_ID < 1) 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
+	}
+
+	/** Get Dynamic Validation.
+		@return Dynamic Validation Rule
+	  */
+	public int getAD_Val_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Val_Rule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -385,6 +449,29 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Info Factory Class.
+		@param InfoFactoryClass 
+		Fully qualified class name that implements the InfoFactory interface
+	  */
+	public void setInfoFactoryClass (String InfoFactoryClass)
+	{
+
+		if (InfoFactoryClass != null && InfoFactoryClass.length() > 255)
+		{
+			log.warning("Length > 255 - truncated");
+			InfoFactoryClass = InfoFactoryClass.substring(0, 255);
+		}
+		set_Value (COLUMNNAME_InfoFactoryClass, InfoFactoryClass);
+	}
+
+	/** Get Info Factory Class.
+		@return Fully qualified class name that implements the InfoFactory interface
+	  */
+	public String getInfoFactoryClass () 
+	{
+		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
 	}
 
 	/** Set Centrally maintained.
