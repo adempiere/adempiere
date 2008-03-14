@@ -413,39 +413,32 @@ public class ProcessCtl implements Runnable
 			}
 		}
 
-		//  If not a report, we need a prodedure name
-		if (!IsReport && ProcedureName.length() == 0)
-		{
-			m_pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoProcedure"), true);
-			unlock();
-			return;
-		}
-
 		/**********************************************************************
 		 *	Report submission
 		 */
-		if (IsReport)
+		//	Optional Pre-Report Process
+		if (ProcedureName.length() > 0)
 		{
 			m_pi.setReportingProcess(true);
-			
-			//	Optional Pre-Report Process
-			if (ProcedureName.length() > 0)
+			if (!startDBProcess(ProcedureName))
 			{
-				if (!startDBProcess(ProcedureName))
-				{
-					unlock();
-					return;
-				}
-			}	//	Pre-Report
-
-			if (isJasper)
-			{
-				m_pi.setClassName(ProcessUtil.JASPER_STARTER_CLASS);
-				startProcess();
 				unlock();
 				return;
 			}
+		}	//	Pre-Report
 
+		if (isJasper)
+		{
+			m_pi.setReportingProcess(true);
+			m_pi.setClassName(ProcessUtil.JASPER_STARTER_CLASS);
+			startProcess();
+			unlock();
+			return;
+		}
+		
+		if (IsReport)
+		{
+			m_pi.setReportingProcess(true);
 			//	Start Report	-----------------------------------------------
 			boolean ok = ReportCtl.start(m_parent, windowno, m_pi, IsDirectPrint);
 			m_pi.setSummary("Report", !ok);
