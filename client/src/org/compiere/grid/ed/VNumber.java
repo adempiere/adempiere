@@ -360,6 +360,11 @@ public final class VNumber extends JComponent
 		}
 		if (value.equals(".") || value.equals(",") || value.equals("-"))
 			value = "0";
+		// arboleda - solve bug [ 1759771 ] Parse exception when you enter ".." in a numeric field
+		if (value.equals("..")) {
+			value = "0";
+			m_text.setText(".");
+		}
 		try
 		{
 			Number number = m_format.parse(value);
