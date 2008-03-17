@@ -224,8 +224,15 @@ public class MElementValue extends X_C_ElementValue
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (newRecord)
-			insert_Tree(MTree_Base.TREETYPE_ElementValue, getC_Element_ID());
-
+		{
+			// afalcone [Bugs #1837219]
+			int ad_Tree_ID= (new MElement(getCtx(), getC_Element_ID(), null)).getAD_Tree_ID();
+			String treeType= (new MTree(getCtx(),ad_Tree_ID,null)).getTreeType();
+			insert_Tree(treeType, getC_Element_ID());
+			//	insert_Tree(MTree_Base.TREETYPE_ElementValue, getC_Element_ID()); Old
+			
+		}
+		
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 		{

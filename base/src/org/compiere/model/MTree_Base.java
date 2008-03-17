@@ -177,8 +177,16 @@ public class MTree_Base extends X_AD_Tree
 		else if (treeType.equals(TREETYPE_CMTemplate))
 			sourceTable = "CM_Template";
 		//	User Trees
-//		else if (treeType.equals(TREETYPE_User1))
-//			sourceTable = "??";
+		// afalcone [Bugs #1837219]
+		else if (treeType.equals(TREETYPE_User1) || 
+				 treeType.equals(TREETYPE_User2) || 
+				 treeType.equals(TREETYPE_User3) || 
+				 treeType.equals(TREETYPE_User4))
+			sourceTable = "C_ElementValue";
+
+		//	else if (treeType.equals(TREETYPE_User1))
+		//			sourceTable = "??";
+		// end afalcone
 		
 		return sourceTable;		
 	}	//	getSourceTableName
