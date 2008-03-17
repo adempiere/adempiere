@@ -18,6 +18,8 @@ package org.adempiere.pipo.handler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -37,6 +39,8 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class MessageElementHandler extends AbstractElementHandler {
 
+	private List<Integer> messages = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element) throws SAXException {
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
@@ -82,6 +86,9 @@ public class MessageElementHandler extends AbstractElementHandler {
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int AD_Message_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID);
+		if (messages.contains(AD_Message_ID))
+			return;
+		messages.add(AD_Message_ID);
 		String sql = "SELECT value FROM AD_Message WHERE  AD_Message_ID= " + AD_Message_ID;
 		AttributesImpl atts = new AttributesImpl();
 		PreparedStatement pstmt = null;

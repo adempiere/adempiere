@@ -19,6 +19,8 @@ package org.adempiere.pipo.handler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -41,6 +43,8 @@ import org.xml.sax.helpers.AttributesImpl;
 public class ProcessElementHandler extends AbstractElementHandler {
 
 	private ProcessParaElementHandler paraHandler = new ProcessParaElementHandler();
+	
+	private List<Integer> processes = new ArrayList<Integer>();
 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
@@ -161,6 +165,9 @@ public class ProcessElementHandler extends AbstractElementHandler {
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int AD_Process_ID = Env.getContextAsInt(ctx, "AD_Process_ID");
+		if (processes.contains(AD_Process_ID))
+			return;
+		processes.add(AD_Process_ID);
 		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
 		String sqlW = "SELECT AD_Process_ID FROM AD_PROCESS WHERE AD_PROCESS_ID = "
 				+ AD_Process_ID;

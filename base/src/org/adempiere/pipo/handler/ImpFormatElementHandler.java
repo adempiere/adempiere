@@ -18,6 +18,8 @@ package org.adempiere.pipo.handler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -40,6 +42,8 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 
 	private ImpFormatRowElementHandler rowHandler = new ImpFormatRowElementHandler();
 
+	private List<Integer> formats = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
@@ -99,6 +103,10 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int import_id = Env.getContextAsInt(ctx,
 				X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID);
+		
+		if (formats.contains(import_id))
+			return;
+		formats.add(import_id);
 		AttributesImpl atts = new AttributesImpl();
 		X_AD_ImpFormat m_ImpFormat = new X_AD_ImpFormat(ctx, import_id, null);
 		atts = createImpFormatBinding(atts, m_ImpFormat);

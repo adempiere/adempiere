@@ -161,6 +161,8 @@ public class TableElementHandler extends AbstractElementHandler {
 						
 						while (rs1.next()){
 							
+							packOut.createAdElement(rs1.getInt("AD_Element_ID"), document);
+							
 							if (rs1.getInt("AD_Reference_ID")>0)
 								packOut.createReference (rs1.getInt("AD_Reference_ID"), document);
 							

@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
@@ -33,6 +35,8 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class TaskElementHandler extends AbstractElementHandler {
 
+	private List<Integer> tasks = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
@@ -83,6 +87,9 @@ public class TaskElementHandler extends AbstractElementHandler {
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int AD_Task_ID = Env.getContextAsInt(ctx, "AD_Task_ID");
+		if (tasks.contains(AD_Task_ID))
+			return;
+		tasks.add(AD_Task_ID);
 		X_AD_Task m_Task = new X_AD_Task(ctx, AD_Task_ID, null);
 		AttributesImpl atts = new AttributesImpl();
 		createTaskBinding(atts, m_Task);

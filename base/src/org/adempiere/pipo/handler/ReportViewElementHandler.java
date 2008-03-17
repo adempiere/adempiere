@@ -19,6 +19,8 @@ package org.adempiere.pipo.handler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -42,6 +44,8 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 
 	private ReportViewColElementHandler columnHandler = new ReportViewColElementHandler();
 
+	private List<Integer> views = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
@@ -114,6 +118,10 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
 		int AD_ReportView_ID = Env.getContextAsInt(ctx, "AD_ReportView_ID");
+		if (views.contains(AD_ReportView_ID))
+			return;
+		
+		views.add(AD_ReportView_ID);
 		String sql = "SELECT * FROM AD_ReportView WHERE AD_ReportView_ID= "
 				+ AD_ReportView_ID;
 		PreparedStatement pstmt = null;

@@ -76,16 +76,24 @@ public abstract class AbstractElementHandler implements ElementHandler {
      */
     public int record_log (Properties ctx, int success, String objectName,String objectType, int objectID,
     		int objectIDBackup, String objectStatus, String tableName, int AD_Table_ID) throws SAXException{    	
-    	String recordLayout;
+    	StringBuffer recordLayout = new StringBuffer();
     	int id = 0;
     	TransformerHandler hd_document = getLogDocument(ctx);
 		AttributesImpl attsOut = new AttributesImpl();
     	if (success == 1){    		
     		//hd_documemt.startElement("","","Successfull",attsOut);
-    		recordLayout = "Type:"+objectType + "  -   Name:"+objectName + "  -  ID:"+objectID +"  -  Action:"+objectStatus+"  -  Success";
+    		recordLayout.append("Type:")
+    			.append(objectType)
+    			.append("  -   Name:")
+    			.append(objectName)
+    			.append("  -  ID:")
+    			.append(objectID)
+    			.append("  -  Action:")
+    			.append(objectStatus)
+    			.append("  -  Success");
     		
     		hd_document.startElement("","","Success",attsOut);
-    		hd_document.characters(recordLayout.toCharArray(),0,recordLayout.length());
+    		hd_document.characters(recordLayout.toString().toCharArray(),0,recordLayout.length());
     		hd_document.endElement("","","Success");
     		//hd_documemt.endElement("","","Successfull");
     		
@@ -122,9 +130,17 @@ public abstract class AbstractElementHandler implements ElementHandler {
     	else{
     		String PK_Status = "Completed with errors";
     		hd_document.startElement("","","Failure",attsOut);    	
-    		recordLayout = "Type:"+objectType + "  -   Name:"+tableName + "  -  ID:"+objectID +"  -  Action:"+objectStatus+"  -  Failure";
+    		recordLayout.append("Type:")
+    			.append(objectType)
+    			.append("  -   Name:")
+    			.append(tableName)
+    			.append("  -  ID:")
+    			.append(objectID)
+    			.append("  -  Action:")
+    			.append(objectStatus)
+    			.append("  -  Failure");
     		//hd_documemt.startElement("","","Success",attsOut);
-    		hd_document.characters(recordLayout.toCharArray(),0,recordLayout.length());
+    		hd_document.characters(recordLayout.toString().toCharArray(),0,recordLayout.length());
     		//hd_documemt.endElement("","","Success");		
     		hd_document.endElement("","","Failure");
     		
@@ -422,5 +438,16 @@ public abstract class AbstractElementHandler implements ElementHandler {
     protected String getStringValue(Attributes atts, String qName) {
     	String s = atts.getValue(qName);
     	return ("".equals(s) ? null : s);
+    }
+    
+    /**
+     * Returns option - Is export-import of AD translations is needed
+     * @param ctx
+     * @param entityType
+     * @return boolean
+     */
+    protected boolean isHandleTranslations(Properties ctx) {
+    	
+    	return "true".equalsIgnoreCase(Env.getContext(ctx, "isHandleTranslations"));
     }
 }

@@ -44,12 +44,15 @@ import javax.xml.transform.TransformerConfigurationException;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
 import org.adempiere.pipo.handler.ColumnElementHandler;
+import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
 import org.adempiere.pipo.handler.FieldElementHandler;
+import org.adempiere.pipo.handler.FieldGroupElementHandler;
 import org.adempiere.pipo.handler.FormAccessElementHandler;
 import org.adempiere.pipo.handler.FormElementHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
@@ -229,6 +232,9 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("reference", new ReferenceElementHandler());
     	handlers.put("referencelist", new ReferenceListElementHandler());
     	handlers.put("referencetable", new ReferenceTableElementHandler());
+    	handlers.put("fieldgroup", new FieldGroupElementHandler());
+    	handlers.put("element", new AdElementHandler());
+    	handlers.put("trl", new CommonTranslationHandler());
 	}
 	
     /**
@@ -722,6 +728,7 @@ public class PackInHandler extends DefaultHandler {
     			}
     		}
     		throw new RuntimeException("Failed to resolve dependency for " + count + " elements.");
+    		//System.err.println("Failed to resolve dependency for " + count + " elements.");
     	}
     }
 

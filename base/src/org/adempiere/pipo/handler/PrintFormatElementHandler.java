@@ -20,6 +20,8 @@ package org.adempiere.pipo.handler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -43,6 +45,8 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 
 	private PrintFormatItemElementHandler itemHandler = new PrintFormatItemElementHandler();
 
+	private List<Integer> formats = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
@@ -178,6 +182,10 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int AD_PrintFormat_ID = Env.getContextAsInt(ctx,
 				X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
+		
+		if (formats.contains(AD_PrintFormat_ID))
+			return;
+		formats.add(AD_PrintFormat_ID);
 		AttributesImpl atts = new AttributesImpl();
 		String sql = null;
 		sql = "SELECT AD_PrintFormat_ID "

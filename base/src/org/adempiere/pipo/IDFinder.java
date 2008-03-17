@@ -18,6 +18,8 @@ package org.adempiere.pipo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.adempiere.pipo.exception.DatabaseAccessException;
@@ -33,6 +35,8 @@ public class IDFinder {
 
 	private static CLogger log = CLogger.getCLogger(IDFinder.class);
 	
+	private static Map<String, Integer>idCache = new HashMap<String, Integer>(); 
+	
 	/**
 	 * Get ID from Name for a table.
 	 * TODO: substitute with PO.getAllIDs
@@ -45,6 +49,19 @@ public class IDFinder {
 	 */
 	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".Name=")
+			.append(name);
+		if (!tableName.startsWith("AD_"))
+			key.append(" and AD_Client_ID=").append(AD_Client_ID);
+		
+		//check cache
+		if (idCache.containsKey(key.toString()))
+			return idCache.get(key.toString());
+		
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -69,6 +86,10 @@ public class IDFinder {
 			log.info ("get_ID:"+e);
 			throw new DatabaseAccessException(e);
 		}
+		
+		//keep in cache
+		idCache.put(key.toString(), id);
+		
 		return id;
 	}
 	
@@ -83,6 +104,21 @@ public class IDFinder {
 	 */
 	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, String trxName) {
 		int id = 0;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".")
+			.append(columnName)
+			.append("=")
+			.append(value.toString());
+		if (!tableName.startsWith("AD_"))
+			key.append(" and AD_Client_ID=").append(AD_Client_ID);
+		
+		//check cache
+		if (idCache.containsKey(key.toString()))
+			return idCache.get(key.toString());
+		
 		StringBuffer sqlB = new StringBuffer ("select ")
 		 	.append(tableName)
 		 	.append("_ID from ")
@@ -90,7 +126,6 @@ public class IDFinder {
 		 	.append(" where ")
 		 	.append(columnName)
 		 	.append(" = ?");
-		//StringBuffer sqlC = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"="+value.toString());
 		
 		if (!tableName.startsWith("AD_"))
 			sqlB = sqlB.append(" and AD_Client_ID=?");
@@ -104,6 +139,8 @@ public class IDFinder {
 				pstmt.setString(1, (String)value);
 			else if (value instanceof Integer)
 				pstmt.setInt(1, ((Integer)value).intValue());
+			else
+				pstmt.setObject(1, value);
 			if (!tableName.startsWith("AD_"))
 				pstmt.setInt(2, AD_Client_ID);
 			
@@ -118,6 +155,10 @@ public class IDFinder {
 			log.info ("get_IDWithColumn:"+e);
 			throw new DatabaseAccessException(e);
 		}
+		
+		//update cache
+		idCache.put(key.toString(), id);
+		
 		return id;
 	}
 	
@@ -132,6 +173,20 @@ public class IDFinder {
 	 */
 	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, String nameMaster, String trxName) {
 		int id = 0;
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".Name=")
+			.append(name)
+			.append(" and ")
+			.append(tableNameMaster)
+			.append(".Name=")
+			.append(nameMaster);
+		
+		//check cache
+		if (idCache.containsKey(key.toString()))
+			return idCache.get(key.toString());
+		
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -154,11 +209,14 @@ public class IDFinder {
 			rs.close();
 			pstmt.close();
 			pstmt = null;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.info ("get_IDWithMaster:"+e);
 			throw new DatabaseAccessException(e);
 		}
+		
+		//update cache
+		idCache.put(key.toString(), id);
+		
 		return id;
 	}
 	
@@ -174,6 +232,13 @@ public class IDFinder {
     
 	public static int get_IDWithMasterAndColumn (String tableName, String columnName, String name, String tableNameMaster, int masterID, String trxName) {
 		int id = 0;
+		
+		//check cache
+		String key = tableName + "." + columnName + "=" + name + tableNameMaster + "=" + masterID;
+		
+		if (idCache.containsKey(key))
+			return idCache.get(key);
+		
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -193,7 +258,9 @@ public class IDFinder {
 			pstmt.setInt(2, masterID);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
+			{
 				id = rs.getInt(1);
+			}
 			rs.close();
 			pstmt.close();
 			pstmt = null;
@@ -202,6 +269,10 @@ public class IDFinder {
 			log.info ("get_IDWithMasterAndColumn:"+e);
 			throw new DatabaseAccessException(e);
 		}
+		
+		//update cache
+		idCache.put(key, id);
+		
 		return id;
 	}
 
@@ -216,6 +287,23 @@ public class IDFinder {
 	 */    
 	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, int masterID, String trxName) {
 		int id = 0;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".Name=")
+			.append(name)
+			.append(" and ")
+			.append(tableNameMaster)
+			.append(".")
+			.append(tableNameMaster)
+			.append("_ID=")
+			.append(masterID);
+		
+		//check cache
+		if (idCache.containsKey(key.toString()))
+			return idCache.get(key.toString());
+		
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -239,6 +327,10 @@ public class IDFinder {
 			log.info ("get_IDWithMasterID:"+e);
 			throw new DatabaseAccessException(e);
 		}
+		
+		//update cache
+		idCache.put(key.toString(), id);
+		
 		return id;
 	}
 
@@ -253,6 +345,19 @@ public class IDFinder {
 	 */
 	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".Name=")
+			.append(name);
+		if (!tableName.startsWith("AD_"))
+			key.append(" AND AD_Client_ID=").append(AD_Client_ID);
+		
+		//check cache
+		if (idCache.containsKey(key.toString()))
+			return idCache.get(key.toString());
+		
 		StringBuffer sql = new StringBuffer("SELECT ")
 			.append(tableName)
 			.append("_ID ")
@@ -278,6 +383,10 @@ public class IDFinder {
 			log.log(Level.SEVERE, "getIDbyName:"+e);
 			throw new DatabaseAccessException(e);
 		}
+		
+		//update cache
+		idCache.put(key.toString(), id);
+		
 		return id;
 	}
 }

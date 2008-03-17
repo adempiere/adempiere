@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
@@ -33,6 +35,8 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class FormElementHandler extends AbstractElementHandler {
 
+	private List<Integer> forms = new ArrayList<Integer>();
+	
 	public void startElement(Properties ctx, Element element) throws SAXException {
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
@@ -80,6 +84,9 @@ public class FormElementHandler extends AbstractElementHandler {
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int AD_Form_ID = Env.getContextAsInt(ctx, "AD_Form_ID");
+		if (forms.contains(AD_Form_ID)) return;
+		
+		forms.add(AD_Form_ID);
 		X_AD_Form m_Form = new X_AD_Form (ctx, AD_Form_ID, null);
 		AttributesImpl atts = new AttributesImpl();
 		createFormBinding(atts,m_Form);

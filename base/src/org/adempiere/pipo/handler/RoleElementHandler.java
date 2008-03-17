@@ -19,6 +19,8 @@ package org.adempiere.pipo.handler;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -45,6 +47,8 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class RoleElementHandler extends AbstractElementHandler {
 
+	private List<Integer> roles = new ArrayList<Integer>();
+	
 	private OrgRoleElementHandler orgHandler = new OrgRoleElementHandler();
 	private ProcessAccessElementHandler processHandler = new ProcessAccessElementHandler();
 	private UserRoleElementHandler userHandler = new UserRoleElementHandler();
@@ -196,6 +200,9 @@ public class RoleElementHandler extends AbstractElementHandler {
 			throws SAXException {
 		int Role_id = Env.getContextAsInt(ctx,
 				X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID);
+		if (roles.contains(Role_id))
+			return;
+		roles.add(Role_id);
 		X_AD_Role m_Role = new X_AD_Role(ctx, Role_id, null);
 		AttributesImpl atts = new AttributesImpl();
 		createRoleBinding(atts, m_Role);

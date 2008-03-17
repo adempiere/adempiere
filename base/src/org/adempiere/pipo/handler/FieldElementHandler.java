@@ -24,6 +24,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackIn;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MField;
 import org.compiere.model.X_AD_Field;
@@ -188,6 +189,13 @@ public class FieldElementHandler extends AbstractElementHandler {
 		X_AD_Field m_Field = new X_AD_Field(ctx, AD_Field_ID, null);
 		AttributesImpl atts = new AttributesImpl();
 		createFieldBinding(atts, m_Field);
+		
+		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
+				
+		if(m_Field.getAD_FieldGroup_ID() != 0){
+			packOut.createFieldGroupElement(m_Field.getAD_FieldGroup_ID(), document);
+		}
+		
 		document.startElement("", "", "field", atts);
 		document.endElement("", "", "field");
 	}

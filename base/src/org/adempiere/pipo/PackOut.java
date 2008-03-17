@@ -30,10 +30,13 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.pipo.CreateZipFile;
+import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
+import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
+import org.adempiere.pipo.handler.FieldGroupElementHandler;
 import org.adempiere.pipo.handler.FormElementHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
@@ -48,6 +51,8 @@ import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
+import org.compiere.model.X_AD_Element;
+import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Reference;
@@ -100,6 +105,9 @@ public class PackOut extends SvrProcess
     PrintFormatElementHandler printFormatHandler = new PrintFormatElementHandler();
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
+    FieldGroupElementHandler fieldGroupHandler = new FieldGroupElementHandler();
+    AdElementHandler adElementHandler = new AdElementHandler();
+    CommonTranslationHandler translationHandler = new CommonTranslationHandler();
     
     /**
 	 *  Prepare - e.g., get Parameters.
@@ -721,6 +729,55 @@ public class PackOut extends SvrProcess
 		tableHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID);
 	}	
+	
+	/**
+	 * 
+	 * @param FieldGroup_id
+	 * @param packOutDocument
+	 * @throws SAXException
+	 */
+	public void createFieldGroupElement (int FieldGroup_id, TransformerHandler packOutDocument) throws SAXException
+	{
+		Env.setContext(getCtx(), X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID, FieldGroup_id);
+		fieldGroupHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
+	}
+	
+	/**
+	 * 
+	 * @param Reference_id
+	 * @param packOutDocument
+	 * @throws SAXException
+	 */
+	public void createAdElement (int Ad_Element_id, TransformerHandler packOutDocument) throws SAXException
+	{
+		Env.setContext(getCtx(), X_AD_Element.COLUMNNAME_AD_Element_ID, Ad_Element_id);
+		adElementHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_Element.COLUMNNAME_AD_Element_ID);
+	}
+	
+	/**
+	 * 
+	 * @param parentTableName
+	 * @param parentID
+	 * @param packOutDocument
+	 * @throws SAXException
+	 */
+	public void createTranslations (String parentTableName, int parentID, TransformerHandler packOutDocument) throws SAXException
+	{
+		if("true".equals(getCtx().getProperty("isHandleTranslations"))){
+
+			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE,
+					parentTableName);
+			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID,
+					parentID);
+
+			translationHandler.create(getCtx(), packOutDocument);
+
+			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE);
+			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID);
+		}
+	}
 	
 	public void copyFile (String sourceName, String copyName ) {
 		InputStream source;  // Stream for reading from the source file.
