@@ -739,6 +739,8 @@ public class CStatement implements Statement
 	 */
 	public void close () throws SQLException
 	{
+		if (close) return;
+		
 		try {
 	        if (p_stmt != null)
 	        {
