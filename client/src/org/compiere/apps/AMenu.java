@@ -674,23 +674,26 @@ public final class AMenu extends CFrame
 		// if (percent > 50)
 			// System.gc();
 
-		//	Requests
-		int requests = getRequests();
-		bRequests.setText(Msg.translate(m_ctx, "R_Request_ID") + ": " + requests);
-		//	Memo
-		int notes = getNotes();
-		bNotes.setText(Msg.translate(m_ctx, "AD_Note_ID") + ": " + notes);
-		//	Activities
-		int activities = wfActivity.getActivitiesCount();
-		centerPane.setTitleAt(m_tabActivities, Msg.getMsg (m_ctx, "WorkflowActivities") + ": " + activities);
-		/*
-		log.config(msg
-				+ ", Processors=" + Runtime.getRuntime().availableProcessors()
-				+ ", Requests=" + requests + ", Notes=" + notes + ", Activities=" + activities 
-				+ "," + CConnection.get().getStatus()
-			);
-		*/
-		MSystem.get(m_ctx).info();
+		if (DB.isConnected())
+		{
+			//	Requests
+			int requests =  getRequests();
+			bRequests.setText(Msg.translate(m_ctx, "R_Request_ID") + ": " + requests);
+			//	Memo
+			int notes = getNotes();
+			bNotes.setText(Msg.translate(m_ctx, "AD_Note_ID") + ": " + notes);
+			//	Activities
+			int activities = wfActivity.getActivitiesCount();
+			centerPane.setTitleAt(m_tabActivities, Msg.getMsg (m_ctx, "WorkflowActivities") + ": " + activities);
+			/*
+			log.config(msg
+					+ ", Processors=" + Runtime.getRuntime().availableProcessors()
+					+ ", Requests=" + requests + ", Notes=" + notes + ", Activities=" + activities 
+					+ "," + CConnection.get().getStatus()
+				);
+			*/
+			MSystem.get(m_ctx).info();
+		}
 	}	//	updateInfo
 
 	
@@ -770,12 +773,13 @@ public final class AMenu extends CFrame
 		
 		public void run()
 		{
+			int sleep = MSysConfig.getIntValue("MENU_INFOUPDATER_SLEEP_MS", 60000, Env.getAD_Client_ID(Env.getCtx()));
 			while(stop == false)
 			{
 				updateInfo();
 	
 				try {
-					Thread.sleep(MSysConfig.getIntValue("MENU_INFOUPDATER_SLEEP_MS", 60000, Env.getAD_Client_ID(Env.getCtx())));
+					Thread.sleep(sleep);
 				} catch(InterruptedException ire) { }
 			}
 		}
