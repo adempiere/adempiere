@@ -40,6 +40,14 @@ then
       echo
    done
 fi
+if [ -d $DIRINI/../my_processes_post_migration/postgresql ]
+then
+   for file in $DIRINI/../my_processes_post_migration/postgresql/*.sql; do
+      echo "SELECT '`basename $file`' AS Filename;"
+      cat $file | dos2unix | sed 's/commit[ ]*;//I'
+      echo
+   done
+fi
 if [ $COMMIT -eq 1 ]
 then
     echo "COMMIT;"

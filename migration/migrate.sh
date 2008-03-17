@@ -42,6 +42,14 @@ then
       echo
    done
 fi
+if [ -d $DIRINI/../my_processes_post_migration ]
+then
+   for file in $DIRINI/../my_processes_post_migration/*.sql; do
+      echo "SELECT '`basename $file`' AS Filename FROM dual;"
+      cat $file | dos2unix | sed 's/commit[ ]*;//I'
+      echo
+   done
+fi
 if [ $COMMIT -eq 1 ]
 then
     echo "COMMIT;"
