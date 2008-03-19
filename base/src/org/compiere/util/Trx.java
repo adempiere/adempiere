@@ -567,7 +567,7 @@ public class Trx implements VetoableChangeListener
 	/**
 	 * 
 	 * @param name
-	 * @return
+	 * @return Savepoint
 	 * @throws SQLException
 	 */
 	public Savepoint setSavepoint(String name) throws SQLException {
@@ -581,7 +581,10 @@ public class Trx implements VetoableChangeListener
 			getConnection();
 		
 		if(m_connection != null) {
-			return m_connection.setSavepoint(name);
+			if (name != null)
+				return m_connection.setSavepoint(name);
+			else
+				return m_connection.setSavepoint();
 		} else {
 			return null;
 		}
