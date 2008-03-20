@@ -37,13 +37,17 @@ public class MimeType
 			return BINARY;
 		//
 		String extension = fileName.substring(fileName.lastIndexOf('.'));
+		if (extension == null)
+			return BINARY;
+		
 		for (int i = 0; i < TYPES.length; i++)
 		{
 			String[] type = TYPES[i];
-			if (type[0].equals(extension))
+			
+			if (type[0].equals(extension.toLowerCase()))
 				return type[1];
 		}
-		return "application/octet-stream";
+		return BINARY;
 	}	//	getMimeType
 
 	/**
@@ -53,17 +57,7 @@ public class MimeType
 	 */
 	public static MimeType get (String fileName)
 	{
-		if (fileName == null || fileName.indexOf('.') < 0)
-			return new MimeType (fileName, BINARY);
-		//
-		String extension = fileName.substring(fileName.lastIndexOf('.'));
-		for (int i = 0; i < TYPES.length; i++)
-		{
-			String[] type = TYPES[i];
-			if (type[0].equals(extension))
-				return new MimeType (fileName, type[1]);
-		}
-		return new MimeType (extension, BINARY);
+		return new MimeType(fileName, getMimeType(fileName));
 	}	//	get
 
 	/** application/octet-stream			*/
