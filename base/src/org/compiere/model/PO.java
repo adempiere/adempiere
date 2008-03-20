@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -2412,23 +2412,25 @@ public abstract class PO
 				throw new DBException(e);	//	fini
 			}
 			
-			//	Change Log	- Only 
-			if (session != null
+			//	Change Log	- Only
+			String insertLog = MSysConfig.getValue("SYSTEM_INSERT_CHANGELOG", "Y", getAD_Client_ID());
+			if (   session != null
 				&& m_IDs.length == 1 
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
-				// && p_info.getColumn(i).IsKey // log all record - to log just ID uncomment this line 
+				&& (insertLog.equalsIgnoreCase("Y"))
+					|| (insertLog.equalsIgnoreCase("K") && p_info.getColumn(i).IsKey)
 				)
-			{
-				// change log on new
-				MChangeLog cLog = session.changeLog (
-						m_trxName, AD_ChangeLog_ID, 
-						p_info.getAD_Table_ID(), p_info.getColumn(i).AD_Column_ID, 
-						get_ID(), getAD_Client_ID(), getAD_Org_ID(), null, value, MChangeLog.EVENTCHANGELOG_Insert);
-				if (cLog != null)
-					AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
-			}
+				{
+					// change log on new
+					MChangeLog cLog = session.changeLog (
+							m_trxName, AD_ChangeLog_ID, 
+							p_info.getAD_Table_ID(), p_info.getColumn(i).AD_Column_ID, 
+							get_ID(), getAD_Client_ID(), getAD_Org_ID(), null, value, MChangeLog.EVENTCHANGELOG_Insert);
+					if (cLog != null)
+						AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
+				}
 			
 		}
 		//	Custom Columns
