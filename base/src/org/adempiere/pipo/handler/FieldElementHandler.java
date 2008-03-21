@@ -192,8 +192,20 @@ public class FieldElementHandler extends AbstractElementHandler {
 		
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
 				
-		if(m_Field.getAD_FieldGroup_ID() != 0){
+		if(m_Field.getAD_FieldGroup_ID() > 0){
 			packOut.createFieldGroupElement(m_Field.getAD_FieldGroup_ID(), document);
+		}
+		
+		if(m_Field.getAD_Reference_ID() > 0) {
+			packOut.createReference(m_Field.getAD_Reference_ID(), document);
+		}
+		
+		if (m_Field.getAD_Reference_Value_ID() > 0) {
+			packOut.createReference(m_Field.getAD_Reference_Value_ID(), document);
+		}
+		
+		if (m_Field.getAD_Val_Rule_ID() > 0) {
+			packOut.createDynamicRuleValidation(m_Field.getAD_Val_Rule_ID(), document);
 		}
 		
 		document.startElement("", "", "field", atts);
