@@ -8,11 +8,6 @@ INSERT INTO AD_Column (Name,IsMandatory,IsTranslated,Description,IsIdentifier,Se
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=54677 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
 ;
 
--- Mar 12, 2008 11:41:01 AM CET
--- [ 1912484 ] Custom replenish doesn't work
-ALTER TABLE T_Replenish ADD COLUMN Updated TIMESTAMP NOT NULL
-;
-
 -- Mar 12, 2008 11:41:39 AM CET
 -- [ 1912484 ] Custom replenish doesn't work
 UPDATE AD_Field SET Name='Updated', Description='Date this record was updated', Help='The Updated field indicates the date that this record was updated.' WHERE AD_Column_ID=54677 AND IsCentrallyMaintained='Y'
@@ -31,11 +26,6 @@ INSERT INTO AD_Column (Name,IsMandatory,IsTranslated,Description,IsIdentifier,Se
 -- Mar 12, 2008 11:42:57 AM CET
 -- [ 1912484 ] Custom replenish doesn't work
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=54678 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
-;
-
--- Mar 12, 2008 11:43:06 AM CET
--- [ 1912484 ] Custom replenish doesn't work
-ALTER TABLE T_Replenish ADD COLUMN UpdatedBy NUMERIC(10) NOT NULL
 ;
 
 -- Mar 12, 2008 11:43:10 AM CET
