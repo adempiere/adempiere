@@ -419,6 +419,15 @@ public final class DB
 			}
 			**/
 		}
+		
+		//hengsin: failed to set autocommit can lead to severe lock up of the system
+        try {
+	        if (conn != null && conn.getAutoCommit() != autoCommit)
+	        {
+	        	throw new IllegalStateException("Failed to set the requested auto commit mode on connection. [autoCommit=" + autoCommit +"]");
+	        }
+        } catch (SQLException e) {}
+        
 		return conn;
 	}	//	createConnection
 
@@ -438,6 +447,8 @@ public final class DB
 
         Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 
+        //hengsin: this could be problematic as it can be reuse for readwrite activites after return to pool
+        /*
         if (conn != null)
         {
             try
@@ -449,12 +460,20 @@ public final class DB
                 conn = null;
                 log.log(Level.SEVERE, ex.getMessage(), ex);
             }
-        }
+        }*/
 
         if (conn == null)
         {
             throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@");
         }
+        
+        //hengsin: failed to set autocommit can lead to severe lock up of the system
+        try {
+	        if (conn.getAutoCommit() != autoCommit)
+	        {
+	        	throw new IllegalStateException("Failed to set the requested auto commit mode on connection. [autocommit=" + autoCommit +"]");
+	        }
+        } catch (SQLException e) {}
 
         return conn;
     }   //  createConnection
