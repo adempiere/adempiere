@@ -12,6 +12,10 @@
 
 # CarlosRuiz - added multidirectory management 2008/02/20
 
+# Tony Snook - set AUTOCOMMIT off, this enables the rollback feature to work as expected
+
+echo "\set AUTOCOMMIT off"
+
 if [ -z "$1" ]; then
    echo "Usage: $0 [DIRECTORY ... DIRECTORY] [commit]"
    exit 0
@@ -55,4 +59,4 @@ else
     echo "ROLLBACK;"
 fi
 echo
-echo "quit"
+echo "\quit"
