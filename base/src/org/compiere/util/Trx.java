@@ -19,6 +19,7 @@ package org.compiere.util;
 import java.beans.*;
 import java.rmi.RemoteException;
 import java.sql.*;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.logging.*;
 
@@ -129,6 +130,8 @@ public class Trx implements VetoableChangeListener
 	private	String 		m_trxName = null;
 	private boolean		m_active = false;
 
+	private long m_startTime;
+
 	/**
 	 * 	Get Connection
 	 *	@return connection
@@ -202,9 +205,18 @@ public class Trx implements VetoableChangeListener
 			startRemoteTransaction();
 		}
 		m_active = true;
+		m_startTime = System.currentTimeMillis();
 		return true;
 	}	//	startTrx
 
+	/**
+	 * @return The start time of this transaction
+	 */
+	public Date getStartTime()
+	{
+		return new Date(m_startTime);
+	}
+	
 	private void startRemoteTransaction() {
 		Server server = CConnection.get().getServer();
 		try
@@ -647,5 +659,16 @@ public class Trx implements VetoableChangeListener
 		log.info(evt.toString());
 	}	//	vetoableChange	
 	
+	/**
+	 * @return Trx[]
+	 */
+	public static Trx[] getActiveTransactions()
+	{
+		Collection<Trx> collections = s_cache.values();
+		Trx[] trxs = new Trx[collections.size()];
+		collections.toArray(trxs);
+		
+		return trxs;
+	}
 	
 }	//	Trx
