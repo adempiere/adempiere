@@ -700,6 +700,21 @@ public class AdempiereMonitor extends HttpServlet
 			+ ", Demons=" + th.getDaemonThreadCount()
 			+ ", Total=" + th.getTotalStartedThreadCount()));
 		table.addElement(line);
+		
+		//Transactions
+		Trx[] trxs = Trx.getActiveTransactions();
+		for (Trx trx : trxs)
+		{
+			if (trx != null && trx.isActive()) 
+			{
+				line = new tr();
+				line.addElement(new th().addElement("Active Transaction "));
+				line.addElement(new td().addElement("Name="+trx.getTrxName() 
+					+ ", StartTime=" + trx.getStartTime()));
+				table.addElement(line);
+			}
+		}
+		
 		//	Cache Reset
 		line = new tr();
 		line.addElement(new th().addElement(CacheMgt.get().toStringX()));
