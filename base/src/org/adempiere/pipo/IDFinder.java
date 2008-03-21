@@ -157,7 +157,8 @@ public class IDFinder {
 		}
 		
 		//update cache
-		idCache.put(key.toString(), id);
+		if (id > 0)
+			idCache.put(key.toString(), id);
 		
 		return id;
 	}
@@ -215,7 +216,8 @@ public class IDFinder {
 		}
 		
 		//update cache
-		idCache.put(key.toString(), id);
+		if (id > 0)
+			idCache.put(key.toString(), id);
 		
 		return id;
 	}
@@ -271,7 +273,8 @@ public class IDFinder {
 		}
 		
 		//update cache
-		idCache.put(key, id);
+		if (id > 0)
+			idCache.put(key, id);
 		
 		return id;
 	}
@@ -329,7 +332,8 @@ public class IDFinder {
 		}
 		
 		//update cache
-		idCache.put(key.toString(), id);
+		if (id > 0)
+			idCache.put(key.toString(), id);
 		
 		return id;
 	}
@@ -385,7 +389,8 @@ public class IDFinder {
 		}
 		
 		//update cache
-		idCache.put(key.toString(), id);
+		if (id > 0)
+			idCache.put(key.toString(), id);
 		
 		return id;
 	}
