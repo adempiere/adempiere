@@ -214,7 +214,9 @@ public class ProcessElementHandler extends AbstractElementHandler {
 							packOut.createReference(rsP
 									.getInt("AD_Reference_Value_ID"), 
 									document);
-
+						if (rsP.getInt("AD_Val_Rule_ID") > 0)
+							packOut.createDynamicRuleValidation (rsP.getInt("AD_Val_Rule_ID"), document);
+						
 						createProcessPara(ctx, document, rsP
 								.getInt("AD_Process_Para_ID"));
 					}
