@@ -130,11 +130,8 @@ public class TabElementHandler extends AbstractElementHandler {
 				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", atts.getValue("ADColumnNameID"), "AD_Table", get_IDWithColumn(ctx,"AD_Table", "TableName", atts.getValue("ADTableNameID")));			    
 				m_Tab.setAD_Column_ID(id);   
 			}
-			if (getStringValue(atts,"ADWindowNameID")!= null){
-				name = atts.getValue("ADWindowNameID");	    
-				id = get_IDWithColumn(ctx, "AD_Window", "Name", name);
-				m_Tab.setAD_Window_ID(id);   
-			}
+			m_Tab.setAD_Window_ID(windowid);   
+			
 			if (getStringValue(atts,"IncludedTabNameID")!= null){
 				name = atts.getValue("IncludedTabNameID");	    
 				id = get_IDWithColumn(ctx, "AD_Tab", "Name", name);
