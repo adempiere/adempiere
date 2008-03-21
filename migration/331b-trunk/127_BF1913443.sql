@@ -4,7 +4,7 @@ EXISTS (
 	/* UOM is a default UOM and no product selected */
 	SELECT * 
 	FROM C_UOM uu 
-	WHERE C_UOM.C_UOM_ID=uu.C_UOM_ID AND IsDefault='Y' AND @M_Product_ID@=0
+	WHERE C_UOM.C_UOM_ID=uu.C_UOM_ID AND IsDefault=''Y'' AND @M_Product_ID@=0
 )
 OR EXISTS (
 	/* UOM is the products UOM */
