@@ -88,7 +88,8 @@ public class IDFinder {
 		}
 		
 		//keep in cache
-		idCache.put(key.toString(), id);
+		if (id > 0)
+			idCache.put(key.toString(), id);
 		
 		return id;
 	}
