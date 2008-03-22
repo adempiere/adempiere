@@ -510,7 +510,7 @@ public class PackOut extends SvrProcess
 	 * @throws Exception
 	 */
 	public void createDynamicRuleValidation (int AD_Val_Rule_ID,  
-			TransformerHandler packOutDocument) throws Exception
+			TransformerHandler packOutDocument) throws SAXException
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID, AD_Val_Rule_ID);
 		dynValRuleHandler.create(getCtx(), packOutDocument);
