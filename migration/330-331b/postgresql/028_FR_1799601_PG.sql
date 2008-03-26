@@ -219,4 +219,4 @@ SELECT p.AD_Client_ID,p.AD_Org_ID, p.IsActive, p.Created,p.CreatedBy,p.Updated,p
     null,
     p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID
 FROM C_Payment_v p 
-WHERE p.IsAllocated='N' AND p.C_BPartner_ID IS NOT NULL
+WHERE p.IsAllocated='N' AND p.C_BPartner_ID IS NOT NULL;

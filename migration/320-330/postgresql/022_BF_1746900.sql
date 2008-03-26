@@ -1,4 +1,4 @@
--- Update help for "C_AcctSchema_Default_Copy" process
+Ôªø-- Update help for "C_AcctSchema_Default_Copy" process
  UPDATE AD_PROCESS 
    SET classname = 'org.compiere.process.AcctSchemaDefaultCopy',
    help = 'Either add missing accounts - or copy and overwrite all default accounts.  If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...).  If no Accounting Schema is selected all Accounting Schemas will be updated / inserted.'
@@ -17,7 +17,7 @@ UPDATE AD_PROCESS
 
 -- Update help for "M_Product_Category_Acct_Copy" process (SPANISH translation)
 UPDATE AD_PROCESS_TRL
-   SET help ='El proceso de copiar cuentas tomar· las cuentas definidas para una categorÌa de producto y las copiar· a cualquier producto que que haga referencia a esta categorÌa. Si una cuenta existe a nivel de producto sera sobreescrita. Si no selecciona un Esquema Contable ser·n actualizados para todos los que estÈn definidos.'	
+   SET help ='El proceso de copiar cuentas tomar√° las cuentas definidas para una categor√≠a de producto y las copiar√° a cualquier producto que que haga referencia a esta categor√≠a. Si una cuenta existe a nivel de producto sera sobreescrita. Si no selecciona un Esquema Contable ser√°n actualizados para todos los que est√©n definidos.'
  WHERE AD_Process_ID=140
    AND AD_LANGUAGE LIKE 'es_%';
 
