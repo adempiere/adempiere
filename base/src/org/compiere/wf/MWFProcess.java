@@ -119,8 +119,9 @@ public class MWFProcess extends X_AD_WF_Process
 		setProcessed (false);
 		//	Lock Entity
 		getPO();
-		if (m_po != null)
-			m_po.lock();
+		//hengsin: remove lock/unlock which is causing deadlock
+		//if (m_po != null)
+			//m_po.lock();
 	}	//	MWFProcess
 
 	/**	State Machine				*/
@@ -322,8 +323,9 @@ public class MWFProcess extends X_AD_WF_Process
 		{
 			setWFState(closedState);
 			getPO();
-			if (m_po != null)
-				m_po.unlock(null);
+			//hengsin: remmove lock/unlock in workflow which is causing deadlock in many place
+			//if (m_po != null)
+				//m_po.unlock(null);
 		}
 		else if (suspended)
 			setWFState(WFSTATE_Suspended);

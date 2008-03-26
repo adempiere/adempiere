@@ -21,6 +21,8 @@ import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -229,7 +231,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	/**	Workflow Node				*/
 	private MWFNode				m_node = null;
 	/** Transaction					*/
-	private Trx 				m_trx = null;
+	//private Trx 				m_trx = null;
 	/**	Audit						*/
 	private MWFEventAudit		m_audit = null;
 	/** Persistent Object			*/
@@ -740,11 +742,25 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		m_newValue = null;
 		
 		
-		m_trx = Trx.get(Trx.createTrxName("WFA"), true);
+		//m_trx = Trx.get(, true);
+		Trx trx = null;
+		boolean localTrx = false;
+		if (get_TrxName() == null)
+		{
+			this.set_TrxName(Trx.createTrxName("WFA"));
+			localTrx = true;
+		}
+		
+		trx = Trx.get(get_TrxName(), true);
+		
+		Savepoint savepoint = null;
 		
 		//
 		try
 		{
+			if (!localTrx)
+				savepoint = trx.setSavepoint(null);
+			
 			if (!m_state.isValidAction(StateEngine.ACTION_Start))
 			{
 				setTextMsg("State=" + getWFState() + " - cannot start");
@@ -762,18 +778,21 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			}
 			//	Do Work
 			/****	Trx Start	****/
-			boolean done = performWork(m_trx);
+			boolean done = performWork(Trx.get(get_TrxName(), false));
 			
 			/****	Trx End		****/
 			// teo_sarca [ 1708835 ]
 			// Reason: if the commit fails the document should be put in Invalid state
-			try {
-				m_trx.commit(true);					
-			} catch (Exception e) {
-				// If we have a DocStatus, change it to Invalid, and throw the exception to the next level
-				if (m_docStatus != null)
-					m_docStatus = DocAction.STATUS_Invalid;
-				throw e;
+			if (localTrx) 
+			{
+				try {
+					trx.commit(true);					
+				} catch (Exception e) {
+					// If we have a DocStatus, change it to Invalid, and throw the exception to the next level
+					if (m_docStatus != null)
+						m_docStatus = DocAction.STATUS_Invalid;
+					throw e;
+				}
 			}
 			
 			setWFState (done ? StateEngine.STATE_Completed : StateEngine.STATE_Suspended);
@@ -786,7 +805,17 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		{
 			log.log(Level.WARNING, "" + getNode(), e);
 			/****	Trx Rollback	****/
-			m_trx.rollback();
+			if (localTrx)
+			{
+				trx.rollback();
+			}
+			else if (savepoint != null) 
+			{
+				try 
+				{
+					trx.rollback(savepoint);
+				} catch (SQLException e1) {}
+			}
 						
 			//
 			if (e.getCause() != null)
@@ -801,19 +830,18 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//	Set Document Status 
 			if (m_po != null && m_po instanceof DocAction && m_docStatus != null)
 			{
-				m_po.load(null);
+				//m_po.load(null);
 				DocAction doc = (DocAction)m_po;
 				doc.setDocStatus(m_docStatus);
-				m_po.save();
+				m_po.save(get_TrxName());
 			}
 		}
 		finally
 		{
-			if (m_trx != null)
+			if (localTrx && trx != null)
 			{
-				m_trx.close();
+				trx.close();
 			}
-			m_trx = null;
 		}
 	}	//	run
 	
