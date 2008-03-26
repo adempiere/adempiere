@@ -830,10 +830,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//	Set Document Status 
 			if (m_po != null && m_po instanceof DocAction && m_docStatus != null)
 			{
-				//m_po.load(null);
+				m_po.load(get_TrxName());
 				DocAction doc = (DocAction)m_po;
 				doc.setDocStatus(m_docStatus);
-				m_po.save(get_TrxName());
+				m_po.save();
 			}
 		}
 		finally
