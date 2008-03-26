@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Role extends PO implements I_AD_Role, I_Persistent 
 {
 
@@ -133,7 +133,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setAD_Tree_Menu_ID (int AD_Tree_Menu_ID)
 	{
-		if (AD_Tree_Menu_ID <= 0) 
+		if (AD_Tree_Menu_ID < 1) 
 			set_Value (COLUMNNAME_AD_Tree_Menu_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Tree_Menu_ID, Integer.valueOf(AD_Tree_Menu_ID));
@@ -158,7 +158,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 	{
-		if (AD_Tree_Org_ID <= 0) 
+		if (AD_Tree_Org_ID < 1) 
 			set_Value (COLUMNNAME_AD_Tree_Org_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Tree_Org_ID, Integer.valueOf(AD_Tree_Org_ID));
@@ -448,7 +448,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -901,7 +901,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 
+		if (Supervisor_ID < 1) 
 			set_Value (COLUMNNAME_Supervisor_ID, null);
 		else 
 			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));

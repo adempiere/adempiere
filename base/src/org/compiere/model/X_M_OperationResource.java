@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_OperationResource
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_OperationResource extends PO implements I_M_OperationResource, I_Persistent 
 {
 
@@ -101,7 +101,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 
+		if (A_Asset_ID < 1) 
 			set_Value (COLUMNNAME_A_Asset_ID, null);
 		else 
 			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
@@ -140,7 +140,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setC_Job_ID (int C_Job_ID)
 	{
-		if (C_Job_ID <= 0) 
+		if (C_Job_ID < 1) 
 			set_Value (COLUMNNAME_C_Job_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));

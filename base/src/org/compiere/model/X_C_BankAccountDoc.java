@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccountDoc
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Persistent 
 {
 
@@ -144,7 +144,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	  */
 	public void setCheck_PrintFormat_ID (int Check_PrintFormat_ID)
 	{
-		if (Check_PrintFormat_ID <= 0) 
+		if (Check_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Check_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Check_PrintFormat_ID, Integer.valueOf(Check_PrintFormat_ID));

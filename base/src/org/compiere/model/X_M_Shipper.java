@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Shipper
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent 
 {
 
@@ -95,7 +95,7 @@ public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));

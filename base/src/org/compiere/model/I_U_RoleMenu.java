@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_RoleMenu
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_U_RoleMenu 
 {
@@ -74,19 +74,19 @@ public interface I_U_RoleMenu
     /** Column name U_RoleMenu_ID */
     public static final String COLUMNNAME_U_RoleMenu_ID = "U_RoleMenu_ID";
 
-	/** Set U_RoleMenu_ID	  */
+	/** Set Role Menu	  */
 	public void setU_RoleMenu_ID (int U_RoleMenu_ID);
 
-	/** Get U_RoleMenu_ID	  */
+	/** Get Role Menu	  */
 	public int getU_RoleMenu_ID();
 
     /** Column name U_WebMenu_ID */
     public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
 
-	/** Set U_WebMenu_ID	  */
+	/** Set Web Menu	  */
 	public void setU_WebMenu_ID (int U_WebMenu_ID);
 
-	/** Get U_WebMenu_ID	  */
+	/** Get Web Menu	  */
 	public int getU_WebMenu_ID();
 
 	public I_U_WebMenu getU_WebMenu() throws Exception;

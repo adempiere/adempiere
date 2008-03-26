@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Comment
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_K_Comment extends PO implements I_K_Comment, I_Persistent 
 {
 
@@ -99,7 +99,7 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
 	  */
 	public void setAD_Session_ID (int AD_Session_ID)
 	{
-		if (AD_Session_ID <= 0) 
+		if (AD_Session_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, Integer.valueOf(AD_Session_ID));

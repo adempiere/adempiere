@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Reference
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent 
 {
 
@@ -165,6 +165,30 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Order By Value.
+		@param IsOrderByValue 
+		Order list using the value column instead of the name column
+	  */
+	public void setIsOrderByValue (boolean IsOrderByValue)
+	{
+		set_Value (COLUMNNAME_IsOrderByValue, Boolean.valueOf(IsOrderByValue));
+	}
+
+	/** Get Order By Value.
+		@return Order list using the value column instead of the name column
+	  */
+	public boolean isOrderByValue () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsOrderByValue);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.

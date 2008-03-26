@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persistent 
 {
 
@@ -382,7 +382,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setM_LotCtl_ID (int M_LotCtl_ID)
 	{
-		if (M_LotCtl_ID <= 0) 
+		if (M_LotCtl_ID < 1) 
 			set_Value (COLUMNNAME_M_LotCtl_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
@@ -421,7 +421,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setM_SerNoCtl_ID (int M_SerNoCtl_ID)
 	{
-		if (M_SerNoCtl_ID <= 0) 
+		if (M_SerNoCtl_ID < 1) 
 			set_Value (COLUMNNAME_M_SerNoCtl_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));

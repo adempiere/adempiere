@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for AD_PInstance_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Persistent 
 {
 
@@ -153,7 +153,7 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 		@param P_ID Process ID	  */
 	public void setP_ID (int P_ID)
 	{
-		if (P_ID <= 0) 
+		if (P_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_P_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_P_ID, Integer.valueOf(P_ID));

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Backup, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 
+		if (AD_Column_ID < 1) 
 			set_Value (COLUMNNAME_AD_Column_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
@@ -210,7 +210,7 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID <= 0) 
+		if (AD_Reference_ID < 1) 
 			set_Value (COLUMNNAME_AD_Reference_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
@@ -233,7 +233,7 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));

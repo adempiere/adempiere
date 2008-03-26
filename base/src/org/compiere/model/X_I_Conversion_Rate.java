@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 
+		if (C_ConversionType_ID < 1) 
 			set_Value (COLUMNNAME_C_ConversionType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
@@ -136,7 +136,7 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
 	{
-		if (C_Conversion_Rate_ID <= 0) 
+		if (C_Conversion_Rate_ID < 1) 
 			set_Value (COLUMNNAME_C_Conversion_Rate_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
@@ -175,7 +175,7 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));

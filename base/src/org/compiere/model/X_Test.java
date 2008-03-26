@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Test
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_Test extends PO implements I_Test, I_Persistent 
 {
 
@@ -135,7 +135,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -174,7 +174,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -197,7 +197,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 
+		if (C_Location_ID < 1) 
 			set_Value (COLUMNNAME_C_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
@@ -236,7 +236,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 
+		if (C_Payment_ID < 1) 
 			set_Value (COLUMNNAME_C_Payment_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
@@ -275,7 +275,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 
+		if (C_UOM_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
@@ -361,7 +361,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 
+		if (M_Locator_ID < 1) 
 			set_Value (COLUMNNAME_M_Locator_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
@@ -400,7 +400,7 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BP_Group_ID <= 0) 
+		if (C_BP_Group_ID < 1) 
 			set_Value (COLUMNNAME_C_BP_Group_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
@@ -136,7 +136,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -211,7 +211,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 
+		if (M_Product_Category_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_Category_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
@@ -250,7 +250,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
@@ -308,7 +308,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setOrg_ID (int Org_ID)
 	{
-		if (Org_ID <= 0) 
+		if (Org_ID < 1) 
 			set_Value (COLUMNNAME_Org_ID, null);
 		else 
 			set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));

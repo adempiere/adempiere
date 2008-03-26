@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Tax extends PO implements I_C_Tax, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID <= 0) 
+		if (C_Country_ID < 1) 
 			set_Value (COLUMNNAME_C_Country_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
@@ -121,7 +121,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 
+		if (C_Region_ID < 1) 
 			set_Value (COLUMNNAME_C_Region_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
@@ -382,7 +382,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setParent_Tax_ID (int Parent_Tax_ID)
 	{
-		if (Parent_Tax_ID <= 0) 
+		if (Parent_Tax_ID < 1) 
 			set_Value (COLUMNNAME_Parent_Tax_ID, null);
 		else 
 			set_Value (COLUMNNAME_Parent_Tax_ID, Integer.valueOf(Parent_Tax_ID));
@@ -508,7 +508,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setTo_Country_ID (int To_Country_ID)
 	{
-		if (To_Country_ID <= 0) 
+		if (To_Country_ID < 1) 
 			set_Value (COLUMNNAME_To_Country_ID, null);
 		else 
 			set_Value (COLUMNNAME_To_Country_ID, Integer.valueOf(To_Country_ID));
@@ -533,7 +533,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setTo_Region_ID (int To_Region_ID)
 	{
-		if (To_Region_ID <= 0) 
+		if (To_Region_ID < 1) 
 			set_Value (COLUMNNAME_To_Region_ID, null);
 		else 
 			set_Value (COLUMNNAME_To_Region_ID, Integer.valueOf(To_Region_ID));

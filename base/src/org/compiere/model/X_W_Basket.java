@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Basket
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_W_Basket extends PO implements I_W_Basket, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
+		if (AD_User_ID < 0)
 			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
 		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
@@ -134,7 +134,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -196,7 +196,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID <= 0) 
+		if (M_PriceList_ID < 1) 
 			set_Value (COLUMNNAME_M_PriceList_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));

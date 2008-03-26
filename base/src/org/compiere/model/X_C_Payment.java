@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Payment extends PO implements I_C_Payment, I_Persistent 
 {
 
@@ -116,7 +116,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -385,7 +385,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -424,7 +424,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 	{
-		if (C_BP_BankAccount_ID <= 0) 
+		if (C_BP_BankAccount_ID < 1) 
 			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
@@ -539,7 +539,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -578,7 +578,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
@@ -617,7 +617,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 
+		if (C_ConversionType_ID < 1) 
 			set_Value (COLUMNNAME_C_ConversionType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
@@ -732,7 +732,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_Value (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
@@ -771,7 +771,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_Value (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -810,7 +810,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_PaymentBatch_ID (int C_PaymentBatch_ID)
 	{
-		if (C_PaymentBatch_ID <= 0) 
+		if (C_PaymentBatch_ID < 1) 
 			set_Value (COLUMNNAME_C_PaymentBatch_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_PaymentBatch_ID, Integer.valueOf(C_PaymentBatch_ID));
@@ -871,7 +871,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -1949,7 +1949,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		@param Ref_Payment_ID Referenced Payment	  */
 	public void setRef_Payment_ID (int Ref_Payment_ID)
 	{
-		if (Ref_Payment_ID <= 0) 
+		if (Ref_Payment_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
@@ -2111,7 +2111,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 
+		if (User1_ID < 1) 
 			set_Value (COLUMNNAME_User1_ID, null);
 		else 
 			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
@@ -2136,7 +2136,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 
+		if (User2_ID < 1) 
 			set_Value (COLUMNNAME_User2_ID, null);
 		else 
 			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));

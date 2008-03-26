@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent 
 {
 
@@ -122,7 +122,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -161,7 +161,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -200,7 +200,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -315,7 +315,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -354,7 +354,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID <= 0) 
+		if (C_CashLine_ID < 1) 
 			set_Value (COLUMNNAME_C_CashLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
@@ -379,7 +379,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
@@ -418,7 +418,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 
+		if (C_ConversionType_ID < 1) 
 			set_Value (COLUMNNAME_C_ConversionType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
@@ -555,7 +555,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		@param C_DunningLevel_ID Dunning Level	  */
 	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 	{
-		if (C_DunningLevel_ID <= 0) 
+		if (C_DunningLevel_ID < 1) 
 			set_Value (COLUMNNAME_C_DunningLevel_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
@@ -615,7 +615,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -692,7 +692,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 
+		if (C_Payment_ID < 1) 
 			set_Value (COLUMNNAME_C_Payment_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
@@ -731,7 +731,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -1439,7 +1439,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setM_RMA_ID (int M_RMA_ID)
 	{
-		if (M_RMA_ID <= 0) 
+		if (M_RMA_ID < 1) 
 			set_Value (COLUMNNAME_M_RMA_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
@@ -1590,7 +1590,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 		@param Ref_Invoice_ID Referenced Invoice	  */
 	public void setRef_Invoice_ID (int Ref_Invoice_ID)
 	{
-		if (Ref_Invoice_ID <= 0) 
+		if (Ref_Invoice_ID < 1) 
 			set_Value (COLUMNNAME_Ref_Invoice_ID, null);
 		else 
 			set_Value (COLUMNNAME_Ref_Invoice_ID, Integer.valueOf(Ref_Invoice_ID));
@@ -1614,7 +1614,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
@@ -1685,7 +1685,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 
+		if (User1_ID < 1) 
 			set_Value (COLUMNNAME_User1_ID, null);
 		else 
 			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
@@ -1710,7 +1710,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 
+		if (User2_ID < 1) 
 			set_Value (COLUMNNAME_User2_ID, null);
 		else 
 			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));

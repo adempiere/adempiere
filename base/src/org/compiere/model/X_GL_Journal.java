@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Journal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent 
 {
 
@@ -550,7 +550,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 
+		if (GL_Budget_ID < 1) 
 			set_Value (COLUMNNAME_GL_Budget_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
@@ -627,7 +627,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 
+		if (GL_JournalBatch_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));

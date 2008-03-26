@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_ClientException
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_ASP_ClientException 
 {
@@ -45,7 +45,7 @@ public interface I_ASP_ClientException
     /** TableName=ASP_ClientException */
     public static final String Table_Name = "ASP_ClientException";
 
-    /** AD_Table_ID=53050 */
+    /** AD_Table_ID=53057 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -190,10 +190,10 @@ public interface I_ASP_ClientException
     /** Column name ASP_ClientException_ID */
     public static final String COLUMNNAME_ASP_ClientException_ID = "ASP_ClientException_ID";
 
-	/** Set ASP Client Exception	  */
+	/** Set Client Exception	  */
 	public void setASP_ClientException_ID (int ASP_ClientException_ID);
 
-	/** Get ASP Client Exception	  */
+	/** Get Client Exception	  */
 	public int getASP_ClientException_ID();
 
     /** Column name ASP_Status */

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent 
 {
 
@@ -125,7 +125,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID <= 0) 
+		if (C_BankAccount_ID < 1) 
 			set_Value (COLUMNNAME_C_BankAccount_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
@@ -232,7 +232,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
@@ -271,7 +271,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -310,7 +310,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));

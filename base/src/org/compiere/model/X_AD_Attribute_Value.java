@@ -23,7 +23,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Attribute_Value
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_Persistent 
 {
 

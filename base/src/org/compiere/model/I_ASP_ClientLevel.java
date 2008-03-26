@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_ClientLevel
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_ASP_ClientLevel 
 {
@@ -45,7 +45,7 @@ public interface I_ASP_ClientLevel
     /** TableName=ASP_ClientLevel */
     public static final String Table_Name = "ASP_ClientLevel";
 
-    /** AD_Table_ID=53049 */
+    /** AD_Table_ID=53056 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -59,10 +59,10 @@ public interface I_ASP_ClientLevel
     /** Column name ASP_ClientLevel_ID */
     public static final String COLUMNNAME_ASP_ClientLevel_ID = "ASP_ClientLevel_ID";
 
-	/** Set ASP Client Level	  */
+	/** Set Client Level	  */
 	public void setASP_ClientLevel_ID (int ASP_ClientLevel_ID);
 
-	/** Get ASP Client Level	  */
+	/** Get Client Level	  */
 	public int getASP_ClientLevel_ID();
 
     /** Column name ASP_Level_ID */

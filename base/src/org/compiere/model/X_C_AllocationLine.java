@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Persistent 
 {
 
@@ -183,7 +183,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -222,7 +222,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID <= 0) 
+		if (C_CashLine_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
@@ -261,7 +261,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
@@ -308,7 +308,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -347,7 +347,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 
+		if (C_Payment_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));

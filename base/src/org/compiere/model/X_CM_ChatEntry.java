@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
@@ -99,7 +99,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -124,7 +124,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setCM_ChatEntryGrandParent_ID (int CM_ChatEntryGrandParent_ID)
 	{
-		if (CM_ChatEntryGrandParent_ID <= 0) 
+		if (CM_ChatEntryGrandParent_ID < 1) 
 			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, Integer.valueOf(CM_ChatEntryGrandParent_ID));
@@ -149,7 +149,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setCM_ChatEntryParent_ID (int CM_ChatEntryParent_ID)
 	{
-		if (CM_ChatEntryParent_ID <= 0) 
+		if (CM_ChatEntryParent_ID < 1) 
 			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, Integer.valueOf(CM_ChatEntryParent_ID));

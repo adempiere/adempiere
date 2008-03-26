@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Archive
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent 
 {
 
@@ -119,7 +119,7 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -158,7 +158,7 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
@@ -216,7 +216,7 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -342,7 +342,7 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

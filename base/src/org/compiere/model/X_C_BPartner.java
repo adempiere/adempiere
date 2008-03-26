@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent 
 {
 
@@ -182,7 +182,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setBPartner_Parent_ID (int BPartner_Parent_ID)
 	{
-		if (BPartner_Parent_ID <= 0) 
+		if (BPartner_Parent_ID < 1) 
 			set_Value (COLUMNNAME_BPartner_Parent_ID, null);
 		else 
 			set_Value (COLUMNNAME_BPartner_Parent_ID, Integer.valueOf(BPartner_Parent_ID));
@@ -281,7 +281,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setC_Dunning_ID (int C_Dunning_ID)
 	{
-		if (C_Dunning_ID <= 0) 
+		if (C_Dunning_ID < 1) 
 			set_Value (COLUMNNAME_C_Dunning_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
@@ -320,7 +320,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setC_Greeting_ID (int C_Greeting_ID)
 	{
-		if (C_Greeting_ID <= 0) 
+		if (C_Greeting_ID < 1) 
 			set_Value (COLUMNNAME_C_Greeting_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
@@ -359,7 +359,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
 	{
-		if (C_InvoiceSchedule_ID <= 0) 
+		if (C_InvoiceSchedule_ID < 1) 
 			set_Value (COLUMNNAME_C_InvoiceSchedule_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_InvoiceSchedule_ID, Integer.valueOf(C_InvoiceSchedule_ID));
@@ -398,7 +398,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 
+		if (C_PaymentTerm_ID < 1) 
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
@@ -678,7 +678,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setInvoice_PrintFormat_ID (int Invoice_PrintFormat_ID)
 	{
-		if (Invoice_PrintFormat_ID <= 0) 
+		if (Invoice_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Invoice_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Invoice_PrintFormat_ID, Integer.valueOf(Invoice_PrintFormat_ID));
@@ -916,7 +916,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID <= 0) 
+		if (M_DiscountSchema_ID < 1) 
 			set_Value (COLUMNNAME_M_DiscountSchema_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
@@ -955,7 +955,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID <= 0) 
+		if (M_PriceList_ID < 1) 
 			set_Value (COLUMNNAME_M_PriceList_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
@@ -1102,7 +1102,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID)
 	{
-		if (PO_DiscountSchema_ID <= 0) 
+		if (PO_DiscountSchema_ID < 1) 
 			set_Value (COLUMNNAME_PO_DiscountSchema_ID, null);
 		else 
 			set_Value (COLUMNNAME_PO_DiscountSchema_ID, Integer.valueOf(PO_DiscountSchema_ID));
@@ -1127,7 +1127,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID)
 	{
-		if (PO_PaymentTerm_ID <= 0) 
+		if (PO_PaymentTerm_ID < 1) 
 			set_Value (COLUMNNAME_PO_PaymentTerm_ID, null);
 		else 
 			set_Value (COLUMNNAME_PO_PaymentTerm_ID, Integer.valueOf(PO_PaymentTerm_ID));
@@ -1152,7 +1152,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setPO_PriceList_ID (int PO_PriceList_ID)
 	{
-		if (PO_PriceList_ID <= 0) 
+		if (PO_PriceList_ID < 1) 
 			set_Value (COLUMNNAME_PO_PriceList_ID, null);
 		else 
 			set_Value (COLUMNNAME_PO_PriceList_ID, Integer.valueOf(PO_PriceList_ID));
@@ -1422,7 +1422,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));

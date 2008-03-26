@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Persistent 
 {
 
@@ -307,7 +307,7 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	  */
 	public void setM_Inventory_ID (int M_Inventory_ID)
 	{
-		if (M_Inventory_ID <= 0) 
+		if (M_Inventory_ID < 1) 
 			set_Value (COLUMNNAME_M_Inventory_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));

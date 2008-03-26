@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_AccessStage
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persistent 
 {
 

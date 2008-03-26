@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -222,7 +222,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BP_Group_ID <= 0) 
+		if (C_BP_Group_ID < 1) 
 			set_Value (COLUMNNAME_C_BP_Group_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
@@ -261,7 +261,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -300,7 +300,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 
+		if (C_BPartner_Location_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
@@ -339,7 +339,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID <= 0) 
+		if (C_Country_ID < 1) 
 			set_Value (COLUMNNAME_C_Country_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
@@ -378,7 +378,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_Greeting_ID (int C_Greeting_ID)
 	{
-		if (C_Greeting_ID <= 0) 
+		if (C_Greeting_ID < 1) 
 			set_Value (COLUMNNAME_C_Greeting_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
@@ -417,7 +417,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 
+		if (C_Region_ID < 1) 
 			set_Value (COLUMNNAME_C_Region_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
@@ -1004,7 +1004,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setR_InterestArea_ID (int R_InterestArea_ID)
 	{
-		if (R_InterestArea_ID <= 0) 
+		if (R_InterestArea_ID < 1) 
 			set_Value (COLUMNNAME_R_InterestArea_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));

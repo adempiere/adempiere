@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persistent 
 {
 
@@ -117,7 +117,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
+		if (AD_User_ID < 0)
 			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
 		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
@@ -259,7 +259,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 
+		if (R_RequestType_ID < 1) 
 			set_Value (COLUMNNAME_R_RequestType_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));

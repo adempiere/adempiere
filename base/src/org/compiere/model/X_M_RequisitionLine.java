@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RequisitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Persistent 
 {
 
@@ -103,7 +103,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
@@ -142,7 +142,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID <= 0) 
+		if (C_OrderLine_ID < 1) 
 			set_Value (COLUMNNAME_C_OrderLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
@@ -238,7 +238,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID <= 0) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -277,7 +277,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));

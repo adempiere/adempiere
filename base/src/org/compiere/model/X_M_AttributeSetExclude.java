@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_AttributeSetExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclude, I_Persistent 
 {
 

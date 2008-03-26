@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
@@ -245,7 +245,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	  */
 	public void setPA_Goal_ID (int PA_Goal_ID)
 	{
-		if (PA_Goal_ID <= 0) 
+		if (PA_Goal_ID < 1) 
 			set_Value (COLUMNNAME_PA_Goal_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));

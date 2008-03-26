@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_Persistent 
 {
 
@@ -375,7 +375,7 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 
+		if (R_RequestType_ID < 1) 
 			set_Value (COLUMNNAME_R_RequestType_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));

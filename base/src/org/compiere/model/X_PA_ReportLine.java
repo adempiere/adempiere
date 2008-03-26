@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent 
 {
 
@@ -205,7 +205,7 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 
+		if (GL_Budget_ID < 1) 
 			set_Value (COLUMNNAME_GL_Budget_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
@@ -314,7 +314,7 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	  */
 	public void setOper_1_ID (int Oper_1_ID)
 	{
-		if (Oper_1_ID <= 0) 
+		if (Oper_1_ID < 1) 
 			set_Value (COLUMNNAME_Oper_1_ID, null);
 		else 
 			set_Value (COLUMNNAME_Oper_1_ID, Integer.valueOf(Oper_1_ID));
@@ -339,7 +339,7 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	  */
 	public void setOper_2_ID (int Oper_2_ID)
 	{
-		if (Oper_2_ID <= 0) 
+		if (Oper_2_ID < 1) 
 			set_Value (COLUMNNAME_Oper_2_ID, null);
 		else 
 			set_Value (COLUMNNAME_Oper_2_ID, Integer.valueOf(Oper_2_ID));

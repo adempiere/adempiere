@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_Process_Para
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_ASP_Process_Para 
 {
@@ -45,7 +45,7 @@ public interface I_ASP_Process_Para
     /** TableName=ASP_Process_Para */
     public static final String Table_Name = "ASP_Process_Para";
 
-    /** AD_Table_ID=1000005 */
+    /** AD_Table_ID=53050 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

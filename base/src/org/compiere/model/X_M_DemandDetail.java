@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persistent 
 {
 
@@ -95,7 +95,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID <= 0) 
+		if (C_OrderLine_ID < 1) 
 			set_Value (COLUMNNAME_C_OrderLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
@@ -202,7 +202,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 	  */
 	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
 	{
-		if (M_ForecastLine_ID <= 0) 
+		if (M_ForecastLine_ID < 1) 
 			set_Value (COLUMNNAME_M_ForecastLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
@@ -241,7 +241,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 	  */
 	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
 	{
-		if (M_RequisitionLine_ID <= 0) 
+		if (M_RequisitionLine_ID < 1) 
 			set_Value (COLUMNNAME_M_RequisitionLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));

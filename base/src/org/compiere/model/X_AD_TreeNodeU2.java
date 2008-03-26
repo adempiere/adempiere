@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_TreeNodeU2
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_TreeNodeU2 extends PO implements I_AD_TreeNodeU2, I_Persistent 
 {
 

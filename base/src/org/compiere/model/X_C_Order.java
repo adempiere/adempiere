@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Order extends PO implements I_C_Order, I_Persistent 
 {
 
@@ -139,7 +139,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -178,7 +178,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -237,7 +237,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setBill_BPartner_ID (int Bill_BPartner_ID)
 	{
-		if (Bill_BPartner_ID <= 0) 
+		if (Bill_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_Bill_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_Bill_BPartner_ID, Integer.valueOf(Bill_BPartner_ID));
@@ -262,7 +262,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setBill_Location_ID (int Bill_Location_ID)
 	{
-		if (Bill_Location_ID <= 0) 
+		if (Bill_Location_ID < 1) 
 			set_Value (COLUMNNAME_Bill_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_Bill_Location_ID, Integer.valueOf(Bill_Location_ID));
@@ -287,7 +287,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setBill_User_ID (int Bill_User_ID)
 	{
-		if (Bill_User_ID <= 0) 
+		if (Bill_User_ID < 1) 
 			set_Value (COLUMNNAME_Bill_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_Bill_User_ID, Integer.valueOf(Bill_User_ID));
@@ -326,7 +326,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -441,7 +441,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -480,7 +480,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID <= 0) 
+		if (C_CashLine_ID < 1) 
 			set_Value (COLUMNNAME_C_CashLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
@@ -505,7 +505,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
@@ -544,7 +544,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 
+		if (C_ConversionType_ID < 1) 
 			set_Value (COLUMNNAME_C_ConversionType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
@@ -707,7 +707,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_POS_ID (int C_POS_ID)
 	{
-		if (C_POS_ID <= 0) 
+		if (C_POS_ID < 1) 
 			set_Value (COLUMNNAME_C_POS_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
@@ -784,7 +784,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 
+		if (C_Payment_ID < 1) 
 			set_Value (COLUMNNAME_C_Payment_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
@@ -823,7 +823,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -1641,7 +1641,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID <= 0) 
+		if (M_Shipper_ID < 1) 
 			set_Value (COLUMNNAME_M_Shipper_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
@@ -1745,7 +1745,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setPay_BPartner_ID (int Pay_BPartner_ID)
 	{
-		if (Pay_BPartner_ID <= 0) 
+		if (Pay_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_Pay_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_Pay_BPartner_ID, Integer.valueOf(Pay_BPartner_ID));
@@ -1768,7 +1768,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setPay_Location_ID (int Pay_Location_ID)
 	{
-		if (Pay_Location_ID <= 0) 
+		if (Pay_Location_ID < 1) 
 			set_Value (COLUMNNAME_Pay_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_Pay_Location_ID, Integer.valueOf(Pay_Location_ID));
@@ -1936,7 +1936,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setRef_Order_ID (int Ref_Order_ID)
 	{
-		if (Ref_Order_ID <= 0) 
+		if (Ref_Order_ID < 1) 
 			set_Value (COLUMNNAME_Ref_Order_ID, null);
 		else 
 			set_Value (COLUMNNAME_Ref_Order_ID, Integer.valueOf(Ref_Order_ID));
@@ -2031,7 +2031,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 
+		if (User1_ID < 1) 
 			set_Value (COLUMNNAME_User1_ID, null);
 		else 
 			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
@@ -2056,7 +2056,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 
+		if (User2_ID < 1) 
 			set_Value (COLUMNNAME_User2_ID, null);
 		else 
 			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));

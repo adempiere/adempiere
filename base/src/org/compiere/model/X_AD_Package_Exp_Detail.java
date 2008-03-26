@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Detail, I_Persistent 
 {
 
@@ -98,7 +98,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 
+		if (AD_Form_ID < 1) 
 			set_Value (COLUMNNAME_AD_Form_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
@@ -135,7 +135,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param AD_ImpFormat_ID Import Format	  */
 	public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 	{
-		if (AD_ImpFormat_ID <= 0) 
+		if (AD_ImpFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_ImpFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
@@ -175,7 +175,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Menu_ID (int AD_Menu_ID)
 	{
-		if (AD_Menu_ID <= 0) 
+		if (AD_Menu_ID < 1) 
 			set_Value (COLUMNNAME_AD_Menu_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
@@ -214,7 +214,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Message_ID (int AD_Message_ID)
 	{
-		if (AD_Message_ID <= 0) 
+		if (AD_Message_ID < 1) 
 			set_Value (COLUMNNAME_AD_Message_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
@@ -339,7 +339,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 
+		if (AD_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
@@ -378,7 +378,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -417,7 +417,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 
+		if (AD_ReportView_ID < 1) 
 			set_Value (COLUMNNAME_AD_ReportView_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
@@ -456,7 +456,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -495,7 +495,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
@@ -518,7 +518,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 	{
-		if (AD_Val_Rule_ID <= 0) 
+		if (AD_Val_Rule_ID < 1) 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
@@ -557,7 +557,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
@@ -596,7 +596,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID <= 0) 
+		if (AD_Workbench_ID < 1) 
 			set_Value (COLUMNNAME_AD_Workbench_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
@@ -635,7 +635,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 
+		if (AD_Workflow_ID < 1) 
 			set_Value (COLUMNNAME_AD_Workflow_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
@@ -905,6 +905,12 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String RELEASENO_Release253b = "Release 2.5.3b";
 	/** No specific release = all */
 	public static final String RELEASENO_NoSpecificRelease = "all";
+	/** Release 3.1.0 = Release 3.1.0 */
+	public static final String RELEASENO_Release310 = "Release 3.1.0";
+	/** Release 3.2.0 = Release 3.2.0 */
+	public static final String RELEASENO_Release320 = "Release 3.2.0";
+	/** Release 3.3.0 = Release 3.3.0 */
+	public static final String RELEASENO_Release330 = "Release 3.3.0";
 	/** Set Release No.
 		@param ReleaseNo 
 		Internal Release Number
@@ -912,7 +918,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public void setReleaseNo (String ReleaseNo)
 	{
 
-		if (ReleaseNo == null || ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all");
+		if (ReleaseNo == null || ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all") || ReleaseNo.equals("Release 3.1.0") || ReleaseNo.equals("Release 3.2.0") || ReleaseNo.equals("Release 3.3.0")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all - Release 3.1.0 - Release 3.2.0 - Release 3.3.0");
 		if (ReleaseNo != null && ReleaseNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");

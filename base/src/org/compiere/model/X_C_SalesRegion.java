@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_SalesRegion
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent 
 {
 
@@ -208,7 +208,7 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));

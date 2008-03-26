@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_OrgType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_OrgType extends PO implements I_AD_OrgType, I_Persistent 
 {
 
@@ -117,7 +117,7 @@ public class X_AD_OrgType extends PO implements I_AD_OrgType, I_Persistent
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID <= 0) 
+		if (AD_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));

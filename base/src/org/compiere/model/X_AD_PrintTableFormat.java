@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, I_Persistent 
 {
 
@@ -202,7 +202,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFunctBG_PrintColor_ID (int FunctBG_PrintColor_ID)
 	{
-		if (FunctBG_PrintColor_ID <= 0) 
+		if (FunctBG_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_FunctBG_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_FunctBG_PrintColor_ID, Integer.valueOf(FunctBG_PrintColor_ID));
@@ -227,7 +227,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFunctFG_PrintColor_ID (int FunctFG_PrintColor_ID)
 	{
-		if (FunctFG_PrintColor_ID <= 0) 
+		if (FunctFG_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_FunctFG_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_FunctFG_PrintColor_ID, Integer.valueOf(FunctFG_PrintColor_ID));
@@ -252,7 +252,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
 	{
-		if (Funct_PrintFont_ID <= 0) 
+		if (Funct_PrintFont_ID < 1) 
 			set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
 		else 
 			set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
@@ -277,7 +277,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setHdrLine_PrintColor_ID (int HdrLine_PrintColor_ID)
 	{
-		if (HdrLine_PrintColor_ID <= 0) 
+		if (HdrLine_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_HdrLine_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_HdrLine_PrintColor_ID, Integer.valueOf(HdrLine_PrintColor_ID));
@@ -356,7 +356,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setHdrTextBG_PrintColor_ID (int HdrTextBG_PrintColor_ID)
 	{
-		if (HdrTextBG_PrintColor_ID <= 0) 
+		if (HdrTextBG_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_HdrTextBG_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_HdrTextBG_PrintColor_ID, Integer.valueOf(HdrTextBG_PrintColor_ID));
@@ -381,7 +381,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setHdrTextFG_PrintColor_ID (int HdrTextFG_PrintColor_ID)
 	{
-		if (HdrTextFG_PrintColor_ID <= 0) 
+		if (HdrTextFG_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_HdrTextFG_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_HdrTextFG_PrintColor_ID, Integer.valueOf(HdrTextFG_PrintColor_ID));
@@ -406,7 +406,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
 	{
-		if (Hdr_PrintFont_ID <= 0) 
+		if (Hdr_PrintFont_ID < 1) 
 			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
 		else 
 			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
@@ -745,7 +745,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setLine_PrintColor_ID (int Line_PrintColor_ID)
 	{
-		if (Line_PrintColor_ID <= 0) 
+		if (Line_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_Line_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));

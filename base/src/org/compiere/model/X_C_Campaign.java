@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Campaign
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent 
 {
 
@@ -123,7 +123,7 @@ public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent
 	  */
 	public void setC_Channel_ID (int C_Channel_ID)
 	{
-		if (C_Channel_ID <= 0) 
+		if (C_Channel_ID < 1) 
 			set_Value (COLUMNNAME_C_Channel_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Channel_ID, Integer.valueOf(C_Channel_ID));

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent 
 {
 
@@ -112,7 +112,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
@@ -151,7 +151,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID <= 0) 
+		if (AD_WF_Node_ID < 1) 
 			set_Value (COLUMNNAME_AD_WF_Node_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
@@ -190,7 +190,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
 	{
-		if (AD_WF_Responsible_ID <= 0) 
+		if (AD_WF_Responsible_ID < 1) 
 			set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
@@ -229,7 +229,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 	{
-		if (AD_WorkflowProcessor_ID <= 0) 
+		if (AD_WorkflowProcessor_ID < 1) 
 			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));

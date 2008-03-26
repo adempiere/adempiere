@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_Module
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_ASP_Module 
 {
@@ -45,7 +45,7 @@ public interface I_ASP_Module
     /** TableName=ASP_Module */
     public static final String Table_Name = "ASP_Module";
 
-    /** AD_Table_ID=53046 */
+    /** AD_Table_ID=53054 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

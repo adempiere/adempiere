@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persistent 
 {
 
@@ -164,7 +164,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 
+		if (C_PaymentTerm_ID < 1) 
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
@@ -302,7 +302,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setDunning_PrintFormat_ID (int Dunning_PrintFormat_ID)
 	{
-		if (Dunning_PrintFormat_ID <= 0) 
+		if (Dunning_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Dunning_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Dunning_PrintFormat_ID, Integer.valueOf(Dunning_PrintFormat_ID));

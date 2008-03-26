@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent 
 {
 
@@ -263,7 +263,7 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 
+		if (M_InOutLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InOutLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
@@ -302,7 +302,7 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID <= 0) 
+		if (M_InOut_ID < 1) 
 			set_Value (COLUMNNAME_M_InOut_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
@@ -341,7 +341,7 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));

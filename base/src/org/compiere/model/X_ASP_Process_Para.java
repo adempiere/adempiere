@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_Process_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Persistent 
 {
 
@@ -132,7 +132,7 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
 		@param AD_Process_Para_ID Process Parameter	  */
 	public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 	{
-		if (AD_Process_Para_ID <= 0) 
+		if (AD_Process_Para_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
@@ -183,12 +183,12 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
 		return ii.intValue();
 	}
 
-	/** ASP_Status AD_Reference_ID=1000000 */
-	public static final int ASP_STATUS_AD_Reference_ID=1000000;
-	/** Show = S */
-	public static final String ASP_STATUS_Show = "S";
+	/** ASP_Status AD_Reference_ID=53234 */
+	public static final int ASP_STATUS_AD_Reference_ID=53234;
 	/** Hide = H */
 	public static final String ASP_STATUS_Hide = "H";
+	/** Show = S */
+	public static final String ASP_STATUS_Show = "S";
 	/** Undefined = U */
 	public static final String ASP_STATUS_Undefined = "U";
 	/** Set ASP Status.
@@ -196,7 +196,7 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
 	public void setASP_Status (String ASP_Status)
 	{
 		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
-		if (ASP_Status.equals("S") || ASP_Status.equals("H") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=1000000 - S - H - U");
+		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");
 		if (ASP_Status.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");

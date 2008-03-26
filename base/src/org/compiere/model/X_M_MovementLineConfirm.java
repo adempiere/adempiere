@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfirm, I_Persistent 
 {
 
@@ -170,7 +170,7 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 
+		if (M_InventoryLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));

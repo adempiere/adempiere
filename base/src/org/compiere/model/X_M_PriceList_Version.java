@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, I_Persistent 
 {
 
@@ -208,7 +208,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setM_Pricelist_Version_Base_ID (int M_Pricelist_Version_Base_ID)
 	{
-		if (M_Pricelist_Version_Base_ID <= 0) 
+		if (M_Pricelist_Version_Base_ID < 1) 
 			set_Value (COLUMNNAME_M_Pricelist_Version_Base_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Pricelist_Version_Base_ID, Integer.valueOf(M_Pricelist_Version_Base_ID));

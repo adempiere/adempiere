@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_Activity_ID (int AD_Tree_Activity_ID)
 	{
-		if (AD_Tree_Activity_ID <= 0) 
+		if (AD_Tree_Activity_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Activity_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Activity_ID, Integer.valueOf(AD_Tree_Activity_ID));
@@ -104,7 +104,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_BPartner_ID (int AD_Tree_BPartner_ID)
 	{
-		if (AD_Tree_BPartner_ID <= 0) 
+		if (AD_Tree_BPartner_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_BPartner_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_BPartner_ID, Integer.valueOf(AD_Tree_BPartner_ID));
@@ -129,7 +129,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_Campaign_ID (int AD_Tree_Campaign_ID)
 	{
-		if (AD_Tree_Campaign_ID <= 0) 
+		if (AD_Tree_Campaign_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Campaign_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Campaign_ID, Integer.valueOf(AD_Tree_Campaign_ID));
@@ -154,7 +154,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_Menu_ID (int AD_Tree_Menu_ID)
 	{
-		if (AD_Tree_Menu_ID <= 0) 
+		if (AD_Tree_Menu_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Menu_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Menu_ID, Integer.valueOf(AD_Tree_Menu_ID));
@@ -179,7 +179,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 	{
-		if (AD_Tree_Org_ID <= 0) 
+		if (AD_Tree_Org_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Org_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Org_ID, Integer.valueOf(AD_Tree_Org_ID));
@@ -204,7 +204,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_Product_ID (int AD_Tree_Product_ID)
 	{
-		if (AD_Tree_Product_ID <= 0) 
+		if (AD_Tree_Product_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Product_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Product_ID, Integer.valueOf(AD_Tree_Product_ID));
@@ -229,7 +229,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_Project_ID (int AD_Tree_Project_ID)
 	{
-		if (AD_Tree_Project_ID <= 0) 
+		if (AD_Tree_Project_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Project_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_Project_ID, Integer.valueOf(AD_Tree_Project_ID));
@@ -254,7 +254,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setAD_Tree_SalesRegion_ID (int AD_Tree_SalesRegion_ID)
 	{
-		if (AD_Tree_SalesRegion_ID <= 0) 
+		if (AD_Tree_SalesRegion_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_SalesRegion_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Tree_SalesRegion_ID, Integer.valueOf(AD_Tree_SalesRegion_ID));
@@ -279,7 +279,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_AcctSchema1_ID (int C_AcctSchema1_ID)
 	{
-		if (C_AcctSchema1_ID <= 0) 
+		if (C_AcctSchema1_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_AcctSchema1_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_AcctSchema1_ID, Integer.valueOf(C_AcctSchema1_ID));
@@ -304,7 +304,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
 	{
-		if (C_BPartnerCashTrx_ID <= 0) 
+		if (C_BPartnerCashTrx_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
@@ -343,7 +343,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_Calendar_ID (int C_Calendar_ID)
 	{
-		if (C_Calendar_ID <= 0) 
+		if (C_Calendar_ID < 1) 
 			set_Value (COLUMNNAME_C_Calendar_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
@@ -368,7 +368,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_UOM_Length_ID (int C_UOM_Length_ID)
 	{
-		if (C_UOM_Length_ID <= 0) 
+		if (C_UOM_Length_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_Length_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_Length_ID, Integer.valueOf(C_UOM_Length_ID));
@@ -393,7 +393,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_UOM_Time_ID (int C_UOM_Time_ID)
 	{
-		if (C_UOM_Time_ID <= 0) 
+		if (C_UOM_Time_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_Time_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_Time_ID, Integer.valueOf(C_UOM_Time_ID));
@@ -418,7 +418,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_UOM_Volume_ID (int C_UOM_Volume_ID)
 	{
-		if (C_UOM_Volume_ID <= 0) 
+		if (C_UOM_Volume_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_Volume_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_Volume_ID, Integer.valueOf(C_UOM_Volume_ID));
@@ -443,7 +443,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	  */
 	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID)
 	{
-		if (C_UOM_Weight_ID <= 0) 
+		if (C_UOM_Weight_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_Weight_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_Weight_ID, Integer.valueOf(C_UOM_Weight_ID));
@@ -510,7 +510,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		@param M_ProductFreight_ID Product for Freight	  */
 	public void setM_ProductFreight_ID (int M_ProductFreight_ID)
 	{
-		if (M_ProductFreight_ID <= 0) 
+		if (M_ProductFreight_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductFreight_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductFreight_ID, Integer.valueOf(M_ProductFreight_ID));

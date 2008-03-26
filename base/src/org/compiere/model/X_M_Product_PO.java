@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent 
 {
 
@@ -141,7 +141,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -180,7 +180,7 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 
+		if (C_UOM_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));

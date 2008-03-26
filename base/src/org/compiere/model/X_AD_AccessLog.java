@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent 
 {
 
@@ -124,7 +124,7 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 
+		if (AD_Column_ID < 1) 
 			set_Value (COLUMNNAME_AD_Column_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
@@ -163,7 +163,7 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
@@ -209,7 +209,7 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

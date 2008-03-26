@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, I_Persistent 
 {
 

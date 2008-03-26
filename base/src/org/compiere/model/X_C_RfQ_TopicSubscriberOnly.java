@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ_TopicSubscriberOnly
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubscriberOnly, I_Persistent 
 {
 
@@ -178,7 +178,7 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 
+		if (M_Product_Category_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_Category_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
@@ -225,7 +225,7 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));

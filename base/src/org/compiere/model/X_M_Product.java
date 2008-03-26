@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
@@ -124,7 +124,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 	{
-		if (C_RevenueRecognition_ID <= 0) 
+		if (C_RevenueRecognition_ID < 1) 
 			set_Value (COLUMNNAME_C_RevenueRecognition_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
@@ -147,7 +147,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 	{
-		if (C_SubscriptionType_ID <= 0) 
+		if (C_SubscriptionType_ID < 1) 
 			set_Value (COLUMNNAME_C_SubscriptionType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
@@ -831,7 +831,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_AttributeSet_ID <= 0) 
+		if (M_AttributeSet_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
@@ -870,7 +870,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 	{
-		if (M_FreightCategory_ID <= 0) 
+		if (M_FreightCategory_ID < 1) 
 			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
@@ -893,7 +893,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 
+		if (M_Locator_ID < 1) 
 			set_Value (COLUMNNAME_M_Locator_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
@@ -1084,7 +1084,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setR_MailText_ID (int R_MailText_ID)
 	{
-		if (R_MailText_ID <= 0) 
+		if (R_MailText_ID < 1) 
 			set_Value (COLUMNNAME_R_MailText_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
@@ -1146,7 +1146,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
 	{
-		if (S_ExpenseType_ID <= 0) 
+		if (S_ExpenseType_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
@@ -1185,7 +1185,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (S_Resource_ID <= 0) 
+		if (S_Resource_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
@@ -1210,7 +1210,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));

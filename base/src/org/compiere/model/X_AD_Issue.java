@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 
+		if (AD_Form_ID < 1) 
 			set_Value (COLUMNNAME_AD_Form_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
@@ -168,7 +168,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -207,7 +207,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
@@ -246,7 +246,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 
+		if (A_Asset_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
@@ -715,7 +715,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setR_IssueKnown_ID (int R_IssueKnown_ID)
 	{
-		if (R_IssueKnown_ID <= 0) 
+		if (R_IssueKnown_ID < 1) 
 			set_Value (COLUMNNAME_R_IssueKnown_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_IssueKnown_ID, Integer.valueOf(R_IssueKnown_ID));
@@ -754,7 +754,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setR_IssueProject_ID (int R_IssueProject_ID)
 	{
-		if (R_IssueProject_ID <= 0) 
+		if (R_IssueProject_ID < 1) 
 			set_Value (COLUMNNAME_R_IssueProject_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_IssueProject_ID, Integer.valueOf(R_IssueProject_ID));
@@ -793,7 +793,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setR_IssueSystem_ID (int R_IssueSystem_ID)
 	{
-		if (R_IssueSystem_ID <= 0) 
+		if (R_IssueSystem_ID < 1) 
 			set_Value (COLUMNNAME_R_IssueSystem_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_IssueSystem_ID, Integer.valueOf(R_IssueSystem_ID));
@@ -832,7 +832,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setR_IssueUser_ID (int R_IssueUser_ID)
 	{
-		if (R_IssueUser_ID <= 0) 
+		if (R_IssueUser_ID < 1) 
 			set_Value (COLUMNNAME_R_IssueUser_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_IssueUser_ID, Integer.valueOf(R_IssueUser_ID));
@@ -871,7 +871,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID <= 0) 
+		if (R_Request_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
@@ -894,7 +894,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID <= 0) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

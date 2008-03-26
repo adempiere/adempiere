@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_A_Asset extends PO implements I_A_Asset, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -243,7 +243,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 	{
-		if (C_BPartnerSR_ID <= 0) 
+		if (C_BPartnerSR_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
@@ -282,7 +282,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -321,7 +321,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 
+		if (C_BPartner_Location_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
@@ -360,7 +360,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 
+		if (C_Location_ID < 1) 
 			set_Value (COLUMNNAME_C_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
@@ -399,7 +399,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -684,7 +684,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setLease_BPartner_ID (int Lease_BPartner_ID)
 	{
-		if (Lease_BPartner_ID <= 0) 
+		if (Lease_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_Lease_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_Lease_BPartner_ID, Integer.valueOf(Lease_BPartner_ID));
@@ -811,7 +811,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 
+		if (M_InOutLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InOutLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
@@ -850,7 +850,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID <= 0) 
+		if (M_Locator_ID < 1) 
 			set_Value (COLUMNNAME_M_Locator_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
@@ -889,7 +889,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));

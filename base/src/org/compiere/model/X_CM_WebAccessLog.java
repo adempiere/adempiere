@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persistent 
 {
 
@@ -99,7 +99,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -161,7 +161,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_BroadcastServer_ID (int CM_BroadcastServer_ID)
 	{
-		if (CM_BroadcastServer_ID <= 0) 
+		if (CM_BroadcastServer_ID < 1) 
 			set_Value (COLUMNNAME_CM_BroadcastServer_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_BroadcastServer_ID, Integer.valueOf(CM_BroadcastServer_ID));
@@ -200,7 +200,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_Media_ID (int CM_Media_ID)
 	{
-		if (CM_Media_ID <= 0) 
+		if (CM_Media_ID < 1) 
 			set_Value (COLUMNNAME_CM_Media_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
@@ -261,7 +261,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID <= 0) 
+		if (CM_WebProject_ID < 1) 
 			set_Value (COLUMNNAME_CM_WebProject_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent 
 {
 
@@ -89,7 +89,7 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setAD_TreeCMC_ID (int AD_TreeCMC_ID)
 	{
-		if (AD_TreeCMC_ID <= 0) 
+		if (AD_TreeCMC_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMC_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMC_ID, Integer.valueOf(AD_TreeCMC_ID));
@@ -114,7 +114,7 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setAD_TreeCMM_ID (int AD_TreeCMM_ID)
 	{
-		if (AD_TreeCMM_ID <= 0) 
+		if (AD_TreeCMM_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMM_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMM_ID, Integer.valueOf(AD_TreeCMM_ID));
@@ -139,7 +139,7 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setAD_TreeCMS_ID (int AD_TreeCMS_ID)
 	{
-		if (AD_TreeCMS_ID <= 0) 
+		if (AD_TreeCMS_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMS_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMS_ID, Integer.valueOf(AD_TreeCMS_ID));
@@ -164,7 +164,7 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setAD_TreeCMT_ID (int AD_TreeCMT_ID)
 	{
-		if (AD_TreeCMT_ID <= 0) 
+		if (AD_TreeCMT_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMT_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_TreeCMT_ID, Integer.valueOf(AD_TreeCMT_ID));

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 
+		if (AD_Column_ID < 1) 
 			set_Value (COLUMNNAME_AD_Column_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
@@ -190,7 +190,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID <= 0) 
+		if (C_ElementValue_ID < 1) 
 			set_Value (COLUMNNAME_C_ElementValue_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
@@ -229,7 +229,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setC_Element_ID (int C_Element_ID)
 	{
-		if (C_Element_ID <= 0) 
+		if (C_Element_ID < 1) 
 			set_Value (COLUMNNAME_C_Element_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
@@ -463,7 +463,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setParentElementValue_ID (int ParentElementValue_ID)
 	{
-		if (ParentElementValue_ID <= 0) 
+		if (ParentElementValue_ID < 1) 
 			set_Value (COLUMNNAME_ParentElementValue_ID, null);
 		else 
 			set_Value (COLUMNNAME_ParentElementValue_ID, Integer.valueOf(ParentElementValue_ID));

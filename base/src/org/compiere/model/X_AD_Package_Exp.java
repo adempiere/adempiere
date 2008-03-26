@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persistent 
 {
 
@@ -340,6 +340,12 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public static final String RELEASENO_Release253b = "Release 2.5.3b";
 	/** No specific release = all */
 	public static final String RELEASENO_NoSpecificRelease = "all";
+	/** Release 3.1.0 = Release 3.1.0 */
+	public static final String RELEASENO_Release310 = "Release 3.1.0";
+	/** Release 3.2.0 = Release 3.2.0 */
+	public static final String RELEASENO_Release320 = "Release 3.2.0";
+	/** Release 3.3.0 = Release 3.3.0 */
+	public static final String RELEASENO_Release330 = "Release 3.3.0";
 	/** Set Release No.
 		@param ReleaseNo 
 		Internal Release Number
@@ -347,7 +353,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public void setReleaseNo (String ReleaseNo)
 	{
 		if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandatory");
-		if (ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all");
+		if (ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all") || ReleaseNo.equals("Release 3.1.0") || ReleaseNo.equals("Release 3.2.0") || ReleaseNo.equals("Release 3.3.0")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all - Release 3.1.0 - Release 3.2.0 - Release 3.3.0");
 		if (ReleaseNo.length() > 20)
 		{
 			log.warning("Length > 20 - truncated");

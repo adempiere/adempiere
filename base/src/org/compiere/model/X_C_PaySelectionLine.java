@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_Persistent 
 {
 
@@ -148,7 +148,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
 	{
-		if (C_PaySelectionCheck_ID <= 0) 
+		if (C_PaySelectionCheck_ID < 1) 
 			set_Value (COLUMNNAME_C_PaySelectionCheck_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_PaySelectionCheck_ID, Integer.valueOf(C_PaySelectionCheck_ID));

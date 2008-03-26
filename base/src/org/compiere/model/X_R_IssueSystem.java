@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueSystem
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 
+		if (A_Asset_ID < 1) 
 			set_Value (COLUMNNAME_A_Asset_ID, null);
 		else 
 			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));

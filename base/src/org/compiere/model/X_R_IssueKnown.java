@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent 
 {
 
@@ -253,7 +253,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_IssueRecommendation_ID (int R_IssueRecommendation_ID)
 	{
-		if (R_IssueRecommendation_ID <= 0) 
+		if (R_IssueRecommendation_ID < 1) 
 			set_Value (COLUMNNAME_R_IssueRecommendation_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_IssueRecommendation_ID, Integer.valueOf(R_IssueRecommendation_ID));
@@ -292,7 +292,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_IssueStatus_ID (int R_IssueStatus_ID)
 	{
-		if (R_IssueStatus_ID <= 0) 
+		if (R_IssueStatus_ID < 1) 
 			set_Value (COLUMNNAME_R_IssueStatus_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_IssueStatus_ID, Integer.valueOf(R_IssueStatus_ID));
@@ -331,7 +331,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID <= 0) 
+		if (R_Request_ID < 1) 
 			set_Value (COLUMNNAME_R_Request_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));

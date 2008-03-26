@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent 
 {
 
@@ -39,7 +39,11 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
       /** if (AD_Rule_ID == 0)
         {
 			setAD_Rule_ID (0);
+			setEntityType (null);
+// U
+			setEventType (null);
 			setName (null);
+			setRuleType (null);
 			setValue (null);
         } */
     }
@@ -161,7 +165,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public void setEntityType (String EntityType)
 	{
 
-		if (EntityType != null && EntityType.length() > 40)
+		if (EntityType.length() > 40)
 		{
 			log.warning("Length > 40 - truncated");
 			EntityType = EntityType.substring(0, 40);
@@ -195,9 +199,9 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setEventType (String EventType)
 	{
-
-		if (EventType == null || EventType.equals("C") || EventType.equals("P") || EventType.equals("T") || EventType.equals("D") || EventType.equals("L")); else throw new IllegalArgumentException ("EventType Invalid value - " + EventType + " - Reference_ID=53236 - C - P - T - D - L");
-		if (EventType != null && EventType.length() > 1)
+		if (EventType == null) throw new IllegalArgumentException ("EventType is mandatory");
+		if (EventType.equals("C") || EventType.equals("P") || EventType.equals("T") || EventType.equals("D") || EventType.equals("L")); else throw new IllegalArgumentException ("EventType Invalid value - " + EventType + " - Reference_ID=53236 - C - P - T - D - L");
+		if (EventType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			EventType = EventType.substring(0, 1);
@@ -283,9 +287,9 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 		@param RuleType Rule Type	  */
 	public void setRuleType (String RuleType)
 	{
-
-		if (RuleType == null || RuleType.equals("A") || RuleType.equals("S") || RuleType.equals("R") || RuleType.equals("Q")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - S - R - Q");
-		if (RuleType != null && RuleType.length() > 1)
+		if (RuleType == null) throw new IllegalArgumentException ("RuleType is mandatory");
+		if (RuleType.equals("A") || RuleType.equals("S") || RuleType.equals("R") || RuleType.equals("Q")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - S - R - Q");
+		if (RuleType.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
 			RuleType = RuleType.substring(0, 1);

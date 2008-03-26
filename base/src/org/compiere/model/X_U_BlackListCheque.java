@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_BlackListCheque
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Persistent 
 {
 
@@ -71,8 +71,8 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
       return sb.toString();
     }
 
-	/** Set BankName.
-		@param BankName BankName	  */
+	/** Set Bank Name.
+		@param BankName Bank Name	  */
 	public void setBankName (String BankName)
 	{
 		if (BankName == null)
@@ -86,15 +86,15 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		set_Value (COLUMNNAME_BankName, BankName);
 	}
 
-	/** Get BankName.
-		@return BankName	  */
+	/** Get Bank Name.
+		@return Bank Name	  */
 	public String getBankName () 
 	{
 		return (String)get_Value(COLUMNNAME_BankName);
 	}
 
-	/** Set ChequeNo.
-		@param ChequeNo ChequeNo	  */
+	/** Set Cheque No.
+		@param ChequeNo Cheque No	  */
 	public void setChequeNo (String ChequeNo)
 	{
 		if (ChequeNo == null)
@@ -108,15 +108,15 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		set_Value (COLUMNNAME_ChequeNo, ChequeNo);
 	}
 
-	/** Get ChequeNo.
-		@return ChequeNo	  */
+	/** Get Cheque No.
+		@return Cheque No	  */
 	public String getChequeNo () 
 	{
 		return (String)get_Value(COLUMNNAME_ChequeNo);
 	}
 
-	/** Set U_BlackListCheque_ID.
-		@param U_BlackListCheque_ID U_BlackListCheque_ID	  */
+	/** Set Black List Cheque.
+		@param U_BlackListCheque_ID Black List Cheque	  */
 	public void setU_BlackListCheque_ID (int U_BlackListCheque_ID)
 	{
 		if (U_BlackListCheque_ID < 1)
@@ -124,8 +124,8 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		set_ValueNoCheck (COLUMNNAME_U_BlackListCheque_ID, Integer.valueOf(U_BlackListCheque_ID));
 	}
 
-	/** Get U_BlackListCheque_ID.
-		@return U_BlackListCheque_ID	  */
+	/** Get Black List Cheque.
+		@return Black List Cheque	  */
 	public int getU_BlackListCheque_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_U_BlackListCheque_ID);

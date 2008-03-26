@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStage
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent 
 {
 
@@ -94,7 +94,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setCM_CStageLink_ID (int CM_CStageLink_ID)
 	{
-		if (CM_CStageLink_ID <= 0) 
+		if (CM_CStageLink_ID < 1) 
 			set_Value (COLUMNNAME_CM_CStageLink_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_CStageLink_ID, Integer.valueOf(CM_CStageLink_ID));
@@ -155,7 +155,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setCM_Template_ID (int CM_Template_ID)
 	{
-		if (CM_Template_ID <= 0) 
+		if (CM_Template_ID < 1) 
 			set_Value (COLUMNNAME_CM_Template_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_Template_ID, Integer.valueOf(CM_Template_ID));

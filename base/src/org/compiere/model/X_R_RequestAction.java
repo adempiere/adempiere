@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 
+		if (AD_Role_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -136,7 +136,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -175,7 +175,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID <= 0) 
+		if (A_Asset_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
@@ -214,7 +214,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -253,7 +253,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -292,7 +292,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
@@ -331,7 +331,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -370,7 +370,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 
+		if (C_Payment_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
@@ -409,7 +409,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -640,7 +640,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID <= 0) 
+		if (M_InOut_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
@@ -665,7 +665,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 	{
-		if (M_ProductSpent_ID <= 0) 
+		if (M_ProductSpent_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductSpent_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductSpent_ID, Integer.valueOf(M_ProductSpent_ID));
@@ -704,7 +704,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
@@ -743,7 +743,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setM_RMA_ID (int M_RMA_ID)
 	{
-		if (M_RMA_ID <= 0) 
+		if (M_RMA_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
@@ -937,7 +937,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_Category_ID (int R_Category_ID)
 	{
-		if (R_Category_ID <= 0) 
+		if (R_Category_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_Category_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_Category_ID, Integer.valueOf(R_Category_ID));
@@ -976,7 +976,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_Group_ID (int R_Group_ID)
 	{
-		if (R_Group_ID <= 0) 
+		if (R_Group_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_Group_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_Group_ID, Integer.valueOf(R_Group_ID));
@@ -1037,7 +1037,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 
+		if (R_RequestType_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
@@ -1114,7 +1114,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_Resolution_ID (int R_Resolution_ID)
 	{
-		if (R_Resolution_ID <= 0) 
+		if (R_Resolution_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, Integer.valueOf(R_Resolution_ID));
@@ -1153,7 +1153,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_Status_ID (int R_Status_ID)
 	{
-		if (R_Status_ID <= 0) 
+		if (R_Status_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_Status_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
@@ -1178,7 +1178,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));

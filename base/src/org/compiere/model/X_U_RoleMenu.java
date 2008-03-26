@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for U_RoleMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent 
 {
 
@@ -111,8 +111,8 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set U_RoleMenu_ID.
-		@param U_RoleMenu_ID U_RoleMenu_ID	  */
+	/** Set Role Menu.
+		@param U_RoleMenu_ID Role Menu	  */
 	public void setU_RoleMenu_ID (int U_RoleMenu_ID)
 	{
 		if (U_RoleMenu_ID < 1)
@@ -120,8 +120,8 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_U_RoleMenu_ID, Integer.valueOf(U_RoleMenu_ID));
 	}
 
-	/** Get U_RoleMenu_ID.
-		@return U_RoleMenu_ID	  */
+	/** Get Role Menu.
+		@return Role Menu	  */
 	public int getU_RoleMenu_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_U_RoleMenu_ID);
@@ -146,8 +146,8 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
         return result;
     }
 
-	/** Set U_WebMenu_ID.
-		@param U_WebMenu_ID U_WebMenu_ID	  */
+	/** Set Web Menu.
+		@param U_WebMenu_ID Web Menu	  */
 	public void setU_WebMenu_ID (int U_WebMenu_ID)
 	{
 		if (U_WebMenu_ID < 1)
@@ -155,8 +155,8 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		set_Value (COLUMNNAME_U_WebMenu_ID, Integer.valueOf(U_WebMenu_ID));
 	}
 
-	/** Get U_WebMenu_ID.
-		@return U_WebMenu_ID	  */
+	/** Get Web Menu.
+		@return Web Menu	  */
 	public int getU_WebMenu_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_U_WebMenu_ID);

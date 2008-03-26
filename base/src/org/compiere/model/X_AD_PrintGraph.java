@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent 
 {
 
@@ -146,7 +146,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setData1_PrintFormatItem_ID (int Data1_PrintFormatItem_ID)
 	{
-		if (Data1_PrintFormatItem_ID <= 0) 
+		if (Data1_PrintFormatItem_ID < 1) 
 			set_Value (COLUMNNAME_Data1_PrintFormatItem_ID, null);
 		else 
 			set_Value (COLUMNNAME_Data1_PrintFormatItem_ID, Integer.valueOf(Data1_PrintFormatItem_ID));
@@ -171,7 +171,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setData2_PrintFormatItem_ID (int Data2_PrintFormatItem_ID)
 	{
-		if (Data2_PrintFormatItem_ID <= 0) 
+		if (Data2_PrintFormatItem_ID < 1) 
 			set_Value (COLUMNNAME_Data2_PrintFormatItem_ID, null);
 		else 
 			set_Value (COLUMNNAME_Data2_PrintFormatItem_ID, Integer.valueOf(Data2_PrintFormatItem_ID));
@@ -196,7 +196,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setData3_PrintFormatItem_ID (int Data3_PrintFormatItem_ID)
 	{
-		if (Data3_PrintFormatItem_ID <= 0) 
+		if (Data3_PrintFormatItem_ID < 1) 
 			set_Value (COLUMNNAME_Data3_PrintFormatItem_ID, null);
 		else 
 			set_Value (COLUMNNAME_Data3_PrintFormatItem_ID, Integer.valueOf(Data3_PrintFormatItem_ID));
@@ -221,7 +221,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setData4_PrintFormatItem_ID (int Data4_PrintFormatItem_ID)
 	{
-		if (Data4_PrintFormatItem_ID <= 0) 
+		if (Data4_PrintFormatItem_ID < 1) 
 			set_Value (COLUMNNAME_Data4_PrintFormatItem_ID, null);
 		else 
 			set_Value (COLUMNNAME_Data4_PrintFormatItem_ID, Integer.valueOf(Data4_PrintFormatItem_ID));

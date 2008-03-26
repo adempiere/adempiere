@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_Web_Properties
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Persistent 
 {
 
@@ -71,8 +71,8 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
       return sb.toString();
     }
 
-	/** Set U_Key.
-		@param U_Key U_Key	  */
+	/** Set Key.
+		@param U_Key Key	  */
 	public void setU_Key (String U_Key)
 	{
 		if (U_Key == null)
@@ -86,15 +86,15 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 		set_Value (COLUMNNAME_U_Key, U_Key);
 	}
 
-	/** Get U_Key.
-		@return U_Key	  */
+	/** Get Key.
+		@return Key	  */
 	public String getU_Key () 
 	{
 		return (String)get_Value(COLUMNNAME_U_Key);
 	}
 
-	/** Set U_Value.
-		@param U_Value U_Value	  */
+	/** Set Value.
+		@param U_Value Value	  */
 	public void setU_Value (String U_Value)
 	{
 		if (U_Value == null)
@@ -108,15 +108,15 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 		set_Value (COLUMNNAME_U_Value, U_Value);
 	}
 
-	/** Get U_Value.
-		@return U_Value	  */
+	/** Get Value.
+		@return Value	  */
 	public String getU_Value () 
 	{
 		return (String)get_Value(COLUMNNAME_U_Value);
 	}
 
-	/** Set U_Web_Properties_ID.
-		@param U_Web_Properties_ID U_Web_Properties_ID	  */
+	/** Set Web Properties.
+		@param U_Web_Properties_ID Web Properties	  */
 	public void setU_Web_Properties_ID (int U_Web_Properties_ID)
 	{
 		if (U_Web_Properties_ID < 1)
@@ -124,8 +124,8 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 		set_ValueNoCheck (COLUMNNAME_U_Web_Properties_ID, Integer.valueOf(U_Web_Properties_ID));
 	}
 
-	/** Get U_Web_Properties_ID.
-		@return U_Web_Properties_ID	  */
+	/** Get Web Properties.
+		@return Web Properties	  */
 	public int getU_Web_Properties_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_U_Web_Properties_ID);

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_Persistent 
 {
 
@@ -101,7 +101,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 
+		if (C_InvoiceLine_ID < 1) 
 			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
@@ -334,7 +334,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 
+		if (M_InventoryLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));

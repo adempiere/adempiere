@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_Replenish extends PO implements I_M_Replenish, I_Persistent 
 {
 
@@ -167,7 +167,7 @@ public class X_M_Replenish extends PO implements I_M_Replenish, I_Persistent
 	  */
 	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
 	{
-		if (M_WarehouseSource_ID <= 0) 
+		if (M_WarehouseSource_ID < 1) 
 			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));

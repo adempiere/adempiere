@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LdapAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent 
 {
 
@@ -156,7 +156,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -250,7 +250,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setR_InterestArea_ID (int R_InterestArea_ID)
 	{
-		if (R_InterestArea_ID <= 0) 
+		if (R_InterestArea_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));

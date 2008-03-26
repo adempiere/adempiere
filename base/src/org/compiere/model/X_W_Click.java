@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_W_Click extends PO implements I_W_Click, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -311,7 +311,7 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setW_ClickCount_ID (int W_ClickCount_ID)
 	{
-		if (W_ClickCount_ID <= 0) 
+		if (W_ClickCount_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Project extends PO implements I_C_Project, I_Persistent 
 {
 
@@ -116,7 +116,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -141,7 +141,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
 	{
-		if (C_BPartnerSR_ID <= 0) 
+		if (C_BPartnerSR_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
@@ -180,7 +180,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -219,7 +219,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID <= 0) 
+		if (C_BPartner_Location_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
@@ -258,7 +258,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -335,7 +335,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 
+		if (C_PaymentTerm_ID < 1) 
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
@@ -374,7 +374,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setC_Phase_ID (int C_Phase_ID)
 	{
-		if (C_Phase_ID <= 0) 
+		if (C_Phase_ID < 1) 
 			set_Value (COLUMNNAME_C_Phase_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
@@ -721,7 +721,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID <= 0) 
+		if (M_PriceList_Version_ID < 1) 
 			set_Value (COLUMNNAME_M_PriceList_Version_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
@@ -760,7 +760,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID <= 0) 
+		if (M_Warehouse_ID < 1) 
 			set_Value (COLUMNNAME_M_Warehouse_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
@@ -1091,7 +1091,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));

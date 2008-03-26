@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Table extends PO implements I_AD_Table, I_Persistent 
 {
 
@@ -131,7 +131,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 	{
-		if (AD_Val_Rule_ID <= 0) 
+		if (AD_Val_Rule_ID < 1) 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
@@ -170,7 +170,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
@@ -509,7 +509,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setPO_Window_ID (int PO_Window_ID)
 	{
-		if (PO_Window_ID <= 0) 
+		if (PO_Window_ID < 1) 
 			set_Value (COLUMNNAME_PO_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_PO_Window_ID, Integer.valueOf(PO_Window_ID));

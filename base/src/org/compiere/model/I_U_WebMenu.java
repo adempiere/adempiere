@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_WebMenu
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_U_WebMenu 
 {
@@ -81,10 +81,10 @@ public interface I_U_WebMenu
     /** Column name HasSubMenu */
     public static final String COLUMNNAME_HasSubMenu = "HasSubMenu";
 
-	/** Set HasSubMenu	  */
+	/** Set Has SubMenu	  */
 	public void setHasSubMenu (boolean HasSubMenu);
 
-	/** Get HasSubMenu	  */
+	/** Get Has SubMenu	  */
 	public boolean isHasSubMenu();
 
     /** Column name Help */
@@ -103,19 +103,19 @@ public interface I_U_WebMenu
     /** Column name ImageLink */
     public static final String COLUMNNAME_ImageLink = "ImageLink";
 
-	/** Set ImageLink	  */
+	/** Set Image Link	  */
 	public void setImageLink (String ImageLink);
 
-	/** Get ImageLink	  */
+	/** Get Image Link	  */
 	public String getImageLink();
 
     /** Column name MenuLink */
     public static final String COLUMNNAME_MenuLink = "MenuLink";
 
-	/** Set MenuLink	  */
+	/** Set Menu Link	  */
 	public void setMenuLink (String MenuLink);
 
-	/** Get MenuLink	  */
+	/** Get Menu Link	  */
 	public String getMenuLink();
 
     /** Column name Module */
@@ -143,10 +143,10 @@ public interface I_U_WebMenu
     /** Column name ParentMenu_ID */
     public static final String COLUMNNAME_ParentMenu_ID = "ParentMenu_ID";
 
-	/** Set ParentMenu_ID	  */
+	/** Set Parent Menu	  */
 	public void setParentMenu_ID (int ParentMenu_ID);
 
-	/** Get ParentMenu_ID	  */
+	/** Get Parent Menu	  */
 	public int getParentMenu_ID();
 
     /** Column name Position */
@@ -170,9 +170,9 @@ public interface I_U_WebMenu
     /** Column name U_WebMenu_ID */
     public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
 
-	/** Set U_WebMenu_ID	  */
+	/** Set Web Menu	  */
 	public void setU_WebMenu_ID (int U_WebMenu_ID);
 
-	/** Get U_WebMenu_ID	  */
+	/** Get Web Menu	  */
 	public int getU_WebMenu_ID();
 }

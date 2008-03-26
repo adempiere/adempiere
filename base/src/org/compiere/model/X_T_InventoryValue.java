@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Persistent 
 {
 
@@ -137,7 +137,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -295,7 +295,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID <= 0) 
+		if (M_CostElement_ID < 1) 
 			set_Value (COLUMNNAME_M_CostElement_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
@@ -334,7 +334,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID <= 0) 
+		if (M_PriceList_Version_ID < 1) 
 			set_Value (COLUMNNAME_M_PriceList_Version_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));

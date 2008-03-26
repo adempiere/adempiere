@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_BlackListCheque
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_U_BlackListCheque 
 {
@@ -59,27 +59,27 @@ public interface I_U_BlackListCheque
     /** Column name BankName */
     public static final String COLUMNNAME_BankName = "BankName";
 
-	/** Set BankName	  */
+	/** Set Bank Name	  */
 	public void setBankName (String BankName);
 
-	/** Get BankName	  */
+	/** Get Bank Name	  */
 	public String getBankName();
 
     /** Column name ChequeNo */
     public static final String COLUMNNAME_ChequeNo = "ChequeNo";
 
-	/** Set ChequeNo	  */
+	/** Set Cheque No	  */
 	public void setChequeNo (String ChequeNo);
 
-	/** Get ChequeNo	  */
+	/** Get Cheque No	  */
 	public String getChequeNo();
 
     /** Column name U_BlackListCheque_ID */
     public static final String COLUMNNAME_U_BlackListCheque_ID = "U_BlackListCheque_ID";
 
-	/** Set U_BlackListCheque_ID	  */
+	/** Set Black List Cheque	  */
 	public void setU_BlackListCheque_ID (int U_BlackListCheque_ID);
 
-	/** Get U_BlackListCheque_ID	  */
+	/** Get Black List Cheque	  */
 	public int getU_BlackListCheque_ID();
 }

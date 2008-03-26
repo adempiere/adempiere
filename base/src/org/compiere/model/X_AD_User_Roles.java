@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_User_Roles
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_User_Roles extends PO implements I_AD_User_Roles, I_Persistent 
 {
 
@@ -132,7 +132,7 @@ public class X_AD_User_Roles extends PO implements I_AD_User_Roles, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
+		if (AD_User_ID < 0)
 			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}

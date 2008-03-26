@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
@@ -94,7 +94,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
-		if (AD_OrgType_ID <= 0) 
+		if (AD_OrgType_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgType_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgType_ID, Integer.valueOf(AD_OrgType_ID));
@@ -117,7 +117,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID <= 0) 
+		if (C_Location_ID < 1) 
 			set_Value (COLUMNNAME_C_Location_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
@@ -181,7 +181,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID <= 0) 
+		if (M_Warehouse_ID < 1) 
 			set_Value (COLUMNNAME_M_Warehouse_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
@@ -206,7 +206,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setParent_Org_ID (int Parent_Org_ID)
 	{
-		if (Parent_Org_ID <= 0) 
+		if (Parent_Org_ID < 1) 
 			set_Value (COLUMNNAME_Parent_Org_ID, null);
 		else 
 			set_Value (COLUMNNAME_Parent_Org_ID, Integer.valueOf(Parent_Org_ID));
@@ -231,7 +231,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 
+		if (Supervisor_ID < 1) 
 			set_Value (COLUMNNAME_Supervisor_ID, null);
 		else 
 			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));

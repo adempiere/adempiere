@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Fact_Acct_Balance
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Persistent 
 {
 
@@ -89,7 +89,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -242,7 +242,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -281,7 +281,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -320,7 +320,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -345,7 +345,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_LocFrom_ID (int C_LocFrom_ID)
 	{
-		if (C_LocFrom_ID <= 0) 
+		if (C_LocFrom_ID < 1) 
 			set_Value (COLUMNNAME_C_LocFrom_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
@@ -370,7 +370,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_LocTo_ID (int C_LocTo_ID)
 	{
-		if (C_LocTo_ID <= 0) 
+		if (C_LocTo_ID < 1) 
 			set_Value (COLUMNNAME_C_LocTo_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
@@ -409,7 +409,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 	{
-		if (C_ProjectPhase_ID <= 0) 
+		if (C_ProjectPhase_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
@@ -448,7 +448,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 	{
-		if (C_ProjectTask_ID <= 0) 
+		if (C_ProjectTask_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
@@ -487,7 +487,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -526,7 +526,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 
+		if (C_SalesRegion_ID < 1) 
 			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
@@ -565,7 +565,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setC_SubAcct_ID (int C_SubAcct_ID)
 	{
-		if (C_SubAcct_ID <= 0) 
+		if (C_SubAcct_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
@@ -623,7 +623,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 
+		if (GL_Budget_ID < 1) 
 			set_Value (COLUMNNAME_GL_Budget_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
@@ -662,7 +662,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
@@ -745,7 +745,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 
+		if (User1_ID < 1) 
 			set_Value (COLUMNNAME_User1_ID, null);
 		else 
 			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
@@ -770,7 +770,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 
+		if (User2_ID < 1) 
 			set_Value (COLUMNNAME_User2_ID, null);
 		else 
 			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
@@ -793,7 +793,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setUserElement1_ID (int UserElement1_ID)
 	{
-		if (UserElement1_ID <= 0) 
+		if (UserElement1_ID < 1) 
 			set_Value (COLUMNNAME_UserElement1_ID, null);
 		else 
 			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
@@ -816,7 +816,7 @@ public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Pe
 	  */
 	public void setUserElement2_ID (int UserElement2_ID)
 	{
-		if (UserElement2_ID <= 0) 
+		if (UserElement2_ID < 1) 
 			set_Value (COLUMNNAME_UserElement2_ID, null);
 		else 
 			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));

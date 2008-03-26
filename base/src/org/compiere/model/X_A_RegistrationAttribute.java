@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationAttribute
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAttribute, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	  */
 	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 	{
-		if (AD_Reference_Value_ID <= 0) 
+		if (AD_Reference_Value_ID < 1) 
 			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CashBook
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_CashBook extends PO implements I_C_CashBook, I_Persistent 
 {
 
@@ -42,7 +42,6 @@ public class X_C_CashBook extends PO implements I_C_CashBook, I_Persistent
         {
 			setC_CashBook_ID (0);
 			setC_Currency_ID (0);
-// SQL=SELECT cb.C_Currency_ID FROM C_CashBook cb INNER JOIN C_Cash c ON (cb.C_CashBook_ID=c.C_CashBook_ID) WHERE c.C_Cash_ID=@C_Cash_ID@
 			setIsDefault (false);
 			setName (null);
         } */

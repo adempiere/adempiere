@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOut
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_InOut extends PO implements I_M_InOut, I_Persistent 
 {
 
@@ -114,7 +114,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -153,7 +153,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -192,7 +192,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -307,7 +307,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -332,7 +332,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID <= 0) 
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
@@ -395,7 +395,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
@@ -434,7 +434,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -473,7 +473,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -1114,7 +1114,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setM_RMA_ID (int M_RMA_ID)
 	{
-		if (M_RMA_ID <= 0) 
+		if (M_RMA_ID < 1) 
 			set_Value (COLUMNNAME_M_RMA_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
@@ -1153,7 +1153,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID <= 0) 
+		if (M_Shipper_ID < 1) 
 			set_Value (COLUMNNAME_M_Shipper_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
@@ -1446,7 +1446,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 		@param Ref_InOut_ID Referenced Shipment	  */
 	public void setRef_InOut_ID (int Ref_InOut_ID)
 	{
-		if (Ref_InOut_ID <= 0) 
+		if (Ref_InOut_ID < 1) 
 			set_Value (COLUMNNAME_Ref_InOut_ID, null);
 		else 
 			set_Value (COLUMNNAME_Ref_InOut_ID, Integer.valueOf(Ref_InOut_ID));
@@ -1470,7 +1470,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
@@ -1559,7 +1559,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 
+		if (User1_ID < 1) 
 			set_Value (COLUMNNAME_User1_ID, null);
 		else 
 			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
@@ -1584,7 +1584,7 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 
+		if (User2_ID < 1) 
 			set_Value (COLUMNNAME_User2_ID, null);
 		else 
 			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));

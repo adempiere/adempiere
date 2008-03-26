@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Client extends PO implements I_AD_Client, I_Persistent 
 {
 
@@ -337,15 +337,15 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		return false;
 	}
 
-	/** Set Use ASP.
-		@param IsUseASP Use ASP	  */
+	/** Set IsUseASP.
+		@param IsUseASP IsUseASP	  */
 	public void setIsUseASP (boolean IsUseASP)
 	{
 		set_Value (COLUMNNAME_IsUseASP, Boolean.valueOf(IsUseASP));
 	}
 
-	/** Get Use ASP.
-		@return Use ASP	  */
+	/** Get IsUseASP.
+		@return IsUseASP	  */
 	public boolean isUseASP () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsUseASP);

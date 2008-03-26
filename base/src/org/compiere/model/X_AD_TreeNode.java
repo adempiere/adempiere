@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_TreeNode
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_TreeNode extends PO implements I_AD_TreeNode, I_Persistent 
 {
 
@@ -136,7 +136,7 @@ public class X_AD_TreeNode extends PO implements I_AD_TreeNode, I_Persistent
 	  */
 	public void setParent_ID (int Parent_ID)
 	{
-		if (Parent_ID <= 0) 
+		if (Parent_ID < 1) 
 			set_Value (COLUMNNAME_Parent_ID, null);
 		else 
 			set_Value (COLUMNNAME_Parent_ID, Integer.valueOf(Parent_ID));

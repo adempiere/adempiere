@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -492,7 +492,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	  */
 	public void setC_Bank_ID (int C_Bank_ID)
 	{
-		if (C_Bank_ID <= 0) 
+		if (C_Bank_ID < 1) 
 			set_Value (COLUMNNAME_C_Bank_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));

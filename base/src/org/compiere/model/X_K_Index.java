@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_K_Index extends PO implements I_K_Index, I_Persistent 
 {
 
@@ -137,7 +137,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID <= 0) 
+		if (CM_WebProject_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
@@ -176,7 +176,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID <= 0) 
+		if (C_DocType_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -293,7 +293,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 
+		if (R_RequestType_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));

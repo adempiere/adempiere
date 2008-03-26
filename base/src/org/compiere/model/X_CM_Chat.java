@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Chat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent 
 {
 
@@ -136,7 +136,7 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	  */
 	public void setCM_ChatType_ID (int CM_ChatType_ID)
 	{
-		if (CM_ChatType_ID <= 0) 
+		if (CM_ChatType_ID < 1) 
 			set_Value (COLUMNNAME_CM_ChatType_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_ChatType_ID, Integer.valueOf(CM_ChatType_ID));

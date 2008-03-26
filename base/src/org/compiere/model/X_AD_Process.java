@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Process extends PO implements I_AD_Process, I_Persistent 
 {
 
@@ -102,7 +102,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 
+		if (AD_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
@@ -163,7 +163,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 
+		if (AD_ReportView_ID < 1) 
 			set_Value (COLUMNNAME_AD_ReportView_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
@@ -202,7 +202,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 
+		if (AD_Workflow_ID < 1) 
 			set_Value (COLUMNNAME_AD_Workflow_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));

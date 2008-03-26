@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persistent 
 {
 
@@ -165,7 +165,7 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
 	{
-		if (M_AttributeSetInstanceTo_ID <= 0) 
+		if (M_AttributeSetInstanceTo_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));

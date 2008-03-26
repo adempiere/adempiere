@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persistent 
 {
 
@@ -244,7 +244,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_PrintTableFormat_ID (int AD_PrintTableFormat_ID)
 	{
-		if (AD_PrintTableFormat_ID <= 0) 
+		if (AD_PrintTableFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintTableFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintTableFormat_ID, Integer.valueOf(AD_PrintTableFormat_ID));
@@ -283,7 +283,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 
+		if (AD_ReportView_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
@@ -565,7 +565,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setJasperProcess_ID (int JasperProcess_ID)
 	{
-		if (JasperProcess_ID <= 0) 
+		if (JasperProcess_ID < 1) 
 			set_Value (COLUMNNAME_JasperProcess_ID, null);
 		else 
 			set_Value (COLUMNNAME_JasperProcess_ID, Integer.valueOf(JasperProcess_ID));

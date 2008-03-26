@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent 
 {
 
@@ -186,12 +186,12 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	/** ASP_Status AD_Reference_ID=1000000 */
-	public static final int ASP_STATUS_AD_Reference_ID=1000000;
-	/** Show = S */
-	public static final String ASP_STATUS_Show = "S";
+	/** ASP_Status AD_Reference_ID=53234 */
+	public static final int ASP_STATUS_AD_Reference_ID=53234;
 	/** Hide = H */
 	public static final String ASP_STATUS_Hide = "H";
+	/** Show = S */
+	public static final String ASP_STATUS_Show = "S";
 	/** Undefined = U */
 	public static final String ASP_STATUS_Undefined = "U";
 	/** Set ASP Status.
@@ -199,7 +199,7 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	public void setASP_Status (String ASP_Status)
 	{
 		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
-		if (ASP_Status.equals("S") || ASP_Status.equals("H") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=1000000 - S - H - U");
+		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");
 		if (ASP_Status.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");
@@ -215,18 +215,15 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		return (String)get_Value(COLUMNNAME_ASP_Status);
 	}
 
-	/** Set Include all fields.
-		@param AllFields 
-		Include all fields
-	  */
+	/** Set AllFields.
+		@param AllFields AllFields	  */
 	public void setAllFields (boolean AllFields)
 	{
 		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
 	}
 
-	/** Get Include all fields.
-		@return Include all fields
-	  */
+	/** Get AllFields.
+		@return AllFields	  */
 	public boolean isAllFields () 
 	{
 		Object oo = get_Value(COLUMNNAME_AllFields);

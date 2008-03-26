@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
@@ -162,7 +162,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID <= 0) 
+		if (C_InvoiceLine_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
@@ -201,7 +201,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID <= 0) 
+		if (C_OrderLine_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
@@ -240,7 +240,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 	{
-		if (C_ProjectIssue_ID <= 0) 
+		if (C_ProjectIssue_ID < 1) 
 			set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
@@ -410,7 +410,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID <= 0) 
+		if (M_CostElement_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
@@ -449,7 +449,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 
+		if (M_InOutLine_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
@@ -488,7 +488,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 
+		if (M_InventoryLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
@@ -527,7 +527,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_MovementLine_ID <= 0) 
+		if (M_MovementLine_ID < 1) 
 			set_Value (COLUMNNAME_M_MovementLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
@@ -604,7 +604,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 	{
-		if (M_ProductionLine_ID <= 0) 
+		if (M_ProductionLine_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));

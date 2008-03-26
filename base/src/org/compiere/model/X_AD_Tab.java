@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent 
 {
 
@@ -98,7 +98,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_ColumnSortOrder_ID (int AD_ColumnSortOrder_ID)
 	{
-		if (AD_ColumnSortOrder_ID <= 0) 
+		if (AD_ColumnSortOrder_ID < 1) 
 			set_Value (COLUMNNAME_AD_ColumnSortOrder_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ColumnSortOrder_ID, Integer.valueOf(AD_ColumnSortOrder_ID));
@@ -123,7 +123,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_ColumnSortYesNo_ID (int AD_ColumnSortYesNo_ID)
 	{
-		if (AD_ColumnSortYesNo_ID <= 0) 
+		if (AD_ColumnSortYesNo_ID < 1) 
 			set_Value (COLUMNNAME_AD_ColumnSortYesNo_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ColumnSortYesNo_ID, Integer.valueOf(AD_ColumnSortYesNo_ID));
@@ -162,7 +162,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID <= 0) 
+		if (AD_Column_ID < 1) 
 			set_Value (COLUMNNAME_AD_Column_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
@@ -201,7 +201,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 
+		if (AD_Image_ID < 1) 
 			set_Value (COLUMNNAME_AD_Image_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
@@ -240,7 +240,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -527,7 +527,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setIncluded_Tab_ID (int Included_Tab_ID)
 	{
-		if (Included_Tab_ID <= 0) 
+		if (Included_Tab_ID < 1) 
 			set_Value (COLUMNNAME_Included_Tab_ID, null);
 		else 
 			set_Value (COLUMNNAME_Included_Tab_ID, Integer.valueOf(Included_Tab_ID));

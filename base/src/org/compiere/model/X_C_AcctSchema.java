@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent 
 {
 
@@ -105,7 +105,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setAD_OrgOnly_ID (int AD_OrgOnly_ID)
 	{
-		if (AD_OrgOnly_ID <= 0) 
+		if (AD_OrgOnly_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgOnly_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgOnly_ID, Integer.valueOf(AD_OrgOnly_ID));
@@ -228,7 +228,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID <= 0) 
+		if (C_Period_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));

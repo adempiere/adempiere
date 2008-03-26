@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 	  */
 	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
 	{
-		if (AD_ReplicationTable_ID <= 0) 
+		if (AD_ReplicationTable_ID < 1) 
 			set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));

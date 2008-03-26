@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Reference
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_AD_Reference 
 {
@@ -109,6 +109,19 @@ public interface I_AD_Reference
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name IsOrderByValue */
+    public static final String COLUMNNAME_IsOrderByValue = "IsOrderByValue";
+
+	/** Set Order By Value.
+	  * Order list using the value column instead of the name column
+	  */
+	public void setIsOrderByValue (boolean IsOrderByValue);
+
+	/** Get Order By Value.
+	  * Order list using the value column instead of the name column
+	  */
+	public boolean isOrderByValue();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

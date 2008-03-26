@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MatchInv
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent 
 {
 
@@ -220,7 +220,7 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID <= 0) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));

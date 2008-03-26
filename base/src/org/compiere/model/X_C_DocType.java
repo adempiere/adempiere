@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
@@ -114,7 +114,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 
+		if (AD_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
@@ -139,7 +139,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID)
 	{
-		if (C_DocTypeDifference_ID <= 0) 
+		if (C_DocTypeDifference_ID < 1) 
 			set_Value (COLUMNNAME_C_DocTypeDifference_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocTypeDifference_ID, Integer.valueOf(C_DocTypeDifference_ID));
@@ -164,7 +164,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setC_DocTypeInvoice_ID (int C_DocTypeInvoice_ID)
 	{
-		if (C_DocTypeInvoice_ID <= 0) 
+		if (C_DocTypeInvoice_ID < 1) 
 			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocTypeInvoice_ID, Integer.valueOf(C_DocTypeInvoice_ID));
@@ -189,7 +189,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setC_DocTypeProforma_ID (int C_DocTypeProforma_ID)
 	{
-		if (C_DocTypeProforma_ID <= 0) 
+		if (C_DocTypeProforma_ID < 1) 
 			set_Value (COLUMNNAME_C_DocTypeProforma_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocTypeProforma_ID, Integer.valueOf(C_DocTypeProforma_ID));
@@ -214,7 +214,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setC_DocTypeShipment_ID (int C_DocTypeShipment_ID)
 	{
-		if (C_DocTypeShipment_ID <= 0) 
+		if (C_DocTypeShipment_ID < 1) 
 			set_Value (COLUMNNAME_C_DocTypeShipment_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocTypeShipment_ID, Integer.valueOf(C_DocTypeShipment_ID));
@@ -259,7 +259,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		@param DefiniteSequence_ID Definite Sequence	  */
 	public void setDefiniteSequence_ID (int DefiniteSequence_ID)
 	{
-		if (DefiniteSequence_ID <= 0) 
+		if (DefiniteSequence_ID < 1) 
 			set_Value (COLUMNNAME_DefiniteSequence_ID, null);
 		else 
 			set_Value (COLUMNNAME_DefiniteSequence_ID, Integer.valueOf(DefiniteSequence_ID));
@@ -378,7 +378,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setDocNoSequence_ID (int DocNoSequence_ID)
 	{
-		if (DocNoSequence_ID <= 0) 
+		if (DocNoSequence_ID < 1) 
 			set_Value (COLUMNNAME_DocNoSequence_ID, null);
 		else 
 			set_Value (COLUMNNAME_DocNoSequence_ID, Integer.valueOf(DocNoSequence_ID));

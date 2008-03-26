@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Workbench
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	  */
 	public void setAD_Color_ID (int AD_Color_ID)
 	{
-		if (AD_Color_ID <= 0) 
+		if (AD_Color_ID < 1) 
 			set_Value (COLUMNNAME_AD_Color_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
@@ -127,7 +127,7 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 
+		if (AD_Image_ID < 1) 
 			set_Value (COLUMNNAME_AD_Image_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persistent 
 {
 
@@ -110,7 +110,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -173,7 +173,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID <= 0) 
+		if (C_Period_ID < 1) 
 			set_Value (COLUMNNAME_C_Period_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
@@ -451,7 +451,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID <= 0) 
+		if (GL_Category_ID < 1) 
 			set_Value (COLUMNNAME_GL_Category_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));

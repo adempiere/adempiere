@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ChangeRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persistent 
 {
 
@@ -219,7 +219,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setM_BOM_ID (int M_BOM_ID)
 	{
-		if (M_BOM_ID <= 0) 
+		if (M_BOM_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
@@ -258,7 +258,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 
+		if (M_ChangeNotice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
@@ -305,7 +305,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setM_FixChangeNotice_ID (int M_FixChangeNotice_ID)
 	{
-		if (M_FixChangeNotice_ID <= 0) 
+		if (M_FixChangeNotice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_FixChangeNotice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_FixChangeNotice_ID, Integer.valueOf(M_FixChangeNotice_ID));

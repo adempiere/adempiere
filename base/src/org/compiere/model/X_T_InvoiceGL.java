@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent 
 {
 
@@ -321,7 +321,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setC_DocTypeReval_ID (int C_DocTypeReval_ID)
 	{
-		if (C_DocTypeReval_ID <= 0) 
+		if (C_DocTypeReval_ID < 1) 
 			set_Value (COLUMNNAME_C_DocTypeReval_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocTypeReval_ID, Integer.valueOf(C_DocTypeReval_ID));

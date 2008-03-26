@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent 
 {
 
@@ -145,7 +145,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID <= 0) 
+		if (C_ElementValue_ID < 1) 
 			set_Value (COLUMNNAME_C_ElementValue_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
@@ -434,7 +434,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		@param PA_ReportLineSet_ID Report Line Set	  */
 	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 	{
-		if (PA_ReportLineSet_ID <= 0) 
+		if (PA_ReportLineSet_ID < 1) 
 			set_Value (COLUMNNAME_PA_ReportLineSet_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
@@ -470,7 +470,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		@param PA_ReportLine_ID Report Line	  */
 	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 	{
-		if (PA_ReportLine_ID <= 0) 
+		if (PA_ReportLine_ID < 1) 
 			set_Value (COLUMNNAME_PA_ReportLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
@@ -508,7 +508,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setPA_ReportSource_ID (int PA_ReportSource_ID)
 	{
-		if (PA_ReportSource_ID <= 0) 
+		if (PA_ReportSource_ID < 1) 
 			set_Value (COLUMNNAME_PA_ReportSource_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_ReportSource_ID, Integer.valueOf(PA_ReportSource_ID));

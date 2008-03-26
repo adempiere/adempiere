@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent 
 {
 
@@ -133,7 +133,7 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	  */
 	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
 	{
-		if (AD_Reference_Value_ID <= 0) 
+		if (AD_Reference_Value_ID < 1) 
 			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
@@ -210,7 +210,7 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	  */
 	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 	{
-		if (AD_Val_Rule_ID <= 0) 
+		if (AD_Val_Rule_ID < 1) 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));

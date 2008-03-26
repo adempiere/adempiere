@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persistent 
 {
 
@@ -73,8 +73,8 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
       return sb.toString();
     }
 
-	/** Set ASP Client Level.
-		@param ASP_ClientLevel_ID ASP Client Level	  */
+	/** Set Client Level.
+		@param ASP_ClientLevel_ID Client Level	  */
 	public void setASP_ClientLevel_ID (int ASP_ClientLevel_ID)
 	{
 		if (ASP_ClientLevel_ID < 1)
@@ -82,8 +82,8 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		set_ValueNoCheck (COLUMNNAME_ASP_ClientLevel_ID, Integer.valueOf(ASP_ClientLevel_ID));
 	}
 
-	/** Get ASP Client Level.
-		@return ASP Client Level	  */
+	/** Get Client Level.
+		@return Client Level	  */
 	public int getASP_ClientLevel_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_ClientLevel_ID);

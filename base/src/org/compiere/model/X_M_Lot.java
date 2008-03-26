@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Lot
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_Lot extends PO implements I_M_Lot, I_Persistent 
 {
 
@@ -177,7 +177,7 @@ public class X_M_Lot extends PO implements I_M_Lot, I_Persistent
 	  */
 	public void setM_LotCtl_ID (int M_LotCtl_ID)
 	{
-		if (M_LotCtl_ID <= 0) 
+		if (M_LotCtl_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));

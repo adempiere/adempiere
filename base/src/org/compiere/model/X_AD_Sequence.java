@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Sequence
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent 
 {
 
@@ -140,6 +140,52 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Date Column.
+		@param DateColumn 
+		Fully qualified date column
+	  */
+	public void setDateColumn (String DateColumn)
+	{
+
+		if (DateColumn != null && DateColumn.length() > 60)
+		{
+			log.warning("Length > 60 - truncated");
+			DateColumn = DateColumn.substring(0, 60);
+		}
+		set_Value (COLUMNNAME_DateColumn, DateColumn);
+	}
+
+	/** Get Date Column.
+		@return Fully qualified date column
+	  */
+	public String getDateColumn () 
+	{
+		return (String)get_Value(COLUMNNAME_DateColumn);
+	}
+
+	/** Set Decimal Pattern.
+		@param DecimalPattern 
+		Java Decimal Pattern
+	  */
+	public void setDecimalPattern (String DecimalPattern)
+	{
+
+		if (DecimalPattern != null && DecimalPattern.length() > 40)
+		{
+			log.warning("Length > 40 - truncated");
+			DecimalPattern = DecimalPattern.substring(0, 40);
+		}
+		set_Value (COLUMNNAME_DecimalPattern, DecimalPattern);
+	}
+
+	/** Get Decimal Pattern.
+		@return Java Decimal Pattern
+	  */
+	public String getDecimalPattern () 
+	{
+		return (String)get_Value(COLUMNNAME_DecimalPattern);
 	}
 
 	/** Set Description.
@@ -297,10 +343,10 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	public void setPrefix (String Prefix)
 	{
 
-		if (Prefix != null && Prefix.length() > 10)
+		if (Prefix != null && Prefix.length() > 255)
 		{
-			log.warning("Length > 10 - truncated");
-			Prefix = Prefix.substring(0, 10);
+			log.warning("Length > 255 - truncated");
+			Prefix = Prefix.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Prefix, Prefix);
 	}
@@ -364,10 +410,10 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	public void setSuffix (String Suffix)
 	{
 
-		if (Suffix != null && Suffix.length() > 10)
+		if (Suffix != null && Suffix.length() > 255)
 		{
-			log.warning("Length > 10 - truncated");
-			Suffix = Suffix.substring(0, 10);
+			log.warning("Length > 255 - truncated");
+			Suffix = Suffix.substring(0, 255);
 		}
 		set_Value (COLUMNNAME_Suffix, Suffix);
 	}

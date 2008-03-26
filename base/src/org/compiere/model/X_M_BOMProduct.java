@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent 
 {
 
@@ -265,7 +265,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID <= 0) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -304,7 +304,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_BOMAlternative_ID (int M_BOMAlternative_ID)
 	{
-		if (M_BOMAlternative_ID <= 0) 
+		if (M_BOMAlternative_ID < 1) 
 			set_Value (COLUMNNAME_M_BOMAlternative_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_BOMAlternative_ID, Integer.valueOf(M_BOMAlternative_ID));
@@ -403,7 +403,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 
+		if (M_ChangeNotice_ID < 1) 
 			set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
@@ -428,7 +428,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
 	{
-		if (M_ProductBOM_ID <= 0) 
+		if (M_ProductBOM_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
@@ -467,7 +467,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
 	{
-		if (M_ProductOperation_ID <= 0) 
+		if (M_ProductOperation_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductOperation_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));

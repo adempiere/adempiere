@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_Web_Properties
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_U_Web_Properties 
 {
@@ -59,27 +59,27 @@ public interface I_U_Web_Properties
     /** Column name U_Key */
     public static final String COLUMNNAME_U_Key = "U_Key";
 
-	/** Set U_Key	  */
+	/** Set Key	  */
 	public void setU_Key (String U_Key);
 
-	/** Get U_Key	  */
+	/** Get Key	  */
 	public String getU_Key();
 
     /** Column name U_Value */
     public static final String COLUMNNAME_U_Value = "U_Value";
 
-	/** Set U_Value	  */
+	/** Set Value	  */
 	public void setU_Value (String U_Value);
 
-	/** Get U_Value	  */
+	/** Get Value	  */
 	public String getU_Value();
 
     /** Column name U_Web_Properties_ID */
     public static final String COLUMNNAME_U_Web_Properties_ID = "U_Web_Properties_ID";
 
-	/** Set U_Web_Properties_ID	  */
+	/** Set Web Properties	  */
 	public void setU_Web_Properties_ID (int U_Web_Properties_ID);
 
-	/** Get U_Web_Properties_ID	  */
+	/** Get Web Properties	  */
 	public int getU_Web_Properties_ID();
 }

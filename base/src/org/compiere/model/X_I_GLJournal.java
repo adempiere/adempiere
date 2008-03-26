@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_GLJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent 
 {
 
@@ -84,7 +84,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setAD_OrgDoc_ID (int AD_OrgDoc_ID)
 	{
-		if (AD_OrgDoc_ID <= 0) 
+		if (AD_OrgDoc_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgDoc_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgDoc_ID, Integer.valueOf(AD_OrgDoc_ID));
@@ -109,7 +109,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -157,7 +157,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID <= 0) 
+		if (Account_ID < 1) 
 			set_Value (COLUMNNAME_Account_ID, null);
 		else 
 			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
@@ -368,7 +368,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID <= 0) 
+		if (C_AcctSchema_ID < 1) 
 			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
@@ -407,7 +407,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -446,7 +446,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -485,7 +485,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -524,7 +524,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID <= 0) 
+		if (C_ConversionType_ID < 1) 
 			set_Value (COLUMNNAME_C_ConversionType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
@@ -563,7 +563,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
@@ -602,7 +602,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID <= 0) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -627,7 +627,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_LocFrom_ID (int C_LocFrom_ID)
 	{
-		if (C_LocFrom_ID <= 0) 
+		if (C_LocFrom_ID < 1) 
 			set_Value (COLUMNNAME_C_LocFrom_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_LocFrom_ID, Integer.valueOf(C_LocFrom_ID));
@@ -652,7 +652,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_LocTo_ID (int C_LocTo_ID)
 	{
-		if (C_LocTo_ID <= 0) 
+		if (C_LocTo_ID < 1) 
 			set_Value (COLUMNNAME_C_LocTo_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_LocTo_ID, Integer.valueOf(C_LocTo_ID));
@@ -691,7 +691,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID <= 0) 
+		if (C_Period_ID < 1) 
 			set_Value (COLUMNNAME_C_Period_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
@@ -730,7 +730,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -769,7 +769,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 
+		if (C_SalesRegion_ID < 1) 
 			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
@@ -808,7 +808,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID <= 0) 
+		if (C_UOM_ID < 1) 
 			set_Value (COLUMNNAME_C_UOM_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
@@ -847,7 +847,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 	{
-		if (C_ValidCombination_ID <= 0) 
+		if (C_ValidCombination_ID < 1) 
 			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
@@ -1038,7 +1038,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID <= 0) 
+		if (GL_Budget_ID < 1) 
 			set_Value (COLUMNNAME_GL_Budget_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
@@ -1077,7 +1077,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID <= 0) 
+		if (GL_Category_ID < 1) 
 			set_Value (COLUMNNAME_GL_Category_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
@@ -1116,7 +1116,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 
+		if (GL_JournalBatch_ID < 1) 
 			set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
@@ -1155,7 +1155,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
 	{
-		if (GL_JournalLine_ID <= 0) 
+		if (GL_JournalLine_ID < 1) 
 			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
@@ -1194,7 +1194,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setGL_Journal_ID (int GL_Journal_ID)
 	{
-		if (GL_Journal_ID <= 0) 
+		if (GL_Journal_ID < 1) 
 			set_Value (COLUMNNAME_GL_Journal_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
@@ -1424,7 +1424,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
@@ -1688,7 +1688,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setUser1_ID (int User1_ID)
 	{
-		if (User1_ID <= 0) 
+		if (User1_ID < 1) 
 			set_Value (COLUMNNAME_User1_ID, null);
 		else 
 			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
@@ -1713,7 +1713,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setUser2_ID (int User2_ID)
 	{
-		if (User2_ID <= 0) 
+		if (User2_ID < 1) 
 			set_Value (COLUMNNAME_User2_ID, null);
 		else 
 			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));

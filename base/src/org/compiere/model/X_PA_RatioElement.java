@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persistent 
 {
 
@@ -88,7 +88,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID <= 0) 
+		if (Account_ID < 1) 
 			set_Value (COLUMNNAME_Account_ID, null);
 		else 
 			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
@@ -195,7 +195,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 	{
-		if (PA_MeasureCalc_ID <= 0) 
+		if (PA_MeasureCalc_ID < 1) 
 			set_Value (COLUMNNAME_PA_MeasureCalc_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_MeasureCalc_ID, Integer.valueOf(PA_MeasureCalc_ID));
@@ -242,7 +242,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
 	{
-		if (PA_RatioUsed_ID <= 0) 
+		if (PA_RatioUsed_ID < 1) 
 			set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));

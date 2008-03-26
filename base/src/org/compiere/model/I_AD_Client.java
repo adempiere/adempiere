@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Client
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_AD_Client 
 {
@@ -189,10 +189,10 @@ public interface I_AD_Client
     /** Column name IsUseASP */
     public static final String COLUMNNAME_IsUseASP = "IsUseASP";
 
-	/** Set Use ASP	  */
+	/** Set IsUseASP	  */
 	public void setIsUseASP (boolean IsUseASP);
 
-	/** Get Use ASP	  */
+	/** Get IsUseASP	  */
 	public boolean isUseASP();
 
     /** Column name IsUseBetaFunctions */

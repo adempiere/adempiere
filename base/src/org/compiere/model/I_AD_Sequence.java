@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Sequence
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.3.1t
+ *  @version Release 3.4.0s
  */
 public interface I_AD_Sequence 
 {
@@ -94,6 +94,32 @@ public interface I_AD_Sequence
 	  * Next sequence for system use
 	  */
 	public int getCurrentNextSys();
+
+    /** Column name DateColumn */
+    public static final String COLUMNNAME_DateColumn = "DateColumn";
+
+	/** Set Date Column.
+	  * Fully qualified date column
+	  */
+	public void setDateColumn (String DateColumn);
+
+	/** Get Date Column.
+	  * Fully qualified date column
+	  */
+	public String getDateColumn();
+
+    /** Column name DecimalPattern */
+    public static final String COLUMNNAME_DecimalPattern = "DecimalPattern";
+
+	/** Set Decimal Pattern.
+	  * Java Decimal Pattern
+	  */
+	public void setDecimalPattern (String DecimalPattern);
+
+	/** Get Decimal Pattern.
+	  * Java Decimal Pattern
+	  */
+	public String getDecimalPattern();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

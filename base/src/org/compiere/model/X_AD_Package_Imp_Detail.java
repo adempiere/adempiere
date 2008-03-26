@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Detail, I_Persistent 
 {
 
@@ -134,7 +134,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
@@ -178,7 +178,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param Ad_Backup_ID Ad_Backup_ID	  */
 	public void setAd_Backup_ID (int Ad_Backup_ID)
 	{
-		if (Ad_Backup_ID <= 0) 
+		if (Ad_Backup_ID < 1) 
 			set_Value (COLUMNNAME_Ad_Backup_ID, null);
 		else 
 			set_Value (COLUMNNAME_Ad_Backup_ID, Integer.valueOf(Ad_Backup_ID));

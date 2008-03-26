@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintForm
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent 
 {
 
@@ -124,7 +124,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setInvoice_MailText_ID (int Invoice_MailText_ID)
 	{
-		if (Invoice_MailText_ID <= 0) 
+		if (Invoice_MailText_ID < 1) 
 			set_Value (COLUMNNAME_Invoice_MailText_ID, null);
 		else 
 			set_Value (COLUMNNAME_Invoice_MailText_ID, Integer.valueOf(Invoice_MailText_ID));
@@ -149,7 +149,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setInvoice_PrintFormat_ID (int Invoice_PrintFormat_ID)
 	{
-		if (Invoice_PrintFormat_ID <= 0) 
+		if (Invoice_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Invoice_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Invoice_PrintFormat_ID, Integer.valueOf(Invoice_PrintFormat_ID));
@@ -207,7 +207,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setOrder_MailText_ID (int Order_MailText_ID)
 	{
-		if (Order_MailText_ID <= 0) 
+		if (Order_MailText_ID < 1) 
 			set_Value (COLUMNNAME_Order_MailText_ID, null);
 		else 
 			set_Value (COLUMNNAME_Order_MailText_ID, Integer.valueOf(Order_MailText_ID));
@@ -232,7 +232,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setOrder_PrintFormat_ID (int Order_PrintFormat_ID)
 	{
-		if (Order_PrintFormat_ID <= 0) 
+		if (Order_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Order_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Order_PrintFormat_ID, Integer.valueOf(Order_PrintFormat_ID));
@@ -257,7 +257,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setProject_MailText_ID (int Project_MailText_ID)
 	{
-		if (Project_MailText_ID <= 0) 
+		if (Project_MailText_ID < 1) 
 			set_Value (COLUMNNAME_Project_MailText_ID, null);
 		else 
 			set_Value (COLUMNNAME_Project_MailText_ID, Integer.valueOf(Project_MailText_ID));
@@ -282,7 +282,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setProject_PrintFormat_ID (int Project_PrintFormat_ID)
 	{
-		if (Project_PrintFormat_ID <= 0) 
+		if (Project_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Project_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Project_PrintFormat_ID, Integer.valueOf(Project_PrintFormat_ID));
@@ -307,7 +307,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setRemittance_MailText_ID (int Remittance_MailText_ID)
 	{
-		if (Remittance_MailText_ID <= 0) 
+		if (Remittance_MailText_ID < 1) 
 			set_Value (COLUMNNAME_Remittance_MailText_ID, null);
 		else 
 			set_Value (COLUMNNAME_Remittance_MailText_ID, Integer.valueOf(Remittance_MailText_ID));
@@ -332,7 +332,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setRemittance_PrintFormat_ID (int Remittance_PrintFormat_ID)
 	{
-		if (Remittance_PrintFormat_ID <= 0) 
+		if (Remittance_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Remittance_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Remittance_PrintFormat_ID, Integer.valueOf(Remittance_PrintFormat_ID));
@@ -357,7 +357,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setShipment_MailText_ID (int Shipment_MailText_ID)
 	{
-		if (Shipment_MailText_ID <= 0) 
+		if (Shipment_MailText_ID < 1) 
 			set_Value (COLUMNNAME_Shipment_MailText_ID, null);
 		else 
 			set_Value (COLUMNNAME_Shipment_MailText_ID, Integer.valueOf(Shipment_MailText_ID));
@@ -382,7 +382,7 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setShipment_PrintFormat_ID (int Shipment_PrintFormat_ID)
 	{
-		if (Shipment_PrintFormat_ID <= 0) 
+		if (Shipment_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_Shipment_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_Shipment_PrintFormat_ID, Integer.valueOf(Shipment_PrintFormat_ID));

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_Persistent 
 {
 
@@ -101,7 +101,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setAD_Sequence_ID (int AD_Sequence_ID)
 	{
-		if (AD_Sequence_ID <= 0) 
+		if (AD_Sequence_ID < 1) 
 			set_Value (COLUMNNAME_AD_Sequence_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
@@ -418,7 +418,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID <= 0) 
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));

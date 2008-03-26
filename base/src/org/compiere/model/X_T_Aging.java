@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_T_Aging extends PO implements I_T_Aging, I_Persistent 
 {
 
@@ -163,7 +163,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID <= 0) 
+		if (C_Activity_ID < 1) 
 			set_Value (COLUMNNAME_C_Activity_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
@@ -278,7 +278,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID <= 0) 
+		if (C_Campaign_ID < 1) 
 			set_Value (COLUMNNAME_C_Campaign_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
@@ -355,7 +355,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
 	{
-		if (C_InvoicePaySchedule_ID <= 0) 
+		if (C_InvoicePaySchedule_ID < 1) 
 			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
@@ -394,7 +394,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
@@ -433,7 +433,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));

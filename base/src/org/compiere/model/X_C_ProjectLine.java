@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_OrderPO_ID (int C_OrderPO_ID)
 	{
-		if (C_OrderPO_ID <= 0) 
+		if (C_OrderPO_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, Integer.valueOf(C_OrderPO_ID));
@@ -136,7 +136,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -175,7 +175,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 	{
-		if (C_ProjectIssue_ID <= 0) 
+		if (C_ProjectIssue_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
@@ -236,7 +236,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 	{
-		if (C_ProjectPhase_ID <= 0) 
+		if (C_ProjectPhase_ID < 1) 
 			set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
@@ -275,7 +275,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 	{
-		if (C_ProjectTask_ID <= 0) 
+		if (C_ProjectTask_ID < 1) 
 			set_Value (COLUMNNAME_C_ProjectTask_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
@@ -531,7 +531,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 
+		if (M_Product_Category_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_Category_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
@@ -570,7 +570,7 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));

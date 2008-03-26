@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
@@ -102,7 +102,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID <= 0) 
+		if (AD_PrintFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
@@ -226,7 +226,7 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setJasperProcess_ID (int JasperProcess_ID)
 	{
-		if (JasperProcess_ID <= 0) 
+		if (JasperProcess_ID < 1) 
 			set_Value (COLUMNNAME_JasperProcess_ID, null);
 		else 
 			set_Value (COLUMNNAME_JasperProcess_ID, Integer.valueOf(JasperProcess_ID));

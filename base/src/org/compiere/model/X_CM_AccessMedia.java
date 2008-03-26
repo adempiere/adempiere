@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_AccessMedia
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persistent 
 {
 

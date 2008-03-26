@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Persistent 
 {
 

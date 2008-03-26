@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent 
 {
 
@@ -124,7 +124,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setAD_OrgBP_ID (int AD_OrgBP_ID)
 	{
-		if (AD_OrgBP_ID <= 0) 
+		if (AD_OrgBP_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_OrgBP_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_OrgBP_ID, Integer.valueOf(AD_OrgBP_ID));
@@ -149,7 +149,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
 	{
-		if (AD_OrgTrx_ID <= 0) 
+		if (AD_OrgTrx_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
@@ -188,7 +188,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -344,7 +344,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setBPartner_Parent_ID (int BPartner_Parent_ID)
 	{
-		if (BPartner_Parent_ID <= 0) 
+		if (BPartner_Parent_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_BPartner_Parent_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_BPartner_Parent_ID, Integer.valueOf(BPartner_Parent_ID));
@@ -536,7 +536,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setC_Dunning_ID (int C_Dunning_ID)
 	{
-		if (C_Dunning_ID <= 0) 
+		if (C_Dunning_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
@@ -575,7 +575,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setC_Greeting_ID (int C_Greeting_ID)
 	{
-		if (C_Greeting_ID <= 0) 
+		if (C_Greeting_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Greeting_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Greeting_ID, Integer.valueOf(C_Greeting_ID));
@@ -614,7 +614,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
 	{
-		if (C_InvoiceSchedule_ID <= 0) 
+		if (C_InvoiceSchedule_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, Integer.valueOf(C_InvoiceSchedule_ID));
@@ -653,7 +653,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID <= 0) 
+		if (C_PaymentTerm_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
@@ -692,7 +692,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID <= 0) 
+		if (C_Region_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Region_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
@@ -1186,7 +1186,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setInvoice_PrintFormat_ID (int Invoice_PrintFormat_ID)
 	{
-		if (Invoice_PrintFormat_ID <= 0) 
+		if (Invoice_PrintFormat_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_Invoice_PrintFormat_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Invoice_PrintFormat_ID, Integer.valueOf(Invoice_PrintFormat_ID));
@@ -1502,7 +1502,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID <= 0) 
+		if (M_DiscountSchema_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
@@ -1541,7 +1541,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID <= 0) 
+		if (M_PriceList_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
@@ -1714,7 +1714,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID)
 	{
-		if (PO_DiscountSchema_ID <= 0) 
+		if (PO_DiscountSchema_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_PO_DiscountSchema_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_PO_DiscountSchema_ID, Integer.valueOf(PO_DiscountSchema_ID));
@@ -1739,7 +1739,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID)
 	{
-		if (PO_PaymentTerm_ID <= 0) 
+		if (PO_PaymentTerm_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_PO_PaymentTerm_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_PO_PaymentTerm_ID, Integer.valueOf(PO_PaymentTerm_ID));
@@ -1764,7 +1764,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setPO_PriceList_ID (int PO_PriceList_ID)
 	{
-		if (PO_PriceList_ID <= 0) 
+		if (PO_PriceList_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_PO_PriceList_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_PO_PriceList_ID, Integer.valueOf(PO_PriceList_ID));
@@ -2142,7 +2142,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID <= 0) 
+		if (SalesRep_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
@@ -2251,7 +2251,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID <= 0) 
+		if (Supervisor_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_Supervisor_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));

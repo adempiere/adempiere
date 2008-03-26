@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WorkbenchWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_Persistent 
 {
 
@@ -99,7 +99,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 
+		if (AD_Form_ID < 1) 
 			set_Value (COLUMNNAME_AD_Form_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
@@ -138,7 +138,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -177,7 +177,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID <= 0) 
+		if (AD_Task_ID < 1) 
 			set_Value (COLUMNNAME_AD_Task_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
@@ -216,7 +216,7 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));

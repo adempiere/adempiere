@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent 
 {
 
@@ -90,7 +90,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	  */
 	public void setBasePriceList_ID (int BasePriceList_ID)
 	{
-		if (BasePriceList_ID <= 0) 
+		if (BasePriceList_ID < 1) 
 			set_Value (COLUMNNAME_BasePriceList_ID, null);
 		else 
 			set_Value (COLUMNNAME_BasePriceList_ID, Integer.valueOf(BasePriceList_ID));

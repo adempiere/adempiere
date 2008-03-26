@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ColorSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persistent 
 {
 
@@ -133,7 +133,7 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 	  */
 	public void setAD_PrintColor3_ID (int AD_PrintColor3_ID)
 	{
-		if (AD_PrintColor3_ID <= 0) 
+		if (AD_PrintColor3_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintColor3_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintColor3_ID, Integer.valueOf(AD_PrintColor3_ID));
@@ -158,7 +158,7 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 	  */
 	public void setAD_PrintColor4_ID (int AD_PrintColor4_ID)
 	{
-		if (AD_PrintColor4_ID <= 0) 
+		if (AD_PrintColor4_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintColor4_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintColor4_ID, Integer.valueOf(AD_PrintColor4_ID));

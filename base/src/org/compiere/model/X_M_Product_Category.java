@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_Product_Category extends PO implements I_M_Product_Category, I_Persistent 
 {
 
@@ -104,7 +104,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID <= 0) 
+		if (AD_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
@@ -143,7 +143,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
 	{
-		if (A_Asset_Group_ID <= 0) 
+		if (A_Asset_Group_ID < 1) 
 			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
 		else 
 			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
@@ -289,7 +289,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		@param M_Product_Category_Parent_ID Parent Product Category	  */
 	public void setM_Product_Category_Parent_ID (int M_Product_Category_Parent_ID)
 	{
-		if (M_Product_Category_Parent_ID <= 0) 
+		if (M_Product_Category_Parent_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_Category_Parent_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_Category_Parent_ID, Integer.valueOf(M_Product_Category_Parent_ID));

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent 
 {
 
@@ -101,7 +101,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setC_ProjectType_ID (int C_ProjectType_ID)
 	{
-		if (C_ProjectType_ID <= 0) 
+		if (C_ProjectType_ID < 1) 
 			set_Value (COLUMNNAME_C_ProjectType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
@@ -332,7 +332,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setPA_Benchmark_ID (int PA_Benchmark_ID)
 	{
-		if (PA_Benchmark_ID <= 0) 
+		if (PA_Benchmark_ID < 1) 
 			set_Value (COLUMNNAME_PA_Benchmark_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_Benchmark_ID, Integer.valueOf(PA_Benchmark_ID));
@@ -371,7 +371,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setPA_Hierarchy_ID (int PA_Hierarchy_ID)
 	{
-		if (PA_Hierarchy_ID <= 0) 
+		if (PA_Hierarchy_ID < 1) 
 			set_Value (COLUMNNAME_PA_Hierarchy_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_Hierarchy_ID, Integer.valueOf(PA_Hierarchy_ID));
@@ -410,7 +410,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 	{
-		if (PA_MeasureCalc_ID <= 0) 
+		if (PA_MeasureCalc_ID < 1) 
 			set_Value (COLUMNNAME_PA_MeasureCalc_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_MeasureCalc_ID, Integer.valueOf(PA_MeasureCalc_ID));
@@ -471,7 +471,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setPA_Ratio_ID (int PA_Ratio_ID)
 	{
-		if (PA_Ratio_ID <= 0) 
+		if (PA_Ratio_ID < 1) 
 			set_Value (COLUMNNAME_PA_Ratio_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
@@ -510,7 +510,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID <= 0) 
+		if (R_RequestType_ID < 1) 
 			set_Value (COLUMNNAME_R_RequestType_ID, null);
 		else 
 			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));

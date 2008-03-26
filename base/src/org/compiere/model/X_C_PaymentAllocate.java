@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentAllocate
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Persistent 
 {
 
@@ -124,7 +124,7 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 	{
-		if (C_AllocationLine_ID <= 0) 
+		if (C_AllocationLine_ID < 1) 
 			set_Value (COLUMNNAME_C_AllocationLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));

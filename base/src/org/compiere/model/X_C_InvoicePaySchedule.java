@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoicePaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule, I_Persistent 
 {
 
@@ -164,7 +164,7 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setC_PaySchedule_ID (int C_PaySchedule_ID)
 	{
-		if (C_PaySchedule_ID <= 0) 
+		if (C_PaySchedule_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));

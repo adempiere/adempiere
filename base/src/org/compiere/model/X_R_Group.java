@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_R_Group extends PO implements I_R_Group, I_Persistent 
 {
 
@@ -141,7 +141,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	  */
 	public void setM_BOM_ID (int M_BOM_ID)
 	{
-		if (M_BOM_ID <= 0) 
+		if (M_BOM_ID < 1) 
 			set_Value (COLUMNNAME_M_BOM_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
@@ -180,7 +180,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID <= 0) 
+		if (M_ChangeNotice_ID < 1) 
 			set_Value (COLUMNNAME_M_ChangeNotice_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));

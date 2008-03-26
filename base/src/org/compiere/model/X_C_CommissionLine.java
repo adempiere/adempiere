@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Persistent 
 {
 
@@ -149,7 +149,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BP_Group_ID <= 0) 
+		if (C_BP_Group_ID < 1) 
 			set_Value (COLUMNNAME_C_BP_Group_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
@@ -188,7 +188,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID <= 0) 
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
@@ -295,7 +295,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
 	{
-		if (C_SalesRegion_ID <= 0) 
+		if (C_SalesRegion_ID < 1) 
 			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
@@ -425,7 +425,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID <= 0) 
+		if (M_Product_Category_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_Category_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
@@ -464,7 +464,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID <= 0) 
+		if (M_Product_ID < 1) 
 			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
@@ -489,7 +489,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setOrg_ID (int Org_ID)
 	{
-		if (Org_ID <= 0) 
+		if (Org_ID < 1) 
 			set_Value (COLUMNNAME_Org_ID, null);
 		else 
 			set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));

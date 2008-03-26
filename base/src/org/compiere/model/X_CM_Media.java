@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Media
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_Media extends PO implements I_CM_Media, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID <= 0) 
+		if (AD_Image_ID < 1) 
 			set_Value (COLUMNNAME_AD_Image_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));

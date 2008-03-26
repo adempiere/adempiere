@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject_Domain
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	  */
 	public void setCM_Container_ID (int CM_Container_ID)
 	{
-		if (CM_Container_ID <= 0) 
+		if (CM_Container_ID < 1) 
 			set_Value (COLUMNNAME_CM_Container_ID, null);
 		else 
 			set_Value (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));

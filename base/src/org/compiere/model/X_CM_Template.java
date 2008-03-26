@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Template
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_CM_Template extends PO implements I_CM_Template, I_Persistent 
 {
 
@@ -123,7 +123,7 @@ public class X_CM_Template extends PO implements I_CM_Template, I_Persistent
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID <= 0) 
+		if (CM_WebProject_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));

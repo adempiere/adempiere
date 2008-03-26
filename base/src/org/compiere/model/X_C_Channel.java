@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Channel
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Channel extends PO implements I_C_Channel, I_Persistent 
 {
 
@@ -95,7 +95,7 @@ public class X_C_Channel extends PO implements I_C_Channel, I_Persistent
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID <= 0) 
+		if (AD_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_K_Entry extends PO implements I_K_Entry, I_Persistent 
 {
 
@@ -101,7 +101,7 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setAD_Session_ID (int AD_Session_ID)
 	{
-		if (AD_Session_ID <= 0) 
+		if (AD_Session_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, Integer.valueOf(AD_Session_ID));
@@ -209,7 +209,7 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setK_Source_ID (int K_Source_ID)
 	{
-		if (K_Source_ID <= 0) 
+		if (K_Source_ID < 1) 
 			set_Value (COLUMNNAME_K_Source_ID, null);
 		else 
 			set_Value (COLUMNNAME_K_Source_ID, Integer.valueOf(K_Source_ID));

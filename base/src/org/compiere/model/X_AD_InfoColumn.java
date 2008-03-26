@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent 
 {
 
@@ -103,7 +103,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setAD_Element_ID (int AD_Element_ID)
 	{
-		if (AD_Element_ID <= 0) 
+		if (AD_Element_ID < 1) 
 			set_Value (COLUMNNAME_AD_Element_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));

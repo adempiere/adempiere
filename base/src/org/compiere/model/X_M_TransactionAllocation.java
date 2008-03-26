@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_TransactionAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllocation, I_Persistent 
 {
 
@@ -203,7 +203,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 
+		if (M_InOutLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InOutLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
@@ -242,7 +242,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 
+		if (M_InventoryLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
@@ -319,7 +319,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 	{
-		if (M_ProductionLine_ID <= 0) 
+		if (M_ProductionLine_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
@@ -379,7 +379,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setOut_M_InOutLine_ID (int Out_M_InOutLine_ID)
 	{
-		if (Out_M_InOutLine_ID <= 0) 
+		if (Out_M_InOutLine_ID < 1) 
 			set_Value (COLUMNNAME_Out_M_InOutLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_Out_M_InOutLine_ID, Integer.valueOf(Out_M_InOutLine_ID));
@@ -404,7 +404,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setOut_M_InventoryLine_ID (int Out_M_InventoryLine_ID)
 	{
-		if (Out_M_InventoryLine_ID <= 0) 
+		if (Out_M_InventoryLine_ID < 1) 
 			set_Value (COLUMNNAME_Out_M_InventoryLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_Out_M_InventoryLine_ID, Integer.valueOf(Out_M_InventoryLine_ID));
@@ -429,7 +429,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setOut_M_ProductionLine_ID (int Out_M_ProductionLine_ID)
 	{
-		if (Out_M_ProductionLine_ID <= 0) 
+		if (Out_M_ProductionLine_ID < 1) 
 			set_Value (COLUMNNAME_Out_M_ProductionLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_Out_M_ProductionLine_ID, Integer.valueOf(Out_M_ProductionLine_ID));
@@ -454,7 +454,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setOut_M_Transaction_ID (int Out_M_Transaction_ID)
 	{
-		if (Out_M_Transaction_ID <= 0) 
+		if (Out_M_Transaction_ID < 1) 
 			set_Value (COLUMNNAME_Out_M_Transaction_ID, null);
 		else 
 			set_Value (COLUMNNAME_Out_M_Transaction_ID, Integer.valueOf(Out_M_Transaction_ID));

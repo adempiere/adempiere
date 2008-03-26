@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
@@ -181,7 +181,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID <= 0) 
+		if (AD_PrintColor_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
@@ -220,7 +220,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_PrintFont_ID (int AD_PrintFont_ID)
 	{
-		if (AD_PrintFont_ID <= 0) 
+		if (AD_PrintFont_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintFont_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintFont_ID, Integer.valueOf(AD_PrintFont_ID));
@@ -343,7 +343,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_PrintGraph_ID (int AD_PrintGraph_ID)
 	{
-		if (AD_PrintGraph_ID <= 0) 
+		if (AD_PrintGraph_ID < 1) 
 			set_Value (COLUMNNAME_AD_PrintGraph_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_PrintGraph_ID, Integer.valueOf(AD_PrintGraph_ID));

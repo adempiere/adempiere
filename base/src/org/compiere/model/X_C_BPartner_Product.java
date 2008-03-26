@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_BPartner_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_Persistent 
 {
 

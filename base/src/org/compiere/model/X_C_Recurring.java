@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Recurring
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent 
 {
 
@@ -102,7 +102,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID <= 0) 
+		if (C_Invoice_ID < 1) 
 			set_Value (COLUMNNAME_C_Invoice_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
@@ -141,7 +141,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID <= 0) 
+		if (C_Order_ID < 1) 
 			set_Value (COLUMNNAME_C_Order_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
@@ -180,7 +180,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID <= 0) 
+		if (C_Payment_ID < 1) 
 			set_Value (COLUMNNAME_C_Payment_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
@@ -219,7 +219,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -393,7 +393,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID <= 0) 
+		if (GL_JournalBatch_ID < 1) 
 			set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
 		else 
 			set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));

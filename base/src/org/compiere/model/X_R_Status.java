@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Status
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_R_Status extends PO implements I_R_Status, I_Persistent 
 {
 
@@ -282,7 +282,7 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	  */
 	public void setNext_Status_ID (int Next_Status_ID)
 	{
-		if (Next_Status_ID <= 0) 
+		if (Next_Status_ID < 1) 
 			set_Value (COLUMNNAME_Next_Status_ID, null);
 		else 
 			set_Value (COLUMNNAME_Next_Status_ID, Integer.valueOf(Next_Status_ID));
@@ -415,7 +415,7 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	  */
 	public void setUpdate_Status_ID (int Update_Status_ID)
 	{
-		if (Update_Status_ID <= 0) 
+		if (Update_Status_ID < 1) 
 			set_Value (COLUMNNAME_Update_Status_ID, null);
 		else 
 			set_Value (COLUMNNAME_Update_Status_ID, Integer.valueOf(Update_Status_ID));

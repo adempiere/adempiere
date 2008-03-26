@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Common, I_Persistent 
 {
 
@@ -94,7 +94,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 
+		if (AD_Form_ID < 1) 
 			set_Value (COLUMNNAME_AD_Form_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
@@ -131,7 +131,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		@param AD_ImpFormat_ID Import Format	  */
 	public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 	{
-		if (AD_ImpFormat_ID <= 0) 
+		if (AD_ImpFormat_ID < 1) 
 			set_Value (COLUMNNAME_AD_ImpFormat_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
@@ -169,7 +169,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Menu_ID (int AD_Menu_ID)
 	{
-		if (AD_Menu_ID <= 0) 
+		if (AD_Menu_ID < 1) 
 			set_Value (COLUMNNAME_AD_Menu_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
@@ -235,7 +235,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -274,7 +274,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID <= 0) 
+		if (AD_ReportView_ID < 1) 
 			set_Value (COLUMNNAME_AD_ReportView_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
@@ -313,7 +313,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -352,7 +352,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID <= 0) 
+		if (AD_Table_ID < 1) 
 			set_Value (COLUMNNAME_AD_Table_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
@@ -391,7 +391,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
@@ -430,7 +430,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID <= 0) 
+		if (AD_Workbench_ID < 1) 
 			set_Value (COLUMNNAME_AD_Workbench_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
@@ -469,7 +469,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 
+		if (AD_Workflow_ID < 1) 
 			set_Value (COLUMNNAME_AD_Workflow_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));

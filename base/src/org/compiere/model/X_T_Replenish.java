@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent 
 {
 
@@ -177,7 +177,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID <= 0) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -284,7 +284,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
 	{
-		if (M_WarehouseSource_ID <= 0) 
+		if (M_WarehouseSource_ID < 1) 
 			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));

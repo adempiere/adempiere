@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientException
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_ASP_ClientException extends PO implements I_ASP_ClientException, I_Persistent 
 {
 
@@ -95,7 +95,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Field_ID (int AD_Field_ID)
 	{
-		if (AD_Field_ID <= 0) 
+		if (AD_Field_ID < 1) 
 			set_Value (COLUMNNAME_AD_Field_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
@@ -134,7 +134,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID <= 0) 
+		if (AD_Form_ID < 1) 
 			set_Value (COLUMNNAME_AD_Form_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
@@ -173,7 +173,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID <= 0) 
+		if (AD_Process_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
@@ -210,7 +210,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		@param AD_Process_Para_ID Process Parameter	  */
 	public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 	{
-		if (AD_Process_Para_ID <= 0) 
+		if (AD_Process_Para_ID < 1) 
 			set_Value (COLUMNNAME_AD_Process_Para_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
@@ -248,7 +248,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Tab_ID (int AD_Tab_ID)
 	{
-		if (AD_Tab_ID <= 0) 
+		if (AD_Tab_ID < 1) 
 			set_Value (COLUMNNAME_AD_Tab_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
@@ -287,7 +287,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID <= 0) 
+		if (AD_Task_ID < 1) 
 			set_Value (COLUMNNAME_AD_Task_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
@@ -326,7 +326,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID <= 0) 
+		if (AD_WF_Node_ID < 1) 
 			set_Value (COLUMNNAME_AD_WF_Node_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
@@ -365,7 +365,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID <= 0) 
+		if (AD_Window_ID < 1) 
 			set_Value (COLUMNNAME_AD_Window_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
@@ -404,7 +404,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID <= 0) 
+		if (AD_Workflow_ID < 1) 
 			set_Value (COLUMNNAME_AD_Workflow_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
@@ -421,8 +421,8 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	/** Set ASP Client Exception.
-		@param ASP_ClientException_ID ASP Client Exception	  */
+	/** Set Client Exception.
+		@param ASP_ClientException_ID Client Exception	  */
 	public void setASP_ClientException_ID (int ASP_ClientException_ID)
 	{
 		if (ASP_ClientException_ID < 1)
@@ -430,8 +430,8 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		set_ValueNoCheck (COLUMNNAME_ASP_ClientException_ID, Integer.valueOf(ASP_ClientException_ID));
 	}
 
-	/** Get ASP Client Exception.
-		@return ASP Client Exception	  */
+	/** Get Client Exception.
+		@return Client Exception	  */
 	public int getASP_ClientException_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_ClientException_ID);
@@ -440,12 +440,12 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	/** ASP_Status AD_Reference_ID=1000000 */
-	public static final int ASP_STATUS_AD_Reference_ID=1000000;
-	/** Show = S */
-	public static final String ASP_STATUS_Show = "S";
+	/** ASP_Status AD_Reference_ID=53234 */
+	public static final int ASP_STATUS_AD_Reference_ID=53234;
 	/** Hide = H */
 	public static final String ASP_STATUS_Hide = "H";
+	/** Show = S */
+	public static final String ASP_STATUS_Show = "S";
 	/** Undefined = U */
 	public static final String ASP_STATUS_Undefined = "U";
 	/** Set ASP Status.
@@ -453,7 +453,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 	public void setASP_Status (String ASP_Status)
 	{
 		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
-		if (ASP_Status.equals("S") || ASP_Status.equals("H") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=1000000 - S - H - U");
+		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");
 		if (ASP_Status.length() > 1)
 		{
 			log.warning("Length > 1 - truncated");

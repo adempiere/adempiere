@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent 
 {
 
@@ -141,7 +141,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
 	{
-		if (C_ProjectIssue_ID <= 0) 
+		if (C_ProjectIssue_ID < 1) 
 			set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
@@ -180,7 +180,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID <= 0) 
+		if (C_Project_ID < 1) 
 			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
@@ -241,7 +241,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID <= 0) 
+		if (M_InOutLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InOutLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
@@ -280,7 +280,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID <= 0) 
+		if (M_InOut_ID < 1) 
 			set_Value (COLUMNNAME_M_InOut_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
@@ -319,7 +319,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
 	{
-		if (M_InventoryLine_ID <= 0) 
+		if (M_InventoryLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
@@ -358,7 +358,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_Inventory_ID (int M_Inventory_ID)
 	{
-		if (M_Inventory_ID <= 0) 
+		if (M_Inventory_ID < 1) 
 			set_Value (COLUMNNAME_M_Inventory_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
@@ -419,7 +419,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_MovementLine_ID <= 0) 
+		if (M_MovementLine_ID < 1) 
 			set_Value (COLUMNNAME_M_MovementLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
@@ -458,7 +458,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_Movement_ID (int M_Movement_ID)
 	{
-		if (M_Movement_ID <= 0) 
+		if (M_Movement_ID < 1) 
 			set_Value (COLUMNNAME_M_Movement_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
@@ -535,7 +535,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
 	{
-		if (M_ProductionLine_ID <= 0) 
+		if (M_ProductionLine_ID < 1) 
 			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
@@ -574,7 +574,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_Production_ID (int M_Production_ID)
 	{
-		if (M_Production_ID <= 0) 
+		if (M_Production_ID < 1) 
 			set_Value (COLUMNNAME_M_Production_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
@@ -725,7 +725,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setSearch_InOut_ID (int Search_InOut_ID)
 	{
-		if (Search_InOut_ID <= 0) 
+		if (Search_InOut_ID < 1) 
 			set_Value (COLUMNNAME_Search_InOut_ID, null);
 		else 
 			set_Value (COLUMNNAME_Search_InOut_ID, Integer.valueOf(Search_InOut_ID));
@@ -750,7 +750,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setSearch_Invoice_ID (int Search_Invoice_ID)
 	{
-		if (Search_Invoice_ID <= 0) 
+		if (Search_Invoice_ID < 1) 
 			set_Value (COLUMNNAME_Search_Invoice_ID, null);
 		else 
 			set_Value (COLUMNNAME_Search_Invoice_ID, Integer.valueOf(Search_Invoice_ID));
@@ -775,7 +775,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setSearch_Order_ID (int Search_Order_ID)
 	{
-		if (Search_Order_ID <= 0) 
+		if (Search_Order_ID < 1) 
 			set_Value (COLUMNNAME_Search_Order_ID, null);
 		else 
 			set_Value (COLUMNNAME_Search_Order_ID, Integer.valueOf(Search_Order_ID));

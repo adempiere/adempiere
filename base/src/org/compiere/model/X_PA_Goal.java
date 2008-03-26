@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.3.1t - $Id$ */
+ *  @version Release 3.4.0s - $Id$ */
 public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID <= 0) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -146,7 +146,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID <= 0) 
+		if (AD_User_ID < 0) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -505,7 +505,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setPA_GoalParent_ID (int PA_GoalParent_ID)
 	{
-		if (PA_GoalParent_ID <= 0) 
+		if (PA_GoalParent_ID < 1) 
 			set_Value (COLUMNNAME_PA_GoalParent_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
@@ -566,7 +566,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setPA_Measure_ID (int PA_Measure_ID)
 	{
-		if (PA_Measure_ID <= 0) 
+		if (PA_Measure_ID < 1) 
 			set_Value (COLUMNNAME_PA_Measure_ID, null);
 		else 
 			set_Value (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
