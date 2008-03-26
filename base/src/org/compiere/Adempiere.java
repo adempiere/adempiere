@@ -58,11 +58,11 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (b) for beta - (t) for trunk - and (s) for stable
-	static public final String	MAIN_VERSION	= "Release 3.3.1t";
+	static public final String	MAIN_VERSION	= "Release 3.4.0s";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public final String	DATE_VERSION	= "2007-12-05";
+	static public final String	DATE_VERSION	= "2008-03-26";
 	/** Database Version as date    Compared with AD_System		*/
-	static public final String	DB_VERSION		= "2007-12-05";
+	static public final String	DB_VERSION		= "2008-03-26";
 
 	/** Product Name            */
 	static public final String	NAME 			= "Adempiere\u00AE";
