@@ -148,17 +148,17 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 		try {
 			Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 			if (size.width <= 800)
-				FONT_SIZE = 10;
+				FONT_SIZE = 9;
 			else if (size.width <= 1024)
-				FONT_SIZE = 11;
+				FONT_SIZE = 10;
 			else if (size.width <= 1280)
-				FONT_SIZE = 12;
+				FONT_SIZE = 11;
 			else if  (size.width <= 1400)
-				FONT_SIZE = 13;
+				FONT_SIZE = 12;
 			else if  (size.width <= 1600)
-				FONT_SIZE = 14;
+				FONT_SIZE = 13;
 			else
-				FONT_SIZE = 15;
+				FONT_SIZE = 14;
 		} catch (Throwable t) {}
 	}
 	
