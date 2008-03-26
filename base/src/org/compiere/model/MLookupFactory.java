@@ -64,17 +64,7 @@ public class MLookupFactory
 		return new MLookup(info, 0);
 	}   //  create
 
-	/**
-	 *  Create MLookup
-	 *
-	 *  @param ctx context for access
-	 *  @param WindowNo window no
-	 * 	@param TabNo TabNo
-	 *  @param Column_ID AD_Column_ID or AD_Process_Para_ID
-	 * 	@param AD_Reference_ID display type
-	 *  @return MLookup
-	 */
-	public static MLookup get (Properties ctx, int WindowNo, int TabNo, int Column_ID, int AD_Reference_ID)
+	public static MLookupInfo getLookupInfo(Properties ctx, int WindowNo, int Column_ID, int AD_Reference_ID)
 	{
 		String ColumnName = "";
 		int AD_Reference_Value_ID = 0;
@@ -116,6 +106,24 @@ public class MLookupFactory
 		//
 		MLookupInfo info = getLookupInfo (ctx, WindowNo, Column_ID, AD_Reference_ID,
 			Env.getLanguage(ctx), ColumnName, AD_Reference_Value_ID, IsParent, ValidationCode);
+		
+		return info;
+	}
+	
+	/**
+	 *  Create MLookup
+	 *
+	 *  @param ctx context for access
+	 *  @param WindowNo window no
+	 * 	@param TabNo TabNo
+	 *  @param Column_ID AD_Column_ID or AD_Process_Para_ID
+	 * 	@param AD_Reference_ID display type
+	 *  @return MLookup
+	 */
+	public static MLookup get (Properties ctx, int WindowNo, int TabNo, int Column_ID, int AD_Reference_ID)
+	{
+		//
+		MLookupInfo info = getLookupInfo (ctx, WindowNo, Column_ID, AD_Reference_ID);			
 		return new MLookup(info, TabNo);
 	}   //  get
 
