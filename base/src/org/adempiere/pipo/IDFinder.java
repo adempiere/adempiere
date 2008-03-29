@@ -106,6 +106,9 @@ public class IDFinder {
 	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, String trxName) {
 		int id = 0;
 		
+		if (value == null)
+			return id;
+		
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
