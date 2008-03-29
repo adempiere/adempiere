@@ -234,7 +234,7 @@ public class ImportProduct extends SvrProcess
 
 		//	Invalid Category
 		sql = new StringBuffer ("UPDATE I_Product "
-			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid ProdCategorty,' "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid ProdCategory,' "
 			+ "WHERE M_Product_Category_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
