@@ -1869,7 +1869,7 @@ UPDATE AD_WINDOW
 
 
 SELECT '022_BF_1746900.sql' AS Filename;
-﻿-- Update help for "C_AcctSchema_Default_Copy" process
+-- Update help for "C_AcctSchema_Default_Copy" process
  UPDATE AD_PROCESS 
    SET classname = 'org.compiere.process.AcctSchemaDefaultCopy',
    help = 'Either add missing accounts - or copy and overwrite all default accounts.  If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...).  If no Accounting Schema is selected all Accounting Schemas will be updated / inserted.'
