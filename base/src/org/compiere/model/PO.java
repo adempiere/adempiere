@@ -2419,8 +2419,8 @@ public abstract class PO
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
-				&& (insertLog.equalsIgnoreCase("Y"))
-					|| (insertLog.equalsIgnoreCase("K") && p_info.getColumn(i).IsKey)
+				&& (insertLog.equalsIgnoreCase("Y")
+						|| (insertLog.equalsIgnoreCase("K") && p_info.getColumn(i).IsKey))
 				)
 				{
 					// change log on new
