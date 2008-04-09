@@ -1185,6 +1185,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public boolean isDetail()
 	{
+		// First Tab Level is not a detail 
+		if (m_vo.TabLevel == 0)
+			return false;
 		//	We have IsParent columns and/or a link column
 		if (m_parents.size() > 0 || m_vo.AD_Column_ID != 0)
 			return true;

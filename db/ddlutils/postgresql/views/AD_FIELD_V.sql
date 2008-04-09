@@ -23,7 +23,7 @@ SELECT t.ad_window_id,
 	c.columnsql,
 	c.fieldlength,
 	c.vformat,
-	c.defaultvalue,
+	COALESCE(f.defaultvalue, c.defaultvalue) AS defaultvalue,
 	c.iskey,
 	c.isparent,
 	COALESCE(f.ismandatory, c.ismandatory)         AS ismandatory,
@@ -62,4 +62,4 @@ FROM ((((((AD_FIELD f
 		LEFT JOIN AD_VAL_RULE vr 
 		ON ((vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)))) 
 WHERE ((f.isactive = 'Y'::bpchar) AND
-	(c.isactive = 'Y'::bpchar))
+	(c.isactive = 'Y'::bpchar));

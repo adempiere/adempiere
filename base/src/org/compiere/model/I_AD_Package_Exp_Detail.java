@@ -178,6 +178,21 @@ public interface I_AD_Package_Exp_Detail
 
 	public I_AD_Process getAD_Process() throws Exception;
 
+    /** Column name AD_Reference_ID */
+    public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
+
+	/** Set Reference.
+	  * System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID);
+
+	/** Get Reference.
+	  * System Reference and Validation
+	  */
+	public int getAD_Reference_ID();
+
+	public I_AD_Reference getAD_Reference() throws Exception;
+
     /** Column name AD_ReportView_ID */
     public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
 

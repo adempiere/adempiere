@@ -433,7 +433,7 @@ public final class InfoProduct extends Info implements ActionListener
 			where.append(" AND p.IsSummary='N'");
 		//  dynamic Where Clause
 		if (p_whereClause != null && p_whereClause.length() > 0)
-			where.append(" AND ")   //  replace fully qalified name with alias
+			where.append(" AND ")   //  replace fully qualified name with alias
 				.append(Util.replace(p_whereClause, "M_Product.", "p."));
 		//
 		prepareTable(getProductLayout(),
@@ -966,7 +966,7 @@ public final class InfoProduct extends Info implements ActionListener
 	}   //  getProductLayout
 	
 	/**
-	 * 	System has Unforfirmed records
+	 * 	System has Unconfirmed records
 	 *	@return true if unconfirmed
 	 */
 	private boolean isUnconfirmed()

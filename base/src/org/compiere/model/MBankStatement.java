@@ -28,6 +28,8 @@ import org.compiere.util.*;
 *	Bank Statement Model
 *
 *	@author Eldir Tomassen/Jorg Janke
+*   @author victor.perez@e-evolution.com fixed bug [ 1933645 ] Wrong balance Bank Statement
+*   @see http://sourceforge.net/tracker/?func=detail&atid=879332&aid=1933645&group_id=176962
 *	@version $Id: MBankStatement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
@@ -404,7 +406,8 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		}
 		//	Update Bank Account
 		MBankAccount ba = MBankAccount.get(getCtx(), getC_BankAccount_ID());
-		ba.setCurrentBalance(getEndingBalance());
+		//BF 1933645
+		ba.setCurrentBalance(ba.getCurrentBalance().add(getStatementDifference()));
 		ba.save(get_TrxName());
 		
 		//	User Validation

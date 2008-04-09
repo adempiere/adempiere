@@ -152,7 +152,7 @@ public class InOutGenerateRMA extends SvrProcess
         shipment.setDescription(rma.getDescription());
         shipment.setC_BPartner_ID(rma.getC_BPartner_ID());
         shipment.setC_BPartner_Location_ID(originalReceipt.getC_BPartner_Location_ID());
-        shipment.setIsSOTrx(!rma.isSOTrx());
+        shipment.setIsSOTrx(rma.isSOTrx());
         shipment.setC_DocType_ID(docTypeId);       
         shipment.setM_Warehouse_ID(originalReceipt.getM_Warehouse_ID());
         shipment.setMovementType(MInOut.MOVEMENTTYPE_VendorReturns);

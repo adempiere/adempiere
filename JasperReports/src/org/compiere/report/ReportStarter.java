@@ -38,6 +38,7 @@ import javax.naming.NamingException;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
@@ -71,6 +72,8 @@ import org.compiere.utils.DigestOfFile;
  * Modifications: Allow Jasper Reports to be able to be run on VPN profile (i.e: no direct connection to DB).
  *                Implemented ClientProcess for it to run on client.
  * @author Ashley Ramdass 
+ * @author victor.perez@e-evolution.com 
+ * @see FR 1906632 http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1906632&group_id=176962
  */
 public class ReportStarter implements ProcessCall, ClientProcess {
 //logger
@@ -510,9 +513,27 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                 //JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
             	conn = getConnection();
                 JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
-                if (reportData.isDirectPrint()) {
+                if (reportData.isDirectPrint()) 
+                {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
+                    //RF 1906632
+                    if(!processInfo.isBatch())
                     JasperPrintManager.printReport( jasperPrint, false);
+                    else
+                    {
+                    	// You can use JasperPrint to create PDF
+                    	// Used For the PH
+                    	try 
+                    	{
+                    		File PDF = File.createTempFile("mail", ".pdf");
+                    		JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
+                    		processInfo.setPDFReport(PDF);
+                    	} 
+                    	catch (IOException e) 
+                    	{
+                    		log.severe("ReportStarter.startProcess: Can not make PDF File - "+ e.getMessage());
+                    	}
+                }
                     
                     // You can use JasperPrint to create PDF
 //                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");

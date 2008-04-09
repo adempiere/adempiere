@@ -28,6 +28,8 @@ import org.compiere.util.*;
  *
  *  @author     Jorg Janke
  *  @version    $Id: ProcessInfo.java,v 1.2 2006/07/30 00:54:44 jjanke Exp $
+ *  @author victor.perez@e-evolution.com 
+ *  @see FR 1906632 http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1906632&group_id=176962
  */
 public class ProcessInfo implements Serializable
 {
@@ -113,6 +115,8 @@ public class ProcessInfo implements Serializable
 	private boolean				m_printPreview = false;
 
 	private boolean				m_reportingProcess = false;
+	//FR 1906632
+	private File 			    m_pdf_report = null;
 
 	/**
 	 *  String representation
@@ -645,4 +649,25 @@ public class ProcessInfo implements Serializable
 	{
 		m_reportingProcess = f;
 	}
+	
+	//FR 1906632
+	/**
+	 * Set PDF file generate to Jasper Report
+	 * @param PDF File 
+	 */
+	public void setPDFReport(File f)
+	{
+		m_pdf_report = f;
+	}	
+	
+	/**
+	 * Get PDF file generate to Jasper Report
+	 * @param f
+	 */
+	public File getPDFReport()
+	{
+		return m_pdf_report;
+	}	
+		
+	
 }   //  ProcessInfo

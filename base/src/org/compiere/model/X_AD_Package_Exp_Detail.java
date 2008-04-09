@@ -395,6 +395,45 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
+	public I_AD_Reference getAD_Reference() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
+        I_AD_Reference result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Reference)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Reference_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Reference.
+		@param AD_Reference_ID 
+		System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID)
+	{
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+	}
+
+	/** Get Reference.
+		@return System Reference and Validation
+	  */
+	public int getAD_Reference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_ReportView getAD_ReportView() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
@@ -1011,6 +1050,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_Message = "MSG";
 	/** PrintFormat = PFT */
 	public static final String TYPE_PrintFormat = "PFT";
+	/** Reference = REF */
+	public static final String TYPE_Reference = "REF";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)
@@ -1018,7 +1059,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT");
+		if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT") || Type.equals("REF")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT - REF");
 		if (Type.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");

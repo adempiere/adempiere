@@ -90,6 +90,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.CLogger;
 import org.compiere.util.Trx;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWorkflow;
 import org.xml.sax.Attributes;
 
 import org.xml.sax.helpers.DefaultHandler;
@@ -135,6 +137,8 @@ public class PackInHandler extends DefaultHandler {
 
 	private Map<String, ElementHandler>handlers = null;
 	private List<Element> menus = new ArrayList<Element>();
+	private List<Element> workflow = new ArrayList<Element>();
+	private List<Element> nodes = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
 	private PackIn packIn;
@@ -402,6 +406,17 @@ public class PackInHandler extends DefaultHandler {
 			if (stack.size() > 0)
 				e.parent = stack.peek();
 			stack.push(e);
+			if (elementValue.equals("workflow"))
+			{
+				workflow.add(e);
+			}
+			
+			if (elementValue.equals("workflowNode"))
+			{
+				nodes.add(e);
+			}
+			
+					
 			ElementHandler handler = handlers.get(elementValue);
 			if (handler != null)
 				handler.startElement(m_ctx, e);
@@ -635,6 +650,78 @@ public class PackInHandler extends DefaultHandler {
     		if (no == -1)
     			log.info("Update to package list failed");
     		
+        	if(workflow.size() > 0)
+        	{
+        		for (Element e : workflow)
+        		{	
+        		Attributes atts = e.attributes;
+        		String workflowName = atts.getValue("Name");
+        		MWorkflow wf = null;
+
+    				int workflow_id =  IDFinder.get_IDWithColumn("AD_Workflow", "Name", workflowName ,m_AD_Client_ID , m_trxName);
+    				if(workflow_id > 0)
+    				{
+    					wf = new MWorkflow(m_ctx, workflow_id , m_trxName);
+    					int node_id = 0;
+    					
+    					String name = atts.getValue("ADWorkflowNodeNameID");
+    					if (name != null && name.trim().length() > 0) 
+    					{
+    						MWFNode[] nodes = wf.getNodes(false, m_AD_Client_ID);
+    						
+    						for (MWFNode node : nodes)
+    						{	
+    							if (node.getName().trim().equals(name.trim()))
+    							{
+    								node_id = node.getAD_WF_Node_ID();
+    								wf.setAD_WF_Node_ID(node_id);
+    								if (!wf.save())
+    									System.out.println("Can not save Start Node "+ name +"to Workflow " + workflowName +  " do not exist ");
+    							    break;
+    							}	
+    						}
+    						
+    						if(node_id == 0)
+    						System.out.println("Unresolved: Start Node to Workflow " + workflowName +  " do not exist ");	
+    						else
+    						break;	
+    					}
+    					
+    				}
+        		}
+        	}
+        	
+        	if(nodes.size() > 0)
+        	{
+        		for (Element e : nodes)
+        		{
+    	    		Attributes atts = e.attributes;
+    	    		String nodeName = atts.getValue("Name");
+    	    		MWFNode node = null;
+    	    		int id =  IDFinder.get_IDWithColumn("AD_WF_Node", "Name", nodeName , m_AD_Client_ID , m_trxName);
+    				if(id > 0)
+    				{
+    					node = new MWFNode(m_ctx, id , m_trxName);
+    					String workflowNodeName = atts.getValue("WorkflowNameID").trim();
+    					if (workflowNodeName != null && workflowNodeName.trim().length() > 0) 
+    					{
+    						int workflow_id = IDFinder.get_IDWithColumn("AD_Workflow", "Name",workflowNodeName, m_AD_Client_ID, m_trxName);	
+    						if (workflow_id > 0)
+    						{
+    							node.setWorkflow_ID(workflow_id);
+    							if(!node.save())
+    							{
+    								System.out.println("can not save Workflow " + workflowNodeName );
+    							}
+    						}
+    						else
+    							System.out.println("Unresolved: Workflow " + workflowNodeName +  " do not exist ");
+    					}
+    						
+    				}
+        		}
+        	}
+    		
     		logDocument.endElement("","","adempiereDocument");
     		logDocument.endDocument();	
     		try {
@@ -661,6 +748,9 @@ public class PackInHandler extends DefaultHandler {
 	    		}
     		}
     	}
+    	
+
+    	
     }   // endElement
     
     private void processMenuElements() throws SAXException {

@@ -43,6 +43,7 @@ public class MRMALine extends X_M_RMALine
 		if (M_RMALine_ID == 0)
 		{
 			setQty(Env.ONE);
+			this.setQtyDelivered(Env.ONE);
 		}
         
         init();

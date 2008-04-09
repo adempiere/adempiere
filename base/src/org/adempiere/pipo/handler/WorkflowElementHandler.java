@@ -178,6 +178,37 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				MWorkflow m_Workflow = new MWorkflow(ctx, element.recordId, getTrxName(ctx));
 				int id = get_IDWithMasterAndColumn(ctx, "AD_WF_Node", "Name", name, "AD_Workflow", m_Workflow.getAD_Workflow_ID()); 
 				if (id <= 0) {
+					log.warning("Failed to resolve start node reference for workflow element. Workflow=" 
+							+ m_Workflow.getName() + " StartNode=" + name);
+					return;
+				}
+				m_Workflow.setAD_WF_Node_ID(id);
+				if (m_Workflow.save(getTrxName(ctx)) == true) {
+					log.info("m_Workflow update success");
+					record_log(ctx, 1, m_Workflow.getName(), "Workflow", m_Workflow
+							.get_ID(), 0, "Update", "AD_Workflow",
+							get_IDWithColumn(ctx, "AD_Table", "TableName",
+									"AD_Workflow"));
+					workflows.add(m_Workflow.getAD_Workflow_ID());
+					element.recordId = m_Workflow.getAD_Workflow_ID();
+				} else {
+					log.info("m_Workflow update fail");
+					record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
+							.get_ID(), 0, "Update", "AD_Workflow",
+							get_IDWithColumn(ctx, "AD_Table", "TableName",
+									"AD_Workflow"));
+					throw new POSaveFailedException("MWorkflow");
+				}
+			}			
+		}
+		if (!element.defer && !element.skip && element.recordId > 0) {
+			Attributes atts = element.attributes;
+			//set start node
+			String name = atts.getValue("ADWorkflowNodeNameID");
+			if (name != null && name.trim().length() > 0) {
+				MWorkflow m_Workflow = new MWorkflow(ctx, element.recordId, getTrxName(ctx));
+				int id = get_IDWithColumn(ctx, "AD_WF_Node", "Name", name);
+				if (id <= 0) {
 					element.deferEnd = true;
 					element.unresolved = "AD_WF_Node=" + name;
 					return;

@@ -939,7 +939,7 @@ public class MInOut extends X_M_InOut implements DocAction
         }
         
 		//	Shipment - Needs Order/RMA
-		if (isSOTrx() && getC_Order_ID() == 0 && getM_RMA_ID() == 0)
+		if (!getMovementType().contentEquals(MInOut.MOVEMENTTYPE_CustomerReturns) && isSOTrx() && getC_Order_ID() == 0 && getM_RMA_ID() == 0)
 		{
 			log.saveError("FillMandatory", Msg.translate(getCtx(), "C_Order_ID"));
 			return false;
@@ -951,7 +951,6 @@ public class MInOut extends X_M_InOut implements DocAction
             MRMA rma = new MRMA(getCtx(), getM_RMA_ID(), get_TrxName());
             MDocType docType = MDocType.get(getCtx(), rma.getC_DocType_ID());
             setC_DocType_ID(docType.getC_DocTypeShipment_ID());
-            setMovementType(MOVEMENTTYPE_CustomerReturns);
         }
         
 		return true;

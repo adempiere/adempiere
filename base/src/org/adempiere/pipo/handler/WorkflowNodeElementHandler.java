@@ -90,6 +90,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID = 0;
 			}
+			m_WFNode.setValue(atts.getValue("Value"));
 			m_WFNode.setName(workflowNodeName);
 			m_WFNode.setAD_Workflow_ID(workflowId);
 
@@ -166,6 +167,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			}
 			
 			//[Bugs-1789058 ]
+			/*
 			name = atts.getValue("WorkflowNameID");
 			if (name != null && name.trim().length() > 0) {
 				id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
@@ -178,7 +180,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				}
 				if (id > 0)
 					m_WFNode.setWorkflow_ID(id);
-			}
+			}*/
 			
 			/*
 			 * FIXME: Do we need TaskName ? if
@@ -221,6 +223,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			m_WFNode.setDynPriorityUnit (getStringValue(atts,"DynPriorityUnit"));
 			m_WFNode.setIsActive(atts.getValue("isActive") != null ? Boolean
 					.valueOf(atts.getValue("isActive")).booleanValue() : true);
+			m_WFNode.setValue(atts.getValue("Value"));
 			log.info("about to execute m_WFNode.save");
 			if (m_WFNode.save(getTrxName(ctx)) == true) {
 				log.info("m_WFNode save success");
@@ -262,7 +265,7 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
-
+		atts.addAttribute("", "", "Value", "CDATA", (m_WF_Node.getValue() != null ? m_WF_Node.getValue() : ""));
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_WF_Node.getName() != null ? m_WF_Node.getName() : ""));
 
@@ -365,6 +368,8 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 				(name != null ? name : ""));
 		} else
 			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
+		atts.addAttribute("", "", "Value", "CDATA", (m_WF_Node
+				.getValue() != null ? m_WF_Node.getValue() : ""));
 		
 		atts.addAttribute("", "", "Value", "CDATA", (m_WF_Node
 				.getValue() != null ? m_WF_Node.getValue() : ""));

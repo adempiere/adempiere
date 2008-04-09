@@ -245,7 +245,7 @@ public class VInvoiceGen extends CPanel
         return sql.toString();
 	}
 	
-	private String getRMASql()
+	private String getRMASQL()
 	{
 	    StringBuffer sql = new StringBuffer();
 	    sql.append("SELECT rma.M_RMA_ID, org.Name, dt.Name, rma.DocumentNo, bp.Name, rma.Created, rma.Amt ");
@@ -254,7 +254,7 @@ public class VInvoiceGen extends CPanel
         sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
         sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
         sql.append("WHERE rma.DocStatus='CO' ");
-        sql.append("AND dt.DocBaseType = 'SOO' ");
+        sql.append("AND dt.DocBaseType = 'POO' ");
         sql.append("AND NOT EXISTS (SELECT * FROM C_Invoice i ");
         sql.append("WHERE i.M_RMA_ID=rma.M_RMA_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
         sql.append("AND EXISTS (SELECT * FROM C_InvoiceLine il INNER JOIN M_InOutLine iol ");
@@ -301,7 +301,7 @@ public class VInvoiceGen extends CPanel
         }
         else
         {
-            sql = getRMASql();
+            sql = getRMASQL();
         }
 
 		//  reset table

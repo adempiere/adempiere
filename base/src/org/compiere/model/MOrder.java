@@ -1520,7 +1520,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	Calculate Tax and Total
 	 * 	@return true if tax total calculated
 	 */
-	private boolean calculateTaxTotal()
+	public boolean calculateTaxTotal()
 	{
 		log.fine("");
 		//	Delete Taxes

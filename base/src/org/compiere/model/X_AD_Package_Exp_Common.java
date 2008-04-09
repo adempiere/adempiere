@@ -798,6 +798,8 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public static final String TYPE_Message = "MSG";
 	/** PrintFormat = PFT */
 	public static final String TYPE_PrintFormat = "PFT";
+	/** Reference = REF */
+	public static final String TYPE_Reference = "REF";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)
@@ -805,7 +807,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public void setType (String Type)
 	{
 
-		if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT");
+		if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT") || Type.equals("REF")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT - REF");
 		if (Type != null && Type.length() > 10)
 		{
 			log.warning("Length > 10 - truncated");

@@ -297,16 +297,12 @@ public class Adempiere implements Serializable
 	
 	/**
 	 * 	Calculate the number of days between start and end.
-	 *  @deprecated
 	 * 	@param start start date
 	 * 	@param end end date
 	 * 	@return number of days (0 = same)
 	 */
 	static public int getDaysBetween (Timestamp start, Timestamp end)
 	{
-		//check null
-		if (start == null || end == null) return 0;
-		
 		boolean negative = false;
 		if (end.before(start))
 		{
@@ -329,6 +325,8 @@ public class Adempiere implements Serializable
 		calEnd.set(Calendar.SECOND, 0);
 		calEnd.set(Calendar.MILLISECOND, 0);
 
+	//	System.out.println("Start=" + start + ", End=" + end + ", dayStart=" + cal.get(Calendar.DAY_OF_YEAR) + ", dayEnd=" + calEnd.get(Calendar.DAY_OF_YEAR));
+
 		//	in same year
 		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
 		{
@@ -339,14 +337,11 @@ public class Adempiere implements Serializable
 
 		//	not very efficient, but correct
 		int counter = 0;
-		while (cal.get(Calendar.YEAR) < calEnd.get(Calendar.YEAR))
+		while (calEnd.after(cal))
 		{
-			GregorianCalendar yearEnd = new GregorianCalendar(cal.get(Calendar.YEAR), 12, 31, 0, 0, 0);
-			int days = getDaysBetween(new Timestamp(cal.getTimeInMillis()), new Timestamp(yearEnd.getTimeInMillis()));
-			cal.add (Calendar.DAY_OF_YEAR, days + 1);
-			counter = counter + days + 1;
+			cal.add (Calendar.DAY_OF_YEAR, 1);
+			counter++;
 		}
-		counter = counter + getDaysBetween(new Timestamp(cal.getTimeInMillis()), new Timestamp(calEnd.getTimeInMillis()));
 		if (negative)
 			return counter * -1;
 		return counter;
@@ -436,11 +431,11 @@ public class Adempiere implements Serializable
 	public static String charAt (String source, int posIndex)
 	{
 		posIndex = posIndex - 1;
-		if (source == null || source.length() == 0 || posIndex < 0 || posIndex >= source.length())
+		if (source == null || source.length() == 0 || posIndex < 0 || posIndex > source.length())
 			return null;
 		try
 		{
-			return (source.substring(posIndex, posIndex+1));
+			return String.valueOf(source.charAt(posIndex));
 		}
 		catch (Exception e)
 		{}

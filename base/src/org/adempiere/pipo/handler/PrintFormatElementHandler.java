@@ -192,9 +192,9 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 				+ "FROM AD_PrintFormat "
 				+ "WHERE AD_PrintFormat_ID in "
 				+ "(( select AD_PrintFormatChild_ID from  AD_PrintFormatItem  WHERE AD_PrintFormat_ID = "
-				+ AD_PrintFormat_ID + " AND PrintFormatType = 'P'), "
-				+ AD_PrintFormat_ID + ")";
-
+				+ AD_PrintFormat_ID + " AND PrintFormatType = 'P' GROUP BY AD_PrintFormatChild_ID ), "
+				+ AD_PrintFormat_ID + ") ";
+		
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
 		try {

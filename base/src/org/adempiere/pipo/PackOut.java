@@ -279,6 +279,8 @@ public class PackOut extends SvrProcess
 							createSQL (rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement), rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_DBType), packOutDocument);
 						else if (Type.compareTo("IMP") == 0)
 							createImpFormat (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID), packOutDocument);
+						else if (Type.compareTo("REF") == 0)
+							createReference (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID), packOutDocument);
 						else if (Type.compareTo("SNI") == 0)						
 							createSnipit(
 									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory),

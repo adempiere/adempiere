@@ -407,7 +407,7 @@ public class TimeUtil
 		if (negative)
 			return counter * -1;
 		return counter;
-	}	//	getDatesBetrween
+	}	//	getDaysBetween
 
 	/**
 	 * 	Return Day + offset (truncates)
