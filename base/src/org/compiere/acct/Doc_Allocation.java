@@ -24,6 +24,7 @@ import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MCashLine;
@@ -31,6 +32,7 @@ import org.compiere.model.MConversionRate;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -173,6 +175,7 @@ public class Doc_Allocation extends Doc
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		Fact factForRGL = new Fact(this, as, Fact.POST_Actual); // dummy fact (not posted) to calculate Realized Gain & Loss
+		boolean isInterOrg = isInterOrg(as);
 
 		for (int i = 0; i < p_lines.length; i++)
 		{
@@ -239,7 +242,7 @@ public class Doc_Allocation extends Doc
 					acct_unallocated_cash =  getCashAcct(as, line.getC_CashLine_ID());
 				MAccount acct_receivable = getAccount(Doc.ACCTTYPE_C_Receivable, as);
 				
-				if ((!as.isPostIfClearingEqual()) && acct_unallocated_cash != null && acct_unallocated_cash.equals(acct_receivable)) {
+				if ((!as.isPostIfClearingEqual()) && acct_unallocated_cash != null && acct_unallocated_cash.equals(acct_receivable) && (!isInterOrg)) {
 					
 					// if not using clearing accounts, then don't post amtsource
 					// change the allocationsource to be writeoff + discount
@@ -329,7 +332,7 @@ public class Doc_Allocation extends Doc
 				// Save original allocation source for realized gain & loss purposes
 				allocationSourceForRGL = allocationSourceForRGL.negate();
 				
-				if ((!as.isPostIfClearingEqual()) && acct_payment_select != null && acct_payment_select.equals(acct_liability)) {
+				if ((!as.isPostIfClearingEqual()) && acct_payment_select != null && acct_payment_select.equals(acct_liability) && (!isInterOrg)) {
 					
 					// if not using clearing accounts, then don't post amtsource
 					// change the allocationsource to be writeoff + discount
@@ -433,7 +436,7 @@ public class Doc_Allocation extends Doc
 		}	//	for all lines
 
 		// FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual
-		if ( ( ! as.isPostIfClearingEqual() ) && p_lines.length > 0) {
+		if ( (!as.isPostIfClearingEqual()) && p_lines.length > 0 && (!isInterOrg)) {
 			boolean allEquals = true;
 			// more than one line (i.e. crossing one payment+ with a payment-, or an invoice against a credit memo)
 			// verify if the sum of all facts is zero net
@@ -463,6 +466,61 @@ public class Doc_Allocation extends Doc
 		m_facts.add(fact);
 		return m_facts;
 	}   //  createFact
+
+	/** Verify if the posting involves two or more organizations
+	@return true if there are more than one org involved on the posting
+	 */
+	private boolean isInterOrg(MAcctSchema as) {
+		MAcctSchemaElement elementorg = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		if (elementorg == null || !elementorg.isBalanced()) {
+			// no org element or not need to be balanced
+			return false;
+		}
+		
+		if (p_lines.length <= 0) {
+			// no lines
+			return false;
+		}
+		
+		int startorg = p_lines[0].getAD_Org_ID();
+		// validate if the allocation involves more than one org
+		for (int i = 0; i < p_lines.length; i++) {
+			DocLine_Allocation line = (DocLine_Allocation)p_lines[i];
+			int orgpayment = startorg;
+			MPayment payment = null;
+			if (line.getC_Payment_ID() != 0) {
+				payment = new MPayment (getCtx(), line.getC_Payment_ID(), getTrxName());
+				orgpayment = payment.getAD_Org_ID();
+			}
+			int orginvoice = startorg;
+			MInvoice invoice = null;
+			if (line.getC_Invoice_ID() != 0) {
+				invoice = new MInvoice (getCtx(), line.getC_Invoice_ID(), getTrxName());
+				orginvoice = invoice.getAD_Org_ID();
+			}
+			int orgcashline = startorg;
+			MCashLine cashline = null;
+			if (line.getC_CashLine_ID() != 0) {
+				cashline = new MCashLine (getCtx(), line.getC_CashLine_ID(), getTrxName());
+				orgcashline = cashline.getAD_Org_ID();
+			}
+			int orgorder = startorg;
+			MOrder order = null;
+			if (line.getC_Order_ID() != 0) {
+				order = new MOrder (getCtx(), line.getC_Order_ID(), getTrxName());
+				orgorder = order.getAD_Org_ID();
+			}
+			
+			if (   line.getAD_Org_ID() != startorg 
+				|| orgpayment != startorg
+				|| orginvoice != startorg 
+				|| orgcashline != startorg
+				|| orgorder != startorg)
+				return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Compare the dimension ID's from two factlines 

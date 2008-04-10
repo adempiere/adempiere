@@ -129,6 +129,7 @@ public class Doc_MatchInv extends Doc
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID (as.getC_Currency_ID());
+		boolean isInterOrg = isInterOrg(as);
 
 		/**	Needs to be handeled in PO Matching as no Receipt info
 		if (m_pc.isService())
@@ -232,7 +233,7 @@ public class Doc_MatchInv extends Doc
 		MAccount acct_db =  dr.getAccount(); // not_invoiced_receipts
 		MAccount acct_cr = cr.getAccount(); // inventory_clearing
 		
-		if ((!as.isPostIfClearingEqual()) && acct_db.equals(acct_cr)) {
+		if ((!as.isPostIfClearingEqual()) && acct_db.equals(acct_cr) && (!isInterOrg)) {
 			
 			BigDecimal debit = dr.getAmtSourceDr();
 			BigDecimal credit = cr.getAmtSourceCr();
@@ -327,6 +328,23 @@ public class Doc_MatchInv extends Doc
 		
 		return facts;
 	}   //  createFact
+
+	/** Verify if the posting involves two or more organizations
+	@return true if there are more than one org involved on the posting
+	 */
+	private boolean isInterOrg(MAcctSchema as) {
+		MAcctSchemaElement elementorg = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		if (elementorg == null || !elementorg.isBalanced()) {
+			// no org element or not need to be balanced
+			return false;
+		}
+
+		// verify if org of receipt line is different from org of invoice line
+		if (m_receiptLine != null && m_invoiceLine != null && m_receiptLine.getAD_Org_ID() != m_invoiceLine.getAD_Org_ID())
+			return true;
+		
+		return false;
+	}
 
 	/**
 	 *  Update Product Info (old).

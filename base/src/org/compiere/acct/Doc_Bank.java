@@ -151,6 +151,7 @@ public class Doc_Bank extends Doc
 	{
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
+		// boolean isInterOrg = isInterOrg(as);
 
 		//  Header -- there may be different currency amounts
 
@@ -169,6 +170,8 @@ public class Doc_Bank extends Doc
 			MAccount acct_bank_asset =  getAccount(Doc.ACCTTYPE_BankAsset, as);
 			MAccount acct_bank_in_transit = getAccount(Doc.ACCTTYPE_BankInTransit, as);
 			
+			// if ((!as.isPostIfClearingEqual()) && acct_bank_asset.equals(acct_bank_in_transit) && (!isInterOrg)) {
+			// don't validate interorg on banks for this - normally banks are balanced by orgs
 			if ((!as.isPostIfClearingEqual()) && acct_bank_asset.equals(acct_bank_in_transit)) {
 				// Not using clearing accounts
 				// just post the difference (if any)
@@ -249,6 +252,33 @@ public class Doc_Bank extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+
+	/** Verify if the posting involves two or more organizations
+	@return true if there are more than one org involved on the posting
+	private boolean isInterOrg(MAcctSchema as) {
+		MAcctSchemaElement elementorg = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		if (elementorg == null || !elementorg.isBalanced()) {
+			// no org element or not need to be balanced
+			return false;
+		}
+		
+		if (p_lines.length <= 0) {
+			// no lines
+			return false;
+		}
+		
+		int startorg = getBank_Org_ID();
+		if (startorg == 0)
+			startorg = p_lines[0].getAD_Org_ID();
+		// validate if the allocation involves more than one org
+		for (int i = 0; i < p_lines.length; i++) {
+			if (p_lines[i].getAD_Org_ID() != startorg)
+				return true;
+		}
+		
+		return false;
+	}
+	 */
 
 	/**
 	 * 	Get AD_Org_ID from Bank Account
