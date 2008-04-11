@@ -14,6 +14,7 @@
 package org.adempiere.print.export;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import org.adempiere.impexp.AbstractExcelExporter;
 import org.compiere.print.MPrintFormat;
@@ -24,6 +25,7 @@ import org.compiere.print.PrintDataElement;
 /**
  * Export PrintData to Excel (XLS) file
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1939010 ] Excel Export ERROR - java.sql.Date - integrated Mario Grigioni's fix
  */
 public class PrintDataExcelExporter
 extends AbstractExcelExporter
@@ -73,7 +75,11 @@ extends AbstractExcelExporter
 		if (pde == null)
 			;
 		else if (pde.isDate()) {
-			value = (Timestamp)pde.getValue();
+			Object o = pde.getValue();
+			if (o instanceof Date)
+				value = new Timestamp(((Date)o).getTime());
+			else
+				value = (Timestamp)pde.getValue();
 		}
 		else if (pde.isNumeric()) {
 			Object o = pde.getValue();
