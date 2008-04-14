@@ -672,19 +672,22 @@ INSERT INTO AD_COLUMN
              TO_DATE ('02/26/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'),
              TO_DATE ('02/26/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
              100, 'Mandatory Logic', 'Logic to determine if field is mandatory (applies only when field is not mandatory in general)', 
-             'Logic to determine if field is mandatory (applies only when field is not mandatory in general). 
-             format := {expression} [{logic} {expression}]<br> 
-	expression := @{CONTEXT}@{operand}{VALUE} OR @{CONTEXT}@{operand}{VALUE}<br> 
-	logic := {|}|{&}<br>
-	CONTEXT := ANY GLOBAL OR window CONTEXT <br>
-	VALUE := strings OR numbers<br>
-	logic operators	:= AND OR OR WITH THE PREVIOUS result FROM LEFT TO RIGHT <br>
-	operand := eq{=}, gt{&gt;}, le{&lt;}, NOT{~^!} <br>
-	Examples: <br>
-	@AD_Table_ID@=14 | @LANGUAGE@!GERGER <br>
-	@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
-	@NAME@>J<br>
-	Strings may be IN SINGLE quotes (optional)', 1,
+             'Logic to determine if field is mandatory (applies only when field is not mandatory in general).
+format := {expression} [{logic} {expression}]<br>
+expression := @{CONTEXT}@{operand}{VALUE} OR @{CONTEXT}@{operand}{VALUE}<br>
+logic := {|}|{&}<br>
+CONTEXT := ANY GLOBAL OR window CONTEXT <br>
+VALUE := strings OR numbers<br>
+logic operators := AND OR OR WITH THE PREVIOUS result FROM LEFT TO RIGHT <br>
+operand := eq{=}, gt{&gt;}, le{&lt;}, NOT{~^!} <br>
+Examples: <br>
+'||
+'@AD_Table_ID@=14 | @LANGUAGE@!GERGER <br>
+'||
+'@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
+'||
+'@NAME@>J<br>
+Strings may be IN SINGLE quotes (optional)', 1,
              'D', 'MandatoryLogic', 101, 14,
              2000, 'N', 'N', 'N', 'Y',
              'N', 0, 'N', 'N',
@@ -706,19 +709,22 @@ INSERT INTO AD_FIELD
              TO_DATE ('02/26/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
              TO_DATE ('02/26/2007 12:30:00', 'MM/DD/YYYY HH24:MI:SS'), 100,
              'Mandatory Logic', 'Logic to determine if field is mandatory (applies only when field is not mandatory in general)', 
-             'Logic to determine if field is mandatory (applies only when field is not mandatory in general). 
-             format := {expression} [{logic} {expression}]<br> 
-	expression := @{CONTEXT}@{operand}{VALUE} OR @{CONTEXT}@{operand}{VALUE}<br> 
-	logic := {|}|{&}<br>
-	CONTEXT := ANY GLOBAL OR window CONTEXT <br>
-	VALUE := strings OR numbers<br>
-	logic operators	:= AND OR OR WITH THE PREVIOUS result FROM LEFT TO RIGHT <br>
-	operand := eq{=}, gt{&gt;}, le{&lt;}, NOT{~^!} <br>
-	Examples: <br>
-	@AD_Table_ID@=14 | @LANGUAGE@!GERGER <br>
-	@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
-	@NAME@>J<br>
-	Strings may be IN SINGLE quotes (optional)',
+             'Logic to determine if field is mandatory (applies only when field is not mandatory in general).
+format := {expression} [{logic} {expression}]<br>
+expression := @{CONTEXT}@{operand}{VALUE} OR @{CONTEXT}@{operand}{VALUE}<br>
+logic := {|}|{&}<br>
+CONTEXT := ANY GLOBAL OR window CONTEXT <br>
+VALUE := strings OR numbers<br>
+logic operators := AND OR OR WITH THE PREVIOUS result FROM LEFT TO RIGHT <br>
+operand := eq{=}, gt{&gt;}, le{&lt;}, NOT{~^!} <br>
+Examples: <br>
+'||
+'@AD_Table_ID@=14 | @LANGUAGE@!GERGER <br>
+'||
+'@PriceLimit@>10 | @PriceList@>@PriceActual@<br>
+'||
+'@NAME@>J<br>
+Strings may be IN SINGLE quotes (optional)',
              'Y', 275 ,101,
              50218, 'Y', 60, 'N',
              'N', 'N', 'N', 'N', 'D'
