@@ -50,6 +50,7 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1901192 ] LogMigrationScripts: GridTable.dataSave: manual update
+ *			<li>BF [ 1943682 ] Copy Record should not copy IsApproved and IsGenerated
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -2146,6 +2147,8 @@ public class GridTable extends AbstractTableModel
 					|| columnName.equals("Processed") || columnName.equals("IsSelfService")
 					|| columnName.equals("DocAction") || columnName.equals("DocStatus")
 					|| columnName.equals("Posted") || columnName.equals("IsReconciled")
+					|| columnName.equals("IsApproved") // BF [ 1943682 ]
+					|| columnName.equals("IsGenerated") // BF [ 1943682 ]
 					|| columnName.startsWith("Ref_")
 					//	Order/Invoice
 					|| columnName.equals("GrandTotal") || columnName.equals("TotalLines")
