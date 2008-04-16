@@ -53,6 +53,7 @@ import org.compiere.util.*;
  *  @contributor fer_luck@centuryon.com , FR [ 1757088 ]
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *  			<li>BF [ 1824621 ] History button can't be canceled
+ *  			<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
  */
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
@@ -1715,7 +1716,8 @@ public final class APanel extends CPanel
 			ADialog.error(m_curWindowNo, this, "SaveIgnored");
 			setStatusLine(Msg.getMsg(m_ctx, "SaveIgnored"), true);
 		}
-		m_curGC.rowChanged(true, m_curTab.getRecord_ID());
+		if (retValue)
+			m_curGC.rowChanged(true, m_curTab.getRecord_ID());
 		if (manualCmd) {
 			m_curGC.dynamicDisplay(0);
 			if (!isNested)
