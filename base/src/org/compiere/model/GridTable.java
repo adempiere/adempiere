@@ -47,6 +47,9 @@ import org.compiere.util.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: GridTable.java,v 1.9 2006/08/09 16:38:25 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1901192 ] LogMigrationScripts: GridTable.dataSave: manual update
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -1206,6 +1209,9 @@ public class GridTable extends AbstractTableModel
 			//	Prepare
 			boolean manualUpdate = ResultSet.CONCUR_READ_ONLY == rs.getConcurrency();
 			if (DB.isRemoteObjects())
+				manualUpdate = true;
+			// Manual update if log migration scripts is enabled - teo_sarca BF [ 1901192 ]
+			if(!manualUpdate && Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT))
 				manualUpdate = true;
 			if (manualUpdate)
 				createUpdateSqlReset();
