@@ -229,6 +229,9 @@ public class Calendar extends CDialog
 			m_calendar.setTimeInMillis(System.currentTimeMillis());
 		else
 			m_calendar.setTime(startTS);
+		// [ 1948445 ] Time field problem on daylight
+		if (m_displayType == DisplayType.Time)
+			m_calendar.set(1970, 1, 1);
 		m_firstDay = m_calendar.getFirstDayOfWeek();
 		//
 		Locale loc = Language.getLoginLanguage().getLocale();
