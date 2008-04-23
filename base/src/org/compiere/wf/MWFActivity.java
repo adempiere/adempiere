@@ -371,7 +371,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 */
 	public PO getPO()
 	{
-		return getPO(null);
+		return getPO(get_TrxName() != null ? Trx.get(get_TrxName(), false) : null);
 	}	//	getPO
 	
 	/**
@@ -381,7 +381,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	public int getPO_AD_Client_ID()
 	{
 		if (m_po == null)
-			getPO(null);
+			getPO(get_TrxName() != null ? Trx.get(get_TrxName(), false) : null);
 		if (m_po != null)
 			return m_po.getAD_Client_ID();
 		return 0;

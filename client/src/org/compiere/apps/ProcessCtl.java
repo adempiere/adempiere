@@ -571,6 +571,8 @@ public class ProcessCtl implements Runnable
 		//	Run locally
 		if (!started && !m_IsServerProcess)
 		{
+			if (m_trx != null)
+				m_pi.setTransactionName(m_trx.getTrxName());
 			MWFProcess wfProcess = ProcessUtil.startWorkFlow(Env.getCtx(), m_pi, AD_Workflow_ID);
 			started = wfProcess != null;
 		}

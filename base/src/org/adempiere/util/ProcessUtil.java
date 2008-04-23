@@ -249,9 +249,10 @@ public final class ProcessUtil {
 		MWorkflow wf = MWorkflow.get (ctx, AD_Workflow_ID);
 		MWFProcess wfProcess = null;
 		if (pi.isBatch())
-			wfProcess = wf.start(pi, null);		//	may return null
-		else
+			wfProcess = wf.start(pi, pi.getTransactionName());		//	may return null
+		else {
 			wfProcess = wf.startWait(pi);	//	may return null
+		}
 		log.fine(pi.toString());
 		return wfProcess;
 	}
