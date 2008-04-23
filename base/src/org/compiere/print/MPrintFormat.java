@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.logging.*;
 
 import javax.sql.RowSet;
-import javax.swing.JComponent;
 
 import org.compiere.model.*;
 import org.compiere.util.*;
@@ -177,23 +176,27 @@ public class MPrintFormat extends X_AD_PrintFormat
 				+ " AND (f.IsEncrypted='Y' OR f.ObscureType IS NOT NULL))" 
 			+ "ORDER BY SeqNo";
 		MRole role = MRole.getDefault(getCtx(), false);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, get_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				MPrintFormatItem pfi = new MPrintFormatItem(p_ctx, rs, get_TrxName());
 				if (role.isColumnAccess(getAD_Table_ID(), pfi.getAD_Column_ID(), true))
 					list.add (pfi);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		MPrintFormatItem[] retValue = new MPrintFormatItem[list.size()];
@@ -422,12 +425,14 @@ public class MPrintFormat extends X_AD_PrintFormat
 			+ "WHERE t.AD_Table_ID=? AND c.AD_Client_ID=?"		//	#1/2
 			+ " AND pc.IsDefault='Y' AND pf.IsDefault='Y' AND pp.IsDefault='Y'";
 		boolean error = true;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
 			pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Name
@@ -453,12 +458,14 @@ public class MPrintFormat extends X_AD_PrintFormat
 			}
 			else
 				s_log.log(Level.SEVERE, "No info found " + AD_Table_ID);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (error)
 			return null;
@@ -503,13 +510,15 @@ public class MPrintFormat extends X_AD_PrintFormat
 			+ " AD_PrintColor pc, AD_PrintFont pf, AD_PrintPaper pp "
 			+ "WHERE rv.AD_ReportView_ID=? AND c.AD_Client_ID=?"
 			+ " AND pc.IsDefault='Y' AND pf.IsDefault='Y' AND pp.IsDefault='Y'";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean error = true;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_ReportView_ID);
 			pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Name
@@ -530,12 +539,14 @@ public class MPrintFormat extends X_AD_PrintFormat
 			}
 			else
 				s_log.log(Level.SEVERE, "Not found: AD_ReportView_ID=" + AD_ReportView_ID);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (error)
 			return null;
@@ -567,11 +578,13 @@ public class MPrintFormat extends X_AD_PrintFormat
 			+ "WHERE AD_Tab_ID=(SELECT MIN(AD_Tab_ID) FROM AD_Tab WHERE AD_Table_ID=?)"
 			+ " AND IsEncrypted='N' AND ObscureType IS NULL "
 			+ "ORDER BY COALESCE(IsDisplayed,'N') DESC, SortNo, SeqNo, Name";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, format.get_TrxName());
+			pstmt = DB.prepareStatement(sql, format.get_TrxName());
 			pstmt.setInt(1, format.getAD_Table_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			int seqNo = 1;
 			while (rs.next())
 			{
@@ -582,12 +595,14 @@ public class MPrintFormat extends X_AD_PrintFormat
 					s_log.finest("Tab: " + pfi);
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "(tab) - " + sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	No Tab found for Table
 		if (list.size() == 0)
@@ -599,9 +614,9 @@ public class MPrintFormat extends X_AD_PrintFormat
 				+ "ORDER BY IsIdentifier DESC, SeqNo, Name";
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, format.get_TrxName());
+				pstmt = DB.prepareStatement(sql, format.get_TrxName());
 				pstmt.setInt(1, format.getAD_Table_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				int seqNo = 1;
 				while (rs.next())
 				{
@@ -612,13 +627,15 @@ public class MPrintFormat extends X_AD_PrintFormat
 						s_log.finest("Table: " + pfi);
 					}
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				s_log.log(Level.SEVERE, "(table) - " + sql, e);
 			}			
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 		}
 		
 		//
@@ -798,6 +815,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	{
 		MPrintFormat retValue = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM AD_PrintFormat WHERE ";
 		if (AD_ReportView_ID > 0)
 			sql += "AD_ReportView_ID=?";
@@ -808,26 +826,17 @@ public class MPrintFormat extends X_AD_PrintFormat
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, AD_ReportView_ID > 0 ? AD_ReportView_ID : AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MPrintFormat (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	get
@@ -861,19 +870,24 @@ public class MPrintFormat extends X_AD_PrintFormat
 		//
 		sql = MRole.getDefault().addAccessSQL (
 			sql, "AD_PrintFormat", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		CPreparedStatement pstmt = null;
 		try
 		{
-			CPreparedStatement pstmt = DB.prepareStatement(sql, trxName);
+			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, AD_Table_ID);
 			if (AD_Client_ID >= 0)
 				pstmt.setInt(2, AD_Client_ID);
 			rowSet = pstmt.getRowSet();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
+		finally {
+			DB.close(pstmt);
+			pstmt = null;
+		}
+		
 		return rowSet;
 	}
 
