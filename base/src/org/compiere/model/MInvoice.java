@@ -1269,7 +1269,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	public File createPDF (File file)
 	{
-		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.INVOICE, getC_Invoice_ID());
+		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.INVOICE, getC_Invoice_ID(), get_TrxName());
 		if (re == null)
 			return null;
 		return re.getPDF(file);
