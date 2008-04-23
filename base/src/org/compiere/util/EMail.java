@@ -45,6 +45,8 @@ import org.compiere.model.*;
  */
 public final class EMail implements Serializable
 {
+	//use in serverbean
+	public final static String HTML_MAIL_MARKER = "ContentType=text/html;";
 	/**
 	 *	Full Constructor
 	 *  @param client the client
@@ -58,6 +60,21 @@ public final class EMail implements Serializable
 	{
 		this (client.getCtx(), client.getSMTPHost(), from, to, subject, message);
 	}	//	EMail
+	
+	/**
+	 *	Full Constructor
+	 *  @param client the client
+	 *  @param from Sender's EMail address
+	 *  @param to   Recipient EMail address
+	 *  @param subject  Subject of message
+	 *  @param message  The message
+	 *  @param html
+	 */
+	public EMail (MClient client, String from, String to, 
+		String subject, String message, boolean html)
+	{
+		this (client.getCtx(), client.getSMTPHost(), from, to, subject, message, html);
+	}	//	EMail
 
 	/**
 	 *	Full Constructor
@@ -69,7 +86,23 @@ public final class EMail implements Serializable
 	 *  @param message  The message
 	 */
 	public EMail (Properties ctx, String smtpHost, String from, String to, 
-		String subject, String message)
+		String subject, String message) 
+	{
+		this(ctx, smtpHost, from, to, subject, message, false);
+	}
+	
+	/**
+	 *	Full Constructor
+	 *	@param ctx context
+	 *  @param smtpHost The mail server
+	 *  @param from Sender's EMail address
+	 *  @param to   Recipient EMail address
+	 *  @param subject  Subject of message
+	 *  @param message  The message
+	 *  @param html html email
+	 */
+	public EMail (Properties ctx, String smtpHost, String from, String to, 
+		String subject, String message, boolean html)
 	{
 		setSmtpHost(smtpHost);
 		setFrom(from);
@@ -80,7 +113,12 @@ public final class EMail implements Serializable
 		else
 			setSubject (subject);
 		if (message != null && message.length() > 0)
-			setMessageText (message);
+		{
+			if (html)
+				setMessageHTML(subject, message);
+			else
+				setMessageText (message);
+		}
 		m_valid = isValid (true);
 	}	//	EMail
 

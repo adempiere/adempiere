@@ -1530,12 +1530,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		MClient client = MClient.get(doc.getCtx(), doc.getAD_Client_ID());
 		
 		//	Explicit EMail
-		sendEMail(client, 0, m_node.getEMail(), subject, message, pdf);
+		sendEMail(client, 0, m_node.getEMail(), subject, message, pdf, text.isHtml());
 		//	Recipient Type
 		String recipient = m_node.getEMailRecipient();
 		//	email to document user
 		if (recipient == null || recipient.length() == 0)
-			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf); 
+			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentBusinessPartner))
 		{
 			int index = m_po.get_ColumnIndex("AD_User_ID");
@@ -1546,7 +1546,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				{
 					int AD_User_ID = ((Integer)oo).intValue();
 					if (AD_User_ID != 0)
-						sendEMail(client, AD_User_ID, null, subject, message, pdf);
+						sendEMail(client, AD_User_ID, null, subject, message, pdf, text.isHtml());
 					else
 						log.fine("No User in Document");
 				}
@@ -1557,14 +1557,14 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				log.fine("No User Field in Document");
 		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentOwner))
-			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf); 
+			sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_WFResponsible))
 		{
 			MWFResponsible resp = getResponsible();
 			if (resp.isInvoker())
-				sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf); 
+				sendEMail(client, doc.getDoc_User_ID(), null, subject, message, pdf, text.isHtml()); 
 			else if (resp.isHuman())
-				sendEMail(client, resp.getAD_User_ID(), null, subject, message, pdf); 
+				sendEMail(client, resp.getAD_User_ID(), null, subject, message, pdf, text.isHtml()); 
 			else if (resp.isRole())
 			{
 				MRole role = resp.getRole();
@@ -1572,7 +1572,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				{
 					MUser[] users = MUser.getWithRole(role);
 					for (int i = 0; i < users.length; i++)
-						sendEMail(client, users[i].getAD_User_ID(), null, subject, message, pdf); 
+						sendEMail(client, users[i].getAD_User_ID(), null, subject, message, pdf, text.isHtml()); 
 				}
 			}
 			else if (resp.isOrganization())
@@ -1581,7 +1581,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				if (org.getSupervisor_ID() == 0)
 					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
 				else
-					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf); 
+					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf, text.isHtml()); 
 			}
 		}
 	}	//	sendEMail
@@ -1594,9 +1594,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 *	@param subject subject
 	 *	@param message message
 	 *	@param pdf attachment
+	 *  @param  isHtml isHtml
 	 */
 	private void sendEMail (MClient client, int AD_User_ID, String email,
-		String subject, String message, File pdf)
+		String subject, String message, File pdf, boolean isHtml)
 	{
 		if (AD_User_ID != 0)
 		{
@@ -1607,7 +1608,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				email = email.trim();
 				if (!m_emails.contains(email))
 				{
-					client.sendEMail(null, user, subject, message, pdf);
+					client.sendEMail(null, user, subject, message, pdf,isHtml);
 					m_emails.add(email);
 				}
 			}
