@@ -523,7 +523,7 @@ public class MInOut extends X_M_InOut implements DocAction
 	 */
 	public File createPDF (File file)
 	{
-		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.SHIPMENT, getM_InOut_ID());
+		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.SHIPMENT, getM_InOut_ID(), get_TrxName());
 		if (re == null)
 			return null;
 		return re.getPDF(file);
