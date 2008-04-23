@@ -1623,7 +1623,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				email = email.trim();
 				if (!m_emails.contains(email))
 				{
-					client.sendEMail(email, subject, message, pdf);
+					client.sendEMail(email, subject, message, pdf, isHtml);
 					m_emails.add(email);
 				}
 				return;
@@ -1637,7 +1637,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					continue;
 				if (!m_emails.contains(email1))
 				{
-					client.sendEMail(email1, subject, message, pdf);
+					client.sendEMail(email1, subject, message, pdf, isHtml);
 					m_emails.add(email1);
 				}
 			}
