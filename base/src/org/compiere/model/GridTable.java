@@ -51,6 +51,7 @@ import org.compiere.util.*;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1901192 ] LogMigrationScripts: GridTable.dataSave: manual update
  *			<li>BF [ 1943682 ] Copy Record should not copy IsApproved and IsGenerated
+ *			<li>BF [ 1949543 ] Window freeze if there is a severe exception
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -1148,7 +1149,7 @@ public class GridTable extends AbstractTableModel
 			if (!m_tableName.endsWith("_Trl"))	//	translation tables have no model
 				return dataSavePO (Record_ID);
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			if (e instanceof ClassNotFoundException)
 				log.warning(m_tableName + " - " + e.getLocalizedMessage());
