@@ -664,7 +664,6 @@ public class MClient extends X_AD_Client
 		String subject, String message, File attachment, boolean isHtml)
 	{
 		EMail email = createEMail(from, to, subject, message, isHtml);
-		
 		if (email == null)
 			return false;
 		
@@ -690,7 +689,7 @@ public class MClient extends X_AD_Client
 	 *	@param email email
 	 *	@return true if sent
 	 */
-	private boolean sendEmailNow(MUser from, MUser to, EMail email)
+	public boolean sendEmailNow(MUser from, MUser to, EMail email)
 	{
 		String msg = email.send();
 		//
@@ -867,7 +866,7 @@ public class MClient extends X_AD_Client
 		}
 		//	No From - send from Request
 		if (from == null)
-			return createEMail (to, subject, message);
+			return createEMail (to, subject, message, html);
 		//	No From details - Error
 		if (from.getEMail() == null 
 			|| from.getEMailUser() == null
