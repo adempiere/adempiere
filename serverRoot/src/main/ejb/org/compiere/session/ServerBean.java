@@ -668,7 +668,13 @@ public class ServerBean implements SessionBean
 		String to, String subject, String message)
 	{
 		MClient client = MClient.get(ctx, AD_Client_ID);
-		return client.createEMail(to, subject, message);
+		boolean html = false;
+		if (message != null && message.startsWith(EMail.HTML_MAIL_MARKER)) 
+		{
+			html = true;
+			message = message.substring(EMail.HTML_MAIL_MARKER.length());
+		}
+		return client.createEMail(to, subject, message, html);
 	}	//	createEMail
 
 	/**
@@ -688,7 +694,13 @@ public class ServerBean implements SessionBean
 	{
 		MClient client = MClient.get(ctx, AD_Client_ID);
 		MUser from = new MUser (ctx, AD_User_ID, null);
-		return client.createEMail(from, to, subject, message);
+		boolean html = false;
+		if (message != null && message.startsWith(EMail.HTML_MAIL_MARKER)) 
+		{
+			html = true;
+			message = message.substring(EMail.HTML_MAIL_MARKER.length());
+		}
+		return client.createEMail(from, to, subject, message, html);
 	}	//	createEMail
 
 	
