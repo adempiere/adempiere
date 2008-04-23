@@ -799,7 +799,10 @@ public class MPrintFormat extends X_AD_PrintFormat
 		if (pf == null)
 		{
 			pf = new MPrintFormat (ctx, AD_PrintFormat_ID, null);
-			s_formats.put(key, pf);
+			if (pf.get_ID() <= 0)
+				pf = null;
+			else
+				s_formats.put(key, pf);
 		}
 		return pf;
 	}	//	get
