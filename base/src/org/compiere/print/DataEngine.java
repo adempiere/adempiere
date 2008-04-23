@@ -60,8 +60,18 @@ public class DataEngine
 	 */
 	public DataEngine (Language language)
 	{
+		this(language, null);
+	}	//	DataEngine
+	
+	/**
+	 *	Constructor
+	 *	@param language Language of the data (for translation)
+	 *  @param trxName
+	 */
+	public DataEngine (Language language, String trxName){
 		if (language != null)
 			m_language = language;
+		m_trxName = trxName;
 	}	//	DataEngine
 
 	/**	Logger							*/
@@ -80,6 +90,8 @@ public class DataEngine
 	private int				m_runningTotalLines = -1;
 	/** Print String					*/
 	private String			m_runningTotalString = null;
+	/** TrxName String					*/
+	private String			m_trxName = null;
 	
 	/** Key Indicator in Report			*/
 	public static final String KEY = "*";
@@ -110,7 +122,7 @@ public class DataEngine
 			ResultSet rs = null;
 			try
 			{				
-				pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, m_trxName);
 				pstmt.setInt(1, format.getAD_ReportView_ID());
 				rs = pstmt.executeQuery();
 				if (rs.next())
@@ -213,7 +225,7 @@ public class DataEngine
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, m_trxName);
 			pstmt.setInt(1, format.get_ID());
 			rs = pstmt.executeQuery();
 
@@ -715,7 +727,7 @@ public class DataEngine
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(pd.getSQL(), null);
+			pstmt = DB.prepareStatement(pd.getSQL(), m_trxName);
 			rs = pstmt.executeQuery();
 			//	Row Loop
 			while (rs.next())

@@ -97,6 +97,19 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public ReportEngine (Properties ctx, MPrintFormat pf, MQuery query, PrintInfo info)
 	{
+		this(ctx, pf, query, info, null);
+	}	//	ReportEngine
+	
+	/**
+	 *	Constructor
+	 * 	@param ctx context
+	 *  @param pf Print Format
+	 *  @param query Optional Query
+	 *  @param info print info
+	 *  @param trxName
+	 */
+	public ReportEngine (Properties ctx, MPrintFormat pf, MQuery query, PrintInfo info, String trxName)
+	{
 		if (pf == null)
 			throw new IllegalArgumentException("ReportEngine - no PrintFormat");
 		log.info(pf + " -- " + query);
@@ -104,7 +117,9 @@ public class ReportEngine implements PrintServiceAttributeListener
 		//
 		m_printFormat = pf;
 		m_info = info;
+		m_trxName = trxName;
 		setQuery(query);		//	loads Data
+		
 	}	//	ReportEngine
 
 	/**	Static Logger	*/
@@ -127,7 +142,9 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private String			m_printerName = Ini.getProperty(Ini.P_PRINTER);
 	/**	View					*/
 	private View			m_view = null;
-
+	/** Transaction Name 		*/
+	private String 			m_trxName = null;
+	
 	/**
 	 * 	Set PrintFormat.
 	 *  If Layout was created, re-create layout
@@ -145,7 +162,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 		if (m_view != null)
 			m_view.revalidate();
 	}	//	setPrintFormat
-
+	
 	/**
 	 * 	Set Query and generate PrintData.
 	 *  If Layout was created, re-create layout
@@ -182,10 +199,12 @@ public class ReportEngine implements PrintServiceAttributeListener
 	{
 		if (m_query == null)
 			return;
-		DataEngine de = new DataEngine(m_printFormat.getLanguage());
+		
+		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
 		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query));
 	//	m_printData.dump();
 	}	//	setPrintData
+
 
 	/**
 	 * 	Get PrintData
@@ -217,7 +236,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			throw new IllegalStateException ("No print format");
 		if (m_printData == null)
 			throw new IllegalStateException ("No print data (Delete Print Format and restart)");
-		m_layout = new LayoutEngine (m_printFormat, m_printData, m_query);
+		m_layout = new LayoutEngine (m_printFormat, m_printData, m_query, m_trxName);
 	}	//	layout
 
 	/**
@@ -1069,7 +1088,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		X_C_PaySelectionCheck.Table_ID, X_C_PaySelectionCheck.Table_ID, 
 		X_C_DunningRunEntry.Table_ID };
 
-	
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
 	 * 	@param ctx context
@@ -1078,6 +1096,19 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 * 	@return Report Engine or null
 	 */
 	public static ReportEngine get (Properties ctx, int type, int Record_ID)
+	{
+		return get(ctx, type, Record_ID, null);
+	}
+	
+	/**************************************************************************
+	 * 	Get Document Print Engine for Document Type.
+	 * 	@param ctx context
+	 * 	@param type document type
+	 * 	@param Record_ID id
+	 *  @param trxName
+	 * 	@return Report Engine or null
+	 */
+	public static ReportEngine get (Properties ctx, int type, int Record_ID, String trxName)
 	{
 		if (Record_ID < 1)
 		{
@@ -1177,7 +1208,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, Record_ID);
 			rs = pstmt.executeQuery();
 			if (rs.next())	//	first record only
@@ -1252,7 +1283,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		info.setPrinterName(format.getPrinterName());
 		
 		//	Engine
-		ReportEngine re = new ReportEngine(ctx, format, query, info);
+		ReportEngine re = new ReportEngine(ctx, format, query, info, trxName);
 		return re;
 	}	//	get
 

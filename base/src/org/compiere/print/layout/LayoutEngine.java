@@ -56,6 +56,19 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query)
 	{
+		this(format, data, query, null);
+	}	//	LayoutEngine
+	
+	/**
+	 *	Detail Constructor
+	 *  @param format Print Format
+	 *  @param data Print Data
+	 *  @param query query for parameter info
+	 *  @param trxName
+	 */
+	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query, String trxName)
+	{
+		m_TrxName = trxName;
 		log.info(format + " - " + data + " - " + query);
 	//	s_FASTDRAW = MClient.get(format.getCtx()).isUseBetaFunctions();
 		//
@@ -85,6 +98,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private MPrintFont			m_printFont;
 	/**	Printed Column Count		*/
 	private int					m_columnCount = -1;
+	/**	Transaction name		*/
+	private String				m_TrxName = null;
 
 
 	/**	Paper - default: standard portrait		*/
@@ -211,6 +226,15 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		m_data = data;
 		m_query = query;
+		if (m_hasLayout && doLayout)
+			layout();			//	re-calculate
+	}	//	setPrintData
+	
+	public void setPrintData (PrintData data, MQuery query, boolean doLayout, String trxName)
+	{
+		m_data = data;
+		m_query = query;
+		m_TrxName = trxName;
 		if (m_hasLayout && doLayout)
 			layout();			//	re-calculate
 	}	//	setPrintData
@@ -1109,7 +1133,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		format.setTranslationViewQuery(query);
 		log.fine(query.toString());
 		//
-		DataEngine de = new DataEngine(format.getLanguage());
+		DataEngine de = new DataEngine(format.getLanguage(),m_TrxName);
 		PrintData includedData = de.getPrintData(data.getCtx(), format, query);
 		if (includedData == null)
 			return null;
