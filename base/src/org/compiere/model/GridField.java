@@ -639,7 +639,13 @@ public class GridField
 			//	Timestamps
 			if (DisplayType.isDate(m_vo.displayType))
 			{
-				java.util.Date date =  DisplayType.getDateFormat_JDBC().parse (value);
+				// try timestamp format - then date format -- [ 1950305 ]
+				java.util.Date date = null;
+				try {
+					date = DisplayType.getTimestampFormat_Default().parse (value);
+				} catch (java.text.ParseException e) {
+					date = DisplayType.getDateFormat_JDBC().parse (value);
+				}
 				return new Timestamp (date.getTime());
 			}
 			

@@ -351,6 +351,15 @@ public final class DisplayType
 	}   //  getDateFormat_JDBC
 
 	/**
+	 *	JDBC Timestamp Format yyyy-mm-dd hh:mm:ss
+	 *  @return timestamp format
+	 */
+	static public SimpleDateFormat getTimestampFormat_Default()
+	{
+		return new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+	}   //  getTimestampFormat_JDBC
+
+	/**
 	 *  Return Storage Class.
 	 *  (used for MiniTable)
 	 *  @param displayType Display Type
