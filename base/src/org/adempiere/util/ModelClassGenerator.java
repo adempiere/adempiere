@@ -39,7 +39,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Util;
 
 /**
  *  Generate Model Classes extending PO.
@@ -55,7 +54,6 @@ import org.compiere.util.Util;
  * 				<li>better formating of generated source 
  * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
- * 				<li>BF [ 1882470 ] Generate Class Model: setter for lookup fields issue
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
@@ -535,18 +533,17 @@ public class ModelClassGenerator
 		{
 			if (columnName.endsWith("_ID"))
 			{
-				int firstOK = 1;	//	Valid ID 0
-				if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID") 
-					|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
-					|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
-					|| columnName.equals("AD_User_ID")
-					|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
-					firstOK = 0;
-				//
+				int firstOK = 1;
 				if (isMandatory)	//	check mandatory ID
 				{
+					if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID") 
+						|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
+						|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
+						|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
+						firstOK = 0;
 					sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(")").append(NL)
-						.append("\t\t\t throw new IllegalArgumentException (\"").append(columnName).append(" is mandatory.\");").append(NL);
+						.append("\t\t\t throw new IllegalArgumentException (\"")
+						.append(columnName).append(" is mandatory.\");").append(NL);
 				}
 				else				//	set optional _ID to null if 0
 					sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(") ").append(NL)

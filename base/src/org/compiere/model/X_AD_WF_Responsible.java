@@ -123,7 +123,7 @@ public class X_AD_WF_Responsible extends PO implements I_AD_WF_Responsible, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 0) 
+		if (AD_User_ID < 1) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));

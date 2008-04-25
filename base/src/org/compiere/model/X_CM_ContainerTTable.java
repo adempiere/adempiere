@@ -258,7 +258,7 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0) 
+		if (Record_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

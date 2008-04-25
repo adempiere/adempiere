@@ -831,7 +831,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_AttributeSet_ID < 0) 
+		if (M_AttributeSet_ID < 1) 
 			set_Value (COLUMNNAME_M_AttributeSet_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));

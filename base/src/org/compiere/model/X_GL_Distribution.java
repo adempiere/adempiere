@@ -644,7 +644,7 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0) 
+		if (C_DocType_ID < 1) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));

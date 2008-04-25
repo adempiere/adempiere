@@ -156,7 +156,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 0) 
+		if (AD_User_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));

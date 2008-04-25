@@ -283,7 +283,7 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0) 
+		if (M_AttributeSetInstance_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));

@@ -620,7 +620,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0) 
+		if (Record_ID < 1) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

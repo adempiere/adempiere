@@ -164,7 +164,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0) 
+		if (C_DocType_ID < 1) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));

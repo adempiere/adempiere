@@ -176,7 +176,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0) 
+		if (C_DocType_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));

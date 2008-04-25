@@ -155,7 +155,7 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0) 
+		if (AD_Role_ID < 1) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -194,7 +194,7 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 0) 
+		if (AD_User_ID < 1) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));

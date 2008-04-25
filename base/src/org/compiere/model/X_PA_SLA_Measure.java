@@ -301,7 +301,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0) 
+		if (Record_ID < 1) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

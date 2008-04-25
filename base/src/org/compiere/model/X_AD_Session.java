@@ -96,7 +96,7 @@ public class X_AD_Session extends PO implements I_AD_Session, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0) 
+		if (AD_Role_ID < 1) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));

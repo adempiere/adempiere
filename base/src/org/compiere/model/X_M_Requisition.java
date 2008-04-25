@@ -115,7 +115,7 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 0)
+		if (AD_User_ID < 1)
 			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
 		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}

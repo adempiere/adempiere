@@ -122,7 +122,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 0) 
+		if (AD_User_ID < 1) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
@@ -523,7 +523,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0) 
+		if (C_DocType_ID < 1) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));

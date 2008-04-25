@@ -416,7 +416,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0) 
+		if (Record_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

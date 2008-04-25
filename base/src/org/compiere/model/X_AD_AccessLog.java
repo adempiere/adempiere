@@ -209,7 +209,7 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0) 
+		if (Record_ID < 1) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

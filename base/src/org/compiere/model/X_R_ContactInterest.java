@@ -97,7 +97,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 0)
+		if (AD_User_ID < 1)
 			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}

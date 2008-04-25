@@ -894,7 +894,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0) 
+		if (Record_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
