@@ -435,8 +435,11 @@ public final class Preference extends CDialog
 		{
 			adempiereSys.setSelected(false);
 			adempiereSys.setEnabled(false);
-			logMigrationScript.setSelected(false);
-			logMigrationScript.setEnabled(false);
+			if (Env.getAD_User_ID(Env.getCtx()) > 100) {
+				// disable log migration scripts on clients non-GW for non-SuperUser 
+				logMigrationScript.setSelected(false);
+				logMigrationScript.setEnabled(false);
+			}
 		}
 		//	AutoLogin
 		autoLogin.setSelected(Ini.isPropertyBool(Ini.P_A_LOGIN));
