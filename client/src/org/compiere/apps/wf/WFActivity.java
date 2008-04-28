@@ -597,6 +597,11 @@ public class WFActivity extends CPanel
 		MWFNode node = m_activity.getNode();
 		
 		Object forward = fForward.getValue();
+
+		// ensure activity is ran within a transaction - [ 1953628 ]
+		Trx trx = Trx.get(Trx.createTrxName("FWFA"), true);
+		m_activity.set_TrxName(trx.getTrxName());
+		
 		if (forward != null)
 		{
 			log.config("Forward to " + forward);
@@ -604,11 +609,15 @@ public class WFActivity extends CPanel
 			if (fw == AD_User_ID || fw == 0)
 			{
 				log.log(Level.SEVERE, "Forward User=" + fw);
+				trx.rollback();
+				trx.close();
 				return;
 			}
 			if (!m_activity.forwardTo(fw, textMsg))
 			{
 				ADialog.error(m_WindowNo, this, "CannotForward");
+				trx.rollback();
+				trx.close();
 				return;
 			}
 		}
@@ -628,6 +637,8 @@ public class WFActivity extends CPanel
 			if (value == null || value.length() == 0)
 			{
 				ADialog.error(m_WindowNo, this, "FillMandatory", Msg.getMsg(Env.getCtx(), "Answer"));
+				trx.rollback();
+				trx.close();
 				return;
 			}
 			//
@@ -640,6 +651,8 @@ public class WFActivity extends CPanel
 			{
 				log.log(Level.SEVERE, node.getName(), e);
 				ADialog.error(m_WindowNo, this, "Error", e.toString());
+				trx.rollback();
+				trx.close();
 				return;
 			}
 		}
@@ -649,16 +662,24 @@ public class WFActivity extends CPanel
 			log.config("Action=" + node.getAction() + " - " + textMsg);
 			try
 			{
+				// ensure activity is ran within a transaction
+				m_activity.set_TrxName(Trx.createTrxName("FWFA"));
 				m_activity.setUserConfirmation(AD_User_ID, textMsg);
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, node.getName(), e);
 				ADialog.error(m_WindowNo, this, "Error", e.toString());
+				trx.rollback();
+				trx.close();
 				return;
 			}
 			
 		}
+		
+		trx.commit();
+		trx.close();
+
 		//	Next
 		loadActivities();
 		display();
