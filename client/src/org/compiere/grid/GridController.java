@@ -447,6 +447,7 @@ public class GridController extends CPanel
 	 * 	@param gc grid controller to add
 	 * 	@return GridSynchronizer
 	 */
+	
 	//FR [ 1757088 ]
 	public boolean includeTab (GridController gc , APanel aPanel, GridSynchronizer sync)
 	{	
@@ -459,7 +460,9 @@ public class GridController extends CPanel
 		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
 		
 		vPanel.includeTab(detail);
-				
+		//BEGIN - [FR 1953734]
+		gc.setGCParent(this);
+		//END - [FR 1953734]
 		synchronizerList.add(sync);
 		return true;
 		
@@ -1243,6 +1246,21 @@ public class GridController extends CPanel
 	{
 		return vPanel;
 	}
+	
+	//BEGIN - [FR 1953734]
+	GridController m_Parent;
+	public void setGCParent(GridController gc){
+		m_Parent = gc;
+	}
+	public GridController getGCParent(){
+		return m_Parent;
+	}
+	public void refreshMTab(GridController includedTab){
+		int m_CurrentRowBeforeSave = includedTab.m_mTab.getCurrentRow();
+		m_mTab.dataRefresh(m_mTab.getCurrentRow());
+		includedTab.m_mTab.setCurrentRow(m_CurrentRowBeforeSave);
+	}
+	//END - [FR 1953734]
 	
 	/**
 	 * Accept pending editor changes.

@@ -1723,6 +1723,13 @@ public final class APanel extends CPanel
 			if (!isNested)
 				m_window.setTitle(getTitle());
 		}
+		
+		//BEGIN - [FR 1953734]
+		if(m_curGC.isDetailGrid() && retValue){
+			m_curGC.getGCParent().refreshMTab(m_curGC);
+		}
+		//END - [FR 1953734]
+		
 		return retValue;
 	}   //  cmd_save
 
