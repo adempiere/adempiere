@@ -32,6 +32,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.tree.*;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
@@ -82,6 +83,9 @@ public final class VTreePanel extends CPanel
 			barScrollPane.setPreferredSize(new Dimension(0,0));
 			barScrollPane.setMaximumSize(new Dimension(0,0));
 			barScrollPane.setMinimumSize(new Dimension(0,0));
+			//Begin - [FR 1953769]
+			bar.setBackground(AdempierePLAF.getFormBackground());
+			//End - [FR 1953769]
 			centerSplitPane.setDividerLocation(0);
 			centerSplitPane.setDividerSize(0);
 			popMenuTree.remove(mBarAdd);
@@ -166,12 +170,19 @@ public final class VTreePanel extends CPanel
 				jt2.setBorder(BorderFactory.createEmptyBorder());
 				
 				JXTaskPane barPart = new JXTaskPane();
+				//Begin - [FR 1953769]
+				barPart.setUI(new AdempiereTaskPaneUI());
+				barPart.getContentPane().setBackground(AdempierePLAF.getFormBackground());
+				//End - [FR 1953769]
 				barPart.setAnimated(true);
 				barPart.setLayout(new BorderLayout());
 				barPart.add(jt2, BorderLayout.NORTH);
 				barPart.setTitle(titleMap.get(jt2));
 				
 				bar.add(barPart);
+				//Begin - [FR 1953769]
+				bar.setBackground(AdempierePLAF.getFormBackground());
+				//End - [FR 1953769]
 			}
 		}
 		return true;
@@ -929,6 +940,10 @@ public final class VTreePanel extends CPanel
 					parent.setBorder(BorderFactory.createEmptyBorder());
 
 					JXTaskPane barPart = new JXTaskPane();
+					//Begin - [FR 1953769]
+					barPart.setUI(new AdempiereTaskPaneUI());
+					barPart.getContentPane().setBackground(AdempierePLAF.getFormBackground());
+					//End - [FR 1953769]
 					barPart.setTitle(ndTop.toString().trim());
 					barPart.setAnimated(true);
 					barPart.setLayout(new BorderLayout());
