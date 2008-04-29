@@ -10,7 +10,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Mar 13, 2008 8:15:43 AM BRT
 -- FR [ 1913092 ] Add the Payment Rule to Commissioning
-ALTER TABLE C_CommissionLine ADD COLUMN PaymentRule CHAR(1)
+ALTER TABLE C_CommissionLine ADD PaymentRule CHAR(1)
 ;
 
 -- Mar 13, 2008 8:19:20 AM BRT
