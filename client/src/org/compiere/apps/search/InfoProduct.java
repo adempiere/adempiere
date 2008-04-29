@@ -116,7 +116,7 @@ public final class InfoProduct extends Info implements ActionListener
 	private CTextField fieldVendor = new CTextField(10);
 	
 	//Begin - fer_luck @ centuryon
-	private CTextPane fieldDescription = new CTextPane();
+	private CTextArea fieldDescription = new CTextArea();
 	JXTaskPane warehouseStockPanel = new JXTaskPane();
     CPanel tablePanel = new CPanel();
     MiniTable warehouseTbl = new MiniTable();
@@ -229,14 +229,14 @@ public final class InfoProduct extends Info implements ActionListener
 		warehouseTbl.addMouseListener(this);
 		warehouseTbl.getSelectionModel().addListSelectionListener(this);
         warehouseTbl.autoSize();
-        warehouseTbl.setPreferredScrollableViewportSize(new Dimension(INFO_WIDTH - 10, 40));
-        warehouseTbl.setPreferredSize(new Dimension(INFO_WIDTH - 10, 40));
         
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
     					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
-    					String.class),
+    					String.class), 
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
     	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
@@ -249,14 +249,14 @@ public final class InfoProduct extends Info implements ActionListener
         substituteTbl.addMouseListener(this);
         substituteTbl.getSelectionModel().addListSelectionListener(this);
         substituteTbl.autoSize();
-        substituteTbl.setPreferredScrollableViewportSize(new Dimension(INFO_WIDTH - 10, 40));
-        substituteTbl.setPreferredSize(new Dimension(INFO_WIDTH - 10, 40));        
         
         ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
     					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
     					String.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
     	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
@@ -269,13 +269,11 @@ public final class InfoProduct extends Info implements ActionListener
         relatedTbl.addMouseListener(this);
         relatedTbl.getSelectionModel().addListSelectionListener(this);
         relatedTbl.autoSize();
-        relatedTbl.setPreferredScrollableViewportSize(new Dimension(INFO_WIDTH - 10, 40));
-        relatedTbl.setPreferredSize(new Dimension(INFO_WIDTH - 10, 40));           
         
         CTabbedPane jTab  = new CTabbedPane();
         jTab.addTab(Msg.translate(Env.getCtx(), "Warehouse"), new JScrollPane(warehouseTbl));
-        jTab.setPreferredSize(new Dimension(INFO_WIDTH, 110));
-        jTab.addTab(Msg.translate(Env.getCtx(), "Description"), fieldDescription);
+        jTab.setPreferredSize(new Dimension(INFO_WIDTH, 105));
+        jTab.addTab(Msg.translate(Env.getCtx(), "Description"), new JScrollPane(fieldDescription));
         jTab.addTab(Msg.translate(Env.getCtx(), "Substitute_ID"), new JScrollPane(substituteTbl));
         jTab.addTab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"), new JScrollPane(relatedTbl));
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, 110));
