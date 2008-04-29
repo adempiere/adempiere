@@ -206,7 +206,7 @@ public class MBPGroup extends X_C_BP_Group
 	public BigDecimal getCreditWatchRatio()
 	{
 		BigDecimal bd = super.getCreditWatchPercent();
-		if (bd != null)
+		if (bd != Env.ZERO)
 			return bd.divide(Env.ONEHUNDRED, 2, BigDecimal.ROUND_HALF_UP);
 		return new BigDecimal(0.90);
 	}	//	getCreditWatchRatio
