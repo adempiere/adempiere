@@ -418,6 +418,12 @@ public abstract class Info extends CDialog
 			if (layout[i].getColClass() == IDColumn.class)
 				m_keyColumnIndex = i;
 		}
+		
+		//  Table Selection (Invoked before setting column class so that row selection is enabled)
+		p_table.setRowSelectionAllowed(true);
+		p_table.addMouseListener(this);
+		p_table.setMultiSelection(p_multiSelection);
+		
 		//  set editors (two steps)
 		for (int i = 0; i < layout.length; i++)
 			p_table.setColumnClass(i, layout[i].getColClass(), layout[i].isReadOnly(), layout[i].getColHeader());
@@ -435,11 +441,6 @@ public abstract class Info extends CDialog
 		if (m_keyColumnIndex == -1)
 			log.log(Level.SEVERE, "No KeyColumn - " + sql);
 		
-		//  Table Selection
-		p_table.setRowSelectionAllowed(true);
-		p_table.addMouseListener(this);
-		p_table.setMultiSelection(p_multiSelection);
-
 		//  Window Sizing
 		parameterPanel.setPreferredSize(new Dimension (INFO_WIDTH, parameterPanel.getPreferredSize().height));
 		//Begin - [FR 1823612 ] Product Info Screen Improvements
@@ -527,6 +528,7 @@ public abstract class Info extends CDialog
 		//	Multi Selection
 		if (p_multiSelection)
 		{
+			m_results.addAll(getSelectedRowKeys());
 		}
 		else    //  singleSelection
 		{
@@ -549,17 +551,67 @@ public abstract class Info extends CDialog
 	 */
 	protected Integer getSelectedRowKey()
 	{
-		int row = p_table.getSelectedRow();
-		if (row != -1 && m_keyColumnIndex != -1)
+		ArrayList<Integer> selectedDataList = getSelectedRowKeys();
+		if (selectedDataList.size() == 0)
 		{
-			Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
-			if (data instanceof IDColumn)
-				data = ((IDColumn)data).getRecord_ID();
-			if (data instanceof Integer)
-				return (Integer)data;
+			return null;
 		}
-		return null;
+		else
+		{
+			return selectedDataList.get(0);
+		}
 	}   //  getSelectedRowKey
+	
+	/**
+     *  Get the keys of selected row/s based on layout defined in prepareTable
+     *  @return IDs if selection present
+     *  @author ashley
+     */
+    protected ArrayList<Integer> getSelectedRowKeys()
+    {
+        ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
+        
+        if (m_keyColumnIndex == -1)
+        {
+            return selectedDataList;
+        }
+        
+        if (p_multiSelection)
+        {
+        	int rows = p_table.getRowCount();
+            for (int row = 0; row < rows; row++)
+            {
+                Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
+                if (data instanceof IDColumn)
+                {
+                    IDColumn dataColumn = (IDColumn)data;
+                    if (dataColumn.isSelected())
+                    {
+                        selectedDataList.add(dataColumn.getRecord_ID());
+                    }
+                }
+                else
+                {
+                    log.severe("For multiple selection, IDColumn should be key column for selection");
+                }
+            }
+        }
+        
+        if (selectedDataList.size() == 0)
+        {
+        	int row = p_table.getSelectedRow();
+    		if (row != -1 && m_keyColumnIndex != -1)
+    		{
+    			Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
+    			if (data instanceof IDColumn)
+    				selectedDataList.add(((IDColumn)data).getRecord_ID());
+    			if (data instanceof Integer)
+    				selectedDataList.add((Integer)data);
+    		}
+        }
+      
+        return selectedDataList;
+    }   //  getSelectedRowKeys
 
 	/**
 	 *	Get selected Keys
@@ -569,7 +621,9 @@ public abstract class Info extends CDialog
 	{
 		if (!m_ok || m_results.size() == 0)
 			return null;
-		return m_results.toArray();
+		Integer values[] = new Integer[m_results.size()];
+		m_results.toArray(values);
+		return values;
 	}	//	getSelectedKeys;
 
 	/**
@@ -786,12 +840,15 @@ public abstract class Info extends CDialog
 	}   //  calueChanged
 
 	/**
-	 *  Enable OK, History, Zoom if row selected
+	 *  Enable OK, History, Zoom if row/s selected
+     *  ---
+     *  Changes: Changed the logic for accomodating multiple selection
+     *  @author ashley
 	 */
 	protected void enableButtons ()
 	{
-		boolean enable = p_table.getSelectedRow() != -1;
-		confirmPanel.getOKButton().setEnabled(enable);
+		boolean enable = (p_table.getSelectedRowCount() == 1);
+		confirmPanel.getOKButton().setEnabled(p_table.getSelectedRowCount() > 0);
 		
 		if (hasHistory())
 			confirmPanel.getHistoryButton().setEnabled(enable);

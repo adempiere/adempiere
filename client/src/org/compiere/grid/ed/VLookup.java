@@ -42,6 +42,7 @@ import org.compiere.util.*;
  *  @version 	$Id: VLookup.java,v 1.5 2006/10/06 00:42:38 jjanke Exp $
  *  
  *  @author		Teo Sarca - BF [ 1740835 ]
+ *  @author		Michael Judd (MultiSelect)
  */
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -678,16 +679,24 @@ public class VLookup extends JComponent
 		}
 		//  is the value updated ?
 		boolean updated = false;
-		if (value == null && m_value == null)
+		
+		Object updatedValue = value;
+		
+		if (updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
+		{
+			updatedValue = ((Object[])updatedValue)[0];
+		}
+		
+		if (updatedValue == null && m_value == null)
 			updated = true;
-		else if (value != null && value.equals(m_value))
+		else if (updatedValue != null && value.equals(m_value))
 			updated = true;
 		if (!updated)
 		{
 			//  happens if VLookup is used outside of APanel/GridController (no property listener)
-			log.fine(m_columnName + " - Value explicitly set - new=" + value + ", old=" + m_value);
+			log.fine(m_columnName + " - Value explicitly set - new=" + updatedValue + ", old=" + m_value);
 			if (getListeners(PropertyChangeListener.class).length <= 0)
-				setValue(value);
+				setValue(updatedValue);
 		}
 	}	//	actionCombo
 
@@ -711,8 +720,10 @@ public class VLookup extends JComponent
 		 *  - Cancel pressed                => store null   => result == null && cancelled
 		 *  - Window closed                 -> ignore       => result == null && !cancalled
 		 */
-		Object result = null;
+		
+		Object result[] = null;
 		boolean cancelled = false;
+		boolean multipleSelection = false;
 		//
 		String col = m_lookup.getColumnName();		//	fully qualified name
 		if (col.indexOf('.') != -1)
@@ -737,7 +748,7 @@ public class VLookup extends JComponent
 					m_tableName, m_keyColumnName, queryValue, false, whereClause);
 				ig.setVisible(true);
 				cancelled = ig.isCancelled();
-				result = ig.getSelectedKey();
+				result = ig.getSelectedKeys();
 			} catch (Exception e) {
 				log.log(Level.SEVERE, "Failed to load custom InfoFactory - " + e.getLocalizedMessage(), e);
 			}
@@ -753,12 +764,16 @@ public class VLookup extends JComponent
 				queryValue = "@" + m_text.getText() + "@";   //  Name indicator - otherwise Value
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
+			
+			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
+			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID);
+			
 			//	Show Info
 			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),
-				M_Warehouse_ID, M_PriceList_ID, queryValue, false, whereClause);
+				M_Warehouse_ID, M_PriceList_ID, queryValue, multipleSelection, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
-			result = ip.getSelectedKey();
+			result = ip.getSelectedKeys();
 			resetValue = true;
 		}
 		else if (col.equals("C_BPartner_ID"))
@@ -770,31 +785,36 @@ public class VLookup extends JComponent
 			if (Env.getContext(Env.getCtx(), m_lookup.getWindowNo(), "IsSOTrx").equals("N"))
 				isSOTrx = false;
 			InfoBPartner ip = new InfoBPartner (frame, true, m_lookup.getWindowNo(),
-				queryValue, isSOTrx, false, whereClause);
+				queryValue, isSOTrx, multipleSelection, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
-			result = ip.getSelectedKey();
+			result = ip.getSelectedKeys();
 		}
 		else	//	General Info
 		{
 			if (m_tableName == null)	//	sets table name & key column
 				getDirectAccessSQL("*");
 			Info ig = Info.create (frame, true, m_lookup.getWindowNo(), 
-				m_tableName, m_keyColumnName, queryValue, false, whereClause);
+				m_tableName, m_keyColumnName, queryValue, multipleSelection, whereClause);
 			ig.setVisible(true);
 			cancelled = ig.isCancelled();
-			result = ig.getSelectedKey();
+			result = ig.getSelectedKeys();
 		}
-		
+				
 		//  Result
-		if (result != null)
+		if (result != null && result.length > 0)
 		{
 			log.config(m_columnName + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
 			//  make sure that value is in cache
-			m_lookup.getDirect(result, false, true);
+			m_lookup.getDirect(result[0], false, true);
 			if (resetValue)
 				actionCombo (null);
-			actionCombo (result);	//	data binding
+			// juddm added logic for multi-select handling
+			if (result.length > 1)
+				actionCombo (result);	//	data binding
+			else
+				actionCombo (result[0]);
+					
 		}
 		else if (cancelled)
 		{
@@ -845,6 +865,47 @@ public class VLookup extends JComponent
 		return whereClause;
 	}	//	getWhereClause
 
+	/**
+	 * 	
+	 * 
+	 * 
+	 */
+	private String getExtraWhereClause (String text)
+	{
+		StringBuffer sql = new StringBuffer();
+		m_tableName = m_columnName.substring(0, m_columnName.length()-3);
+		m_keyColumnName = m_columnName;
+		//
+		if (m_columnName.equals("M_Product_ID"))
+		{
+			//	Reset
+			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
+			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", "0");
+			//
+			sql.append(" AND (UPPER(p.Value) LIKE ")
+				.append(DB.TO_STRING(text))
+				.append(" OR UPPER(p.Name) LIKE ").append(DB.TO_STRING(text))
+				.append(" OR p.SKU LIKE ").append(DB.TO_STRING(text)).append(")");
+				//.append(" OR p.SKU LIKE ").append(DB.TO_STRING(text))
+				//.append(" OR p.UPC LIKE ").append(DB.TO_STRING(text)).append(")");
+		}
+				//	Predefined
+		/*
+		if (sql.length() > 0)
+		{
+			String wc = getWhereClause();
+			if (wc != null && wc.length() > 0)
+				sql.append(" AND ").append(wc);
+			sql.append(" AND IsActive='Y'");
+			//	***
+			log.finest(m_columnName + " (predefined) " + sql.toString());
+			return MRole.getDefault().addAccessSQL(sql.toString(),
+				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		}*/
+		
+		return sql.toString();
+	}
 	/**
 	 *	Check, if data returns unique entry, otherwise involve Info via Button
 	 */
@@ -961,6 +1022,7 @@ public class VLookup extends JComponent
 			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
 				.append(DB.TO_STRING(text))
 				.append(" OR UPPER(Name) LIKE ").append(DB.TO_STRING(text))
+				.append(" OR SKU LIKE ").append(DB.TO_STRING(text))
 				.append(" OR UPC LIKE ").append(DB.TO_STRING(text)).append(")");
 		}
 		else if (m_columnName.equals("C_BPartner_ID"))

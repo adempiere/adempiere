@@ -936,7 +936,7 @@ public final class InfoProduct extends Info implements ActionListener
 		if (s_productLayout == null)
 		{
 			ArrayList<Info_Column> list = new ArrayList<Info_Column>();
-			list.add(new Info_Column(" ", "p.M_Product_ID", IDColumn.class));
+			list.add(new Info_Column(" ", "p.M_Product_ID", IDColumn.class, !p_multiSelection));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Discontinued").substring(0, 1), "p.Discontinued", Boolean.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Value"), "p.Value", String.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));

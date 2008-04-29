@@ -1037,6 +1037,53 @@ public class GridController extends CPanel
 	}   //  rowChanged
 
 
+	/**************************************************************************
+	 * Save Multiple records - Clone a record and assign new values to each 
+	 * clone for a specific column.
+	 * @param ctx context
+	 * @param tableName Table Name
+	 * @param columnName Column for which value need to be changed
+	 * @param recordId Record to clone
+	 * @param values Values to be assigned to clones for the specified column
+	 * @param trxName Transaction
+	 * @throws Exception If error is occured when loading the PO or saving clones
+	 * 
+	 * @author ashley
+	 */
+	protected void saveMultipleRecords(Properties ctx, String tableName, 
+			String columnName, int recordId, Integer[] values, 
+			String trxName) throws Exception
+	{
+		if (values == null)
+		{
+			return ;
+		}
+		
+		int oldRow = m_mTab.getCurrentRow();
+		GridField lineField = m_mTab.getField("Line");	
+		
+		for (int i = 0; i < values.length; i++)
+		{
+			if (!m_mTab.dataNew(true))
+			{
+				throw new IllegalStateException("Could not clone tab");
+			}
+			
+			m_mTab.setValue(columnName, values[i]);
+			
+			if (lineField != null)
+			{
+				m_mTab.setValue(lineField, 0);
+			}
+			
+			if (!m_mTab.dataSave(false))
+			{
+				throw new IllegalStateException("Could not update tab");
+			}
+			
+			m_mTab.setCurrentRow(oldRow);
+		}
+	}
 	
 	/**************************************************************************
 	 *  Vetoable Change Listener.
@@ -1104,13 +1151,75 @@ public class GridController extends CPanel
 		else
 		{
 		//	mTable.setValueAt (e.getNewValue(), row, col, true);
-			mTable.setValueAt (e.getNewValue(), row, col);	//	-> dataStatusChanged -> dynamicDisplay
+			/*
+         	 * Changes: Added the logic below to handle multiple values for a single field
+         	 *          due to multiple selection in Lookup (Info).
+         	 * @author ashley
+         	 */
+			Object newValue = e.getNewValue();
+			Integer newValues[] = null;
+			
+			if (newValue instanceof Integer[])
+			{
+				newValues = ((Integer[])newValue);
+				newValue = newValues[0];
+				
+				if (newValues.length > 1)
+				{
+					Integer valuesCopy[] = new Integer[newValues.length - 1];
+					System.arraycopy(newValues, 1, valuesCopy, 0, valuesCopy.length);
+					newValues = valuesCopy;
+				}
+				else
+				{
+					newValues = null;
+				}
+			}
+			else if (newValue instanceof Object[])
+			{
+				log.severe("Multiple values can only be processed for IDs (Integer)");
+				throw new PropertyVetoException("Multiple Selection values not available for this field", e);
+			}
+			
+			mTable.setValueAt (newValue, row, col);	//	-> dataStatusChanged -> dynamicDisplay
+			
 			//	Force Callout
 			if (e.getPropertyName().equals("S_ResourceAssignment_ID"))
 			{
 				GridField mField = m_mTab.getField(col);
 				if (mField != null && mField.getCallout().length() > 0)
 					m_mTab.processFieldChange(mField);     //  Dependencies & Callout
+			}
+			
+			if (newValues != null && newValues.length > 0)
+			{
+				// Save data, since record need to be used for generating clones.
+				if (!m_mTab.dataSave(false))
+				{
+					throw new PropertyVetoException("SaveError", e);
+				}
+				
+				// Retrieve the current record ID
+				int recordId = m_mTab.getKeyID(m_mTab.getCurrentRow());
+				
+				Trx trx = Trx.get(Trx.createTrxName(), true);
+				trx.start();
+				try
+				{
+					saveMultipleRecords(Env.getCtx(), mTable.getTableName(), e.getPropertyName(), recordId, newValues, trx.getTrxName());
+					trx.commit();
+					m_mTab.dataRefreshAll();
+				}
+				catch(Exception ex)
+				{
+					trx.rollback();
+					log.severe(ex.getMessage());
+					throw new PropertyVetoException("SaveError", e);
+				}
+				finally
+				{
+					trx.close();
+				}
 			}
 		}
 

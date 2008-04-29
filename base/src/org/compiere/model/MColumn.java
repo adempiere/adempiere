@@ -520,7 +520,18 @@ public class MColumn extends X_AD_Column
 	}
 	//end vpj-cd e-evolution
 	
-	
+	/**
+	* Get Table Id for a column
+	* @param ctx context
+	* @param AD_Column_ID id
+	* @param trxName transaction
+	* @return MColumn
+	*/
+	public static int getTable_ID(Properties ctx, int AD_Column_ID, String trxName)
+	{
+		String sqlStmt = "SELECT AD_Table_ID FROM AD_Column WHERE AD_Column_ID=?";
+		return DB.getSQLValue(trxName, sqlStmt, AD_Column_ID);
+	}
 
 	
 }	//	MColumn

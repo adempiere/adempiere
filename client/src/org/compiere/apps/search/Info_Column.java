@@ -48,6 +48,20 @@ public class Info_Column
 	{
 		this(colHeader, colSQL, colClass, true, false, IDcolSQL);
 	}   //  Info_Column
+	
+	/**
+	 *  Create Info Column (not color column)
+	 *
+	 *  @param colHeader Column Header
+	 *  @param colSQL    SQL select code for column
+	 *  @param colClass  class of column - determines display
+	 *  @param readOnly  column is read only
+	 *  @author ashley
+	 */
+	 public Info_Column (String colHeader, String colSQL, Class colClass, boolean readOnly)
+	 {
+	    this(colHeader, colSQL, colClass, readOnly, false, null);
+	 }   //  Info_Column
 
 	/**
 	 *  Create Info Column
