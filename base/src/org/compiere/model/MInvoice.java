@@ -1121,20 +1121,25 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	public boolean testAllocation()
 	{
-		BigDecimal alloc = getAllocatedAmt();	//	absolute
-		if (alloc == null)
-			alloc = Env.ZERO;
-		BigDecimal total = getGrandTotal();
-		if (!isSOTrx())
-			total = total.negate();
-		if (isCreditMemo())
-			total = total.negate();
-		boolean test = total.compareTo(alloc) == 0;
-		boolean change = test != isPaid();
-		if (change)
-			setIsPaid(test);
-		log.fine("Paid=" + test
-			+ " (" + alloc + "=" + total + ")");
+		boolean change = false;
+
+		if ( isProcessed() ) {
+			BigDecimal alloc = getAllocatedAmt();	//	absolute
+			if (alloc == null)
+				alloc = Env.ZERO;
+			BigDecimal total = getGrandTotal();
+			if (!isSOTrx())
+				total = total.negate();
+			if (isCreditMemo())
+				total = total.negate();
+			boolean test = total.compareTo(alloc) == 0;
+			change = test != isPaid();
+			if (change)
+				setIsPaid(test);
+			log.fine("Paid=" + test
+					+ " (" + alloc + "=" + total + ")");
+		}
+
 		return change;
 	}	//	testAllocation
 
