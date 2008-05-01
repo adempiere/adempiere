@@ -256,14 +256,19 @@ public class MColumn extends X_AD_Column
 		//	Update Fields
 		if (!newRecord)
 		{
-			StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
-				.append(DB.TO_STRING(getName()))
-				.append(", Description=").append(DB.TO_STRING(getDescription()))
-				.append(", Help=").append(DB.TO_STRING(getHelp()))
-				.append(" WHERE AD_Column_ID=").append(get_ID())
-				.append(" AND IsCentrallyMaintained='Y'");
-			int no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("afterSave - Fields updated #" + no);
+			if (   is_ValueChanged(MColumn.COLUMNNAME_Name)
+				|| is_ValueChanged(MColumn.COLUMNNAME_Description)
+				|| is_ValueChanged(MColumn.COLUMNNAME_Help)
+				) {
+				StringBuffer sql = new StringBuffer("UPDATE AD_Field SET Name=")
+					.append(DB.TO_STRING(getName()))
+					.append(", Description=").append(DB.TO_STRING(getDescription()))
+					.append(", Help=").append(DB.TO_STRING(getHelp()))
+					.append(" WHERE AD_Column_ID=").append(get_ID())
+					.append(" AND IsCentrallyMaintained='Y'");
+				int no = DB.executeUpdate(sql.toString(), get_TrxName());
+				log.fine("afterSave - Fields updated #" + no);
+			}
 		}
 		return success;
 	}	//	afterSave
