@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.beans.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.rmi.RemoteException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import org.compiere.db.CConnection;
 import org.compiere.db.ServerConnection;
