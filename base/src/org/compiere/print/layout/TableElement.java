@@ -1504,37 +1504,48 @@ public class TableElement extends PrintElement
 					curX, (int)(rowYstart+rowHeight-m_tFormat.getLineStroke().floatValue()));
 			curX += m_tFormat.getVLineStroke().floatValue();
 
-			//	X end line
-			if (row == m_data.length-1)			//	last Line
-			{
-				g2D.setPaint(m_tFormat.getHeaderLine_Color());
-				g2D.setStroke(m_tFormat.getHeader_Stroke());
-				g2D.drawLine(origX, curY,					//	 -> - (last line) 
-					(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
-				curY += (2 * m_tFormat.getLineStroke().floatValue());	//	thick
-			}
-			else
-			{
-				//	next line is a funcion column -> underline this
-				boolean nextIsFunction = m_functionRows.contains(new Integer(row+1));
-				if (nextIsFunction && m_functionRows.contains(new Integer(row)))
-					nextIsFunction = false;		//	this is a function line too
-				if (nextIsFunction)
-				{
-					g2D.setPaint(m_tFormat.getFunctFG_Color());
-					g2D.setStroke(m_tFormat.getHLine_Stroke());
-					g2D.drawLine(origX, curY, 				//	 -> - (bottom)
-						(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
-				}
-				else if (m_tFormat.isPaintHLines())
-				{
-					g2D.setPaint(m_tFormat.getHLine_Color());
-					g2D.setStroke(m_tFormat.getHLine_Stroke());
-					g2D.drawLine(origX, curY, 				//	 -> - (bottom)
-						(int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
-				}
-				curY += m_tFormat.getLineStroke().floatValue();
-			}
+            //  X end line
+            if (row == m_data.length-1)         //  last Line
+            {
+                /**
+                 * Bug fix - Bottom line was always displayed whether or not header lines was set to be visible
+                 * @author ashley
+                 */
+                if (m_tFormat.isPaintHeaderLines())
+                {  
+                    g2D.setPaint(m_tFormat.getHeaderLine_Color());
+                    g2D.setStroke(m_tFormat.getHeader_Stroke()); 
+                    g2D.drawLine(origX, curY,                   //   -> - (last line) 
+                        (int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
+                    curY += (2 * m_tFormat.getLineStroke().floatValue());   //  thick
+                }
+                else
+                {
+                    curY += m_tFormat.getLineStroke().floatValue();
+                }
+            }
+            else
+            {
+                //  next line is a funcion column -> underline this
+                boolean nextIsFunction = m_functionRows.contains(new Integer(row+1));
+                if (nextIsFunction && m_functionRows.contains(new Integer(row)))
+                    nextIsFunction = false;     //  this is a function line too
+                if (nextIsFunction)
+                {
+                    g2D.setPaint(m_tFormat.getFunctFG_Color());
+                    g2D.setStroke(m_tFormat.getHLine_Stroke());
+                    g2D.drawLine(origX, curY,               //   -> - (bottom)
+                        (int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
+                }
+                else if (m_tFormat.isPaintHLines())
+                {
+                    g2D.setPaint(m_tFormat.getHLine_Color());
+                    g2D.setStroke(m_tFormat.getHLine_Stroke());
+                    g2D.drawLine(origX, curY,               //   -> - (bottom)
+                        (int)(origX+colWidth-m_tFormat.getVLineStroke().floatValue()), curY);
+                }
+                curY += m_tFormat.getLineStroke().floatValue();
+            }
 		}	// for all rows
 		
 	}	//	printColumn
