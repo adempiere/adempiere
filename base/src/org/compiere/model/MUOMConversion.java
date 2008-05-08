@@ -383,7 +383,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 			+ " INNER JOIN C_UOM uomTo ON (c.C_UOM_TO_ID=uomTo.C_UOM_ID) "
 			+ "WHERE c.IsActive='Y' AND c.C_UOM_ID=? AND c.C_UOM_TO_ID=? "		//	#1/2
 			+ " AND c.M_Product_ID IS NULL"
-			+ "ORDER BY c.AD_Client_ID DESC, c.AD_Org_ID DESC";
+			+ " ORDER BY c.AD_Client_ID DESC, c.AD_Org_ID DESC";
 		PreparedStatement pstmt = null;
 		try
 		{
