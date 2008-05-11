@@ -88,7 +88,7 @@ public class MPaySchedule extends X_C_PaySchedule
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (is_ValueChanged("Percentage"))
+		if (is_ValueChanged("Percentage") || is_ValueChanged("IsActive"))
 		{
 			log.fine("beforeSave");
 			setIsValid(false);
@@ -104,7 +104,7 @@ public class MPaySchedule extends X_C_PaySchedule
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord || is_ValueChanged("Percentage"))
+		if (newRecord || is_ValueChanged("Percentage") || is_ValueChanged("IsActive"))
 		{
 			log.fine("afterSave");
 			getParent();
@@ -113,5 +113,16 @@ public class MPaySchedule extends X_C_PaySchedule
 		}
 		return success;
 	}	//	afterSave
+
+	@Override
+	protected boolean afterDelete(boolean success) {
+		if (!success)
+			return false;
+		getParent();
+		m_parent.validate();
+		m_parent.save();
+		return true;
+	}
+	
 	
 }	//	MPaySchedule

@@ -80,7 +80,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 	{
 		if (m_schedule != null && !requery)
 			return m_schedule;
-		String sql = "SELECT * FROM C_PaySchedule WHERE C_PaymentTerm_ID=? ORDER BY NetDays";
+		String sql = "SELECT * FROM C_PaySchedule WHERE C_PaymentTerm_ID=? AND IsActive='Y' ORDER BY NetDays";
 		ArrayList<MPaySchedule> list = new ArrayList<MPaySchedule>();
 		PreparedStatement pstmt = null;
 		try
@@ -133,6 +133,11 @@ public class MPaymentTerm extends X_C_PaymentTerm
 		if (m_schedule.length == 1)
 		{
 			setIsValid(false);
+			if (m_schedule[0].isValid())
+			{
+				m_schedule[0].setIsValid(false);
+				m_schedule[0].save();
+			}
 			return "@Invalid@ @Count@ # = 1 (@C_PaySchedule_ID@)";
 		}
 		
