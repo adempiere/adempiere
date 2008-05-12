@@ -66,6 +66,8 @@ import org.compiere.process.SequenceCheck;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 		<li>BF [ 1647864 ] WAN: delete record error
  * 		<li>FR [ 1884435 ] Add more DB.getSQLValue helper methods
+ * 		<li>FR [ 1904460 ] DB.executeUpdate should handle Boolean params
+ * 		<li>BF [ 1962568 ] DB.executeUpdate should handle null params
  */
 public final class DB
 {
@@ -883,7 +885,9 @@ public final class DB
 				for (int i = 0; i < params.length; i++)
 				{
 					Object param = params[i];
-					if (param instanceof String)
+					if (param == null)
+						cs.setObject(i+1, null);
+					else if (param instanceof String)
 						cs.setString(i+1, (String)param);
 					else if (param instanceof Integer)
 						cs.setInt(i+1, ((Integer)param).intValue());
@@ -891,6 +895,8 @@ public final class DB
 						cs.setBigDecimal(i+1, (BigDecimal)param);
 					else if (param instanceof Timestamp)
 						cs.setTimestamp(i+1, (Timestamp)param);
+					else if (param instanceof Boolean)
+						cs.setString(i+1, ((Boolean)param).booleanValue() ? "Y" : "N");
 				}
 			}
 			//
