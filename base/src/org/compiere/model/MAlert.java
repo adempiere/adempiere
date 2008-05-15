@@ -85,7 +85,8 @@ public class MAlert extends X_AD_Alert
 		if (m_rules != null && !reload)
 			return m_rules;
 		String sql = "SELECT * FROM AD_AlertRule "
-			+ "WHERE AD_Alert_ID=?";
+			+ "WHERE AD_Alert_ID=?"
+			+ " ORDER BY Name, AD_AlertRule_ID";
 		ArrayList<MAlertRule> list = new ArrayList<MAlertRule>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
