@@ -32,7 +32,6 @@ import org.compiere.model.MAlertProcessor;
 import org.compiere.model.MAlertProcessorLog;
 import org.compiere.model.MAlertRule;
 import org.compiere.model.MClient;
-import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
@@ -156,20 +155,7 @@ public class AlertProcessor extends AdempiereServer
 			}	//	Pre
 			
 			//	The processing
-			sql = rule.getSql();
-			if (alert.isEnforceRoleSecurity()
-				|| alert.isEnforceClientSecurity())
-			{
-				int AD_Role_ID = alert.getFirstAD_Role_ID();
-				if (AD_Role_ID == -1)
-					AD_Role_ID = alert.getFirstUserAD_Role_ID();
-				if (AD_Role_ID != -1)
-				{
-					MRole role = MRole.get(getCtx(), AD_Role_ID);
-					sql = role.addAccessSQL(sql, null, true, false);
-				}
-			}
-			
+			sql = rule.getSql(true);
 			try
 			{
 				String text = null;

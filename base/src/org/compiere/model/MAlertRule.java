@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
 
 /**
@@ -50,20 +50,72 @@ public class MAlertRule extends X_AD_AlertRule
 		super(ctx, rs, trxName);
 	}	//	MAlertRule
 	
+	/** Alert */
+	private MAlert m_parent = null;
+	
 	/**
-	 * 	Get Sql
+	 * Get parent
+	 * @return parent alert
+	 */
+	public MAlert getParent() {
+		if (m_parent == null || m_parent.get_ID() != getAD_Alert_ID())
+			m_parent = new MAlert(getCtx(), getAD_Alert_ID(), get_TrxName());
+		return m_parent;
+	}
+	
+	/**
+	 * Set parent alert.
+	 * NOTE: is not setting AD_Alert_ID
+	 * @param alert
+	 */
+	public void setParent(MAlert alert) {
+		m_parent = alert;
+	}
+	
+	/**
+	 *	Get Sql
 	 *	@return sql
+	 * @deprecated Use {@link #getSql(boolean)} instead
 	 */
 	public String getSql()
+	{
+		return getSql(false);
+	}
+	
+	/**
+	 * Get Sql
+	 * @param applySecurity apply role/client security
+	 * @return sql
+	 */
+	public String getSql(boolean applySecurity)
 	{
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ").append(getSelectClause())
 			.append(" FROM ").append(getFromClause());
 		if (getWhereClause() != null && getWhereClause().length() > 0)
 			sql.append(" WHERE ").append(getWhereClause());
+		String finalSQL = sql.toString();
+		//
+		// Apply Security:
+		if (applySecurity) {
+			MAlert alert = getParent();
+			if (alert.isEnforceRoleSecurity()
+					|| alert.isEnforceClientSecurity())
+			{
+				int AD_Role_ID = alert.getFirstAD_Role_ID();
+				if (AD_Role_ID == -1)
+					AD_Role_ID = alert.getFirstUserAD_Role_ID();
+				if (AD_Role_ID != -1)
+				{
+					MRole role = MRole.get(getCtx(), AD_Role_ID);
+					finalSQL = role.addAccessSQL(finalSQL, null, true, false);
+				}
+			}
+		}
+		//
 		if (getOtherClause() != null && getOtherClause().length() > 0)
-			sql.append(" ").append(getOtherClause());
-		return sql.toString();
+			finalSQL += " " + getOtherClause();
+		return finalSQL;
 	}	//	getSql
 	
 	
@@ -91,7 +143,7 @@ public class MAlertRule extends X_AD_AlertRule
 		sb.append(get_ID())
 			.append("-").append(getName())
 			.append(",Valid=").append(isValid())
-			.append(",").append(getSql());
+			.append(",").append(getSql(false));
 		sb.append ("]");
 		return sb.toString ();
 	}	//	toString

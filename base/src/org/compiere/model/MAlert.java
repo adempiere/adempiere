@@ -95,7 +95,11 @@ public class MAlert extends X_AD_Alert
 			pstmt.setInt (1, getAD_Alert_ID());
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
-				list.add (new MAlertRule (getCtx(), rs, null));
+			{
+				MAlertRule rule = new MAlertRule (getCtx(), rs, null);
+				rule.setParent(this);
+				list.add (rule);
+			}
  		}
 		catch (Exception e)
 		{
