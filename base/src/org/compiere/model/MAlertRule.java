@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.DB;
+
 
 /**
  *	Alert Rule Model
@@ -132,6 +134,38 @@ public class MAlertRule extends X_AD_AlertRule
 			setErrorMsg(null);
 		return true;
 	}	//	beforeSave
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if (!success)
+			return false;
+		return updateParent();
+	}
+	
+	@Override
+	protected boolean afterDelete(boolean success) {
+		if (!success)
+			return false;
+		return updateParent();
+	}
+
+	/**
+	 * Update parent flags
+	 * @return true if success
+	 */
+	private boolean updateParent() {
+		final String sql_count = "SELECT COUNT(*) FROM "+Table_Name+" r"
+							+" WHERE r."+COLUMNNAME_AD_Alert_ID+"=a."+MAlert.COLUMNNAME_AD_Alert_ID
+								+" AND r."+COLUMNNAME_IsValid+"='N'"
+								+" AND r.IsActive='Y'"
+		;
+		final String sql = "UPDATE "+MAlert.Table_Name+" a SET "
+			+" "+MAlert.COLUMNNAME_IsValid+"=(CASE WHEN ("+sql_count+") > 0 THEN 'N' ELSE 'Y' END)"
+			+" WHERE a."+MAlert.COLUMNNAME_AD_Alert_ID+"=?"
+		;
+		int no = DB.executeUpdate(sql, getAD_Alert_ID(), get_TrxName());
+		return no == 1;
+	}
 
 	/**
 	 * 	String Representation
