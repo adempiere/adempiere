@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -94,8 +95,8 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 		super(ctx, rs, trxName);
 	}	//	MAlertProcessor
 
-	/**	The Alerts						*/
-	private MAlert[]		m_alerts = null;
+	/** Cache: AD_AlertProcessor -> Alerts array */
+	private static CCache<Integer, MAlert[]> s_cacheAlerts = new CCache<Integer, MAlert[]>("AD_Alert_ForProcessor", 10);
 
 	/**
 	 * 	Get Server ID
@@ -176,8 +177,9 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 	 */
 	public MAlert[] getAlerts (boolean reload)
 	{
-		if (m_alerts != null && !reload)
-			return m_alerts;
+		MAlert[] alerts = s_cacheAlerts.get(get_ID());
+		if (alerts != null && !reload)
+			return alerts;
 		String sql = "SELECT * FROM AD_Alert "
 			+ "WHERE AD_AlertProcessor_ID=?";
 		ArrayList<MAlert> list = new ArrayList<MAlert>();
@@ -201,9 +203,10 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 			rs = null; pstmt = null;
 		}
 		//
-		m_alerts = new MAlert[list.size ()];
-		list.toArray (m_alerts);
-		return m_alerts;
+		alerts = new MAlert[list.size ()];
+		list.toArray (alerts);
+		s_cacheAlerts.put(get_ID(), alerts);
+		return alerts;
 	}	//	getAlerts
 
 }	//	MAlertProcessor
