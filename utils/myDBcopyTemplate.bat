@@ -14,7 +14,7 @@
 
 @set DATETIME=%date:~6,4%%date:~3,2%%date:~0,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%
 @Echo Creating ExpDat_%DATETIME%.jar
-ren ExpDat.jar ExpDat%DATETIME%.jar
+ren ExpDat.jar "ExpDat%DATETIME%.jar"
 @dir ExpDat%DATETIME%.jar
 
 @Echo copy %ADEMPIERE_HOME%\data\ExpDat%DATETIME%.jar to backup media
