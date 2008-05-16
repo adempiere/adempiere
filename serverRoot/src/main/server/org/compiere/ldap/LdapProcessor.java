@@ -126,7 +126,7 @@ public class LdapProcessor extends AdempiereServer
 	public static void main(String[] args)
 	{
 		Adempiere.startup(true);
-		new LdapProcessor(new MLdapProcessor(new Properties(), 0, null)).doWork();
+		new LdapProcessor(new MLdapProcessor(new Properties(), 100, null)).doWork();
 	}	//	main
 	
 }	//	LdapProcessor
