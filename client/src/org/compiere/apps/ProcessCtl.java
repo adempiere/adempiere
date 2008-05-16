@@ -400,7 +400,7 @@ public class ProcessCtl implements Runnable
 			}
 
 			//  No Optional SQL procedure ... done
-			if (!IsReport  && ProcedureName.length() == 0)
+			if (!IsReport && ProcedureName.length() == 0)
 			{
 				unlock ();
 				return;
@@ -417,7 +417,7 @@ public class ProcessCtl implements Runnable
 		 *	Report submission
 		 */
 		//	Optional Pre-Report Process
-		if (ProcedureName.length() > 0)
+		if (IsReport && ProcedureName.length() > 0)
 		{
 			m_pi.setReportingProcess(true);
 			if (!startDBProcess(ProcedureName))
