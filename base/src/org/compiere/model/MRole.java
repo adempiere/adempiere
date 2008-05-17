@@ -1,5 +1,4 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -1878,16 +1877,28 @@ public final class MRole extends X_AD_Role
 				(asp.getTableInfo(asp.getMainSqlIndex()) );
 			if (columnName == null)
 				continue;	//	no key column
-			int posColumn = mainSql.indexOf(columnName);
-			if (posColumn == -1)
-				continue;
-			//	we found the column name - make sure it's a clumn name
-			char charCheck = mainSql.charAt(posColumn-1);	//	before
-			if (!(charCheck == ',' || charCheck == '.' || charCheck == ' ' || charCheck == '('))
-				continue;
-			charCheck = mainSql.charAt(posColumn+columnName.length());	//	after
-			if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
-				continue;
+			
+			if (mainSql.toUpperCase().startsWith("SELECT COUNT(*) FROM ")) {
+				// globalqss - Carlos Ruiz - [ 1965744 ] Dependent entities access problem
+				// this is the count select, it doesn't have the column but needs to be filtered
+				 MTable table = MTable.get(getCtx(), tableName);
+				 if (table == null)
+					 continue;
+				 MColumn column = table.getColumn(columnName);
+				 if (column == null || column.isVirtualColumn() || !column.isActive())
+					 continue;
+			} else {
+				int posColumn = mainSql.indexOf(columnName);
+				if (posColumn == -1)
+					continue;
+				//	we found the column name - make sure it's a column name
+				char charCheck = mainSql.charAt(posColumn-1);	//	before
+				if (!(charCheck == ',' || charCheck == '.' || charCheck == ' ' || charCheck == '('))
+					continue;
+				charCheck = mainSql.charAt(posColumn+columnName.length());	//	after
+				if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
+					continue;
+			}
 			
 			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID())
 				retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
@@ -1970,6 +1981,8 @@ public final class MRole extends X_AD_Role
 	{
 		String retValue = columnName;	//	if nothing else found
 		int index = mainSql.indexOf(columnName);
+		if (index == -1)
+			return retValue;
 		//	see if there are table synonym
 		int offset = index - 1;
 		char c = mainSql.charAt(offset);
