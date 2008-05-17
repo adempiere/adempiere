@@ -16,8 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import junit.framework.*;
-import org.compiere.*;
+import junit.framework.TestCase;
 
 /**
  *	AccessSqlParserTest tests the class
@@ -58,7 +57,7 @@ public class AccessSqlParserTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		Adempiere.startup(true);
+//		Adempiere.startup(true);
 	}
 
 	/**
@@ -210,10 +209,13 @@ public class AccessSqlParserTest extends TestCase
 	}
 	
 	/**
-	 * teo_sarca - [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
+	 * <li>teo_sarca - [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
+	 * <li>teo_sarca - [ 1964496 ] AccessSqlParser is not parsing well JOIN CLAUSE
 	 */
 	public void testTableNameParsing()
 	{
+		//
+		// BF [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
 		String sql = 
 			"SELECT SUM(il.QtyInvoiced)\n"
 			+ "FROM RV_C_Invoice\n"
@@ -221,7 +223,15 @@ public class AccessSqlParserTest extends TestCase
 			+ "INNER JOIN RV_C_InvoiceLine il ON (C_Invoice.C_Invoice_ID=il.C_Invoice_ID) WHERE\n"
 			+ "C_Invoice.IsSOTrx='Y' AND C_Invoice.Processed='Y' AND C_Invoice.IsPaid='Y'";
 		AccessSqlParser fixture = new AccessSqlParser(sql);
-		assertEquals("AccessSqlParser[RV_C_Invoice=C_Invoice|0]", fixture.toString());
+		assertEquals("AccessSqlParser[RV_C_Invoice=C_Invoice,RV_C_InvoiceLine=il|0]", fixture.toString());
+		//
+		// BF [ 1964496 ] AccessSqlParser is not parsing well JOIN CLAUSE
+		sql = 
+			"SELECT C_Invoice.*  FROM C_Invoice\n"
+			+"INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=C_Invoice.C_BPartner_ID) WHERE 1=0";
+		;
+		fixture = new AccessSqlParser(sql);
+		assertEquals("AccessSqlParser[C_Invoice,C_BPartner=bp|0]", fixture.toString());
 	}
 
 }

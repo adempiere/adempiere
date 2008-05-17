@@ -16,21 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
 
 /**
  *	Parse FROM in SQL WHERE clause
- * <p>
- * Change log:
- * <ul>
- * <li>2007-02-10 - teo_sarca - [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
- * </ul>
  *	
  *  @author Jorg Janke
  *  @version $Id: AccessSqlParser.java,v 1.3 2006/07/30 00:58:36 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
+ * 			<li>BF [ 1964496 ] AccessSqlParser is not parsing well JOIN CLAUSE
  */
 public class AccessSqlParser
 {
@@ -226,12 +227,12 @@ public class AccessSqlParser
 			int index = from.lastIndexOf(WHERE);	//	end at where
 			if (index != -1)
 				from = from.substring(0, index);
-			from = Util.replace(from, " AS ", " ");
-			from = Util.replace(from, " as ", " ");
-			from = Util.replace(from, " INNER JOIN ", ", ");
-			from = Util.replace(from, " LEFT OUTER JOIN ", ", ");
-			from = Util.replace(from, " RIGHT OUTER JOIN ", ", ");
-			from = Util.replace(from, " FULL JOIN ", ", ");
+			from = from.replaceAll("[\r\n\t ]+AS[\r\n\t ]+", " ");
+			from = from.replaceAll("[\r\n\t ]+as[\r\n\t ]+", " ");
+			from = from.replaceAll("[\r\n\t ]+INNER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
+			from = from.replaceAll("[\r\n\t ]+LEFT[\r\n\t ]+OUTER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
+			from = from.replaceAll("[\r\n\t ]+RIGHT[\r\n\t ]+OUTER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
+			from = from.replaceAll("[\r\n\t ]+FULL[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			//	Remove ON clause - assumes that there is no IN () in the clause
 			index = from.indexOf(ON);
 			while (index != -1)
