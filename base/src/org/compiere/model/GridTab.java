@@ -2695,9 +2695,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public String toString()
 	{
-		String retValue = "MTab #" + m_vo.TabNo;
+		String retValue = "MTab #";
 		if (m_vo != null)
-			retValue += " " + m_vo.Name + " (" + m_vo.AD_Tab_ID + ")";
+			retValue += m_vo.TabNo + " " + m_vo.Name + " (" + m_vo.AD_Tab_ID + ")";
+		else
+			retValue += "???";
 		return retValue;
 	}   //  toString
 
