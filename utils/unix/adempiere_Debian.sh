@@ -101,11 +101,11 @@ stop () {
 	then
 	    log_warning_msg "Service hasn't stopped within the timeout allowed, please review file $LASTLOG to see the status of the service"
 	else
-	    log_success_msg "Service started"
+	    log_success_msg "Service stopped"
 	fi
 	echo
     else
-	log_failure_msg "Service not started"
+	log_failure_msg "Service not stopped"
 	echo
     fi
     return $RETVAL
