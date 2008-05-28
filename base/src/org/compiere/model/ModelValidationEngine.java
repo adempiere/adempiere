@@ -379,7 +379,7 @@ public class ModelValidationEngine
 			}
 			catch (Exception e)
 			{
-				String error = e.getMessage();
+				String error = e.getLocalizedMessage();
 				if (error == null)
 					error = e.toString();
 				return error;
@@ -527,7 +527,7 @@ public class ModelValidationEngine
 			{
 				// Exeptions are errors and should stop the document processing - teo_sarca [ 1679692 ]
 				// log.log(Level.SEVERE, validator.toString(), e);
-				String error = e.getMessage();
+				String error = e.getLocalizedMessage();
 				if (error == null)
 					error = e.toString();
 				return error;
@@ -638,7 +638,7 @@ public class ModelValidationEngine
 			{
 				// Exeptions are errors and should stop the document processing - teo_sarca [ 1679692 ]
 				// log.log(Level.SEVERE, validator.toString(), e);
-				String error = e.getMessage();
+				String error = e.getLocalizedMessage();
 				if (error == null)
 					error = e.toString();
 				return error;
