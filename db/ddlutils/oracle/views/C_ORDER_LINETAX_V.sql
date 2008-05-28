@@ -2,7 +2,7 @@ CREATE OR REPLACE VIEW C_ORDER_LINETAX_V
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, AD_LANGUAGE, C_ORDER_ID, C_ORDERLINE_ID, 
  C_TAX_ID, TAXINDICATOR, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, BPNAME, 
- C_LOCATION_ID, LINE, M_PRODUCT_ID, QTYORDERED, QTYENTERED, 
+ C_LOCATION_ID, LINE, M_PRODUCT_ID,VendorProductNo, QTYORDERED, QTYENTERED, 
  UOMSYMBOL, NAME, DESCRIPTION, DOCUMENTNOTE, UPC, 
  SKU, PRODUCTVALUE, RESOURCEDESCRIPTION, PRICELIST, PRICEENTEREDLIST, 
  DISCOUNT, PRICEACTUAL, PRICEENTERED, LINENETAMT, PRODUCTDESCRIPTION, 
@@ -13,7 +13,7 @@ SELECT ol.AD_Client_ID, ol.AD_Org_ID, ol.IsActive, ol.Created, ol.CreatedBy, ol.
 	'en_US' AS AD_Language,
 	ol.C_Order_ID, ol.C_OrderLine_ID, ol.C_Tax_ID, t.TaxIndicator,
     ol.C_BPartner_ID, ol.C_BPartner_Location_ID, bp.Name AS BPName, bpl.C_Location_ID,
-	ol.Line, p.M_Product_ID,
+	ol.Line, p.M_Product_ID, po.VendorProductNo,
 	CASE WHEN ol.QtyOrdered<>0 OR ol.M_Product_ID IS NOT NULL THEN ol.QtyOrdered END AS QtyOrdered,
     CASE WHEN ol.QtyEntered<>0 OR ol.M_Product_ID IS NOT NULL THEN ol.QtyEntered END AS QtyEntered,
     CASE WHEN ol.QtyEntered<>0 OR ol.M_Product_ID IS NOT NULL THEN uom.UOMSymbol END AS UOMSymbol,
@@ -37,6 +37,7 @@ FROM C_OrderLine ol
 	INNER JOIN C_UOM uom ON (ol.C_UOM_ID=uom.C_UOM_ID)
 	INNER JOIN C_Order i ON (ol.C_Order_ID=i.C_Order_ID)
 	LEFT OUTER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID)
+	LEFT OUTER JOIN M_Product_PO po ON (p.M_Product_ID=po.M_Product_ID)
 	LEFT OUTER JOIN S_ResourceAssignment ra ON (ol.S_ResourceAssignment_ID=ra.S_ResourceAssignment_ID)
 	LEFT OUTER JOIN C_Charge c ON (ol.C_Charge_ID=c.C_Charge_ID)
     LEFT OUTER JOIN C_BPartner_Product pp ON (ol.M_Product_ID=pp.M_Product_ID AND i.C_BPartner_ID=pp.C_BPartner_ID)
@@ -48,18 +49,30 @@ SELECT ol.AD_Client_ID, ol.AD_Org_ID, ol.IsActive, ol.Created, ol.CreatedBy, ol.
 	'en_US' AS AD_Language,
 	ol.C_Order_ID, ol.C_OrderLine_ID, ol.C_Tax_ID, null,
     null, null, null, null,
-	ol.Line+(b.Line/100) AS Line, p.M_Product_ID,
-	ol.QtyOrdered*b.BOMQty AS QtyInvoiced, ol.QtyEntered*b.BOMQty AS QtyEntered, uom.UOMSymbol,
+	ol.Line+(bl.Line/100) AS Line, p.M_Product_ID,po.VendorProductNo,
+    --ol.QtyOrdered*bl.BOMQty AS QtyInvoiced
+	CASE WHEN bl.IsQtyPercentage = 'N' THEN ol.QtyOrdered*bl.QtyBOM ELSE ol.QtyOrdered*(bl.QtyBatch / 100) END AS QtyInvoiced, 	
+	--ol.QtyEntered*bl.BOMQty AS QtyEntered, 
+	CASE WHEN bl.IsQtyPercentage = 'N' THEN ol.QtyEntered*bl.QtyBOM ELSE ol.QtyEntered*(bl.QtyBatch / 100) END AS QtyEntered, 	
+	uom.UOMSymbol,
 	p.Name,	-- main
-	b.Description,
+	bl.Description,
 	p.DocumentNote, p.UPC, p.SKU, p.Value AS ProductValue,
 	null, null, null, null, null, null, null, p.Description as ProductDescription, p.ImageURL,
     ol.C_Campaign_ID, ol.C_Project_ID, ol.C_Activity_ID, ol.C_ProjectPhase_ID, ol.C_ProjectTask_ID
-FROM M_Product_BOM b	-- BOM lines
+/*FROM M_Product_BOM b	-- BOM lines
 	INNER JOIN C_OrderLine ol ON (b.M_Product_ID=ol.M_Product_ID)
 	INNER JOIN M_Product bp ON (bp.M_Product_ID=ol.M_Product_ID -- BOM Product
 		AND bp.IsBOM='Y' AND bp.IsVerified='Y' AND bp.IsInvoicePrintDetails='Y')
 	INNER JOIN M_Product p ON (b.M_ProductBOM_ID=p.M_Product_ID) -- BOM line product
+	INNER JOIN C_UOM uom ON (p.C_UOM_ID=uom.C_UOM_ID)*/
+FROM PP_Product_BOM b 	
+	INNER JOIN  C_OrderLine ol ON (b.M_Product_ID=ol.M_Product_ID)
+	INNER JOIN  M_Product bp ON (bp.M_Product_ID=ol.M_Product_ID -- BOM Product
+		AND bp.IsBOM='Y' AND bp.IsVerified='Y' AND bp.IsInvoicePrintDetails='Y')
+	INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID)
+	INNER JOIN M_Product p ON (p.M_Product_ID=bl.M_Product_ID) -- BOM line product
+	LEFT OUTER JOIN M_Product_PO po ON (p.M_Product_ID=po.M_Product_ID)
 	INNER JOIN C_UOM uom ON (p.C_UOM_ID=uom.C_UOM_ID)
 UNION
 SELECT AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
@@ -67,7 +80,7 @@ SELECT AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy
 	null,
 	null, null, null,
     null, null, null, null,
-	null, null,
+	null, null,null,
 	null, null, null, null, null, null,
 	null, null, null, null, null, null, null, null,
     null,null,null,null,null
@@ -76,7 +89,7 @@ UNION
 SELECT ot.AD_Client_ID, ot.AD_Org_ID, ot.IsActive, ot.Created, ot.CreatedBy, ot.Updated, ot.UpdatedBy,
 	'en_US', ot.C_Order_ID, null, ot.C_Tax_ID, t.TaxIndicator,
     null, null, null, null,
-	null, null,
+	null, null,null,
 	null, null, null,
 	t.Name,
 	null, null, null, null, null, null,
@@ -88,6 +101,3 @@ SELECT ot.AD_Client_ID, ot.AD_Org_ID, ot.IsActive, ot.Created, ot.CreatedBy, ot.
     null,null,null,null,null
 FROM C_OrderTax ot
 	INNER JOIN C_Tax t ON (ot.C_Tax_ID=t.C_Tax_ID);
-
-
-
