@@ -56,6 +56,18 @@ Please contact administrator.',Updated=TO_DATE('2008-05-27 22:13:38','YYYY-MM-DD
 UPDATE AD_Message_Trl SET IsTranslated='N' WHERE AD_Message_ID=53025
 ;
 
+UPDATE AD_PROCESS_PARA
+   SET name = 'Purchase Price List Version', iscentrallymaintained='Y'
+ WHERE ad_process_para_id = 53025;
+
+UPDATE AD_PROCESS_PARA
+   SET name = 'Generate Fields', iscentrallymaintained='Y'
+ WHERE ad_process_para_id = 53127;
+
+UPDATE AD_PROCESS_PARA
+   SET name = 'Scripts Path', iscentrallymaintained='Y'
+ WHERE ad_process_para_id = 53131;
+
 UPDATE AD_PROCESS SET procedurename = null, classname = 'org.compiere.process.M_PriceList_Create'
 where ad_process_id = 103;
 
