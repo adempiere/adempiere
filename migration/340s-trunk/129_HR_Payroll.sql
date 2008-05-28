@@ -15206,7 +15206,7 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 
 -- Mar 23, 2008 9:04:30 PM CST
 -- Human Resource & Payroll
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,55031,2211,0,20,53102,'IsRegistered',TO_DATE('2008-03-23 21:04:29','YYYY-MM-DD HH24:MI:SS'),100,'The application is registered.','TV01',1,'Y','N','N','N','N','N','N','N','Y','N','Y','Registered',TO_DATE('2008-03-23 21:04:29','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,55031,2211,0,20,53102,'IsRegistered',TO_DATE('2008-03-23 21:04:29','YYYY-MM-DD HH24:MI:SS'),100,'The application is registered.','EE02',1,'Y','N','N','N','N','N','N','N','Y','N','Y','Registered',TO_DATE('2008-03-23 21:04:29','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Mar 23, 2008 9:04:30 PM CST
@@ -15887,7 +15887,7 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTran
 
 -- Mar 23, 2008 9:05:30 PM CST
 -- Human Resource & Payroll
-INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,55031,55186,0,53124,TO_DATE('2008-03-23 21:05:29','YYYY-MM-DD HH24:MI:SS'),100,'The application is registered.',1,'TV01','Y','Y','Y','N','N','N','N','Registered',220,0,TO_DATE('2008-03-23 21:05:29','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,SeqNo,SortNo,Updated,UpdatedBy) VALUES (0,55031,55186,0,53124,TO_DATE('2008-03-23 21:05:29','YYYY-MM-DD HH24:MI:SS'),100,'The application is registered.',1,'EE02','Y','Y','Y','N','N','N','N','Registered',220,0,TO_DATE('2008-03-23 21:05:29','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Mar 23, 2008 9:05:30 PM CST
