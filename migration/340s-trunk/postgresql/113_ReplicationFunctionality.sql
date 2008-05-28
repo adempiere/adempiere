@@ -2493,7 +2493,7 @@ ALTER TABLE EXP_FormatLine ADD COLUMN IsMandatory CHAR(1) CHECK (IsMandatory IN 
 
 -- Mar 5, 2008 12:52:48 AM CST
 -- Replication Data Functionality
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53241,TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'List with Export Line types','CUST','Y','EXP_Line_Type',TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'L')
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53241,TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'List with Export Line types','EE05','Y','EXP_Line_Type',TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'L')
 ;
 
 -- Mar 5, 2008 12:52:48 AM CST
@@ -2503,7 +2503,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- Mar 5, 2008 12:52:49 AM CST
 -- Replication Data Functionality
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53333,53241,TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'CUST','Y','XML Element',TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'E')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53333,53241,TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'EE05','Y','XML Element',TO_TIMESTAMP('2008-03-05 00:52:48','YYYY-MM-DD HH24:MI:SS'),0,'E')
 ;
 
 -- Mar 5, 2008 12:52:49 AM CST
@@ -2513,7 +2513,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Mar 5, 2008 12:52:50 AM CST
 -- Replication Data Functionality
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53334,53241,TO_TIMESTAMP('2008-03-05 00:52:49','YYYY-MM-DD HH24:MI:SS'),0,'CUST','Y','XML Attribute',TO_TIMESTAMP('2008-03-05 00:52:49','YYYY-MM-DD HH24:MI:SS'),0,'A')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53334,53241,TO_TIMESTAMP('2008-03-05 00:52:49','YYYY-MM-DD HH24:MI:SS'),0,'EE05','Y','XML Attribute',TO_TIMESTAMP('2008-03-05 00:52:49','YYYY-MM-DD HH24:MI:SS'),0,'A')
 ;
 
 -- Mar 5, 2008 12:52:50 AM CST
@@ -2523,7 +2523,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Mar 5, 2008 12:52:50 AM CST
 -- Replication Data Functionality
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53335,53241,TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'CUST','Y','Embedded EXP Format',TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'M')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53335,53241,TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'EE05','Y','Embedded EXP Format',TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'M')
 ;
 
 -- Mar 5, 2008 12:52:50 AM CST
@@ -2533,7 +2533,7 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- Mar 5, 2008 12:52:51 AM CST
 -- Replication Data Functionality
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53336,53241,TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'CUST','Y','Referenced EXP Format',TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'R')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53336,53241,TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'EE05','Y','Referenced EXP Format',TO_TIMESTAMP('2008-03-05 00:52:50','YYYY-MM-DD HH24:MI:SS'),0,'R')
 ;
 
 -- Mar 5, 2008 12:52:51 AM CST
@@ -2573,7 +2573,7 @@ ALTER TABLE EXP_FormatLine ADD COLUMN AD_Column_ID NUMERIC(10) NOT NULL
 
 -- Mar 5, 2008 12:52:53 AM CST
 -- Replication Data Functionality
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53242,TO_TIMESTAMP('2008-03-05 00:52:52','YYYY-MM-DD HH24:MI:SS'),0,'Embedded Export Format','CUST','Y','EXP_Format',TO_TIMESTAMP('2008-03-05 00:52:52','YYYY-MM-DD HH24:MI:SS'),0,'T')
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53242,TO_TIMESTAMP('2008-03-05 00:52:52','YYYY-MM-DD HH24:MI:SS'),0,'Embedded Export Format','EE05','Y','EXP_Format',TO_TIMESTAMP('2008-03-05 00:52:52','YYYY-MM-DD HH24:MI:SS'),0,'T')
 ;
 
 -- Mar 5, 2008 12:52:53 AM CST
@@ -2583,7 +2583,7 @@ INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name
 
 -- Mar 5, 2008 12:52:53 AM CST
 -- Replication Data Functionality
-Insert INTO AD_Ref_Table(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, AD_Reference_ID, AD_Table_ID, AD_Display, AD_Key ,entityType, isValueDisplayed, OrderByClause, WhereClause )VALUES(0, 0, 0, 0, 53242, 53072, 54495, 54487, 'CUST', 'N', '', '')
+Insert INTO AD_Ref_Table(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, AD_Reference_ID, AD_Table_ID, AD_Display, AD_Key ,entityType, isValueDisplayed, OrderByClause, WhereClause )VALUES(0, 0, 0, 0, 53242, 53072, 54495, 54487, 'EE05', 'N', '', '')
 ;
 
 -- Mar 5, 2008 12:52:53 AM CST
