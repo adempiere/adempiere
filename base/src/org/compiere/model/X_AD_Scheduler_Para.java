@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Scheduler_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Persistent 
 {
 

@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_AD_Registration extends PO implements I_AD_Registration, I_Persistent 
 {
 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_SLA_Criteria
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_PA_SLA_Criteria extends PO implements I_PA_SLA_Criteria, I_Persistent 
 {
 

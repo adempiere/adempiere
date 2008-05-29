@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfirm, I_Persistent 
 {
 

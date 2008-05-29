@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_UOM_Conversion
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Persistent 
 {
 

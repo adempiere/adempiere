@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccountDoc
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Persistent 
 {
 

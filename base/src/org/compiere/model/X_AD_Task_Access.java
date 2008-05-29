@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Task_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_AD_Task_Access extends PO implements I_AD_Task_Access, I_Persistent 
 {
 

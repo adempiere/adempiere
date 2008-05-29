@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Table_ScriptValidator
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.4.0s
+ *  @version Release 3.5.1a
  */
 public interface I_AD_Table_ScriptValidator 
 {

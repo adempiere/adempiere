@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persistent 
 {
 

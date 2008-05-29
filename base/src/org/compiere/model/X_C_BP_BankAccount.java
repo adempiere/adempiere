@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Persistent 
 {
 
@@ -253,6 +253,14 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	{
 		return (String)get_Value(COLUMNNAME_A_Name);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getA_Name());
+    }
 
 	/** Set Account State.
 		@param A_State 
@@ -508,14 +516,6 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
-    }
 
 	/** Set Exp. Month.
 		@param CreditCardExpMM 

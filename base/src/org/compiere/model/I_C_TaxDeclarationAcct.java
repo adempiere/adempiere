@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDeclarationAcct
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.4.0s
+ *  @version Release 3.5.1a
  */
 public interface I_C_TaxDeclarationAcct 
 {
@@ -244,6 +244,8 @@ public interface I_C_TaxDeclarationAcct
 
 	/** Get Accounting Fact	  */
 	public int getFact_Acct_ID();
+
+	public I_Fact_Acct getFact_Acct() throws Exception;
 
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";

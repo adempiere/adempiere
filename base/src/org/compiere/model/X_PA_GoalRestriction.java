@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_Persistent 
 {
 

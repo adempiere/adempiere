@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxPostal
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.4.0s
+ *  @version Release 3.5.1a
  */
 public interface I_C_TaxPostal 
 {

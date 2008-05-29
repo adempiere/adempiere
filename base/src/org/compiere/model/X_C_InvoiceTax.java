@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_InvoiceTax
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent 
 {
 

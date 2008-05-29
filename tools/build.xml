@@ -1,0 +1,447 @@
+<!-- ============================================= -->
+<!-- Tools                                         -->
+<!-- ============================================= -->
+<!-- $Header: /cvs/adempiere/tools/build.xml,v 1.4 2006/07/03 23:23:31 jjanke Exp $ -->
+
+<project name="tools" default="toolsDistribution" basedir=".">
+
+  <description>
+	The resulting CCTools.jar and CSTools.jar 
+	repackage all third party libraries
+	in a single jar for simplified start and version control.
+	The resuling Server CSTools.jar is added to EARs
+  </description>
+
+  <!-- set global properties for this build -->
+  <property name="src" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="jboss.dir" value="../jboss"/>
+  <property name="dist.dir" value="../lib"/>
+  <!--<property environment="env"/>-->
+  <import file="../utils_dev/properties.xml"/>
+
+  <!-- set path to include the necessary jar files for javac -->
+  <path id="project.class.path">
+    <pathelement path="${classpath}"/>
+    <pathelement path="lib/jstl.jar"/>
+    <pathelement path="lib/jsp-api.jar"/>
+    <pathelement path="lib/servlet-api.jar"/>
+    <pathelement path="lib/standard.jar"/>
+  </path>
+
+  <patternset id="manifest.exclude">
+    <exclude name="META-INF/*.DSA"/>
+    <exclude name="META-INF/*.RSA"/>
+    <exclude name="META-INF/*.SF"/>
+    <exclude name="META-INF/MANIFEST.MF"/>
+    <exclude name="META-INF/INDEX.LIST"/>
+  </patternset>
+
+  <!-- ============================================= -->
+  <!-- Init                                          -->
+  <!-- ============================================= -->
+  <target name="toolsInit"
+	description="initialization target">
+    <echo message="=========== Build Tools  ${env.ADEMPIERE_VERSION}"/>
+    <!-- create the time stamp -->
+    <tstamp/>
+    <!-- create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}"/>
+    <!-- check for the distribution directory -->
+    <mkdir dir="${dist.dir}"/>
+
+    <uptodate property="jars.uptodate" targetfile="${dist.dir}/CCTools.jar">
+      <srcfiles dir="${src}" includes="**/*.java"/>
+    </uptodate>
+  </target>
+
+
+  <!-- ============================================= -->
+  <!-- Compile ECS                                   -->
+  <!-- ============================================= -->
+  <target name="toolsCompile" depends="toolsInit" unless="jars.uptodate">
+    <!-- compile the java code from ${src} into ${build.dir}S -->
+    <javac srcdir="${src}" 
+    	destdir="${build.dir}" deprecation="on" debug="on">
+      <classpath refid="project.class.path"/>
+    </javac>
+    <!-- copy all image & sound files from src to the build directory -->
+    <copy todir="${build.dir}">
+      <fileset dir="${src}">
+		<include name="**/images/*"/>
+		<include name="**/*.gif"/>
+		<include name="**/*.jpg"/>
+		<include name="**/*.wav"/>
+		<include name="**/*.htm"/>
+		<include name="**/*.html"/>
+		<include name="**/*.properties"/>
+		<exclude name="**/package.html"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <!-- ============================================= -->
+  <!-- Buld Apps Server Client Jars                  -->
+  <!-- ============================================= -->
+  <target name="toolsAppsServer" depends="toolsCompile" 
+  	unless="jars.uptodate"
+	description="Create JBoss Client jar">
+
+    <!-- Create jboss.jar file 	-->
+    <jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
+      <zipfileset src="${jboss.dir}/client/jboss-client.jar">
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="${jboss.dir}/client/jboss-common-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jboss-j2ee.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jbosssx-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jnp-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jmx-invoker-adaptor-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="${jboss.dir}/client/jboss-transaction-client.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <manifest>
+		<attribute name="Specification-Title" value="Adempiere JBoss Client"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere, Inc."/>
+		<attribute name="Implementation-Title" value="jboss ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.com"/>
+      </manifest>
+    </jar>
+  	
+  </target>
+
+  <!-- ============================================= -->
+  <!-- Buld Database Jars                            -->
+  <!-- ============================================= -->
+  <target name="toolsDatabase" depends="toolsCompile" 
+	  	unless="jars.uptodate"
+		description="Create db jars">
+
+    <!-- Create oracle.jar file 	-->
+    <jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
+      <zipfileset src="lib/ojdbc14.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/ocrs12.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+
+      <manifest>
+		<attribute name="Specification-Title" value="Oracle JDBC"/>
+		<attribute name="Specification-Version" value="10g"/>
+		<attribute name="Specification-Vendor" value="Oracle"/>
+		<attribute name="Implementation-Title" value="oracle ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+      </manifest>
+    </jar>
+
+    <!-- Create postgresql.jar file 	-->
+    <jar jarfile="${dist.dir}/postgresql.jar">
+      <zipfileset src="lib/postgresql.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+
+      <manifest>
+		<attribute name="Specification-Title" value="PostgreSQL JDBC"/>
+		<attribute name="Specification-Version" value="postgresql"/>
+		<attribute name="Specification-Vendor" value="postgresql"/>
+		<attribute name="Implementation-Title" value="postgresql ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+      </manifest>
+    </jar>
+
+  </target>
+	
+
+  <!-- ============================================= -->
+  <!-- Buld Server Jar                               -->
+  <!-- ============================================= -->
+  <target name="toolsServer" depends="toolsCompile" 
+  	unless="jars.uptodate"
+	description="Create CSTools.jar">
+
+    <!-- Create CSTools jar		-->
+    <jar jarfile="${dist.dir}/CSTools.jar" duplicate="preserve">
+
+      <!-- services entries -->
+      <fileset dir=".">
+        <include name="META-INF/services/**"/>
+	  </fileset>
+    	
+      <!-- JSTL				-->
+      <zipfileset src="lib/jstl.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <zipfileset src="lib/standard.jar">
+		<patternset refid="manifest.exclude"/>
+	</zipfileset>
+      <!-- ECS -->
+      <fileset dir="${build.dir}">
+	   <include name="**/apache/ecs/**"/>
+      </fileset>
+      <!-- Installing Script Based in JSR 223 Scripting APIs -->
+      <zipfileset src="lib/script-api.jar" >
+  	  	<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- BeanShell -->		
+      <zipfileset src="lib/bsh-2.0b5.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset> 	
+      <zipfileset src="lib/bsh-engine.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- Groovy -->
+      <zipfileset src="lib/groovy-all-1.5.1.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset> 	
+      <zipfileset src="lib/groovy-engine.jar" >
+    	<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- Groovy -->
+      <zipfileset src="lib/jython.jar" >
+   		<patternset refid="manifest.exclude"/>
+      </zipfileset> 	
+      <zipfileset src="lib/jython-engine.jar" >
+      	<patternset refid="manifest.exclude"/>
+      </zipfileset>   		
+      <!-- Payment Processors		-->
+      <zipfileset src="lib/Verisign.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/jpayment.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Log4J, jnlp			-->
+      <zipfileset src="lib/log4j.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/jnlp.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Barcode, ftp			-->
+      <zipfileset src="lib/barbecue-1.1.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/commons-net-1.4.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Adempiere look and feel -->
+      <zipfileset src="lib/looks-2.0.4.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- PDF -->
+      <zipfileset src="lib/jpedal.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/itext-1.4.8.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- JMS -->
+      <zipfileset src="lib/activemq-core-5.0.0.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- C3P0 connection pool -->
+      <zipfileset src="lib/c3p0-0.9.1.2.jar" >
+			<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- POI -->
+      <zipfileset src="lib/poi-2.0-final-20040126.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <manifest>
+		<attribute name="Specification-Title" value="Adempiere Server Tools"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere, Inc."/>
+		<attribute name="Implementation-Title" value="CSTools ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+      </manifest>
+    </jar>
+
+  </target>
+
+  <!-- ============================================= -->
+  <!-- Buld Client Jar                               -->
+  <!-- ============================================= -->
+  <target name="toolsClient" depends="toolsCompile" 
+  	unless="jars.uptodate"
+	description="Create CCTools.jar">
+  	
+    <!-- Create CCTools.jar file 	-->
+    <jar jarfile="${dist.dir}/CCTools.jar" duplicate="preserve">
+      
+      <!-- services entries -->
+      <fileset dir=".">
+    	<include name="META-INF/services/**"/>
+      </fileset>
+    	
+      <!-- ECS -->
+      <fileset dir="${build.dir}">
+	   <include name="**/apache/ecs/**"/>
+      </fileset>
+      <!-- Tree CellEditor -->   
+      <fileset dir="${build.dir}">   
+       <include name="it/**"/>   
+      </fileset>      
+      <!-- Mail				-->
+      <zipfileset src="lib/activation.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/mail.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Installing Script Based in JSR 223 Scripting APIs -->
+      <zipfileset src="lib/script-api.jar" >
+  	  <patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- BeanShell -->		
+      <zipfileset src="lib/bsh-2.0b5.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset> 	
+      <zipfileset src="lib/bsh-engine.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset>
+      <!-- Groovy -->
+      <zipfileset src="lib/groovy-all-1.5.1.jar" >
+  		<patternset refid="manifest.exclude"/>
+  	  </zipfileset> 	
+      <zipfileset src="lib/groovy-engine.jar" >
+    	<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- Groovy -->
+      <zipfileset src="lib/jython.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset> 	
+      <zipfileset src="lib/jython-engine.jar" >
+      	<patternset refid="manifest.exclude"/>
+      </zipfileset>   		
+    	
+      <!-- Payment Processors		-->
+      <zipfileset src="lib/Verisign.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/jpayment.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Log4J, jnlp			-->
+      <zipfileset src="lib/log4j.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/jnlp.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Barcode, ftp			-->
+      <zipfileset src="lib/barbecue-1.1.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/commons-net-1.4.0.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- JFreeChart			-->
+      <zipfileset src="lib/jfreechart-1.0.2.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/jcommon-1.0.5.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Graph				-->
+      <zipfileset src="lib/jgraph.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- Adempeire Look and Feal				-->
+      <zipfileset src="lib/looks-2.0.4.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- jars for 2pack                         -->
+      <zipfileset src="lib/ant.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/xercesImpl.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <!-- PDF -->
+      <zipfileset src="lib/jpedal.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/itext-1.4.8.jar" >
+		<patternset refid="manifest.exclude"/>
+	  </zipfileset>
+      <zipfileset src="lib/swingx-0.9.0.jar" >
+    	<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- JMS -->
+      <zipfileset src="lib/activemq-core-5.0.0.jar" >
+         <patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- C3P0 connection pool -->
+      <zipfileset src="lib/c3p0-0.9.1.2.jar" >
+			<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <!-- POI -->
+      <zipfileset src="lib/poi-2.0-final-20040126.jar" >
+    		<patternset refid="manifest.exclude"/>
+      </zipfileset>
+      <manifest>
+		<attribute name="Specification-Title" value="Adempiere Client Tools"/>
+		<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Specification-Vendor" value="Adempiere, Inc."/>
+		<attribute name="Implementation-Title" value="CCTools ${env.ADEMPIERE_VERSION}"/>
+		<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
+		<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}"/>
+		<attribute name="Implementation-URL" value="http://www.adempiere.org"/>
+      </manifest>
+    </jar>
+
+  </target>
+	
+	
+  <!-- ============================================= -->
+  <!-- Buld Jars                                     -->
+  <!-- ============================================= -->
+  <target name="toolsDistribution" 
+  	depends="toolsServer, toolsClient, toolsAppsServer, toolsDatabase" 
+  	unless="jars.uptodate"
+	description="Create jars">
+
+  </target>
+
+
+  <!-- ============================================= -->
+  <!-- Clean up                                      -->
+  <!-- ============================================= -->
+  <target name="clean">
+    <!-- Delete the ${build.dir} directory trees -->
+    <delete dir="${build.dir}"/>
+    <delete file="${dist.dir}/CCTools.jar" failonerror="false"/>
+    <delete file="${dist.dir}/CSTools.jar" failonerror="false"/>
+    <delete file="${dist.dir}/jboss.jar" failonerror="false"/>
+    <delete file="${dist.dir}/oracle.jar" failonerror="false"/>
+    <delete file="${dist.dir}/postgresql.jar" failonerror="false"/>
+  </target>
+
+</project>

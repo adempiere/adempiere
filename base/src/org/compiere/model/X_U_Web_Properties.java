@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_Web_Properties
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Persistent 
 {
 

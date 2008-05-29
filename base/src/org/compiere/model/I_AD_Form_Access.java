@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Form_Access
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.4.0s
+ *  @version Release 3.5.1a
  */
 public interface I_AD_Form_Access 
 {

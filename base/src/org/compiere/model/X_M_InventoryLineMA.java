@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InventoryLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_M_InventoryLineMA extends PO implements I_M_InventoryLineMA, I_Persistent 
 {
 

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_Persistent 
 {
 

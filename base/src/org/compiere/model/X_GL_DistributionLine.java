@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, I_Persistent 
 {
 

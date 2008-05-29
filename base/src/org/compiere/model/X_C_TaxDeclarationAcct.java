@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct, I_Persistent 
 {
 
@@ -415,6 +415,22 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public I_Fact_Acct getFact_Acct() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_Fact_Acct.Table_Name);
+        I_Fact_Acct result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_Fact_Acct)constructor.newInstance(new Object[] {getCtx(), new Integer(getFact_Acct_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
 	/** Set Accounting Fact.
 		@param Fact_Acct_ID Accounting Fact	  */

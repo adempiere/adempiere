@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent 
 {
 

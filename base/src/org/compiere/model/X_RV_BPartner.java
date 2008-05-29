@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent 
 {
 

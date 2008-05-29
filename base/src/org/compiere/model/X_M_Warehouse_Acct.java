@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_Warehouse_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_M_Warehouse_Acct extends PO implements I_M_Warehouse_Acct, I_Persistent 
 {
 

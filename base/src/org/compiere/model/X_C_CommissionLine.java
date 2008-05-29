@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Persistent 
 {
 
@@ -504,6 +504,44 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Set Payment Rule.
+		@param PaymentRule 
+		How you pay the invoice
+	  */
+	public void setPaymentRule (String PaymentRule)
+	{
+
+		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
+		if (PaymentRule != null && PaymentRule.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			PaymentRule = PaymentRule.substring(0, 1);
+		}
+		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+	}
+
+	/** Get Payment Rule.
+		@return How you pay the invoice
+	  */
+	public String getPaymentRule () 
+	{
+		return (String)get_Value(COLUMNNAME_PaymentRule);
 	}
 
 	/** Set Multiplier Quantity.

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for A_RegistrationProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProduct, I_Persistent 
 {
 

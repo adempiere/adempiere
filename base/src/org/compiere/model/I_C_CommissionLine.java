@@ -37,7 +37,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionLine
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.4.0s
+ *  @version Release 3.5.1a
  */
 public interface I_C_CommissionLine 
 {
@@ -249,6 +249,19 @@ public interface I_C_CommissionLine
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+    /** Column name PaymentRule */
+    public static final String COLUMNNAME_PaymentRule = "PaymentRule";
+
+	/** Set Payment Rule.
+	  * How you pay the invoice
+	  */
+	public void setPaymentRule (String PaymentRule);
+
+	/** Get Payment Rule.
+	  * How you pay the invoice
+	  */
+	public String getPaymentRule();
 
     /** Column name QtyMultiplier */
     public static final String COLUMNNAME_QtyMultiplier = "QtyMultiplier";

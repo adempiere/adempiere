@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_BroadcastServer
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_Persistent 
 {
 

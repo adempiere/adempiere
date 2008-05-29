@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceUnAvailable
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailable, I_Persistent 
 {
 

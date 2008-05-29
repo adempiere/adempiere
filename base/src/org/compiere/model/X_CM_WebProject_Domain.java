@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject_Domain
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain, I_Persistent 
 {
 

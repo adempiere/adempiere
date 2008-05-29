@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 

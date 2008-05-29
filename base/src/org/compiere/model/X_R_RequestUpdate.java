@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
 {
 

@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_OrderTax
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent 
 {
 

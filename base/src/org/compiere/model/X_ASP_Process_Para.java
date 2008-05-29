@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_Process_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Persistent 
 {
 

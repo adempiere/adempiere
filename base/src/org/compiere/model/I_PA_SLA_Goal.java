@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_SLA_Goal
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.4.0s
+ *  @version Release 3.5.1a
  */
 public interface I_PA_SLA_Goal 
 {

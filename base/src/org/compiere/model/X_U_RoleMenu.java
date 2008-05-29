@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for U_RoleMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent 
 {
 

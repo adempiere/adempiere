@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_AccessListRole
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Persistent 
 {
 

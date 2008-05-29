@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LabelPrinterFunction
  *  @author Adempiere (generated) 
- *  @version Release 3.4.0s - $Id$ */
+ *  @version Release 3.5.1a - $Id$ */
 public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFunction, I_Persistent 
 {
 
