@@ -1,0 +1,2 @@
+-- placeholder
+-- migration script just for oracle

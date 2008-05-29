@@ -22,6 +22,10 @@ SQLActions[ ] = {
  	AS 'org.compiere.sqlj.Adempiere.nextID(int,java.lang.String)'
 	LANGUAGE java VOLATILE;
 	
+	CREATE OR REPLACE FUNCTION nextIDfunc(AD_Sequence_ID INTEGER, System VARCHAR)
+ 	RETURNS INTEGER
+ 	AS 'org.compiere.sqlj.Adempiere.nextIDfunc(int,java.lang.String)'
+	LANGUAGE java VOLATILE;
 		
 	/** Product	**/
 	CREATE OR REPLACE FUNCTION productAttribute (M_AttributeSetInstance_ID NUMERIC)

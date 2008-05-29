@@ -516,6 +516,18 @@ public class Adempiere implements Serializable
 		return retValue;
 	}	//	nextID
 	
+	/**
+	 * 	Next ID Function  
+	 *	@param AD_Sequence_ID sequence
+	 *	@param System system
+	 *	@return ID or -1
+	 *	@throws SQLException
+	 */
+	public static int nextIDfunc (int AD_Sequence_ID, String System)
+		throws SQLException
+	{
+		return nextID(AD_Sequence_ID, System);
+	}	//	nextIDfunc
 	
 	/**
 	 * 	get current Date (Timestamp)
