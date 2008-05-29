@@ -5069,7 +5069,7 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=835
 
 -- Mar 23, 2008 8:50:33 PM CST
 -- Human Resource & Payroll
-UPDATE AD_Column SET AD_Element_ID=835, AD_Process_ID=NULL, AD_Reference_ID=30, AD_Reference_Value_ID=NULL, AD_Table_ID=298, AD_Val_Rule_ID=NULL, Callout=NULL, ColumnName='C_Bank_ID', ColumnSQL=NULL, DefaultValue=NULL, Description='Bank', EntityType='D', FieldLength=22, Help='The Bank is a unique identifier of a Bank for this Organization or for a Business Partner with whom this Organization transacts.', InfoFactoryClass=NULL, IsActive='Y', IsAlwaysUpdateable='N', IsIdentifier='Y', IsKey='N', IsMandatory='N', IsParent='N', IsSelectionColumn='N', IsSyncDatabase='Y', IsTranslated='N', IsUpdateable='Y', Name='Bank', ReadOnlyLogic=NULL, SeqNo=1, VFormat=NULL, Version=1,Updated=TO_TIMESTAMP('2008-03-23 20:50:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=3103
+UPDATE AD_Column SET AD_Element_ID=835, AD_Process_ID=NULL, AD_Reference_ID=30, AD_Reference_Value_ID=NULL, AD_Table_ID=298, AD_Val_Rule_ID=NULL, Callout=NULL, ColumnName='C_Bank_ID', ColumnSQL=NULL, DefaultValue=NULL, Description='Bank', EntityType='D', FieldLength=22, Help='The Bank is a unique identifier of a Bank for this Organization or for a Business Partner with whom this Organization transacts.', InfoFactoryClass=NULL, IsActive='Y', IsAlwaysUpdateable='N', IsIdentifier='Y', IsKey='N', IsMandatory='N', IsParent='N', IsSelectionColumn='N', IsSyncDatabase='Y', IsTranslated='N', IsUpdateable='Y', Name='Bank', ReadOnlyLogic=NULL, SeqNo=3, VFormat=NULL, Version=1,Updated=TO_TIMESTAMP('2008-03-23 20:50:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=3103
 ;
 
 -- Mar 23, 2008 8:50:33 PM CST
