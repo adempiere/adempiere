@@ -3,16 +3,6 @@
  */
 package org.compiere.interfaces;
 
-import java.lang.*;
-import java.net.URL;
-import java.rmi.RemoteException;
-import javax.ejb.CreateException;
-import javax.ejb.EJBException;
-import javax.ejb.SessionBean;
-import javax.ejb.SessionContext;
-import org.compiere.util.CLogger;
-import org.compiere.utils.DigestOfFile;
-
 /**
  * Remote interface for compiere/MD5.
  * @xdoclet-generated at Feb 27, 2006 1:18:49 PM

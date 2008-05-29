@@ -854,6 +854,35 @@ public class MPrintFormat extends X_AD_PrintFormat
 		s_formats.put(key, null);
 	}	//	deleteFromCache
 	
+    //begin vpj-cd e-evolution
+	/**
+	 *  Get ID of Print Format use Name
+	 *	@param String formatName
+	 *	@return int retValue
+	 */
+	public static int getPrintFormat_ID(String formatName, int AD_Table_ID, int AD_Client_ID) {
+		int retValue = 0;
+		String SQL = "SELECT AD_PrintFormat_ID FROM AD_PrintFormat WHERE Name = ? AND AD_Table_ID = ? AND AD_Client_ID = ?";
+		try
+		{
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setString(1, formatName);
+			pstmt.setInt(2, AD_Table_ID);
+			pstmt.setInt(3, AD_Client_ID);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			retValue = -1;
+		}
+		return retValue;
+	}
+	//end vpj-cd e-evolution
+	
 	/**
 	 * @param AD_Table_ID
 	 * @param AD_Client_ID use -1 to retrieve from all client 

@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="base/src"/>
 	<classpathentry kind="src" path="client/src"/>
 	<classpathentry kind="src" path="sqlj/src"/>
-	<classpathentry kind="src" path="print/src"/>
 	<classpathentry kind="src" path="looks/src"/>
 	<classpathentry kind="src" path="install/src"/>
 	<classpathentry kind="src" path="extend/src"/>
@@ -48,6 +47,7 @@
 	<classpathentry kind="lib" path="posterita/src/web/WEB-INF/lib/barcode4j.jar"/>
 	<classpathentry kind="lib" path="tools/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/activemq-core-5.0.0.jar"/>
 	<classpathentry kind="src" path="tools/src"/>
 	<classpathentry kind="lib" path="tools/lib/looks-2.0.4.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
