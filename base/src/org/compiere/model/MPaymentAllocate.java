@@ -16,12 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.math.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
 
-import org.compiere.util.*;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * 	Payment Allocate Model
@@ -38,42 +39,12 @@ public class MPaymentAllocate extends X_C_PaymentAllocate
 	 */
 	public static MPaymentAllocate[] get (MPayment parent)
 	{
-		ArrayList<MPaymentAllocate> list = new ArrayList<MPaymentAllocate>();
-		String sql = "SELECT * FROM C_PaymentAllocate WHERE C_Payment_ID=? AND IsActive='Y'";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, parent.getC_Payment_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MPaymentAllocate (parent.getCtx(), rs, parent.get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		MPaymentAllocate[] retValue = new MPaymentAllocate[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		final String whereClause = "C_Payment_ID=? AND IsActive=?";
+		Query query = MTable.get(parent.getCtx(), Table_ID).createQuery(whereClause, parent.get_TrxName());
+		query.setParameters(new Object[]{parent.getC_Payment_ID(), "Y"});
+		List<MPaymentAllocate> list = query.list();
+		return list.toArray(new MPaymentAllocate[list.size()]);
 	}	//	get
-
-	/**	Logger	*/
-	private static CLogger s_log = CLogger.getCLogger (MPaymentAllocate.class);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
