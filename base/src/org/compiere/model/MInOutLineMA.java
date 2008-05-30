@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.DB;
 
 /**
  *	Shipment Material Allocation
@@ -39,47 +40,20 @@ public class MInOutLineMA extends X_M_InOutLineMA
 	 */
 	public static MInOutLineMA[] get (Properties ctx, int M_InOutLine_ID, String trxName)
 	{
-		ArrayList<MInOutLineMA> list = new ArrayList<MInOutLineMA>();
-		String sql = "SELECT * FROM M_InOutLineMA WHERE M_InOutLine_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_InOutLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MInOutLineMA (ctx, rs, trxName));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+		Query query = MTable.get(ctx, MInOutLineMA.Table_Name)
+							.createQuery(MInOutLineMA.COLUMNNAME_M_InOutLine_ID+"=?", trxName);
+		query.setParameters(new Object[]{M_InOutLine_ID});
+		List<MInOutLineMA> list = query.list();
 		MInOutLineMA[] retValue = new MInOutLineMA[list.size ()];
 		list.toArray (retValue);
 		return retValue;
 	}	//	get
 	
 	/**
-	 * 	Delete all Material Allocation for InOut
-	 *	@param M_InOut_ID shipment
-	 *	@param trxName transaction
-	 *	@return number of rows deleted or -1 for error
+	 * Delete all Material Allocation for InOut
+	 * @param M_InOut_ID shipment
+	 * @param trxName transaction
+	 * @return number of rows deleted or -1 for error
 	 */
 	public static int deleteInOutMA (int M_InOut_ID, String trxName)
 	{
@@ -102,8 +76,8 @@ public class MInOutLineMA extends X_M_InOutLineMA
 	}	//	deleteInOutLineMA
 		
 	
-	/**	Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MInOutLineMA.class);
+//	/**	Logger	*/
+//	private static CLogger	s_log	= CLogger.getCLogger (MInOutLineMA.class);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
