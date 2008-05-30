@@ -554,10 +554,6 @@ public class MInOut extends X_M_InOut implements DocAction
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MInOutLine(getCtx(), rs, get_TrxName()));
-			rs.close();
-			rs = null;
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
@@ -567,19 +563,9 @@ public class MInOut extends X_M_InOut implements DocAction
 		}
 		finally
 		{
-			try 
-			{
-				if (rs != null) 
-					rs.close();
-				if (pstmt != null) 
-					pstmt.close();
-			} 
-			catch (SQLException e) 
-			{
-			}
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		pstmt = null;
-		rs = null;
 		//
 		if (list == null)
 			return null;
@@ -1343,7 +1329,7 @@ public class MInOut extends X_M_InOut implements DocAction
 					mtrx.setM_InOutLine_ID(sLine.getM_InOutLine_ID());
 					if (!mtrx.save())
 					{
-						m_processMsg = "Could not create Material Transaction";
+						m_processMsg = CLogger.retrieveErrorString("Could not create Material Transaction");
 						return DocAction.STATUS_Invalid;
 					}
 				}
@@ -1448,7 +1434,7 @@ public class MInOut extends X_M_InOut implements DocAction
 						}
 						if (!inv.save(get_TrxName()))
 						{
-							m_processMsg = "Could not create Inv Matching";
+							m_processMsg = CLogger.retrieveErrorString("Could not create Inv Matching");
 							return DocAction.STATUS_Invalid;
 						}
 					}
