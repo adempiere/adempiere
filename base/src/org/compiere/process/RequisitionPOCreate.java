@@ -388,7 +388,7 @@ public class RequisitionPOCreate extends SvrProcess
 		m_M_Product_ID = rLine.getM_Product_ID();
 		m_M_AttributeSetInstance_ID = rLine.getM_AttributeSetInstance_ID();
 		if (!m_orderLine.save())
-			throw new AdempiereSystemError("Cannot save Order Line");
+			throw new AdempiereSystemError(CLogger.retrieveErrorString("Cannot save Order Line"));
 	}	//	newLine
 	
 }	//	RequisitionPOCreate
