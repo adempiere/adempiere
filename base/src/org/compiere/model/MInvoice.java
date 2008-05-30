@@ -1088,11 +1088,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			+ "WHERE al.C_Invoice_ID=?"
 			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_Invoice_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = rs.getBigDecimal(1);
 			rs.close();
@@ -1103,15 +1104,10 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	//	log.fine("getAllocatedAmt - " + retValue);
 		//	? ROUND(NVL(v_AllocatedAmt,0), 2);
@@ -1778,7 +1774,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				MMatchInv inv = new MMatchInv(line, getDateInvoiced(), matchQty);
 				if (!inv.save(get_TrxName()))
 				{
-					m_processMsg = "Could not create Invoice Matching";
+					m_processMsg = CLogger.retrieveErrorString("Could not create Invoice Matching");
 					return DocAction.STATUS_Invalid;
 				}
 				else
