@@ -181,10 +181,14 @@ public class Product
 		if (price == null || price.signum() == 0)
 		{
 			price = Adempiere.ZERO;
-			sql = "SELECT b.M_ProductBOM_ID, b.BOMQty, p.IsBOM "
+			/*sql = "SELECT b.M_ProductBOM_ID, b.BOMQty, p.IsBOM "
 				+ "FROM M_Product_BOM b, M_Product p "
 				+ "WHERE b.M_ProductBOM_ID=p.M_Product_ID"
-				+ " AND b.M_Product_ID=?";
+				+ " AND b.M_Product_ID=?";*/
+			sql = "SELECT bl.M_Product_ID , CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM ELSE bl.QtyBatch / 100 END AS Qty , p.IsBOM FROM PP_Product_BOM b "
+				+ "INNER JOIN M_Product p ON (p.M_Product_ID=b.M_Product_ID) "
+				+ "INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID) "
+				+ "WHERE b.M_Product_ID = ?";
 			pstmt = Adempiere.prepareStatement(sql);
 			pstmt.setInt(1, p_M_Product_ID);
 			rs = pstmt.executeQuery();
@@ -332,10 +336,16 @@ public class Product
 		//	Go through BOM
 		BigDecimal quantity = UNLIMITED;
 		BigDecimal productQuantity = null;
-		sql = "SELECT b.M_ProductBOM_ID, b.BOMQty, p.IsBOM, p.IsStocked, p.ProductType "
+		/*sql = "SELECT b.M_ProductBOM_ID, b.BOMQty, p.IsBOM, p.IsStocked, p.ProductType "
 			+ "FROM M_Product_BOM b, M_Product p "
 			+ "WHERE b.M_ProductBOM_ID=p.M_Product_ID"
-			+ " AND b.M_Product_ID=?";
+			+ " AND b.M_Product_ID=?";*/
+		
+		sql = "SELECT bl.M_Product_ID , CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM ELSE bl.QtyBatch / 100 END AS Qty , p.IsBOM , p.IsStocked, p.ProductType FROM PP_Product_BOM b "
+			+ "INNER JOIN M_Product p ON (p.M_Product_ID=b.M_Product_ID) "
+			+ "INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID) "
+			+ "WHERE b.M_Product_ID = ?";
+		
 		pstmt = Adempiere.prepareStatement(sql);
 		pstmt.setInt(1, p_M_Product_ID);
 		rs = pstmt.executeQuery();
@@ -469,4 +479,200 @@ public class Product
 		}
 	}	//	main	/* */
 
+	
+	public static BigDecimal bomQtyAvailableASI (int p_M_Product_ID, int p_M_AttributeSetInstance_ID, 
+			int p_M_Warehouse_ID, int p_M_Locator_ID) 
+			throws SQLException
+		{
+			return bomQtyOnHandASI(p_M_Product_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID)
+			.subtract(bomQtyReservedASI(p_M_Product_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID));
+		}	//	bomQtyAvailable
+	
+	public static BigDecimal bomQtyOnHandASI (int p_M_Product_ID, int p_M_AttributeSetInstance_ID, 
+			int p_M_Warehouse_ID, int p_M_Locator_ID) 
+			throws SQLException
+		{
+			return bomQtyASI(p_M_Product_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID, "QtyOnHand");
+		}	//	bomQtyOnHand
+	
+	public static BigDecimal bomQtyOrderedASI (int p_M_Product_ID, int p_M_AttributeSetInstance_ID,
+			int p_M_Warehouse_ID, int p_M_Locator_ID) 
+			throws SQLException
+		{
+			return bomQtyASI(p_M_Product_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID, "QtyOrdered");
+		}	//	bomQtyOrdered
+		
+	public static BigDecimal bomQtyReservedASI (int p_M_Product_ID, int p_M_AttributeSetInstance_ID, 
+			int p_M_Warehouse_ID, int p_M_Locator_ID) 
+			throws SQLException
+    {
+		return bomQtyASI(p_M_Product_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID, "QtyReserved");
+	}	//	bomQtyReserved
+	
+	/**
+	 * 	Get BOM Quantity
+	 *	@param p_M_Product_ID product
+	 *	@param p_M_Warehouse_ID warehouse
+	 *	@param p_M_Locator_ID locator
+	 *	@param p_what variable name
+	 *	@return Quantity
+	 */
+	static BigDecimal bomQtyASI (int p_M_Product_ID, int p_M_AttributeSetInstance_ID, 
+		int p_M_Warehouse_ID, int p_M_Locator_ID, String p_what) 
+		throws SQLException
+	{
+		//	Check Parameters
+		/*
+		int M_Warehouse_ID = p_M_Warehouse_ID;
+		if (M_Warehouse_ID == 0)
+		{
+			if (p_M_Locator_ID == 0)
+				return Compiere.ZERO;
+			else
+			{
+				String sql = "SELECT M_Warehouse_ID "
+					+ "FROM M_Locator "
+					+ "WHERE M_Locator_ID=" + p_M_Locator_ID;
+				M_Warehouse_ID = Compiere.getSQLValue(sql, p_M_Locator_ID);
+			}
+		}
+		if (M_Warehouse_ID == 0)
+			return Compiere.ZERO;
+		*/
+		//	Check, if product exists and if it is stocked
+		boolean isBOM = false;
+		String ProductType = null;
+		boolean isStocked = false;
+		String sql = "SELECT IsBOM, ProductType, IsStocked "
+			+ "FROM M_Product "
+			+ "WHERE M_Product_ID=?";
+		PreparedStatement pstmt = Adempiere.prepareStatement(sql);
+		pstmt.setInt(1, p_M_Product_ID);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+		{
+			isBOM = "Y".equals(rs.getString(1));
+			ProductType = rs.getString(2);
+			isStocked = "Y".equals(rs.getString(3));
+		}
+		rs.close();
+		pstmt.close();
+		//	No Product
+		if (ProductType == null)
+			return Compiere.ZERO;
+		//	Unlimited capacity if no item
+		if (!isBOM && (!ProductType.equals("I") || !isStocked))
+			return UNLIMITED;
+		//	Get Qty
+		if (isStocked) {
+			
+			return getStorageQtyASI(p_M_Product_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID, p_what);
+		}
+		//	Go through BOM
+		BigDecimal quantity = UNLIMITED;
+		BigDecimal productQuantity = null;
+		/*sql = "SELECT b.M_ProductBOM_ID, b.BOMQty, p.IsBOM, p.IsStocked, p.ProductType "
+			+ "FROM M_Product_BOM b, M_Product p "
+			+ "WHERE b.M_ProductBOM_ID=p.M_Product_ID"
+			+ " AND b.M_Product_ID=?";*/
+		sql = "SELECT bl.M_Product_ID , CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM ELSE bl.QtyBatch / 100 END AS Qty , p.IsBOM , p.IsStocked, p.ProductType FROM PP_Product_BOM b "
+			+ "INNER JOIN M_Product p ON (p.M_Product_ID=b.M_Product_ID) "
+			+ "INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID) "
+			+ "WHERE b.M_Product_ID = ?";
+		pstmt = Adempiere.prepareStatement(sql);
+		pstmt.setInt(1, p_M_Product_ID);
+		rs = pstmt.executeQuery();
+		while (rs.next())
+		{
+			int M_ProductBOM_ID = rs.getInt(1);
+			BigDecimal bomQty = rs.getBigDecimal(2);
+			isBOM = "Y".equals(rs.getString(3));
+			isStocked = "Y".equals(rs.getString(4)); 
+			ProductType = rs.getString(5);
+			
+			//	Stocked Items "leaf node"
+			if (ProductType.equals("I") && isStocked)
+			{
+				//	Get ProductQty
+				productQuantity = getStorageQtyASI(M_ProductBOM_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID, p_what);
+				//	Get Rounding Precision
+				int StdPrecision = getUOMPrecision(M_ProductBOM_ID);
+				//	How much can we make with this product
+				productQuantity = productQuantity.setScale(StdPrecision)
+					.divide(bomQty, BigDecimal.ROUND_HALF_UP);
+				//	How much can we make overall
+				if (productQuantity.compareTo(quantity) < 0)
+					quantity = productQuantity;
+			}
+			else if (isBOM)	//	Another BOM
+			{
+				productQuantity = bomQtyASI (M_ProductBOM_ID, p_M_AttributeSetInstance_ID, p_M_Warehouse_ID, p_M_Locator_ID, p_what);
+				//	How much can we make overall
+				if (productQuantity.compareTo(quantity) < 0)
+					quantity = productQuantity;
+			}
+		}
+		rs.close();
+		pstmt.close();
+		
+		if (quantity.signum() > 0)
+		{
+			int StdPrecision = getUOMPrecision(p_M_Product_ID);
+			return quantity.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
+		}
+		return Adempiere.ZERO;
+	}	//	bomQtyOnHand
+	
+	/**
+	 * 	Get Storage Qty
+	 *	@param p_M_Product_ID product
+	 *	@param M_Warehouse_ID warehouse
+	 *	@param p_M_Locator_ID locator
+	 *	@param p_what variable name
+	 *	@return quantity or zero
+	 *	@throws SQLException
+	 */
+	static BigDecimal getStorageQtyASI (int p_M_Product_ID, int p_M_AttributeSetInstance_ID,
+			int M_Warehouse_ID, int p_M_Locator_ID, String p_what)
+			throws SQLException
+		{
+			BigDecimal quantity = null;
+
+			String sql = "SELECT SUM(" + p_what + ") "
+						+ "FROM M_Storage s "
+						+ "WHERE M_Product_ID=?";
+			if(p_M_AttributeSetInstance_ID != 0) {
+				sql +=" AND s.M_AttributeSetInstance_ID = ?";
+			}
+			if (p_M_Locator_ID != 0) {
+				sql += " AND s.M_Locator_ID=?";
+			}
+			else if(M_Warehouse_ID != 0) {
+				sql += " AND EXISTS (SELECT * FROM M_Locator l WHERE s.M_Locator_ID=l.M_Locator_ID"
+					+ " AND l.M_Warehouse_ID=?)";
+			}
+			
+			int index=1;
+			PreparedStatement pstmt = Adempiere.prepareStatement(sql);
+			pstmt.setInt(index++, p_M_Product_ID);
+			if(p_M_AttributeSetInstance_ID != 0) {
+				pstmt.setInt(index++, p_M_AttributeSetInstance_ID);
+			}
+			if (p_M_Locator_ID != 0) {
+				pstmt.setInt(index++, p_M_Locator_ID);
+			}
+			else if(M_Warehouse_ID != 0) {
+				pstmt.setInt(index++, M_Warehouse_ID);
+			}
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				quantity = rs.getBigDecimal(1);
+			rs.close();
+			pstmt.close();
+			//	Not found
+			if (quantity == null)
+				return Adempiere.ZERO;
+			return quantity;
+		}	//	getStorageQty	
+	
 }	//	Product
