@@ -1,6 +1,7 @@
-CREATE OR REPLACE FUNCTION Bomqtyordered
+CREATE OR REPLACE FUNCTION BomqtyorderedASI
 (
 	p_Product_ID 		IN NUMBER,
+	AttributeSetInstance_ID  IN NUMBER,
     p_Warehouse_ID		IN NUMBER,
 	p_Locator_ID		IN NUMBER	--	Only used, if warehouse is null
 )
@@ -73,7 +74,8 @@ BEGIN
 		FROM 	M_STORAGE s
 		WHERE 	M_Product_ID=p_Product_ID
 		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
-		  	AND l.M_Warehouse_ID=v_Warehouse_ID);
+		  	AND l.M_Warehouse_ID=v_Warehouse_ID)
+		  AND (s.M_AttributeSetInstance_ID = AttributeSetInstance_ID OR NVL(AttributeSetInstance_ID,0) = 0);
 		--
 		RETURN v_ProductQty;
 	END IF;
@@ -89,7 +91,8 @@ BEGIN
 			FROM 	M_STORAGE s
 			WHERE 	M_Product_ID=bom.M_ProductBOM_ID
 			  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
-			  	AND l.M_Warehouse_ID=v_Warehouse_ID);
+			  	AND l.M_Warehouse_ID=v_Warehouse_ID)
+		      AND (s.M_AttributeSetInstance_ID = AttributeSetInstance_ID OR NVL(AttributeSetInstance_ID,0) = 0);
 			--	Get Rounding Precision
 			SELECT 	NVL(MAX(u.StdPrecision), 0)
 			  INTO	v_StdPrecision
@@ -103,7 +106,7 @@ BEGIN
 			END IF;
 		--	Another BOM
 		ELSIF (bom.IsBOM = 'Y') THEN
-			v_ProductQty := Bomqtyordered (bom.M_ProductBOM_ID, v_Warehouse_ID, p_Locator_ID);
+			v_ProductQty := BomqtyorderedASI (bom.M_ProductBOM_ID, AttributeSetInstance_ID, v_Warehouse_ID, p_Locator_ID);
 			--	How much can we make overall
 			IF (v_ProductQty < v_Quantity) THEN
 				v_Quantity := v_ProductQty;
@@ -127,5 +130,5 @@ BEGIN
 	END IF;
 	--
 	RETURN 0;
-END Bomqtyordered;
+END BomqtyorderedASI;
 /

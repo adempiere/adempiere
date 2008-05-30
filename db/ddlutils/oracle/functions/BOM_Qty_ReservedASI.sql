@@ -1,6 +1,7 @@
-CREATE OR REPLACE FUNCTION Bomqtyordered
+CREATE OR REPLACE FUNCTION BomqtyreservedASI
 (
 	p_Product_ID 		IN NUMBER,
+	AttributeSetInstance_ID  IN NUMBER,
     p_Warehouse_ID		IN NUMBER,
 	p_Locator_ID		IN NUMBER	--	Only used, if warehouse is null
 )
@@ -11,7 +12,7 @@ RETURN NUMBER
  * When you use any parts (changed or unchanged), add  "Powered by Compiere" to
  * your product name;  See license details http://www.compiere.org/license.html
  ******************************************************************************
- *	Return quantity ordered for BOM
+ *	Return quantity reserved for BOM
  */
 AS
 	v_Warehouse_ID		NUMBER;
@@ -54,8 +55,8 @@ BEGIN
 	BEGIN
 		SELECT	IsBOM, ProductType, IsStocked
 		  INTO	v_IsBOM, v_ProductType, v_IsStocked
-		FROM 	M_PRODUCT
-		WHERE 	M_Product_ID=p_Product_ID;
+		FROM M_PRODUCT
+		WHERE M_Product_ID=p_Product_ID;
 		--
 	EXCEPTION	--	not found
 		WHEN OTHERS THEN
@@ -68,12 +69,13 @@ BEGIN
 	--	Stocked item
 	ELSIF (v_IsStocked='Y') THEN
 		--	Get ProductQty
-		SELECT 	NVL(SUM(QtyOrdered), 0)
+		SELECT 	NVL(SUM(QtyReserved), 0)
 		  INTO	v_ProductQty
 		FROM 	M_STORAGE s
-		WHERE 	M_Product_ID=p_Product_ID
+		WHERE M_Product_ID=p_Product_ID
 		  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
-		  	AND l.M_Warehouse_ID=v_Warehouse_ID);
+		  	AND l.M_Warehouse_ID=v_Warehouse_ID)
+		  AND (s.M_AttributeSetInstance_ID = AttributeSetInstance_ID OR NVL(AttributeSetInstance_ID,0) = 0);
 		--
 		RETURN v_ProductQty;
 	END IF;
@@ -84,12 +86,13 @@ BEGIN
 		--	Stocked Items "leaf node"
 		IF (bom.ProductType = 'I' AND bom.IsStocked = 'Y') THEN
 			--	Get ProductQty
-			SELECT 	NVL(SUM(QtyOrdered), 0)
+			SELECT 	NVL(SUM(QtyReserved), 0)
 			  INTO	v_ProductQty
 			FROM 	M_STORAGE s
 			WHERE 	M_Product_ID=bom.M_ProductBOM_ID
 			  AND EXISTS (SELECT * FROM M_LOCATOR l WHERE s.M_Locator_ID=l.M_Locator_ID
-			  	AND l.M_Warehouse_ID=v_Warehouse_ID);
+			  	AND l.M_Warehouse_ID=v_Warehouse_ID)
+		  AND (s.M_AttributeSetInstance_ID = AttributeSetInstance_ID OR NVL(AttributeSetInstance_ID,0) = 0);
 			--	Get Rounding Precision
 			SELECT 	NVL(MAX(u.StdPrecision), 0)
 			  INTO	v_StdPrecision
@@ -103,7 +106,7 @@ BEGIN
 			END IF;
 		--	Another BOM
 		ELSIF (bom.IsBOM = 'Y') THEN
-			v_ProductQty := Bomqtyordered (bom.M_ProductBOM_ID, v_Warehouse_ID, p_Locator_ID);
+			v_ProductQty := BomqtyreservedASI (bom.M_ProductBOM_ID, AttributeSetInstance_ID, v_Warehouse_ID, p_Locator_ID);
 			--	How much can we make overall
 			IF (v_ProductQty < v_Quantity) THEN
 				v_Quantity := v_ProductQty;
@@ -125,7 +128,6 @@ BEGIN
 		--
 		RETURN ROUND (v_Quantity, v_StdPrecision);
 	END IF;
-	--
 	RETURN 0;
-END Bomqtyordered;
+END BomqtyreservedASI;
 /
