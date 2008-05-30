@@ -94,6 +94,31 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
       return sb.toString();
     }
 
+	/** AD_User_ID AD_Reference_ID=286 */
+	public static final int AD_USER_ID_AD_Reference_ID=286;
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Quantity Assay.
 		@param Assay 
 		Indicated the Quantity Assay to use into Quality Order
@@ -901,28 +926,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** UserID AD_Reference_ID=286 */
-	public static final int USERID_AD_Reference_ID=286;
-	/** Set User ID.
-		@param UserID 
-		User ID or account number
-	  */
-	public void setUserID (int UserID)
-	{
-		set_Value (COLUMNNAME_UserID, Integer.valueOf(UserID));
-	}
-
-	/** Get User ID.
-		@return User ID or account number
-	  */
-	public int getUserID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Valid from.

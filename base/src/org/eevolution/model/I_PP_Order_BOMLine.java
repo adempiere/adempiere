@@ -58,6 +58,19 @@ public interface I_PP_Order_BOMLine
 
     /** Load Meta Data */
 
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
 
@@ -457,19 +470,6 @@ public interface I_PP_Order_BOMLine
 	  * Indicate the Scrap Quantity that is generate in a manufacturing process
 	  */
 	public BigDecimal getScrap();
-
-    /** Column name UserID */
-    public static final String COLUMNNAME_UserID = "UserID";
-
-	/** Set User ID.
-	  * User ID or account number
-	  */
-	public void setUserID (int UserID);
-
-	/** Get User ID.
-	  * User ID or account number
-	  */
-	public int getUserID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

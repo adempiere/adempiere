@@ -103,6 +103,28 @@ public interface I_PP_MRP
 
 	public I_C_Order getC_Order() throws Exception;
 
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
+
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws Exception;
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception;
+
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
 

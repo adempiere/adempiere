@@ -197,6 +197,78 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_OrderLine.Table_Name);
+        org.eevolution.model.I_DD_OrderLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_DD_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_OrderLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Distribution Order Line.
+		@param DD_OrderLine_ID Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
+	{
+		if (DD_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
+	}
+
+	/** Get Distribution Order Line.
+		@return Distribution Order Line	  */
+	public int getDD_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
+        org.eevolution.model.I_DD_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_DD_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Distribution Order.
+		@param DD_Order_ID Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID)
+	{
+		if (DD_Order_ID < 1) 
+			set_Value (COLUMNNAME_DD_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+	}
+
+	/** Get Distribution Order.
+		@return Distribution Order	  */
+	public int getDD_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set DateConfirm.
 		@param DateConfirm DateConfirm	  */
 	public void setDateConfirm (Timestamp DateConfirm)
