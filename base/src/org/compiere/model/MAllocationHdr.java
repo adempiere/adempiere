@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -130,43 +131,18 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	 */
 	public static MAllocationHdr[] getOfCash (Properties ctx, int C_Cash_ID, String trxName)
 	{
-		String sql = "SELECT a.C_AllocationHdr_ID FROM C_Cash c "
-		+ " INNER JOIN C_Cashline cl ON (c.C_Cash_ID= cl.C_Cash_ID) "
-		+ " INNER JOIN C_AllocationLine al ON (al.C_Cashline_ID=cl.C_Cashline_ID) "
-		+ " INNER JOIN C_AllocationHdr a ON(al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
-		+ " WHERE c.C_Cash_ID=?	GROUP BY a.C_AllocationHdr_ID";
-	
-		ArrayList<MAllocationHdr> list = new ArrayList<MAllocationHdr>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, C_Cash_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add (new MAllocationHdr(ctx, rs.getInt(1), trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		String whereClause = "IsActive='Y'"
+			+ " AND EXISTS (SELECT 1 FROM C_CashLine cl, C_AllocationLine al "
+				+ "where cl.C_Cash_ID=? and al.C_CashLine_ID=cl.C_CashLine_ID "
+						+ "and C_AllocationHdr.C_AllocationHdr_ID=al.C_AllocationHdr_ID)";
+		Query query = MTable.get(ctx, MAllocationHdr.Table_ID)
+							.createQuery(whereClause, trxName);
+		query.setParameters(new Object[]{C_Cash_ID});
+		List<MAllocationHdr> list = query.list();
 		MAllocationHdr[] retValue = new MAllocationHdr[list.size()];
 		list.toArray(retValue);
 		return retValue;
-	}	//	getOfInvoice
+	}	//	getOfCash
 	
 	/**	Logger						*/
 	private static CLogger s_log = CLogger.getCLogger(MAllocationHdr.class);
