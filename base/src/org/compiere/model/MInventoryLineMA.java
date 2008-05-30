@@ -43,30 +43,23 @@ public class MInventoryLineMA extends X_M_InventoryLineMA
 		ArrayList<MInventoryLineMA> list = new ArrayList<MInventoryLineMA>();
 		String sql = "SELECT * FROM M_InventoryLineMA WHERE M_InventoryLine_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			pstmt.setInt (1, M_InventoryLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				list.add (new MInventoryLineMA (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		MInventoryLineMA[] retValue = new MInventoryLineMA[list.size ()];
