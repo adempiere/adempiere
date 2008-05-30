@@ -27,6 +27,9 @@ import org.compiere.model.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MWFNextCondition.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 		<li>BF [ 1943720 ] WF Next Condition: handling boolean values is poor
  */
 public class MWFNextCondition extends X_AD_WF_NextCondition
 {
@@ -97,6 +100,8 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 		boolean result = false;
 		if (valueObj instanceof Number)
 			result = compareNumber ((Number)valueObj, value1, value2);
+		else if (valueObj instanceof Boolean)
+			result = compareBoolean((Boolean)valueObj, value1, value2);
 		else
 			result = compareString(valueObj, value1, value2);
 		//
@@ -222,6 +227,28 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 		throw new IllegalArgumentException("Unknown Operation=" + op);
 	}	//	compareString
 	
+	/**
+	 * 	Compare Boolean
+	 *	@param valueObj comparator
+	 *	@param value1S first value
+	 *	@param value2S second value
+	 *	@return true if operation
+	 */
+	private boolean compareBoolean (Boolean valueObj, String value1S, String value2S)
+	{
+		m_numeric = false;
+		//
+		Boolean value1B = Boolean.valueOf(value1S) || "Y".equalsIgnoreCase(value1S);
+		//
+		String op = getOperation();
+		if (OPERATION_Eq.equals(op))
+			return valueObj.equals(value1B);
+		else if (OPERATION_NotEq.equals(op))
+			return !valueObj.equals(value1B);
+		else
+			throw new IllegalArgumentException("Not Supported =" + op);
+	}	//	compareBoolean
+
 	/**
 	 * 	String Representation
 	 *	@return info
