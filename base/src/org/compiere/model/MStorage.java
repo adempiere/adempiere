@@ -95,8 +95,10 @@ public class MStorage extends X_M_Storage
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		String sql = "SELECT * FROM M_Storage "
 			+ "WHERE M_Product_ID=? AND M_Locator_ID=?"
-			+ " AND M_AttributeSetInstance_ID > 0"
-			+ " AND QtyOnHand > 0 "
+		// Remove for management rightly FIFO/LIFO now you can consume a layer with ASI ID = zero and Qty onhand in negative  	
+		//	+ " AND M_AttributeSetInstance_ID > 0"
+		//	+ " AND QtyOnHand > 0 "
+			+ " AND QtyOnHand <> 0 "
 			+ "ORDER BY M_AttributeSetInstance_ID";
 		if (!FiFo)
 			sql += " DESC";

@@ -52,7 +52,11 @@ import org.compiere.util.*;
  *  When Payment is posed, the Allocation is made
  *  </pre>
  *  @author 	Jorg Janke
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962 
  *  @version 	$Id: MPayment.java,v 1.4 2006/10/02 05:18:39 jjanke Exp $
+ *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
  */
 public final class MPayment extends X_C_Payment 
 	implements DocAction, ProcessCall
@@ -2167,6 +2171,8 @@ public final class MPayment extends X_C_Payment
 		reversal.setPosted(false);
 		reversal.setDescription(getDescription());
 		reversal.addDescription("{->" + getDocumentNo() + ")");
+		//FR [ 1948157  ] 
+		reversal.setReversal_ID(getC_Payment_ID());
 		reversal.save(get_TrxName());
 		//	Post Reversal
 		if (!reversal.processIt(DocAction.ACTION_Complete))
@@ -2188,6 +2194,8 @@ public final class MPayment extends X_C_Payment
 		setDocStatus(DOCSTATUS_Reversed);
 		setDocAction(DOCACTION_None);
 		setProcessed(true);
+		//FR [ 1948157  ] 
+		setReversal_ID(reversal.getC_Payment_ID());
 		
 		//	Create automatic Allocation
 		MAllocationHdr alloc = new MAllocationHdr (getCtx(), false, 

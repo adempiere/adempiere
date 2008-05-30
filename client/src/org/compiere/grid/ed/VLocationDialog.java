@@ -26,7 +26,7 @@ import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 
-import org.adempiere.interfaces.*;
+import com.akunagroup.uk.postcode.*;
 import org.adempiere.model.*;
 
 /**
@@ -37,6 +37,8 @@ import org.adempiere.model.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1831060 ] Location dialog should use Address1, Address2 ... elements
+ * @author Michael Judd, Akuna Ltd (UK)
+ * 			<li>FR [ 1741222 ] - Webservice connector for address lookups
  */
 public class VLocationDialog extends CDialog 
 	implements ActionListener
@@ -121,7 +123,7 @@ public class VLocationDialog extends CDialog
 	private CLabel		lRegion     = new CLabel(Msg.getMsg(Env.getCtx(), "Region"));
 	private CLabel		lPostal     = new CLabel(Msg.getMsg(Env.getCtx(), "Postal"));
 	private CLabel		lPostalAdd  = new CLabel(Msg.getMsg(Env.getCtx(), "PostalAdd"));
-	private CLabel		lOnline		= new CLabel("");		// dummy to use addLine without error....
+	private CLabel		lOnline		= new CLabel("");
 	private CTextField	fAddress1 = new CTextField(20);		//	length=60
 	private CTextField	fAddress2 = new CTextField(20);		//	length=60
 	private CTextField	fAddress3 = new CTextField(20);		//	length=60
@@ -214,6 +216,7 @@ public class VLocationDialog extends CDialog
 		
 		
 		addLine(line++, lOnline, fOnline);
+		fOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 		
 		//  Country Last
 		addLine(line++, lCountry, fCountry);
@@ -228,7 +231,6 @@ public class VLocationDialog extends CDialog
 			fCity.setText(m_location.getCity());
 			fPostal.setText(m_location.getPostal());
 			fPostalAdd.setText(m_location.getPostal_Add());
-			fOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 			if (m_location.getCountry().isHasRegion())
 			{
 				lRegion.setText(m_location.getCountry().getRegionName());
@@ -395,10 +397,10 @@ public class VLocationDialog extends CDialog
 	private String lookupPostcode(MCountry country, String postcode)
 	{
 		// Initialise the lookup class.
-		PostcodeLookupInterface pcLookup = null;
-		try {
-			PostcodeLookupInterface pcLookupTmp = (PostcodeLookupInterface) Class
-					.forName(country.getLookupClassName()).newInstance();
+			AddressLookupInterface pcLookup = null;
+			try {
+				AddressLookupInterface pcLookupTmp = (AddressLookupInterface) Class
+						.forName(country.getLookupClassName()).newInstance();
 			pcLookup = pcLookupTmp.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -415,7 +417,7 @@ public class VLocationDialog extends CDialog
 		pcLookup.setPassword(country.getLookupPassword());
 		if (pcLookup.lookupPostcode(postcode)==1){
 			// Success
-			fillLocation(pcLookup.getPostCodeData(), country);
+			fillLocation(pcLookup.getAddressData(), country);
 			fAddress1.requestFocusInWindow();
 		} else
 			return "Postcode Lookup Error";
@@ -476,6 +478,9 @@ public class VLocationDialog extends CDialog
 				
 					// Overwrite the values in location field.
 					fAddress1.setText(values.getStreet1());
+					fAddress2.setText(values.getStreet2());
+					fAddress3.setText(values.getStreet3());
+					fAddress4.setText(values.getStreet4());
 					fCity.setText(values.getCity());
 					fPostal.setText(values.getPostcode());
 					
@@ -495,7 +500,7 @@ public class VLocationDialog extends CDialog
 								
 								if (regions[i].getName().equals(values.getRegion()) )
 								{
-									// found county
+									// found Region
 									fRegion.setSelectedItem(regions[i]);	
 									log.fine("Found region: " + regions[i].getName());
 									found = true;
@@ -508,6 +513,11 @@ public class VLocationDialog extends CDialog
 								if (region.save())
 								{
 									log.fine("Added new region from web service: " + values.getRegion());
+									// clears cache
+									Env.reset(false);
+									//reload regions to combo box
+									fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()));
+									// select region
 									fRegion.setSelectedItem(values);
 								} else
 									log.severe("Error saving new region: " + region.getName());

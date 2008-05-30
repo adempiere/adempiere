@@ -24,6 +24,8 @@ import java.util.logging.*;
 import org.compiere.print.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 
 /**
@@ -34,7 +36,8 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MInvoice.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
- *
+ *  @author victor.perez@e-evolution.com
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  *  Modifications: Added RMA functionality (Ashley Ramdass)
  */
 public class MInvoice extends X_C_Invoice implements DocAction
@@ -1122,7 +1125,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	public boolean testAllocation()
 	{
 		boolean change = false;
-
+		
 		if ( isProcessed() ) {
 			BigDecimal alloc = getAllocatedAmt();	//	absolute
 			if (alloc == null)
@@ -1139,7 +1142,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			log.fine("Paid=" + test
 					+ " (" + alloc + "=" + total + ")");
 		}
-
+		
 		return change;
 	}	//	testAllocation
 
@@ -1463,7 +1466,30 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				log.fine(product.getName());
 				//	New Lines
 				int lineNo = line.getLine ();
-				MProductBOM[] boms = MProductBOM.getBOMLines (product);
+				
+				//find default BOM with valid dates and to this product
+				MPPProductBOM bom = MPPProductBOM.get(product, getAD_Org_ID(),getDateInvoiced(), get_TrxName());
+				if(bom != null)
+				{	
+					MPPProductBOMLine[] bomlines = bom.getLines(getDateInvoiced());
+					for (int j = 0; j < bomlines.length; j++)
+					{
+						MPPProductBOMLine bomline = bomlines[j];
+						MInvoiceLine newLine = new MInvoiceLine (this);
+						newLine.setLine (++lineNo);
+						newLine.setM_Product_ID (bomline.getM_Product_ID ());
+						newLine.setC_UOM_ID (bomline.getC_UOM_ID ());
+						newLine.setQty (line.getQtyInvoiced().multiply(
+								bomline.getQtyBOM ()));		//	Invoiced/Entered
+						if (bomline.getDescription () != null)
+							newLine.setDescription (bomline.getDescription ());
+						//
+						newLine.setPrice ();
+						newLine.save (get_TrxName());
+					}
+				}	
+				
+				/*MProductBOM[] boms = MProductBOM.getBOMLines (product);
 				for (int j = 0; j < boms.length; j++)
 				{
 					MProductBOM bom = boms[j];
@@ -1478,7 +1504,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					//
 					newLine.setPrice ();
 					newLine.save (get_TrxName());
-				}
+				}*/
+				
 				//	Convert into Comment Line
 				line.setM_Product_ID (0);
 				line.setM_AttributeSetInstance_ID (0);
@@ -2160,6 +2187,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			return false;
 		}
 		reversal.setC_Payment_ID(0);
+		//FR1948157
+		reversal.setReversal_ID(getC_Invoice_ID());
 		reversal.setIsPaid(true);
 		reversal.closeIt();
 		reversal.setProcessing (false);
@@ -2186,6 +2215,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			}
         }
 		setProcessed(true);
+		//FR1948157
+		setReversal_ID(reversal.getC_Invoice_ID());
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
 		setDocAction(DOCACTION_None);
 		setC_Payment_ID(0);

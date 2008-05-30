@@ -19,7 +19,9 @@ package org.compiere.model;
 import java.math.*;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
 import org.compiere.util.*;
+import org.eevolution.model.*;
 
 /**
  *	Inventory Move Line Model
@@ -53,6 +55,8 @@ public class MMovementLine extends X_M_MovementLine
 			setProcessed (false);
 		}	
 	}	//	MMovementLine
+    /**     Static Logger   */
+    private static CLogger  s_log   = CLogger.getCLogger (MMovementLine.class);
 
 	/**
 	 * 	Load Constructor
@@ -200,6 +204,119 @@ public class MMovementLine extends X_M_MovementLine
 
 		return true;
 	}	//	beforeSave
+	/** 
+    *      Set Distribution Order Line. 
+    *      Does not set Quantity! 
+    *      @param oLine order line 
+    *      @param M_Locator_ID locator 
+    *      @param Qty used only to find suitable locator 
+    */ 
+    public void setOrderLine (MDDOrderLine oLine, int M_Locator_ID, BigDecimal Qty) 
+    { 
+            setDD_OrderLine_ID(oLine.getDD_OrderLine_ID()); 
+            setLine(oLine.getLine()); 
+            //setC_UOM_ID(oLine.getC_UOM_ID()); 
+            MProduct product = oLine.getProduct(); 
+            if (product == null) 
+            { 
+                    set_ValueNoCheck("M_Product_ID", null); 
+                    set_ValueNoCheck("M_AttributeSetInstance_ID", null); 
+                    set_ValueNoCheck("M_Locator_ID", null); 
+            } 
+            else 
+            { 
+                    setM_Product_ID(oLine.getM_Product_ID()); 
+                    setM_AttributeSetInstance_ID(oLine.getM_AttributeSetInstance_ID()); 
+                    // 
+                    if (product.isItem()) 
+                    { 
+                                    setM_Locator_ID(M_Locator_ID); 
+                    } 
+                    else 
+                            set_ValueNoCheck("M_Locator_ID", null); 
+            } 
+            //setC_Charge_ID(oLine.getC_Charge_ID()); 
+            setDescription(oLine.getDescription()); 
+            //setIsDescription(oLine.isDescription()); 
+            // 
+            //setC_Project_ID(oLine.getC_Project_ID()); 
+            //setC_ProjectPhase_ID(oLine.getC_ProjectPhase_ID()); 
+            //setC_ProjectTask_ID(oLine.getC_ProjectTask_ID()); 
+            //setC_Activity_ID(oLine.getC_Activity_ID()); 
+            //setC_Campaign_ID(oLine.getC_Campaign_ID()); 
+            //setAD_OrgTrx_ID(oLine.getAD_OrgTrx_ID()); 
+            //setUser1_ID(oLine.getUser1_ID()); 
+            //setUser2_ID(oLine.getUser2_ID()); 
+    }       //      setOrderLine 
 
+    /** 
+     *      Set M_Locator_ID 
+     *      @param M_Locator_ID id 
+     */ 
+    public void setM_Locator_ID (int M_Locator_ID) 
+    { 
+            if (M_Locator_ID < 0) 
+                    throw new IllegalArgumentException ("M_Locator_ID is mandatory."); 
+            //      set to 0 explicitly to reset 
+            set_Value ("M_Locator_ID", new Integer(M_Locator_ID)); 
+    }       //      setM_Locator_ID 
+
+    /** 
+     *      Set M_Locator_ID 
+     *      @param M_Locator_ID id 
+     */ 
+    public void setM_LocatorTo_ID (int M_Locator_ID) 
+    { 
+            if (M_Locator_ID < 0) 
+                    throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory."); 
+            //      set to 0 explicitly to reset 
+            set_Value ("M_Locator_ID", new Integer(M_Locator_ID)); 
+    }       //      setM_Locator_ID 
+
+    /** 
+     *      Get Movement lines Of Distribution Order Line 
+     *      @param ctx context 
+     *      @param DD_OrderLine_ID line 
+     *      @param where optional addition where clause 
+     *  @param trxName transaction 
+     *      @return array of receipt lines 
+     */ 
+    public static MMovementLine[] getOfOrderLine (Properties ctx, 
+            int DD_OrderLine_ID, String where, String trxName) 
+    { 
+            ArrayList<MMovementLine> list = new ArrayList<MMovementLine>(); 
+            String sql = "SELECT * FROM M_MovementLine WHERE DD_OrderLine_ID=?"; 
+            if (where != null && where.length() > 0) 
+                    sql += " AND " + where; 
+            PreparedStatement pstmt = null; 
+            try 
+            { 
+                    pstmt = DB.prepareStatement (sql, trxName); 
+                    pstmt.setInt (1, DD_OrderLine_ID); 
+                    ResultSet rs = pstmt.executeQuery (); 
+                    while (rs.next ()) 
+                            list.add(new MMovementLine(ctx, rs, trxName)); 
+                    rs.close (); 
+                    pstmt.close (); 
+                    pstmt = null; 
+            } 
+            catch (Exception e) 
+            { 
+                    s_log.log(Level.SEVERE, sql, e); 
+            } 
+            try 
+            { 
+                    if (pstmt != null) 
+                            pstmt.close (); 
+                    pstmt = null; 
+            } 
+            catch (Exception e) 
+            { 
+                    pstmt = null; 
+            } 
+            MMovementLine[] retValue = new MMovementLine[list.size ()]; 
+            list.toArray (retValue); 
+            return retValue; 
+    }       //      getOfOrderLine 
 	
 }	//	MMovementLine

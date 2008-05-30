@@ -26,12 +26,16 @@ import org.compiere.util.*;
  *	Invoice Aging Report.
  *	Based on RV_Aging.
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com  FR 1933937  Is necessary a new Aging to Date
+ *  @see http://sourceforge.net/tracker/index.php?func=detail&aid=1933937&group_id=176962&atid=879335 
  *  @version $Id: Aging.java,v 1.5 2006/10/07 00:58:44 jjanke Exp $
  */
 public class Aging extends SvrProcess
 {
 	/** The date to calculate the days due from			*/
 	private Timestamp	p_StatementDate = null;
+	//FR 1933937
+	private boolean		p_DateAcct = false;
 	private boolean 	p_IsSOTrx = false;
 	private int			p_C_Currency_ID = 0;
 	private int			p_C_BP_Group_ID = 0;
@@ -53,6 +57,8 @@ public class Aging extends SvrProcess
 				;
 			else if (name.equals("StatementDate"))
 				p_StatementDate = (Timestamp)para[i].getParameter();
+			else if (name.equals("DateAcct"))
+				p_DateAcct = "Y".equals(para[i].getParameter());
 			else if (name.equals("IsSOTrx"))
 				p_IsSOTrx = "Y".equals(para[i].getParameter());
 			else if (name.equals("C_Currency_ID"))
@@ -84,28 +90,46 @@ public class Aging extends SvrProcess
 			+ ", C_Currency_ID=" + p_C_Currency_ID
 			+ ", C_BP_Group_ID=" + p_C_BP_Group_ID + ", C_BPartner_ID=" + p_C_BPartner_ID
 			+ ", IsListInvoices=" + p_IsListInvoices);
-		//
+		//FR 1933937
+		String dateacct = DB.TO_DATE(p_StatementDate);  
+		 
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT bp.C_BP_Group_ID, oi.C_BPartner_ID,oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID, " 
 			+ "oi.C_Currency_ID, oi.IsSOTrx, "								//	5..6
 			+ "oi.DateInvoiced, oi.NetDays,oi.DueDate,oi.DaysDue, ");		//	7..10
 		if (p_C_Currency_ID == 0)
-			sql.append("oi.GrandTotal, oi.PaidAmt, oi.OpenAmt ");			//	11..13
+			if (!p_DateAcct)//FR 1933937
+				sql.append("oi.GrandTotal, oi.PaidAmt, oi.OpenAmt ");			//	11..13	
+			else 
+				sql.append("oi.GrandTotal, invoicePaidToDate(oi.C_Invoice_ID, oi.C_Currency_ID, 1,"+dateacct+") AS PaidAmt, invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") AS OpenAmt ");			//	11..13
 		else
 		{
 			String s = ",oi.C_Currency_ID," + p_C_Currency_ID + ",oi.DateAcct,oi.C_ConversionType_ID,oi.AD_Client_ID,oi.AD_Org_ID)";
-			sql.append("currencyConvert(oi.GrandTotal").append(s)		//	11..
-				.append(", currencyConvert(oi.PaidAmt").append(s)
+			sql.append("currencyConvert(oi.GrandTotal").append(s);		//	11..
+			if (!p_DateAcct)
+				sql.append(", currencyConvert(oi.PaidAmt").append(s)
 				.append(", currencyConvert(oi.OpenAmt").append(s);
+			else
+				sql.append(", currencyConvert(invoicePaidToDate(oi.C_Invoice_ID, oi.C_Currency_ID, 1,"+dateacct+")").append(s)
+				.append(", currencyConvert(invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+")").append(s);
+				
 		}
-		sql.append(",oi.C_Activity_ID,oi.C_Campaign_ID,oi.C_Project_ID "	//	14
-			+ "FROM RV_OpenItem oi"
-			+ " INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
+		sql.append(",oi.C_Activity_ID,oi.C_Campaign_ID,oi.C_Project_ID ");	//	14
+			if (!p_DateAcct)//FR 1933937	
+				sql.append( "FROM RV_OpenItem oi");
+			else 
+				sql.append( "FROM RV_OpenItemToDate oi");
+		
+		sql.append(" INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE oi.ISSoTrx=").append(p_IsSOTrx ? "'Y'" : "'N'");
 		if (p_C_BPartner_ID > 0)
 			sql.append(" AND oi.C_BPartner_ID=").append(p_C_BPartner_ID);
 		else if (p_C_BP_Group_ID > 0)
 			sql.append(" AND bp.C_BP_Group_ID=").append(p_C_BP_Group_ID);
+		
+		if (p_DateAcct)//FR 1933937
+			sql.append("AND invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") <> 0 ");
+		
 		sql.append(" ORDER BY oi.C_BPartner_ID, oi.C_Currency_ID, oi.C_Invoice_ID");
 		
 		log.finest(sql.toString());
@@ -174,6 +198,7 @@ public class Aging extends SvrProcess
 					aging.setC_Activity_ID(C_Activity_ID);
 					aging.setC_Campaign_ID(C_Campaign_ID);
 					aging.setC_Project_ID(C_Project_ID);
+					aging.setDateAcct(p_DateAcct);
 				}
 				//	Fill Buckets
 				aging.add (DueDate, DaysDue, GrandTotal, OpenAmt);

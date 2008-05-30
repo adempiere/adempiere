@@ -23,6 +23,7 @@ import org.compiere.ldap.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 import org.compiere.wf.*;
+import org.eevolution.model.*;
 
 /**
  *	Adempiere Server Base
@@ -51,6 +52,8 @@ public abstract class AdempiereServer extends Thread
 			return new Scheduler ((MScheduler)model);
 		if (model instanceof MLdapProcessor)
 			return new LdapProcessor((MLdapProcessor)model);
+		if (model instanceof MIMPProcessor) // @Trifon
+			return new ReplicationProcessor((MIMPProcessor)model);
 		//
 		throw new IllegalArgumentException("Unknown Processor");
 	}	//	 create

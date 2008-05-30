@@ -54,6 +54,9 @@ import org.compiere.util.*;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *  			<li>BF [ 1824621 ] History button can't be canceled
  *  			<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
+ *  @author victor.perez@e-evolution.com 
+ *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ * 
  */
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
@@ -282,6 +285,15 @@ public final class APanel extends CPanel
 		{
 			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
 		}
+		//FR [ 1966328 ] 
+		if (MRole.getDefault().isAllow_Info_MRP())
+		{
+			AEnv.addMenuItem("InfoMRP", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_CRP())
+		{
+			AEnv.addMenuItem("InfoCRP", "Info", null, mView, this);	
+		}
 		mView.addSeparator();
 		if (MRole.getDefault().isAllow_Info_Order())
 		{
@@ -311,6 +323,8 @@ public final class APanel extends CPanel
 		{
 			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);	
 		}
+
+		
 
 		mView.addSeparator();
 		aAttachment = addAction("Attachment",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),	true);		//	toggle

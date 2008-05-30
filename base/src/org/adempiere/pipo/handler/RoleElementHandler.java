@@ -178,6 +178,9 @@ public class RoleElementHandler extends AbstractElementHandler {
 		m_Role.setAllow_Info_Product(Boolean.valueOf(atts.getValue("AllowInfoProduct")));
 		m_Role.setAllow_Info_Resource(Boolean.valueOf(atts.getValue("AllowInfoResource")));
 		m_Role.setAllow_Info_Schedule(Boolean.valueOf(atts.getValue("AllowInfoSchedule")));
+		m_Role.setAllow_Info_Schedule(Boolean.valueOf(atts.getValue("AllowInfoCRP")));
+		m_Role.setAllow_Info_Schedule(Boolean.valueOf(atts.getValue("AllowInfoMRP")));
+		
 
 		if (m_Role.save(getTrxName(ctx)) == true) {
 
@@ -504,6 +507,8 @@ public class RoleElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "AllowInfoProduct", "CDATA", Boolean.toString(m_Role.isAllow_Info_Product()));
 		atts.addAttribute("", "", "AllowInfoResource", "CDATA", Boolean.toString(m_Role.isAllow_Info_Resource()));
 		atts.addAttribute("", "", "AllowInfoSchedule", "CDATA", Boolean.toString(m_Role.isAllow_Info_Schedule()));
+		atts.addAttribute("", "", "AllowInfoCRP", "CDATA", Boolean.toString(m_Role.isAllow_Info_CRP()));
+		atts.addAttribute("", "", "AllowInfoMRP", "CDATA", Boolean.toString(m_Role.isAllow_Info_MRP()));
 		
 		return atts;
 	}

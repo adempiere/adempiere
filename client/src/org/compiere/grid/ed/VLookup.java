@@ -29,6 +29,8 @@ import org.compiere.model.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
 
+import org.eevolution.model.*;
+
 /**
  *  Lookup Visual Field.
  *  <p>
@@ -766,7 +768,8 @@ public class VLookup extends JComponent
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
 			
 			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
-			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID);
+			
+			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (MPPProductBOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
 			
 			//	Show Info
 			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),

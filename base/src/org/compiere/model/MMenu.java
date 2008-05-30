@@ -19,12 +19,15 @@ package org.compiere.model;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 /**
  *	Menu Model
  *	
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com
+ *  @see FR [ 1966326 ] Is necessary create method to get ID menu use menu Name http://sourceforge.net/tracker/index.php?func=detail&aid=1966326&group_id=176962&atid=879335
  *  @version $Id: MMenu.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
  */
 public class MMenu extends X_AD_Menu
@@ -165,5 +168,36 @@ public class MMenu extends X_AD_Menu
 			delete_Tree(MTree_Base.TREETYPE_Menu);
 		return success;
 	}	//	afterDelete
+	
+	/**
+	 *  FR [ 1966326 ]
+	 * 	get Menu ID
+	 *	@param String Menu Name
+	 *	@return int retValue
+	 */
+	public static int getMenu_ID(String menuName) {
+		int retValue = 0;
+		String SQL = "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setString(1, menuName);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+		}
+		catch (SQLException e)
+		{
+			s_log.log(Level.SEVERE, SQL, e);
+			retValue = -1;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+		}
+		return retValue;
+	}
 	
 }	//	MMenu

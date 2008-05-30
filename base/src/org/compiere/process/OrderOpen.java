@@ -18,6 +18,7 @@ package org.compiere.process;
 
 import java.util.logging.*;
 import org.compiere.model.*;
+import org.compiere.util.AdempiereSystemError;
  
 /**
  *	Re-Open Order Process (from Closed to Completed)
@@ -53,20 +54,20 @@ public class OrderOpen extends SvrProcess
 	 *  @return Message
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
+	protected String doIt() throws AdempiereSystemError
 	{
 		log.info("doIt - Open C_Order_ID=" + p_C_Order_ID);
 		if (p_C_Order_ID == 0)
-			throw new IllegalArgumentException("C_Order_ID == 0");
+			return "";
 		//
 		MOrder order = new MOrder (getCtx(), p_C_Order_ID, get_TrxName());
-		if (MOrder.DOCSTATUS_Closed.equals(order.getDocStatus()))
+		String msg = order.reopenIt();
+		if ( msg.length() != 0 )
 		{
-			order.setDocStatus(MOrder.DOCSTATUS_Completed);
-			return order.save() ? "@OK@" : "@Error@";
+			throw new AdempiereSystemError(msg);
 		}
-		else
-			throw new IllegalStateException("Order is not closed");
+		
+		return order.save() ? "@OK@" : "@Error@";
 	}	//	doIt
 	
 }	//	OrderOpen

@@ -34,6 +34,9 @@ import org.compiere.util.*;
  *  Modifications: Added the RMA functionality (Ashley Ramdass)
  *  @author Karsten Thiemann, Schaeffer AG
  * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -1224,11 +1227,14 @@ public class MInOut extends X_M_InOut implements DocAction
 			
 			log.info("Line=" + sLine.getLine() + " - Qty=" + sLine.getMovementQty());
 
-			checkMaterialPolicy(sLine);
 			//	Stock Movement - Counterpart MOrder.reserveStock
 			if (product != null 
 				&& product.isStocked() )
 			{
+				//Ignore the Material Policy when is Reverse Correction
+				if(!isReversal())
+				checkMaterialPolicy(sLine);
+				
 				log.fine("Material Transaction");
 				MTransaction mtrx = null; 
 				//same warehouse in order and receipt?
@@ -1546,42 +1552,53 @@ public class MInOut extends X_M_InOut implements DocAction
 		String MovementType = getMovementType();
 		boolean inTrx = MovementType.charAt(1) == '+';	//	V+ Vendor Receipt
 		
+		
 		boolean needSave = false;
+		BigDecimal qtyASI = Env.ZERO ;
+		
 		MProduct product = line.getProduct();
 
 		//	Need to have Location
 		if (product != null
 			&& line.getM_Locator_ID() == 0)
 		{
+			//MWarehouse w = MWarehouse.get(getCtx(), getM_Warehouse_ID());
 			line.setM_Warehouse_ID(getM_Warehouse_ID());
 			line.setM_Locator_ID(inTrx ? Env.ZERO : line.getMovementQty());	//	default Locator
 			needSave = true;
 		}
 		
-		//	Attribute Set Instance
-		if (product != null 
-			&& line.getM_AttributeSetInstance_ID() == 0)
-		{
-			if (inTrx)
+			//	Attribute Set Instance
+			//  Create an  Attribute Set Instance to any receipt FIFO/LIFO
+			if (product != null && line.getM_AttributeSetInstance_ID() == 0)
 			{
-				MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
-				asi.setClientOrg(getAD_Client_ID(), 0);
-				asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
-				if (asi.save())
+				//Validate Transaction
+				//if (inTrx)
+				if (getMovementType().compareTo(MInOut.MOVEMENTTYPE_CustomerReturns) == 0 || getMovementType().compareTo(MInOut.MOVEMENTTYPE_VendorReceipts) == 0 )
 				{
-					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
-					log.config("New ASI=" + line);
-					needSave = true;
-				}
+					MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
+					asi.setClientOrg(getAD_Client_ID(), 0);
+					asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+					if (!asi.save())
+					{
+						throw new IllegalStateException("Error try create ASI Reservation");
+					}												
+					if (asi.save())
+					{
+						line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+						log.config("New ASI=" + line);
+						needSave = true;
+					}
 			}
-			else	//	Outgoing Trx
+			// Create consume the Attribute Set Instance using policy FIFO/LIFO
+			else if(getMovementType().compareTo(MInOut.MOVEMENTTYPE_VendorReturns) == 0 || getMovementType().compareTo(MInOut.MOVEMENTTYPE_CustomerShipment) == 0)
 			{
 				String MMPolicy = product.getMMPolicy();
 				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
 					line.getM_Product_ID(),	line.getM_Locator_ID(), 
 					MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
 				BigDecimal qtyToDeliver = line.getMovementQty();
-				for (int ii = 0; ii < storages.length; ii++)
+				/*for (int ii = 0; ii < storages.length; ii++)
 				{
 					MStorage storage = storages[ii];
 					if (ii == 0)
@@ -1624,12 +1641,47 @@ public class MInOut extends X_M_InOut implements DocAction
 					if (qtyToDeliver.signum() == 0)
 						break;
 				}	//	 for all storages
+				*/
 				
-				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0)
+				for (MStorage storage: storages)
 				{
-					MInOutLineMA ma = new MInOutLineMA (line, 
-						0, qtyToDeliver);
+					//consume ASI Zero
+					if (storage.getM_AttributeSetInstance_ID() == 0)
+					{
+						qtyASI = qtyASI.add(storage.getQtyOnHand());
+						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+						continue;
+					}
+					
+					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+					{
+						MInOutLineMA ma = new MInOutLineMA (line, 
+								storage.getM_AttributeSetInstance_ID(),
+								qtyToDeliver);
+							if (!ma.save())
+							{
+								throw new IllegalStateException("Error try create ASI Reservation");
+							}														
+							qtyToDeliver = Env.ZERO;
+					}
+					else
+					{
+						MInOutLineMA ma = new MInOutLineMA (line, 
+								storage.getM_AttributeSetInstance_ID(),
+								storage.getQtyOnHand());
+							if (!ma.save())
+							{
+								throw new IllegalStateException("Error try create ASI Reservation");
+							}	
+						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);						
+					}
+				}
+								
+				//	No AttributeSetInstance found for remainder
+				if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
+				{
+					MInOutLineMA ma = new MInOutLineMA (line, 0, qtyToDeliver.add(qtyASI));
 					if (!ma.save())
 						;
 					log.fine("##: " + ma);
@@ -1905,6 +1957,8 @@ public class MInOut extends X_M_InOut implements DocAction
 			return false;
 		}
 		reversal.closeIt();
+		//FR1948157 
+		reversal.setReversal_ID(getM_InOut_ID());
 		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
@@ -1918,6 +1972,8 @@ public class MInOut extends X_M_InOut implements DocAction
 			return false;		
 
 		m_processMsg = reversal.getDocumentNo();
+		//FR1948157 
+		this.setReversal_ID(reversal.getM_InOut_ID());
 		setProcessed(true);
 		setDocStatus(DOCSTATUS_Reversed);		//	 may come from void
 		setDocAction(DOCACTION_None);

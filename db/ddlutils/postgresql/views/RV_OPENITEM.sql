@@ -2,7 +2,8 @@ CREATE OR REPLACE VIEW RV_OPENITEM
 (AD_ORG_ID, AD_CLIENT_ID, DOCUMENTNO, C_INVOICE_ID, C_ORDER_ID, 
  C_BPARTNER_ID, ISSOTRX, DATEINVOICED, DATEACCT, NETDAYS, 
  DUEDATE, DAYSDUE, DISCOUNTDATE, DISCOUNTAMT, GRANDTOTAL, 
- PAIDAMT, OPENAMT, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, C_PAYMENTTERM_ID, 
+ PAIDAMT, OPENAMT, 
+ C_CURRENCY_ID, C_CONVERSIONTYPE_ID, C_PAYMENTTERM_ID, 
  ISPAYSCHEDULEVALID, C_INVOICEPAYSCHEDULE_ID, INVOICECOLLECTIONTYPE, C_CAMPAIGN_ID, C_PROJECT_ID, 
  C_ACTIVITY_ID)
 AS 
@@ -24,8 +25,8 @@ SELECT i.AD_Org_ID, i.AD_Client_ID,
 FROM RV_C_Invoice i
     INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)
 WHERE --    i.IsPaid='N'
-    invoiceOpen(i.C_Invoice_ID,0) <> 0
-    AND i.IsPayScheduleValid<>'Y'
+    invoiceOpen(i.C_Invoice_ID,0) <> 0 AND 
+    i.IsPayScheduleValid<>'Y'
     AND i.DocStatus<>'DR'
 UNION
 SELECT i.AD_Org_ID, i.AD_Client_ID,
@@ -46,8 +47,8 @@ SELECT i.AD_Org_ID, i.AD_Client_ID,
 FROM RV_C_Invoice i
     INNER JOIN C_InvoicePaySchedule ips ON (i.C_Invoice_ID=ips.C_Invoice_ID)
 WHERE  --   i.IsPaid='N'
-    invoiceOpen(i.C_Invoice_ID,ips.C_InvoicePaySchedule_ID) <> 0
-    AND i.IsPayScheduleValid='Y'
+    invoiceOpen(i.C_Invoice_ID,ips.C_InvoicePaySchedule_ID) <> 0 AND 
+    i.IsPayScheduleValid='Y'
     AND i.DocStatus<>'DR'
     AND ips.IsValid='Y';
 

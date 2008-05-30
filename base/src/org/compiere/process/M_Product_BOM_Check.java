@@ -131,7 +131,8 @@ public class M_Product_BOM_Check extends SvrProcess
     			// Insert BOM Nodes into "All" table
     			sql1 = new StringBuffer("INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID) " 
     					+ "SELECT " + m_AD_PInstance_ID + ", 0, p.M_Product_ID FROM M_Product p WHERE IsBOM='Y' AND EXISTS " 
-    					+ "(SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN " 
+    					//+ "(SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN " 
+    					+ "(SELECT * FROM PP_Product_BOM b WHERE p.M_Product_ID=b.M_Product_ID AND b.M_Product_ID IN " 
     					+ "(SELECT T_Selection_ID FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID + "))");
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
@@ -141,7 +142,8 @@ public class M_Product_BOM_Check extends SvrProcess
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());
     			sql1 = new StringBuffer("INSERT INTO T_Selection2 (AD_PInstance_ID, Query_ID, T_Selection_ID) " 
     					+ "SELECT " + m_AD_PInstance_ID + ", 1, p.M_Product_ID FROM M_Product p WHERE IsBOM='Y' AND EXISTS " 
-    					+ "(SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN " 
+    					//+ "(SELECT * FROM M_Product_BOM b WHERE p.M_Product_ID=b.M_ProductBOM_ID AND b.M_Product_ID IN "  
+    					+ "(SELECT * FROM PP_Product_BOM b WHERE p.M_Product_ID=b.M_Product_ID AND b.M_Product_ID IN " 
     					+ "(SELECT T_Selection_ID FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID + "))");
     			no = DB.executeUpdate(sql1.toString(), get_TrxName());
     			if (no == -1) raiseError("InsertingRoot:ERROR", sql1.toString());

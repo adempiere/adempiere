@@ -33,6 +33,9 @@ import org.compiere.util.*;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1619150 ] Usability/Consistency: reversed gl journal description
  * 				<li>BF [ 1775358 ] GL Journal DateAcct/C_Period_ID issue
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  */
 public class MJournal extends X_GL_Journal implements DocAction
 {
@@ -677,6 +680,8 @@ public class MJournal extends X_GL_Journal implements DocAction
 		reverse.setDateAcct(getDateAcct());
 		//	Reverse indicator
 		reverse.addDescription("(->" + getDocumentNo() + ")");
+		//FR [ 1948157  ] 
+		reverse.setReversal_ID(getGL_Journal_ID());
 		if (!reverse.save())
 			return null;
 		addDescription("(" + reverse.getDocumentNo() + "<-)");
@@ -685,6 +690,8 @@ public class MJournal extends X_GL_Journal implements DocAction
 		reverse.copyLinesFrom(this, null, 'C');
 		//
 		setProcessed(true);
+		//FR [ 1948157  ] 
+		setReversal_ID(reverse.getGL_Journal_ID());
 		setDocAction(DOCACTION_None);
 		return reverse;
 	}	//	reverseCorrectionIt

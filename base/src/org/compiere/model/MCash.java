@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -39,8 +39,8 @@ import org.compiere.util.TimeUtil;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCash.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
- * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1831997 ] Cash journal allocation reversed
  * 			<li>BF [ 1894524 ] Pay an reversed invoice
  */
@@ -567,6 +567,13 @@ public class MCash extends X_C_Cash implements DocAction
 					m_processMsg = CLogger.retrieveErrorString("Could not create Payment");
 					return DocAction.STATUS_Invalid;
 				}
+				
+				line.setC_Payment_ID(pay.getC_Payment_ID());
+				if (!line.save())
+				{
+					m_processMsg = "Could not update Cash Line";
+					return DocAction.STATUS_Invalid;
+				}
 			}
 		}
 		
@@ -594,18 +601,108 @@ public class MCash extends X_C_Cash implements DocAction
 		// Before Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
-			return false;		
-		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
-			return false;		
-		setDocAction(DOCACTION_None);
-		return false;
+			return false;
+
+		//FR [ 1866214 ]
+		boolean retValue = reverseIt();
+		
+		if (retValue) {
+			// After Void
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+			if (m_processMsg != null)
+				return false;		
+			setDocAction(DOCACTION_None);
+		}
+
+		return retValue;
 	}	//	voidIt
 	
+	//FR [ 1866214 ]
+	/**************************************************************************
+	 * 	Reverse Cash
+	 * 	Period needs to be open
+	 *	@return true if reversed
+	 */
+	private boolean reverseIt() 
+	{
+		if (DOCSTATUS_Closed.equals(getDocStatus())
+			|| DOCSTATUS_Reversed.equals(getDocStatus())
+			|| DOCSTATUS_Voided.equals(getDocStatus()))
+		{
+			m_processMsg = "Document Closed: " + getDocStatus();
+			setDocAction(DOCACTION_None);
+			return false;
+		}
+
+		//	Can we delete posting
+		if (!MPeriod.isOpen(getCtx(), this.getDateAcct(), MPeriodControl.DOCBASETYPE_CashJournal))
+			throw new IllegalStateException("@PeriodClosed@");
+		
+		//	Reverse Allocations
+		MAllocationHdr[] allocations = MAllocationHdr.getOfCash(getCtx(), getC_Cash_ID(), get_TrxName());
+		for(MAllocationHdr allocation : allocations)
+		{
+			allocation.reverseCorrectIt();
+			if(!allocation.save())
+				throw new IllegalStateException("Cannot reverse allocations");
+		}	
+
+		MCashLine[] cashlines = getLines(true);
+		for (MCashLine cashline : cashlines )
+		{
+			BigDecimal oldAmount = cashline.getAmount();
+			BigDecimal oldDiscount = cashline.getDiscountAmt();
+			BigDecimal oldWriteOff = cashline.getWriteOffAmt();
+			cashline.setAmount(Env.ZERO);
+			cashline.setDiscountAmt(Env.ZERO);
+			cashline.setWriteOffAmt(Env.ZERO);
+			cashline.addDescription(Msg.getMsg(getCtx(), "Voided")
+					+ " (Amount=" + oldAmount + ", Discount=" + oldDiscount
+					+ ", WriteOff=" + oldWriteOff + ", )");
+			if (MCashLine.CASHTYPE_BankAccountTransfer.equals(cashline.getCashType()))
+			{
+				if (cashline.getC_Payment_ID() == 0)
+					throw new IllegalStateException("Cannot reverse payment");
+					
+				MPayment payment = new MPayment(getCtx(), cashline.getC_Payment_ID(),get_TrxName());
+				payment.reverseCorrectIt();
+				if (!payment.save())
+					throw new IllegalStateException("Cannot reverse payment");
+			}
+		}
+		
+		setName(getName()+"^");
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		setDocStatus(DOCSTATUS_Reversed);	//	for direct calls
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		if (!save())
+			throw new IllegalStateException("Cannot save journal cash");
+			
+		//	Delete Posting
+		String sql = "DELETE FROM Fact_Acct WHERE AD_Table_ID=" + MCash.Table_ID
+			+ " AND Record_ID=" + getC_Cash_ID();
+		int no = DB.executeUpdate(sql, get_TrxName());
+		log.fine("Fact_Acct deleted #" + no);
+		return true;
+	}	//	reverse
+	
+	/**
+	 * 	Add to Description
+	 *	@param description text
+	 */
+	public void addDescription (String description)
+	{
+		String desc = getDescription();
+		if (desc == null)
+			setDescription(description);
+		else
+			setDescription(desc + " | " + description);
+	}	//	addDescription
+
 	/**
 	 * 	Close Document.
-	 * 	Cancel not delivered Qunatities
+	 * 	Cancel not delivered Quantities
 	 * 	@return true if success 
 	 */
 	public boolean closeIt()
@@ -636,12 +733,17 @@ public class MCash extends X_C_Cash implements DocAction
 		if (m_processMsg != null)
 			return false;
 		
-		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
-			return false;		
+		//FR [ 1866214 ]
+		boolean retValue = reverseIt();
 		
-		return false;
+		if (retValue) {
+			// After reverseCorrect
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+			if (m_processMsg != null)
+				return false;		
+		}
+		
+		return retValue;
 	}	//	reverseCorrectionIt
 	
 	/**

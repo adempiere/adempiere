@@ -762,6 +762,7 @@ public class GridController extends CPanel
 		int rowTable = vTable.getSelectedRow();
 		int rowCurrent = m_mTab.getCurrentRow();
 		log.config("(" + m_mTab.toString() + ") Row in Table=" + rowTable + ", in Model=" + rowCurrent);
+		/* BT [ 1972495 ] Multirow Automatic New Record loses context
 		// FR [ 1757088 ]
 		if(rowCurrent + 1 == vTable.getRowCount() && !isSingleRow() && Env.isAutoNew(Env.getCtx()) && m_mTab.getRecord_ID() != -1)
 		{
@@ -771,7 +772,7 @@ public class GridController extends CPanel
 		  dynamicDisplay(0);
 		  vTable.getSelectionModel().addListSelectionListener(this);
 		  return;
-		 }
+		 } */
 		if (rowTable == -1)  //  nothing selected
 		{
 			if (rowCurrent >= 0)

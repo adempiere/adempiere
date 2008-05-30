@@ -47,6 +47,9 @@ import org.adempiere.pdf.*;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>FR [ 1762466 ] Add "Window" menu to report viewer.
  * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
+ * @author victor.perez@e-evolution.com 
+ * @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ * 
  */
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
@@ -412,6 +415,15 @@ public class Viewer extends CFrame
 		{
 			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
 		}
+		//FR [ 1966328 ] 
+		if (MRole.getDefault().isAllow_Info_MRP())
+		{
+			AEnv.addMenuItem("InfoMRP", "Info", null, mView, this);	
+		}
+		if (MRole.getDefault().isAllow_Info_CRP())
+		{
+			AEnv.addMenuItem("InfoCRP", "Info", null, mView, this);	
+		}
 		mView.addSeparator();
 		if (MRole.getDefault().isAllow_Info_Order())
 		{
@@ -441,6 +453,8 @@ public class Viewer extends CFrame
 		{
 			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);	
 		}
+
+		
 		//		Go
 		JMenu mGo = AEnv.getMenu("Go");
 		menuBar.add(mGo);

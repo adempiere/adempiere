@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
@@ -31,6 +32,9 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.model.MPPProductBOMLine;
+import org.eevolution.model.MPPProductBOM;
+
 
 /**
  *  Order Model.
@@ -1355,23 +1359,51 @@ public class MOrder extends X_C_Order implements DocAction
 				log.fine(product.getName());
 				//	New Lines
 				int lineNo = line.getLine ();
-				MProductBOM[] boms = MProductBOM.getBOMLines (product);
+				//find default BOM with valid dates and to this product
+				MPPProductBOM bom = MPPProductBOM.get(product, getAD_Org_ID(),getDatePromised(), get_TrxName());
+				if(bom != null)
+				{	
+					MPPProductBOMLine[] bomlines = bom.getLines(getDatePromised());
+					for (int j = 0; j < bomlines.length; j++)
+					{
+						MPPProductBOMLine bomline = bomlines[j];
+						MOrderLine newLine = new MOrderLine (this);
+						newLine.setLine (++lineNo);
+						newLine.setM_Product_ID (bomline.getM_Product_ID ());
+						newLine.setC_UOM_ID (bomline.getC_UOM_ID ());
+						newLine.setQty (line.getQtyOrdered ().multiply (
+							bomline.getQtyBOM()));
+						if (bomline.getDescription () != null)
+							newLine.setDescription (bomline.getDescription ());
+						//
+						newLine.setPrice ();
+						newLine.save (get_TrxName());
+					}
+				}	
+				
+				/*MProductBOM[] boms = MProductBOM.getBOMLines (product);
 				for (int j = 0; j < boms.length; j++)
 				{
-					MProductBOM bom = boms[j];
+					//MProductBOM bom = boms[j];
+					MPPProductBOMLine bom = boms[j];
 					MOrderLine newLine = new MOrderLine (this);
 					newLine.setLine (++lineNo);
-					newLine.setM_Product_ID (bom.getProduct ()
-						.getM_Product_ID ());
-					newLine.setC_UOM_ID (bom.getProduct ().getC_UOM_ID ());
+					//newLine.setM_Product_ID (bom.getProduct ()
+					//	.getM_Product_ID ());
+					newLine.setM_Product_ID (bom.getM_Product_ID ());
+					//newLine.setC_UOM_ID (bom.getProduct ().getC_UOM_ID ());
+					newLine.setC_UOM_ID (bom.getC_UOM_ID ());
+					//newLine.setQty (line.getQtyOrdered ().multiply (
+					//		bom.getBOMQty ()));
 					newLine.setQty (line.getQtyOrdered ().multiply (
-						bom.getBOMQty ()));
+						bom.getQtyBOM()));
 					if (bom.getDescription () != null)
 						newLine.setDescription (bom.getDescription ());
 					//
 					newLine.setPrice ();
 					newLine.save (get_TrxName());
-				}
+				}*/
+				
 				//	Convert into Comment Line
 				line.setM_Product_ID (0);
 				line.setM_AttributeSetInstance_ID (0);
@@ -2178,6 +2210,58 @@ public class MOrder extends X_C_Order implements DocAction
 		return true;
 	}	//	closeIt
 	
+	/**
+	 * @author: phib
+	 * re-open a closed order
+	 * (reverse steps of close())
+	 */
+	public String reopenIt() {
+		log.info(toString());
+		if (!MOrder.DOCSTATUS_Closed.equals(getDocStatus()))
+		{
+			return "Not closed - can't reopen";
+		}
+		
+		//	
+		MOrderLine[] lines = getLines(true, "M_Product_ID");
+		for (int i = 0; i < lines.length; i++)
+		{
+			MOrderLine line = lines[i];
+			if (Env.ZERO.compareTo(line.getQtyLostSales()) != 0)
+			{
+				line.setQtyOrdered(line.getQtyLostSales().add(line.getQtyDelivered()));
+				line.setQtyLostSales(Env.ZERO);
+				//	QtyEntered unchanged
+				
+				// Strip Close() tags from description
+				String desc = line.getDescription();
+				if (desc == null)
+					desc = "";
+				Pattern pattern = Pattern.compile("( \\| )?Close \\(.*\\)");
+				String[] parts = pattern.split(desc);
+				desc = "";
+				for (String s : parts) {
+					desc = desc.concat(s);
+				}
+				line.setDescription(desc);
+				if (!line.save(get_TrxName()))
+					return "Couldn't save orderline";
+			}
+		}
+		//	Clear Reservations
+		if (!reserveStock(null, lines))
+		{
+			m_processMsg = "Cannot unreserve Stock (close)";
+			return "Failed to update reservations";
+		}
+
+		setDocStatus(MOrder.DOCSTATUS_Completed);
+		setDocAction(DOCACTION_Close);
+		if (!this.save(get_TrxName()))
+			return "Couldn't save reopened order";
+		else
+			return "";
+	}	//	reopenIt
 	/**
 	 * 	Reverse Correction - same void
 	 * 	@return true if success 

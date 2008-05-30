@@ -33,6 +33,7 @@ import org.compiere.interfaces.Server;
 import org.compiere.interfaces.ServerHome;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
+import org.compiere.model.MCash;
 import org.compiere.model.MClient;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInventory;
@@ -53,6 +54,7 @@ import org.compiere.util.Ini;
  *	
  *  @author Jorg Janke 
  *  @author Karsten Thiemann FR [ 1782412 ]
+ *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
  *  @version $Id: DocumentEngine.java,v 1.2 2006/07/30 00:54:44 jjanke Exp $
  */
 public class DocumentEngine implements DocAction
@@ -1007,6 +1009,18 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+			}
+		}
+		//[ 1782412 ]
+		/********************
+		 *  Cash
+		 */
+		else if (AD_Table_ID == MCash.Table_ID)
+		{
+			//	Complete                    ..  CO
+			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			{
+				options[index++] = DocumentEngine.ACTION_Void;
 			}
 		}
 		/********************

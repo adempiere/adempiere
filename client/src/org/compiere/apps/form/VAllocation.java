@@ -98,7 +98,7 @@ public class VAllocation extends CPanel
 	//
 	private int         i_open = 6;
 	private int         i_discount = 7;
-	private int         i_writeOff = 8;
+	private int         i_writeOff = 8; 
 	private int 		i_overUnder = 9; 
 	private int         i_applied = 10;
 //	private int			i_multiplier = 10;
@@ -135,8 +135,11 @@ public class VAllocation extends CPanel
 	private JLabel dateLabel = new JLabel();
 	private VDate dateField = new VDate();
 	private JCheckBox autoWriteOff = new JCheckBox();
+	private int         m_AD_Org_ID = 0;
+	private JLabel organizationLabel = new JLabel();
+	private VLookup organizationPick = null;
 	
-	private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>();
+	private ArrayList<Integer>	m_bpartnerCheck = new ArrayList<Integer>(); 
 
 	/**
 	 *  Static Init
@@ -148,6 +151,7 @@ public class VAllocation extends CPanel
 		//
 		mainPanel.setLayout(mainLayout);
 		dateLabel.setText(Msg.getMsg(Env.getCtx(), "Date"));
+		dateLabel.setToolTipText(Msg.getMsg(Env.getCtx(), "AllocDate", false));
 		autoWriteOff.setSelected(false);
 		autoWriteOff.setText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", true));
 		autoWriteOff.setToolTipText(Msg.getMsg(Env.getCtx(), "AutoWriteOff", false));
@@ -182,6 +186,14 @@ public class VAllocation extends CPanel
 		invoiceScrollPane.setPreferredSize(new Dimension(200, 200));
 		paymentScrollPane.setPreferredSize(new Dimension(200, 200));
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
+		
+		//org filter
+		organizationLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		parameterPanel.add(organizationLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
+		parameterPanel.add(organizationPick, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
+		
 		parameterPanel.add(bpartnerLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(bpartnerSearch, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
@@ -251,6 +263,15 @@ public class VAllocation extends CPanel
 		currencyPick.setValue(new Integer(m_C_Currency_ID));
 		currencyPick.addVetoableChangeListener(this);
 
+		// Organization filter selection
+		AD_Column_ID = 839; //C_Period.AD_Org_ID (needed to allow org 0)
+		MLookup lookupOrg = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
+		organizationPick = new VLookup("AD_Org_ID", true, false, true, lookupOrg);
+		organizationPick.setValue(Env.getAD_Org_ID(Env.getCtx()));
+		organizationPick.addVetoableChangeListener(this);
+		
+		m_AD_Org_ID = Env.getAD_Org_ID(Env.getCtx());
+
 		//  BPartner
 		AD_Column_ID = 3499;        //  C_Invoice.C_BPartner_ID
 		MLookup lookupBP = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
@@ -301,26 +322,34 @@ public class VAllocation extends CPanel
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT p.DateTrx,p.DocumentNo,p.C_Payment_ID,"  //  1..3
 			+ "c.ISO_Code,p.PayAmt,"                            //  4..5
-			+ "currencyConvert(p.PayAmt,p.C_Currency_ID,?,p.DateTrx,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"//  6   #1
-			+ "currencyConvert(paymentAvailable(C_Payment_ID),p.C_Currency_ID,?,p.DateTrx,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"  //  7   #2
+			+ "currencyConvert(p.PayAmt,p.C_Currency_ID,?,?,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"//  6   #1, #2
+			+ "currencyConvert(paymentAvailable(C_Payment_ID),p.C_Currency_ID,?,?,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"  //  7   #3, #4
 			+ "p.MultiplierAP "
 			+ "FROM C_Payment_v p"		//	Corrected for AP/AR
 			+ " INNER JOIN C_Currency c ON (p.C_Currency_ID=c.C_Currency_ID) "
 			+ "WHERE p.IsAllocated='N' AND p.Processed='Y'"
 			+ " AND p.C_Charge_ID IS NULL"		//	Prepayments OK
-			+ " AND p.C_BPartner_ID=?");                   		//      #3
+			+ " AND p.C_BPartner_ID=?");                   		//      #5
 		if (!multiCurrency.isSelected())
-			sql.append(" AND p.C_Currency_ID=?");				//      #4
+			sql.append(" AND p.C_Currency_ID=?");				//      #6
+		if (m_AD_Org_ID != 0 )
+			sql.append(" AND p.AD_Org_ID=" + m_AD_Org_ID);
 		sql.append(" ORDER BY p.DateTrx,p.DocumentNo");
+		
+		// role security
+		sql = new StringBuffer( MRole.getDefault(Env.getCtx(), false).addAccessSQL( sql.toString(), "p", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO ) );
+		
 		log.fine("PaySQL=" + sql.toString());
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_C_Currency_ID);
-			pstmt.setInt(2, m_C_Currency_ID);
-			pstmt.setInt(3, m_C_BPartner_ID);
+			pstmt.setTimestamp(2, (Timestamp)dateField.getValue());
+			pstmt.setInt(3, m_C_Currency_ID);
+			pstmt.setTimestamp(4, (Timestamp)dateField.getValue());
+			pstmt.setInt(5, m_C_BPartner_ID);
 			if (!multiCurrency.isSelected())
-				pstmt.setInt(4, m_C_Currency_ID);
+				pstmt.setInt(6, m_C_Currency_ID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -414,29 +443,37 @@ public class VAllocation extends CPanel
 		data = new Vector<Vector<Object>>();
 		sql = new StringBuffer("SELECT i.DateInvoiced,i.DocumentNo,i.C_Invoice_ID," //  1..3
 			+ "c.ISO_Code,i.GrandTotal*i.MultiplierAP, "                            //  4..5    Orig Currency
-			+ "currencyConvert(i.GrandTotal*i.MultiplierAP,i.C_Currency_ID,?,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID), " //  6   #1  Converted
-			+ "currencyConvert(invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP, "  //  7   #2  Converted Open
+			+ "currencyConvert(i.GrandTotal*i.MultiplierAP,i.C_Currency_ID,?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID), " //  6   #1  Converted, #2 Date
+			+ "currencyConvert(invoiceOpen(C_Invoice_ID,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,?,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP, "  //  7   #3, #4  Converted Open
 			+ "currencyConvert(invoiceDiscount"                               //  8       AllowedDiscount
-			+ "(i.C_Invoice_ID,?,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.Multiplier*i.MultiplierAP,"               //  #3, #4
+			+ "(i.C_Invoice_ID,?,C_InvoicePaySchedule_ID),i.C_Currency_ID,?,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID)*i.Multiplier*i.MultiplierAP,"               //  #5, #6
 			+ "i.MultiplierAP "
 			+ "FROM C_Invoice_v i"		//  corrected for CM/Split
 			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID) "
 			+ "WHERE i.IsPaid='N' AND i.Processed='Y'"
-			+ " AND i.C_BPartner_ID=?");                                            //  #5
+			+ " AND i.C_BPartner_ID=?");                                            //  #7
 		if (!multiCurrency.isSelected())
-			sql.append(" AND i.C_Currency_ID=?");                                   //  #6
+			sql.append(" AND i.C_Currency_ID=?");                                   //  #8
+		if (m_AD_Org_ID != 0 ) 
+			sql.append(" AND i.AD_Org_ID=" + m_AD_Org_ID);
 		sql.append(" ORDER BY i.DateInvoiced, i.DocumentNo");
 		log.fine("InvSQL=" + sql.toString());
+		
+		// role security
+		sql = new StringBuffer( MRole.getDefault(Env.getCtx(), false).addAccessSQL( sql.toString(), "i", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO ) );
+		
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_C_Currency_ID);
-			pstmt.setInt(2, m_C_Currency_ID);
-			pstmt.setTimestamp(3, (Timestamp)dateField.getValue());
-			pstmt.setInt(4, m_C_Currency_ID);
-			pstmt.setInt(5, m_C_BPartner_ID);
+			pstmt.setTimestamp(2, (Timestamp)dateField.getValue());
+			pstmt.setInt(3, m_C_Currency_ID);
+			pstmt.setTimestamp(4, (Timestamp)dateField.getValue());
+			pstmt.setTimestamp(5, (Timestamp)dateField.getValue());
+			pstmt.setInt(6, m_C_Currency_ID);
+			pstmt.setInt(7, m_C_BPartner_ID);
 			if (!multiCurrency.isSelected())
-				pstmt.setInt(6, m_C_Currency_ID);
+				pstmt.setInt(8, m_C_Currency_ID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -672,7 +709,7 @@ public class VAllocation extends CPanel
 					discount = open;
 				if ( writeOff.abs().compareTo(open.abs()) > 0)
 					writeOff = open;
-								
+				
 				//	 if overUnder has same sign as open it is an under payment -> less than open
 				if ( overUnder.signum() == openSign && overUnder.abs().compareTo(open.abs()) > 0)
 					overUnder = open;
@@ -682,11 +719,11 @@ public class VAllocation extends CPanel
 				 * 1) |overUnder + writeOff + discount| < open
 				 * 2) |writeOff + discount| < open ( in case overUnder is 'negative')
 				 * 3) discount + writeOff + overUnder + applied = 0
-				 * 
+				 *
 				 *   As only one column is edited at a time and the initial position was one of compliance
 				 *   with the rules, we only need to redistribute the increase/decrease in the edited column to 
 				 *   the others.
-				 */
+				*/
 				
 				// comply with rules 1 or 2
 				BigDecimal amtOver;
@@ -705,12 +742,12 @@ public class VAllocation extends CPanel
 						{
 							overUnder = Env.ZERO;
 							amtOver = temp.negate();
-						}
+					}
 						else
-						{
+					{
 							overUnder = temp;
 							amtOver = Env.ZERO;
-						}
+					}
 					}
 					
 					if ( col != i_writeOff )
@@ -720,14 +757,14 @@ public class VAllocation extends CPanel
 						{
 							writeOff = Env.ZERO;
 							amtOver = temp.negate();
-						}
+				}
 						else
 						{
 							writeOff = temp;
 							amtOver = Env.ZERO;
 						}
 					}
-					
+				
 					if ( col != i_discount )
 					{
 						temp = discount.subtract(amtOver);
@@ -736,7 +773,7 @@ public class VAllocation extends CPanel
 							discount = Env.ZERO;
 							amtOver = temp.negate();
 						}
-						else
+				else
 						{
 							discount = temp;
 							amtOver = Env.ZERO;
@@ -762,14 +799,14 @@ public class VAllocation extends CPanel
 						{
 							writeOff = amtUnder;
 							remainder = temp.subtract(amtUnder);
-						}
+			} 
 						else
 						{
 							writeOff = temp;
 							remainder = Env.ZERO;
 						}
 					}
-					
+			
 					if ( col != i_overUnder )
 					{
 						temp = overUnder.add(remainder);
@@ -865,7 +902,8 @@ public class VAllocation extends CPanel
 			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
 			{
 				Timestamp ts = (Timestamp)payment.getValueAt(i, 1);
-				allocDate = TimeUtil.max(allocDate, ts);
+				if ( !multiCurrency.isSelected() )  // the converted amounts are only valid for the selected date
+					allocDate = TimeUtil.max(allocDate, ts);
 				BigDecimal bd = (BigDecimal)payment.getValueAt(i, i_payment);
 				totalPay = totalPay.add(bd);  //  Applied Pay
 				m_noPayments++;
@@ -886,7 +924,8 @@ public class VAllocation extends CPanel
 			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
 			{
 				Timestamp ts = (Timestamp)invoice.getValueAt(i, 1);
-				allocDate = TimeUtil.max(allocDate, ts);
+				if ( !multiCurrency.isSelected() )  // converted amounts only valid for selected date
+					allocDate = TimeUtil.max(allocDate, ts);
 				BigDecimal bd = (BigDecimal)invoice.getValueAt(i, i_applied);
 				totalInv = totalInv.add(bd);  //  Applied Inv
 				m_noInvoices++;
@@ -924,6 +963,18 @@ public class VAllocation extends CPanel
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
 		log.config(name + "=" + value);
+		
+		// Organization
+		if (name.equals("AD_Org_ID"))
+		{
+		if (value == null)
+				m_AD_Org_ID = 0;
+			else
+				m_AD_Org_ID = ((Integer) value).intValue();
+			
+			loadBPartner();
+		}
+		
 		if (value == null)
 			return;
 

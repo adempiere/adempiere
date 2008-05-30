@@ -208,7 +208,9 @@ public abstract class PO
 	/** Accounting Columns			*/
 	private ArrayList <String>	s_acctColumns = null;
 
-
+	/** TODO - Trifon */
+	private boolean m_isReplication = false;
+	
 	/** Access Level S__ 100	4	System info			*/
 	public static final int ACCESSLEVEL_SYSTEM = 4;
 	/** Access Level _C_ 010	2	Client info			*/
@@ -1977,7 +1979,12 @@ public abstract class PO
 		// Call ModelValidators TYPE_AFTER_NEW/TYPE_AFTER_CHANGE - teo_sarca [ 1675490 ]
 		if (success) {
 			String errorMsg = ModelValidationEngine.get().fireModelChange
-				(this, newRecord ? ModelValidator.TYPE_AFTER_NEW : ModelValidator.TYPE_AFTER_CHANGE);
+				(this, newRecord ? 
+							(isReplication() ? ModelValidator.TYPE_AFTER_NEW_REPLICATION : ModelValidator.TYPE_AFTER_NEW)  
+						: 
+							(isReplication() ? ModelValidator.TYPE_AFTER_CHANGE_REPLICATION : ModelValidator.TYPE_AFTER_CHANGE) 
+				);
+			setReplication(false);
 			if (errorMsg != null) {
 				log.saveError("Error", errorMsg);
 				success = false;
@@ -2031,6 +2038,12 @@ public abstract class PO
 		return save();
 	}	//	save
 
+	public boolean saveReplica (boolean isFromReplication)
+	{
+		setReplication(isFromReplication);
+		return save();
+	}
+	
 	/**
 	 * 	Is there a Change to be saved?
 	 *	@return true if record changed
@@ -2184,7 +2197,7 @@ public abstract class PO
 					// don't encrypt NULL
 					sql.append(DB.TO_STRING(value.toString()));
 				} else {
-					sql.append(encrypt(i,DB.TO_STRING(value.toString())));
+				sql.append(encrypt(i,DB.TO_STRING(value.toString())));
 				}
 			}
 			
@@ -2620,125 +2633,126 @@ public abstract class PO
 				m_trxName = localTrxName;
 			}
 			
-			try
+		try
+		{
+			if (!beforeDelete())
 			{
-				if (!beforeDelete())
-				{
-					log.warning("beforeDelete failed");
-					return false;
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.WARNING, "beforeDelete", e);
-				log.saveError("Error", e.toString(), false);
-			//	throw new DBException(e);
+				log.warning("beforeDelete failed");
 				return false;
 			}
-			//	Delete Restrict AD_Table_ID/Record_ID (Requests, ..)
-			String errorMsg = PO_Record.exists(AD_Table_ID, Record_ID, m_trxName);
-			if (errorMsg != null)
-			{
-				log.saveError("CannotDelete", errorMsg);
-				return false;
-			}
-			// Call ModelValidators TYPE_DELETE
-			errorMsg = ModelValidationEngine.get().fireModelChange
-				(this, ModelValidator.TYPE_DELETE);
-			if (errorMsg != null)
-			{
-				log.saveError("Error", errorMsg);
-				return false;
-			}
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "beforeDelete", e);
+			log.saveError("Error", e.toString(), false);
+		//	throw new DBException(e);
+			return false;
+		}
+		//	Delete Restrict AD_Table_ID/Record_ID (Requests, ..)
+		String errorMsg = PO_Record.exists(AD_Table_ID, Record_ID, m_trxName);
+		if (errorMsg != null)
+		{
+			log.saveError("CannotDelete", errorMsg);
+			return false;
+		}
+		// Call ModelValidators TYPE_DELETE
+		errorMsg = ModelValidationEngine.get().fireModelChange
+			(this, isReplication() ? ModelValidator.TYPE_BEFORE_DELETE_REPLICATION : ModelValidator.TYPE_DELETE);
+		setReplication(false); // @Trifon
+		if (errorMsg != null)
+		{
+			log.saveError("Error", errorMsg);
+			return false;
+		}
 			
-			//
-			deleteTranslations(localTrxName);
-			//	Delete Cascade AD_Table_ID/Record_ID (Attachments, ..)
-			PO_Record.deleteCascade(AD_Table_ID, Record_ID, localTrxName);
-	
-			//	The Delete Statement
-			StringBuffer sql = new StringBuffer ("DELETE FROM ") //jz why no FROM??
-				.append(p_info.getTableName())
-				.append(" WHERE ")
-				.append(get_WhereClause(true));
-			int no = DB.executeUpdate(sql.toString(), localTrxName);
+		//
+		deleteTranslations(localTrxName);
+		//	Delete Cascade AD_Table_ID/Record_ID (Attachments, ..)
+		PO_Record.deleteCascade(AD_Table_ID, Record_ID, localTrxName);
+
+		//	The Delete Statement
+		StringBuffer sql = new StringBuffer ("DELETE FROM ") //jz why no FROM??
+			.append(p_info.getTableName())
+			.append(" WHERE ")
+			.append(get_WhereClause(true));
+		int no = DB.executeUpdate(sql.toString(), localTrxName);
 			success = no == 1;
-	
-			//	Save ID
-			m_idOld = get_ID();
-			//
-			if (!success)
+
+		//	Save ID
+		m_idOld = get_ID();
+		//
+		if (!success)
+		{
+			log.warning("Not deleted");
+			if (localTrx != null)
+				localTrx.rollback();
+		}
+		else
+		{
+			if (success)
 			{
-				log.warning("Not deleted");
-				if (localTrx != null)
-					localTrx.rollback();
+				//	Change Log
+				MSession session = MSession.get (p_ctx, false);
+				if (session == null)
+					log.fine("No Session found");
+				else if (m_IDs.length == 1)
+				{
+					int AD_ChangeLog_ID = 0;
+					int size = get_ColumnCount();
+					for (int i = 0; i < size; i++)
+					{
+						Object value = m_oldValues[i];
+						if (value != null
+							&& !p_info.isEncrypted(i)		//	not encrypted
+							&& !p_info.isVirtualColumn(i)	//	no virtual column
+							&& !"Password".equals(p_info.getColumnName(i))
+							)
+						{
+							// change log on delete
+							MChangeLog cLog = session.changeLog (
+								m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
+								AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
+								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, MChangeLog.EVENTCHANGELOG_Delete);
+							if (cLog != null)
+								AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
+						}
+					}	//   for all fields
+				}
+				
+				//	Housekeeping
+				m_IDs[0] = I_ZERO;
+				if (m_trxName == null)
+					log.fine("complete");
+				else
+					log.fine("[" + m_trxName + "] - complete");
+				m_attachment = null;
 			}
 			else
 			{
-				if (success)
-				{
-					//	Change Log
-					MSession session = MSession.get (p_ctx, false);
-					if (session == null)
-						log.fine("No Session found");
-					else if (m_IDs.length == 1)
-					{
-						int AD_ChangeLog_ID = 0;
-						int size = get_ColumnCount();
-						for (int i = 0; i < size; i++)
-						{
-							Object value = m_oldValues[i];
-							if (value != null
-								&& !p_info.isEncrypted(i)		//	not encrypted
-								&& !p_info.isVirtualColumn(i)	//	no virtual column
-								&& !"Password".equals(p_info.getColumnName(i))
-								)
-							{
-								// change log on delete
-								MChangeLog cLog = session.changeLog (
-									m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
-									AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
-									Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, MChangeLog.EVENTCHANGELOG_Delete);
-								if (cLog != null)
-									AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
-							}
-						}	//   for all fields
-					}
-					
-					//	Housekeeping
-					m_IDs[0] = I_ZERO;
-					if (m_trxName == null)
-						log.fine("complete");
-					else
-						log.fine("[" + m_trxName + "] - complete");
-					m_attachment = null;
-				}
-				else
-				{
-					log.warning("Not deleted");
-				}
+				log.warning("Not deleted");
 			}
-			
-			try
-			{
-				success = afterDelete (success);
-			}
-			catch (Exception e)
-			{
-				log.log(Level.WARNING, "afterDelete", e);
-				log.saveError("Error", e.toString(), false);
+		}
+
+		try
+		{
+			success = afterDelete (success);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "afterDelete", e);
+			log.saveError("Error", e.toString(), false);
+			success = false;
+		//	throw new DBException(e);
+		}
+
+		// Call ModelValidators TYPE_AFTER_DELETE - teo_sarca [ 1675490 ]
+		if (success) {
+			errorMsg = ModelValidationEngine.get().fireModelChange(this, ModelValidator.TYPE_AFTER_DELETE);
+			if (errorMsg != null) {
+				log.saveError("Error", errorMsg);
 				success = false;
-			//	throw new DBException(e);
 			}
-	
-			// Call ModelValidators TYPE_AFTER_DELETE - teo_sarca [ 1675490 ]
-			if (success) {
-				errorMsg = ModelValidationEngine.get().fireModelChange(this, ModelValidator.TYPE_AFTER_DELETE);
-				if (errorMsg != null) {
-					log.saveError("Error", errorMsg);
-					success = false;
-				}
-			}
+		}
 			
 			if (!success)
 			{
@@ -2758,15 +2772,15 @@ public abstract class PO
 				}
 			}
 			
-			//	Reset
-			if (success)
-			{
-				m_idOld = 0;
-				int size = p_info.getColumnCount();
-				m_oldValues = new Object[size];
-				m_newValues = new Object[size];
-				CacheMgt.get().reset(p_info.getTableName());
-			}		
+		//	Reset
+		if (success)
+		{
+			m_idOld = 0;
+			int size = p_info.getColumnCount();
+			m_oldValues = new Object[size];
+			m_newValues = new Object[size];
+			CacheMgt.get().reset(p_info.getTableName());
+		}
 		}
 		finally
 		{
@@ -3621,6 +3635,16 @@ public abstract class PO
 	 */
 	public void setDoc(Doc doc) {
 		m_doc = doc;
+	}
+	
+	public void setReplication(boolean isFromReplication)
+	{
+		m_isReplication = isFromReplication;
+	}
+	
+	public boolean isReplication()
+	{
+		return m_isReplication;
 	}
 
 	/**

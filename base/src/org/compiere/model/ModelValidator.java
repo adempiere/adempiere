@@ -32,16 +32,19 @@ public interface ModelValidator
 	public static final int	TYPE_NEW = 1;
 	public static final int	CHANGETYPE_NEW = 1;				// Compatibility with Compiere 260c
 	public static final int TYPE_AFTER_NEW = 4;			// teo_sarca [ 1675490 ] 
+	public static final int TYPE_AFTER_NEW_REPLICATION = 7;	// @Trifon
 	/** Model Change Type Change	*/
 	public static final int	TYPE_BEFORE_CHANGE = 2;		// teo_sarca [ 1675490 ] 
 	public static final int	TYPE_CHANGE = 2;
 	public static final int	CHANGETYPE_CHANGE = 2;			// Compatibility with Compiere 260c
 	public static final int	TYPE_AFTER_CHANGE = 5;			// teo_sarca [ 1675490 ] 
+	public static final int	TYPE_AFTER_CHANGE_REPLICATION = 8; // @Trifon
 	/** Model Change Type Delete	*/
 	public static final int	TYPE_BEFORE_DELETE = 3;		// teo_sarca [ 1675490 ] 
 	public static final int	TYPE_DELETE = 3;
 	public static final int	CHANGETYPE_DELETE = 3;			// Compatibility with Compiere 260c
 	public static final int	TYPE_AFTER_DELETE = 6;			// teo_sarca [ 1675490 ]
+	public static final int	TYPE_BEFORE_DELETE_REPLICATION = 9; // @Trifon 
 	
 	// Correlation between constant events and list of event script model validators
 	public static String[] tableEventValidators = new String[] {
@@ -51,7 +54,10 @@ public interface ModelValidator
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableBeforeDelete, // TYPE_BEFORE_DELETE = 3
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterNew,     // TYPE_AFTER_NEW = 4
 		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterChange,  // TYPE_AFTER_CHANGE = 5
-		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterDelete   // TYPE_AFTER_DELETE = 6 
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterDelete,   // TYPE_AFTER_DELETE = 6 
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterNewReplication,     // TYPE_AFTER_NEW_REPLICATION = 7
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableAfterChangeReplication,  // TYPE_AFTER_CHANGE_REPLICATION = 8
+		X_AD_Table_ScriptValidator.EVENTMODELVALIDATOR_TableBeforeDeleteReplication   // TYPE_BEFORE_DELETE_REPLICATION = 9 
 	};
 	
 	/** Called before document is prepared */

@@ -24,6 +24,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
+
+import org.compiere.apps.form.FormFrame;
 import org.compiere.db.*;
 import org.compiere.grid.ed.Calculator;
 import org.compiere.interfaces.*;
@@ -37,7 +39,10 @@ import org.compiere.util.*;
  *  @author 	Jorg Janke
  *  @version 	$Id: AEnv.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *  
- *  Colin Rooney (croo) & kstan_79 RFE#1670185
+ *  @author Colin Rooney (croo) & kstan_79 RFE#1670185
+ *  @author victor.perez@e-evolution.com 
+ *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ *  
  */
 public final class AEnv
 {
@@ -365,6 +370,23 @@ public final class AEnv
 		{
 			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
 		}
+		//FR [ 1966328 ] 
+		else if (actionCommand.equals("InfoMRP") && AEnv.canAccessInfo("MRP"))
+		{
+			CFrame frame = (CFrame) Env.getFrame(c);
+			int	m_menu_id = MMenu.getMenu_ID("MRP Info");
+			AMenu menu = AEnv.getAMenu(frame);
+			AMenuStartItem form = new AMenuStartItem (m_menu_id, true, Msg.translate(Env.getCtx(), "MRP Info"), menu);		//	async load
+			form.start();
+		}
+		else if (actionCommand.equals("InfoCRP") && AEnv.canAccessInfo("CRP"))
+		{
+			CFrame frame = (CFrame) Env.getFrame(c);
+			int	m_menu_id = MMenu.getMenu_ID("CRP Info");
+			AMenu menu = AEnv.getAMenu(frame);
+			AMenuStartItem form = new AMenuStartItem (m_menu_id, true, Msg.translate(Env.getCtx(), "CRP Info"), menu);		//	async load
+			form.start();			
+		}
 		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
 		{
 			org.compiere.apps.search.Info.showOrder (Env.getFrame(c), WindowNo, "");
@@ -389,6 +411,7 @@ public final class AEnv
 		{
 			org.compiere.apps.search.Info.showAssignment (Env.getFrame(c), WindowNo, "");
 		}
+		
 
 		//  Go Menu     ------------------------
 		else if (actionCommand.equals("WorkFlow"))
@@ -608,6 +631,21 @@ public final class AEnv
 		{
 			((AMenu)top).getWindowManager().add(frame);
 		}
+	}
+	
+	/**
+	 * FR [ 1966328 ] 
+	 * get AMenu
+	 * @param frame
+	 */
+	public static AMenu getAMenu(CFrame frame)
+	{
+		JFrame top = Env.getWindow(0);
+		if (top instanceof AMenu)
+		{
+			return (AMenu)top;
+		}
+		return null;
 	}
 	/**
 	 *	Exit System

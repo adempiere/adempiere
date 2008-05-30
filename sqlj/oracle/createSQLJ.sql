@@ -69,6 +69,32 @@ CREATE OR REPLACE FUNCTION bomQtyReserved (M_Product_ID NUMBER, M_Warehouse_ID N
 	NAME 'org.compiere.sqlj.Product.bomQtyReserved(int,int,int) return java.math.BigDecimal';
 /
 
+
+CREATE OR REPLACE FUNCTION bomQtyAvailableASI (M_Product_ID NUMBER, M_AttributeSetInstance_ID NUMBER, M_Warehouse_ID NUMBER, 
+        M_Locator_ID NUMBER)
+ 	RETURN NUMBER
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Product.bomQtyAvailableASI(int,int,int,int) return java.math.BigDecimal';
+/
+CREATE OR REPLACE FUNCTION bomQtyOnHandASI (M_Product_ID NUMBER,M_AttributeSetInstance_ID NUMBER, M_Warehouse_ID NUMBER, 
+        M_Locator_ID NUMBER)
+ 	RETURN NUMBER
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Product.bomQtyOnHandASI(int,int,int,int) return java.math.BigDecimal';
+/
+CREATE OR REPLACE FUNCTION bomQtyOrderedASI (M_Product_ID NUMBER, M_AttributeSetInstance_ID NUMBER, M_Warehouse_ID NUMBER, 
+        M_Locator_ID NUMBER)
+ 	RETURN NUMBER
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Product.bomQtyOrderedASI(int,int,int,int) return java.math.BigDecimal';
+/
+CREATE OR REPLACE FUNCTION bomQtyReservedASI (M_Product_ID NUMBER, M_AttributeSetInstance_ID NUMBER, M_Warehouse_ID NUMBER, 
+        M_Locator_ID NUMBER)
+ 	RETURN NUMBER
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Product.bomQtyReserved(int,int,int,int) return java.math.BigDecimal';
+/
+
 /** Currency **/
 CREATE OR REPLACE FUNCTION currencyBase (Amount NUMBER, C_CurrencyFrom_ID NUMBER, 
         ConversionDate DATE, AD_Client_ID NUMBER, AD_Org_ID NUMBER)
@@ -108,11 +134,25 @@ CREATE OR REPLACE FUNCTION invoiceOpen (p_C_Invoice_ID NUMBER, p_C_InvoicePaySch
  	AS LANGUAGE JAVA 
 	NAME 'org.compiere.sqlj.Invoice.open(int,int) return java.math.BigDecimal';
 /
+
 CREATE OR REPLACE FUNCTION invoicePaid (p_C_Invoice_ID NUMBER, p_C_Currency_ID NUMBER, 
         p_MultiplierAP NUMBER)
  	RETURN NUMBER
  	AS LANGUAGE JAVA 
 	NAME 'org.compiere.sqlj.Invoice.paid(int,int,int) return java.math.BigDecimal';
+/
+
+
+CREATE OR REPLACE FUNCTION invoiceOpenToDate (p_C_Invoice_ID NUMBER, p_C_InvoicePaySchedule_ID NUMBER,p_AcctDate DATE)
+ 	RETURN NUMBER
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Invoice.openToDate(int,int,java.sql.Timestamp) return java.math.BigDecimal';
+/
+
+CREATE OR REPLACE FUNCTION invoicePaidToDate (p_C_Invoice_ID NUMBER, p_C_Currency_ID NUMBER, p_MultiplierAP NUMBER,p_AcctDate DATE)
+ 	RETURN NUMBER
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Invoice.paid(int,int,int,java.sql.Timestamp) return java.math.BigDecimal';
 /
 CREATE OR REPLACE FUNCTION invoiceDiscount (p_C_Invoice_ID NUMBER, p_PayDate Date, 
         p_C_InvoicePaySchedule_ID NUMBER)

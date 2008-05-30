@@ -22,6 +22,7 @@ import java.util.*;
 import java.math.*;
 
 import org.compiere.model.*;
+import org.eevolution.model.*;
 import java.util.logging.*;
 import org.compiere.util.*;
 
@@ -105,6 +106,8 @@ public class ReplenishReport extends SvrProcess
 			createRequisition();
 		else if (p_ReplenishmentCreate.equals("MMM"))
 			createMovements();
+		else if (p_ReplenishmentCreate.equals("DOO"))
+			createDO();
 		return m_info;
 	}	//	doIt
 
@@ -546,7 +549,154 @@ public class ReplenishReport extends SvrProcess
 			m_info = "#" + noMoves + info;
 			log.info(m_info);
 		}
-	}	//	createRequisition
+	}	//	Create Inventory Movements
+	
+	/**
+	 * 	Create Distribution Order
+	 */
+	private void createDO() throws Exception
+	{
+		int noMoves = 0;
+		String info = "";
+		//
+		MClient client = null;
+		MDDOrder order = null;
+		int M_Warehouse_ID = 0;
+		int M_WarehouseSource_ID = 0;
+		MWarehouse whSource = null;
+		MWarehouse wh = null;
+		X_T_Replenish[] replenishs = getReplenishDO("M_WarehouseSource_ID IS NOT NULL");
+		for (X_T_Replenish replenish:replenishs)
+		{
+			if (whSource == null || whSource.getM_WarehouseSource_ID() != replenish.getM_WarehouseSource_ID())
+				whSource = MWarehouse.get(getCtx(), replenish.getM_WarehouseSource_ID());
+			if (wh == null || wh.getM_Warehouse_ID() != replenish.getM_Warehouse_ID())
+				wh = MWarehouse.get(getCtx(), replenish.getM_Warehouse_ID());
+			if (client == null || client.getAD_Client_ID() != whSource.getAD_Client_ID())
+				client = MClient.get(getCtx(), whSource.getAD_Client_ID());
+			//
+			if (order == null
+				|| M_WarehouseSource_ID != replenish.getM_WarehouseSource_ID()
+				|| M_Warehouse_ID != replenish.getM_Warehouse_ID())
+			{
+				M_WarehouseSource_ID = replenish.getM_WarehouseSource_ID();
+				M_Warehouse_ID = replenish.getM_Warehouse_ID();
+				
+				order = new MDDOrder (getCtx(), 0, get_TrxName());
+				order.setC_DocType_ID(p_C_DocType_ID);
+				order.setDescription(Msg.getMsg(getCtx(), "Replenishment")
+					+ ": " + whSource.getName() + "->" + wh.getName());
+				//	Set Org
+				order.setAD_Org_ID(whSource.getAD_Org_ID());
+				// Set Org Trx
+				MOrg orgTrx = MOrg.get(getCtx(), wh.getAD_Org_ID());
+				order.setAD_OrgTrx_ID(orgTrx.getAD_Org_ID());
+				int C_BPartner_ID = orgTrx.getLinkedC_BPartner_ID(get_TrxName()); 
+				if (C_BPartner_ID==0)
+					throw new AdempiereUserError(Msg.translate(getCtx(), "C_BPartner_ID")+ " @FillMandatory@ ");
+				MBPartner bp = new MBPartner(getCtx(),C_BPartner_ID,get_TrxName());
+				// Set BPartner Link to Org
+				order.setBPartner(bp);
+				order.setDateOrdered(new Timestamp(System.currentTimeMillis()));
+				//order.setDatePromised(DatePromised);
+				order.setDeliveryRule(MDDOrder.DELIVERYRULE_Availability);
+				order.setDeliveryViaRule(MDDOrder.DELIVERYVIARULE_Delivery);
+				order.setPriorityRule(MDDOrder.PRIORITYRULE_Medium);
+				order.setIsInDispute(false);
+				order.setIsApproved(false);
+				order.setIsDropShip(false);
+				order.setIsDelivered(false);
+				order.setIsInTransit(false);
+				order.setIsPrinted(false);
+				order.setIsSelected(false);
+				order.setIsSOTrx(false);
+				// Warehouse in Transit
+				MWarehouse[] whsInTransit  = MWarehouse.getForOrg(getCtx(), whSource.getAD_Org_ID());
+				for (MWarehouse whInTransit:whsInTransit)
+				{
+					if(whInTransit.isInTransit())	
+					order.setM_Warehouse_ID(whInTransit.getM_Warehouse_ID());
+				}
+				if (order.getM_Warehouse_ID()==0)
+					throw new AdempiereUserError("Warehouse inTransit is @FillMandatory@ ");
+				
+				if (!order.save())
+					return;
+				log.fine(order.toString());
+				noMoves++;
+				info += " - " + order.getDocumentNo();
+			}
+		
+			//	To
+			int M_LocatorTo_ID = wh.getDefaultLocator().getM_Locator_ID();
+			int M_Locator_ID = whSource.getDefaultLocator().getM_Locator_ID();
+			if(M_LocatorTo_ID == 0 || M_Locator_ID==0)
+			throw new AdempiereUserError(Msg.translate(getCtx(), "M_Locator_ID")+" @FillMandatory@ ");
+			
+			//	From: Look-up Storage
+			/*MProduct product = MProduct.get(getCtx(), replenish.getM_Product_ID());
+			MProductCategory pc = MProductCategory.get(getCtx(), product.getM_Product_Category_ID());
+			String MMPolicy = pc.getMMPolicy();
+			if (MMPolicy == null || MMPolicy.length() == 0)
+				MMPolicy = client.getMMPolicy();
+			//
+			MStorage[] storages = MStorage.getWarehouse(getCtx(), 
+				whSource.getM_Warehouse_ID(), replenish.getM_Product_ID(), 0, 0,
+				true, null, 
+				MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
+			
+			
+			BigDecimal target = replenish.getQtyToOrder();
+			for (int j = 0; j < storages.length; j++)
+			{
+				MStorage storage = storages[j];
+				if (storage.getQtyOnHand().signum() <= 0)
+					continue;
+				BigDecimal moveQty = target;
+				if (storage.getQtyOnHand().compareTo(moveQty) < 0)
+					moveQty = storage.getQtyOnHand();
+				//
+				MDDOrderLine line = new MDDOrderLine(order);
+				line.setM_Product_ID(replenish.getM_Product_ID());
+				line.setQtyEntered(moveQty);
+				if (replenish.getQtyToOrder().compareTo(moveQty) != 0)
+					line.setDescription("Total: " + replenish.getQtyToOrder());
+				line.setM_Locator_ID(storage.getM_Locator_ID());		//	from
+				line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+				line.setM_LocatorTo_ID(M_LocatorTo_ID);					//	to
+				line.setM_AttributeSetInstanceTo_ID(storage.getM_AttributeSetInstance_ID());
+				line.setIsInvoiced(false);
+				line.save();
+				//
+				target = target.subtract(moveQty);
+				if (target.signum() == 0)
+					break;
+			}*/
+			
+			MDDOrderLine line = new MDDOrderLine(order);
+			line.setM_Product_ID(replenish.getM_Product_ID());
+			line.setQty(replenish.getQtyToOrder());
+			if (replenish.getQtyToOrder().compareTo(replenish.getQtyToOrder()) != 0)
+				line.setDescription("Total: " + replenish.getQtyToOrder());
+			line.setM_Locator_ID(M_Locator_ID);		//	from
+			line.setM_AttributeSetInstance_ID(0);
+			line.setM_LocatorTo_ID(M_LocatorTo_ID);					//	to
+			line.setM_AttributeSetInstanceTo_ID(0);
+			line.setIsInvoiced(false);
+			line.save();
+			
+		}
+		if (replenishs.length == 0)
+		{
+			m_info = "No Source Warehouse";
+			log.warning(m_info);
+		}
+		else
+		{
+			m_info = "#" + noMoves + info;
+			log.info(m_info);
+		}
+	}	//	create Distribution Order
 
 	/**
 	 * 	Get Replenish Records
@@ -556,6 +706,49 @@ public class ReplenishReport extends SvrProcess
 	{
 		String sql = "SELECT * FROM T_Replenish "
 			+ "WHERE AD_PInstance_ID=? AND C_BPartner_ID > 0 ";
+		if (where != null && where.length() > 0)
+			sql += " AND " + where;
+		sql	+= " ORDER BY M_Warehouse_ID, M_WarehouseSource_ID, C_BPartner_ID";
+		ArrayList<X_T_Replenish> list = new ArrayList<X_T_Replenish>();
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, get_TrxName());
+			pstmt.setInt (1, getAD_PInstance_ID());
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new X_T_Replenish (getCtx(), rs, get_TrxName()));
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		X_T_Replenish[] retValue = new X_T_Replenish[list.size ()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	getReplenish
+	
+	/**
+	 * 	Get Replenish Records
+	 *	@return replenish
+	 */
+	private X_T_Replenish[] getReplenishDO (String where)
+	{
+		String sql = "SELECT * FROM T_Replenish "
+			+ "WHERE AD_PInstance_ID=? ";
 		if (where != null && where.length() > 0)
 			sql += " AND " + where;
 		sql	+= " ORDER BY M_Warehouse_ID, M_WarehouseSource_ID, C_BPartner_ID";

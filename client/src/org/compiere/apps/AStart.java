@@ -105,6 +105,10 @@ public final class AStart extends JApplet
 		return null;
 	}
 
+	public void setStandAlone(boolean ok)
+	{
+		isStandalone=ok;
+	}
 	/**
 	 *  Main method
 	 */

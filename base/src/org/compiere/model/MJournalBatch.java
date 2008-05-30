@@ -28,6 +28,9 @@ import org.compiere.util.*;
  *  Journal Batch Model
  *
  *	@author Jorg Janke
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  *	@version $Id: MJournalBatch.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MJournalBatch extends X_GL_JournalBatch implements DocAction
@@ -618,6 +621,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		else
 			description += " ** " + getDocumentNo() + " **";
 		reverse.setDescription(description);
+		//[ 1948157  ]
+		reverse.setReversal_ID(getGL_JournalBatch_ID());
 		reverse.save();
 		//
 		
@@ -634,6 +639,10 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			}
 			journal.save();
 		}
+		
+		//[ 1948157  ]
+		setReversal_ID(reverse.getGL_JournalBatch_ID());
+		save();
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)

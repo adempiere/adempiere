@@ -1569,11 +1569,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				Object dataElement = null;
 				if (item.isPrinted())	//	Text Columns
 				{
-					if (item.isTypePrintFormat())
-					{
-						log.warning("Unsupported: PrintFormat in Table: " + item);
-					}
-					else if (item.isTypeImage())
+					if (item.isTypeImage())
 					{
 						if (item.isImageField())
 						{
@@ -1631,7 +1627,11 @@ public class LayoutEngine implements Pageable, Printable, Doc
 								data[row][col] = element;
 						}
 					}
-					else
+					else if (item.isTypeText() )
+					{
+						data[row][col] = item.getPrintName(format.getLanguage());	
+					}
+					else if (item.isTypeField())
 					{
 						Object obj = null;
 						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
@@ -1650,6 +1650,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							log.log(Level.SEVERE, "Element not PrintDataElement " + obj.getClass());
 					//	System.out.println("  row=" + row + ",col=" + col + " - " + item.getAD_Column_ID() + " => " + dataElement);
 						data[row][col] = dataElement;
+					}
+					else  // item.isTypeBox() or isTypePrintFormat()
+					{
+						log.warning("Unsupported: " + (item.isTypeBox() ? "Box" : "PrintFormat") + " in Table: " + item);
 					}
 					col++;
 				}	//	printed

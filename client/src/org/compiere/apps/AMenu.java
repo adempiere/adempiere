@@ -79,7 +79,10 @@ import org.compiere.util.Splash;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: AMenu.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *
- *  Colin Rooney (croo) RFE#1670185  restrict access to info queries
+ *  @author Colin Rooney (croo) RFE#1670185  restrict access to info queries
+ *  @author victor.perez@e-evolution.com 
+ *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ * 
  */
 public final class AMenu extends CFrame
 	implements ActionListener, PropertyChangeListener, ChangeListener
@@ -417,6 +420,15 @@ public final class AMenu extends CFrame
 		if (MRole.getDefault().isAllow_Info_Schedule())
 		{
 			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
+		}
+		//FR [ 1966328 ] 
+		if (MRole.getDefault().isAllow_Info_MRP())
+		{
+			AEnv.addMenuItem("InfoMRP", "Info", null, mView, this);			
+		}
+		if (MRole.getDefault().isAllow_Info_CRP())
+		{
+			AEnv.addMenuItem("InfoCRP", "Info", null, mView, this);			
 		}
 		mView.addSeparator();
 		if (MRole.getDefault().isAllow_Info_Order())

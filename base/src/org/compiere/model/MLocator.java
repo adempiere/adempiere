@@ -25,6 +25,8 @@ import org.compiere.util.*;
  *	Warehouse Locator Object
  *
  *  @author 	Jorg Janke
+ *  @author victor.perez@e-evolution.com
+ *  @see [ 1966333 ] New Method to get the Default Locator based in Warehouse http://sourceforge.net/tracker/index.php?func=detail&aid=1966333&group_id=176962&atid=879335
  *  @version 	$Id: MLocator.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MLocator extends X_M_Locator
@@ -40,7 +42,7 @@ public class MLocator extends X_M_Locator
 		String trxName = null;
 		MLocator retValue = null;
 		String sql = "SELECT * FROM M_Locator l "
-			+ "WHERE IsDefault='Y'"
+			+ "WHERE IsActive = 'Y' AND  IsDefault='Y'"
 			+ " AND EXISTS (SELECT * FROM M_Locator lx "
 				+ "WHERE l.M_Warehouse_ID=lx.M_Warehouse_ID AND lx.M_Locator_ID=?) "
 			+ "ORDER BY Created";
@@ -53,6 +55,43 @@ public class MLocator extends X_M_Locator
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 				retValue = new MLocator (ctx, rs, trxName);
+		}
+		catch (Exception e)
+		{
+			s_log.log (Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		return retValue;
+	}	//	getDefault
+	
+	/**
+	 *  FR  [ 1966333 ]
+	 * 	Get oldest Default Locator of warehouse with locator
+	 *	@param ctx context
+	 *	@param M_Locator_ID locator
+	 *	@return locator or null
+	 */
+	public static MLocator getDefault (MWarehouse warehouse)
+	{
+		String trxName = null;
+		MLocator retValue = null;
+		String sql = "SELECT * FROM M_Locator l "
+			+ "WHERE IsActive = 'Y' AND IsDefault='Y' AND l.M_Warehouse_ID=? "
+			+ "ORDER BY PriorityNo";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, warehouse.getM_Warehouse_ID());
+			rs = pstmt.executeQuery ();
+			while (rs.next ())
+				retValue = new MLocator (warehouse.getCtx(), rs, trxName);
 		}
 		catch (Exception e)
 		{
@@ -82,7 +121,7 @@ public class MLocator extends X_M_Locator
 		 String X, String Y, String Z)
 	 {
 		MLocator retValue = null;
-		String sql = "SELECT * FROM M_Locator WHERE M_Warehouse_ID=? AND X=? AND Y=? AND Z=?";
+		String sql = "SELECT * FROM M_Locator WHERE IsActive = 'Y' AND M_Warehouse_ID=? AND X=? AND Y=? AND Z=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try

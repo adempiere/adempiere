@@ -40,6 +40,7 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: MAllocationHdr.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
  */
 public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 {
@@ -113,6 +114,54 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
+		}
+		MAllocationHdr[] retValue = new MAllocationHdr[list.size()];
+		list.toArray(retValue);
+		return retValue;
+	}	//	getOfInvoice
+	
+	//FR [ 1866214 ]
+	/**
+	 * 	Get Allocations of Cash
+	 *	@param ctx context
+	 *	@param C_Cash_ID Cash ID
+	 *	@return allocations of payment
+	 *	@param trxName transaction
+	 */
+	public static MAllocationHdr[] getOfCash (Properties ctx, int C_Cash_ID, String trxName)
+	{
+		String sql = "SELECT a.C_AllocationHdr_ID FROM C_Cash c "
+		+ " INNER JOIN C_Cashline cl ON (c.C_Cash_ID= cl.C_Cash_ID) "
+		+ " INNER JOIN C_AllocationLine al ON (al.C_Cashline_ID=cl.C_Cashline_ID) "
+		+ " INNER JOIN C_AllocationHdr a ON(al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
+		+ " WHERE c.C_Cash_ID=?	GROUP BY a.C_AllocationHdr_ID";
+	
+		ArrayList<MAllocationHdr> list = new ArrayList<MAllocationHdr>();
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			pstmt.setInt(1, C_Cash_ID);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add (new MAllocationHdr(ctx, rs.getInt(1), trxName));
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
 		}
 		MAllocationHdr[] retValue = new MAllocationHdr[list.size()];
 		list.toArray(retValue);

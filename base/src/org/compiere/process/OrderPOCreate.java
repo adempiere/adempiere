@@ -96,8 +96,8 @@ public class OrderPOCreate extends SvrProcess
 		String sql = "SELECT * FROM C_Order o "
 			+ "WHERE o.IsSOTrx='Y'"
 			//	No Duplicates
-			//	" AND o.Ref_Order_ID IS NULL"
-			+ " AND NOT EXISTS (SELECT * FROM C_OrderLine ol WHERE o.C_Order_ID=ol.C_Order_ID AND ol.Ref_OrderLine_ID IS NOT NULL)"
+			//	" AND o.Link_Order_ID IS NULL"
+			+ " AND NOT EXISTS (SELECT * FROM C_OrderLine ol WHERE o.C_Order_ID=ol.C_Order_ID AND ol.Link_OrderLine_ID IS NOT NULL)"
 			; 
 		if (p_C_Order_ID != 0)
 			sql += " AND o.C_Order_ID=?";
@@ -213,7 +213,7 @@ public class OrderPOCreate extends SvrProcess
 					if (soLines[i].getM_Product_ID() == M_Product_ID)
 					{
 						MOrderLine poLine = new MOrderLine (po);
-						poLine.setRef_OrderLine_ID(soLines[i].getC_OrderLine_ID());
+						poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
 						poLine.setM_Product_ID(soLines[i].getM_Product_ID());
 						poLine.setM_AttributeSetInstance_ID(soLines[i].getM_AttributeSetInstance_ID());
 						poLine.setC_UOM_ID(soLines[i].getC_UOM_ID());
@@ -223,6 +223,9 @@ public class OrderPOCreate extends SvrProcess
 						poLine.setDatePromised(soLines[i].getDatePromised());
 						poLine.setPrice();
 						poLine.save();
+						
+						soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
+						soLines[i].save();
 					}
 				}
 			}
@@ -239,7 +242,7 @@ public class OrderPOCreate extends SvrProcess
 		//	Set Reference to PO
 		if (counter == 1 && po != null)
 		{
-			so.setRef_Order_ID(po.getC_Order_ID());
+			so.setLink_Order_ID(po.getC_Order_ID());
 			so.save();
 		}
 		return counter;
@@ -254,7 +257,7 @@ public class OrderPOCreate extends SvrProcess
 	{
 		MOrder po = new MOrder (getCtx(), 0, get_TrxName());
 		po.setClientOrg(so.getAD_Client_ID(), so.getAD_Org_ID());
-		po.setRef_Order_ID(so.getC_Order_ID());
+		po.setLink_Order_ID(so.getC_Order_ID());
 		po.setIsSOTrx(false);
 		po.setC_DocTypeTarget_ID();
 		//

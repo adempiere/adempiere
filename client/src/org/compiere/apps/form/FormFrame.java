@@ -434,5 +434,12 @@ public class FormFrame extends CFrame
 	{
 		return p_AD_Form_ID;
 	}	//	getAD_Window_ID
+	/**
+	 * @return Returns the  manuBar
+	 */
+	public JMenuBar getMenu()
+	{
+		return menuBar;
+	}
 
 }	//	FormFrame

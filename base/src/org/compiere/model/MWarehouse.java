@@ -25,6 +25,8 @@ import org.compiere.util.*;
  *	Warehouse Model
  *	
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com
+ *  @see FR [ 1966337 ] New Method to get the Transit Warehouse based in ID Org http://sourceforge.net/tracker/index.php?func=detail&aid=1966337&group_id=176962&atid=879335
  *  @version $Id: MWarehouse.java,v 1.3 2006/07/30 00:58:05 jjanke Exp $
  */
 public class MWarehouse extends X_M_Warehouse
@@ -56,7 +58,7 @@ public class MWarehouse extends X_M_Warehouse
 	public static MWarehouse[] getForOrg (Properties ctx, int AD_Org_ID)
 	{
 		ArrayList<MWarehouse> list = new ArrayList<MWarehouse>();
-		String sql = "SELECT * FROM M_Warehouse WHERE AD_Org_ID=? ORDER BY Created";
+		String sql = "SELECT * FROM M_Warehouse WHERE IsActive = 'Y' AND AD_Org_ID=? ORDER BY Created";
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -88,6 +90,47 @@ public class MWarehouse extends X_M_Warehouse
 		return retValue;
 	}	//	get
 	
+	/**
+	 *  FR [ 1966337 ] 
+	 * 	Get Warehouses Transit for Org
+	 *	@param ctx context
+	 *	@param AD_Org_ID id
+	 *	@return warehouse
+	 */
+	public static MWarehouse[] getInTransitForOrg (Properties ctx, int AD_Org_ID)
+	{
+		ArrayList<MWarehouse> list = new ArrayList<MWarehouse>();
+		String sql = "SELECT * FROM M_Warehouse WHERE IsActive = 'Y' AND IsInTransit = 'Y' AND AD_Org_ID=? ORDER BY Created";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			pstmt.setInt (1, AD_Org_ID);
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new MWarehouse (ctx, rs, null));
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		MWarehouse[] retValue = new MWarehouse[list.size ()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	get
 	
 	/**	Cache					*/
 	private static CCache<Integer,MWarehouse> s_cache = new CCache<Integer,MWarehouse>("M_Warehouse", 5);
@@ -150,7 +193,7 @@ public class MWarehouse extends X_M_Warehouse
 		if (!reload && m_locators != null)
 			return m_locators;
 		//
-		String sql = "SELECT * FROM M_Locator WHERE M_Warehouse_ID=? ORDER BY X,Y,Z";
+		String sql = "SELECT * FROM M_Locator WHERE IsActive = 'Y' AND M_Warehouse_ID=? ORDER BY X,Y,Z";
 		ArrayList<MLocator> list = new ArrayList<MLocator>();
 		PreparedStatement pstmt = null;
 		try

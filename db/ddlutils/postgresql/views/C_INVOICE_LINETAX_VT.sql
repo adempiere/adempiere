@@ -49,9 +49,11 @@ SELECT il.AD_Client_ID, il.AD_Org_ID, il.IsActive, il.Created, il.CreatedBy, il.
 	uom.AD_Language,
 	il.C_Invoice_ID, il.C_InvoiceLine_ID,
     il.C_Tax_ID, il.TaxAmt, il.LineTotalAmt, t.TaxIndicator,
-	il.Line+(b.Line/100) AS Line, p.M_Product_ID,
-	il.QtyInvoiced*b.BOMQty AS QtyInvoiced,
-    il.QtyEntered*b.BOMQty AS QtyEntered,
+	il.Line+(bl.Line/100) AS Line, p.M_Product_ID,
+	--il.QtyInvoiced*b.BOMQty AS QtyInvoiced,
+	CASE WHEN bl.IsQtyPercentage = 'N' THEN il.QtyInvoiced*bl.QtyBOM ELSE il.QtyInvoiced*(bl.QtyBatch / 100) END AS QtyInvoiced, 
+    --il.QtyEntered*b.BOMQty AS QtyEntered,
+    CASE WHEN bl.IsQtyPercentage = 'N' THEN il.QtyEntered*bl.QtyBOM ELSE il.QtyEntered*(bl.QtyBatch / 100) END AS QtyEntered, 
 	uom.UOMSymbol,
 	COALESCE(pt.Name,p.Name) AS Name,	-- main
 	b.Description,
@@ -60,13 +62,23 @@ SELECT il.AD_Client_ID, il.AD_Org_ID, il.IsActive, il.Created, il.CreatedBy, il.
     il.M_AttributeSetInstance_ID, asi.M_AttributeSet_ID, asi.SerNo, asi.Lot, asi.M_Lot_ID,asi.GuaranteeDate,
     pt.Description as ProductDescription, p.ImageURL,
     il.C_Campaign_ID, il.C_Project_ID, il.C_Activity_ID, il.C_ProjectPhase_ID, il.C_ProjectTask_ID
-FROM M_Product_BOM b	-- BOM lines
+/*FROM M_Product_BOM b	-- BOM lines
 	INNER JOIN C_InvoiceLine il ON (b.M_Product_ID=il.M_Product_ID)
 	INNER JOIN M_Product bp ON (bp.M_Product_ID=il.M_Product_ID -- BOM Product
 		AND bp.IsBOM='Y' AND bp.IsVerified='Y' AND bp.IsInvoicePrintDetails='Y')
 	INNER JOIN M_Product p ON (b.M_ProductBOM_ID=p.M_Product_ID) -- BOM line product
 	INNER JOIN C_UOM_Trl uom ON (p.C_UOM_ID=uom.C_UOM_ID)
 	INNER JOIN M_Product_Trl pt ON (b.M_ProductBOM_ID=pt.M_Product_ID AND uom.AD_Language=pt.AD_Language)
+    LEFT OUTER JOIN C_Tax t ON (il.C_Tax_ID=t.C_Tax_ID)
+    LEFT OUTER JOIN M_AttributeSetInstance asi ON (il.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)*/
+FROM PP_Product_BOM b	-- BOM lines
+	INNER JOIN C_InvoiceLine il ON (b.M_Product_ID=il.M_Product_ID)
+	INNER JOIN M_Product bp ON (bp.M_Product_ID=il.M_Product_ID -- BOM Product
+		AND bp.IsBOM='Y' AND bp.IsVerified='Y' AND bp.IsInvoicePrintDetails='Y')
+	INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID)
+	INNER JOIN M_Product p ON (bl.M_Product_ID=p.M_Product_ID) -- BOM line product
+	INNER JOIN C_UOM_Trl uom ON (p.C_UOM_ID=uom.C_UOM_ID)
+	INNER JOIN M_Product_Trl pt ON (bl.M_Product_ID=pt.M_Product_ID AND uom.AD_Language=pt.AD_Language)
     LEFT OUTER JOIN C_Tax t ON (il.C_Tax_ID=t.C_Tax_ID)
     LEFT OUTER JOIN M_AttributeSetInstance asi ON (il.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)
 UNION   --  comment line

@@ -12,7 +12,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@compiere.org or http://www.compiere.org/license.html 		  *
+ * @contributor Karsten Thiemann / Schaeffer AG - kthiemann@adempiere.org     *
  *****************************************************************************/
 package org.compiere.process;
 
@@ -37,6 +38,8 @@ public class OrderBatchProcess extends SvrProcess
 	private Timestamp	p_DateOrdered_From = null;
 	private Timestamp	p_DateOrdered_To = null;
 	private String 		p_DocAction = null;
+	private String 		p_IsDelivered = null;
+	private String 		p_IsInvoiced = null;
 
 	/**
 	 * 	Prepare
@@ -64,6 +67,11 @@ public class OrderBatchProcess extends SvrProcess
 			}
 			else if (name.equals("DocAction"))
 				p_DocAction = (String)para[i].getParameter();
+			else if (name.equals("IsDelivered")) {
+				p_IsDelivered = (String)para[i].getParameter();
+			} else if (name.equals("IsInvoiced")) {
+				p_IsInvoiced = (String)para[i].getParameter();
+			}
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -79,7 +87,8 @@ public class OrderBatchProcess extends SvrProcess
 		log.info("C_DocTypeTarget_ID=" + p_C_DocTypeTarget_ID + ", DocStatus=" + p_DocStatus
 			+ ", IsSelfService=" + p_IsSelfService + ", C_BPartner_ID=" + p_C_BPartner_ID
 			+ ", DateOrdered=" + p_DateOrdered_From + "->" + p_DateOrdered_To
-			+ ", DocAction=" + p_DocAction);
+			+ ", DocAction=" + p_DocAction + ", IsDelivered=" + p_IsDelivered
+			+ ", IsInvoiced=" + p_IsInvoiced);
 		
 		if (p_C_DocTypeTarget_ID == 0)
 			throw new AdempiereUserError("@NotFound@: @C_DocTypeTarget_ID@");
@@ -89,16 +98,28 @@ public class OrderBatchProcess extends SvrProcess
 			throw new AdempiereUserError("@NotFound@: @DocAction@");
 		
 		//
-		StringBuffer sql = new StringBuffer("SELECT * FROM C_Order "
-			+ "WHERE C_DocTypeTarget_ID=? AND DocStatus=?");
+		StringBuffer sql = new StringBuffer("SELECT * FROM C_Order o "
+			+ " WHERE o.C_DocTypeTarget_ID=? AND o.DocStatus=? ");
 		if (p_IsSelfService != null && p_IsSelfService.length() == 1)
-			sql.append(" AND IsSelfService='").append(p_IsSelfService).append("'");
+			sql.append(" AND o.IsSelfService='").append(p_IsSelfService).append("'");
 		if (p_C_BPartner_ID != 0)
-			sql.append(" AND C_BPartner_ID=").append(p_C_BPartner_ID);
+			sql.append(" AND o.C_BPartner_ID=").append(p_C_BPartner_ID);
 		if (p_DateOrdered_From != null)
-			sql.append(" AND TRUNC(DateOrdered) >= ").append(DB.TO_DATE(p_DateOrdered_From, true));
+			sql.append(" AND TRUNC(o.DateOrdered) >= ").append(DB.TO_DATE(p_DateOrdered_From, true));
 		if (p_DateOrdered_To != null)
-			sql.append(" AND TRUNC(DateOrdered) <= ").append(DB.TO_DATE(p_DateOrdered_To, true));
+			sql.append(" AND TRUNC(o.DateOrdered) <= ").append(DB.TO_DATE(p_DateOrdered_To, true));
+		if ("Y".equals(p_IsDelivered))
+			sql.append(" AND NOT EXISTS (SELECT l.C_OrderLine_ID FROM C_OrderLine l ")
+			.append(" WHERE l.C_Order_ID=o.C_Order_ID AND l.QtyOrdered>l.QtyDelivered) ");
+		else if ("N".equals(p_IsDelivered))
+			sql.append(" AND EXISTS (SELECT l.C_OrderLine_ID FROM C_OrderLine l ")
+			.append(" WHERE l.C_Order_ID=o.C_Order_ID AND l.QtyOrdered>l.QtyDelivered) ");
+		if ("Y".equals(p_IsInvoiced))
+			sql.append(" AND NOT EXISTS (SELECT l.C_OrderLine_ID FROM C_OrderLine l ")
+			.append(" WHERE l.C_Order_ID=o.C_Order_ID AND l.QtyOrdered>l.QtyInvoiced) ");
+		else if ("N".equals(p_IsInvoiced))
+			sql.append(" AND EXISTS (SELECT l.C_OrderLine_ID FROM C_OrderLine l ")
+			.append(" WHERE l.C_Order_ID=o.C_Order_ID AND l.QtyOrdered>l.QtyInvoiced) ");
 		
 		int counter = 0;
 		int errCounter = 0;

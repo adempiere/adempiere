@@ -29,6 +29,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version $Id: MInventory.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  */
 public class MInventory extends X_M_Inventory implements DocAction
 {
@@ -389,7 +392,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 		log.info(toString());
 		
 		//vpj-cd begin e-evolution recalculate the attribute instances and qty.
-		MInventoryLine[] linesup = getLines(false);
+		/*MInventoryLine[] linesup = getLines(false);
 		for (int i = 0; i < linesup.length; i++)
 		{
 			MInventoryLine line = linesup[i];
@@ -444,8 +447,9 @@ public class MInventory extends X_M_Inventory implements DocAction
 			{
 				pstmt = null;
 			}
-		}
+		}*/
 		//vpj-cd e-evolution recalculate the attribute instances and qty END.
+		/*
 		//
 		MInventoryLine[] lines = getLines(false);
 		for (int i = 0; i < lines.length; i++)
@@ -543,7 +547,6 @@ public class MInventory extends X_M_Inventory implements DocAction
 					}					
 				}	//	negative qty
 			}
-			
 			//	Fallback
 			if (trx == null)
 			{
@@ -584,6 +587,138 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 			}	//	Fallback
 			
+			*/
+	
+		
+		MInventoryLine[] lines = getLines(false);
+		for (MInventoryLine line : lines)
+		{
+			if (!line.isActive())
+				continue;
+			
+			MProduct product = line.getProduct();	
+			
+			//Get Quantity to Inventory Inernal Use
+			BigDecimal qtyDiff = line.getQtyInternalUse().negate();
+			//If Quantity to Inventory Internal Use = Zero Then is Physical Inventory  Else is  Inventory Internal Use 
+			if (qtyDiff.signum() == 0)
+				qtyDiff = line.getQtyCount().subtract(line.getQtyBook());
+			
+			//Ignore the Material Policy when is Reverse Correction
+			if(!isReversal())
+			checkMaterialPolicy(line, qtyDiff);
+			
+			//	Stock Movement - Counterpart MOrder.reserveStock
+			if (product != null 
+				&& product.isStocked() )
+			{
+				log.fine("Material Transaction");
+				MTransaction mtrx = null; 
+				
+				//If AttributeSetInstance = Zero then create new  AttributeSetInstance use Inventory Line MA else use current AttributeSetInstance
+				if (line.getM_AttributeSetInstance_ID() == 0 || qtyDiff.compareTo(Env.ZERO) == 0)
+				{
+					MInventoryLineMA mas[] = MInventoryLineMA.get(getCtx(),
+						line.getM_InventoryLine_ID(), get_TrxName());
+					
+					for (int j = 0; j < mas.length; j++)
+					{
+						MInventoryLineMA ma = mas[j];
+						BigDecimal QtyMA = ma.getMovementQty();
+						BigDecimal QtyNew = QtyMA.add(qtyDiff);
+						log.fine("Diff=" + qtyDiff 
+								+ " - Instance OnHand=" + QtyMA + "->" + QtyNew);
+						
+							if (!MStorage.add(getCtx(), getM_Warehouse_ID(),
+									line.getM_Locator_ID(),
+									line.getM_Product_ID(), 
+									ma.getM_AttributeSetInstance_ID(), 0, 
+									QtyMA.negate(), Env.ZERO, Env.ZERO, get_TrxName()))
+							{
+									m_processMsg = "Cannot correct Inventory (MA)";
+									return DocAction.STATUS_Invalid;
+							}
+							
+							// Only Update Date Last Inventory if is a Physical Inventory
+							if(line.getQtyInternalUse().compareTo(Env.ZERO) == 0)
+							{	
+								MStorage storage = MStorage.get(getCtx(), line.getM_Locator_ID(), 
+										line.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(), get_TrxName());						
+								storage.setDateLastInventory(getMovementDate());
+								if (!storage.save(get_TrxName()))
+								{
+									m_processMsg = "Storage not updated(2)";
+									return DocAction.STATUS_Invalid;
+								}
+							}
+							
+							String m_MovementType =null;
+							if(QtyMA.negate().compareTo(Env.ZERO) > 0 )
+								m_MovementType = MTransaction.MOVEMENTTYPE_InventoryIn;
+							else
+								m_MovementType = MTransaction.MOVEMENTTYPE_InventoryOut;
+							//	Transaction
+							mtrx = new MTransaction (getCtx(), line.getAD_Org_ID(), m_MovementType,
+								line.getM_Locator_ID(), line.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(),
+								QtyMA.negate(), getMovementDate(), get_TrxName());
+							mtrx.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
+							if (!mtrx.save())
+							{
+								m_processMsg = "Transaction not inserted(2)";
+								return DocAction.STATUS_Invalid;
+							}
+							qtyDiff = QtyNew;						
+					}	
+				}
+			
+				//sLine.getM_AttributeSetInstance_ID() != 0
+				// Fallback
+				if (mtrx == null)
+				{
+					//Fallback: Update Storage - see also VMatch.createMatchRecord
+					if (!MStorage.add(getCtx(), getM_Warehouse_ID(),
+							line.getM_Locator_ID(),
+							line.getM_Product_ID(), 
+							line.getM_AttributeSetInstance_ID(), 0, 
+							qtyDiff, Env.ZERO, Env.ZERO, get_TrxName()))
+					{
+							m_processMsg = "Cannot correct Inventory (MA)";
+							return DocAction.STATUS_Invalid;
+					}
+					
+					// Only Update Date Last Inventory if is a Physical Inventory
+					if(line.getQtyInternalUse().compareTo(Env.ZERO) == 0)
+					{	
+						MStorage storage = MStorage.get(getCtx(), line.getM_Locator_ID(), 
+								line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), get_TrxName());						
+					
+						storage.setDateLastInventory(getMovementDate());
+						if (!storage.save(get_TrxName()))
+						{
+							m_processMsg = "Storage not updated(2)";
+							return DocAction.STATUS_Invalid;
+						}
+					}
+					
+					String m_MovementType =null;
+					if(qtyDiff.compareTo(Env.ZERO) > 0 )
+						m_MovementType = MTransaction.MOVEMENTTYPE_InventoryIn;
+					else
+						m_MovementType = MTransaction.MOVEMENTTYPE_InventoryOut;
+					//	Transaction
+					mtrx = new MTransaction (getCtx(), line.getAD_Org_ID(), m_MovementType,
+						line.getM_Locator_ID(), line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+						qtyDiff, getMovementDate(), get_TrxName());
+					mtrx.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
+					if (!mtrx.save())
+					{
+						m_processMsg = "Transaction not inserted(2)";
+						return DocAction.STATUS_Invalid;
+					}
+				}	//	Fallback
+		}	//	stock movement
+			
+			
 		}	//	for all lines
 		
 		//	User Validation
@@ -623,33 +758,29 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 * 	(NOT USED)
 	 * 	Sets line ASI
 	 */
-	private void checkMaterialPolicy()
+	private void checkMaterialPolicy(MInventoryLine line, BigDecimal qtyDiff)
 	{
-		int no = MInventoryLineMA.deleteInventoryMA(getM_Inventory_ID(), get_TrxName());
+		int no = MInventoryLineMA.deleteInventoryMA(line.getM_InventoryLine_ID(), get_TrxName());
 		if (no > 0)
 			log.config("Delete old #" + no);
-		MInventoryLine[] lines = getLines(false);
 		
-		//	Check Lines
-		for (int i = 0; i < lines.length; i++)
-		{
-			MInventoryLine line = lines[i];
+		
+			//	Check Line
 			boolean needSave = false;
-
+			BigDecimal qtyASI = Env.ZERO ;
 			//	Attribute Set Instance
 			if (line.getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
-				BigDecimal qtyDiff = line.getQtyInternalUse().negate();
-				if (Env.ZERO.compareTo(qtyDiff) == 0)
-					qtyDiff = line.getQtyCount().subtract(line.getQtyBook());
-				log.fine("Count=" + line.getQtyCount()
-					+ ",Book=" + line.getQtyBook() + ", Difference=" + qtyDiff); 
 				if (qtyDiff.signum() > 0)	//	Incoming Trx
 				{
 					MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
 					asi.setClientOrg(getAD_Client_ID(), 0);
 					asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+					if (!asi.save())
+					{
+						throw new IllegalStateException("Error try create ASI Reservation");
+					}	
 					if (asi.save())
 					{
 						line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
@@ -663,7 +794,8 @@ public class MInventory extends X_M_Inventory implements DocAction
 						line.getM_Product_ID(),	line.getM_Locator_ID(), 
 						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
 					BigDecimal qtyToDeliver = qtyDiff.negate();
-					for (int ii = 0; ii < storages.length; ii++)
+					
+					/*for (int ii = 0; ii < storages.length; ii++)
 					{
 						MStorage storage = storages[ii];
 						if (ii == 0)
@@ -706,18 +838,55 @@ public class MInventory extends X_M_Inventory implements DocAction
 						if (qtyToDeliver.signum() == 0)
 							break;
 					}	//	 for all storages
+					*/
 					
-					//	No AttributeSetInstance found for remainder
-					if (qtyToDeliver.signum() != 0)
+					for (MStorage storage: storages)
 					{
-						MInventoryLineMA ma = new MInventoryLineMA (line, 
-							0, qtyToDeliver.negate());
+						//cosume ASI Zero
+						if (storage.getM_AttributeSetInstance_ID() == 0)
+						{
+							qtyASI = qtyASI.add(storage.getQtyOnHand());
+							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+							continue;
+						}
+						
+						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+						{
+							MInventoryLineMA ma = new MInventoryLineMA (line, 
+									storage.getM_AttributeSetInstance_ID(),
+									qtyToDeliver);
+								if (!ma.save())
+								{
+									throw new IllegalStateException("Error try create ASI Reservation");
+								}		
+								qtyToDeliver = Env.ZERO;
+								log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
+								//return;
+						}
+						else
+						{	
+								MInventoryLineMA ma = new MInventoryLineMA (line, 
+										storage.getM_AttributeSetInstance_ID(),
+										storage.getQtyOnHand());
+									if (!ma.save())
+									{
+										throw new IllegalStateException("Error try create ASI Reservation");
+									}	
+								qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+								log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
+						}
+					}
+									
+					//	No AttributeSetInstance found for remainder
+					if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
+					{
+						MInventoryLineMA ma = new MInventoryLineMA (line, 0 , qtyToDeliver.add(qtyASI));
+						
 						if (!ma.save())
 							;
 						log.fine("##: " + ma);
 					}
 				}	//	outgoing Trx
-			}	//	attributeSetInstance
 			
 			if (needSave && !line.save())
 				log.severe("NOT saved " + line);
@@ -831,11 +1000,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 		reversal.setPosted(false);
 		reversal.setProcessed(false);
 		reversal.addDescription("{->" + getDocumentNo() + ")");
+		//FR1948157
+		reversal.setReversal_ID(getM_Inventory_ID());
 		if (!reversal.save())
 		{
 			m_processMsg = "Could not create Inventory Reversal";
 			return false;
 		}
+		reversal.setReversal(true);
 		
 		//	Reverse Line Qty
 		MInventoryLine[] oLines = getLines(true);
@@ -849,11 +1021,27 @@ public class MInventory extends X_M_Inventory implements DocAction
 			//
 			rLine.setQtyBook (oLine.getQtyCount());		//	switch
 			rLine.setQtyCount (oLine.getQtyBook());
-			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());
+			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());		
+			
 			if (!rLine.save())
 			{
 				m_processMsg = "Could not create Inventory Reversal Line";
 				return false;
+			}
+			
+			//We need to copy MA
+			if (rLine.getM_AttributeSetInstance_ID() == 0)
+			{
+				MInventoryLineMA mas[] = MInventoryLineMA.get(getCtx(),
+					oLines[i].getM_InventoryLine_ID(), get_TrxName());
+				for (int j = 0; j < mas.length; j++)
+				{
+					MInventoryLineMA ma = new MInventoryLineMA (rLine, 
+						mas[j].getM_AttributeSetInstance_ID(),
+						mas[j].getMovementQty().negate());
+					if (!ma.save())
+						;
+				}
 			}
 		}
 		//
@@ -875,6 +1063,8 @@ public class MInventory extends X_M_Inventory implements DocAction
 		if (m_processMsg != null)
 			return false;
 		setProcessed(true);
+		//FR1948157
+		setReversal_ID(reversal.getM_Inventory_ID());
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
 		setDocAction(DOCACTION_None);
 		
@@ -968,5 +1158,25 @@ public class MInventory extends X_M_Inventory implements DocAction
 	//	return pl.getC_Currency_ID();
 		return 0;
 	}	//	getC_Currency_ID
+	
+	/** Reversal Flag		*/
+	private boolean m_reversal = false;
+	
+	/**
+	 * 	Set Reversal
+	 *	@param reversal reversal
+	 */
+	private void setReversal(boolean reversal)
+	{
+		m_reversal = reversal;
+	}	//	setReversal
+	/**
+	 * 	Is Reversal
+	 *	@return reversal
+	 */
+	private boolean isReversal()
+	{
+		return m_reversal;
+	}	//	isReversal
 	
 }	//	MInventory

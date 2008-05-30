@@ -23,6 +23,7 @@ import org.compiere.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 import org.compiere.wf.*;
+import org.eevolution.model.*;
 
 /**
  *	Adempiere Server Manager
@@ -151,6 +152,16 @@ public class AdempiereServerMgr
 		for (int i = 0; i < ldapModels.length; i++)
 		{
 			MLdapProcessor lp = ldapModels[i];
+			AdempiereServer server = AdempiereServer.create(lp);
+			server.start();
+			server.setPriority(Thread.NORM_PRIORITY-1);
+			m_servers.add(server);
+		}
+		//	ImportProcessor - @Trifon
+		MIMPProcessor[] importModels = MIMPProcessor.getActive(m_ctx);
+		for (int i = 0; i < importModels.length; i++)
+		{
+			MIMPProcessor lp = importModels[i];
 			AdempiereServer server = AdempiereServer.create(lp);
 			server.start();
 			server.setPriority(Thread.NORM_PRIORITY-1);
