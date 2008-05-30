@@ -1106,7 +1106,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
     {	
         AD_WindowNo = MWindow.getWindow_ID("Distribution Order"); 
         query = new MQuery("DD_Order");
-        // [ 1977523 ] // query.addRestriction("DD_Order_ID", MQuery.EQUAL, mrp.getDD_Order_ID());
+        query.addRestriction("DD_Order_ID", MQuery.EQUAL, mrp.getDD_Order_ID());
     } 
     if (AD_WindowNo == 0) 
     	return;

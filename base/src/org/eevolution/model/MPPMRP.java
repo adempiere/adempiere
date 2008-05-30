@@ -562,8 +562,8 @@ public class MPPMRP extends X_PP_MRP
                      mrp.setAD_Org_ID(source.getAD_Org_ID());
                      mrp.setName("MRP");
                      mrp.setDescription(ol.getDescription());
-                     // [ 1977523 ] // mrp.setDD_Order_ID(ol.getDD_Order_ID());
-                     // [ 1977523 ] // mrp.setDD_OrderLine_ID(ol.getDD_OrderLine_ID());
+                     mrp.setDD_Order_ID(ol.getDD_Order_ID());
+                     mrp.setDD_OrderLine_ID(ol.getDD_OrderLine_ID());
                      mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
                      mrp.setDatePromised(ol.getDatePromised());
                      mrp.setDateOrdered(ol.getDateOrdered());
@@ -617,8 +617,8 @@ public class MPPMRP extends X_PP_MRP
                      mrp.setAD_Org_ID(target.getAD_Org_ID());
                      mrp.setName("MRP");
                      mrp.setDescription(ol.getDescription());
-                     // [ 1977523 ] // mrp.setDD_Order_ID(ol.getDD_Order_ID());
-                     // [ 1977523 ] // mrp.setDD_OrderLine_ID(ol.getDD_OrderLine_ID());
+                     mrp.setDD_Order_ID(ol.getDD_Order_ID());
+                     mrp.setDD_OrderLine_ID(ol.getDD_OrderLine_ID());
                      mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
                      mrp.setDatePromised(ol.getDatePromised());
                      mrp.setDateOrdered(ol.getDateOrdered());
