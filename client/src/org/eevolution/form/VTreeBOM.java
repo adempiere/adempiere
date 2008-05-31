@@ -115,7 +115,7 @@ public class VTreeBOM extends CPanel
 	//private CButton			bAdd		= new CButton (Env.getImageIcon("StepBack24.gif"));
 	//private CButton			bDelete		= new CButton (Env.getImageIcon("StepForward24.gif"));
 	//private CButton			bDeleteAll	= new CButton (Env.getImageIcon("FastForward24.gif"));
-	private CCheckBox		implotion	= new CCheckBox ();
+	private CCheckBox		implosion	= new CCheckBox ();
 	private CLabel			treeInfo	= new CLabel ();
 	//
 	private JSplitPane		splitPane	= new JSplitPane ();
@@ -296,8 +296,8 @@ public class VTreeBOM extends CPanel
 		//labelECN.setText (Msg.translate(Env.getCtx(), "ECN"));
                  
 		labelProduct.setText (Msg.translate(Env.getCtx(), "M_Product_ID"));
-		//implotion.setEnabled (false);
-		implotion.setText (Msg.translate(Env.getCtx(), "Implotion"));
+		//implosion.setEnabled (false);
+		implosion.setText (Msg.translate(Env.getCtx(), "Implosion"));
 		//treeInfo.setText (" ");
 		//bAdd.setToolTipText("Add to Tree");
 		//bAddAll.setToolTipText("Add ALL to Tree");
@@ -316,7 +316,7 @@ public class VTreeBOM extends CPanel
                 
 		northPanel.add (labelProduct, null);
 		northPanel.add (fieldProduct, null);
-		northPanel.add (implotion, null);
+		northPanel.add (implosion, null);
                 //northPanel.add (cbAllNodes, null);
 		northPanel.add (treeInfo, null);
                 
@@ -438,7 +438,7 @@ public class VTreeBOM extends CPanel
                 
                 dataBOM.clear();
                 
-                if (implotion.isSelected())
+                if (implosion.isSelected())
                 {
                     QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
                     String filter = "M_Product_ID=" + M_Product_ID;
@@ -581,7 +581,7 @@ public class VTreeBOM extends CPanel
         public DefaultMutableTreeNode component(X_M_Product M_Product) 
         {   
             
-            if (implotion.isSelected())
+            if (implosion.isSelected())
             {
              //vparent.setValue(m_product_id);
              //String data = Msg.translate(Env.getCtx(), "PP_ProductBOM_ID") + ":" + Msg.translate(Env.getCtx(), "Search Key") + ":"+ bom.getValue()+ " " + Msg.translate(Env.getCtx(), "Name")  +  ": " + bom.getName(); 

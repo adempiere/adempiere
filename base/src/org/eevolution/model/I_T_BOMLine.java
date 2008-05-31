@@ -72,18 +72,18 @@ public interface I_T_BOMLine
 
 	public I_AD_PInstance getAD_PInstance() throws Exception;
 
-    /** Column name Implotion */
-    public static final String COLUMNNAME_Implotion = "Implotion";
+    /** Column name Implosion */
+    public static final String COLUMNNAME_Implosion = "Implosion";
 
-	/** Set Implotion.
+	/** Set Implosion.
 	  * Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
 	  */
-	public void setImplotion (boolean Implotion);
+	public void setImplosion (boolean Implosion);
 
-	/** Get Implotion.
+	/** Get Implosion.
 	  * Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
 	  */
-	public boolean isImplotion();
+	public boolean isImplosion();
 
     /** Column name LevelNo */
     public static final String COLUMNNAME_LevelNo = "LevelNo";

@@ -48,7 +48,7 @@ public class PrintBOM extends SvrProcess {
 
 	private int p_M_Product_ID = 0;
 
-	private boolean p_implotion = false;
+	private boolean p_implosion = false;
 
 	private int LevelNo = 1;
 
@@ -74,7 +74,7 @@ public class PrintBOM extends SvrProcess {
 						.intValue();
 
 			} else if (name.equals("Implotion")) {
-				p_implotion = ((String) para[i].getParameter()).equals("N") ? false
+				p_implosion = ((String) para[i].getParameter()).equals("N") ? false
 						: true;
 			}
 
@@ -139,14 +139,14 @@ public class PrintBOM extends SvrProcess {
 		tboml.setPP_Product_BOMLine_ID(0);
 		tboml.setM_Product_ID(p_M_Product_ID);
 		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setImplotion(p_implotion);
+		tboml.setImplotion(p_implosion);
 		tboml.setLevelNo(0);
 		tboml.setLevels("0");
 		tboml.setSeqNo(0);
 		tboml.setAD_PInstance_ID(AD_PInstance_ID);
 		tboml.save();
 
-		if (p_implotion) {
+		if (p_implosion) {
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 			String sql = new String(
@@ -206,7 +206,7 @@ public class PrintBOM extends SvrProcess {
 		tboml.setM_Product_ID(M_Product_ID);
 		tboml.setLevelNo(LevelNo);
 		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setImplotion(p_implotion);
+		tboml.setImplotion(p_implosion);
 
 		if (LevelNo >= 11)
 			tboml.setLevels(levels + ">" + LevelNo);
@@ -263,7 +263,7 @@ public class PrintBOM extends SvrProcess {
 				tboml.setSeqNo(SeqNo);
 				tboml.setAD_PInstance_ID(AD_PInstance_ID);
 				tboml.setSel_Product_ID(p_M_Product_ID);
-				tboml.setImplotion(p_implotion);
+				tboml.setImplotion(p_implosion);
 				tboml.save();
 				component(rs.getInt(2));
 			}
@@ -280,7 +280,7 @@ public class PrintBOM extends SvrProcess {
 	 */
 	public void component(int M_Product_ID) {
 
-		if (p_implotion) {
+		if (p_implosion) {
 
 			LevelNo += 1;
 			PreparedStatement stmt = null;

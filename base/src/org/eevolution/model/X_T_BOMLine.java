@@ -112,21 +112,21 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Implotion.
-		@param Implotion 
+	/** Set Implosion.
+		@param Implosion 
 		Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
 	  */
-	public void setImplotion (boolean Implotion)
+	public void setImplosion (boolean Implosion)
 	{
-		set_Value (COLUMNNAME_Implotion, Boolean.valueOf(Implotion));
+		set_Value (COLUMNNAME_Implosion, Boolean.valueOf(Implosion));
 	}
 
-	/** Get Implotion.
+	/** Get Implosion.
 		@return Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
 	  */
-	public boolean isImplotion () 
+	public boolean isImplosion () 
 	{
-		Object oo = get_Value(COLUMNNAME_Implotion);
+		Object oo = get_Value(COLUMNNAME_Implosion);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
