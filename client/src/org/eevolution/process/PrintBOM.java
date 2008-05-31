@@ -139,7 +139,7 @@ public class PrintBOM extends SvrProcess {
 		tboml.setPP_Product_BOMLine_ID(0);
 		tboml.setM_Product_ID(p_M_Product_ID);
 		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setImplotion(p_implosion);
+		tboml.setImplosion(p_implosion);
 		tboml.setLevelNo(0);
 		tboml.setLevels("0");
 		tboml.setSeqNo(0);
@@ -206,7 +206,7 @@ public class PrintBOM extends SvrProcess {
 		tboml.setM_Product_ID(M_Product_ID);
 		tboml.setLevelNo(LevelNo);
 		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setImplotion(p_implosion);
+		tboml.setImplosion(p_implosion);
 
 		if (LevelNo >= 11)
 			tboml.setLevels(levels + ">" + LevelNo);
@@ -263,7 +263,7 @@ public class PrintBOM extends SvrProcess {
 				tboml.setSeqNo(SeqNo);
 				tboml.setAD_PInstance_ID(AD_PInstance_ID);
 				tboml.setSel_Product_ID(p_M_Product_ID);
-				tboml.setImplotion(p_implosion);
+				tboml.setImplosion(p_implosion);
 				tboml.save();
 				component(rs.getInt(2));
 			}
