@@ -30,7 +30,7 @@ do
         for file in $DIR/*.sql; do
            echo "SELECT '`basename $file`' AS Filename FROM dual;"
            echo
-           cat $file | dos2unix | sed 's/commit[ ]*;//I'
+           cat $file | dos2unix
            echo
            echo
         done
@@ -41,7 +41,7 @@ then
    for file in $DIRINI/../processes_post_migration/*.sql; do
       echo "SELECT '`basename $file`' AS Filename FROM dual;"
       echo
-      cat $file | dos2unix | sed 's/commit[ ]*;//I'
+      cat $file | dos2unix
       echo
       echo
    done
@@ -51,7 +51,7 @@ then
    for file in $DIRINI/../my_processes_post_migration/*.sql; do
       echo "SELECT '`basename $file`' AS Filename FROM dual;"
       echo
-      cat $file | dos2unix | sed 's/commit[ ]*;//I'
+      cat $file | dos2unix
       echo
       echo
    done
