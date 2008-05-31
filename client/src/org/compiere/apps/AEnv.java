@@ -16,22 +16,55 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.rmi.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionListener;
+import java.io.InvalidClassException;
+import java.io.NotSerializableException;
+import java.rmi.RemoteException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Set;
+import java.util.logging.Level;
 
-import org.compiere.apps.form.FormFrame;
-import org.compiere.db.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.RepaintManager;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import org.compiere.db.CConnection;
 import org.compiere.grid.ed.Calculator;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.interfaces.Server;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MMenu;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CFrame;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.Splash;
 
 /**
  *  Windows Application Environment and utilities
@@ -896,7 +929,7 @@ public final class AEnv
 		{
 			//  Remote Context is called by value, not reference
 			//  Add Window properties to context
-			Enumeration keyEnum = mWindowVO.ctx.keys();
+			Enumeration<?> keyEnum = mWindowVO.ctx.keys();
 			while (keyEnum.hasMoreElements())
 			{
 				String key = (String)keyEnum.nextElement();
