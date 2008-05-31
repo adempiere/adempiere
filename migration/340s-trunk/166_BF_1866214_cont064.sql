@@ -25,6 +25,6 @@ BEGIN
           WHERE C_CASHLINE_ID = rc.C_CashLine_ID;
       END LOOP;
    END LOOP;
-
-   COMMIT;
+  COMMIT;
 END;
+/

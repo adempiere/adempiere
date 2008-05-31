@@ -70,6 +70,21 @@ public interface I_C_InvoiceLine
 	  */
 	public int getAD_OrgTrx_ID();
 
+    /** Column name A_Asset_Group_ID */
+    public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
+
+	/** Set Asset Group.
+	  * Group of Assets
+	  */
+	public void setA_Asset_Group_ID (int A_Asset_Group_ID);
+
+	/** Get Asset Group.
+	  * Group of Assets
+	  */
+	public int getA_Asset_Group_ID();
+
+	public I_A_Asset_Group getA_Asset_Group() throws Exception;
+
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
@@ -84,6 +99,33 @@ public interface I_C_InvoiceLine
 	public int getA_Asset_ID();
 
 	public I_A_Asset getA_Asset() throws Exception;
+
+    /** Column name A_CapvsExp */
+    public static final String COLUMNNAME_A_CapvsExp = "A_CapvsExp";
+
+	/** Set A_CapvsExp	  */
+	public void setA_CapvsExp (String A_CapvsExp);
+
+	/** Get A_CapvsExp	  */
+	public String getA_CapvsExp();
+
+    /** Column name A_CreateAsset */
+    public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
+
+	/** Set A_CreateAsset	  */
+	public void setA_CreateAsset (boolean A_CreateAsset);
+
+	/** Get A_CreateAsset	  */
+	public boolean isA_CreateAsset();
+
+    /** Column name A_Processed */
+    public static final String COLUMNNAME_A_Processed = "A_Processed";
+
+	/** Set A_Processed	  */
+	public void setA_Processed (boolean A_Processed);
+
+	/** Get A_Processed	  */
+	public boolean isA_Processed();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";

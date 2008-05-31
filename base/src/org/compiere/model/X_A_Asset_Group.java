@@ -44,8 +44,6 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 			setIsDepreciated (false);
 			setIsOneAssetPerUOM (false);
 			setIsOwned (false);
-			setIsTrackIssues (false);
-// N
 			setName (null);
         } */
     }
@@ -99,6 +97,14 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Group_ID()));
+    }
 
 	/** Set Description.
 		@param Description 
@@ -290,12 +296,4 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
 }

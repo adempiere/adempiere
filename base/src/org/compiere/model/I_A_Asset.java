@@ -72,6 +72,15 @@ public interface I_A_Asset
 
 	public I_AD_User getAD_User() throws Exception;
 
+    /** Column name A_Asset_CreateDate */
+    public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
+
+	/** Set A_Asset_CreateDate	  */
+	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate);
+
+	/** Get A_Asset_CreateDate	  */
+	public Timestamp getA_Asset_CreateDate();
+
     /** Column name A_Asset_Group_ID */
     public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
 
@@ -99,6 +108,42 @@ public interface I_A_Asset
 	  * Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+    /** Column name A_Asset_RevalDate */
+    public static final String COLUMNNAME_A_Asset_RevalDate = "A_Asset_RevalDate";
+
+	/** Set A_Asset_RevalDate	  */
+	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate);
+
+	/** Get A_Asset_RevalDate	  */
+	public Timestamp getA_Asset_RevalDate();
+
+    /** Column name A_Parent_Asset_ID */
+    public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
+
+	/** Set A_Parent_Asset_ID	  */
+	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
+
+	/** Get A_Parent_Asset_ID	  */
+	public int getA_Parent_Asset_ID();
+
+    /** Column name A_QTY_Current */
+    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
+
+	/** Set A_QTY_Current	  */
+	public void setA_QTY_Current (BigDecimal A_QTY_Current);
+
+	/** Get A_QTY_Current	  */
+	public BigDecimal getA_QTY_Current();
+
+    /** Column name A_QTY_Original */
+    public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
+
+	/** Set A_QTY_Original	  */
+	public void setA_QTY_Original (BigDecimal A_QTY_Original);
+
+	/** Get A_QTY_Original	  */
+	public BigDecimal getA_QTY_Original();
 
     /** Column name AssetDepreciationDate */
     public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
@@ -516,6 +561,15 @@ public interface I_A_Asset
 	  * Next Maintenence Unit
 	  */
 	public int getNextMaintenenceUnit();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

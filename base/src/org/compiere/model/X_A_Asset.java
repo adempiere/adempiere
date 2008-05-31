@@ -124,6 +124,20 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set A_Asset_CreateDate.
+		@param A_Asset_CreateDate A_Asset_CreateDate	  */
+	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate)
+	{
+		set_ValueNoCheck (COLUMNNAME_A_Asset_CreateDate, A_Asset_CreateDate);
+	}
+
+	/** Get A_Asset_CreateDate.
+		@return A_Asset_CreateDate	  */
+	public Timestamp getA_Asset_CreateDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
+	}
+
 	public I_A_Asset_Group getA_Asset_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
@@ -184,6 +198,76 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set A_Asset_RevalDate.
+		@param A_Asset_RevalDate A_Asset_RevalDate	  */
+	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate)
+	{
+		set_Value (COLUMNNAME_A_Asset_RevalDate, A_Asset_RevalDate);
+	}
+
+	/** Get A_Asset_RevalDate.
+		@return A_Asset_RevalDate	  */
+	public Timestamp getA_Asset_RevalDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
+	}
+
+	/** A_Parent_Asset_ID AD_Reference_ID=53258 */
+	public static final int A_PARENT_ASSET_ID_AD_Reference_ID=53258;
+	/** Set A_Parent_Asset_ID.
+		@param A_Parent_Asset_ID A_Parent_Asset_ID	  */
+	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID)
+	{
+		if (A_Parent_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Parent_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Parent_Asset_ID, Integer.valueOf(A_Parent_Asset_ID));
+	}
+
+	/** Get A_Parent_Asset_ID.
+		@return A_Parent_Asset_ID	  */
+	public int getA_Parent_Asset_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Parent_Asset_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set A_QTY_Current.
+		@param A_QTY_Current A_QTY_Current	  */
+	public void setA_QTY_Current (BigDecimal A_QTY_Current)
+	{
+		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
+	}
+
+	/** Get A_QTY_Current.
+		@return A_QTY_Current	  */
+	public BigDecimal getA_QTY_Current () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set A_QTY_Original.
+		@param A_QTY_Original A_QTY_Original	  */
+	public void setA_QTY_Original (BigDecimal A_QTY_Original)
+	{
+		set_Value (COLUMNNAME_A_QTY_Original, A_QTY_Original);
+	}
+
+	/** Get A_QTY_Original.
+		@return A_QTY_Original	  */
+	public BigDecimal getA_QTY_Original () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Original);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Asset Depreciation Date.
 		@param AssetDepreciationDate 
 		Date of last depreciation
@@ -235,8 +319,8 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	/** C_BPartnerSR_ID AD_Reference_ID=353 */
-	public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
+	/** C_BPartnerSR_ID AD_Reference_ID=232 */
+	public static final int C_BPARTNERSR_ID_AD_Reference_ID=232;
 	/** Set BPartner (Agent).
 		@param C_BPartnerSR_ID 
 		Business Partner (Agent or Sales Rep)
@@ -974,6 +1058,27 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+		@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Quantity.

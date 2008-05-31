@@ -119,6 +119,45 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_A_Asset_Group getA_Asset_Group() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
+        I_A_Asset_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_A_Asset_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Asset Group.
+		@param A_Asset_Group_ID 
+		Group of Assets
+	  */
+	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
+	{
+		if (A_Asset_Group_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
+	}
+
+	/** Get Asset Group.
+		@return Group of Assets
+	  */
+	public int getA_Asset_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_A_Asset getA_Asset() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
@@ -156,6 +195,75 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** A_CapvsExp AD_Reference_ID=53277 */
+	public static final int A_CAPVSEXP_AD_Reference_ID=53277;
+	/** Capital = Cap */
+	public static final String A_CAPVSEXP_Capital = "Cap";
+	/** Expense = Exp */
+	public static final String A_CAPVSEXP_Expense = "Exp";
+	/** Set A_CapvsExp.
+		@param A_CapvsExp A_CapvsExp	  */
+	public void setA_CapvsExp (String A_CapvsExp)
+	{
+
+		if (A_CapvsExp == null || A_CapvsExp.equals("Cap") || A_CapvsExp.equals("Exp")); else throw new IllegalArgumentException ("A_CapvsExp Invalid value - " + A_CapvsExp + " - Reference_ID=53277 - Cap - Exp");
+		if (A_CapvsExp != null && A_CapvsExp.length() > 3)
+		{
+			log.warning("Length > 3 - truncated");
+			A_CapvsExp = A_CapvsExp.substring(0, 3);
+		}
+		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
+	}
+
+	/** Get A_CapvsExp.
+		@return A_CapvsExp	  */
+	public String getA_CapvsExp () 
+	{
+		return (String)get_Value(COLUMNNAME_A_CapvsExp);
+	}
+
+	/** Set A_CreateAsset.
+		@param A_CreateAsset A_CreateAsset	  */
+	public void setA_CreateAsset (boolean A_CreateAsset)
+	{
+		set_Value (COLUMNNAME_A_CreateAsset, Boolean.valueOf(A_CreateAsset));
+	}
+
+	/** Get A_CreateAsset.
+		@return A_CreateAsset	  */
+	public boolean isA_CreateAsset () 
+	{
+		Object oo = get_Value(COLUMNNAME_A_CreateAsset);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set A_Processed.
+		@param A_Processed A_Processed	  */
+	public void setA_Processed (boolean A_Processed)
+	{
+		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
+	}
+
+	/** Get A_Processed.
+		@return A_Processed	  */
+	public boolean isA_Processed () 
+	{
+		Object oo = get_Value(COLUMNNAME_A_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_C_Activity getC_Activity() throws Exception 

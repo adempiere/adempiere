@@ -88,15 +88,15 @@ public class MAsset extends X_A_Asset
 		super (ctx, A_Asset_ID, trxName);
 		if (A_Asset_ID == 0)
 		{
-			setIsDepreciated (false);
-			setIsFullyDepreciated (false);
+		//	setIsDepreciated (false);
+		//	setIsFullyDepreciated (false);
 		//	setValue (null);
 		//	setName (null);
-			setIsInPosession (false);
-			setIsOwned (false);
+		//	setIsInPosession (false);
+		//	setIsOwned (false);
 		//	setA_Asset_Group_ID (0);
-			setIsDisposed (false);
-			setM_AttributeSetInstance_ID(0);
+		//	setIsDisposed (false);
+		//	setM_AttributeSetInstance_ID(0);
 			setQty(Env.ONE);
 		}
 	}	//	MAsset
@@ -416,9 +416,352 @@ public class MAsset extends X_A_Asset
 	protected boolean beforeSave (boolean newRecord)
 	{
 		getQty();		//	set to 1
+		if (getA_Parent_Asset_ID() < 1 ) 
+		{				
+			setA_Parent_Asset_ID(getA_Asset_ID());			
+		}	
 		return true;
 	}	//	beforeSave
 	
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return saved
+	 */
+	protected boolean afterSave (boolean newRecord,boolean success)
+	{
+		log.info ("afterSave");
+
+		int		p_A_Asset_ID = 0;
+		p_A_Asset_ID = getA_Asset_ID();
+
+		String sql = "SELECT COUNT(*) FROM A_Depreciation_Workfile WHERE A_Asset_ID=?";
+		PreparedStatement pstmt = null;	
+
+
+		if (DB.getSQLValue(get_TrxName(),sql, p_A_Asset_ID)== 0) 
+		{		    	
+			sql ="SELECT * FROM A_Asset_Group_Acct WHERE A_Asset_Group_ID = ? AND IsActive='Y'";	
+			pstmt = null;
+			pstmt = DB.prepareStatement(sql,get_TrxName());				
+			try {
+				pstmt.setInt(1, getA_Asset_Group_ID());		
+				ResultSet rs = pstmt.executeQuery();
+				int uselifemonths = 0;
+				int uselifeyears = 0;	
+				boolean isdepreciate = false;
+
+
+				MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());	
+				X_A_Asset asset = new X_A_Asset (getCtx(), p_A_Asset_ID, get_TrxName());
+
+				if (getA_Parent_Asset_ID() < 1 ) 
+				{				
+					asset.setA_Parent_Asset_ID(getA_Asset_ID());
+					asset.save();
+				}	
+
+
+				while (rs.next()){
+					MAssetGroupAcct assetgrpacct = new MAssetGroupAcct (getCtx(), rs, get_TrxName());
+					MAssetAcct assetacct = new MAssetAcct (getCtx(), 0, get_TrxName());			
+					isdepreciate = assetgrpacct.isProcessing();
+					if (isDepreciated()== true | isdepreciate == true)
+					{			
+						assetacct.setPostingType(assetgrpacct.getPostingType());
+						assetacct.setA_Split_Percent(assetgrpacct.getA_Split_Percent());
+						assetacct.setA_Depreciation_Conv_ID(assetgrpacct.getConventionType());
+						assetacct.setA_Salvage_Value(new BigDecimal(0.0));
+						assetacct.setA_Asset_ID(p_A_Asset_ID);								
+						assetacct.setA_Depreciation_ID(assetgrpacct.getDepreciationType());
+						assetacct.setA_Asset_Spread_ID(assetgrpacct.getA_Asset_Spread_Type());
+						assetacct.setA_Period_Start(1);
+
+
+						if (getUseLifeMonths() == 0 & getUseLifeYears() == 0){
+							assetacct.setA_Period_End(assetgrpacct.getUseLifeMonths());
+							asset.setUseLifeYears(assetgrpacct.getUseLifeYears());
+							asset.setUseLifeMonths(assetgrpacct.getUseLifeMonths());
+							asset.setIsDepreciated(true);
+							asset.setIsOwned(true);
+							asset.save();
+							uselifemonths = assetgrpacct.getUseLifeMonths();
+							uselifeyears = assetgrpacct.getUseLifeYears();
+
+						}
+						else if(getUseLifeMonths() == 0){
+							assetacct.setA_Period_End(getUseLifeYears()*12);
+							asset.setUseLifeMonths(getUseLifeYears()*12);
+							asset.setIsDepreciated(true);
+							asset.setIsOwned(true);
+							asset.save();
+							uselifemonths = getUseLifeYears()*12;
+							uselifeyears = getUseLifeYears();						
+						}
+						else{
+							assetacct.setA_Period_End(getUseLifeMonths());
+							uselifemonths = getUseLifeMonths();
+							uselifeyears = getUseLifeYears();}
+
+						assetacct.setA_Depreciation_Method_ID(assetgrpacct.getA_Depreciation_Calc_Type());
+						assetacct.setA_Asset_Acct(assetgrpacct.getA_Asset_Acct());
+						assetacct.setC_AcctSchema_ID(assetgrpacct.getC_AcctSchema_ID());
+						assetacct.setA_Accumdepreciation_Acct(assetgrpacct.getA_Accumdepreciation_Acct());
+						assetacct.setA_Depreciation_Acct(assetgrpacct.getA_Depreciation_Acct());
+						assetacct.setA_Disposal_Revenue(assetgrpacct.getA_Disposal_Revenue());
+						assetacct.setA_Disposal_Loss(assetgrpacct.getA_Disposal_Loss());
+						assetacct.setA_Reval_Accumdep_Offset_Cur(assetgrpacct.getA_Reval_Accumdep_Offset_Cur());
+						assetacct.setA_Reval_Accumdep_Offset_Prior(assetgrpacct.getA_Reval_Accumdep_Offset_Prior());
+						if (assetgrpacct.getA_Reval_Cal_Method() == null)
+							assetacct.setA_Reval_Cal_Method("DFT");
+						else
+							assetacct.setA_Reval_Cal_Method(assetgrpacct.getA_Reval_Cal_Method());					
+						assetacct.setA_Reval_Cost_Offset(assetgrpacct.getA_Reval_Cost_Offset());
+						assetacct.setA_Reval_Cost_Offset_Prior(assetgrpacct.getA_Reval_Cost_Offset_Prior());
+						assetacct.setA_Reval_Depexp_Offset(assetgrpacct.getA_Reval_Depexp_Offset());
+						assetacct.setA_Depreciation_Manual_Amount(assetgrpacct.getA_Depreciation_Manual_Amount());
+						assetacct.setA_Depreciation_Manual_Period(assetgrpacct.getA_Depreciation_Manual_Period());
+						assetacct.setA_Depreciation_Table_Header_ID(assetgrpacct.getA_Depreciation_Table_Header_ID());
+						assetacct.setA_Depreciation_Variable_Perc(assetgrpacct.getA_Depreciation_Variable_Perc());
+						assetacct.setProcessing(false);
+						assetacct.save();
+
+						change.setPostingType(assetacct.getPostingType());
+						change.setA_Split_Percent(assetacct.getA_Split_Percent());
+						change.setConventionType(assetacct.getA_Depreciation_Conv_ID());
+						change.setA_Asset_ID(p_A_Asset_ID);								
+						change.setDepreciationType(assetacct.getA_Depreciation_ID());
+						change.setA_Asset_Spread_Type(assetacct.getA_Asset_Spread_ID());
+						change.setA_Period_Start(assetacct.getA_Period_Start());
+						change.setA_Period_End(assetacct.getA_Period_End());
+						change.setIsInPosession(isOwned());
+						change.setIsDisposed(isDisposed());
+						change.setIsDepreciated(isDepreciated());
+						change.setIsFullyDepreciated(isFullyDepreciated());					
+						change.setA_Depreciation_Calc_Type(assetacct.getA_Depreciation_Method_ID());
+						change.setA_Asset_Acct(assetacct.getA_Asset_Acct());
+						change.setC_AcctSchema_ID(assetacct.getC_AcctSchema_ID());
+						change.setA_Accumdepreciation_Acct(assetacct.getA_Accumdepreciation_Acct());
+						change.setA_Depreciation_Acct(assetacct.getA_Depreciation_Acct());
+						change.setA_Disposal_Revenue(assetacct.getA_Disposal_Revenue());
+						change.setA_Disposal_Loss(assetacct.getA_Disposal_Loss());
+						change.setA_Reval_Accumdep_Offset_Cur(assetacct.getA_Reval_Accumdep_Offset_Cur());
+						change.setA_Reval_Accumdep_Offset_Prior(assetacct.getA_Reval_Accumdep_Offset_Prior());
+						if (assetacct.getA_Reval_Cal_Method() == null)
+							change.setA_Reval_Cal_Method("DFT");
+						else
+							change.setA_Reval_Cal_Method(assetacct.getA_Reval_Cal_Method());
+						change.setA_Reval_Cost_Offset(assetacct.getA_Reval_Cost_Offset());
+						change.setA_Reval_Cost_Offset_Prior(assetacct.getA_Reval_Cost_Offset_Prior());
+						change.setA_Reval_Depexp_Offset(assetacct.getA_Reval_Depexp_Offset());
+						change.setA_Depreciation_Manual_Amount(assetacct.getA_Depreciation_Manual_Amount());
+						change.setA_Depreciation_Manual_Period(assetacct.getA_Depreciation_Manual_Period());
+						change.setA_Depreciation_Table_Header_ID(assetacct.getA_Depreciation_Table_Header_ID());
+						change.setA_Depreciation_Variable_Perc(assetacct.getA_Depreciation_Variable_Perc());
+
+					}
+
+					String sql2 = "SELECT COUNT(*) FROM A_Depreciation_Workfile WHERE A_Asset_ID=? AND PostingType = ?";
+					if (DB.getSQLValue(get_TrxName(), sql2, asset.getA_Asset_ID(),assetgrpacct.getPostingType())== 0) 
+					{
+
+						if (isDepreciated()== true | isdepreciate == true)						
+						{
+							X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), 0, get_TrxName());
+							assetwk.setA_Asset_ID(p_A_Asset_ID);		
+							assetwk.setA_Life_Period(uselifemonths);
+							assetwk.setA_Asset_Life_Years(uselifeyears);
+							assetwk.setIsDepreciated(isDepreciated());
+							assetwk.setPostingType(assetgrpacct.getPostingType());
+							assetwk.setA_Accumulated_Depr(new BigDecimal(0.0));
+							assetwk.setA_QTY_Current(new BigDecimal(0.0));
+							assetwk.setA_Asset_Cost(new BigDecimal(0.0));
+							assetwk.setA_Period_Posted(0);
+							assetwk.save();
+						}
+					}
+				}
+
+				change.setA_Asset_ID(p_A_Asset_ID);
+				change.setA_Parent_Asset_ID(asset.getA_Parent_Asset_ID());
+				change.setChangeType("CRT");
+				MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
+				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "CRT"));		    
+				change.setIsInPosession(isOwned());
+				change.setIsDisposed(isDisposed());
+				change.setIsDepreciated(isDepreciated());
+				change.setIsFullyDepreciated(isFullyDepreciated());
+				change.setLot(getLot());
+				change.setSerno(getSerNo());
+				change.setVersionno(getVersionNo());
+				change.setUseLifeMonths(getUseLifeMonths());
+				change.setUseLifeYears(getUseLifeYears());
+				change.setLifeUseUnits(getLifeUseUnits());
+				change.setAssetDisposalDate(getAssetDisposalDate());
+				change.setAssetServiceDate(getAssetServiceDate());
+				change.setC_BPartner_Location_ID(getC_BPartner_Location_ID());
+				change.setC_BPartner_ID(getC_BPartner_ID());		    
+				change.setA_QTY_Current(getA_QTY_Current());
+				change.setA_QTY_Original(getA_QTY_Original());
+				change.setA_Asset_CreateDate(getA_Asset_CreateDate());
+				change.setAd_User_ID(getAD_User_ID());
+				change.setC_Location_ID(getC_Location_ID());
+				change.save();
+
+				rs.close();
+				pstmt.close();
+				pstmt = null;
+			}
+			catch (Exception e)
+			{
+				log.info("getAssets"+ e);
+			}
+			finally
+			{
+				try
+				{
+					if (pstmt != null)
+						pstmt.close ();
+				}
+				catch (Exception e)
+				{}
+				pstmt = null;
+			}
+
+
+		}
+		else 
+		{
+			int uselifemonths = 0;
+			int uselifeyears = 0;		
+			sql ="SELECT * FROM A_Asset_Acct WHERE A_Asset_ID = ? AND IsActive='Y'";		
+			pstmt = null;
+			pstmt = DB.prepareStatement(sql,get_TrxName());
+
+
+			try {
+
+				pstmt.setInt(1, getA_Asset_ID());		
+				ResultSet rs = pstmt.executeQuery();	
+				while (rs.next()){			
+					MAssetAcct assetacct = new MAssetAcct (getCtx(),rs, get_TrxName());			
+					assetacct.setProcessing(false);
+					assetacct.setA_Asset_ID(p_A_Asset_ID);						
+					assetacct.setA_Period_Start(1);			
+					if(getUseLifeMonths() == 0){
+						assetacct.setA_Period_End(getUseLifeYears()*12);
+						setUseLifeMonths(getUseLifeYears()*12);
+						uselifemonths = getUseLifeYears()*12;
+						uselifeyears = getUseLifeYears();
+					}
+					else{
+						assetacct.setA_Period_End(getUseLifeMonths());
+						uselifemonths = getUseLifeMonths();
+						uselifeyears = getUseLifeYears();
+					}			
+					assetacct.save();
+				}
+				rs.close();
+				pstmt.close();
+				pstmt = null;
+			}
+			catch (Exception e)
+			{
+				log.info("getAssets"+ e);
+			}
+			finally
+			{
+				try
+				{
+					if (pstmt != null)
+						pstmt.close ();
+				}
+				catch (Exception e)
+				{}
+				pstmt = null;
+			}
+			sql ="SELECT * FROM A_Depreciation_Workfile WHERE A_Asset_ID=? AND IsActive='Y'";
+			pstmt = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql,get_TrxName());
+				pstmt.setInt(1, p_A_Asset_ID);
+				ResultSet rs = pstmt.executeQuery();
+
+				while (rs.next()){
+
+					X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), rs, get_TrxName());
+
+					assetwk.setA_Asset_ID(p_A_Asset_ID);
+					assetwk.setA_Life_Period(uselifemonths);
+					assetwk.setA_Asset_Life_Years(uselifeyears);
+					assetwk.setIsDepreciated(isDepreciated());
+					//assetwk.setA_QTY_Current(getA_QTY_Current());		   
+					assetwk.save();		
+
+					if (isProcessing()== true){
+						MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());		    
+						change.setA_Asset_ID(p_A_Asset_ID);
+						change.setChangeType("UPD");
+						MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
+						change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "UPD"));
+						change.setLot(getLot());
+						change.setSerno(getSerNo());
+						change.setVersionno(getVersionNo());
+						change.setA_Parent_Asset_ID(getA_Parent_Asset_ID());
+						change.setUseLifeMonths(getUseLifeMonths());
+						change.setUseLifeYears(getUseLifeYears());
+						change.setLifeUseUnits(getLifeUseUnits());
+						change.setAssetDisposalDate(getAssetDisposalDate());
+						change.setAssetServiceDate(getAssetServiceDate());
+						change.setIsInPosession(isOwned());		    
+						change.setA_Reval_Cal_Method("DFT");			
+						change.setIsDisposed(isDisposed());
+						change.setIsDepreciated(isDepreciated());
+						change.setIsFullyDepreciated(isFullyDepreciated());
+						change.setC_BPartner_Location_ID(getC_BPartner_Location_ID());
+						change.setC_BPartner_ID(getC_BPartner_ID());    
+						change.setPostingType("A");
+						change.setA_QTY_Current(getA_QTY_Current());
+						change.setA_QTY_Original(getA_QTY_Original());
+						change.setA_Asset_CreateDate(getA_Asset_CreateDate());		    
+						change.setAd_User_ID(getAD_User_ID());
+						change.setC_Location_ID(getC_Location_ID());
+						change.save();		    
+					}
+					else
+					{
+						X_A_Asset asset = new X_A_Asset (getCtx(), p_A_Asset_ID, get_TrxName());
+						asset.setProcessing(true);
+						asset.save();
+					}	
+				}
+				rs.close();
+				pstmt.close();
+				pstmt = null;
+			}
+			catch (Exception e)
+			{
+				log.info("getAssets"+ e);
+			}
+			finally
+			{
+				try
+				{
+					if (pstmt != null)
+						pstmt.close ();
+				}
+				catch (Exception e)
+				{}
+				pstmt = null;
+			}
+
+		}
+
+		return true;
+
+	}	//	afterSave
 	
 	/*************************************************************************
 	 * 	Confirm Asset EMail Delivery
