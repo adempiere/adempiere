@@ -224,7 +224,7 @@ public class VProductConfigurationBOM extends CPanel
 	{
 		String sql = "SELECT M_Product_ID, Name "
 			+ "FROM M_Product "
-			+ "WHERE IsBOM='Y' AND IsVerified='Y' AND IsActive='Y' and M_Product_ID in ( select M_Product_ID from PP_Product_bom WHERE bomtype = 'C' AND bomuse = 'A')"
+			+ "WHERE IsBOM='Y' AND IsVerified='Y' AND IsActive='Y' and M_Product_ID in (SELECT M_Product_ID FROM PP_Product_bom WHERE bomtype = 'C' AND bomuse = 'A')"
 			+ " ORDER BY Name";
 		return DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
 			sql, "M_Product", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO), true);
