@@ -73,7 +73,7 @@ public class PrintBOM extends SvrProcess {
 				p_M_Product_ID = ((BigDecimal) para[i].getParameter())
 						.intValue();
 
-			} else if (name.equals("Implotion")) {
+			} else if (name.equals("Implosion")) {
 				p_implosion = ((String) para[i].getParameter()).equals("N") ? false
 						: true;
 			}
@@ -108,6 +108,9 @@ public class PrintBOM extends SvrProcess {
 
 		format = MPrintFormat.get(getCtx(), MPrintFormat
 				.getPrintFormat_ID("Multi Level BOM & Formula Detail", 53063, getAD_Client_ID()), false);
+		if (format == null)
+			format = MPrintFormat.get(getCtx(), MPrintFormat
+					.getPrintFormat_ID("Multi Level BOM & Formula Detail", 53063, 0), false); //try client 0
 		format.setLanguage(language);
 		format.setTranslationLanguage(language);
 		//	query
