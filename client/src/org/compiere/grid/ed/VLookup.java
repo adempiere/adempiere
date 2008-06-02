@@ -16,20 +16,66 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.apps.search.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.KeyStroke;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 
-import org.eevolution.model.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AWindow;
+import org.compiere.apps.search.Info;
+import org.compiere.apps.search.InfoBPartner;
+import org.compiere.apps.search.InfoFactory;
+import org.compiere.apps.search.InfoProduct;
+import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
+import org.compiere.model.MColumn;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProductPrice;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  *  Lookup Visual Field.
@@ -930,25 +976,28 @@ public class VLookup extends JComponent
 
 		//	Exact first
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String finalSQL = Msg.parseTranslation(Env.getCtx(), getDirectAccessSQL(text));
 		int id = -3;
 		try
 		{
 			pstmt = DB.prepareStatement(finalSQL, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				id = rs.getInt(1);		//	first
 				if (rs.next())
 					id = -1;			//	only if unique
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, finalSQL, e);
 			id = -2;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Try like
 		if (id == -3 && !text.endsWith("%"))
@@ -958,29 +1007,24 @@ public class VLookup extends JComponent
 			try
 			{
 				pstmt = DB.prepareStatement(finalSQL, null);
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					id = rs.getInt(1);		//	first
 					if (rs.next())
 						id = -1;			//	only if unique
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, finalSQL, e);
 				id = -2;
 			}
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (Exception e)
-		{
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 		}
 
 		//	No (unique) result
@@ -1097,34 +1141,27 @@ public class VLookup extends JComponent
 					+ "WHERE rt.AD_Reference_ID=?";
 				String displayColumnName = null;
 				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				try
 				{
 					pstmt = DB.prepareStatement(query, null);
 					pstmt.setInt(1, AD_Reference_ID);
-					ResultSet rs = pstmt.executeQuery();
+					rs = pstmt.executeQuery();
 					if (rs.next())
 					{
 						m_keyColumnName = rs.getString(1);
 						displayColumnName = rs.getString(2);
 						m_tableName = rs.getString(3);
 					}
-					rs.close();
-					pstmt.close();
-					pstmt = null;
 				}
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, query, e);
 				}
-				try
+				finally
 				{
-					if (pstmt != null)
-						pstmt.close();
-					pstmt = null;
-				}
-				catch (Exception e)
-				{
-					pstmt = null;
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
 				}
 				if (displayColumnName != null)
 				{
@@ -1155,11 +1192,12 @@ public class VLookup extends JComponent
 				+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
 		sql = new StringBuffer();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(query, null);
 			pstmt.setString(1, m_keyColumnName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (sql.length() != 0)
@@ -1167,23 +1205,16 @@ public class VLookup extends JComponent
 				m_tableName = rs.getString(1);
 				sql.append("UPPER(").append(rs.getString(2)).append(") LIKE ").append(DB.TO_STRING(text));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			log.log(Level.SEVERE, query, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		//
 		if (sql.length() == 0)
 		{
@@ -1265,32 +1296,25 @@ public class VLookup extends JComponent
 						+ "WHERE rt.AD_Reference_ID=?";
 					
 					PreparedStatement pstmt = null;
+					ResultSet rs = null;
 					try
 					{
 						pstmt = DB.prepareStatement(query, null);
 						pstmt.setInt(1, AD_Reference_ID);
-						ResultSet rs = pstmt.executeQuery();
+						rs = pstmt.executeQuery();
 						if (rs.next())
 						{
 							keyColumnName = rs.getString(1);
 						}
-						rs.close();
-						pstmt.close();
-						pstmt = null;
 					}
 					catch (Exception e)
 					{
 						log.log(Level.SEVERE, query, e);
 					}
-					try
+					finally
 					{
-						if (pstmt != null)
-							pstmt.close();
-						pstmt = null;
-					}
-					catch (Exception e)
-					{
-						pstmt = null;
+						DB.close(rs, pstmt);
+						rs = null; pstmt = null;
 					}
 				}	//	Table Reference
 			}	//	MLookup
