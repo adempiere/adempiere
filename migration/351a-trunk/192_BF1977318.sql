@@ -8,3 +8,8 @@ UPDATE AD_Column SET FieldLength=22, IsUpdateable='N',Updated=TO_DATE('2008-06-0
 ALTER TABLE R_IssueRecommendation MODIFY R_IssueRecommendation_ID NUMBER(10) NOT NULL 
 ;
 
+ALTER TABLE R_IssueRecommendation ADD (CONSTRAINT r_issuerecommendation_pkey PRIMARY KEY (r_issuerecommendation_id))
+;
+
+ALTER TABLE R_IssueKnown ADD (CONSTRAINT RIssueRecommendation_RIssueKno FOREIGN KEY (R_IssueRecommendation_ID) REFERENCES R_IssueRecommendation)
+;

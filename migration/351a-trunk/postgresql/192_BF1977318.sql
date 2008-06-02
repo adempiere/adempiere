@@ -9,3 +9,8 @@ ALTER TABLE R_IssueRecommendation DROP COLUMN R_IssueRecommendation_ID
 ;
 ALTER TABLE R_IssueRecommendation ADD COLUMN R_IssueRecommendation_ID NUMERIC(10) NOT NULL
 ;
+
+ALTER TABLE R_IssueRecommendation ADD CONSTRAINT r_issuerecommendation_pkey PRIMARY KEY (r_issuerecommendation_id)
+;
+ALTER TABLE R_IssueKnown ADD CONSTRAINT RIssueRecommendation_RIssueKno FOREIGN KEY (R_IssueRecommendation_ID) REFERENCES R_IssueRecommendation
+;
