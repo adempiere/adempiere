@@ -2055,6 +2055,11 @@ public final class MRole extends X_AD_Role
 			whatMissing += "O";
 		}
 
+		// Client Access: Verify if the role has access to the given client - teo_sarca, BF [ 1982398 ]
+		if (retValue) {
+			retValue = isClientAccess(AD_Client_ID, true); // r/w access
+		}
+		
 		// Org Access: Verify if the role has access to the given organization - teo_sarca, patch [ 1628050 ]
 		if (retValue) {
 			retValue = isOrgAccess(AD_Org_ID, true); // r/w access
