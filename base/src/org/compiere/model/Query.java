@@ -22,8 +22,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
@@ -58,6 +58,12 @@ public class Query {
 		this.table = table;
 		this.whereClause = whereClause;
 		this.trxName = trxName;
+	}
+	
+	public Query(String tableName, String whereClause, String trxName) {
+		this(MTable.get(Env.getCtx(), tableName), whereClause, trxName);
+		if (this.table == null)
+			throw new IllegalArgumentException("Table Name Not Found - "+tableName);
 	}
 	
 	/**
@@ -108,33 +114,14 @@ public class Query {
 	 */
 	public <T extends PO> List<T> list() throws DBException {
 		List<T> list = new ArrayList<T>();
-		
-		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
-		if (info == null) return null;
-		StringBuffer sqlBuffer = info.buildSelect();
-		if (whereClause != null && whereClause.trim().length() > 0)
-			sqlBuffer.append(" WHERE ").append(whereClause);
-		if (orderBy != null && orderBy.trim().length() > 0)
-			sqlBuffer.append(" Order By ").append(orderBy);
-		String sql = sqlBuffer.toString();
-		if (applyAccessFilter) {
-			MRole role = MRole.getDefault();
-			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
-		}
+		String sql = buildSQL(null);
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
-			if (parameters != null && parameters.length > 0) 
-			{
-				for (int i = 0; i < parameters.length; i++)
-				{
-					pstmt.setObject(i+1, parameters[i]);
-				}
-			}
-			rs = pstmt.executeQuery ();
+			rs = createResultSet(pstmt);
 			while (rs.next ())
 			{
 				T po = (T)table.getPO(rs, trxName);
@@ -153,11 +140,68 @@ public class Query {
 	}
 	
 	/**
+	 * Return first PO that match query criteria
+	 * @return PO
+	 * @throws DBException
+	 */
+	public <T extends PO> T first() throws DBException {
+		T po = null;
+		String sql = buildSQL(null);
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			rs = createResultSet(pstmt);
+			if (rs.next ())
+			{
+				po = (T)table.getPO(rs, trxName);
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		return po;
+	}
+	
+	/**
+	 * Count items that match query criteria
+	 * @return count
+	 * @throws DBException
+	 */
+	public int count() throws DBException
+	{
+		int count = -1;
+		String sql = buildSQL(new StringBuffer("SELECT COUNT(*) FROM ").append(table.getTableName()));
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, this.trxName);
+			rs = createResultSet(pstmt);
+			rs.next();
+			count = rs.getInt(1);
+		}
+		catch (SQLException e) {
+			throw new DBException(e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+		}
+		return count;
+	}
+	
+	/**
 	 * Return an Iterator implementation to fetch one PO at a time. The implementation first retrieve
 	 * all IDS that match the query criteria and issue sql query to fetch the PO when caller want to
 	 * fetch the next PO. This minimize memory usage but it is slower than the list method.
 	 * @return Iterator
-	 * @throws SQLException 
+	 * @throws DBException 
 	 */
 	public <T extends PO> Iterator<T> iterate() throws DBException {
 		String[] keys = table.getKeyColumns();
@@ -168,29 +212,15 @@ public class Query {
 			sqlBuffer.append(keys[i]);
 		}
 		sqlBuffer.append(" FROM ").append(table.getTableName());
-		if (whereClause != null && whereClause.trim().length() > 0)
-			sqlBuffer.append(" WHERE ").append(whereClause);
-		if (orderBy != null && orderBy.trim().length() > 0)
-			sqlBuffer.append(" Order By ").append(orderBy);
-		String sql = sqlBuffer.toString();
-		if (applyAccessFilter) {
-			MRole role = MRole.getDefault();
-			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
-		}
+		String sql = buildSQL(sqlBuffer);
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Object[]> idList = new ArrayList<Object[]>();
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
-			if (parameters != null && parameters.length > 0) 
-			{
-				for (int i = 0; i < parameters.length; i++)
-				{
-					pstmt.setObject(i+1, parameters[i]);
-				}
-			}
-			rs = pstmt.executeQuery ();
+			rs = createResultSet(pstmt);
 			while (rs.next ())
 			{
 				Object[] ids = new Object[keys.length];
@@ -215,12 +245,37 @@ public class Query {
 	 * Return a simple wrapper over a jdbc resultset. It is the caller responsibility to
 	 * call the close method to release the underlying database resources.
 	 * @return POResultSet
-	 * @throws SQLException 
+	 * @throws DBException 
 	 */
 	public <T extends PO> POResultSet<T> scroll() throws DBException {
-		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
-		if (info == null) return null;
-		StringBuffer sqlBuffer = info.buildSelect();
+		String sql = buildSQL(null);
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			ResultSet rs = createResultSet(pstmt);
+			return new POResultSet<T>(table, pstmt, rs, trxName);
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e);
+		}
+	}
+	
+	/**
+	 * Build SQL Clause
+	 * @param selectClause optional; if null the select clause will be build according to POInfo
+	 * @return final SQL
+	 */
+	private final String buildSQL(StringBuffer selectClause) {
+		if (selectClause == null) {
+			POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
+			if (info == null)
+				throw new IllegalStateException("No POInfo found for AD_Table_ID="+table.getAD_Table_ID());
+			selectClause = info.buildSelect();
+		}
+		StringBuffer sqlBuffer = new StringBuffer(selectClause);
 		if (whereClause != null && whereClause.trim().length() > 0)
 			sqlBuffer.append(" WHERE ").append(whereClause);
 		if (orderBy != null && orderBy.trim().length() > 0)
@@ -230,25 +285,19 @@ public class Query {
 			MRole role = MRole.getDefault();
 			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
-		
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			if (parameters != null && parameters.length > 0) 
-			{
-				for (int i = 0; i < parameters.length; i++)
-				{
-					pstmt.setObject(i+1, parameters[i]);
-				}
-			}
-			ResultSet rs = pstmt.executeQuery ();
-			return new POResultSet<T>(table, pstmt, rs, trxName);
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-			throw new DBException(e);
-		}
+		return sql;
 	}
+	
+	private final ResultSet createResultSet (PreparedStatement pstmt) throws SQLException
+	{
+		if (parameters != null && parameters.length > 0) 
+		{
+			for (int i = 0; i < parameters.length; i++)
+			{
+				pstmt.setObject(i+1, parameters[i]);
+			}
+		}
+		return pstmt.executeQuery();
+	}
+	
 }

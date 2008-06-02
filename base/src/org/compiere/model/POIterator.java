@@ -20,8 +20,6 @@ package org.compiere.model;
 import java.util.Iterator;
 import java.util.List;
 
-import org.compiere.util.Env;
-
 /**
  * 
  * Iterator implementation to fetch PO one at a time using a prefetch ID list.
@@ -89,15 +87,12 @@ public class POIterator<T extends PO> implements Iterator<T> {
 	public T get(int index) {
 		if (index <= (idList.size() - 1)) {
 			Object[] ids = idList.get(index);
-			if (ids.length == 1 && ids[0] instanceof Integer) {
-				return (T) table.getPO((Integer)ids[0], trxName);
+			if (ids.length == 1 && (ids[0] instanceof Number)) {
+				return (T) table.getPO( ((Number)ids[0]).intValue(), trxName);
 			} else {
 				if (keyWhereClause == null) {
 					String[] keys = table.getKeyColumns();
-					POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
-					if (info == null) return null;
-					StringBuffer sqlBuffer = info.buildSelect();
-					sqlBuffer.append(" WHERE ");
+					StringBuffer sqlBuffer = new StringBuffer();
 					for (int i = 0; i < keys.length; i++) {
 						if (i > 0)
 							sqlBuffer.append(" AND ");
