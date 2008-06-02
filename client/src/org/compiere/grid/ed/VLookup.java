@@ -92,6 +92,7 @@ import org.eevolution.model.MPPProductBOMLine;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *				<li>BF [ 1740835 ] NPE when closing a window
  *				<li>BF [ 1817768 ] Isolate hardcoded table direct columns
+ *				<li>BF [ 1979213 ] VLookup.getDirectAccessSQL issue
  *  @author		Michael Judd (MultiSelect)
  */
 public class VLookup extends JComponent
@@ -1224,7 +1225,7 @@ public class VLookup extends JComponent
 		//
 		StringBuffer retValue = new StringBuffer ("SELECT ")
 			.append(m_columnName).append(" FROM ").append(m_tableName)
-			.append(" WHERE ").append(sql)
+			.append(" WHERE (").append(sql).append(")")
 			.append(" AND IsActive='Y'");
 		String wc = getWhereClause();
 		if (wc != null && wc.length() > 0)
