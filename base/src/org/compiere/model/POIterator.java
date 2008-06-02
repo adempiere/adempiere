@@ -28,7 +28,7 @@ import org.compiere.util.Env;
  * @author Low Heng Sin
  *
  */
-public class POIterator implements Iterator<PO> {
+public class POIterator<T extends PO> implements Iterator<T> {
 
 	private MTable table;
 	private List<Object[]> idList;
@@ -59,7 +59,7 @@ public class POIterator implements Iterator<PO> {
 	/**
 	 * @see java.util.Iterator#next()
 	 */
-	public PO next() {
+	public T next() {
 		if ( iteratorIndex < (idList.size() - 1)) {
 			iteratorIndex ++;
 			return get(iteratorIndex);
@@ -86,11 +86,11 @@ public class POIterator implements Iterator<PO> {
 	 * @param index
 	 * @return PO or null if index is invalid
 	 */
-	public PO get(int index) {
+	public T get(int index) {
 		if (index <= (idList.size() - 1)) {
 			Object[] ids = idList.get(index);
 			if (ids.length == 1 && ids[0] instanceof Integer) {
-				return table.getPO((Integer)ids[0], trxName);
+				return (T) table.getPO((Integer)ids[0], trxName);
 			} else {
 				if (keyWhereClause == null) {
 					String[] keys = table.getKeyColumns();
@@ -105,7 +105,7 @@ public class POIterator implements Iterator<PO> {
 					}
 					keyWhereClause = sqlBuffer.toString();
 				}				
-				return table.getPO(keyWhereClause, ids, trxName);
+				return (T) table.getPO(keyWhereClause, ids, trxName);
 			}
 		} else {
 			return null;

@@ -26,7 +26,7 @@ import java.sql.SQLException;
  * @author Low Heng Sin
  *
  */
-public class POResultSet {
+public class POResultSet<T extends PO> {
 
 	private String trxName;
 	private ResultSet resultSet;
@@ -52,9 +52,9 @@ public class POResultSet {
 	 * @return PO or null if reach the end of resultset
 	 * @throws SQLException
 	 */
-	public PO next() throws SQLException {
+	public T next() throws SQLException {
 		if ( resultSet.next() ) {
-			return table.getPO(resultSet, trxName);
+			return (T) table.getPO(resultSet, trxName);
 		} else {
 			return null;
 		}

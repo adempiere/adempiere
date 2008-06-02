@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -33,7 +34,8 @@ import org.compiere.util.Env;
 /**
  * 
  * @author Low Heng Sin
- *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1981760 ] Improve Query class
  */
 public class Query {
 
@@ -62,24 +64,41 @@ public class Query {
 	 * Set query parameters
 	 * @param parameters
 	 */
-	public void setParameters(Object[] parameters) {
+	public Query setParameters(Object[] parameters) {
 		this.parameters = parameters;
+		return this;
+	}
+	
+	/**
+	 * Set query parameters
+	 * @param parameters collection of parameters
+	 */
+	public Query setParameters(Collection<Object> parameters) {
+		if (parameters == null) {
+			this.parameters = null;
+			return this;
+		}
+		this.parameters = new Object[parameters.size()];
+		parameters.toArray(this.parameters);
+		return this;
 	}
 	
 	/**
 	 * Set order by clause ( without the order by sql keyword ).
 	 * @param orderBy
 	 */
-	public void setOrderBy(String orderBy) {
+	public Query setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+		return this;
 	}
 	
 	/**
 	 * Turn on/off the addition of data access filter
 	 * @param flag
 	 */
-	public void setApplyAccessFilter(boolean flag) {
+	public Query setApplyAccessFilter(boolean flag) {
 		applyAccessFilter = flag;
+		return this;
 	}
 	
 	/**
@@ -140,7 +159,7 @@ public class Query {
 	 * @return Iterator
 	 * @throws SQLException 
 	 */
-	public Iterator iterate() throws SQLException {
+	public <T extends PO> Iterator<T> iterate() throws DBException {
 		String[] keys = table.getKeyColumns();
 		StringBuffer sqlBuffer = new StringBuffer(" SELECT ");
 		for (int i = 0; i < keys.length; i++) {
@@ -184,12 +203,12 @@ public class Query {
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw e;
+			throw new DBException(e);
 		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		return new POIterator(table, idList, trxName);
+		return new POIterator<T>(table, idList, trxName);
 	}
 	
 	/**
@@ -198,7 +217,7 @@ public class Query {
 	 * @return POResultSet
 	 * @throws SQLException 
 	 */
-	public POResultSet scroll() throws SQLException {
+	public <T extends PO> POResultSet<T> scroll() throws DBException {
 		POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
 		if (info == null) return null;
 		StringBuffer sqlBuffer = info.buildSelect();
@@ -224,12 +243,12 @@ public class Query {
 				}
 			}
 			ResultSet rs = pstmt.executeQuery ();
-			return new POResultSet(table, pstmt, rs, trxName);
+			return new POResultSet<T>(table, pstmt, rs, trxName);
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw e;
+			throw new DBException(e);
 		}
 	}
 }
