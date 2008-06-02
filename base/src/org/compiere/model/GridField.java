@@ -338,7 +338,7 @@ public class GridField
 		}
 
 		//	Field is the Link Column of the tab
-		if (m_vo.ColumnName.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "LinkColumnName")))
+		if (m_vo.ColumnName.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_LinkColumnName)))
 		{
 			log.finest(m_vo.ColumnName + " NO - LinkColumn");
 			return false;
@@ -349,7 +349,7 @@ public class GridField
 		{
 			int AD_Client_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Client_ID");
 			int AD_Org_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AD_Org_ID");
-			String keyColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "KeyColumnName");
+			String keyColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_KeyColumnName);
 			if ("EntityType".equals(keyColumn))
 				keyColumn = "AD_EntityType_ID";
 			if (!keyColumn.endsWith("_ID"))
@@ -450,14 +450,14 @@ public class GridField
 		}
 		
 		//	Set Client & Org to System, if System access
-		if (X_AD_Table.ACCESSLEVEL_SystemOnly.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AccessLevel"))
+		if (X_AD_Table.ACCESSLEVEL_SystemOnly.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_AccessLevel))
 			&& (m_vo.ColumnName.equals("AD_Client_ID") || m_vo.ColumnName.equals("AD_Org_ID")))
 		{
 			log.fine("[SystemAccess] " + m_vo.ColumnName + "=0");
 			return new Integer(0);
 		}
 		//	Set Org to System, if Client access
-		else if (X_AD_Table.ACCESSLEVEL_SystemPlusClient.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "AccessLevel"))
+		else if (X_AD_Table.ACCESSLEVEL_SystemPlusClient.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_AccessLevel))
 			&& m_vo.ColumnName.equals("AD_Org_ID"))
 		{
 			log.fine("[ClientAccess] " + m_vo.ColumnName + "=0");
@@ -1081,7 +1081,7 @@ public class GridField
 			m_parentValue = Boolean.FALSE;
 		else 
 		{
-			String LinkColumnName = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "LinkColumnName");
+			String LinkColumnName = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_LinkColumnName);
 			if (LinkColumnName == null || LinkColumnName.length() == 0)
 				m_parentValue = Boolean.FALSE; // teo_sarca, [ 1673886 ]
 			else 
@@ -1559,16 +1559,16 @@ public class GridField
 	{
 		boolean result = false;
 		int tabNo = m_vo.TabNo;
-		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
+		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
 		if (tabNo > 1 && currentLevel > 1)
 		{
 			while ( tabNo >= 1 && !result)
 			{
 				tabNo--;
-				int level = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, "TabLevel");
+				int level = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
 				if (level > 0 && level < currentLevel) 
 				{
-					String linkColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, tabNo, "LinkColumnName");
+					String linkColumn = Env.getContext(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_LinkColumnName);
 					if (m_vo.ColumnName.equals(linkColumn))
 					{
 						result = true;

@@ -96,9 +96,9 @@ public class GridTabVO implements Evaluatee, Serializable
 		try
 		{
 			vo.AD_Tab_ID = rs.getInt("AD_Tab_ID");
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, "AD_Tab_ID", String.valueOf(vo.AD_Tab_ID));
+			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AD_Tab_ID, String.valueOf(vo.AD_Tab_ID));
 			vo.Name = rs.getString("Name");
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, "Name", vo.Name);
+			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_Name, vo.Name);
 
 			//	Translation Tab	**
 			if (rs.getString("IsTranslationTab").equals("Y"))
@@ -142,11 +142,11 @@ public class GridTabVO implements Evaluatee, Serializable
 				CLogger.get().fine("No Role Access - AD_Tab_ID=" + vo.AD_Tab_ID + " " + vo. Name);
 				return false;
 			}	//	Used by MField.getDefault
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, "AccessLevel", vo.AccessLevel);
+			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AccessLevel, vo.AccessLevel);
 
 			//	Table Access
 			vo.AD_Table_ID = rs.getInt("AD_Table_ID");
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, "AD_Table_ID", String.valueOf(vo.AD_Table_ID));
+			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AD_Table_ID, String.valueOf(vo.AD_Table_ID));
 			if (!role.isTableAccess(vo.AD_Table_ID, true))
 			{
 				CLogger.get().config("No Table Access - AD_Tab_ID=" 
@@ -526,11 +526,11 @@ public class GridTabVO implements Evaluatee, Serializable
 		GridTabVO clone = new GridTabVO(Ctx, windowNo);
 		clone.AD_Window_ID = AD_Window_ID;
 		clone.TabNo = TabNo;
-		Env.setContext(Ctx, windowNo, clone.TabNo, "AD_Tab_ID", String.valueOf(clone.AD_Tab_ID));
+		Env.setContext(Ctx, windowNo, clone.TabNo, GridTab.CTX_AD_Tab_ID, String.valueOf(clone.AD_Tab_ID));
 		//
 		clone.AD_Tab_ID = AD_Tab_ID;
 		clone.Name = Name;
-		Env.setContext(Ctx, windowNo, clone.TabNo, "Name", clone.Name);
+		Env.setContext(Ctx, windowNo, clone.TabNo, GridTab.CTX_Name, clone.Name);
 		clone.Description = Description;
 		clone.Help = Help;
 		clone.IsSingleRow = IsSingleRow;
@@ -555,8 +555,8 @@ public class GridTabVO implements Evaluatee, Serializable
 		clone.AD_Image_ID = AD_Image_ID;
 		clone.Included_Tab_ID = Included_Tab_ID;
 		clone.ReplicationType = ReplicationType;
-		Env.setContext(Ctx, windowNo, clone.TabNo, "AccessLevel", clone.AccessLevel);
-		Env.setContext(Ctx, windowNo, clone.TabNo, "AD_Table_ID", String.valueOf(clone.AD_Table_ID));
+		Env.setContext(Ctx, windowNo, clone.TabNo, GridTab.CTX_AccessLevel, clone.AccessLevel);
+		Env.setContext(Ctx, windowNo, clone.TabNo, GridTab.CTX_AD_Table_ID, String.valueOf(clone.AD_Table_ID));
 
 		//
 		clone.IsSortTab = IsSortTab;

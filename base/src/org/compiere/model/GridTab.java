@@ -68,7 +68,8 @@ import org.compiere.util.ValueNamePair;
  *  @author 	Jorg Janke
  *  @version 	$Id: GridTab.java,v 1.10 2006/10/02 05:18:39 jjanke Exp $
  *  
- *  @author Teo Sarca - BF [ 1742159 ]
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1742159 ] Editable number field for inactive record
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -144,6 +145,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	
 	private boolean m_parentNeedSave = false;
+	
+	// Context property names:
+	public static final String CTX_KeyColumnName = "KeyColumnName";
+	public static final String CTX_LinkColumnName = "LinkColumnName";
+	public static final String CTX_TabLevel = "TabLevel";
+	public static final String CTX_AccessLevel = "AccessLevel";
+	public static final String CTX_AD_Tab_ID = "AD_Tab_ID";
+	public static final String CTX_Name = "Name";
+	public static final String CTX_AD_Table_ID = "AD_Table_ID";
+	
 
 
 	/**************************************************************************
@@ -298,8 +309,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				   voF.IsReadOnly = true;
 				}*/
 				//	Record Info
-				if (field.isKey())
-					m_keyColumnName = columnName;
+				if (field.isKey()) {
+					setKeyColumnName(columnName);
+				}
 				//	Parent Column(s)
 				if (field.isParentColumn())
 					m_parents.add(columnName);
@@ -1030,6 +1042,15 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		return m_keyColumnName;
 	}	//	getKeyColumnName
+	
+	/**
+	 * Set Name of the Key Column
+	 * @param keyColumnName
+	 */
+	private void setKeyColumnName(String keyColumnName) {
+		this.m_keyColumnName = keyColumnName;
+		Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, CTX_KeyColumnName, m_keyColumnName);
+	}
 
 	/**
 	 *	Return Name of link column
@@ -1076,7 +1097,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				log.fine("AD_Column_ID=" + m_vo.AD_Column_ID + " - " + m_linkColumnName);
 			}
 		}
-		Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "LinkColumnName", m_linkColumnName);
+		Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, CTX_LinkColumnName, m_linkColumnName);
 	}	//	setLinkColumnName
 
 	/**

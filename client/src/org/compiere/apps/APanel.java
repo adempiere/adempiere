@@ -641,7 +641,7 @@ public final class APanel extends CPanel
 					//  MTab
 					if (tab == 0) mWindow.initTab(0);
 					GridTab gTab = mWindow.getTab(tab);
-					Env.setContext(m_ctx, m_curWindowNo, tab, "TabLevel", Integer.toString(gTab.getTabLevel()));
+					Env.setContext(m_ctx, m_curWindowNo, tab, GridTab.CTX_TabLevel, Integer.toString(gTab.getTabLevel()));
 					//  Query first tab
 					if (tab == 0)
 					{

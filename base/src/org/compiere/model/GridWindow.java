@@ -137,9 +137,6 @@ public class GridWindow implements Serializable
 			if (mTabVO != null)
 			{
 				GridTab mTab = new GridTab(mTabVO);
-				Env.setContext(mTabVO.ctx, mTabVO.WindowNo, mTabVO.TabNo, 
-					"KeyColumnName", mTab.getKeyColumnName());
-				
 				m_tabs.add(mTab);
 			}
 		}	//  for all tabs
