@@ -225,8 +225,17 @@ public class MQuery implements Serializable
 		if (columnName.equals("Bill_Location_ID"))
 			return "C_BPartner_Location_ID";
 		if (columnName.equals("Account_ID"))
-			return "C_ElementValue_ID"; 
-		//	See also MTab.validateQuery
+			return "C_ElementValue_ID";
+		// Fix "*_To" columns
+		if (columnName.toUpperCase().endsWith("TO_ID")) {
+			return columnName.substring(0, columnName.length()-5)+"_ID";
+		}
+		if (columnName.toUpperCase().endsWith("_TO_ID")) {
+			return columnName.substring(0, columnName.length()-6)+"_ID";
+		}
+		if (columnName.equals("AD_OrgBP_ID"))
+			return "AD_Org_ID";
+		//	See also GridTab.validateQuery
 		//
 		return columnName;
 	}	//	getZoomColumnName

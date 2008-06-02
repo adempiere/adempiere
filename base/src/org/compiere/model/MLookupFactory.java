@@ -27,7 +27,13 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version  $Id: MLookupFactory.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  *  
- *  @author Teo Sarca - BF [ 1734394 ], BF [ 1714261 ], BF [ 1672820 ], BF [ 1739530 ], BF [ 1739544 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *		<li>BF [ 1734394 ] MLookupFactory.getLookup_TableDirEmbed is not translated
+ *		<li>BF [ 1714261 ] MLookupFactory: TableDirEmbed -> TableEmbed not supported
+ *		<li>BF [ 1672820 ] Sorting should be language-sensitive
+ *		<li>BF [ 1739530 ] getLookup_TableDirEmbed error when BaseColumn is sql query
+ *		<li>BF [ 1739544 ] getLookup_TableEmbed error for self referecing references
+ *		<li>BF [ 1817768 ] Isolate hardcoded table direct columns
  */
 public class MLookupFactory
 {
@@ -588,12 +594,8 @@ public class MLookupFactory
 			return null;
 		}
 		
-		//	Hardcoded BPartner Org
-		if (ColumnName.equals("AD_OrgBP_ID"))
-			ColumnName = "AD_Org_ID";
-
-		String TableName = ColumnName.substring(0,ColumnName.length()-3);
-		String KeyColumn = ColumnName;
+		String KeyColumn = MQuery.getZoomColumnName(ColumnName);
+		String TableName = MQuery.getZoomTableName(ColumnName);
 		//boolean isSOTrx = !"N".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 		int ZoomWindow = 0;
 		int ZoomWindowPO = 0;
@@ -755,8 +757,8 @@ public class MLookupFactory
 	static public String getLookup_TableDirEmbed (Language language,
 		String ColumnName, String BaseTable, String BaseColumn)
 	{
-		String TableName = ColumnName.substring(0,ColumnName.length()-3);
-		String KeyColumn = ColumnName;
+		String KeyColumn = MQuery.getZoomColumnName(ColumnName);
+		String TableName = MQuery.getZoomTableName(ColumnName);
 
 		//	get display column name (first identifier column)
 		String sql = "SELECT c.ColumnName,c.IsTranslated,c.AD_Reference_ID,c.AD_Reference_Value_ID "

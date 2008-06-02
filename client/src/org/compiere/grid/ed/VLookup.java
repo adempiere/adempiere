@@ -43,7 +43,9 @@ import org.eevolution.model.*;
  *  @author 	Jorg Janke
  *  @version 	$Id: VLookup.java,v 1.5 2006/10/06 00:42:38 jjanke Exp $
  *  
- *  @author		Teo Sarca - BF [ 1740835 ]
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *				<li>BF [ 1740835 ] NPE when closing a window
+ *				<li>BF [ 1817768 ] Isolate hardcoded table direct columns
  *  @author		Michael Judd (MultiSelect)
  */
 public class VLookup extends JComponent
@@ -1014,8 +1016,8 @@ public class VLookup extends JComponent
 	private String getDirectAccessSQL (String text)
 	{
 		StringBuffer sql = new StringBuffer();
-		m_tableName = m_columnName.substring(0, m_columnName.length()-3);
-		m_keyColumnName = m_columnName;
+		m_tableName = MQuery.getZoomTableName(m_columnName);
+		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
 		//
 		if (m_columnName.equals("M_Product_ID"))
 		{
@@ -1151,7 +1153,6 @@ public class VLookup extends JComponent
 			+ " AND c.AD_Reference_ID IN (10,14)"
 			+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
 				+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
-		m_keyColumnName = m_columnName;
 		sql = new StringBuffer();
 		PreparedStatement pstmt = null;
 		try
