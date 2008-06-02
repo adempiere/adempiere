@@ -767,10 +767,12 @@ public class VLookup extends JComponent
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
 			
+			if(m_mField != null)
+			{	
 			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
 			
 			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (MPPProductBOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
-			
+			}
 			//	Show Info
 			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),
 				M_Warehouse_ID, M_PriceList_ID, queryValue, multipleSelection, whereClause);

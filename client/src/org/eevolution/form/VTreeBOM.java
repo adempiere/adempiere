@@ -29,9 +29,11 @@ import org.compiere.minigrid.MiniTable;
 
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
 import org.compiere.model.MColumn;
 import org.compiere.model.X_C_UOM;
+import org.eevolution.model.MPPOrder;
 import org.eevolution.model.X_PP_Product_BOM;
 import org.eevolution.model.X_PP_Product_BOMLine;
 import org.compiere.model.X_M_Product;
@@ -44,6 +46,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.CLogger;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
 import java.awt.BorderLayout;
@@ -61,6 +64,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JScrollPane;
@@ -115,7 +119,7 @@ public class VTreeBOM extends CPanel
 	//private CButton			bAdd		= new CButton (Env.getImageIcon("StepBack24.gif"));
 	//private CButton			bDelete		= new CButton (Env.getImageIcon("StepForward24.gif"));
 	//private CButton			bDeleteAll	= new CButton (Env.getImageIcon("FastForward24.gif"));
-	private CCheckBox		implosion	= new CCheckBox ();
+	private CCheckBox		implotion	= new CCheckBox ();
 	private CLabel			treeInfo	= new CLabel ();
 	//
 	private JSplitPane		splitPane	= new JSplitPane ();
@@ -174,30 +178,26 @@ public class VTreeBOM extends CPanel
 	/**
 	 * 	Fill Tree Combo
 	 */
-	private void preInit()
+	private void preInit() throws Exception
 	{
-		//KeyNamePair[] trees = DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-		//	"SELECT AD_Tree_ID, Name FROM AD_Tree WHERE TreeType NOT IN ('BB','PC') ORDER BY 2", 
-		//	"AD_Tree", MRole.SQL_NOTQUALIFIED, MRole.SQL_RW), false);
-		//treeField = new CComboBox(trees);
-                MLookup m_fieldProduct = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, MColumn.getColumn_ID(X_M_Product.Table_Name,"M_Product_ID"), DisplayType.Search);
-                fieldProduct = new VLookup ("M_Product_ID", false, false, true,  m_fieldProduct);
-                //fieldProduct.addVetoableChangeListener(this);
-                fieldProduct.addActionListener(this);
-                
-                loadTableBOM();                   
-                splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
-                dataPane.getViewport().add(tableBOM , null);
-                    
-                DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "BOM"));
-                m_tree = new JTree(parent);
-                splitPane.add (m_tree, JSplitPane.LEFT);
-		//treeField.addActionListener(this);
-                
-                
-		//
-		//centerTree = new VTreePanel (m_WindowNo, false, true);
-		//centerTree.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
+		Properties ctx = Env.getCtx();
+		Language language = Language.getLoginLanguage(); // Base Language
+		MLookup m_fieldProduct = MLookupFactory.get(ctx, m_WindowNo,
+		MColumn.getColumn_ID(MProduct.Table_Name, "M_Product_ID"),
+		DisplayType.Search, language, MProduct.COLUMNNAME_M_Product_ID, 0, false,
+		" IsSummary = 'N'");
+		fieldProduct = new VLookup ("M_Product_ID", false, false, true,  m_fieldProduct);
+        fieldProduct.addActionListener(this);
+        
+        loadTableBOM();                   
+        splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
+        dataPane.getViewport().add(tableBOM , null);     
+            
+        DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "BOM"));
+        m_tree = new JTree(parent);
+        splitPane.add (m_tree, JSplitPane.LEFT);
+
+
 	}	//	preInit
 
 	
@@ -296,8 +296,8 @@ public class VTreeBOM extends CPanel
 		//labelECN.setText (Msg.translate(Env.getCtx(), "ECN"));
                  
 		labelProduct.setText (Msg.translate(Env.getCtx(), "M_Product_ID"));
-		//implosion.setEnabled (false);
-		implosion.setText (Msg.translate(Env.getCtx(), "Implosion"));
+		//implotion.setEnabled (false);
+		implotion.setText (Msg.translate(Env.getCtx(), "Implosion"));
 		//treeInfo.setText (" ");
 		//bAdd.setToolTipText("Add to Tree");
 		//bAddAll.setToolTipText("Add ALL to Tree");
@@ -316,7 +316,7 @@ public class VTreeBOM extends CPanel
                 
 		northPanel.add (labelProduct, null);
 		northPanel.add (fieldProduct, null);
-		northPanel.add (implosion, null);
+		northPanel.add (implotion, null);
                 //northPanel.add (cbAllNodes, null);
 		northPanel.add (treeInfo, null);
                 
@@ -362,7 +362,7 @@ public class VTreeBOM extends CPanel
 		m_frame = null;
 	}	//	dispose
         
-        public void vetoableChange (PropertyChangeEvent e)
+    public void vetoableChange (PropertyChangeEvent e)
 	{
 		String name = e.getPropertyName();
 		Object value = e.getNewValue();
@@ -387,7 +387,7 @@ public class VTreeBOM extends CPanel
         //System.out.println("Evento " + e.getSource());
         //System.out.println("Source Event" + e.getSource());
 		if (e.getSource().equals(fieldProduct))
-        {    
+        {   
 			action_loadBOM();
         }
                 
@@ -438,7 +438,7 @@ public class VTreeBOM extends CPanel
                 
                 dataBOM.clear();
                 
-                if (implosion.isSelected())
+                if (implotion.isSelected())
                 {
                     QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
                     String filter = "M_Product_ID=" + M_Product_ID;
@@ -581,7 +581,7 @@ public class VTreeBOM extends CPanel
         public DefaultMutableTreeNode component(X_M_Product M_Product) 
         {   
             
-            if (implosion.isSelected())
+            if (implotion.isSelected())
             {
              //vparent.setValue(m_product_id);
              //String data = Msg.translate(Env.getCtx(), "PP_ProductBOM_ID") + ":" + Msg.translate(Env.getCtx(), "Search Key") + ":"+ bom.getValue()+ " " + Msg.translate(Env.getCtx(), "Name")  +  ": " + bom.getName(); 
