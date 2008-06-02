@@ -59,9 +59,9 @@ SQLActions[ ] = {
 	LANGUAGE java VOLATILE;
 	
     /************* bomQtyAvailable with M_AttributeSetInstance_ID *******************/
-	CREATE OR REPLACE FUNCTION bomQtyAvailable (M_Product_ID NUMERIC , M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
+	CREATE OR REPLACE FUNCTION bomQtyAvailableASI (M_Product_ID NUMERIC , M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
- 	AS 'org.compiere.sqlj.Product.bomQtyAvailable(int,int,int,int)'
+ 	AS 'org.compiere.sqlj.Product.bomQtyAvailableASI(int,int,int,int)'
 	LANGUAGE java VOLATILE;
 	
 	/************* bomQtyOnHand *******************/
@@ -72,9 +72,9 @@ SQLActions[ ] = {
 	LANGUAGE java VOLATILE;
 	
 	/************* bomQtyOnHand with M_AttributeSetInstance_ID *******************/
-	CREATE OR REPLACE FUNCTION bomQtyOnHand (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
+	CREATE OR REPLACE FUNCTION bomQtyOnHandASI (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
- 	AS 'org.compiere.sqlj.Product.bomQtyOnHand(int,int,int,int)'
+ 	AS 'org.compiere.sqlj.Product.bomQtyOnHandASI(int,int,int,int)'
 	LANGUAGE java VOLATILE;
 	
 	/************* bomQtyOrdered *******************/
@@ -84,9 +84,9 @@ SQLActions[ ] = {
 	LANGUAGE java VOLATILE;
 	
 	/************* bomQtyOrdered with M_AttributeSetInstance_ID *******************/
-	CREATE OR REPLACE FUNCTION bomQtyOrdered (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
+	CREATE OR REPLACE FUNCTION bomQtyOrderedASI (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
- 	AS 'org.compiere.sqlj.Product.bomQtyOrdered(int,int,int,int)'
+ 	AS 'org.compiere.sqlj.Product.bomQtyOrderedASI(int,int,int,int)'
 	LANGUAGE java VOLATILE;
 
     /************* bomQtyReserved *******************/
@@ -96,10 +96,10 @@ SQLActions[ ] = {
 	LANGUAGE java VOLATILE;
 	
 	
-	/************* bomQtyOrdered with M_AttributeSetInstance_ID *******************/	
-	CREATE OR REPLACE FUNCTION bomQtyReserved (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
+	/************* bomQtyReserved with M_AttributeSetInstance_ID *******************/	
+	CREATE OR REPLACE FUNCTION bomQtyReservedASI (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC)
  	RETURNS NUMERIC
- 	AS 'org.compiere.sqlj.Product.bomQtyReserved(int,int,int,int)'
+ 	AS 'org.compiere.sqlj.Product.bomQtyReservedASI(int,int,int,int)'
 	LANGUAGE java VOLATILE;
 	
 	/** Currency **/
@@ -179,32 +179,36 @@ SQLActions[ ] = {
 	END INSTALL",
 	
 	"BEGIN REMOVE
-		--DROP FUNCTION adempiereVersion();
- 	        --DROP FUNCTION adempiereProperties();
- 	        --DROP FUNCTION adempiereProperty(p_key VARCHAR);
- 		--DROP FUNCTION productAttribute (M_AttributeSetInstance_ID INTEGER);
- 		--DROP FUNCTION bomPriceLimit (M_Product_ID INTEGER, M_PriceList_Version_ID INTEGER);
- 		--DROP FUNCTION bomPriceList (M_Product_ID INTEGER, M_PriceList_Version_ID INTEGER);
- 		--DROP FUNCTION bomPriceStd (M_Product_ID INTEGER, M_PriceList_Version_ID INTEGER);
- 		--DROP FUNCTION bomQtyAvailable (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER);
- 		--DROP FUNCTION bomQtyOnHand (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER);
- 		--DROP FUNCTION bomQtyOrdered (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER);
- 		--DROP FUNCTION bomQtyReserved (M_Product_ID INTEGER, M_Warehouse_ID INTEGER, M_Locator_ID INTEGER);
- 		--DROP FUNCTION currencyBase (Amount DECIMAL, C_CurrencyFrom_ID INTEGER, 
-    			      ConversionDate TIMESTAMP WITH TIME ZONE, AD_Client_ID INTEGER, AD_Org_ID INTEGER);
- 		--DROP FUNCTION currencyConvert (Amount NUMERIC, C_CurrencyFrom_ID INTEGER, C_CurrencyTo_ID INTEGER,
-        		      ConversionDate TIMESTAMP WITH TIME ZONE, C_ConversionType_ID INTEGER, AD_Client_ID NUMERIC, AD_Org_ID INTEGER);
- 		--DROP FUNCTION currencyRate (C_CurrencyFrom_ID INTEGER, C_CurrencyTo_ID INTEGER,
-        		      ConversionDate TIMESTAMP WITH TIME ZONE, C_ConversionType_ID INTEGER, AD_Client_ID INTEGER, AD_Org_ID INTEGER);
- 		--DROP FUNCTION bpartnerRemitLocation (p_C_BPartner_ID INTEGER);
-		--DROP FUNCTION invoiceOpen (p_C_Invoice_ID INTEGER, p_C_InvoicePaySchedule_ID INTEGER);
- 		--DROP FUNCTION invoicePaid (p_C_Invoice_ID INTEGER, p_C_Currency_ID INTEGER, p_MultiplierAP NUMERIC);
- 		--DROP FUNCTION invoiceDiscount (p_C_Invoice_ID INTEGER, p_PayDate TIMESTAMP WITH TIME ZONE, p_C_InvoicePaySchedule_ID INTEGER);
- 		--DROP FUNCTION paymentTermDueDays (p_C_PaymentTerm_ID INTEGER, p_DocDate TIMESTAMP WITH TIME ZONE, p_PayDate TIMESTAMP WITH TIME ZONE);
- 		--DROP FUNCTION paymentTermDiscount (p_Amount NUMERIC, p_C_PaymentTerm_ID INTEGER, p_DocDate TIMESTAMP WITH TIME ZONE, p_PayDate TIMESTAMP WITH TIME ZONE);
-        	--DROP FUNCTION paymentAllocated (p_C_Payment_ID INTEGER, p_C_Currency_ID INTEGER);
- 		--DROP FUNCTION paymentAvailable (p_C_Payment_ID INTEGER);
- 		--DROP FUNCTION acctBalance (p_Account_ID INTEGER, p_AmtDr NUMERIC, p_AmtCr NUMERIC);
+	--DROP FUNCTION adempiereVersion();
+	--DROP FUNCTION adempiereProperties();
+	--DROP FUNCTION adempiereProperty(p_key VARCHAR);
+	--DROP FUNCTION nextID(AD_Sequence_ID INTEGER, System VARCHAR);
+	--DROP FUNCTION nextIDfunc(AD_Sequence_ID INTEGER, System VARCHAR);
+	--DROP FUNCTION productAttribute (M_AttributeSetInstance_ID NUMERIC);
+	--DROP FUNCTION bomPriceLimit (M_Product_ID NUMERIC, M_PriceList_Version_ID NUMERIC);
+	--DROP FUNCTION bomPriceList (M_Product_ID NUMERIC, M_PriceList_Version_ID NUMERIC);
+	--DROP FUNCTION bomPriceStd (M_Product_ID NUMERIC, M_PriceList_Version_ID NUMERIC);
+	--DROP FUNCTION bomQtyAvailable (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyAvailableASI (M_Product_ID NUMERIC , M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyOnHand (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyOnHandASI (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyOrdered (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyOrderedASI (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyReserved (M_Product_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION bomQtyReservedASI (M_Product_ID NUMERIC, M_AttributeSetInstance_ID NUMERIC, M_Warehouse_ID NUMERIC, M_Locator_ID NUMERIC);
+	--DROP FUNCTION currencyBase (Amount NUMERIC, C_CurrencyFrom_ID NUMERIC,ConversionDate TIMESTAMP WITH TIME ZONE, AD_Client_ID NUMERIC, AD_Org_ID NUMERIC);
+	--DROP FUNCTION currencyConvert (Amount NUMERIC, C_CurrencyFrom_ID NUMERIC, C_CurrencyTo_ID NUMERIC,ConversionDate TIMESTAMP WITH TIME ZONE, C_ConversionType_ID NUMERIC, AD_Client_ID NUMERIC, AD_Org_ID NUMERIC);
+	--DROP FUNCTION currencyRate (C_CurrencyFrom_ID NUMERIC, C_CurrencyTo_ID NUMERIC,ConversionDate TIMESTAMP WITH TIME ZONE, C_ConversionType_ID NUMERIC, AD_Client_ID NUMERIC, AD_Org_ID NUMERIC);
+	--DROP FUNCTION bpartnerRemitLocation (p_C_BPartner_ID NUMERIC);
+	--DROP FUNCTION invoiceOpen (p_C_Invoice_ID NUMERIC, p_C_InvoicePaySchedule_ID NUMERIC);
+	--DROP FUNCTION invoicePaid (p_C_Invoice_ID NUMERIC, p_C_Currency_ID NUMERIC, p_MultiplierAP NUMERIC);
+	--DROP FUNCTION invoiceDiscount (p_C_Invoice_ID NUMERIC, p_PayDate TIMESTAMP WITH TIME ZONE, p_C_InvoicePaySchedule_ID NUMERIC);
+	--DROP FUNCTION paymentTermDueDays (p_C_PaymentTerm_ID NUMERIC, p_DocDate TIMESTAMP WITH TIME ZONE, p_PayDate TIMESTAMP WITH TIME ZONE);
+	--DROP FUNCTION paymentTermDueDate (p_C_PaymentTerm_ID NUMERIC, p_DocDate TIMESTAMP WITH TIME ZONE);
+	--DROP FUNCTION paymentTermDiscount (p_Amount NUMERIC,p_C_Currency_ID NUMERIC,  p_C_PaymentTerm_ID NUMERIC, p_DocDate TIMESTAMP WITH TIME ZONE, p_PayDate TIMESTAMP WITH TIME ZONE);
+	--DROP FUNCTION paymentAllocated (p_C_Payment_ID NUMERIC, p_C_Currency_ID NUMERIC);
+	--DROP FUNCTION paymentAvailable (p_C_Payment_ID NUMERIC);
+	--DROP FUNCTION acctBalance (p_Account_ID NUMERIC, p_AmtDr NUMERIC, p_AmtCr NUMERIC);
 	END REMOVE"
 	}
 	
