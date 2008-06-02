@@ -70,6 +70,7 @@ import org.compiere.util.ValueNamePair;
  *  
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *  			<li>BF [ 1742159 ] Editable number field for inactive record
+ *  			<li>BF [ 1968598 ] Callout is not called if tab is processed
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -2523,7 +2524,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (callout.length() == 0)
 			return "";
 		//
-		if (isProcessed())		//	only active records
+		if (isProcessed() && !field.isAlwaysUpdateable())		//	only active records
 			return "";			//	"DocProcessed";
 
 		Object value = field.getValue();
