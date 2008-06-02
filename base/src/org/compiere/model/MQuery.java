@@ -55,6 +55,7 @@ public class MQuery implements Serializable
 		//	Temporary Tables - add qualifier (not displayed)
 		if (TableName.startsWith("T_"))
 			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID);
+		query.m_AD_PInstance_ID = AD_PInstance_ID;
 
 		//	How many rows do we have?
 		String SQL = "SELECT COUNT(*) FROM AD_PInstance_Para WHERE AD_PInstance_ID=?";
@@ -329,6 +330,8 @@ public class MQuery implements Serializable
 
 	/**	Table Name					*/
 	private String		m_TableName = "";
+	/** PInstance					*/
+	private int m_AD_PInstance_ID = 0;
 	/**	List of Restrictions		*/
 	private ArrayList<Restriction>	m_list = new ArrayList<Restriction>();
 	/**	Record Count				*/
@@ -780,6 +783,12 @@ public class MQuery implements Serializable
 		return newQuery;
 	}	//	clone
 
+	/**
+	 * @return AD_PInstance_ID; this value is set if you created this query by using {@link #get(Properties, int, String)}  
+	 */
+	public int getAD_PInstance_ID() {
+		return m_AD_PInstance_ID;
+	}
 }	//	MQuery
 
 /*****************************************************************************

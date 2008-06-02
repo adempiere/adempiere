@@ -45,6 +45,7 @@ import org.compiere.util.*;
  * 				<li>BF [ 1673548 ] Image is not scaled in a report table cell
  * 				<li>BF [ 1807917 ] Layout positioning issue with m_maxHeightSinceNewLine
  *				<li>BF [ 1825876 ] Layout boxes with auto width not working
+ *				<li>FR [ 1966406 ] Report Engine: AD_PInstance_Logs should be displayed
  */
 public class LayoutEngine implements Pageable, Printable, Doc
 {
@@ -388,6 +389,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		{
 			//	Parameter
 			PrintElement element = layoutParameter();
+			if (element != null)
+			{
+				m_currPage.addElement (element);
+				element.setLocation(m_position[AREA_CONTENT]);
+				m_position[AREA_CONTENT].y += element.getHeight() + 5;	//	GAP
+			}
+			// Process Instance Log (if any):
+			element = layoutPInstanceLogs();
 			if (element != null)
 			{
 				m_currPage.addElement (element);
@@ -1697,6 +1706,23 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		pe.layout(0, 0, false, null);
 		return pe;
 	}	//	layoutParameter
+	
+	/**
+	 * Layout Process Instance Logs (if any) 
+	 * @return PrintElement
+	 */
+	private PrintElement layoutPInstanceLogs()
+	{
+		if (m_query == null || !m_query.isActive() || m_query.getAD_PInstance_ID() <= 0)
+			return null;
+		//
+		PInstanceLogElement e = new PInstanceLogElement(m_printCtx, m_query, m_format.getTableFormat());
+		if (e.getEffectiveRowCount() <= 0) {
+			return null;
+		}
+		e.layout(0, 0, false, null);
+		return e;
+	}
 
 	
 	/**************************************************************************
