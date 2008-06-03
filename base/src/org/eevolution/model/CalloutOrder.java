@@ -17,6 +17,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
@@ -31,6 +32,9 @@ import org.compiere.wf.MWorkflow;
  *	
  *  @author Victor Perez
  *  @version $Id: CalloutOrder.java,v 1.23 2004/08/27 21:24:12 vpj-cd Exp $
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  		<li>BF [ 1983657 ] "Data found" error on creating new MO (manually)
  */
 public class CalloutOrder extends CalloutEngine
 {
@@ -113,8 +117,8 @@ public class CalloutOrder extends CalloutEngine
 			mTab.setValue("QtyEntered", QtyEntered);
 		}
 
-		String DocStatus = (String) mTab.getValue("DocStatus");
-		/*if (!DocStatus.equals(MPPOrder.STATUS_Completed))
+		/*String DocStatus = (String) mTab.getValue("DocStatus");
+		if (!DocStatus.equals(MPPOrder.STATUS_Completed))
         {               
 
                     Integer PP_Order_ID = (Integer)mTab.getValue("PP_Order_ID");
@@ -137,28 +141,26 @@ public class CalloutOrder extends CalloutEngine
 
 	public String qtyBatch (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
-		Integer AD_Workflow_ID = ((Integer)mTab.getValue("AD_Workflow_ID"));
+		Integer AD_Workflow_ID = ((Integer)mTab.getValue(MPPOrder.COLUMNNAME_AD_Workflow_ID));
+		// No workflow entered, or is just a new record:
+		if (AD_Workflow_ID == null)
+			return "";
 
-		BigDecimal p_QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-		if ( AD_Workflow_ID==null)
-			return "Data found";
-
-		MWorkflow wf = new  MWorkflow(ctx , AD_Workflow_ID.intValue() ,null);
-		BigDecimal Qty = null;
-		BigDecimal QtyBatchSize = ((BigDecimal)wf.get_Value("QtyBatchSize")).divide(new BigDecimal(1),0,BigDecimal.ROUND_UP);
-
+		BigDecimal p_QtyEntered = (BigDecimal)mTab.getValue(MPPOrder.COLUMNNAME_QtyEntered);
 		if (p_QtyEntered.equals(Env.ZERO))
 			return ""; 
+
+		MWorkflow wf = MWorkflow.get(ctx , AD_Workflow_ID.intValue());
+		BigDecimal Qty = null;
+		BigDecimal QtyBatchSize = wf.getQtyBatchSize().setScale(0, RoundingMode.UP); 
+
 		if (QtyBatchSize.equals(Env.ZERO))
 			Qty = Env.ONE;
 		else   
 			Qty = p_QtyEntered.divide(QtyBatchSize , 0, BigDecimal.ROUND_UP); 
 
-
-
-
-		mTab.setValue("QtyBatchs", Qty);
-		mTab.setValue("QtyBatchSize", p_QtyEntered.divide(Qty , BigDecimal.ROUND_HALF_UP));
+		mTab.setValue(MPPOrder.COLUMNNAME_QtyBatchs, Qty);
+		mTab.setValue(MPPOrder.COLUMNNAME_QtyBatchSize, p_QtyEntered.divide(Qty , BigDecimal.ROUND_HALF_UP));
 
 		return "";
 	}
