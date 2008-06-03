@@ -284,7 +284,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
         new Info_Column(Msg.translate(Env.getCtx(), "Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='S' AND m.DocStatus IN ('DR', 'IP') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
         new Info_Column(Msg.translate(Env.getCtx(), "Proj QOH"), "bomQtyOnHand( PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
         new Info_Column(Msg.translate(Env.getCtx(), "Details"), "PP_MRP.Type", String.class),
-        new Info_Column(Msg.translate(Env.getCtx(), "Tipo"), "PP_MRP.TypeMRP", String.class),
+        new Info_Column(Msg.translate(Env.getCtx(), "TypeMRP"), "PP_MRP.TypeMRP", String.class),
         new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "documentNo(PP_MRP.PP_MRP_ID)", String.class),
         new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "PP_MRP.DocStatus", String.class),
         new Info_Column(Msg.translate(Env.getCtx(), "DateStartSchedule"), "PP_MRP.DateStartSchedule", Timestamp.class),
