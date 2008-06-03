@@ -34,6 +34,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: InfoCashLine.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1976044 ] Info Cash Line: search by Charge
  */
 public class InfoCashLine extends Info
 {
@@ -93,8 +96,8 @@ public class InfoCashLine extends Info
 //	private VLookup fOrg_ID;
 	private CLabel lInvoice_ID = new CLabel(Msg.translate(Env.getCtx(), "C_Invoice_ID"));
 	private VLookup fInvoice_ID;
-//	private CLabel lCharge_ID = new CLabel(Msg.translate(Env.getCtx(), "C_Charge_ID"));
-//	private VLookup fCharge_ID;
+	private CLabel lCharge_ID = new CLabel(Msg.translate(Env.getCtx(), "C_Charge_ID"));
+	private VLookup fCharge_ID;
 	private CLabel lBankAccount_ID = new CLabel(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 	private VLookup fBankAccount_ID;
 	private CCheckBox cbAbsolute = new CCheckBox (Msg.translate(Env.getCtx(), "AbsoluteAmt"));
@@ -172,6 +175,10 @@ public class InfoCashLine extends Info
 		lBankAccount_ID.setLabelFor(fBankAccount_ID);
 		fBankAccount_ID.setBackground(AdempierePLAF.getInfoBackground());
 		//	5296 - C_CashLine.C_Charge_ID
+		fCharge_ID = new VLookup(MCashLine.COLUMNNAME_C_Charge_ID, false, false, true,
+				MLookupFactory.get(Env.getCtx(), p_WindowNo, 0,
+						MColumn.getColumn_ID(MCashLine.Table_Name, MCashLine.COLUMNNAME_C_Charge_ID),
+						DisplayType.TableDir) );
 		//	5291 - C_CashLine.C_Cash_ID
 		//
 		lDateFrom.setLabelFor(fDateFrom);
@@ -210,6 +217,9 @@ public class InfoCashLine extends Info
 		parameterPanel.add(fAmtTo, null);
 	//	parameterPanel.add(lOrg_ID, null);
 	//	parameterPanel.add(fOrg_ID, null);
+		// 4th Row
+		parameterPanel.add(lCharge_ID, new ALayoutConstraint(3,0));
+		parameterPanel.add(fCharge_ID, null);
 	}	//	statInit
 
 	/**
@@ -281,6 +291,9 @@ public class InfoCashLine extends Info
 				else
 					sql.append(" BETWEEN ? AND ?");
 			}
+		}
+		if (fCharge_ID.getValue() != null) {
+			sql.append(" AND cl.").append(MCashLine.COLUMNNAME_C_Charge_ID).append("=?");
 		}
 
 		log.fine(sql.toString());
@@ -356,6 +369,11 @@ public class InfoCashLine extends Info
 					pstmt.setBigDecimal(index++, to);
 				}
 			}
+		}
+		if (fCharge_ID.getValue() != null) {
+			Integer i = (Integer)fCharge_ID.getValue();
+			pstmt.setInt(index++, i.intValue());
+			log.fine("Charge=" + i);
 		}
 	}   //  setParameters
 
