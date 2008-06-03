@@ -16,10 +16,20 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MDistribution;
+import org.compiere.model.MDistributionLine;
+import org.compiere.model.MElementValue;
+import org.compiere.model.MFactAcct;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  *  Accounting Fact
@@ -346,10 +356,10 @@ public final class Fact
 			//	System.out.println("Add Key=" + key + ", Bal=" + bal + " <- " + line);
 			}
 			//  check if all keys are zero
-			Iterator values = map.values().iterator();
+			Iterator<BigDecimal> values = map.values().iterator();
 			while (values.hasNext())
 			{
-				BigDecimal bal = (BigDecimal)values.next();
+				BigDecimal bal = values.next();
 				if (bal.signum() != 0)
 				{
 					map.clear();
@@ -418,11 +428,11 @@ public final class Fact
 			}
 
 			//  Create entry for non-zero element
-			Iterator keys = map.keySet().iterator();
+			Iterator<Integer> keys = map.keySet().iterator();
 			while (keys.hasNext())
 			{
-				Integer key = (Integer)keys.next();
-				Balance difference = (Balance)map.get(key);
+				Integer key = keys.next();
+				Balance difference = map.get(key);
 				log.info (elementType + "=" + key + ", " + difference);
 				//
 				if (!difference.isZeroBalance())
