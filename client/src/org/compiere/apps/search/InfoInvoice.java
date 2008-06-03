@@ -34,6 +34,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: InfoInvoice.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			FR [ 1926882 ] Info Invoice: display Due Date
  */
 public class InfoInvoice extends Info
 {
@@ -117,6 +120,7 @@ public class InfoInvoice extends Info
 		new Info_Column(" ", "i.C_Invoice_ID", IDColumn.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "DateInvoiced"), "i.DateInvoiced", Timestamp.class),
+		new Info_Column(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
