@@ -679,7 +679,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
         PP_Order_Workflow.setValue(AD_Workflow.getValue());
         //PP_Order_Workflow.setQtyBatchSize(AD_Workflow.getQtyBatchSize());
         PP_Order_Workflow.setWorkflowType(AD_Workflow.getWorkflowType());
-        PP_Order_Workflow.setQtyBatchSize((BigDecimal)AD_Workflow.get_Value("QtyBatchSize"));
+        PP_Order_Workflow.setQtyBatchSize(AD_Workflow.getQtyBatchSize());
         PP_Order_Workflow.setName(AD_Workflow.getName());
         PP_Order_Workflow.setAccessLevel(AD_Workflow.getAccessLevel());
         PP_Order_Workflow.setAuthor(AD_Workflow.getAuthor());
@@ -705,11 +705,11 @@ public class MPPOrder extends X_PP_Order implements DocAction {
         PP_Order_Workflow.setSetupTime(AD_Workflow.getSetupTime());
         PP_Order_Workflow.setMovingTime(AD_Workflow.getMovingTime());
         PP_Order_Workflow.setProcessType(AD_Workflow.getProcessType()); */
-        PP_Order_Workflow.setS_Resource_ID((Integer)AD_Workflow.get_Value("S_Resource_ID"));
-        PP_Order_Workflow.setQueuingTime((Integer)AD_Workflow.get_Value("QueuingTime"));
-        PP_Order_Workflow.setSetupTime((Integer)AD_Workflow.get_Value("SetupTime"));
-        PP_Order_Workflow.setMovingTime((Integer)AD_Workflow.get_Value("MovingTime"));
-        PP_Order_Workflow.setProcessType((String)AD_Workflow.get_Value("ProcessType"));  
+        PP_Order_Workflow.setS_Resource_ID(AD_Workflow.getS_Resource_ID());
+        PP_Order_Workflow.setQueuingTime(AD_Workflow.getQueuingTime());
+        PP_Order_Workflow.setSetupTime(AD_Workflow.getSetupTime());
+        PP_Order_Workflow.setMovingTime(AD_Workflow.getMovingTime());
+        PP_Order_Workflow.setProcessType(AD_Workflow.getProcessType());  
         // 4Layers 
         
         
@@ -726,18 +726,18 @@ public class MPPOrder extends X_PP_Order implements DocAction {
         	boolean ValidFromNode = true;
             boolean ValidToNode = true;
             //if (AD_WF_Node[g].getValidFrom() != null )
-            if ((Timestamp) AD_WF_Node[g].get_Value("ValidFrom")!= null )
+            if (AD_WF_Node[g].getValidFrom() != null)
             {		
             //ValidFromNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidFrom()) >= 0 ? true : false;
-            ValidFromNode = getDateStartSchedule().compareTo((Timestamp) AD_WF_Node[g].get_Value("ValidFrom")) >= 0 ? true : false;
+            ValidFromNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidFrom()) >= 0 ? true : false;
             	   
             }
             
             //if (AD_WF_Node[g].getValidTo() != null )
-            if ((Timestamp)AD_WF_Node[g].get_Value("ValidTo") != null )
+            if (AD_WF_Node[g].getValidTo() != null )
             {		
             //ValidToNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidTo()) <= 0 ? true : false;
-            ValidToNode = getDateStartSchedule().compareTo((Timestamp)AD_WF_Node[g].get_Value("ValidTo")) <= 0 ? true : false;
+            ValidToNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidTo()) <= 0 ? true : false;
             }
             
         	if (ValidFromNode && ValidToNode)
@@ -761,23 +761,23 @@ public class MPPOrder extends X_PP_Order implements DocAction {
             PP_Order_Node.setSubflowExecution (AD_WF_Node[g].getSubflowExecution());
             PP_Order_Node.setValue(AD_WF_Node[g].getValue());
             //PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
-            PP_Order_Node.setS_Resource_ID(((Integer)AD_WF_Node[g].get_Value("S_Resource_ID")).intValue());
+            PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
             //PP_Order_Node.setSetupTime(AD_WF_Node[g].getSetupTime());
-            PP_Order_Node.setSetupTime(((Integer)AD_WF_Node[g].get_Value("SetupTime")).intValue());
+            PP_Order_Node.setSetupTime(AD_WF_Node[g].getSetupTime());
             //PP_Order_Node.setSetupTimeRequiered(AD_WF_Node[g].getSetupTime());
-            PP_Order_Node.setSetupTimeRequiered(((Integer)AD_WF_Node[g].get_Value("SetupTime")).intValue());
+            PP_Order_Node.setSetupTimeRequiered(AD_WF_Node[g].getSetupTime());
             BigDecimal time = new BigDecimal(AD_WF_Node[g].getDuration()).multiply(getQtyOrdered());
             PP_Order_Node.setDurationRequiered(time.intValue());
             //PP_Order_Node.setMovingTime(AD_WF_Node[g].getMovingTime());
-            PP_Order_Node.setMovingTime(((Integer)AD_WF_Node[g].get_Value("MovingTime")).intValue());
+            PP_Order_Node.setMovingTime(AD_WF_Node[g].getMovingTime());
             PP_Order_Node.setWaitingTime(AD_WF_Node[g].getWaitingTime());
             PP_Order_Node.setWorkingTime(AD_WF_Node[g].getWorkingTime());;
             //PP_Order_Node.setQueuingTime(AD_WF_Node[g].getQueuingTime());
-            PP_Order_Node.setQueuingTime(((Integer)AD_WF_Node[g].get_Value("QueuingTime")).intValue());
+            PP_Order_Node.setQueuingTime(AD_WF_Node[g].getQueuingTime());
             PP_Order_Node.setXPosition(AD_WF_Node[g].getXPosition()); //e-evolution generatemodel
             PP_Order_Node.setYPosition(AD_WF_Node[g].getYPosition()); //e-evolution generatemodel
             //PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
-            PP_Order_Node.setS_Resource_ID(((Integer)AD_WF_Node[g].get_Value("S_Resource_ID")).intValue());
+            PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
             PP_Order_Node.setDocAction(AD_WF_Node[g].getDocAction());
             PP_Order_Node.save(get_TrxName());  
      
@@ -1396,7 +1396,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
                     PP_Order_Cost.setCumulatedAmt(cost[j].getCumulatedAmt());
                     PP_Order_Cost.setCumulatedQty(cost[j].getCumulatedQty());
                     //PP_Order_Cost.setCurrentCostPriceLL(cost[j].getCurrentCostPriceLL());
-                    PP_Order_Cost.setCurrentCostPriceLL((BigDecimal)cost[j].get_Value("CurrentCostPriceLL"));
+                    PP_Order_Cost.setCurrentCostPriceLL((BigDecimal)cost[j].get_Value("CurrentCostPriceLL")); // column doesn't exist !!!
                     PP_Order_Cost.setCurrentCostPrice(cost[j].getCurrentCostPrice());
                     PP_Order_Cost.setM_Product_ID(getM_Product_ID());
                     PP_Order_Cost.setM_AttributeSetInstance_ID(cost[j].getM_AttributeSetInstance_ID());

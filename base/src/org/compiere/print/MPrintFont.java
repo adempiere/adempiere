@@ -56,7 +56,7 @@ public class MPrintFont extends X_AD_PrintFont
 	{
 		if (m_cacheFont != null)
 			return m_cacheFont;
-		String code = (String)get_Value("Code");
+		String code = getCode();
 		if (code == null || code.equals("."))
 			m_cacheFont = new Font (null);
 		try

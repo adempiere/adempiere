@@ -221,9 +221,9 @@ public class CommissionCalc extends SvrProcess
 				sql.append(" AND l.M_Product_ID IN "
 					+ "(SELECT M_Product_ID FROM M_Product WHERE M_Product_Category_ID=").append(lines[i].getM_Product_Category_ID()).append(")");
 			//	Payment Rule
-			if (lines[i].get_Value("PaymentRule") != null)
+			if (lines[i].getPaymentRule() != null)
 				sql.append(" AND h.PaymentRule IN "
-					+ "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=195 and value = '").append((String)lines[i].get_Value("PaymentRule")).append("')");
+					+ "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=195 and value = '").append(lines[i].getPaymentRule()).append("')");
 			//	Grouping
 			if (!m_com.isListDetails())
 				sql.append(" GROUP BY h.C_Currency_ID");

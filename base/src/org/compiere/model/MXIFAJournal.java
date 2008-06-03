@@ -72,7 +72,7 @@ public class MXIFAJournal extends X_I_FAJournal {
 	 * Get Currency Type. Currency Conversion Rate Type
 	 */
 	public int getC_ConversionType_ID() {
-		Integer ii = (Integer) get_Value("C_ConversionType_ID");
+		Integer ii = getC_ConversionType_ID();
 		if (ii == null)
 			return 0;
 		return ii.intValue();

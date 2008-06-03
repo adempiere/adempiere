@@ -84,7 +84,7 @@ public class CreateGLAsset extends SvrProcess
 					pstmt = null;
 					pstmt = DB.prepareStatement(sql,get_TrxName());
 					if(asset.getA_Asset_ID()==0) {
-						Number groupId = (Number)JVLine.get_Value(I_CustomColumn.A_Asset_Group_ID);
+						Number groupId = (Number)JVLine.getA_Asset_Group_ID();
 						pstmt.setInt(1, groupId != null ? groupId.intValue() : 0);
 					} else
 						pstmt.setInt(1, asset.getA_Asset_Group_ID());

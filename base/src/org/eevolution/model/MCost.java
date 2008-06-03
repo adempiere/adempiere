@@ -183,7 +183,7 @@ public class MCost extends org.compiere.model.MCost
 	{
             boolean result = super.beforeSave(newRecord);
             //setCumulatedAmt(getCumulatedAmt().add(getCurrentCostPriceLL()));
-            setCumulatedAmt(getCumulatedAmt().add((BigDecimal)get_Value("CurrentCostPrice")));
+            setCumulatedAmt(getCumulatedAmt().add(getCurrentCostPrice()));
             return result;
         }
 

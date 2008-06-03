@@ -207,7 +207,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			if (!recreateColumn) {
 				String oldDefault = (String) m_Column
 						.get_ValueOld("DefaultValue");
-				String newDefault = (String) m_Column.get_Value("DefaultValue");
+				String newDefault = m_Column.getDefaultValue();
 				if (oldDefault != null && oldDefault.length() == 0)
 					oldDefault = null;
 				if (newDefault != null && newDefault.length() == 0)

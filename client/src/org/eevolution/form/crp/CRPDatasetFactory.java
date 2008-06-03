@@ -86,12 +86,12 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
 		 MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
 		 
 		 //BigDecimal utilization = r.getPercentUtilization();
-		 BigDecimal utilization =  (BigDecimal) r.get_Value("PercentUtilization");
+		 BigDecimal utilization =  r.getPercentUtilization();
 		 BigDecimal dailyCapacity = null;
 		 if(BigDecimal.ZERO.compareTo(utilization) < 0) {
 			 
 			//dailyCapacity = r.getDailyCapacity().divide(utilization.divide(new BigDecimal(100)), 8, BigDecimal.ROUND_HALF_DOWN);
-			 dailyCapacity = ((BigDecimal)r.get_Value("DailyCapacity")).divide(utilization.divide(new BigDecimal(100)), 8, BigDecimal.ROUND_HALF_DOWN);
+			 dailyCapacity = (r.getDailyCapacity()).divide(utilization.divide(new BigDecimal(100)), 8, BigDecimal.ROUND_HALF_DOWN);
 		 }
 		 else {
 			 
@@ -275,7 +275,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
 	protected BigDecimal getMaxRange(MResource r) {
 		
 		 //return r.getDailyCapacity().divide(r.getPercentUtilization().divide(new BigDecimal(100)));
-		 return ((BigDecimal)r.get_Value("DailyCapacity")).divide(((BigDecimal)r.get_Value("PercentUtilization")).divide(new BigDecimal(100)));
+		 return (r.getDailyCapacity()).divide((r.getPercentUtilization()).divide(new BigDecimal(100)));
 
 	}
     
