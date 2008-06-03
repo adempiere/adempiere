@@ -63,8 +63,7 @@ public class MPPOrderCost extends X_PP_Order_Cost
                 setCumulatedAmt(m_cost.getCumulatedAmt());
                 setCumulatedQty(m_cost.getCumulatedQty()); 
                 setCurrentCostPrice(m_cost.getCurrentCostPrice());
-                //setCurrentCostPriceLL(m_cost.getCurrentCostPriceLL());
-                setCurrentCostPriceLL((BigDecimal)m_cost.get_Value("CurrentCostPriceLL"));
+                setCurrentCostPriceLL(m_cost.getCurrentCostPrice());
                 setM_Product_ID(m_cost.getM_Product_ID());               
                 setM_CostElement_ID(m_cost.getM_CostElement_ID());
                 setM_AttributeSetInstance_ID(m_cost.getM_AttributeSetInstance_ID());

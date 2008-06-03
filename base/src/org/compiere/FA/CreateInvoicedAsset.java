@@ -102,8 +102,8 @@ public class CreateInvoicedAsset extends SvrProcess
 					PreparedStatement pstmt1 = null;
 					pstmt1 = DB.prepareStatement(sqla,get_TrxName());
 					if(asset.getA_Asset_ID()==0) {
-						Number groupId = (Number)InvoiceLine.getA_Asset_Group_ID();
-						pstmt1.setInt(1, groupId != null ? groupId.intValue() : 0);
+						int groupId = InvoiceLine.getA_Asset_Group_ID();
+						pstmt1.setInt(1, groupId);
 					} else
 						pstmt1.setInt(1, asset.getA_Asset_Group_ID());
 					ResultSet rs2 = pstmt1.executeQuery();

@@ -94,11 +94,11 @@ public class MPInstancePara extends X_AD_PInstance_Para
 			if (getP_String_To() != null)
 				sb.append(" - ").append(getP_String_To());
 		}
-		BigDecimal bd = getP_Number();
+		BigDecimal bd = (BigDecimal)get_Value("P_Number");
 		if (bd != null)
 		{
 			sb.append("(n)=").append(bd);
-			BigDecimal bd2 = getP_Number_To();
+			BigDecimal bd2 = (BigDecimal)get_Value("P_Number_To");
 			if (bd2 != null)
 				sb.append(" - ").append(bd2);
 		}

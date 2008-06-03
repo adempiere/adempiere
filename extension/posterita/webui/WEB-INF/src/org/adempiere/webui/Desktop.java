@@ -118,6 +118,8 @@ public class Desktop extends Window implements MenuListener
     {
     	MClient client = MClient.get(Env.getCtx());
     	String defaultUrl = "http://www.adempiere.com";
+    	
+    	/* [ 1983672 ] Column AD_Client.WebSiteURL doesn't exist
     	String url = (String)client.get_Value("WebSiteURL");
     	
     	if (url == null)
@@ -129,6 +131,8 @@ public class Desktop extends Window implements MenuListener
     		logger.log(Level.SEVERE, "Website URL provided for the client is not valid!!!");
     		url = defaultUrl;
     	}
+    	*/
+    	String url = defaultUrl;
     	
     	return url;
     }

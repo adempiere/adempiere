@@ -58,24 +58,4 @@ public class MXIFAJournal extends X_I_FAJournal {
 		return bd;
 	}
 
-	/**
-	 * Set Currency Type. Currency Conversion Rate Type
-	 */
-	public void setC_ConversionType_ID(int C_ConversionType_ID) {
-		if (C_ConversionType_ID == 0)
-			set_Value("C_ConversionType_ID", null);
-		else
-			set_Value("C_ConversionType_ID", new Integer(C_ConversionType_ID));
-	}
-
-	/**
-	 * Get Currency Type. Currency Conversion Rate Type
-	 */
-	public int getC_ConversionType_ID() {
-		Integer ii = getC_ConversionType_ID();
-		if (ii == null)
-			return 0;
-		return ii.intValue();
-	}
-
 }

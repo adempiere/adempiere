@@ -58,7 +58,7 @@ public class MAlertRecipient extends X_AD_AlertRecipient
 	 */
 	public int getAD_User_ID ()
 	{
-		Integer ii = super.getAD_User_ID();
+		Integer ii = (Integer)get_Value("AD_User_ID");
 		if (ii == null) 
 			return -1;
 		return ii.intValue();
@@ -71,7 +71,7 @@ public class MAlertRecipient extends X_AD_AlertRecipient
 	 */
 	public int getAD_Role_ID ()
 	{
-		Integer ii = super.getAD_Role_ID();
+		Integer ii = (Integer)get_Value("AD_Role_ID");
 		if (ii == null) 
 			return -1;
 		return ii.intValue();
