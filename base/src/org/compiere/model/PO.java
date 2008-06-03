@@ -39,6 +39,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
 import org.compiere.util.CLogMgt;
@@ -53,6 +54,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trace;
 import org.compiere.util.Trx;
+import org.compiere.util.ValueNamePair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -63,7 +65,10 @@ import org.w3c.dom.Element;
  *  @author Jorg Janke
  *  @version $Id: PO.java,v 1.12 2006/08/09 16:38:47 jjanke Exp $
  *  
- *  @author Teo Sarca - FR [ 1675490 ], BF [ 1704828 ]
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *			<li>FR [ 1675490 ] ModelValidator on modelChange after events
+ *			<li>BF [ 1704828 ] PO.is_Changed() and PO.is_ValueChanged are not consistent
+ *			<li>FR [ 1720995 ] Add PO.saveEx() and PO.deleteEx() methods
  */
 public abstract class PO 
 	implements Serializable, Comparator, Evaluatee
@@ -1949,6 +1954,24 @@ public abstract class PO
 	}	//	save
 	
 	/**
+	 * Update Value or create new record.
+	 * @throws AdempiereException
+	 * @see #save()
+	 */
+	public void saveEx() throws AdempiereException
+	{
+		if (!save()) {
+			String msg = null;
+			ValueNamePair err = CLogger.retrieveError();
+			if (err != null)
+				msg = err.getName();
+			if (msg == null)
+				msg = "SaveError";
+			throw new AdempiereException(msg);
+		}
+	}
+	
+	/**
 	 * 	Finish Save Process
 	 *	@param newRecord new
 	 *	@param success success
@@ -2044,6 +2067,18 @@ public abstract class PO
 		return save();
 	}
 	
+	/**
+	 * Update Value or create new record.
+	 * @param trxName transaction
+	 * @throws AdempiereException
+	 * @see #saveEx(String)
+	 */
+	public void saveEx(String trxName) throws AdempiereException
+	{
+		set_TrxName(trxName);
+		saveEx();
+	}
+
 	/**
 	 * 	Is there a Change to be saved?
 	 *	@return true if record changed
@@ -2795,6 +2830,25 @@ public abstract class PO
 	}	//	delete
 	
 	/**
+	 * Delete Current Record
+	 * @param force delete also processed records
+	 * @throws AdempiereException
+	 * @see #delete(boolean)
+	 */
+	public void deleteEx(boolean force) throws AdempiereException
+	{
+		if (!delete(force)) {
+			String msg = null;
+			ValueNamePair err = CLogger.retrieveError();
+			if (err != null)
+				msg = err.getName();
+			if (msg == null)
+				msg = "DeleteError";
+			throw new AdempiereException(msg);
+		}
+	}
+	
+	/**
 	 * 	Delete Current Record
 	 * 	@param force delete also processed records
 	 *	@param trxName transaction
@@ -2806,6 +2860,19 @@ public abstract class PO
 		return delete (force);
 	}	//	delete
 
+	/**
+	 * Delete Current Record
+	 * @param force delete also processed records
+	 * @param trxName transaction
+	 * @throws AdempiereException
+	 * @see {@link #deleteEx(boolean)}
+	 */
+	public void deleteEx(boolean force, String trxName) throws AdempiereException
+	{
+		set_TrxName(trxName);
+		deleteEx(force);
+	}
+	
 	/**
 	 * 	Executed before Delete operation.
 	 *	@return true if record can be deleted
