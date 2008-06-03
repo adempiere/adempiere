@@ -450,7 +450,7 @@ public class MPPMRP extends X_PP_MRP
         
         public static int PP_Order_BOMLine(X_PP_Order_BOMLine obl,X_PP_Order o)
         {        	   
-        	   String trxName = o.get_TableName();
+        	   String trxName = o.get_TrxName();
                String sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.Type = 'D' AND mrp.TypeMRP='MOP' AND mrp.PP_Order_BOMLine_ID = ? ");
         	   //String sql =  new String("SELECT mrp.PP_MRP_ID FROM PP_MRP mrp WHERE mrp.Type = 'D' AND mrp.PP_Order_BOMLine_ID = ? ");
                     MPPMRP mrp = null;
