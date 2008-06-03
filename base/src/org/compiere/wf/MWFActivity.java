@@ -889,10 +889,17 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			{
 				doc = (DocAction)m_po;
 				//
-				success = doc.processIt (m_node.getDocAction());	//	** Do the work
-				setTextMsg(doc.getSummary());
-				processMsg = doc.getProcessMsg();
-				m_docStatus = doc.getDocStatus();
+				try {
+					success = doc.processIt (m_node.getDocAction());	//	** Do the work
+					setTextMsg(doc.getSummary());
+					processMsg = doc.getProcessMsg();
+					m_docStatus = doc.getDocStatus();
+				}
+				catch (Exception e) {
+					if (m_process != null)
+						m_process.setProcessMsg(e.getLocalizedMessage());
+					throw e;
+				}
 				//	Post Immediate
 				if (success && DocAction.ACTION_Complete.equals(m_node.getDocAction()))
 				{
