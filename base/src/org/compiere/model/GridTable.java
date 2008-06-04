@@ -52,6 +52,7 @@ import org.compiere.util.*;
  * 			<li>BF [ 1901192 ] LogMigrationScripts: GridTable.dataSave: manual update
  *			<li>BF [ 1943682 ] Copy Record should not copy IsApproved and IsGenerated
  *			<li>BF [ 1949543 ] Window freeze if there is a severe exception
+ *			<li>BF [ 1984310 ] GridTable.getClientOrg() doesn't work for AD_Client/AD_Org
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -332,7 +333,8 @@ public class GridTable extends AbstractTableModel
 		//  Set Index for Key column
 		if (field.isKey())
 			m_indexKeyColumn = m_fields.size();
-		else if (field.getColumnName().equals("IsActive"))
+		//  Set Index of other standard columns
+		if (field.getColumnName().equals("IsActive"))
 			m_indexActiveColumn = m_fields.size();
 		else if (field.getColumnName().equals("Processed"))
 			m_indexProcessedColumn = m_fields.size();
