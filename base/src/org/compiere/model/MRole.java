@@ -1024,6 +1024,13 @@ public final class MRole extends X_AD_Role
 	{
 		if (AD_Client_ID == 0 && !rw)	//	can always read System
 			return true;
+		//
+		// Check Access All Orgs:
+		if (isAccessAllOrgs()) {
+			// User has access to given AD_Client_ID if the role is defined on that AD_Client_ID
+			return getAD_Client_ID() == AD_Client_ID;
+		}
+		//
 		loadOrgAccess(false);
 		//	Positive List
 		for (int i = 0; i < m_orgAccess.length; i++)
