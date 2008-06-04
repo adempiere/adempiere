@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -510,4 +511,34 @@ public class MPeriod extends X_C_Period
 		return sb.toString ();
 	}	//	toString
 	
+	/**
+	 * Conventient method for testing if a period is open
+	 * @param ctx
+	 * @param dateAcct
+	 * @param docBaseType
+	 * @throws PeriodClosedException if period is closed
+	 * @see #isOpen(Properties, Timestamp, String)
+	 */
+	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, String docBaseType)
+	throws PeriodClosedException 
+	{
+		if (!MPeriod.isOpen(ctx, dateAcct, docBaseType)) {
+			throw new PeriodClosedException(dateAcct, docBaseType);
+		}
+	}
+	
+	/**
+	 * Conventient method for testing if a period is open
+	 * @param ctx
+	 * @param dateAcct
+	 * @param C_DocType_ID
+	 * @throws PeriodClosedException
+	 * @see {@link #isOpen(Properties, Timestamp, String)}
+	 */
+	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, int C_DocType_ID)
+	throws PeriodClosedException
+	{
+		MDocType dt = MDocType.get(ctx, C_DocType_ID);
+		testPeriodOpen(ctx, dateAcct, dt.getDocBaseType());
+	}
 }	//	MPeriod
