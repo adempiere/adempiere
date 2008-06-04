@@ -516,7 +516,7 @@ public class VHRActionNotice extends CPanel
 				+ " INNER JOIN C_BPartner bp ON (hm.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN HR_Employee e ON (e.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN HR_Concept hc ON (hm.HR_Concept_ID=hc.HR_Concept_ID)"
-				+ " LEFT OUTER JOIN AD_Rule_Engine er ON (hm.AD_Rule_Engine_ID=er.AD_Rule_Engine_ID)"
+				+ " LEFT OUTER JOIN AD_Rule er ON (hm.AD_Rule_ID=er.AD_Rule_ID)"
 			    + " WHERE hm.Processed='N' AND hp.HR_Process_ID = " +fieldProcess.getValue()
 			    //+ " AND IsStatic = 'Y' " // Solo aplique Incidencias [add 30Dic2006 para ver Todo]
 			    + " AND hp.C_BPartner_ID = " + fieldEmployee.getValue()
