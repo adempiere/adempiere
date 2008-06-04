@@ -1,3 +1,6 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
+
 -- May 30, 2008 4:34:50 PM COT
 -- Integrate Fixed Assets 2pack package
 INSERT INTO AD_FieldGroup (AD_Client_ID,AD_FieldGroup_ID,AD_Org_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy) VALUES (0,50001,0,TO_DATE('2008-05-30 16:34:48','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Accounts',TO_DATE('2008-05-30 16:34:48','YYYY-MM-DD HH24:MI:SS'),100)
