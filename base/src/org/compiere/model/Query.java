@@ -250,16 +250,28 @@ public class Query {
 	public <T extends PO> POResultSet<T> scroll() throws DBException {
 		String sql = buildSQL(null);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		POResultSet<T> rsPO = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
-			ResultSet rs = createResultSet(pstmt);
-			return new POResultSet<T>(table, pstmt, rs, trxName);
+			rs = createResultSet(pstmt);
+			rsPO = new POResultSet<T>(table, pstmt, rs, trxName);
+			rsPO.setCloseOnError(true);
+			return rsPO;
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			throw new DBException(e);
+		}
+		finally
+		{
+			// If there was an error, then close the statement and resultset
+			if (rsPO == null) {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
 		}
 	}
 	

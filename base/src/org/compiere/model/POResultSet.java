@@ -13,6 +13,7 @@
  * 
  * Copyright (C) 2007 Low Heng Sin hengsin@avantz.com 
  * Contributor(s): 
+ * Teo Sarca, SC ARHIPAC SERVICE SRL
  * __________________________________________
  ******************************************************************************/
 package org.compiere.model;
@@ -21,10 +22,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.compiere.util.DB;
+import org.compiere.util.DBException;
+
 /**
  * Simple wrapper over jdbc resultset
  * @author Low Heng Sin
- *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1984834 ] Add POResultSet.hasNext convenient method
+ * 			<li>FR [ 1985134 ] POResultSet improvements
  */
 public class POResultSet<T extends PO> {
 
@@ -32,9 +38,14 @@ public class POResultSet<T extends PO> {
 	private ResultSet resultSet;
 	private MTable table;
 	private PreparedStatement statement;
+	/** Current fetched PO */
+	private T currentPO = null;
+	/** Should we close the statement and resultSet on any exception that occur ? */
+	private boolean closeOnError = false;
 
 	/**
-	 * 
+	 * Constructs the POResultSet.
+	 * By default, closeOnError option is false. You need to set it explicitly.
 	 * @param table
 	 * @param ps
 	 * @param rs
@@ -45,34 +56,78 @@ public class POResultSet<T extends PO> {
 		this.statement = ps;
 		this.resultSet = rs;
 		this.trxName = trxName;
+		this.closeOnError = false;
+	}
+	
+	/**
+	 * 
+	 * @return true if it has next, false otherwise
+	 * @throws DBException
+	 */
+	public boolean hasNext() throws DBException {
+		if (currentPO != null)
+			return true;
+		currentPO = next();
+		return currentPO != null;
 	}
 	
 	/**
 	 * 
 	 * @return PO or null if reach the end of resultset
-	 * @throws SQLException
+	 * @throws DBException
 	 */
-	public T next() throws SQLException {
-		if ( resultSet.next() ) {
-			return (T) table.getPO(resultSet, trxName);
-		} else {
-			return null;
+	public T next() throws DBException {
+		if (currentPO != null) {
+			T po = currentPO;
+			currentPO = null;
+			return po;
 		}
+		try {
+			if ( resultSet.next() ) {
+				return (T) table.getPO(resultSet, trxName);
+			} else {
+				return null;
+			}
+		}
+		catch (SQLException e) {
+			if (this.closeOnError) {
+				this.close();
+			}
+			throw new DBException(e);
+		}
+		// Catching any RuntimeException, and close the resultset (if closeOnError is set)
+		catch (RuntimeException e) {
+			if (this.closeOnError) {
+				this.close();
+			}
+			throw e;
+		}
+	}
+	
+	/**
+	 * Should we automatically close the {@link PreparedStatement} and {@link ResultSet} in case
+	 * we get an error.
+	 * @param closeOnError
+	 */
+	public void setCloseOnError(boolean closeOnError) {
+		this.closeOnError = closeOnError;
+	}
+
+	/**
+	 * Will be the {@link PreparedStatement} and {@link ResultSet} closed on any database exception
+	 * @return true if yes, false otherwise
+	 */
+	public boolean isCloseOnError() {
+		return this.closeOnError;
 	}
 	
 	/**
 	 * Release database resources.
 	 */
 	public void close() {
-		if (statement != null) {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-			}
-		}
-		try {
-			resultSet.close();
-		} catch (SQLException e) {
-		}
+		DB.close(this.resultSet, this.statement);
+		this.resultSet = null;
+		this.statement = null;
+		currentPO = null;
 	}
 }
