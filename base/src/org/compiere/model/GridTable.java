@@ -1096,7 +1096,7 @@ public class GridTable extends AbstractTableModel
 				m_rowChanged = m_newRow;
 			else
 			{
-				fireDataStatusEEvent("SaveErrorNoChange", "", false);
+				fireDataStatusEEvent("SaveErrorNoChange", "", true);
 				return SAVE_ERROR;
 			}
 		}
@@ -1671,11 +1671,11 @@ public class GridTable extends AbstractTableModel
 				log.log(Level.SEVERE, "Inserted row not found");
 			//
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 
 			String msg = "SaveError";
-			if (e.getErrorCode() == 1)		//	Unique Constraint
+			if (DBException.isUniqueContraintError(e))		//	Unique Constraint
 			{
 				log.log(Level.SEVERE, "Key Not Unique", e);
 				msg = "SaveErrorNotUnique";
@@ -1802,10 +1802,7 @@ public class GridTable extends AbstractTableModel
 				msg = ppE.getValue();
 				info = ppE.getName();
 				//	Unique Constraint
-				Exception ex = CLogger.retrieveException();
-				if (ex != null 
-					&& ex instanceof SQLException
-					&& ((SQLException)ex).getErrorCode() == 1)
+				if (DBException.isUniqueContraintError(CLogger.retrieveException()))
 					msg = "SaveErrorNotUnique";
 			}
 			fireDataStatusEEvent(msg, info, true);
@@ -2281,7 +2278,7 @@ public class GridTable extends AbstractTableModel
 			{
 				log.log(Level.SEVERE, sql.toString(), e);
 				String msg = "DeleteError";
-				if (e.getErrorCode() == 2292)	//	Child Record Found
+				if (DBException.isChildRecordFoundError(e))
 					msg = "DeleteErrorDependent";
 				fireDataStatusEEvent(msg, e.getLocalizedMessage(), true);
 				return false;
@@ -2924,7 +2921,7 @@ public class GridTable extends AbstractTableModel
 			catch (SQLException e0)
 			{
 				//	Zoom Query may have invalid where clause
-				if (e0.getErrorCode() == 904) 	//	ORA-00904: "C_x_ID": invalid identifier
+				if (DBException.isInvalidIdentifierError(e0))
 					log.warning("Count - " + e0.getLocalizedMessage() + "\nSQL=" + m_SQL_Count);
 				else
 					log.log(Level.SEVERE, "Count SQL=" + m_SQL_Count, e0);

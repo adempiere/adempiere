@@ -36,6 +36,7 @@ import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_Oracle;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DBException;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
@@ -636,8 +637,7 @@ public class DB_Oracle implements AdempiereDatabase
             {
                 exception = e;
                 conn = null;
-                if (e instanceof SQLException
-                    && ((SQLException)e).getErrorCode() == 1017)    //  invalid username/password
+                if (DBException.isInvalidUserPassError(e))
                 {
                 	//log might cause infinite loop since it will try to acquire database connection again
                 	/*

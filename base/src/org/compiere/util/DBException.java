@@ -16,15 +16,22 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import java.sql.SQLException;
+
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  * This RuntimeException is used to pass SQLException up the chain of calling
  * methods to determine what to do where needed.
  * 
  * @author Vincent Harcq
  * @version $Id: DBException.java,v 1.2 2006/07/30 00:54:35 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
-public class DBException extends RuntimeException {
-	
+public class DBException extends AdempiereException {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Create a new DBException based on a SQLException
 	 * @param e Specicy the Exception cause
@@ -42,5 +49,88 @@ public class DBException extends RuntimeException {
 	{
 		super(msg);
 	}	//	DBException
+	
+	/**
+	 * @return Wrapped SQLException or null
+	 */
+	public SQLException getSQLException() {
+		Throwable cause = getCause();
+		if (cause instanceof SQLException)
+			return (SQLException)cause;
+		return null;
+	}
 
+	/**
+	 * @see java.sql.SQLException#getErrorCode()
+	 */
+    public int getErrorCode() {
+    	SQLException e = getSQLException();
+    	return (e != null ? e.getErrorCode() : -1); 
+    }
+
+    /**
+     * @see java.sql.SQLException#getNextException()
+     */
+    public SQLException getNextException() {
+    	SQLException e = getSQLException();
+    	return (e != null ? e.getNextException() : null); 
+    }
+    
+    /**
+     * @see java.sql.SQLException#getSQLState()
+     */
+    public String getSQLState() {
+    	SQLException e = getSQLException();
+    	return (e != null ? e.getSQLState() : null); 
+    }
+    
+    
+    private static final boolean isErrorCode(Exception e, int errorCode) {
+    	if (e == null) {
+    		return false;
+    	}
+    	else if (e instanceof SQLException) {
+    		return ((SQLException)e).getErrorCode() == errorCode;
+    	}
+    	else if (e instanceof DBException) {
+    		SQLException sqlEx = ((DBException)e).getSQLException();
+    		if (sqlEx != null)
+    			return sqlEx.getErrorCode() == errorCode;
+    		else
+    			return false;
+    	}
+    	return false;
+    }
+    
+    /**
+     * Check if Unique Constraint Exception (aka ORA-00001)
+     * @param e exception
+     */
+    public static boolean isUniqueContraintError(Exception e) {
+    	return isErrorCode(e, 1);
+    }
+    
+    /**
+     * Check if "child record found" exception (aka ORA-02292)
+     * @param e exception
+     */
+    public static boolean isChildRecordFoundError(Exception e) {
+    	return isErrorCode(e, 2292);
+    }
+    
+    /**
+     * Check if "invalid identifier" exception (aka ORA-00904)
+     * @param e exception
+     */
+    public static boolean isInvalidIdentifierError(Exception e) {
+    	return isErrorCode(e, 904);
+    }
+    
+    /**
+     * Check if "invalid username/password" exception (aka ORA-01017)
+     * @param e exception
+     */
+    public static boolean isInvalidUserPassError(Exception e) {
+    	return isErrorCode(e, 1017);
+    }
 }	//	DBException
