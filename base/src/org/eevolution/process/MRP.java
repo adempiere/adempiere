@@ -178,7 +178,7 @@ public class MRP extends SvrProcess
 			{	 
 
 				runMRP(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,w.getM_Warehouse_ID());
-				result = result + "finish MRP to Warehouse " +w.getName();
+				result = result + "<br>finish MRP to Warehouse " +w.getName();
 			}
 		}
 		else
@@ -340,17 +340,12 @@ public class MRP extends SvrProcess
 			{
 
 				log.info("Current Level Is :" + Level);
-				sql = "SELECT p.M_Product_ID ,p.Name , p.LowLevel , mrp.Qty , mrp.DatePromised, mrp.Type , mrp.TypeMRP , mrp.DateOrdered , mrp.M_Warehouse_ID , mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule FROM PP_MRP mrp INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID) WHERE mrp.Type='D' AND p.LowLevel = "+ index + " AND mrp.AD_Client_ID = " + AD_Client_ID + " AND mrp.AD_Org_ID=" + AD_Org_ID +" AND M_Warehouse_ID=" +M_Warehouse_ID +" ORDER BY  p.LowLevel DESC ,  p.M_Product_ID , mrp.DatePromised  ";
-				//sql = "SELECT p.M_Product_ID ,p.Name , p.LowLevel , mrp.Qty , mrp.DatePromised, mrp.Type , mrp.TypeMRP , mrp.DateOrdered , mrp.M_Warehouse_ID , mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule FROM PP_MRP mrp INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID) WHERE  mrp.Type='D' AND p.M_Product_ID = 1004033  ORDER BY  p.LowLevel DESC ,  p.M_Product_ID , mrp.DatePromised ";
+				sql = "SELECT p.M_Product_ID ,p.Name , p.LowLevel , mrp.Qty , mrp.DatePromised, mrp.Type , mrp.TypeMRP , mrp.DateOrdered , mrp.M_Warehouse_ID , mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule"
+						+" FROM PP_MRP mrp"
+						+" INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID)"
+						+" WHERE mrp.Type='D' AND COALESCE(p.LowLevel,0) = "+ index + " AND mrp.AD_Client_ID = " + AD_Client_ID + " AND mrp.AD_Org_ID=" + AD_Org_ID +" AND M_Warehouse_ID=" +M_Warehouse_ID
+						+" ORDER BY  p.LowLevel DESC ,  p.M_Product_ID , mrp.DatePromised  ";
 				pstmt = DB.prepareStatement (sql, get_TrxName());
-				rs = pstmt.executeQuery();                                
-
-				int lastrow = 0;
-				while (rs.next())
-				{
-					lastrow ++ ;                                     
-				}                                 
-
 				rs = pstmt.executeQuery();                               
 				while (rs.next())
 				{
