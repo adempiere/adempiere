@@ -31,6 +31,9 @@ import org.compiere.util.*;
  */
 public class CalloutEngine implements Callout
 {
+	/** No error return value. Use this when you are returning from a callout without error */
+	public static final String NO_ERROR = "";
+	
 	/**
 	 *	Constructor
 	 */
@@ -215,11 +218,11 @@ public class CalloutEngine implements Callout
 	public String dateAcct (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		if (isCalloutActive())		//	assuming it is resetting value
-			return "";
+			return NO_ERROR;
 		if (value == null || !(value instanceof Timestamp))
-			return "";
+			return NO_ERROR;
 		mTab.setValue("DateAcct", value);
-		return "";
+		return NO_ERROR;
 	}	//	dateAcct
 
 	/**
@@ -235,7 +238,7 @@ public class CalloutEngine implements Callout
 	public String rate (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		if (isCalloutActive() || value == null)		//	assuming it is Conversion_Rate
-			return "";
+			return NO_ERROR;
 
 		BigDecimal rate1 = (BigDecimal)value;
 		BigDecimal rate2 = Env.ZERO;
@@ -249,7 +252,7 @@ public class CalloutEngine implements Callout
 		else
 			mTab.setValue("MultiplyRate", rate2);
 		log.info(mField.getColumnName() + "=" + rate1 + " => " + rate2);
-		return "";
+		return NO_ERROR;
 	}	//	rate
 	
 	/**
