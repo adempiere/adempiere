@@ -251,11 +251,10 @@ public class MCostElement extends X_M_CostElement
 	 **/
 	public static MCostElement[] getElements (Properties ctx , int AD_Client_ID, int AD_Org_ID, String trxName)
 	{
-		String whereClause = "AD_Client_ID = ? AND AD_Org_ID AND M_Product_ID=? AND  C_Acctschema_ID = ? AND M_CostType_ID = ? AND M_CostElement_ID=?";
+		String whereClause = "AD_Client_ID = ? AND AD_Org_ID = ?";
 		Query query = MTable.get(ctx, MCostElement.Table_ID).createQuery(whereClause, trxName);
-		query.setParameters(new Object[]{AD_Client_ID});
-		query.setParameters(new Object[]{AD_Org_ID});
-		List<MCost> list = query.list();
+		query.setParameters(new Object[]{AD_Client_ID, AD_Org_ID});
+		List<MCostElement> list = query.list();
 		MCostElement[] retValue = new MCostElement[list.size()];
 		list.toArray(retValue);
 		return retValue;	
