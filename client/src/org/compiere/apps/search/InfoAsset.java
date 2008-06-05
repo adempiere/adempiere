@@ -156,6 +156,7 @@ public class InfoAsset extends Info
 			value = "%";
 		if (!value.endsWith("%"))
 			value += "%";
+		fieldValue.setText(value);
 	}	//	initInfo
 
 	/*************************************************************************/
