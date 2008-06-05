@@ -21,6 +21,7 @@ import java.util.logging.*;
 
 import javax.sql.*;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.db.*;
 import org.compiere.interfaces.*;
 

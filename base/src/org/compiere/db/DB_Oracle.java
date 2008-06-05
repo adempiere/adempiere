@@ -31,12 +31,12 @@ import javax.sql.DataSource;
 
 import oracle.jdbc.OracleDriver;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_Oracle;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DBException;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;

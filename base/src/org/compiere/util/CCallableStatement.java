@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 

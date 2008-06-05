@@ -38,6 +38,7 @@ import javax.sql.RowSet;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.CConnection;

@@ -19,6 +19,8 @@ package org.compiere.process;
 import java.math.*;
 import java.sql.*;
 import java.util.logging.*;
+
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.*;
 
 /**

@@ -6,10 +6,10 @@ package test.functional;
 import java.util.Iterator;
 import java.util.List;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MTable;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
-import org.compiere.util.DBException;
 
 import test.AdempiereTestCase;
 

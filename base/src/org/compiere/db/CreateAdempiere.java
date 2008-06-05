@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
@@ -38,7 +39,6 @@ import org.compiere.model.M_Element;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DBException;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Util;
 

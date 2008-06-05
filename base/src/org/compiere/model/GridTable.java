@@ -25,6 +25,7 @@ import java.util.logging.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.*;
 
 /**

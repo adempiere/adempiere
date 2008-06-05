@@ -26,9 +26,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DBException;
 import org.compiere.util.Env;
 
 /**

@@ -14,11 +14,10 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.util;
+package org.adempiere.exceptions;
 
 import java.sql.SQLException;
 
-import org.adempiere.exceptions.AdempiereException;
 
 /**
  * This RuntimeException is used to pass SQLException up the chain of calling

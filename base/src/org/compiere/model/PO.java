@@ -40,13 +40,13 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
 import org.compiere.util.DB;
-import org.compiere.util.DBException;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
