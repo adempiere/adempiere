@@ -47,6 +47,8 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.X_AD_Ref_List;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -85,15 +87,10 @@ implements FormPanel,VetoableChangeListener, ActionListener
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
-		try {
-			jbInit();
-			dynInit();
-			frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-			frame.setSize(1000, 400);
-		}
-		catch(Exception e) {
-			log.log(Level.SEVERE, "", e);
-		}
+		jbInit();
+		dynInit();
+		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+		frame.setSize(1000, 400);
 	}	//	init
 
 	/**	Window No			*/
@@ -121,7 +118,7 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	private BorderLayout    mainLayout = new BorderLayout();
 	private CPanel      parameterPanel = new CPanel();
 	private CLabel        labelProcess = new CLabel();
-	private VComboBox     fieldProcess = new VComboBox();
+	private VComboBox     fieldProcess; // = new VComboBox();
 	private CLabel       labelEmployee = new CLabel();
 	private VComboBox    fieldEmployee = new VComboBox();
 	private CLabel     labelColumnType = new CLabel();
@@ -151,7 +148,7 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	 *  Static Init
 	 *  @throws Exception
 	 */
-	private void jbInit() throws Exception
+	private void jbInit()
 	{
 		CompiereColor.setBackground(this);
 		mainPanel.setLayout(mainLayout);
@@ -159,18 +156,18 @@ implements FormPanel,VetoableChangeListener, ActionListener
 		mainPanel.setPreferredSize(new Dimension(1000, 400));
 		parameterPanel.setLayout(parameterLayout);
 		// Process
-		labelProcess.setText(Msg.translate(Env.getCtx(), "Proceso"));
-		getProcess();
+		labelProcess.setText(Msg.translate(Env.getCtx(), "Process"));
+		fieldProcess = new VComboBox(getProcess());
 		fieldProcess.setMandatory(true);
 		fieldProcess.addActionListener(this);
 		// Employee
-		labelEmployee.setText(Msg.translate(Env.getCtx(), "Empleado"));
+		labelEmployee.setText(Msg.translate(Env.getCtx(), "Employee"));
 		fieldEmployee.setReadWrite(false);
 		fieldEmployee.setMandatory(true);
 		fieldEmployee.addActionListener(this);
 		fieldEmployee.addVetoableChangeListener(this);
 		// Concept
-		labelConcept.setText(Msg.translate(Env.getCtx(), "Concepto"));
+		labelConcept.setText(Msg.translate(Env.getCtx(), "Concept"));
 		getConceptValid();
 		fieldConcept.setReadWrite(false);
 		fieldConcept.setMandatory(true);        
@@ -272,20 +269,20 @@ implements FormPanel,VetoableChangeListener, ActionListener
 		miniTable.addColumn("Amount");				// 6
 		miniTable.addColumn("ServiceDate");			// 7
 		miniTable.addColumn("Text");				// 8
-		miniTable.addColumn("AD_Rule_Engine_ID");		// 9
+		miniTable.addColumn("AD_Rule_ID");		// 9
 		miniTable.addColumn("Description");			// 10
 		//  set details
 		miniTable.setColumnClass(0, IDColumn.class, false, " ");
-		miniTable.setColumnClass(1, String.class, true, "Org"); //Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		miniTable.setColumnClass(2, String.class, true, "Concepto"); //Msg.translate(Env.getCtx(), "HR_Concept_ID"));
-		miniTable.setColumnClass(3, Timestamp.class, true, "Movimiento"); //Msg.translate(Env.getCtx(), "ValidFrom"));
-		miniTable.setColumnClass(4, String.class, true, "Tipo de Concepto"); //Msg.translate(Env.getCtx(), "ColumnType"));
-		miniTable.setColumnClass(5, BigDecimal.class, true, "Cantidad"); //Msg.translate(Env.getCtx(), "Qty"));
-		miniTable.setColumnClass(6, BigDecimal.class, true, "Importe"); //Msg.translate(Env.getCtx(), "Amount"));
-		miniTable.setColumnClass(7, Timestamp.class, true, "Fecha"); //Msg.translate(Env.getCtx(), "ServiceDate"));
-		miniTable.setColumnClass(8, String.class, true, "Texto"); //Msg.translate(Env.getCtx(), "Text"));		
-		miniTable.setColumnClass(9, String.class, true, "Regla"); //Msg.translate(Env.getCtx(), "E_RuleEngine_ID"));
-		miniTable.setColumnClass(10, String.class, true, "Descripcion"); //Msg.translate(Env.getCtx(), "Description"));
+		miniTable.setColumnClass(1, String.class, true, Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		miniTable.setColumnClass(2, String.class, true, Msg.translate(Env.getCtx(), "HR_Concept_ID"));
+		miniTable.setColumnClass(3, Timestamp.class, true, Msg.translate(Env.getCtx(), "ValidFrom"));
+		miniTable.setColumnClass(4, String.class, true, Msg.translate(Env.getCtx(), "ColumnType"));
+		miniTable.setColumnClass(5, BigDecimal.class, true, Msg.translate(Env.getCtx(), "Qty"));
+		miniTable.setColumnClass(6, BigDecimal.class, true, Msg.translate(Env.getCtx(), "Amount"));
+		miniTable.setColumnClass(7, Timestamp.class, true, Msg.translate(Env.getCtx(), "ServiceDate"));
+		miniTable.setColumnClass(8, String.class, true, Msg.translate(Env.getCtx(), "Text"));		
+		miniTable.setColumnClass(9, String.class, true, Msg.translate(Env.getCtx(), "AD_Rule_ID"));
+		miniTable.setColumnClass(10, String.class, true, Msg.translate(Env.getCtx(), "Description"));
 		//
 		miniTable.autoSize();
 	}   //  dynInit
@@ -309,9 +306,9 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	public void vetoableChange(PropertyChangeEvent e) throws PropertyVetoException 
 	{
 		fieldConcept.setReadWrite(true);
-		System.out.println("Evento"+ e);
-		System.out.println("Evento Fuente "+ e.getSource());
-		System.out.println("Evento Propiedad"+ e.getPropertyName());
+		log.fine("Event"+ e);
+		log.fine("Event Source "+ e.getSource());
+		log.fine("Event Property "+ e.getPropertyName());
 		//if (e.getPropertyName().equals("AD_Org_ID"))
 		if ( e.getSource().equals(fieldProcess) ) {					// Process
 			KeyNamePair pp = (KeyNamePair)fieldProcess.getSelectedItem();
@@ -342,41 +339,36 @@ implements FormPanel,VetoableChangeListener, ActionListener
 		else if ( e.getSource().equals(fieldConcept) ) {			// Concept
 			KeyNamePair pp = (KeyNamePair)fieldConcept.getSelectedItem();
 			int HR_Concept_ID = 0;
-			String sqlColumnType = "";
 			if (pp != null)
 				HR_Concept_ID = pp.getKey();
 			if ( HR_Concept_ID > 0 ){
-				sqlColumnType = "SELECT rl.Name FROM AD_Ref_List rl WHERE rl.AD_Reference_ID=" // ColumnType Name of ReferenceList 
-					+ " (SELECT col.AD_Reference_Value_ID FROM AD_Column col WHERE col.Name ='Column Type' " 
-					+ " AND col.AD_Table_ID=(SELECT tab.AD_Table_ID FROM AD_Table tab WHERE tab.TableName='HR_Concept')) " 
-					+ " AND Value = (SELECT ColumnType FROM HR_Concept WHERE HR_Concept_ID = ? )";
-				// Name To Type Column
-				fieldColumnType.setValue(DB.getSQLValueString("HR_Concept", sqlColumnType, HR_Concept_ID )); 
 				MHRConcept concept = new MHRConcept (Env.getCtx(),HR_Concept_ID,null);
+				// Name To Type Column
+				fieldColumnType.setValue(DB.getSQLValueString(null, getSQL_ColumnType("?"), concept.getColumnType() )); 
 				sHR_Movement_ID = seekMovement(); //  exist movement record to date actual				
 				//
-				if (concept.getColumnType().equals("Q")){				// Concept Type
+				if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
 					fieldQty.setVisible(true);
 					fieldQty.setReadWrite(true);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
 					fieldRuleE.setVisible(false);				
-				} else if (concept.getColumnType().equals("A")){
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(true);
 					fieldAmount.setReadWrite(true);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
 					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals("D")){
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(true);
 					fieldDate.setReadWrite(true);
 					fieldText.setVisible(false);
 					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals("T")){
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
 					fieldText.setVisible(true);
 					fieldText.setReadWrite(true);
 					fieldAmount.setVisible(false);
@@ -406,9 +398,8 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println("Evento"+ e);
-		System.out.println("Evento Fuente "+ e.getSource());
-
+		log.fine("Event "+ e);
+		log.fine("Event Source "+ e.getSource());
 
 		if ( e.getSource().equals(fieldProcess) ) {					// Process
 			KeyNamePair pp = (KeyNamePair)fieldProcess.getSelectedItem();
@@ -439,41 +430,36 @@ implements FormPanel,VetoableChangeListener, ActionListener
 		else if ( e.getSource().equals(fieldConcept) ) {			// Concept
 			KeyNamePair pp = (KeyNamePair)fieldConcept.getSelectedItem();
 			int HR_Concept_ID = 0;
-			String sqlColumnType = "";
 			if (pp != null)
 				HR_Concept_ID = pp.getKey();
-			if ( HR_Concept_ID > 0 ){
-				sqlColumnType = "SELECT rl.Name FROM AD_Ref_List rl WHERE rl.AD_Reference_ID=" // ColumnType Name of ReferenceList 
-					+ " (SELECT col.AD_Reference_Value_ID FROM AD_Column col WHERE col.Name ='Column Type' " 
-					+ " AND col.AD_Table_ID=(SELECT tab.AD_Table_ID FROM AD_Table tab WHERE tab.TableName='HR_Concept')) " 
-					+ " AND Value = (SELECT ColumnType FROM HR_Concept WHERE HR_Concept_ID = ? )";
-				// Name To Type Column
-				fieldColumnType.setValue(DB.getSQLValueString("HR_Concept", sqlColumnType, HR_Concept_ID )); 
+			if ( HR_Concept_ID > 0 ) {
 				MHRConcept concept = new MHRConcept (Env.getCtx(),HR_Concept_ID,null);
+				// Name To Type Column
+				fieldColumnType.setValue(DB.getSQLValueString(null, getSQL_ColumnType("?"), concept.getColumnType() )); 
 				sHR_Movement_ID = seekMovement(); //  exist movement record to date actual				
 				//
-				if (concept.getColumnType().equals("Q")){				// Concept Type
+				if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
 					fieldQty.setVisible(true);
 					fieldQty.setReadWrite(true);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
 					fieldRuleE.setVisible(false);				
-				} else if (concept.getColumnType().equals("A")){
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(true);
 					fieldAmount.setReadWrite(true);
 					fieldDate.setVisible(false);
 					fieldText.setVisible(false);
 					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals("D")){
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
 					fieldQty.setVisible(false);
 					fieldAmount.setVisible(false);
 					fieldDate.setVisible(true);
 					fieldDate.setReadWrite(true);
 					fieldText.setVisible(false);
 					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals("T")){
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
 					fieldText.setVisible(true);
 					fieldText.setReadWrite(true);
 					fieldAmount.setVisible(false);
@@ -495,7 +481,6 @@ implements FormPanel,VetoableChangeListener, ActionListener
 			movementOK.setHR_Concept_ID((Integer)fieldConcept.getValue());
 			movementOK.setColumnType(conceptOK.getColumnType());
 			movementOK.setQty(fieldQty.getValue() != null ? (BigDecimal)fieldQty.getValue() : Env.ZERO);
-			BigDecimal data =  (BigDecimal)fieldQty.getValue() ;
 			movementOK.setAmount(fieldAmount.getValue() != null ? (BigDecimal)fieldAmount.getValue() : Env.ZERO );
 			movementOK.setTextMsg(fieldText.getValue() != null ? "" : (String)fieldText.getValue().toString());
 			movementOK.setValidFrom((Timestamp)fieldValidFrom.getTimestamp());
@@ -523,11 +508,8 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	{	
 		StringBuffer sqlQuery = new StringBuffer("SELECT o.Name,hp.Name,"   // AD_Org_ID, HR_Process_ID -- 1,2
 				+ " bp.Name,hc.Name,hm.ValidFrom,"		// HR_Employee_ID,HR_Concept_ID,ValidFrom,ColumnType -- 3,4,5
-				+ " (SELECT rl.Name FROM AD_Ref_List rl WHERE rl.AD_Reference_ID="
-				+ " (SELECT col.AD_Reference_Value_ID FROM AD_Column col WHERE col.Name ='Column Type'" 
-				+ " AND col.AD_Table_ID = (SELECT tab.AD_Table_ID  FROM AD_Table tab "
-				+ " WHERE tab.TableName = 'HR_Concept')) AND rl.Value=hc.ColumnType) As ColumnType,"	// 6 ColumnType(Reference Name)
-				+ " hm.Qty,hm.Amount,hm.ServiceDate,hm.Text,er.Name,hm.Description "	// Qty,Amount,ServiceDate,Text,AD_Rule_Engine_ID,Description -- 7,8,9,10,11,12
+				+ "("+getSQL_ColumnType("hc.ColumnType")+") AS ColumnType,"	// 6 ColumnType(Reference Name)
+				+ " hm.Qty,hm.Amount,hm.ServiceDate,hm.TextMsg,er.Name,hm.Description "	// Qty,Amount,ServiceDate,Text,AD_Rule_ID,Description -- 7,8,9,10,11,12
 				+ " FROM HR_Movement hm "
 				+ " INNER JOIN AD_Org o ON (hm.AD_Org_ID=o.AD_Org_ID)"
 				+ " INNER JOIN HR_Process hp ON (hm.HR_Process_ID=hp.HR_Process_ID)"
@@ -537,18 +519,21 @@ implements FormPanel,VetoableChangeListener, ActionListener
 				+ " LEFT OUTER JOIN AD_Rule er ON (hm.AD_Rule_ID=er.AD_Rule_ID)"
 				+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = " +fieldProcess.getValue()
 				//+ " AND IsStatic = 'Y' " // Solo aplique Incidencias [add 30Dic2006 para ver Todo]
-				+ " AND hp.C_BPartner_ID = " + fieldEmployee.getValue()
-				+ " AND (Qty > 0 OR Amount > 0 OR Text != '' OR ServiceDate IS NOT NULL) ");
-		if (fieldValidFrom.getValue() == null)
+				+ " AND hm.C_BPartner_ID = " + fieldEmployee.getValue()
+				+ " AND (Qty > 0 OR Amount > 0 OR hm.TextMsg IS NOT NULL OR ServiceDate IS NOT NULL) ");
+		if (fieldValidFrom.getValue() == null) {
 			sqlQuery.append(" AND " +DB.TO_DATE(dateStart)+" >= hm.ValidFrom  AND "+DB.TO_DATE(dateEnd)+" <=  hm.ValidTo ");
+		}
 		sqlQuery.append(" ORDER BY hm.AD_Org_ID,hp.HR_Process_ID,bp.Name,hm.ValidFrom,hm.HR_Concept_ID");
 		//  reset table
 		int row = 0;
 		miniTable.setRowCount(row);
 		//  Execute
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
-			PreparedStatement pstmt = DB.prepareStatement(sqlQuery.toString(), null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sqlQuery.toString(), null);
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				//  extend table
 				miniTable.setRowCount(row+1);
@@ -561,17 +546,19 @@ implements FormPanel,VetoableChangeListener, ActionListener
 				miniTable.setValueAt(rs.getObject(7) != null ? rs.getBigDecimal(7) : Env.ZERO, row, 5);	// Qty
 				miniTable.setValueAt(rs.getObject(8) != null ? rs.getBigDecimal(8) : Env.ZERO, row, 6);	// Amount
 				miniTable.setValueAt(rs.getTimestamp(9), row, 7);	// ServiceDate
-				miniTable.setValueAt(rs.getString(10), row, 8);		// Text
-				miniTable.setValueAt(rs.getString(11), row, 9);		// AD_Rule_Engine_ID
+				miniTable.setValueAt(rs.getString(10), row, 8);		// TextMsg
+				miniTable.setValueAt(rs.getString(11), row, 9);		// AD_Rule_ID
 				miniTable.setValueAt(rs.getString(12), row, 10);	// Description
 				//  prepare next
 				row++;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e) {
 			log.log(Level.SEVERE, sqlQuery.toString(), e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		miniTable.autoSize();
 	}   //  executeQuery
@@ -582,28 +569,14 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	 *  get Process
 	 *  parameter: MHRProcess
 	 */
-	public void getProcess()
+	private KeyNamePair[] getProcess()
 	{
-		KeyNamePair pp = new KeyNamePair(0, "");
-		fieldProcess.addItem(pp);		
 		String sql = MRole.getDefault().addAccessSQL(
 				"SELECT hrp.HR_Process_ID,hrp.DocumentNo ||'-'|| hrp.Name,hrp.DocumentNo,hrp.Name FROM HR_Process hrp",
 				"hrp",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrp.IsActive = 'Y' ";
 		sql += " ORDER BY hrp.DocumentNo, hrp.Name";
-		try{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()){
-				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				fieldProcess.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e){
-			log.log(Level.SEVERE, sql, e);
-		}
-		fieldProcess.setSelectedIndex(0);	
+
+		return DB.getKeyNamePairs(sql, true);
 	} //getProcess
 
 
@@ -613,7 +586,7 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	 *  to Valid  Payroll-Departmant-Employee of Process Actual 
 	 *  parameter: MHRProcess
 	 */
-	public void getEmployeeValid(MHRProcess process)
+	private void getEmployeeValid(MHRProcess process)
 	{
 		if(process == null)
 			return;
@@ -654,7 +627,7 @@ implements FormPanel,VetoableChangeListener, ActionListener
 	 *  to Valide Dates of Process
 	 *  parameter: MHRProcess
 	 */
-	public void getConceptValid()
+	private void getConceptValid()
 	{
 		if( fieldProcess == null )
 			return;
@@ -695,15 +668,6 @@ implements FormPanel,VetoableChangeListener, ActionListener
 
 
 	/**
-	 *  get Process
-	 *  parameter: MHRProcess
-	 */
-	public void ColumnType(MHRConcept concept)
-	{
-
-	}
-
-	/**
 	 *  get record Found to Movement Payroll
 	 *  parameter: 
 	 */
@@ -732,16 +696,39 @@ implements FormPanel,VetoableChangeListener, ActionListener
 				MHRMovement movementFound = new MHRMovement(Env.getCtx(),sHR_Movement_ID,null);
 				//
 				fieldDescription.setValue(movementFound.getDescription());
-				if ( concept.getColumnType().equals("Q") )	// Quantity
+				if ( concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity) )	// Quantity
 					fieldQty.setValue(movementFound.getQty());
-				else if (concept.getColumnType().equals("A") )	// Amount
+				else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount) )	// Amount
 					fieldAmount.setValue(movementFound.getAmount());
-				else if (concept.getColumnType().equals("T") )	// Text
+				else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text) )	// Text
 					fieldText.setValue(movementFound.getTextMsg());
-				else if (concept.getColumnType().equals("D") )	// Date
+				else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date) )	// Date
 					fieldDate.setValue(movementFound.getServiceDate());
 			}
 		}
 		return HR_Movement_ID;
 	} //seekMovement
+
+	/**
+	 * Get SQL Code of ColumnType for given sqlValue
+	 * @param sqlValue
+	 * @return sql select code
+	 */
+	private String getSQL_ColumnType(String sqlValue) {
+		int columnType_Ref_ID = MTable.get(Env.getCtx(), MHRConcept.Table_ID)
+		.getColumn(MHRConcept.COLUMNNAME_ColumnType)
+		.getAD_Reference_Value_ID();
+		String sql;
+		if (Env.isBaseLanguage(Env.getCtx(), X_AD_Ref_List.Table_Name)) {
+			sql = "SELECT zz.Name FROM AD_Ref_List zz WHERE zz.AD_Reference_ID="+columnType_Ref_ID; 
+		}
+		else {
+			sql = "SELECT zz.Name FROM AD_Ref_List zz, AD_Ref_List_Trl zzt"
+				+" WHERE zz.AD_Reference_ID="+columnType_Ref_ID
+				+" AND zzt.AD_Ref_List_ID=zz.AD_Ref_List_ID"
+				+" AND zzt.AD_Language="+DB.TO_STRING(Env.getAD_Language(Env.getCtx()));
+		}
+		sql += " AND zz.Value = "+sqlValue;
+		return sql;
+	}
 }   //  VIncidence
