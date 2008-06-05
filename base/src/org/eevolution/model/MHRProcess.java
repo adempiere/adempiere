@@ -519,7 +519,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
     }
     
     public String getProcessMsg() {
-        return "";
+        return m_processMsg;
     }
     
     public String getSummary(){
