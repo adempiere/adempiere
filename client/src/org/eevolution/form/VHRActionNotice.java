@@ -12,37 +12,55 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Contributor(s): Oscar Gomez & Victor Perez www.e-evolution.com             *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
-  *****************************************************************************/
+ *****************************************************************************/
 package org.eevolution.form;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.logging.Level;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
-
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.CompiereColor;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
+import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
-
-
+import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MRole;
+import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
-import org.eevolution.model.*;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.eevolution.model.MHRConcept;
+import org.eevolution.model.MHRMovement;
+import org.eevolution.model.MHRProcess;
+import org.eevolution.model.X_HR_Period;
 /**
  *  Create Manual Payments From (AP) Invoices or (AR) Credit Memos.
  *  Allows user to select Invoices for payment.
@@ -53,10 +71,10 @@ import org.eevolution.model.*;
  *  @version $Id: VHRIncidence.java
  */
 public class VHRActionNotice extends CPanel
-	implements FormPanel,VetoableChangeListener, ActionListener
+implements FormPanel,VetoableChangeListener, ActionListener
 {
 	/** @todo withholding */
-	
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -142,20 +160,20 @@ public class VHRActionNotice extends CPanel
 		parameterPanel.setLayout(parameterLayout);
 		// Process
 		labelProcess.setText(Msg.translate(Env.getCtx(), "Proceso"));
-        getProcess();
-        fieldProcess.setMandatory(true);
-        fieldProcess.addActionListener(this);
+		getProcess();
+		fieldProcess.setMandatory(true);
+		fieldProcess.addActionListener(this);
 		// Employee
 		labelEmployee.setText(Msg.translate(Env.getCtx(), "Empleado"));
-        fieldEmployee.setReadWrite(false);
-        fieldEmployee.setMandatory(true);
-        fieldEmployee.addActionListener(this);
-        fieldEmployee.addVetoableChangeListener(this);
-        // Concept
-        labelConcept.setText(Msg.translate(Env.getCtx(), "Concepto"));
-        getConceptValid();
-        fieldConcept.setReadWrite(false);
-        fieldConcept.setMandatory(true);        
+		fieldEmployee.setReadWrite(false);
+		fieldEmployee.setMandatory(true);
+		fieldEmployee.addActionListener(this);
+		fieldEmployee.addVetoableChangeListener(this);
+		// Concept
+		labelConcept.setText(Msg.translate(Env.getCtx(), "Concepto"));
+		getConceptValid();
+		fieldConcept.setReadWrite(false);
+		fieldConcept.setMandatory(true);        
 		fieldConcept.addActionListener(this);
 		// ValidFrom
 		labelValidFrom.setText(Msg.translate(Env.getCtx(), "Date"));
@@ -184,27 +202,27 @@ public class VHRActionNotice extends CPanel
 		mainPanel.add(parameterPanel, BorderLayout.NORTH);
 		// Process
 		parameterPanel.add(labelProcess,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldProcess,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Employee
 		parameterPanel.add(labelEmployee,  new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldEmployee,   new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// ValidFrom
 		parameterPanel.add(labelValidFrom,   new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldValidFrom,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Concepto
 		parameterPanel.add(labelConcept,  new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldConcept,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		// ColumnType
 		parameterPanel.add(labelColumnType,  new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldColumnType,  new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		// Qty-Amount-Date-Text-RuleEngine
@@ -220,12 +238,12 @@ public class VHRActionNotice extends CPanel
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		// Description
 		parameterPanel.add(labelDescription,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldDescription,  new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		// Refresh
 		parameterPanel.add(bOk, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+				,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		// Agree
 		mainPanel.add(dataStatus, BorderLayout.SOUTH);
 		mainPanel.add(dataPane, BorderLayout.CENTER);
@@ -236,7 +254,7 @@ public class VHRActionNotice extends CPanel
 		commandLayout.setHgap(10);
 	}   //  jbInit
 
-	
+
 	/**
 	 *  Dynamic Init.
 	 *  - Load Bank Info
@@ -271,8 +289,8 @@ public class VHRActionNotice extends CPanel
 		//
 		miniTable.autoSize();
 	}   //  dynInit
-	
-	
+
+
 	/**
 	 * 	Dispose
 	 */
@@ -283,7 +301,7 @@ public class VHRActionNotice extends CPanel
 		m_frame = null;
 	}	//	dispose
 
-	
+
 	/**************************************************************************
 	 *  vetoableChange
 	 *  @param e event
@@ -330,8 +348,8 @@ public class VHRActionNotice extends CPanel
 			if ( HR_Concept_ID > 0 ){
 				sqlColumnType = "SELECT rl.Name FROM AD_Ref_List rl WHERE rl.AD_Reference_ID=" // ColumnType Name of ReferenceList 
 					+ " (SELECT col.AD_Reference_Value_ID FROM AD_Column col WHERE col.Name ='Column Type' " 
-			        + " AND col.AD_Table_ID=(SELECT tab.AD_Table_ID FROM AD_Table tab WHERE tab.TableName='HR_Concept')) " 
-			        + " AND Value = (SELECT ColumnType FROM HR_Concept WHERE HR_Concept_ID = ? )";
+					+ " AND col.AD_Table_ID=(SELECT tab.AD_Table_ID FROM AD_Table tab WHERE tab.TableName='HR_Concept')) " 
+					+ " AND Value = (SELECT ColumnType FROM HR_Concept WHERE HR_Concept_ID = ? )";
 				// Name To Type Column
 				fieldColumnType.setValue(DB.getSQLValueString("HR_Concept", sqlColumnType, HR_Concept_ID )); 
 				MHRConcept concept = new MHRConcept (Env.getCtx(),HR_Concept_ID,null);
@@ -371,7 +389,7 @@ public class VHRActionNotice extends CPanel
 		Integer   HR_Period_ID = new MHRProcess(Env.getCtx(),(Integer)fieldProcess.getValue(),null).getHR_Period_ID(); 
 		String date = DB.TO_DATE((Timestamp)fieldValidFrom.getValue());
 		int existRange = DB.getSQLValue("HR_Period","SELECT * FROM HR_Period WHERE " +date+
-						 " >= StartDate AND "+date+	" <= EndDate AND HR_Period_ID = "+HR_Period_ID);
+				" >= StartDate AND "+date+	" <= EndDate AND HR_Period_ID = "+HR_Period_ID);
 		// Exist of Range Payroll
 		if ( existRange < 0){
 			fieldConcept.setReadWrite(false);
@@ -381,7 +399,7 @@ public class VHRActionNotice extends CPanel
 			sHR_Movement_ID = seekMovement();  // exist movement record to date actual
 	}   //  actionPerformed
 
-	
+
 	/**************************************************************************
 	 *	Action Listener
 	 *  @param e event
@@ -390,8 +408,8 @@ public class VHRActionNotice extends CPanel
 	{
 		System.out.println("Evento"+ e);
 		System.out.println("Evento Fuente "+ e.getSource());
-		
-		
+
+
 		if ( e.getSource().equals(fieldProcess) ) {					// Process
 			KeyNamePair pp = (KeyNamePair)fieldProcess.getSelectedItem();
 			if (pp != null){
@@ -427,8 +445,8 @@ public class VHRActionNotice extends CPanel
 			if ( HR_Concept_ID > 0 ){
 				sqlColumnType = "SELECT rl.Name FROM AD_Ref_List rl WHERE rl.AD_Reference_ID=" // ColumnType Name of ReferenceList 
 					+ " (SELECT col.AD_Reference_Value_ID FROM AD_Column col WHERE col.Name ='Column Type' " 
-			        + " AND col.AD_Table_ID=(SELECT tab.AD_Table_ID FROM AD_Table tab WHERE tab.TableName='HR_Concept')) " 
-			        + " AND Value = (SELECT ColumnType FROM HR_Concept WHERE HR_Concept_ID = ? )";
+					+ " AND col.AD_Table_ID=(SELECT tab.AD_Table_ID FROM AD_Table tab WHERE tab.TableName='HR_Concept')) " 
+					+ " AND Value = (SELECT ColumnType FROM HR_Concept WHERE HR_Concept_ID = ? )";
 				// Name To Type Column
 				fieldColumnType.setValue(DB.getSQLValueString("HR_Concept", sqlColumnType, HR_Concept_ID )); 
 				MHRConcept concept = new MHRConcept (Env.getCtx(),HR_Concept_ID,null);
@@ -496,8 +514,8 @@ public class VHRActionNotice extends CPanel
 			sHR_Movement_ID = 0; // Initial not exist record in Movement to actual date
 		}
 	}
-	
-	
+
+
 	/**
 	 *  Query Info
 	 */
@@ -517,12 +535,12 @@ public class VHRActionNotice extends CPanel
 				+ " INNER JOIN HR_Employee e ON (e.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN HR_Concept hc ON (hm.HR_Concept_ID=hc.HR_Concept_ID)"
 				+ " LEFT OUTER JOIN AD_Rule er ON (hm.AD_Rule_ID=er.AD_Rule_ID)"
-			    + " WHERE hm.Processed='N' AND hp.HR_Process_ID = " +fieldProcess.getValue()
-			    //+ " AND IsStatic = 'Y' " // Solo aplique Incidencias [add 30Dic2006 para ver Todo]
-			    + " AND hp.C_BPartner_ID = " + fieldEmployee.getValue()
+				+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = " +fieldProcess.getValue()
+				//+ " AND IsStatic = 'Y' " // Solo aplique Incidencias [add 30Dic2006 para ver Todo]
+				+ " AND hp.C_BPartner_ID = " + fieldEmployee.getValue()
 				+ " AND (Qty > 0 OR Amount > 0 OR Text != '' OR ServiceDate IS NOT NULL) ");
-			    if (fieldValidFrom.getValue() == null)
-        sqlQuery.append(" AND " +DB.TO_DATE(dateStart)+" >= hm.ValidFrom  AND "+DB.TO_DATE(dateEnd)+" <=  hm.ValidTo ");
+		if (fieldValidFrom.getValue() == null)
+			sqlQuery.append(" AND " +DB.TO_DATE(dateStart)+" >= hm.ValidFrom  AND "+DB.TO_DATE(dateEnd)+" <=  hm.ValidTo ");
 		sqlQuery.append(" ORDER BY hm.AD_Org_ID,hp.HR_Process_ID,bp.Name,hm.ValidFrom,hm.HR_Concept_ID");
 		//  reset table
 		int row = 0;
@@ -557,9 +575,9 @@ public class VHRActionNotice extends CPanel
 		}
 		miniTable.autoSize();
 	}   //  executeQuery
-	
-	
-	
+
+
+
 	/**
 	 *  get Process
 	 *  parameter: MHRProcess
@@ -569,8 +587,8 @@ public class VHRActionNotice extends CPanel
 		KeyNamePair pp = new KeyNamePair(0, "");
 		fieldProcess.addItem(pp);		
 		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT hrp.HR_Process_ID,hrp.DocumentNo ||'-'|| hrp.Name,hrp.DocumentNo,hrp.Name FROM HR_Process hrp",
-					"hrp",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrp.IsActive = 'Y' ";
+				"SELECT hrp.HR_Process_ID,hrp.DocumentNo ||'-'|| hrp.Name,hrp.DocumentNo,hrp.Name FROM HR_Process hrp",
+				"hrp",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrp.IsActive = 'Y' ";
 		sql += " ORDER BY hrp.DocumentNo, hrp.Name";
 		try{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -587,9 +605,9 @@ public class VHRActionNotice extends CPanel
 		}
 		fieldProcess.setSelectedIndex(0);	
 	} //getProcess
-	
-	
-	
+
+
+
 	/**
 	 *  get Employee 
 	 *  to Valid  Payroll-Departmant-Employee of Process Actual 
@@ -603,15 +621,15 @@ public class VHRActionNotice extends CPanel
 		KeyNamePair pp = new KeyNamePair(0, "");
 		fieldEmployee.addItem(pp);		
 		String sql = MRole.getDefault().addAccessSQL(
-		"SELECT bp.C_BPartner_ID,bp.Name FROM HR_Employee hrpe INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID=hrpe.C_BPartner_ID)",
-			"hrpe",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrpe.IsActive = 'Y' ";
- 		if ( process.getHR_Payroll_ID() != 0){
- 			sql += " AND (hrpe.HR_Payroll_ID =" +process.getHR_Payroll_ID()+ " OR hrpe.HR_Payroll_ID is NULL)" ;
- 			/*if ( process.getHR_Department_ID() != 0 );
+				"SELECT bp.C_BPartner_ID,bp.Name FROM HR_Employee hrpe INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID=hrpe.C_BPartner_ID)",
+				"hrpe",MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + " AND hrpe.IsActive = 'Y' ";
+		if ( process.getHR_Payroll_ID() != 0){
+			sql += " AND (hrpe.HR_Payroll_ID =" +process.getHR_Payroll_ID()+ " OR hrpe.HR_Payroll_ID is NULL)" ;
+			/*if ( process.getHR_Department_ID() != 0 );
  				sql += " AND (hrpe.HR_Department_ID =" +process.getHR_Department_ID()+" OR hrpe.HR_Department_ID is NULL)" ;
  			if ( process.getHR_Employee_ID() != 0 );
  				sql += " AND (hrpe.HR_Employee_ID =" + process.getHR_Employee_ID()+" OR hrpe.HR_Employee_ID is NULL)" ;*/
- 		}
+		}
 		sql += " ORDER BY bp.Name ";
 		try{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -629,8 +647,8 @@ public class VHRActionNotice extends CPanel
 		fieldEmployee.setSelectedIndex(0);	
 	} //getEmployeeValid
 
-	
-	
+
+
 	/**
 	 *  get Concept 
 	 *  to Valide Dates of Process
@@ -644,21 +662,21 @@ public class VHRActionNotice extends CPanel
 		KeyNamePair pp = new KeyNamePair(0, "");
 		fieldConcept.addItem(pp);		
 		String sql = "SELECT hrpc.HR_Concept_ID,hrpc.Name,hrpc.Value "
-				    + " FROM HR_Concept hrpc "
-					+ " INNER JOIN HR_Attribute hrpa ON (hrpa.HR_Concept_ID=hrpc.HR_Concept_ID)"
-					+ " WHERE hrpc.AD_Client_ID = " +Env.getAD_Client_ID(Env.getCtx())
-					+ " AND hrpc.IsActive = 'Y' AND hrpc.IsRegistered = 'Y' "
-					+ " AND (hrpa.HR_Payroll_ID = " +HR_Payroll_ID+ "OR hrpa.HR_Payroll_ID IS NULL)";
- 		if (fieldProcess != null){ // Process
- 			; //sql += " AND " +DB.TO_DATE(dateStart)+ " >= hrpa.ValidFrom  AND " +DB.TO_DATE(dateEnd)+ "<= hrpa.ValidTo";
-/* 			if (process.getHR_Payroll_ID() != 0) // Process & Payroll
+			+ " FROM HR_Concept hrpc "
+			+ " INNER JOIN HR_Attribute hrpa ON (hrpa.HR_Concept_ID=hrpc.HR_Concept_ID)"
+			+ " WHERE hrpc.AD_Client_ID = " +Env.getAD_Client_ID(Env.getCtx())
+			+ " AND hrpc.IsActive = 'Y' AND hrpc.IsRegistered = 'Y' "
+			+ " AND (hrpa.HR_Payroll_ID = " +HR_Payroll_ID+ "OR hrpa.HR_Payroll_ID IS NULL)";
+		if (fieldProcess != null){ // Process
+			; //sql += " AND " +DB.TO_DATE(dateStart)+ " >= hrpa.ValidFrom  AND " +DB.TO_DATE(dateEnd)+ "<= hrpa.ValidTo";
+			/* 			if (process.getHR_Payroll_ID() != 0) // Process & Payroll
  				sql = sql + " AND (hrpa.HR_Payroll_ID = " +process.getHR_Payroll_ID()+ " OR hrpa.HR_Payroll_ID is NULL)" ;
  			if (process.getHR_Department_ID() != 0 ); // Process & Department
  				sql = sql + " AND (hrpa.HR_Department_ID = " +process.getHR_Department_ID()+" OR hrpa.HR_Department_ID is NULL)" ;
  			if (process.getHR_Department_ID() != 0 ); // Process & Employee
  				sql = sql + " AND (hrpa.HR_Employee_ID = " + process.getHR_Employee_ID()+" OR hrpa.HR_Employee_ID is NULL)" ;*/
- 		}
-			sql = sql +" ORDER BY hrpc.Value";
+		}
+		sql = sql +" ORDER BY hrpc.Value";
 		try	{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			ResultSet rs = pstmt.executeQuery();
@@ -675,7 +693,7 @@ public class VHRActionNotice extends CPanel
 		fieldConcept.setSelectedIndex(0);	
 	} //getConceptValid	
 
-	
+
 	/**
 	 *  get Process
 	 *  parameter: MHRProcess
@@ -684,7 +702,7 @@ public class VHRActionNotice extends CPanel
 	{
 
 	}
-		
+
 	/**
 	 *  get record Found to Movement Payroll
 	 *  parameter: 
