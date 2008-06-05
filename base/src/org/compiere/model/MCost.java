@@ -1367,11 +1367,69 @@ public class MCost extends X_M_Cost
 		}
 		return retValue;
 	}	//	get
+	
+	/**
+	 * 	Get Costs Record for a Cost Type
+	 * 	@param ctx context
+	 *	@param AD_Client_ID client
+	 *	@param AD_Org_ID org
+	 *	@param M_Product_ID product
+	 *	@param M_CostType_ID cost type
+	 *	@param C_AcctSchema_ID as
+	 *	@param TrxName transaction name
+	 *	@return array costs
+	 */
+	public static MCost[] getCosts(Properties ctx , int AD_Client_ID, int AD_Org_ID , int M_Product_ID,  int M_CostType_ID ,int C_AcctSchema_ID ,String  trxName)
+	{
+		
+		String whereClause = "AD_Client_ID = ? AND AD_Org_ID AND M_Product_ID=? AND  C_Acctschema_ID = ? AND M_CostType_ID = ? ";
+		Query query = MTable.get(ctx, MCost.Table_ID)
+							.createQuery(whereClause, trxName);
+		query.setParameters(new Object[]{AD_Client_ID});
+		query.setParameters(new Object[]{AD_Org_ID});
+		query.setParameters(new Object[]{M_Product_ID});
+		query.setParameters(new Object[]{M_CostType_ID});
+		query.setParameters(new Object[]{C_AcctSchema_ID});
+		List<MCost> list = query.list();
+		MCost[] retValue = new MCost[list.size()];
+		list.toArray(retValue);
+		return retValue;	
+	}
+	
+	/**
+	 * 	Get Costs Record for a Cost Type
+	 * 	@param ctx context
+	 *	@param AD_Client_ID client
+	 *	@param AD_Org_ID org
+	 *	@param M_Product_ID product
+	 *	@param M_CostType_ID cost type
+	 *	@param C_AcctSchema_ID as
+	 *	@param TrxName transaction name
+	 *	@return array costs
+	 */
+	public static MCost get(Properties ctx , int AD_Client_ID, int AD_Org_ID , int M_Product_ID,  int M_CostType_ID ,int C_AcctSchema_ID , int M_CostElement_ID ,String  trxName)
+	{
+		
+		String whereClause = "AD_Client_ID = ? AND AD_Org_ID AND M_Product_ID=? AND  C_Acctschema_ID = ? AND M_CostType_ID = ? AND M_CostElement_ID=?";
+		Query query = MTable.get(ctx, MCost.Table_ID)
+							.createQuery(whereClause, trxName);
+		query.setParameters(new Object[]{AD_Client_ID});
+		query.setParameters(new Object[]{AD_Org_ID});
+		query.setParameters(new Object[]{M_Product_ID});
+		query.setParameters(new Object[]{M_CostType_ID});
+		query.setParameters(new Object[]{M_CostElement_ID});
+		List<MCost> list = query.list();
+		for (MCost cost : list)
+		{
+			return cost;
+		}
+		return null;	
+	}
 
 	
 	/**	Logger	*/
 	private static CLogger 	s_log = CLogger.getCLogger (MCost.class);
-	
+ 
 	
 	/**************************************************************************
 	 * 	Standard Constructor

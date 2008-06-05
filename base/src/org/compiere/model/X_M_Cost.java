@@ -217,6 +217,26 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		return bd;
 	}
 
+	/** Set Current Cost Price Low Level.
+		@param CurrentCostPriceLL 
+		The low level cost is using to accumulation the cost for low level in a bill of material or formula.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
+	{
+		set_ValueNoCheck (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
+	}
+
+	/** Get Current Cost Price Low Level.
+		@return The low level cost is using to accumulation the cost for low level in a bill of material or formula.
+	  */
+	public BigDecimal getCurrentCostPriceLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Current Quantity.
 		@param CurrentQty 
 		Current Quantity

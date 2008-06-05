@@ -123,6 +123,19 @@ public interface I_M_Cost
 	  */
 	public BigDecimal getCurrentCostPrice();
 
+    /** Column name CurrentCostPriceLL */
+    public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
+
+	/** Set Current Cost Price Low Level.
+	  * The low level cost is using to accumulation the cost for low level in a bill of material or formula.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
+
+	/** Get Current Cost Price Low Level.
+	  * The low level cost is using to accumulation the cost for low level in a bill of material or formula.
+	  */
+	public BigDecimal getCurrentCostPriceLL();
+
     /** Column name CurrentQty */
     public static final String COLUMNNAME_CurrentQty = "CurrentQty";
 

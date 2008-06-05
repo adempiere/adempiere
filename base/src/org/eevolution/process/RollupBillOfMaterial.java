@@ -107,25 +107,22 @@ public class RollupBillOfMaterial extends SvrProcess
      protected String doIt() throws Exception                
      {
             
-               int lowlevel = MPPMRP.getMaxLowLevel();                                                        
-               int Level = lowlevel;
-               //System.out.println("Low Level >>>>>>>>>>>>>>>>"+lowlevel);               
-               
-               // Calculate Rollup for all levels
-               for (int index = lowlevel ; index >= 0 ; index--)
-               {                                
-               
-                StringBuffer sql = new StringBuffer ("SELECT p.M_Product_ID FROM M_Product p WHERE p.ProductType = '" + MProduct.PRODUCTTYPE_Item + "' AND AD_Client_ID = ? AND p.LowLevel = " + index);
-                
-                if (p_M_Product_ID != 0)
-                {    
-                sql.append(" AND p.M_Product_ID = " + p_M_Product_ID);
-                }                
-                if (p_M_Product_Category_ID != 0)
-                {    
-                sql.append(" AND p.M_Product_Category_ID = " + p_M_Product_Category_ID);
-                }  
-                //System.out.print("sql :" + sql.toString());
+       int lowlevel = MPPMRP.getMaxLowLevel();                                                               
+       // Calculate Rollup for all levels
+       for (int index = lowlevel ; index >= 0 ; index--)
+       {                                
+       
+        StringBuffer sql = new StringBuffer ("SELECT p.M_Product_ID FROM M_Product p WHERE p.ProductType = '" + MProduct.PRODUCTTYPE_Item + "' AND AD_Client_ID = ? AND p.LowLevel = " + index);
+        
+        if (p_M_Product_ID != 0)
+        {    
+        	sql.append(" AND p.M_Product_ID = " + p_M_Product_ID);
+        }                
+        if (p_M_Product_Category_ID != 0)
+        {    
+        	sql.append(" AND p.M_Product_Category_ID = " + p_M_Product_Category_ID);
+        } 
+        
                 
 		PreparedStatement pstmt = null;
 		try
@@ -145,75 +142,71 @@ public class RollupBillOfMaterial extends SvrProcess
                             sqlw.append(" AND p.M_Warehouse_ID = " + p_M_Warehouse_ID);
                             } */               
 
-                            //System.out.print("sql :" + sqlw.toString());
+                            log.info("Rollup Bill of Material sql :" + sql.toString());
 
                             PreparedStatement pstmtw = null;
-                            pstmtw = DB.prepareStatement (sqlw.toString());
+                            pstmtw = DB.prepareStatement (sqlw.toString(),get_TrxName());
                             ResultSet rsw = pstmtw.executeQuery ();
                             int M_Warehouse_ID=0;
                             while (rsw.next())
                             {
-                                M_Warehouse_ID = rsw.getInt(1);  
-                                //System.out.println("WAREHOUSE ************" +M_Warehouse_ID);                                                    
-                                org.eevolution.model.MCost[]  pc = org.eevolution.model.MCost.getElements( M_Product_ID , p_C_AcctSchema_ID , p_M_CostType_ID);            
-                                //System.out.println("M_Product_ID" + M_Product_ID + "p_C_AcctSchema_ID" + p_C_AcctSchema_ID + "p_PP_Cost_Group_ID" + p_PP_Cost_Group_ID + "p_M_Warehouse_ID" +  M_Warehouse_ID + "p_S_Resource_ID" + p_S_Resource_ID);
-                                MProduct product = new MProduct(getCtx(), M_Product_ID ,null);
-                                System.out.println("--------------------------Product" + product.getValue() + "-" + product.getName());
+                                M_Warehouse_ID = rsw.getInt(1);                                                    
+                                MCost[]  costs = MCost.getCosts(getCtx(),getAD_Client_ID(),   p_AD_Org_ID  ,  M_Product_ID ,  p_M_CostType_ID , p_C_AcctSchema_ID , get_TrxName());            
+                                MProduct product = new MProduct(getCtx(), M_Product_ID ,get_TrxName());
+                                log.info("Product Search Key-Name:" + product.getValue() + "-" + product.getName());
                            
-                           if (pc != null)
+                           if (costs != null)
                            {
-                                for (int e = 0 ; e < pc.length ; e ++ )
+                                for (MCost cost : costs )
                                 {
                                                                         
-                                    MCostElement element = new MCostElement(getCtx(), pc[e].getM_CostElement_ID(),null);
+                                    MCostElement element = new MCostElement(getCtx(), cost.getM_CostElement_ID(),get_TrxName());
                                     // check if element cost is of type Labor
-                                    System.out.println("Exist Elemet " + e);
-                                    //System.out.println("M_Product_ID" + M_Product_ID + "p_C_AcctSchema_ID" + p_C_AcctSchema_ID + "p_PP_Cost_Group_ID" + p_PP_Cost_Group_ID + "p_M_Warehouse_ID" +  M_Warehouse_ID + "p_S_Resource_ID" + p_S_Resource_ID);
-                                    //System.out.println("Material" +element.PP_ELEMENTTYPE_Material);
+                                    log.info("Element Cost:"+ element.getName());
                                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Material))
                                     {
                                  
-                                    BigDecimal Material = getCostLL(element.COSTELEMENTTYPE_Material , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
-                                    System.out.println("Material" + Material);
-                                    if (pc[e].getCurrentCostPrice().compareTo(Env.ZERO)==0)
+                                    BigDecimal Material = getCurrentCostPriceLL(element.COSTELEMENTTYPE_Material , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
+                                    log.info("Material Cost Low Level:" + Material);
+                                    if (cost.getCurrentCostPrice().compareTo(Env.ZERO)==0)
                                     {
-                                    //pc[e].setCostLLAmt(Material);
-                                    pc[e].save(get_TrxName());
+                                    	cost.setCurrentCostPriceLL(Material);
+                                    	cost.save();
                                     }
                                     continue;
                                     }
                                     
                                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Resource))
                                     {
-                                    BigDecimal Labor = getCostLL(element.COSTELEMENTTYPE_Resource, p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
-                                    System.out.println("Labor" + Labor);
-                                    //pc[e].setCostLLAmt(Labor);
-                                    pc[e].save(get_TrxName());
+                                    	BigDecimal Labor = getCurrentCostPriceLL(element.COSTELEMENTTYPE_Resource, p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
+                                    	log.info("Labor Cost Low Level:" + Labor);
+                                    	cost.setCurrentCostPriceLL(Labor);
+                                    	cost.save();
                                     continue;
                                     }
                                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_BurdenMOverhead))
                                     {
-                                    BigDecimal Burder = getCostLL(element.COSTELEMENTTYPE_BurdenMOverhead , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
-                                    System.out.println("Burder" + Burder);
-                                    //pc[e].setCostLLAmt(Burder);
-                                    pc[e].save(get_TrxName());
-                                    continue;
+                                    	BigDecimal Burder = getCurrentCostPriceLL(element.COSTELEMENTTYPE_BurdenMOverhead , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
+                                    	log.info("Burden Cost Low Level:" + Burder);
+                                    	cost.setCurrentCostPriceLL(Burder);
+                                    	cost.save();
+                                    	continue;
                                     }
                                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Overhead))
                                     {
-                                    BigDecimal Overhead = getCostLL(element.COSTELEMENTTYPE_Overhead , p_AD_Org_ID , M_Product_ID  , p_M_CostType_ID , p_C_AcctSchema_ID);     
-                                    System.out.println("Overhead" + Overhead);
-                                    //pc[e].setCostLLAmt(Overhead);
-                                    pc[e].save(get_TrxName());
+                                    	BigDecimal Overhead = getCurrentCostPriceLL(element.COSTELEMENTTYPE_Overhead , p_AD_Org_ID , M_Product_ID  , p_M_CostType_ID , p_C_AcctSchema_ID);     
+                                    	log.info("Overhead Cost Low Level:" + Overhead);
+                                    	cost.setCurrentCostPriceLL(Overhead);
+                                    	cost.save();
                                     continue;
                                     }
                                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_OutsideProcessing))
                                     {
-                                    BigDecimal Subcontract = getCostLL(element.COSTELEMENTTYPE_OutsideProcessing , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
-                                    System.out.println("Subcontract" + Subcontract);
-                                    //pc[e].setCostLLAmt(Subcontract);
-                                    pc[e].save(get_TrxName());
-                                    continue;
+                                    	BigDecimal Subcontract = getCurrentCostPriceLL(element.COSTELEMENTTYPE_OutsideProcessing , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);     
+                                    	log.info("Subcontract Cost Low Level:" + Subcontract);
+                                    	cost.setCurrentCostPriceLL(Subcontract);
+                                    	cost.save();
+                                    	continue;
                                     }
                                     /*if (element.getCostElementType().equals(element.PP_ELEMENTTYPE_Distribution))
                                     {
@@ -236,70 +229,63 @@ public class RollupBillOfMaterial extends SvrProcess
 		}
 		catch (Exception e)
 		{			
-                        //log.log(Level.SEVERE,"doIt - " + sql, e);
-                        return null;
+            log.log(Level.SEVERE,"doIt - " + sql, e);
+            return null;
 		}             
                
-               }         
+     }         
                 
             return "ok";
      }
      
 
-     
-     private BigDecimal getCostLL(String CostElementType , int AD_Org_ID , int M_Product_ID , int M_CostType_ID , int  C_AcctSchema_ID)
+ 	/** get Current Cost Price Low Level
+ 	 *	@param CostElementType Cost Element Type (Material,Labor,Overhead,Burden)
+ 	 *  @param AD_Org_ID Organization
+ 	 *  @param M_Product_ID Product
+ 	 *  @param M_CostType_ID Cost Type
+ 	 *	@param C_AcctSchema_ID Account Schema
+ 	 *  @return CurrentCostPriceLL Sum Current Cost Price Level Low for this Cost Element Type
+ 	 */
+     private BigDecimal getCurrentCostPriceLL(String CostElementType , int AD_Org_ID , int M_Product_ID , int M_CostType_ID , int  C_AcctSchema_ID)
      {
-         System.out.println("getcostLL ***** " +CostElementType );
-         BigDecimal cost = Env.ZERO;
-         BigDecimal total = Env.ZERO;
+         log.info("getCurrentCostPriceLL.ElementType"+CostElementType);
          BigDecimal totalcost = Env.ZERO;
          
-         MPPProductBOM bom = new MPPProductBOM(getCtx(), getPP_Product_BOM_ID(AD_Org_ID , M_Product_ID , CostElementType),null);                          
+         MPPProductBOM bom = new MPPProductBOM(getCtx(), getPP_Product_BOM_ID(AD_Org_ID , M_Product_ID , CostElementType),get_TrxName());                          
          MPPProductBOMLine[] bomlines = bom.getLines();
-
-         System.out.println("no. de materias primas **********+ " +bomlines.length);
-         for (int i = 0 ; i < bomlines.length ; i ++ )
+         
+         for (MPPProductBOMLine bomline : bomlines)
          {
-             MPPProductBOMLine bomline = bomlines[i];
-             
-             //int m_S_Resource_ID = ;
              // get the rate for this resource     
-             org.eevolution.model.MCost[]  pc = org.eevolution.model.MCost.getElements( M_Product_ID , p_C_AcctSchema_ID , p_M_CostType_ID);         
-             System.out.println("Producto de la linea *************   " +bomline.getM_Product_ID());
-             
-             for (int e = 0 ; e < pc.length ; e ++ )
+             MCost[]  costs = MCost.getCosts(getCtx() , getAD_Client_ID(),   p_AD_Org_ID  ,  M_Product_ID ,  p_M_CostType_ID , p_C_AcctSchema_ID , get_TrxName());            
+             for (MCost cost : costs)
              {                 
-                 MCostElement element = new MCostElement(getCtx(), pc[e].getM_CostElement_ID(),null);
+                 MCostElement element = new MCostElement(getCtx(), cost.getM_CostElement_ID(), get_TrxName());
                  // check if element cost is of type Labor
                  if (element.getCostElementType().equals(CostElementType))
                  {
-                     //cost = cost.add(pc[e].getCostTLAmt()).add(pc[e].getCostLLAmt());
                      
                      BigDecimal QtyPercentage = bomline.getQtyBatch().divide(new BigDecimal(100),8,BigDecimal.ROUND_UP);
                      BigDecimal QtyBOM = bomline.getQtyBOM(); 
                      BigDecimal Scrap = bomline.getScrap();
                       	Scrap = Scrap.divide(new BigDecimal(100),4,BigDecimal.ROUND_UP); //convert to decimal
                      BigDecimal QtyTotal = Env.ZERO;
-                     
-                     //System.out.println("elementos pc[e]  " +pc[e].getM_Product_ID() +" cost ll "+pc[e].getCostLLAmt() +" cost tl " +pc[e].getCostTLAmt());
-                     System.out.println("cost:" +  cost + "QtyPercentage:" + QtyPercentage + "QtyBOM" + QtyBOM) ;
-                     
+
                      if (bomline.isQtyPercentage()) 
                      {   
                          QtyTotal =  QtyPercentage.divide( Env.ONE.subtract(Scrap) , 4 ,BigDecimal.ROUND_HALF_UP );
                          
                      }
-                    else 
+                     else 
                      {
                     	 QtyTotal =  QtyBOM.divide( Env.ONE.subtract(Scrap) , 4 ,BigDecimal.ROUND_HALF_UP );
                          
                      }
                      
-                     totalcost = totalcost.add(cost.multiply(QtyTotal));
-
-                     System.out.println("Cost Total" + totalcost);
+                     totalcost = totalcost.add(cost.getCurrentCostPriceLL().multiply(QtyTotal));
+                     log.info("Cost Element:"+element.getName() + "Total Cost Element:" +   totalcost + "QtyPercentage:" + QtyPercentage + "QtyBOM" + QtyBOM) ;
                  }
-                 cost =Env.ZERO;
              }             
          }    
          
@@ -308,7 +294,7 @@ public class RollupBillOfMaterial extends SvrProcess
          MPPProductPlanning pps = MPPProductPlanning.getDemandSupplyResource(getCtx(), AD_Org_ID , M_Product_ID, get_TrxName());
          if (pps != null)
          {            
-         int Yield = pps.getYield();
+        	int Yield = pps.getYield();
          	if(Yield != 0)
          	{
 				BigDecimal  DecimalYield = new BigDecimal(Yield/100);

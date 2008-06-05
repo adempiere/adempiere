@@ -1308,110 +1308,60 @@ public class MPPOrder extends X_PP_Order implements DocAction {
                                 return status;
                 }
                 
-                
-                
                 //	Implicit Approval
                 if (!isApproved())
                         approveIt();
                 log.info("completeIt - " + toString());
                 StringBuffer info = new StringBuffer();
-                 
-                /* 
-                //	Create SO Shipment - Force Shipment
-                MInOut shipment = null;
-                if (MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO)		//	(W)illCall(I)nvoice
-                        || MDocType.DOCSUBTYPESO_WarehouseOrder.equals(DocSubTypeSO)	//	(W)illCall(P)ickup
-                        || MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO))			//	(W)alkIn(R)eceipt
-                {
-                        if (!DELIVERYRULE_Force.equals(getDeliveryRule()))
-                                setDeliveryRule(DELIVERYRULE_Force);
-                        //
-                        shipment = createShipment (dt);
-                        if (shipment == null)
-                                return DocAction.STATUS_Invalid;
-                        info.append("@M_InOut_ID@: ").append(shipment.getDocumentNo());
-                        String msg = shipment.getProcessMsg();
-                        if (msg != null && msg.length() > 0)
-                                info.append("(").append(msg).append(")");
-                }	//	Shipment
-                 
-                 
-                //	Create SO Invoice - Always invoice complete Order
-                if ( MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO)
-                        || MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO) )
-                {
-                        MInvoice invoice = createInvoice (dt, shipment);
-                        if (invoice == null)
-                                return DocAction.STATUS_Invalid;
-                        info.append(" - @C_Invoice_ID@: ").append(invoice.getDocumentNo());
-                        String msg = invoice.getProcessMsg();
-                        if (msg != null && msg.length() > 0)
-                                info.append("(").append(msg).append(")");
-                }	//	Invoice
-                 
-                //	Counter Documents
-                PP_Order_Plan counter = createCounterDoc();
-                if (counter != null)
-                        info.append(" - @CounterDoc@: @Order@=").append(counter.getDocumentNo());
-                 */
-        //
-        
                     
                     int C_AcctSchema_ID = Env.getContextAsInt(getCtx(),"$C_AcctSchema_ID");
                     log.info("AcctSchema_ID" + C_AcctSchema_ID);
                     MAcctSchema C_AcctSchema = new MAcctSchema(getCtx(),C_AcctSchema_ID,get_TrxName());                    
                     log.info("Cost_Group_ID" + C_AcctSchema.getM_CostType_ID());
                     
-                    MCost[] cost =  MCost.getElements(getM_Product_ID(),C_AcctSchema_ID,C_AcctSchema.getM_CostType_ID());                    
-                    log.info("MCost" + cost.toString());
-                    
-                    if (cost != null)
-                    {
-                    log.info("Elements Total" + cost.length);	
-                                     
-                    for (int j = 0 ; j < cost.length ; j ++)
-                    {                    
-                    MPPOrderCost PP_Order_Cost = new  MPPOrderCost (getCtx(), 0,"PP_Order_Cost");
-                    PP_Order_Cost.setPP_Order_ID(getPP_Order_ID());
-                
-                    PP_Order_Cost.setC_AcctSchema_ID(cost[j].getC_AcctSchema_ID());
-                    PP_Order_Cost.setCumulatedAmt(cost[j].getCumulatedAmt());
-                    PP_Order_Cost.setCumulatedQty(cost[j].getCumulatedQty());
-                    PP_Order_Cost.setCurrentCostPriceLL(cost[j].getCurrentCostPrice());
-                    PP_Order_Cost.setCurrentCostPrice(cost[j].getCurrentCostPrice());
-                    PP_Order_Cost.setM_Product_ID(getM_Product_ID());
-                    PP_Order_Cost.setM_AttributeSetInstance_ID(cost[j].getM_AttributeSetInstance_ID());
-                    PP_Order_Cost.setM_CostElement_ID(cost[j].getM_CostElement_ID());                    
-                    PP_Order_Cost.save(get_TrxName());
-                    }
+                    MCost[]  costs = MCost.getCosts(getCtx() , getAD_Client_ID(),   getAD_Org_ID()  , getM_Product_ID() ,  C_AcctSchema.getM_CostType_ID() , C_AcctSchema_ID , get_TrxName());                        
+                    if (costs != null)
+                    {            
+	                    for (MCost cost : costs)
+	                    {                    
+		                    MPPOrderCost PP_Order_Cost = new  MPPOrderCost (getCtx(), 0, get_TrxName());
+		                    PP_Order_Cost.setPP_Order_ID(getPP_Order_ID());
+		                    PP_Order_Cost.setC_AcctSchema_ID(cost.getC_AcctSchema_ID());
+		                    PP_Order_Cost.setCumulatedAmt(cost.getCumulatedAmt());
+		                    PP_Order_Cost.setCumulatedQty(cost.getCumulatedQty());
+		                    PP_Order_Cost.setCurrentCostPriceLL(cost.getCurrentCostPriceLL());
+		                    PP_Order_Cost.setCurrentCostPrice(cost.getCurrentCostPrice());
+		                    PP_Order_Cost.setM_Product_ID(getM_Product_ID());
+		                    PP_Order_Cost.setM_AttributeSetInstance_ID(cost.getM_AttributeSetInstance_ID());
+		                    PP_Order_Cost.setM_CostElement_ID(cost.getM_CostElement_ID());                    
+		                    PP_Order_Cost.save();
+	                    }
                     }
                     
                     
                     MPPOrderBOMLine[] lines = getLines(getPP_Order_ID());
                     log.info("MPPOrderBOMLine[]" + lines.toString());
                     
-                    for (int i = 0 ; i < lines.length ; i++ )
+                    for ( MPPOrderBOMLine line : lines)
                     {
-                            cost = MCost.getElements(lines[i].getM_Product_ID(), C_AcctSchema_ID , C_AcctSchema.getM_CostType_ID());
-                            log.info("Elements Total" + cost.length);	
-                            if (cost != null)
-                            {    
-
-                            for (int j = 0 ; j < cost.length ; j ++)
-                            {                                	
-                            MPPOrderCost PP_Order_Cost = new  MPPOrderCost (getCtx(), 0,"PP_Order_Cost");
-                            PP_Order_Cost.setPP_Order_ID(getPP_Order_ID());
-                                                PP_Order_Cost.setC_AcctSchema_ID(cost[j].getC_AcctSchema_ID());
-                            PP_Order_Cost.setCumulatedAmt(cost[j].getCumulatedAmt());
-                            PP_Order_Cost.setCumulatedQty(cost[j].getCumulatedQty());
-                            PP_Order_Cost.setCurrentCostPriceLL(cost[j].getCurrentCostPrice());
-                            PP_Order_Cost.setCurrentCostPrice(cost[j].getCurrentCostPrice());
-                            PP_Order_Cost.setM_Product_ID(getM_Product_ID());
-                            PP_Order_Cost.setM_AttributeSetInstance_ID(cost[j].getM_AttributeSetInstance_ID());
-                            PP_Order_Cost.setM_CostElement_ID(cost[j].getM_CostElement_ID());                    
-                            PP_Order_Cost.save(get_TrxName());                            
-                            }
-                            }
+                    	costs = MCost.getCosts(getCtx() , getAD_Client_ID(),   getAD_Org_ID()  , line.getM_Product_ID() ,  C_AcctSchema.getM_CostType_ID() , C_AcctSchema_ID , get_TrxName());            
+                        if (costs != null)
+                        {    
+	                        for (MCost cost : costs)
+	                        {                                	
+		                        MPPOrderCost PP_Order_Cost = new  MPPOrderCost (getCtx(), 0, get_TrxName());
+		                        PP_Order_Cost.setPP_Order_ID(getPP_Order_ID());
+		                                            PP_Order_Cost.setC_AcctSchema_ID(cost.getC_AcctSchema_ID());
+		                        PP_Order_Cost.setCumulatedAmt(cost.getCumulatedAmt());
+		                        PP_Order_Cost.setCumulatedQty(cost.getCumulatedQty());
+		                        PP_Order_Cost.setCurrentCostPriceLL(cost.getCurrentCostPriceLL());
+		                        PP_Order_Cost.setCurrentCostPrice(cost.getCurrentCostPrice());
+		                        PP_Order_Cost.setM_Product_ID(getM_Product_ID());
+		                        PP_Order_Cost.setM_AttributeSetInstance_ID(cost.getM_AttributeSetInstance_ID());
+		                        PP_Order_Cost.setM_CostElement_ID(cost.getM_CostElement_ID());                    
+		                        PP_Order_Cost.save();                            
+	                        }
+                        }
                     }
                     
                     String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);

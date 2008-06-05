@@ -240,6 +240,26 @@ public class MCostElement extends X_M_CostElement
 			s_cache.put (key, retValue);
 		return retValue;
 	} //	get
+	
+	
+	/**
+	 * 	Get Costs Record for a Cost Type
+	 * 	@param ctx context
+	 *	@param AD_Client_ID client
+	 *	@param AD_Org_ID org
+	 *	@return array costs
+	 **/
+	public static MCostElement[] getElements (Properties ctx , int AD_Client_ID, int AD_Org_ID, String trxName)
+	{
+		String whereClause = "AD_Client_ID = ? AND AD_Org_ID AND M_Product_ID=? AND  C_Acctschema_ID = ? AND M_CostType_ID = ? AND M_CostElement_ID=?";
+		Query query = MTable.get(ctx, MCostElement.Table_ID).createQuery(whereClause, trxName);
+		query.setParameters(new Object[]{AD_Client_ID});
+		query.setParameters(new Object[]{AD_Org_ID});
+		List<MCost> list = query.list();
+		MCostElement[] retValue = new MCostElement[list.size()];
+		list.toArray(retValue);
+		return retValue;	
+	}	
 
 	/**	Cache						*/
 	private static CCache<Integer,MCostElement>	s_cache	= new CCache<Integer,MCostElement>("M_CostElement", 20);

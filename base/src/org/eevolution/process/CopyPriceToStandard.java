@@ -128,20 +128,20 @@ public class CopyPriceToStandard extends SvrProcess
                 	 	else
                 	 	price = rs.getBigDecimal(3);
                    
-                	 	   org.eevolution.model.MCost[]  cost = org.eevolution.model.MCost.getElements( M_Product_ID , p_C_AcctSchema_ID , p_M_CostType_ID);            
-                                    if (cost != null)
-                                   {
-                                        for (int e = 0 ; e < cost.length ; e ++ )
-                                        {                                  
-                                            MCostElement element = new MCostElement(getCtx(), p_M_CostElement_ID,null);                                  
-                                            if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Material)) 
-                                            {                                                                     
-                                                cost[0].setFutureCostPrice(price);
-                                                cost[0].save(get_TrxName());
-                                            break;
-                                        }                                                                      
-                                    }
-                           }
+                	 	MCost[]  costs = MCost.getCosts(getCtx() , getAD_Client_ID(),   p_AD_Org_ID  ,  M_Product_ID ,  p_M_CostType_ID , p_C_AcctSchema_ID , get_TrxName());            
+	                    if (costs != null)
+	                    {
+	                            for (MCost cost : costs)
+	                            {                                  
+	                                MCostElement element = new MCostElement(getCtx(), p_M_CostElement_ID, get_TrxName());                                  
+	                                if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Material)) 
+	                                {                                                                     
+	                                    cost.setFutureCostPrice(price);
+	                                    cost.save();
+	                                break;
+	                            }                                                                      
+	                        }
+                      }
                 }
                  rs.close();
                  pstmt.close();
