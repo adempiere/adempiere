@@ -49,6 +49,7 @@ import org.compiere.model.MRole;
 import org.compiere.model.MSequence;
 import org.compiere.model.MSystem;
 import org.compiere.model.PO;
+import org.compiere.model.POResultSet;
 import org.compiere.process.SequenceCheck;
 
 
@@ -1988,6 +1989,16 @@ public final class DB
     public static void close(ResultSet rs, Statement st) {
     	close(rs);
     	close(st);
+    }
+    
+    /**
+     * convenient method to close a {@link POResultSet}
+     * @param rs result set
+     * @see POResultSet#close()
+     */
+    public static void close(POResultSet<?> rs) {
+    	if (rs != null)
+    		rs.close();
     }
     
 	/** Quote			*/
