@@ -16,18 +16,28 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.util.logging.*;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  *	Report Controller.
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ReportCtl.java,v 1.3 2006/10/08 07:05:08 comdivision Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1866739 ] ReportCtl: use printformat from the transient/serializable
  */
 public class ReportCtl
 {
@@ -138,18 +148,43 @@ public class ReportCtl
 	
 	/**************************************************************************
 	 *	Start Standard Report.
-	 *  - Get Table Info & submit
+	 *  - Get Table Info & submit.<br>
+	 *  A report can be created from:
+	 *  <ol>
+	 *  <li>attached MPrintFormat, if any (see {@link ProcessInfo#setTransientObject(Object)}, {@link ProcessInfo#setSerializableObject(java.io.Serializable)}
+	 *  <li>process information (AD_Process.AD_PrintFormat_ID, AD_Process.AD_ReportView_ID)
+	 *  </ol>
 	 *  @param pi Process Info
 	 *  @param IsDirectPrint if true, prints directly - otherwise View
 	 *  @return true if OK
 	 */
 	static public boolean startStandardReport (ProcessInfo pi)
 	{
-		ReportEngine re = ReportEngine.get(Env.getCtx(), pi);
-		if (re == null)
-		{
-			pi.setSummary("No ReportEngine");
-			return false;
+		ReportEngine re = null;
+		//
+		// Create Report Engine by using attached MPrintFormat (if any)
+		Object o = pi.getTransientObject();
+		if (o == null)
+			o = pi.getSerializableObject();
+		if (o != null && o instanceof MPrintFormat) {
+			Properties ctx = Env.getCtx();
+			MPrintFormat format = (MPrintFormat)o;
+			String TableName = MTable.getTableName(ctx, format.getAD_Table_ID());
+			MQuery query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
+			PrintInfo info = new PrintInfo(pi);
+			re = new ReportEngine(ctx, format, query, info);
+			createOutput(re, pi.isPrintPreview());
+			return true;
+		}
+		//
+		// Create Report Engine normally
+		else {
+			re = ReportEngine.get(Env.getCtx(), pi);
+			if (re == null)
+			{
+				pi.setSummary("No ReportEngine");
+				return false;
+			}
 		}
 		
 		createOutput(re, pi.isPrintPreview());
