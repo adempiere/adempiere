@@ -17,20 +17,41 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.border.CompoundBorder;
 
-import java.util.*;
-import java.util.List;
-//
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.APanel;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.grid.ed.VButton;
+import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VEditorFactory;
+import org.compiere.grid.ed.VLine;
+import org.compiere.model.GridField;
+import org.compiere.model.X_AD_FieldGroup;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CollapsiblePanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Language;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
@@ -152,8 +173,8 @@ public final class VPanel extends CTabbedPane
 	/** Previous Field Group Type */
 	private String              m_oldFieldGroupType = null;
 	//[ 1757088 ]  	
-	private java.util.Hashtable m_tablist = new java.util.Hashtable();
-	private java.util.Hashtable m_tabincludelist = new java.util.Hashtable();
+	private java.util.Hashtable<String, JPanel> m_tablist = new java.util.Hashtable<String, JPanel>();
+	private java.util.Hashtable<Integer, CollapsiblePanel> m_tabincludelist = new java.util.Hashtable<Integer, CollapsiblePanel>();
 	private CPanel m_main = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());		
 	private DropShadowBorder marginBorder = new DropShadowBorder();
 
@@ -847,7 +868,7 @@ public final class VPanel extends CTabbedPane
 	}   //  setBackground
 
 	
-	private void findChildComponents(CPanel container, List list) 
+	private void findChildComponents(CPanel container, List<Component> list) 
 	{
 		Component[] comp = container.getComponents();
 		for (int c = 0; c < comp.length; c++)
@@ -889,7 +910,7 @@ public final class VPanel extends CTabbedPane
 	//[ 1757088 ]
 	public Component[] getComponentsRecursive()
 	{
-		java.util.ArrayList list = new java.util.ArrayList();       
+		java.util.ArrayList<Component> list = new java.util.ArrayList<Component>();       
 
 		for (int i = 0; i < this.getTabCount(); i++)
 		{
@@ -1029,7 +1050,7 @@ public final class VPanel extends CTabbedPane
 	 * @param detail
 	 */
 	public void includeTab(GridController detail) {
-		CollapsiblePanel section = (CollapsiblePanel)m_tabincludelist.get(detail.getMTab().getAD_Tab_ID());
+		CollapsiblePanel section = m_tabincludelist.get(detail.getMTab().getAD_Tab_ID());
 		if(section != null)
 		{				
 			APanel panel = new APanel(detail, m_WindowNo);
