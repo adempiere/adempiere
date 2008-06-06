@@ -70,3 +70,5 @@ UPDATE AD_FIELD SET SeqNo=180,IsDisplayed='Y' WHERE AD_Field_ID=12319
 UPDATE AD_FIELD SET IsSameLine='Y',Updated=TO_TIMESTAMP('2008-06-04 23:14:39','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=11352
 ;
 
+-- Add CurrentCostPriceLL column to database
+ALTER TABLE M_Cost ADD COLUMN CurrentCostPriceLL NUMERIC DEFAULT 0;
