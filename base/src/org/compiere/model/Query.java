@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
@@ -60,8 +61,8 @@ public class Query {
 		this.trxName = trxName;
 	}
 	
-	public Query(String tableName, String whereClause, String trxName) {
-		this(MTable.get(Env.getCtx(), tableName), whereClause, trxName);
+	public Query(Properties ctx, String tableName, String whereClause, String trxName) {
+		this(MTable.get(ctx, tableName), whereClause, trxName);
 		if (this.table == null)
 			throw new IllegalArgumentException("Table Name Not Found - "+tableName);
 	}

@@ -22,7 +22,7 @@ public class QueryTest extends AdempiereTestCase {
 	public void testQuery_NoTable() throws Exception {
 		boolean exThrowed = false;
 		try {
-			new Query("NO_TABLE_DEFINED", null, getTrxName());
+			new Query(getCtx(), "NO_TABLE_DEFINED", null, getTrxName());
 		}
 		catch (RuntimeException e) {
 			exThrowed = true;
@@ -31,7 +31,7 @@ public class QueryTest extends AdempiereTestCase {
 	}
 	
 	public void testList() throws Exception {
-		List<MTable> list = new Query("AD_Table", "TableName IN (?,?)", getTrxName())
+		List<MTable> list = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 								.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 								.setOrderBy("TableName")
 								.list();
@@ -43,7 +43,7 @@ public class QueryTest extends AdempiereTestCase {
 	public void testScroll() throws Exception {
 		POResultSet<MTable> rs = null;
 		try {
-			rs = new Query("AD_Table", "TableName IN (?,?)", getTrxName())
+			rs = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 							.setOrderBy("TableName")
 							.scroll();
@@ -70,7 +70,7 @@ public class QueryTest extends AdempiereTestCase {
 	}
 
 	public void testIterate() throws Exception {
-		Iterator<MTable> it = new Query("AD_Table", "TableName IN (?,?)", getTrxName())
+		Iterator<MTable> it = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 							.setOrderBy("TableName")
 							.iterate();
@@ -92,7 +92,7 @@ public class QueryTest extends AdempiereTestCase {
 	}
 
 	public void testCount() throws Exception {
-		int count = new Query("AD_Table", "TableName IN (?,?)", getTrxName())
+		int count = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 						.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 						.setOrderBy("TableName")
 						.count();
@@ -102,7 +102,7 @@ public class QueryTest extends AdempiereTestCase {
 	public void testCount_BadSQL() throws Exception {
 		boolean exThrowed = false;
 		try {
-			new Query("AD_Table", "TableName IN (?,?) AND BAD_SQL", getTrxName())
+			new Query(getCtx(), "AD_Table", "TableName IN (?,?) AND BAD_SQL", getTrxName())
 							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 							.setOrderBy("TableName")
 							.count();
@@ -114,12 +114,12 @@ public class QueryTest extends AdempiereTestCase {
 	}
 	
 	public void testCount_NoValues() throws Exception {
-		int count = new Query("AD_Table", "1=2", getTrxName()).count();
+		int count = new Query(getCtx(), "AD_Table", "1=2", getTrxName()).count();
 		assertEquals("Counter should be ZERO", 0, count);
 	}
 
 	public void testFirst() throws Exception {
-		MTable t = new Query("AD_Table", "TableName IN (?,?)", getTrxName())
+		MTable t = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 						.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 						.setOrderBy("TableName")
 						.first();
