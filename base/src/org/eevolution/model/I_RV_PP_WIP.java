@@ -30,22 +30,24 @@
  * Sponsors:                                                          *
  * - Company (http://www.site.com)                                    *
  **********************************************************************/
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
+
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for RV_PP_Order_BOMLine
+/** Generated Interface for RV_PP_WIP
  *  @author Trifon Trifonov (generated) 
  *  @version Release 3.5.1a
  */
-public interface I_RV_PP_Order_BOMLine 
+public interface I_RV_PP_WIP 
 {
 
-    /** TableName=RV_PP_Order_BOMLine */
-    public static final String Table_Name = "RV_PP_Order_BOMLine";
+    /** TableName=RV_PP_WIP */
+    public static final String Table_Name = "RV_PP_WIP";
 
-    /** AD_Table_ID=53028 */
+    /** AD_Table_ID=53033 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

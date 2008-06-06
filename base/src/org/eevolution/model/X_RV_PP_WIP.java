@@ -15,15 +15,19 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.compiere.model;
+package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 
-/** Generated Model for RV_PP_Order_BOMLine
+import org.compiere.model.I_Persistent;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
+
+/** Generated Model for RV_PP_WIP
  *  @author Adempiere (generated) 
  *  @version Release 3.5.1a - $Id$ */
-public class X_RV_PP_Order_BOMLine extends PO implements I_RV_PP_Order_BOMLine, I_Persistent 
+public class X_RV_PP_WIP extends PO implements I_RV_PP_WIP, I_Persistent 
 {
 
 	/**
@@ -32,16 +36,16 @@ public class X_RV_PP_Order_BOMLine extends PO implements I_RV_PP_Order_BOMLine, 
 	private static final long serialVersionUID = 1L;
 
     /** Standard Constructor */
-    public X_RV_PP_Order_BOMLine (Properties ctx, int RV_PP_Order_BOMLine_ID, String trxName)
+    public X_RV_PP_WIP (Properties ctx, int RV_PP_WIP_ID, String trxName)
     {
-      super (ctx, RV_PP_Order_BOMLine_ID, trxName);
-      /** if (RV_PP_Order_BOMLine_ID == 0)
+      super (ctx, RV_PP_WIP_ID, trxName);
+      /** if (RV_PP_WIP_ID == 0)
         {
         } */
     }
 
     /** Load Constructor */
-    public X_RV_PP_Order_BOMLine (Properties ctx, ResultSet rs, String trxName)
+    public X_RV_PP_WIP (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -63,7 +67,7 @@ public class X_RV_PP_Order_BOMLine extends PO implements I_RV_PP_Order_BOMLine, 
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_RV_PP_Order_BOMLine[")
+      StringBuffer sb = new StringBuffer ("X_RV_PP_WIP[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
