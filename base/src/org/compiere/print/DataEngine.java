@@ -220,6 +220,7 @@ public class DataEngine
 			+ " LEFT OUTER JOIN AD_ReportView_Col rvc ON (pf.AD_ReportView_ID=rvc.AD_ReportView_ID AND c.AD_Column_ID=rvc.AD_Column_ID) "
 			+ "WHERE pf.AD_PrintFormat_ID=?"					//	#1
 			+ " AND pfi.IsActive='Y' AND (pfi.IsPrinted='Y' OR c.IsKey='Y' OR pfi.SortNo > 0) "
+			+ " AND pfi.PrintFormatType IN ('" + MPrintFormatItem.PRINTFORMATTYPE_Field + "','" + MPrintFormatItem.PRINTFORMATTYPE_PrintFormat + "') "
 			+ "ORDER BY pfi.IsPrinted DESC, pfi.SeqNo";			//	Functions are put in first column
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
