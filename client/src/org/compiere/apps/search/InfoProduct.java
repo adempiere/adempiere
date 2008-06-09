@@ -228,6 +228,7 @@ public final class InfoProduct extends Info implements ActionListener
 		warehouseTbl.setMultiSelection(false);
 		warehouseTbl.addMouseListener(this);
 		warehouseTbl.getSelectionModel().addListSelectionListener(this);
+		warehouseTbl.setShowTotals(true);
         warehouseTbl.autoSize();
         
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{

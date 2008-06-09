@@ -423,6 +423,7 @@ public abstract class Info extends CDialog
 		p_table.setRowSelectionAllowed(true);
 		p_table.addMouseListener(this);
 		p_table.setMultiSelection(p_multiSelection);
+		p_table.setShowTotals(true);
 		
 		//  set editors (two steps)
 		for (int i = 0; i < layout.length; i++)
@@ -1088,6 +1089,8 @@ public abstract class Info extends CDialog
 			//
 			int no = p_table.getRowCount();
 			log.fine("#" + no + " - " + (System.currentTimeMillis()-start) + "ms");
+			if(p_table.getShowTotals())
+				p_table.addTotals(p_layout);
 			p_table.autoSize();
 			//
 			setCursor(Cursor.getDefaultCursor());

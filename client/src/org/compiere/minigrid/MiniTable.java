@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.*;
@@ -80,6 +82,8 @@ public class MiniTable extends CTable
 	private ColumnInfo[]        m_layout = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(MiniTable.class);
+	/** Is Total Show */
+	private boolean showTotals = false;
 
 	/**
 	 *	Size Columns.
@@ -469,14 +473,20 @@ public class MiniTable extends CTable
 			//		log.fine( "r=" + row + ", c=" + col + " " + m_layout[col].getColHeader(),
 			//			"data=" + data.toString() + " " + data.getClass().getName() + " * " + m_table.getCellRenderer(row, col));
 				}
+				
+
 			}
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "", e);
 		}
+		if(getShowTotals())
+			addTotals(m_layout);
 		autoSize();
 		log.config("Row(rs)=" + getRowCount());
+		
+		
 	}	//	loadTable
 
 	/**
@@ -513,6 +523,8 @@ public class MiniTable extends CTable
 				setValueAt(data, row, col);
 			}
 		}
+		if(getShowTotals())
+			addTotals(m_layout);
 		autoSize();
 		log.config("Row(array)=" + getRowCount());
 	}	//	loadTable
@@ -635,5 +647,180 @@ public class MiniTable extends CTable
 			return 1;
 		return 0;
 	}   //  getColorCode
+	
 
+	/**
+	 *  Set if Totals is Show
+	 *  @param boolean Show
+	 */
+	public void setShowTotals(boolean show)
+	{
+		showTotals= show;
+	}
+	/**
+	 *  get if Totals is Show
+	 *  @param boolean Show
+	 */
+	public boolean getShowTotals()
+	{
+		return showTotals;
+	}
+	
+	/**
+	 *  Adding a new row with the totals
+	 */
+	public void addTotals(ColumnInfo[] layout)
+	{
+		if (getRowCount() == 0 || layout.length == 0)
+			return;
+		
+		Object[] total = new Object[layout.length];
+		
+		for (int row = 0 ; row < getRowCount(); row ++)
+		{		
+				
+				int colOffset = 1;  //  columns start with 1
+				for (int col = 0; col < layout.length; col++)
+				{
+					Object data = getModel().getValueAt(row, col);
+					Class c = layout[col].getColClass();
+					int colIndex = col + colOffset;
+					if (c == BigDecimal.class)
+					{	
+						BigDecimal subtotal = Env.ZERO;
+						if(total[col]!= null)
+							subtotal = (BigDecimal)(total[col]);
+							
+						BigDecimal amt =  (BigDecimal) data;
+						if(subtotal == null)
+							subtotal = Env.ZERO;
+						if(amt == null )
+							amt = Env.ZERO;
+						total[col] = subtotal.add(amt);
+					}
+					else if (c == Double.class)
+					{
+						Double subtotal = new Double(0);
+						if(total[col] != null)
+							subtotal = (Double)(total[col]);
+						
+						Double amt =  (Double) data;
+						if(subtotal == null)
+							subtotal = new Double(0);
+						if(amt == null )
+							subtotal = new Double(0);
+						total[col] = subtotal + amt;
+						
+					}		
+				}	
+		}
+		
+		//adding total row
+
+		int row = getRowCount() + 1;
+		setRowCount(row);
+		int colOffset = 1;  //  columns start with 1
+		for (int col = 0; col < layout.length; col++)
+		{
+			Class c = layout[col].getColClass();
+			int colIndex = col + colOffset;
+			if (c == BigDecimal.class)
+			{	
+				setValueAt(total[col] , row - 1, col);
+			}
+			else if (c == Double.class)
+			{
+				setValueAt(total[col] , row -1 , col);
+			}
+			else
+			{	
+				if(col == 0 )
+				{	
+					setValueAt(" Σ  " , row -1 , col);
+				}	
+				else
+					setValueAt(null , row - 1, col );	
+			}	
+			
+		}
+	}
+
+	/**
+	 *  Adding a new row with the totals
+	 */
+	public void addTotals(Info_Column[] layout)
+	{
+		if (getRowCount() == 0 || layout.length == 0)
+			return;
+		
+		Object[] total = new Object[layout.length];
+		
+		for (int row = 0 ; row < getRowCount(); row ++)
+		{		
+				
+				int colOffset = 1;  //  columns start with 1
+				for (int col = 0; col < layout.length; col++)
+				{
+					Object data = getModel().getValueAt(row, col);
+					Class c = layout[col].getColClass();
+					int colIndex = col + colOffset;
+					if (c == BigDecimal.class)
+					{	
+						BigDecimal subtotal = Env.ZERO;
+						if(total[col]!= null)
+							subtotal = (BigDecimal)(total[col]);
+							
+						BigDecimal amt =  (BigDecimal) data;
+						if(subtotal == null)
+							subtotal = Env.ZERO;
+						if(amt == null )
+							amt = Env.ZERO;
+						total[col] = subtotal.add(amt);
+					}
+					else if (c == Double.class)
+					{
+						Double subtotal = new Double(0);
+						if(total[col] != null)
+							subtotal = (Double)(total[col]);
+						
+						Double amt =  (Double) data;
+						if(subtotal == null)
+							subtotal = new Double(0);
+						if(amt == null )
+							subtotal = new Double(0);
+						total[col] = subtotal + amt;
+						
+					}		
+				}	
+		}
+		
+		//adding total row
+
+		int row = getRowCount() + 1;
+		setRowCount(row);
+		int colOffset = 1;  //  columns start with 1
+		for (int col = 0; col < layout.length; col++)
+		{
+			Class c = layout[col].getColClass();
+			int colIndex = col + colOffset;
+			if (c == BigDecimal.class)
+			{	
+				setValueAt(total[col] , row - 1, col);
+			}
+			else if (c == Double.class)
+			{
+				setValueAt(total[col] , row -1 , col);
+			}
+			else
+			{	
+				if(col == 1 )
+				{	
+					setValueAt(" Σ  " , row -1 , col);
+				}	
+				else
+					setValueAt(null , row - 1, col );	
+			}	
+			
+		}
+	}
 }   //  MiniTable
