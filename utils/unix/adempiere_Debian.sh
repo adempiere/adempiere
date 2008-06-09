@@ -17,8 +17,11 @@
 # initialization
 # adjust these variables to your environment
 EXECDIR=/home/adempiere/Adempiere
-ENVFILE=/home/adempiere/.bashrc
 ADEMPIEREUSER=adempiere
+# Instead of using ENVFILE you can set JAVA_HOME, ADEMPIERE_HOME and add JAVA_HOME/bin to PATH
+# in this case you can comment the source lines for ENVFILE below
+# detected some problems with Hardy Heron ubuntu using the bash source command
+ENVFILE=/home/adempiere/.bashrc
 
 . /lib/lsb/init-functions
  
@@ -28,7 +31,7 @@ MAXITERATIONS=60 # 2 seconds every iteration, max wait 2 minutes)
 
 getadempierestatus() {
     ADEMPIERESTATUSSTRING=$(ps ax | grep -v grep | grep $EXECDIR)
-    echo $ADEMPIERESTATUSSTRING | grep $EXECDIR &> /dev/null
+    echo $ADEMPIERESTATUSSTRING | grep -q $EXECDIR
     ADEMPIERESTATUS=$?
 }
 
@@ -39,7 +42,7 @@ start () {
 	return 1
     fi
     echo -n "Starting ADempiere ERP: "
-    source $ENVFILE 
+    . $ENVFILE 
     export LOGFILE=$ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_`date +%Y%m%d%H%M%S`.log
     su $ADEMPIEREUSER -c "mkdir -p $ADEMPIERE_HOME/jboss/server/adempiere/log"
     su $ADEMPIEREUSER -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2.sh &> $LOGFILE &"
@@ -50,7 +53,7 @@ start () {
 	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
 	    sleep 2
-	    tail -n 5 $LOGFILE | grep 'INFO.*\[Server\].*Started in' &> /dev/null && STATUSTEST=1
+	    tail -n 5 $LOGFILE | grep -q 'INFO.*\[Server\].*Started in' && STATUSTEST=1
 	    echo -n "."
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]
@@ -79,7 +82,7 @@ stop () {
 	return 1
     fi
     echo -n "Stopping ADempiere ERP: "
-    source $ENVFILE 
+    . $ENVFILE 
     export LASTLOG=`ls -t $ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_??????????????.log | head -1`
     su $ADEMPIEREUSER -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2Stop.sh &> /dev/null &"
     RETVAL=$?
@@ -89,7 +92,7 @@ stop () {
 	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
 	    sleep 2
-	    tail -n 5 $LASTLOG | grep 'Halting VM' &> /dev/null && STATUSTEST=1
+	    tail -n 5 $LASTLOG | grep -q 'Halting VM' && STATUSTEST=1
 	    echo -n "."
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]

@@ -17,5 +17,5 @@ export JBOSS_SERVERLIB
 JBOSS_CLASSPATH=$ADEMPIERE_HOME/lib/jboss.jar:$JBOSS_LIB/jboss-system.jar:
 export JBOSS_CLASSPATH
 
-echo shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT
-. $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
+echo sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
+sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
