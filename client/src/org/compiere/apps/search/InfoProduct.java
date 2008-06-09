@@ -82,7 +82,6 @@ public final class InfoProduct extends Info implements ActionListener
 		//Begin - fer_luck @ centuryon
 		mWindowNo = WindowNo;
 		//End - fer_luck @ centuryon
-
 		AEnv.positionCenterWindow(frame, this);
 	}	//	InfoProduct
 
@@ -439,7 +438,7 @@ public final class InfoProduct extends Info implements ActionListener
 			s_productFrom,
 			where.toString(),
 			"QtyAvailable DESC, Margin DESC");
-
+		p_table.setShowTotals(false);
 		//
 		pickWarehouse.addActionListener(this);
 		pickPriceList.addActionListener(this);

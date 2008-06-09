@@ -815,7 +815,7 @@ public class MiniTable extends CTable
 			{	
 				if(col == 1 )
 				{	
-					setValueAt(" Σ  " , row -1 , col);
+					setValueAt(" Σ  " , row -1 , col );
 				}	
 				else
 					setValueAt(null , row - 1, col );	
