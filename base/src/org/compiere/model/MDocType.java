@@ -45,7 +45,7 @@ public class MDocType extends X_C_DocType
 	static public MDocType[] getOfDocBaseType (Properties ctx, String DocBaseType)
 	{
 		ArrayList<MDocType> list = new ArrayList<MDocType>();
-		String sql = "SELECT * FROM C_DocType WHERE AD_Client_ID=? AND DocBaseType=?";
+		String sql = "SELECT * FROM C_DocType WHERE AD_Client_ID=? AND DocBaseType=? ORDER BY IsDefault DESC, C_DocType_ID";
 		PreparedStatement pstmt = null;
 		try
 		{
