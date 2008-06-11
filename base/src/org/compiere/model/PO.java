@@ -69,6 +69,7 @@ import org.w3c.dom.Element;
  *			<li>FR [ 1675490 ] ModelValidator on modelChange after events
  *			<li>BF [ 1704828 ] PO.is_Changed() and PO.is_ValueChanged are not consistent
  *			<li>FR [ 1720995 ] Add PO.saveEx() and PO.deleteEx() methods
+ *			<li>BF [ 1990856 ] PO.set_Value* : truncate string more than needed
  */
 public abstract class PO 
 	implements Serializable, Comparator, Evaluatee
@@ -765,10 +766,11 @@ public abstract class PO
 				if (stringValue.length() > length && length > 0)
 				{
 					log.warning(ColumnName + " - Value too long - truncated to length=" + length);
-					m_newValues[index] = stringValue.substring(0,length-1);
+					m_newValues[index] = stringValue.substring(0,length);
 				}
 			}
-			log.finest(ColumnName + " = " + m_newValues[index]);
+			if (CLogMgt.isLevelFinest())
+				log.finest(ColumnName + " = " + m_newValues[index] + " (OldValue="+m_oldValues[index]+")");
 		}
 		set_Keys (ColumnName, m_newValues[index]);
 		return true;
@@ -841,7 +843,7 @@ public abstract class PO
 				if (stringValue.length() > length && length > 0)
 				{
 					log.warning(ColumnName + " - Value too long - truncated to length=" + length);
-					m_newValues[index] = stringValue.substring(0,length-1);
+					m_newValues[index] = stringValue.substring(0,length);
 				}
 			}
 		}
@@ -1965,7 +1967,7 @@ public abstract class PO
 			ValueNamePair err = CLogger.retrieveError();
 			if (err != null)
 				msg = err.getName();
-			if (msg == null)
+			if (msg == null || msg.length() == 0)
 				msg = "SaveError";
 			throw new AdempiereException(msg);
 		}
@@ -2842,7 +2844,7 @@ public abstract class PO
 			ValueNamePair err = CLogger.retrieveError();
 			if (err != null)
 				msg = err.getName();
-			if (msg == null)
+			if (msg == null || msg.length() == 0)
 				msg = "DeleteError";
 			throw new AdempiereException(msg);
 		}

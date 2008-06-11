@@ -1,13 +1,13 @@
 package test.functional;
 
 import org.compiere.model.MTest;
+import org.compiere.model.POInfo;
 
 import test.AdempiereTestCase;
 
 /**
  * Tests for {@link org.compiere.model.PO} class.
- * @author Teo Sarca
- *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
 public class POTest extends AdempiereTestCase
 {
@@ -58,4 +58,51 @@ public class POTest extends AdempiereTestCase
 		// Finally, delete the testPO
 		testPO.delete(true, getTrxName());
 	}
+	
+	
+	/**
+	 * <li>BF [ 1990856 ] PO.set_Value* : truncate string more than needed
+	 */
+	public void testTruncatedStrings() {
+		//
+		// Creating a huge string for testing:
+		StringBuffer sb = new StringBuffer();
+		for (int i = 1; i <= 1000; i++) {
+			sb.append("0123456789");
+		}
+		String bigString = sb.toString();
+		//
+		// Create the test PO:
+		MTest testPO = new MTest(getCtx(), getClass().getName(), 1);
+		testPO.set_TrxName(getTrxName());
+		//
+		// Getting Max Length:
+		POInfo info = POInfo.getPOInfo(getCtx(), MTest.Table_ID);
+		int maxLength = info.getFieldLength(info.getColumnIndex(MTest.COLUMNNAME_Name));
+		//
+		// Test with a string that has less then maxLength
+		{
+			testPO.set_ValueOfColumn(MTest.COLUMNNAME_Name, bigString.substring(0, maxLength - 1));
+			String resultString = (String) testPO.get_Value(MTest.COLUMNNAME_Name);
+			assertEquals("String was not truncated correctly (1)", maxLength - 1, resultString.length());
+		}
+		//
+		// Test with a string that has maxLength
+		{
+			testPO.set_ValueOfColumn(MTest.COLUMNNAME_Name, bigString.substring(0, maxLength));
+			String resultString = (String) testPO.get_Value(MTest.COLUMNNAME_Name);
+			assertEquals("String was not truncated correctly (2)", maxLength, resultString.length());
+		}
+		//
+		// Test with a string that has more than maxLength 
+		{
+			testPO.set_ValueOfColumn(MTest.COLUMNNAME_Name, bigString);
+			String resultString = (String) testPO.get_Value(MTest.COLUMNNAME_Name);
+			assertEquals("String was not truncated correctly (3)", maxLength, resultString.length());
+		}
+		//
+		// Finally, delete the testPO
+		testPO.delete(true, getTrxName());
+	}
+	
 }
