@@ -85,20 +85,29 @@ public class POTest extends AdempiereTestCase
 			testPO.set_ValueOfColumn(MTest.COLUMNNAME_Name, bigString.substring(0, maxLength - 1));
 			String resultString = (String) testPO.get_Value(MTest.COLUMNNAME_Name);
 			assertEquals("String was not truncated correctly (1)", maxLength - 1, resultString.length());
+			//
+			testPO.setName(bigString.substring(0, maxLength - 1));
+			assertEquals("String was not truncated correctly (2)", maxLength - 1, testPO.getName().length());
 		}
 		//
 		// Test with a string that has maxLength
 		{
 			testPO.set_ValueOfColumn(MTest.COLUMNNAME_Name, bigString.substring(0, maxLength));
 			String resultString = (String) testPO.get_Value(MTest.COLUMNNAME_Name);
-			assertEquals("String was not truncated correctly (2)", maxLength, resultString.length());
+			assertEquals("String was not truncated correctly (3)", maxLength, resultString.length());
+			//
+			testPO.setName(bigString.substring(0, maxLength));
+			assertEquals("String was not truncated correctly (4)", maxLength, testPO.getName().length());
 		}
 		//
 		// Test with a string that has more than maxLength 
 		{
 			testPO.set_ValueOfColumn(MTest.COLUMNNAME_Name, bigString);
 			String resultString = (String) testPO.get_Value(MTest.COLUMNNAME_Name);
-			assertEquals("String was not truncated correctly (3)", maxLength, resultString.length());
+			assertEquals("String was not truncated correctly (5)", maxLength, resultString.length());
+			//
+			testPO.setName(bigString);
+			assertEquals("String was not truncated correctly (6)", maxLength, testPO.getName().length());
 		}
 		//
 		// Finally, delete the testPO
