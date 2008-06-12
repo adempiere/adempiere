@@ -183,19 +183,19 @@ public class VTreeBOM extends CPanel
 		Properties ctx = Env.getCtx();
 		Language language = Language.getLoginLanguage(); // Base Language
 		MLookup m_fieldProduct = MLookupFactory.get(ctx, m_WindowNo,
-		MColumn.getColumn_ID(MProduct.Table_Name, "M_Product_ID"),
-		DisplayType.Search, language, MProduct.COLUMNNAME_M_Product_ID, 0, false,
-		" IsSummary = 'N'");
+				MColumn.getColumn_ID(MProduct.Table_Name, "M_Product_ID"),
+				DisplayType.Search, language, MProduct.COLUMNNAME_M_Product_ID, 0, false,
+				" M_Product.IsSummary = 'N'");
 		fieldProduct = new VLookup ("M_Product_ID", false, false, true,  m_fieldProduct);
-        fieldProduct.addActionListener(this);
-        
-        loadTableBOM();                   
-        splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
-        dataPane.getViewport().add(tableBOM , null);     
-            
-        DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "BOM"));
-        m_tree = new JTree(parent);
-        splitPane.add (m_tree, JSplitPane.LEFT);
+		fieldProduct.addActionListener(this);
+
+		loadTableBOM();                   
+		splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
+		dataPane.getViewport().add(tableBOM , null);     
+
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "BOM"));
+		m_tree = new JTree(parent);
+		splitPane.add (m_tree, JSplitPane.LEFT);
 
 
 	}	//	preInit
