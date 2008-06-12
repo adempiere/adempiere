@@ -191,7 +191,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
 		dataPane.getViewport().add(tableBOM , null);     
 
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "BOM"));
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_BOM_ID"));
 		m_tree = new JTree(parent);
 		splitPane.add (m_tree, JSplitPane.LEFT);
 
@@ -281,15 +281,15 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		// 4Layers - Set initial window dimension 
 		this.setPreferredSize(new Dimension(640, 480));
 
-		//labelUOM.setText (Msg.translate(Env.getCtx(), "C_UOM_ID"));
+		//labelUOM.setText (Msg.getElement(Env.getCtx(), "C_UOM_ID"));
 		//fieldUOM.setEditable(false);
 		//labelDocument.setText (Msg.translate(Env.getCtx(), "Document"));
 		//labelRevision.setText (Msg.translate(Env.getCtx(), "Revision"));
 		//labelECN.setText (Msg.translate(Env.getCtx(), "ECN"));
 
-		labelProduct.setText (Msg.translate(Env.getCtx(), "M_Product_ID"));
+		labelProduct.setText (Msg.getElement(Env.getCtx(), "M_Product_ID"));
 		//implosion.setEnabled (false);
-		implosion.setText (Msg.translate(Env.getCtx(), "Implosion"));
+		implosion.setText (Msg.getElement(Env.getCtx(), "Implosion"));
 		//treeInfo.setText (" ");
 		//bAdd.setToolTipText("Add to Tree");
 		//bAddAll.setToolTipText("Add ALL to Tree");
@@ -418,7 +418,19 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		//System.out.println("Product ID" + Product);
 		X_M_Product M_Product = new X_M_Product(Env.getCtx(), M_Product_ID,"M_Product");
 		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(), "C_UOM");
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName());
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_Product_ID")
+				+ " "
+				+ Msg.getElement(Env.getCtx(), "Value")
+				+ ": "
+				+ M_Product.getValue()
+				+ " "
+				+ Msg.getElement(Env.getCtx(), "Name")
+				+ ": "
+				+ M_Product.getName()
+				+ " "
+				+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
+				+ ": "
+				+ C_UOM.getName());
 
 		dataBOM.clear();
 
@@ -474,7 +486,18 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(),"C_UOM"); 
 
 		X_PP_Product_BOM bomproduct = new X_PP_Product_BOM(Env.getCtx(),bomline.getPP_Product_BOM_ID(),"PP_Product_BOM");
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "key") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName());
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_Product_ID")
+				+ Msg.getElement(Env.getCtx(), "Value")
+				+ ": "
+				+ M_Product.getValue()
+				+ " "
+				+ Msg.getElement(Env.getCtx(), "Name")
+				+ ": "
+				+ M_Product.getName()
+				+ " "
+				+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
+				+ ": "
+				+ C_UOM.getName());
 
 		Vector<Object> line = new Vector<Object>(17);
 		line.add( new Boolean(false));  //  0 Select
@@ -518,7 +541,10 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		// X_M_Product product = new X_M_Product(Env.getCtx(), bom.getM_Product_ID(),"M_Product");
 
 		//vparent.setValue(m_product_id);
-		String data = Msg.translate(Env.getCtx(), "PP_Product_BOM_ID") + " " + Msg.translate(Env.getCtx(), "Value") + ":"+ bom.getValue()+ " " + Msg.translate(Env.getCtx(), "Name")  +  ": " + bom.getName(); 
+		String data = Msg.getElement(Env.getCtx(), "PP_Product_BOM_ID") + " "
+				+ Msg.getElement(Env.getCtx(), "Value") + ":" + bom.getValue()
+				+ " " + Msg.getElement(Env.getCtx(), "Name") + ": "
+				+ bom.getName(); 
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(data); 
 
 		QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
@@ -565,9 +591,20 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		if (implosion.isSelected())
 		{
 			//vparent.setValue(m_product_id);
-			//String data = Msg.translate(Env.getCtx(), "PP_ProductBOM_ID") + ":" + Msg.translate(Env.getCtx(), "Search Key") + ":"+ bom.getValue()+ " " + Msg.translate(Env.getCtx(), "Name")  +  ": " + bom.getName(); 
+			//String data = Msg.getElement(Env.getCtx(), "PP_ProductBOM_ID") + ":" + Msg.getElement(Env.getCtx(), "Value") + ":"+ bom.getValue()+ " " + Msg.getElement(Env.getCtx(), "Name")  +  ": " + bom.getName(); 
 			X_C_UOM C_UOM = new X_C_UOM(Env.getCtx(), M_Product.getC_UOM_ID(), "C_UOM"); 
-			DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName());
+			DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_Product_ID")
+					+ Msg.getElement(Env.getCtx(), "Value")
+					+ ": "
+					+ M_Product.getValue()
+					+ " "
+					+ Msg.getElement(Env.getCtx(), "Name")
+					+ ": "
+					+ M_Product.getName()
+					+ " "
+					+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
+					+ ": "
+					+ C_UOM.getName());
 
 			//System.out.print("Componet Product:" +  M_Product.getName());
 			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
@@ -598,7 +635,17 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 				return parent(bom);
 			}  
 
-			return new DefaultMutableTreeNode(Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName());
+			return new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "Value")
+					+ ": "
+					+ M_Product.getValue()
+					+ " "
+					+ Msg.getElement(Env.getCtx(), "Name")
+					+ ": "
+					+ M_Product.getName()
+					+ " "
+					+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
+					+ ": "
+					+ C_UOM.getName());
 		}
 	}
 
