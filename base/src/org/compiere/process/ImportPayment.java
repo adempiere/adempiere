@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,18 +16,27 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MBankAccount;
+import org.compiere.model.MPayment;
+import org.compiere.model.X_I_Payment;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * 	Import Payments
  *	
  *  @author Jorg Janke
  *  @version $Id: ImportPayment.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  
+ *  Contributor(s):
+ *    Carlos Ruiz - globalqss - FR [ 1992542 ] Import Payment doesn't have DocAction parameter
  */
 public class ImportPayment extends SvrProcess
 {
@@ -37,6 +46,8 @@ public class ImportPayment extends SvrProcess
 	private int				p_C_BankAccount_ID = 0;
 	/**	Delete old Imported				*/
 	private boolean			p_deleteOldImported = false;
+	/**	Document Action					*/
+	private String			m_docAction = null;
 
 	/** Properties						*/
 	private Properties 		m_ctx;
@@ -56,8 +67,8 @@ public class ImportPayment extends SvrProcess
 				p_C_BankAccount_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("DeleteOldImported"))
 				p_deleteOldImported = "Y".equals(para[i].getParameter());
-		//	else if (name.equals("DocAction"))
-		//		m_docAction = (String)para[i].getParameter();
+			else if (name.equals("DocAction"))
+				m_docAction = (String)para[i].getParameter();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -65,7 +76,7 @@ public class ImportPayment extends SvrProcess
 	}	//	prepare
 
 	/**
-	 * 	Proccess
+	 * 	Process
 	 *	@return info
 	 *	@throws Exception
 	 */
@@ -402,9 +413,7 @@ public class ImportPayment extends SvrProcess
 			
 		MBankAccount account = null;
 		PreparedStatement pstmt = null;
-		int lineNo = 10;
 		int noInsert = 0;
-		int noInsertLine = 0;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
@@ -481,7 +490,7 @@ public class ImportPayment extends SvrProcess
 				payment.setOrig_TrxID(imp.getOrig_TrxID());
 				payment.setVoiceAuthCode(imp.getVoiceAuthCode());
 				
-				//	Save patment
+				//	Save payment
 				if (payment.save())
 				{
 					imp.setC_Payment_ID(payment.getC_Payment_ID());
@@ -489,6 +498,13 @@ public class ImportPayment extends SvrProcess
 					imp.setProcessed(true);
 					imp.save();
 					noInsert++;
+
+					if (payment != null && m_docAction != null && m_docAction.length() > 0)
+					{
+						payment.setDocAction(m_docAction);
+						payment.processIt (m_docAction);
+						payment.save();
+					}
 				}
 				
 			}
