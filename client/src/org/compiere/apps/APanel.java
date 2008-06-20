@@ -52,8 +52,10 @@ import org.compiere.util.*;
  *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *  @contributor fer_luck@centuryon.com , FR [ 1757088 ]
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
- *  			<li>BF [ 1824621 ] History button can't be canceled
- *  			<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
+ *				<li>BF [ 1824621 ] History button can't be canceled
+ *				<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
+ * 				<li>BF [ 1996056 ] Report error message is not displayed
+ * 				<li>BF [ 1998575 ] Document Print is discarding any error
  *  @author victor.perez@e-evolution.com 
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  * 
@@ -1920,6 +1922,7 @@ public final class APanel extends CPanel
 		pi.setPrintPreview(printPreview);
 
 		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
+		statusBar.setStatusLine(pi.getSummary(), pi.isError());
 	}   //  cmd_print
 
 	/**
@@ -2360,6 +2363,11 @@ public final class APanel extends CPanel
 			if (logInfo.length() > 0)
 				ADialog.info(m_curWindowNo, this, Env.getHeader(m_ctx, m_curWindowNo),
 					pi.getTitle(), logInfo);	//	 clear text
+		}
+		else
+		{
+			//	Update Status Line
+			setStatusLine(pi.getSummary(), pi.isError());
 		}
 	}   //  unlockUI
 
