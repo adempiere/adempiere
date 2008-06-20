@@ -58,6 +58,7 @@ import org.compiere.wf.MWFProcess;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1757523 ] Server Processes are using Server's context
  * 				<li>FR [ 1807922 ] Pocess threads should have a better name
+ * 				<li>BF [ 1960523 ] Server Process functionality not working
  */
 public class ProcessCtl implements Runnable
 {
@@ -550,7 +551,7 @@ public class ProcessCtl implements Runnable
 	{
 		log.fine(AD_Workflow_ID + " - " + m_pi);
 		boolean started = false;
-		if (DB.isRemoteProcess())
+		if (DB.isRemoteProcess() || m_IsServerProcess)
 		{
 			Server server = CConnection.get().getServer();
 			try
@@ -603,7 +604,7 @@ public class ProcessCtl implements Runnable
 			} catch (Exception e) {}
 		}
 		
-		if (DB.isRemoteProcess() && !clientOnly)
+		if ((DB.isRemoteProcess() || m_IsServerProcess) && !clientOnly)
 		{
 			Server server = CConnection.get().getServer();
 			try
@@ -668,7 +669,7 @@ public class ProcessCtl implements Runnable
 		log.fine(ProcedureName + "(" + m_pi.getAD_PInstance_ID() + ")");
 		boolean started = false;
 		String trxName = m_trx != null ? m_trx.getTrxName() : null;
-		if (DB.isRemoteProcess())
+		if (DB.isRemoteProcess() || m_IsServerProcess)
 		{
 			Server server = CConnection.get().getServer();
 			try
