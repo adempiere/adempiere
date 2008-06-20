@@ -204,11 +204,13 @@ public class InfoGeneral extends Info
 			+ "ORDER BY c.IsIdentifier DESC, c.SeqNo";
 		int AD_Table_ID = 0;
 		String tableName = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, p_tableName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				m_queryColumns.add(rs.getString(1));
@@ -231,6 +233,10 @@ public class InfoGeneral extends Info
 		{
 			log.log(Level.SEVERE, sql, e);
 			return false;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Miminum check
 		if (m_queryColumns.size() == 0)
@@ -267,9 +273,9 @@ public class InfoGeneral extends Info
 		
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String columnName = rs.getString(1);
@@ -330,13 +336,15 @@ public class InfoGeneral extends Info
 				else
 					log.finest("Not Added Column=" + columnName);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return false;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (list.size() == 0)
 		{

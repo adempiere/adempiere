@@ -236,11 +236,13 @@ public class InvoiceHistory extends CDialog
 	{
 		log.fine(sql + "; Parameter=" + parameter);
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, parameter);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(6);
@@ -264,12 +266,14 @@ public class InvoiceHistory extends CDialog
 				line.add(rs.getString(7));		//	Org/Warehouse
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + data.size());
 		return data;
@@ -282,20 +286,9 @@ public class InvoiceHistory extends CDialog
 	private void fillLabel (String sql, int parameter)
 	{
 		log.fine(sql + "; Parameter=" + parameter);
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, parameter);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				label.setText(rs.getString(1));
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		String retValue = DB.getSQLValueString(null, sql, parameter);
+		if (retValue != null)
+			label.setText(retValue);
 	}	//	fillLabel
 
 
@@ -467,11 +460,13 @@ public class InvoiceHistory extends CDialog
 			parameter = m_C_BPartner_ID;
 		}
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, parameter);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(6);
@@ -484,12 +479,14 @@ public class InvoiceHistory extends CDialog
 				line.add(rs.getString(6));				//  Warehouse
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + data.size());
 
@@ -551,15 +548,17 @@ public class InvoiceHistory extends CDialog
 		
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		double qty = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			if (m_M_Warehouse_ID != 0)
 				pstmt.setInt(2, m_M_Warehouse_ID);
 			if (m_M_AttributeSetInstance_ID > 0)
 				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(9);
@@ -579,12 +578,14 @@ public class InvoiceHistory extends CDialog
 				line.add(rs.getString(6));  			//	Warehouse
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//	Orders
@@ -606,13 +607,13 @@ public class InvoiceHistory extends CDialog
 		sql += " ORDER BY o.DatePromised";
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			if (m_M_Warehouse_ID != 0)
 				pstmt.setInt(2, m_M_Warehouse_ID);
 			if (m_M_AttributeSetInstance_ID > 0)
 				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(9);
@@ -644,12 +645,14 @@ public class InvoiceHistory extends CDialog
 				line.add(rs.getString(8));  			//	Warehouse
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//  Table

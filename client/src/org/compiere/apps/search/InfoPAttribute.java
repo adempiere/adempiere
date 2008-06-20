@@ -134,6 +134,7 @@ public class InfoPAttribute extends CDialog
 	{
 		int row = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = MRole.getDefault().addAccessSQL(
 			"SELECT M_Attribute_ID, Name, Description, AttributeValueType, IsInstanceAttribute "
 			+ "FROM M_Attribute "
@@ -143,7 +144,7 @@ public class InfoPAttribute extends CDialog
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			boolean instanceLine = false;
 			while (rs.next())
 			{
@@ -195,23 +196,14 @@ public class InfoPAttribute extends CDialog
 				else
 					m_productEditorsTo.add(fieldTo);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return row;
 	}	//	addProductAttributes
@@ -227,6 +219,7 @@ public class InfoPAttribute extends CDialog
 		list.add(new KeyNamePair(-1, ""));
 		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = MRole.getDefault().addAccessSQL( 
 			"SELECT M_AttributeValue_ID, Value, Name "
 			+ "FROM M_AttributeValue "
@@ -237,26 +230,17 @@ public class InfoPAttribute extends CDialog
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Attribute_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new KeyNamePair(rs.getInt(1), rs.getString(3)));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		KeyNamePair[] retValue = new KeyNamePair[list.size()];
 		list.toArray(retValue);
@@ -276,29 +260,21 @@ public class InfoPAttribute extends CDialog
 			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' ORDER BY 2",
 			"M_Lot", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Create List
 		KeyNamePair[] items = new KeyNamePair[list.size()];

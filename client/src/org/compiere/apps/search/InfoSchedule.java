@@ -196,20 +196,7 @@ public class InfoSchedule extends CDialog
 		if (m_mAssignment.getS_Resource_ID() != 0)
 		{
 			String sql = "SELECT S_ResourceType_ID FROM S_Resource WHERE S_Resource_ID=?";
-			try
-			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, m_mAssignment.getS_Resource_ID());
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					S_ResourceType_ID = rs.getInt(1);
-				rs.close();
-				pstmt.close();
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
+			S_ResourceType_ID = DB.getSQLValue(null, sql, m_mAssignment.getS_Resource_ID());
 		}
 
 		//	Get Resource Types
@@ -217,10 +204,12 @@ public class InfoSchedule extends CDialog
 			"SELECT S_ResourceType_ID, Name FROM S_ResourceType WHERE IsActive='Y' ORDER BY 2",
 			"S_ResourceType", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		KeyNamePair defaultValue = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
@@ -228,12 +217,14 @@ public class InfoSchedule extends CDialog
 					defaultValue = pp;
 				fieldResourceType.addItem(pp);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (defaultValue != null)
 			fieldResourceType.setSelectedItem(defaultValue);
@@ -256,11 +247,13 @@ public class InfoSchedule extends CDialog
 		m_loading = true;
 		fieldResource.removeAllItems();
 		String sql = "SELECT S_Resource_ID, Name FROM S_Resource WHERE S_ResourceType_ID=? ORDER BY 2";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, S_ResourceType_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
@@ -268,12 +261,14 @@ public class InfoSchedule extends CDialog
 					defaultValue = pp;
 				fieldResource.addItem(pp);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (defaultValue != null)
 			fieldResource.setSelectedItem(defaultValue);
