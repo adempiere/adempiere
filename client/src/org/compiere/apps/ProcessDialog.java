@@ -22,6 +22,7 @@ import java.sql.*;
 import java.util.logging.*;
 import javax.swing.*;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.print.*;
 import org.compiere.process.*;
 import org.compiere.swing.*;
@@ -42,6 +43,7 @@ import org.compiere.util.*;
  *  - Implement ShowHelp option on processes and reports
  *  @author		Teo Sarca, SC ARHIPAC SERVICE SRL
  *  				<li>BF [ 1893525 ] ProcessDialog: Cannot select the text from text field
+ *  				<li>BF [ 1963128 ] Running a process w/o trl should display an error
  */
 public class ProcessDialog extends CFrame
 	implements ActionListener, ASyncProcess
@@ -244,8 +246,9 @@ public class ProcessDialog extends CFrame
 			return false;
 		}
 
-		if (m_Name == null)
-			return false;
+		if (m_Name == null) {
+			throw new AdempiereException("@NotFound@ @AD_Process_ID@="+m_AD_Process_ID+". @CheckMissingTrl@");
+		}
 		//
 		this.setTitle(m_Name);
 		message.setText(m_messageText.toString());
