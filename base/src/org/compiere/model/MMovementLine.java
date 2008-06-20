@@ -267,16 +267,16 @@ public class MMovementLine extends X_M_MovementLine
 	}       //      setM_Locator_ID 
 
 	/** 
-	 *      Set M_Locator_ID 
-	 *      @param M_Locator_ID id 
+	 *      Set M_LocatorTo_ID 
+	 *      @param M_LocatorTo_ID id 
 	 */ 
-	public void setM_LocatorTo_ID (int M_Locator_ID) 
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID) 
 	{ 
-		if (M_Locator_ID < 0) 
+		if (M_LocatorTo_ID < 0) 
 			throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory."); 
 		//      set to 0 explicitly to reset 
-		set_Value ("M_Locator_ID", new Integer(M_Locator_ID)); 
-	}       //      setM_Locator_ID 
+		set_Value ("M_LocatorTo_ID", new Integer(M_LocatorTo_ID)); 
+	}       //      M_LocatorTo_ID 
 
 	/** 
 	 *  Get Movement lines Of Distribution Order Line 
