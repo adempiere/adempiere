@@ -16,20 +16,48 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AWindow;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.PrintScreenPainter;
+import org.compiere.apps.StatusBar;
+import org.compiere.grid.ed.Calculator;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *	Search Information and return selection - Base Class.
@@ -483,21 +511,25 @@ public abstract class Info extends CDialog
 		countSql = MRole.getDefault().addAccessSQL(countSql, getTableName(), 
 			MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		log.finer(countSql);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int no = -1;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(countSql, null);
+			pstmt = DB.prepareStatement(countSql, null);
 			setParameters (pstmt, true);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				no = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, countSql, e);
 			no = -2;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + no + " - " + (System.currentTimeMillis()-start) + "ms");
 		//Armen: add role checking (Patch #1694788 )
@@ -940,33 +972,25 @@ public abstract class Info extends CDialog
 		//
 		String sql = "SELECT AD_Window_ID, PO_Window_ID FROM AD_Table WHERE TableName=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, tableName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_SO_Window_ID = rs.getInt(1);
 				m_PO_Window_ID = rs.getInt(2);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		if (!isSOTrx && m_PO_Window_ID > 0)
@@ -1051,7 +1075,7 @@ public abstract class Info extends CDialog
 					for (int col = 0; col < p_layout.length; col++)
 					{
 						Object data = null;
-						Class c = p_layout[col].getColClass();
+						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
 						if (c == IDColumn.class)
 							data = new IDColumn(m_rs.getInt(colIndex));
@@ -1109,15 +1133,7 @@ public abstract class Info extends CDialog
 		 *	Close ResultSet and Statement
 		 */
 		private void close() {
-			try {
-				if (m_rs != null)
-					m_rs.close();
-				if (m_pstmt != null)
-					m_pstmt.close();
-			}
-			catch (SQLException e) {
-				log.log(Level.SEVERE, "closeRS", e);
-			}
+			DB.close(m_rs, m_pstmt);
 			m_rs = null;
 			m_pstmt = null;
 		}

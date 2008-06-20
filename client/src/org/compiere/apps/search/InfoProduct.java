@@ -16,24 +16,49 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
 import javax.swing.plaf.ColorUIResource;
-//
+
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.plaf.AdempiereTaskPaneUI;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTextArea;
+import org.compiere.swing.CTextField;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.jdesktop.swingx.JXTaskPane;
 
 
@@ -321,18 +346,18 @@ public final class InfoProduct extends Info implements ActionListener
 		sql = sql.replace(" FROM", ", DocumentNote FROM");
 		log.finest(sql);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, (String)obj);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			fieldDescription.setText("");
 			warehouseTbl.loadTable(rs);
 			rs = pstmt.executeQuery();
 			if(rs.next())
 				if(rs.getString("DocumentNote") != null)
 					fieldDescription.setText(rs.getString("DocumentNote"));
-			rs.close();			
 		}
 		catch (Exception e)
 		{
@@ -340,15 +365,15 @@ public final class InfoProduct extends Info implements ActionListener
 		}
 		finally
 		{
-			if (pstmt != null) DB.close(pstmt);
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 				
 		try {
 			sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, (String)obj);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if(rs.next())
 				M_Product_ID = rs.getInt(1);
 		} catch (Exception e) {
@@ -356,8 +381,8 @@ public final class InfoProduct extends Info implements ActionListener
 		}
 		finally
 		{
-			if (pstmt != null) DB.close(pstmt);
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		sql = m_sqlSubstitute;
@@ -366,7 +391,7 @@ public final class InfoProduct extends Info implements ActionListener
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
 			pstmt.setInt(2, M_PriceList_Version_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			substituteTbl.loadTable(rs);
 			rs.close();
 		} catch (Exception e) {
@@ -374,8 +399,8 @@ public final class InfoProduct extends Info implements ActionListener
 		}
 		finally
 		{
-			if (pstmt != null) DB.close(pstmt);
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		sql = m_sqlRelated;
@@ -384,7 +409,7 @@ public final class InfoProduct extends Info implements ActionListener
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
 			pstmt.setInt(2, M_PriceList_Version_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			relatedTbl.loadTable(rs);
 			rs.close();
 		} catch (Exception e) {
@@ -392,8 +417,8 @@ public final class InfoProduct extends Info implements ActionListener
 		}
 		finally
 		{
-			if (pstmt != null) DB.close(pstmt);
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}		
 	}	//	refresh
 	//End - fer_luck @ centuryon
@@ -465,18 +490,19 @@ public final class InfoProduct extends Info implements ActionListener
 		//	Add Access & Order
 		SQL = MRole.getDefault().addAccessSQL (SQL, "M_PriceList_Version", true, false)	// fully qualidfied - RO 
 			+ " ORDER BY M_PriceList_Version.Name";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pickPriceList.addItem(new KeyNamePair (0, ""));
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(SQL, null);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				KeyNamePair kn = new KeyNamePair (rs.getInt(1), rs.getString(2));
 				pickPriceList.addItem(kn);
 			}
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 
 			//	Warehouse
 			SQL = MRole.getDefault().addAccessSQL (
@@ -494,13 +520,16 @@ public final class InfoProduct extends Info implements ActionListener
 					(rs.getInt("M_Warehouse_ID"), rs.getString("ValueName"));
 				pickWarehouse.addItem(kn);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, SQL, e);
 			setStatusLine(e.getLocalizedMessage(), true);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	fillPicks
 
@@ -574,23 +603,27 @@ public final class InfoProduct extends Info implements ActionListener
 			+ " AND pl.M_PriceList_ID=? "					//	1
 			+ "ORDER BY plv.ValidFrom DESC";
 		//	find newest one
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_PriceList_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next() && retValue == 0)
 			{
 				Timestamp plDate = rs.getTimestamp(2);
 				if (!priceDate.before(plDate))
 					retValue = rs.getInt(1);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		Env.setContext(Env.getCtx(), p_WindowNo, "M_PriceList_Version_ID", retValue);
 		return retValue;
