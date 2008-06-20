@@ -19,13 +19,11 @@ package org.eevolution.process;
 import java.util.logging.*;
 import java.math.*;
 import java.sql.*;
-import java.util.*;
 
 
 import org.compiere.model.*;
 import org.compiere.util.*;
 import org.compiere.process.*;
-//import compiere.model.*;
 import org.eevolution.model.MPPProductPlanning;
 
 /**
@@ -36,13 +34,13 @@ import org.eevolution.model.MPPProductPlanning;
  */
 public class CreateProductPlanning extends SvrProcess
 {
-	/**					*/
-		private int 			p_AD_Org_ID = 0 ;
+		/**	Process Parameters				*/;
         private int             p_M_Product_Category_ID = 0;
         private int             p_M_Warehouse_ID = 0;
         private int             p_S_Resource_ID = 0 ;
         private int             p_Planner = 0 ; 
         private BigDecimal      p_DeliveryTime_Promised = Env.ZERO;
+        private int             p_DD_NetworkDistribution_ID = 0;
         private int             p_AD_Workflow_ID = 0;
         private BigDecimal      p_TimeFence = Env.ZERO;
         private boolean         p_CreatePlan = false;
@@ -56,6 +54,7 @@ public class CreateProductPlanning extends SvrProcess
         private BigDecimal      p_Order_Qty = Env.ZERO;
         private BigDecimal      p_WorkingTime = Env.ZERO;
         private int             p_Yield = 0;
+        private int 			m_AD_Org_ID = 0;	
 
         
         
@@ -74,13 +73,8 @@ public class CreateProductPlanning extends SvrProcess
 		{
 			String name = para[i].getParameterName();
 
-				if (para[i].getParameter() == null)
-				;
-						else if (name.equals("AD_Org_ID"))
-                        {    
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
-                                
-                        }
+						if (para[i].getParameter() == null)
+						;
                         else if (name.equals("M_Product_Category_ID"))
                         {    
 				p_M_Product_Category_ID = ((BigDecimal)para[i].getParameter()).intValue();
@@ -106,12 +100,16 @@ public class CreateProductPlanning extends SvrProcess
                                 p_MPS = "Y".equals((String)para[i].getParameter());
                               
                         }
+                        else if (name.equals("DD_NetworkDistribution_ID"))
+                        {    
+                p_DD_NetworkDistribution_ID =  ((BigDecimal)para[i].getParameter()).intValue();                                
+                        } 		
                         else if (name.equals("AD_Workflow_ID"))
                         {    
 				p_AD_Workflow_ID =  ((BigDecimal)para[i].getParameter()).intValue();
                                 
-                        }      
-                         else if (name.equals("TimeFence"))
+                        }		
+                        else if (name.equals("TimeFence"))
                         {    
 				p_TimeFence =  ((BigDecimal)para[i].getParameter());  
                         } 
@@ -164,6 +162,13 @@ public class CreateProductPlanning extends SvrProcess
                         else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
+		
+		if(p_M_Warehouse_ID > 0 )
+		{
+			MWarehouse w = MWarehouse.get(getCtx(), p_M_Warehouse_ID);
+			m_AD_Org_ID = w.getAD_Org_ID();
+		}
+			
 	}	//	prepare
 
 
@@ -172,11 +177,9 @@ public class CreateProductPlanning extends SvrProcess
      */
     protected String doIt() throws Exception                
 	{
-            
-                int PP_Product_Planning_ID =0; 
-            	String sql = "SELECT p.M_Product_ID , p.M_Product_Category_ID FROM M_Product p WHERE p.M_Product_Category_ID = ?  ";
+        String sql = "SELECT p.M_Product_ID , p.M_Product_Category_ID FROM M_Product p WHERE p.M_Product_Category_ID = ?  ";
                          
-                PreparedStatement pstmt = null;
+        PreparedStatement pstmt = null;
 		try
 		{
 						pstmt = DB.prepareStatement (sql,get_TrxName());
@@ -184,69 +187,58 @@ public class CreateProductPlanning extends SvrProcess
                         ResultSet rs = pstmt.executeQuery ();
                         while (rs.next())
                         {                                                   
-                        String sql1 = "SELECT p.M_Product_ID , p.PP_Product_Planning_ID FROM PP_Product_Planning p WHERE p.M_Product_ID = ? and p.M_Warehouse_ID = ? and p.S_Resource_ID = ? ";
-                         
-                        PreparedStatement pstmt1 = null;
-		
-                        pstmt1 = DB.prepareStatement (sql1, get_TrxName());
-                        pstmt1.setInt(1, rs.getInt(1));
-                        pstmt1.setInt(2, p_M_Warehouse_ID);
-                        pstmt1.setInt(3, p_S_Resource_ID);
-                        ResultSet rs1 = pstmt1.executeQuery ();
-                        if (rs1.next())
-                        {
-                        	PP_Product_Planning_ID = rs1.getInt(2);
+                   
+                        	int M_Product_ID = rs.getInt(1);
+                        	MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), m_AD_Org_ID , p_M_Warehouse_ID, p_S_Resource_ID,M_Product_ID, get_TrxName());
+	                        if (pp==null && ( p_S_Resource_ID > 0 || p_M_Warehouse_ID > 0 ))
+	                        {
+	                                    pp = new MPPProductPlanning(getCtx(),0,get_TrxName());                                                                                                       
+	                                    pp.setM_Product_ID(rs.getInt(1));
+	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);		
+	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);
+	                                    pp.setIsCreatePlan(p_CreatePlan);
+	                                    pp.setIsActive(true);
+	                                    pp.setIsCreatePlan(p_CreatePlan);                                                                         
+	                                    pp.setIsMPS(p_MPS);                                    
+	                                    pp.setIsPhantom(false);
+	                                    pp.setIsRequiredMRP(true);                                    
+	                                    pp.setM_Warehouse_ID(p_M_Warehouse_ID);
+	                                    pp.setS_Resource_ID(p_S_Resource_ID);
+	                                    pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
+	                                    pp.setOrder_Period(p_OrderPeriod);
+	                                    pp.setPlanner_ID(p_Planner);
+	                                    pp.setOrder_Policy(p_OrderPolicy);
+	                                    pp.setOrder_Qty(p_Order_Qty);
+	                                    pp.setOrder_Min(p_Order_Min);
+	                                    pp.setOrder_Max(p_Order_Max);
+	                                    pp.setOrder_Pack(p_Order_Pack);
+	                                    pp.setTimeFence(p_TimeFence);
+	                                    pp.setWorkingTime(p_WorkingTime);
+	                                    pp.setYield(p_Yield);                                                                                        
+	                                    pp.save(get_TrxName()); 
+	                        }
+
+	                                   
+	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);	
+	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);                                 	
+	                                    pp.setIsCreatePlan(p_CreatePlan);                                 
+	                                    pp.setIsMPS(p_MPS);                                  
+	                                    pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
+	                                    pp.setOrder_Period(p_OrderPeriod);
+	                                    pp.setPlanner_ID(p_Planner);
+	                                    pp.setOrder_Policy(p_OrderPolicy);
+	                                    pp.setOrder_Qty(p_Order_Qty);
+	                                    pp.setOrder_Min(p_Order_Min);
+	                                    pp.setOrder_Max(p_Order_Max);
+	                                    pp.setOrder_Pack(p_Order_Pack);
+	                                    pp.setTimeFence(p_TimeFence);
+	                                    pp.setTransfertTime(p_TransferTime);
+	                                    pp.setWorkingTime(p_WorkingTime);
+	                                    pp.setYield(p_Yield);                                                                                        
+	                                    pp.save(get_TrxName());                        
                         }
-                        rs1.close();
-                        pstmt1.close();
-                        if (PP_Product_Planning_ID!=0)
-                        { 
-                                    MPPProductPlanning pp = new MPPProductPlanning(getCtx(),PP_Product_Planning_ID,null);                                                                                                       
-                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);
-                                    pp.setIsCreatePlan(p_CreatePlan);                                 
-                                    pp.setIsMPS(p_MPS);                                  
-                                    pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
-                                    pp.setOrder_Period(p_OrderPeriod);
-                                    pp.setPlanner_ID(p_Planner);
-                                    pp.setOrder_Policy(p_OrderPolicy);
-                                    pp.setOrder_Qty(p_Order_Qty);
-                                    pp.setOrder_Min(p_Order_Min);
-                                    pp.setOrder_Max(p_Order_Max);
-                                    pp.setOrder_Pack(p_Order_Pack);
-                                    pp.setTimeFence(p_TimeFence);
-                                    pp.setTransfertTime(p_TransferTime);
-                                    pp.setWorkingTime(p_WorkingTime);
-                                    pp.setYield(p_Yield);                                                                                        
-                                    pp.save(get_TrxName());   
-                        }
-                        else
-                        {
-                                    MPPProductPlanning pp1 = new MPPProductPlanning(getCtx(),0,null);                                                                                                       
-                                    pp1.setM_Product_ID(rs.getInt(1));
-                                    pp1.setAD_Workflow_ID(p_AD_Workflow_ID);
-                                    pp1.setIsActive(true);
-                                    pp1.setIsCreatePlan(p_CreatePlan);                                                                         
-                                    pp1.setIsMPS(p_MPS);                                    
-                                    pp1.setIsPhantom(false);
-                                    pp1.setIsRequiredMRP(true);                                    
-                                    pp1.setM_Warehouse_ID(p_M_Warehouse_ID);
-                                    pp1.setS_Resource_ID(p_S_Resource_ID);
-                                    pp1.setDeliveryTime_Promised(p_DeliveryTime_Promised);
-                                    pp1.setOrder_Period(p_OrderPeriod);
-                                    pp1.setPlanner_ID(p_Planner);
-                                    pp1.setOrder_Policy(p_OrderPolicy);
-                                    pp1.setOrder_Qty(p_Order_Qty);
-                                    pp1.setOrder_Min(p_Order_Min);
-                                    pp1.setOrder_Max(p_Order_Max);
-                                    pp1.setOrder_Pack(p_Order_Pack);
-                                    pp1.setTimeFence(p_TimeFence);
-                                    pp1.setWorkingTime(p_WorkingTime);
-                                    pp1.setYield(p_Yield);                                                                                        
-                                    pp1.save(get_TrxName()); 
-			}
-                        }
-                        rs.close();
-                        pstmt.close();
+         rs.close();
+         pstmt.close();
 
 		}
 		catch (Exception e)
