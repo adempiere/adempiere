@@ -82,11 +82,13 @@ public class ProductInfo
 			+ "FROM M_Product_Category pc"
 			+ " INNER JOIN M_Product p ON (pc.M_Product_Category_ID=p.M_Product_Category_ID) "
 			+ "WHERE p.M_Product_ID=?";						//  #1
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_productType = rs.getString(1);
@@ -100,12 +102,14 @@ public class ProductInfo
 				m_isBOM = "Y".equals(rs.getString(7));
 				m_isStocked = "Y".equals(rs.getString(8));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}   //  init
 
@@ -301,11 +305,13 @@ public class ProductInfo
 		BigDecimal PriceList = null;
 		BigDecimal PriceStd = null;
 		BigDecimal PriceLimit = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				C_Currency_ID = rs.getInt(1);
@@ -313,12 +319,14 @@ public class ProductInfo
 				PriceStd = rs.getBigDecimal(3);
 				PriceLimit = rs.getBigDecimal(4);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  nothing found
 		if (C_Currency_ID == 0)
@@ -352,11 +360,13 @@ public class ProductInfo
 		BigDecimal PriceList = null;
 		BigDecimal PricePO = null;
 		BigDecimal PriceLastPO = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				C_Currency_ID = rs.getInt(1);
@@ -364,12 +374,14 @@ public class ProductInfo
 				PricePO = rs.getBigDecimal(3);
 				PriceLastPO = rs.getBigDecimal(4);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  nothing found
 		if (C_Currency_ID == 0)
