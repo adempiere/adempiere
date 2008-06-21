@@ -77,11 +77,10 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 	private CLabel orderedQtyLabel = new CLabel();
 	private VNumber deliveredQty = new VNumber("QtyDelivered", false, false, false, DisplayType.Quantity, "QtyDelivered");
 	private CLabel deliveredQtyLabel = new CLabel();
-	private VNumber openQty = new VNumber("QtyDelivered", false, false, false, DisplayType.Quantity, "QtyDelivered");
+	private VNumber openQty = new VNumber("QtyOpen", false, false, false, DisplayType.Quantity, "QtyOpen");
 	private CLabel openQtyLabel = new CLabel();
 	private VNumber toDeliverQty = new VNumber("QtyToDeliver", true, false, true, DisplayType.Quantity, "QtyToDeliver");
 	private CLabel toDeliverQtyLabel = new CLabel();
-	private VLookup issueMethod = null;
 	private javax.swing.JScrollPane issueScrollPane = new JScrollPane();
 	private MiniTable issue = new MiniTable();
 	private VDate movementDate = new VDate("MovementDate", true, false, true, DisplayType.Date, "MovementDate");
@@ -160,12 +159,6 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		order.setBackground(AdempierePLAF.getInfoBackground());
 		order.addVetoableChangeListener(this);
 
-		MLookup issueMethodL = MLookupFactory.get(ctx, m_WindowNo, 0, MColumn
-				.getColumn_ID(MPPOrder.Table_Name, "IssueMethod"), DisplayType.List);
-		issueMethod = new VLookup("IssueMethod", false, false, true, issueMethodL);
-		issueMethod.addVetoableChangeListener(this);
-		issueMethod.addActionListener(this);
-
 		MLookup resourceL = MLookupFactory.get(ctx, m_WindowNo, 0, MColumn
 				.getColumn_ID(MPPOrder.Table_Name, "S_Resource_ID"), DisplayType.TableDir);
 		resource = new VLookup("S_Resource_ID", false, false, false, resourceL);
@@ -204,9 +197,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		scrapQty.setValue(Env.ZERO);
 		rejectQty.setValue(Env.ZERO);
 		// 4Layers - end
-		pickcombo.addItem(new KeyNamePair(1, Msg.translate(Env.getCtx(), "OnlyReceipt")));
-		pickcombo.addItem(new KeyNamePair(2, Msg.translate(Env.getCtx(), "OnlyIssue")));
-		pickcombo.addItem(new KeyNamePair(3, Msg.translate(Env.getCtx(),"IsBackflush")));
+		pickcombo.addItem(new KeyNamePair(1, Msg.translate(Env.getCtx(),"IsBackflush")));
+		pickcombo.addItem(new KeyNamePair(2, Msg.translate(Env.getCtx(),"OnlyIssue")));
+		pickcombo.addItem(new KeyNamePair(3, Msg.translate(Env.getCtx(),"OnlyReceipt")));
 		pickcombo.addActionListener(this);
 		Process.addActionListener(this);
 		toDeliverQty.addActionListener(this);
@@ -301,7 +294,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		northPanel.add(deliveredQty, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
 				new Insets(5, 5, 5, 5), 0, 0));
-		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyToDeliver"));
+		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
 		northPanel.add(openQtyLabel, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE,
 				new Insets(5, 5, 5, 5), 0, 0));
@@ -403,12 +396,12 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		issue.addColumn("Value"); //2
 		issue.addColumn("M_Product_ID"); //3
 		issue.addColumn("C_UOM_ID"); //4
-		issue.addColumn("M_AttributeStInstance_ID"); //5      
+		issue.addColumn("M_AttributeSetInstance_ID"); //5      
 		issue.addColumn("QtyRequiered"); //6   
 		issue.addColumn("QtyDelivered"); //7
 		issue.addColumn("QtyToDeliver"); //8
-		issue.addColumn("QtyOnHand"); //9                
-		issue.addColumn("QtyScrap"); //10               
+		issue.addColumn("QtyScrap"); //9                
+		issue.addColumn("QtyOnHand"); //10               
 		issue.addColumn("QtyReserved"); //11
 		issue.addColumn("QtyAvailable"); //12
 		issue.addColumn("M_Locator_ID"); //13       
@@ -427,10 +420,10 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		issue.setColumnClass(3, KeyNamePair.class, true, Msg.translate(Env.getCtx(), "M_Product_ID"));
 		issue.setColumnClass(4, KeyNamePair.class, true, Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		issue.setColumnClass(5, String.class, true, Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"));
-		issue.setColumnClass(6, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyRequiered"));
+		issue.setColumnClass(6, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyRequired"));
 		issue.setColumnClass(7, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyDelivered"));
-		issue.setColumnClass(8, VNumber.class, false, Msg.translate(Env.getCtx(), "QtyToDeliver"));
-		issue.setColumnClass(9, VNumber.class, false, Msg.translate(Env.getCtx(), "QtyScrap"));
+		issue.setColumnClass(8, BigDecimal.class, false, Msg.translate(Env.getCtx(), "QtyToDeliver"));
+		issue.setColumnClass(9, BigDecimal.class, false, Msg.translate(Env.getCtx(), "QtyScrap"));
 		issue.setColumnClass(10, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyOnHand"));
 		issue.setColumnClass(11, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyReserved"));
 		issue.setColumnClass(12, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyAvailable"));
@@ -439,7 +432,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		issue.setColumnClass(15, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyBom"));
 		issue.setColumnClass(16, Boolean.class, true, Msg.translate(Env.getCtx(), "IsQtyPercentage"));
 		issue.setColumnClass(17, BigDecimal.class, true, Msg.translate(Env.getCtx(), "QtyBatch"));
-
+		
 		issue.autoSize();
 		issue.getModel().addTableModelListener(this);
 
@@ -460,7 +453,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			dispose();
 			return;
 		}
-		//	Product Attribute Search
+
 		if (e.getSource().equals(Process)) {
 			if (movementDate.getValue() == null) {
 				JOptionPane.showMessageDialog(null, Msg.getMsg(Env.getCtx(), "NoDate"), "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -489,14 +482,6 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			TabsReceiptsIssue.setSelectedIndex(0);
 		}
 
-		if (e.getSource().equals(issueMethod)) {
-			if (issueMethod.getValue() != null) {
-				if (order.getValue() != null) {
-					loadTable();
-				}
-			}
-		}
-
 		if (e.getSource().equals(toDeliverQty) || e.getSource().equals(scrapQty)) {
 			if (order.getValue() != null && isBackflush()) {
 				executeQuery();
@@ -505,28 +490,60 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 
 		if (e.getSource().equals(pickcombo)) {
 			if (isOnlyReceipt()) {
-				enableToDeliver();
+				disableToDeliver();
+				locatorLabel.setVisible(true);
+				locator.setVisible(true);
+				attribute.setVisible(true);
+				attributeLabel.setVisible(true);
 				issue.setVisible(false);
 			}
 
 			if (isOnlyIssue()) {
 				disableToDeliver();
+				locatorLabel.setVisible(false);
+				locator.setVisible(false);
+				attribute.setVisible(false);
+				attributeLabel.setVisible(false);
+				issue.setVisible(true);
 				executeQuery();
 			}
 			
 			if (isBackflush()) {
 				enableToDeliver();
+				locatorLabel.setVisible(true);
+				locator.setVisible(true);
+				attribute.setVisible(true);
+				attributeLabel.setVisible(true);
+				issue.setVisible(true);
 				executeQuery();
 			}
+			toDeliverQty.setValue(openQty.getValue()); //reset toDeliverQty to openQty
 		}
 	}
 	
+	public void enableToDeliver() {
+		setToDeliver(true);
+	}
+
+	public void disableToDeliver() {
+		setToDeliver(false);
+	}
+	
+	private void setToDeliver(Boolean state) {
+		toDeliverQty.getComponent(0).setEnabled(state); //text boxcomponenet
+		toDeliverQty.getComponent(1).setEnabled(state); //button component
+		scrapQtyLabel.setVisible(state);
+		scrapQty.setVisible(state);
+		rejectQtyLabel.setVisible(state);
+		rejectQty.setVisible(state);
+	}
+
 	/**
 	 *  Queries for and fills the table in the lower half of the screen
+	 *  This is only run if isBackflush() or isOnlyIssue
 	 */
 	private void executeQuery() {
 		issue.removeAll();
-		issue.setVisible(true);
 		
 		StringBuffer sql = new StringBuffer("SELECT obl.PP_Order_BOMLine_ID,obl.IsCritical,p.Value,");
 		sql.append("obl.M_Product_ID,p.Name,p.C_UOM_ID,u.Name,obl.QtyRequiered,obl.QtyReserved,");
@@ -560,7 +577,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				Boolean    m_QtyPercentage       = rs.getString(16).equals("Y");
 				BigDecimal m_QtyBatch            = rs.getBigDecimal(17);
 				String     m_ComponentType       = rs.getString(18);
-				BigDecimal m_onhand              = rs.getBigDecimal(10);
+				BigDecimal m_onhand              = rs.getBigDecimal(11);
 				BigDecimal m_toDeliverQty        = (BigDecimal) toDeliverQty.getValue();
 				BigDecimal m_openQty             = (BigDecimal) openQty.getValue();
 				BigDecimal m_scrapQty            = (BigDecimal) scrapQty.getValue();
@@ -584,14 +601,16 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				issue.setValueAt(rs.getString(3), row, 2);                                   // Product's Search key
 				issue.setValueAt(new KeyNamePair(rs.getInt(4), rs.getString(5)), row, 3);    // Product
 				issue.setValueAt(new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4);    // UOM
+				issue.setValueAt(rs.getBigDecimal(8), row, 6);                               // QtyRequiered
+				issue.setValueAt(rs.getBigDecimal(20), row, 7);                              // QtyDelivered
+				issue.setValueAt(m_onhand, row, 10);                                         // OnHand
+				issue.setValueAt(rs.getBigDecimal(9), row, 11);                              // QtyReserved
+				issue.setValueAt(rs.getBigDecimal(10), row, 12);                             // QtyAvailable
+				issue.setValueAt(new KeyNamePair(rs.getInt(13), rs.getString(14)), row, 14); // Warehouse
 				issue.setValueAt(m_QtyBom, row, 15);                                         // QtyBom
 				issue.setValueAt(m_QtyPercentage, row, 16);                                  // isQtyPercentage
 				issue.setValueAt(m_QtyBatch, row, 17);                                       // QtyBatch
-				issue.setValueAt(new KeyNamePair(rs.getInt(13), rs.getString(14)), row, 14); // Product
-				issue.setValueAt(rs.getBigDecimal(9), row, 11);                              // QtyReserved
-				issue.setValueAt(m_onhand, row, 12);                                         // OnHand
-				issue.setValueAt(rs.getBigDecimal(11), row, 10);                             // Available
-				issue.setValueAt(rs.getBigDecimal(20), row, 7);                              // QtyDelivered
+				
 
 				if (m_ComponentType.equals(MPPProductBOMLine.COMPONENTTYPE_Component)
 						|| m_ComponentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing)) {
@@ -607,8 +626,8 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 						VNumber viewToDeliverQty = new VNumber();
 						viewToDeliverQty.setDisplayType(DisplayType.Number);
 
-						if (isBackflush()) {
-							// Calculate Component for Receipt
+						if (isBackflush()) {	
+							// Is Backflush - Calculate Component from Qty To Deliver
 							viewToDeliverQty.setValue(m_toDeliverQty.multiply(
 									m_QtyBatch.divide(
 											new BigDecimal(100.00), 4,BigDecimal.ROUND_HALF_UP)
@@ -641,7 +660,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 
 							}
 						} else {
-							// Only Calculate Component not exist Receipt
+							// Only Issue - Calculate Component from Open Qty
 							componentToDeliverQty = rs.getBigDecimal(19);
 							if (componentToDeliverQty.compareTo(Env.ZERO) != 0) {
 								componentQtyReq = m_openQty.multiply(m_QtyBatch
@@ -678,26 +697,25 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 						// Normal Calculate Qty
 						VNumber viewToDeliverQty = new VNumber();
 						viewToDeliverQty.setDisplayType(DisplayType.Number);
-
-						if (isBackflush()) // Calculate Component for Receipt
-						{
+ 
+						if (isBackflush()) {
+							//Is Backflush - Calculate Component from Qty To Deliver
 							viewToDeliverQty.setValue(m_toDeliverQty.multiply(m_QtyBom));
 							componentToDeliverQty = (BigDecimal) viewToDeliverQty.getValue();
 							if (componentToDeliverQty.compareTo(Env.ZERO) != 0) {
 								componentQtyReq = m_toDeliverQty
 										.multiply(m_QtyBom);
 								componentQtytoDel = componentToDeliverQty;
-								issue.setValueAt(m_toDeliverQty
-										.multiply(m_QtyBom), row, 6); //  QtyRequiered
+								issue.setValueAt(componentQtyReq, row, 6); //  QtyRequiered
 								issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
 							}
 						} else {
-							// if (m_OnlyReceipt)
+							//Only Issue - Calculate Component from Open Qty
 							componentToDeliverQty = rs.getBigDecimal(19);
 							if (componentToDeliverQty.compareTo(Env.ZERO) != 0) {
 								componentQtyReq = m_openQty.multiply(m_QtyBom);
 								componentQtytoDel = componentToDeliverQty;
-								issue.setValueAt(m_openQty.multiply(m_QtyBom), row, 6); //  QtyRequiered
+								issue.setValueAt(componentQtyReq, row, 6); //  QtyRequiered
 								issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
 							}
 						}
@@ -708,7 +726,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 							viewScrapQty.setValue(m_scrapQty.multiply(m_QtyBom));
 							componentScrapQty = (BigDecimal) viewScrapQty.getValue();
 							if (componentScrapQty.compareTo(Env.ZERO) != 0) {
-								issue.setValueAt(componentScrapQty, row, 9); //  QtyToDelivery
+								issue.setValueAt(componentScrapQty, row, 9); //  ScrapQty
 							}
 						}
 
@@ -758,7 +776,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		sql.append(" INNER JOIN M_AttributeSetInstance masi ON (masi.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ");
 		sql.append(" INNER JOIN M_Warehouse w ON (w.M_Warehouse_ID = " + Warehouse_ID + ") ");
 		sql.append(" Inner Join M_Locator l ON(l.M_Warehouse_ID=w.M_Warehouse_ID and s.M_Locator_ID=l.M_Locator_ID) ");
-		sql.append(" WHERE s.M_Product_ID = " + M_Product_ID + " and s.QtyOnHand > 0 Order by s.Created ");
+		sql.append(" WHERE s.M_Product_ID = " + M_Product_ID + " and s.QtyOnHand > 0 ");
+		sql.append(" and s.M_AttributeSetInstance_ID <> 0 ");
+		sql.append(" Order by s.Created ");
 
 		log.log(Level.INFO, "VOrderReciptIssue.executeQuery - SQL", sql.toString());
 		//  reset table
@@ -774,14 +794,14 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				IDColumn id1 = new IDColumn(rs1.getInt(3));
 				id1.setSelected(false);
 				issue.setRowSelectionAllowed(true);
-				issue.setValueAt(id1, row, 0); //  PP_OrderBOMLine_ID
+				issue.setValueAt(id1, row, 0); //  M_AttributeSetInstance_ID
 				KeyNamePair m_productkey = new KeyNamePair(rs1.getInt(1), rs1
 						.getString(4));
 				issue.setValueAt(m_productkey, row, 3);
 				issue.setValueAt(rs1.getBigDecimal(2), row, 10); // Onhand
 
 				issue.setValueAt(rs1.getString(5), row, 5); //attribute
-				issue.setValueAt(rs1.getString(6), row, 13);
+				issue.setValueAt(rs1.getString(6), row, 13); // Locator Value
 				KeyNamePair m_warehousekey = new KeyNamePair(rs1.getInt(8), rs1.getString(7));
 
 				issue.setValueAt(m_warehousekey, row, 14);
@@ -803,6 +823,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			rs1.close();
 			pstmt1.close();
 		} catch (SQLException el) {
+			log.log(Level.SEVERE, "VOrderReceipIssue.lotes", el);
 		}
 		return haslot;
 	}
@@ -831,7 +852,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				warehouse.setValue(new Integer(m_PP_order.getM_Warehouse_ID()));
 				deliveredQty.setValue(m_PP_order.getQtyDelivered());
 				orderedQty.setValue(m_PP_order.getQtyOrdered());
-				m_PP_order.getQtyOrdered().subtract(m_PP_order.getQtyDelivered());
+				//m_PP_order.getQtyOrdered().subtract(m_PP_order.getQtyDelivered());
 				qtyBatchs.setValue(m_PP_order.getQtyBatchs());
 				qtyBatchSize.setValue(m_PP_order.getQtyBatchSize());
 				openQty.setValue(m_PP_order.getQtyOrdered().subtract(m_PP_order.getQtyDelivered()));
@@ -843,77 +864,11 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				Integer m_product_id = (Integer) product.getValue();
 				Env.setContext(Env.getCtx(), m_WindowNo, "M_Product_ID", m_product_id.intValue());
 				attribute.setValue(new Integer(m_PP_order.getM_AttributeSetInstance_ID()));
-				
-				enableToDeliver();
-
-				if (isOnlyIssue() || isBackflush()) {
-					executeQuery();
-				}
-
+				pickcombo.setSelectedIndex(0);  //default to first entry - isBackflush
 			}
 		} //  PP_Order_ID
-
-		// yes show the field for to make receive
-		if (name.equals("OnlyReceipt")) {
-			if (isOnlyReceipt()) {
-				enableToDeliver();
-			} else {
-				disableToDeliver();
-				if (order.getValue() != null && isBackflush()) {
-					executeQuery();
-				}
-			}
-		}
-
-		if (name.equals("toDeliverQty")) {
-			if (order.getValue() != null && isBackflush()) {
-				executeQuery();
-			}
-
-		}
-		//  PP_Order_ID
-		if (name.equals("IsBackflush")) {
-			if (isBackflush()) {
-				executeQuery();
-			} else {
-				issue.setVisible(false);
-			}
-		}
-
-		if (name.equals("ListDetail")) {
-				executeQuery();
-		}
 	}
 	
-	/**
-	 *  Fill the issue table
-	 */
-	private void loadTable() {
-		String sql = "SELECT obl.PP_Order_ID,obl.Line,obl.IsCritical,p.Name,obl.M_Product_ID,u.Name," +
-			"obl.C_UOM_ID,obl.QtyBom,obl.IsQtyPercentage,obl.QtyBatch,obl.QtyRequiered," +
-			"obl.M_Warehouse_ID,obl.QtyReserved, BOM_Qty_Available(obl.M_Product_ID," +
-			"obl.M_Warehouse_ID) AS QtyAvailable,BOM_Qty_OnHand(p.M_Product_ID," +
-			"obl.M_Warehouse_ID) AS QtyOnHand,obl.QtyReserved,obl.QtyScrap " +
-			"FROM PP_Order_BOMLine obl " +
-			"INNER JOIN M_Product p ON (obl.M_Product_ID=p.M_Product_ID) " +
-			"INNER JOIN C_UOM u ON (obl.C_UOM_ID=u.C_UOM_ID) " +
-			"WHERE obl.PP_Order_ID=" +
-			 order.getValue();
-		
-		log.finest("tableLoad - " + sql + m_groupBy);
-		sql = MRole.getDefault().addAccessSQL(sql.toString(), "obl", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO) + m_groupBy;
-		log.finest("tableLoad - " + sql);
-		try {
-			java.sql.Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			issue.loadTable(rs);
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, "VOrderReceiptIssue.tableFill " + sql, e);
-		}
-	} //  tableLoad
-
 	/**
 	 * Performs what ever task is attached to the combo box
 	 * TODO Split this up so its easier to understand
@@ -1073,11 +1028,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 									+ " and obl.PP_Order_ID="
 									+ order.getValue());
 
-							log
-									.log(
-											Level.INFO,
-											"VOrderReciptIssue.executeQuery - SQL Orderbom of instances ",
-											sql.toString());
+							log.log(Level.INFO,
+									"VOrderReciptIssue.executeQuery - SQL Orderbom of instances ",
+									sql.toString());
 							//  reset table
 							//  Execute
 							try {
@@ -1180,7 +1133,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			}
 		}
 
-		if (isOnlyReceipt() || (isBackflush() && iscompleteqtydeliver)) {
+		if (isOnlyReceipt() || (isBackflush())) {
 			m_M_Location_ID = ((Integer) locator.getValue()).intValue();
 			Integer m_M_AttributeSetInstance_ID = (Integer) attribute
 					.getValue();
@@ -1351,7 +1304,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		PP_Cost_Collector.setProcessed(false);
 		PP_Cost_Collector.setProcessing(false);
 		PP_Cost_Collector.setUser1_ID(m_PP_order.getUser1_ID());
-		PP_Cost_Collector.setUser2_ID(m_PP_order.getUser1_ID());
+		PP_Cost_Collector.setUser2_ID(m_PP_order.getUser2_ID());
 		PP_Cost_Collector.setM_Locator_ID(M_Locator_ID);
 		PP_Cost_Collector.setM_Product_ID(M_Product_ID);
 		if (!PP_Cost_Collector.save()) {
@@ -1370,34 +1323,8 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		return C_DocType_ID;
 	}
 
-	public void enableToDeliver() {
-		setToDeliver(true);
-	}
-
-	public void disableToDeliver() {
-		setToDeliver(false);
-	}
-	
-	private void setToDeliver(Boolean state) {
-		toDeliverQtyLabel.setVisible(state);
-		toDeliverQty.setVisible(state);
-		scrapQtyLabel.setVisible(state);
-		scrapQty.setVisible(state);
-		rejectQtyLabel.setVisible(state);
-		rejectQty.setVisible(state);
-		attribute.setVisible(state);
-		locatorLabel.setVisible(state);
-		locator.setVisible(state);
-		movementDate.setVisible(true);
-		movementDateLabel.setVisible(true);
-		issue.setVisible(true);
-		
-	}
-
 	/**
-	 *  Complete generating invoices.
-	 *  Called from Unlock UI
-	 *  @param pi process info
+	 *  Generate Summary of Issue/Receipt.
 	 */
 	private void generateSummaryTable() {
 		StringBuffer iText = new StringBuffer();
@@ -1407,7 +1334,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		iText.append("<br />");
 
 		if (isOnlyReceipt() || isBackflush()) {
-			
+						
 			String[][] table = {
 				{Msg.translate(Env.getCtx(), "Name"),
 				 Msg.translate(Env.getCtx(), "C_UOM_ID"),
@@ -1418,6 +1345,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				{product.getDisplay(),
 				 uom.getDisplay(),
 				 attribute.getDisplay(),
+				 toDeliverQty.getDisplay(),
 				 deliveredQty.getDisplay(),
 				 scrapQty.getDisplay()}
 			};
@@ -1477,10 +1405,10 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 						}
 						BigDecimal todelivery = Env.ZERO;
 						BigDecimal scrap = Env.ZERO;
-						if (issue.getValueAt(i, 8) != null) {
+						if (issue.getValueAt(i, 8) != null) {									//QtyOpen
 							todelivery = new BigDecimal(issue.getValueAt(i, 8).toString());
 						}
-						if (issue.getValueAt(i, 9) != null) {
+						if (issue.getValueAt(i, 9) != null) {									//QtyScrap
 							scrap = new BigDecimal(issue.getValueAt(i, 9).toString());
 						}
 						BigDecimal toIssue = todelivery.add(scrap);
@@ -1513,11 +1441,13 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 								row[3] = desc;
 
 							if (issue.getValueAt(i, 8) != null && !issue.getValueAt(i, 8).toString().equals(""))
-								row[4] = issueact.toString();
+								row[4] = issueact.setScale(2, BigDecimal.ROUND_HALF_UP).toString() ;
 							
 							if (issue.getValueAt(i, 7) != null && !issue.getValueAt(i, 7).toString().equals(""))
-								row[5] = issue.getValueAt(i, 7).toString();
-							
+							{
+								BigDecimal deliveredQtybd = (BigDecimal)issue.getValueAt(i, 7);
+								row[5] =  deliveredQtybd.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+							}
 							if (issue.getValueAt(i, 9) != null && !issue.getValueAt(i, 9).toString().equals("")) 
 								row[6] = issue.getValueAt(i, 9).toString();
 							
@@ -1527,7 +1457,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 								break;
 						}
 
-					} else {
+					} else {												// if M_AttributeSetInstance_ID isn't null
 						String[] row = {"","","","","0.00","0.00","0.00"};
 						
 						if (issue.getValueAt(i, 2) != null)
@@ -1572,15 +1502,14 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 	 * @return	
 	 */
 	private Boolean isOnlyReceipt() {
-		return (pickcombo.getSelectedIndex() == 0);
+		return (pickcombo.getDisplay().equals("OnlyReceipt"));
 	}
-
 	/**
 	 * Deturmines whether the Delivery Rule is set to 'OnlyIssue'
 	 * @return	
 	 */
 	private Boolean isOnlyIssue() {
-		return (pickcombo.getSelectedIndex() == 1);
+		return (pickcombo.getDisplay().equals("OnlyIssue"));
 	}
 
 	/**
@@ -1588,7 +1517,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 	 * @return	
 	 */
 	private Boolean isBackflush() {
-		return (pickcombo.getSelectedIndex() == 2);
+		return (pickcombo.getDisplay().equals("IsBackflush"));
 	}
 	
 	/**
