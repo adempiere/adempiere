@@ -48,6 +48,7 @@ public class CreateProductPlanning extends SvrProcess
         private String          p_OrderPolicy = "";
         private BigDecimal      p_OrderPeriod = Env.ZERO;
         private BigDecimal      p_TransferTime = Env.ZERO;
+        private BigDecimal      p_SafetyStock = Env.ZERO;
         private BigDecimal      p_Order_Min = Env.ZERO;
         private BigDecimal      p_Order_Max = Env.ZERO;
         private BigDecimal      p_Order_Pack = Env.ZERO;
@@ -118,6 +119,10 @@ public class CreateProductPlanning extends SvrProcess
                         {    
 				p_TransferTime =  ((BigDecimal)para[i].getParameter());  
                         } 
+                         else if (name.equals("SafetyStock"))
+                         {    
+ 				p_SafetyStock =  ((BigDecimal)para[i].getParameter());  
+                         }
                          else if (name.equals("Order_Min"))
                         {    
 				p_Order_Min =  ((BigDecimal)para[i].getParameter());  
@@ -190,13 +195,12 @@ public class CreateProductPlanning extends SvrProcess
                    
                         	int M_Product_ID = rs.getInt(1);
                         	MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), m_AD_Org_ID , p_M_Warehouse_ID, p_S_Resource_ID,M_Product_ID, get_TrxName());
-	                        if (pp==null && ( p_S_Resource_ID > 0 || p_M_Warehouse_ID > 0 ))
+	                        if (pp==null && ( p_S_Resource_ID == 0 || p_M_Warehouse_ID == 0 ))
 	                        {
 	                                    pp = new MPPProductPlanning(getCtx(),0,get_TrxName());                                                                                                       
 	                                    pp.setM_Product_ID(rs.getInt(1));
 	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);		
 	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);
-	                                    pp.setIsCreatePlan(p_CreatePlan);
 	                                    pp.setIsActive(true);
 	                                    pp.setIsCreatePlan(p_CreatePlan);                                                                         
 	                                    pp.setIsMPS(p_MPS);                                    
@@ -208,6 +212,7 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setOrder_Period(p_OrderPeriod);
 	                                    pp.setPlanner_ID(p_Planner);
 	                                    pp.setOrder_Policy(p_OrderPolicy);
+	                                    pp.setSafetyStock(p_SafetyStock);
 	                                    pp.setOrder_Qty(p_Order_Qty);
 	                                    pp.setOrder_Min(p_Order_Min);
 	                                    pp.setOrder_Max(p_Order_Max);
@@ -217,7 +222,8 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setYield(p_Yield);                                                                                        
 	                                    pp.save(get_TrxName()); 
 	                        }
-
+	                        else
+	                        {	
 	                                   
 	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);	
 	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);                                 	
@@ -227,6 +233,7 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setOrder_Period(p_OrderPeriod);
 	                                    pp.setPlanner_ID(p_Planner);
 	                                    pp.setOrder_Policy(p_OrderPolicy);
+	                                    pp.setSafetyStock(p_SafetyStock);
 	                                    pp.setOrder_Qty(p_Order_Qty);
 	                                    pp.setOrder_Min(p_Order_Min);
 	                                    pp.setOrder_Max(p_Order_Max);
@@ -235,10 +242,11 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setTransfertTime(p_TransferTime);
 	                                    pp.setWorkingTime(p_WorkingTime);
 	                                    pp.setYield(p_Yield);                                                                                        
-	                                    pp.save(get_TrxName());                        
+	                                    pp.save();       
+	                        }            
                         }
-         rs.close();
-         pstmt.close();
+         DB.close(rs);
+         DB.close(pstmt);
 
 		}
 		catch (Exception e)

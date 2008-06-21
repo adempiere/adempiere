@@ -19,3 +19,5 @@ ALTER TABLE PP_Product_Planning DROP CONSTRAINT mwarehouse_ppproductplanning;
 ALTER TABLE PP_Product_Planning DROP CONSTRAINT planner_ppproductplanning;
 ALTER TABLE PP_Product_Planning DROP CONSTRAINT ppproductbom_ppproductplanning;
 ALTER TABLE PP_Product_Planning DROP CONSTRAINT sresource_ppproductplanning;
+
+DROP INDEX pp_product_planning_uq;
