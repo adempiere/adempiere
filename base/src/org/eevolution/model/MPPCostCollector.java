@@ -97,7 +97,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			+ (processed ? "Y" : "N")
 			+ "' WHERE PP_Cost_Collector_ID =" + getPP_Cost_Collector_ID();
 		int noLine = DB.executeUpdate(sql, get_TrxName());
-		//m_lines = null;
 		log.fine("setProcessed - " + processed + " - Lines=" + noLine);
 	}	//	setProcessed
 
@@ -157,9 +156,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-
-
-
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
 			setDocAction(DOCACTION_Complete);
@@ -204,7 +200,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				return status;
 		}
 
-
 		MProduct product = new MProduct (getCtx(),getM_Product_ID(),get_TrxName());
 
 		//	Qty & Type
@@ -212,7 +207,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 		BigDecimal QtyIssue = Env.ZERO;
 		BigDecimal QtyReceipt = Env.ZERO;
-
 		BigDecimal Qty = getMovementQty();
 		if (MovementType.charAt(1) == '-')
 		{	
@@ -237,11 +231,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		if(!doctype.equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
 		{
 			//	Stock Movement 
-			if (product != null 
-					&& product.isStocked() )
+			if (product != null	&& product.isStocked() )
 			{
-				//Ignore the Material Policy when is Reverse Correction
-				checkMaterialPolicy( obomline, getMovementQty());
+				// Only for Production Issue records
+				if (MovementType.charAt(1) == '-')
+					checkMaterialPolicy( obomline, getMovementQty());
 
 				log.fine("Material Transaction");
 				MTransaction mtrx = null; 
@@ -289,7 +283,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 							m_processMsg = "Could not create Material Transaction (MA)";
 							return DocAction.STATUS_Invalid;
 						}
-
 					}
 				}
 				//	sLine.getM_AttributeSetInstance_ID() != 0
@@ -314,9 +307,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 						m_processMsg = "Could not create Material Transaction";
 						return DocAction.STATUS_Invalid;
 					}
-
 				}										
-
 			}	//	stock movement
 
 			if (MovementType.charAt(1) == '-')				
@@ -324,7 +315,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				//	Update Order Line
 				if (getPP_Order_BOMLine_ID()!= 0)
 				{
-
 					obomline = new MPPOrderBOMLine(getCtx(),getPP_Order_BOMLine_ID(),get_TrxName());
 					obomline.setQtyDelivered(obomline.getQtyDelivered().add(getMovementQty()));
 					obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
@@ -381,28 +371,26 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			{
 				StringBuffer sql=new StringBuffer("SELECT PP_Order_Node_ID FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=? Order By Value");
 				PreparedStatement pstmt = DB.prepareStatement(sql.toString(),null);
-				// pstmt.setInt(1, AD_Client_ID);
 				pstmt.setInt(1, getPP_Order_ID());
-				//pstmt.setInt(2, m_M_PriceList_ID);
 				ResultSet rs = pstmt.executeQuery();
-				//while (!m_calculated && rsplv.next())
-					while (rs.next())
-					{
+				
+				while (rs.next())
+				{
+					Integer nodeid = new Integer(rs.getInt(1));
+					list.add(count,nodeid.toString());
 
-						Integer nodeid = new Integer(rs.getInt(1));
-						list.add(count,nodeid.toString());
+					count++;
 
-						count++;
-
-					}
-					rs.close();
-					pstmt.close();
+				}
+				rs.close();
+				pstmt.close();
 			}
 			catch (SQLException enode)
 			{
 			}
-			boolean ultimonodo = false;  
 
+			boolean ultimonodo = false;  
+			
 			for (int v =0 ; v < list.size(); v++)
 			{
 				if (list.get(v).equals(new Integer(getPP_Order_Node_ID()).toString()))
@@ -412,19 +400,13 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					{
 						StringBuffer sqlnn=new StringBuffer("SELECT PP_Order_Node_ID FROM PP_Order_NodeNext WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID=?");
 						PreparedStatement pstmtnn = DB.prepareStatement(sqlnn.toString(),null);
-						// pstmt.setInt(1, AD_Client_ID);
 						pstmtnn.setInt(1, getPP_Order_ID());
 						pstmtnn.setInt(2, getPP_Order_Node_ID());
 						ResultSet rsnn = pstmtnn.executeQuery();
-						//while (!m_calculated && rsplv.next())
-						System.out.println("***** SQL ultm nodo " +sqlnn.toString());
+						log.fine("***** SQL ultm nodo " + sqlnn.toString());
 						if (rsnn.next())
 						{
-
 							ultimonodo=false;
-
-
-
 						}
 						else
 						{
@@ -438,44 +420,32 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					}
 					if (!ultimonodo)
 					{
-						//System.out.println("***** No ES EL ULTIMO NODO");
+						log.fine("***** No ES EL ULTIMO NODO");
 					}
 					else
 					{
 						try
 						{
-							StringBuffer sql1=new StringBuffer("SELECT DocStatus,PP_Order_Node_ID,DurationRequiered FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID!=?");
+							StringBuffer sql1=new StringBuffer("SELECT DocStatus,PP_Order_Node_ID,DurationRequiered " +
+									"FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID!=?");
 							PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(),null);
-							// pstmt.setInt(1, AD_Client_ID);
 							pstmt1.setInt(1, getPP_Order_ID());
 							pstmt1.setInt(2, getPP_Order_Node_ID());
 							ResultSet rs1 = pstmt1.executeQuery();
-							//while (!m_calculated && rsplv.next())
-								//                                                  System.out.println("***** SQL1 " +sql1 + " variable " +getPP_Order_ID());
+							
+							log.fine("***** SQL1 " + sql1 + " variable " +getPP_Order_ID());
 							while (rs1.next())
 							{
-//								System.out.println("***** Nodo " +rs1.getInt(2) +" status " +rs1.getString(1));
-//								if(!rs1.getString(1).equals("CL"))
-//								{
-
-//								MPPOrderNode onodenext =new MPPOrderNode(Env.getCtx(),rs1.getInt(2),get_TrxName());
-//								onodenext.setDocStatus("CL");
-//								onodenext.save();
-//								}
 								createnewnode(rs1.getInt(2),rs1.getBigDecimal(3));  
-
 							}
 							rs1.close();
 							pstmt1.close();
-
-
 						}
 						catch (SQLException enode)
 						{
 						}
 					}
 				}
-
 			}  
 
 			// crear orden de compra al cmpletar
@@ -488,9 +458,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				PreparedStatement pstmt = DB.prepareStatement(sql.toString(),null);
 				pstmt.setInt(1, getAD_Client_ID());
 				pstmt.setInt(2, getPP_Cost_Collector_ID());
-				//pstmt.setInt(2, m_M_PriceList_ID);
 				ResultSet rs = pstmt.executeQuery();
-				//while (!m_calculated && rsplv.next())
 				while (rs.next())
 				{
 					p_PP_Order_Node_ID= rs.getInt(1);
@@ -503,10 +471,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			{
 			}
 
-
-
-			//  if(isSubcontracting())
-			//   {
+			// if(isSubcontracting())
+			
 			int M_Product_ID =0;
 			String salvado="";
 			BigDecimal DeliveryTime=Env.ZERO;
@@ -515,9 +481,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				StringBuffer plv=new StringBuffer("SELECT M_Product_ID FROM PP_Order_Node WHERE IsActive='Y' AND PP_Order_Node_ID=? ");
 				PreparedStatement pstmtplv = DB.prepareStatement(plv.toString(),null);
 				pstmtplv.setInt(1, p_PP_Order_Node_ID);
-				//pstmt.setInt(2, m_M_PriceList_ID);
 				ResultSet rsplv = pstmtplv.executeQuery();
-				//while (!m_calculated && rsplv.next())
 				if (rsplv.next())
 				{
 					M_Product_ID= rsplv.getInt(1);
@@ -541,9 +505,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					StringBuffer pp=new StringBuffer("SELECT DeliveryTime_Promised FROM PP_Product_Planning WHERE IsActive='Y' AND M_Product_ID=? ");
 					PreparedStatement pstmtpp = DB.prepareStatement(pp.toString(),null);
 					pstmtpp.setInt(1, M_Product_ID);
-					//pstmt.setInt(2, m_M_PriceList_ID);
 					ResultSet rspp = pstmtpp.executeQuery();
-					//while (!m_calculated && rsplv.next())
 					if (rspp.next())
 					{
 						DeliveryTime= rspp.getBigDecimal(1);
@@ -565,9 +527,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				StringBuffer sqlpo=new StringBuffer("SELECT C_BPartner_ID FROM M_Product_PO WHERE IsActive='Y' AND M_Product_ID=? ");
 				PreparedStatement pstmtpo = DB.prepareStatement(sqlpo.toString(),null);
 				pstmtpo.setInt(1, M_Product_ID);
-				//pstmt.setInt(2, m_M_PriceList_ID);
 				ResultSet rspo = pstmtpo.executeQuery();
-				//while (!m_calculated && rsplv.next())
 				while (rspo.next())
 				{
 					C_BPartner_ID= rspo.getInt(1);
@@ -620,9 +580,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				return DocAction.STATUS_Invalid;
 			}
 			//fjv e-evolution Operation Activity Report end	
-//			}
-	} 
-
+		} 
 
 		//	for all lines	
 		setProcessed(true);
@@ -661,31 +619,26 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 		//	Close Not delivered Qty
 		// fjviejo e-evolution operation activity
+		// ultimo nodo translates to => I complete node
 		boolean ultimonodo=false;
 		try
 		{
 			StringBuffer sqlnn=new StringBuffer("SELECT PP_Order_Node_ID FROM PP_Order_NodeNext WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID=?");
 			PreparedStatement pstmtnn = DB.prepareStatement(sqlnn.toString(),null);
-			// pstmt.setInt(1, AD_Client_ID);
 			pstmtnn.setInt(1, getPP_Order_ID());
 			pstmtnn.setInt(2, getPP_Order_Node_ID());
 			ResultSet rsnn = pstmtnn.executeQuery();
-			//while (!m_calculated && rsplv.next())
-				System.out.println("***** SQL ultm nodo " +sqlnn.toString());
-				if (rsnn.next())
-				{
-
-					ultimonodo=false;
-
-
-
-				}
-				else
-				{
-					ultimonodo=true;
-				}
-				rsnn.close();
-				pstmtnn.close();
+			log.fine("***** SQL ultm nodo " + sqlnn.toString());
+			if (rsnn.next())
+			{
+				ultimonodo=false;
+			}
+			else
+			{
+				ultimonodo=true;
+			}
+			rsnn.close();
+			pstmtnn.close();
 		}
 		catch (SQLException enodenn)
 		{
@@ -693,7 +646,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 		if(!ultimonodo)
 		{
-
 			MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),null);
 			onodeact.setDocStatus("CL");
 			//   onodeact.setAction(DOCACTION_None);
@@ -702,24 +654,19 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			{
 				StringBuffer sql1=new StringBuffer("SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID=? AND PP_Order_Node_ID=?");
 				PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(),null);
-				// pstmt.setInt(1, AD_Client_ID);
 				pstmt1.setInt(1, getPP_Order_ID());
 				pstmt1.setInt(2, getPP_Order_Node_ID());
 				ResultSet rs1 = pstmt1.executeQuery();
-				//while (!m_calculated && rsplv.next())
-					//System.out.println("***** SQL1 " +sql1 + " variable " +getPP_Order_ID());
+				log.fine("***** SQL1 " + sql1 + " variable " +getPP_Order_ID());
 				while (rs1.next())
 				{
 					MPPCostCollector costcoll = new MPPCostCollector(Env.getCtx(),rs1.getInt(1),get_TrxName());
 					costcoll.setDocStatus("CL");
 					costcoll.setDocAction(DOCACTION_None);
 					costcoll.save();
-
 				}
 				rs1.close();
 				pstmt1.close();
-
-
 			}
 			catch (SQLException enode1)
 			{
@@ -731,31 +678,21 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			{
 				StringBuffer sql1=new StringBuffer("SELECT DocStatus,PP_Order_Node_ID,DurationRequiered FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=?");
 				PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(),null);
-				// pstmt.setInt(1, AD_Client_ID);
 				pstmt1.setInt(1, getPP_Order_ID());
-				//pstmt1.setInt(2, getPP_Order_Node_ID());
 				ResultSet rs1 = pstmt1.executeQuery();
-				//while (!m_calculated && rsplv.next())
-				//System.out.println("***** SQL1 " +sql1 + " variable " +getPP_Order_ID());
+				log.fine("***** SQL1 " + sql1 + " variable " +getPP_Order_ID());
 				while (rs1.next())
 				{
 					System.out.println("***** Nodo " +rs1.getInt(2) +" status " +rs1.getString(1));
 					if(!rs1.getString(1).equals("CL"))
 					{
-
 						MPPOrderNode onodenext =new MPPOrderNode(Env.getCtx(),rs1.getInt(2),get_TrxName());
 						onodenext.setDocStatus("CL");
 						onodenext.save();
-
-
 					}
-
-
 				}
 				rs1.close();
 				pstmt1.close();
-
-
 			}
 			catch (SQLException enode)
 			{
@@ -907,22 +844,19 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		//fjv e-evolution Operation Activity Report begin
 		try
 		{
-			String sqlar="SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="+getPP_Order_ID() +"  and PP_Order_Node_ID="+node;
+			String sqlar="SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="
+				+getPP_Order_ID() +"  and PP_Order_Node_ID="+node;
 			PreparedStatement pstmtar = DB.prepareStatement(sqlar,null);
-			// pstmt.setInt(1, AD_Client_ID);
-			//  pstmtar.setInt(1, getPP_Order_ID());
-			//pstmtar.setInt(2, rs1.getInt(2));
-			// System.out.println("***** SQLar " +sqlar + " variables " +getPP_Order_ID() +" nodo "+node);
+			log.fine("***** SQLar " +sqlar + " variables " +getPP_Order_ID() +" nodo "+node);
 			ResultSet rsar = pstmtar.executeQuery();
-
-			//while (!m_calculated && rsplv.next())
 			if(rsar.next())
 			{
-				// System.out.println("***** NODO Ya Existe");
+				log.warning("***** NODO Ya Existe");
 			}
 			else
 			{
 				// System.out.println("***** ENTRA AL eLSE ");
+				log.fine("***** ENTRA AL eLSE ");
 				MPPCostCollector costnew = new MPPCostCollector(Env.getCtx(),0,get_TrxName());
 				costnew.setPP_Order_ID(getPP_Order_ID());
 				costnew.setC_DocTypeTarget_ID(getC_DocTypeTarget_ID());
@@ -943,25 +877,18 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				costnew.setMovementType(getMovementType());
 				costnew.save();
 				//    costnew.completeIt();
-
 			}
-
 			rsar.close();
 			pstmtar.close();
-
 		}
 		catch (SQLException exnode)
 		{
 		}
 		//completenew(getPP_Order_ID(),node);
 		//fjv e-evolution Operation Activity Report end
-
-
 	}
 
 	protected boolean beforeSave(boolean newRecord) {
-
-
 
 		//fjv e-evolution Operation Activity Report begin
 //		MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),null);
@@ -979,7 +906,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 		if (!newRecord)
 			return success;
-
+/****** tspc: Cannot see any need for the following code, commenting out for now
 		//fjv e-evolution Operation Activity Report begin
 		MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),null);
 		onodeact.setDocStatus("IP");
@@ -989,7 +916,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		// setDocStatus("IP");
 
 		//fjv e-evolution Operation Activity Report end
-
+********/
 		return true;
 	} //aftersave
 	protected void closenew(int order, int node)
@@ -998,10 +925,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		{
 			String sqlcom="SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="+order;
 			PreparedStatement pstmtcom = DB.prepareStatement(sqlcom,null);
-			// pstmt.setInt(1, AD_Client_ID);
-			//  pstmtar.setInt(1, getPP_Order_ID());
-			//pstmtar.setInt(2, rs1.getInt(2));
-			System.out.println("***** SQLar " +sqlcom + " variables " +order +" nodo "+node);
+			//System.out.println("***** SQLar " +sqlcom + " variables " +order +" nodo "+node);
+
 			ResultSet rscom = pstmtcom.executeQuery();
 			while(rscom.next())
 			{
@@ -1028,10 +953,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		{
 			String sqlcom="SELECT PP_Cost_Collector_ID,DocStatus FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="+order;
 			PreparedStatement pstmtcom = DB.prepareStatement(sqlcom,null);
-			// pstmt.setInt(1, AD_Client_ID);
-			//  pstmtar.setInt(1, getPP_Order_ID());
-			//pstmtar.setInt(2, rs1.getInt(2));
-			System.out.println("***** SQLar " +sqlcom + " variables " +order +" nodo "+node);
+			//System.out.println("***** SQLar " +sqlcom + " variables " +order +" nodo "+node);
 			ResultSet rscom = pstmtcom.executeQuery();
 			while(rscom.next())
 			{
@@ -1064,7 +986,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		if (no > 0)
 			log.config("Delete old #" + no);
 
-
 		//	Check Line
 		boolean needSave = false;
 		BigDecimal qtyASI = Env.ZERO ;
@@ -1093,7 +1014,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 						line.getM_Product_ID(),	line.getM_Locator_ID(), 
 						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
 				BigDecimal qtyToDeliver = qty.negate();
-
 
 				for (MStorage storage: storages)
 				{
