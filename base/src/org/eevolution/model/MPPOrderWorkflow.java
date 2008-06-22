@@ -165,7 +165,8 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			setWaitingTime (0);
 			setWorkingTime (0);
 		}
-		loadTrl();
+		//Tranlsation table for PP_Order_Workflow does not exist
+		//loadTrl();
 		loadNodes();
 	}	//	MPPOrderWorkflow
 	

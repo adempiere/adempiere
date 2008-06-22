@@ -112,7 +112,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 	{
 		super(ctx, rs, trxName);
 		loadNext();
-		loadTrl();
+		//Tranlsation table for PP_Order_Node does not exist
+		//loadTrl();
 		//	Save to Cache
 		s_cache.put (new Integer(getPP_Order_Node_ID()), this);
 	}	//	MPPOrderNode
