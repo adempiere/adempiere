@@ -188,9 +188,10 @@ public class InvoiceHistory extends CDialog
 	 */
 	private Vector<Vector<Object>> queryProduct ()
 	{
-		String sql = "SELECT p.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"
-			+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"
-			+ "o.Name "
+		String sql = "SELECT p.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//  1,2,3,4
+			+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//  5,6
+			+ "o.Name, "															//  7
+			+ "NULL, i.M_PriceList_ID "												//  8,9
 			+ "FROM C_Invoice i"
 			+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
 			+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
@@ -213,8 +214,9 @@ public class InvoiceHistory extends CDialog
 	{
 		String sql = "SELECT bp.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//	1,2,3,4
 			+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//	5,6
-			+ "o.Name "
-			+ "FROM C_Invoice i"
+			+ "o.Name,"																//  7
+			+ "NULL, i.M_PriceList_ID"												//  8,9
+			+ " FROM C_Invoice i"
 			+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
 			+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
 			+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
@@ -250,17 +252,21 @@ public class InvoiceHistory extends CDialog
 				line.add(rs.getString(1));      //  Name
 				line.add(rs.getBigDecimal(2));  //	Price
 				line.add(new Double(rs.getDouble(4)));      //  Qty
-				BigDecimal discountBD = Env.ZERO;
-				try //  discoint can be indefinate
-				{
-					double discountD = (rs.getDouble(3)-rs.getDouble(2)) / rs.getDouble(3) * 100;
-					discountBD = new BigDecimal(discountD);
+				BigDecimal discountBD = rs.getBigDecimal(8);
+				if (discountBD == null) {
+					double priceList = rs.getDouble(3);
+					double priceActual = rs.getDouble(2);
+					if (priceList != 0) {
+						discountBD = new BigDecimal((priceList - priceActual)/priceList * 100);
+						// Rounding:
+						int precision = MPriceList.getStandardPrecision(Env.getCtx(), rs.getInt(9));
+						if (discountBD.scale() > precision)
+							discountBD = discountBD.setScale(precision, RoundingMode.HALF_UP);
+					}
+					else
+						discountBD = Env.ZERO;
 				}
-				catch (Exception e)
-				{
-					discountBD = Env.ZERO;
-				}
-				line.add(discountBD);           //  Discount
+				line.add(discountBD);  //  Discount
 				line.add(rs.getString(6));      //  DocNo
 				line.add(rs.getTimestamp(5));   //  Date
 				line.add(rs.getString(7));		//	Org/Warehouse
@@ -346,7 +352,8 @@ public class InvoiceHistory extends CDialog
 		{
 			String sql = "SELECT bp.Name, ol.PriceActual,ol.PriceList,ol.QtyReserved,"
 				+ "o.DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-				+ "w.Name "
+				+ "w.Name,"
+				+ "ol.Discount, 0 "															// 8,9=M_PriceList_ID
 				+ "FROM C_Order o"
 				+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
@@ -362,7 +369,8 @@ public class InvoiceHistory extends CDialog
 		{
 			String sql = "SELECT p.Name, ol.PriceActual,ol.PriceList,ol.QtyReserved,"
 				+ "o.DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, " 
-				+ "w.Name "
+				+ "w.Name,"
+				+ "ol.Discount, 0 "															// 8,9=M_PriceList_ID
 				+ "FROM C_Order o"
 				+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
