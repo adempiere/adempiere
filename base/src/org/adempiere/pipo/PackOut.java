@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,16 +10,24 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C)
- * 2004 Robert KLEIN. robeklein@hotmail.com * 
- * Contributor(s): Low Heng Sin hengsin@avantz.com
- *                 Teo Sarca teo.sarca@arhipac.ro, SC ARHIPAC SERVICE SRL    *
+ *                                                                            *
+ * Copyright (C)                                                              *
+ * 2004 Robert KLEIN. robeklein@hotmail.com                                   * 
+ * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
+ *                 Teo Sarca teo.sarca@arhipac.ro, SC ARHIPAC SERVICE SRL     *
  *****************************************************************************/
 package org.adempiere.pipo;
 
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -29,7 +37,6 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.adempiere.pipo.CreateZipFile;
 import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
 import org.adempiere.pipo.handler.CommonTranslationHandler;
@@ -56,11 +63,12 @@ import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Reference;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
-import org.compiere.process.*;
 
 
 /**

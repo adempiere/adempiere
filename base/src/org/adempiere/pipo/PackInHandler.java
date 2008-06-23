@@ -19,31 +19,32 @@
 
 package org.adempiere.pipo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
 import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
 import org.adempiere.pipo.handler.ColumnElementHandler;
@@ -85,18 +86,17 @@ import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.adempiere.pipo.handler.WorkflowNodeElementHandler;
 import org.adempiere.pipo.handler.WorkflowNodeNextConditionElementHandler;
 import org.adempiere.pipo.handler.WorkflowNodeNextElementHandler;
-import org.compiere.model.*;
+import org.compiere.model.MSequence;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.CLogger;
 import org.compiere.util.Trx;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
 import org.xml.sax.Attributes;
-
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
-
-
 
 /**
  * SAX Handler for parsing XML description of the GUI.
@@ -146,10 +146,9 @@ public class PackInHandler extends DefaultHandler {
 	private void init() throws SAXException {
 		if (packIn == null)
 			packIn = new PackIn();
-		packageDirectory = packIn.m_Package_Dir;
-		m_UpdateMode = packIn.m_UpdateMode;
-		m_DatabaseType = packIn.m_Database;
-		File file = new File("");
+		packageDirectory = PackIn.m_Package_Dir;
+		m_UpdateMode = PackIn.m_UpdateMode;
+		m_DatabaseType = PackIn.m_Database;
 		SimpleDateFormat formatter_file = new SimpleDateFormat("yyMMddHHmmssZ");
 		SimpleDateFormat formatter_log = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
 		Date today = new Date();
