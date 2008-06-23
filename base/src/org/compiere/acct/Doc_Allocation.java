@@ -1086,7 +1086,7 @@ class Doc_AllocationTax
 	}	//	createEntries
 	
 	/**
-	 * 	Calc Amount tax / (total-tax) * amt
+	 * 	Calc Amount tax / total * amt
 	 *	@param tax tax
 	 *	@param total total
 	 *	@param amt reduction amt
@@ -1101,8 +1101,7 @@ class Doc_AllocationTax
 			|| amt.signum() == 0)
 			return Env.ZERO;
 		//
-		BigDecimal devisor = total.subtract(tax); 
-		BigDecimal multiplier = tax.divide(devisor, 10, BigDecimal.ROUND_HALF_UP); 
+		BigDecimal multiplier = tax.divide(total, 10, BigDecimal.ROUND_HALF_UP); 
 		BigDecimal retValue = multiplier.multiply(amt);
 		if (retValue.scale() > precision)
 			retValue = retValue.setScale(precision, BigDecimal.ROUND_HALF_UP);
