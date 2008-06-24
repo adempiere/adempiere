@@ -874,8 +874,9 @@ public final class APanel extends CPanel
 	 */
 	private MQuery initialQuery (MQuery query, GridTab mTab)
 	{
+		MRole role = MRole.getDefault(m_ctx, false);
 		//	We have a (Zoom) query
-		if (query != null && query.isActive() && query.getRecordCount() < 10)
+		if (query != null && query.isActive() && !role.isQueryMax(query.getRecordCount()))
 			return query;
 		//
 		StringBuffer where = new StringBuffer();
