@@ -17,23 +17,84 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Level;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import org.compiere.apps.search.*;
-import org.compiere.grid.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.compiere.apps.search.Find;
+import org.compiere.grid.APanelTab;
+import org.compiere.grid.GridController;
+import org.compiere.grid.GridSynchronizer;
+import org.compiere.grid.RecordAccessDialog;
+import org.compiere.grid.VCreateFrom;
+import org.compiere.grid.VOnlyCurrentDays;
+import org.compiere.grid.VPayment;
+import org.compiere.grid.VSortTab;
+import org.compiere.grid.VTabbedPane;
+import org.compiere.grid.ed.VButton;
+import org.compiere.grid.ed.VDocAction;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.DataStatusListener;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.GridWorkbench;
+import org.compiere.model.Lookup;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MUser;
+import org.compiere.model.MWindow;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.print.AReport;
+import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.swing.CPanel;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Main Panel of application window.
@@ -63,6 +124,8 @@ import org.compiere.util.*;
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
 {
+	private static final long serialVersionUID = 1L;
+
 	private boolean isNested = false;
 	
 	/**
@@ -1079,7 +1142,7 @@ public final class APanel extends CPanel
 		boolean back = false;
 		boolean isAPanelTab = false;
 
-		int previousIndex = 0;
+		//int previousIndex = 0;
 
 		//  Workbench Tab Change
 		if (tp.isWorkbench())
@@ -1166,7 +1229,7 @@ public final class APanel extends CPanel
 		//	if (m_curTabIndex >= 0)
 		//		m_curWinTab.setForegroundAt(m_curTabIndex, AdempierePLAF.getTextColor_Normal());
 		//	m_curWinTab.setForegroundAt(tpIndex, AdempierePLAF.getTextColor_OK());
-			previousIndex = m_curTabIndex;
+		//	previousIndex = m_curTabIndex;
 			m_curTabIndex = tpIndex;
 			if (!isAPanelTab) {
 				m_curGC = gc;
@@ -1632,8 +1695,8 @@ public final class APanel extends CPanel
 			StringBuffer displayValue = new StringBuffer();
 			if("".equals(m_curTab.getKeyColumnName())){
 				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
-				for (Iterator iter = parentColumnNames.iterator(); iter.hasNext();) {
-					String columnName = (String) iter.next();
+				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();) {
+					String columnName = iter.next();
 					GridField field = m_curTab.getField(columnName);
 					if(field.isLookup()){
 						Lookup lookup = field.getLookup();
@@ -2133,7 +2196,7 @@ public final class APanel extends CPanel
 		log.info(vButton.toString());
 
 		boolean startWOasking = false;
-		boolean batch = false;
+//		boolean batch = false;
 		String col = vButton.getColumnName();
 
 		//  Zoom
@@ -2200,7 +2263,7 @@ public final class APanel extends CPanel
 				vda.setVisible(true);
 				if (!vda.isStartProcess())
 					return;
-				batch = vda.isBatch();
+//				batch = vda.isBatch();
 				startWOasking = true;
 				vda.dispose();
 			}
@@ -2454,7 +2517,8 @@ public final class APanel extends CPanel
 	 * 
 	 */
 	class SwitchAction extends AbstractAction {
-		
+		private static final long serialVersionUID = 1L;
+
 		/** the action listener - APanel */
 		private ActionListener al;
 
