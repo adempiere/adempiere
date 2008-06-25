@@ -807,9 +807,9 @@ public class VLookup extends JComponent
 		else if (col.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Lookup_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
 			//  Replace Value with name if no value exists
 			if (queryValue.length() == 0 && m_text.getText().length() > 0)
 				queryValue = "@" + m_text.getText() + "@";   //  Name indicator - otherwise Value
@@ -933,9 +933,9 @@ public class VLookup extends JComponent
 		if (m_columnName.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Locator_ID", "0");
 			//
 			sql.append(" AND (UPPER(p.Value) LIKE ")
 				.append(DB.TO_STRING(text))
@@ -1067,9 +1067,9 @@ public class VLookup extends JComponent
 		if (m_columnName.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Locator_ID", "0");
 			//
 			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
 				.append(DB.TO_STRING(text))

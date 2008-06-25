@@ -492,9 +492,9 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
         }
         //  publish for Callout to read
         Integer ID = getSelectedRowKey();
-        Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID", ID == null ? "0" : ID.toString());
-        Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "AD_User_ID", String.valueOf(AD_User_ID));
-        Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_Location_ID", String.valueOf(C_BPartner_Location_ID));
+        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_ID", ID == null ? "0" : ID.toString());
+        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "AD_User_ID", String.valueOf(AD_User_ID));
+        Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID", String.valueOf(C_BPartner_Location_ID));
        
     }   //  saveSelectionDetail
 		   

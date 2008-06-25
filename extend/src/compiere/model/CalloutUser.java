@@ -95,9 +95,9 @@ public class CalloutUser extends CalloutEngine
 				int locID = rs.getInt("C_BPartner_Location_ID");
 				//	overwritten by InfoBP selection - works only if InfoWindow
 				//	was used otherwise creates error (uses last value, may belong to differnt BP)
-				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String loc = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_Location_ID");
+					String loc = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID");
 					if (loc.length() > 0)
 						locID = Integer.parseInt(loc);
 				}
@@ -108,9 +108,9 @@ public class CalloutUser extends CalloutEngine
 
 				//	Contact - overwritten by InfoBP selection
 				int contID = rs.getInt("AD_User_ID");
-				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String cont = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "AD_User_ID");
+					String cont = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "AD_User_ID");
 					if (cont.length() > 0)
 						contID = Integer.parseInt(cont);
 				}

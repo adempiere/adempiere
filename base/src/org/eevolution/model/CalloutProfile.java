@@ -282,9 +282,9 @@ public class CalloutProfile extends CalloutEngine
 				int shipTo_ID = rs.getInt("C_BPartner_Location_ID");
 				//	overwritten by InfoBP selection - works only if InfoWindow
 				//	was used otherwise creates error (uses last value, may belong to differnt BP)
-				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String loc = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_Location_ID");
+					String loc = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID");
 					if (loc.length() > 0)
 						shipTo_ID = Integer.parseInt(loc);
 				}
@@ -295,9 +295,9 @@ public class CalloutProfile extends CalloutEngine
 
 				//	Contact - overwritten by InfoBP selection
 				int contID = rs.getInt("AD_User_ID");
-				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String cont = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "AD_User_ID");
+					String cont = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "AD_User_ID");
 					if (cont.length() > 0)
 						contID = Integer.parseInt(cont);
 				}
@@ -460,9 +460,9 @@ public class CalloutProfile extends CalloutEngine
 				int bill_Location_ID = rs.getInt("Bill_Location_ID");
 				//	overwritten by InfoBP selection - works only if InfoWindow
 				//	was used otherwise creates error (uses last value, may belong to differnt BP)
-				if (bill_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (bill_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String loc = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_Location_ID");
+					String loc = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID");
 					if (loc.length() > 0)
 						bill_Location_ID = Integer.parseInt(loc);
 				}
@@ -473,9 +473,9 @@ public class CalloutProfile extends CalloutEngine
 
 				//	Contact - overwritten by InfoBP selection
 				int contID = rs.getInt("AD_User_ID");
-				if (bill_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (bill_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String cont = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "AD_User_ID");
+					String cont = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "AD_User_ID");
 					if (cont.length() > 0)
 						contID = Integer.parseInt(cont);
 				}
@@ -644,9 +644,9 @@ public class CalloutProfile extends CalloutEngine
 //		//
 //		mTab.setValue("C_Charge_ID", null);
 //		//	Set Attribute
-//		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-//			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+//		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+//			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
 //		else
 //			mTab.setValue("M_AttributeSetInstance_ID", null);
 //			
@@ -674,7 +674,7 @@ public class CalloutProfile extends CalloutEngine
 //		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 //		
 //		//	Check/Update Warehouse Setting
-//		//	int M_Warehouse_ID = Env.getContextAsInt(ctx, Env.WINDOW_INFO, "M_Warehouse_ID");
+//		//	int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
 //		//	Integer wh = (Integer)mTab.getValue("M_Warehouse_ID");
 //		//	if (wh.intValue() != M_Warehouse_ID)
 //		//	{
@@ -1165,9 +1165,9 @@ System.out.println("costo de la formula --------------" +PriceList);
 		//
 		//mTab.setValue("C_Charge_ID", null);
 		//	Set Attribute
-//		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-//			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+//		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+//			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
 //		else
 //			mTab.setValue("M_AttributeSetInstance_ID", null);
 			
@@ -1237,9 +1237,9 @@ catch (SQLException e)
 		//
 		//mTab.setValue("C_Charge_ID", null);
 		//	Set Attribute
-//		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-//			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+//		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+//			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
 //		else
 //			mTab.setValue("M_AttributeSetInstance_ID", null);
 			
@@ -1304,9 +1304,9 @@ catch (SQLException e)
 		//
 		//mTab.setValue("C_Charge_ID", null);
 		//	Set Attribute
-//		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-//			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+//		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+//			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+//			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
 //		else
 //			mTab.setValue("M_AttributeSetInstance_ID", null);
 			

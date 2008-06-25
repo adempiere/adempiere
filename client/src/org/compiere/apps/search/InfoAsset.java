@@ -233,7 +233,7 @@ public class InfoAsset extends Info
 
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "A_Asset_ID", ID == null ? "0" : ID.toString());
+		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "A_Asset_ID", ID == null ? "0" : ID.toString());
 	}   //  saveSelectionDetail
 
 

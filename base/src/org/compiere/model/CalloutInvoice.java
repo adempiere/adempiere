@@ -181,9 +181,9 @@ public class CalloutInvoice extends CalloutEngine
 				int locID = rs.getInt("C_BPartner_Location_ID");
 				//	overwritten by InfoBP selection - works only if InfoWindow
 				//	was used otherwise creates error (uses last value, may belong to differnt BP)
-				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String loc = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_Location_ID");
+					String loc = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID");
 					if (loc.length() > 0)
 						locID = Integer.parseInt(loc);
 				}
@@ -194,9 +194,9 @@ public class CalloutInvoice extends CalloutEngine
 
 				//	Contact - overwritten by InfoBP selection
 				int contID = rs.getInt("AD_User_ID");
-				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_BPartner_ID")))
+				if (C_BPartner_ID.toString().equals(Env.getContext(ctx, WindowNo, Env.TAB_INFO, "C_BPartner_ID")))
 				{
-					String cont = Env.getContext(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "AD_User_ID");
+					String cont = Env.getContext(ctx, WindowNo, Env.TAB_INFO, "AD_User_ID");
 					if (cont.length() > 0)
 						contID = Integer.parseInt(cont);
 				}
@@ -300,9 +300,9 @@ public class CalloutInvoice extends CalloutEngine
 		mTab.setValue("C_Charge_ID", null);
 		
 		//	Set Attribute
-		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+			mTab.setValue("M_AttributeSetInstance_ID", Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID"));
 		else
 			mTab.setValue("M_AttributeSetInstance_ID", null);
 
@@ -317,7 +317,7 @@ public class CalloutInvoice extends CalloutEngine
 		// globalqss - fix reported bug [ 1643489 ] PriceListVersion misfunctionality
 		int M_PriceList_Version_ID;
 		// try to get the price list version from info product tab
-		M_PriceList_Version_ID = Env.getContextAsInt(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_PriceList_Version_ID");
+		M_PriceList_Version_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID");
 		// if not found try to get from the context of window
 		if (M_PriceList_Version_ID == 0)
 			M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
@@ -521,7 +521,7 @@ public class CalloutInvoice extends CalloutEngine
 			// globalqss - fix reported bug [ 1643489 ] PriceListVersion misfunctionality
 			int M_PriceList_Version_ID;
 			// try to get the price list version from info product tab
-			M_PriceList_Version_ID = Env.getContextAsInt(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_PriceList_Version_ID");
+			M_PriceList_Version_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID");
 			// if not found try to get from the context of window
 			if (M_PriceList_Version_ID == 0)
 				M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");

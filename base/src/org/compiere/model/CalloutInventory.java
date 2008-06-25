@@ -69,9 +69,9 @@ public class CalloutInventory extends CalloutEngine
 		if (ASI != null)
 			M_AttributeSetInstance_ID = ASI.intValue();
 		//	Product Selection
-		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID)
+		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID)
 		{
-			M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID");
+			M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");
 			if (M_AttributeSetInstance_ID != 0)
 				mTab.setValue("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
 			else

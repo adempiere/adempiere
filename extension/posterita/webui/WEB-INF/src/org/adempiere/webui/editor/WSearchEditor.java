@@ -453,9 +453,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 		if (col.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Lookup_ID", "0");
+			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
+			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
 
 			//  Replace Value with name if no value exists
 			if (queryValue.length() == 0 && searchbox.getText().length() > 0)
@@ -573,9 +573,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 		if (m_columnName.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", "0");
+			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
+			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Locator_ID", "0");
 
 			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
 				.append(DB.TO_STRING(text))

@@ -58,12 +58,11 @@ public class CalloutPayment extends CalloutEngine
 		mTab.setValue ("IsOverUnderPayment", Boolean.FALSE);
 		mTab.setValue ("OverUnderAmt", Env.ZERO);
 		int C_InvoicePaySchedule_ID = 0;
-		if (Env.getContextAsInt (ctx, Env.WINDOW_INFO, Env.TAB_INFO,
-			"C_Invoice_ID") == C_Invoice_ID.intValue ()
-			&& Env.getContextAsInt (ctx, Env.WINDOW_INFO, Env.TAB_INFO,
-				"C_InvoicePaySchedule_ID") != 0)
-			C_InvoicePaySchedule_ID = Env.getContextAsInt (ctx,
-				Env.WINDOW_INFO, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
+		if (Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_Invoice_ID") == C_Invoice_ID.intValue ()
+			&& Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID") != 0)
+		{
+			C_InvoicePaySchedule_ID = Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
+		}
 		// Payment Date
 		Timestamp ts = (Timestamp)mTab.getValue ("DateTrx");
 		if (ts == null)
@@ -319,12 +318,11 @@ public class CalloutPayment extends CalloutEngine
 				.getContext (ctx, WindowNo, "IsOverUnderPayment")))
 			mTab.setValue ("OverUnderAmt", Env.ZERO);
 		int C_InvoicePaySchedule_ID = 0;
-		if (Env.getContextAsInt (ctx, Env.WINDOW_INFO, Env.TAB_INFO,
-			"C_Invoice_ID") == C_Invoice_ID
-			&& Env.getContextAsInt (ctx, Env.WINDOW_INFO, Env.TAB_INFO,
-				"C_InvoicePaySchedule_ID") != 0)
-			C_InvoicePaySchedule_ID = Env.getContextAsInt (ctx,
-				Env.WINDOW_INFO, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
+		if (Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_Invoice_ID") == C_Invoice_ID
+			&& Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID") != 0)
+		{
+			C_InvoicePaySchedule_ID = Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
+		}
 		// Get Open Amount & Invoice Currency
 		BigDecimal InvoiceOpenAmt = Env.ZERO;
 		int C_Currency_Invoice_ID = 0;

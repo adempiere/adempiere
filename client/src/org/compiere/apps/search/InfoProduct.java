@@ -936,22 +936,22 @@ public final class InfoProduct extends Info implements ActionListener
 	{
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID", ID == null ? "0" : ID.toString());
+		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Product_ID", ID == null ? "0" : ID.toString());
 		KeyNamePair kn = (KeyNamePair)pickPriceList.getSelectedItem();
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_PriceList_Version_ID", kn.getID());
+		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID", kn.getID());
 		kn = (KeyNamePair)pickWarehouse.getSelectedItem();
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Warehouse_ID", kn.getID());
+		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Warehouse_ID", kn.getID());
 		//
 		if (m_M_AttributeSetInstance_ID == -1)	//	not selected
 		{
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", "0");
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Locator_ID", "0");
 		}
 		else
 		{
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
 				String.valueOf(m_M_AttributeSetInstance_ID));
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", 
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Locator_ID", 
 				String.valueOf(m_M_Locator_ID));
 		}
 	}	//	saveSelectionDetail

@@ -64,9 +64,11 @@ public class CalloutPaymentAllocate extends CalloutEngine
 		mTab.setValue("OverUnderAmt", Env.ZERO);
 
 		int C_InvoicePaySchedule_ID = 0;
-		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_Invoice_ID") == C_Invoice_ID.intValue()
-			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_InvoicePaySchedule_ID") != 0)
-			C_InvoicePaySchedule_ID = Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
+		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "C_Invoice_ID") == C_Invoice_ID.intValue()
+			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID") != 0)
+		{
+			C_InvoicePaySchedule_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
+		}
 
 		//  Payment Date
 		Timestamp ts = Env.getContextAsDate(ctx, WindowNo, "DateTrx");

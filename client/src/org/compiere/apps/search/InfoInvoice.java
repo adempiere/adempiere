@@ -398,7 +398,7 @@ public class InfoInvoice extends Info
 	{
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "C_Invoice_ID", ID == null ? "0" : ID.toString());
+		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_Invoice_ID", ID == null ? "0" : ID.toString());
 		//
 		int C_InvoicePaySchedule_ID = 0;
 		int row = p_table.getSelectedRow();
@@ -409,9 +409,9 @@ public class InfoInvoice extends Info
 				C_InvoicePaySchedule_ID = ((KeyNamePair)value).getKey();
 		}
 		if (C_InvoicePaySchedule_ID <= 0)	//	not selected
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "C_InvoicePaySchedule_ID", "0");
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", "0");
 		else
-			Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
 	}	//	saveSelectionDetail
 	
 	

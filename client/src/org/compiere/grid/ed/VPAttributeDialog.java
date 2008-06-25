@@ -455,9 +455,9 @@ public class VPAttributeDialog extends CDialog
 		removeAll();
 		Env.clearWinContext(m_WindowNo);
 		//
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
+		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
 			String.valueOf(m_M_AttributeSetInstance_ID));
-		Env.setContext(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID", 
+		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "M_Locator_ID", 
 			String.valueOf(m_M_Locator_ID));
 		//
 		super.dispose();

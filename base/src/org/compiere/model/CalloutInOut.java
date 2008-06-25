@@ -374,12 +374,12 @@ public class CalloutInOut extends CalloutEngine
 		
 		//	Set Attribute & Locator
 		int M_Locator_ID = 0;
-		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
+		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
+			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
 		{
 			mTab.setValue("M_AttributeSetInstance_ID", 
-				new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
-			M_Locator_ID = Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID");
+				new Integer(Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
+			M_Locator_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Locator_ID");
 			if (M_Locator_ID != 0)
 				mTab.setValue("M_Locator_ID", new Integer(M_Locator_ID));
 		}
@@ -550,10 +550,10 @@ public class CalloutInOut extends CalloutEngine
 			+ " - M_Warehouse_ID=" + M_Warehouse_ID 
 			+ ", M_Locator_ID=" + M_Locator_ID);
 		//	Check Selection
-		int M_AttributeSetInstance_ID =	Env.getContextAsInt(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID");
+		int M_AttributeSetInstance_ID =	Env.getContextAsInt(Env.getCtx(), WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");
 		if (M_ASI_ID.intValue() == M_AttributeSetInstance_ID)
 		{
-			int selectedM_Locator_ID = Env.getContextAsInt(Env.getCtx(), Env.WINDOW_INFO, Env.TAB_INFO, "M_Locator_ID");
+			int selectedM_Locator_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, Env.TAB_INFO, "M_Locator_ID");
 			if (selectedM_Locator_ID != 0)
 			{
 				log.fine("Selected M_Locator_ID=" + selectedM_Locator_ID);
