@@ -698,7 +698,6 @@ public class MPPOrder extends X_PP_Order implements DocAction {
         PP_Order_Workflow.setPP_Order_ID(getPP_Order_ID());
         PP_Order_Workflow.setPriority(AD_Workflow.getPriority());
         PP_Order_Workflow.setValidateWorkflow(AD_Workflow.getValidateWorkflow());
-        PP_Order_Workflow.setPP_Order_Node_ID(AD_Workflow.getAD_WF_Node_ID());
         PP_Order_Workflow.setS_Resource_ID(AD_Workflow.getS_Resource_ID());
         PP_Order_Workflow.setQueuingTime(AD_Workflow.getQueuingTime());
         PP_Order_Workflow.setSetupTime(AD_Workflow.getSetupTime());
@@ -759,8 +758,20 @@ public class MPPOrder extends X_PP_Order implements DocAction {
             PP_Order_Node.setQueuingTime(AD_WF_Node[g].getQueuingTime());
             PP_Order_Node.setXPosition(AD_WF_Node[g].getXPosition());
             PP_Order_Node.setYPosition(AD_WF_Node[g].getYPosition());
-            PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
             PP_Order_Node.setDocAction(AD_WF_Node[g].getDocAction());
+            PP_Order_Node.setAD_Column_ID(AD_WF_Node[g].getAD_Column_ID());
+            PP_Order_Node.setAD_Form_ID(AD_WF_Node[g].getAD_Form_ID());
+            PP_Order_Node.setAD_Image_ID(AD_WF_Node[g].getAD_Image_ID());
+            PP_Order_Node.setAD_Window_ID(AD_WF_Node[g].getAD_Window_ID());
+            PP_Order_Node.setAD_Process_ID(AD_WF_Node[g].getAD_Process_ID());
+            PP_Order_Node.setAttributeName(AD_WF_Node[g].getAttributeName());
+            PP_Order_Node.setAttributeValue(AD_WF_Node[g].getAttributeValue());
+            PP_Order_Node.setC_BPartner_ID(AD_WF_Node[g].getC_BPartner_ID());
+            PP_Order_Node.setStartMode(AD_WF_Node[g].getStartMode());
+            PP_Order_Node.setFinishMode(AD_WF_Node[g].getFinishMode());
+            PP_Order_Node.setValidFrom(AD_WF_Node[g].getValidFrom());
+            PP_Order_Node.setValidTo(AD_WF_Node[g].getValidTo());
+            
             PP_Order_Node.save(get_TrxName());  
      
             MWFNodeNext[] AD_WF_NodeNext = AD_WF_Node[g].getTransitions(getAD_Client_ID());
