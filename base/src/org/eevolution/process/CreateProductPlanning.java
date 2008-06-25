@@ -56,6 +56,7 @@ public class CreateProductPlanning extends SvrProcess
         private BigDecimal      p_WorkingTime = Env.ZERO;
         private int             p_Yield = 0;
         private int 			m_AD_Org_ID = 0;	
+        private int 			m_AD_Client_ID = 0;	
 
         
         
@@ -66,6 +67,8 @@ public class CreateProductPlanning extends SvrProcess
 	 */
 	protected void prepare()
 	{
+		m_AD_Client_ID = Env.getAD_Client_ID(getCtx());
+		
 		ProcessInfoParameter[] para = getParameter();
                 
                 
@@ -182,13 +185,24 @@ public class CreateProductPlanning extends SvrProcess
      */
     protected String doIt() throws Exception                
 	{
-        String sql = "SELECT p.M_Product_ID , p.M_Product_Category_ID FROM M_Product p WHERE p.M_Product_Category_ID = ?  ";
-                         
-        PreparedStatement pstmt = null;
+    	String sql = null;
+    	PreparedStatement pstmt = null;
+    		
+    	if (p_M_Product_Category_ID > 0 )
+    		sql = "SELECT p.M_Product_ID FROM M_Product p WHERE p.AD_Client_ID= ? AND p.M_Product_Category_ID = ?  ";
+    	else
+    		sql = "SELECT p.M_Product_ID FROM M_Product p WHERE p.AD_Client_ID= ?  ";
 		try
 		{
 						pstmt = DB.prepareStatement (sql,get_TrxName());
-                        pstmt.setInt(1, p_M_Product_Category_ID);
+						if (p_M_Product_Category_ID > 0 )
+						{	
+						pstmt.setInt(1, m_AD_Client_ID);
+						pstmt.setInt(2, p_M_Product_Category_ID);
+						}
+						else 
+                        pstmt.setInt(1, m_AD_Client_ID);
+						
                         ResultSet rs = pstmt.executeQuery ();
                         while (rs.next())
                         {                                                   
@@ -197,7 +211,8 @@ public class CreateProductPlanning extends SvrProcess
                         	MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), m_AD_Org_ID , p_M_Warehouse_ID, p_S_Resource_ID,M_Product_ID, get_TrxName());
 	                        if (pp==null && ( p_S_Resource_ID == 0 || p_M_Warehouse_ID == 0 ))
 	                        {
-	                                    pp = new MPPProductPlanning(getCtx(),0,get_TrxName());                                                                                                       
+	                                    pp = new MPPProductPlanning(getCtx(),0,get_TrxName());                  
+	                                    pp.setAD_Org_ID(0);
 	                                    pp.setM_Product_ID(rs.getInt(1));
 	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);		
 	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);
@@ -205,7 +220,8 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setIsCreatePlan(p_CreatePlan);                                                                         
 	                                    pp.setIsMPS(p_MPS);                                    
 	                                    pp.setIsPhantom(false);
-	                                    pp.setIsRequiredMRP(true);                                    
+	                                    pp.setIsRequiredMRP(true);
+	                                    pp.setIsRequiredDRP(true);
 	                                    pp.setM_Warehouse_ID(p_M_Warehouse_ID);
 	                                    pp.setS_Resource_ID(p_S_Resource_ID);
 	                                    pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
@@ -228,7 +244,9 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);	
 	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);                                 	
 	                                    pp.setIsCreatePlan(p_CreatePlan);                                 
-	                                    pp.setIsMPS(p_MPS);                                  
+	                                    pp.setIsMPS(p_MPS);    
+	                                    pp.setIsRequiredMRP(true);
+	                                    pp.setIsRequiredDRP(true);
 	                                    pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
 	                                    pp.setOrder_Period(p_OrderPeriod);
 	                                    pp.setPlanner_ID(p_Planner);
