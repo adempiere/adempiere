@@ -70,108 +70,110 @@ public class MRPUpdate extends SvrProcess
      } 
      
      public boolean deleteMRP()
-     {
-         
-         
-                System.out.println("begin deleteMRP()");
-                						                
-                //String sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'MOP' AND EXISTS(SELECT PP_Order_ID FROM PP_Order o WHERE o.PP_Order_ID = mrp.PP_Order_ID AND o.DocStatus IN ('DR','CL')) AND mrp.AD_Client_ID = " + AD_Client_ID;
-                
-                String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP'  AND AD_Client_ID=" + AD_Client_ID;
-                
-                DB.executeUpdate(sql, get_TrxName());
-                
-                sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'FCT' AND mrp.AD_Client_ID = " + AD_Client_ID;
-				
-                DB.executeUpdate(sql,get_TrxName());
-                
-                //sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR' AND EXISTS(SELECT M_Requisition_ID FROM M_Requisition r WHERE r.M_Requisition_ID = mrp.M_Requisition_ID AND (r.DocStatus='DR' AND r.DocStatus='CL')) AND mrp.AD_Client_ID = " + AD_Client_ID;		
-                sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR'  AND mrp.AD_Client_ID = " + AD_Client_ID;		
-				
-                DB.executeUpdate(sql,get_TrxName());
-                
-                sql = "DELETE FROM AD_Note n WHERE AD_Table_ID =  " + MPPMRP.Table_ID +  " AND AD_Client_ID = " + AD_Client_ID;		
-				
-                DB.executeUpdate(sql, get_TrxName());
-                
-                 
-                sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + AD_Client_ID;		
-                try
-				{
-                        PreparedStatement pstmt = null;
-                        pstmt = DB.prepareStatement (sql,get_TrxName());
-                        //pstmt.setInt(1, p_M_Warehouse_ID);
-                        ResultSet rs = pstmt.executeQuery();
-                        while (rs.next())
-                        {
-                            MPPOrder order = new  MPPOrder(getCtx(), rs.getInt(1), get_TrxName());
-                            order.delete(true);
-                        }
-                        rs.close();
-                        pstmt.close();
-                      
-				}
-                catch (Exception e)
-				{
-                	log.log(Level.SEVERE,"doIt - " + sql, e);
-                        return false;
-				}    
-                
-                        sql = "SELECT r.M_Requisition_ID FROM M_Requisition r WHERE  r.DocStatus = 'DR' AND r.AD_Client_ID = " + AD_Client_ID;
+     {						               
+	    Trx trx = Trx.get("MRP Delete", true);
+	    
+	    String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP'  AND AD_Client_ID=" + AD_Client_ID;
+	    
+	    DB.executeUpdate(sql, trx.getTrxName());
+	    
+	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'FCT' AND mrp.AD_Client_ID = " + AD_Client_ID;
 		
-                try
+	    DB.executeUpdate(sql,trx.getTrxName());
+	    
+	    //sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR' AND EXISTS(SELECT M_Requisition_ID FROM M_Requisition r WHERE r.M_Requisition_ID = mrp.M_Requisition_ID AND (r.DocStatus='DR' AND r.DocStatus='CL')) AND mrp.AD_Client_ID = " + AD_Client_ID;		
+	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR'  AND mrp.AD_Client_ID = " + AD_Client_ID;		
+		
+	    DB.executeUpdate(sql,trx.getTrxName());
+	    
+	    sql = "DELETE FROM AD_Note n WHERE AD_Table_ID =  " + MPPMRP.Table_ID +  " AND AD_Client_ID = " + AD_Client_ID;		
+		
+	    DB.executeUpdate(sql, trx.getTrxName());
+	    
+	     
+	    sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + AD_Client_ID;		
+	    try
 		{
-                        PreparedStatement pstmt = null;
-                        pstmt = DB.prepareStatement (sql,get_TrxName());
-                        //pstmt.setInt(1, p_M_Warehouse_ID);
-                        ResultSet rs = pstmt.executeQuery();
-                        while (rs.next())
-                        {
-                            MRequisition r = new  MRequisition(getCtx(), rs.getInt(1),get_TrxName());
-                            
-                            MRequisitionLine[] rlines = r. getLines();
-                            for ( int i= 0 ; i < rlines.length; i++ )
-                            {
-                            	MRequisitionLine line =  rlines[i];
-                            	line.delete(true);
-                            }
-							
-                            r.delete(true);
-                        }
-                        rs.close();
-                        pstmt.close();
-                        return true;
+	            PreparedStatement pstmt = null;
+	            pstmt = DB.prepareStatement (sql,trx.getTrxName());
+	            //pstmt.setInt(1, p_M_Warehouse_ID);
+	            ResultSet rs = pstmt.executeQuery();
+	            while (rs.next())
+	            {
+	                MPPOrder order = new  MPPOrder(getCtx(), rs.getInt(1), trx.getTrxName());
+	                order.delete(true);
+	            }
+	            rs.close();
+	            pstmt.close();
+	          
 		}
-                catch (Exception e)
+	    catch (Exception e)
 		{
-                	log.log(Level.SEVERE,"doIt - " + sql, e);
-                    return false;
+	    	log.log(Level.SEVERE,"doIt - " + sql, e);
+	            return false;
+		}    
+	    
+	    try
+	    {
+	        	sql = "SELECT r.M_Requisition_ID FROM M_Requisition r WHERE  r.DocStatus = 'DR' AND r.AD_Client_ID = " + AD_Client_ID;
+	
+	            PreparedStatement pstmt = null;
+	            pstmt = DB.prepareStatement (sql,trx.getTrxName());
+	            //pstmt.setInt(1, p_M_Warehouse_ID);
+	            ResultSet rs = pstmt.executeQuery();
+	            while (rs.next())
+	            {
+	                MRequisition r = new  MRequisition(getCtx(), rs.getInt(1),trx.getTrxName());
+	                
+	                MRequisitionLine[] rlines = r. getLines();
+	                for ( int i= 0 ; i < rlines.length; i++ )
+	                {
+	                	MRequisitionLine line =  rlines[i];
+	                	line.delete(true);
+	                }
+					
+	                r.delete(true);
+	            }
+	            rs.close();
+	            pstmt.close();
+	
 		}
+	    catch (Exception e)
+		{
+	            	log.log(Level.SEVERE,"doIt - " + sql, e);
+	                return false;
+		}
+	    
+	    trx.commit();
+	    return true;
                 
-     }
+}
      
 
      
   public boolean update()
   {
         
+	  	
   		//  Get Forcast  		
   		String sql = "SELECT fl.M_FORECASTLINE_ID  FROM M_FORECASTLINE fl WHERE fl.Qty > 0  AND fl.AD_Client_ID = " + AD_Client_ID; 							                                
   		PreparedStatement pstmt = null;
 
 		try
 		{
-					pstmt = DB.prepareStatement (sql,get_TrxName());
-                    //pstmt.setInt(1, p_M_Warehouse_ID);
+			pstmt = DB.prepareStatement (sql,get_TrxName());
+            //pstmt.setInt(1, p_M_Warehouse_ID);
 
-                    ResultSet rs = pstmt.executeQuery();                        
-                    while (rs.next())
-                    {
-                        MForecastLine fl = new MForecastLine(Env.getCtx(),rs.getInt(1),get_TrxName());
-                        MPPMRP.M_ForecastLine(fl,false);
-                    }
-                    rs.close();
-                    pstmt.close();                   
+            ResultSet rs = pstmt.executeQuery();                        
+            while (rs.next())
+            {
+            	Trx trx = Trx.get("MRP Forecast", true);
+                MForecastLine fl = new MForecastLine(Env.getCtx(),rs.getInt(1),get_TrxName());
+                MPPMRP.M_ForecastLine(fl,false);
+                trx.commit();
+            }
+            rs.close();
+            pstmt.close();                   
 		}
 		catch (Exception e)
 		{
@@ -183,16 +185,17 @@ public class MRPUpdate extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement (sql,get_TrxName());
-                        //pstmt.setInt(1, p_M_Warehouse_ID);                        
-                        ResultSet rs = pstmt.executeQuery ();
-                        while (rs.next())
-                        {
-                         
-                            MPPOrder o = new MPPOrder(Env.getCtx(),rs,get_TrxName());
-                            MPPMRP.PP_Order(o);
-                        }
-                        rs.close();
-                        pstmt.close();
+            //pstmt.setInt(1, p_M_Warehouse_ID);                        
+            ResultSet rs = pstmt.executeQuery ();
+            while (rs.next())
+            {
+            	Trx trx = Trx.get("MRP MO", true);
+                MPPOrder o = new MPPOrder(Env.getCtx(),rs,get_TrxName());
+                MPPMRP.PP_Order(o);
+                trx.commit();
+            }
+            rs.close();
+            pstmt.close();
 
 		}
 		catch (Exception e)
@@ -212,8 +215,10 @@ public class MRPUpdate extends SvrProcess
                         ResultSet rs = pstmt.executeQuery();                        
                         while (rs.next())
                         {
+                        	Trx trx = Trx.get("MRP OrderLine", true);
                             MOrderLine ol = new MOrderLine(Env.getCtx(),rs.getInt(1),get_TrxName());
                             MPPMRP.C_OrderLine(ol,false);
+                            trx.commit();
                         }
                         rs.close();
                         pstmt.close();
@@ -237,8 +242,10 @@ public class MRPUpdate extends SvrProcess
                         ResultSet rs = pstmt.executeQuery();                        
                         while (rs.next())
                         {
+                        	Trx trx = Trx.get("MRP OrderLine", true);
                             MRequisitionLine rl = new MRequisitionLine(Env.getCtx(),rs.getInt(1),get_TrxName());
                             MPPMRP.M_RequisitionLine(rl,false);
+                            trx.commit();
                         }
                         rs.close();
                         pstmt.close();
