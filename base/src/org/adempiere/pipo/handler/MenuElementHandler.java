@@ -189,8 +189,8 @@ public class MenuElementHandler extends AbstractElementHandler {
 						int columnID = DB.getSQLValue(getTrxName(ctx), sql
 								.toString(), tableID);
 						sql = new StringBuffer(
-								"SELECT AD_Reference_ID FROM AD_COLUMN WHERE AD_Column_ID = '"
-										+ columnID + "'");
+								"SELECT AD_Reference_ID FROM AD_COLUMN WHERE AD_Column_ID = "
+										+ (columnID == -1 ? "null" : columnID));
 						int referenceID = DB.getSQLValue(getTrxName(ctx), sql
 								.toString());
 						int idBackup = MSequence.getNextID(Env
@@ -226,9 +226,9 @@ public class MenuElementHandler extends AbstractElementHandler {
 										+ ", "
 										+ tableID
 										+ ", "
-										+ columnID
+										+ (columnID == -1 ? "null" : columnID)
 										+ ", "
-										+ referenceID
+										+ (referenceID == -1 ? "null" : referenceID)
 										+ ", '" + colValue + "')");
 						int no = DB.executeUpdate(sqlD.toString(),
 								getTrxName(ctx));

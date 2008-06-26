@@ -276,8 +276,8 @@ public abstract class AbstractElementHandler implements ElementHandler {
 						.append( ", " + idDetail )
 	    				.append( ", " + getPackageImpId(ctx) )
 	    				.append( ", " + tableID )
-	    				.append( ", " + columnID )
-	    				.append( ", " + referenceID )
+	    				.append( ", " + (columnID == -1 ? "null" : columnID) )
+	    				.append( ", " + (referenceID == -1 ? "null" : referenceID) )
 	    				.append( ", '" + (colValue != null ? colValue : from.get_Value(i)) )
 	    				.append( "')");
 	    		
