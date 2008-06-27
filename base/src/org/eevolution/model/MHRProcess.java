@@ -662,7 +662,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	
 	public static double getConceptGroup (String pconcept)
 	{
-		String sqlConcept = "SELECT MAX(HR_Concept_Category_ID) From HR_Concept WHERE TRIM(VALUE) = '" + pconcept.trim() +"'";
+		String sqlConcept = "SELECT MAX(HR_Concept_Category_ID) From HR_Concept_Category WHERE TRIM(VALUE) = '" + pconcept.trim() +"'";
 		int HR_Concept_Category_ID = DB.getSQLValue(null, sqlConcept);
 		if(HR_Concept_Category_ID < 0)
 			return 0;
