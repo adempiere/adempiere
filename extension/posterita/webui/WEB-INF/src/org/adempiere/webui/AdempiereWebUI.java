@@ -89,6 +89,19 @@ public class AdempiereWebUI extends Window implements EventListener
     {
         loginDesktop = null;
         this.getChildren().clear();
+        
+        Properties ctx = Env.getCtx();
+        String langLogin = Env.getContext(ctx, Env.LANGUAGE);
+        if (langLogin == null || langLogin.length() <= 0) {
+        	langLogin = langSession;
+        	Env.setContext(ctx, Env.LANGUAGE, langSession);
+        }
+        // Validate language
+		Language language = Language.getLanguage(langLogin);
+    	Env.verifyLanguage(ctx, language);
+     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
+     	
+     
         appDesktop = new Desktop();
         appDesktop.setParent(this);
         appDesktop.setClientInfo(clientInfo);
@@ -97,16 +110,6 @@ public class AdempiereWebUI extends Window implements EventListener
         this.setHeight("100%");
         this.appendChild(appDesktop);
         
-        Properties ctx = Env.getCtx();
-        String langLogin = Env.getContext(ctx, Env.LANGUAGE);
-        if (langLogin == null || langLogin.length() <= 0) {
-        	langLogin = langSession;
-        	Env.setContext(ctx, Env.LANGUAGE, langSession);
-        }
-        
-        // Validate language
-		Language language = Language.getLanguage(langLogin);
-    	Env.verifyLanguage(ctx, language);
         
 		//	Create adempiere Session - user id in ctx
         Session currSess = Executions.getCurrent().getDesktop().getSession();
