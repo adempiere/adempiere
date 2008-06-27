@@ -16,9 +16,14 @@ package org.adempiere.print.export;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.print.attribute.standard.MediaSizeName;
+
 import org.adempiere.impexp.AbstractExcelExporter;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.MPrintFormatItem;
+import org.compiere.print.MPrintPaper;
 import org.compiere.print.PrintData;
 import org.compiere.print.PrintDataElement;
 
@@ -26,6 +31,7 @@ import org.compiere.print.PrintDataElement;
  * Export PrintData to Excel (XLS) file
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1939010 ] Excel Export ERROR - java.sql.Date - integrated Mario Grigioni's fix
+ * 			<li>BF [ 1974309 ] Exporting a report to XLS is not setting page format
  */
 public class PrintDataExcelExporter
 extends AbstractExcelExporter
@@ -131,4 +137,56 @@ extends AbstractExcelExporter
 	protected boolean isFunctionRow() {
 		return m_printData.isFunctionRow();
 	}
+
+	@Override
+	protected void formatPage(HSSFSheet sheet) {
+		super.formatPage(sheet);
+		MPrintPaper paper = MPrintPaper.get(this.m_printFormat.getAD_PrintPaper_ID());
+		//
+		// Set paper size:
+		short paperSize = -1;
+		MediaSizeName mediaSizeName = paper.getMediaSize().getMediaSizeName();
+		if (MediaSizeName.NA_LETTER.equals(mediaSizeName)) {
+			paperSize = HSSFPrintSetup.LETTER_PAPERSIZE;
+		}
+		else if (MediaSizeName.NA_LEGAL.equals(mediaSizeName)) {
+		  	paperSize = HSSFPrintSetup.LEGAL_PAPERSIZE;
+		}
+		else if (MediaSizeName.EXECUTIVE.equals(mediaSizeName)) {
+			paperSize = HSSFPrintSetup.EXECUTIVE_PAPERSIZE;
+		}
+		else if (MediaSizeName.ISO_A4.equals(mediaSizeName)) {
+			paperSize = HSSFPrintSetup.A4_PAPERSIZE;
+		}
+		else if (MediaSizeName.ISO_A5.equals(mediaSizeName)) {
+			paperSize = HSSFPrintSetup.A5_PAPERSIZE;
+		}
+		else if (MediaSizeName.NA_NUMBER_10_ENVELOPE.equals(mediaSizeName)) {
+			paperSize = HSSFPrintSetup.ENVELOPE_10_PAPERSIZE;
+		}
+//		else if (MediaSizeName..equals(mediaSizeName)) {
+//			paperSize = HSSFPrintSetup.ENVELOPE_DL_PAPERSIZE;
+//		}
+//		else if (MediaSizeName..equals(mediaSizeName)) {
+//			paperSize = HSSFPrintSetup.ENVELOPE_CS_PAPERSIZE;
+//		}
+		else if (MediaSizeName.MONARCH_ENVELOPE.equals(mediaSizeName)) {
+			paperSize = HSSFPrintSetup.ENVELOPE_MONARCH_PAPERSIZE;
+		}
+		if (paperSize != -1) {
+			sheet.getPrintSetup().setPaperSize(paperSize);
+		}
+		//
+		// Set Landscape/Portrait:
+		sheet.getPrintSetup().setLandscape(paper.isLandscape());
+		//
+		// Set Paper Margin:
+		sheet.setMargin(HSSFSheet.TopMargin, ((double)paper.getMarginTop()) /72);
+		sheet.setMargin(HSSFSheet.RightMargin, ((double)paper.getMarginRight()) / 72);
+		sheet.setMargin(HSSFSheet.LeftMargin, ((double)paper.getMarginLeft()) / 72);
+		sheet.setMargin(HSSFSheet.BottomMargin, ((double)paper.getMarginBottom()) / 72);
+		//
+	}
+	
+	
 }

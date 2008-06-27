@@ -67,31 +67,39 @@ public abstract class AbstractExcelExporter
 	private HSSFFont m_fontHeader = null;
 	private HSSFFont m_fontDefault = null;
 	private Language m_lang = null;
-	private int m_sheetCount = 0; 
+	private int m_sheetCount = 0;
+	//
+	private int m_colSplit = 1;
+	private int m_rowSplit = 1;
 	/** Styles cache */
 	private HashMap<String, HSSFCellStyle> m_styles = new HashMap<String, HSSFCellStyle>();
-	
+
 	public AbstractExcelExporter() {
 		m_workbook = new HSSFWorkbook();
 		m_dataFormat = m_workbook.createDataFormat();
 	}
-	
+
 	protected Properties getCtx() {
 		return Env.getCtx();
 	}
-	
+
+	protected void setFreezePane(int colSplit, int rowSplit) {
+		m_colSplit = colSplit;
+		m_rowSplit = rowSplit;
+	}
+
 	private String fixString(String str)
 	{
 		// ms excel doesn't support UTF8 charset
 		return Util.stripDiacritics(str);
 	}
-	
+
 	protected Language getLanguage() {
 		if (m_lang == null)
 			m_lang = Env.getLanguage(getCtx());
 		return m_lang;
 	}
-	
+
 	private HSSFFont getFont(boolean isHeader) {
 		HSSFFont font = null;
 		if (isHeader) {
@@ -114,7 +122,7 @@ public abstract class AbstractExcelExporter
 		}
 		return font;
 	}
-	
+
 	/**
 	 * Get Excel number format string by given {@link NumberFormat}
 	 * @param df number format
@@ -200,7 +208,7 @@ public abstract class AbstractExcelExporter
 		}
 		return cs_header;
 	}
-	
+
 	private void fixColumnWidth(HSSFSheet sheet, int lastColumnIndex)
 	{
 		/* POI 3.0.1 *
@@ -209,14 +217,15 @@ public abstract class AbstractExcelExporter
 		}
 		/**/
 	}
-	
+
 	private void closeTableSheet(HSSFSheet prevSheet, String prevSheetName, int colCount)
 	{
 		if (prevSheet == null)
 			return;
 		//
 		fixColumnWidth(prevSheet, colCount);
-		prevSheet.createFreezePane(1, 1);
+		if (m_colSplit >= 0 || m_rowSplit >= 0)
+			prevSheet.createFreezePane(m_colSplit >= 0 ? m_colSplit : 0, m_rowSplit >= 0 ? m_rowSplit : 0);
 		if (!Util.isEmpty(prevSheetName, true) && m_sheetCount > 0) {
 			int prevSheetIndex = m_sheetCount - 1;
 			try {
@@ -230,28 +239,14 @@ public abstract class AbstractExcelExporter
 	private HSSFSheet createTableSheet()
 	{
 		HSSFSheet sheet= m_workbook.createSheet();
-		sheet.setFitToPage(true);
-		// Print Setup
-		HSSFPrintSetup ps = sheet.getPrintSetup();
-		sheet.setAutobreaks(true);
-	    ps.setFitWidth((short)1);
-	    ps.setNoColor(true);
-	    // Sheet Header
-	    HSSFHeader header = sheet.getHeader();
-	    header.setRight(HSSFHeader.page()+ " / "+HSSFHeader.numPages());
-	    // Sheet Footer
-	    HSSFFooter footer = sheet.getFooter();
-	    footer.setLeft(Adempiere.ADEMPIERE_R);
-	    footer.setCenter(Env.getHeader(getCtx(), 0));
-	    Timestamp now = new Timestamp(System.currentTimeMillis());
-	    footer.setRight(DisplayType.getDateFormat(DisplayType.DateTime, getLanguage()).format(now));
-		// Table Header
+		formatPage(sheet);
+		createHeaderFooter(sheet);
 		createTableHeader(sheet);
 		m_sheetCount++;
 		//
 		return sheet;
 	}
-	
+
 	private void createTableHeader(HSSFSheet sheet)
 	{
 		short colnumMax = 0;
@@ -280,6 +275,30 @@ public abstract class AbstractExcelExporter
 			}	//	printed
 		}	//	for all columns
 //		m_workbook.setRepeatingRowsAndColumns(m_sheetCount, 0, 0, 0, 0);
+	}
+
+	protected void createHeaderFooter(HSSFSheet sheet)
+	{
+		// Sheet Header
+		HSSFHeader header = sheet.getHeader();
+		header.setRight(HSSFHeader.page()+ " / "+HSSFHeader.numPages());
+		// Sheet Footer
+		HSSFFooter footer = sheet.getFooter();
+		footer.setLeft(Adempiere.ADEMPIERE_R);
+		footer.setCenter(Env.getHeader(getCtx(), 0));
+		Timestamp now = new Timestamp(System.currentTimeMillis());
+		footer.setRight(DisplayType.getDateFormat(DisplayType.DateTime, getLanguage()).format(now));
+	}
+
+	protected void formatPage(HSSFSheet sheet)
+	{
+		sheet.setFitToPage(true);
+		// Print Setup
+		HSSFPrintSetup ps = sheet.getPrintSetup();
+		ps.setFitWidth((short)1);
+		ps.setNoColor(true);
+		ps.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE);
+		ps.setLandscape(false);
 	}
 
 	/**
@@ -386,7 +405,7 @@ public abstract class AbstractExcelExporter
 	{
 		export(file, language, true);
 	}
-	
+
 	/**
 	 * Export to file
 	 * @param file
