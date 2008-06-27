@@ -189,6 +189,15 @@ public class Doc_Production extends Doc
 							bomCost = bomCost.add(line0.getProductCosts(as, line.getAD_Org_ID(), false));
 					}
 					costs = bomCost.negate();
+					// [ 1965015 ] Posting not balanced when is producing more than 1 product - Globalqss 2008/06/26
+					X_M_ProductionPlan mpp = new X_M_ProductionPlan(getCtx(), line.getM_ProductionPlan_ID(), getTrxName());
+				    if (line.getQty() != mpp.getProductionQty()) {
+				    	// if the line doesn't correspond with the whole qty produced then apply prorate
+				    	// costs = costs * line_qty / production_qty
+				    	costs = costs.multiply(line.getQty(), 
+				    				new MathContext(as.getCostingPrecision(), RoundingMode.valueOf(BigDecimal.ROUND_HALF_UP)));
+				    	costs = costs.divide(mpp.getProductionQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				    }
 				}
 				else
 					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);
