@@ -1792,7 +1792,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 		//	Update total revenue and balance / credit limit (reversed on AllocationLine.processIt)
 		BigDecimal invAmt = MConversionRate.convertBase(getCtx(), getGrandTotal(true),	//	CM adjusted 
-			getC_Currency_ID(), getDateAcct(), 0, getAD_Client_ID(), getAD_Org_ID());
+			getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 		if (invAmt == null)
 		{
 			m_processMsg = "Could not convert C_Currency_ID=" + getC_Currency_ID()

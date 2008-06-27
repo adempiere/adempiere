@@ -203,7 +203,7 @@ public class InvoiceCalculateTax extends SvrProcess {
 		MBPartner bp = new MBPartner (Env.getCtx(), i.getC_BPartner_ID(), trx_name);
 		//	Update total revenue and balance / credit limit (reversed on AllocationLine.processIt)
 		BigDecimal invAmt = MConversionRate.convertBase(Env.getCtx(), i.getGrandTotal(true).multiply(new BigDecimal(factor)),	//	CM adjusted 
-			i.getC_Currency_ID(), i.getDateAcct(), 0, getAD_Client_ID(), i.getAD_Org_ID());
+			i.getC_Currency_ID(), i.getDateAcct(), i.getC_ConversionType_ID(), getAD_Client_ID(), i.getAD_Org_ID());
 		if (invAmt == null)
 		{
 			return false;
