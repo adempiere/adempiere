@@ -101,6 +101,7 @@ public class AcctViewer extends CFrame
 	private CPanel southPanel = new CPanel();
 	private CButton bQuery = new CButton();
 	private CButton bPrint = new CButton();
+	private CButton bExport = new CButton();
 	private CLabel statusLine = new CLabel();
 	private BorderLayout southLayout = new BorderLayout();
 	private BorderLayout queryLayout = new BorderLayout();
@@ -344,7 +345,12 @@ public class AcctViewer extends CFrame
 		bPrint.setIcon(Env.getImageIcon("Print16.gif"));
 		bPrint.setToolTipText(Msg.getMsg(Env.getCtx(), "Print"));
 		bPrint.addActionListener(this);
+		bExport.setIcon(Env.getImageIcon("Export16.gif"));
+		bExport.setToolTipText(Msg.getMsg(Env.getCtx(), "Export"));
+		bExport.setVisible(tabbedPane.getSelectedIndex() == 1);
+		bExport.addActionListener(this);
 		CPanel rightSide = new CPanel(new FlowLayout(FlowLayout.TRAILING, 0, 0));
+		rightSide.add(bExport);
 		rightSide.add(bPrint);
 		rightSide.add(bQuery);
 		southPanel.add(rightSide,  BorderLayout.EAST);
@@ -400,7 +406,8 @@ public class AcctViewer extends CFrame
 	 */
 	public void dispose()
 	{
-		m_data.dispose();
+		if (m_data != null)
+			m_data.dispose();
 		m_data = null;
 		super.dispose();
 	}   //  dispose;
@@ -414,6 +421,7 @@ public class AcctViewer extends CFrame
 	//	log.info( "AcctViewer.stateChanged");
 		boolean visible = m_data.documentQuery && tabbedPane.getSelectedIndex() == 1;
 		bRePost.setVisible(visible);
+		bExport.setVisible(tabbedPane.getSelectedIndex() == 1);
 		if (Ini.isPropertyBool(Ini.P_SHOW_ADVANCED))
 			forcePost.setVisible(visible);
 	}   //  stateChanged
@@ -439,6 +447,8 @@ public class AcctViewer extends CFrame
 			actionRePost();
 		else if  (source == bPrint)
 			PrintScreenPainter.printScreen(this);
+		else if  (source == bExport)
+			exportExcel();
 		//  InfoButtons
 		else if (source instanceof CButton)
 			actionButton((CButton)source);
@@ -724,4 +734,21 @@ public class AcctViewer extends CFrame
 		}
 	}   //  actionRePost
 
+	/**
+	 * Export to Excel
+	 */
+	private void exportExcel() {
+		RModel model = table.getRModel();
+		if (model == null) {
+			return;
+		}
+		try {
+			RModelExcelExporter exporter = new RModelExcelExporter((RModel)model);
+			exporter.export(null, null);
+		}
+		catch (Exception e) {
+			ADialog.error(0, this, "Error", e.getLocalizedMessage());
+			if (CLogMgt.isLevelFinest()) e.printStackTrace();
+		}
+	}
 }   //  AcctViewer

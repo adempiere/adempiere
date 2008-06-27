@@ -58,6 +58,8 @@ public class ResultTable extends JTable implements MouseListener
 	private int         m_lastSortIndex = -1;
 	/** Sort direction          */
 	private boolean     m_asc = true;
+	/** RModel                  */
+	private RModel		m_model = null;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ResultTable.class);
@@ -79,6 +81,7 @@ public class ResultTable extends JTable implements MouseListener
 	public void setModel (RModel reportModel)
 	{
 		log.config(reportModel.toString());
+		m_model = reportModel;
 		super.setModel(new ResultTableModel(reportModel));
 		//
 		TableColumnModel tcm = getColumnModel();
@@ -98,6 +101,13 @@ public class ResultTable extends JTable implements MouseListener
 		}
 		autoSize();
 	}   //  setModel
+	
+	/**
+	 * @return RModel
+	 */
+	public RModel getRModel() {
+		return m_model;
+	}
 
 	/**
 	 *  Set Model

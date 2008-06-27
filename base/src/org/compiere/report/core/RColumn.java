@@ -126,6 +126,9 @@ public class RColumn
 			m_colClass = String.class;
 			m_isIDcol = false;
 		}
+		else if (displayType == DisplayType.ID) {
+			m_colClass = Integer.class;
+		}
 		/**  Table
 		else if (displayType == DisplayType.Table)
 		{
@@ -249,6 +252,8 @@ public class RColumn
 	 */
 	public String getDisplaySQL()
 	{
+		if (m_displaySQL == null)
+			return m_columnName;
 		return m_displaySQL;
 	}
 	/**
