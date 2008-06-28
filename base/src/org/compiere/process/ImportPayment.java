@@ -197,7 +197,7 @@ public class ImportPayment extends SvrProcess
 			log.info("Set Currency=" + no);
 		//
 		sql = new StringBuffer("UPDATE I_Payment i "
-			+ "SET i.C_Currency_ID=(SELECT C_Currency_ID FROM C_BankAccount WHERE C_BankAccount_ID=i.C_BankAccount_ID) "
+			+ "SET C_Currency_ID=(SELECT C_Currency_ID FROM C_BankAccount WHERE C_BankAccount_ID=i.C_BankAccount_ID) "
 			+ "WHERE i.C_Currency_ID IS NULL "
 			+ "AND i.ISO_Code IS NULL").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
