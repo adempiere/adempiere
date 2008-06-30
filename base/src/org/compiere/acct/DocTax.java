@@ -93,20 +93,24 @@ public final class DocTax
 		String sql = "SELECT T_Due_Acct, T_Liability_Acct, T_Credit_Acct, T_Receivables_Acct, T_Expense_Acct "
 			+ "FROM C_Tax_Acct WHERE C_Tax_ID=? AND C_AcctSchema_ID=?";
 		int validCombination_ID = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_C_Tax_ID);
 			pstmt.setInt(2, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				validCombination_ID = rs.getInt(AcctType+1);    //  1..5
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (validCombination_ID == 0)
 			return null;
