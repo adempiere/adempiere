@@ -237,11 +237,13 @@ public class Doc_Order extends Doc
 		String sql = "SELECT it.C_Tax_ID, t.Name, t.Rate, it.TaxBaseAmt, it.TaxAmt, t.IsSalesTax "
 			+ "FROM C_Tax t, C_OrderTax it "
 			+ "WHERE t.C_Tax_ID=it.C_Tax_ID AND it.C_Order_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, getTrxName());
+			pstmt = DB.prepareStatement(sql, getTrxName());
 			pstmt.setInt(1, get_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			//
 			while (rs.next())
 			{
@@ -256,13 +258,14 @@ public class Doc_Order extends Doc
 					taxBaseAmt, amount, salesTax);
 				list.add(taxLine);
 			}
-			//
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//	Return Array

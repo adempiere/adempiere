@@ -710,34 +710,26 @@ public class Doc_Allocation extends Doc
 			+ " AND PostingType='A'";
 			//AND C_Currency_ID=102
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, getTrxName());
 			pstmt.setInt(1, invoice.getC_Invoice_ID());
 			pstmt.setInt(2, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				invoiceSource = rs.getBigDecimal(1);
 				invoiceAccounted = rs.getBigDecimal(2);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		// 	Requires that Invoice is Posted
 		if (invoiceSource == null || invoiceAccounted == null)
@@ -859,31 +851,23 @@ public class Doc_Allocation extends Doc
 			+ " AND C_AcctSchema_ID=?"
 			+ " AND Line_ID IS NULL";	//	header lines like tax or total
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, getTrxName());
 			pstmt.setInt(1, line.getC_Invoice_ID());
 			pstmt.setInt(2, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				tax.addInvoiceFact (new MFactAcct(getCtx(), rs, fact.get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Invoice Not posted
 		if (tax.getLineCount() == 0)

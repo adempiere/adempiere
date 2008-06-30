@@ -446,20 +446,24 @@ public final class FactLine extends X_Fact_Acct
 		int C_Location_ID = 0;
 		String sql = "SELECT w.C_Location_ID FROM M_Warehouse w, M_Locator l "
 			+ "WHERE w.M_Warehouse_ID=l.M_Warehouse_ID AND l.M_Locator_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, M_Locator_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				C_Location_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (C_Location_ID != 0)
 			setLocation (C_Location_ID, isFrom);
@@ -476,20 +480,24 @@ public final class FactLine extends X_Fact_Acct
 			return;
 		int C_Location_ID = 0;
 		String sql = "SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, C_BPartner_Location_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				C_Location_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (C_Location_ID != 0)
 			setLocation (C_Location_ID, isFrom);
@@ -506,20 +514,24 @@ public final class FactLine extends X_Fact_Acct
 			return;
 		int C_Location_ID = 0;
 		String sql = "SELECT C_Location_ID FROM AD_OrgInfo WHERE AD_Org_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				C_Location_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (C_Location_ID != 0)
 			setLocation (C_Location_ID, isFrom);
@@ -691,12 +703,14 @@ public final class FactLine extends X_Fact_Acct
 		if (getM_Locator_ID() != 0)
 		{
 			String sql = "SELECT AD_Org_ID FROM M_Locator WHERE M_Locator_ID=? AND AD_Client_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getM_Locator_ID());
 				pstmt.setInt(2, getAD_Client_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
 				{
 					setAD_Org_ID (rs.getInt(1));
@@ -704,12 +718,14 @@ public final class FactLine extends X_Fact_Acct
 				}
 				else
 					log.log(Level.SEVERE, "AD_Org_ID - Did not find M_Locator_ID=" + getM_Locator_ID());
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
+			}
+			finally {
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}   //  M_Locator_ID != 0
 
@@ -930,23 +946,27 @@ public final class FactLine extends X_Fact_Acct
 			+ "WHERE ga.C_BP_Group_ID=p.C_BP_Group_ID"
 			+ " AND ga.UnearnedRevenue_Acct=vc.C_ValidCombination_ID"
 			+ " AND ga.C_AcctSchema_ID=? AND p.C_BPartner_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_AcctSchema_ID());
 			pstmt.setInt(2, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				UnearnedRevenue_Acct = rs.getInt(1);
 				new_Account_ID = rs.getInt(2);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (new_Account_ID == 0)
 		{
@@ -992,15 +1012,17 @@ public final class FactLine extends X_Fact_Acct
 			+ "FROM Fact_Acct "
 			+ "WHERE C_AcctSchema_ID=? AND AD_Table_ID=? AND Record_ID=?"
 			+ " AND Line_ID=? AND Account_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_AcctSchema_ID());
 			pstmt.setInt(2, AD_Table_ID);
 			pstmt.setInt(3, Record_ID);
 			pstmt.setInt(4, Line_ID);
 			pstmt.setInt(5, m_acct.getAccount_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				MFactAcct fact = new MFactAcct(getCtx(), rs, get_TrxName());
@@ -1046,12 +1068,14 @@ public final class FactLine extends X_Fact_Acct
 					.append(",Record_ID=").append(Record_ID)
 					.append(",Line_ID=").append(Line_ID)
 					.append(", Account_ID=").append(m_acct.getAccount_ID()).toString());
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return success;
 	}   //  updateReverseLine

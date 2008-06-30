@@ -1469,9 +1469,11 @@ public abstract class Doc
 
 		//  Get Acct
 		int Account_ID = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			if (para_1 == -1)   //  GL Accounts
 				pstmt.setInt (1, as.getC_AcctSchema_ID());
 			else
@@ -1479,16 +1481,18 @@ public abstract class Doc
 				pstmt.setInt (1, para_1);
 				pstmt.setInt (2, as.getC_AcctSchema_ID());
 			}
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				Account_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "AcctType=" + AcctType + " - SQL=" + sql, e);
 			return 0;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	No account
 		if (Account_ID == 0)

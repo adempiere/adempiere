@@ -86,11 +86,13 @@ public class Matcher
 		//	Not existing Inv Matches
 			+ "	AND NOT EXISTS (SELECT * FROM M_MatchInv mi "
 			+ "WHERE mi.C_InvoiceLine_ID=m1.C_InvoiceLine_ID AND mi.M_InOutLine_ID=m2.M_InOutLine_ID)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				BigDecimal qty1 = rs.getBigDecimal(8);
@@ -115,12 +117,14 @@ public class Matcher
 					M_Product_ID, DateTrx, Qty))
 					counter++;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "match", e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("Matcher.match - Client_ID=" + m_AD_Client_ID
 			+ ", Records created=" + counter);

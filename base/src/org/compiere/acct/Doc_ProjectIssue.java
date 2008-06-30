@@ -228,9 +228,6 @@ public class Doc_ProjectIssue extends Doc
 			}
 			else
 				log.warning("Not found for S_TimeExpenseLine_ID=" + m_issue.getS_TimeExpenseLine_ID());
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
