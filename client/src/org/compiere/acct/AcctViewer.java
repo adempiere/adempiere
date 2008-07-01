@@ -41,6 +41,8 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			BF [ 1778534 ] Info Account: can't find product
+ * @author Colin Rooney (croo) 
+ * 			BF [ 2006668 ] Selection of Product in the Accounting Viewer
  */
 public class AcctViewer extends CFrame 
 	implements ActionListener, ChangeListener
@@ -677,6 +679,10 @@ public class AcctViewer extends CFrame
 				.getAcctSchemaElement(X_C_AcctSchema_Element.ELEMENTTYPE_UserList2);
 			if (ase != null)
 				whereClause += " AND C_Element_ID=" + ase.getC_Element_ID();
+		}
+		else if (keyColumn.equals("M_Product_ID"))
+		{
+			whereClause = "";
 		}
 		else if (selDocument.isSelected())
 			whereClause = "";
