@@ -18,6 +18,7 @@ package org.eevolution.process;
 
 import java.util.logging.*;
 
+import java.math.BigDecimal;
 import java.sql.*;
 
 
@@ -34,19 +35,15 @@ import org.eevolution.model.MPPOrder;
 /**
  *	MRPUpdate
  *	
- *  @author Victor P�rez, e-Evolution, S.C.
- *  @version $Id: CreateCost.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
+ *  @author Victor Perez, e-Evolution, S.C.
  */
 public class MRPUpdate extends SvrProcess
 {
-	/**					*/
-        	/**					*/
-        /*private int		  p_AD_Org_ID = 0;
-        //private int               p_M_Warehouse_ID = 0;
-        private int               p_S_Resource_ID = 0 ;
-        //
-        private String             p_Version = "1";*/
-       private int AD_Client_ID = 0;
+   	private int     m_AD_Client_ID  = 0;		
+	private int     p_AD_Org_ID     = 0;
+	private int     p_S_Resource_ID = 0 ;
+	private int     p_M_Warehouse_ID= 0;
+	private int  	Planner_ID= 0;
 	
         
 	/**
@@ -54,9 +51,32 @@ public class MRPUpdate extends SvrProcess
 	 */
 	protected void prepare()
 	{
-		AD_Client_ID = getAD_Client_ID();
-                           
-                
+		m_AD_Client_ID = Integer.parseInt(Env.getContext(getCtx(), "#AD_Client_ID"));
+		Planner_ID = Integer.parseInt(Env.getContext(getCtx(), "#AD_User_ID"));
+		ProcessInfoParameter[] para = getParameter();
+
+		for (int i = 0; i < para.length; i++)
+		{
+			String name = para[i].getParameterName();
+
+			if (para[i].getParameter() == null)
+				;
+			else if (name.equals("AD_Org_ID"))
+			{    
+				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
+
+			}                       
+			else if (name.equals("S_Resource_ID"))
+			{    
+				p_S_Resource_ID = ((BigDecimal)para[i].getParameter()).intValue();                
+			}
+			else if (name.equals("M_Warehouse_ID"))
+			{    
+				p_M_Warehouse_ID = ((BigDecimal)para[i].getParameter()).intValue();                
+			}
+			else
+				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
+		}            
               
 	}	//	prepare
 
@@ -64,34 +84,54 @@ public class MRPUpdate extends SvrProcess
        
      protected String doIt() throws Exception                
      {
-         deleteMRP();        
-         update();
-         return "";
+    	if(p_M_Warehouse_ID==0)
+ 		{
+ 			MWarehouse[] ws = MWarehouse.getForOrg(getCtx(), p_AD_Org_ID);
+ 			for(MWarehouse w : ws)
+ 			{	 
+
+ 				deleteRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,w.getM_Warehouse_ID());
+ 				createRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,w.getM_Warehouse_ID());
+ 			}
+ 		}
+ 		else
+ 		{
+ 			deleteRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,p_M_Warehouse_ID);
+ 			createRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,p_M_Warehouse_ID);
+ 		}
+        return Msg.getMsg(getCtx(), "ProcessOK");
      } 
      
-     public boolean deleteMRP()
+     public boolean deleteRecord(int AD_Client_ID,int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID)
      {						               
 	    Trx trx = Trx.get("MRP Delete", true);
+	    String where = "";
 	    
-	    String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP'  AND AD_Client_ID=" + AD_Client_ID;
+	    if (AD_Org_ID > 0 )
+    		where = " AND AD_Org_ID=" + AD_Org_ID;
+	    if (M_Warehouse_ID > 0 )
+    		where = " AND M_Warehouse_ID=" + M_Warehouse_ID;
+    
+	    String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP'  AND AD_Client_ID=" + m_AD_Client_ID + where;   
+	    DB.executeUpdate(sql, trx.getTrxName());
+	    
+	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'FCT' AND mrp.AD_Client_ID = " + m_AD_Client_ID+ where;
+	    DB.executeUpdate(sql,trx.getTrxName());
+
+	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR'  AND mrp.AD_Client_ID = " + m_AD_Client_ID + where;		 
+	    DB.executeUpdate(sql,trx.getTrxName());
+	    
+	    if (AD_Org_ID > 0 )
+	    sql = "DELETE FROM AD_Note n WHERE AD_Table_ID =  " + MPPMRP.Table_ID +  " AND AD_Client_ID = " + m_AD_Client_ID + " AND AD_Org_ID=" + AD_Org_ID;
+	    else
+	    sql = "DELETE FROM AD_Note n WHERE AD_Table_ID =  " + MPPMRP.Table_ID +  " AND AD_Client_ID = " + m_AD_Client_ID;
 	    
 	    DB.executeUpdate(sql, trx.getTrxName());
 	    
-	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'FCT' AND mrp.AD_Client_ID = " + AD_Client_ID;
-		
-	    DB.executeUpdate(sql,trx.getTrxName());
-	    
-	    //sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR' AND EXISTS(SELECT M_Requisition_ID FROM M_Requisition r WHERE r.M_Requisition_ID = mrp.M_Requisition_ID AND (r.DocStatus='DR' AND r.DocStatus='CL')) AND mrp.AD_Client_ID = " + AD_Client_ID;		
-	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR'  AND mrp.AD_Client_ID = " + AD_Client_ID;		
-		
-	    DB.executeUpdate(sql,trx.getTrxName());
-	    
-	    sql = "DELETE FROM AD_Note n WHERE AD_Table_ID =  " + MPPMRP.Table_ID +  " AND AD_Client_ID = " + AD_Client_ID;		
-		
-	    DB.executeUpdate(sql, trx.getTrxName());
-	    
-	     
-	    sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + AD_Client_ID;		
+	    if(S_Resource_ID> 0)
+	    sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID + where;		
+	    else 
+	        sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + m_AD_Client_ID + where;			
 	    try
 		{
 	            PreparedStatement pstmt = null;
@@ -103,8 +143,8 @@ public class MRPUpdate extends SvrProcess
 	                MPPOrder order = new  MPPOrder(getCtx(), rs.getInt(1), trx.getTrxName());
 	                order.delete(true);
 	            }
-	            rs.close();
-	            pstmt.close();
+	            DB.close(rs);
+	            DB.close(pstmt);
 	          
 		}
 	    catch (Exception e)
@@ -115,7 +155,7 @@ public class MRPUpdate extends SvrProcess
 	    
 	    try
 	    {
-	        	sql = "SELECT r.M_Requisition_ID FROM M_Requisition r WHERE  r.DocStatus = 'DR' AND r.AD_Client_ID = " + AD_Client_ID;
+	        	sql = "SELECT r.M_Requisition_ID FROM M_Requisition r WHERE  r.DocStatus = 'DR' AND r.AD_Client_ID = " + m_AD_Client_ID+ where;
 	
 	            PreparedStatement pstmt = null;
 	            pstmt = DB.prepareStatement (sql,trx.getTrxName());
@@ -134,8 +174,8 @@ public class MRPUpdate extends SvrProcess
 					
 	                r.delete(true);
 	            }
-	            rs.close();
-	            pstmt.close();
+	            DB.close(rs);
+	            DB.close(pstmt);
 	
 		}
 	    catch (Exception e)
@@ -151,113 +191,132 @@ public class MRPUpdate extends SvrProcess
      
 
      
-  public boolean update()
+  public boolean createRecord(int AD_Client_ID,int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID)
   {
         
-	  	
-  		//  Get Forcast  		
-  		String sql = "SELECT fl.M_FORECASTLINE_ID  FROM M_FORECASTLINE fl WHERE fl.Qty > 0  AND fl.AD_Client_ID = " + AD_Client_ID; 							                                
-  		PreparedStatement pstmt = null;
-
-		try
-		{
-			pstmt = DB.prepareStatement (sql,get_TrxName());
-            //pstmt.setInt(1, p_M_Warehouse_ID);
-
-            ResultSet rs = pstmt.executeQuery();                        
-            while (rs.next())
-            {
-            	Trx trx = Trx.get("MRP Forecast", true);
-                MForecastLine fl = new MForecastLine(Env.getCtx(),rs.getInt(1),get_TrxName());
-                MPPMRP.M_ForecastLine(fl,false);
-                trx.commit();
-            }
-            rs.close();
-            pstmt.close();                   
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE,"doIt - " + sql, e);                   
-		}
-	
-  		//Get scheduled work order receipts		
-                sql = "SELECT * FROM PP_Order o WHERE  (o.QtyOrdered - o.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND o.AD_Client_ID = " + AD_Client_ID;        
-		try
-		{
-			pstmt = DB.prepareStatement (sql,get_TrxName());
-            //pstmt.setInt(1, p_M_Warehouse_ID);                        
-            ResultSet rs = pstmt.executeQuery ();
-            while (rs.next())
-            {
-            	Trx trx = Trx.get("MRP MO", true);
-                MPPOrder o = new MPPOrder(Env.getCtx(),rs,get_TrxName());
-                MPPMRP.PP_Order(o);
-                trx.commit();
-            }
-            rs.close();
-            pstmt.close();
-
-		}
-		catch (Exception e)
-		{			
-                        log.log(Level.SEVERE ,"doIt - " + sql, e);
-		}
-                
-        //Get sales order requirements and Get scheduled purchase order receipts            
-        sql = "SELECT ol.C_OrderLine_ID FROM C_OrderLine ol INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID) WHERE (ol.QtyOrdered - ol.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND ol.AD_Client_ID = " + AD_Client_ID; 							                                
-		pstmt = null;
- 
-		try
-		{
-			pstmt = DB.prepareStatement (sql,get_TrxName());
-                        //pstmt.setInt(1, p_M_Warehouse_ID);
-
-                        ResultSet rs = pstmt.executeQuery();                        
-                        while (rs.next())
-                        {
-                        	Trx trx = Trx.get("MRP OrderLine", true);
-                            MOrderLine ol = new MOrderLine(Env.getCtx(),rs.getInt(1),get_TrxName());
-                            MPPMRP.C_OrderLine(ol,false);
-                            trx.commit();
-                        }
-                        rs.close();
-                        pstmt.close();
-                        //return true;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE,"doIt - " + sql, e);
-                        //return false;
-		}
-                
-        //Get sales order requirements and Get scheduled purchase order receipts            
-        sql = "SELECT rl.M_RequisitionLine_ID  FROM M_RequisitionLine rl INNER JOIN M_Requisition r ON (r.M_Requisition_ID = rl.M_Requisition_ID) WHERE rl.Qty > 0 AND r.DocStatus <>'CL' AND rl.AD_Client_ID = " + AD_Client_ID; 							                                
-		pstmt = null;
- 
-		try
-		{
-						pstmt = DB.prepareStatement (sql, get_TrxName());
-                        //pstmt.setInt(1, p_M_Warehouse_ID);
-
-                        ResultSet rs = pstmt.executeQuery();                        
-                        while (rs.next())
-                        {
-                        	Trx trx = Trx.get("MRP OrderLine", true);
-                            MRequisitionLine rl = new MRequisitionLine(Env.getCtx(),rs.getInt(1),get_TrxName());
-                            MPPMRP.M_RequisitionLine(rl,false);
-                            trx.commit();
-                        }
-                        rs.close();
-                        pstmt.close();
-                        return true;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE,"doIt - " + sql, e);
-                        return false;
-		}
-                        
-  }
+	 
+	  String sql = "INSERT INTO pp_mrp("
+	            +"ad_org_id,created, createdby , dateordered,"
+	            +"datepromised, datestart, datestartschedule, description,"
+	            +"docstatus, isactive , "
+	            +"m_forecastline_id, m_forecast_id,"
+	            +"pp_order_id,pp_order_bomline_id,"
+	            +"c_order_id,c_orderline_id,"
+	            +"m_requisition_id,m_requisitionline_id,"
+	            +"m_product_id, m_warehouse_id, "
+	            +"pp_mrp_id, planner_id, "
+	            +"qty,  type, typemrp, updated, updatedby, value, "
+	            +"ad_client_id )";
+	  //Insert from M_ForecastLine
+	  String sql_insert = " SELECT t.ad_org_id,"
+	            +"t.created, t.createdby , t.datepromised,"
+	            +"t.datepromised, t.datepromised, t.datepromised, f.Name," 
+	            +"'IP', t.isactive , "
+	            +"t.m_forecastline_id, t.m_forecast_id, "
+	            + "null, null,"
+	            + "null, null,"
+	            + "null, null,"
+	            +"t.m_product_id, t.m_warehouse_id," 
+	            +"nextval('pp_mrp_id') , null," 
+	            +"t.qty,  'D', 'FCT', t.updated, t.updatedby, f.Name," 
+	            +"t.ad_client_id "
+	            +"FROM M_ForecastLine t INNER JOIN M_Forecast f ON (f.M_Forecast_ID=t.M_Forecast_ID) WHERE t.AD_Client_ID="+ AD_Client_ID;
+	    
+	  	String where = "";
+	    
+	    if (AD_Org_ID > 0 )
+    		where = " AND t.AD_Org_ID=" + AD_Org_ID;
+	    if (M_Warehouse_ID > 0 )
+    		where += " AND t.M_Warehouse_ID=" + M_Warehouse_ID;
+	  
+	  	Trx trx = Trx.get("MRP Forecast", true);
+	    DB.executeUpdate(sql + sql_insert + where , trx.getTrxName());
+	    trx.commit();
+        
+	    //Insert from PP_Order
+        sql_insert = " SELECT t.ad_org_id,"
+            +"t.created, t.createdby , t.datepromised,"
+            +"t.datepromised, t.datepromised, t.datepromised, t.DocumentNo," 
+            +"t.DocStatus, t.isactive , "
+            +" null, null, "
+            +"t.pp_order_id, -1,"
+            +" null, null, "
+            +" null, null, "
+            +"t.m_product_id, t.m_warehouse_id," 
+            +"nextval('pp_mrp_id') , null," 
+            +"t.QtyOrdered-t.QtyDelivered,  'S', 'MOP', t.updated, t.updatedby, t.DocumentNo," 
+            +"t.ad_client_id ";
+        	if(S_Resource_ID > 0)
+        		sql_insert += "FROM PP_Order t WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID ; 
+        	else
+        		sql_insert += "FROM PP_Order t WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID ; 
+        
+	  	trx = Trx.get("MRP MO", true);
+	    DB.executeUpdate(sql + sql_insert + where , trx.getTrxName());
+	    trx.commit();
+	    
+	    //Insert from PP_Order_BOMLine
+        sql_insert = " SELECT t.ad_org_id,"
+            +"t.created, t.createdby , o.datepromised,"
+            +"o.datepromised, o.datepromised, o.datepromised, o.DocumentNo," 
+            +"o.DocStatus, o.isactive , "
+            +" null, null, "
+            +"t.pp_order_id, t.pp_order_bomline_id,"
+            +" null, null, "
+            +" null, null, "
+            +"t.m_product_id, t.m_warehouse_id," 
+            +"nextval('pp_mrp_id') , null," 
+            +"t.QtyRequiered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
+            +"t.ad_client_id ";
+        
+        	if(S_Resource_ID > 0)
+        		sql_insert += "FROM PP_Order_BOMLine t INNER JOIN PP_Order o  ON (o.pp_order_id=t.pp_order_id) WHERE  (t.QtyRequiered-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID ; 
+        	else
+        		sql_insert += "FROM PP_Order_BOMLine t INNER JOIN PP_Order o  ON (o.pp_order_id=t.pp_order_id) WHERE  (t.QtyRequiered-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID; 
+        	
+	  	trx = Trx.get("MRP MO Line", true);	  	
+	    DB.executeUpdate(sql + sql_insert + where , trx.getTrxName());
+	    trx.commit();
+	   
+	    // Insert from C_OrderLine
+	    sql_insert = " SELECT t.ad_org_id,"
+            +"t.created, t.createdby , t.datepromised,"
+            +"t.datepromised, t.datepromised, t.datepromised, o.DocumentNo," 
+            +"o.DocStatus, o.isactive , "
+            +" null, null, "
+            +" null, null, "
+            +" t.c_order_id, t.c_orderline_id, "
+            +" null, null, "
+            +"t.m_product_id, t.m_warehouse_id," 
+            +"nextval('pp_mrp_id') , null," 
+            +"t.QtyOrdered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
+            +"t.ad_client_id "
+            +"FROM C_OrderLine t INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id) WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID; 
+        
+	  	trx = Trx.get("Sales Order Line", true);
+	    DB.executeUpdate(sql + sql_insert + where , trx.getTrxName());
+	    trx.commit();
+	    
+	    // Insert from M_RequisitionLine
+	    sql_insert = " SELECT rl.ad_org_id,"
+            +"rl.created, rl.createdby , t.daterequired,"
+            +" t.daterequired,  t.daterequired,  t.daterequired, t.DocumentNo," 
+            +"t.DocStatus, t.isactive , "
+            +" null, null, "
+            +" null, null, "
+            +" null, null, "
+            +"rl.m_requisition_id, rl.m_requisitionline_id, "
+            +"rl.m_product_id, t.m_warehouse_id," 
+            +"nextval('pp_mrp_id') , null," 
+            +"rl.Qty,  'S', 'POR', rl.updated, rl.updatedby, t.DocumentNo," 
+            +"rl.ad_client_id "
+            +"FROM M_RequisitionLine rl INNER JOIN M_Requisition t  ON (rl.m_requisition_id=t.m_requisition_id) WHERE   rl.Qty > 0 AND t.DocStatus IN ('CL') AND t.AD_Client_ID = " + m_AD_Client_ID; 
+        
+	  	trx = Trx.get("Requisition Line", true);
+	    DB.executeUpdate(sql + sql_insert + where , trx.getTrxName());
+	    trx.commit();
+	    return true;
+  }   
     
 }
   
