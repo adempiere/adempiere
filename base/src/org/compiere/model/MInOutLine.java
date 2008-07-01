@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  * 	InOut Line
@@ -41,39 +45,11 @@ public class MInOutLine extends X_M_InOutLine
 	public static MInOutLine[] getOfOrderLine (Properties ctx, 
 		int C_OrderLine_ID, String where, String trxName)
 	{
-		ArrayList<MInOutLine> list = new ArrayList<MInOutLine>();
-		String sql = "SELECT * FROM M_InOutLine WHERE C_OrderLine_ID=?";
-		if (where != null && where.length() > 0)
-			sql += " AND " + where;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_OrderLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MInOutLine(ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		MInOutLine[] retValue = new MInOutLine[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = "C_OrderLine_ID=?" + (!Util.isEmpty(where, true) ? " AND "+where : "");
+		List<MInOutLine> list = new Query(ctx, Table_Name, whereClause, trxName)
+									.setParameters(new Object[]{C_OrderLine_ID})
+									.list();
+		return list.toArray (new MInOutLine[list.size()]);
 	}	//	getOfOrderLine
 
 	/**
@@ -85,41 +61,8 @@ public class MInOutLine extends X_M_InOutLine
 	 */
 	public static MInOutLine[] get (Properties ctx, int C_OrderLine_ID, String trxName)
 	{
-		ArrayList<MInOutLine> list = new ArrayList<MInOutLine>();
-		String sql = "SELECT * FROM M_InOutLine WHERE C_OrderLine_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_OrderLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MInOutLine(ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		MInOutLine[] retValue = new MInOutLine[list.size ()];
-		list.toArray (retValue);
-		return retValue;
-	}	//	getOfOrderLine
-
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MInOutLine.class);
+		return getOfOrderLine(ctx, C_OrderLine_ID, null, trxName);
+	}	//	get
 	
 	
 	/**************************************************************************
