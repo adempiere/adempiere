@@ -13,16 +13,22 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import org.compiere.FA.Conventions;
-import org.compiere.model.*;
-import org.compiere.util.DB;
-//import java.math.*;
-import java.math.BigDecimal;
 
-import org.compiere.process.*;
+import org.compiere.model.X_A_Depreciation;
+import org.compiere.model.X_A_Depreciation_Convention;
+import org.compiere.model.X_A_Depreciation_Exp;
+import org.compiere.model.X_A_Depreciation_Forecast;
+import org.compiere.model.X_A_Depreciation_Method;
+import org.compiere.model.X_A_Depreciation_Workfile;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 /**
  *	Build Depreciation Work File
@@ -121,10 +127,11 @@ public class BuildDepWorkFile extends SvrProcess
 				
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement (sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE,null);
+		ResultSet rs = null;
 		try {
 			
 			pstmt.setString(1, DepBuild.getPostingType());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()){
 				X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), rs.getInt("A_DEPRECIATION_WORKFILE_ID"), null);
 				String sql2 = null;
@@ -134,9 +141,10 @@ public class BuildDepWorkFile extends SvrProcess
 				
 				PreparedStatement pstmt2 = null;
 				pstmt2 = DB.prepareStatement (sql2, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE,null);
+				ResultSet rs2 = null;
 				try {			
 		
-					ResultSet rs2 = pstmt2.executeQuery();					
+					rs2 = pstmt2.executeQuery();					
 					//CallableStatement cs;
 					BigDecimal v_Dep_Exp_Inception = new BigDecimal("0.0");
 					BigDecimal v_Dep_Exp_Inception2 = new BigDecimal("0.0");
@@ -393,47 +401,29 @@ public class BuildDepWorkFile extends SvrProcess
 					
 					asset_id_current = rs2.getInt("A_ASSET_ID");					
 					log.info(""+asset_id_current);
-					
-				}
-				rs2.close();
-				pstmt2.close();
-				pstmt2 = null;
+					}
 				}
 				catch (Exception e)
 				{
 					log.info("getAssets"+ e);
 				}
-				finally
-				{
-					try
-					{
-						if (pstmt2 != null)
-							pstmt2.close ();
-					}
-					catch (Exception e)
-					{}
-					pstmt2 = null;
-				}				
+			  finally
+			  {
+				  DB.close(rs, pstmt);
+				  rs2 = null; pstmt2 = null;
+			  }			
 			}				
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+
 			}
 			catch (Exception e)
 			{
 				log.info("getAssets"+ e);
 			}
-			finally
-			{
-				try
-				{
-					if (pstmt != null)
-						pstmt.close ();
-				}
-				catch (Exception e)
-				{}
-				pstmt = null;
-			}
+		  finally
+		  {
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
+		  }
 			
 			return "";
 	}	//	doIt
