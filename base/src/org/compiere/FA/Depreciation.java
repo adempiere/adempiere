@@ -728,8 +728,9 @@ public class Depreciation {
 		  //System.out.println("SYD: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
+		  ResultSet rs = null;
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 					int v_life_current_year = (int)(p_A_CURRENT_PERIOD/(12))+1;
 					
@@ -749,14 +750,8 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
 		  return A_Period_Exp;		
 	}
@@ -782,8 +777,9 @@ public class Depreciation {
 		  //System.out.println("TAB: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
+		  ResultSet rs = null;
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 					
 					
@@ -912,14 +908,9 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
+
 		  }
 		  return A_Period_Exp;		
 	}
