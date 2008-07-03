@@ -13,13 +13,13 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.compiere.util.*;
-import java.lang.Math;
-import java.math.BigDecimal;
+import org.compiere.util.DB;
 /**
  * Fixed Asset Depreciation
  * 
@@ -259,8 +259,9 @@ public class Depreciation {
 		  //System.out.println("DB200: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
+		  ResultSet rs = null;
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 				  Calendar calendar = new GregorianCalendar();
 				  calendar.setTime(rs.getDate("ASSETSERVICEDATE"));
@@ -352,14 +353,8 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
 		  return A_Period_Exp;		
 	}
@@ -397,8 +392,9 @@ public class Depreciation {
 		  //System.out.println("DBVAR: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
+		  ResultSet rs = null;
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){				  				 
 				  v_counter = 0;
 				  v_months = 0;
@@ -490,14 +486,8 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
 		  return A_Period_Exp;		
 	}
@@ -521,8 +511,9 @@ public class Depreciation {
 		  //System.out.println("MAN: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
+		  ResultSet rs = null;
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 					  if (rs.getString("A_DEPRECIATION_MANUAL_PERIOD").compareTo("PR")==0) 
 						  A_Period_Exp = rs.getBigDecimal("A_DEPRECIATION_MANUAL_AMOUNT");
@@ -639,14 +630,8 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
 		  return A_Period_Exp;		
 	}
@@ -666,8 +651,9 @@ public class Depreciation {
 		  //System.out.println("SL: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
-		  try {				
-				ResultSet rs = pstmt.executeQuery();
+		  ResultSet rs = null;
+			  try {				
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 					A_Period_Exp = ((rs.getBigDecimal("A_ASSET_COST").subtract(rs.getBigDecimal("A_SALVAGE_VALUE"))).divide( rs.getBigDecimal("A_LIFE_PERIOD"),2, BigDecimal.ROUND_HALF_UP));				
 				}
@@ -679,14 +665,8 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
 		  return A_Period_Exp;		
 	}
@@ -706,9 +686,10 @@ public class Depreciation {
 			+ "' AND A_ASSET_ACCT.A_ASSET_ACCT_ID = " + p_A_ASSET_ACCT_ID);
 		  //System.out.println("UOP: "+sqlB.toString());
 		  PreparedStatement pstmt = null;
+		  ResultSet rs = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 					A_Period_Exp = (rs.getBigDecimal("A_ASSET_COST").subtract(rs.getBigDecimal("A_SALVAGE_VALUE"))
 							.multiply(new BigDecimal(rs.getDouble("USEUNITS")/rs.getDouble("LIFEUSEUNITS")))
@@ -723,14 +704,8 @@ public class Depreciation {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
 		  return A_Period_Exp;		
 	}
