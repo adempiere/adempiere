@@ -13,11 +13,17 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-import org.compiere.process.*;
-import org.compiere.model.*;
-import org.compiere.util.DB;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.compiere.model.MAssetChange;
+import org.compiere.model.MRefList_Ext;
+import org.compiere.model.X_A_Asset_Disposed;
+import org.compiere.model.X_A_Depreciation_Exp;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 
 /**
@@ -101,11 +107,9 @@ public class AssetDisposed extends SvrProcess
 		log.info("doIt - SQL=" + sql);
 		String v_PostingType = null;
 		//X_A_Depreciation_Exp depexp = new X_A_Depreciation_Exp (getCtx(), 0, null);
-		
+		ResultSet rs = null;
 		try {
-			
-			ResultSet rs = pstmt.executeQuery();		
-		
+			rs = pstmt.executeQuery();		
 			while (rs.next()){
 			if (v_PostingType != rs.getString("PostingType") & v_PostingType != null)
 			{
@@ -115,8 +119,6 @@ public class AssetDisposed extends SvrProcess
 			    	  + "AND A_DEPRECIATION_WORKFILE.POSTINGTYPE = '" + v_PostingType + "'";
 			      DB.executeUpdate(sql,null);
 			      
-			        
-					
 			      v_Balance = new BigDecimal("0.0");
 			      v_PostingType = rs.getString("PostingType");
 			}
@@ -125,7 +127,6 @@ public class AssetDisposed extends SvrProcess
 			      v_PostingType = rs.getString("PostingType");
 			}		
 
-				
 			// Create JV for the asset disposal - remove cost of asset on balance sheet 
 			X_A_Depreciation_Exp depexp0 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 			depexp0.setPostingType(rs.getString("PostingType"));
@@ -203,9 +204,6 @@ public class AssetDisposed extends SvrProcess
 			change.setIsDisposed(true);
 			change.save();
 			
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 			catch (Exception e)
 			{
@@ -213,14 +211,9 @@ public class AssetDisposed extends SvrProcess
 			}
 			finally
 			{
-				try
-				{
-					if (pstmt != null)
-						pstmt.close ();
-				}
-				catch (Exception e)
-				{}
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+
 			}
 			
 						return "";
