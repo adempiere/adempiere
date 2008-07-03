@@ -13,13 +13,18 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-import org.compiere.process.*;
-import org.compiere.model.*;
-import org.compiere.model.X_C_Period;
-import org.compiere.util.DB;
-//import java.math.*;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.compiere.model.MAsset;
+import org.compiere.model.X_A_Asset_Reval_Entry;
+import org.compiere.model.X_A_Asset_Reval_Index;
+import org.compiere.model.X_A_Depreciation_Exp;
+import org.compiere.model.X_C_Period;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 
 /**
@@ -96,7 +101,7 @@ public class AssetRevalEntry extends SvrProcess
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement (sql,null);
 		log.info("doIt - SQL=" + sql);
-		
+		ResultSet rs = null;
 		X_A_Depreciation_Exp depexp = new X_A_Depreciation_Exp (getCtx(), 0, null);
 		
 		if (m_DeleteOld)
@@ -110,7 +115,7 @@ public class AssetRevalEntry extends SvrProcess
 		}
 		try {
 			
-			ResultSet rs = pstmt.executeQuery();			
+			rs = pstmt.executeQuery();			
 			
 			while (rs.next()){		
 			
@@ -148,9 +153,10 @@ public class AssetRevalEntry extends SvrProcess
 				 	}
 				 	PreparedStatement pstmt2 = null;
 					pstmt2 = DB.prepareStatement (sql2,null);
+					ResultSet rs2 = null;
 					log.info("doIt - SQL2=" + sql2);
 					try {
-						ResultSet rs2 = pstmt2.executeQuery();
+						rs2 = pstmt2.executeQuery();
 						while (rs2.next()){
 						v_Multipler = ARevalIndex.getA_Reval_Rate().divide(rs2.getBigDecimal("A_REVAL_MULTIPLIER"),8);							
 					}
@@ -167,26 +173,16 @@ public class AssetRevalEntry extends SvrProcess
 						while (rs2.next()){
 							v_Dep_Exp_reval = (rs2.getBigDecimal("SUM_CHANGEAMT").multiply( v_Multipler)).subtract(rs.getBigDecimal("SUM_CHANGEAMT"));							
 						}	
-						
-						rs2.close();
-						pstmt2.close();
-						pstmt2 = null;
+ 					}
+						catch (Exception e)
+						{
+							log.info("getDeliveries"+ e);
 						}
-							catch (Exception e)
-							{
-								log.info("getDeliveries"+ e);
-							}
-							finally
-							{
-								try
-								{
-									if (pstmt2 != null)
-										pstmt2.close ();
-								}
-								catch (Exception e)
-								{}
-								pstmt2 = null;
-							}
+						  finally
+						  {
+							  DB.close(rs, pstmt2);
+							  rs2 = null; pstmt2 = null;
+						  }
 							
 //							 Create JV for the Reval Cost Amounts
 							X_A_Depreciation_Exp depexp0 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -263,27 +259,16 @@ public class AssetRevalEntry extends SvrProcess
 							depexp5.setA_Entry_Type("RVL");
 							depexp5.save();
 	
-								
-					rs.close();
-					pstmt.close();
-					pstmt = null;
 					}
 						catch (Exception e)
 						{
 							log.info("getDeliveries"+ e);
 						}
-						finally
-						{
-							try
-							{
-								if (pstmt != null)
-									pstmt.close ();
-							}
-							catch (Exception e)
-							{}
-							pstmt = null;
-						}
-				 }
+						  finally
+						  {
+							  DB.close(rs, pstmt);
+							  rs = null; pstmt = null;
+						  }				 }
 				 else if (AssetReval.getA_Reval_Multiplier() == "FAC")
 				 {
 
@@ -320,26 +305,16 @@ public class AssetRevalEntry extends SvrProcess
 						v_Cost_reval = ((rs.getBigDecimal("A_Asset_Cost").subtract(rs.getBigDecimal("A_ASSET_COST_REVAL"))).multiply( v_Multipler)).subtract(rs.getBigDecimal("A_Asset_Cost"));												
 						v_Accum_reval = ((rs.getBigDecimal("A_ACCUMULATED_DEPR").subtract(rs.getBigDecimal("A_ACCUMULATED_DEPR_REVAL"))).multiply( v_Multipler)).subtract(rs.getBigDecimal("A_ACCUMULATED_DEPR"));
 						
-					rs.close();
-					pstmt.close();
-					pstmt = null;
 					}
 						catch (Exception e)
 						{
 							log.info("getDeliveries"+ e);
 						}
-						finally
-						{
-							try
-							{
-								if (pstmt != null)
-									pstmt.close ();
-							}
-							catch (Exception e)
-							{}
-							pstmt = null;
-						}					
-				 }				 
+						  finally
+						  {
+							  DB.close(rs, pstmt);
+							  rs = null; pstmt = null;
+						  }				 }				 
 				 
 				v_Cost_reval = ((rs.getBigDecimal("A_Asset_Cost").subtract(rs.getBigDecimal("A_ASSET_COST_REVAL"))).multiply( v_Multipler)).subtract(rs.getBigDecimal("A_Asset_Cost"));
 				v_Accum_reval = ((rs.getBigDecimal("A_ACCUMULATED_DEPR").subtract(rs.getBigDecimal("A_ACCUMULATED_DEPR_REVAL"))).multiply( v_Multipler)).subtract(rs.getBigDecimal("A_ACCUMULATED_DEPR"));
@@ -418,30 +393,18 @@ public class AssetRevalEntry extends SvrProcess
 				depexp5.setA_Period(AssetReval.getC_Period_ID());			
 				depexp5.setA_Entry_Type("RVL");
 				depexp5.save();
-
-	
-				
-				}
-				rs.close();
-				pstmt.close();
-				pstmt = null;
-			}
+ 				}
+ 			}
 				catch (Exception e)
 				{
 					log.info("getDeliveries"+ e);
 				}
-				finally
-				{
-					try
-					{
-						if (pstmt != null)
-							pstmt.close ();
-					}
-					catch (Exception e)
-					{}
-					pstmt = null;
-				}
-							return "";
+				  finally
+				  {
+					  DB.close(rs, pstmt);
+					  rs = null; pstmt = null;
+				  }
+				return "";
 		}	//	doIt
 	
 }	//	AssetRevalEntry
