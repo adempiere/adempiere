@@ -13,12 +13,21 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.DB;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.compiere.model.MAssetAcct;
+import org.compiere.model.MAssetChange;
+import org.compiere.model.MRefList_Ext;
+import org.compiere.model.X_A_Asset;
+import org.compiere.model.X_A_Asset_Addition;
+import org.compiere.model.X_A_Asset_Group_Acct;
+import org.compiere.model.X_A_Depreciation_Workfile;
+import org.compiere.model.X_GL_JournalLine;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 /**
  *	Create Asset from FA GL Process
@@ -59,17 +68,18 @@ public class CreateGLAsset extends SvrProcess
 	protected String doIt() throws java.lang.Exception
 	{
 		log.info("Starting inbound invoice process");		
-		int uselifemonths = 0;
-		int uselifeyears = 0;
+//		int uselifemonths = 0;
+//		int uselifeyears = 0;
 		
 		String sql =" SELECT * FROM GL_JOURNALLINE WHERE A_Processed <> 'Y' and AD_Client_ID = ?" 
 				+ " and A_CreateAsset = 'Y' and Processed = 'Y'";
 		log.info(sql);
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement(sql,get_TrxName());
+		ResultSet rs = null;
 		try {
 			pstmt.setInt(1, p_client);	
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()){
 				
@@ -137,8 +147,8 @@ public class CreateGLAsset extends SvrProcess
 											asset.setIsDepreciated(true);
 											asset.setIsOwned(true);
 											asset.save();
-											uselifemonths = assetgrpacct.getUseLifeMonths();
-											uselifeyears = assetgrpacct.getUseLifeYears();
+//											uselifemonths = assetgrpacct.getUseLifeMonths();
+//											uselifeyears = assetgrpacct.getUseLifeYears();
 											
 											}
 										else if(asset.getUseLifeMonths() == 0){
@@ -147,13 +157,14 @@ public class CreateGLAsset extends SvrProcess
 											asset.setIsDepreciated(true);
 											asset.setIsOwned(true);
 											asset.save();
-											uselifemonths = asset.getUseLifeYears()*12;
-											uselifeyears = asset.getUseLifeYears();						
+//											uselifemonths = asset.getUseLifeYears()*12;
+//											uselifeyears = asset.getUseLifeYears();						
 											}
 										else{
 											assetacct.setA_Period_End(asset.getUseLifeMonths());
-											uselifemonths = asset.getUseLifeMonths();
-											uselifeyears = asset.getUseLifeYears();}
+//											uselifemonths = asset.getUseLifeMonths();
+//											uselifeyears = asset.getUseLifeYears();
+											}
 										
 										assetacct.setA_Depreciation_Method_ID(assetgrpacct.getA_Depreciation_Calc_Type());
 										assetacct.setA_Asset_Acct(assetgrpacct.getA_Asset_Acct());
@@ -267,11 +278,12 @@ public class CreateGLAsset extends SvrProcess
 						sql2 ="SELECT * FROM A_Depreciation_Workfile WHERE A_Asset_ID = ? and PostingType = ?";		
 						PreparedStatement pstmt2 = null;
 						pstmt2 = DB.prepareStatement(sql2,get_TrxName());
+						ResultSet rs3 = null;
 						log.info("no");
 						try {
 							pstmt2.setInt(1, asset.getA_Asset_ID());
 							pstmt2.setString(2, assetgrpacct.getPostingType());
-							ResultSet rs3 = pstmt2.executeQuery();						
+							rs3 = pstmt2.executeQuery();						
 							while (rs3.next()){	
 								X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), rs3, get_TrxName());
 								assetwk.setA_Asset_ID(asset.getA_Asset_ID());		
@@ -311,26 +323,17 @@ public class CreateGLAsset extends SvrProcess
 					            change.save();
 	
 							}
-						
-							rs3.close();
-							pstmt2.close();
-							pstmt2 = null;
 							}
 							catch (Exception e)
 							{
 								log.info("getAssets "+ e);
 							}
-							finally
-							{
-								try
-								{
-									if (pstmt2 != null)
-										pstmt2.close ();
-								}
-								catch (Exception e)
-								{}
-								pstmt2 = null;
-								}
+							  finally
+							  {
+								  DB.close(rs3, pstmt2);
+								  rs3 = null; pstmt2 = null;
+							  }
+
 					    	}
 						}
 					}
@@ -374,17 +377,10 @@ public class CreateGLAsset extends SvrProcess
 			}
 			finally
 			{
-				try
-				{
-					if (pstmt != null)
-						pstmt.close ();
-				}
-				catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 			}
-			
-			return "";
+			 return "";
 	}	//	doIt
 	
 }	//	CreateGLAsset

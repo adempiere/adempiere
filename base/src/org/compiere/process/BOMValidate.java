@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import org.compiere.model.MBOM;
+import org.compiere.model.MBOMProduct;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductBOM;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * 	Validate BOM
@@ -90,6 +96,7 @@ public class BOMValidate extends SvrProcess
 			sql += "AND IsVerified<>'Y' ";
 		sql += "ORDER BY Name";
 		int AD_Client_ID = Env.getAD_Client_ID(getCtx());
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -97,30 +104,22 @@ public class BOMValidate extends SvrProcess
 				pstmt.setInt (1, AD_Client_ID);
 			else
 				pstmt.setInt(1, p_M_Product_Category_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				String info = validateProduct(new MProduct(getCtx(), p_M_Product_ID, get_TrxName()));
 				addLog(0, null, null, info);
 				counter++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		  DB.close(rs, pstmt);
+		  rs = null; pstmt = null;
 		}
 		return "#" + counter;
 	}	//	doIt

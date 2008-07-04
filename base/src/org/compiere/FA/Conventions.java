@@ -13,12 +13,12 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-//import java.text.SimpleDateFormat;
-//import java.util.Date;
-import java.util.GregorianCalendar;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Calendar;
-import org.compiere.util.*;
+import java.util.GregorianCalendar;
+
+import org.compiere.util.DB;
 
 /**
  * Fixed Asset Conventions
@@ -77,8 +77,9 @@ public class Conventions {
 		  
 		  PreparedStatement pstmt = null;
 		  pstmt = DB.prepareStatement (sqlB.toString(),null);
+		  ResultSet rs = null;
 		  try {				
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next()){
 					Calendar calendar = new GregorianCalendar();
 					calendar.setTime(rs.getDate("ASSETSERVICEDATE"));
@@ -111,16 +112,9 @@ public class Conventions {
 		  }
 		  finally
 		  {
-			  try
-			  {
-				  if (pstmt != null)
-					  pstmt.close ();
-			  }
-			  catch (Exception e)
-				{}
-				pstmt = null;
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
 		  }
-		  
 		  return v_adj;
 		
 	}				

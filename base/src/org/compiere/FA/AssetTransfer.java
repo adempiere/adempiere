@@ -13,13 +13,17 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-import org.compiere.process.*;
-//import org.compiere.model.X_C_Period;
-import org.compiere.model.*;
-import org.compiere.util.DB;
-//import java.math.*;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.compiere.model.MAssetChange;
+import org.compiere.model.MRefList_Ext;
+import org.compiere.model.X_A_Asset_Transfer;
+import org.compiere.model.X_A_Depreciation_Exp;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 /**
  *	Asset Transfer
@@ -86,7 +90,7 @@ public class AssetTransfer extends SvrProcess
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement (sql,null);
 		log.info("doIt - SQL=" + sql);
-		
+		ResultSet rs = null;		
 		//X_A_Depreciation_Exp depexp = new X_A_Depreciation_Exp (getCtx(), 0, null);
 		
 		String clientCheck = " AND AD_Client_ID=" + AssetTransfer.getAD_Client_ID();
@@ -102,7 +106,7 @@ public class AssetTransfer extends SvrProcess
 		}
 		try {
 			
-			ResultSet rs = pstmt.executeQuery();			
+			rs = pstmt.executeQuery();			
 			if (AssetTransfer.isA_Transfer_Balance_IS()==true)
 			{
 			while (rs.next());
@@ -132,25 +136,16 @@ public class AssetTransfer extends SvrProcess
 			depexp1.setA_Period(AssetTransfer.getC_Period_ID());			
 			depexp1.setA_Entry_Type("TRN");
 			depexp1.save();
+				}
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
 			catch (Exception e)
 			{
 				log.info("getDeliveries"+ e);
 			}
 			finally
 			{
-				try
-				{
-					if (pstmt != null)
-						pstmt.close ();
-				}
-				catch (Exception e)
-				{}
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			
 			sql = null;
@@ -166,7 +161,7 @@ public class AssetTransfer extends SvrProcess
 			pstmt = DB.prepareStatement (sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE,null);
 			
 			try {			
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				rs.first();
 				
 				X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -263,25 +258,15 @@ public class AssetTransfer extends SvrProcess
 
 				//  Remove Entry from Processing file
 				
-				
-				rs.close();
-				pstmt.close();
-				pstmt = null;
-			}
+				}
 				catch (Exception e)
 				{
 					log.info("TransferAssets"+ e);
 				}
 				finally
 				{
-					try
-					{
-						if (pstmt != null)
-							pstmt.close ();
-					}
-					catch (Exception e)
-					{}
-					pstmt = null;
+				  DB.close(rs, pstmt);
+				  rs = null; pstmt = null;
 				}
 			return "";
 	}	//	doIt

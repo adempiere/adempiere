@@ -13,16 +13,25 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-import java.math.*;
-import org.compiere.process.*;
-import org.compiere.model.X_AD_Sequence;
+import java.math.BigDecimal;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+
+import org.compiere.model.MAccount;
 import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
-import org.compiere.model.MAccount;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MXIFAJournal;
+import org.compiere.model.X_AD_Sequence;
+import org.compiere.model.X_I_FAJournal;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 
 
 /**
@@ -157,14 +166,14 @@ public class ImportFAJournal2 extends SvrProcess
 		  
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement (sqlst, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE,get_TrxName());		
-		
+		ResultSet rs = null;		
 		try {
 			int v_FirstTime = 0;
 			String v_C_BatchNo = "";
 			BigDecimal v_AMTSOURCEDR ;
 			BigDecimal v_AMTSOURCECR ;
 			int v_ID_START = 10;
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				
@@ -237,24 +246,15 @@ public class ImportFAJournal2 extends SvrProcess
 			  		+ " WHERE A_DEPRECIATION_ENTRY_ID = " + rs.getInt("A_DEPRECIATION_ENTRY_ID"));
 			  no = DB.executeUpdate (sql4,get_TrxName());			 
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;	
 		}catch (Exception e)
 		{
 			log.info("ImportFAJournal2"+ e);
 		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
+		  finally
+		  {
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
+		  }
 		
 
 		//	Set IsActive, Created/Updated
@@ -674,7 +674,7 @@ public class ImportFAJournal2 extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString(),get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				BigDecimal source = rs.getBigDecimal(1);
@@ -689,23 +689,16 @@ public class ImportFAJournal2 extends SvrProcess
 				if (acct != null)
 					addLog (0, null, acct, "@AmtAcctDr@- @AmtAcctCr@");
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			log.info ("doIt - get balance"+ ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
+		  DB.close(rs, pstmt);
+		  rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 
 		//	Count Errors
 		int errors = DB.getSQLValue(get_TrxName(), "SELECT COUNT(*) FROM I_FAJournal WHERE I_IsImported NOT IN ('Y','N')" + clientCheck);
@@ -740,7 +733,7 @@ public class ImportFAJournal2 extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString (),get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			//
 			while (rs.next())
 			{
@@ -963,24 +956,17 @@ public class ImportFAJournal2 extends SvrProcess
 						noInsertLine++;
 				}
 			}
-
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.info("doIt"+ e);
 		}
 		//	clean up
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		finally
+		 {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		 }
 
 		//	Set Error to indicator to not imported
 		sql = new StringBuffer ("UPDATE I_FAJournal "
@@ -1003,36 +989,25 @@ public class ImportFAJournal2 extends SvrProcess
 		+ "WHERE A_ASSET.A_ASSET_ID = A_DEPRECIATION_WORKFILE.A_ASSET_ID "
 		+ "AND A_DEPRECIATION_WORKFILE.A_PERIOD_POSTED = A_DEPRECIATION_WORKFILE.A_LIFE_PERIOD ";
 		
-		pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql3,get_TrxName());		
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()){
 				
 				String sql4 = "UPDATE A_ASSET SET ISFULLYDEPRECIATED = 'Y' WHERE A_Asset_ID = " + rs.getInt("A_ASSET_ID");
 				no = DB.executeUpdate (sql4,get_TrxName());
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
+	 	}
 		catch (Exception e)
 		{
 			log.info("Post Depreciation"+ e);
 		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-
+		  finally
+		  {
+			  DB.close(rs, pstmt);
+			  rs = null; pstmt = null;
+		  }
 		return "";
 	}	//	doIt
 
