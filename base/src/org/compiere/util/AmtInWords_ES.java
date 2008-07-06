@@ -194,21 +194,38 @@ public class AmtInWords_ES implements AmtInWords
 	{
 		if (amount == null)
 			return amount;
+		
+		Language lang = Env.getLoginLanguage(Env.getCtx());
 		//
 		StringBuffer sb = new StringBuffer ();
-    //	int pos = amount.lastIndexOf ('.');    // Old
-		int pos = amount.lastIndexOf (',');  		
-    //  int pos2 = amount.lastIndexOf (',');   // Old		
-		int pos2 = amount.lastIndexOf ('.');
+		int pos = 0;
+		
+		if(lang.isDecimalPoint())			
+    	 pos = amount.lastIndexOf ('.');    // Old
+		else
+		 pos = amount.lastIndexOf (',');  		
+		
+		int pos2 = 0; 
+		if(lang.isDecimalPoint())
+			pos2 = amount.lastIndexOf (',');   // Old		
+		else
+			pos2 = amount.lastIndexOf ('.');
+		
 		if (pos2 > pos)
 			pos = pos2;
 		String oldamt = amount;
 
-    //  amount = amount.replaceAll (",", "");   // Old
-		amount = amount.replaceAll( "\\.","");
+		if(lang.isDecimalPoint())
+			amount = amount.replaceAll (",", "");   // Old
+		else
+			amount = amount.replaceAll( "\\.","");
 
-	//	int newpos = amount.lastIndexOf ('.');  // Old
-		int newpos = amount.lastIndexOf (',');
+		int newpos = 0;
+		if(lang.isDecimalPoint())
+			newpos = amount.lastIndexOf ('.');  // Old
+		else
+			newpos = amount.lastIndexOf (',');
+		
 		int pesos = Integer.parseInt (amount.substring (0, newpos));
 		sb.append (convert (pesos));
 		for (int i = 0; i < oldamt.length (); i++)
