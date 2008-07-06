@@ -62,7 +62,7 @@ public class DataElementHandler extends AbstractElementHandler {
 		if (elementValue.equals("adempieredata") || elementValue.equals("data")) {
 			log.info(elementValue);
 			if (atts.getValue("clientname") != null) {
-				int AD_Client_ID = IDFinder.get_ID("AD_Client", atts.getValue("clientname"), getClientId(ctx), getTrxName(ctx));
+				int AD_Client_ID = IDFinder.get_ID("Name","AD_Client", atts.getValue("clientname"), getClientId(ctx), getTrxName(ctx));
 				Env.setContext(ctx, "AD_Client_ID", AD_Client_ID);
 				log.info("adempieredata: client set to "+AD_Client_ID+" "+atts.getValue("clientname"));
 			}
@@ -97,19 +97,25 @@ public class DataElementHandler extends AbstractElementHandler {
 			String d_rowname = atts.getValue("name");
 				   	    
 			// name can be null if there are keyXname attributes.
+			//red1 - Using DocumentNo also (done in CREATE routine at bottom)
+			String lookUpField = "Name";
+			if ("C_Order_ID".equals(atts.getValue("key1name")))	
+				lookUpField = "DocumentNo";
 			if (!d_rowname.equals("")){
-				int id = get_ID(ctx, d_tablename, d_rowname);
+				int id = get_ID(lookUpField, ctx, d_tablename, d_rowname);
 				genericPO = new GenericPO(d_tablename, ctx, id, getTrxName(ctx));
 				if (id > 0){
 					AD_Backup_ID = copyRecord(ctx,d_tablename,genericPO);
 					objectStatus = "Update";			
+				//TODO red1 - new problem arises where child details i.e. OrderLines need to be updated, complex and so easiest may be to delete all first, then create. 
 				}
 				else{
 					objectStatus = "New";
 					AD_Backup_ID =0;
 				}
 			}
-			// keyXname and lookupkeyXname.
+			// keyXname and lookupkeyXname.   
+			//red1 - this should be redundant, because u cannot safely look up via PK ID as key, when above Name/DocNo is sufficient
 			else {
 				String sql = "select * from "+d_tablename;
 				String whereand = " where";
@@ -131,7 +137,7 @@ public class DataElementHandler extends AbstractElementHandler {
 					
 					ResultSet rs = pstmt.executeQuery();
 					if (rs.next()) {
-						objectStatus = "Update";	
+						objectStatus = "New";	 //red1 - not "Update" as lookUpName in effect
 						genericPO = new GenericPO(d_tablename, ctx, rs, getTrxName(ctx));
 						rs.close();
 						pstmt.close();
@@ -162,20 +168,20 @@ public class DataElementHandler extends AbstractElementHandler {
 			
 			// for debug GenericPO.
 			if (false) {
-				POInfo poInfo = POInfo.getPOInfo(ctx, get_ID(ctx, "AD_Table", d_tablename), getTrxName(ctx));
+				POInfo poInfo = POInfo.getPOInfo(ctx, get_ID(lookUpField,ctx, "AD_Table", d_tablename), getTrxName(ctx));
 				if (poInfo == null)
 					log.info("poInfo is null.");
 				for (int i = 0; i < poInfo.getColumnCount(); i++) {
 					log.info(d_tablename+" column: "+poInfo.getColumnName(i));
 				}
 			}
-			// globalqss: set AD_Client_ID to the client setted in adempieredata
+			// globalqss: set AD_Client_ID to the client set in adempieredata
 			if (getClientId(ctx) > 0 && genericPO.getAD_Client_ID() != getClientId(ctx))
 				genericPO.set_ValueOfColumn("AD_Client_ID", getClientId(ctx));
 			// if new. TODO: no defaults for keyXname.
 			if (!d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
 				log.info("new genericPO, table: "+d_tablename+" name:"+d_rowname);
-				genericPO.set_ValueOfColumn("Name", d_rowname);
+				genericPO.set_ValueOfColumn(lookUpField, d_rowname); //red1 - to handle Name or DocumentName for SO
 				// Set defaults.
 				//TODO: get defaults from configuration
 				HashMap defaults = new HashMap();
@@ -260,7 +266,13 @@ public class DataElementHandler extends AbstractElementHandler {
 					if (atts.getValue("lookupname") != null && !"".equals(atts.getValue("lookupname"))) {
 						// globalqss - bring support from XML2AD to lookupname
 						String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
-						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"))));
+						//red1 - convert other names to proper names i.e. SalesRep > AD_User
+						if (m_tablename.equals("SalesRep")) 
+							m_tablename="AD_User";
+						String lookupIDentifier = "Name"; //red1 - lookupIDentifier such as Name or DocumentNo
+						if (atts.getValue("name").equals("C_Order_ID"))  
+							lookupIDentifier = "DocumentNo";
+						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"), lookupIDentifier)));
 					}
 				}
 			}
@@ -300,26 +312,35 @@ public class DataElementHandler extends AbstractElementHandler {
 				for (i=1 ;i <= columns;i++){
 					col_Name = meta.getColumnName(i).toUpperCase();
 					if (col_Name.equals("NAME") && rs.getObject("name") != null)
-						nameatts = ""+rs.getObject("name");					
-					String sql2 = "SELECT ColumnName FROM AD_Column "
-						+ "WHERE isKey = 'Y' AND "
-						+ "AD_Table_ID = ? AND "
-						+ "Upper(ColumnName)= '"+col_Name+"'";
-					String cName = DB.getSQLValueString(null,sql2,table_id);
-					if (cName != null){
-						if (cName.toUpperCase().equals(col_Name) && key1 == 0  ){
-							atts.addAttribute("","","key1name","CDATA",cName);
-							atts.addAttribute("","","lookupkey1name","CDATA",""+rs.getObject(col_Name));
-							key1 = 1;							
-						}
-						else if (cName.toUpperCase().equals(col_Name) && key1 == 1 ){
-							atts.addAttribute("","","key2name","CDATA",cName);
-							atts.addAttribute("","","lookupkey2name","CDATA",""+rs.getObject(col_Name));
-							key1 = 2;
+						nameatts = ""+rs.getObject("name");	
+					//red1 - capture PK other name for lookup also
+					if (col_Name.equals("DOCUMENTNO") && rs.getObject("DOCUMENTNO") != null)
+						nameatts = ""+rs.getObject("DocumentNo");	
+
+					//red1 - only for fields ending in _ID to save redundant processing time   
+					if ("_ID".equals(col_Name.substring(col_Name.length()-3, col_Name.length())))
+						{
+						String sql2 = "SELECT ColumnName FROM AD_Column "
+							+ "WHERE isKey = 'Y' AND "
+							+ "AD_Table_ID = ? AND "
+							+ "Upper(ColumnName)= '"+col_Name+"'";
+						String cName = DB.getSQLValueString(null,sql2,table_id);
+						if (cName != null){
+							if (key1 == 0  ){ //red1 - remove cName.toUpperCase().equals(col_Name) &&
+								atts.addAttribute("","","key1name","CDATA",cName);
+								atts.addAttribute("","","lookupkey1name","CDATA",""+rs.getObject(col_Name));
+								key1 = 1;							
+							}
+							else if (key1 == 1 ){ //red1 - remove cName.toUpperCase().equals(col_Name) &&
+								atts.addAttribute("","","key2name","CDATA",cName);
+								atts.addAttribute("","","lookupkey2name","CDATA",""+rs.getObject(col_Name));
+								key1 = 2;
+								}
+							}	
 						}
 					}
-				}
 				atts.addAttribute("","","name","CDATA",nameatts);
+				// this is to ensure flushing of old values
 				if ( key1 == 0 ){
 					atts.addAttribute("","","key1name","CDATA","");
 					atts.addAttribute("","","lookupkey1name","CDATA","");
@@ -332,10 +353,10 @@ public class DataElementHandler extends AbstractElementHandler {
 				document.startElement("","","drow",atts);				
 				for (i=1 ;i <= columns;i++){
 					atts.clear();
-					col_Name = meta.getColumnName(i).toUpperCase();
+					col_Name = meta.getColumnName(i).toUpperCase();  
 					String sql2 = "Select A.ColumnName, B.Name "
 						+ "From AD_Column A, AD_Reference B " 
-						+ "Where Upper(A.columnname) = ? and " 
+						+ "Where Upper(A.columnname) = ? and "   
 						+ "A.AD_TABLE_ID = ? and " 
 						+ "A.AD_Reference_ID = B.AD_Reference_ID";
 					PreparedStatement pstmt = null;
@@ -347,14 +368,45 @@ public class DataElementHandler extends AbstractElementHandler {
 						ResultSet rs1 = pstmt.executeQuery();						
 						while (rs1.next()){
 							//added 9/3/05
+							//red1 20/05/08 - FK ID Begins where commented
+							String exactCase = rs1.getString("ColumnName"); // red1 to retain the leading cap case for exact = table column's content
+							int flag = 0; //red1 - flag to ensure value if lookupname not done
 							atts.clear();
 							atts.addAttribute("","","name","CDATA", rs1.getString("ColumnName"));							
 							atts.addAttribute("","","class","CDATA", rs1.getString("Name"));
 							if (rs1.getString("Name").equals("Date")||rs1.getString("Name").equals("Date+Time")||rs1.getString("Name").equals("Time"))
 								atts.addAttribute("","","value","CDATA", "" + rs.getTimestamp(i));
 							else
-								atts.addAttribute("","","value","CDATA", "" + rs.getObject(i));
-							
+								//red1 - here is where the FK ID lookup check happens
+								//red1 - looking for fields ending in _ID, confirm its a tablename and return its Name from its ID in the FK table
+								if ("_ID".equals(col_Name.substring(col_Name.length()-3, col_Name.length())))
+								{
+									String colName_without_ID = exactCase.substring(0, exactCase.length()-3);
+									if (!colName_without_ID.equals(table_Name))
+									{
+										//red1 - need to convert other names to proper names i.e. SalesRep > AD_User
+										if (colName_without_ID.equals("SalesRep")) colName_without_ID="AD_User";
+										String sqlvalue = "Select TableName from AD_Table where TableName = '"+colName_without_ID+"'";
+										//red1 - Select TableName from AD_Table where TableName = colName_without_ID
+										String tableName = DB.getSQLValueByValue(null, sqlvalue);
+										//red1 - lookup DB>TableName(present_ID)
+										if (tableName!=null && rs.getObject(i)!=null){ // red1 - to skip if nothing in field		
+											sqlvalue = "Select Name, AD_Client_ID from "+tableName+" where "+colName_without_ID+"_ID="+rs.getObject(i); //red1 colName_without_ID+"_ID is to solve SalesRep>AD_User case
+											//red1 - to handle DocumentNo FK IDentifier in C_OrderLine //AD_Client_ID to resolve that for System record do not do lookupName, just return native ID
+											if (table_Name.equals("C_OrderLine") && (colName_without_ID.equals("C_Order")))
+												sqlvalue = "SELECT DocumentNo, AD_Client_ID FROM "+tableName+" where "+colName_without_ID+"_ID="+rs.getObject(i);  
+											String valueName = DB.getSQLValueByValueClient(null, sqlvalue);
+											if (valueName!=null){
+												atts.addAttribute("","","lookupname","CDATA", "" + valueName);
+												flag = 1;
+								//red1 - FK ID end
+											}
+										}
+									}
+								}
+								if (flag==0)
+									atts.addAttribute("","","value","CDATA", "" + rs.getObject(i));
+						
 							if (!rs1.getString("ColumnName").equals("Created")&&!rs1.getString("ColumnName").equals("CreatedBy")&&
 									!rs1.getString("ColumnName").equals("Updated")&&!rs1.getString("ColumnName").equals("UpdatedBy")){
 								document.startElement("","","dcolumn",atts);

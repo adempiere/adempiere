@@ -49,7 +49,13 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	 * 
 	 */
 	public int get_ID (Properties ctx, String tableName, String name) {
-		return IDFinder.get_ID(tableName, name, getClientId(ctx), getTrxName(ctx));
+		return IDFinder.get_ID("Name", tableName, name, getClientId(ctx), getTrxName(ctx));
+	}
+	/** red1 - overloading to handle extra Name or DocumentNo argument
+	 *  occurs for cases that doesn't use name in Data such as C_Order.DocumentNo
+	 */
+	public int get_ID (String lookUpName, Properties ctx, String tableName, String name) {
+		return IDFinder.get_ID(lookUpName, tableName, name, getClientId(ctx), getTrxName(ctx));
 	}
 
 	/**
@@ -223,8 +229,8 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	 * @param tableName
 	 * @param name
 	 */
-	public int getIDbyName (Properties ctx, String tableName, String name) {
-		return IDFinder.getIDbyName(tableName, name, getClientId(ctx), getTrxName(ctx));
+	public int getIDbyName (Properties ctx, String tableName, String name, String lookupField) {
+		return IDFinder.getIDbyName(lookupField, tableName, name, getClientId(ctx), getTrxName(ctx));
 	}
 	
     /**

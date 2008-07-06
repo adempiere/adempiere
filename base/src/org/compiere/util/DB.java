@@ -1104,7 +1104,73 @@ public final class DB
 		}
 		return retValue;
 	}	//	getRowSet
-
+	   /** -- red1 --
+     *  Get One String Value from sql
+     *  @param trxName trx
+     *  @param sql sql
+     *  @return only value or null
+     */
+    public static String getSQLValueByValue (String trxName, String sql)
+    {
+        String retValue = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                retValue = rs.getString(1);
+            else
+                log.fine("No Value " + sql);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValue String
+    
+    public static String getSQLValueByValueClient (String trxName, String sql)
+    {
+        String retValue = null;
+        int AD_Client_ID = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = prepareStatement(sql, trxName);
+            rs = pstmt.executeQuery();
+            if (rs.next()){
+            	retValue = rs.getString(1);
+             	AD_Client_ID = rs.getInt(2); //red1 - to check if Client is SYSTEM then do not lookup
+             	if (AD_Client_ID==0) retValue = null;
+            }
+               
+            else
+                log.fine("No Value " + sql);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, sql, e);
+        }
+        finally
+        {
+            close(rs);
+            close(pstmt);
+            rs= null;
+            pstmt = null;
+        }
+        return retValue;
+    }   //  getSQLValueClient String
+    
     /**
      *  Get Value from sql
      *  @param trxName trx
