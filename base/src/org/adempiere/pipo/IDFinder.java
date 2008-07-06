@@ -47,13 +47,13 @@ public class IDFinder {
 	 * @param trxName
 	 * 
 	 */
-	public static int get_ID (String lookUpField, String tableName, String name, int AD_Client_ID, String trxName) {
+	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
 		
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
-			.append("."+lookUpField+"=") //red1 - to allow for DocumentNo in C_Orders
+			.append(".Name=")
 			.append(name);
 		if (!tableName.startsWith("AD_"))
 			key.append(" and AD_Client_ID=").append(AD_Client_ID);
@@ -66,7 +66,7 @@ public class IDFinder {
 			.append(tableName)
 			.append("_ID from ")
 			.append(tableName)
-			.append(" where "+lookUpField+"=?");//red1 - to allow for DocumentNo in C_Orders
+			.append(" where name=?");
 		
 		if (!tableName.startsWith("AD_"))
 			sqlB = sqlB.append(" and AD_Client_ID=?");
@@ -351,7 +351,7 @@ public class IDFinder {
 	 * @param AD_Client_ID
 	 * @param trxName
 	 */
-	public static int getIDbyName (String lookupField, String tableName, String name, int AD_Client_ID, String trxName) {
+	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
 		
 		//construct cache key
@@ -371,9 +371,8 @@ public class IDFinder {
 			.append("_ID ")
 			.append("FROM ")
 			.append(tableName)
-			.append(" WHERE ")
-			.append(lookupField)  //red1 - i.e. Name or DocumentNo
-			.append("=?");
+			.append(" ")
+			.append("WHERE name=?");
 		if (!tableName.startsWith("AD_"))
 			sql.append(" AND AD_Client_ID=?");
 		try {
