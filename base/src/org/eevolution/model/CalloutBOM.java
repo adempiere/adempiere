@@ -250,6 +250,41 @@ public class CalloutBOM extends CalloutEngine
 		setCalloutActive(false);
 		return "";
 	}	//	qty
+    
+	/**
+	 *	getdefaults   
+	 *  get defaults for Product (search key, name, description, help and UOM)
+	 *  @param ctx      Context
+	 *  @param WindowNo current Window No
+	 *  @param mTab     Model Tab
+	 *  @param mField   Model Field
+	 *  @param value    The new value
+	 */
+	public String getdefaults (Properties ctx, int WindowNo, GridTab mTab, GridField  mField, Object value)
+	{
+		Integer M_Product_ID = (Integer)value;
+		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
+			return "";
+		setCalloutActive(true);
+		
+		if (isCalloutActive() || value == null)
+			return "";
+		
+		if (steps) log.warning("parent - init");
+		
+		setCalloutActive(true);
+		
+        X_M_Product M_Product =  new X_M_Product(ctx, M_Product_ID.intValue(),null);
+        
+        mTab.setValue("Value", M_Product.getValue());
+        mTab.setValue("Name", M_Product.getName());
+        mTab.setValue("Description", M_Product.getDescription());
+        mTab.setValue("Help", M_Product.getHelp());
+        mTab.setValue("C_UOM_ID", M_Product.getC_UOM_ID());
+        
+        setCalloutActive(false);
+		return "";
+	}	//	getdefaults
 
 }	//	CalloutOrder
 
