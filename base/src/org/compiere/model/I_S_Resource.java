@@ -170,6 +170,19 @@ public interface I_S_Resource
 	/** Get PercentUtilization	  */
 	public BigDecimal getPercentUtilization();
 
+    /** Column name PlanningHorizon */
+    public static final String COLUMNNAME_PlanningHorizon = "PlanningHorizon";
+
+	/** Set Planning Horizon.
+	  * The planning horizon is the amount of time (Days) an organisation will look into the future when preparing a strategic plan.
+	  */
+	public void setPlanningHorizon (int PlanningHorizon);
+
+	/** Get Planning Horizon.
+	  * The planning horizon is the amount of time (Days) an organisation will look into the future when preparing a strategic plan.
+	  */
+	public int getPlanningHorizon();
+
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 

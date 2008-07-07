@@ -340,6 +340,26 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return bd;
 	}
 
+	/** Set Planning Horizon.
+		@param PlanningHorizon 
+		The planning horizon is the amount of time (Days) an organisation will look into the future when preparing a strategic plan.
+	  */
+	public void setPlanningHorizon (int PlanningHorizon)
+	{
+		set_Value (COLUMNNAME_PlanningHorizon, Integer.valueOf(PlanningHorizon));
+	}
+
+	/** Get Planning Horizon.
+		@return The planning horizon is the amount of time (Days) an organisation will look into the future when preparing a strategic plan.
+	  */
+	public int getPlanningHorizon () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PlanningHorizon);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set QueuingTime.
 		@param QueuingTime QueuingTime	  */
 	public void setQueuingTime (BigDecimal QueuingTime)
