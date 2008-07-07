@@ -19,6 +19,8 @@ package org.compiere.print;
 import java.awt.event.*;
 import java.awt.print.*;
 import javax.print.*;
+import javax.swing.DefaultComboBoxModel;
+
 import org.compiere.swing.*;
 import org.compiere.util.*;
 
@@ -36,6 +38,9 @@ public class CPrinter extends CComboBox implements ActionListener
 	 */
 	public static String[] getPrinterNames()
 	{
+		// Refresh print services every time the combobox is constructed
+		s_services = PrintServiceLookup.lookupPrintServices(null,null);
+
 		String[] retValue = new String[s_services.length];
 		for (int i = 0; i < s_services.length; i++)
 			retValue[i] = s_services[i].getName();
@@ -154,5 +159,13 @@ public class CPrinter extends CComboBox implements ActionListener
 		}
 		return PrintServiceLookup.lookupDefaultPrintService();
 	}	//	getPrintService
+	
+	/**
+	 * 	Refresh printer list
+	 */
+	public void refresh() {
+		removeAllItems();
+		setModel(new DefaultComboBoxModel(getPrinterNames()));
+	}
 
 }   //  CPrinter

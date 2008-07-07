@@ -438,8 +438,10 @@ public final class ALogin extends CDialog
 	{
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
-			if (loginTabPane.getSelectedIndex() == 0)
+			if (loginTabPane.getSelectedIndex() == 0) {
 				connectionOK();		//	first ok
+				printerField.refresh();
+			}
 			else
 			{
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
