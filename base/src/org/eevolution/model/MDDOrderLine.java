@@ -652,8 +652,6 @@ public class MDDOrderLine extends X_DD_OrderLine
 		if (!success)
 			return success;
 		
-		MPPMRP.DD_Order_Line(this, false);
-
 		return true;
 	}	//	afterSave
 
@@ -666,9 +664,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 	{
 		if (!success)
 			return success;
-		
-		MPPMRP.DD_Order_Line(this, true);
-		
+
 		return true;
 	}	//	afterDelete
 	

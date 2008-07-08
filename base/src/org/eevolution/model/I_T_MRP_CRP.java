@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_MRP_CRP
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @version Release 3.5.0
  */
 public interface I_T_MRP_CRP 
 {

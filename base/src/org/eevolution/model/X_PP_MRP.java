@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent 
 {
 

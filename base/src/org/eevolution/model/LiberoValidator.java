@@ -67,7 +67,10 @@ public class LiberoValidator implements ModelValidator
 		engine.addModelChange(MRequisitionLine.Table_Name, this);
 		engine.addModelChange(MClient.Table_Name, this);
 		engine.addModelChange(X_M_ForecastLine.Table_Name, this);
-		//engine.addModelChange(MDDOrderLine.Table_Name, this);
+		engine.addModelChange(MDDOrder.Table_Name, this);
+		engine.addModelChange(MDDOrderLine.Table_Name, this);
+		engine.addModelChange(MPPOrder.Table_Name, this);
+		engine.addModelChange(MPPOrderBOMLine.Table_Name, this);
 	}	//	initialize
 
     /**
@@ -82,54 +85,78 @@ public class LiberoValidator implements ModelValidator
 	public String modelChange (PO po, int type) throws Exception
 	{
 		log.info(po.get_TableName() + " Type: "+type);
-		if (po.get_TableName().equals(MOrderLine.Table_Name) && ( type == TYPE_NEW || type == TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MOrderLine.Table_Name) && ( type == TYPE_AFTER_NEW || type == TYPE_AFTER_CHANGE ))
 		{
 			MOrderLine ol = (MOrderLine)po;
-			org.eevolution.model.MPPMRP.C_OrderLine(ol, false);
+			MPPMRP.C_OrderLine(ol, false);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(MOrderLine.Table_Name) && type == TYPE_DELETE)
+		if (po.get_TableName().equals(MOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
 			MOrderLine ol = (MOrderLine)po;
 			org.eevolution.model.MPPMRP.C_OrderLine(ol, true);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && (type == TYPE_NEW  ||  type == TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && (type == TYPE_AFTER_NEW ||  type == TYPE_AFTER_CHANGE ))
 		{
 			MRequisitionLine rl = (MRequisitionLine)po;
-			org.eevolution.model.MPPMRP.M_RequisitionLine(rl, false);
+			MPPMRP.M_RequisitionLine(rl, false);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && type == TYPE_DELETE )
+		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && type == TYPE_BEFORE_DELETE )
 		{
 			MRequisitionLine ol = (MRequisitionLine)po;
-			org.eevolution.model.MPPMRP.M_RequisitionLine(ol, true);
+			MPPMRP.M_RequisitionLine(ol, true);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name) && (type == TYPE_NEW || type ==  TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name) && (type == TYPE_AFTER_NEW || type ==  TYPE_AFTER_CHANGE ))
 		{
 			X_M_ForecastLine ol = (X_M_ForecastLine)po;
-			org.eevolution.model.MPPMRP.M_ForecastLine(ol, false);
+			MPPMRP.M_ForecastLine(ol, false);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name) && type == TYPE_DELETE)
+		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
 			X_M_ForecastLine ol = (X_M_ForecastLine)po;
-			org.eevolution.model.MPPMRP.M_ForecastLine(ol, true);
+			MPPMRP.M_ForecastLine(ol, true);
 			log.info(po.toString());
 		}
-		/*if (po.get_TableName().equals(MDDOrderLine.Table_Name) && (type == TYPE_NEW || type ==  TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MDDOrderLine.Table_Name) && (type == TYPE_AFTER_NEW|| type ==  TYPE_AFTER_CHANGE ))
 		{
 			MDDOrderLine ol = (MDDOrderLine)po;
-			org.eevolution.model.MPPMRP.DD_Order_Line(ol , false);
+			MPPMRP.DD_Order_Line(ol , false);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(MDDOrderLine.Table_Name) && type == TYPE_DELETE)
+		if (po.get_TableName().equals(MDDOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
-			X_M_ForecastLine ol = (X_M_ForecastLine)po;
-			org.eevolution.model.MPPMRP.M_ForecastLine(ol, true);
+			MDDOrderLine ol = (MDDOrderLine)po;
+			MPPMRP.DD_Order_Line(ol, true);	
 			log.info(po.toString());
-		}*/
+		}
+		if (po.get_TableName().equals(MPPOrder.Table_Name) && (type == TYPE_AFTER_NEW || type ==  TYPE_AFTER_CHANGE ))
+		{
+			MPPOrder o = (MPPOrder)po;
+			MPPMRP.PP_Order(o, false);	
+			log.info(po.toString());
+		}
+		if (po.get_TableName().equals(MPPOrder.Table_Name) && type == TYPE_BEFORE_DELETE)
+		{
+			MPPOrder o = (MPPOrder)po;
+			MPPMRP.PP_Order(o, true);	
+			log.info(po.toString());
+		}
+		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name) && (type == TYPE_AFTER_NEW|| type ==  TYPE_AFTER_CHANGE ))
+		{
+			MPPOrderBOMLine ol = (MPPOrderBOMLine)po;
+			MPPMRP.PP_Order_BOMLine(ol, false);	
+			log.info(po.toString());
+		}
+		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name) && type == TYPE_BEFORE_DELETE)
+		{
+			MPPOrderBOMLine ol = (MPPOrderBOMLine)po;
+			MPPMRP.PP_Order_BOMLine(ol, true);	
+			log.info(po.toString());
+		}
 		
 		return null;
 	}	//	modelChange

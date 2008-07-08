@@ -55,7 +55,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		MDDOrder to = new MDDOrder (from.getCtx(), 0, trxName);
 		to.set_TrxName(trxName);
 		PO.copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
-		to.set_ValueNoCheck ("C_Order_ID", I_ZERO);
+		to.set_ValueNoCheck ("DD_Order_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
 		//
 		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
@@ -76,14 +76,14 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		to.setPosted (false);
 		to.setProcessed (false);
 		if (counter)
-			to.setRef_Order_ID(from.getC_Order_ID());
+			to.setRef_Order_ID(from.getDD_Order_ID());
 		else
 			to.setRef_Order_ID(0);
 		//
 		if (!to.save(trxName))
 			throw new IllegalStateException("Could not create Order");
 		if (counter)
-			from.setRef_Order_ID(to.getC_Order_ID());
+			from.setRef_Order_ID(to.getDD_Order_ID());
 
 		if (to.copyLinesFrom(from, counter, copyASI) == 0)
 			throw new IllegalStateException("Could not create Order Lines");
@@ -95,14 +95,14 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	/**************************************************************************
 	 *  Default Constructor
 	 *  @param ctx context
-	 *  @param  C_Order_ID    order to load, (0 create new order)
+	 *  @param  DD_Order_ID    order to load, (0 create new order)
 	 *  @param trxName trx name
 	 */
-	public MDDOrder(Properties ctx, int C_Order_ID, String trxName)
+	public MDDOrder(Properties ctx, int DD_Order_ID, String trxName)
 	{
-		super (ctx, C_Order_ID, trxName);
+		super (ctx, DD_Order_ID, trxName);
 		//  New
-		if (C_Order_ID == 0)
+		if (DD_Order_ID == 0)
 		{
 			setDocStatus(DOCSTATUS_Drafted);
 			setDocAction (DOCACTION_Prepare);
@@ -314,8 +314,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Default Invoice/Payment Rule
 		ss = bp.getInvoiceRule();
 
-		if (ii != 0)
-			setSalesRep_ID(ii);
+		//if (ii != 0)
+		//	setSalesRep_ID(ii);
 
 
 		//	Set Locations
@@ -361,7 +361,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		{
 			MDDOrderLine line = new MDDOrderLine (this);
 			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
-			line.setDD_Order_ID(getC_Order_ID());
+			line.setDD_Order_ID(getDD_Order_ID());
 			line.setOrder(this);
 			//	References
 			if (!copyASI)
@@ -443,7 +443,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public File createPDF (File file)
 	{
-		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.ORDER, getC_Order_ID());
+		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.ORDER, getDD_Order_ID());
 		if (re == null)
 			return null;
 		return re.getPDF(file);
@@ -461,7 +461,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	public MDDOrderLine[] getLines (String whereClause, String orderClause)
 	{
 		ArrayList<MDDOrderLine> list = new ArrayList<MDDOrderLine> ();
-		StringBuffer sql = new StringBuffer("SELECT * FROM C_OrderLine WHERE C_Order_ID=? ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM DD_OrderLine WHERE DD_Order_ID=? ");
 		if (whereClause != null)
 			sql.append(whereClause);
 		if (orderClause != null)
@@ -470,7 +470,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
+			pstmt.setInt(1, getDD_Order_ID());
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -572,7 +572,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
+			pstmt.setInt(1, getDD_Order_ID());
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MMovement(getCtx(), rs, get_TrxName()));
@@ -622,17 +622,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	}	//	setDocAction
 
 	/**
-	 * 	Set DocAction
-	 *	@param DocAction doc oction
-	 *	@param forceCreation force creation
-	 */
-	public void setDocAction (String DocAction, boolean forceCreation)
-	{
-		super.setDocAction (DocAction);
-		m_forceCreation = forceCreation;
-	}	//	setDocAction
-	
-	/**
 	 * 	Set Processed.
 	 * 	Propergate to Lines/Taxes
 	 *	@param processed processed
@@ -644,7 +633,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			return;
 		String set = "SET Processed='"
 			+ (processed ? "Y" : "N")
-			+ "' WHERE C_Order_ID=" + getC_Order_ID();
+			+ "' WHERE DD_Order_ID=" + getDD_Order_ID();
 		int noLine = DB.executeUpdate("UPDATE DD_OrderLine " + set, get_TrxName());
 		m_lines = null;
 		log.fine("setProcessed - " + processed + " - Lines=" + noLine);
@@ -718,12 +707,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 
 
 		//	Default Sales Rep
-		if (getSalesRep_ID() == 0)
+		/*if (getSalesRep_ID() == 0)
 		{
 			int ii = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
 			if (ii != 0)
 				setSalesRep_ID (ii);
-		}
+		}*/
 		
 		return true;
 	}	//	beforeSave
@@ -779,6 +768,18 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	}	//	afterSaveSync
 	
 	/**
+	 * 	Set DocAction
+	 *	@param DocAction doc oction
+	 *	@param forceCreation force creation
+	 */
+	public void setDocAction (String DocAction, boolean forceCreation)
+	{
+		super.setDocAction (DocAction);
+		m_forceCreation = forceCreation;
+	}	//	setDocAction
+
+
+	/**
 	 * 	Before Delete
 	 *	@return true of it can be deleted
 	 */
@@ -790,21 +791,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		getLines();
 		for (int i = 0; i < m_lines.length; i++)
 		{
-			if (!m_lines[i].beforeDelete())
-				return false;
+			m_lines[i].delete(true);
 		}
-		
-		int[] ids = PO.getAllIDs("DD_OrderLine", "DD_Order_ID="+get_ID()+ " AND AD_Client_ID="+ getAD_Client_ID(), get_TrxName());
-	    for(int i = 0; i < ids.length; i++) 
-	    {
-	            PO po = new MDDOrderLine(Env.getCtx(), ids[i], get_TrxName());
-	            boolean ok = po.delete(true);
-	            if(!ok) {
-	
-	                    return ok;
-	            }
-	    }
-	    
 		return true;
 	}	//	beforeDelete
  
@@ -900,7 +888,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			+ "WHERE pas.MandatoryType" + mandatoryType		
 			+ " AND ol.M_AttributeSetInstance_ID IS NULL"
 			+ " AND ol.DD_Order_ID=?";
-		int no = DB.getSQLValue(get_TrxName(), sql, getC_Order_ID());
+		int no = DB.getSQLValue(get_TrxName(), sql, getDD_Order_ID());
 		if (no != 0)
 		{
 			m_processMsg = "@LinesWithoutProductAttribute@ (" + no + ")";

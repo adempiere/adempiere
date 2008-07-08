@@ -505,361 +505,323 @@ public class MPPOrder extends X_PP_Order implements DocAction {
      *	@param newRecord new
      *	@return save
      */
-    protected boolean afterSave(boolean newRecord, boolean success) {
-        
-                
-	if (!newRecord)
-        {    
-                    
-                        MPPMRP.PP_Order(this);
-			return success;
-        }        
-       
-       
-    	//X_PP_Order PP_Order = new X_PP_Order(getCtx(),getPP_Order_ID() , get_TrxName());
-        //MPPMRP.PP_Order(PP_Order ,get_TrxName());         
-        log.fine("afterSave - MPPOrder Query ok");               
-        
-        setC_DocType_ID(0);
-        
-        // Create BOM Head
-        MPPProductBOM PP_Product_BOM = new MPPProductBOM(getCtx(), getPP_Product_BOM_ID(),get_TrxName());
-        
-        boolean ValidFromBOM = true;
-        boolean ValidToBOM = true;
-        if (PP_Product_BOM.getValidFrom() != null)
-        {		
-        ValidFromBOM = getDateStartSchedule().compareTo(PP_Product_BOM.getValidFrom()) >= 0 ? true : false;
-        }
-        
-        if (PP_Product_BOM.getValidTo() != null )
-        {		
-        ValidToBOM = getDateStartSchedule().compareTo(PP_Product_BOM.getValidTo()) <= 0 ? true : false;
-        }
-        
-        if(ValidFromBOM && ValidToBOM)
-        { 
-        MPPOrderBOM PP_Order_BOM = new MPPOrderBOM(getCtx(), 0,get_TrxName());                
-        PP_Order_BOM.setPP_Order_ID(getPP_Order_ID());
-        //PP_Order_BOM.setPP_Product_BOM_ID(PP_Product_BOM.getPP_Product_BOM_ID());
-        PP_Order_BOM.setBOMType(PP_Product_BOM.getBOMType());
-        PP_Order_BOM.setBOMUse(PP_Product_BOM.getBOMUse());
-        PP_Order_BOM.setM_ChangeNotice_ID(PP_Product_BOM.getM_ChangeNotice_ID());
-        PP_Order_BOM.setHelp(PP_Product_BOM.getHelp());
-        PP_Order_BOM.setCopyFrom(PP_Product_BOM.getCopyFrom());
-        PP_Order_BOM.setProcessing(PP_Product_BOM.isProcessing());
-        //PP_Order_BOM(PP_Product_BOM.getHelp());
-        PP_Order_BOM.setDescription(PP_Product_BOM.getDescription());
-        PP_Order_BOM.setM_AttributeSetInstance_ID(PP_Product_BOM.getM_AttributeSetInstance_ID());
-        PP_Order_BOM.setM_Product_ID(PP_Product_BOM.getM_Product_ID());
-        PP_Order_BOM.setName(PP_Product_BOM.getName());
-        PP_Order_BOM.setRevision(PP_Product_BOM.getRevision());
-        PP_Order_BOM.setValidFrom(PP_Product_BOM.getValidFrom());
-        PP_Order_BOM.setValidTo(PP_Product_BOM.getValidTo());
-        PP_Order_BOM.setValue(PP_Product_BOM.getValue());
-        PP_Order_BOM.setDocumentNo(PP_Product_BOM.getDocumentNo());
-        PP_Order_BOM.setC_UOM_ID(PP_Product_BOM.getC_UOM_ID());
-        PP_Order_BOM.save(get_TrxName());        
-        
-        //Create BOM List ---------------------------------------------------------
-        
-        MPPProductBOMLine[] PP_Product_BOMline =  PP_Product_BOM.getLines();
-        
-        for (int i = 0 ; i < PP_Product_BOMline.length ; i ++) 
-        {
-            boolean ValidFromBOMLine = true;
-            boolean ValidToBOMLine = true;
-            if (PP_Product_BOMline[i].getValidFrom() != null)
-            {		
-            ValidFromBOMLine = getDateStartSchedule().compareTo(PP_Product_BOMline[i].getValidFrom()) >= 0 ? true : false;
-            }
-            
-            if (PP_Product_BOMline[i].getValidTo() != null )
-            {		
-            ValidToBOMLine = getDateStartSchedule().compareTo(PP_Product_BOMline[i].getValidTo()) <= 0 ? true : false;
-            }        	        	
-            //MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(getCtx(),0,trx.getTrxName());
-        	if(ValidFromBOMLine && ValidToBOMLine)
-            { 
-            MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(getCtx(),0,get_TrxName());
-            PP_Order_BOMLine.setM_ChangeNotice_ID(PP_Product_BOMline[i].getM_ChangeNotice_ID());
-            PP_Order_BOMLine.setHelp(PP_Product_BOMline[i].getHelp());
-            PP_Order_BOMLine.setAssay(PP_Product_BOMline[i].getAssay());
-            PP_Order_BOMLine.setQtyBatch(PP_Product_BOMline[i].getQtyBatch());
-            PP_Order_BOMLine.setQtyBOM(PP_Product_BOMline[i].getQtyBOM());
-            PP_Order_BOMLine.setIsQtyPercentage(PP_Product_BOMline[i].isQtyPercentage());
-            PP_Order_BOMLine.setComponentType(PP_Product_BOMline[i].getComponentType());          
-            PP_Order_BOMLine.setC_UOM_ID(PP_Product_BOMline[i].getC_UOM_ID());
-            PP_Order_BOMLine.setForecast(PP_Product_BOMline[i].getForecast());
-            PP_Order_BOMLine.setIsCritical(PP_Product_BOMline[i].isCritical());
-            PP_Order_BOMLine.setIssueMethod(PP_Product_BOMline[i].getIssueMethod());
-            PP_Order_BOMLine.setLine(MPPOrder.getLines(getPP_Order_ID()).length+10);
-            PP_Order_BOMLine.setLeadTimeOffset(PP_Product_BOMline[i].getLeadTimeOffset());
-            PP_Order_BOMLine.setM_AttributeSetInstance_ID(PP_Product_BOMline[i].getM_AttributeSetInstance_ID());
-            PP_Order_BOMLine.setPP_Order_BOM_ID(PP_Order_BOM.getPP_Order_BOM_ID());
-            PP_Order_BOMLine.setPP_Order_ID(getPP_Order_ID());
-            PP_Order_BOMLine.setM_Product_ID(PP_Product_BOMline[i].getM_Product_ID());
-            PP_Order_BOMLine.setScrap(PP_Product_BOMline[i].getScrap());
-            PP_Order_BOMLine.setValidFrom(PP_Product_BOMline[i].getValidFrom());
-            PP_Order_BOMLine.setValidTo(PP_Product_BOMline[i].getValidTo());
-            PP_Order_BOMLine.setM_Warehouse_ID(getM_Warehouse_ID());
-            PP_Order_BOMLine.setBackflushGroup(PP_Product_BOMline[i].getBackflushGroup());
-            
-            BigDecimal QtyOrdered = getQtyOrdered();
-            System.out.println("PP_Order_BOMLine.getQtyBOM()" + PP_Order_BOMLine.getQtyBOM()+ "PP_Product_BOMline[i].getQtyBOM()"+ PP_Product_BOMline[i].getQtyBOM()); 
-            
-                if (PP_Order_BOMLine.isQtyPercentage()) 
-    	        {
-    	            BigDecimal qty =  PP_Order_BOMLine.getQtyBatch().multiply(QtyOrdered);                
-    	            if( PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Packing))
-    	            	PP_Order_BOMLine.setQtyRequiered(qty.divide(new BigDecimal(100),8,qty.ROUND_UP));
-    	            if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Component) || PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Phantom))
-    	            	PP_Order_BOMLine.setQtyRequiered(qty.divide(new BigDecimal(100),8,qty.ROUND_UP));
-    	            else if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Tools))
-    	            	PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM());
-    	            	
-    	        }
-    	        else 
-    	        {            	
-    	        	if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Component) || PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Phantom))                    
-    	        		PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM().multiply(QtyOrdered));
-                        else if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Packing))                    
-    	        		PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM().multiply(QtyOrdered));
-                        else if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Tools))
-                                PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM());
-    	        }                                                    
-    	        //System.out.println("Cantidad Requerida" + PP_Order_BOMLine.getQtyRequiered()); 
-    	        // Set Scrap of Component
-    	        BigDecimal Scrap = PP_Order_BOMLine.getScrap();
-    	       
-    	        if (!Scrap.equals(Env.ZERO))
-    	        {	
-    	        	Scrap = Scrap.divide(new BigDecimal(100),8,BigDecimal.ROUND_UP);                                   	
-    	        	PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyRequiered().divide( Env.ONE.subtract(Scrap) , 8 ,BigDecimal.ROUND_HALF_UP ));
-    	        }
-                 //System.out.println("Cantidad Requerida" + PP_Order_BOMLine.getQtyRequiered());
-                 PP_Order_BOMLine.save(get_TrxName());                 
-            
-            } // end if From / To component    
-            
-             MPPOrderBOMLine[] lines =   getLines(getPP_Order_ID());        
-             for (int l = 0 ; l < lines.length ; l ++) 
-             {
-                 if(lines[l].getComponentType().equals(MPPProductBOMLine.COMPONENTTYPE_Phantom))
-                 {    
-                 lines[l].setQtyRequiered(Env.ZERO);                
-                 lines[l].save(get_TrxName());
-                 }                 
-             }
-        } // end Create Order BOM
-        
-        } // end if From / To parent
-        
-         //MPPMRP.PP_Order(PP_Order ,get_TrxName());
-
-        // Create Workflow (Routing & Process
-        
-        MWorkflow AD_Workflow = new MWorkflow(getCtx() , getAD_Workflow_ID(),get_TrxName());
-                
-        boolean ValidFromWF = true;
-        boolean ValidToWF = true;
-        if (AD_Workflow.getValidFrom() != null)
-        {		
-        ValidFromWF = getDateStartSchedule().compareTo(AD_Workflow.getValidFrom()) >= 0 ? true : false;
-        }
-        
-        if (AD_Workflow.getValidTo() != null && getDateStartSchedule() != null)
-        {		
-        ValidToWF = getDateStartSchedule().compareTo(AD_Workflow.getValidTo()) <= 0 ? true : false;
-        }
-                        
-        if(ValidFromWF && ValidToWF)
-        {	
-        MPPOrderWorkflow PP_Order_Workflow = new MPPOrderWorkflow(getCtx(),0,get_TrxName());
-        PP_Order_Workflow.setValue(AD_Workflow.getValue());
-        //PP_Order_Workflow.setQtyBatchSize(AD_Workflow.getQtyBatchSize());
-        PP_Order_Workflow.setWorkflowType(AD_Workflow.getWorkflowType());
-        PP_Order_Workflow.setQtyBatchSize(AD_Workflow.getQtyBatchSize());
-        PP_Order_Workflow.setName(AD_Workflow.getName());
-        PP_Order_Workflow.setAccessLevel(AD_Workflow.getAccessLevel());
-        PP_Order_Workflow.setAuthor(AD_Workflow.getAuthor());
-        PP_Order_Workflow.setDurationUnit(AD_Workflow.getDurationUnit());
-        PP_Order_Workflow.setDuration(AD_Workflow.getDuration());
-        PP_Order_Workflow.setEntityType(AD_Workflow.getEntityType());	// U
-        PP_Order_Workflow.setIsDefault(AD_Workflow.isDefault());
-        PP_Order_Workflow.setPublishStatus(AD_Workflow.getPublishStatus());	// U
-        PP_Order_Workflow.setVersion(AD_Workflow.getVersion());
-        PP_Order_Workflow.setCost(AD_Workflow.getCost());
-        PP_Order_Workflow.setWaitingTime(AD_Workflow.getWaitingTime());        
-        PP_Order_Workflow.setWorkingTime(AD_Workflow.getWorkingTime());
-        PP_Order_Workflow.setAD_WF_Responsible_ID(AD_Workflow.getAD_WF_Responsible_ID());
-        PP_Order_Workflow.setAD_Workflow_ID(AD_Workflow.getAD_Workflow_ID());
-        PP_Order_Workflow.setLimit(AD_Workflow.getLimit());
-        PP_Order_Workflow.setPP_Order_ID(getPP_Order_ID());
-        PP_Order_Workflow.setPriority(AD_Workflow.getPriority());
-        PP_Order_Workflow.setValidateWorkflow(AD_Workflow.getValidateWorkflow());
-        PP_Order_Workflow.setS_Resource_ID(AD_Workflow.getS_Resource_ID());
-        PP_Order_Workflow.setQueuingTime(AD_Workflow.getQueuingTime());
-        PP_Order_Workflow.setSetupTime(AD_Workflow.getSetupTime());
-        PP_Order_Workflow.setMovingTime(AD_Workflow.getMovingTime());
-        PP_Order_Workflow.setProcessType(AD_Workflow.getProcessType());  
-        
-        PP_Order_Workflow.save(get_TrxName());
-        //PP_Order_Workflow.set
-        
-        MWFNode[] AD_WF_Node = AD_Workflow.getNodes(false,getAD_Client_ID());
-        
-        if(AD_WF_Node != null)
-        {
-        for (int g = 0 ; g < AD_WF_Node.length ; g ++) 
-        {
-        	
-        	boolean ValidFromNode = true;
-            boolean ValidToNode = true;
-            //if (AD_WF_Node[g].getValidFrom() != null )
-            if (AD_WF_Node[g].getValidFrom() != null)
-            {		
-            	ValidFromNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidFrom()) >= 0 ? true : false;
-            }
-            
-            if (AD_WF_Node[g].getValidTo() != null )
-            {		
-            	ValidToNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidTo()) <= 0 ? true : false;
-            }
-            
-        	if (ValidFromNode && ValidToNode)
-        	{	
-            MPPOrderNode PP_Order_Node = new MPPOrderNode(getCtx(),0,get_TrxName());
-            PP_Order_Node.setAction(AD_WF_Node[g].getAction());	
-            PP_Order_Node.setAD_WF_Node_ID(AD_WF_Node[g].getAD_WF_Node_ID());
-            PP_Order_Node.setAD_WF_Responsible_ID(AD_WF_Node[g].getAD_WF_Responsible_ID());
-            PP_Order_Node.setAD_Workflow_ID(AD_WF_Node[g].getAD_Workflow_ID());
-            PP_Order_Node.setCost(AD_WF_Node[g].getCost());
-            PP_Order_Node.setDuration(AD_WF_Node[g].getDuration());
-            PP_Order_Node.setEntityType(AD_WF_Node[g].getEntityType());
-            PP_Order_Node.setIsCentrallyMaintained(AD_WF_Node[g].isCentrallyMaintained());
-            PP_Order_Node.setJoinElement(AD_WF_Node[g].getJoinElement());	// X
-            PP_Order_Node.setLimit(AD_WF_Node[g].getLimit());
-            PP_Order_Node.setPP_Order_ID(getPP_Order_ID());
-            PP_Order_Node.setPP_Order_Workflow_ID(PP_Order_Workflow.getPP_Order_Workflow_ID());
-            PP_Order_Node.setName(AD_WF_Node[g].getName());
-            PP_Order_Node.setPriority(AD_WF_Node[g].getPriority());
-            PP_Order_Node.setSplitElement(AD_WF_Node[g].getSplitElement());	// X
-            PP_Order_Node.setSubflowExecution (AD_WF_Node[g].getSubflowExecution());
-            PP_Order_Node.setValue(AD_WF_Node[g].getValue());
-            PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
-            PP_Order_Node.setSetupTime(AD_WF_Node[g].getSetupTime());
-            PP_Order_Node.setSetupTimeRequiered(AD_WF_Node[g].getSetupTime());
-            BigDecimal time = new BigDecimal(AD_WF_Node[g].getDuration()).multiply(getQtyOrdered());
-            PP_Order_Node.setDurationRequiered(time.intValue());
-            PP_Order_Node.setMovingTime(AD_WF_Node[g].getMovingTime());
-            PP_Order_Node.setWaitingTime(AD_WF_Node[g].getWaitingTime());
-            PP_Order_Node.setWorkingTime(AD_WF_Node[g].getWorkingTime());;
-            PP_Order_Node.setQueuingTime(AD_WF_Node[g].getQueuingTime());
-            PP_Order_Node.setXPosition(AD_WF_Node[g].getXPosition());
-            PP_Order_Node.setYPosition(AD_WF_Node[g].getYPosition());
-            PP_Order_Node.setDocAction(AD_WF_Node[g].getDocAction());
-            PP_Order_Node.setAD_Column_ID(AD_WF_Node[g].getAD_Column_ID());
-            PP_Order_Node.setAD_Form_ID(AD_WF_Node[g].getAD_Form_ID());
-            PP_Order_Node.setAD_Image_ID(AD_WF_Node[g].getAD_Image_ID());
-            PP_Order_Node.setAD_Window_ID(AD_WF_Node[g].getAD_Window_ID());
-            PP_Order_Node.setAD_Process_ID(AD_WF_Node[g].getAD_Process_ID());
-            PP_Order_Node.setAttributeName(AD_WF_Node[g].getAttributeName());
-            PP_Order_Node.setAttributeValue(AD_WF_Node[g].getAttributeValue());
-            PP_Order_Node.setC_BPartner_ID(AD_WF_Node[g].getC_BPartner_ID());
-            PP_Order_Node.setStartMode(AD_WF_Node[g].getStartMode());
-            PP_Order_Node.setFinishMode(AD_WF_Node[g].getFinishMode());
-            PP_Order_Node.setValidFrom(AD_WF_Node[g].getValidFrom());
-            PP_Order_Node.setValidTo(AD_WF_Node[g].getValidTo());
-            
-            PP_Order_Node.save(get_TrxName());  
-     
-            MWFNodeNext[] AD_WF_NodeNext = AD_WF_Node[g].getTransitions(getAD_Client_ID());
-            System.out.println("AD_WF_NodeNext"+AD_WF_NodeNext.length);
-            if(AD_WF_NodeNext != null)
-            {
-            	for (int n = 0; n <  AD_WF_NodeNext.length; n++)
-            	{
-            		MPPOrderNodeNext PP_Order_NodeNext = new MPPOrderNodeNext(getCtx(),0,get_TrxName());
-            		PP_Order_NodeNext.setAD_WF_Node_ID(AD_WF_NodeNext[n].getAD_WF_Node_ID());
-            		PP_Order_NodeNext.setAD_WF_Next_ID(AD_WF_NodeNext[n].getAD_WF_Next_ID());
-            		PP_Order_NodeNext.setPP_Order_Node_ID(PP_Order_Node.getPP_Order_Node_ID());
-            		PP_Order_NodeNext.setPP_Order_Next_ID(0);
-            		PP_Order_NodeNext.setDescription(AD_WF_NodeNext[n].getDescription()); 
-            		PP_Order_NodeNext.setEntityType(AD_WF_NodeNext[n].getEntityType());
-            		PP_Order_NodeNext.setIsStdUserWorkflow(AD_WF_NodeNext[n].isStdUserWorkflow()); 
-            		PP_Order_NodeNext.setPP_Order_ID (getPP_Order_ID());
-            		PP_Order_NodeNext.setSeqNo(AD_WF_NodeNext[n].getSeqNo());
-            		PP_Order_NodeNext.setTransitionCode(AD_WF_NodeNext[n].getTransitionCode());
-            		PP_Order_NodeNext.save(get_TrxName());
-            	}// end for Node Next
-            }                                	
-                                            
-        }// end for Node        
-        
-        //set transition for order
-        MPPOrderWorkflow OrderWorkflow = new MPPOrderWorkflow(getCtx(),PP_Order_Workflow.getPP_Order_Workflow_ID(),get_TrxName());        
-        MPPOrderNode[] OrderNodes = OrderWorkflow.getNodes(false , getAD_Client_ID());
-
-        //System.out.println("-----------------------OrderNodes"+OrderNodes.length);
-        if(OrderNodes != null)
-        {
-        	PP_Order_Workflow.setPP_Order_Node_ID(OrderNodes[0].getPP_Order_Node_ID());
-        	
-        for (int h = 0 ; h < OrderNodes.length ; h ++) 
-        {
-        	MPPOrderNodeNext[] nexts = OrderNodes[h].getTransitions(getAD_Client_ID());
-            //System.out.println("----------------------PP_Order_NodeNext"+nexts.length);
-            if(nexts != null)
-            {
-            	System.out.println("Node Transition" + nexts.length);
-            	for (int x = 0; x <  nexts.length; x++)
-            	{            		
-            		
-            		String sql = "SELECT PP_Order_Node_ID FROM PP_Order_Node WHERE PP_Order_ID = ?  AND AD_WF_Node_ID = ? AND AD_Client_ID=?";
-                	try
-        			{
-                		PreparedStatement pstmt = null;
-                        pstmt = DB.prepareStatement (sql, get_TrxName());
-                        pstmt.setInt(1, nexts[x].getPP_Order_ID());                     
-                        pstmt.setInt(2, nexts[x].getAD_WF_Next_ID());
-                        pstmt.setInt(3, nexts[x].getAD_Client_ID());
-                        ResultSet rs = pstmt.executeQuery();
-                        while (rs.next())
-                        {                        	
-                        	nexts[x].setPP_Order_Next_ID(rs.getInt(1));
-                        	nexts[x].save(get_TrxName());                	
-                        }
-                        rs.close();
-                        pstmt.close();
-                		
-        			}
-                	catch (Exception e)
-        			{
-        	        	log.log(Level.SEVERE,"doIt - " + sql, e);	          
-        			}                		
-            	}// end for Node Next
-            }        	
-          }        
-        }
-        
-        }// end from / to Node
-        
-      } // end from /to Workflow 
-        PP_Order_Workflow.save(get_TrxName());  
-    } 	
-        
-
-                     
-    	MPPMRP.PP_Order(this);
-        return true;
+    protected boolean afterSave(boolean newRecord, boolean success) 
+	    {
+	        
+	                
+			if (!newRecord)
+		    {    
+				return success;
+		    }           
+		    log.fine("afterSave - MPPOrder Query ok");               
+		    
+		    setC_DocType_ID(0);
+		    
+		    // Create BOM Head
+		    MPPProductBOM PP_Product_BOM = new MPPProductBOM(getCtx(), getPP_Product_BOM_ID(),get_TrxName());
+		    
+		    boolean ValidFromBOM = true;
+		    boolean ValidToBOM = true;
+		    if (PP_Product_BOM.getValidFrom() != null)		
+		    ValidFromBOM = getDateStartSchedule().compareTo(PP_Product_BOM.getValidFrom()) >= 0 ? true : false;
+		    
+		    if (PP_Product_BOM.getValidTo() != null )	
+		    ValidToBOM = getDateStartSchedule().compareTo(PP_Product_BOM.getValidTo()) <= 0 ? true : false;
+		    
+		    if(ValidFromBOM && ValidToBOM)
+		    { 
+		        MPPOrderBOM PP_Order_BOM = new MPPOrderBOM(getCtx(), 0 , get_TrxName());                
+		        PP_Order_BOM.setPP_Order_ID(getPP_Order_ID());
+		        PP_Order_BOM.setBOMType(PP_Product_BOM.getBOMType());
+		        PP_Order_BOM.setBOMUse(PP_Product_BOM.getBOMUse());
+		        PP_Order_BOM.setM_ChangeNotice_ID(PP_Product_BOM.getM_ChangeNotice_ID());
+		        PP_Order_BOM.setHelp(PP_Product_BOM.getHelp());
+		        PP_Order_BOM.setCopyFrom(PP_Product_BOM.getCopyFrom());
+		        PP_Order_BOM.setProcessing(PP_Product_BOM.isProcessing());
+		        PP_Order_BOM.setHelp(PP_Product_BOM.getHelp());
+		        PP_Order_BOM.setDescription(PP_Product_BOM.getDescription());
+		        PP_Order_BOM.setM_AttributeSetInstance_ID(PP_Product_BOM.getM_AttributeSetInstance_ID());
+		        PP_Order_BOM.setM_Product_ID(PP_Product_BOM.getM_Product_ID());
+		        PP_Order_BOM.setName(PP_Product_BOM.getName());
+		        PP_Order_BOM.setRevision(PP_Product_BOM.getRevision());
+		        PP_Order_BOM.setValidFrom(PP_Product_BOM.getValidFrom());
+		        PP_Order_BOM.setValidTo(PP_Product_BOM.getValidTo());
+		        PP_Order_BOM.setValue(PP_Product_BOM.getValue());
+		        PP_Order_BOM.setDocumentNo(PP_Product_BOM.getDocumentNo());
+		        PP_Order_BOM.setC_UOM_ID(PP_Product_BOM.getC_UOM_ID());
+		        PP_Order_BOM.save();        		      
+		        
+		        MPPProductBOMLine[] PP_Product_BOMline =  PP_Product_BOM.getLines();
+		        
+		        for (int i = 0 ; i < PP_Product_BOMline.length ; i ++) 
+		        {
+		            boolean ValidFromBOMLine = true;
+		            boolean ValidToBOMLine = true;
+		            
+		            if (PP_Product_BOMline[i].getValidFrom() != null)	
+		            ValidFromBOMLine = getDateStartSchedule().compareTo(PP_Product_BOMline[i].getValidFrom()) >= 0 ? true : false;
+		            
+		            if (PP_Product_BOMline[i].getValidTo() != null )		
+		            ValidToBOMLine = getDateStartSchedule().compareTo(PP_Product_BOMline[i].getValidTo()) <= 0 ? true : false;
+		            
+		        	if(ValidFromBOMLine && ValidToBOMLine)
+		            { 
+			            MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(getCtx(),0,get_TrxName());
+			            PP_Order_BOMLine.setM_ChangeNotice_ID(PP_Product_BOMline[i].getM_ChangeNotice_ID());
+			            PP_Order_BOMLine.setHelp(PP_Product_BOMline[i].getHelp());
+			            PP_Order_BOMLine.setAssay(PP_Product_BOMline[i].getAssay());
+			            PP_Order_BOMLine.setQtyBatch(PP_Product_BOMline[i].getQtyBatch());
+			            PP_Order_BOMLine.setQtyBOM(PP_Product_BOMline[i].getQtyBOM());
+			            PP_Order_BOMLine.setIsQtyPercentage(PP_Product_BOMline[i].isQtyPercentage());
+			            PP_Order_BOMLine.setComponentType(PP_Product_BOMline[i].getComponentType());          
+			            PP_Order_BOMLine.setC_UOM_ID(PP_Product_BOMline[i].getC_UOM_ID());
+			            PP_Order_BOMLine.setForecast(PP_Product_BOMline[i].getForecast());
+			            PP_Order_BOMLine.setIsCritical(PP_Product_BOMline[i].isCritical());
+			            PP_Order_BOMLine.setIssueMethod(PP_Product_BOMline[i].getIssueMethod());
+			            PP_Order_BOMLine.setLine(MPPOrder.getLines(getPP_Order_ID()).length+10);
+			            PP_Order_BOMLine.setLeadTimeOffset(PP_Product_BOMline[i].getLeadTimeOffset());
+			            PP_Order_BOMLine.setM_AttributeSetInstance_ID(PP_Product_BOMline[i].getM_AttributeSetInstance_ID());
+			            PP_Order_BOMLine.setPP_Order_BOM_ID(PP_Order_BOM.getPP_Order_BOM_ID());
+			            PP_Order_BOMLine.setPP_Order_ID(getPP_Order_ID());
+			            PP_Order_BOMLine.setM_Product_ID(PP_Product_BOMline[i].getM_Product_ID());
+			            PP_Order_BOMLine.setScrap(PP_Product_BOMline[i].getScrap());
+			            PP_Order_BOMLine.setValidFrom(PP_Product_BOMline[i].getValidFrom());
+			            PP_Order_BOMLine.setValidTo(PP_Product_BOMline[i].getValidTo());
+			            PP_Order_BOMLine.setM_Warehouse_ID(getM_Warehouse_ID());
+			            PP_Order_BOMLine.setBackflushGroup(PP_Product_BOMline[i].getBackflushGroup());
+			            
+			            BigDecimal QtyOrdered = getQtyOrdered();
+			            log.log(Level.INFO, "PP_Order_BOMLine.getQtyBOM()" + PP_Order_BOMLine.getQtyBOM()+ "PP_Product_BOMline[i].getQtyBOM()"+ PP_Product_BOMline[i].getQtyBOM()); 
+			            
+		                if (PP_Order_BOMLine.isQtyPercentage()) 
+		    	        {
+		    	            BigDecimal qty =  PP_Order_BOMLine.getQtyBatch().multiply(QtyOrdered);                
+		    	            if( PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Packing))
+		    	            	PP_Order_BOMLine.setQtyRequiered(qty.divide(new BigDecimal(100),8,qty.ROUND_UP));
+		    	            if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Component) || PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Phantom))
+		    	            	PP_Order_BOMLine.setQtyRequiered(qty.divide(new BigDecimal(100),8,qty.ROUND_UP));
+		    	            else if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Tools))
+		    	            	PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM());
+		    	            	
+		    	        }
+			    	    else 
+		    	        {            	
+		    	        	if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Component) || PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Phantom))                    
+		    	        		PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM().multiply(QtyOrdered));
+		                        else if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Packing))                    
+		    	        		PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM().multiply(QtyOrdered));
+		                        else if (PP_Order_BOMLine.getComponentType().equals(PP_Order_BOMLine.COMPONENTTYPE_Tools))
+		                                PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyBOM());
+		    	        }                                                    
+		    	        // Set Scrap of Component
+		    	        BigDecimal Scrap = PP_Order_BOMLine.getScrap();		    	       
+		    	        if (!Scrap.equals(Env.ZERO))
+		    	        {	
+		    	        	Scrap = Scrap.divide(new BigDecimal(100),8,BigDecimal.ROUND_UP);                                   	
+		    	        	PP_Order_BOMLine.setQtyRequiered(PP_Order_BOMLine.getQtyRequiered().divide( Env.ONE.subtract(Scrap) , 8 ,BigDecimal.ROUND_HALF_UP ));
+		    	        }
+		
+		               PP_Order_BOMLine.save(get_TrxName());                 
+		            
+		            } // end if From / To component    
+		            
+		             MPPOrderBOMLine[] lines =   getLines(getPP_Order_ID());        
+		             for (int l = 0 ; l < lines.length ; l ++) 
+		             {
+		                 if(lines[l].getComponentType().equals(MPPProductBOMLine.COMPONENTTYPE_Phantom))
+		                 {    
+		                 lines[l].setQtyRequiered(Env.ZERO);                
+		                 lines[l].save();
+		                 }                 
+		             }
+		        } // end Create Order BOM
+		        
+		  } // end if From / To parent
+		        
+		  // Create Workflow (Routing & Process
+		    
+		  MWorkflow AD_Workflow = new MWorkflow(getCtx() , getAD_Workflow_ID(),get_TrxName());
+		            
+		  boolean ValidFromWF = true;
+		  boolean ValidToWF = true;
+		  if (AD_Workflow.getValidFrom() != null)	
+		  ValidFromWF = getDateStartSchedule().compareTo(AD_Workflow.getValidFrom()) >= 0 ? true : false;
+		  
+		  if (AD_Workflow.getValidTo() != null && getDateStartSchedule() != null)		
+		  ValidToWF = getDateStartSchedule().compareTo(AD_Workflow.getValidTo()) <= 0 ? true : false;
+		                    
+		  if(ValidFromWF && ValidToWF)
+		  {	
+		    MPPOrderWorkflow PP_Order_Workflow = new MPPOrderWorkflow(getCtx(),0,get_TrxName());
+		    PP_Order_Workflow.setValue(AD_Workflow.getValue());
+		    PP_Order_Workflow.setWorkflowType(AD_Workflow.getWorkflowType());
+		    PP_Order_Workflow.setQtyBatchSize(AD_Workflow.getQtyBatchSize());
+		    PP_Order_Workflow.setName(AD_Workflow.getName());
+		    PP_Order_Workflow.setAccessLevel(AD_Workflow.getAccessLevel());
+		    PP_Order_Workflow.setAuthor(AD_Workflow.getAuthor());
+		    PP_Order_Workflow.setDurationUnit(AD_Workflow.getDurationUnit());
+		    PP_Order_Workflow.setDuration(AD_Workflow.getDuration());
+		    PP_Order_Workflow.setEntityType(AD_Workflow.getEntityType());
+		    PP_Order_Workflow.setIsDefault(AD_Workflow.isDefault());
+		    PP_Order_Workflow.setPublishStatus(AD_Workflow.getPublishStatus());
+		    PP_Order_Workflow.setVersion(AD_Workflow.getVersion());
+		    PP_Order_Workflow.setCost(AD_Workflow.getCost());
+		    PP_Order_Workflow.setWaitingTime(AD_Workflow.getWaitingTime());        
+		    PP_Order_Workflow.setWorkingTime(AD_Workflow.getWorkingTime());
+		    PP_Order_Workflow.setAD_WF_Responsible_ID(AD_Workflow.getAD_WF_Responsible_ID());
+		    PP_Order_Workflow.setAD_Workflow_ID(AD_Workflow.getAD_Workflow_ID());
+		    PP_Order_Workflow.setLimit(AD_Workflow.getLimit());
+		    PP_Order_Workflow.setPP_Order_ID(getPP_Order_ID());
+		    PP_Order_Workflow.setPriority(AD_Workflow.getPriority());
+		    PP_Order_Workflow.setValidateWorkflow(AD_Workflow.getValidateWorkflow());
+		    PP_Order_Workflow.setS_Resource_ID(AD_Workflow.getS_Resource_ID());
+		    PP_Order_Workflow.setQueuingTime(AD_Workflow.getQueuingTime());
+		    PP_Order_Workflow.setSetupTime(AD_Workflow.getSetupTime());
+		    PP_Order_Workflow.setMovingTime(AD_Workflow.getMovingTime());
+		    PP_Order_Workflow.setProcessType(AD_Workflow.getProcessType());  	        
+		    PP_Order_Workflow.save();
+		    
+		    MWFNode[] AD_WF_Node = AD_Workflow.getNodes(false,getAD_Client_ID());
+		    
+		    if(AD_WF_Node != null)
+		    {
+		        for (int g = 0 ; g < AD_WF_Node.length ; g ++) 
+		        {
+		        	
+		        	boolean ValidFromNode = true;
+		            boolean ValidToNode = true;
+		
+		            if (AD_WF_Node[g].getValidFrom() != null)		
+		            ValidFromNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidFrom()) >= 0 ? true : false;
+		            
+		            if (AD_WF_Node[g].getValidTo() != null )	
+		            ValidToNode = getDateStartSchedule().compareTo(AD_WF_Node[g].getValidTo()) <= 0 ? true : false;
+		            
+		        	if (ValidFromNode && ValidToNode)
+		        	{	
+			            MPPOrderNode PP_Order_Node = new MPPOrderNode(getCtx(),0,get_TrxName());
+			            PP_Order_Node.setAction(AD_WF_Node[g].getAction());	
+			            PP_Order_Node.setAD_WF_Node_ID(AD_WF_Node[g].getAD_WF_Node_ID());
+			            PP_Order_Node.setAD_WF_Responsible_ID(AD_WF_Node[g].getAD_WF_Responsible_ID());
+			            PP_Order_Node.setAD_Workflow_ID(AD_WF_Node[g].getAD_Workflow_ID());
+			            PP_Order_Node.setCost(AD_WF_Node[g].getCost());
+			            PP_Order_Node.setDuration(AD_WF_Node[g].getDuration());
+			            PP_Order_Node.setEntityType(AD_WF_Node[g].getEntityType());
+			            PP_Order_Node.setIsCentrallyMaintained(AD_WF_Node[g].isCentrallyMaintained());
+			            PP_Order_Node.setJoinElement(AD_WF_Node[g].getJoinElement());	// X
+			            PP_Order_Node.setLimit(AD_WF_Node[g].getLimit());
+			            PP_Order_Node.setPP_Order_ID(getPP_Order_ID());
+			            PP_Order_Node.setPP_Order_Workflow_ID(PP_Order_Workflow.getPP_Order_Workflow_ID());
+			            PP_Order_Node.setName(AD_WF_Node[g].getName());
+			            PP_Order_Node.setPriority(AD_WF_Node[g].getPriority());
+			            PP_Order_Node.setSplitElement(AD_WF_Node[g].getSplitElement());	// X
+			            PP_Order_Node.setSubflowExecution (AD_WF_Node[g].getSubflowExecution());
+			            PP_Order_Node.setValue(AD_WF_Node[g].getValue());
+			            PP_Order_Node.setS_Resource_ID(AD_WF_Node[g].getS_Resource_ID());
+			            PP_Order_Node.setSetupTime(AD_WF_Node[g].getSetupTime());
+			            PP_Order_Node.setSetupTimeRequiered(AD_WF_Node[g].getSetupTime());
+			            BigDecimal time = new BigDecimal(AD_WF_Node[g].getDuration()).multiply(getQtyOrdered());
+			            PP_Order_Node.setDurationRequiered(time.intValue());
+			            PP_Order_Node.setMovingTime(AD_WF_Node[g].getMovingTime());
+			            PP_Order_Node.setWaitingTime(AD_WF_Node[g].getWaitingTime());
+			            PP_Order_Node.setWorkingTime(AD_WF_Node[g].getWorkingTime());;
+			            PP_Order_Node.setQueuingTime(AD_WF_Node[g].getQueuingTime());
+			            PP_Order_Node.setXPosition(AD_WF_Node[g].getXPosition());
+			            PP_Order_Node.setYPosition(AD_WF_Node[g].getYPosition());
+			            PP_Order_Node.setDocAction(AD_WF_Node[g].getDocAction());
+			            PP_Order_Node.setAD_Column_ID(AD_WF_Node[g].getAD_Column_ID());
+			            PP_Order_Node.setAD_Form_ID(AD_WF_Node[g].getAD_Form_ID());
+			            PP_Order_Node.setAD_Image_ID(AD_WF_Node[g].getAD_Image_ID());
+			            PP_Order_Node.setAD_Window_ID(AD_WF_Node[g].getAD_Window_ID());
+			            PP_Order_Node.setAD_Process_ID(AD_WF_Node[g].getAD_Process_ID());
+			            PP_Order_Node.setAttributeName(AD_WF_Node[g].getAttributeName());
+			            PP_Order_Node.setAttributeValue(AD_WF_Node[g].getAttributeValue());
+			            PP_Order_Node.setC_BPartner_ID(AD_WF_Node[g].getC_BPartner_ID());
+			            PP_Order_Node.setStartMode(AD_WF_Node[g].getStartMode());
+			            PP_Order_Node.setFinishMode(AD_WF_Node[g].getFinishMode());
+			            PP_Order_Node.setValidFrom(AD_WF_Node[g].getValidFrom());
+			            PP_Order_Node.setValidTo(AD_WF_Node[g].getValidTo());
+			            
+			            PP_Order_Node.save();  
+			     
+			            MWFNodeNext[] AD_WF_NodeNext = AD_WF_Node[g].getTransitions(getAD_Client_ID());
+			            log.log(Level.INFO, "AD_WF_NodeNext"+AD_WF_NodeNext.length);
+			            if(AD_WF_NodeNext != null)
+			            {
+			            	for (int n = 0; n <  AD_WF_NodeNext.length; n++)
+			            	{
+			            		MPPOrderNodeNext PP_Order_NodeNext = new MPPOrderNodeNext(getCtx(),0,get_TrxName());
+			            		PP_Order_NodeNext.setAD_WF_Node_ID(AD_WF_NodeNext[n].getAD_WF_Node_ID());
+			            		PP_Order_NodeNext.setAD_WF_Next_ID(AD_WF_NodeNext[n].getAD_WF_Next_ID());
+			            		PP_Order_NodeNext.setPP_Order_Node_ID(PP_Order_Node.getPP_Order_Node_ID());
+			            		PP_Order_NodeNext.setPP_Order_Next_ID(0);
+			            		PP_Order_NodeNext.setDescription(AD_WF_NodeNext[n].getDescription()); 
+			            		PP_Order_NodeNext.setEntityType(AD_WF_NodeNext[n].getEntityType());
+			            		PP_Order_NodeNext.setIsStdUserWorkflow(AD_WF_NodeNext[n].isStdUserWorkflow()); 
+			            		PP_Order_NodeNext.setPP_Order_ID (getPP_Order_ID());
+			            		PP_Order_NodeNext.setSeqNo(AD_WF_NodeNext[n].getSeqNo());
+			            		PP_Order_NodeNext.setTransitionCode(AD_WF_NodeNext[n].getTransitionCode());
+			            		PP_Order_NodeNext.save();
+			            	}// end for Node Next
+			            }                                	
+		                                        
+		    }// end for Node        
+		    
+		    //set transition for order
+		    MPPOrderWorkflow OrderWorkflow = new MPPOrderWorkflow(getCtx(),PP_Order_Workflow.getPP_Order_Workflow_ID(),get_TrxName());        
+		    MPPOrderNode[] OrderNodes = OrderWorkflow.getNodes(false , getAD_Client_ID());
+		
+		    if(OrderNodes != null)
+		    {
+		    	PP_Order_Workflow.setPP_Order_Node_ID(OrderNodes[0].getPP_Order_Node_ID());
+		    	
+			        for (int h = 0 ; h < OrderNodes.length ; h ++) 
+			        {
+			        		MPPOrderNodeNext[] nexts = OrderNodes[h].getTransitions(getAD_Client_ID());	            
+			            	if(nexts != null)
+				            {
+				            	log.log(Level.INFO, "Node Transition" + nexts.length);
+				            	for (int x = 0; x <  nexts.length; x++)
+				            	{            		
+				            		
+				            		String sql = "SELECT PP_Order_Node_ID FROM PP_Order_Node WHERE PP_Order_ID = ?  AND AD_WF_Node_ID = ? AND AD_Client_ID=?";
+				                	try
+				        			{
+				                		PreparedStatement pstmt = null;
+				                        pstmt = DB.prepareStatement (sql, get_TrxName());
+				                        pstmt.setInt(1, nexts[x].getPP_Order_ID());                     
+				                        pstmt.setInt(2, nexts[x].getAD_WF_Next_ID());
+				                        pstmt.setInt(3, nexts[x].getAD_Client_ID());
+				                        ResultSet rs = pstmt.executeQuery();
+				                        while (rs.next())
+				                        {                        	
+				                        	nexts[x].setPP_Order_Next_ID(rs.getInt(1));
+				                        	nexts[x].save();                	
+				                        }
+				                        DB.close(rs);
+				                        DB.close(pstmt);
+				                		
+				        			}
+				                	catch (Exception e)
+				        			{
+				        	        	log.log(Level.SEVERE,"doIt - " + sql, e);	          
+				        			}                		
+				            	}// end for Node Next
+				            }        	
+			          }        
+		        }
+		    
+		    }// end from / to Node
+		    
+		  } // end from /to Workflow 
+		  PP_Order_Workflow.save(get_TrxName());  
+	   } 	  
+	return true;
     }	//	beforeSave
     
     protected boolean beforeDelete() 
     {
         // OrderBOMLine
-    	
-        
         if (getDocStatus().equals(DOCSTATUS_Drafted) || getDocStatus().equals(this.DOCSTATUS_InProgress))
         {    
     	
@@ -948,20 +910,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 
                             return ok;
                     }
-            }
-        
-            ids = PO.getAllIDs("PP_MRP", "PP_Order_ID="+get_ID()+ " AND AD_Client_ID="+ getAD_Client_ID(), get_TrxName());
-            for(int i = 0; i < ids.length; i++) 
-            {
-
-                    po = new MPPMRP(Env.getCtx(), ids[i], get_TrxName());
-                    ok = po.delete(true);
-                    if(!ok) {
-
-                            return ok;
-                    }
-            }
-            
+            }            
         }   //return true;                
         return true;
     }	//	beforeDelete

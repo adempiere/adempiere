@@ -108,12 +108,13 @@ public class MRPUpdate extends SvrProcess
 	    String where = "";
 	    
 	    if (AD_Org_ID > 0 )
-    		where = " AND AD_Org_ID=" + AD_Org_ID;
+    		where += " AND AD_Org_ID=" + AD_Org_ID;
 	    if (M_Warehouse_ID > 0 )
-    		where = " AND M_Warehouse_ID=" + M_Warehouse_ID;
+    		where += " AND M_Warehouse_ID=" + M_Warehouse_ID;
     
 	    String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP'  AND AD_Client_ID=" + m_AD_Client_ID + where;   
 	    DB.executeUpdate(sql, trx.getTrxName());
+	    trx.commit();
 	    
 	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'FCT' AND mrp.AD_Client_ID = " + m_AD_Client_ID+ where;
 	    DB.executeUpdate(sql,trx.getTrxName());
@@ -220,7 +221,7 @@ public class MRPUpdate extends SvrProcess
 	            +"nextval('pp_mrp_id') , null," 
 	            +"t.qty,  'D', 'FCT', t.updated, t.updatedby, f.Name," 
 	            +"t.ad_client_id "
-	            +"FROM M_ForecastLine t INNER JOIN M_Forecast f ON (f.M_Forecast_ID=t.M_Forecast_ID) WHERE t.AD_Client_ID="+ AD_Client_ID;
+	            +"FROM M_ForecastLine t INNER JOIN M_Forecast f ON (f.M_Forecast_ID=t.M_Forecast_ID) WHERE t.Qty > 0 AND t.AD_Client_ID="+ AD_Client_ID;
 	    
 	  	String where = "";
 	    

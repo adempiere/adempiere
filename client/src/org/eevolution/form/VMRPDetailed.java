@@ -125,7 +125,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 			Log.log(Level.SEVERE, "VMRPDetailed.init", e);
 		}
 		
-		executeQuery();
+		//executeQuery();
 		
 	}	//	init
         
@@ -211,7 +211,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		public void setValue(Object arg0) 
 		{	   				
 			super.setValue(arg0);
-			executeQuery();
+			//executeQuery();
 		};
 	}; 
 
@@ -224,7 +224,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		{
 		   				
 		   	super.setValue(arg0);
-		   	executeQuery();
+		   	//executeQuery();
 		};
 	}; 
 	
@@ -304,7 +304,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 			public void setValue(Object arg0) 
 			{			
 				super.setValue(arg0);
-				executeQuery();
+				//executeQuery();
 			};
 		}; 
         lResource_ID.setLabelFor(fResource_ID);
@@ -316,7 +316,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		             public void setValue(Object arg0) 
 		             {				
 		                	super.setValue(arg0);
-		                	executeQuery();
+		                	//executeQuery();
 		             };
         };
 		lPlanner_ID.setLabelFor(fPlanner_ID);
@@ -328,7 +328,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
              public void setValue(Object arg0) 
              {				
                 	super.setValue(arg0);
-                	executeQuery();
+                	//executeQuery();
              };
         };
 		lWarehouse_ID.setLabelFor(fWarehouse_ID);
@@ -417,7 +417,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
         	public void setValue(Object arg0) {  				
         	super.setValue(arg0);
 		    fAttrSetInstance_ID.setValue(new Integer(0));
-		    executeQuery();
+		    //executeQuery();
         	};
         }; 
    		//AttributeSet Button
@@ -463,7 +463,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
    			{
    				
    				selectAttributeSetInstance();
-   				executeQuery();
+   				//executeQuery();
    			}
    		});
 
@@ -759,9 +759,9 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
         {
                 zoom();
         }
-        else
+        else if (cmd.equals(ConfirmPanel.A_REFRESH))
         {
-                    executeQuery();
+               executeQuery();
         }
          m_frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));			
     }    
@@ -1213,7 +1213,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 
 		sql.append( " FROM ").append(from);
 		//
-                StringBuffer where = new StringBuffer("PP_MRP.DocStatus IN ('IP','CO','DR')  AND PP_MRP.IsActive='Y' and PP_MRP.Qty!=0 ");
+                StringBuffer where = new StringBuffer("PP_MRP.DocStatus IN ('DR','IP','CO')  AND PP_MRP.IsActive='Y' and PP_MRP.Qty!=0 ");
                 sql.append(" WHERE ").append(where.toString());
 		if (!staticWhere.equals("")) 
                 sql.append(staticWhere);
