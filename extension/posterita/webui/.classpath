@@ -15,10 +15,10 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/tools/lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="lib/j2ee.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkmax.jar" sourcepath="WEB-INF/lib/zkmax-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkex.jar" sourcepath="WEB-INF/lib/zkex-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkplus.jar" sourcepath="WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zhtml.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/j2ee.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
