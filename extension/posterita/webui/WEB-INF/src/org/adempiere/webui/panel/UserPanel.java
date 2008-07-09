@@ -21,11 +21,11 @@ import java.util.Properties;
 
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Messagebox;
+import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MClient;
+import org.compiere.model.MOrg;
 import org.compiere.model.MRole;
 import org.compiere.model.MUser;
 import org.compiere.util.Env;
@@ -33,6 +33,8 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
  *
@@ -40,16 +42,15 @@ import org.zkoss.zul.Hbox;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class UserPanel extends Hbox  implements EventListener
+public class UserPanel extends Vbox  implements EventListener
 {
     private static final long serialVersionUID = 1L;
 
     private Properties ctx;
     private Grid grid;
     
-    private Label lblPrefix = new Label("You are logged in as: ");
-    private Label lblSeparator = new Label(" | ");
-    private Label lblLogout = new Label("logoff");
+    private ToolBarButton logout = new ToolBarButton();
+    private ToolBarButton role = new ToolBarButton();
     
     private Label lblUserNameValue = new Label();
     
@@ -61,58 +62,32 @@ public class UserPanel extends Hbox  implements EventListener
     
     private void init()
     {
-    	lblLogout.setStyle("cursor: hand;");
+    	this.setStyle("text-align:right");
     	
-    	lblPrefix.setStyle("font-style: bold;");
-    	
-    	lblUserNameValue.setValue(getUserName());
-    	
-    	lblLogout.addEventListener(Events.ON_CLICK, this);
-    	
-    	//this.setWidth("200px");
-    	
-    	this.appendChild(lblPrefix);
+    	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName());
+    	lblUserNameValue.setStyle("text-align:right");
+    	lblUserNameValue.setSclass("headerFont");
     	this.appendChild(lblUserNameValue);
-    	this.appendChild(lblSeparator);
-    	this.appendChild(lblLogout);
+    
+    	Hbox hbox = new Hbox();
     	
-/*        grid = new Grid();
-        grid.setWidth("200px");
-        
-        Rows rows = new Rows();
-        
-        Label lblUserName = new Label();
-        Label lblUserNameValue = new Label();
-        lblUserName.setValue("User Name");
-        lblUserNameValue.setValue(getUserName());
-        
-        Row row = new Row();
-        row.appendChild(lblUserName);
-        row.appendChild(lblUserNameValue);
-        rows.appendChild(row);
-        
-        Label lblRole = new Label();
-        Label lblRoleValue = new Label();
-        lblRole.setValue("Role");
-        lblRoleValue.setValue(getRoleName());
-        
-        row = new Row();
-        row.appendChild(lblRole);
-        row.appendChild(lblRoleValue);
-        rows.appendChild(row);
-        
-        Label lblClient = new Label();
-        Label lblClientValue = new Label();
-        lblRole.setValue("Client");
-        lblRoleValue.setValue(getClientName());
-        
-        row = new Row();
-        row.appendChild(lblClient);
-        row.appendChild(lblClientValue);
-        rows.appendChild(row);
-        
-        grid.appendChild(rows);
-        this.appendChild(grid);*/
+    	role.setLabel(this.getRoleName());
+    	role.addEventListener(Events.ON_CLICK, this);
+    	role.setStyle("text-align:right");
+    	role.setSclass("headerFont");
+    	role.setParent(hbox);
+    	
+    	Separator sep = new Separator("vertical");
+    	sep.setBar(true);
+    	sep.setParent(hbox);
+    	
+    	logout.setLabel("Logout");
+    	logout.addEventListener(Events.ON_CLICK, this);
+    	logout.setStyle("text-align:right");
+    	logout.setSclass("headerFont");
+    	logout.setParent(hbox);
+    	
+    	this.appendChild(hbox);    	
     }
     
     private String getUserName()
@@ -132,15 +107,35 @@ public class UserPanel extends Hbox  implements EventListener
         MClient client = MClient.get(ctx);
         return client.getName();
     }
+    
+    private String getOrgName()
+    {
+    	int orgId = Env.getAD_Org_ID(ctx);
+    	if (orgId > 0)
+    	{
+    		MOrg org = MOrg.get(ctx, orgId);
+    		return org.getName();
+    	}
+    	else
+    	{
+    		return "*";
+    	}
+    }
 
 	public void onEvent(Event event) throws Exception {
 		if (event == null)
 			return;
 		
-		if (lblLogout == event.getTarget())
+		if (logout == event.getTarget())
         {
             SessionManager.logoutSession();
         }
+		else if (role == event.getTarget())
+		{
+			String roleInfo = MRole.getDefault().toStringX(Env.getCtx());
+			roleInfo = roleInfo.replace(Env.NL, "<br>");
+			Messagebox.showDialog(roleInfo, "Role Info", Messagebox.OK, Messagebox.INFORMATION);
+		}
 		
 	}
 }

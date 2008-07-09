@@ -34,10 +34,15 @@ import java.util.logging.Level;
 import javax.swing.table.AbstractTableModel;
 
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Column;
+import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.editor.WEditor;
@@ -62,11 +67,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
-import org.zkforge.yuiext.grid.Column;
-import org.zkforge.yuiext.grid.Columns;
-import org.zkforge.yuiext.grid.Grid;
-import org.zkforge.yuiext.grid.Row;
-import org.zkforge.yuiext.grid.Rows;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -337,7 +337,7 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
     		
 			for (int j = 0; j < tableModel.getColumnCount(); j++)
     		{
-				org.zkforge.yuiext.grid.Label lab = new org.zkforge.yuiext.grid.Label();
+				Label lab = new Label();
 				
     			Label label = new Label("");
     			
@@ -380,7 +380,7 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 	    				label.setValue("Missing Class");
     			}
     			
-    			lab = new org.zkforge.yuiext.grid.Label(label.getValue());
+    			 lab = new Label(label.getValue());
     			 row.appendChild(lab);
     		}
     		rows.appendChild(row);

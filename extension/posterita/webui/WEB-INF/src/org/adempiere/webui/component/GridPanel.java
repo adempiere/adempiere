@@ -17,42 +17,28 @@
 
 package org.adempiere.webui.component;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.adempiere.webui.panel.ADWindowPanel;
+import org.adempiere.webui.LayoutUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.NamePair;
-import org.zkforge.yuiext.grid.Column;
-import org.zkforge.yuiext.grid.Columns;
-import org.zkforge.yuiext.grid.Grid;
-import org.zkforge.yuiext.grid.Label;
-import org.zkforge.yuiext.grid.Row;
-import org.zkforge.yuiext.grid.Rows;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
+import org.zkoss.zul.ListitemRenderer;
 
-public class GridPanel extends Panel implements EventListener
+public class GridPanel extends Div implements EventListener
 {
 	private static final long serialVersionUID = 1L;
 	
-	private Grid grid = new Grid();
-	private Rows rows = new Rows();
-	private Row row = new Row();
-	private Columns columns = new Columns();
-	private Column column = new Column();
-	private Label label = new Label();
+	private Listbox listbox = null;
 	
 	private int pageSize = 10;
 	private long numPages;
@@ -66,26 +52,32 @@ public class GridPanel extends Panel implements EventListener
 	private Button[] buttons;	
 	private Hbox boxButtons = new Hbox();
 	
-	private ADWindowPanel windowPanel;
 	private int windowNo;
 	
 	private GridTab gridTab;
 	
 	private int pageId = 0;
+
+	private ListHead listHead;
+
+	private boolean init;
 	
 	public GridPanel()
 	{
 		super();
+		listbox = new Listbox();
 	}
 	
-	public GridPanel(int windowNo, ADWindowPanel windowPanel)
+	public GridPanel(int windowNo)
 	{
 		this.windowNo = windowNo;
-		this.windowPanel = windowPanel;
+		listbox = new Listbox();
 	}
 	
 	public void init(GridTab gridTab)
 	{
+		if (init) return;
+				
 		this.gridTab = gridTab;
 		tableModel = gridTab.getTableModel();
 		
@@ -94,10 +86,34 @@ public class GridPanel extends Panel implements EventListener
 		
 		gridField = ((GridTable)tableModel).getFields();
 				
-		loadButtons();
-		loadGridHeader();
-		loadRecords(0, pageSize);
-		loadDisplay();
+		setupColumns();
+		render();
+		
+		listbox.setSelectedIndex(gridTab.getCurrentRow());
+		
+		this.init = true;
+	}
+	
+	public boolean isInit() {
+		return init;
+	}
+	
+	public void activate(GridTab gridTab) {
+		if (isInit())
+			refresh(gridTab);
+		else
+			init(gridTab);
+	}
+	
+	public void refresh(GridTab gridTab) {
+		this.gridTab = gridTab;
+		tableModel = gridTab.getTableModel();
+		numRows = tableModel.getRowCount();
+		gridField = ((GridTable)tableModel).getFields();
+		
+		updateModel();
+		
+		listbox.setSelectedIndex(gridTab.getCurrentRow());
 	}
 
 	public void setPageSize(int pageSize)
@@ -118,154 +134,73 @@ public class GridPanel extends Panel implements EventListener
 			this.setVisible(false);
 	}
 	
-	private void loadGridHeader()
-	{
-		if (grid.getColumns() != null)
-			return;
+	private void setupColumns()
+	{		
+		if (init) return;
 		
-		columns = new Columns();
+		ListHead header = new ListHead();
+		header.setSizable(true);
 		
+		Map colnames = new HashMap<Integer, String>();
+		int index = 0;
 		for (int i = 0; i < numColumns; i++)
 		{
 			if (gridField[i].isDisplayed())
 			{
-				column = new Column(gridField[i].getHeader());
-				columns.appendChild(column);
+				colnames.put(index, gridField[i].getHeader());
+				index++;
+				ListHeader colHeader = new ListHeader();
+				colHeader.setSort("auto");
+				colHeader.setLabel(gridField[i].getHeader());
+				int l = gridField[i].getDisplayLength() * 10;
+				if (l > 300) 
+					l = 300;
+				else if ( l < 100)
+					l = 100;
+				colHeader.setWidth(Integer.toString(l) + "px");
+				header.appendChild(colHeader);
 			}
-		}
-		
-		grid.appendChild(columns);
+		}		
+		listbox.appendChild(header);
 	}
 	
-	private void loadButtons()
+	private void render()
 	{
-		double pages = (double)numRows / (double)pageSize;
-		pages = Math.ceil(pages);
-		numPages = Math.round(pages);
+		LayoutUtils.addSclass("adtab-grid-panel", this);
 		
-		if (numPages == 1)
-			return;
+		listbox.setVflex(true);
+		listbox.addEventListener(Events.ON_SELECT, this);
 		
-		buttons = new Button[(int)numPages];
+		LayoutUtils.addSclass("adtab-grid", listbox);
 		
-		if (boxButtons.getChildren() != null)
-			boxButtons.getChildren().clear();
-		
-		for (int i = 0; i < buttons.length; i++)
-		{
-			Integer count = i;
-			buttons[i] = new Button();
-			buttons[i].setId(count.toString());
-			buttons[i].addEventListener(Events.ON_CLICK, this);
-			buttons[i].setLabel(count.toString());
-			boxButtons.appendChild(buttons[i]);
-		}
+		updateModel();				
+		 
+		this.appendChild(listbox);
 	}
-	
-	private String getCell(Object obj, int columnIndex)
-	{
-		if (obj == null)
-			return "";
-		
-		if (tableModel.getColumnClass(columnIndex).equals(Integer.class))
-    	{
-    		if (gridField[columnIndex].isLookup())
-    		{
-    			MLookup lookup = MLookupFactory.get(
-    						Env.getCtx(), windowNo, 0, gridField[columnIndex].getAD_Column_ID(), 
-    						gridField[columnIndex].getDisplayType());
-    					
-    			NamePair namepair = lookup.get(obj);
-    				
-    			if (namepair != null)
-    				return namepair.getName();
-    			else
-    				return "";
-    		}
-    		else
-    			return "Lookup";
-    	}
-    	else if (tableModel.getColumnClass(columnIndex).equals(Timestamp.class))
-    	{
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
-    		return dateFormat.format((Timestamp)obj);
-    	}
-    	else
-    		return obj.toString();
-	}
-	
-	private void loadRecords(int start, int end)
-	{
-		if (grid.getRows() != null)
-			grid.getRows().getChildren().clear();
 
-		if (rows.getChildren() != null)
-			rows.getChildren().clear();
-		
-		if (end > numRows)
-			end = numRows;
-		
-		for (int i = start; i < end; i++)
-		{
-			row = new Row();
-			
-			for (int j = 0; j < numColumns; j++)
-			{
-				if (!gridField[j].isDisplayed())
-    				break;
-				
-				label = new Label(getCell(tableModel.getValueAt(i, j), j));
-				row.appendChild(label);
-			}
-		
-			rows.appendChild(row);
-		}
-		
-		if (grid.getRows() == null)
-			grid.appendChild(rows);
+	private void updateModel() {
+		GridTableListModel listModel = new GridTableListModel((GridTable)tableModel, windowNo);		
+		listbox.setItemRenderer(listModel);
+		listbox.setModel(listModel);
 	}
 	
-	private void loadDisplay()
-	{
-		this.setWidth("800px");
-		//this.setHeight("1000px");
-		
-		grid.setWidth("100%");
-		grid.setHeight("800px");
-		grid.addEventListener(Events.ON_SELECT, this);
-		
-		boxButtons.setWidth("60%");
-		
-		this.appendChild(grid);
-		this.appendChild(new Separator());
-		this.appendChild(boxButtons);
+	public void deactivate() {
+		ListitemRenderer lr = null;
+		listbox.setItemRenderer(lr);
+		listbox.setModel(null);
 	}
 
 	public void onEvent(Event event) throws Exception
-	{
+	{		
 		if (event == null)
-			return;
-		
-		if (event.getTarget() instanceof Button)
+			return;		
+		else if (event.getTarget() == listbox)
 		{
-			Button btn = (Button)event.getTarget();
-		
-			pageId = new Integer(btn.getId());
-			
-			int start = pageId * pageSize;
-			
-			int end = start + pageSize;
-			
-			loadRecords(start, end);
-		}
-		else if (event.getTarget() == grid)
-		{
-			int keyRecordId = grid.getSelectedIndex() + (pageId * pageSize);
-	        	
-			gridTab.navigate(keyRecordId);
-	        	
-			this.setVisible(false);
-			windowPanel.showTabbox(true);
+			gridTab.navigate(listbox.getSelectedIndex());
         }
+	}
+	
+	public Listbox getListbox() {
+		return listbox;
 	}
 }

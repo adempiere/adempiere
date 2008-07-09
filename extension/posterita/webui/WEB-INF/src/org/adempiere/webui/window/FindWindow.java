@@ -50,7 +50,7 @@ import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.panel.MainPanel;
+import org.adempiere.webui.part.MultiTabPart;
 import org.compiere.model.GridField;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -81,7 +81,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 {
     private static final long serialVersionUID = 1L;
     /** Main Window for the Lookup Panel   */
-    private MainPanel winMain;
+    private MultiTabPart winMain;
     /**  Simple Window Tab  */
     private Window winLookupRecord;
     /** Advanced Window Tab */
@@ -174,8 +174,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         if (m_total < minRecords)
         {
             return;
-        }
-        this.appendChild(winMain);
+        }        
         this.setBorder("normal");
         this.setWidth("550px");
         this.setTitle("Lookup Record: "+ title);
@@ -366,12 +365,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     **/
     private void initPanel()
     {
-        winMain = new MainPanel();
-        winMain.setWidth("100%");
+        winMain = new MultiTabPart();
+        winMain.createPart(this);
         winAdvanced = new Window();
         winLookupRecord = new Window();     
-        winMain.addWindow(winLookupRecord, "Lookup Record",false, true);
-        winMain.addWindow(winAdvanced, "Advanced", false, false);
+        winMain.addTab(winLookupRecord, "Lookup Record",false, true);
+        winMain.addTab(winAdvanced, "Advanced", false, false);
         initSimple();
         initAdvanced();        
         

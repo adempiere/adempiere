@@ -12,6 +12,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 -->
 
 <taglib>
+	<uri>http://www.zkoss.org/dsp/web/core</uri>
 	<description>
 	Core methods and tags for zweb in DSP
 	</description>
@@ -91,12 +92,24 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		<tag-class>org.zkoss.web.servlet.dsp.action.When</tag-class>
 	</tag>
 
+	<!--         -->
+	<!-- Imports -->
+	<!--         -->
+	<import>
+		<import-name>ServletFns</import-name>
+		<import-class>org.zkoss.web.fn.ServletFns</import-class>
+	</import>
+	<import>
+		<import-name>Labels</import-name>
+		<import-class>org.zkoss.util.resource.Labels</import-class>
+	</import>
+
 	<!--                 -->
 	<!-- Class Utilities -->
 	<!--                 -->
 	<function>
 		<name>boolean</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>boolean toBoolean(java.lang.Object)</function-signature>
 		<description>
 		Converts the specified object to a boolean.
@@ -104,7 +117,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>number</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>java.lang.Number toNumber(java.lang.Object)</function-signature>
 		<description>
 		Converts the specified object to a number.
@@ -112,7 +125,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>int</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>int toInt(java.lang.Object)</function-signature>
 		<description>
 		Converts the specified object to an integer.
@@ -120,7 +133,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>decimal</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>java.math.BigDecimal toDecimal(java.lang.Object)</function-signature>
 		<description>
 		Converts the specified object to a (big) decimal.
@@ -128,7 +141,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>string</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>java.lang.String toString(java.lang.Object)</function-signature>
 		<description>
 		Converts the specified object to a string.
@@ -136,7 +149,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>char</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>char toChar(java.lang.Object)</function-signature>
 		<description>
 	Converts the specified object to a character.
@@ -152,7 +165,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>isInstance</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>boolean isInstance(java.lang.Object, java.lang.Object)</function-signature>
 		<description>
 	Tests whether an object (the second argument) is an instance of a class (the first argument).
@@ -161,7 +174,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>length</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>int length(java.lang.Object)</function-signature>
 		<description>
 	Returns the length of a string, array, collection or map.
@@ -169,11 +182,20 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>new</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>java.lang.Object new_(java.lang.Object)</function-signature>
 		<description>
 	Instantiates the specified class.
 	The argument could be either a string (class name) or a Class instance.
+		</description>
+	</function>
+
+	<function>
+		<name>getProperty</name>
+		<function-class>java.lang.System</function-class>
+		<function-signature>java.lang.String getProperty(java.lang.String)</function-signature>
+		<description>
+	Returns the system property.
 		</description>
 	</function>
 
@@ -182,7 +204,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	<!--                  -->
 	<function>
 		<name>cat</name>
-		<function-class>org.zkoss.el.fn.StringFns</function-class>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
 	java.lang.String cat(java.lang.String, java.lang.String)
 		</function-signature>
@@ -192,7 +214,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>cat3</name>
-		<function-class>org.zkoss.el.fn.StringFns</function-class>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
 	java.lang.String cat3(java.lang.String, java.lang.String, java.lang.String)
 		</function-signature>
@@ -202,7 +224,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>cat4</name>
-		<function-class>org.zkoss.el.fn.StringFns</function-class>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
 	java.lang.String cat4(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 		</function-signature>
@@ -212,7 +234,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>cat5</name>
-		<function-class>org.zkoss.el.fn.StringFns</function-class>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
 	java.lang.String cat5(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 		</function-signature>
@@ -222,7 +244,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 	<function>
 		<name>replace</name>
-		<function-class>org.zkoss.el.fn.StringFns</function-class>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>
 	java.lang.String replace(java.lang.String, java.lang.String, java.lang.String)
 		</function-signature>
@@ -233,10 +255,19 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 
 	<function>
 		<name>l</name>
-		<function-class>org.zkoss.el.fn.CommonFns</function-class>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
 		<function-signature>java.lang.String getLabel(java.lang.String)</function-signature>
 		<description>
 		Returns the label of the specified key.
+		</description>
+	</function>
+	<function>
+		<name>l2</name>
+		<function-class>org.zkoss.xel.fn.CommonFns</function-class>
+		<function-signature>java.lang.String getLabel(java.lang.String, java.lang.Object[])</function-signature>
+		<description>
+		Returns the label of the specified key, and formats with the specified
+		argument.
 		</description>
 	</function>
 

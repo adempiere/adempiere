@@ -26,7 +26,6 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.constants.EventConstants;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.GridTab;
 import org.compiere.process.DocumentEngine;
@@ -208,7 +207,7 @@ public class WDocActionPanel extends Window implements EventListener
 		lstDocAction.setRows(0);
 		lstDocAction.setMold("select");
 		lstDocAction.setWidth("100px");
-		lstDocAction.addEventListener(EventConstants.ONSELECT, this);
+		lstDocAction.addEventListener(Events.ON_SELECT, this);
 		
         confirmPanel = new ConfirmPanel(true);
         confirmPanel.addComponentsLeft(confirmPanel.createButton("Process"));

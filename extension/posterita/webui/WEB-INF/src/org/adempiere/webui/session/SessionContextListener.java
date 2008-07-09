@@ -19,7 +19,6 @@ package org.adempiere.webui.session;
 
 import java.util.List;
 
-import org.zkoss.lang.ThreadLocals;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -28,6 +27,7 @@ import org.zkoss.zk.ui.event.EventThreadInit;
 import org.zkoss.zk.ui.event.EventThreadResume;
 import org.zkoss.zk.ui.util.ExecutionCleanup;
 import org.zkoss.zk.ui.util.ExecutionInit;
+import org.zkoss.zkplus.util.ThreadLocals;
 
 /**
  * 

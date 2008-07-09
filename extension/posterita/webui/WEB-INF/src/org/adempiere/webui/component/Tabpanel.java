@@ -17,6 +17,11 @@
 
 package org.adempiere.webui.component;
 
+import java.util.List;
+
+import org.adempiere.webui.panel.ITabOnCloseHandler;
+import org.zkoss.zul.Tab;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -27,7 +32,11 @@ public class Tabpanel extends org.zkoss.zul.Tabpanel
 {
     private static final long serialVersionUID = 1L;
     
+    private ITabOnCloseHandler onCloseHandler = null;
+    
     private boolean enabled;
+
+	private int tabLevel;
 
     public boolean isEnabled()
     {
@@ -38,4 +47,40 @@ public class Tabpanel extends org.zkoss.zul.Tabpanel
     {
         this.enabled = enabled;
     }
+    
+    public int getTabLevel() 
+    {
+    	return tabLevel;    	
+    }
+    
+    public void setTabLevel(int l)
+    {
+    	tabLevel = l;
+    }
+
+	public void onClose() {
+		if (onCloseHandler != null)
+			onCloseHandler.onClose(this);
+		else {
+			Tab tab = this.getLinkedTab();
+			Tabbox tabbox = (Tabbox) tab.getTabbox();
+			if (tabbox.getSelectedTab() == tab) {
+				Tabs tabs = (Tabs) tabbox.getTabs();
+				List childs = tabs.getChildren();
+				for(int i = 0; i < childs.size(); i++) {
+					if (childs.get(i) == tab) {
+						if (i > 0) 
+							tabbox.setSelectedIndex((i-1));
+						break;
+					}
+				}
+			}
+			this.detach();
+			tab.detach();
+		}
+	}
+	
+	public void setOnCloseHandler(ITabOnCloseHandler handler) {
+		this.onCloseHandler = handler;
+	}
 }

@@ -278,7 +278,7 @@ public class WAllocation extends ADForm implements EventListener,
         Hbox hbox = new Hbox();
 
         // Put the table label at the top of this panel
-        hbox.setWidth("98%");
+        hbox.setWidth("100%");
         m_lblPayment.setValue(Msg.translate(Env.getCtx(), "C_Payment_ID"));
         hbox.setStyle("text-align:left");
         hbox.appendChild(m_lblPayment);
@@ -292,7 +292,7 @@ public class WAllocation extends ADForm implements EventListener,
         // Put the selected payment information just below the table and
         // right-align it
         hbox = new Hbox();
-        hbox.setWidth("98%");
+        hbox.setWidth("100%");
         m_lblPaymentInfo.setValue(".");
         hbox.setStyle("text-align:right");
         hbox.appendChild(m_lblPaymentInfo);
@@ -312,7 +312,7 @@ public class WAllocation extends ADForm implements EventListener,
         Hbox hbox = new Hbox();
 
         // Put the table label at the top of this panel
-        hbox.setWidth("98%");
+        hbox.setWidth("100%");
         m_lblInvoice.setValue(Msg.translate(Env.getCtx(), "C_Invoice_ID"));
         hbox.setStyle("text-align:left");
         hbox.appendChild(m_lblInvoice);
@@ -326,7 +326,7 @@ public class WAllocation extends ADForm implements EventListener,
         // Put the selected invoice information just below the table and
         // right-align it
         hbox = new Hbox();
-        hbox.setWidth("98%");
+        hbox.setWidth("100%");
         m_lblInvoiceInfo.setValue(".");
         hbox.setStyle("text-align:right");
         hbox.appendChild(m_lblInvoiceInfo);
@@ -346,7 +346,7 @@ public class WAllocation extends ADForm implements EventListener,
         Vbox vbox = new Vbox();
         Separator separator = new Separator();
 
-        vbox.setWidth("98%");
+        vbox.setWidth("100%");
         vbox.setHeight("200px");
         vbox.setHeights("45%,5%,45%");
 
@@ -501,7 +501,7 @@ public class WAllocation extends ADForm implements EventListener,
 
         this.appendChild(m_statusBar);
 
-        this.setWidth("850px");
+//        this.setWidth("850px");
 
         calculate();
 

@@ -19,8 +19,8 @@ package org.adempiere.webui.session;
 
 import java.util.Properties;
 
-import org.adempiere.webui.AdempiereWebUI;
-import org.adempiere.webui.Desktop;
+import org.adempiere.webui.IDesktop;
+import org.adempiere.webui.IWebClient;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
@@ -51,27 +51,29 @@ public class SessionManager
         return  Executions.getCurrent().getDesktop().getSession();
     }
     
-    public static void setSessionApplication(AdempiereWebUI app)
+    public static void setSessionApplication(IWebClient app)
     {
         Session session = getSession();
         session.setAttribute(SESSION_APPLICATION, app);
     }
     
-    public static Desktop getAppDesktop()
+    public static IDesktop getAppDesktop()
     {
     	return getSessionApplication().getAppDeskop();
     }
     
-    public static AdempiereWebUI getSessionApplication()
+    public static IWebClient getSessionApplication()
     {
         Session session = getSession();
-        AdempiereWebUI app = (AdempiereWebUI)session.getAttribute(SESSION_APPLICATION);
+        IWebClient app = (IWebClient)session.getAttribute(SESSION_APPLICATION);
         return app;
     }
     
     public static void clearSession()
     {
         Env.getCtx().clear();
+        Session session = getSession();
+        session.invalidate();
     }
     
     public static void logoutSession()

@@ -9,6 +9,11 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 		<description>[Optional] Monitor i3-log.conf and register a handler for the specified log-base</description>
 		<log-base></log-base>
 	</log>
+	
+	<!--  change to false to use compress js which is much smaller -->
+	<client-config>		
+	    <debug-js>true</debug-js>
+	</client-config>
 
 	<!--
 	<language-config>
@@ -26,5 +31,5 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 	<listener>
 		<description>ADempiere WebUI Context management</description>
 		<listener-class>org.adempiere.webui.session.SessionContextListener</listener-class>
-	</listener>
+	</listener>		
 </zk>

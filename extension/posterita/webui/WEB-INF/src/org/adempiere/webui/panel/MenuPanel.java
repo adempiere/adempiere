@@ -21,10 +21,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import org.adempiere.webui.AdempiereWebUI;
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.Window;
-import org.adempiere.webui.constants.EventConstants;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
@@ -35,7 +33,10 @@ import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Separator;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treechildren;
 import org.zkoss.zul.Treecol;
@@ -48,7 +49,7 @@ import org.zkoss.zul.Treeitem;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class MenuPanel extends Window implements EventListener
+public class MenuPanel extends Panel implements EventListener
 {
     private static final long serialVersionUID = 1L;
     
@@ -77,31 +78,47 @@ public class MenuPanel extends Window implements EventListener
     
     private void init()
     {
+    	this.setWidth("100%");
+    	this.setHeight("100%");
+    	this.setStyle("position:absolute;border:0;padding:0;margin:0");
+    	
         menuTree = new Tree();
         menuTree.setMultiple(false);
         menuTree.setId("mnuMain");
-        menuTree.addEventListener(EventConstants.ONSELECT, this);
-        menuTree.setWidth("250px");
-        menuTree.setHeight("550px");
-        menuTree.setVflex(true);
+        menuTree.addEventListener(Events.ON_SELECT, this);
+        menuTree.setWidth("100%");
+        menuTree.setHeight("100%");
+        menuTree.setVflex(false);
         menuTree.setPageSize(-1); // Due to bug in the new paging functionality
         
-        Panel menuPanel = new Panel();        
+        menuTree.setStyle("border:0");
+        
+        Borderlayout layout = new Borderlayout();
+        layout.setParent(this);
+        layout.setStyle("position:absolute");
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        
+        South south = new South();
+        south.setParent(layout);
+        
         pnlSearch = new MenuSearchPanel(this);
-        menuPanel.appendChild(new Separator());
-        menuPanel.appendChild(pnlSearch);
-        menuPanel.appendChild(new Separator());
-        menuPanel.appendChild(new Separator());
-        menuPanel.appendChild(new Separator());
-        menuPanel.appendChild(menuTree);
-        this.appendChild(menuPanel);
+        pnlSearch.setParent(south);
+        LayoutUtils.addSclass("menu-search", pnlSearch);
+        
+        Center center = new Center();
+        center.setFlex(true);
+        center.setAutoscroll(true);
+        center.setParent(layout);
+        
+        menuTree.setParent(center);
     }
     
     private void initMenu(MTreeNode rootNode)
     {
         Treecols treeCols = new Treecols();
         Treecol treeCol = new Treecol();
-        treeCol.setLabel(AdempiereWebUI.UID);
+        treeCol.setLabel("Menu");
         
         Treechildren rootTreeChildren = new Treechildren();
         generateMenu(rootTreeChildren, rootNode);
@@ -183,7 +200,7 @@ public class MenuPanel extends Window implements EventListener
         Component comp = event.getTarget();
         String eventName = event.getName();
         
-        if(eventName.equals(EventConstants.ONSELECT))
+        if(eventName.equals(Events.ON_SELECT))
         {
             if(comp.equals(menuTree))
             {
@@ -216,11 +233,6 @@ public class MenuPanel extends Window implements EventListener
             throw new ApplicationException(e.getMessage(), e);
         }		
 	}
-
-	public void setWidth(String width)
-    {
-        menuTree.setWidth(width);
-    }
 
     public boolean isAsap()
     {

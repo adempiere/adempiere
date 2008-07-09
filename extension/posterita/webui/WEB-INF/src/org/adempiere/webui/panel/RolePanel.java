@@ -25,12 +25,15 @@ import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
+import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
@@ -69,13 +72,24 @@ public class RolePanel extends Window implements EventListener
         initComponents();
         init();
         this.setId("rolePanel");
+        
+        AuFocus auf = new AuFocus(lstRole);
+        Clients.response(auf);
     }
 
     private void init()
     {
         Grid grid = new Grid();
         grid.setId("grdChooseRole");
+        grid.setOddRowSclass("even");
         Rows rows = new Rows();
+        
+        Row logo = new Row();
+        logo.setSpans("2");
+        Image image = new Image();
+        image.setSrc("images/Logo.gif");
+        logo.appendChild(image);
+        
         Row rowRole = new Row();
         Row rowClient = new Row();
         Row rowOrg = new Row();
@@ -105,6 +119,7 @@ public class RolePanel extends Window implements EventListener
         rowButtons.setSpans("2");
         rowButtons.appendChild(pnlButtons);
 
+        rows.appendChild(logo);
         rows.appendChild(rowRole);
         rows.appendChild(rowClient);
         rows.appendChild(rowOrg);

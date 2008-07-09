@@ -19,12 +19,11 @@ package org.adempiere.webui.window;
 
 import java.util.Properties;
 
-import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADWindowPanel;
+import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MQuery;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.Component;
 
 /**
  *
@@ -32,7 +31,7 @@ import org.zkoss.zk.ui.event.EventListener;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class ADWindow extends Window implements EventListener
+public class ADWindow extends AbstractUIPart
 {
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +40,10 @@ public class ADWindow extends Window implements EventListener
     private int adWindowId;
     private String _title;
     private int windowNo;
+
+	private MQuery query;
+
+	private Component windowPanelComponent;
     
     public ADWindow(Properties ctx, int adWindowId)
     {
@@ -55,43 +58,30 @@ public class ADWindow extends Window implements EventListener
          this.ctx = ctx;
          this.adWindowId = adWindowId;
          windowNo = SessionManager.getAppDesktop().registerWindow(this);
-         init(query);
+         this.query = query;
+         init();
     }
     
-    private void init(MQuery query)
+    private void init()
     {
-        windowPanel = new ADWindowPanel(ctx, windowNo);
-        windowPanel.initPanel(adWindowId, query);
-
-        this.appendChild(windowPanel);
-        this.setWidth("850px");
-        _title = windowPanel.getTitle();
+        windowPanel = new ADWindowPanel(ctx, windowNo);                
     }
     
     public String getTitle()
     {
         return _title;
     }
-
-    public boolean isAsap()
-    {
-        return false;
-    }
-
-    public void onEvent(Event event)
-    {
-      /*  if (restoreButton.equals(event.getTarget()))
-        {
-           String mode = this.getMode();
-           if (ADWindow.MODE_EMBEDDED.equals(mode))
-           {
-               this.doOverlapped();
-           }
-           else
-           {
-               this.doEmbedded();
-           }
-        }*/
-    }
     
+    protected Component doCreatePart(Component parent) 
+    {
+    	windowPanelComponent = windowPanel.createPart(parent);
+    	windowPanel.initPanel(adWindowId, query);
+    	_title = windowPanel.getTitle();
+    	
+    	return windowPanelComponent;
+    }
+
+	public Component getComponent() {
+		return windowPanelComponent;
+	}	
 }

@@ -45,8 +45,6 @@ public interface ToolbarListener
     
     public void onRefresh();
     
-    public void onExit();
-    
     public void onPrint();
     
     public void onReport();

@@ -13,7 +13,7 @@
 	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
-	<property name="Adempiere.dir" value="${basedir}/../../../lib"></property>
+	<property name="Adempiere.dir" value="${basedir}/../lib"></property>
 
 	<property name="war.name"	value="webui"/>
 	<property name="compile.debug"       value="true"/>

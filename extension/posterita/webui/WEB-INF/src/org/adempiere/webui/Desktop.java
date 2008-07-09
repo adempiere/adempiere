@@ -17,98 +17,116 @@
 
 package org.adempiere.webui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.ProcessDialog;
-import org.adempiere.webui.component.VerticalBox;
+import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.panel.ADForm;
-import org.adempiere.webui.panel.FooterPanel;
 import org.adempiere.webui.panel.HeaderPanel;
-import org.adempiere.webui.panel.MainPanel;
 import org.adempiere.webui.panel.SidePanel;
+import org.adempiere.webui.part.AbstractUIPart;
+import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MClient;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
-import org.compiere.model.MSysConfig;
-import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.WebDoc;
 import org.zkoss.util.media.AMedia;
-import org.zkoss.zul.Hbox;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Label;
 
 /**
  * 
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
+ * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  * @date Mar 2, 2007
  * @version $Revision: 0.10 $
  */
-public class Desktop extends Window implements MenuListener
+public class Desktop extends AbstractUIPart implements MenuListener, Serializable, IDesktop
 {
+
 	private static final long serialVersionUID = 9056511175189603883L;
 
 	private static final CLogger logger = CLogger.getCLogger(Desktop.class);
 
-    private HeaderPanel 	pnlHead;
+    private transient ClientInfo clientInfo;
     
-    private SidePanel         pnlSide;
+    private List<Object> windows;
+    
+    private Center windowArea;
 
-    private MainPanel         pnlMain;
+	private Borderlayout layout;
 
-    private FooterPanel       pnlFooter;
-    
-    private ClientInfo clientInfo;
-    
-    private List<Window> windows;
-    
-    private CCache<Integer, ADWindow> windowCache;
+	private WindowContainer windowContainer;
 
     public Desktop()
     {
-    	windows = new ArrayList<Window>();
-    	windowCache = new CCache<Integer, ADWindow>("ZKWindowCache", 20);
-    	windowCache.setExpireMinutes(10); // Remove the cached window after 10 mins
-    	init();
+    	windows = new ArrayList<Object>();
     }
-
-    private void init()
+    
+    protected Component doCreatePart(Component parent)
     {
-    	pnlSide = new SidePanel();
-    	pnlMain = new MainPanel();
-    	pnlFooter = new FooterPanel();
-    	pnlHead = new HeaderPanel();
+    	SidePanel pnlSide = new SidePanel();
+    	HeaderPanel pnlHead = new HeaderPanel();
          
         pnlSide.getMenuPanel().addMenuListener(this);
         
-        VerticalBox verticalBox = new VerticalBox();
-        verticalBox.setWidth("1200px");
+        layout = new Borderlayout();
+        if (parent != null)
+        	layout.setParent(parent);
+        else
+        	layout.setPage(page);
         
-        Hbox hbox = new Hbox();
+        North n = new North();
+        layout.appendChild(n);
+        n.setCollapsible(false);
+        pnlHead.setParent(n);
         
-        hbox.setWidth("1200px");
-        hbox.setWidths("300px, 900px");
-        hbox.appendChild(pnlSide);
-        hbox.appendChild(pnlMain);
+        West w = new West();
+        layout.appendChild(w);
+        w.setWidth("300px");
+        w.setCollapsible(true);
+        w.setSplittable(true);
+//        w.setAutoscroll(true);
+        pnlSide.setParent(w);
+        
+        windowArea = new Center();
+        windowArea.setParent(layout);
+        windowArea.setFlex(true);
+//        windowArea.setAutoscroll(true);
+        windowContainer = new WindowContainer();
+        windowContainer.createPart(windowArea);        
 
-		String homeURL = MSysConfig.getValue("WEBUI_HOMEURL", "http://www.adempiere.com/");
-        showURL(homeURL, "Home", false);
+        createHomeTab();
         
-        verticalBox.appendChild(pnlHead);
-        verticalBox.appendChild(hbox);
-        
-        //this.setBorder("normal");
-        this.setStyle("background-color: #FAFAFA");
-        //this.setWidth("100%");
-        //this.setHeight("100%");
-        this.appendChild(verticalBox);        
+        return layout;
     }
+
+	private void createHomeTab() {
+		//TODO: dashboard
+        Tabpanel homeTab = new Tabpanel();
+        windowContainer.addWindow(homeTab, "Home", false);
+        Label t = new Label();
+        t.setValue("My Home!");
+        t.setParent(homeTab);
+        
+        //register as 0
+        registerWindow(homeTab);
+	}
     
     /**
      * Retrieves the Client website url
@@ -118,8 +136,6 @@ public class Desktop extends Window implements MenuListener
     {
     	MClient client = MClient.get(Env.getCtx());
     	String defaultUrl = "http://www.adempiere.com";
-    	
-    	/* [ 1983672 ] Column AD_Client.WebSiteURL doesn't exist
     	String url = (String)client.get_Value("WebSiteURL");
     	
     	if (url == null)
@@ -131,8 +147,6 @@ public class Desktop extends Window implements MenuListener
     		logger.log(Level.SEVERE, "Website URL provided for the client is not valid!!!");
     		url = defaultUrl;
     	}
-    	*/
-    	String url = defaultUrl;
     	
     	return url;
     }
@@ -158,20 +172,18 @@ public class Desktop extends Window implements MenuListener
         if(menu.getAction().equals(MMenu.ACTION_Window))
         {
         	Integer wMenuId = Integer.valueOf(menu.getAD_Window_ID());
-        	ADWindow wndMain = windowCache.get(wMenuId);
-        	if (wndMain == null)
-        	{
-        		wndMain = new ADWindow(Env.getCtx(), menu.getAD_Window_ID());
-        		windowCache.put(wMenuId, wndMain);
-        	}
-            pnlMain.addWindow(wndMain, wndMain.getTitle(), true);           
+        	ADWindow adWindow = new ADWindow(Env.getCtx(), menu.getAD_Window_ID());
+        	
+        	Tabpanel tabPanel = new Tabpanel();
+        	adWindow.createPart(tabPanel);
+        	windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
         }
         else if(menu.getAction().equals(MMenu.ACTION_Process) ||
         		menu.getAction().equals(MMenu.ACTION_Report))
         {
         	ProcessDialog pd = new ProcessDialog (menu.getAD_Process_ID(), menu.isSOTrx());
         	if (pd.isValid()) {
-	        	pd.setPage(this.getPage());
+	        	pd.setPage(page);
 	        	pd.setClosable(true);
 	        	pd.setWidth("500px");
 	        	try {
@@ -185,7 +197,10 @@ public class Desktop extends Window implements MenuListener
         else if(menu.getAction().equals(MMenu.ACTION_Form))
         {
         	Window form = ADForm.openForm(menu.getAD_Form_ID());
-			pnlMain.addWindow(form, form.getTitle(), true);
+        	
+        	Tabpanel tabPanel = new Tabpanel();
+        	form.setParent(tabPanel);
+        	windowContainer.addWindow(tabPanel, form.getTitle(), true);        	
         }
         else
         {
@@ -193,7 +208,7 @@ public class Desktop extends Window implements MenuListener
         }
     }
     
-    public void showURL(String url, boolean closeable)
+	public void showURL(String url, boolean closeable)
     {
     	showURL(url, url, closeable);
     }
@@ -217,31 +232,40 @@ public class Desktop extends Window implements MenuListener
     private void addWin(Iframe fr, String title, boolean closeable)
     {
     	fr.setWidth("100%");
-        fr.setHeight("650px");
-        Window wndUrl = new Window();
-    	//wndUrl.setHeight("650px");
-        //wndUrl.setWidth("800px");
-        wndUrl.appendChild(fr);
-        pnlMain.addWindow(wndUrl, title, closeable);
+        fr.setHeight("100%");
+        fr.setStyle("padding: 0; margin: 0; border: none; position: absolute");
+        Window window = new Window();
+        window.setWidth("100%");
+        window.setHeight("100%");
+        window.setStyle("padding: 0; margin: 0; border: none");
+        window.appendChild(fr);
+        window.setStyle("position: absolute");
+        
+        Tabpanel tabPanel = new Tabpanel();
+    	window.setParent(tabPanel);
+    	windowContainer.addWindow(tabPanel, title, closeable);
     }
     
    
     public void showZoomWindow(int AD_Window_ID, MQuery query)
     {
     	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
-        Window window = new Window();
-        
-        window.appendChild(wnd);
-        window.setBorder("normal");
-        pnlMain.addWindow(window,wnd.getTitle(),true);
-        
+    	
+    	Tabpanel tabPanel = new Tabpanel();
+    	wnd.createPart(tabPanel);
+    	windowContainer.addWindow(tabPanel, wnd.getTitle(), false);
 	}
     
-   	public void showWindow(Window win)
+    public void showWindow(Window win) 
+    {
+    	String pos = win.getPosition();
+    	this.showWindow(win, pos);
+    }
+    
+   	public void showWindow(Window win, String pos)
 	{
-   		win.setPage(this.getPage());		
+   		win.setPage(page);		
 		Object objMode = win.getAttribute("mode");
-		String pos = win.getPosition();
 
 		String mode = "modal";
 		
@@ -271,7 +295,7 @@ public class Desktop extends Window implements MenuListener
 			showHighlighted(win, pos);
 		}
 		
-		win.setVisible(true);
+//		win.setVisible(true);
 	}
    	
    	public void showModal(Window win)
@@ -335,7 +359,7 @@ public class Desktop extends Window implements MenuListener
 		this.clientInfo = clientInfo;
 	}
 	
-	public int registerWindow(Window win) {
+	public int registerWindow(Object win) {
 		int retValue = windows.size();
 		windows.add(win);
 		return retValue;
@@ -347,7 +371,7 @@ public class Desktop extends Window implements MenuListener
 	}
    	
    
-	public Window findWindow(int WindowNo) {
+	public Object findWindow(int WindowNo) {
 		if (WindowNo < windows.size())
 			return windows.get(WindowNo);
 		else
@@ -356,6 +380,17 @@ public class Desktop extends Window implements MenuListener
 	
 	public void removeWindow()
 	{
-		pnlMain.removeWindow();
+		windowContainer.removeWindow();
+	}
+	
+	public void setPage(Page page) {
+		if (this.page != page) {
+			layout.setPage(page);
+			this.page = page;
+		}
+	}
+	
+	public Component getComponent() {
+		return layout;
 	}
 }

@@ -18,9 +18,6 @@
 package org.adempiere.webui.panel;
 
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.VerticalBox;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 
 /**
  *
@@ -28,24 +25,11 @@ import org.zkoss.zk.ui.event.EventListener;
  * @date    Mar 2, 2007
  * @version $Revision: 0.10 $
  */
-public class SidePanel extends Panel implements EventListener
+public class SidePanel extends Panel
 {
     private static final long serialVersionUID = 1L;
     
-    private RequestNoticePanel pnlRequestNotice;
     private MenuPanel pnlMenu;
-    //private SideUserPanel pnlSideUser;
-    //private HeaderPanel pnlHead;
-    
-/*    private Tabs tabs = new Tabs();
-    private Tab tabUser = new Tab();
-    private Tab tabSearch = new Tab();
-    private Tab tabMenu = new Tab();
-    
-    private Tabpanels tabpanels = new Tabpanels();
-        
-    private Tabbox tabbox = new Tabbox();
-*/    
     public SidePanel()
     {
         init();
@@ -53,60 +37,16 @@ public class SidePanel extends Panel implements EventListener
     
     private void init()
     {
-        pnlRequestNotice = new RequestNoticePanel();
         pnlMenu = new MenuPanel();
-        //pnlSideUser = new SideUserPanel();
-        //pnlHead = new HeaderPanel();
         
-/*        tabUser.setLabel("Logout");
-        tabSearch.setLabel("Search");
-        tabMenu.setLabel("Menu");
-        
-        tabs.appendChild(tabUser);
-        tabs.appendChild(tabSearch);
-        tabs.appendChild(tabMenu);
-        
-        Tabpanel tabPanelMenu = new Tabpanel();
-        tabPanelMenu.appendChild(new Separator());
-        tabPanelMenu.appendChild(pnlMenu.getSearchPanel());
-        tabPanelMenu.appendChild(new Separator());
-        
-        tabpanels.appendChild(pnlSideUser);
-        tabpanels.appendChild(tabPanelMenu);
-        tabpanels.appendChild(pnlMenu);
-        
-        tabbox.setWidth("300px");
-        tabbox.setOrient("horizontal");
-        tabbox.setMold("accordion");
-        tabbox.appendChild(tabs);
-        tabbox.appendChild(tabpanels);*/
-        
-        VerticalBox mainBox = new VerticalBox();
-        //mainBox.appendChild(pnlHead);
-        //mainBox.appendChild(pnlSideUser);
-        
-        //Iframe menuFrame = new Iframe("/zul/menu.zul");
-        //menuFrame.setWidth("300px");
-        //menuFrame.setHeight("650px");
-        
-        //mainBox.appendChild(menuFrame);
-        mainBox.appendChild(pnlMenu);
-        
-        Panel pan = new Panel();
-        pan.setAlign("center");
-        pan.appendChild(mainBox);
-
-        this.setWidth("300px");
-        this.appendChild(pan);
+        this.setWidth("100%");
+        this.setHeight("100%");
+        this.setStyle("position:absolute");
+        this.appendChild(pnlMenu);        
     }
     
     public MenuPanel getMenuPanel()
     {
         return pnlMenu;
     }
-
-	public void onEvent(Event event) throws Exception 
-	{
-		
-	}
 }

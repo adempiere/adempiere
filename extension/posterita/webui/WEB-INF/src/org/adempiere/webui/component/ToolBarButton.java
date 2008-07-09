@@ -26,4 +26,30 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
     
     private static final long serialVersionUID = 0L;
 
+    private String name;
+    
+    public ToolBarButton() {}
+    
+    @Override
+	public void setDisabled(boolean disabled) {
+		super.setDisabled(disabled);
+		if (disabled) {
+			this.setSclass("disableFilter");
+		} else {
+			this.setSclass("");
+		}
+	}
+
+	public ToolBarButton(String name) {
+    	super();
+    	this.name = name;
+    }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
 }

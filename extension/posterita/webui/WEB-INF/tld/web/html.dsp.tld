@@ -12,6 +12,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 -->
 
 <taglib>
+	<uri>http://www.zkoss.org/dsp/web/html</uri>
 	<description>
 	Used to develop ZK components for XUL/HTML.
 	</description>

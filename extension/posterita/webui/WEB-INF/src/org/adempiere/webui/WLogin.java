@@ -17,31 +17,65 @@
 
 package org.adempiere.webui;
 
-import org.adempiere.webui.component.Window;
+import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.window.LoginWindow;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zul.Vbox;
 
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
+ * @author  Low Heng Sin
  * @date    Mar 3, 2007
  * @version $Revision: 0.10 $
  */
-public class WLogin extends Window
+public class WLogin extends AbstractUIPart
 {
     private static final long serialVersionUID = 1L;
 
-    private AdempiereWebUI novita;
-    private LoginWindow loginWindow;
+    private IWebClient app;
+	private Borderlayout layout;
     
-    public WLogin(AdempiereWebUI novita)
+    public WLogin(IWebClient app)
     {
-        this.novita = novita;
-        init();
+        this.app = app;
     }
     
-    private void init()
+    protected Component doCreatePart(Component parent)
     {
-        loginWindow = new LoginWindow(novita);
-        this.appendChild(loginWindow);
+        layout = new Borderlayout();
+        if (parent != null)
+        	layout.setParent(parent);
+        else
+        	layout.setPage(page);
+        Center c = new Center();
+        c.setParent(layout);
+        c.setBorder("none");
+        c.setFlex(true);
+        c.setAutoscroll(true);
+                
+        Vbox vb = new Vbox();
+        vb.setParent(c);
+        vb.setHeight("100%");
+        vb.setWidth("100%");
+        vb.setPack("center");
+        vb.setAlign("center");
+        LayoutUtils.addSclass("login", vb);
+        
+        LoginWindow loginWindow = new LoginWindow(app);
+        loginWindow.setParent(vb);
+        
+        return layout;
     }
+
+	public void detach() {
+		layout.detach();
+		layout = null;
+	}
+
+	public Component getComponent() {
+		return layout;
+	}
 }

@@ -26,11 +26,16 @@ import org.compiere.model.MSession;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.ClientInfoEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.impl.ExecutionCarryOver;
+import org.zkoss.zk.ui.sys.ExecutionCtrl;
+import org.zkoss.zk.ui.sys.ExecutionsCtrl;
+import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
 
 /**
@@ -39,7 +44,7 @@ import org.zkoss.zul.Window;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class AdempiereWebUI extends Window implements EventListener
+public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
     private static final long  serialVersionUID = 1L;
 
@@ -58,7 +63,9 @@ public class AdempiereWebUI extends Window implements EventListener
     public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
+    	this.setVisible(false);    	    	
     }
+    
     public void onCreate()
     {
         this.getPage().setTitle(APP_NAME);
@@ -69,12 +76,12 @@ public class AdempiereWebUI extends Window implements EventListener
         if (!SessionManager.isUserLoggedIn(ctx))
         {
             loginDesktop = new WLogin(this);
-            this.appendChild(loginDesktop);
+            loginDesktop.createPart(this.getPage());
         }
         else
         {
             loginCompleted();
-        }
+        }                
     }
 
     public void onOk()
@@ -85,40 +92,77 @@ public class AdempiereWebUI extends Window implements EventListener
     {
     }
 
+    /* (non-Javadoc)
+	 * @see org.adempiere.webui.IWebClient#loginCompleted()
+	 */
     public void loginCompleted()
     {
-        loginDesktop = null;
-        this.getChildren().clear();
-        
+    	if (loginDesktop != null) 
+    	{
+    		loginDesktop.detach();
+    		loginDesktop = null;
+    	}
+    	
         Properties ctx = Env.getCtx();
         String langLogin = Env.getContext(ctx, Env.LANGUAGE);
         if (langLogin == null || langLogin.length() <= 0) {
         	langLogin = langSession;
         	Env.setContext(ctx, Env.LANGUAGE, langSession);
         }
+        
         // Validate language
 		Language language = Language.getLanguage(langLogin);
     	Env.verifyLanguage(ctx, language);
-     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
-     	
-     
-        appDesktop = new Desktop();
-        appDesktop.setParent(this);
-        appDesktop.setClientInfo(clientInfo);
-        
-        this.setWidth("100%");
-        this.setHeight("100%");
-        this.appendChild(appDesktop);
-        
+    	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
         
 		//	Create adempiere Session - user id in ctx
         Session currSess = Executions.getCurrent().getDesktop().getSession();
         HttpSession httpSess = (HttpSession) currSess.getNativeSession();
 
-		MSession.get (ctx, currSess.getClientAddr(), 
-			currSess.getClientHost(), httpSess.getId() );
+		MSession.get (ctx, currSess.getRemoteAddr(), 
+			currSess.getRemoteHost(), httpSess.getId() );
+		
+		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
+		if (d != null && d instanceof Desktop) 
+		{
+			ExecutionCarryOver eco = (ExecutionCarryOver) currSess.getAttribute("execution.carryover");
+			if (eco != null) {
+				appDesktop = (Desktop) d;
+				
+				ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
+				ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
+				Visualizer vi = ctrl.getVisualizer();
+				eco.carryOver();
+				ctrl = ExecutionsCtrl.getCurrentCtrl();
+				ctrl.setVisualizer(vi);
+				
+				appDesktop.getComponent().detach();
+				
+				eco.cleanup();
+				
+				current.carryOver();
+				
+				appDesktop.getComponent().setPage(this.getPage());
+				
+				currSess.setAttribute("execution.carryover", current);
+				
+			}
+		}
+		
+		if (appDesktop == null) 
+		{
+			appDesktop = new Desktop();
+			appDesktop.setClientInfo(clientInfo);
+			appDesktop.createPart(this.getPage());
+			currSess.setAttribute("application.desktop", appDesktop);
+			ExecutionCarryOver eco = new ExecutionCarryOver(this.getPage().getDesktop());
+			currSess.setAttribute("execution.carryover", eco);
+		}
     }
 
+    /* (non-Javadoc)
+	 * @see org.adempiere.webui.IWebClient#logout()
+	 */
     public void logout()
     {
     	MSession mSession = MSession.get(Env.getCtx(), false);
@@ -128,17 +172,20 @@ public class AdempiereWebUI extends Window implements EventListener
     	
         SessionManager.clearSession();
         super.getChildren().clear();
-        loginDesktop = new WLogin(this);
-        super.appendChild(loginDesktop);
+        Page page = this.getPage();
+        page.removeComponents();
+        Executions.sendRedirect("index.zul");
     }
 
     public Desktop getAppDeskop()
     {
     	return appDesktop;
     }
+    
 	public boolean isAsap() {
 		return true;
 	}
+	
 	public void onEvent(Event event) {
 		if (event instanceof ClientInfoEvent) {
 			ClientInfoEvent c = (ClientInfoEvent)event;

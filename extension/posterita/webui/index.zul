@@ -2,4 +2,9 @@
 <!--
 Copyright (C) 2007 Ashley G Ramdass.
 -->
-<window use="org.adempiere.webui.AdempiereWebUI"/>
+<?page style="height:100%"?>
+<zk>
+	<style src="css/default.css.dsp"/>
+	<script src="js/layout.js"/>
+	<window use="org.adempiere.webui.AdempiereWebUI"/>
+</zk>

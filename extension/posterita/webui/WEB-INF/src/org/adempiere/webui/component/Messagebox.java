@@ -18,6 +18,7 @@
 package org.adempiere.webui.component;
 
 import org.adempiere.webui.apps.AEnv;
+import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -39,7 +40,8 @@ public class Messagebox extends Window implements EventListener
 	private String msg = new String("");
 	private String imgSrc = new String("");
 	
-	private Label lblMsg = new Label();
+//	private Label lblMsg = new Label();
+	private Text lblMsg = new Text();
 	
 	private Button btnOk = new Button();
 	private Button btnCancel = new Button();
@@ -216,12 +218,19 @@ public class Messagebox extends Window implements EventListener
 			this.setPosition("center");
 			this.setClosable(true);
 			this.setAttribute("mode", "modal");
+			this.setSizable(true);
 		}
 		else
+		{
+			this.setTitle(title);
 			this.setAttribute("mode", "overlapped");
+			this.setWidth("500px");
+			this.setClosable(true);
+			this.setSizable(true);
+		}
 		
 		this.setVisible(true);
-		AEnv.showWindow(this);
+		AEnv.showCenterScreen(this);
 		
 		return returnValue;
 	}

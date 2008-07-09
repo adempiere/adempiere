@@ -148,7 +148,6 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         label.setValue(strLabel);
         label.setTooltiptext(description);
 
-
         this.setMandatory (mandatory);
 
         if (readOnly || !updateable)

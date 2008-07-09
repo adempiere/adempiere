@@ -33,11 +33,14 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 
@@ -71,13 +74,23 @@ public class LoginPanel extends Window implements EventListener
         initComponents();
         init();
         this.setId("loginPanel");
+        
+        AuFocus auf = new AuFocus(txtUserId);
+        Clients.response(auf);
     }
 
     private void init()
     {
         Grid grid = new Grid();
+        //grid.setSclass("grid-no-striped");
+        grid.setOddRowSclass("even");
         grid.setId("grdLogin");
         Rows rows = new Rows();
+        Row logo = new Row();
+        logo.setSpans("2");
+        Image image = new Image();
+        image.setSrc("images/Logo.gif");
+        logo.appendChild(image);        
         Row rowUser = new Row();
         rowUser.setId("rowUser");
         Row rowPassword = new Row();
@@ -105,6 +118,7 @@ public class LoginPanel extends Window implements EventListener
         //pnlButtons.appendChild(btnCancel);
         rowButtons.appendChild(pnlButtons);
 
+        rows.appendChild(logo);
         rows.appendChild(rowUser);
         rows.appendChild(rowPassword);
         rows.appendChild(rowLanguage);

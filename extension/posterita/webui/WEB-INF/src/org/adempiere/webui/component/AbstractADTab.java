@@ -18,51 +18,37 @@
 package org.adempiere.webui.component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.adempiere.webui.panel.ADTabpanel;
-import org.compiere.grid.VTabbedPane;
+import org.adempiere.webui.part.AbstractUIPart;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
 import org.compiere.util.Evaluator;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabpanels;
-import org.zkoss.zul.Tabs;
 
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
+ * @author  <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class FTabbox extends Tabbox
+public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 {
     private static final long serialVersionUID = 1L;
     
     /** Logger                  */
-    private static CLogger  log = CLogger.getCLogger (VTabbedPane.class);
+    private static CLogger  log = CLogger.getCLogger (AbstractADTab.class);
     /** List of dependent Variables     */
     private ArrayList<String>   m_dependents = new ArrayList<String>();
-    /** Tab Panels for this tab box */
-    private FTabpanels          tabpanels;
+    
     /** Tabs associated to this tab box */
-    private Tabs                tabs;
+    protected List<ADTabpanel> tabPanelList = new ArrayList<ADTabpanel>();
     
-    public FTabbox()
+    public AbstractADTab()
     {
-        super();
-        init();
     }
-    
-    private void init()
-    {
-        tabpanels = new FTabpanels();
-        tabs = new Tabs();
-        //this.setSclass("lite");
-        this.appendChild(tabs);
-        this.appendChild(tabpanels);
-        this.setOrient("vertical");
-    }// init
     
     /**
      *  Add Tab
@@ -70,13 +56,10 @@ public class FTabbox extends Tabbox
      *  @param gTab grid tab model
      *  @param tabElement GridController or VSortTab
      */
-    public void addTab(GridTab gTab, Tabpanel tabPanel)
+    public void addTab(GridTab gTab, ADTabpanel tabPanel)
     {
-        Tab tab = new Tab(gTab.getName());
-        tabPanel.setEnabled(gTab.isDisplayed());
-        tabs.appendChild(tab);
-        tabpanels.appendChild(tabPanel);
-        ArrayList<String>   dependents = gTab.getDependentOn();
+    	tabPanelList.add(tabPanel);
+        ArrayList<String>  dependents = gTab.getDependentOn();
         for (int i = 0; i < dependents.size(); i++)
         {
             String name = dependents.get(i);
@@ -85,28 +68,27 @@ public class FTabbox extends Tabbox
                 m_dependents.add(name);
             }
         }
+        
+        doAddTab(gTab, tabPanel);                
     }//  addTab
     
-    /**
+    protected abstract void doAddTab(GridTab tab, ADTabpanel tabPanel);
+
+	/**
      * @param index of tab panel
      * @return
      */
     public boolean isEnabledAt(int index) 
     {
-        Tabpanel tabpanel = tabpanels.getTabpanel(index);
-        if (tabpanel == null)
-        {
-            return false;
-        }
-        return tabpanel.isEnabled();
+    	return true;
     }// isEnabledAt
 
-    private boolean isDisplay(ADTabpanel tabpanel)
+    private boolean isDisplay(ADTabpanel newTab)
     {
-        String logic = tabpanel.getDisplayLogic();
+        String logic = newTab.getDisplayLogic();
         if (logic != null && logic.length() > 0)
         {
-            boolean display = Evaluator.evaluateLogic(tabpanel, logic);
+            boolean display = Evaluator.evaluateLogic(newTab, logic);
             if (!display)
             {
                 log.info("Not displayed - " + logic);
@@ -124,13 +106,10 @@ public class FTabbox extends Tabbox
      */
     public boolean updateSelectedIndex(int oldIndex, int newIndex)
     {
-        Tabpanel tabpanel = tabpanels.getTabpanel(newIndex);
+        ADTabpanel newTab = tabPanelList.get(newIndex);
         
-        ADTabpanel newTab = (ADTabpanel)tabpanel;
-        
-        if (tabpanel == null || !isDisplay(newTab))
+        if (!isDisplay(newTab))
         {
-            super.setSelectedIndex(oldIndex);
             return false;
         }
         
@@ -138,16 +117,39 @@ public class FTabbox extends Tabbox
 
         if (newIndex != oldIndex)
         {
-            ADTabpanel oldTabpanel = tabpanels.getTabpanel(oldIndex);
+            canJump = canNavigateTo(oldIndex, newIndex);
+            if (canJump) 
+            {
+	            doTabSelectionChanged(oldIndex, newIndex);
+            }
+        }
+        
+        return canJump;
+    }
+    
+    protected abstract void doTabSelectionChanged(int oldIndex, int newIndex);
+
+	public boolean canNavigateTo(int fromIndex, int toIndex) {
+    	ADTabpanel newTab = tabPanelList.get(toIndex); 
+    	if (!isDisplay(newTab))
+        {
+            return false;
+        }
+        
+        boolean canJump = true;
+
+        if (toIndex != fromIndex)
+        {
+            ADTabpanel oldTabpanel = fromIndex >= 0 ? tabPanelList.get(fromIndex) : null;
             if (oldTabpanel != null)
             {
                 ADTabpanel oldTab = oldTabpanel;
                 if (newTab.getTabLevel() > oldTab.getTabLevel())
                 {
                     int currentLevel = newTab.getTabLevel();
-                    for (int i = newIndex - 1; i >= 0; i--)
+                    for (int i = toIndex - 1; i >= 0; i--)
                     {
-                        ADTabpanel tabPanel = tabpanels.getTabpanel(i);
+                        ADTabpanel tabPanel = tabPanelList.get(i);
                         if (tabPanel.getTabLevel() < currentLevel)
                         {
                             if (!tabPanel.isCurrent())
@@ -159,21 +161,38 @@ public class FTabbox extends Tabbox
                         }
                     }
                 }
-            }
-            else
-            {
-                canJump = false;
-            }
-        }
-        if (canJump)
-        {
-            super.setSelectedIndex(newIndex);
-        }
-        else
-        {
-            super.setSelectedIndex (oldIndex);
-        }
+            }                        
+        }        
         return canJump;
+    }
+    
+    /**
+     * 
+     * @return full path
+     */
+    public String getPath() {
+    	StringBuffer path = new StringBuffer();
+    	int s = this.getSelectedIndex();
+    	if (s <= 0 ) s = 0;
+    	ADTabpanel p = tabPanelList.get(s);
+    	for (int i = 0; i <= s; i++) {
+    		String n = null;
+    		if (i == s)
+    			n = p.getTitle();
+    		else {
+    			ADTabpanel t = tabPanelList.get(i);
+    			if (t.getTabLevel() < p.getTabLevel())
+    				n = t.getTitle();
+    		}
+    		if (n != null) {
+    			if (path.length() > 0) {
+    				path.append(" > ");
+    			}
+    			path.append(n);
+    		}
+    	}
+    	
+    	return path.toString();
     }
     
     /**
@@ -182,7 +201,8 @@ public class FTabbox extends Tabbox
      */
     public void evaluate (DataStatusEvent e)
     {
-        boolean process = e == null;
+    	
+        boolean process = (e == null);
         String columnName = null;
         if (!process)
         {
@@ -195,37 +215,26 @@ public class FTabbox extends Tabbox
             
         if (process)
         {
-            log.config(columnName == null ? "" : columnName);
-            for (int i = 0; i < this.getTabCount(); i++)
-            {
-                ADTabpanel tabPanel = tabpanels.getTabpanel(i);
-                String logic = tabPanel.getDisplayLogic();
-                boolean display = true;
-                if (logic != null && logic.length() > 0)
-                {
-                    display = Evaluator.evaluateLogic(tabPanel, logic);
-                }
-                tabPanel.setEnabled(display);
-                
-            }
+        	updateTabState();
         }
         
     } //  evaluate
 
-    /**
+    protected abstract void updateTabState();
+
+	/**
      * @return the number of tab panels present
      */
     public int getTabCount()
     {
-        return tabpanels.getChildren().size();
+        return tabPanelList.size();
     }
     
     public ADTabpanel getTabpanel(int index)
     {
         try
         {
-            Tabpanels tabpanels = this.getTabpanels();
-            ADTabpanel tabPanel = (ADTabpanel)tabpanels.getChildren().get(index);
+            ADTabpanel tabPanel = tabPanelList.get(index);
             return tabPanel;
         }
         catch (Exception ex)
@@ -234,24 +243,8 @@ public class FTabbox extends Tabbox
         }
     }
     
-    /**
-     * Return the selected Tab Panel
-     */
-    public ADTabpanel getSelectedTabpanel()
-    {
-        return getTabpanel(this.getSelectedIndex());
-    }
-    
-    /**
-     * @return whether all events should be reported as they occur.
-     */
-    public boolean isAsap()
-    {
-        return true;
-    }
-    
-    public boolean containsTab(Tab tab)
-    {
-    	return tabs.getChildren().contains(tab);
+    public void setSelectedIndex(int newIndex) {
+    	int oldIndex = getSelectedIndex();
+    	updateSelectedIndex(oldIndex, newIndex);
     }
 }

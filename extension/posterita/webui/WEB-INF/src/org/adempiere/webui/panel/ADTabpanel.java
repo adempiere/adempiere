@@ -18,12 +18,18 @@
 package org.adempiere.webui.panel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.Tabpanel;
+import org.adempiere.webui.component.ToolBar;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
@@ -39,12 +45,21 @@ import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MLookup;
+import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.zkoss.zhtml.Span;
+import org.zkoss.zhtml.Text;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Image;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Separator;
+import org.zkoss.zul.Toolbarbutton;
 
 /**
  * 
@@ -58,7 +73,7 @@ import org.zkoss.zul.Image;
  * @version $Revision: 0.10 $
  * 
  */
-public class ADTabpanel extends Tabpanel implements Evaluatee, EventListener, 
+public class ADTabpanel extends Div implements Evaluatee, EventListener, 
 DataStatusListener, ValueChangeListener
 {
     
@@ -69,13 +84,11 @@ DataStatusListener, ValueChangeListener
         logger = CLogger.getCLogger(ADTabpanel.class);
     }
 
-    private Image             panelImage;
-    
     private GridTab           gridTab;
 
     private GridWindow        gridWindow;
 
-    private ADWindowPanel      windowPanel;
+    private AbstractADWindowPanel      windowPanel;
 
     private int               windowNo;
 
@@ -84,30 +97,43 @@ DataStatusListener, ValueChangeListener
     private ArrayList<WEditor> editors = new ArrayList<WEditor>();
     
     private boolean           editing;
+    
+    private boolean			  uiCreated = false;
+    
+    private GridPanel		  listPanel;
+    
+    private Map<String, List<Row>> fieldGroups = new HashMap<String, List<Row>>();
 
-    public ADTabpanel()
-    {
+	private ArrayList<Row> rowList;
+
+	public ADTabpanel() 
+	{
         init();
     }
 
     private void init()
     {
         initComponents();
-//        this.appendChild(panelImage);
-//        this.appendChild(grid);
     }
 
     private void initComponents()
     {
+    	LayoutUtils.addSclass("adtab-content", this);    	    	    		
+    	
         grid = new Grid();
-        grid.setWidth("750px");
+        //have problem moving the following out as css class
+        grid.setWidth("99%");
+        grid.setHeight("100%");        
+        grid.setStyle("margin:0; padding:0; position: absolute");
+        grid.setSclass("grid-no-striped");
+        grid.setOddRowSclass("even");
         
-        panelImage = new Image();
-//        panelImage.setSrc("/images/loading.png");
         
+        listPanel = new GridPanel();
+        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);        
     }
 
-    public void init(ADWindowPanel winPanel, int windowNo, GridTab gridTab,
+    public void init(AbstractADWindowPanel winPanel, int windowNo, GridTab gridTab,
             GridWindow gridWindow)
     {
         this.windowNo = windowNo;
@@ -115,29 +141,120 @@ DataStatusListener, ValueChangeListener
         this.gridTab = gridTab;
         this.windowPanel = winPanel;
         gridTab.addDataStatusListener(this);
-        initGrid();
     }
 
-    private void initGrid()
+    public void createUI()
     {
+    	if (uiCreated) return;
+    	
     	Rows rows = new Rows();
         GridField fields[] = gridTab.getFields();
         Row row = new Row();
+        
+        String currentFieldGroup = null;
         for (int i = 0; i < fields.length; i++)
         {
             GridField field = fields[i];
             if (field.isDisplayed())
             {
+            	String fieldGroup = field.getFieldGroup();
+            	if (fieldGroup != null && fieldGroup.trim().length() > 0)
+            	{
+            		if (!fieldGroup.equals(currentFieldGroup)) 
+            		{
+            			currentFieldGroup = fieldGroup;
+            			if (row.getChildren().size() == 2)
+            			{
+            				row.appendChild(createSpacer());
+                            row.appendChild(createSpacer());
+                            row.appendChild(createSpacer());
+                            rows.appendChild(row);
+                            if (rowList != null)
+                				rowList.add(row);
+                            row = new Row();
+            			} else if (row.getChildren().size() > 0) 
+            			{
+            				rows.appendChild(row);
+            				if (rowList != null)
+                				rowList.add(row);
+            				row = new Row();
+            			}
+            			
+            			row.setSpans("5");
+            			row.appendChild(new Separator());
+            			rows.appendChild(row);
+            			            			
+            			if (X_AD_FieldGroup.FIELDGROUPTYPE_Collapse.equals(field.getFieldGroupType()) ||
+            				X_AD_FieldGroup.FIELDGROUPTYPE_Tab.equals(field.getFieldGroupType()))
+            			{
+            				rowList = new ArrayList<Row>();
+            				fieldGroups.put(fieldGroup, rowList);
+            			}
+            			else
+            			{
+            				rowList = null;
+            			}
+            			row = new Row();            			
+            			row.setSpans("4");
+            			if (rowList == null) 
+            			{
+            				Label groupLabel = new Label(fieldGroup); 
+            				row.appendChild(groupLabel);
+            				row.appendChild(createSpacer());
+            				rows.appendChild(row);
+            			}
+            			else
+            			{
+            				ToolBar toolbar = new ToolBar();
+            				Toolbarbutton button = new Toolbarbutton(fieldGroup, "images/ns-collapse.gif");
+            				button.addEventListener(Events.ON_CLICK, this);
+            				button.setParent(toolbar);
+            				row.appendChild(toolbar);
+            				row.appendChild(createSpacer());
+            				rows.appendChild(row);
+            			}
+            			
+            			if (rowList == null) {
+	                        row = new Row();
+	                        row.setSpans("4");
+	                        Separator separator = new Separator();
+	                        separator.setBar(true);
+	            			row.appendChild(separator);
+	            			row.appendChild(createSpacer());
+	            			rows.appendChild(row);
+            			}
+            			
+            			row = new Row();
+            		}
+            	}
+            	
                 if (!field.isSameLine())
                 {
-                    if (row.getChildren().size() == 2)
-                    {
-                        row.appendChild(new Label(" "));
-                        row.appendChild(new Label(" "));
-                    }
-                    rows.appendChild(row);
-                    row = new Row();
+                	if(row.getChildren().size() > 0)
+                	{
+	                    if (row.getChildren().size() == 2)
+	                    {
+	                        row.appendChild(createSpacer());
+	                        row.appendChild(createSpacer());
+	                        row.appendChild(createSpacer());
+	                    }
+	                    {
+	                    	row.appendChild(createSpacer());
+	                    }
+	                    rows.appendChild(row);
+	                    if (rowList != null)
+	        				rowList.add(row);
+	                    row = new Row();
+                	}
                 } 
+                else if (row.getChildren().size() == 4) 
+                {
+                	row.appendChild(createSpacer());
+                	rows.appendChild(row);
+                    if (rowList != null)
+        				rowList.add(row);
+                    row = new Row();
+                }
 
                 WEditor comp = WebEditorFactory.getEditor(field, false);
                 
@@ -146,8 +263,19 @@ DataStatusListener, ValueChangeListener
                     comp.setGridTab(this.getGridTab());
                 	field.addPropertyChangeListener(comp);
                     editors.add(comp);
-                    row.appendChild(comp.getLabel());
+                    Div div = new Div();
+                    div.setAlign("right");
+                    div.appendChild(comp.getLabel());
+                    row.appendChild(div);
                     row.appendChild(comp.getComponent());
+                    if (field.isLongField()) {
+                    	row.setSpans("1,3,1");
+                    	row.appendChild(createSpacer());
+                    	rows.appendChild(row);
+                    	if (rowList != null)
+            				rowList.add(row);
+                    	row = new Row();
+                    }
                     
                     if (comp instanceof WButtonEditor)
                     {
@@ -156,6 +284,10 @@ DataStatusListener, ValueChangeListener
                     else
                     {
                     	comp.addValueChangeListner(this);
+                    }
+                    
+                    if (comp.getComponent() instanceof HtmlBasedComponent) {
+                    	((HtmlBasedComponent)comp.getComponent()).setWidth("100%");
                     }
                     
                     WEditorPopupMenu popupMenu = comp.getPopupMenu();
@@ -172,14 +304,26 @@ DataStatusListener, ValueChangeListener
         {
             if (row.getChildren().size() == 2)
             {
-                row.appendChild(new Label(" "));
-                row.appendChild(new Label(" "));
+                row.appendChild(createSpacer());
+                row.appendChild(createSpacer());
+                row.appendChild(createSpacer());
             }
             rows.appendChild(row);
+            if (rowList != null)
+				rowList.add(row);
         }
         grid.appendChild(rows);
         
+        uiCreated = true;        
     }
+
+	private Component createSpacer() {
+		Span span = new Span();
+		Text text = new Text("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+		text.setParent(span);
+		span.setStyle("width: 100%");
+		return span;
+	}
     
     public void dynamicDisplay (int col)
     {
@@ -319,7 +463,21 @@ DataStatusListener, ValueChangeListener
         	this.appendChild(grid);
         }
         
-        grid.setVisible(activate);
+        if (!this.getChildren().contains(listPanel))
+        {
+        	this.appendChild(listPanel);
+        	listPanel.setVisible(false);
+        }
+        
+        if (listPanel.isVisible()) {
+        	if (activate)
+        		listPanel.activate(gridTab);
+        	else
+        		listPanel.deactivate();
+        } else {
+        	if (activate)
+        		grid.setVisible(activate);
+        }
     }
     
     public boolean isEditing()
@@ -343,31 +501,32 @@ DataStatusListener, ValueChangeListener
 
     public void onEvent(Event event)
     {
-/*        if (event == null)
-        	return;
-        
-        if (event.getTarget() == listView)
-        {
-        	keyRecordId = listView.getSelectedIndex();
-        	
-        	//Object value = gridTab.getValue(keyRecordId, keyColumnName);
-        	
-        	//MQuery mquery = MQuery.getEqualQuery(keyColumnName, value);
-        }
-        else if (confirmPanel.getButton("Ok").equals(event.getTarget()))
-		{
-        	gridTab.navigate(keyRecordId);
-        	gridView.setVisible(false);
-		}
-        else if (confirmPanel.getButton("Cancel").equals(event.getTarget()))
-		{
-        	gridView.setVisible(false);
-        	windowPanel.showTabbox(true);
-		}*/
+    	if (event.getTarget() instanceof Toolbarbutton) 
+    	{
+    		Toolbarbutton button = (Toolbarbutton) event.getTarget();
+    		List<Row> list = fieldGroups.get(button.getLabel());
+    		if (list.get(0).isVisible()) {
+    			for (Row row : list) {
+    				row.setVisible(false);
+    			}
+    			button.setImage("images/ns-expand.gif");
+    		} else {
+    			for (Row row : list) {
+    				row.setVisible(true);
+    			}
+    			button.setImage("images/ns-collapse.gif");
+    		}
+    	} else if (event.getTarget() instanceof Listbox) 
+    	{
+    		this.switchRowPresentation();
+    	}
     }
 
     public void dataStatusChanged(DataStatusEvent e)
     {
+    	//TODO: ignore non-ui thread event for now
+    	if (Executions.getCurrent() == null) return;
+    	
         int col = e.getChangedColumn();
         logger.config("(" + gridTab + ") Col=" + col + ": " + e.toString());
 
@@ -453,4 +612,16 @@ DataStatusListener, ValueChangeListener
         }
 
     } // ValueChange 
+
+	public void switchRowPresentation() {
+		if (grid.isVisible()) {
+			grid.setVisible(false);
+		} else {
+			grid.setVisible(true);
+		}
+		listPanel.setVisible(!grid.isVisible());
+		if (listPanel.isVisible()) {
+			listPanel.activate(gridTab);
+		}
+	}
 }

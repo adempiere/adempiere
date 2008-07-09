@@ -61,6 +61,7 @@ import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Separator;
 
 /**
@@ -666,7 +667,7 @@ public class WAcctViewer extends Window implements EventListener
 	
 	private void actionAcctSchema()
 	{
-		ListItem listitem = selAcctSchema.getSelectedItem();
+		Listitem listitem = selAcctSchema.getSelectedItem();
 		
 		KeyNamePair kp = null;
 		
@@ -765,7 +766,7 @@ public class WAcctViewer extends Window implements EventListener
 
 		//  Save Selection Choices
 		
-		ListItem listitem = selAcctSchema.getSelectedItem();
+		Listitem listitem = selAcctSchema.getSelectedItem();
 		
 		KeyNamePair kp = null;
 		
@@ -973,7 +974,7 @@ public class WAcctViewer extends Window implements EventListener
 	
 	private void actionTable()
 	{
-		ListItem listitem = selTable.getSelectedItem();
+		Listitem listitem = selTable.getSelectedItem();
 		ValueNamePair vp = null;
 		
 		if (listitem != null)

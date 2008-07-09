@@ -15,14 +15,13 @@
  * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
 
-package org.adempiere.webui.panel;
+package org.adempiere.webui.part;
 
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
-import org.adempiere.webui.component.Window;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -31,73 +30,72 @@ import org.zkoss.zk.ui.Component;
  * @date Mar 3, 2007
  * @version $Revision: 0.10 $
  */
-public class MainPanel extends Window
+public class MultiTabPart extends AbstractUIPart
 {
     private static final long serialVersionUID = 1L;
-
+    
     private Tabbox           tabbox;
 
-    private Tabpanels        tabpanels;
-
-    private Tabs             tabs;
-
-    public MainPanel()
+    public MultiTabPart()
     {
-
-        init();
     }
-
-    private void init()
+    
+    protected Component doCreatePart(Component parent)
     {
         tabbox = new Tabbox();
-        tabpanels = new Tabpanels();
-        tabs = new Tabs();
+        tabbox.setSclass("lite");
+        
+        Tabpanels tabpanels = new Tabpanels();
+        Tabs tabs = new Tabs();
 
         tabbox.appendChild(tabs);
         tabbox.appendChild(tabpanels);
-        tabbox.setWidth("100%");
-        tabbox.setHeight("100%");
-
-        this.setWidth("100%");
-        this.appendChild(tabbox);
-        //this.setBorder("normal");
+        
+        if (parent != null)
+        	tabbox.setParent(parent);
+        else
+        	tabbox.setPage(page);
+        
+        return tabbox;
     }
 
-    public void addWindow(Component comp, String title, boolean closeable)
+    public void addTab(Component comp, String title, boolean closeable)
     {
-        addWindow(comp, title, closeable, true);
+        addTab(comp, title, closeable, true);
     }
 
-    public void addWindow(Component comp, String title, boolean closeable, boolean enable)
+    public void addTab(Component comp, String title, boolean closeable, boolean enable)
     {
         Tab tab = new Tab();
         tab.setLabel(title);
         tab.setClosable(closeable);
 
-        Tabpanel tabpanel = new Tabpanel();
-        tabpanel.appendChild(comp);
+        Tabpanel tabpanel = null;
+        if (comp instanceof Tabpanel) {
+        	tabpanel = (Tabpanel) comp;
+        } else {
+        	tabpanel = new Tabpanel();
+        	tabpanel.appendChild(comp);
+        }                
+        
+        tabbox.getTabs().appendChild(tab);
+        tabbox.getTabpanels().appendChild(tabpanel);
 
-        tabs.appendChild(tab);
-        tabpanels.appendChild(tabpanel);
-        tabpanels.setHeight("100%");
-
-        setSelectedTab(enable, tab);
-    }
-
-    public void setSelectedTab(boolean enable, Tab tab)
-    {
         if (enable)
-        {
-            tabbox.setSelectedTab(tab);
-        }
+        	setSelectedTab(tab);        
     }
 
-    public void removeWindow()
+    public void setSelectedTab(Tab tab)
+    {
+    	tabbox.setSelectedTab(tab);
+    }
+
+    public void removeTab()
     {
     	tabbox.getSelectedTab().onClose();
     }
 
-
+	public Component getComponent() {
+		return tabbox;
+	}
 }
-
-

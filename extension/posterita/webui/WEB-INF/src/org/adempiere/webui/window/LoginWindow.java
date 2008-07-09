@@ -19,7 +19,7 @@ package org.adempiere.webui.window;
 
 import java.util.Properties;
 
-import org.adempiere.webui.AdempiereWebUI;
+import org.adempiere.webui.IWebClient;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.RolePanel;
@@ -40,12 +40,12 @@ public class LoginWindow extends FWindow implements EventListener
 {
     private static final long serialVersionUID = 1L;
 
-    private AdempiereWebUI app;
+    private IWebClient app;
     private Properties ctx;
     private LoginPanel pnlLogin;
     private RolePanel pnlRole;
     
-    public LoginWindow(AdempiereWebUI app)
+    public LoginWindow(IWebClient app)
     {
         this.ctx = Env.getCtx();
         this.app = app;
@@ -58,7 +58,7 @@ public class LoginWindow extends FWindow implements EventListener
     private void init()
     {
         this.appendChild(pnlLogin);
-        this.setWidth("300px");
+        this.setWidth("500px");
         
     }
     

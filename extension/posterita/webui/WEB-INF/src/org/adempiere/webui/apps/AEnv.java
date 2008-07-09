@@ -52,10 +52,7 @@ public final class AEnv
 	 */
 	public static void showCenterScreen(Window window)
 	{
-	/*	positionCenterScreen(window);
-		window.setVisible(true);
-		window.toFront();
-	*/
+		SessionManager.getAppDesktop().showWindow(window, "center");
 	}   //  showCenterScreen
 
 	/**

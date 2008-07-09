@@ -12,10 +12,22 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 -->
 
 <taglib>
+	<uri>http://www.zkoss.org/dsp/zul/core</uri>
 	<description>
 	Methods and actions for ZUL in DSP/ZUML
 	</description>
 
+	<!--         -->
+	<!-- Imports -->
+	<!--         -->
+	<import>
+		<import-name>ZulFns</import-name>
+		<import-class>org.zkoss.zul.fn.ZulFns</import-class>
+	</import>
+
+	<!--           -->
+	<!-- Functions -->
+	<!--           -->
 	<function>
 		<name>getColAttrs</name>
 		<function-class>org.zkoss.zul.fn.ZulFns</function-class>
@@ -46,6 +58,26 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 		<description>
 	Returns the outer attributes used for the cell of the specified child
 	when it is placed inside of hbox/vbox.
+		</description>
+	</function>
+	<function>
+		<name>setStripeClass</name>
+		<function-class>org.zkoss.zul.fn.ZulFns</function-class>
+		<function-signature>
+	void setStripeClass(org.zkoss.zk.ui.Component)
+		</function-signature>
+		<description>
+	Sets the stripe CSS for each row.
+		</description>
+	</function>
+	<function>
+		<name>resetStripeClass</name>
+		<function-class>org.zkoss.zul.fn.ZulFns</function-class>
+		<function-signature>
+	void resetStripeClass(org.zkoss.zk.ui.Component)
+		</function-signature>
+		<description>
+	Resets the stripe CSS for each row.
 		</description>
 	</function>
 </taglib>

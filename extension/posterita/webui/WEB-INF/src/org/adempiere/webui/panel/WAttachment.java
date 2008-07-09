@@ -27,7 +27,6 @@ import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAttachment;
@@ -40,13 +39,16 @@ import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Splitter;
 
 public class WAttachment extends Window implements EventListener
 {
@@ -63,14 +65,11 @@ public class WAttachment extends Window implements EventListener
 	/** Change					*/
 	private boolean m_change = false;
 
-	private Iframe pdfViewer = new Iframe();
+	private Iframe preview = new Iframe();
 
 	private Textbox text = new Textbox();
-	private Textbox info = new Textbox();
 
 	private Listbox cbContent = new Listbox();
-
-	private Image gifPanel = new Image();
 
 	private Button bDelete = new Button();
 	private Button bOpen = new Button();
@@ -82,12 +81,9 @@ public class WAttachment extends Window implements EventListener
 	
 	private Panel graphPanel = new Panel();
 
-	private VerticalBox mainPanel = new VerticalBox();
+	private Borderlayout mainPanel = new Borderlayout();
 
-	private Panel northPanel = new Panel();
-
-	private Hbox toolBar = new Hbox();
-	private Hbox centerPane = new Hbox();
+	private Hbox toolBar = new Hbox();	
 	
 	private Hbox confirmPanel = new Hbox();
 
@@ -166,8 +162,13 @@ public class WAttachment extends Window implements EventListener
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.appendChild(mainPanel);
+		mainPanel.setHeight("100%");
+		mainPanel.setWidth("100%");
 		
-		northPanel.appendChild(toolBar);
+		
+		North northPanel = new North();
+		northPanel.setCollapsible(false);
+		northPanel.setSplittable(false);
 		
 		cbContent.setMold("select");
 		cbContent.setRows(0);
@@ -180,7 +181,8 @@ public class WAttachment extends Window implements EventListener
 		toolBar.appendChild(cbContent);
 		
 		mainPanel.appendChild(northPanel);
-		mainPanel.appendChild(new Separator());
+		northPanel.appendChild(toolBar);
+		
 
 		bOpen.setEnabled(false);
 		bOpen.setSrc("/images/Editor24.gif");
@@ -200,29 +202,27 @@ public class WAttachment extends Window implements EventListener
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
 		bDelete.addEventListener(Events.ON_CLICK, this);
 
-		//Dimension size = cbContent.getPreferredSize();
-		//size.width = 200;
-		//cbContent.setPreferredSize(size);
-		//	cbContent.setToolTipText(text);
-		//cbContent.addEventListener(Events.ON_SELECT,this);
-		//cbContent.setLightWeightPopupEnabled(false);	//	Acrobat Panel is heavy
-
-		//text.setBackground(AdempierePLAF.getInfoBackground());
-		//text.setPreferredSize(new Dimension(200, 200));
-		
-		info.setText("-");
-		info.setEnabled(false);
-		graphPanel.appendChild(info);
+		graphPanel.appendChild(preview);
+		preview.setHeight("100%");
+		preview.setWidth("100%");
 			
+		Center centerPane = new Center();
+		centerPane.setAutoscroll(true);
+		centerPane.setFlex(true);
 		mainPanel.appendChild(centerPane);
-		mainPanel.appendChild(new Separator());
-		
 		centerPane.appendChild(graphPanel);
-		centerPane.appendChild(new Splitter());
-		centerPane.appendChild(text);
-		//centerPane.setResizeWeight(.75);	//	more to graph
 		
-		mainPanel.appendChild(confirmPanel);
+		West westPane = new West();
+		westPane.setWidth("20%");
+		westPane.setSplittable(true);
+		westPane.setCollapsible(true);
+		mainPanel.appendChild(westPane);
+		westPane.appendChild(text);
+
+		South southPane = new South();
+		mainPanel.appendChild(southPane);
+		southPane.appendChild(confirmPanel);
+		southPane.setHeight("30px");
 		
 		bCancel.setImage("/images/Cancel24.gif");
 		bCancel.addEventListener(Events.ON_CLICK, this);
@@ -244,7 +244,7 @@ public class WAttachment extends Window implements EventListener
 	
 	public void dispose ()
 	{
-		pdfViewer = null;
+		preview = null;
 		this.detach();
 	} // dispose
 	
@@ -273,9 +273,11 @@ public class WAttachment extends Window implements EventListener
 			cbContent.appendItem(m_attachment.getEntryName(i), m_attachment.getEntryName(i));
 		
 		if (size > 0)
-			cbContent.setSelectedIndex(0);
-		else
-			displayData(0);
+		{
+			cbContent.setSelectedIndex(0);					
+		}
+		displayData(0);
+		
 	} // loadAttachment
 	
 	/**
@@ -288,10 +290,8 @@ public class WAttachment extends Window implements EventListener
 		MAttachmentEntry entry = m_attachment.getEntry(index); 
 		log.config("Index=" + index + " - " + entry);
 		
-		//	Reset UI
-		
-		gifPanel.setSrc(null);
-		graphPanel.getChildren().clear();
+		//	Reset UI		
+		preview.setVisible(false);
 
 		bDelete.setEnabled(false);
 		bOpen.setEnabled(false);
@@ -299,13 +299,7 @@ public class WAttachment extends Window implements EventListener
 
 		Dimension size = null;
 		
-		//	no attachment
-	
-		if (entry == null || entry.getData() == null)
-		{
-			info.setText("-");
-		}
-		else
+		if (entry != null && entry.getData() != null)
 		{
 			bOpen.setEnabled(true);
 			bSave.setEnabled(true);
@@ -313,72 +307,17 @@ public class WAttachment extends Window implements EventListener
 			
 			log.config(entry.toStringX());
 
-			info.setText(entry.toStringX());
-			
-			if (entry.isPDF() && pdfViewer != null)
+			try
 			{
-				try
-				{
-					AMedia media = new AMedia(entry.getName(), "pdf", "application/pdf", entry.getData());
-					pdfViewer.setContent(media);
-/*					pdfViewer.loadPDF(entry.getInputStream());
-					pdfViewer.setScale(50);
-					size = pdfViewer.getPreferredSize();*/
-					
-					//	size.width = Math.min(size.width, 400);
-					//	size.height = Math.min(size.height, 400);
-
-					info.setVisible(false);
-					pdfViewer.setVisible(true);
-					graphPanel.appendChild(pdfViewer);
-				}
-				catch (Exception e)
-				{
-					log.log(Level.SEVERE, "(pdf)", e);
-				}
+				AMedia media = new AMedia(entry.getName(), null, entry.getContentType(), entry.getData());
+				preview.setContent(media);
+				preview.setVisible(true);
 			}
-			else if (entry.isGraphic())
+			catch (Exception e)
 			{
-				//  Can we display it
-				
-				
-				
-/*				Image image = Toolkit.getDefaultToolkit().createImage(entry.getData());
-				
-				if (image != null)
-				{
-					gifPanel.setImage(image);
-					size = gifPanel.getPreferredSize();
-					
-					if (size.width == -1 && size.height == -1)
-					{
-						log.log(Level.SEVERE, "Invalid Image");
-					}
-					else
-					{
-						//	size.width += 40;
-						//	size.height += 40;
-						graphPanel.add(gifScroll, BorderLayout.CENTER);
-					}
-				}
-				else
-					log.log(Level.SEVERE, "Could not create image");*/
+				log.log(Level.SEVERE, "(pdf)", e);
 			}
-		}
-		
-		if (graphPanel.getChildren().size() == 0)
-		{
-			graphPanel.appendChild(info);
-		}
-
-		log.config("Size=" + size);
-		
-		//	graphPanel.setPreferredSize(size);
-		//	centerPane.setDividerLocation(size.width+30);
-		//	size.width += 100;
-		//	size.height += 100;
-		//	centerPane.setPreferredSize(size);
-		//	pack();
+		}		
 	}   //  displayData
 	
 	/**
@@ -499,7 +438,8 @@ public class WAttachment extends Window implements EventListener
 			
 			if (media != null)
 			{
-				pdfViewer.setContent(media);
+//				pdfViewer.setContent(media);
+				;
 			}
 			else
 				return;
@@ -510,16 +450,8 @@ public class WAttachment extends Window implements EventListener
 			e.printStackTrace();
 		}
 	
-		//JFileChooser chooser = new JFileChooser();
-		//chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		//chooser.setDialogTitle(Msg.getMsg(Env.getCtx(), "AttachmentNew"));
-		//int returnVal = chooser.showOpenDialog(this);
-		//if (returnVal != JFileChooser.APPROVE_OPTION)
-		//	return;
-		
 		String fileName = media.getName(); 
 		log.config(fileName);
-		File file = new File(fileName);
 		int cnt = m_attachment.getEntryCount();
 		
 		//update
@@ -528,18 +460,16 @@ public class WAttachment extends Window implements EventListener
 		{
 			if (m_attachment.getEntryName(i).equals(fileName))
 			{
-				//if (m_attachment.) 
-				{
-					cbContent.setSelectedIndex(i);
-					m_change = true;
-				}
+				m_attachment.updateEntry(i, media.getByteData());
+				cbContent.setSelectedIndex(i);
+				m_change = true;
 				return;
 			}
 		}
 		
 		//new
 		
-		if (m_attachment.addEntry(file))
+		if (m_attachment.addEntry(fileName, media.getByteData()))
 		{
 			//MAttachmentEntry attachmentEntry = new MAttachmentEntry(media.getName(), media.getByteData());
 
@@ -595,30 +525,19 @@ public class WAttachment extends Window implements EventListener
 		if (m_attachment.getEntryCount() < index)
 			return;
 
-/*		String fileName = getFileName(index);
-		String ext = fileName.substring (fileName.lastIndexOf('.'));
-		log.config( "Ext=" + ext);*/
-
-		ListItem listitem = cbContent.getSelectedItem();
-		Media media = (Media)listitem.getValue();
-		
-		Filedownload.save(media);
-		
-/*		JFileChooser chooser = new JFileChooser();
-		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-		chooser.setDialogTitle(Msg.getMsg(Env.getCtx(), "AttachmentSave"));
-		File f = new File(fileName);
-		chooser.setSelectedFile(f);
-		//	Show dialog
-		int returnVal = chooser.showSaveDialog(this);
-		if (returnVal != JFileChooser.APPROVE_OPTION)
-			return;
-		File saveFile = chooser.getSelectedFile();
-		if (saveFile == null)
-			return;*/
-
-		/*log.config("Save to " + saveFile.getAbsolutePath());
-		m_attachment.getEntryFile(index, saveFile);*/
+		MAttachmentEntry entry = m_attachment.getEntry(index);
+		if (entry != null && entry.getData() != null)
+		{
+			try
+			{
+				AMedia media = new AMedia(entry.getName(), null, entry.getContentType(), entry.getData());
+				Filedownload.save(media);
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, "(pdf)", e);
+			}
+		}
 	}	//	saveAttachmentToFile
 
 	/**

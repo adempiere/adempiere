@@ -17,6 +17,9 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.LayoutUtils;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zul.Tabpanels;
 
 /**
@@ -47,4 +50,19 @@ public class Tabbox extends org.zkoss.zul.Tabbox
     {
         return getTabpanel(this.getSelectedIndex());
     }
+    
+    /*
+    public void onEcho() 
+    {
+    	Tabpanel tp = (Tabpanel) this.getSelectedPanel();
+    	Component child = tp.getFirstChild();
+    	if (!child.isVisible()) 
+    	{
+    		child.setVisible(true);
+    		if (child instanceof Borderlayout)
+    		{
+    			LayoutUtils.sendDeferLayoutEvent((Borderlayout) child, true);
+    		}
+    	}
+    }*/
 }

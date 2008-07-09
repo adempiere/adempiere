@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.adempiere.webui.constants.EventConstants;
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Component;
@@ -46,24 +46,24 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 
-    private Button btnIgnore;
+    private ToolBarButton btnIgnore;
 
-    private Button btnHelp, btnNew, btnDelete, btnSave;
+    private ToolBarButton btnHelp, btnNew, btnDelete, btnSave;
 
-    private Button btnRefresh, btnFind, btnAttachment;
+    private ToolBarButton btnRefresh, btnFind, btnAttachment;
     
-    private Button btnGridToggle;
+    private ToolBarButton btnGridToggle;
 
-    private Button btnHistoryRecords, btnMenu, btnParentRecord, btnDetailRecord;
+    private ToolBarButton btnHistoryRecords, btnMenu, btnParentRecord, btnDetailRecord;
 
-    private Button btnFirst, btnPrevious, btnNext, btnLast;
+    private ToolBarButton btnFirst, btnPrevious, btnNext, btnLast;
 
-    private Button btnReport, btnArchive, btnPrint;
+    private ToolBarButton btnReport, btnArchive, btnPrint;
 
-    private Button btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
+    private ToolBarButton btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
 
-    private Button btnExit;
-
+//    private ToolBarButton btnExit;
+    
     private ArrayList<ToolbarListener> listeners = new ArrayList<ToolbarListener>();
 
     public CWindowToolbar()
@@ -73,117 +73,119 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
     private void init()
     {
-        btnIgnore = new Button("");
+    	LayoutUtils.addSclass("adwindow-toolbar", this);
+    	
+        btnIgnore = new ToolBarButton();
         btnIgnore.setName("btnIgnore");
         btnIgnore.setImage("/images/Ignore16.gif");
         btnIgnore.setTooltiptext("Ignore Changes");
         // --
-        btnHelp = new Button("");
+        btnHelp = new ToolBarButton("");
         btnHelp.setName("btnHelp");
         btnHelp.setImage("/images/Help24.gif");
         btnHelp.setTooltiptext("Help");
 
-        btnNew = new Button("");
+        btnNew = new ToolBarButton("");
         btnNew.setName("btnNew");
         btnNew.setImage("/images/New24.gif");
         btnNew.setTooltiptext("New Record");
         
-        btnDelete = new Button("");
+        btnDelete = new ToolBarButton("");
         btnDelete.setName("btnDelete");
         btnDelete.setImage("/images/Delete24.gif");
         btnDelete.setTooltiptext("Delete current record");
 
-        btnSave = new Button("");
+        btnSave = new ToolBarButton("");
         btnSave.setName("btnSave");
         btnSave.setImage("/images/Save24.gif");
         btnSave.setTooltiptext("Save changes");
         // --
-        btnRefresh = new Button("");
+        btnRefresh = new ToolBarButton("");
         btnRefresh.setName("btnRefresh");
         btnRefresh.setImage("/images/Refresh24.gif");
         btnRefresh.setTooltiptext("Refresh Data");
 
-        btnFind = new Button("");
+        btnFind = new ToolBarButton("");
         btnFind.setName("btnFind");
         btnFind.setImage("/images/Find24.gif");
         btnFind.setTooltiptext("Find Records");
 
-        btnAttachment = new Button("");
+        btnAttachment = new ToolBarButton("");
         btnAttachment.setName("btnAttachment");
         btnAttachment.setImage("/images/Attachment24.gif");
         btnAttachment.setTooltiptext("Attachments");
         // --
         
-        btnGridToggle = new Button("");
+        btnGridToggle = new ToolBarButton("");
         btnGridToggle.setName("btnGridToggle");
         btnGridToggle.setImage("/images/ZoomAcross24.gif");
         btnGridToggle.setTooltiptext("Grid Toggle");
         
-        btnHistoryRecords = new Button("");
+        btnHistoryRecords = new ToolBarButton("");
         btnHistoryRecords.setName("btnHistoryRecords");
         btnHistoryRecords.setImage("/images/HistoryX24.gif");
         btnHistoryRecords.setTooltiptext("History Records");
 
-        btnMenu = new Button("");
+        btnMenu = new ToolBarButton("");
         btnMenu.setName("btnHome");
         btnMenu.setImage("/images/Home24.gif");
         btnMenu.setTooltiptext("Home");
 
-        btnParentRecord = new Button("");
+        btnParentRecord = new ToolBarButton("");
         btnParentRecord.setName("btnParentRecord");
         btnParentRecord.setImage("/images/Parent24.gif");
 
-        btnDetailRecord = new Button("");
+        btnDetailRecord = new ToolBarButton("");
         btnDetailRecord.setName("btnDetailRecord");
         btnDetailRecord.setImage("/images/Detail24.gif");
         // --
-        btnFirst = new Button("");
+        btnFirst = new ToolBarButton("");
         btnFirst.setName("btnFirst");
         btnFirst.setImage("/images/First24.gif");
 
-        btnPrevious = new Button("");
+        btnPrevious = new ToolBarButton("");
         btnPrevious.setName("btnPrevious");
         btnPrevious.setImage("/images/Previous24.gif");
 
-        btnNext = new Button("");
+        btnNext = new ToolBarButton("");
         btnNext.setName("btnNext");
         btnNext.setImage("/images/Next24.gif");
 
-        btnLast = new Button("");
+        btnLast = new ToolBarButton("");
         btnLast.setName("btnLast");
         btnLast.setImage("/images/Last24.gif");
         // --
-        btnReport = new Button("");
+        btnReport = new ToolBarButton("");
         btnReport.setName("btnReport");
         btnReport.setImage("/images/Report24.gif");
 
-        btnArchive = new Button("");
+        btnArchive = new ToolBarButton("");
         btnArchive.setName("btnArchive");
         btnArchive.setImage("/images/Archive24.gif");
 
-        btnPrint = new Button("");
+        btnPrint = new ToolBarButton("");
         btnPrint.setName("btnPrint");
         btnPrint.setImage("/images/Print24.gif");
         // --
-        btnZoomAcross = new Button("");
+        btnZoomAcross = new ToolBarButton("");
         btnZoomAcross.setName("btnZoomAcross");
         btnZoomAcross.setImage("/images/ZoomAcross24.gif");
 
-        btnActiveWorkflows = new Button("");
+        btnActiveWorkflows = new ToolBarButton("");
         btnActiveWorkflows.setName("btnActiveWorkflows");
         btnActiveWorkflows.setImage("/images/WorkFlow24.gif");
 
-        btnRequests = new Button("");
+        btnRequests = new ToolBarButton("");
         btnRequests.setName("btnRequests");
         btnRequests.setImage("/images/Request24.gif");
 
-        btnProductInfo = new Button("");
+        btnProductInfo = new ToolBarButton("");
         btnProductInfo.setName("btnProductInfo");
         btnProductInfo.setImage("/images/Product24.gif");
 
-        btnExit = new Button("");
-        btnExit.setName("btnExit");
-        btnExit.setImage("/images/End24.gif");
+//        btnExit = new ToolBarButton("");
+//        btnExit.setName("btnExit");
+//        btnExit.setImage("/images/End24.gif");
 
         this.appendChild(btnIgnore);
         addSeparator();
@@ -216,26 +218,26 @@ public class CWindowToolbar extends FToolbar implements EventListener
         this.appendChild(btnActiveWorkflows);
         this.appendChild(btnRequests);
         this.appendChild(btnProductInfo);
-        addSeparator();
-        this.appendChild(btnExit);
+//        addSeparator();
+//        this.appendChild(btnExit);
         
         for (Object obj : this.getChildren())
         {
-            if (obj instanceof Button)
+            if (obj instanceof ToolBarButton)
             {
-                ((Button)obj).setWidth(BUTTON_WIDTH);
-                ((Button)obj).addEventListener(Events.ON_CLICK, this);
-                ((Button)obj).setEnabled(false);
+                ((ToolBarButton)obj).setWidth(BUTTON_WIDTH);
+                ((ToolBarButton)obj).addEventListener(Events.ON_CLICK, this);
+                ((ToolBarButton)obj).setDisabled(true);
             }
         }
         
         // Help and Exit should always be enabled
-        btnHelp.setEnabled(true);
-        btnExit.setEnabled(true);
+        btnHelp.setDisabled(false);
+//        btnExit.setDisabled(false);
         
         // Testing Purposes
         
-        btnGridToggle.setEnabled(true);
+        btnGridToggle.setDisabled(false);
     }
 
     protected void addSeparator()
@@ -263,11 +265,11 @@ public class CWindowToolbar extends FToolbar implements EventListener
         Component eventComp = event.getTarget();
 
         Iterator<ToolbarListener> listenerIter = listeners.iterator();
-        if(eventName.equals(EventConstants.ONCLICK))
+        if(eventName.equals(Events.ON_CLICK))
         {
-            if(eventComp instanceof Button)
+            if(eventComp instanceof ToolBarButton)
             {
-                Button cComponent = (Button) eventComp;
+            	ToolBarButton cComponent = (ToolBarButton) eventComp;
                 String compName = cComponent.getName();
                 String methodName = "on" + compName.substring(3);
                 while(listenerIter.hasNext())
@@ -305,15 +307,15 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableHistoryRecords(boolean enabled)
     {
-    	this.btnHistoryRecords.setEnabled(enabled);
+    	this.btnHistoryRecords.setDisabled(!enabled);
     }
     
-    public void enableNavigation(boolean enabledd)
+    public void enableNavigation(boolean enabled)
     {
-        this.btnFirst.setEnabled(enabledd);
-        this.btnPrevious.setEnabled(enabledd);
-        this.btnNext.setEnabled(enabledd);
-        this.btnLast.setEnabled(enabledd);
+        this.btnFirst.setDisabled(!enabled);
+        this.btnPrevious.setDisabled(!enabled);
+        this.btnNext.setDisabled(!enabled);
+        this.btnLast.setDisabled(!enabled);
     }
     
     public void enableTabNavigation(boolean enabled)
@@ -323,25 +325,25 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableTabNavigation(boolean enableParent, boolean enableDetail)
     {
-        this.btnParentRecord.setEnabled(enableParent);
-        this.btnDetailRecord.setEnabled(enableDetail);
+        this.btnParentRecord.setDisabled(!enableParent);
+        this.btnDetailRecord.setDisabled(!enableDetail);
     }
     
     public void enableFirstNavigation(boolean enabled)
     {
-        this.btnFirst.setEnabled(enabled);
-        this.btnPrevious.setEnabled(enabled);
+        this.btnFirst.setDisabled(!enabled);
+        this.btnPrevious.setDisabled(!enabled);
     }
     
     public void enableLastNavigation(boolean enabled)
     {
-        this.btnLast.setEnabled(enabled);
-        this.btnNext.setEnabled(enabled);
+        this.btnLast.setDisabled(!enabled);
+        this.btnNext.setDisabled(!enabled);
     }
     
     public void enabledNew(boolean enabled)
     {
-        this.btnNew.setEnabled(enabled);
+        this.btnNew.setDisabled(!enabled);
     }
     
    /* public void enableEdit(boolean enabled)
@@ -351,22 +353,22 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableRefresh(boolean enabled)
     {
-        this.btnRefresh.setEnabled(enabled);
+        this.btnRefresh.setDisabled(!enabled);
     }
     
     public void enableSave(boolean enabled)
     {
-        this.btnSave.setEnabled(enabled);
+        this.btnSave.setDisabled(!enabled);
     }
     
-    public void enableExit(boolean enabled)
-    {
-    	this.btnExit.setEnabled(enabled);
-    }
+//    public void enableExit(boolean enabled)
+//    {
+//    	this.btnExit.setDisabled(!enabled);
+//    }
     
     public void enableDelete(boolean enabled)
     {
-        this.btnDelete.setEnabled(enabled);
+        this.btnDelete.setDisabled(!enabled);
     }
     
     public void enableDeleteSelection(boolean enabled)
@@ -376,33 +378,33 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableChanges(boolean enabled)
     {
-        this.btnNew.setEnabled(enabled);
-        this.btnIgnore.setEnabled(enabled);
+        this.btnNew.setDisabled(!enabled);
+        this.btnIgnore.setDisabled(!enabled);
     }
     
     public void enableIgnore(boolean enabled)
     {
-        this.btnIgnore.setEnabled(enabled);
+        this.btnIgnore.setDisabled(!enabled);
     }
     
     public void enableNew(boolean enabled)
     {
-        this.btnNew.setEnabled(enabled);
+        this.btnNew.setDisabled(!enabled);
     }
     
     public void enableAttachment(boolean enabled)
     {
-        this.btnAttachment.setEnabled(enabled);
+        this.btnAttachment.setDisabled(!enabled);
     }
     
     public void enablePrint(boolean enabled)
     {
-    	this.btnPrint.setEnabled(enabled);
+    	this.btnPrint.setDisabled(!enabled);
     }
     
     public void enableReport(boolean enabled)
     {
-    	this.btnReport.setEnabled(enabled);
+    	this.btnReport.setDisabled(!enabled);
     }
     
     public void enableCopy(boolean enabled)
@@ -411,13 +413,13 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableFind(boolean enabled)
     {
-        this.btnFind.setEnabled(enabled);
+        this.btnFind.setDisabled(!enabled);
         
     }
     
     public void enableGridToggle(boolean enabled)
     {
-    	btnGridToggle.setEnabled(enabled);
+    	btnGridToggle.setDisabled(!enabled);
     }
     
     public boolean isAsap()
