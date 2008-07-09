@@ -75,6 +75,9 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         init();
     }
 
+    public boolean isZoomEnabled() {
+    	return zoomEnabled;
+    }
     
     private void init()
     {

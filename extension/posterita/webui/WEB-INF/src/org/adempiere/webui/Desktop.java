@@ -253,7 +253,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     	
     	Tabpanel tabPanel = new Tabpanel();
     	wnd.createPart(tabPanel);
-    	windowContainer.addWindow(tabPanel, wnd.getTitle(), false);
+    	windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
 	}
     
     public void showWindow(Window win) 

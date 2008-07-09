@@ -70,7 +70,7 @@ public class Searchbox extends Panel
 
 	 public void setEnabled(boolean enabled)
 	 {
-	     txt.setEnabled(enabled);
+	     txt.setReadonly(!enabled);
 	     btn.setEnabled(enabled);
 	 }
 

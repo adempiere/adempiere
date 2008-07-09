@@ -54,7 +54,7 @@ import org.zkoss.zk.ui.event.Events;
  * @author Ashley G Ramdass
  *
  */
-public class WSearchEditor extends WEditor implements ContextMenuListener, PropertyChangeListener, ValueChangeListener
+public class WSearchEditor extends WEditor implements ContextMenuListener, PropertyChangeListener, ValueChangeListener, IZoomableEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 	private Searchbox 			searchbox;
@@ -235,7 +235,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
     	setValue(value);
 	}
 
-	private void actionZoom()
+	public void actionZoom()
 	{
 	   	AEnv.actionZoom(lookup, getValue());
 	}

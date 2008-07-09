@@ -47,7 +47,7 @@ import org.zkoss.zk.ui.event.Events;
  * @version $Revision: 0.10 $
  */
 public class WTableDirEditor extends WEditor implements ListDataListener, 
-ContextMenuListener
+ContextMenuListener, IZoomableEditor
 {
     public final String[] LISTENER_EVENTS = {Events.ON_SELECT};
     
@@ -236,7 +236,10 @@ ContextMenuListener
         }
     }
     
-    private void actionZoom()
+    /* (non-Javadoc)
+	 * @see org.adempiere.webui.editor.IZoomableEditor#actionZoom()
+	 */
+    public void actionZoom()
 	{
     	AEnv.actionZoom(lookup, getValue());
 	}	

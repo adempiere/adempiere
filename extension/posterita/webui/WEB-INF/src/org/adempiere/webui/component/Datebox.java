@@ -29,6 +29,6 @@ public class Datebox extends org.zkoss.zul.Datebox
 
     public void setEnabled(boolean enabled)
     {
-        this.setDisabled(!enabled);
+        this.setReadonly(!enabled);
     }
 }

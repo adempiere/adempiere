@@ -30,9 +30,11 @@ import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.ToolBar;
+import org.adempiere.webui.editor.IZoomableEditor;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
+import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -265,7 +267,8 @@ DataStatusListener, ValueChangeListener
                     editors.add(comp);
                     Div div = new Div();
                     div.setAlign("right");
-                    div.appendChild(comp.getLabel());
+                    Label label = comp.getLabel();
+                    div.appendChild(label);
                     row.appendChild(div);
                     row.appendChild(comp.getComponent());
                     if (field.isLongField()) {
@@ -296,6 +299,11 @@ DataStatusListener, ValueChangeListener
                     {
                     	popupMenu.addMenuListener((ContextMenuListener)comp);
                         this.appendChild(popupMenu);
+                        if (popupMenu.isZoomEnabled() && comp instanceof IZoomableEditor) 
+                        {
+                        	label.setStyle("cursor: pointer; text-decoration: underline;");
+                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) comp));
+                        }
                     }
                 }
             }
@@ -623,5 +631,22 @@ DataStatusListener, ValueChangeListener
 		if (listPanel.isVisible()) {
 			listPanel.activate(gridTab);
 		}
+	}
+	
+	class ZoomListener implements EventListener {
+
+		private IZoomableEditor searchEditor;
+
+		ZoomListener(IZoomableEditor editor) {
+			searchEditor = editor;
+		}
+		
+		public void onEvent(Event event) throws Exception {
+			if (Events.ON_CLICK.equals(event.getName())) {
+				searchEditor.actionZoom();
+			}
+			
+		}
+		
 	}
 }
