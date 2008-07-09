@@ -48,6 +48,43 @@
 	<classpathentry kind="lib" path="tools/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/activemq-core-5.0.0.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/lib/j2ee.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/asm.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/bsh.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/commons-el.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/fckez.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/Filters.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/gmapsz.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/groovy.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/jcommon.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/jfreechart.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/jruby.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/js.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/json_simple.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/jxl.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/jython.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/mvel.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/ognl.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/sqlj.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/timelinez.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zcommons-el.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zcommon-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zhtml.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zhtml-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zkex.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zkex-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zkmax.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zkmax-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zkplus.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zkplus-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zk-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zml.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zml-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zul-sources.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zweb.jar"/>
+	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zweb-sources.jar"/>
 	<classpathentry kind="src" path="tools/src"/>
 	<classpathentry kind="lib" path="tools/lib/looks-2.0.4.jar"/>
 	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
@@ -83,7 +120,6 @@
 	<classpathentry kind="lib" path="tools/lib/poi-2.0-final-20040126.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
 	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/junit.jar"/>
-	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/yuiextz.jar"/>
 	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zcommon.jar"/>
 	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zk.jar"/>
 	<classpathentry kind="lib" path="extension/posterita/webui/WEB-INF/lib/zul.jar"/>
