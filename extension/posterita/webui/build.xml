@@ -13,7 +13,7 @@
 	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
-	<property name="Adempiere.dir" value="${basedir}/../lib"></property>
+	<property name="Adempiere.dir" value="${basedir}/../../../lib"></property>
 
 	<property name="war.name"	value="webui"/>
 	<property name="compile.debug"       value="true"/>
@@ -25,10 +25,15 @@
 	  	<pathelement location="${basedir}/WEB-INF/classes"/>
 	  	<pathelement location="${basedir}/WEB-INF/src"/>
 		
+		<pathelement location="${Adempiere.dir}/../looks/build"/>
+		<pathelement location="${Adempiere.dir}/../base/build"/>
+		<pathelement location="${Adempiere.dir}/../client/build"/>
+		<pathelement location="${Adempiere.dir}/../JasperReports/build"/>
 	    <fileset dir="${Adempiere.dir}">
 	    	<include name="*.jar"/>
 	    </fileset>
 		
+	    <pathelement location="${Adempiere.dir}/../tools/lib/servlet-api.jar"/>
 	    <fileset dir="${basedir}/WEB-INF/lib">
 	    	<include name="*.jar"/>
 	    </fileset>
