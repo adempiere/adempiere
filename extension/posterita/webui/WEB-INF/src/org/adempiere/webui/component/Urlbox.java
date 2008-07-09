@@ -18,11 +18,12 @@
 package org.adempiere.webui.component;
 
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Hbox;
 
 /**
  * URL Box
  */
-public class Urlbox extends Panel
+public class Urlbox extends Hbox
 {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +51,9 @@ public class Urlbox extends Panel
     private void initComponents()
     {
         txtUrl = new Textbox();
+        txtUrl.setWidth("100%");
         btnUrl = new Button();
+        btnUrl.setHeight("98%");
         appendChild(txtUrl);
         appendChild(btnUrl);
     }

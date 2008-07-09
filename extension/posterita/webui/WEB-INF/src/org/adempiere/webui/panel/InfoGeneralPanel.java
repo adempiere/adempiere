@@ -37,7 +37,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Vbox;
 
@@ -102,12 +101,11 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		
 		Vbox mainPanel = new Vbox();
         mainPanel.appendChild(parameterPanel);
-        Div div = new Div();
-        div.setStyle("overflow:auto");
-        div.setWidth("100%");
-        div.appendChild(contentPanel);
+        contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setStyle("overflow:auto");
  
-        mainPanel.appendChild(div);
+        mainPanel.appendChild(contentPanel);
         mainPanel.appendChild(confirmPanel);
 		
 		this.appendChild(mainPanel);

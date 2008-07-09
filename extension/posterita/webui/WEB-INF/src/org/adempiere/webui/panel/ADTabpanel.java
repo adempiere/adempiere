@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.component.Bandbox;
+import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Label;
@@ -290,7 +292,9 @@ DataStatusListener, ValueChangeListener
                     }
                     
                     if (comp.getComponent() instanceof HtmlBasedComponent) {
-                    	((HtmlBasedComponent)comp.getComponent()).setWidth("100%");
+                    	//can't stretch bandbox & datebox
+                    	if (!(comp.getComponent() instanceof Bandbox) && !(comp.getComponent() instanceof Datebox))
+                    		((HtmlBasedComponent)comp.getComponent()).setWidth("100%");
                     }
                     
                     WEditorPopupMenu popupMenu = comp.getPopupMenu();

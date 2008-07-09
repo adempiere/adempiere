@@ -250,6 +250,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         confirmPanel = new ConfirmPanel(true,true,false,false,true,true); 
         confirmPanel.addActionListener(Events.ON_CLICK, this);
         confirmPanel.setStyle("border-top: 2px groove #444; padding-top: 4px");
+        
+        this.setSizable(true);        
 	}  //  init
 	protected ConfirmPanel confirmPanel;
 	/** Master (owning) Window  */

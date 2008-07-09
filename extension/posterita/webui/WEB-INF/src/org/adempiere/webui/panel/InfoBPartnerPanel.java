@@ -167,7 +167,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		checkVendor.addEventListener(Events.ON_CHECK, this);
         
 		contentPanel = new WListbox();
-        contentPanel.setWidth("100%");
+        contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
         contentPanel.setStyle("overflow:auto");
         

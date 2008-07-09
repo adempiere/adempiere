@@ -122,6 +122,11 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		MSession.get (ctx, currSess.getRemoteAddr(), 
 			currSess.getRemoteHost(), httpSess.getId() );
 		
+		//enable full interface, relook into this when doing preference		
+		Env.setContext(ctx, "#ShowTrl", true);
+		Env.setContext(ctx, "#ShowAcct", true);
+		Env.setContext(ctx, "#ShowAdvanced", true);
+        
 		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
 		if (d != null && d instanceof Desktop) 
 		{
@@ -142,7 +147,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 				
 				current.carryOver();
 				
-				appDesktop.getComponent().setPage(this.getPage());
+				appDesktop.setPage(this.getPage());
 				
 				currSess.setAttribute("execution.carryover", current);
 				

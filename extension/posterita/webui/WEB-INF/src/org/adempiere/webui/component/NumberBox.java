@@ -108,12 +108,13 @@ public class NumberBox extends Bandbox
     	super.setValue(formattedValue);
     }
     
+    /*
     public void setReadonly(boolean readonly)
     {
     	// Due to bug in bandbox - once set readonly, setting to not readonly
     	// does not work
     	super.setDisabled(readonly);
-    }
+    }*/
     
     private Bandpopup getBandPopup()
     {

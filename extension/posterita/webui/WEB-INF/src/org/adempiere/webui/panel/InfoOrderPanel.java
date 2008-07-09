@@ -151,8 +151,9 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
                 Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
         editorBPartner.addValueChangeListner(this);
         contentPanel = new WListbox();
-        contentPanel.setWidth("1000px");
-        contentPanel.setHeight("500px");
+        contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setStyle("overflow:auto");
     }
     
     public void init()

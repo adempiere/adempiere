@@ -202,8 +202,9 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		fieldVendor.setMaxlength(40);	
         
         contentPanel = new WListbox();
-        contentPanel.setWidth("1500px");
-        contentPanel.setHeight("500px");
+        contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setStyle("overflow:auto");
 	}	//	initComponents
 	
 	private void init()

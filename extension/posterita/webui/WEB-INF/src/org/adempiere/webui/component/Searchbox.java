@@ -21,8 +21,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Hbox;
 
-public class Searchbox extends Panel
+public class Searchbox extends Hbox
 {
 	private static final long serialVersionUID = 1L;
 	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
@@ -48,7 +49,9 @@ public class Searchbox extends Panel
 	 private void initComponents()
 	 {
 	     txt = new Textbox();
+	     txt.setWidth("100%");
 	     btn = new Button();
+	     btn.setHeight("98%");
 	     appendChild(txt);
 	     appendChild(btn);
 	 }
