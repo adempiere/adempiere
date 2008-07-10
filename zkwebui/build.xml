@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ======================================================== -->
-<!-- Posterita Ajax UI (Web UI)                               -->
+<!-- Zk Ajax UI (Web UI)                               -->
 <!-- ======================================================== -->
 
-<project name="PosteritaAjaxUI" default="war" basedir=".">
+<project name="ZkWebUI" default="war" basedir=".">
 	<description>
-	    This buildfile is used to build the Adempiere-Posterita WebUI system.
+	    This buildfile is used to build the Zk WebUI client.
   	</description>
 	<!-- set global properties for this build -->
 	<!--<property environment="env"/>-->
@@ -13,7 +13,7 @@
 	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
-	<property name="Adempiere.dir" value="${basedir}/../../../lib"></property>
+	<property name="Adempiere.dir" value="${basedir}/../lib"></property>
 
 	<property name="war.name"	value="webui"/>
 	<property name="compile.debug"       value="true"/>
@@ -56,7 +56,7 @@
 	</target>
 
 	<target name="war" depends="compile">
-		<echo message="=========== Build Posterita Ajax UI ==========="/>
+		<echo message="=========== Build Zk Ajax UI ==========="/>
 		<delete dir="${dist.dir}" />
 		
 		<mkdir dir="${dist.dir}"/>
@@ -80,6 +80,6 @@
 		      </fileset>
 		</war>
 		
-		<copy file="${dist.dir}/${war.name}.war" tofile="../../../lib/${war.name}.war"/>
+		<copy file="${dist.dir}/${war.name}.war" tofile="../lib/${war.name}.war"/>
 	</target>
 </project>
