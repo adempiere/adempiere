@@ -22,13 +22,13 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
-import org.compiere.grid.ed.ValuePreference;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MRole;

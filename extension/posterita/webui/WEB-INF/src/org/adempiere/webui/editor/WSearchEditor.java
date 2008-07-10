@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Searchbox;
 import org.adempiere.webui.event.ContextMenuEvent;
@@ -34,7 +35,6 @@ import org.adempiere.webui.grid.WBPartner;
 import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.compiere.grid.ed.ValuePreference;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;

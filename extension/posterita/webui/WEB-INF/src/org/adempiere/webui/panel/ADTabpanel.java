@@ -308,6 +308,8 @@ DataStatusListener, ValueChangeListener
                         	label.setStyle("cursor: pointer; text-decoration: underline;");
                         	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) comp));
                         }
+                        
+                        label.setContext(popupMenu.getId());
                     }
                 }
             }

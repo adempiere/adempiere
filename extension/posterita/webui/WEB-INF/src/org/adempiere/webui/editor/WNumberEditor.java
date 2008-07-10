@@ -17,10 +17,12 @@
 
 package org.adempiere.webui.editor;
 
+import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
+import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -117,13 +119,11 @@ public class WNumberEditor extends WEditor
     
     public void onMenu(ContextMenuEvent evt) 
 	{
-    	/* Wrong implementation for Value Preference - Swing is being called	
 	 	if (WEditorPopupMenu.PREFERENCE_EVENT.equals(evt.getContextEvent()))
 		{
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (this.getGridField(), getValue());
 			return;
 		}
-    	 */
 	}
 }

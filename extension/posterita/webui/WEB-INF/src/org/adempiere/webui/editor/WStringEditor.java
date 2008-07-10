@@ -17,10 +17,11 @@
 
 package org.adempiere.webui.editor;
 
+import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
-import org.compiere.grid.ed.ValuePreference;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
@@ -33,13 +34,15 @@ import org.zkoss.zk.ui.event.Events;
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
  */
-public class WStringEditor extends WEditor
+public class WStringEditor extends WEditor implements ContextMenuListener
 {
     private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     
     protected Textbox textbox;
     
     private String oldText;
+    
+    private WEditorPopupMenu	popupMenu;
     
     
     public WStringEditor(GridField gridField)
@@ -75,6 +78,8 @@ public class WStringEditor extends WEditor
             textbox.setMultiline(true);
             textbox.setRows(8);
         }
+        
+        popupMenu = new WEditorPopupMenu(false, false, true);
     }
 
     public void onEvent(Event event)
@@ -128,6 +133,11 @@ public class WStringEditor extends WEditor
     {
         return LISTENER_EVENTS;
     }
+    
+    public WEditorPopupMenu getPopupMenu()
+	{
+	   	return popupMenu;
+	}
     
     public void onMenu(ContextMenuEvent evt) 
 	{
