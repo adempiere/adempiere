@@ -631,7 +631,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		                 if(lines[l].getComponentType().equals(MPPProductBOMLine.COMPONENTTYPE_Phantom))
 		                 {    
 		                 lines[l].setQtyRequiered(Env.ZERO);                
-		                 lines[l].save();
+		                 lines[l].save(get_TrxName());
 		                 }                 
 		             }
 		        } // end Create Order BOM
@@ -678,12 +678,18 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		    PP_Order_Workflow.setQueuingTime(AD_Workflow.getQueuingTime());
 		    PP_Order_Workflow.setSetupTime(AD_Workflow.getSetupTime());
 		    PP_Order_Workflow.setMovingTime(AD_Workflow.getMovingTime());
-		    PP_Order_Workflow.setProcessType(AD_Workflow.getProcessType());  	        
-		    PP_Order_Workflow.save();
+		    PP_Order_Workflow.setProcessType(AD_Workflow.getProcessType());  	 
+		    PP_Order_Workflow.setAD_Table_ID(AD_Workflow.getAD_Table_ID());
+		    PP_Order_Workflow.setAD_WF_Node_ID(AD_Workflow.getAD_WF_Node_ID());
+		    PP_Order_Workflow.setAD_WorkflowProcessor_ID(AD_Workflow.getAD_WorkflowProcessor_ID());
+		    PP_Order_Workflow.setDescription(AD_Workflow.getDescription());
+		    PP_Order_Workflow.setValidFrom(AD_Workflow.getValidFrom());
+		    PP_Order_Workflow.setValidTo(AD_Workflow.getValidTo());
+		    PP_Order_Workflow.save(get_TrxName());
 		    
 		    MWFNode[] AD_WF_Node = AD_Workflow.getNodes(false,getAD_Client_ID());
 		    
-		    if(AD_WF_Node != null)
+		    if(AD_WF_Node != null && AD_WF_Node.length != 0)
 		    {
 		        for (int g = 0 ; g < AD_WF_Node.length ; g ++) 
 		        {
@@ -742,11 +748,11 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			            PP_Order_Node.setValidFrom(AD_WF_Node[g].getValidFrom());
 			            PP_Order_Node.setValidTo(AD_WF_Node[g].getValidTo());
 			            
-			            PP_Order_Node.save();  
+			            PP_Order_Node.save(get_TrxName());  
 			     
 			            MWFNodeNext[] AD_WF_NodeNext = AD_WF_Node[g].getTransitions(getAD_Client_ID());
 			            log.log(Level.INFO, "AD_WF_NodeNext"+AD_WF_NodeNext.length);
-			            if(AD_WF_NodeNext != null)
+			            if(AD_WF_NodeNext != null && AD_WF_NodeNext.length != 0)
 			            {
 			            	for (int n = 0; n <  AD_WF_NodeNext.length; n++)
 			            	{
@@ -761,24 +767,30 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			            		PP_Order_NodeNext.setPP_Order_ID (getPP_Order_ID());
 			            		PP_Order_NodeNext.setSeqNo(AD_WF_NodeNext[n].getSeqNo());
 			            		PP_Order_NodeNext.setTransitionCode(AD_WF_NodeNext[n].getTransitionCode());
-			            		PP_Order_NodeNext.save();
-			            	}// end for Node Next
+			            		PP_Order_NodeNext.save(get_TrxName());
+			            	}// for NodeNext
 			            }                                	
 		                                        
-		    }// end for Node        
+		        	}// node valid from/to
+		        	
+		        }// for node 
+		        
+		    }
 		    
-		    //set transition for order
+		    // set transitions for order
 		    MPPOrderWorkflow OrderWorkflow = new MPPOrderWorkflow(getCtx(),PP_Order_Workflow.getPP_Order_Workflow_ID(),get_TrxName());        
 		    MPPOrderNode[] OrderNodes = OrderWorkflow.getNodes(false , getAD_Client_ID());
 		
-		    if(OrderNodes != null)
-		    {
-		    	PP_Order_Workflow.setPP_Order_Node_ID(OrderNodes[0].getPP_Order_Node_ID());
-		    	
-			        for (int h = 0 ; h < OrderNodes.length ; h ++) 
+		    if(OrderNodes != null && OrderNodes.length != 0)
+		    {		    	
+		            for (int h = 0 ; h < OrderNodes.length ; h ++) 
 			        {
-			        		MPPOrderNodeNext[] nexts = OrderNodes[h].getTransitions(getAD_Client_ID());	            
-			            	if(nexts != null)
+		            		// set workflow start node
+		    	    		if (OrderWorkflow.getAD_WF_Node_ID() == OrderNodes[h].getAD_WF_Node_ID() ) {
+		    	    			OrderWorkflow.setPP_Order_Node_ID(OrderNodes[h].getPP_Order_Node_ID());
+		    	    		}
+		            		MPPOrderNodeNext[] nexts = OrderNodes[h].getTransitions(getAD_Client_ID());	            
+			            	if(nexts != null && nexts.length != 0)
 				            {
 				            	log.log(Level.INFO, "Node Transition" + nexts.length);
 				            	for (int x = 0; x <  nexts.length; x++)
@@ -796,7 +808,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 				                        while (rs.next())
 				                        {                        	
 				                        	nexts[x].setPP_Order_Next_ID(rs.getInt(1));
-				                        	nexts[x].save();                	
+				                        	nexts[x].save(get_TrxName());                	
 				                        }
 				                        DB.close(rs);
 				                        DB.close(pstmt);
@@ -806,16 +818,15 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 				        			{
 				        	        	log.log(Level.SEVERE,"doIt - " + sql, e);	          
 				        			}                		
-				            	}// end for Node Next
+				            	}// end for NodeNext
 				            }        	
 			          }        
 		        }
-		    
-		    }// end from / to Node
-		    
-		  } // end from /to Workflow 
-		  PP_Order_Workflow.save(get_TrxName());  
-	   } 	  
+
+		    	OrderWorkflow.save(get_TrxName());
+		        
+		  } // workflow valid from/to 
+	    	  
 	return true;
     }	//	beforeSave
     
