@@ -135,6 +135,10 @@ public class WebEditorFactory
         {
         	editor = new WAccountEditor(gridField);
         }
+        else if (displayType == DisplayType.Image)
+        {
+        	editor = new WImageEditor(gridField);
+        }
         else
         {
             editor = new WUnknownEditor(gridField);
