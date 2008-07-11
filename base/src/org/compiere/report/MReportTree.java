@@ -16,12 +16,22 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MHierarchy;
+import org.compiere.model.MTree;
+import org.compiere.model.MTreeNode;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Report Tree Model

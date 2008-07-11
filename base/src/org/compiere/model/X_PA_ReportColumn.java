@@ -44,6 +44,28 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
         {
 			setColumnType (null);
 // R
+			setIsIncludeNullsActivity (false);
+// N
+			setIsIncludeNullsBPartner (false);
+// N
+			setIsIncludeNullsCampaign (false);
+// N
+			setIsIncludeNullsElementValue (false);
+// N
+			setIsIncludeNullsLocation (false);
+// N
+			setIsIncludeNullsOrg (false);
+// N
+			setIsIncludeNullsProduct (false);
+// N
+			setIsIncludeNullsProject (false);
+// N
+			setIsIncludeNullsSalesRegion (false);
+// N
+			setIsIncludeNullsUserElement1 (false);
+// N
+			setIsIncludeNullsUserElement2 (false);
+// N
 			setIsPrinted (true);
 // Y
 			setName (null);
@@ -540,40 +562,42 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** ElementType AD_Reference_ID=181 */
-	public static final int ELEMENTTYPE_AD_Reference_ID=181;
-	/** Organization = OO */
-	public static final String ELEMENTTYPE_Organization = "OO";
+	/** ElementType AD_Reference_ID=53280 */
+	public static final int ELEMENTTYPE_AD_Reference_ID=53280;
 	/** Account = AC */
 	public static final String ELEMENTTYPE_Account = "AC";
-	/** Product = PR */
-	public static final String ELEMENTTYPE_Product = "PR";
+	/** Activity = AY */
+	public static final String ELEMENTTYPE_Activity = "AY";
 	/** BPartner = BP */
 	public static final String ELEMENTTYPE_BPartner = "BP";
-	/** Org Trx = OT */
-	public static final String ELEMENTTYPE_OrgTrx = "OT";
 	/** Location From = LF */
 	public static final String ELEMENTTYPE_LocationFrom = "LF";
 	/** Location To = LT */
 	public static final String ELEMENTTYPE_LocationTo = "LT";
-	/** Sales Region = SR */
-	public static final String ELEMENTTYPE_SalesRegion = "SR";
-	/** Project = PJ */
-	public static final String ELEMENTTYPE_Project = "PJ";
 	/** Campaign = MC */
 	public static final String ELEMENTTYPE_Campaign = "MC";
+	/** Organization = OO */
+	public static final String ELEMENTTYPE_Organization = "OO";
+	/** Org Trx = OT */
+	public static final String ELEMENTTYPE_OrgTrx = "OT";
+	/** Project = PJ */
+	public static final String ELEMENTTYPE_Project = "PJ";
+	/** Product = PR */
+	public static final String ELEMENTTYPE_Product = "PR";
+	/** Sub Account = SA */
+	public static final String ELEMENTTYPE_SubAccount = "SA";
+	/** Sales Region = SR */
+	public static final String ELEMENTTYPE_SalesRegion = "SR";
 	/** User List 1 = U1 */
 	public static final String ELEMENTTYPE_UserList1 = "U1";
 	/** User List 2 = U2 */
 	public static final String ELEMENTTYPE_UserList2 = "U2";
-	/** Activity = AY */
-	public static final String ELEMENTTYPE_Activity = "AY";
-	/** Sub Account = SA */
-	public static final String ELEMENTTYPE_SubAccount = "SA";
 	/** User Element 1 = X1 */
 	public static final String ELEMENTTYPE_UserElement1 = "X1";
 	/** User Element 2 = X2 */
 	public static final String ELEMENTTYPE_UserElement2 = "X2";
+	/** Combination = CO */
+	public static final String ELEMENTTYPE_Combination = "CO";
 	/** Set Type.
 		@param ElementType 
 		Element Type (account or user defined)
@@ -581,7 +605,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setElementType (String ElementType)
 	{
 
-		if (ElementType == null || ElementType.equals("OO") || ElementType.equals("AC") || ElementType.equals("PR") || ElementType.equals("BP") || ElementType.equals("OT") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("SR") || ElementType.equals("PJ") || ElementType.equals("MC") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("AY") || ElementType.equals("SA") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - OO - AC - PR - BP - OT - LF - LT - SR - PJ - MC - U1 - U2 - AY - SA - X1 - X2");
+		if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2") || ElementType.equals("CO")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=53280 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2 - CO");
 		if (ElementType != null && ElementType.length() > 2)
 		{
 			log.warning("Length > 2 - truncated");
@@ -652,6 +676,270 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public boolean isAdhocConversion () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsAdhocConversion);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Activity.
+		@param IsIncludeNullsActivity 
+		Include nulls in the selection of the activity
+	  */
+	public void setIsIncludeNullsActivity (boolean IsIncludeNullsActivity)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsActivity, Boolean.valueOf(IsIncludeNullsActivity));
+	}
+
+	/** Get Include Nulls in Activity.
+		@return Include nulls in the selection of the activity
+	  */
+	public boolean isIncludeNullsActivity () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsActivity);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in BPartner.
+		@param IsIncludeNullsBPartner 
+		Include nulls in the selection of the business partner
+	  */
+	public void setIsIncludeNullsBPartner (boolean IsIncludeNullsBPartner)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsBPartner, Boolean.valueOf(IsIncludeNullsBPartner));
+	}
+
+	/** Get Include Nulls in BPartner.
+		@return Include nulls in the selection of the business partner
+	  */
+	public boolean isIncludeNullsBPartner () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsBPartner);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Campaign.
+		@param IsIncludeNullsCampaign 
+		Include nulls in the selection of the campaign
+	  */
+	public void setIsIncludeNullsCampaign (boolean IsIncludeNullsCampaign)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsCampaign, Boolean.valueOf(IsIncludeNullsCampaign));
+	}
+
+	/** Get Include Nulls in Campaign.
+		@return Include nulls in the selection of the campaign
+	  */
+	public boolean isIncludeNullsCampaign () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsCampaign);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Account.
+		@param IsIncludeNullsElementValue 
+		Include nulls in the selection of the account
+	  */
+	public void setIsIncludeNullsElementValue (boolean IsIncludeNullsElementValue)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsElementValue, Boolean.valueOf(IsIncludeNullsElementValue));
+	}
+
+	/** Get Include Nulls in Account.
+		@return Include nulls in the selection of the account
+	  */
+	public boolean isIncludeNullsElementValue () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsElementValue);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Location.
+		@param IsIncludeNullsLocation 
+		Include nulls in the selection of the location
+	  */
+	public void setIsIncludeNullsLocation (boolean IsIncludeNullsLocation)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsLocation, Boolean.valueOf(IsIncludeNullsLocation));
+	}
+
+	/** Get Include Nulls in Location.
+		@return Include nulls in the selection of the location
+	  */
+	public boolean isIncludeNullsLocation () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsLocation);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Org.
+		@param IsIncludeNullsOrg 
+		Include nulls in the selection of the organization
+	  */
+	public void setIsIncludeNullsOrg (boolean IsIncludeNullsOrg)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsOrg, Boolean.valueOf(IsIncludeNullsOrg));
+	}
+
+	/** Get Include Nulls in Org.
+		@return Include nulls in the selection of the organization
+	  */
+	public boolean isIncludeNullsOrg () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsOrg);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Product.
+		@param IsIncludeNullsProduct 
+		Include nulls in the selection of the product
+	  */
+	public void setIsIncludeNullsProduct (boolean IsIncludeNullsProduct)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsProduct, Boolean.valueOf(IsIncludeNullsProduct));
+	}
+
+	/** Get Include Nulls in Product.
+		@return Include nulls in the selection of the product
+	  */
+	public boolean isIncludeNullsProduct () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsProduct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Project.
+		@param IsIncludeNullsProject 
+		Include nulls in the selection of the project
+	  */
+	public void setIsIncludeNullsProject (boolean IsIncludeNullsProject)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsProject, Boolean.valueOf(IsIncludeNullsProject));
+	}
+
+	/** Get Include Nulls in Project.
+		@return Include nulls in the selection of the project
+	  */
+	public boolean isIncludeNullsProject () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsProject);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in Sales Region.
+		@param IsIncludeNullsSalesRegion 
+		Include nulls in the selection of the sales region
+	  */
+	public void setIsIncludeNullsSalesRegion (boolean IsIncludeNullsSalesRegion)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsSalesRegion, Boolean.valueOf(IsIncludeNullsSalesRegion));
+	}
+
+	/** Get Include Nulls in Sales Region.
+		@return Include nulls in the selection of the sales region
+	  */
+	public boolean isIncludeNullsSalesRegion () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsSalesRegion);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User Element 1.
+		@param IsIncludeNullsUserElement1 
+		Include nulls in the selection of the user element 1
+	  */
+	public void setIsIncludeNullsUserElement1 (boolean IsIncludeNullsUserElement1)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserElement1, Boolean.valueOf(IsIncludeNullsUserElement1));
+	}
+
+	/** Get Include Nulls in User Element 1.
+		@return Include nulls in the selection of the user element 1
+	  */
+	public boolean isIncludeNullsUserElement1 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserElement1);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Include Nulls in User Element 2.
+		@param IsIncludeNullsUserElement2 
+		Include nulls in the selection of the user element 2
+	  */
+	public void setIsIncludeNullsUserElement2 (boolean IsIncludeNullsUserElement2)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsUserElement2, Boolean.valueOf(IsIncludeNullsUserElement2));
+	}
+
+	/** Get Include Nulls in User Element 2.
+		@return Include nulls in the selection of the user element 2
+	  */
+	public boolean isIncludeNullsUserElement2 () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsUserElement2);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -963,6 +1251,52 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

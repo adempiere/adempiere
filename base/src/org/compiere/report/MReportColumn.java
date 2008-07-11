@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.X_PA_ReportColumn;
 
 /**
  *  Report Column Model

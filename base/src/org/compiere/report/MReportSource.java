@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.X_PA_ReportSource;
 
 
 /**
@@ -66,39 +67,167 @@ public class MReportSource extends X_PA_ReportSource
 		//	ID for Tree Leaf Value
 		int ID = 0;
 		//
-		if (MAcctSchemaElement.ELEMENTTYPE_Account.equals(et))
-			ID = getC_ElementValue_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_Activity.equals(et))
-			ID = getC_Activity_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_BPartner.equals(et))
-			ID = getC_BPartner_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_Campaign.equals(et))
-			ID = getC_Campaign_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_LocationFrom.equals(et))
-			ID = getC_Location_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_LocationTo.equals(et))
-			ID = getC_Location_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_Organization.equals(et))
-			ID = getOrg_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_Product.equals(et))
-			ID = getM_Product_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_Project.equals(et))
-			ID = getC_Project_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_SalesRegion.equals(et))
-			ID = getC_SalesRegion_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_OrgTrx.equals(et))
-			ID = getOrg_ID ();	//	(re)uses Org_ID
-		else if (MAcctSchemaElement.ELEMENTTYPE_UserList1.equals(et))
-			ID = getC_ElementValue_ID ();
-		else if (MAcctSchemaElement.ELEMENTTYPE_UserList2.equals(et))
-			ID = getC_ElementValue_ID ();
-//		else if (MAcctSchemaElement.ELEMENTTYPE_UserElement1.equals(et))
-//			ID = getUserElement1_ID ();
-//		else if (MAcctSchemaElement.ELEMENTTYPE_UserElement2.equals(et))
-//			ID = getUserElement2_ID ();
+		if (MReportSource.ELEMENTTYPE_Account.equals(et))
+			ID = getC_ElementValue_ID();
+		else if (MReportSource.ELEMENTTYPE_Activity.equals(et))
+			ID = getC_Activity_ID();
+		else if (MReportSource.ELEMENTTYPE_BPartner.equals(et))
+			ID = getC_BPartner_ID();
+		else if (MReportSource.ELEMENTTYPE_Campaign.equals(et))
+			ID = getC_Campaign_ID();
+		else if (MReportSource.ELEMENTTYPE_LocationFrom.equals(et))
+			ID = getC_Location_ID();
+		else if (MReportSource.ELEMENTTYPE_LocationTo.equals(et))
+			ID = getC_Location_ID();
+		else if (MReportSource.ELEMENTTYPE_Organization.equals(et))
+			ID = getOrg_ID();
+		else if (MReportSource.ELEMENTTYPE_Product.equals(et))
+			ID = getM_Product_ID();
+		else if (MReportSource.ELEMENTTYPE_Project.equals(et))
+			ID = getC_Project_ID();
+		else if (MReportSource.ELEMENTTYPE_SalesRegion.equals(et))
+			ID = getC_SalesRegion_ID();
+		else if (MReportSource.ELEMENTTYPE_OrgTrx.equals(et))
+			ID = getOrg_ID();	//	(re)uses Org_ID
+		else if (MReportSource.ELEMENTTYPE_UserList1.equals(et))
+			ID = getC_ElementValue_ID();
+		else if (MReportSource.ELEMENTTYPE_UserList2.equals(et))
+			ID = getC_ElementValue_ID();
+		else if (MReportSource.ELEMENTTYPE_UserElement1.equals(et))
+			return "UserElement1_ID="+getUserElement1_ID(); // Not Tree
+		else if (MReportSource.ELEMENTTYPE_UserElement2.equals(et))
+			return "UserElement2_ID="+getUserElement2_ID(); // Not Tree
+		// Financial Report Source with Type Combination
+		else if (MReportSource.ELEMENTTYPE_Combination.equals(et))
+			return getWhereCombination(PA_Hierarchy_ID);
+
 		//
 		return MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, et, ID);
 	}	//	getWhereClause
+
+	/**
+	 * Obtain where clause for the combination type
+	 * @param PA_Hierarchy_ID
+	 * @return
+	 */
+	private String getWhereCombination(int PA_Hierarchy_ID) {
+		StringBuffer whcomb = new StringBuffer();
+		if (getC_ElementValue_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Account, getC_ElementValue_ID());
+			if (isIncludeNullsElementValue())
+				whcomb.append(" AND (Account_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsElementValue())
+				whcomb.append(" AND Account_ID IS NULL");
+
+		if (getC_Activity_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Activity, getC_Activity_ID());
+			if (isIncludeNullsActivity())
+				whcomb.append(" AND (C_Activity_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsActivity())
+				whcomb.append(" AND C_Activity_ID IS NULL");
+
+		if (getC_BPartner_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_BPartner, getC_BPartner_ID());
+			if (isIncludeNullsBPartner())
+				whcomb.append(" AND (C_BPartner_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsBPartner())
+				whcomb.append(" AND C_BPartner_ID IS NULL");
+
+		if (getC_Campaign_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Campaign, getC_Campaign_ID());
+			if (isIncludeNullsCampaign())
+				whcomb.append(" AND (C_Campaign_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsCampaign())
+				whcomb.append(" AND C_Campaign_ID IS NULL");
+
+		if (getC_Location_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_LocationFrom, getC_Location_ID());
+			if (isIncludeNullsLocation())
+				whcomb.append(" AND (C_LocFrom_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsLocation())
+				whcomb.append(" AND C_LocFrom_ID IS NULL");
+
+		if (getOrg_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Organization, getOrg_ID());
+			if (isIncludeNullsOrg())
+				whcomb.append(" AND (AD_Org_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsOrg())
+				whcomb.append(" AND AD_Org_ID IS NULL");
+
+		if (getM_Product_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Product, getM_Product_ID());
+			if (isIncludeNullsProduct())
+				whcomb.append(" AND (M_Product_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsProduct())
+				whcomb.append(" AND M_Product_ID IS NULL");
+
+		if (getC_Project_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Project, getC_Project_ID());
+			if (isIncludeNullsProject())
+				whcomb.append(" AND (C_Project_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsProject())
+				whcomb.append(" AND C_Project_ID IS NULL");
+
+		if (getC_SalesRegion_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_SalesRegion, getC_SalesRegion_ID());
+			if (isIncludeNullsSalesRegion())
+				whcomb.append(" AND (C_SalesRegion_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsSalesRegion())
+				whcomb.append(" AND C_SalesRegion_ID IS NULL");
+
+		if (getUserElement1_ID() > 0) {
+			String whtree = "UserElement1_ID=" + getUserElement1_ID(); // No Tree
+			if (isIncludeNullsUserElement1())
+				whcomb.append(" AND (UserElement1_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsUserElement1())
+				whcomb.append(" AND UserElement1_ID IS NULL");
+
+		if (getUserElement2_ID() > 0) {
+			String whtree = "UserElement2_ID=" + getUserElement2_ID(); // No Tree
+			if (isIncludeNullsUserElement2())
+				whcomb.append(" AND (UserElement2_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsUserElement2())
+				whcomb.append(" AND UserElement2_ID IS NULL");
+		
+		// drop the first " AND "
+		if (whcomb.length() > 5 && whcomb.toString().startsWith(" AND "))
+			whcomb.delete(0, 5);
+
+		return whcomb.toString();
+	}
 
 
 	/**

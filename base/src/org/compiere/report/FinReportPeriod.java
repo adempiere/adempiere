@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.sql.*;
-import org.compiere.util.*;
+import java.sql.Timestamp;
+
+import org.compiere.util.DB;
 
 /**
  *  Financial Report Periods

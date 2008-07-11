@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.X_PA_ReportLine;
+import org.compiere.util.DB;
 
 
 /**

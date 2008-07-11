@@ -16,14 +16,24 @@
  *****************************************************************************/
 package org.compiere.report;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.TimeUtil;
 
 /**
  *  Financial Report Engine
@@ -428,9 +438,12 @@ public class FinReport extends SvrProcess
 				else if (MReportColumn.ELEMENTTYPE_UserList2.equals(elementType))
 					select.append(" AND User2_ID=").append(m_columns[col].getC_ElementValue_ID());
 				else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(elementType))
-					select.append(" AND UserElement1_ID=").append(m_columns[col].getC_ElementValue_ID());
+					select.append(" AND UserElement1_ID=").append(m_columns[col].getUserElement1_ID());
 				else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(elementType))
-					select.append(" AND UserElement2_ID=").append(m_columns[col].getC_ElementValue_ID());
+					select.append(" AND UserElement2_ID=").append(m_columns[col].getUserElement2_ID());
+				// Financial Report Source with Type Combination
+				else if (MReportColumn.ELEMENTTYPE_Combination.equals(elementType))
+					select.append(getWhereCombination(m_columns[col]));
 			}
 			
 			//	Parameter Where
@@ -459,6 +472,116 @@ public class FinReport extends SvrProcess
 		}
 	}	//	insertLine
 
+	/**************************************************************************
+	 *  Returns where clause for combination type
+	 *  @param reportColumn
+	 *  @return where clause for the combination
+	 */
+	private String getWhereCombination(MReportColumn reportColumn) {
+		StringBuffer whcomb = new StringBuffer();
+		// Just one org - selected owning - OrgTrx not supported in combination
+		if (reportColumn.isIncludeNullsOrg())
+			if (reportColumn.getOrg_ID() > 0)
+				whcomb.append(" AND (AD_Org_ID IS NULL OR AD_Org_ID=").append(reportColumn.getOrg_ID()).append(")");
+			else
+				whcomb.append(" AND AD_Org_ID IS NULL");
+		else
+			if (reportColumn.getOrg_ID() > 0)
+				whcomb.append(" AND AD_Org_ID=").append(reportColumn.getOrg_ID());
+		
+		if (reportColumn.isIncludeNullsBPartner())
+			if (reportColumn.getC_BPartner_ID() > 0)
+				whcomb.append(" AND (C_BPartner_ID IS NULL OR C_BPartner_ID=").append(reportColumn.getC_BPartner_ID()).append(")");
+			else
+				whcomb.append(" AND C_BPartner_ID IS NULL");
+		else
+			if (reportColumn.getC_BPartner_ID() > 0)
+				whcomb.append(" AND C_BPartner_ID=").append(reportColumn.getC_BPartner_ID());
+		
+		if (reportColumn.isIncludeNullsProduct())
+			if (reportColumn.getM_Product_ID() > 0)
+				whcomb.append(" AND (M_Product_ID IS NULL OR M_Product_ID=").append(reportColumn.getM_Product_ID()).append(")");
+			else
+				whcomb.append(" AND M_Product_ID IS NULL");
+		else
+			if (reportColumn.getM_Product_ID() > 0)
+				whcomb.append(" AND M_Product_ID=").append(reportColumn.getM_Product_ID());
+		
+		if (reportColumn.isIncludeNullsProject())
+			if (reportColumn.getC_Project_ID() > 0)
+				whcomb.append(" AND (C_Project_ID IS NULL OR C_Project_ID=").append(reportColumn.getC_Project_ID()).append(")");
+			else
+				whcomb.append(" AND C_Project_ID IS NULL");
+		else
+			if (reportColumn.getC_Project_ID() > 0)
+				whcomb.append(" AND C_Project_ID=").append(reportColumn.getC_Project_ID());
+		
+		if (reportColumn.isIncludeNullsActivity())
+			if (reportColumn.getC_Activity_ID() > 0)
+				whcomb.append(" AND (C_Activity_ID IS NULL OR C_Activity_ID=").append(reportColumn.getC_Activity_ID()).append(")");
+			else
+				whcomb.append(" AND C_Activity_ID IS NULL");
+		else
+			if (reportColumn.getC_Activity_ID() > 0)
+				whcomb.append(" AND C_Activity_ID=").append(reportColumn.getC_Activity_ID());
+		
+		if (reportColumn.isIncludeNullsCampaign())
+			if (reportColumn.getC_Campaign_ID() > 0)
+				whcomb.append(" AND (C_Campaign_ID IS NULL OR C_Campaign_ID=").append(reportColumn.getC_Campaign_ID()).append(")");
+			else
+				whcomb.append(" AND C_Campaign_ID IS NULL");
+		else
+			if (reportColumn.getC_Campaign_ID() > 0)
+				whcomb.append(" AND C_Campaign_ID=").append(reportColumn.getC_Campaign_ID());
+		
+		// Just one Location - selected From - LocTo not supported in combination
+		if (reportColumn.isIncludeNullsLocation())
+			if (reportColumn.getC_Location_ID() > 0)
+				whcomb.append(" AND (C_LocFrom_ID IS NULL OR C_LocFrom_ID=").append(reportColumn.getC_Location_ID()).append(")");
+			else
+				whcomb.append(" AND C_LocFrom_ID IS NULL");
+		else
+			if (reportColumn.getC_Location_ID() > 0)
+				whcomb.append(" AND C_LocFrom_ID=").append(reportColumn.getC_Location_ID());
+		
+		if (reportColumn.isIncludeNullsSalesRegion())
+			if (reportColumn.getC_SalesRegion_ID() > 0)
+				whcomb.append(" AND (C_SalesRegion_ID IS NULL OR C_SalesRegion_ID=").append(reportColumn.getC_SalesRegion_ID()).append(")");
+			else
+				whcomb.append(" AND C_SalesRegion_ID IS NULL");
+		else
+			if (reportColumn.getC_SalesRegion_ID() > 0)
+				whcomb.append(" AND C_SalesRegion_ID=").append(reportColumn.getC_SalesRegion_ID());
+		
+		// Just account - neither UserList1/2 supported in combination
+		if (reportColumn.isIncludeNullsElementValue())
+			if (reportColumn.getC_ElementValue_ID() > 0)
+				whcomb.append(" AND (Account_ID IS NULL OR Account_ID=").append(reportColumn.getC_ElementValue_ID()).append(")");
+			else
+				whcomb.append(" AND Account_ID IS NULL");
+		else
+			if (reportColumn.getC_ElementValue_ID() > 0)
+				whcomb.append(" AND Account_ID=").append(reportColumn.getC_ElementValue_ID());
+		
+		if (reportColumn.isIncludeNullsUserElement1())
+			if (reportColumn.getUserElement1_ID() > 0)
+				whcomb.append(" AND (UserElement1_ID IS NULL OR UserElement1_ID=").append(reportColumn.getUserElement1_ID()).append(")");
+			else
+				whcomb.append(" AND UserElement1_ID IS NULL");
+		else
+			if (reportColumn.getUserElement1_ID() > 0)
+				whcomb.append(" AND UserElement1_ID=").append(reportColumn.getUserElement1_ID());
+		
+		if (reportColumn.isIncludeNullsUserElement2())
+			if (reportColumn.getUserElement2_ID() > 0)
+				whcomb.append(" AND (UserElement2_ID IS NULL OR UserElement2_ID=").append(reportColumn.getUserElement2_ID()).append(")");
+			else
+				whcomb.append(" AND UserElement2_ID IS NULL");
+		else
+			if (reportColumn.getUserElement2_ID() > 0)
+				whcomb.append(" AND UserElement2_ID=").append(reportColumn.getUserElement2_ID());
+		return whcomb.toString();
+	}
 	
 	/**************************************************************************
 	 *	Line + Column calculation
@@ -967,9 +1090,12 @@ public class FinReport extends SvrProcess
 				else if (MReportColumn.ELEMENTTYPE_UserList2.equals(elementType))
 					select.append(" AND User2_ID=").append(m_columns[col].getC_ElementValue_ID());
 				else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(elementType))
-					select.append(" AND UserElement1_ID=").append(m_columns[col].getC_ElementValue_ID());
+					select.append(" AND UserElement1_ID=").append(m_columns[col].getUserElement1_ID());
 				else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(elementType))
-					select.append(" AND UserElement2_ID=").append(m_columns[col].getC_ElementValue_ID());
+					select.append(" AND UserElement2_ID=").append(m_columns[col].getUserElement2_ID());
+				// Financial Report Source with Type Combination
+				else if (MReportColumn.ELEMENTTYPE_Combination.equals(elementType))
+					select.append(getWhereCombination(m_columns[col]));
 			}
 			//	Parameter Where
 			select.append(m_parameterWhere);

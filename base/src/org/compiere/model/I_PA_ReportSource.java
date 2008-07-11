@@ -183,6 +183,149 @@ public interface I_PA_ReportSource
 	  */
 	public String getElementType();
 
+    /** Column name IsIncludeNullsActivity */
+    public static final String COLUMNNAME_IsIncludeNullsActivity = "IsIncludeNullsActivity";
+
+	/** Set Include Nulls in Activity.
+	  * Include nulls in the selection of the activity
+	  */
+	public void setIsIncludeNullsActivity (boolean IsIncludeNullsActivity);
+
+	/** Get Include Nulls in Activity.
+	  * Include nulls in the selection of the activity
+	  */
+	public boolean isIncludeNullsActivity();
+
+    /** Column name IsIncludeNullsBPartner */
+    public static final String COLUMNNAME_IsIncludeNullsBPartner = "IsIncludeNullsBPartner";
+
+	/** Set Include Nulls in BPartner.
+	  * Include nulls in the selection of the business partner
+	  */
+	public void setIsIncludeNullsBPartner (boolean IsIncludeNullsBPartner);
+
+	/** Get Include Nulls in BPartner.
+	  * Include nulls in the selection of the business partner
+	  */
+	public boolean isIncludeNullsBPartner();
+
+    /** Column name IsIncludeNullsCampaign */
+    public static final String COLUMNNAME_IsIncludeNullsCampaign = "IsIncludeNullsCampaign";
+
+	/** Set Include Nulls in Campaign.
+	  * Include nulls in the selection of the campaign
+	  */
+	public void setIsIncludeNullsCampaign (boolean IsIncludeNullsCampaign);
+
+	/** Get Include Nulls in Campaign.
+	  * Include nulls in the selection of the campaign
+	  */
+	public boolean isIncludeNullsCampaign();
+
+    /** Column name IsIncludeNullsElementValue */
+    public static final String COLUMNNAME_IsIncludeNullsElementValue = "IsIncludeNullsElementValue";
+
+	/** Set Include Nulls in Account.
+	  * Include nulls in the selection of the account
+	  */
+	public void setIsIncludeNullsElementValue (boolean IsIncludeNullsElementValue);
+
+	/** Get Include Nulls in Account.
+	  * Include nulls in the selection of the account
+	  */
+	public boolean isIncludeNullsElementValue();
+
+    /** Column name IsIncludeNullsLocation */
+    public static final String COLUMNNAME_IsIncludeNullsLocation = "IsIncludeNullsLocation";
+
+	/** Set Include Nulls in Location.
+	  * Include nulls in the selection of the location
+	  */
+	public void setIsIncludeNullsLocation (boolean IsIncludeNullsLocation);
+
+	/** Get Include Nulls in Location.
+	  * Include nulls in the selection of the location
+	  */
+	public boolean isIncludeNullsLocation();
+
+    /** Column name IsIncludeNullsOrg */
+    public static final String COLUMNNAME_IsIncludeNullsOrg = "IsIncludeNullsOrg";
+
+	/** Set Include Nulls in Org.
+	  * Include nulls in the selection of the organization
+	  */
+	public void setIsIncludeNullsOrg (boolean IsIncludeNullsOrg);
+
+	/** Get Include Nulls in Org.
+	  * Include nulls in the selection of the organization
+	  */
+	public boolean isIncludeNullsOrg();
+
+    /** Column name IsIncludeNullsProduct */
+    public static final String COLUMNNAME_IsIncludeNullsProduct = "IsIncludeNullsProduct";
+
+	/** Set Include Nulls in Product.
+	  * Include nulls in the selection of the product
+	  */
+	public void setIsIncludeNullsProduct (boolean IsIncludeNullsProduct);
+
+	/** Get Include Nulls in Product.
+	  * Include nulls in the selection of the product
+	  */
+	public boolean isIncludeNullsProduct();
+
+    /** Column name IsIncludeNullsProject */
+    public static final String COLUMNNAME_IsIncludeNullsProject = "IsIncludeNullsProject";
+
+	/** Set Include Nulls in Project.
+	  * Include nulls in the selection of the project
+	  */
+	public void setIsIncludeNullsProject (boolean IsIncludeNullsProject);
+
+	/** Get Include Nulls in Project.
+	  * Include nulls in the selection of the project
+	  */
+	public boolean isIncludeNullsProject();
+
+    /** Column name IsIncludeNullsSalesRegion */
+    public static final String COLUMNNAME_IsIncludeNullsSalesRegion = "IsIncludeNullsSalesRegion";
+
+	/** Set Include Nulls in Sales Region.
+	  * Include nulls in the selection of the sales region
+	  */
+	public void setIsIncludeNullsSalesRegion (boolean IsIncludeNullsSalesRegion);
+
+	/** Get Include Nulls in Sales Region.
+	  * Include nulls in the selection of the sales region
+	  */
+	public boolean isIncludeNullsSalesRegion();
+
+    /** Column name IsIncludeNullsUserElement1 */
+    public static final String COLUMNNAME_IsIncludeNullsUserElement1 = "IsIncludeNullsUserElement1";
+
+	/** Set Include Nulls in User Element 1.
+	  * Include nulls in the selection of the user element 1
+	  */
+	public void setIsIncludeNullsUserElement1 (boolean IsIncludeNullsUserElement1);
+
+	/** Get Include Nulls in User Element 1.
+	  * Include nulls in the selection of the user element 1
+	  */
+	public boolean isIncludeNullsUserElement1();
+
+    /** Column name IsIncludeNullsUserElement2 */
+    public static final String COLUMNNAME_IsIncludeNullsUserElement2 = "IsIncludeNullsUserElement2";
+
+	/** Set Include Nulls in User Element 2.
+	  * Include nulls in the selection of the user element 2
+	  */
+	public void setIsIncludeNullsUserElement2 (boolean IsIncludeNullsUserElement2);
+
+	/** Get Include Nulls in User Element 2.
+	  * Include nulls in the selection of the user element 2
+	  */
+	public boolean isIncludeNullsUserElement2();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -234,4 +377,30 @@ public interface I_PA_ReportSource
 	  * Restriction of what will be shown in Report Line
 	  */
 	public int getPA_ReportSource_ID();
+
+    /** Column name UserElement1_ID */
+    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
+
+	/** Set User Element 1.
+	  * User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID);
+
+	/** Get User Element 1.
+	  * User defined accounting Element
+	  */
+	public int getUserElement1_ID();
+
+    /** Column name UserElement2_ID */
+    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
+
+	/** Set User Element 2.
+	  * User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID);
+
+	/** Get User Element 2.
+	  * User defined accounting Element
+	  */
+	public int getUserElement2_ID();
 }

@@ -124,13 +124,13 @@ public class FinBalance extends SvrProcess
 			+ "(AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, DateAcct,"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ "	C_Project_ID, AD_OrgTrx_ID,	C_SalesRegion_ID,C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, GL_Budget_ID,"
 			+ " AmtAcctDr, AmtAcctCr, Qty) "
 		//
 			+ "SELECT AD_Client_ID, AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID,C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID,"
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, GL_Budget_ID,"
 			+ " COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(Qty),0) "
 			+ "FROM Fact_Acct a "
 			+ "WHERE C_AcctSchema_ID=" + C_AcctSchema_ID;
@@ -138,7 +138,7 @@ public class FinBalance extends SvrProcess
 		sql += " GROUP BY AD_Client_ID,AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID, C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, GL_Budget_ID";
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, UserElement1_ID, UserElement2_ID, GL_Budget_ID";
 		no = DB.executeUpdate(sql, null);
 		s_log.fine("Inserts=" + no);
 
