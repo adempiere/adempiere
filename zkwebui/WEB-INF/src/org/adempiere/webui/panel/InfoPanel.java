@@ -781,6 +781,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             }
             else if (event.getTarget().equals(confirmPanel.getButton("Cancel")))
             {
+            	m_cancel = true;
                 dispose(false);
             }
             else if (event.getTarget().equals(confirmPanel.getButton("Zoom")))

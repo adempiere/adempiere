@@ -22,7 +22,6 @@ import org.compiere.model.MLocationLookup;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 /**
  *
@@ -131,6 +130,10 @@ public class WebEditorFactory
         	editor = new WLocatorEditor(gridField.getColumnName(), gridField.isMandatory(false), 
         			gridField.isReadOnly(), gridField.isUpdateable(), 
         			(MLocatorLookup)gridField.getLookup()); 
+        }
+        else if (displayType == DisplayType.Account)
+        {
+        	editor = new WAccountEditor(gridField);
         }
         else
         {

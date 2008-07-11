@@ -17,8 +17,6 @@
 
 package org.adempiere.webui.editor;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,7 +52,7 @@ import org.zkoss.zk.ui.event.Events;
  * @author Ashley G Ramdass
  *
  */
-public class WSearchEditor extends WEditor implements ContextMenuListener, PropertyChangeListener, ValueChangeListener, IZoomableEditor
+public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 	private Searchbox 			searchbox;
@@ -212,21 +210,6 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 		}
 
 	}
-	public  void propertyChange(PropertyChangeEvent evt)
-	{
-		if ("FieldValue".equals(evt.getPropertyName()))
-		{
-			if ( evt.getNewValue()== null)
-			{
-				actionRefresh("");
-			}
-			else
-			{
-				actionRefresh(evt.getNewValue());
-
-			}
-		}
-	}
 
 	private void actionRefresh(Object value)
 	{
@@ -360,9 +343,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 		log.fine("Value=" + value);
 
 		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), value, value);
-			// -> ADTabpanel - valuechange
+		// -> ADTabpanel - valuechange
 		fireValueChange(evt);
-		/*
+		
 		//  is the value updated ?
 		boolean updated = false;
 		if (value == null && getValue() == null)
@@ -371,12 +354,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 			updated = true;
 		if (!updated)
 		{
-			//  happens if VLookup is used outside of APanel/GridController (no property listener)
-			log.fine(getColumnName() + " - Value explicitly set - new=" + value + ", old=" + getValue());
-			if (getListeners(PropertyChangeListener.class).length <= 0)
-				setValue(value);
+			setValue(value);
 		}
-	*/
 	}	//	actionCombo
 
 	/**
@@ -435,8 +414,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 		 *  - Window closed                 -> ignore       => result == null && !cancalled
 		 */
 
-		//Object result = null;			// Not Being Used
-		//boolean cancelled = false;	// Not Being Used
+		Object result = null;			// Not Being Used
+		boolean cancelled = false;	// Not Being Used
 
 		String col = lookup.getColumnName();		//	fully qualified name
 
@@ -523,34 +502,30 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Prope
 			ig.addValueChangeListener(this);
 			AEnv.showWindow(ig);
 
+			cancelled = ig.isCancelled();
+			result = ig.getSelectedKey();
 
 		}
 
-		/*
 		//  Result
 		if (result != null)
 		{
-			log.config(m_columnName + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
+			log.config(gridField.getColumnName() + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
 			//  make sure that value is in cache
-			m_lookup.getDirect(result, false, true);
-			if (resetValue)
-				actionCombo (null);
+			lookup.getDirect(result, false, true);
 			actionCombo (result);	//	data binding
 		}
 		else if (cancelled)
 		{
-			log.config(m_columnName + " - Result = null (cancelled)");
-			actionCombo(null);
+			log.config(getColumnName() + " - Result = null (cancelled)");
+//			actionCombo(null);
 		}
 		else
 		{
-			log.config(m_columnName + " - Result = null (not cancelled)");
-			setValue(m_value);      //  to re-display value
+			log.config(getColumnName() + " - Result = null (not cancelled)");
+//			setValue(m_value);      //  to re-display value
 		}
-		//
-		m_button.setEnabled(true);
-		m_text.requestFocus();
-		*/
+		
 	}
 
 	/**

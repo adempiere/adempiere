@@ -62,6 +62,11 @@ public class StatusBarPanel extends Panel
         this.appendChild(mainBox);
     }
     
+    public void setStatusDB (String text)
+    {
+        setStatusDB(text, null);
+    }
+    
     public void setStatusDB (String text, DataStatusEvent dse)
     {
         if (text == null || text.length() == 0)
@@ -74,6 +79,11 @@ public class StatusBarPanel extends Panel
             sb.append(text).append(" ");
             statusDB.setValue(sb.toString());
         }
+    }
+    
+    public void setStatusLine (String text)
+    {
+        setStatusLine(text, false);
     }
     
     public void setStatusLine (String text, boolean error)

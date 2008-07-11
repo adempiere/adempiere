@@ -23,21 +23,21 @@ import org.zkoss.zul.Hbox;
 /**
  * URL Box
  */
-public class Urlbox extends Hbox
+public class Combinationbox extends Hbox
 {
 
     private static final long serialVersionUID = 1L;
 
-    private Textbox           txtUrl;
+    private Textbox           textbox;
 
-    private Button            btnUrl;
+    private Button            button;
 
-    public Urlbox()
+    public Combinationbox()
     {
         initComponents();
     }
 
-    public Urlbox(String url)
+    public Combinationbox(String url)
     {
         initComponents();
         setText(url);
@@ -45,45 +45,54 @@ public class Urlbox extends Hbox
 
     public void setButtonImage(String imageSrc)
     {
-        btnUrl.setImage(imageSrc);
+        button.setImage(imageSrc);
     }
 
     private void initComponents()
     {
-        txtUrl = new Textbox();
-        txtUrl.setWidth("100%");
-        btnUrl = new Button();
-        btnUrl.setHeight("98%");
-        appendChild(txtUrl);
-        appendChild(btnUrl);
+        textbox = new Textbox();
+        textbox.setWidth("100%");
+        button = new Button();
+        button.setHeight("98%");
+        appendChild(textbox);
+        appendChild(button);
     }
 
     public void setText(String value)
     {
-        txtUrl.setText(value);
+        textbox.setText(value);
     }
 
     public String getText()
     {
-        return txtUrl.getText();
+        return textbox.getText();
     }
 
     public void setEnabled(boolean enabled)
     {
-        txtUrl.setReadonly(!enabled);
-        btnUrl.setEnabled(enabled);
+        textbox.setReadonly(!enabled);
+        button.setEnabled(enabled);
+    }
+    
+    public boolean isEnabled()
+    {
+    	return button.isEnabled();
     }
     
     public void setButtonEnabled(boolean enabled)
     {
-        btnUrl.setEnabled(enabled);
+        button.setEnabled(enabled);
     }
 
     public boolean addEventListener(String evtnm, EventListener listener)
     {
         if ("onClick".equals(evtnm))
-            return btnUrl.addEventListener(evtnm, listener);
+            return button.addEventListener(evtnm, listener);
         else
-            return txtUrl.addEventListener(evtnm, listener);
+            return textbox.addEventListener(evtnm, listener);
     }
+
+	public void setToolTipText(String tooltiptext) {
+		textbox.setTooltiptext(tooltiptext);
+	}
 }
