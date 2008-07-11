@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -18,23 +18,59 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VDate;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MLookupInfo;
+import org.compiere.model.MPaySelection;
+import org.compiere.model.MPaySelectionLine;
+import org.compiere.model.MRole;
+import org.compiere.model.X_C_Order;
+import org.compiere.model.X_C_PaySelection;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.process.ProcessInfo;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Create Manual Payments From (AP) Invoices or (AR) Credit Memos.
@@ -43,13 +79,13 @@ import org.compiere.util.*;
  *  and optionally posted/generated and printed
  *
  *  @author Jorg Janke
- *  @version $Id: VPaySelect.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  @version $Id: VPaySelect.java,v 1.2 2008/07/11 08:20:12 cruiz Exp $
  */
 public class VPaySelect extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, ASyncProcess
 {
 	/** @todo withholding */
-	
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -108,6 +144,9 @@ public class VPaySelect extends CPanel
 	private VCheckBox onlyDue = new VCheckBox();
 	private CLabel labelBPartner = new CLabel();
 	private VComboBox fieldBPartner = new VComboBox();
+	private CLabel labelDtype = new CLabel();
+	private VComboBox fieldDtype = new VComboBox();
+
 	private JLabel dataStatus = new JLabel();
 	private JScrollPane dataPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
@@ -137,6 +176,8 @@ public class VPaySelect extends CPanel
 		labelBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		fieldBPartner.addActionListener(this);
 		bRefresh.addActionListener(this);
+		labelDtype.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
+		fieldDtype.addActionListener(this);
 		labelPayDate.setText(Msg.translate(Env.getCtx(), "PayDate"));
 		labelPaymentRule.setText(Msg.translate(Env.getCtx(), "PaymentRule"));
 		fieldPaymentRule.addActionListener(this);
@@ -154,26 +195,38 @@ public class VPaySelect extends CPanel
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldBankAccount,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+
 		parameterPanel.add(labelBankBalance,  new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(labelCurrency,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		parameterPanel.add(labelCurrency,  new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 0, 5, 5), 0, 0));
+
 		parameterPanel.add(labelBalance,   new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+
 		parameterPanel.add(labelBPartner,   new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterPanel.add(fieldBPartner,    new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(bRefresh,    new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(labelPayDate,  new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+
+		parameterPanel.add(labelDtype,   new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldPayDate,   new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+		parameterPanel.add(fieldDtype,    new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(labelPaymentRule,  new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+
+		parameterPanel.add(bRefresh,    new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
+			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+
+		parameterPanel.add(labelPayDate,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterPanel.add(fieldPaymentRule,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+		parameterPanel.add(fieldPayDate,   new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+
+		parameterPanel.add(labelPaymentRule,  new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterPanel.add(fieldPaymentRule,  new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+
 		parameterPanel.add(onlyDue,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		mainPanel.add(dataStatus, BorderLayout.SOUTH);
@@ -191,12 +244,14 @@ public class VPaySelect extends CPanel
 	 *  Dynamic Init.
 	 *  - Load Bank Info
 	 *  - Load BPartner
+	 *  - Load Document Type
 	 *  - Init Table
 	 */
 	private void dynInit()
 	{
 		Properties ctx = Env.getCtx();
-
+		//
+		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		//  Bank Account Info
 		String sql = MRole.getDefault().addAccessSQL(
 			"SELECT ba.C_BankAccount_ID,"                       //  1
@@ -237,7 +292,7 @@ public class VPaySelect extends CPanel
 		KeyNamePair pp = new KeyNamePair(0, "");
 		fieldBPartner.addItem(pp);
 		sql = MRole.getDefault().addAccessSQL(
-			"SELECT bp.C_BPartner_ID, bp.Name FROM C_BPartner bp", "bp", 
+			"SELECT bp.C_BPartner_ID, bp.Name FROM C_BPartner bp", "bp",
 			MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO)
 			+ " AND EXISTS (SELECT * FROM C_Invoice i WHERE bp.C_BPartner_ID=i.C_BPartner_ID"
 			//	X_C_Order.PAYMENTRULE_DirectDebit
@@ -262,6 +317,32 @@ public class VPaySelect extends CPanel
 			log.log(Level.SEVERE, sql, e);
 		}
 		fieldBPartner.setSelectedIndex(0);
+
+		/**Document type**/
+		try
+		{
+			sql = MRole.getDefault().addAccessSQL(
+				"SELECT doc.c_doctype_id,doc.name FROM c_doctype doc WHERE doc.ad_client_id = ? AND doc.docbasetype in ('API','APC') ORDER BY 2", "doc",
+				MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+
+			KeyNamePair dt = new KeyNamePair(0, "");
+			fieldDtype.addItem(dt);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_AD_Client_ID);		//	Client
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next())
+			{
+				dt = new KeyNamePair(rs.getInt(1), rs.getString(2));
+				fieldDtype.addItem(dt);
+			}
+			rs.close();
+			pstmt.close();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
 
 		/**  prepare MiniTable
 		 *
@@ -302,19 +383,18 @@ public class VPaySelect extends CPanel
 			+ " INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)",
 			//	WHERE
 			"i.IsSOTrx=? AND IsPaid='N'"
-			//	Different Payment Selection 
+			//	Different Payment Selection
 			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
 				+ " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.C_PaySelectionCheck_ID IS NOT NULL)"
 			+ " AND i.DocStatus IN ('CO','CL')"
-			+ " AND i.AD_Client_ID=?",	//	additional where & order in loadTableInfo() 
+			+ " AND i.AD_Client_ID=?",	//	additional where & order in loadTableInfo()
 			true, "i");
 		//
 		miniTable.getModel().addTableModelListener(this);
 		//
 		fieldPayDate.setMandatory(true);
 		fieldPayDate.setValue(new Timestamp(System.currentTimeMillis()));
-		//
-		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+
 	}   //  dynInit
 
 	/**
@@ -392,10 +472,14 @@ public class VPaySelect extends CPanel
 		int C_BPartner_ID = pp.getKey();
 		if (C_BPartner_ID != 0)
 			sql += " AND i.C_BPartner_ID=?";
+		//Document Type
+		KeyNamePair dt = (KeyNamePair)fieldDtype.getSelectedItem();
+		int c_doctype_id  = dt.getKey();
+		if (c_doctype_id   != 0)
+			sql += " AND i.c_doctype_id =?";
 		sql += " ORDER BY 2,3";
-		//
-		log.finest(sql + " - C_Currecny_ID=" + bi.C_Currency_ID + ", C_BPartner_ID=" + C_BPartner_ID);
-		
+
+		log.finest(sql + " - C_Currency_ID=" + bi.C_Currency_ID + ", C_BPartner_ID=" + C_BPartner_ID + ", C_doctype_id=" + c_doctype_id  );
 		//  Get Open Invoices
 		try
 		{
@@ -403,16 +487,18 @@ public class VPaySelect extends CPanel
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setTimestamp(index++, payDate);		//	DiscountAmt
 			pstmt.setInt(index++, bi.C_Currency_ID);	//	DueAmt
-			pstmt.setTimestamp(index++, payDate);		
+			pstmt.setTimestamp(index++, payDate);
 			pstmt.setTimestamp(index++, payDate);		//	PayAmt
 			pstmt.setInt(index++, bi.C_Currency_ID);
 			pstmt.setTimestamp(index++, payDate);
-			pstmt.setString(index++, isSOTrx);			//	IsSOTrx	
-			pstmt.setInt(index++, m_AD_Client_ID);		//	Client	
+			pstmt.setString(index++, isSOTrx);			//	IsSOTrx
+			pstmt.setInt(index++, m_AD_Client_ID);		//	Client
 			if (onlyDue.isSelected())
 				pstmt.setTimestamp(index++, payDate);
 			if (C_BPartner_ID != 0)
 				pstmt.setInt(index++, C_BPartner_ID);
+			if (c_doctype_id  != 0)                    //Document type
+				pstmt.setInt(index++, c_doctype_id );
 			//
 			ResultSet rs = pstmt.executeQuery();
 			miniTable.loadTable(rs);
@@ -436,7 +522,7 @@ public class VPaySelect extends CPanel
 		m_frame = null;
 	}	//	dispose
 
-	
+
 	/**************************************************************************
 	 *  ActionListener
 	 *  @param e event
@@ -458,7 +544,7 @@ public class VPaySelect extends CPanel
 			dispose();
 
 		//  Update Open Invoices
-		else if (e.getSource() == fieldBPartner || e.getSource() == bRefresh)
+		else if (e.getSource() == fieldBPartner || e.getSource() == bRefresh || e.getSource() == fieldDtype)
 			loadTableInfo();
 
 	}   //  actionPerformed
@@ -559,7 +645,7 @@ public class VPaySelect extends CPanel
 				BigDecimal PayAmt = (BigDecimal)miniTable.getModel().getValueAt(i, 9);
 				boolean isSOTrx = false;
 				//
-				psl.setInvoice(C_Invoice_ID, isSOTrx, 
+				psl.setInvoice(C_Invoice_ID, isSOTrx,
 					OpenAmt, PayAmt, OpenAmt.subtract(PayAmt));
 				if (!psl.save(trxName))
 				{
@@ -575,7 +661,7 @@ public class VPaySelect extends CPanel
 		if (!ADialog.ask(m_WindowNo, this, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
 			return;
 
-		//  Prepare Process 
+		//  Prepare Process
 		int AD_Proces_ID = 155;	//	C_PaySelection_CreatePayment
 		ProcessInfo pi = new ProcessInfo (m_frame.getTitle(), AD_Proces_ID,
 			X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID());
@@ -583,7 +669,7 @@ public class VPaySelect extends CPanel
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 
 		//	Execute Process
-		ProcessCtl.process(this, m_WindowNo, pi, trx); 
+		ProcessCtl.process(this, m_WindowNo, pi, trx);
 	//	ProcessCtl worker = new ProcessCtl(this, pi, trx);
 	//	worker.start();     //  complete tasks in unlockUI
 	}   //  generatePaySelect
@@ -649,7 +735,7 @@ public class VPaySelect extends CPanel
 		log.config("-");
 	}   //  executeASync
 
-	
+
 	/**************************************************************************
 	 *  Bank Account Info
 	 */
