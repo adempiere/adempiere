@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.editor;
 
+import java.beans.PropertyChangeEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -209,6 +210,22 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			actionButton("");
 		}
 
+	}
+	
+	@Override
+	public  void propertyChange(PropertyChangeEvent evt)
+	{
+		if ("FieldValue".equals(evt.getPropertyName()))
+		{
+			if ( evt.getNewValue()== null)
+			{
+				actionRefresh("");
+			}
+			else
+			{
+				actionRefresh(evt.getNewValue());
+			}
+		}
 	}
 
 	private void actionRefresh(Object value)

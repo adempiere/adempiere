@@ -707,7 +707,7 @@ public final class WAccountDialog extends Window
 		if (s_AcctSchema.isHasAlias())
 		{
 			value = f_Alias.getValue().toString();
-			if (isEmpty(value))
+			if (isEmpty(value) && f_Alias.isMandatory())
 				sb.append(Msg.translate(Env.getCtx(), "Alias")).append(", ");
 		}
 		MAcctSchemaElement[] elements = s_AcctSchema.getAcctSchemaElements();
