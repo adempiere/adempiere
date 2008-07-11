@@ -17,11 +17,14 @@
 
 package org.adempiere.webui.panel;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.VerticalBox;
 import org.compiere.model.DataStatusEvent;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
  * This class is based on org.compiere.apps.StatusBar written by Jorg Janke.
@@ -37,6 +40,7 @@ public class StatusBarPanel extends Panel
 
     private Label statusDB;
     private Label statusLine;
+    private Label infoLine;
     
     public StatusBarPanel()
     {
@@ -47,19 +51,38 @@ public class StatusBarPanel extends Panel
     private void init()
     {
         statusLine = new Label();
-        //statusLine.setWidth("100%");
-        
         statusDB = new Label();
-        statusDB.setWidth("200px");
+        infoLine = new Label();
         
         Hbox hbox = new Hbox();
-        hbox.appendChild(statusLine);
-        hbox.appendChild(statusDB);
+        hbox.setWidth("100%");
+        hbox.setHeight("100%");
+        hbox.setWidths("50%, 50%");
+        Div div = new Div();
+        div.setStyle("text-align: left; ");
+        div.appendChild(statusLine);
+        div.setWidth("100%");
+        Vbox vbox = new Vbox();
+        vbox.setPack("center");
+        LayoutUtils.addSclass("status", vbox);        
+        vbox.appendChild(div);
+        hbox.appendChild(vbox);
         
-        VerticalBox mainBox = new VerticalBox();
-        mainBox.appendChild(hbox);
+        div = new Div();
+        div.setWidth("100%");
+        div.setStyle("text-align: right; ");
+        div.appendChild(infoLine);
+        div.appendChild(statusDB);
+        statusDB.setStyle("");
+        LayoutUtils.addSclass("status-db", statusDB);
+        LayoutUtils.addSclass("status-info", infoLine);
+        vbox = new Vbox();
+        vbox.setPack("center");
+        LayoutUtils.addSclass("status", vbox);        
+        vbox.appendChild(div);
+        hbox.appendChild(vbox);
         
-        this.appendChild(mainBox);
+        this.appendChild(hbox);
     }
     
     public void setStatusDB (String text)
@@ -90,4 +113,13 @@ public class StatusBarPanel extends Panel
     {
         statusLine.setValue(text);
     }
+    
+    /**
+	 *	Set Info Line
+	 *  @param text text
+	 */
+	public void setInfo (String text)
+	{
+		infoLine.setValue(text);
+	}	//	setInfo
 }

@@ -237,4 +237,9 @@ public class MenuPanel extends Panel implements EventListener
     {
         return true;
     }
+	
+	public Tree getMenuTree() 
+	{
+		return menuTree;
+	}
 }

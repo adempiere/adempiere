@@ -699,7 +699,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         String trxInfo = curTab.getTrxInfo();
         if (trxInfo != null)
         {
-//            statusBar.setInfo(trxInfo);
+            statusBar.setInfo(trxInfo);
         }
 
         //  Check Attachment

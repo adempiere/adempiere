@@ -49,21 +49,18 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
  *	Dialog to enter Account Info
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: VAccountDialog.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ * 	@author Low Heng Sin
  */
 public final class WAccountDialog extends Window
 	implements EventListener, DataStatusListener, ValueChangeListener
 {
 	/**
 	 * 	Constructor
-	 *  @param frame frame
 	 *  @param title title
 	 *  @param mAccount account info
 	 *  @param C_AcctSchema_ID as
@@ -93,7 +90,7 @@ public final class WAccountDialog extends Window
 			AEnv.showCenterScreen(this);
 		else
 			dispose();
-	}	//	VLocationDialog
+	}	//	WAccountDialog
 
 	/** Window No					*/
 	private int					m_WindowNo;
@@ -152,13 +149,14 @@ public final class WAccountDialog extends Window
 	/**
 	 *	Static component init.
 	 *  <pre>
-	 *  - panel
-	 *      - northPanel
-	 *          - parameterPanel
-	 *          - toolBar
-	 *      - gridController
-	 *      - confirmPanel
-	 *  - statusBar
+	 *  - north
+	 *    - parameterPanel
+	 *    - toolBar
+	 *  - center
+	 *    - adtabpanel
+	 *  - south
+	 *    - confirmPanel
+	 *    - statusBar
 	 *  </pre>
 	 *  @throws Exception
 	 */

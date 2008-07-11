@@ -25,6 +25,7 @@ import org.adempiere.webui.component.Panel;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Treeitem;
 
 /**
@@ -110,9 +111,16 @@ public class MenuSearchPanel extends Panel implements EventListener
             if (treeItem != null)
             {
                 select(treeItem);
-                Events.echoEvent(Events.ON_SELECT, treeItem.getTree(), null);
+                Clients.showBusy("Loding...", true);
+                Events.echoEvent("onPostSelect", this, null);
             }
         }
+    }
+    
+    public void onPostSelect() {
+    	Clients.showBusy(null, false);
+    	Event event = new Event(Events.ON_SELECT, menuPanel.getMenuTree());
+    	Events.postEvent(event);
     }
 
 	private void select(Treeitem selectedItem) {
@@ -124,6 +132,5 @@ public class MenuSearchPanel extends Panel implements EventListener
 			parent = parent.getParentItem();
 		}
 		selectedItem.getTree().setSelectedItem(selectedItem);
-		selectedItem.focus();
 	}
 }

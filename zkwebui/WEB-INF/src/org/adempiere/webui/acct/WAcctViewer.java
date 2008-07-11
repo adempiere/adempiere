@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -54,8 +53,10 @@ import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Caption;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Listcell;
@@ -181,7 +182,7 @@ public class WAcctViewer extends Window implements EventListener
 
 		try
 		{
-			jbInit();
+			init();
 			dynInit (AD_Table_ID, Record_ID);
 			AEnv.showWindow(this);
 		}
@@ -204,7 +205,7 @@ public class WAcctViewer extends Window implements EventListener
 	 *  @throws Exception
 	 */
 	
-	private void jbInit() throws Exception
+	private void init() throws Exception
 	{	
 		// Selection Panel
 			
@@ -486,17 +487,14 @@ public class WAcctViewer extends Window implements EventListener
 		
 		// Result Tab
 	  	
-		Div div = new Div();
-        div.setStyle("overflow:auto");
-        div.setWidth("100%");
-		div.appendChild(table);
-		
-		table.setWidth("1200px");
-        table.setMold("paging");
-		table.setPageSize(10);
+		table.setWidth("99%;");
+//      table.setMold("paging");
+//		table.setPageSize(10);
+		table.setVflex(true);
 		
 		result.setWidth("100%");
-		result.appendChild(div);
+		result.setHeight("100%");
+		result.appendChild(table);
 		
 		// Query Tab
 		
@@ -519,13 +517,27 @@ public class WAcctViewer extends Window implements EventListener
 		tabpanels.appendChild(result);
 		
 		tabbedPane.setWidth("100%");
+		tabbedPane.setHeight("100%");
 		tabbedPane.appendChild(tabs);
 		tabbedPane.appendChild(tabpanels);
 		
-		VerticalBox mainBox = new VerticalBox();
-		mainBox.setWidth("100%");
-		mainBox.appendChild(tabbedPane);
-		mainBox.appendChild(southPanel);
+		Borderlayout layout = new Borderlayout();
+		layout.setParent(this);
+		layout.setHeight("100%");
+		layout.setWidth("100%");
+		layout.setStyle("background-color: transparent");
+		
+		Center center = new Center();
+		center.setParent(layout);
+		center.setFlex(true);
+		center.setStyle("background-color: transparent");
+		tabbedPane.setParent(center);
+		
+		South south = new South();
+		south.setParent(layout);
+		south.setFlex(true);
+		south.setStyle("background-color: transparent");
+		southPanel.setParent(south);
 		
 		this.setAttribute("mode", "modal");
 		this.setTitle("Posting");
@@ -533,7 +545,7 @@ public class WAcctViewer extends Window implements EventListener
 		this.setClosable(true);
 		this.setWidth("800px");
 		this.setHeight("500px");
-		this.appendChild(mainBox);
+		this.setSizable(true);
 		
 		//tabbedPane.addEventListener(Events.ON_SELECT, this);
 	}
@@ -897,6 +909,7 @@ public class WAcctViewer extends Window implements EventListener
 		if (table.getListhead() == null)
 		{
 			Listhead listhead = new Listhead();
+			listhead.setSizable(true);
 			
 			for (int i = 0; i < rmodel.getColumnCount(); i++)
 			{
