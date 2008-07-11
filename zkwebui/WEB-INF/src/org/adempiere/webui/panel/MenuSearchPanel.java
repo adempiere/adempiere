@@ -109,9 +109,21 @@ public class MenuSearchPanel extends Panel implements EventListener
             Treeitem treeItem = treeNodeItemMap.get(value);
             if (treeItem != null)
             {
-                treeItem.setSelected(true);
-                menuPanel.fireMenuSelectedEvent(treeItem);
+                select(treeItem);
+                Events.echoEvent(Events.ON_SELECT, treeItem.getTree(), null);
             }
         }
     }
+
+	private void select(Treeitem selectedItem) {
+		Treeitem parent = selectedItem.getParentItem();
+		while (parent != null) {
+			if (!parent.isOpen())
+				parent.setOpen(true);
+			
+			parent = parent.getParentItem();
+		}
+		selectedItem.getTree().setSelectedItem(selectedItem);
+		selectedItem.focus();
+	}
 }

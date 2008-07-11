@@ -226,7 +226,6 @@ public class MenuPanel extends Panel implements EventListener
             }*/
     		
     		SessionManager.getAppDesktop().onMenuSelected(nodeId);
-    		menuTree.setSelectedItem(null);
         }
         catch (Exception e)
         {
@@ -234,7 +233,7 @@ public class MenuPanel extends Panel implements EventListener
         }		
 	}
 
-    public boolean isAsap()
+	public boolean isAsap()
     {
         return true;
     }

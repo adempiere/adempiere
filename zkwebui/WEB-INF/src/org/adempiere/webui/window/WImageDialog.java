@@ -41,10 +41,12 @@ import org.zkoss.zul.Image;
 import org.zkoss.zul.Separator;
 
 /**
- *  Image Dialog
- *
+ *  Base on the original Swing Image Dialog.
  *  @author   Jorg Janke
- *  @version  $Id: VImageDialog.java,v 1.4 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  Zk Port
+ *  @author Low Heng Sin 
+ *  
  */
 public class WImageDialog extends Window implements EventListener
 {

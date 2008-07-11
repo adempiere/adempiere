@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
- * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
+ * Copyright (C) 2007 Low Heng Sin  All Rights Reserved.                      *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -29,11 +28,11 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
 /**
- * This class is based on org.compiere.grid.ed.VButton written by Jorg Janke.
+ * This class is based on org.compiere.grid.ed.VImage written by Jorg Janke.
  * @author Jorg Janke
  * 
  * Modifications - UI Compatibility
- * @author ashley
+ * @author Low Heng Sin
  */
 public class WImageEditor extends WEditor
 {
