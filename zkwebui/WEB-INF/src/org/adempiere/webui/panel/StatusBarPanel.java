@@ -20,10 +20,16 @@ package org.adempiere.webui.panel;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.DataStatusEvent;
+import org.compiere.model.MRole;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -34,13 +40,17 @@ import org.zkoss.zul.Vbox;
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
  */
-public class StatusBarPanel extends Panel
+public class StatusBarPanel extends Panel implements EventListener
 {
     private static final long serialVersionUID = 1L;
 
     private Label statusDB;
     private Label statusLine;
     private Label infoLine;
+
+	private DataStatusEvent m_dse;
+
+	private String m_text;
     
     public StatusBarPanel()
     {
@@ -73,7 +83,7 @@ public class StatusBarPanel extends Panel
         div.setStyle("text-align: right; ");
         div.appendChild(infoLine);
         div.appendChild(statusDB);
-        statusDB.setStyle("");
+        
         LayoutUtils.addSclass("status-db", statusDB);
         LayoutUtils.addSclass("status-info", infoLine);
         vbox = new Vbox();
@@ -83,6 +93,8 @@ public class StatusBarPanel extends Panel
         hbox.appendChild(vbox);
         
         this.appendChild(hbox);
+        
+        statusDB.addEventListener(Events.ON_CLICK, this);
     }
     
     public void setStatusDB (String text)
@@ -102,6 +114,9 @@ public class StatusBarPanel extends Panel
             sb.append(text).append(" ");
             statusDB.setValue(sb.toString());
         }
+        
+        m_text = text;
+        m_dse = dse;
     }
     
     public void setStatusLine (String text)
@@ -122,4 +137,17 @@ public class StatusBarPanel extends Panel
 	{
 		infoLine.setValue(text);
 	}	//	setInfo
+
+	public void onEvent(Event event) throws Exception {
+		if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() == statusDB) {
+			if (m_dse == null 
+				|| m_dse.CreatedBy == null
+				|| !MRole.getDefault().isShowPreference())
+				return;
+			
+			String title = Msg.getMsg(Env.getCtx(), "Who") + m_text;
+			WRecordInfo info = new WRecordInfo (title, m_dse);
+		}
+		
+	}
 }
