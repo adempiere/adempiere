@@ -218,3 +218,25 @@ tr.tab-desktop-tb-m {
 	border-left: 2px solid #9CBDFF;
 	border-right: 2px solid #9CBDFF;
 }
+
+<%-- status bar --%>
+.status {
+	width: 100%;
+	height: 20px;
+}
+
+.status-db {
+	padding-top: 0; 
+	pdding-bottom: 0; 
+	padding-left: 5px; 
+	padding-right: 5px; 
+	cursor: pointer; 
+	width: 100%; 
+	height: 100%; 
+	margin: 0; 
+	border-left: solid 1px #9CBDFF;
+}
+
+.status-info {
+	padding-right: 10px;
+}
