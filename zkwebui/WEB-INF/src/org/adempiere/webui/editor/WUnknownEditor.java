@@ -35,6 +35,6 @@ public class WUnknownEditor extends WStringEditor
     
     private void init()
     {
-        super.textbox.setEnabled(false);
+        getComponent().setReadonly(true);
     }
 }

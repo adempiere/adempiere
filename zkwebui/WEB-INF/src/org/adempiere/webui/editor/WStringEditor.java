@@ -38,8 +38,6 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 {
     private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     
-    protected Textbox textbox;
-    
     private String oldText;
     
     private WEditorPopupMenu	popupMenu;
@@ -48,35 +46,39 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public WStringEditor(GridField gridField)
     {
         super(new Textbox(), gridField);
-        textbox = (Textbox)super.component;
         
         init();
     }
     
+    @Override
+    public Textbox getComponent() {
+    	return (Textbox) component;
+    }
+    
     private void init()
     {
-        textbox.setMaxlength(gridField.getFieldLength());
+        getComponent().setMaxlength(gridField.getFieldLength());
         int displayLength = gridField.getDisplayLength();
         if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
         {
             displayLength = MAX_DISPLAY_LENGTH;
         }
-        textbox.setCols(displayLength);    
+        getComponent().setCols(displayLength);    
         
         if (gridField.getDisplayType() == DisplayType.Text)
         {
-            textbox.setMultiline(true);
-            textbox.setRows(3);
+            getComponent().setMultiline(true);
+            getComponent().setRows(3);
         }
         else if (gridField.getDisplayType() == DisplayType.TextLong)
         {
-            textbox.setMultiline(true);
-            textbox.setRows(5);
+            getComponent().setMultiline(true);
+            getComponent().setRows(5);
         }
         else if (gridField.getDisplayType() == DisplayType.Memo)
         {
-            textbox.setMultiline(true);
-            textbox.setRows(8);
+            getComponent().setMultiline(true);
+            getComponent().setRows(8);
         }
         
         popupMenu = new WEditorPopupMenu(false, false, true);
@@ -84,7 +86,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 
     public void onEvent(Event event)
     {
-        String newText = textbox.getValue();
+        String newText = getComponent().getValue();
         ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
         super.fireValueChange(changeEvent);
         oldText = newText;
@@ -93,13 +95,13 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     @Override
     public String getDisplay()
     {
-        return textbox.getValue();
+        return getComponent().getValue();
     }
 
     @Override
     public Object getValue()
     {
-        return textbox.getValue();
+        return getComponent().getValue();
     }
 
     @Override
@@ -107,24 +109,24 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     {
         if (value != null)
         {
-            textbox.setValue(value.toString());
+            getComponent().setValue(value.toString());
         }
         else
         {
-            textbox.setValue("");
+            getComponent().setValue("");
         }
-        oldText = textbox.getValue();
+        oldText = getComponent().getValue();
     }
     
     protected void setTypePassword(boolean password)
     {
         if (password)
         {
-            textbox.setType("password");
+            getComponent().setType("password");
         }
         else
         {
-            textbox.setType("text");
+            getComponent().setType("text");
         }
     }
     
