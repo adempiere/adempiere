@@ -52,7 +52,6 @@ public class WImageDialog extends Window implements EventListener
 {
 	/**
 	 *  Constructor
-	 *  @param owner
 	 *  @param mImage
 	 */
 	public WImageDialog (MImage mImage)
@@ -75,7 +74,7 @@ public class WImageDialog extends Window implements EventListener
 		fileButton.setLabel(m_mImage.getName());
 //		imageLabel.setIcon(m_mImage.getIcon());
 		AEnv.showCenterScreen(this);
-	}   //  VImageDialog
+	}   //  WImageDialog
 
 	/**  Image Model            */
 	private MImage      m_mImage = null;
@@ -131,7 +130,7 @@ public class WImageDialog extends Window implements EventListener
 		//
 		fileButton.addEventListener(Events.ON_CLICK, this);
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
-	}   //  jbInit
+	}   //  init
 
 	public void onEvent(Event e) throws Exception {
 		if (e.getTarget() == fileButton)
@@ -163,12 +162,7 @@ public class WImageDialog extends Window implements EventListener
 		{
 			imageFile = Fileupload.get(); 
 			
-			if (imageFile != null)
-			{
-//				pdfViewer.setContent(media);
-				;
-			}
-			else
+			if (imageFile == null)
 				return;
 		}
 		catch (InterruptedException e) 
@@ -216,4 +210,4 @@ public class WImageDialog extends Window implements EventListener
 			return m_mImage.getAD_Image_ID();
 		return 0;
 	}	//	getAD_Image_ID	
-}   //  VImageDialog
+}   //  WImageDialog

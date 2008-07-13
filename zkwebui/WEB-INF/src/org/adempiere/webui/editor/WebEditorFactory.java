@@ -139,6 +139,10 @@ public class WebEditorFactory
         {
         	editor = new WImageEditor(gridField);
         }
+        else if (displayType == DisplayType.Binary)
+        {
+        	editor = new WBinaryEditor(gridField);        	
+        }
         else
         {
             editor = new WUnknownEditor(gridField);
