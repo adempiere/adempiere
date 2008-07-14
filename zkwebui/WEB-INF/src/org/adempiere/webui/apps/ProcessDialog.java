@@ -14,14 +14,17 @@ import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
+import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
@@ -53,7 +56,7 @@ import org.zkoss.zul.Html;
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
  */
-public class ProcessDialog extends Window implements EventListener
+public class ProcessDialog extends Window implements EventListener, ASyncProcess
 {
 	
 	/**
@@ -142,6 +145,7 @@ public class ProcessDialog extends Window implements EventListener
 	private ProcessParameterPanel parameterPanel = null;
 	
 	private ProcessInfo m_pi = null;
+	private boolean m_isLocked = false;
 
 	
 	/**
@@ -249,13 +253,12 @@ public class ProcessDialog extends Window implements EventListener
 	public void startProcess()
 	{
 		m_pi.setPrintPreview(true);
-		//can't use asyncprocess, zk ui threading issue
+		
+		if (!getDesktop().isServerPushEnabled())
+			getDesktop().enableServerPush(true);
+		
 		this.lockUI(m_pi);
-		try {
-			ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
-		} finally {
-			this.unlockUI(m_pi);
-		}
+		ProcessCtl.process(this, m_WindowNo, parameterPanel, m_pi, null);		
 	}
 
 	public boolean isAsap() {
@@ -279,11 +282,61 @@ public class ProcessDialog extends Window implements EventListener
 	}
 
 	public void lockUI(ProcessInfo pi) {
-		bOK.setLabel("");
-		bOK.setEnabled(false);
+		if (m_isLocked) return;
+		
+		m_isLocked = true;
+		
+		if (Executions.getCurrent() != null)
+			Clients.showBusy("Processing...", true);
+		else
+		{
+			try {
+				//get full control of desktop
+				Executions.activate(this.getDesktop());
+				try {                    
+					Clients.showBusy("Processing...", true);
+                } catch(Error ex){                    
+                	throw ex;                    
+                } finally{
+                	//release full control of desktop
+                	Executions.deactivate(this.getDesktop());                                                            
+                }
+			} catch (Exception e) {
+				log.log(Level.WARNING, "Failed to lock UI.", e);
+			}
+		}
 	}
 
 	public void unlockUI(ProcessInfo pi) {
+		if (!m_isLocked) return;
+		
+		m_isLocked = false;
+		if (Executions.getCurrent() != null)
+		{
+			updateUI(pi);
+			Clients.showBusy(null, false);
+		}
+		else
+		{
+			try {
+				//get full control of desktop
+				Executions.activate(this.getDesktop());
+				try {                    
+                	updateUI(pi);                  
+                	Clients.showBusy(null, false);
+                } catch(Error ex){                    
+                	throw ex;                    
+                } finally{
+                	//release full control of desktop
+                	Executions.deactivate(this.getDesktop());                                                            
+                }
+			} catch (Exception e) {
+				log.log(Level.WARNING, "Failed to update UI upon unloc.", e);
+			} 		                                                
+		}				
+	}
+
+	private void updateUI(ProcessInfo pi) {
 		ProcessInfoUtil.setLogFromDB(pi);
 		m_messageText.append("<p><font color=\"").append(pi.isError() ? "#FF0000" : "#0000FF").append("\">** ")
 			.append(pi.getSummary())
@@ -308,7 +361,6 @@ public class ProcessDialog extends Window implements EventListener
 		// If the process is a silent one and no errors occured, close the dialog
 		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
 			this.dispose();
-		
 	}
 	
 	/**************************************************************************
@@ -393,5 +445,12 @@ public class ProcessDialog extends Window implements EventListener
 
 	public boolean isValid() {
 		return valid;
+	}
+
+	public void executeASync(ProcessInfo pi) {
+	}
+
+	public boolean isUILocked() {
+		return m_isLocked;
 	}
 }	//	ProcessDialog

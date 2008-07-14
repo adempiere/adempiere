@@ -189,8 +189,6 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	        	try {
 					pd.doModal();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
         	}
         }
