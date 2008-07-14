@@ -16,18 +16,16 @@
 
 package org.eevolution.process;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.process.*;
-//import compiere.model.*;
+import org.compiere.model.MProduct;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.eevolution.model.MPPProductBOMLine;
-
 
 /**
  *	CalculateLowLevel for MRP
@@ -38,53 +36,59 @@ import org.eevolution.model.MPPProductBOMLine;
 public class CalculateLowLevel extends SvrProcess
 {
 	/**					*/
-        
-	private int AD_Client_ID = 0 ;
-        
+
+	private int AD_Client_ID = 0;
+
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
 		AD_Client_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Client_ID"));
-                ProcessInfoParameter[] para = getParameter();
-	}	//	prepare
+		ProcessInfoParameter[] para = getParameter();
+	} //	prepare
 
-        
-     protected String doIt() throws Exception                
+	protected String doIt() throws Exception
 	{
-            
-                 
-        String sql = "SELECT p.M_Product_ID FROM M_Product p WHERE AD_Client_ID = " +  AD_Client_ID;                    
+
+		String sql = "SELECT p.M_Product_ID FROM M_Product p WHERE AD_Client_ID = " + AD_Client_ID;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-						pstmt = DB.prepareStatement (sql,get_TrxName());                       
-                        ResultSet rs = pstmt.executeQuery ();
-                        while (rs.next())
-                        {
-                            
-                            int m_M_Product_ID = rs.getInt(1); 
-                            if (m_M_Product_ID != 0)
-                            { 
-                            MProduct product = new MProduct(getCtx(), m_M_Product_ID,get_TrxName());
-                            MPPProductBOMLine bomline = new MPPProductBOMLine(getCtx(), 0 , get_TrxName()); 
-                            int lowlevel = bomline.getLowLevel(m_M_Product_ID);
-                            product.set_CustomColumn("LowLevel", lowlevel);
-                            product.save();
-                         
-                          }
-                        }
-                        rs.close();
-                        pstmt.close();
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
 
+				int m_M_Product_ID = rs.getInt(1);
+				if (m_M_Product_ID != 0)
+				{
+					MProduct product = new MProduct(getCtx(), m_M_Product_ID, get_TrxName());
+					MPPProductBOMLine bomline = new MPPProductBOMLine(getCtx(), 0, get_TrxName());
+					int lowlevel = bomline.getLowLevel(m_M_Product_ID);
+					product.setLowLevel(lowlevel);
+					product.save();
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			log.severe("Error: " + e.getLocalizedMessage() + sql);
+			return "@Error@";
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "doIt - " + sql, e);
+			log.severe("Error: " + e.getLocalizedMessage());
+			return "@Error@";
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 
-            return "ok";
-     }
-                                                                
+		return "OK";
+	}
 }
