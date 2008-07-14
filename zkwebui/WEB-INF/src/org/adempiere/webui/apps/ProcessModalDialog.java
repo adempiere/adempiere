@@ -254,8 +254,11 @@ public class ProcessModalDialog extends Window implements EventListener
 	}	//	init
 
 	public void startProcess()
-	{
+	{		
 		m_pi.setPrintPreview(true);
+		if (m_ASyncProcess != null) {
+			m_ASyncProcess.lockUI(m_pi);
+		}
 		ProcessCtl.process(m_ASyncProcess, m_WindowNo, parameterPanel, m_pi, null);
 		dispose();
 	}

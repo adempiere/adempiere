@@ -1201,6 +1201,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
 
 	public void lockUI(ProcessInfo pi) {
+		if (m_uiLocked) return;
+		
 		m_uiLocked = true;
 		boolean notPrint = pi != null 
 		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
