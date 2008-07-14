@@ -278,7 +278,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 			}
 			return parent;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, "iparent - " + sql + e);
 		}
