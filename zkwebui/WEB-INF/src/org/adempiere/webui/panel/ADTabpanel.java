@@ -19,8 +19,10 @@ package org.adempiere.webui.panel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Bandbox;
@@ -99,13 +101,19 @@ DataStatusListener, ValueChangeListener
     
     private ArrayList<WEditor> editors = new ArrayList<WEditor>();
     
+    private ArrayList<String> editorIds = new ArrayList<String>();
+    
+    private ArrayList<String> fieldGroupIds = new ArrayList<String>();
+    
     private boolean           editing;
     
     private boolean			  uiCreated = false;
     
     private GridPanel		  listPanel;
     
-    private Map<String, List<Row>> fieldGroups = new HashMap<String, List<Row>>();
+    private Map<String, List<Row>> fieldGroupContents = new HashMap<String, List<Row>>();
+    
+    private Map<String, List<Row>> fieldGroupHeaders = new HashMap<String, List<Row>>();
 
 	private ArrayList<Row> rowList;
 
@@ -183,28 +191,35 @@ DataStatusListener, ValueChangeListener
             				row = new Row();
             			}
             			
+            			List<Row> headerRows = new ArrayList<Row>();
+            			fieldGroupHeaders.put(fieldGroup, headerRows);
+            			
             			row.setSpans("5");
             			row.appendChild(new Separator());
             			rows.appendChild(row);
+            			headerRows.add(row);
             			            			
-            			if (X_AD_FieldGroup.FIELDGROUPTYPE_Collapse.equals(field.getFieldGroupType()) ||
-            				X_AD_FieldGroup.FIELDGROUPTYPE_Tab.equals(field.getFieldGroupType()))
-            			{
-            				rowList = new ArrayList<Row>();
-            				fieldGroups.put(fieldGroup, rowList);
-            			}
-            			else
-            			{
-            				rowList = null;
-            			}
+        				rowList = new ArrayList<Row>();
+        				fieldGroupContents.put(fieldGroup, rowList);
+            			
             			row = new Row();            			
             			row.setSpans("4");
-            			if (rowList == null) 
+            			if (X_AD_FieldGroup.FIELDGROUPTYPE_Label.equals(field.getFieldGroupType())) 
             			{
             				Label groupLabel = new Label(fieldGroup); 
             				row.appendChild(groupLabel);
             				row.appendChild(createSpacer());
             				rows.appendChild(row);
+            				headerRows.add(row);
+            				
+            				row = new Row();
+	                        row.setSpans("4");
+	                        Separator separator = new Separator();
+	                        separator.setBar(true);
+	            			row.appendChild(separator);
+	            			row.appendChild(createSpacer());
+	            			rows.appendChild(row);
+	            			headerRows.add(row);
             			}
             			else
             			{
@@ -215,16 +230,7 @@ DataStatusListener, ValueChangeListener
             				row.appendChild(toolbar);
             				row.appendChild(createSpacer());
             				rows.appendChild(row);
-            			}
-            			
-            			if (rowList == null) {
-	                        row = new Row();
-	                        row.setSpans("4");
-	                        Separator separator = new Separator();
-	                        separator.setBar(true);
-	            			row.appendChild(separator);
-	            			row.appendChild(createSpacer());
-	            			rows.appendChild(row);
+            				headerRows.add(row);
             			}
             			
             			row = new Row();
@@ -259,19 +265,20 @@ DataStatusListener, ValueChangeListener
                     row = new Row();
                 }
 
-                WEditor comp = WebEditorFactory.getEditor(gridTab, field, false);
+                WEditor editor = WebEditorFactory.getEditor(gridTab, field, false);
                 
-                if (comp != null) // Not heading
+                if (editor != null) // Not heading
                 {
-                    comp.setGridTab(this.getGridTab());
-                	field.addPropertyChangeListener(comp);
-                    editors.add(comp);
+                    editor.setGridTab(this.getGridTab());
+                	field.addPropertyChangeListener(editor);
+                    editors.add(editor);
+                    editorIds.add(editor.getComponent().getUuid());
                     Div div = new Div();
                     div.setAlign("right");
-                    Label label = comp.getLabel();
+                    Label label = editor.getLabel();
                     div.appendChild(label);
                     row.appendChild(div);
-                    row.appendChild(comp.getComponent());
+                    row.appendChild(editor.getComponent());
                     if (field.isLongField()) {
                     	row.setSpans("1,3,1");
                     	row.appendChild(createSpacer());
@@ -281,31 +288,31 @@ DataStatusListener, ValueChangeListener
                     	row = new Row();
                     }
                     
-                    if (comp instanceof WButtonEditor)
+                    if (editor instanceof WButtonEditor)
                     {
-                    	((WButtonEditor)comp).addActionListener(windowPanel);
+                    	((WButtonEditor)editor).addActionListener(windowPanel);
                     }
                     else
                     {
-                    	comp.addValueChangeListner(this);
+                    	editor.addValueChangeListner(this);
                     }
                     
-                    if (comp.getComponent() instanceof HtmlBasedComponent) {
+                    if (editor.getComponent() instanceof HtmlBasedComponent) {
                     	//can't stretch bandbox & datebox
-                    	if (!(comp.getComponent() instanceof Bandbox) && !(comp.getComponent() instanceof Datebox))
-                    		((HtmlBasedComponent)comp.getComponent()).setWidth("100%");
+                    	if (!(editor.getComponent() instanceof Bandbox) && !(editor.getComponent() instanceof Datebox))
+                    		((HtmlBasedComponent)editor.getComponent()).setWidth("100%");
                     }
                     
-                    WEditorPopupMenu popupMenu = comp.getPopupMenu();
+                    WEditorPopupMenu popupMenu = editor.getPopupMenu();
                     
                     if (popupMenu != null)
                     {
-                    	popupMenu.addMenuListener((ContextMenuListener)comp);
+                    	popupMenu.addMenuListener((ContextMenuListener)editor);
                         this.appendChild(popupMenu);
-                        if (popupMenu.isZoomEnabled() && comp instanceof IZoomableEditor) 
+                        if (popupMenu.isZoomEnabled() && editor instanceof IZoomableEditor) 
                         {
                         	label.setStyle("cursor: pointer; text-decoration: underline;");
-                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) comp));
+                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) editor));
                         }
                         
                         label.setContext(popupMenu.getId());
@@ -408,6 +415,53 @@ DataStatusListener, ValueChangeListener
                 }
             }
         }   //  all components
+        
+        //hide row if all editor within the row is invisible
+        List rows = grid.getRows().getChildren();
+        for(int i = 0; i < rows.size(); i++) 
+        {
+        	Row row = (Row) rows.get(i);
+        	List components = row.getChildren();
+        	boolean visible = false;
+        	boolean editorRow = false;
+        	for (int j = 0; j < components.size(); j++)
+        	{
+        		Component component = (Component) components.get(j);
+        		if (editorIds.contains(component.getUuid())) 
+        		{
+        			editorRow = true;
+        			if (component.isVisible())
+        			{
+        				visible = true;
+        				break;
+        			}
+        		}
+        	}
+        	if (editorRow && (row.isVisible() != visible))
+        		row.setVisible(visible);
+        }
+        
+        //hide fieldgroup is all editor row within the fieldgroup is invisible
+        for(Iterator<Entry<String, List<Row>>> i = fieldGroupHeaders.entrySet().iterator(); i.hasNext();)
+        {
+        	Map.Entry<String, List<Row>> entry = i.next();
+        	List<Row> contents = fieldGroupContents.get(entry.getKey());
+        	boolean visible = false;
+        	for (Row row : contents)
+        	{
+        		if (row.isVisible())
+        		{
+        			visible = true;
+        			break;
+        		}
+        	}
+        	List<Row> headers = entry.getValue();
+        	for(Row row : headers)
+        	{
+        		if (row.isVisible() != visible)
+        			row.setVisible(visible);
+        	}
+        }
         
         logger.config(gridTab.toString() + " - fini - " + (col<=0 ? "complete" : "seletive"));
     }   //  dynamicDisplay
@@ -517,7 +571,7 @@ DataStatusListener, ValueChangeListener
     	if (event.getTarget() instanceof Toolbarbutton) 
     	{
     		Toolbarbutton button = (Toolbarbutton) event.getTarget();
-    		List<Row> list = fieldGroups.get(button.getLabel());
+    		List<Row> list = fieldGroupContents.get(button.getLabel());
     		if (list.get(0).isVisible()) {
     			for (Row row : list) {
     				row.setVisible(false);
