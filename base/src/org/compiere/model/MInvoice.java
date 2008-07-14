@@ -764,7 +764,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 * 	Is Reversal
 	 *	@return reversal
 	 */
-	private boolean isReversal()
+	public boolean isReversal()
 	{
 		return m_reversal;
 	}	//	isReversal
