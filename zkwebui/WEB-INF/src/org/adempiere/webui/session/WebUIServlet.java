@@ -18,6 +18,7 @@
 package org.adempiere.webui.session;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -73,7 +74,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
         }
         catch(Exception ex)
         {
-            logger.severe("Could not initialize ADempiere logging Management");
+            logger.log(Level.SEVERE, "Could not initialize ADempiere logging Management", ex);
         }
 
         boolean started = Adempiere.startup(false);

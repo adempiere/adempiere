@@ -18,6 +18,7 @@
 package org.adempiere.webui.panel;
 
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
@@ -48,6 +49,9 @@ import org.compiere.model.GridWindowVO;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -58,6 +62,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 
 /**
  * 
@@ -70,7 +75,7 @@ import org.zkoss.zk.ui.event.Events;
  * @version $Revision: 0.10 $
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
-        EventListener, DataStatusListener, ActionListener
+        EventListener, DataStatusListener, ActionListener, ASyncProcess
 {
     private static final long    serialVersionUID = 1L;
 
@@ -114,6 +119,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private int m_onlyCurrentDays = 0;
 	
 	private Component parent;
+
+	private boolean m_uiLocked;
 
     public AbstractADWindowPanel(Properties ctx, int windowNo)
     {
@@ -880,7 +887,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		int table_ID = curTab.getAD_Table_ID();
 		int record_ID = curTab.getRecord_ID();
 		
-		ProcessModalDialog dialog = new ProcessModalDialog(null,this.getTitle(),null,0,
+		if (!getComponent().getDesktop().isServerPushEnabled())
+			getComponent().getDesktop().enableServerPush(true);
+		
+		ProcessModalDialog dialog = new ProcessModalDialog(null,this.getTitle(),this,0,
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
@@ -1153,8 +1163,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
 		*/
 
+		if (!getComponent().getDesktop().isServerPushEnabled())
+			getComponent().getDesktop().enableServerPush(true);
+		
 		ProcessModalDialog dialog = new ProcessModalDialog(null, 
-				Env.getHeader(ctx, curWindowNo), null, curWindowNo,  
+				Env.getHeader(ctx, curWindowNo), this, curWindowNo,  
 				wButton.getProcess_ID(), table_ID, record_ID, startWOasking);
 		
 		if (dialog.isValid()) 
@@ -1164,8 +1177,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			dialog.setPosition("center");
 			AEnv.showWindow(dialog);           
 		}
-         curTab.dataRefresh();
-         curTabpanel.dynamicDisplay(0);
+//         curTab.dataRefresh();
+//         curTabpanel.dynamicDisplay(0);
 	} // actionButton
    
 	public void actionPerformed(ActionEvent event) 
@@ -1178,5 +1191,94 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	
 	public IADTab getADTab() {
 		return adTab;
+	}
+
+	public void executeASync(ProcessInfo pi) {
+	}
+
+	public boolean isUILocked() {
+		return m_uiLocked;
+	}
+
+	public void lockUI(ProcessInfo pi) {
+		m_uiLocked = true;
+		boolean notPrint = pi != null 
+		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
+		&& pi.isReportingProcess() == false;
+		//
+		//  Process Result
+		if (notPrint)		//	refresh if not print
+		{
+			if (Executions.getCurrent() != null)
+				Clients.showBusy("Processing...", true);
+			else
+			{
+				try {
+					//get full control of desktop
+					Executions.activate(getComponent().getDesktop());
+					try {                    
+						Clients.showBusy("Processing...", true);
+	                } catch(Error ex){                    
+	                	throw ex;                    
+	                } finally{
+	                	//release full control of desktop
+	                	Executions.deactivate(getComponent().getDesktop());                                                            
+	                }
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "Failed to lock UI.", e);
+				}
+			}
+		}
+	}
+
+	public void unlockUI(ProcessInfo pi) {
+		boolean notPrint = pi != null 
+		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
+		&& pi.isReportingProcess() == false;
+		//
+		//  Process Result
+		if (notPrint)		//	refresh if not print 
+		{			
+			if (Executions.getCurrent() != null)
+			{
+				updateUI(pi);
+				Clients.showBusy(null, false);
+			}
+			else
+			{
+				try {
+					//get full control of desktop
+					Executions.activate(getComponent().getDesktop());
+					try {                    
+	                	updateUI(pi);                  
+	                	Clients.showBusy(null, false);
+	                } catch(Error ex){                    
+	                	throw ex;                    
+	                } finally{
+	                	//release full control of desktop
+	                	Executions.deactivate(getComponent().getDesktop());                                                            
+	                }
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "Failed to update UI upon unloc.", e);
+				} 		                                                
+			}
+		}
+	}
+
+	private void updateUI(ProcessInfo pi) {
+		//	Refresh data
+		curTab.dataRefresh();
+		//	Timeout
+		if (pi.isTimeout())		//	set temporarily to R/O
+			Env.setContext(ctx, curWindowNo, "Processed", "Y");
+		curTabpanel.dynamicDisplay(0);
+		//	Update Status Line
+		statusBar.setStatusLine(pi.getSummary(), pi.isError());
+		//	Get Log Info
+		ProcessInfoUtil.setLogFromDB(pi);
+		String logInfo = pi.getLogInfo();
+		if (logInfo.length() > 0)
+			FDialog.info(curWindowNo, this.getComponent(), Env.getHeader(ctx, curWindowNo),
+				pi.getTitle() + "<br>" + logInfo);
 	}
 }
