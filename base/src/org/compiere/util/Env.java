@@ -37,14 +37,13 @@ import org.compiere.swing.*;
 
 /**
  *  System Environment and static variables.
- *  <p>
- *  Change log:
- *  <ul>
- *  <li>2007-01-27 - teo_sarca - [ 1619390 ] Use default desktop browser as external browser
- *  </ul>
  *  
  *  @author     Jorg Janke
  *  @version    $Id: Env.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1619390 ] Use default desktop browser as external browser
+ * 			<li>BF [ 2017987 ] Env.getContext(TAB_INFO) should NOT use global context
  */
 public final class Env
 {
@@ -484,19 +483,24 @@ public final class Env
 	}	//	getContext
 
 	/**
-	 *	Get Value of Context for Window & Tab,
-	 *	if not found global context if available
-	 *  @param ctx context
-	 *  @param WindowNo window no
-	 *  @param TabNo tab no
-	 *  @param context context key
-	 *  @return value or ""
+	 * Get Value of Context for Window & Tab,
+	 * if not found global context if available.
+	 * If TabNo is TAB_INFO only tab's context will be checked.
+	 * @param ctx context
+	 * @param WindowNo window no
+	 * @param TabNo tab no
+	 * @param context context key
+	 * @return value or ""
 	 */
 	public static String getContext (Properties ctx, int WindowNo, int TabNo, String context)
 	{
 		if (ctx == null || context == null)
 			throw new IllegalArgumentException ("Require Context");
 		String s = ctx.getProperty(WindowNo+"|"+TabNo+"|"+context);
+		// If TAB_INFO, don't check Window and Global context - teo_sarca BF [ 2017987 ]
+		if (TAB_INFO == TabNo)
+			return s != null ? s : "";
+		//
 		if (s == null)
 			return getContext(ctx, WindowNo, context, false);
 		return s;
