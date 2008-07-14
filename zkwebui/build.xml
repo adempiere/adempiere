@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ======================================================== -->
-<!-- Zk Ajax UI (Web UI)                               -->
+<!-- Posterita Ajax UI (Web UI)                               -->
 <!-- ======================================================== -->
 
 <project name="ZkWebUI" default="war" basedir=".">
@@ -56,7 +56,7 @@
 	</target>
 
 	<target name="war" depends="compile">
-		<echo message="=========== Build Zk Ajax UI ==========="/>
+		<echo message="=========== Build Posterita Ajax UI ==========="/>
 		<delete dir="${dist.dir}" />
 		
 		<mkdir dir="${dist.dir}"/>
