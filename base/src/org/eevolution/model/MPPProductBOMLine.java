@@ -15,101 +15,99 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.util.*;
-import java.sql.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.compiere.model.MProduct;
+import org.compiere.model.X_M_Product;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Manufacturing Order Line Model.
  * 	<code>
  * 			MPPProductBOMLine l = new MPPProductBOMLine(bom);
-			l.setM_Product_ID(wbl.getM_Product_ID());
-			l.setQty(wbl.getQuantity());;
-			l.save();
+ l.setM_Product_ID(wbl.getM_Product_ID());
+ l.setQty(wbl.getQuantity());;
+ l.save();
  *	</code>
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrderLine.java,v 1.22 2004/03/22 07:15:03 vpj-cd Exp $
  */
 public class MPPProductBOMLine extends X_PP_Product_BOMLine
 {
-    
-    
 
-        static private int AD_Client_ID = 0;
-        static Hashtable<Integer, Integer> tableproduct = new Hashtable<Integer, Integer>();
-        private static CLogger	s_log	= CLogger.getCLogger (MPPProductBOMLine.class);
-        
+	static private int AD_Client_ID = 0;
+	static Hashtable<Integer, Integer> tableproduct = new Hashtable<Integer, Integer>();
+	private static CLogger s_log = CLogger.getCLogger(MPPProductBOMLine.class);
+
 	/**
 	 *  Default Constructor
 	 *  @param ctx context
 	 *  @param PP_Product_BOMLine  BOM line to load
 	 *  @param Transaction Line
 	 */
-	public MPPProductBOMLine(Properties ctx, int PP_Product_BOMLine,String trxName)
+	public MPPProductBOMLine(Properties ctx, int PP_Product_BOMLine, String trxName)
 	{
-		super (ctx, PP_Product_BOMLine,trxName);
+		super(ctx, PP_Product_BOMLine, trxName);
 	} //	MPPProductBOMLine
 
 	/**
 	 *  Parent Constructor.
-	 		ol.setM_Product_ID(wbl.getM_Product_ID());
-			ol.setQtyOrdered(wbl.getQuantity());
-			ol.setPrice();
-			ol.setPriceActual(wbl.getPrice());
-			ol.setTax();
-			ol.save();
+	 ol.setM_Product_ID(wbl.getM_Product_ID());
+	 ol.setQtyOrdered(wbl.getQuantity());
+	 ol.setPrice();
+	 ol.setPriceActual(wbl.getPrice());
+	 ol.setTax();
+	 ol.save();
 	 *  @param  order parent order
 	 */
 	public MPPProductBOMLine(MPPProductBOM bom)
 	{
-		super (bom.getCtx(), 0,bom.get_TableName());
-		if (bom.get_ID() == 0)
-			throw new IllegalArgumentException("Header not saved");
-		setPP_Product_BOM_ID (bom.getPP_Product_BOM_ID());	//	parent
-	}	
+		super(bom.getCtx(), 0, bom.get_TableName());
+		if (bom.get_ID() == 0) throw new IllegalArgumentException("Header not saved");
+		setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID()); //	parent
+	}
 
 	/**
 	 *  Load Constructor
 	 *  @param ctx context
 	 *  @param rs result set record
 	 */
-	public MPPProductBOMLine(Properties ctx, ResultSet rs,String trxName)
+	public MPPProductBOMLine(Properties ctx, ResultSet rs, String trxName)
 	{
-		super (ctx, rs,trxName);
-	}	//	 MPPProductBOMLine
-
-	
+		super(ctx, rs, trxName);
+	} //	 MPPProductBOMLine
 
 	/**
 	 * 	Set Defaults from BOM.
 	 * 	Does not set Parent !!
 	 * 	@param BOM BOM
 	 */
-	public void setMPPProductBOM (MPPProductBOM bom)
+	public void setMPPProductBOM(MPPProductBOM bom)
 	{
 		setClientOrg(bom);
-	}	
-	
+	}
 
 	/**
 	 * 	String Representation
 	 * 	@return info
 	 */
-	public String toString ()
+	public String toString()
 	{
-		StringBuffer sb = new StringBuffer ("MPPProductBOMLine[")
-			.append(get_ID())
-			.append ("]");
-		return sb.toString ();
+		StringBuffer sb = new StringBuffer("MPPProductBOMLine[").append(get_ID()).append("]");
+		return sb.toString();
 	}
-       
-        
+
 	/**
 	 * 	String Description
 	 * 	@return info
@@ -117,266 +115,271 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	public String getDescriptionText()
 	{
 		return super.getDescription();
-	}	//	getDescriptionText
-        
-	 /**
-	  * get low level of a Product
-	  * @param ID Product
-	  * @return int low level
-	  */  
-	public int getLowLevel(int M_Product_ID) throws Exception 
-	{
-                AD_Client_ID = Integer.valueOf(getCtx().getProperty("#AD_Client_ID"));
-                tableproduct.clear(); //reset tableproduct cache
-                DefaultMutableTreeNode ibom = null;
+	} //	getDescriptionText
 
-				tableproduct.put(M_Product_ID, 0); //insert parent into cache
-				ibom = iparent(M_Product_ID, 0);  //start traversing tree
-				
-				return ibom.getDepth();
+	/**
+	 * get low level of a Product
+	 * @param ID Product
+	 * @return int low level
+	 */
+	public int getLowLevel(int M_Product_ID) throws Exception
+	{
+		AD_Client_ID = Integer.valueOf(getCtx().getProperty("#AD_Client_ID"));
+		tableproduct.clear(); //reset tableproduct cache
+		DefaultMutableTreeNode ibom = null;
+
+		tableproduct.put(M_Product_ID, 0); //insert parent into cache
+		ibom = iparent(M_Product_ID, 0); //start traversing tree
+
+		return ibom.getDepth();
 	}
 
-	 /**
-	  * get a implotion the a prduct 
-	  * @param ID Product
-	  * @param ID BOM
-	  * @return DefaultMutableTreeNode Tree with all parent product
-	  */  
-    private DefaultMutableTreeNode  parent(int M_Product_ID, int PP_Product_BOM_ID)
-    { 
-         
-        DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) +"|"+ Integer.toString(PP_Product_BOM_ID));
-                    
-        String sql =  new String("SELECT pbom.PP_Product_BOM_ID FROM  PP_Product_BOM pbom WHERE pbom.IsActive = 'Y'  AND  pbom.AD_Client_ID= ? AND pbom.M_Product_ID = ? ");
-                    
-                    
-        PreparedStatement pstmt = null;
-        try
-        {
-             pstmt = DB.prepareStatement (sql, get_TrxName());
-             pstmt.setInt(1,  Env.getAD_Client_ID(Env.getCtx()));
-             pstmt.setInt(2,  M_Product_ID);
-             ResultSet rs = pstmt.executeQuery ();                        
-             while (rs.next())
-             {   
-                   DefaultMutableTreeNode bom = component(rs.getInt(1), M_Product_ID , parent);
-                   if (bom != null)
-                   {
-                      parent.add(bom);
-                   }   
+	/**
+	 * get a implotion the a prduct 
+	 * @param ID Product
+	 * @param ID BOM
+	 * @return DefaultMutableTreeNode Tree with all parent product
+	 */
+	private DefaultMutableTreeNode parent(int M_Product_ID, int PP_Product_BOM_ID)
+	{
 
-            }                                                
-                        
-            rs.close();
-            pstmt.close();
-                        
-            return parent;
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|" + Integer.toString(PP_Product_BOM_ID));
 
-         }
-         catch (Exception e)
-         {
-                        s_log.log(Level.SEVERE ,"doIt - " + sql  + e);
-                      
-         }
-     return parent;
-    }
-           
-	 /**
-	  * get a explotion the a product 
-	  * @param ID BOM
-	  * @param ID Product
-	  * @param DefaultMutableTreeNode Tree BOM
-	  * @return DefaultMutableTreeNode Tree with all components product
-	  */  
-    private DefaultMutableTreeNode  component(int M_Product_BOM_ID, int M_Product_ID , DefaultMutableTreeNode bom)
-    {                               
-                    
-                    String sql =  new String("SELECT pboml.M_Product_ID , pbom.Value , pboml.PP_Product_BOMLine_ID , pbom.PP_Product_BOM_ID FROM  PP_Product_BOM pbom INNER JOIN PP_Product_BOMLine pboml ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID) WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pbom.AD_Client_ID= ? AND pbom.PP_Product_BOM_ID = ? ");
-                    PreparedStatement pstmt = null;
-                    try
-                    {
-                    	pstmt = DB.prepareStatement (sql,get_TrxName());
-                    	pstmt.setInt(1,  Env.getAD_Client_ID(Env.getCtx()));
-                        pstmt.setInt(2,  M_Product_BOM_ID);                        
-                        ResultSet rs = pstmt.executeQuery ();                        
-                        while (rs.next())
-                        {
-                            
-                            if (M_Product_ID != rs.getInt(1))    
-                            {                                                       
-                                bom.add(parent(rs.getInt(1), rs.getInt(4)));
-                            }
-                            else
-                            {
-                                JOptionPane.showMessageDialog(null,"Componet will be deactivated for BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ")", "Error Cycle BOM" , JOptionPane.ERROR_MESSAGE);
-                                MPPProductBOMLine PP_Product_BOMLine = new MPPProductBOMLine(Env.getCtx(), rs.getInt(3),get_TrxName());
-                                PP_Product_BOMLine.setIsActive(false);
-                                PP_Product_BOMLine.save();
-                            }    
+		String sql = new String(
+				"SELECT pbom.PP_Product_BOM_ID FROM PP_Product_BOM pbom WHERE pbom.IsActive = 'Y' AND pbom.AD_Client_ID= ? AND pbom.M_Product_ID = ? ");
 
-                        }
-                        if (rs.getRow() == 0)
-                        {
-                            DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|0");
-                            bom.add(parent);
-                            return bom;
-                        }
-                        
-                        rs.close();
-                        pstmt.close();           
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
+			pstmt.setInt(2, M_Product_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				DefaultMutableTreeNode bom = component(rs.getInt(1), M_Product_ID, parent);
+				if (bom != null)
+				{
+					parent.add(bom);
+				}
 
-                    }
-                    catch (Exception e)
-                    {
-                    	 s_log.log(Level.SEVERE ,"doIt - " + sql  + e);
-                    }
-                    
-          return null;
-     }
-           
-           
-           
-	 /**
-	  * get an implotion the product 
-	  * @param ID Product
-	  * @param ID BOM
-	  * @return DefaultMutableTreeNode Tree with all parent product
-	  */  
-     private DefaultMutableTreeNode  iparent(int M_Product_ID , int PP_Product_BOM_ID) throws Exception 
-     { 
-         
-                    DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) +"|"+ Integer.toString(PP_Product_BOM_ID));
-                    
-                    String sql =  new String("SELECT pboml.PP_Product_BOMLine_ID FROM  PP_Product_BOMLine pboml WHERE pboml.IsActive= 'Y' AND pboml.AD_Client_ID = ? AND pboml.M_Product_ID = ? ");
-                    
-                    PreparedStatement pstmt = null;
-                    try
-                    {
-                    	pstmt = DB.prepareStatement (sql, get_TrxName());
-                        pstmt.setInt(1, AD_Client_ID);
-                        pstmt.setInt(2, M_Product_ID);
-                        ResultSet rs = pstmt.executeQuery ();                        
-                        
-                        while (rs.next())
-                        {
-                        		// If not the first bom line at this level
-								if(rs.getRow() > 1) 
-								{
-									//need to reset tableproduct cache
-									tableproduct.clear();
-									tableproduct.put(M_Product_ID, PP_Product_BOM_ID); //insert parent into cache
-								}
-								DefaultMutableTreeNode bom = icomponent(rs.getInt(1), M_Product_ID , parent);
-                                if (bom != null)
-                                {
-                                    parent.add(bom);
-                                }                               
-                                                            
+			}
+			return parent;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, "doIt - " + sql + e);
 
-                        }
-                        
-                        
-                        rs.close();
-                        pstmt.close();
-                        
-                        return parent;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		return parent;
+	}
 
-                    }
-                    catch (Exception e)
-                    {
-						s_log.log(Level.SEVERE, "iparent - " + sql + e);
-                    }
-                     return parent;
-   }    
-           
-	 /**
-	  * get an implotion the product 
-	  * @param ID Product
-	  * @param ID BOM
-	  * @return DefaultMutableTreeNode Tree with all parent product
-	  */  
-     private  DefaultMutableTreeNode  icomponent(int PP_Product_BOMLine_ID, int M_Product_ID , DefaultMutableTreeNode bom) throws Exception
-     {                              
-                    
-                    String sql =  new String("SELECT pbom.M_Product_ID , pbom.Value , pbom.PP_Product_BOM_ID FROM  PP_Product_BOMLine pboml INNER JOIN PP_Product_BOM pbom ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID) WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pboml.AD_Client_ID =? AND pboml.PP_Product_BOMLine_ID = ? ");      
-                    PreparedStatement pstmt = null;
-                    try
-                    {
-                    	pstmt = DB.prepareStatement (sql,get_TrxName());
-                        pstmt.setInt(1, AD_Client_ID);
-                        pstmt.setInt(2,  PP_Product_BOMLine_ID);
-                        ResultSet rs = pstmt.executeQuery ();                        
-                        while (rs.next())
-                        {
-                            if (M_Product_ID != rs.getInt(1))    
-                            { 
-                                //BOM Loop Error
-                                if(!tableproduct(rs.getInt(1),rs.getInt(3)))
-                                bom.add(iparent(rs.getInt(1),rs.getInt(3)));
-                                else
-								{
-									s_log.saveError("Error", "Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ")");
-									throw new Exception(CLogger.retrieveError().toString());
-								}
-                            }
-                            else
-                            {
-                                //Child = Parent error
-								X_M_Product product = new X_M_Product(getCtx(), M_Product_ID, null);
-								s_log.saveError("Error", "Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ") - Component: "
-										+ product.getValue() + "(" + product.getM_Product_ID() + ")");
-								throw new Exception(CLogger.retrieveError().toString());
-                            }    
+	/**
+	 * get a explotion the a product 
+	 * @param ID BOM
+	 * @param ID Product
+	 * @param DefaultMutableTreeNode Tree BOM
+	 * @return DefaultMutableTreeNode Tree with all components product
+	 */
+	private DefaultMutableTreeNode component(int M_Product_BOM_ID, int M_Product_ID, DefaultMutableTreeNode bom)
+	{
 
-                        }
-                        rs.close();
-                        pstmt.close();
+		String sql = new String(
+				"SELECT pboml.M_Product_ID , pbom.Value , pboml.PP_Product_BOMLine_ID , pbom.PP_Product_BOM_ID FROM" 
+				+ " PP_Product_BOM pbom INNER JOIN PP_Product_BOMLine pboml ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID)" 
+				+ " WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pbom.AD_Client_ID= ? AND pbom.PP_Product_BOM_ID = ? ");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
+			pstmt.setInt(2, M_Product_BOM_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				if (M_Product_ID != rs.getInt(1))
+				{
+					bom.add(parent(rs.getInt(1), rs.getInt(4)));
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Componet will be deactivated for BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3)
+							+ ")", "Error Cycle BOM", JOptionPane.ERROR_MESSAGE);
+					MPPProductBOMLine PP_Product_BOMLine = new MPPProductBOMLine(Env.getCtx(), rs.getInt(3), get_TrxName());
+					PP_Product_BOMLine.setIsActive(false);
+					PP_Product_BOMLine.save();
+				}
+			}
+			if (rs.getRow() == 0)
+			{
+				DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|0");
+				bom.add(parent);
+				return bom;
+			}
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, "doIt - " + sql + e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
 
-                    }
-                    catch (SQLException e)
-                    {
-                    	 s_log.log(Level.SEVERE ,"doIt - " + sql  + e);
-                    }
-                    
-         return null;
-   }
-           
-     /**
-	  * find a product in cache
-	  * @param ID Product
-	  * @param ID BOM
-	  * @return true if product is found
-	  */          
-   private static boolean tableproduct(int M_Product_ID, int PP_Product_BOM_ID)
-   {
-               Integer p = new Integer(M_Product_ID);
-               Integer bom = new Integer(PP_Product_BOM_ID);
-               
-               if (tableproduct.containsKey(p))
-               {
-			   return true;
-		       }
-		       tableproduct.put(p , bom);
-               return false;
-                 
-  }
-   
-   /**************************************************************************
-    * 	After Save
-    *	@param newRecord new
-    *	@return save
-    */
-   protected boolean afterSave(boolean newRecord, boolean success) 
-   {
-		if (success) 
+
+		return null;
+	}
+
+	/**
+	 * get an implotion the product 
+	 * @param ID Product
+	 * @param ID BOM
+	 * @return DefaultMutableTreeNode Tree with all parent product
+	 */
+	private DefaultMutableTreeNode iparent(int M_Product_ID, int PP_Product_BOM_ID) throws Exception
+	{
+
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|" + Integer.toString(PP_Product_BOM_ID));
+
+		String sql = new String(
+				"SELECT pboml.PP_Product_BOMLine_ID FROM  PP_Product_BOMLine pboml" 
+				+ " WHERE pboml.IsActive= 'Y' AND pboml.AD_Client_ID = ? AND pboml.M_Product_ID = ? ");
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, AD_Client_ID);
+			pstmt.setInt(2, M_Product_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				// If not the first bom line at this level
+				if (rs.getRow() > 1)
+				{
+					//need to reset tableproduct cache
+					tableproduct.clear();
+					tableproduct.put(M_Product_ID, PP_Product_BOM_ID); //insert parent into cache
+				}
+				DefaultMutableTreeNode bom = icomponent(rs.getInt(1), M_Product_ID, parent);
+				if (bom != null)
+				{
+					parent.add(bom);
+				}
+			}
+			return parent;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, "iparent - " + sql + e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		return parent;
+	}
+
+	/**
+	 * get an implotion the product 
+	 * @param ID Product
+	 * @param ID BOM
+	 * @return DefaultMutableTreeNode Tree with all parent product
+	 */
+	private DefaultMutableTreeNode icomponent(int PP_Product_BOMLine_ID, int M_Product_ID, DefaultMutableTreeNode bom) throws Exception
+	{
+		String sql = new String(
+				"SELECT pbom.M_Product_ID , pbom.Value , pbom.PP_Product_BOM_ID FROM  PP_Product_BOMLine pboml"
+				+ "INNER JOIN PP_Product_BOM pbom ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID)"
+				+ "WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pboml.AD_Client_ID =? AND pboml.PP_Product_BOMLine_ID = ? ");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, AD_Client_ID);
+			pstmt.setInt(2, PP_Product_BOMLine_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				if (M_Product_ID != rs.getInt(1))
+				{
+					//BOM Loop Error
+					if (!tableproduct(rs.getInt(1), rs.getInt(3)))
+						bom.add(iparent(rs.getInt(1), rs.getInt(3)));
+					else
+					{
+						s_log.saveError("Error", "Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ")");
+						throw new Exception(CLogger.retrieveError().toString());
+					}
+				}
+				else
+				{
+					//Child = Parent error
+					X_M_Product product = new X_M_Product(getCtx(), M_Product_ID, null);
+					s_log.saveError("Error", "Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ") - Component: "
+							+ product.getValue() + "(" + product.getM_Product_ID() + ")");
+					throw new Exception(CLogger.retrieveError().toString());
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			s_log.log(Level.SEVERE, "doIt - " + sql + e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		return null;
+	}
+
+	/**
+	 * find a product in cache
+	 * @param ID Product
+	 * @param ID BOM
+	 * @return true if product is found
+	 */
+	private static boolean tableproduct(int M_Product_ID, int PP_Product_BOM_ID)
+	{
+		Integer p = new Integer(M_Product_ID);
+		Integer bom = new Integer(PP_Product_BOM_ID);
+
+		if (tableproduct.containsKey(p))
+		{
+			return true;
+		}
+		tableproduct.put(p, bom);
+		return false;
+	}
+
+	/**************************************************************************
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@return save
+	 */
+	protected boolean afterSave(boolean newRecord, boolean success)
+	{
+		if (success)
 		{
 			MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
 			int lowlevel = 0;
-			try 
+			try
 			{
-				lowlevel = getLowLevel(getM_Product_ID());			   
+				lowlevel = getLowLevel(getM_Product_ID());
 			}
-			catch (Exception e) 
+			catch (Exception e)
 			{
 				log.saveError("Error", Msg.parseTranslation(getCtx(), e.getMessage()), false);
 				return false;
