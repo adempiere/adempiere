@@ -259,7 +259,7 @@ DataStatusListener, ValueChangeListener
                     row = new Row();
                 }
 
-                WEditor comp = WebEditorFactory.getEditor(field, false);
+                WEditor comp = WebEditorFactory.getEditor(gridTab, field, false);
                 
                 if (comp != null) // Not heading
                 {

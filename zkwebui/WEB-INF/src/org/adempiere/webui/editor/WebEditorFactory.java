@@ -18,6 +18,7 @@
 package org.adempiere.webui.editor;
 
 import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
 import org.compiere.model.MLocationLookup;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.util.CLogger;
@@ -28,6 +29,9 @@ import org.compiere.util.DisplayType;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author Low Heng Sin
+ * @date 	July 14 2008
  */
 public class WebEditorFactory
 {
@@ -40,6 +44,11 @@ public class WebEditorFactory
     }
     
     public static WEditor getEditor(GridField gridField, boolean tableEditor)
+    {
+    	return getEditor(null, gridField, tableEditor);
+    }
+    
+    public static WEditor getEditor(GridTab gridTab, GridField gridField, boolean tableEditor)
     {
         if (gridField == null)
         {
@@ -148,6 +157,10 @@ public class WebEditorFactory
         else if (displayType == DisplayType.Binary)
         {
         	editor = new WBinaryEditor(gridField);        	
+        }
+        else if (displayType == DisplayType.PAttribute)
+        {
+        	editor = new WPAttributeEditor(gridTab, gridField);
         }
         else
         {

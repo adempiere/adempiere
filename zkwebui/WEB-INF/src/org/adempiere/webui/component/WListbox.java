@@ -42,6 +42,8 @@ import org.compiere.util.Util;
 import org.zkoss.zul.ListModel;
 
 /**
+ * Replacement for the Swing client minigrid component
+ * 
  * ZK Listbox extension for Adempiere Web UI.
  * The listbox contains a model and a renderer.
  * The model holds the underlying data objects, while the
