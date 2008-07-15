@@ -28,6 +28,12 @@ import java.util.logging.*;
  */
 public class CLogger extends Logger implements Serializable
 {
+	private static final String LAST_INFO = "org.compiere.util.CLogger.lastInfo";
+	private static final String LAST_WARNING = "org.compiere.util.CLogger.lastWarning";
+	private static final String LAST_ERROR = "org.compiere.util.CLogger.lastError";
+	private static final String LAST_EXCEPTION = "org.compiere.util.CLogger.lastException";
+
+
 	/**
 	 * 	Get Logger
 	 *	@param className class name
@@ -91,15 +97,6 @@ public class CLogger extends Logger implements Serializable
     
 	/*************************************************************************/
 
-	/** Last Error Message   */
-	private static  ValueNamePair   s_lastError = null;
-	/**	Last Exception		*/
-	private static Exception		s_lastException = null;
-	/** Last Warning Message   */
-	private static  ValueNamePair   s_lastWarning = null;
-	/** Last Info Message   */
-	private static  ValueNamePair   s_lastInfo = null;
-	
 	/**
 	 *  Set and issue Error and save as ValueNamePair
 	 *  @param AD_Message message key
@@ -119,7 +116,7 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public boolean saveError (String AD_Message, Exception ex)
 	{
-		s_lastException = ex;
+		Env.getCtx().put(LAST_EXCEPTION, ex);
 		return saveError (AD_Message, ex.getLocalizedMessage(), true);
 	}   //  saveError
 
@@ -132,7 +129,8 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public boolean saveError (String AD_Message, String message, boolean issueError)
 	{
-		s_lastError = new ValueNamePair (AD_Message, message);
+		ValueNamePair lastError = new ValueNamePair (AD_Message, message);
+		Env.getCtx().put(LAST_ERROR, lastError);
 		//  print it
 		if (issueError)
 			severe(AD_Message + " - " + message);
@@ -145,8 +143,7 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public static ValueNamePair retrieveError()
 	{
-		ValueNamePair vp = s_lastError;
-		s_lastError = null;
+		ValueNamePair vp = (ValueNamePair) Env.getCtx().remove(LAST_ERROR);		
 		return vp;
 	}   //  retrieveError
 	
@@ -170,8 +167,7 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public static Exception retrieveException()
 	{
-		Exception ex = s_lastException;
-		s_lastException = null;
+		Exception ex = (Exception) Env.getCtx().remove(LAST_EXCEPTION);
 		return ex;
 	}   //  retrieveError
 
@@ -183,7 +179,8 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public boolean saveWarning (String AD_Message, String message)
 	{
-		s_lastWarning = new ValueNamePair (AD_Message, message);
+		ValueNamePair lastWarning = new ValueNamePair(AD_Message, message);
+		Env.getCtx().put(LAST_WARNING, lastWarning);
 		//  print it
 		if (true) //	issueError
 			warning(AD_Message + " - " + message);
@@ -196,8 +193,7 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public static ValueNamePair retrieveWarning()
 	{
-		ValueNamePair vp = s_lastWarning;
-		s_lastWarning = null;
+		ValueNamePair vp = (ValueNamePair) Env.getCtx().remove(LAST_WARNING);
 		return vp;
 	}   //  retrieveWarning
 
@@ -209,7 +205,9 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public boolean saveInfo (String AD_Message, String message)
 	{
-		s_lastInfo = new ValueNamePair (AD_Message, message);
+//		s_lastInfo = new ValueNamePair (AD_Message, message);
+		ValueNamePair lastInfo = new ValueNamePair (AD_Message, message);
+		Env.getCtx().put(LAST_INFO, lastInfo);
 		return true;
 	}   //  saveInfo
 
@@ -219,8 +217,7 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public static ValueNamePair retrieveInfo()
 	{
-		ValueNamePair vp = s_lastInfo;
-		s_lastInfo = null;
+		ValueNamePair vp = (ValueNamePair) Env.getCtx().remove(LAST_INFO);
 		return vp;
 	}   //  retrieveInfo
 
@@ -229,10 +226,10 @@ public class CLogger extends Logger implements Serializable
 	 */
 	public static void resetLast()
 	{
-		s_lastError = null;
-		s_lastException = null;
-		s_lastWarning = null;
-		s_lastInfo = null;
+		Env.getCtx().remove(LAST_ERROR);
+		Env.getCtx().remove(LAST_EXCEPTION);
+		Env.getCtx().remove(LAST_WARNING);
+		Env.getCtx().remove(LAST_INFO);
 	}	//	resetLast
 	
 	/**

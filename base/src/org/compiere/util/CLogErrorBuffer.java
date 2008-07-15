@@ -30,6 +30,12 @@ import org.compiere.model.*;
  */
 public class CLogErrorBuffer extends Handler
 {
+	private static final String ISSUE_ERROR_KEY = "org.compiere.util.CLogErrorBuffer.issueError";
+	private static final String HISTORY_KEY = "org.compiere.util.CLogErrorBuffer.history";
+	private static final String ERRORS_KEY = "org.compiere.util.CLogErrorBuffer.errors";
+	private static final String LOGS_KEY = "org.compiere.util.CLogErrorBuffer.logs";
+
+
 	/**
 	 * 	Get Client Log Handler
 	 *	@param create create if not exists
@@ -62,17 +68,9 @@ public class CLogErrorBuffer extends Handler
 
 	/** Error Buffer Size			*/
 	private static final int		ERROR_SIZE = 20;
-	/**	The Error Buffer			*/
-	private LinkedList<LogRecord> 	m_errors = new LinkedList<LogRecord>();
-	/**	The Error Buffer History	*/
-	private LinkedList<LogRecord[]>	m_history = new LinkedList<LogRecord[]>();
 
 	/** Log Size					*/
 	private static final int		LOG_SIZE = 100;
-	/**	The Log Buffer				*/
-	private LinkedList<LogRecord>	m_logs = new LinkedList<LogRecord>();
-	/**	Issue Error					*/
-	private volatile boolean		m_issueError = true;
 	
     /**
      * 	Initialize
@@ -95,7 +93,13 @@ public class CLogErrorBuffer extends Handler
      */
     public boolean isIssueError()
     {
-    	return m_issueError;
+    	Boolean b = (Boolean) Env.getCtx().get(ISSUE_ERROR_KEY);
+    	if (b == null) 
+    	{
+    		b = Boolean.TRUE;    	
+    		setIssueError(b);
+    	}
+    	return b;
     }	//	isIssueError
     
     /**
@@ -104,7 +108,7 @@ public class CLogErrorBuffer extends Handler
      */
     public void setIssueError(boolean issueError)
     {
-    	m_issueError = issueError;
+    	Env.getCtx().put(ISSUE_ERROR_KEY, issueError);
     }	//	setIssueError
     
 	/**
@@ -134,6 +138,9 @@ public class CLogErrorBuffer extends Handler
 	 */
 	public void publish (LogRecord record)
 	{
+		checkContext();
+		
+		LinkedList<LogRecord> m_logs = (LinkedList<LogRecord>) Env.getCtx().get(LOGS_KEY);
 		if (!isLoggable (record) || m_logs == null)
 			return;
 		
@@ -148,6 +155,8 @@ public class CLogErrorBuffer extends Handler
 		//	We have an error
 		if (record.getLevel() == Level.SEVERE)
 		{
+			LinkedList<LogRecord> m_errors = (LinkedList<LogRecord>) Env.getCtx().get(ERRORS_KEY);
+			LinkedList<LogRecord[]>	m_history = (LinkedList<LogRecord[]>) Env.getCtx().get(HISTORY_KEY);
 			if (m_errors.size() >= ERROR_SIZE)
 			{
 				m_errors.removeFirst();
@@ -183,7 +192,7 @@ public class CLogErrorBuffer extends Handler
 				historyArray[no++] = (LogRecord)history.get(i);
 			m_history.add(historyArray);
 			//	Issue Reporting
-			if (m_issueError)
+			if (isIssueError())
 			{
 				String loggerName = record.getLoggerName();			//	class name	
 				String className = record.getSourceClassName();		//	physical class
@@ -196,16 +205,16 @@ public class CLogErrorBuffer extends Handler
 					&& loggerName.indexOf("CConnection") == -1
 					)
 				{
-					m_issueError = false;
+					setIssueError(false);
 					try 
 					{
 						MIssue.create(record);
-						m_issueError = true;
+						setIssueError(true);
 					} catch (Throwable e)
 					{
 						//failed to save exception to db, print to console
 						System.err.println(getFormatter().format(record));
-						m_issueError = false;
+						setIssueError(false);
 					}
 				}
 				else
@@ -239,15 +248,9 @@ public class CLogErrorBuffer extends Handler
 	 */
 	public void close () throws SecurityException
 	{
-		if (m_logs != null)
-			m_logs.clear();
-		m_logs = null;
-		if (m_errors != null)
-			m_errors.clear();
-		m_errors = null;
-		if (m_history != null)
-			m_history.clear();
-		m_history = null;
+		Env.getCtx().remove(LOGS_KEY);
+		Env.getCtx().remove(ERRORS_KEY);
+		Env.getCtx().remove(HISTORY_KEY);
 	}	// close
 
 	
@@ -308,6 +311,10 @@ public class CLogErrorBuffer extends Handler
 	 */
 	public LogRecord[] getRecords (boolean errorsOnly)
 	{
+		checkContext();
+		
+		LinkedList<LogRecord> m_logs = (LinkedList<LogRecord>) Env.getCtx().get(LOGS_KEY);
+		LinkedList<LogRecord> m_errors = (LinkedList<LogRecord>) Env.getCtx().get(ERRORS_KEY);
 		LogRecord[] retValue = null;
 		if (errorsOnly)
 		{
@@ -334,6 +341,11 @@ public class CLogErrorBuffer extends Handler
 	 */
 	public void resetBuffer (boolean errorsOnly)
 	{
+		checkContext();
+		
+		LinkedList<LogRecord> m_logs = (LinkedList<LogRecord>) Env.getCtx().get(LOGS_KEY);
+		LinkedList<LogRecord> m_errors = (LinkedList<LogRecord>) Env.getCtx().get(ERRORS_KEY);
+		LinkedList<LogRecord[]>	m_history = (LinkedList<LogRecord[]>) Env.getCtx().get(HISTORY_KEY);
 		synchronized (m_errors)
 		{
 			m_errors.clear();
@@ -356,10 +368,13 @@ public class CLogErrorBuffer extends Handler
 	 */
 	public String getErrorInfo (Properties ctx, boolean errorsOnly)
 	{
+		checkContext();
+		
 		StringBuffer sb = new StringBuffer();
 		//
 		if (errorsOnly)
 		{
+			LinkedList<LogRecord[]>	m_history = (LinkedList<LogRecord[]>) Env.getCtx().get(HISTORY_KEY);
 			for (int i = 0; i < m_history.size(); i++)
 			{
 				sb.append("-------------------------------\n");
@@ -373,6 +388,7 @@ public class CLogErrorBuffer extends Handler
 		}
 		else
 		{
+			LinkedList<LogRecord> m_logs = (LinkedList<LogRecord>) Env.getCtx().get(LOGS_KEY);
 			for (int i = 0; i < m_logs.size(); i++)
 			{
 				LogRecord record = (LogRecord)m_logs.get(i);
@@ -386,12 +402,38 @@ public class CLogErrorBuffer extends Handler
 		return sb.toString();
 	}	//	getErrorInfo
 
+	private void checkContext()
+	{
+		if (!Env.getCtx().containsKey(LOGS_KEY))
+		{
+			LinkedList<LogRecord> m_logs = new LinkedList<LogRecord>();
+			Env.getCtx().put(LOGS_KEY, m_logs);
+		}
+		
+		if (!Env.getCtx().containsKey(ERRORS_KEY))
+		{
+			LinkedList<LogRecord> m_errors = new LinkedList<LogRecord>();
+			Env.getCtx().put(ERRORS_KEY, m_errors);
+		}
+		
+		if (!Env.getCtx().containsKey(HISTORY_KEY))
+		{
+			LinkedList<LogRecord[]>	m_history = new LinkedList<LogRecord[]>();
+			Env.getCtx().put(HISTORY_KEY, m_history);
+		}
+	}
+	
 	/**
 	 * 	String Representation
 	 *	@return info
 	 */
 	public String toString ()
 	{
+		checkContext();
+		
+		LinkedList<LogRecord> m_logs = (LinkedList<LogRecord>) Env.getCtx().get(LOGS_KEY);
+		LinkedList<LogRecord> m_errors = (LinkedList<LogRecord>) Env.getCtx().get(ERRORS_KEY);
+		LinkedList<LogRecord[]>	m_history = (LinkedList<LogRecord[]>) Env.getCtx().get(HISTORY_KEY);
 		StringBuffer sb = new StringBuffer ("CLogErrorBuffer[");
 		sb.append("Errors=").append(m_errors.size())
 			.append(",History=").append(m_history.size())
