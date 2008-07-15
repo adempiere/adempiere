@@ -13,6 +13,8 @@ import org.zkoss.zul.ListitemRendererExt;
 public class SimpleListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 
 	private List list;
+	
+	private int[] maxLength;
 
 	public SimpleListModel(List list) {
 		this.list = list;
@@ -29,28 +31,52 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 		return list.size();
 	}
 
+	protected StringBuffer truncate(String src, int maxLength) {
+		int j = maxLength;
+		while (j > 0 && Character.isWhitespace(src.charAt(j - 1)))
+			--j;
+		return new StringBuffer(j + 3)
+			.append(src.substring(0, j)).append("...");
+	}
+	
 	public void render(Listitem item, Object data) throws Exception {
 		if (data instanceof Object[]) {
 			renderArray(item, (Object[])data);
 		} else if (data instanceof Collection) {
 			renderCollection(item, (Collection)data);
 		} else {
-			ListCell listCell = new ListCell(data != null ? data.toString() : "");
-			listCell.setParent(item);
+			String value = data != null ? data.toString() : "";
+			renderCell(0, item, value);
 		}		
+	}
+	
+	protected void renderCell(int col, Listitem item, String value) {
+		String tooltip = null;
+		if (maxLength != null && maxLength.length > col && maxLength[col] > 0 && value.length() > maxLength[col]) {
+			tooltip = value;
+			value = truncate(value, maxLength[col]).toString();
+		}
+		ListCell listCell = new ListCell(value);
+		listCell.setParent(item);			
+		if (tooltip != null)
+			listCell.setTooltiptext(tooltip);
 	}
 
 	private void renderCollection(Listitem item, Collection data) {
+		int i = 0;
 		for (Object col : data) {
-			ListCell listCell = new ListCell(col != null ? col.toString() : "");
-			listCell.setParent(item);
+			String value = (col != null ? col.toString() : "");
+			renderCell(i, item, value);
+			i++;
 		}
 	}
 
 	private void renderArray(Listitem item, Object[] data) {
-		for (Object col : data) {
-			ListCell listCell = new ListCell(col != null ? col.toString() : "");
-			listCell.setParent(item);
+		int i = 0;
+		for (Object col : data) {			
+			String value = (col != null ? col.toString() : "");
+			renderCell(i, item, value);
+			i++;
 		}
 	}
 
@@ -67,5 +93,8 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 		item.applyProperties();
 		return item;
 	}
-
+	
+	public void setMaxLength(int[] maxLength) {
+		this.maxLength = maxLength;
+	}
 }

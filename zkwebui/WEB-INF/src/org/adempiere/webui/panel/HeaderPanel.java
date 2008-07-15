@@ -94,10 +94,7 @@ public class HeaderPanel extends Panel implements EventListener
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_CLICK.equals(event.getName())) {
 			AboutWindow w = new AboutWindow();
-			w.setPage(this.getPage());
-			w.setPosition("center");
-			w.setTitle("About ADempiere");
-			w.setClosable(true);
+			w.setPage(this.getPage());			
 			w.doModal();
 		}
 		
