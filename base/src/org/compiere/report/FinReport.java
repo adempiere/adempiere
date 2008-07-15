@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -59,8 +59,6 @@ public class FinReport extends SvrProcess
 	private int					p_C_SalesRegion_ID = 0;
 	/**	Campaign Parameter				*/
 	private int					p_C_Campaign_ID = 0;
-	/** Update Balances Parameter		*/
-	private boolean				p_UpdateBalances = true;
 	/** Details before Lines			*/
 	private boolean				p_DetailsSourceFirst = false;
 	/** Hierarchy						*/
@@ -115,8 +113,6 @@ public class FinReport extends SvrProcess
 				p_C_SalesRegion_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("C_Campaign_ID"))
 				p_C_Campaign_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("UpdateBalances"))
-				p_UpdateBalances = "Y".equals(para[i].getParameter());
 			else if (name.equals("DetailsSourceFirst"))
 				p_DetailsSourceFirst = "Y".equals(para[i].getParameter());
 			else
@@ -242,10 +238,6 @@ public class FinReport extends SvrProcess
 		int no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Report Lines = " + no);
 
-		//	Update AcctSchema Balances
-		if (p_UpdateBalances)
-			FinBalance.updateBalance (m_report.getC_AcctSchema_ID());
-
 		//	** Get Data	** Segment Values
 		m_columns = m_report.getColumnSet().getColumns();
 		if (m_columns.length == 0)
@@ -324,7 +316,7 @@ public class FinReport extends SvrProcess
 			}
 
 			//	Get Period/Date info
-			select.append(" FROM Fact_Acct_Balance WHERE DateAcct ");
+			select.append(" FROM Fact_Acct WHERE TRUNC(DateAcct) ");
 			BigDecimal relativeOffset = null;	//	current
 			if (m_columns[col].isColumnTypeRelativePeriod())
 				relativeOffset = m_columns[col].getRelativePeriod();
@@ -1020,7 +1012,7 @@ public class FinReport extends SvrProcess
 			}
 
 			//	Get Period info
-			select.append(" FROM Fact_Acct_Balance fb WHERE DateAcct ");
+			select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct) ");
 			FinReportPeriod frp = getPeriod (m_columns[col].getRelativePeriod());
 			if (m_lines[line].getAmountType() != null)			//	line amount type overwrites column
 			{
@@ -1104,7 +1096,7 @@ public class FinReport extends SvrProcess
 			insert.append("(").append(select).append(")");
 		}
 		//
-		insert.append(" FROM Fact_Acct_Balance x WHERE ")
+		insert.append(" FROM Fact_Acct x WHERE ")
 			.append(m_lines[line].getWhereClause(p_PA_Hierarchy_ID));	//	(sources, posting type)
 		String s = m_report.getWhereClause();
 		if (s != null && s.length() > 0)
@@ -1190,7 +1182,7 @@ public class FinReport extends SvrProcess
 			insert.append(" AND ").append(s);
 		//	Period restriction
 		FinReportPeriod frp = getPeriod (0);
-		insert.append(" AND DateAcct ")
+		insert.append(" AND TRUNC(DateAcct) ")
 			.append(frp.getPeriodWhere());
 		//	PostingType ??
 //		if (!m_lines[line].isPostingType())		//	only if not defined on line

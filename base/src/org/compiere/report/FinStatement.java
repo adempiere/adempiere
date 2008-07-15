@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -71,8 +71,6 @@ public class FinStatement extends SvrProcess
 	private int					p_C_SalesRegion_ID = 0;
 	/**	Campaign Parameter				*/
 	private int					p_C_Campaign_ID = 0;
-	/** Update Balances Parameter		*/
-	private boolean				p_UpdateBalances = true;
 	/** Hierarchy						*/
 	private int					p_PA_Hierarchy_ID = 0;
 
@@ -127,8 +125,6 @@ public class FinStatement extends SvrProcess
 				p_C_SalesRegion_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("C_Campaign_ID"))
 				p_C_Campaign_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("UpdateBalances"))
-				p_UpdateBalances = "Y".equals(para[i].getParameter());
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -237,10 +233,6 @@ public class FinStatement extends SvrProcess
 	 */
 	protected String doIt()
 	{
-		//	Update AcctSchema Balances
-		if (p_UpdateBalances)
-			FinBalance.updateBalance (p_C_AcctSchema_ID);
-
 		createBalanceLine();
 		createDetailLines();
 
@@ -267,9 +259,9 @@ public class FinStatement extends SvrProcess
 			.append(DB.TO_DATE(p_DateAcct_From, true)).append(",")
 			.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,"
 			+ "COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(AmtAcctDr-AmtAcctCr),0), COALESCE(SUM(Qty),0) "
-			+ "FROM Fact_Acct_Balance "
+			+ "FROM Fact_Acct "
 			+ "WHERE ").append(m_parameterWhere)
-			.append(" AND DateAcct < ").append(DB.TO_DATE(p_DateAcct_From));
+			.append(" AND TRUNC(DateAcct) < ").append(DB.TO_DATE(p_DateAcct_From));
 			
 		//	Start Beginning of Year
 		if (p_Account_ID > 0)
@@ -279,7 +271,7 @@ public class FinStatement extends SvrProcess
 			{
 				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From);
 				if (first != null)
-					sb.append(" AND DateAcct >= ").append(DB.TO_DATE(first.getStartDate()));
+					sb.append(" AND TRUNC(DateAcct) >= ").append(DB.TO_DATE(first.getStartDate()));
 				else
 					log.log(Level.SEVERE, "First period not found");
 			}
@@ -300,11 +292,11 @@ public class FinStatement extends SvrProcess
 			+ "DateAcct, Name, Description,"
 			+ "AmtAcctDr, AmtAcctCr, Balance, Qty) ");
 		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",Fact_Acct_ID,1,")
-			.append("DateAcct,NULL,NULL,"
+			.append("TRUNC(DateAcct),NULL,NULL,"
 			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty "
 			+ "FROM Fact_Acct "
 			+ "WHERE ").append(m_parameterWhere)
-			.append(" AND DateAcct BETWEEN ").append(DB.TO_DATE(p_DateAcct_From))
+			.append(" AND TRUNC(DateAcct) BETWEEN ").append(DB.TO_DATE(p_DateAcct_From))
 			.append(" AND ").append(DB.TO_DATE(p_DateAcct_To));
 		//
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());
