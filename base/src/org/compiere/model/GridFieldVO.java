@@ -17,11 +17,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 
 /**
@@ -53,7 +59,7 @@ public class GridFieldVO implements Serializable
 		return sql;
 	}   //  getSQL
 
-	private String InfoFactoryClass = null;
+	public String InfoFactoryClass = null;
 
 	/**
 	 *  Create Field Value Object
@@ -564,7 +570,7 @@ public class GridFieldVO implements Serializable
 	 *	@param TabReadOnly r/o
 	 *	@return Field or null
 	 */
-	protected GridFieldVO clone(Properties Ctx, int windowNo, int tabNo, 
+	public GridFieldVO clone(Properties Ctx, int windowNo, int tabNo, 
 		int ad_Window_ID, int ad_Tab_ID, 
 		boolean TabReadOnly)
 	{

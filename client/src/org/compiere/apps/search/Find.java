@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,22 +16,86 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Vector;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.StatusBar;
+import org.compiere.grid.ed.AutoCompletion;
+import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VEditorFactory;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.DataStatusListener;
+import org.compiere.model.GridField;
+import org.compiere.model.GridFieldVO;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MUserQuery;
+import org.compiere.model.X_AD_Column;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTable;
+import org.compiere.swing.CTextField;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Find/Search Records.
@@ -133,6 +197,8 @@ public final class Find extends CDialog
 	public static final int		TABNO = 99;
 	/** Length of Fields on first tab	*/
 	public static final int		FIELDLENGTH = 20;
+	/** Reference ID for Yes/No	*/
+	public static final int		AD_REFERENCE_ID_YESNO = 319;
 	
 	//
 	private CPanel southPanel = new CPanel();
@@ -148,7 +214,6 @@ public final class Find extends CDialog
 	private CButton bSave = new CButton();
 	private CButton bNew = new CButton();
 	private CButton bDelete = new CButton();
-	private GridLayout gridLayout1 = new GridLayout();
 	private ConfirmPanel confirmPanelS = new ConfirmPanel(true);
 	private BorderLayout simpleLayout = new BorderLayout();
 	private CPanel scontentPanel = new CPanel();
@@ -353,6 +418,26 @@ public final class Find extends CDialog
 		{
 			GridField mField = m_findFields[i];
 			String columnName = mField.getColumnName();
+			
+			// Make Yes-No searchable as list
+			if (mField.getVO().displayType == DisplayType.YesNo)
+			{
+				GridFieldVO vo = mField.getVO();
+				GridFieldVO ynvo = vo.clone(vo.ctx, vo.WindowNo, vo.TabNo, vo.AD_Window_ID, vo.AD_Tab_ID, vo.tabReadOnly);
+				ynvo.displayType = DisplayType.List;
+				ynvo.AD_Reference_Value_ID = AD_REFERENCE_ID_YESNO;
+
+				ynvo.lookupInfo = MLookupFactory.getLookupInfo (ynvo.ctx, ynvo.WindowNo, ynvo.AD_Column_ID, ynvo.displayType,
+						Env.getLanguage(ynvo.ctx), ynvo.ColumnName, ynvo.AD_Reference_Value_ID,
+						ynvo.IsParent, ynvo.ValidationCode);
+				ynvo.lookupInfo.InfoFactoryClass = ynvo.InfoFactoryClass;
+				
+				GridField ynfield = new GridField(ynvo);
+
+				// replace the original field by the YN List field
+				m_findFields[i] = ynfield;
+				mField = ynfield;
+			}
 
 			if (columnName.equals("Value"))
 				hasValue = true;
@@ -1075,7 +1160,7 @@ public final class Find extends CDialog
 	 */
 	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
 		String ret = "";
-		final Iterator iter = categories.iterator();
+		final Iterator<SimpleTreeNode> iter = categories.iterator();
 		while (iter.hasNext()) {
 			SimpleTreeNode node = (SimpleTreeNode) iter.next();
 			if (node.getParentId() == productCategoryId) {
