@@ -29,6 +29,7 @@ import org.compiere.model.MOrg;
 import org.compiere.model.MRole;
 import org.compiere.model.MUser;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -81,7 +82,7 @@ public class UserPanel extends Vbox  implements EventListener
     	sep.setBar(true);
     	sep.setParent(hbox);
     	
-    	logout.setLabel("Logout");
+    	logout.setLabel(Msg.getMsg(Env.getCtx(),"Logout"));
     	logout.addEventListener(Events.ON_CLICK, this);
     	logout.setStyle("text-align:right");
     	logout.setSclass("headerFont");

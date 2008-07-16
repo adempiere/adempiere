@@ -23,8 +23,10 @@ import org.adempiere.webui.component.WConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
+import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -141,19 +143,19 @@ public class RolePanel extends Window implements EventListener
 
         lblRole = new Label();
         lblRole.setId("lblRole");
-        lblRole.setValue("Role: ");
+        lblRole.setValue(Msg.getMsg(Env.getCtx(),"Role")+ ":");
 
         lblClient = new Label();
         lblClient.setId("lblClient");
-        lblClient.setValue("Client: ");
+        lblClient.setValue(Msg.getMsg(Env.getCtx(),"Client")+ ":");
 
         lblOrganisation = new Label();
         lblOrganisation.setId("lblOrganisation");
-        lblOrganisation.setValue("Organisation: ");
+        lblOrganisation.setValue(Msg.getMsg(Env.getCtx(),"Organization")+ " :");
 
         lblWarehouse = new Label();
         lblWarehouse.setId("lblWarehouse");
-        lblWarehouse.setValue("Warehouse: ");
+        lblWarehouse.setValue(Msg.getMsg(Env.getCtx(),"Warehouse")+ " :");
 
         lstRole = new Listbox();
         lstRole.setId("lstRole");

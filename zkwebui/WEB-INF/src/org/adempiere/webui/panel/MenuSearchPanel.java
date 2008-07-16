@@ -22,6 +22,8 @@ import java.util.TreeMap;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -58,7 +60,7 @@ public class MenuSearchPanel extends Panel implements EventListener
     private void init()
     {
         lblSearch = new Label();
-        lblSearch.setValue("Search:");
+        lblSearch.setValue(Msg.getMsg(Env.getCtx(),"Lookup") + ":");
         
         cmbSearch = new AutoComplete();
         cmbSearch.setAutodrop(true);
