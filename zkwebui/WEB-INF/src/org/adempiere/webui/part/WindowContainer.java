@@ -131,7 +131,7 @@ public class WindowContainer extends AbstractUIPart implements EventListener
 	private void deferLayout() {
 		Tabpanel panel = (Tabpanel) tabbox.getSelectedPanel();
 		if (panel.getFirstChild() instanceof Borderlayout) {
-			LayoutUtils.sendDeferLayoutEvent((Borderlayout) panel.getChildren().get(0), 350);
+			LayoutUtils.sendDeferLayoutEvent((Borderlayout) panel.getChildren().get(0), 50);
 		}
 	}
 

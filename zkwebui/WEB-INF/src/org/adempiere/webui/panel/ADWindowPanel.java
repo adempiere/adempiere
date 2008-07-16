@@ -85,12 +85,6 @@ public class ADWindowPanel extends AbstractADWindowPanel
         toolbar.setHeight("30px");
         toolbar.setParent(n);
         
-        contentArea = new Center();
-        contentArea.setParent(layout);
-        contentArea.setAutoscroll(true);
-        contentArea.setFlex(true);
-        adTab.createPart(contentArea);
-        
         South s = new South();        
         layout.appendChild(s);
         s.setCollapsible(false);
@@ -107,6 +101,12 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	        adTab.getTabSelectionComponent().setParent(w);
 	        LayoutUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
         }
+        
+        contentArea = new Center();
+        contentArea.setParent(layout);
+        contentArea.setAutoscroll(true);
+        contentArea.setFlex(true);
+        adTab.createPart(contentArea);
         
         if (parent instanceof Tabpanel) {
         	TabOnCloseHanlder handler = new TabOnCloseHanlder();

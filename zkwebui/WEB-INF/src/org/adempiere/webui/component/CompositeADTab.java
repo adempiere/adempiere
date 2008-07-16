@@ -68,11 +68,6 @@ public class CompositeADTab extends AbstractADTab
     	return div;
     }
     
-    public Component getRootComponent() {
-    	return div;
-    }
-    
-    
     @Override
 	protected void doAddTab(GridTab gTab, ADTabpanel tabPanel) {
     	tabPanel.setParent(div);
