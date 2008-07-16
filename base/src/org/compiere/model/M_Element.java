@@ -273,61 +273,82 @@ public class M_Element extends X_AD_Element
 		//	Update Columns, Fields, Parameters, Print Info
 		if (!newRecord)
 		{
-			//	Column
-			StringBuffer sql = new StringBuffer("UPDATE AD_Column SET ColumnName=")
-				.append(DB.TO_STRING(getColumnName()))
-				.append(", Name=").append(DB.TO_STRING(getName()))
-				.append(", Description=").append(DB.TO_STRING(getDescription()))
-				.append(", Help=").append(DB.TO_STRING(getHelp()))
-				.append(" WHERE AD_Element_ID=").append(get_ID());
-			int no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("afterSave - Columns updated #" + no);
+			StringBuffer sql = new StringBuffer();
+			int no = 0;
 			
-			//	Field
-			sql = new StringBuffer("UPDATE AD_Field SET Name=")
-				.append(DB.TO_STRING(getName()))
-				.append(", Description=").append(DB.TO_STRING(getDescription()))
-				.append(", Help=").append(DB.TO_STRING(getHelp()))
-				.append(" WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=")
-				.append(get_ID())
-				.append(") AND IsCentrallyMaintained='Y'");
-			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("Fields updated #" + no);
+			if (   is_ValueChanged(M_Element.COLUMNNAME_Name)
+				|| is_ValueChanged(M_Element.COLUMNNAME_Description)
+				|| is_ValueChanged(M_Element.COLUMNNAME_Help)
+				|| is_ValueChanged(M_Element.COLUMNNAME_ColumnName)
+				) {
+				//	Column
+				sql = new StringBuffer("UPDATE AD_Column SET ColumnName=")
+					.append(DB.TO_STRING(getColumnName()))
+					.append(", Name=").append(DB.TO_STRING(getName()))
+					.append(", Description=").append(DB.TO_STRING(getDescription()))
+					.append(", Help=").append(DB.TO_STRING(getHelp()))
+					.append(" WHERE AD_Element_ID=").append(get_ID());
+				no = DB.executeUpdate(sql.toString(), get_TrxName());
+				log.fine("afterSave - Columns updated #" + no);
+
+				//	Parameter 
+				sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
+					.append(DB.TO_STRING(getColumnName()))
+					.append(", Name=").append(DB.TO_STRING(getName()))
+					.append(", Description=").append(DB.TO_STRING(getDescription()))
+					.append(", Help=").append(DB.TO_STRING(getHelp()))
+					.append(", AD_Element_ID=").append(get_ID())
+					.append(" WHERE UPPER(ColumnName)=")
+					.append(DB.TO_STRING(getColumnName().toUpperCase()))
+					.append(" AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL");
+				no = DB.executeUpdate(sql.toString(), get_TrxName());
+				
+				sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
+					.append(DB.TO_STRING(getColumnName()))
+					.append(", Name=").append(DB.TO_STRING(getName()))
+					.append(", Description=").append(DB.TO_STRING(getDescription()))
+					.append(", Help=").append(DB.TO_STRING(getHelp()))
+					.append(" WHERE AD_Element_ID=").append(get_ID())
+					.append(" AND IsCentrallyMaintained='Y'");
+				no += DB.executeUpdate(sql.toString(), get_TrxName());
+				log.fine("Parameters updated #" + no);
+			}
 			
-			//	Parameter 
-			sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
-				.append(DB.TO_STRING(getColumnName()))
-				.append(", Name=").append(DB.TO_STRING(getName()))
-				.append(", Description=").append(DB.TO_STRING(getDescription()))
-				.append(", Help=").append(DB.TO_STRING(getHelp()))
-				.append(", AD_Element_ID=").append(get_ID())
-				.append(" WHERE UPPER(ColumnName)=")
-				.append(DB.TO_STRING(getColumnName().toUpperCase()))
-				.append(" AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL");
-			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			sql = new StringBuffer("UPDATE AD_Process_Para SET ColumnName=")
-				.append(DB.TO_STRING(getColumnName()))
-				.append(", Name=").append(DB.TO_STRING(getName()))
-				.append(", Description=").append(DB.TO_STRING(getDescription()))
-				.append(", Help=").append(DB.TO_STRING(getHelp()))
-				.append(" WHERE AD_Element_ID=").append(get_ID())
-				.append(" AND IsCentrallyMaintained='Y'");
-			no += DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("Parameters updated #" + no);
+			if (   is_ValueChanged(M_Element.COLUMNNAME_Name)
+				|| is_ValueChanged(M_Element.COLUMNNAME_Description)
+				|| is_ValueChanged(M_Element.COLUMNNAME_Help)
+				) {
+				//	Field
+				sql = new StringBuffer("UPDATE AD_Field SET Name=")
+					.append(DB.TO_STRING(getName()))
+					.append(", Description=").append(DB.TO_STRING(getDescription()))
+					.append(", Help=").append(DB.TO_STRING(getHelp()))
+					.append(" WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=")
+					.append(get_ID())
+					.append(") AND IsCentrallyMaintained='Y'");
+				no = DB.executeUpdate(sql.toString(), get_TrxName());
+				log.fine("Fields updated #" + no);
+				
+				// Info Column - update Name, Description, Help - doesn't have IsCentrallyMaintained currently
+				// no = DB.executeUpdate(sql.toString(), get_TrxName());
+				// log.fine("InfoColumn updated #" + no);
+			}
 			
-			//	Print Info
-			sql = new StringBuffer("UPDATE AD_PrintFormatItem pi SET PrintName=")
-				.append(DB.TO_STRING(getPrintName()))
-				.append(", Name=").append(DB.TO_STRING(getName()))
-				.append(" WHERE IsCentrallyMaintained='Y'")	
-				.append(" AND EXISTS (SELECT * FROM AD_Column c ")
-					.append("WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=")
-					.append(get_ID()).append(")");
-			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("PrintFormatItem updated #" + no);
+			if (   is_ValueChanged(M_Element.COLUMNNAME_PrintName)
+				|| is_ValueChanged(M_Element.COLUMNNAME_Name)
+				) {
+				//	Print Info
+				sql = new StringBuffer("UPDATE AD_PrintFormatItem pi SET PrintName=")
+					.append(DB.TO_STRING(getPrintName()))
+					.append(", Name=").append(DB.TO_STRING(getName()))
+					.append(" WHERE IsCentrallyMaintained='Y'")	
+					.append(" AND EXISTS (SELECT * FROM AD_Column c ")
+						.append("WHERE c.AD_Column_ID=pi.AD_Column_ID AND c.AD_Element_ID=")
+						.append(get_ID()).append(")");
+				no = DB.executeUpdate(sql.toString(), get_TrxName());
+				log.fine("PrintFormatItem updated #" + no);
+			}
 			
-			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.fine("InfoWindow updated #" + no);
 		}
 		return success;
 	}	//	afterSave
