@@ -340,5 +340,9 @@ public class WDocActionPanel extends Window implements EventListener
 	{
 		return true;
 	}
+
+	public int getNumberOfOptions() {
+		return lstDocAction != null ? lstDocAction.getItemCount() : 0;
+	}
 	
 }
