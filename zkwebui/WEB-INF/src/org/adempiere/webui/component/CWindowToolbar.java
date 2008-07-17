@@ -259,6 +259,8 @@ private Event event;
         btnGridToggle.setDisabled(false);
         
         btnZoomAcross.setDisabled(false);
+        
+        btnActiveWorkflows.setDisabled(false); // Elaine 2008/07/17
     }
 
     protected void addSeparator()

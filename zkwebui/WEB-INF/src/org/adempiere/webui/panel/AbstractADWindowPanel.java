@@ -976,6 +976,44 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			new WZoomAcross (toolbar.getEvent().getTarget(), curTab.getTableName(), query);
 		}
 	}
+	
+	// Elaine 2008/07/17
+	public void onActiveWorkflows() {
+		if (toolbar.getEvent() != null)
+		{
+			int record_ID = curTab.getRecord_ID();
+			if (record_ID <= 0)
+				return;
+
+			//	Query
+			MQuery query = new MQuery();
+			//	Current row
+			String link = curTab.getKeyColumnName();
+
+			//	Link for detail records
+			if (link.length() == 0)
+				link = curTab.getLinkColumnName();
+			if (link.length() != 0)
+			{
+				if (link.endsWith("_ID"))
+				{					
+					int AD_Table_ID = DB.getSQLValue(null, "SELECT AD_Table_ID FROM AD_Table WHERE TableName = ?", link.substring(0, link.length() - 3));
+					int Record_ID = new Integer(Env.getContextAsInt(ctx, curWindowNo, link));
+					
+					query.addRestriction("AD_Table_ID", MQuery.EQUAL, AD_Table_ID);
+					query.addRestriction("Record_ID", MQuery.EQUAL, Record_ID);
+				}
+				else
+				{
+					query.addRestriction(link, MQuery.EQUAL, Env.getContext(ctx, curWindowNo, link));
+				}
+			}
+			
+	        int AD_Window_ID = DB.getSQLValue(null, "SELECT AD_Window_ID FROM AD_Window WHERE Name = 'Workflow Process'");
+	        if (AD_Window_ID > 0) AEnv.zoom(AD_Window_ID, query);
+		}
+	}
+	//
     
 	/**************************************************************************
 	 *	Start Button Process
