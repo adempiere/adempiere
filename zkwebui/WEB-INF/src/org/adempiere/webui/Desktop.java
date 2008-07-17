@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.ProcessDialog;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.MenuListener;
@@ -46,6 +49,8 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Caption;
+import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Label;
 
@@ -120,9 +125,27 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		//TODO: dashboard
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, "Home", false);
-        Label t = new Label();
-        t.setValue("My Home!");
-        t.setParent(homeTab);
+        
+        Grid grid = new Grid();
+        grid.setOddRowSclass("even");
+        grid.setSclass("grid-no-striped");
+        grid.setWidth("100%");
+        grid.setHeight("100%");
+        homeTab.appendChild(grid);
+        
+        Rows rows = new Rows();
+        grid.appendChild(rows);
+        
+        Row row = new Row();
+        rows.appendChild(row);
+        
+        Groupbox groupBox = new Groupbox();
+        row.appendChild(groupBox);
+        Caption caption = new Caption("Favourites");
+        groupBox.appendChild(caption);
+        groupBox.setMold("3d");
+        groupBox.appendChild(new Label("My Favourites!"));
+        groupBox.setClosable(true);
         
         //register as 0
         registerWindow(homeTab);

@@ -68,6 +68,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     private ArrayList<ToolbarListener> listeners = new ArrayList<ToolbarListener>();
 
+private Event event;
+
     public CWindowToolbar()
     {
         init();
@@ -120,7 +122,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         
         btnGridToggle = new ToolBarButton("");
         btnGridToggle.setName("btnGridToggle");
-        btnGridToggle.setImage("/images/ZoomAcross24.gif");
+        btnGridToggle.setImage("/images/Multi24.gif");
         btnGridToggle.setTooltiptext(Msg.getMsg(Env.getCtx(),"Multi"));
         
         btnHistoryRecords = new ToolBarButton("");
@@ -147,17 +149,17 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnFirst.setName("btnFirst");
         btnFirst.setImage("/images/First24.gif");
         btnFirst.setTooltip(Msg.getMsg(Env.getCtx(),"First"));
-        
+
         btnPrevious = new ToolBarButton("");
         btnPrevious.setName("btnPrevious");
         btnPrevious.setImage("/images/Previous24.gif");
         btnPrevious.setTooltip(Msg.getMsg(Env.getCtx(),"Previous"));
-        
+
         btnNext = new ToolBarButton("");
         btnNext.setName("btnNext");
         btnNext.setImage("/images/Next24.gif");
         btnNext.setTooltip(Msg.getMsg(Env.getCtx(),"Next"));
-        
+
         btnLast = new ToolBarButton("");
         btnLast.setName("btnLast");
         btnLast.setImage("/images/Last24.gif");
@@ -168,12 +170,12 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnReport.setName("btnReport");
         btnReport.setImage("/images/Report24.gif");
         btnReport.setTooltip(Msg.getMsg(Env.getCtx(),"Report"));
-        
+
         btnArchive = new ToolBarButton("");
         btnArchive.setName("btnArchive");
         btnArchive.setImage("/images/Archive24.gif");
         btnArchive.setTooltip(Msg.getMsg(Env.getCtx(),"Archive"));
-        
+
         btnPrint = new ToolBarButton("");
         btnPrint.setName("btnPrint");
         btnPrint.setImage("/images/Print24.gif");
@@ -184,22 +186,22 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnZoomAcross.setName("btnZoomAcross");
         btnZoomAcross.setImage("/images/ZoomAcross24.gif");
         btnZoomAcross.setTooltip(Msg.getMsg(Env.getCtx(),"ZoomAcross"));
-        
+
         btnActiveWorkflows = new ToolBarButton("");
         btnActiveWorkflows.setName("btnActiveWorkflows");
         btnActiveWorkflows.setImage("/images/WorkFlow24.gif");
         btnActiveWorkflows.setTooltip(Msg.getMsg(Env.getCtx(),"WorkFlow"));
-        
+
         btnRequests = new ToolBarButton("");
         btnRequests.setName("btnRequests");
         btnRequests.setImage("/images/Request24.gif");
         btnRequests.setTooltip(Msg.getMsg(Env.getCtx(),"Request"));
-        
+
         btnProductInfo = new ToolBarButton("");
         btnProductInfo.setName("btnProductInfo");
         btnProductInfo.setImage("/images/Product24.gif");
         btnProductInfo.setTooltip(Msg.getMsg(Env.getCtx(),"InfoProduct"));
-        
+
 //        btnExit = new ToolBarButton("");
 //        btnExit.setName("btnExit");
 //        btnExit.setImage("/images/End24.gif");
@@ -231,7 +233,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         this.appendChild(btnArchive);
         this.appendChild(btnPrint);
         addSeparator();
-        //this.appendChild(btnZoomAcross);
+        this.appendChild(btnZoomAcross);
         this.appendChild(btnActiveWorkflows);
         this.appendChild(btnRequests);
         this.appendChild(btnProductInfo);
@@ -255,6 +257,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
         // Testing Purposes
         
         btnGridToggle.setDisabled(false);
+        
+        btnZoomAcross.setDisabled(false);
     }
 
     protected void addSeparator()
@@ -277,7 +281,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     }
 
     public void onEvent(Event event)
-    {
+    {    	
         String eventName = event.getName();
         Component eventComp = event.getTarget();
 
@@ -286,6 +290,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         {
             if(eventComp instanceof ToolBarButton)
             {
+            	this.event = event;
             	ToolBarButton cComponent = (ToolBarButton) eventComp;
                 String compName = cComponent.getName();
                 String methodName = "on" + compName.substring(3);
@@ -318,6 +323,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
                         log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
                     }
                 }
+                this.event = null;
             }
         }
     }
@@ -443,4 +449,9 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
         return true;
     }    
+    
+    public Event getEvent() 
+    {
+    	return event;
+    }
 }

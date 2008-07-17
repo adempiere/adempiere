@@ -20,6 +20,7 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.webui.WZoomAcross;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
@@ -234,7 +235,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         Env.setContext(ctx, curWindowNo, "WindowName", gridWindow.getName());
         curTab.getTableModel().setChanged(false);
         curTabIndex = 0;
-        curTabpanel.query();
+        curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
         curTabpanel.activate(true);
 
         //if (tabbox.getTabCount() > 0)
@@ -251,7 +252,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (gridWindow.isTransaction())
         {
         	toolbar.enableHistoryRecords(true);
-        	history(1);
         }
 
         updateToolbar();
@@ -948,6 +948,33 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		new WReport (curTab.getAD_Table_ID(), query, null, curWindowNo);
 		
+	}
+	
+	public void onZoomAcross() {
+		if (toolbar.getEvent() != null)
+		{
+			int record_ID = curTab.getRecord_ID();
+			if (record_ID <= 0)
+				return;
+
+			//	Query
+			MQuery query = new MQuery();
+			//	Current row
+			String link = curTab.getKeyColumnName();
+			//	Link for detail records
+			if (link.length() == 0)
+				link = curTab.getLinkColumnName();
+			if (link.length() != 0)
+			{
+				if (link.endsWith("_ID"))
+					query.addRestriction(link, MQuery.EQUAL,
+						new Integer(Env.getContextAsInt(ctx, curWindowNo, link)));
+				else
+					query.addRestriction(link, MQuery.EQUAL,
+						Env.getContext(ctx, curWindowNo, link));
+			}
+			new WZoomAcross (toolbar.getEvent().getTarget(), curTab.getTableName(), query);
+		}
 	}
     
 	/**************************************************************************
