@@ -1075,7 +1075,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				//batch = win.isBatch();
 				startWOasking = true;
 				//vda.dispose();
-			}		} // DocAction
+			}		
+		} // DocAction
 
 		//  Pop up Create From
 		

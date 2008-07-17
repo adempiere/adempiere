@@ -38,6 +38,7 @@ import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.InfoPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
@@ -148,6 +149,8 @@ public class WAcctViewer extends Window implements EventListener
 	private Tabpanels tabpanels = new Tabpanels();
 
 	private Hbox southPanel = new Hbox();
+
+	private int m_windowNo;
 	
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(WAcctViewer.class);
@@ -176,9 +179,8 @@ public class WAcctViewer extends Window implements EventListener
 		log.info("AD_Table_ID=" + AD_Table_ID + ", Record_ID=" + Record_ID);
 		
 		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		m_data = new WAcctViewerData (Env.getCtx(), 0 /*get window number - NS*/, 
-			AD_Client_ID, AD_Table_ID);
+		m_windowNo = SessionManager.getAppDesktop().registerWindow(this);
+		m_data = new WAcctViewerData (Env.getCtx(), m_windowNo, AD_Client_ID, AD_Table_ID);
 
 		try
 		{
@@ -582,38 +584,70 @@ public class WAcctViewer extends Window implements EventListener
 		selAcct.addEventListener(Events.ON_CLICK, this);
 		selAcct.setLabel("");
 		selAcct.setImage("/images/Find16.gif");
-
-		//  Document Select
-		
-		boolean haveDoc = AD_Table_ID != 0 && Record_ID != 0;
-		selDocument.setChecked(haveDoc);
-		actionDocument();
-		
-		selTable.setSelectedIndex(0);
-		actionTable();
 		
 		statusLine.setValue(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
 
-		//  Initial Query
-		
+		//  Initial Query		
 		selOrg.setSelectedIndex(0);
 		sortBy1.setSelectedIndex(0);
 		sortBy2.setSelectedIndex(0);
 		sortBy3.setSelectedIndex(0);
 		sortBy4.setSelectedIndex(0);
 		
-		if (haveDoc)
+		//  Document Select
+		boolean haveDoc = (AD_Table_ID != 0 && Record_ID != 0);
+		selDocument.setChecked(haveDoc);
+		actionDocument();
+		if (!haveDoc)
 		{
-			m_data.AD_Table_ID = AD_Table_ID;
-			m_data.Record_ID = Record_ID;
-			
-			actionQuery();
+			selTable.setSelectedIndex(0);
+			actionTable();
 		}
+		else
+		{
+			if (setSelectedTable(AD_Table_ID, Record_ID))
+			{
+				actionQuery();
+			}
+			else
+			{
+				//reset
+				haveDoc = false;
+				selDocument.setChecked(haveDoc);
+				actionDocument();
+				selTable.setSelectedIndex(0);
+				actionTable();				
+			}
+		}				
 		
 		if (tabResult.isSelected())
 			stateChanged();
 	} // dynInit
 	
+	private boolean setSelectedTable(int AD_Table_ID, int Record_ID) 
+	{
+		int cnt = selTable.getItemCount();
+		ValueNamePair vp = null;
+		for (int i = 0; i < cnt; i++)
+		{
+			Listitem listitem = selTable.getItemAtIndex(i);
+			vp = (ValueNamePair)listitem.getValue();
+			int tableId = (Integer)m_data.tableInfo.get(vp.getValue());
+			if (tableId == AD_Table_ID)
+			{
+				selTable.setSelectedIndex(i);
+				m_data.AD_Table_ID = AD_Table_ID;
+				
+				//  Reset Record
+				m_data.Record_ID = Record_ID;
+				selRecord.setLabel("");
+				selRecord.setName(vp.getValue() + "_ID");
+				return true;
+			}
+		}		
+		return false;
+	}
+
 	/**
 	 *  Dispose
 	 */
@@ -853,9 +887,12 @@ public class WAcctViewer extends Window implements EventListener
 		if (listitem != null)
 		{
 			vp = (ValueNamePair)listitem.getValue();
-			m_data.sortBy1 = vp.getName();
-			m_data.group1 = group1.isChecked();
-			para.append(" - Sorting: ").append(m_data.sortBy1).append("/").append(m_data.group1);
+			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			{
+				m_data.sortBy1 = vp.getName();
+				m_data.group1 = group1.isChecked();
+				para.append(" - Sorting: ").append(m_data.sortBy1).append("/").append(m_data.group1);
+			}
 		}
 		
 		listitem = sortBy2.getSelectedItem();
@@ -864,9 +901,12 @@ public class WAcctViewer extends Window implements EventListener
 		if (listitem != null)
 		{
 			vp = (ValueNamePair)listitem.getValue();
-			m_data.sortBy2 = vp.getName();
-			m_data.group2 = group2.isChecked();
-			para.append(", ").append(m_data.sortBy2).append("/").append(m_data.group2);
+			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			{
+				m_data.sortBy2 = vp.getName();
+				m_data.group2 = group2.isChecked();
+				para.append(", ").append(m_data.sortBy2).append("/").append(m_data.group2);
+			}
 		}
 		
 		listitem = sortBy3.getSelectedItem();
@@ -875,9 +915,12 @@ public class WAcctViewer extends Window implements EventListener
 		if (listitem != null)
 		{
 			vp = (ValueNamePair)listitem.getValue();
-			m_data.sortBy3 = vp.getName();
-			m_data.group3 = group3.isChecked();
-			para.append(", ").append(m_data.sortBy3).append("/").append(m_data.group3);
+			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			{
+				m_data.sortBy3 = vp.getName();
+				m_data.group3 = group3.isChecked();
+				para.append(", ").append(m_data.sortBy3).append("/").append(m_data.group3);
+			}
 		}
 		
 		listitem = sortBy4.getSelectedItem();
@@ -886,9 +929,12 @@ public class WAcctViewer extends Window implements EventListener
 		if (listitem != null)
 		{
 			vp = (ValueNamePair)listitem.getValue();
-			m_data.sortBy4 = vp.getName();
-			m_data.group4 = group4.isChecked();
-			para.append(", ").append(m_data.sortBy4).append("/").append(m_data.group4);
+			if (vp.getName() != null && vp.getName().trim().length() > 0)
+			{
+				m_data.sortBy4 = vp.getName();
+				m_data.group4 = group4.isChecked();
+				para.append(", ").append(m_data.sortBy4).append("/").append(m_data.group4);
+			}
 		}
 
 		bQuery.setEnabled(false);
