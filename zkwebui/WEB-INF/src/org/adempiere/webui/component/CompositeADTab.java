@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.IADTabpanel;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
@@ -69,7 +69,7 @@ public class CompositeADTab extends AbstractADTab
     }
     
     @Override
-	protected void doAddTab(GridTab gTab, ADTabpanel tabPanel) {
+	protected void doAddTab(GridTab gTab, IADTabpanel tabPanel) {
     	tabPanel.setParent(div);
         tabPanel.setVisible(false);
         
@@ -97,7 +97,7 @@ public class CompositeADTab extends AbstractADTab
     /**
      * Return the selected Tab Panel
      */
-    public ADTabpanel getSelectedTabpanel()
+    public IADTabpanel getSelectedTabpanel()
     {
         for(int i = 0; i < tabPanelList.size(); i++) {
         	if (tabPanelList.get(i).isVisible())
@@ -124,8 +124,8 @@ public class CompositeADTab extends AbstractADTab
 
 	@Override
 	protected void doTabSelectionChanged(int oldIndex, int newIndex) {
-		ADTabpanel oldTabpanel = oldIndex >= 0 ? tabPanelList.get(oldIndex) : null;
-        ADTabpanel newTabpanel = tabPanelList.get(newIndex);
+		IADTabpanel oldTabpanel = oldIndex >= 0 ? tabPanelList.get(oldIndex) : null;
+        IADTabpanel newTabpanel = tabPanelList.get(newIndex);
         if (oldTabpanel != null) {
         	oldTabpanel.setVisible(false);
         }

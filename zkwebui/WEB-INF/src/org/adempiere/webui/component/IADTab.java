@@ -1,6 +1,6 @@
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.UIPart;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
@@ -18,7 +18,7 @@ public interface IADTab extends UIPart {
 	
 	public boolean canNavigateTo(int fromIndex, int toIndex);
 
-	public void addTab(GridTab tab, ADTabpanel tabPanel);
+	public void addTab(GridTab tab, IADTabpanel tabPanel);
 
 	public void setSelectedIndex(int i);
 
@@ -28,7 +28,7 @@ public interface IADTab extends UIPart {
 
 	public boolean updateSelectedIndex(int oldTabIndex, int newTabIndex);
 
-	public ADTabpanel getSelectedTabpanel();
+	public IADTabpanel getSelectedTabpanel();
 
 	public String getPath();
 

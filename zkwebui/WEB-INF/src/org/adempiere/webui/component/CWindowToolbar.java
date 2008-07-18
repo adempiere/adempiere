@@ -386,6 +386,10 @@ private Event event;
         this.btnSave.setDisabled(!enabled);
     }
     
+    public boolean isSaveEnable() {
+    	return !btnSave.isDisabled();
+    }
+    
 //    public void enableExit(boolean enabled)
 //    {
 //    	this.btnExit.setDisabled(!enabled);

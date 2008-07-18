@@ -101,7 +101,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
     private boolean              m_onlyCurrentRows = true;
 
-    private ADTabpanel           curTabpanel;
+    private IADTabpanel           curTabpanel;
 
     protected CWindowToolbar     toolbar;
 
@@ -198,16 +198,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             Env.setContext(ctx, curWindowNo, tab, "TabLevel", Integer
                     .toString(gTab.getTabLevel()));
 
-            ADTabpanel fTabPanel = new ADTabpanel();
-            fTabPanel.init(this, curWindowNo, gTab, gridWindow);
-            if (tab == 0)
-            	fTabPanel.createUI();
+            
             
             gTab.addDataStatusListener(this);
             
-            adTab.addTab(gTab, fTabPanel);
-
-            // Query first tab
+                        // Query first tab
             if (tab == 0)
             {
                 query = initialQuery(query, gTab);
@@ -221,34 +216,45 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                     m_onlyCurrentRows = false;
                     gTab.setQuery(query);
                 }
-                curTab = gTab;
-                curTabpanel = fTabPanel;
+                curTab = gTab;                
                 curTabIndex = tab;
+            }
+            
+            if (gTab.isSortTab())
+            {
+            	ADSortTab sortTab = new ADSortTab(curWindowNo, gTab);
+            	adTab.addTab(gTab, sortTab);
+            	sortTab.registerAPanel(this);
+            	if (tab == 0) {
+            		curTabpanel = sortTab;
+            		curTabpanel.createUI();
+            		curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
+            		curTabpanel.activate(true);
+            	}
+            }
+            else
+            {
+            	ADTabpanel fTabPanel = new ADTabpanel();
+                fTabPanel.init(this, curWindowNo, gTab, gridWindow);
+                adTab.addTab(gTab, fTabPanel);
+                if (tab == 0) {
+                	fTabPanel.createUI();                
+	            	curTabpanel = fTabPanel;
+	            	curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
+	                curTabpanel.activate(true);
+                }
             }
         }
         
-//        ADTabListModel model = new ADTabListModel(tabLabelList, tabbox);
-//        tabList.setItemRenderer(model);
-//        tabList.setModel(model);
-//        tabList.setSelectedIndex(0);
-
         Env.setContext(ctx, curWindowNo, "WindowName", gridWindow.getName());
         curTab.getTableModel().setChanged(false);
-        curTabIndex = 0;
-        curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
-        curTabpanel.activate(true);
+        curTabIndex = 0;        
 
-        //if (tabbox.getTabCount() > 0)
-        //{
-            adTab.setSelectedIndex(0);
-        //}
+        adTab.setSelectedIndex(0);
         toolbar.enableTabNavigation(adTab.getTabCount() > 1);
         toolbar.enableFind(true);
         adTab.evaluate(null);
         
-        //force sync model
-//        tabList.setModel(tabList.getModel());
-
         if (gridWindow.isTransaction())
         {
         	toolbar.enableHistoryRecords(true);
@@ -542,8 +548,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		back = (newTabIndex < oldTabIndex);
 
-		ADTabpanel oldTabpanel = curTabpanel;
-		ADTabpanel newTabpanel = adTab.getSelectedTabpanel();
+		IADTabpanel oldTabpanel = curTabpanel;
+		IADTabpanel newTabpanel = adTab.getSelectedTabpanel();
 		curTab = newTabpanel.getGridTab();
 		
 		if (oldTabpanel != null)
@@ -655,8 +661,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         //  update Navigation
         boolean firstRow = e.isFirstRow();
         boolean lastRow = e.isLastRow();
-        toolbar.enableFirstNavigation(!firstRow);
-        toolbar.enableLastNavigation(!lastRow);
+        toolbar.enableFirstNavigation(!firstRow && !curTab.isSortTab());
+        toolbar.enableLastNavigation(!lastRow && !curTab.isSortTab());
 
         //  update Change
         boolean changed = e.isChanged() || e.isInserting();
@@ -668,10 +674,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             insertRecord = curTab.isInsertRecord();
         }
-        toolbar.enabledNew(!changed && insertRecord);
-        toolbar.enableCopy(!changed && insertRecord);
+        toolbar.enabledNew(!changed && insertRecord && !curTab.isSortTab());
+        toolbar.enableCopy(!changed && insertRecord && !curTab.isSortTab());
         toolbar.enableRefresh(!changed);
-        toolbar.enableDelete(!changed && !readOnly);
+        toolbar.enableDelete(!changed && !readOnly && !curTab.isSortTab());
         //
         if (readOnly && curTab.isAlwaysUpdateField())
         {
@@ -818,11 +824,19 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     
     public void onIgnore()
     {
-        curTab.dataIgnore();
-        curTab.dataRefresh();
-        curTabpanel.dynamicDisplay(0);
-        curTabpanel.editRecord(false);
-        toolbar.enableIgnore(false);
+    	if (curTab.isSortTab())
+    	{
+    		curTabpanel.refresh();
+    		toolbar.enableIgnore(false);
+    	}
+    	else
+    	{
+	        curTab.dataIgnore();
+	        curTab.dataRefresh();
+	        curTabpanel.dynamicDisplay(0);
+	        curTabpanel.editRecord(false);
+	        toolbar.enableIgnore(false);
+    	}
     }
     
     public void onEdit()
@@ -841,14 +855,23 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     {
     	changesOccured = true;
         
-    	boolean retValue = curTab.dataSave(true);
-        
-        if (!retValue)
-        {
-            FDialog.error(curWindowNo, parent, "SaveIgnored");
-            statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
-        }
-        curTabpanel.dynamicDisplay(0);
+    	if (curTab.isSortTab())
+    	{
+    		((ADSortTab)curTabpanel).saveData();
+    		toolbar.enableSave(true);	//	set explicitly
+    		toolbar.enableIgnore(false);
+    	}
+    	else
+    	{
+	    	boolean retValue = curTab.dataSave(true);
+	        
+	        if (!retValue)
+	        {
+	            FDialog.error(curWindowNo, parent, "SaveIgnored");
+	            statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
+	        }
+	        curTabpanel.dynamicDisplay(0);
+    	}
     }
     
     public void onDelete()
@@ -976,7 +999,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			new WZoomAcross (toolbar.getEvent().getTarget(), curTab.getTableName(), query);
 		}
 	}
-	
+    
 	// Elaine 2008/07/17
 	public void onActiveWorkflows() {
 		if (toolbar.getEvent() != null)
@@ -1096,15 +1119,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		else if (col.equals("DocAction"))
 		{
 			WDocActionPanel win = new WDocActionPanel(curTab);
-			//if (win.getNumberOfOptions() == 0)
-			//{
-			//	vda.dispose ();
-			//	log.info("DocAction - No Options");
-			//	return;
-			//}
-			//else
+			if (win.getNumberOfOptions() == 0)
 			{
-				win.setVisible(true);
+				logger.info("DocAction - No Options");
+				return;
+			}
+			else
+			{
 				AEnv.showWindow(win);
 				
 				if (!win.isStartProcess())
@@ -1351,5 +1372,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (logInfo.length() > 0)
 			FDialog.info(curWindowNo, this.getComponent(), Env.getHeader(ctx, curWindowNo),
 				pi.getTitle() + "<br>" + logInfo);
+	}
+	
+	public CWindowToolbar getToolbar() {
+		return toolbar;
 	}
 }

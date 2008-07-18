@@ -19,7 +19,14 @@ package org.adempiere.webui.component;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 
 /**
  *
@@ -27,10 +34,14 @@ import java.util.List;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public class Listbox extends org.zkoss.zul.Listbox
+public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 {
     private static final long serialVersionUID = 1L;
     private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
+    
+    private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
+    private List<EventListener> onDropListeners = new ArrayList<EventListener>();
+	private boolean draggable;
     
     public void setEnabled(boolean enabled)
     {
@@ -118,5 +129,66 @@ public class Listbox extends org.zkoss.zul.Listbox
     {
     	return (ListHead)super.getListhead();
     }
-    
+
+	public int[] getSelectedIndices() {
+		Set selectedItems = this.getSelectedItems();
+		int[] selecteds = new int[this.getSelectedCount()];
+		int i = 0;
+		for (Object obj : selectedItems) {
+			ListItem listItem = (ListItem) obj;
+			selecteds[i] = this.getIndexOfItem(listItem);
+			i++;
+		}
+		return selecteds;
+	}
+	
+	public void setSelectedIndices(int[] selected) {
+		this.clearSelection();
+		for(int i : selected) {
+			this.setSelectedIndex(i);
+		}
+	}
+
+	public void addOnDropListener(EventListener listener) {
+		onDropListeners.add(listener);
+	}
+
+	public void addDoubleClickListener(EventListener listener) {
+		doubleClickListeners.add(listener);
+	}
+	
+	@Override
+	public boolean insertBefore(Component newChild, Component refChild) {
+		if (newChild instanceof ListItem) {
+			newChild.addEventListener(Events.ON_DOUBLE_CLICK, this);
+			if (onDropListeners.size() > 0) {
+				((ListItem)newChild).setDroppable("true");	
+				newChild.addEventListener(Events.ON_DROP, this);
+			}
+			if (isItemDraggable()) {
+				((ListItem)newChild).setDraggable("true");
+			}
+		}
+		return super.insertBefore(newChild, refChild);
+	}
+
+	public boolean isItemDraggable() {
+		return draggable;
+	}
+	
+	public void setItemDraggable(boolean b) {
+		draggable = b;
+	}
+
+	public void onEvent(Event event) throws Exception {
+		if (Events.ON_DOUBLE_CLICK.equals(event.getName()) && !doubleClickListeners.isEmpty()) {
+			for(EventListener listener : doubleClickListeners) {
+				listener.onEvent(event);
+			}
+		} else if (Events.ON_DROP.equals(event.getName()) && !onDropListeners.isEmpty()) {
+			for(EventListener listener : onDropListeners) {
+				listener.onEvent(event);
+			}
+		}
+	}    
 }

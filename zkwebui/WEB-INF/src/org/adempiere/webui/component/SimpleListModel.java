@@ -1,5 +1,18 @@
+/******************************************************************************
+ * Copyright (C) 2008 Low Heng Sin  All Rights Reserved.                      *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
 package org.adempiere.webui.component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,13 +22,23 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
+import org.zkoss.zul.event.ListDataEvent;
 
+/**
+ * 
+ * @author Low Heng Sin
+ *
+ */
 public class SimpleListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 
-	private List list;
+	protected List list;
 	
 	private int[] maxLength;
 
+	public SimpleListModel() {
+		this(new ArrayList());
+	}
+	
 	public SimpleListModel(List list) {
 		this.list = list;
 	}
@@ -96,5 +119,36 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 	
 	public void setMaxLength(int[] maxLength) {
 		this.maxLength = maxLength;
+	}
+	
+	public void addElement(Object obj) {
+		list.add(obj);
+		int index = list.size() - 1;
+		fireEvent(ListDataEvent.INTERVAL_ADDED, index, index);
+	}
+	
+	public void add(int index, Object obj) {
+		list.add(index, obj);
+		fireEvent(ListDataEvent.INTERVAL_ADDED, index, index);
+	}
+
+	public void removeAllElements() {
+		list.clear();
+		fireEvent(ListDataEvent.CONTENTS_CHANGED, -1, -1);
+	}
+
+	public void removeElement(Object element) {
+		int index = list.indexOf(element);
+		list.remove(element);
+		fireEvent(ListDataEvent.INTERVAL_REMOVED, index, index); 
+	}
+
+	public void setElementAt(Object element, int index) {
+		list.set(index, element);
+		fireEvent(ListDataEvent.CONTENTS_CHANGED, index, index);
+	}
+
+	public int indexOf(Object value) {
+		return list.indexOf(value);
 	}
 }

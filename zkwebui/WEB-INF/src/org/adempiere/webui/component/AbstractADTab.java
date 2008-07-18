@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridTab;
@@ -44,7 +45,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     private ArrayList<String>   m_dependents = new ArrayList<String>();
     
     /** Tabs associated to this tab box */
-    protected List<ADTabpanel> tabPanelList = new ArrayList<ADTabpanel>();
+    protected List<IADTabpanel> tabPanelList = new ArrayList<IADTabpanel>();
     
     public AbstractADTab()
     {
@@ -56,7 +57,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
      *  @param gTab grid tab model
      *  @param tabElement GridController or VSortTab
      */
-    public void addTab(GridTab gTab, ADTabpanel tabPanel)
+    public void addTab(GridTab gTab, IADTabpanel tabPanel)
     {
     	tabPanelList.add(tabPanel);
         ArrayList<String>  dependents = gTab.getDependentOn();
@@ -72,7 +73,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
         doAddTab(gTab, tabPanel);                
     }//  addTab
     
-    protected abstract void doAddTab(GridTab tab, ADTabpanel tabPanel);
+    protected abstract void doAddTab(GridTab tab, IADTabpanel tabPanel);
 
 	/**
      * @param index of tab panel
@@ -83,7 +84,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     	return true;
     }// isEnabledAt
 
-    private boolean isDisplay(ADTabpanel newTab)
+    private boolean isDisplay(IADTabpanel newTab)
     {
         String logic = newTab.getDisplayLogic();
         if (logic != null && logic.length() > 0)
@@ -106,7 +107,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
      */
     public boolean updateSelectedIndex(int oldIndex, int newIndex)
     {
-        ADTabpanel newTab = tabPanelList.get(newIndex);
+        IADTabpanel newTab = tabPanelList.get(newIndex);
         
         if (!isDisplay(newTab))
         {
@@ -130,26 +131,29 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     protected abstract void doTabSelectionChanged(int oldIndex, int newIndex);
 
 	public boolean canNavigateTo(int fromIndex, int toIndex) {
-    	ADTabpanel newTab = tabPanelList.get(toIndex); 
-    	if (!isDisplay(newTab))
-        {
-            return false;
-        }
+    	IADTabpanel newTab = tabPanelList.get(toIndex);
+    	if (newTab instanceof ADTabpanel) 
+    	{
+	    	if (!isDisplay(newTab))
+	        {
+	            return false;
+	        }
+    	}
         
         boolean canJump = true;
 
         if (toIndex != fromIndex)
         {
-            ADTabpanel oldTabpanel = fromIndex >= 0 ? tabPanelList.get(fromIndex) : null;
+            IADTabpanel oldTabpanel = fromIndex >= 0 ? tabPanelList.get(fromIndex) : null;
             if (oldTabpanel != null)
             {
-                ADTabpanel oldTab = oldTabpanel;
+                IADTabpanel oldTab = oldTabpanel;
                 if (newTab.getTabLevel() > oldTab.getTabLevel())
                 {
                     int currentLevel = newTab.getTabLevel();
                     for (int i = toIndex - 1; i >= 0; i--)
                     {
-                        ADTabpanel tabPanel = tabPanelList.get(i);
+                        IADTabpanel tabPanel = tabPanelList.get(i);
                         if (tabPanel.getTabLevel() < currentLevel)
                         {
                             if (!tabPanel.isCurrent())
@@ -174,13 +178,13 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     	StringBuffer path = new StringBuffer();
     	int s = this.getSelectedIndex();
     	if (s <= 0 ) s = 0;
-    	ADTabpanel p = tabPanelList.get(s);
+    	IADTabpanel p = tabPanelList.get(s);
     	for (int i = 0; i <= s; i++) {
     		String n = null;
     		if (i == s)
     			n = p.getTitle();
     		else {
-    			ADTabpanel t = tabPanelList.get(i);
+    			IADTabpanel t = tabPanelList.get(i);
     			if (t.getTabLevel() < p.getTabLevel())
     				n = t.getTitle();
     		}
@@ -230,11 +234,11 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
         return tabPanelList.size();
     }
     
-    public ADTabpanel getTabpanel(int index)
+    public IADTabpanel getADTabpanel(int index)
     {
         try
         {
-            ADTabpanel tabPanel = tabPanelList.get(index);
+            IADTabpanel tabPanel = tabPanelList.get(index);
             return tabPanel;
         }
         catch (Exception ex)

@@ -79,7 +79,7 @@ import org.zkoss.zul.Toolbarbutton;
  * 
  */
 public class ADTabpanel extends Div implements Evaluatee, EventListener, 
-DataStatusListener, ValueChangeListener
+DataStatusListener, ValueChangeListener, IADTabpanel
 {
     
     private static final CLogger logger;
