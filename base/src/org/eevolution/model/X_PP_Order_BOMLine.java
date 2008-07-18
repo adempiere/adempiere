@@ -50,11 +50,11 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM PP_Order_BOMLine WHERE PP_Order_ID=@PP_Order_ID@
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
-			setPP_Order_BOMLine_ID (0);
 			setPP_Order_BOM_ID (0);
+			setPP_Order_BOMLine_ID (0);
 			setPP_Order_ID (0);
-			setQtyBOM (Env.ZERO);
 			setQtyBatch (Env.ZERO);
+			setQtyBOM (Env.ZERO);
 			setQtyDelivered (Env.ZERO);
 			setQtyPost (Env.ZERO);
 			setQtyReject (Env.ZERO);
@@ -162,44 +162,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
-        I_C_UOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_UOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_UOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** ComponentType AD_Reference_ID=53225 */
 	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
 	/** By Product = BY */
@@ -240,6 +202,44 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public String getComponentType () 
 	{
 		return (String)get_Value(COLUMNNAME_ComponentType);
+	}
+
+	public I_C_UOM getC_UOM() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
+        I_C_UOM result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_UOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_UOM_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1)
+			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Date Delivered.
@@ -635,25 +635,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_BOMLine_ID.
-		@param PP_Order_BOMLine_ID PP_Order_BOMLine_ID	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
-	{
-		if (PP_Order_BOMLine_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_BOMLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
-	}
-
-	/** Get PP_Order_BOMLine_ID.
-		@return PP_Order_BOMLine_ID	  */
-	public int getPP_Order_BOMLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOM.Table_Name);
@@ -684,6 +665,25 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public int getPP_Order_BOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set PP_Order_BOMLine_ID.
+		@param PP_Order_BOMLine_ID PP_Order_BOMLine_ID	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
+	{
+		if (PP_Order_BOMLine_ID < 1)
+			 throw new IllegalArgumentException ("PP_Order_BOMLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
+	}
+
+	/** Get PP_Order_BOMLine_ID.
+		@return PP_Order_BOMLine_ID	  */
+	public int getPP_Order_BOMLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -724,28 +724,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Quantity.
-		@param QtyBOM 
-		Indicate the Quantity  use in this BOM
-	  */
-	public void setQtyBOM (BigDecimal QtyBOM)
-	{
-		if (QtyBOM == null)
-			throw new IllegalArgumentException ("QtyBOM is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_QtyBOM, QtyBOM);
-	}
-
-	/** Get Quantity.
-		@return Indicate the Quantity  use in this BOM
-	  */
-	public BigDecimal getQtyBOM () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Quantity %.
 		@param QtyBatch 
 		Indicate the Quantity % use in this Formula
@@ -763,6 +741,28 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public BigDecimal getQtyBatch () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatch);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Quantity.
+		@param QtyBOM 
+		Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM)
+	{
+		if (QtyBOM == null)
+			throw new IllegalArgumentException ("QtyBOM is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_QtyBOM, QtyBOM);
+	}
+
+	/** Get Quantity.
+		@return Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

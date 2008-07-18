@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent 
 {
 

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Contract
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent 
 {
 

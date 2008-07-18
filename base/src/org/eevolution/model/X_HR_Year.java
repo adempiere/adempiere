@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_HR_Year extends PO implements I_HR_Year, I_Persistent 
 {
 

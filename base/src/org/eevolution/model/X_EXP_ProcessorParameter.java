@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParameter, I_Persistent 
 {
 

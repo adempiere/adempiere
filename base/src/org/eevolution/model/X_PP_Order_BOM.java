@@ -158,6 +158,29 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 		return (String)get_Value(COLUMNNAME_BOMUse);
 	}
 
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+
+		if (CopyFrom != null && CopyFrom.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			CopyFrom = CopyFrom.substring(0, 1);
+		}
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
 	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
@@ -194,29 +217,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Description.

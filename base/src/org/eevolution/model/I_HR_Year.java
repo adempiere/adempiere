@@ -39,7 +39,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Year
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @version Release 3.5.0
  */
 public interface I_HR_Year 
 {

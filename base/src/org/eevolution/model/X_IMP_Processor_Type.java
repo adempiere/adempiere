@@ -23,7 +23,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_Processor_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_Persistent 
 {
 

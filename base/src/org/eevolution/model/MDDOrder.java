@@ -681,13 +681,13 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			}
 		}
 		//	Warehouse Org
-		if (newRecord 
+		/*if (newRecord 
 			|| is_ValueChanged("AD_Org_ID") || is_ValueChanged("M_Warehouse_ID"))
 		{
 			MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID());
 			if (wh.getAD_Org_ID() != getAD_Org_ID())
 				log.saveWarning("WarehouseOrgConflict", "");
-		}
+		}*/
 		//	Reservations in Warehouse
 		if (!newRecord && is_ValueChanged("M_Warehouse_ID"))
 		{

@@ -57,21 +57,6 @@ public interface I_PP_WF_Node_Asset
 
     /** Load Meta Data */
 
-    /** Column name AD_WF_Node_ID */
-    public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
-
-	/** Set Node.
-	  * Workflow Node (activity), step or process
-	  */
-	public void setAD_WF_Node_ID (int AD_WF_Node_ID);
-
-	/** Get Node.
-	  * Workflow Node (activity), step or process
-	  */
-	public int getAD_WF_Node_ID();
-
-	public I_AD_WF_Node getAD_WF_Node() throws Exception;
-
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
@@ -86,6 +71,21 @@ public interface I_PP_WF_Node_Asset
 	public int getA_Asset_ID();
 
 	public I_A_Asset getA_Asset() throws Exception;
+
+    /** Column name AD_WF_Node_ID */
+    public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
+
+	/** Set Node.
+	  * Workflow Node (activity), step or process
+	  */
+	public void setAD_WF_Node_ID (int AD_WF_Node_ID);
+
+	/** Get Node.
+	  * Workflow Node (activity), step or process
+	  */
+	public int getAD_WF_Node_ID();
+
+	public I_AD_WF_Node getAD_WF_Node() throws Exception;
 
     /** Column name PP_WF_Node_Asset_ID */
     public static final String COLUMNNAME_PP_WF_Node_Asset_ID = "PP_WF_Node_Asset_ID";

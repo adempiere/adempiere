@@ -202,14 +202,14 @@ public class MRP extends SvrProcess
 	 *  @param M_Warehouse_ID Warehouse ID
 	 *  @return false if exist an error
 	 */
-	public boolean deleteMRP(int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID)
+	public boolean deleteMRP(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID)
 	{
 		// Delete Manufacturing Order with Close Status from MRP Table
-		String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP' AND DocStatus='CL' AND AD_Client_ID=" + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID="+M_Warehouse_ID;				
+		String sql = "DELETE FROM PP_MRP  WHERE OrderType = 'MOP' AND DocStatus='CL' AND AD_Client_ID=" + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID="+M_Warehouse_ID +  " AND S_Resource_ID="+S_Resource_ID ;					
 		DB.executeUpdate(sql, get_TrxName());
 
 		// Delete Requisition with Status Close from MRP Table
-		sql = "DELETE FROM PP_MRP WHERE TypeMRP = 'POR' AND DocStatus='CL' AND AD_Client_ID = " + AD_Client_ID +  " AND AD_Org_ID=" + AD_Org_ID+ " AND M_Warehouse_ID="+M_Warehouse_ID;				
+		sql = "DELETE FROM PP_MRP WHERE OrderType = 'POR' AND DocStatus='CL' AND AD_Client_ID = " + AD_Client_ID +  " AND AD_Org_ID=" + AD_Org_ID+ " AND M_Warehouse_ID="+M_Warehouse_ID +  " AND S_Resource_ID="+S_Resource_ID;				
 		DB.executeUpdate(sql, get_TrxName());
 
 		// Delete Action Notice
@@ -247,14 +247,15 @@ public class MRP extends SvrProcess
 				return false;
 			}    
 			//Delete Manufacturing Order with Draft Status 
-			sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = ? AND AD_Org_ID=? AND M_Warehouse_ID=?";		
+			sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = ? AND AD_Org_ID=? AND M_Warehouse_ID=? AND S_Resource_ID=?";		
 			try
 			{
 				PreparedStatement pstmt = null;
 				pstmt = DB.prepareStatement (sql , get_TrxName());
 				pstmt.setInt(1, AD_Client_ID);
 				pstmt.setInt(2, AD_Org_ID);  
-				pstmt.setInt(3, M_Warehouse_ID);  
+				pstmt.setInt(3, M_Warehouse_ID); 
+				pstmt.setInt(4, S_Resource_ID);  
 				ResultSet rs = pstmt.executeQuery();
 				while (rs.next())
 				{
@@ -315,7 +316,7 @@ public class MRP extends SvrProcess
 	public String runMRP(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID)
 	{      
 		// Deleted Old record      
-		deleteMRP(AD_Client_ID,AD_Org_ID,M_Warehouse_ID);                       
+		deleteMRP(AD_Client_ID,AD_Org_ID,S_Resource_ID,M_Warehouse_ID);                       
 		try
 		{
 			//String sql = "SELECT LowLevel FROM PP_MRP mrp INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID) WHERE mrp.M_Warehouse_ID = ? ORDER BY  p.LowLevel DESC ";                            
@@ -329,7 +330,7 @@ public class MRP extends SvrProcess
 			Timestamp  DateStartSchedule = null;
 			Timestamp  BeforeDateStartSchedule = null;
 			Timestamp  POQDateStartSchedule = null;                        
-			DB.executeUpdate("UPDATE PP_MRP SET IsAvailable ='Y' WHERE Type = 'S'  AND AD_Client_ID = " + AD_Client_ID+" AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID=" + M_Warehouse_ID ,get_TrxName());
+			DB.executeUpdate("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S'  AND AD_Client_ID = " + AD_Client_ID+" AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID=" + M_Warehouse_ID ,get_TrxName());
 
 
 			//String Order_Policy = MPPProductPlanning.ORDER_POLICY_LoteForLote;                       
@@ -343,10 +344,10 @@ public class MRP extends SvrProcess
 			{
 
 				log.info("Current Level Is :" + Level);
-				sql = "SELECT p.M_Product_ID ,p.Name , p.LowLevel , mrp.Qty , mrp.DatePromised, mrp.Type , mrp.TypeMRP , mrp.DateOrdered , mrp.M_Warehouse_ID , mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule"
+				sql = "SELECT p.M_Product_ID ,p.Name , p.LowLevel , mrp.Qty , mrp.DatePromised, mrp.TypeMRP , mrp.OrderType , mrp.DateOrdered , mrp.M_Warehouse_ID , mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule"
 						+" FROM PP_MRP mrp"
 						+" INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID)"
-						+" WHERE mrp.Type='D' AND mrp.AD_Client_ID = ? AND mrp.AD_Org_ID=? AND M_Warehouse_ID=? AND "
+						+" WHERE mrp.TypeMRP='D' AND mrp.AD_Client_ID = ? AND mrp.AD_Org_ID=? AND M_Warehouse_ID=? AND "
 						+" mrp.DatePromised <= ? AND COALESCE(p.LowLevel,0) = ? "
 						+" ORDER BY  p.LowLevel DESC ,  p.M_Product_ID , mrp.DatePromised  ";
 				pstmt = DB.prepareStatement (sql, get_TrxName());
@@ -359,14 +360,14 @@ public class MRP extends SvrProcess
 				while (rs.next())
 				{
 
-					String Type = rs.getString("Type");                                    
 					String TypeMRP = rs.getString("TypeMRP");                                    
+					String OrderType = rs.getString("OrderType");                                    
 					//Set Global Variable
 					DatePromised = rs.getTimestamp("DatePromised");
 					DateStartSchedule =   rs.getTimestamp("DateStartSchedule"); 
 
 					// if demand is a forecast and this is minor today then is ignore this QtyGrossReq
-					if (Type.equals("D") && TypeMRP.equals("FCT") && DatePromised.compareTo(Today) <= 0)
+					if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP) && MPPMRP.ORDERTYPE_Forecast.equals(OrderType) && DatePromised.compareTo(Today) <= 0)
 					{
 						continue;  
 					}
@@ -583,7 +584,7 @@ public class MRP extends SvrProcess
 		//result.append("--------------------   -------------------------------------------\n");                                        
 		//result.append("        Due Date        Gross Reqs     Sched Rcpt     Project On Hand     Order Plan \n");
 		QtyScheduledReceipts = Env.ZERO;                                        //get Supply this Product 
-		String sql= "SELECT mrp.PP_MRP_ID , mrp.Qty FROM PP_MRP mrp WHERE mrp.DocStatus = 'CO' AND mrp.IsAvailable = 'Y' AND mrp.Type = 'S' AND mrp.M_Product_ID = " + m_product_planning.getM_Product_ID()  + " AND mrp.AD_Client_ID = " + AD_Client_ID + " AND mrp.AD_Org_ID="+ AD_Org_ID + " AND M_Warehouse_ID="+m_product_planning.getM_Warehouse_ID();                                               
+		String sql= "SELECT mrp.PP_MRP_ID , mrp.Qty FROM PP_MRP mrp WHERE mrp.DocStatus = 'CO' AND mrp.IsAvailable = 'Y' AND mrp.TypeMRP = 'S' AND mrp.M_Product_ID = " + m_product_planning.getM_Product_ID()  + " AND mrp.AD_Client_ID = " + AD_Client_ID + " AND mrp.AD_Org_ID="+ AD_Org_ID + " AND M_Warehouse_ID="+m_product_planning.getM_Warehouse_ID();                                               
 		//System.out.println(sqlsupply);
 		try
 		{
@@ -778,26 +779,27 @@ public class MRP extends SvrProcess
 							// Try found some order with Shipper , Business Partner and Doc Status = Draft 
 							// Consolidate the demand in a single order for each Shipper , Business Partner , DemandDateStartSchedule
 							String date = DB.TO_DATE(DemandDateStartSchedule);
-							order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).getPO("M_Shipper_ID ="+M_Shipper_ID+" AND C_BPartner_ID="+bp.getC_BPartner_ID() +" AND DatePromised=" + date + " AND DocStatus='DR'", get_TrxName());
+							order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).getPO("M_Shipper_ID ="+network_line.getM_Shipper_ID()+" AND C_BPartner_ID="+bp.getC_BPartner_ID() +" AND DatePromised=" + date + " AND DocStatus='DR'", get_TrxName());
 							if (order==null)
+							{	
 								order = new MDDOrder(getCtx() , 0 , get_TrxName());
-							
-							order.setAD_Org_ID(target.getAD_Org_ID());
-							order.setDocumentNo(MSequence.getDocumentNo(DocTypeDO,get_TrxName(),false));
-							order.setC_BPartner_ID(C_BPartner_ID);
-							//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
-							order.setAD_User_ID(m_product_planning.getPlanner_ID());
-							order.setC_DocType_ID(DocTypeDO);  
-							order.setM_Warehouse_ID(wsts[0].getM_Warehouse_ID());
-							order.setDocAction(MDDOrder.DOCACTION_Complete);
-							order.setDateOrdered(Today);                       
-							order.setDatePromised(DemandDateStartSchedule);
-							order.setM_Shipper_ID(network_line.getM_Shipper_ID());	    	                
-							order.setIsInDispute(false);
-							order.setIsInTransit(false);
-							//order.setSalesRep_ID(m_product_planning.getPlanner_ID());
-							order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
-							order.save();	
+								order.setAD_Org_ID(target.getAD_Org_ID());
+								order.setDocumentNo(MSequence.getDocumentNo(DocTypeDO,get_TrxName(),false));
+								order.setC_BPartner_ID(C_BPartner_ID);
+								//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
+								order.setAD_User_ID(m_product_planning.getPlanner_ID());
+								order.setC_DocType_ID(DocTypeDO);  
+								order.setM_Warehouse_ID(wsts[0].getM_Warehouse_ID());
+								order.setDocAction(MDDOrder.DOCACTION_Complete);
+								order.setDateOrdered(Today);                       
+								order.setDatePromised(DemandDateStartSchedule);
+								order.setM_Shipper_ID(network_line.getM_Shipper_ID());	    	                
+								order.setIsInDispute(false);
+								order.setIsInTransit(false);
+								//order.setSalesRep_ID(m_product_planning.getPlanner_ID());
+								order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
+								order.save();
+							}	
 							M_Shipper_ID = network_line.getM_Shipper_ID();
 						}   
 
@@ -825,7 +827,8 @@ public class MRP extends SvrProcess
 							{
 								log.info("Set Correct Dates for Plan");
 								MPPMRP mrp = new MPPMRP(getCtx(),rs,get_TrxName());                                                        	
-								mrp.setDateOrdered(Today);                                                                                                                       
+								mrp.setDateOrdered(Today);               
+								mrp.setS_Resource_ID(p_S_Resource_ID);
 								mrp.setDatePromised(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValue()));;                                                            
 								mrp.setDateFinishSchedule(DemandDateStartSchedule);
 								mrp.save();
@@ -943,7 +946,7 @@ public class MRP extends SvrProcess
 						order.setPosted(false);
 						order.setProcessed(false);  
 						order.setYield(Env.ZERO);
-						order.setScheduleType("D");
+						order.setScheduleType(MPPMRP.TYPEMRP_Demand);
 						order.setPriorityRule(MPPOrder.PRIORITYRULE_Medium);
 						order.setDocStatus(MPPOrder.DOCSTATUS_Drafted);
 						order.setDocAction(MPPOrder.DOCSTATUS_Completed);

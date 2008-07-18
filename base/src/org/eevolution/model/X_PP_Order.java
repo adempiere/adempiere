@@ -63,9 +63,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 // N
 			setIsPrinted (false);
 // N
-			setIsSOTrx (false);
-// N
 			setIsSelected (false);
+// N
+			setIsSOTrx (false);
 // N
 			setLine (0);
 			setM_Product_ID (0);
@@ -278,6 +278,31 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	/** C_DocType_ID AD_Reference_ID=53233 */
+	public static final int C_DOCTYPE_ID_AD_Reference_ID=53233;
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID)
+	{
+		if (C_DocType_ID < 1) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+	}
+
+	/** Get Document Type.
+		@return Document type or rules
+	  */
+	public int getC_DocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** C_DocTypeTarget_ID AD_Reference_ID=53233 */
 	public static final int C_DOCTYPETARGET_ID_AD_Reference_ID=53233;
 	/** Set Target Document Type.
@@ -302,29 +327,27 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_DocType_ID AD_Reference_ID=53233 */
-	public static final int C_DOCTYPE_ID_AD_Reference_ID=53233;
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
 	  */
-	public void setC_DocType_ID (int C_DocType_ID)
+	public void setCopyFrom (String CopyFrom)
 	{
-		if (C_DocType_ID < 1) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+
+		if (CopyFrom != null && CopyFrom.length() > 1)
+		{
+			log.warning("Length > 1 - truncated");
+			CopyFrom = CopyFrom.substring(0, 1);
+		}
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
 
-	/** Get Document Type.
-		@return Document type or rules
+	/** Get Copy From.
+		@return Copy From Record
 	  */
-	public int getC_DocType_ID () 
+	public String getCopyFrom () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	public I_C_OrderLine getC_OrderLine() throws Exception 
@@ -441,29 +464,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set DateConfirm.
@@ -862,6 +862,27 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
+	/** Set Selected.
+		@param IsSelected Selected	  */
+	public void setIsSelected (boolean IsSelected)
+	{
+		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
+	}
+
+	/** Get Selected.
+		@return Selected	  */
+	public boolean isSelected () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSelected);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -877,27 +898,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Selected.
-		@param IsSelected Selected	  */
-	public void setIsSelected (boolean IsSelected)
-	{
-		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
-	}
-
-	/** Get Selected.
-		@return Selected	  */
-	public boolean isSelected () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSelected);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1069,6 +1069,52 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
+	/** Planner_ID AD_Reference_ID=286 */
+	public static final int PLANNER_ID_AD_Reference_ID=286;
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
+	{
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+	}
+
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Posted.
+		@param Posted 
+		Posting status
+	  */
+	public void setPosted (boolean Posted)
+	{
+		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
+	}
+
+	/** Get Posted.
+		@return Posting status
+	  */
+	public boolean isPosted () 
+	{
+		Object oo = get_Value(COLUMNNAME_Posted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set PP_Order_ID.
 		@param PP_Order_ID PP_Order_ID	  */
 	public void setPP_Order_ID (int PP_Order_ID)
@@ -1124,52 +1170,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Planner_ID AD_Reference_ID=286 */
-	public static final int PLANNER_ID_AD_Reference_ID=286;
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Posted.
-		@param Posted 
-		Posting status
-	  */
-	public void setPosted (boolean Posted)
-	{
-		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
-	}
-
-	/** Get Posted.
-		@return Posting status
-	  */
-	public boolean isPosted () 
-	{
-		Object oo = get_Value(COLUMNNAME_Posted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** PriorityRule AD_Reference_ID=154 */
@@ -1253,23 +1253,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set QtyBatchSize.
-		@param QtyBatchSize QtyBatchSize	  */
-	public void setQtyBatchSize (BigDecimal QtyBatchSize)
-	{
-		set_ValueNoCheck (COLUMNNAME_QtyBatchSize, QtyBatchSize);
-	}
-
-	/** Get QtyBatchSize.
-		@return QtyBatchSize	  */
-	public BigDecimal getQtyBatchSize () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchSize);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set QtyBatchs.
 		@param QtyBatchs QtyBatchs	  */
 	public void setQtyBatchs (BigDecimal QtyBatchs)
@@ -1282,6 +1265,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public BigDecimal getQtyBatchs () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchs);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set QtyBatchSize.
+		@param QtyBatchSize QtyBatchSize	  */
+	public void setQtyBatchSize (BigDecimal QtyBatchSize)
+	{
+		set_ValueNoCheck (COLUMNNAME_QtyBatchSize, QtyBatchSize);
+	}
+
+	/** Get QtyBatchSize.
+		@return QtyBatchSize	  */
+	public BigDecimal getQtyBatchSize () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchSize);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -1409,44 +1409,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1)
-			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Schedule Type.
 		@param ScheduleType 
 		Type of schedule
@@ -1491,6 +1453,44 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public String getSerNo () 
 	{
 		return (String)get_Value(COLUMNNAME_SerNo);
+	}
+
+	public I_S_Resource getS_Resource() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
+        I_S_Resource result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1)
+			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** User1_ID AD_Reference_ID=134 */

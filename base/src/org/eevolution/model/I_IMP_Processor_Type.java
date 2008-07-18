@@ -38,7 +38,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for IMP_Processor_Type
  *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @version Release 3.5.0
  */
 public interface I_IMP_Processor_Type 
 {

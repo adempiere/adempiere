@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParameter, I_Persistent 
 {
 

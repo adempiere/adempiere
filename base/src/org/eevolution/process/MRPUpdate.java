@@ -114,19 +114,23 @@ public class MRPUpdate extends SvrProcess
      public boolean deleteRecord(int AD_Client_ID,int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID)
      {						               
 	    String where = "";
+	    String resourcewhere = "";
 	    
 	    if (AD_Org_ID > 0 )
     		where += " AND AD_Org_ID=" + AD_Org_ID;
 	    if (M_Warehouse_ID > 0 )
     		where += " AND M_Warehouse_ID=" + M_Warehouse_ID;
+	    
+	    if (S_Resource_ID > 0 )
+    		resourcewhere = " AND S_Resource_ID=" + S_Resource_ID;
     
-	    String sql = "DELETE FROM PP_MRP  WHERE TypeMRP = 'MOP'  AND AD_Client_ID=" + m_AD_Client_ID + where;   
+	    String sql = "DELETE FROM PP_MRP  WHERE OrderType = 'MOP'  AND AD_Client_ID=" + m_AD_Client_ID + where + resourcewhere;   
 	    if(DB.executeUpdate(sql, get_TrxName()) < 0) return false;
 	    
-	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'FCT' AND mrp.AD_Client_ID = " + m_AD_Client_ID+ where;
+	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.OrderType = 'FCT' AND mrp.AD_Client_ID = " + m_AD_Client_ID+ where + resourcewhere;
 	    if(DB.executeUpdate(sql,get_TrxName()) < 0) return false;
 
-	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.TypeMRP = 'POR'  AND mrp.AD_Client_ID = " + m_AD_Client_ID + where;		 
+	    sql = "DELETE FROM PP_MRP mrp WHERE mrp.OrderType = 'POR'  AND mrp.AD_Client_ID = " + m_AD_Client_ID + where + resourcewhere;		 
 	    if(DB.executeUpdate(sql,get_TrxName()) < 0) return false;
 	    
 	    if (AD_Org_ID > 0 )
@@ -137,9 +141,9 @@ public class MRPUpdate extends SvrProcess
 	    if(DB.executeUpdate(sql, get_TrxName()) < 0) return false;
 	    
 	    if(S_Resource_ID> 0)
-	    sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID + where;		
+	       sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID + where;		
 	    else 
-	        sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + m_AD_Client_ID + where;
+	       sql = "SELECT o.PP_Order_ID FROM PP_Order o WHERE o.DocStatus = 'DR' AND o.AD_Client_ID = " + m_AD_Client_ID + where;			
 
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -215,8 +219,8 @@ public class MRPUpdate extends SvrProcess
 	            +"m_requisition_id,m_requisitionline_id,"
 	            +"m_product_id, m_warehouse_id, "
 	            +"pp_mrp_id, planner_id, "
-	            +"qty,  type, typemrp, updated, updatedby, value, "
-	            +"ad_client_id )";
+	            +"qty,  typemrp, ordertype, updated, updatedby, value, "
+	            +"ad_client_id, s_resource_id )";
 	  //Insert from M_ForecastLine
 	  String sql_insert = " SELECT t.ad_org_id,"
 	            +"t.created, t.createdby , t.datepromised,"
@@ -227,10 +231,11 @@ public class MRPUpdate extends SvrProcess
 	            + "null, null,"
 	            + "null, null,"
 	            +"t.m_product_id, t.m_warehouse_id," 
-	            +"nextidfunc(53040, 'N'), null," 
+	            +"nextid(53040,'N') , null," 
 	            +"t.qty,  'D', 'FCT', t.updated, t.updatedby, f.Name," 
-	            +"t.ad_client_id "
-	            +"FROM M_ForecastLine t INNER JOIN M_Forecast f ON (f.M_Forecast_ID=t.M_Forecast_ID) WHERE t.Qty > 0 AND t.AD_Client_ID="+ AD_Client_ID;
+	            +"t.ad_client_id , "
+	            + S_Resource_ID
+	            +" FROM M_ForecastLine t INNER JOIN M_Forecast f ON (f.M_Forecast_ID=t.M_Forecast_ID) WHERE t.Qty > 0 AND t.AD_Client_ID="+ AD_Client_ID;
 	    
 	  	String where = "";
 	    
@@ -251,13 +256,13 @@ public class MRPUpdate extends SvrProcess
             +" null, null, "
             +" null, null, "
             +"t.m_product_id, t.m_warehouse_id," 
-            +"nextidfunc(53040, 'N'), null," 
+            +"nextid(53040,'N') , null," 
             +"t.QtyOrdered-t.QtyDelivered,  'S', 'MOP', t.updated, t.updatedby, t.DocumentNo," 
-            +"t.ad_client_id ";
+            +"t.ad_client_id ,t.S_Resource_ID ";
         	if(S_Resource_ID > 0)
-        		sql_insert += "FROM PP_Order t WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID ; 
+        		sql_insert += " FROM PP_Order t WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID ; 
         	else
-        		sql_insert += "FROM PP_Order t WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID ; 
+        		sql_insert += " FROM PP_Order t WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID ; 
         
 	    if(DB.executeUpdate(sql + sql_insert + where , get_TrxName()) < 0) return false;
 	    
@@ -271,9 +276,9 @@ public class MRPUpdate extends SvrProcess
             +" null, null, "
             +" null, null, "
             +"t.m_product_id, t.m_warehouse_id," 
-            +"nextidfunc(53040, 'N'), null," 
+            +"nextid(53040,'N') , null," 
             +"t.QtyRequiered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
-            +"t.ad_client_id ";
+            +"t.ad_client_id, o.S_Resource_ID ";
         
         	if(S_Resource_ID > 0)
         		sql_insert += "FROM PP_Order_BOMLine t INNER JOIN PP_Order o  ON (o.pp_order_id=t.pp_order_id) WHERE  (t.QtyRequiered-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID + " AND S_Resource_ID=" + S_Resource_ID ; 
@@ -292,10 +297,11 @@ public class MRPUpdate extends SvrProcess
             +" t.c_order_id, t.c_orderline_id, "
             +" null, null, "
             +"t.m_product_id, t.m_warehouse_id," 
-            +"nextidfunc(53040, 'N'), null," 
+            +"nextid(53040,'N') , null," 
             +"t.QtyOrdered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
-            +"t.ad_client_id "
-            +"FROM C_OrderLine t INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id) WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID; 
+            +"t.ad_client_id ,"
+            +S_Resource_ID
+            +" FROM C_OrderLine t INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id) WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO') AND t.AD_Client_ID = " + m_AD_Client_ID; 
         
 	    if(DB.executeUpdate(sql + sql_insert + where , get_TrxName()) < 0) return false;
 	    
@@ -309,10 +315,11 @@ public class MRPUpdate extends SvrProcess
             +" null, null, "
             +"rl.m_requisition_id, rl.m_requisitionline_id, "
             +"rl.m_product_id, t.m_warehouse_id," 
-            +"nextidfunc(53040, 'N'), null," 
+            +"nextid(53040,'N') , null," 
             +"rl.Qty,  'S', 'POR', rl.updated, rl.updatedby, t.DocumentNo," 
-            +"rl.ad_client_id "
-            +"FROM M_RequisitionLine rl INNER JOIN M_Requisition t  ON (rl.m_requisition_id=t.m_requisition_id) WHERE   rl.Qty > 0 AND t.DocStatus IN ('CL') AND t.AD_Client_ID = " + m_AD_Client_ID; 
+            +"rl.ad_client_id , "
+            + S_Resource_ID
+            +" FROM M_RequisitionLine rl INNER JOIN M_Requisition t  ON (rl.m_requisition_id=t.m_requisition_id) WHERE   rl.Qty > 0 AND t.DocStatus IN ('CL') AND t.AD_Client_ID = " + m_AD_Client_ID; 
         
 	    if(DB.executeUpdate(sql + sql_insert + where , get_TrxName()) < 0) return false;
 

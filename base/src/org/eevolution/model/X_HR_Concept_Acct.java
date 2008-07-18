@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Concept_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persistent 
 {
 

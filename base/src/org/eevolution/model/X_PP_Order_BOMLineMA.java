@@ -44,8 +44,8 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
         {
 			setM_AttributeSetInstance_ID (0);
 			setMovementQty (Env.ZERO);
-			setPP_Order_BOMLineMA_ID (0);
 			setPP_Order_BOMLine_ID (0);
+			setPP_Order_BOMLineMA_ID (0);
         } */
     }
 
@@ -121,25 +121,6 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 		return bd;
 	}
 
-	/** Set PP_Order_BOMLineMA_ID.
-		@param PP_Order_BOMLineMA_ID PP_Order_BOMLineMA_ID	  */
-	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID)
-	{
-		if (PP_Order_BOMLineMA_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_BOMLineMA_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLineMA_ID, Integer.valueOf(PP_Order_BOMLineMA_ID));
-	}
-
-	/** Get PP_Order_BOMLineMA_ID.
-		@return PP_Order_BOMLineMA_ID	  */
-	public int getPP_Order_BOMLineMA_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLineMA_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOMLine.Table_Name);
@@ -170,6 +151,25 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 	public int getPP_Order_BOMLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set PP_Order_BOMLineMA_ID.
+		@param PP_Order_BOMLineMA_ID PP_Order_BOMLineMA_ID	  */
+	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID)
+	{
+		if (PP_Order_BOMLineMA_ID < 1)
+			 throw new IllegalArgumentException ("PP_Order_BOMLineMA_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLineMA_ID, Integer.valueOf(PP_Order_BOMLineMA_ID));
+	}
+
+	/** Get PP_Order_BOMLineMA_ID.
+		@return PP_Order_BOMLineMA_ID	  */
+	public int getPP_Order_BOMLineMA_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLineMA_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

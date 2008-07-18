@@ -107,13 +107,14 @@ public class CalloutMRP extends CalloutEngine
                                                                                                        
                              if (IsSOTrx)
                              {    
-                             mrp.setType("D");
-                             mrp.setTypeMRP("SOO");
+                             mrp.setOrderType(MPPMRP.ORDERTYPE_SalesOrder);
+                             mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
                              }
                              else
                              {
-                             mrp.setType("S");
+                             mrp.setOrderType(MPPMRP.ORDERTYPE_MaterialRequisition); 
                              mrp.setTypeMRP("POO");                                 
+                             mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
                              }
                              mrp.save();                             
                         }
@@ -200,8 +201,8 @@ public class CalloutMRP extends CalloutEngine
                              mrp.setM_Product_ID(M_Product_ID);
                              mrp.setM_Warehouse_ID(M_Warehouse_ID);
                              //mrp.setS_Resource_ID(); 
-                             mrp.setType("S");
-                             mrp.setTypeMRP("MOP");
+                             mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
+                             mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
                              mrp.save(); 
 
                         }
@@ -288,8 +289,8 @@ public class CalloutMRP extends CalloutEngine
                              mrp.setM_Product_ID(M_Product_ID);
                              mrp.setM_Warehouse_ID(M_Warehouse_ID);
                              //mrp.setS_Resource_ID(); 
-                             mrp.setType("D");
-                             mrp.setTypeMRP("MOP");
+                             mrp.setOrderType(MPPMRP.TYPEMRP_Demand);
+                             mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
                              mrp.save();         
                         }
                         

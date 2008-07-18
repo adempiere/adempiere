@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_Specification
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_QM_Specification extends PO implements I_QM_Specification, I_Persistent 
 {
 

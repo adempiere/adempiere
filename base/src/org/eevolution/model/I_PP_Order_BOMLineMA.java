@@ -83,15 +83,6 @@ public interface I_PP_Order_BOMLineMA
 	  */
 	public BigDecimal getMovementQty();
 
-    /** Column name PP_Order_BOMLineMA_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLineMA_ID = "PP_Order_BOMLineMA_ID";
-
-	/** Set PP_Order_BOMLineMA_ID	  */
-	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID);
-
-	/** Get PP_Order_BOMLineMA_ID	  */
-	public int getPP_Order_BOMLineMA_ID();
-
     /** Column name PP_Order_BOMLine_ID */
     public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
 
@@ -102,4 +93,13 @@ public interface I_PP_Order_BOMLineMA
 	public int getPP_Order_BOMLine_ID();
 
 	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws Exception;
+
+    /** Column name PP_Order_BOMLineMA_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLineMA_ID = "PP_Order_BOMLineMA_ID";
+
+	/** Set PP_Order_BOMLineMA_ID	  */
+	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID);
+
+	/** Get PP_Order_BOMLineMA_ID	  */
+	public int getPP_Order_BOMLineMA_ID();
 }

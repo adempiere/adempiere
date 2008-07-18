@@ -23,7 +23,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_Processor_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.0 - $Id$ */
 public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_Persistent 
 {
 

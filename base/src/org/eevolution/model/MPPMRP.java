@@ -187,8 +187,8 @@ public class MPPMRP extends X_PP_MRP
                          mrp.setM_Product_ID(fl.getM_Product_ID());                                           
                          mrp.setM_Warehouse_ID(fl.getM_Warehouse_ID());                        
                          mrp.setDocStatus("IP");
-                         mrp.setType("D");
-                         mrp.setTypeMRP("FCT");                         
+                         mrp.setOrderType(MPPMRP.ORDERTYPE_Forecast);
+                         mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);                         
                          mrp.save();
                          
                     }
@@ -271,13 +271,13 @@ public class MPPMRP extends X_PP_MRP
                              
                              if (ol.getParent().isSOTrx())
                              {    
-                             mrp.setType("D");
-                             mrp.setTypeMRP("SOO");
+                             mrp.setOrderType(MPPMRP.ORDERTYPE_SalesOrder);
+                             mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
                              }
                              else
                              {
-                             mrp.setType("S");
-                             mrp.setTypeMRP("POO");                                 
+                             mrp.setOrderType(MPPMRP.ORDERTYPE_PurchaseOrder);
+                             mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);                                 
                              }
                              mrp.save();
                              
@@ -373,7 +373,7 @@ public class MPPMRP extends X_PP_MRP
         	}
         	
         	
-            sql =  new String("SELECT * FROM PP_MRP WHERE Type = 'S' AND TypeMRP='MOP' AND PP_Order_ID = ? ");        		
+            sql =  new String("SELECT * FROM PP_MRP WHERE TypeMRP = 'S' AND OrderType='MOP' AND PP_Order_ID = ? ");        		
             MPPMRP mrp = null;
        
 
@@ -417,8 +417,8 @@ public class MPPMRP extends X_PP_MRP
 	                 mrp.setM_Product_ID(o.getM_Product_ID());
 	                 mrp.setM_Warehouse_ID(o.getM_Warehouse_ID());
 	                 mrp.setS_Resource_ID(o.getS_Resource_ID());
-	                 mrp.setType("S");
-	                 mrp.setTypeMRP("MOP");
+	                 mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
+	                 mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
 	                 mrp.setDocStatus(o.getDocStatus());
 	                 mrp.save();           
                 }                        
@@ -469,7 +469,7 @@ public class MPPMRP extends X_PP_MRP
                 return;
         	}
         	
-            sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.Type = 'D' AND mrp.TypeMRP='MOP' AND mrp.PP_Order_BOMLine_ID = ? ");
+            sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.TypeMRP = 'D' AND mrp.OrderType='MOP' AND mrp.PP_Order_BOMLine_ID = ? ");
 
             MPPOrder o = obl.getParent();
             MPPMRP mrp = null;
@@ -514,8 +514,8 @@ public class MPPMRP extends X_PP_MRP
                      mrp.setM_Warehouse_ID(obl.getM_Warehouse_ID());
                      mrp.setS_Resource_ID(o.getS_Resource_ID());
                      mrp.setDocStatus(o.getDocStatus());
-                     mrp.setType("D");
-                     mrp.setTypeMRP("MOP");
+                     mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
+                     mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
                      mrp.save();
                      
                 }
@@ -558,7 +558,7 @@ public class MPPMRP extends X_PP_MRP
                 return;
         	}
         	
-       		sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.Type = 'D' AND mrp.TypeMRP='DOO' AND mrp.DD_OrderLine_ID = ? ");
+       		sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.TypeMRP = 'D' AND mrp.OrderType='DOO' AND mrp.DD_OrderLine_ID = ? ");
             MPPMRP mrp = null;
             MLocator source = MLocator.get( m_ctx , ol.getM_Locator_ID());
             MLocator target = MLocator.get( m_ctx , ol.getM_LocatorTo_ID());
@@ -599,8 +599,8 @@ public class MPPMRP extends X_PP_MRP
                      mrp.setM_Product_ID(ol.getM_Product_ID());
                      mrp.setM_Warehouse_ID(source.getM_Warehouse_ID());
                      mrp.setDocStatus(ol.getParent().getDocStatus());
-                     mrp.setType("D");
-                     mrp.setTypeMRP("DOO");
+                     mrp.setOrderType(MPPMRP.ORDERTYPE_DistributionOrder);
+                     mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
                      mrp.save();
                      
                 }
@@ -614,7 +614,7 @@ public class MPPMRP extends X_PP_MRP
                 log.log(Level.SEVERE, "doIt - " + sql , ex); 
             }
             
-            sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.Type = 'S' AND mrp.TypeMRP='DOO' AND mrp.DD_OrderLine_ID = ? ");
+            sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.TypeMRP = 'S' AND mrp.OrderType='DOO' AND mrp.DD_OrderLine_ID = ? ");
             
          
             pstmt = null;
@@ -654,8 +654,8 @@ public class MPPMRP extends X_PP_MRP
                      mrp.setM_Product_ID(ol.getM_Product_ID());
                      mrp.setM_Warehouse_ID(target.getM_Warehouse_ID());
                      mrp.setDocStatus(ol.getParent().getDocStatus());
-                     mrp.setType("S");
-                     mrp.setTypeMRP("DOO");
+                     mrp.setOrderType(MPPMRP.ORDERTYPE_DistributionOrder);
+                     mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
                      mrp.save();
                      
                 }
@@ -728,8 +728,8 @@ public class MPPMRP extends X_PP_MRP
                     mrp.setM_Product_ID(rl.getM_Product_ID());
                     mrp.setM_Warehouse_ID(r.getM_Warehouse_ID()); 
                     mrp.setDocStatus(r.getDocStatus());
-                    mrp.setType("S");
-                    mrp.setTypeMRP("POR");
+                    mrp.setOrderType(MPPMRP.ORDERTYPE_MaterialRequisition);
+                    mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
                     mrp.setIsAvailable(true);
                     mrp.save();
                      

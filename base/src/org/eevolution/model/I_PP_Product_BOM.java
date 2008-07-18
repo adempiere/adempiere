@@ -58,6 +58,19 @@ public interface I_PP_Product_BOM
 
     /** Load Meta Data */
 
+    /** Column name Amt */
+    public static final String COLUMNNAME_Amt = "Amt";
+
+	/** Set Amount.
+	  * Amount
+	  */
+	public void setAmt (BigDecimal Amt);
+
+	/** Get Amount.
+	  * Amount
+	  */
+	public BigDecimal getAmt();
+
     /** Column name BOMType */
     public static final String COLUMNNAME_BOMType = "BOMType";
 
@@ -84,6 +97,32 @@ public interface I_PP_Product_BOM
 	  */
 	public String getBOMUse();
 
+    /** Column name CopyFrom */
+    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+
+	/** Set Copy From.
+	  * Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom);
+
+	/** Get Copy From.
+	  * Copy From Record
+	  */
+	public String getCopyFrom();
+
+    /** Column name Cost */
+    public static final String COLUMNNAME_Cost = "Cost";
+
+	/** Set Cost.
+	  * Cost information
+	  */
+	public void setCost (BigDecimal Cost);
+
+	/** Get Cost.
+	  * Cost information
+	  */
+	public BigDecimal getCost();
+
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 
@@ -98,19 +137,6 @@ public interface I_PP_Product_BOM
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
-
-	/** Set Copy From.
-	  * Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom);
-
-	/** Get Copy From.
-	  * Copy From Record
-	  */
-	public String getCopyFrom();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -151,6 +177,19 @@ public interface I_PP_Product_BOM
 	  */
 	public String getHelp();
 
+    /** Column name Margin */
+    public static final String COLUMNNAME_Margin = "Margin";
+
+	/** Set Margin %.
+	  * Margin for a product as a percentage
+	  */
+	public void setMargin (BigDecimal Margin);
+
+	/** Get Margin %.
+	  * Margin for a product as a percentage
+	  */
+	public BigDecimal getMargin();
+
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -178,6 +217,21 @@ public interface I_PP_Product_BOM
 	public int getM_ChangeNotice_ID();
 
 	public I_M_ChangeNotice getM_ChangeNotice() throws Exception;
+
+    /** Column name M_PriceList_Version_ID */
+    public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
+
+	/** Set Price List Version.
+	  * Identifies a unique instance of a Price List
+	  */
+	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID);
+
+	/** Get Price List Version.
+	  * Identifies a unique instance of a Price List
+	  */
+	public int getM_PriceList_Version_ID();
+
+	public I_M_PriceList_Version getM_PriceList_Version() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -219,6 +273,19 @@ public interface I_PP_Product_BOM
 	  * BOM & Formula
 	  */
 	public int getPP_Product_BOM_ID();
+
+    /** Column name Price */
+    public static final String COLUMNNAME_Price = "Price";
+
+	/** Set Price.
+	  * Price
+	  */
+	public void setPrice (BigDecimal Price);
+
+	/** Get Price.
+	  * Price
+	  */
+	public BigDecimal getPrice();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
