@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Bandbox;
@@ -33,6 +34,7 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.SimpleTreeModel;
 import org.adempiere.webui.component.ToolBar;
 import org.adempiere.webui.editor.IZoomableEditor;
 import org.adempiere.webui.editor.WButtonEditor;
@@ -50,6 +52,8 @@ import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MLookup;
+import org.compiere.model.MTree;
+import org.compiere.model.MTreeNode;
 import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -62,9 +66,17 @@ import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Toolbarbutton;
+import org.zkoss.zul.Tree;
+import org.zkoss.zul.Treecol;
+import org.zkoss.zul.Treecols;
+import org.zkoss.zul.Treeitem;
 
 /**
  * 
@@ -76,7 +88,8 @@ import org.zkoss.zul.Toolbarbutton;
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date Feb 25, 2007
  * @version $Revision: 0.10 $
- * 
+ *
+ * @author Low Heng Sin 
  */
 public class ADTabpanel extends Div implements Evaluatee, EventListener, 
 DataStatusListener, ValueChangeListener, IADTabpanel
@@ -116,6 +129,10 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     private Map<String, List<Row>> fieldGroupHeaders = new HashMap<String, List<Row>>();
 
 	private ArrayList<Row> rowList;
+	
+	private Component formComponent = null;
+	
+	private Tree tree = null;
 
 	public ADTabpanel() 
 	{
@@ -134,14 +151,15 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         grid = new Grid();
         //have problem moving the following out as css class
         grid.setWidth("99%");
-        grid.setHeight("100%");        
-        grid.setStyle("margin:0; padding:0; position: absolute");
+        grid.setHeight("100%");                
         grid.setSclass("grid-no-striped");
+        grid.setStyle("margin:0; padding:0; position: absolute");
         grid.setOddRowSclass("even");
         
         
         listPanel = new GridPanel();
-        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);        
+        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);
+                
     }
 
     public void init(AbstractADWindowPanel winPanel, int windowNo, GridTab gridTab,
@@ -152,12 +170,51 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         this.gridTab = gridTab;
         this.windowPanel = winPanel;
         gridTab.addDataStatusListener(this);
+        
+        this.getChildren().clear();
+                
+        int AD_Tree_ID = 0;
+		if (gridTab.isTreeTab())
+			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+		if (gridTab.isTreeTab() && AD_Tree_ID != 0)
+		{
+			Borderlayout layout = new Borderlayout();
+			layout.setParent(this);
+			layout.setStyle("width: 100%; height: 100%; position: absolute;");
+		
+			tree = new Tree();
+			tree.setStyle("border: none");
+			West west = new West();
+			west.appendChild(tree);
+			west.setWidth("300px");
+			west.setCollapsible(true);
+			west.setSplittable(true);
+			west.setAutoscroll(true);
+			layout.appendChild(west);
+			
+			Center center = new Center();
+			center.setFlex(true);
+			center.appendChild(grid);
+			layout.appendChild(center);
+			
+			formComponent = layout;
+			tree.addEventListener(Events.ON_SELECT, this);
+		}
+		else
+		{
+			this.appendChild(grid);
+			formComponent = grid;
+		}
+        this.appendChild(listPanel);
+        listPanel.setVisible(false);
     }
 
     public void createUI()
     {
     	if (uiCreated) return;
     	
+    	uiCreated = true;
     	Rows rows = new Rows();
         GridField fields[] = gridTab.getFields();
         Row row = new Row();
@@ -334,7 +391,25 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         }
         grid.appendChild(rows);
         
-        uiCreated = true;        
+        if (gridTab.isTreeTab() && tree != null) {
+			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
+				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
+			MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, false, true, null);
+			MTreeNode root = vTree.getRoot();
+			SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
+			
+			Treecols treeCols = new Treecols();
+			tree.appendChild(treeCols);
+			Treecol treeCol = new Treecol();
+			treeCols.appendChild(treeCol);
+			tree.setPageSize(-1);
+			try {
+				tree.setTreeitemRenderer(treeModel);
+				tree.setModel(treeModel);
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "Failed to setup tree");
+			}
+        }
     }
 
 	private Component createSpacer() {
@@ -525,17 +600,6 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     
     public void activate(boolean activate)
     {
-        if (!this.getChildren().contains(grid))
-        {
-        	this.appendChild(grid);
-        }
-        
-        if (!this.getChildren().contains(listPanel))
-        {
-        	this.appendChild(listPanel);
-        	listPanel.setVisible(false);
-        }
-        
         if (listPanel.isVisible()) {
         	if (activate)
         		listPanel.activate(gridTab);
@@ -543,7 +607,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         		listPanel.deactivate();
         } else {
         	if (activate)
-        		grid.setVisible(activate);
+        		formComponent.setVisible(activate);
         }
     }
     
@@ -586,10 +650,44 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     	} else if (event.getTarget() instanceof Listbox) 
     	{
     		this.switchRowPresentation();
+    	} 
+    	else if (event.getTarget() == tree) {
+    		Treeitem item =  tree.getSelectedItem();
+    		navigateTo((SimpleTreeNode)item.getValue());
     	}
     }
 
-    public void dataStatusChanged(DataStatusEvent e)
+    private void navigateTo(SimpleTreeNode value) {
+    	MTreeNode treeNode = (MTreeNode) value.getData();
+    	//  We Have a TreeNode
+		int nodeID = treeNode.getNode_ID();
+		//  root of tree selected - ignore
+		//if (nodeID == 0)
+			//return;
+
+		//  Search all rows for mode id
+		int size = gridTab.getRowCount();
+		int row = -1;
+		for (int i = 0; i < size; i++)
+		{
+			if (gridTab.getKeyID(i) == nodeID)
+			{
+				row = i;
+				break;
+			}
+		}
+		if (row == -1)
+		{
+			if (nodeID > 0)
+				logger.log(Level.WARNING, "Tab does not have ID with Node_ID=" + nodeID);
+			return;
+		}
+
+		//  Navigate to node row
+		gridTab.navigate(row);		
+	}
+
+	public void dataStatusChanged(DataStatusEvent e)
     {
     	//TODO: ignore non-ui thread event for now
     	if (Executions.getCurrent() == null) return;
@@ -629,9 +727,49 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         }
         //if (col >= 0)
         dynamicDisplay(col);
+        
+        //sync tree 
+        if (tree != null) {
+        	setSelectedNode(gridTab.getRecord_ID());
+        }
     }
     
-    public void valueChange(ValueChangeEvent e)
+    private void setSelectedNode(int recordId) {
+		if (recordId < 0) return;
+		
+		if (tree.getSelectedItem() != null) {
+			SimpleTreeNode treeNode = (SimpleTreeNode) tree.getSelectedItem().getValue();
+			MTreeNode data = (MTreeNode) treeNode.getData();
+			if (data.getNode_ID() == recordId) return;
+		}
+		
+		SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
+		SimpleTreeNode root = (SimpleTreeNode) model.getRoot();
+		SimpleTreeNode treeNode = find(model, root, recordId);
+		if (treeNode != null) {
+			int[] path = model.getPath(model.getRoot(), treeNode);
+			Treeitem ti = tree.renderItemByPath(path);
+			tree.setSelectedItem(ti);
+		}
+	}
+
+	private SimpleTreeNode find(SimpleTreeModel model, SimpleTreeNode root, int recordId) {
+		MTreeNode data = (MTreeNode) root.getData();
+		if (data.getNode_ID() == recordId) 
+			return root;
+		if (model.isLeaf(root)) 
+			return null;
+		int cnt = model.getChildCount(root);
+		for(int i = 0; i < cnt; i++ ) {
+			SimpleTreeNode child = (SimpleTreeNode) model.getChild(root, i);
+			SimpleTreeNode treeNode = find(model, child, recordId);
+			if (treeNode != null)
+				return treeNode;
+		}
+		return null;
+	}
+
+	public void valueChange(ValueChangeEvent e)
     {
         if (gridTab.isProcessed())       //  only active records
         {
@@ -681,12 +819,12 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     } // ValueChange 
 
 	public void switchRowPresentation() {
-		if (grid.isVisible()) {
-			grid.setVisible(false);
+		if (formComponent.isVisible()) {
+			formComponent.setVisible(false);
 		} else {
-			grid.setVisible(true);
+			formComponent.setVisible(true);
 		}
-		listPanel.setVisible(!grid.isVisible());
+		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {
 			listPanel.activate(gridTab);
 		}
