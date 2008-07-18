@@ -393,10 +393,11 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53230
 UPDATE AD_Column SET AD_Reference_ID=17, AD_Reference_Value_ID=53230,Updated=TO_DATE('2008-07-16 17:02:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=53439
 ;
 
-DROP VIEW rv_pp_mrp;
-
 ALTER TABLE PP_MRP RENAME COLUMN Type TO OrderType;
-ALTER TABLE PP_MRP MODIFY OrderType NVARCHAR(3); 
+
+ALTER TABLE PP_MRP MODIFY (OrderType NVARCHAR2(3));
+
+DROP VIEW rv_pp_mrp;
 
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
@@ -437,6 +438,7 @@ FROM pp_mrp mrp
 LEFT JOIN pp_product_planning pp ON pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id;
 
 DROP VIEW rv_pp_product_bomline;
+
 CREATE OR REPLACE VIEW rv_pp_product_bomline AS 
 SELECT 
 t.seqno,
@@ -467,9 +469,10 @@ bl.qtybatch,
 bl.isqtypercentage
 FROM pp_product_bomline bl
 RIGHT JOIN t_bomline t ON t.pp_product_bomline_id = bl.pp_product_bomline_id
-ORDER BY t.seqno;
+;
 
 DROP VIEW rv_pp_product_bomline;
+
 CREATE OR REPLACE VIEW rv_pp_product_bomline AS 
 SELECT 
 t.seqno,
@@ -500,10 +503,11 @@ bl.qtybatch,
 bl.isqtypercentage
 FROM pp_product_bomline bl
 RIGHT JOIN t_bomline t ON t.pp_product_bomline_id = bl.pp_product_bomline_id
-ORDER BY t.seqno;
+;
 
 
 DROP VIEW rv_pp_order_storage;
+
 CREATE OR REPLACE VIEW rv_pp_order_storage AS 
 SELECT 
 obl.ad_client_id,
@@ -523,8 +527,7 @@ obl.c_uom_id,
 s.qtyonhand,
 round(obl.qtyrequiered, 4) AS qtyrequiered, 
 CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequiered / o.qtybatchs, 4) END AS qtybatchsize,
-round(bomqtyreserved(obl.m_product_id,
-obl.m_warehouse_id, 0, 4) AS qtyreserved,
+round(bomqtyreserved(obl.m_product_id, obl.m_warehouse_id, 0), 4) AS qtyreserved,
 round(bomqtyavailable(obl.m_product_id, obl.m_warehouse_id,0), 4) AS qtyavailable,
 obl.m_warehouse_id,
 obl.qtybom,
@@ -539,7 +542,7 @@ FROM pp_order_bomline obl
 JOIN pp_order o ON o.pp_order_id = obl.pp_order_id
 LEFT JOIN m_storage s ON s.m_product_id = obl.m_product_id AND s.qtyonhand <> 0 AND obl.m_warehouse_id = (( SELECT ld.m_warehouse_id FROM m_locator ld WHERE s.m_locator_id = ld.m_locator_id))
 LEFT JOIN m_locator l ON l.m_locator_id = s.m_locator_id
-ORDER BY obl.m_product_id;
+;
 
 DROP VIEW rv_pp_order_transactions;
 
@@ -572,13 +575,10 @@ o.dateordered
 FROM pp_order o
 JOIN pp_order_bomline ol ON ol.pp_order_id = o.pp_order_id
 LEFT JOIN m_transaction mt ON mt.pp_order_bomline_id = ol.pp_order_bomline_id
-ORDER BY 
-o.ad_client_id, o.ad_org_id, o.isactive, o.created, o.createdby, o.updatedby, o.updated, o.documentno, ol.m_product_id, mt.m_locator_id, mt.movementdate, o.pp_order_id, o.qtydelivered, o.qtyscrap, ol.qtydelivered, o.qtydelivered * ol.qtybatch / 100, ol.qtyscrap, o.qtyscrap * ol.qtybatch / 100, mt.createdby, mt.updatedby, 
-(SELECT sum(t.movementqty) AS sum FROM m_transaction t WHERE t.pp_order_bomline_id = ol.pp_order_bomline_id), (o.qtydelivered + o.qtyscrap) * ol.qtybatch / 100 + (( SELECT sum(t.movementqty) AS sum FROM m_transaction t WHERE t.pp_order_bomline_id = ol.pp_order_bomline_id)),
-o.issotrx, 
-o.dateordered;
-
+;
+                   
 DROP VIEW rv_pp_order;
+
 CREATE OR REPLACE VIEW rv_pp_order AS 
 SELECT 
 o.ad_client_id,
@@ -643,6 +643,7 @@ o.serno
 FROM pp_order o;
 
 DROP VIEW rv_pp_product_bomline;
+
 CREATE OR REPLACE VIEW rv_pp_product_bomline AS 
 SELECT 
 t.seqno,
@@ -673,7 +674,7 @@ bl.qtybatch,
 bl.isqtypercentage
 FROM pp_product_bomline bl
 RIGHT JOIN t_bomline t ON t.pp_product_bomline_id = bl.pp_product_bomline_id
-ORDER BY t.seqno;
+;
 
 
 UPDATE AD_Column SET EntityType='EE01' WHERE AD_Table_ID=53021;
@@ -694,6 +695,3 @@ UPDATE AD_Process_Para_Trl SET IsTranslated='N' WHERE AD_Process_Para_ID=53058
 -- MRP Detail Report
 UPDATE AD_Process_Para SET AD_Reference_Value_ID=53230,Updated=TO_DATE('2008-07-16 17:18:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53056
 ;
-
-
-

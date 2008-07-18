@@ -394,6 +394,7 @@ UPDATE AD_Column SET AD_Reference_ID=17, AD_Reference_Value_ID=53230,Updated=TO_
 ;
 
 DROP VIEW rv_pp_mrp;
+
 ALTER TABLE PP_MRP RENAME COLUMN Type TO OrderType;
 ALTER TABLE PP_MRP ALTER OrderType TYPE character varying(3);
 
@@ -437,6 +438,7 @@ LEFT JOIN pp_product_planning pp ON pp.m_product_id = mrp.m_product_id AND mrp.m
 
 
 DROP VIEW rv_pp_operation_activity;
+
 CREATE OR REPLACE VIEW rv_pp_operation_activity AS 
 SELECT n.ad_client_id,
 n.ad_org_id,
@@ -460,6 +462,7 @@ n.datefinishschedule
 FROM pp_order_node n;
 
 DROP VIEW rv_pp_order_bomline;
+
 CREATE OR REPLACE VIEW rv_pp_order_bomline AS 
 SELECT 
 obl.ad_client_id,
@@ -523,6 +526,7 @@ JOIN m_product p ON mos.m_product_id = p.m_product_id
 JOIN m_warehouse w ON mos.m_warehouse_id = w.m_warehouse_id;
 
 DROP VIEW rv_pp_order_storage;
+
 CREATE OR REPLACE VIEW rv_pp_order_storage AS 
 SELECT 
 obl.ad_client_id,
@@ -558,7 +562,7 @@ FROM pp_order_bomline obl
 JOIN pp_order o ON o.pp_order_id = obl.pp_order_id
 LEFT JOIN m_storage s ON s.m_product_id = obl.m_product_id AND s.qtyonhand <> 0 AND obl.m_warehouse_id = (( SELECT ld.m_warehouse_id FROM m_locator ld WHERE s.m_locator_id = ld.m_locator_id))
 LEFT JOIN m_locator l ON l.m_locator_id = s.m_locator_id
-ORDER BY obl.m_product_id;
+;
 
 DROP VIEW rv_pp_order_transactions;
 
@@ -591,13 +595,10 @@ o.dateordered
 FROM pp_order o
 JOIN pp_order_bomline ol ON ol.pp_order_id = o.pp_order_id
 LEFT JOIN m_transaction mt ON mt.pp_order_bomline_id = ol.pp_order_bomline_id
-ORDER BY 
-o.ad_client_id, o.ad_org_id, o.isactive, o.created, o.createdby, o.updatedby, o.updated, o.documentno, ol.m_product_id, mt.m_locator_id, mt.movementdate, o.pp_order_id, o.qtydelivered, o.qtyscrap, ol.qtydelivered, o.qtydelivered * ol.qtybatch / 100, ol.qtyscrap, o.qtyscrap * ol.qtybatch / 100, mt.createdby, mt.updatedby, 
-(SELECT sum(t.movementqty) AS sum FROM m_transaction t WHERE t.pp_order_bomline_id = ol.pp_order_bomline_id), (o.qtydelivered + o.qtyscrap) * ol.qtybatch / 100 + (( SELECT sum(t.movementqty) AS sum FROM m_transaction t WHERE t.pp_order_bomline_id = ol.pp_order_bomline_id)),
-o.issotrx, 
-o.dateordered;
+;
 
- DROP VIEW rv_pp_order;
+DROP VIEW rv_pp_order;
+
 CREATE OR REPLACE VIEW rv_pp_order AS 
 SELECT 
 o.ad_client_id,
@@ -691,7 +692,7 @@ bl.qtybatch,
 bl.isqtypercentage
 FROM pp_product_bomline bl
 RIGHT JOIN t_bomline t ON t.pp_product_bomline_id = bl.pp_product_bomline_id
-ORDER BY t.seqno;
+;
 
 UPDATE AD_Column SET EntityType='EE01' WHERE AD_Table_ID=53021;
 
