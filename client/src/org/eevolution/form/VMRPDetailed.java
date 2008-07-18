@@ -279,12 +279,12 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		new Info_Column(Msg.translate(Env.getCtx(), "Resource"), "(Select Name from S_Resource sr where sr.S_Resource_ID=PP_MRP.S_Resource_ID)", String.class),	// 4L - BUG #59
 		new Info_Column(Msg.translate(Env.getCtx(), "Warehouse"), "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
 		new Info_Column(Msg.translate(Env.getCtx(), "DatePromised"), "PP_MRP.DatePromised", Timestamp.class),
-        new Info_Column(Msg.translate(Env.getCtx(), "Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='D' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),        
-        new Info_Column(Msg.translate(Env.getCtx(), "Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='S' AND m.DocStatus ='CO' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
-        new Info_Column(Msg.translate(Env.getCtx(), "Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='S' AND m.DocStatus IN ('DR', 'IP') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
+        new Info_Column(Msg.translate(Env.getCtx(), "Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='D' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),        
+        new Info_Column(Msg.translate(Env.getCtx(), "Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus ='CO' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
+        new Info_Column(Msg.translate(Env.getCtx(), "Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus IN ('DR', 'IP') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
         new Info_Column(Msg.translate(Env.getCtx(), "Proj QOH"), "bomQtyOnHand( PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
-        new Info_Column(Msg.translate(Env.getCtx(), "Details"), "PP_MRP.Type", String.class),
-        new Info_Column(Msg.translate(Env.getCtx(), "TypeMRP"), "PP_MRP.TypeMRP", String.class),
+        new Info_Column(Msg.translate(Env.getCtx(), "Details"), "PP_MRP.TypeMRP", String.class),
+        new Info_Column(Msg.translate(Env.getCtx(), "TypeMRP"), "PP_MRP.OrderType", String.class),
         new Info_Column(Msg.translate(Env.getCtx(), "DocumentNo"), "documentNo(PP_MRP.PP_MRP_ID)", String.class),
         new Info_Column(Msg.translate(Env.getCtx(), "DocStatus"), "PP_MRP.DocStatus", String.class),
         new Info_Column(Msg.translate(Env.getCtx(), "DateStartSchedule"), "PP_MRP.DateStartSchedule", Timestamp.class),
@@ -477,8 +477,8 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		lDueEnd.setLabelFor(fDueEnd);
 		fDueEnd.setBackground(AdempierePLAF.getInfoBackground());
 		fDueEnd.setToolTipText(Msg.translate(Env.getCtx(), "DateTo"));
-        fSupplyType = new VLookup("TypeMRP", false, false, true,		
-		MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPPMRP.Table_Name,"TypeMRP"), DisplayType.List));
+        fSupplyType = new VLookup("OrderType", false, false, true,		
+		MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPPMRP.Table_Name,"OrderType"), DisplayType.List));
         lSupplyType.setLabelFor(fSupplyType);
 		fSupplyType.setBackground(AdempierePLAF.getInfoBackground());
 		//
@@ -811,7 +811,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		if (fProduct_ID.getValue() != null)
 		{
 			sql.append(" AND PP_MRP.M_Product_ID=?");
-            sql.append(" AND ((PP_MRP.TYPEMRP IN ('SOO','MOP','POO','POR','STK','DOO')) OR (PP_MRP.TypeMRP='FCT' AND PP_MRP.DatePromised >= SYSDATE))");
+            sql.append(" AND ((PP_MRP.OrderType IN ('SOO','MOP','POO','POR','STK','DOO')) OR (PP_MRP.OrderType='FCT' AND PP_MRP.DatePromised >= SYSDATE))");
             fillHead();
             setMRP();
         }
@@ -1071,38 +1071,38 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 	//int AD_WindowNo = getAD_Window_ID("C_Order", fIsSOTrx.isSelected());
 	
 	MPPMRP mrp = new MPPMRP(Env.getCtx(),PP_MPR_ID.intValue(), null);
-    String typemrp = mrp.getTypeMRP();
-    if (typemrp.equals("POO"))
+    String ordertype = mrp.getOrderType();
+    if (ordertype.equals("POO"))
     {	
         AD_WindowNo = MWindow.getWindow_ID("Purchase Order"); 
         query = new MQuery("C_Order");
         query.addRestriction("C_Order_ID", MQuery.EQUAL, mrp.getC_Order_ID());
     } 
-    else if (typemrp.equals("SOO"))
+    else if (ordertype.equals("SOO"))
     {	
         AD_WindowNo = MWindow.getWindow_ID("Sales Order");
         query = new MQuery("C_Order");
         query.addRestriction("C_Order_ID", MQuery.EQUAL, mrp.getC_Order_ID());
     }    
-    else if (typemrp.equals("MOP"))
+    else if (ordertype.equals("MOP"))
     {	
         AD_WindowNo = MWindow.getWindow_ID("Manufacturing Order");
         query = new MQuery("PP_Order");
         query.addRestriction("PP_Order_ID", MQuery.EQUAL, mrp.getPP_Order_ID());
     }    
-    else if (typemrp.equals("POR"))
+    else if (ordertype.equals("POR"))
     {	
         AD_WindowNo = MWindow.getWindow_ID("Requisition");
         query = new MQuery("M_Requisition");
         query.addRestriction("M_Requisition_ID", MQuery.EQUAL, mrp.getM_Requisition_ID());
     }
-    else if (typemrp.equals("FCT"))
+    else if (ordertype.equals("FCT"))
     {	
         AD_WindowNo = MWindow.getWindow_ID("Forecast");
         query = new MQuery("M_Forecat");
         query.addRestriction("M_Forecast_ID", MQuery.EQUAL, mrp.getM_Forecast_ID());
     }
-    if (typemrp.equals("DOO"))
+    if (ordertype.equals("DOO"))
     {	
         AD_WindowNo = MWindow.getWindow_ID("Distribution Order"); 
         query = new MQuery("DD_Order");
@@ -1434,9 +1434,9 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 			// 03 Resource", "(Select Name from S_Resource sr where sr.S_Resource_ID=PP_MRP.S_Resource_ID)", String.class),	
 			// 04 Warehouse", "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
 			// 05 DatePromised, "PP_MRP.DatePromised", Timestamp.class),
-	        // 06 Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='D' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),        
-	        // 07 Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='S' AND m.DocStatus ='CO' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
-	        // 08 Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.Type='S' AND m.DocStatus IN ('DR', 'IP') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
+	        // 06 Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='D' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),        
+	        // 07 Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus ='CO' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
+	        // 08 Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus IN ('DR', 'IP') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
 	        // 09 Proj QOH"), "bomQtyOnHand( PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
 	        // 10 Details"), "PP_MRP.Type", String.class),
 	        // 11 Type"), "PP_MRP.TypeMRP", String.class),
@@ -1452,15 +1452,15 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
             {
                     	Timestamp datepromised = (Timestamp)p_table.getValueAt(row,5); 
                     	Timestamp today = new Timestamp (System.currentTimeMillis());
-                    	String Type = (String)p_table.getValueAt(row,10);
-                    	String TypeMRP = (String) p_table.getValueAt(row,11);
-                        if (Type.equals("D") || Type.equals("D") && TypeMRP.equals("FCT") && datepromised.after(today))
+                    	String TypeMRP = (String)p_table.getValueAt(row,10);
+                    	String OrderType = (String) p_table.getValueAt(row,11);
+                        if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP)  || MPPMRP.TYPEMRP_Demand.equals(TypeMRP)  && MPPMRP.ORDERTYPE_Forecast.equals(OrderType) && datepromised.after(today))
                         {
                         BigDecimal QtyGrossReqs =  (BigDecimal)p_table.getValueAt(row,6);   
                         OnHand = OnHand.subtract(QtyGrossReqs);
                         p_table.setValueAt(OnHand,row,9);           			
                         }
-                        if (Type.equals("S"))
+                        if (MPPMRP.TYPEMRP_Supply.equals(TypeMRP))
                         {                        	
                         BigDecimal QtyScheduledReceipts = (BigDecimal)p_table.getValueAt(row,7);
                         BigDecimal QtyPlan = (BigDecimal)p_table.getValueAt(row,8);
