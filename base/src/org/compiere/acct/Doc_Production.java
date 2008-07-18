@@ -194,8 +194,7 @@ public class Doc_Production extends Doc
 				    if (line.getQty() != mpp.getProductionQty()) {
 				    	// if the line doesn't correspond with the whole qty produced then apply prorate
 				    	// costs = costs * line_qty / production_qty
-				    	costs = costs.multiply(line.getQty(), 
-				    				new MathContext(as.getCostingPrecision(), RoundingMode.valueOf(BigDecimal.ROUND_HALF_UP)));
+				    	costs = costs.multiply(line.getQty());
 				    	costs = costs.divide(mpp.getProductionQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 				    }
 				}
