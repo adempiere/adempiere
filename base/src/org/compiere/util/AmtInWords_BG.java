@@ -19,6 +19,7 @@ package org.compiere.util;
  *        
  *@author Kostadin Mitev -The class is based on the AmtInWords_EN.java written by jjanke
  *@version $Id: AmtInWords_BG.java,v 0.1 2007/12/21 $
+ *@version $Id: v, 0.2 2008/06/10 -Simplified. Changed to work with both a dot and a full stop as a separator and without a separator.
  */
 public class AmtInWords_BG implements AmtInWords
 {
@@ -177,25 +178,21 @@ public class AmtInWords_BG implements AmtInWords
         {
                 if (amount == null)
                         return amount;
-                //
+ 
                 StringBuffer sb = new StringBuffer ();
-                int pos = amount.lastIndexOf (',');
-                String oldamt = amount;
                 amount = amount.replaceAll (" ", "").replaceAll("\u00A0", "");
-                int newpos = amount.lastIndexOf (',');
-                long levs = Long.parseLong(amount.substring (0, newpos));
-                sb.append (convert (levs));
-                for (int i = 0; i < oldamt.length (); i++)
-                {
-                        if (pos == i) //we are done
-                        {
-                                String stotinki = oldamt.substring (i + 1);
-                                if(stotinki.length() > 2){
-                                	stotinki = stotinki.substring(0,2);
-                                }
-                                sb.append (" " + lev[levs ==1?0:1] + " " + concat + " ").append (convert(Long.parseLong(stotinki))).append (" \u0441\u0442\u043E\u0442\u0438\u043D\u043A\u0438");                // "lw i cents stotinki"
-                                break;
-                        }
+                char sep = amount.contains(",")?',':'.'; //Try to determine the separator either comma or a full stop       
+                int pos = amount.lastIndexOf (sep);
+                long levs = Long.parseLong((pos >=0)?amount.substring (0, pos):amount);
+                sb.append (convert (levs) + " " + lev[levs ==1?0:1]);
+                if(pos > 0) {
+                	String stotinki = amount.substring (pos + 1);
+                	 if(stotinki.length() > 2){
+                     	stotinki = stotinki.substring(0,2);
+                     }
+                     sb.append (" " + concat + " ")
+                       .append (convert(Long.parseLong(stotinki)))
+                       .append (" \u0441\u0442\u043E\u0442\u0438\u043D\u043A\u0438"); //stotinki"
                 }
                 return sb.toString ();
         }        //getAmtInWords
@@ -223,6 +220,8 @@ public class AmtInWords_BG implements AmtInWords
         public static void main (String[] args)
         {
                 AmtInWords_BG aiw = new AmtInWords_BG();
+                aiw.print("0.23");
+                aiw.print("23");
                 aiw.print ("0,23");
                 aiw.print ("1,23");
                 aiw.print ("12,345");
