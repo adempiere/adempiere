@@ -231,7 +231,7 @@ public class MRPUpdate extends SvrProcess
 	            + "null, null,"
 	            + "null, null,"
 	            +"t.m_product_id, t.m_warehouse_id," 
-	            +"nextid(53040,'N') , null," 
+	            +"nextidfunc(53040,'N') , null," 
 	            +"t.qty,  'D', 'FCT', t.updated, t.updatedby, f.Name," 
 	            +"t.ad_client_id , "
 	            + S_Resource_ID
@@ -256,7 +256,7 @@ public class MRPUpdate extends SvrProcess
             +" null, null, "
             +" null, null, "
             +"t.m_product_id, t.m_warehouse_id," 
-            +"nextid(53040,'N') , null," 
+            +"nextidfunc(53040,'N') , null," 
             +"t.QtyOrdered-t.QtyDelivered,  'S', 'MOP', t.updated, t.updatedby, t.DocumentNo," 
             +"t.ad_client_id ,t.S_Resource_ID ";
         	if(S_Resource_ID > 0)
@@ -276,7 +276,7 @@ public class MRPUpdate extends SvrProcess
             +" null, null, "
             +" null, null, "
             +"t.m_product_id, t.m_warehouse_id," 
-            +"nextid(53040,'N') , null," 
+            +"nextidfunc(53040,'N') , null," 
             +"t.QtyRequiered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
             +"t.ad_client_id, o.S_Resource_ID ";
         
@@ -297,7 +297,7 @@ public class MRPUpdate extends SvrProcess
             +" t.c_order_id, t.c_orderline_id, "
             +" null, null, "
             +"t.m_product_id, t.m_warehouse_id," 
-            +"nextid(53040,'N') , null," 
+            +"nextidfunc(53040,'N') , null," 
             +"t.QtyOrdered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
             +"t.ad_client_id ,"
             +S_Resource_ID
@@ -315,7 +315,7 @@ public class MRPUpdate extends SvrProcess
             +" null, null, "
             +"rl.m_requisition_id, rl.m_requisitionline_id, "
             +"rl.m_product_id, t.m_warehouse_id," 
-            +"nextid(53040,'N') , null," 
+            +"nextidfunc(53040,'N') , null," 
             +"rl.Qty,  'S', 'POR', rl.updated, rl.updatedby, t.DocumentNo," 
             +"rl.ad_client_id , "
             + S_Resource_ID
