@@ -92,7 +92,7 @@ CREATE OR REPLACE FUNCTION bomQtyReservedASI (M_Product_ID NUMBER, M_AttributeSe
         M_Locator_ID NUMBER)
  	RETURN NUMBER
  	AS LANGUAGE JAVA 
-	NAME 'org.compiere.sqlj.Product.bomQtyReserved(int,int,int,int) return java.math.BigDecimal';
+	NAME 'org.compiere.sqlj.Product.bomQtyReservedASI(int,int,int,int) return java.math.BigDecimal';
 /
 
 /** Currency **/
