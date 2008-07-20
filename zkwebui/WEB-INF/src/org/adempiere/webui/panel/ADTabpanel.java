@@ -74,8 +74,6 @@ import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Tree;
-import org.zkoss.zul.Treecol;
-import org.zkoss.zul.Treecols;
 import org.zkoss.zul.Treeitem;
 
 /**
@@ -394,21 +392,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         if (gridTab.isTreeTab() && tree != null) {
 			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, false, true, null);
-			MTreeNode root = vTree.getRoot();
-			SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
-			
-			Treecols treeCols = new Treecols();
-			tree.appendChild(treeCols);
-			Treecol treeCol = new Treecol();
-			treeCols.appendChild(treeCol);
-			tree.setPageSize(-1);
-			try {
-				tree.setTreeitemRenderer(treeModel);
-				tree.setModel(treeModel);
-			} catch (Exception e) {
-				logger.log(Level.SEVERE, "Failed to setup tree");
-			}
+			SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
         }
     }
 
@@ -689,7 +673,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
 
 	public void dataStatusChanged(DataStatusEvent e)
     {
-    	//TODO: ignore non-ui thread event for now
+    	//ignore background event
     	if (Executions.getCurrent() == null) return;
     	
         int col = e.getChangedColumn();
@@ -730,12 +714,60 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         
         //sync tree 
         if (tree != null) {
-        	setSelectedNode(gridTab.getRecord_ID());
+        	if ("Deleted".equalsIgnoreCase(e.getAD_Message()))
+        		if (e.Record_ID != null 
+        				&& e.Record_ID instanceof Integer 
+        				&& ((Integer)e.Record_ID != gridTab.getRecord_ID()))
+        			deleteNode((Integer)e.Record_ID);
+        		else
+        			setSelectedNode(gridTab.getRecord_ID());
+        	else
+        		setSelectedNode(gridTab.getRecord_ID());
         }
     }
     
-    private void setSelectedNode(int recordId) {
-		if (recordId < 0) return;
+    private void deleteNode(int recordId) {
+		if (recordId <= 0) return;
+		
+		SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
+		
+		if (tree.getSelectedItem() != null) {
+			SimpleTreeNode treeNode = (SimpleTreeNode) tree.getSelectedItem().getValue();
+			MTreeNode data = (MTreeNode) treeNode.getData();
+			if (data.getNode_ID() == recordId) {
+				model.removeNode(treeNode);
+				return;
+			}
+		}
+		
+		SimpleTreeNode treeNode = model.find(null, recordId);
+		if (treeNode != null) {
+			model.removeNode(treeNode);
+		} 
+	}
+
+	private void addNewNode() {
+    	if (gridTab.getRecord_ID() > 0) {
+	    	String name = (String)gridTab.getValue("Name");
+			String description = (String)gridTab.getValue("Description");
+			boolean summary = gridTab.getValueAsBoolean("IsSummary"); 
+			String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
+			//
+			SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
+			SimpleTreeNode treeNode = model.getRoot();
+			MTreeNode root = (MTreeNode) treeNode.getData();
+			MTreeNode node = new MTreeNode (gridTab.getRecord_ID(), 0, name, description,
+					root.getNode_ID(), summary, imageIndicator, false, null);
+			SimpleTreeNode newNode = new SimpleTreeNode(node, new ArrayList());
+			model.addNode(newNode);
+			int[] path = model.getPath(model.getRoot(), newNode);
+			Treeitem ti = tree.renderItemByPath(path);
+			tree.setSelectedItem(ti);
+    	}
+	}
+
+	private void setSelectedNode(int recordId) {
+		if (recordId <= 0) return;
 		
 		if (tree.getSelectedItem() != null) {
 			SimpleTreeNode treeNode = (SimpleTreeNode) tree.getSelectedItem().getValue();
@@ -744,29 +776,14 @@ DataStatusListener, ValueChangeListener, IADTabpanel
 		}
 		
 		SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
-		SimpleTreeNode root = (SimpleTreeNode) model.getRoot();
-		SimpleTreeNode treeNode = find(model, root, recordId);
+		SimpleTreeNode treeNode = model.find(null, recordId);
 		if (treeNode != null) {
 			int[] path = model.getPath(model.getRoot(), treeNode);
 			Treeitem ti = tree.renderItemByPath(path);
 			tree.setSelectedItem(ti);
+		} else {
+			addNewNode();
 		}
-	}
-
-	private SimpleTreeNode find(SimpleTreeModel model, SimpleTreeNode root, int recordId) {
-		MTreeNode data = (MTreeNode) root.getData();
-		if (data.getNode_ID() == recordId) 
-			return root;
-		if (model.isLeaf(root)) 
-			return null;
-		int cnt = model.getChildCount(root);
-		for(int i = 0; i < cnt; i++ ) {
-			SimpleTreeNode child = (SimpleTreeNode) model.getChild(root, i);
-			SimpleTreeNode treeNode = find(model, child, recordId);
-			if (treeNode != null)
-				return treeNode;
-		}
-		return null;
 	}
 
 	public void valueChange(ValueChangeEvent e)
@@ -847,3 +864,4 @@ DataStatusListener, ValueChangeListener, IADTabpanel
 		
 	}
 }
+
