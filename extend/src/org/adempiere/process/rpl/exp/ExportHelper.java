@@ -46,11 +46,11 @@ import org.compiere.model.MColumn;
 import org.eevolution.model.MEXPFormat;
 import org.eevolution.model.MEXPFormatLine;
 import org.eevolution.model.MEXPProcessor;
+import org.eevolution.model.MEXPProcessorType;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.eevolution.model.X_EXP_FormatLine;
-import org.eevolution.model.X_EXP_Processor_Type;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -196,7 +196,7 @@ public class ExportHelper {
 		log.fine("ExportProcessor = " + mExportProcessor);
 		int EXP_ProcessorType_ID = 0;
 		EXP_ProcessorType_ID = mExportProcessor.getEXP_Processor_Type_ID();
-		X_EXP_Processor_Type expProcessor_Type = new X_EXP_Processor_Type(po.getCtx(), EXP_ProcessorType_ID, po.get_TrxName() );
+		MEXPProcessorType expProcessor_Type = new MEXPProcessorType(po.getCtx(), EXP_ProcessorType_ID, po.get_TrxName() );
 		
         
 		String javaClass = expProcessor_Type.getJavaClass();
