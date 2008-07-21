@@ -393,10 +393,14 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53230
 UPDATE AD_Column SET AD_Reference_ID=17, AD_Reference_Value_ID=53230,Updated=TO_TIMESTAMP('2008-07-16 17:02:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=53439
 ;
 
-DROP VIEW rv_pp_mrp;
-
 ALTER TABLE PP_MRP RENAME COLUMN Type TO OrderType;
-ALTER TABLE PP_MRP ALTER OrderType TYPE character varying(3);
+
+INSERT INTO t_alter_column values('PP_MRP','OrderType','character varying(3)',null,'NULL');
+
+INSERT INTO t_alter_column values('PP_MRP','TypeMRP','char(1)',null,'NULL');
+
+
+DROP VIEW rv_pp_mrp;
 
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
@@ -435,7 +439,6 @@ mrp.typemrp,
 documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_mrp mrp
 LEFT JOIN pp_product_planning pp ON pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id;
-
 
 DROP VIEW rv_pp_operation_activity;
 
@@ -491,39 +494,7 @@ CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequiered / o.qtybatchs, 4) E
 FROM pp_order_bomline obl
 JOIN pp_order o ON o.pp_order_id = obl.pp_order_id;
 
-
 DROP VIEW rv_pp_order_receipt_issue;
-
-CREATE OR REPLACE VIEW rv_pp_order_receipt_issue AS 
-SELECT obl.pp_order_bomline_id,
-obl.iscritical,
-p.value,
-obl.m_product_id,
-mos.name AS productname,
-mos.m_attributesetinstance_id,
-asi.description AS instancename,
-mos.c_uom_id,
-u.name AS uomname,
-obl.qtyrequiered,
-obl.qtyreserved AS qtyreserved_order,
-mos.qtyonhand,
-mos.qtyreserved AS qtyreserved_storage,
-mos.qtyavailable,
-mos.m_locator_id,
-mos.m_warehouse_id,
-w.name AS warehousename,
-mos.qtybom,
-mos.isqtypercentage,
-mos.qtybatch,
-obl.componenttype,
-mos.qtyrequiered - obl.qtydelivered AS qtyopen,
-obl.pp_order_id
-FROM rv_pp_order_storage mos
-JOIN pp_order_bomline obl ON mos.pp_order_bomline_id = obl.pp_order_bomline_id
-JOIN m_attributesetinstance asi ON mos.m_attributesetinstance_id = asi.m_attributesetinstance_id
-JOIN c_uom u ON mos.c_uom_id = u.c_uom_id
-JOIN m_product p ON mos.m_product_id = p.m_product_id
-JOIN m_warehouse w ON mos.m_warehouse_id = w.m_warehouse_id;
 
 DROP VIEW rv_pp_order_storage;
 
@@ -562,6 +533,37 @@ JOIN pp_order o ON o.pp_order_id = obl.pp_order_id
 LEFT JOIN m_storage s ON s.m_product_id = obl.m_product_id AND s.qtyonhand <> 0 AND obl.m_warehouse_id = (( SELECT ld.m_warehouse_id FROM m_locator ld WHERE s.m_locator_id = ld.m_locator_id))
 LEFT JOIN m_locator l ON l.m_locator_id = s.m_locator_id
 ;
+
+CREATE OR REPLACE VIEW rv_pp_order_receipt_issue AS 
+SELECT obl.pp_order_bomline_id,
+obl.iscritical,
+p.value,
+obl.m_product_id,
+mos.name AS productname,
+mos.m_attributesetinstance_id,
+asi.description AS instancename,
+mos.c_uom_id,
+u.name AS uomname,
+obl.qtyrequiered,
+obl.qtyreserved AS qtyreserved_order,
+mos.qtyonhand,
+mos.qtyreserved AS qtyreserved_storage,
+mos.qtyavailable,
+mos.m_locator_id,
+mos.m_warehouse_id,
+w.name AS warehousename,
+mos.qtybom,
+mos.isqtypercentage,
+mos.qtybatch,
+obl.componenttype,
+mos.qtyrequiered - obl.qtydelivered AS qtyopen,
+obl.pp_order_id
+FROM rv_pp_order_storage mos
+JOIN pp_order_bomline obl ON mos.pp_order_bomline_id = obl.pp_order_bomline_id
+JOIN m_attributesetinstance asi ON mos.m_attributesetinstance_id = asi.m_attributesetinstance_id
+JOIN c_uom u ON mos.c_uom_id = u.c_uom_id
+JOIN m_product p ON mos.m_product_id = p.m_product_id
+JOIN m_warehouse w ON mos.m_warehouse_id = w.m_warehouse_id;
 
 DROP VIEW rv_pp_order_transactions;
 
@@ -660,6 +662,8 @@ o.issotrx,
 o.scheduletype, 
 o.serno
 FROM pp_order o;
+
+DROP VIEW rv_pp_product_bomline;
 
 CREATE OR REPLACE VIEW rv_pp_product_bomline AS 
 SELECT 

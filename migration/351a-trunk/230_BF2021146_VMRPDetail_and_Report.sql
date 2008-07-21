@@ -397,6 +397,57 @@ ALTER TABLE PP_MRP RENAME COLUMN Type TO OrderType;
 
 ALTER TABLE PP_MRP MODIFY (OrderType NVARCHAR2(3));
 
+ALTER TABLE PP_MRP MODIFY (TypeMRP CHAR(1));
+
+create or replace FUNCTION documentNo
+    (
+      p_PP_MRP_ID IN pp_mrp.pp_mrp_id%TYPE DEFAULT 0)
+    RETURN pp_mrp.value%TYPE
+    /*************************************************************************
+    * Function documentNofunc - PL/SQL equivalent to pljava SQLJ function
+    * Author: Tony Snook (tspc)
+    ************************************************************************/
+  AS
+    v_DocumentNo pp_mrp.value%TYPE := '';
+
+    CURSOR cur
+    IS
+       SELECT ordertype, m_forecast_id, c_order_id, dd_order_id, pp_order_id, m_requisition_id
+        FROM pp_mrp
+        WHERE pp_mrp_id = p_pp_mrp_id;   
+
+    rec cur%ROWTYPE;
+
+  BEGIN
+    -- If NO id return null
+    IF p_PP_MRP_ID = 0 THEN
+      CLOSE cur;
+      RETURN '';
+    END IF;
+
+    CASE
+      WHEN rec.ordertype = 'FTC' THEN
+         SELECT f.Name INTO v_DocumentNo FROM M_Forecast f WHERE f.M_Forecast_ID=rec.M_Forecast_ID;
+      WHEN rec.ordertype = 'POO' THEN
+         SELECT co.DocumentNo INTO v_DocumentNo FROM C_Order co WHERE co.C_Order_ID=rec.C_Order_ID;
+      WHEN rec.ordertype = 'DOO' THEN
+         SELECT do.DocumentNo INTO v_DocumentNo FROM DD_Order DO WHERE do.DD_Order_ID=rec.DD_Order_ID;
+      WHEN rec.ordertype = 'SOO' THEN
+         SELECT co.DocumentNo INTO v_DocumentNo FROM C_Order co WHERE co.C_Order_ID=rec.C_Order_ID;
+      WHEN rec.ordertype = 'MOP' THEN
+         SELECT po.DocumentNo INTO v_DocumentNo FROM PP_Order po WHERE po.PP_Order_ID=rec.PP_Order_ID;
+      WHEN rec.ordertype = 'POR' THEN
+         SELECT r.DocumentNo INTO v_DocumentNo FROM M_Requisition r WHERE r.M_Requisition_ID=rec.M_Requisition_ID;
+      ELSE
+        v_documentno := '';
+    END CASE;
+
+    CLOSE cur;
+    --
+    RETURN v_DocumentNo;
+  END documentNo;
+/
+
 DROP VIEW rv_pp_mrp;
 
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
@@ -437,74 +488,61 @@ documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_mrp mrp
 LEFT JOIN pp_product_planning pp ON pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id;
 
-DROP VIEW rv_pp_product_bomline;
+DROP VIEW rv_pp_operation_activity;
 
-CREATE OR REPLACE VIEW rv_pp_product_bomline AS 
+CREATE OR REPLACE VIEW rv_pp_operation_activity AS 
+SELECT n.ad_client_id,
+n.ad_org_id,
+n.created,
+n.createdby,
+n.isactive,
+n.updated,
+n.updatedby,
+n.pp_order_id,
+n.docstatus,
+n.value,
+n.s_resource_id,
+n.durationrequiered,
+n.durationreal,
+n.durationrequiered - n.durationreal AS duration,
+n.qtydelivered,
+n.qtyreject,
+n.qtyscrap,
+n.datestartschedule,
+n.datefinishschedule
+FROM pp_order_node n;
+
+DROP VIEW rv_pp_order_bomline;
+
+CREATE OR REPLACE VIEW rv_pp_order_bomline AS 
 SELECT 
-t.seqno,
-t.levelno,
-t.levels,
-t.ad_client_id,
-t.ad_org_id,
-t.createdby,
-t.updatedby,
-t.updated,
-t.created,
-t.ad_pinstance_id,
-bl.isactive,
-bl.pp_product_bom_id,
-bl.pp_product_bomline_id,
-bl.description, bl.iscritical,
-bl.componenttype,
-t.m_product_id,
-bl.c_uom_id,
-bl.issuemethod,
-bl.line,
-bl.m_attributesetinstance_id,
-bl.scrap,
-bl.validfrom,
-bl.validto,
-bl.qtybom,
-bl.qtybatch,
-bl.isqtypercentage
-FROM pp_product_bomline bl
-RIGHT JOIN t_bomline t ON t.pp_product_bomline_id = bl.pp_product_bomline_id
-;
+obl.ad_client_id,
+obl.ad_org_id,
+obl.createdby,
+obl.updatedby,
+obl.updated,
+obl.created,
+obl.isactive,
+obl.pp_order_bom_id,
+obl.pp_order_bomline_id,
+obl.pp_order_id,
+obl.iscritical, 
+obl.componenttype,
+obl.m_product_id,
+obl.c_uom_id,
+round(obl.qtyrequiered, 4) AS qtyrequiered,
+round(bomqtyreserved(obl.m_product_id, obl.m_warehouse_id, 0), 4) AS qtyreserved,
+round(bomqtyavailable(obl.m_product_id, obl.m_warehouse_id, 0), 4) AS qtyavailable, 
+round(bomqtyonhand(obl.m_product_id, obl.m_warehouse_id, 0), 4) AS qtyonhand,
+obl.m_warehouse_id,
+round(obl.qtybom, 4) AS qtybom,
+obl.isqtypercentage,
+round(obl.qtybatch, 4) AS qtybatch, 
+CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequiered / o.qtybatchs, 4) END AS qtybatchsize
+FROM pp_order_bomline obl
+JOIN pp_order o ON o.pp_order_id = obl.pp_order_id;
 
-DROP VIEW rv_pp_product_bomline;
-
-CREATE OR REPLACE VIEW rv_pp_product_bomline AS 
-SELECT 
-t.seqno,
-t.levelno,
-t.levels,
-t.ad_client_id,
-t.ad_org_id,
-t.createdby,
-t.updatedby,
-t.updated,
-t.created,
-t.ad_pinstance_id,
-bl.isactive,
-bl.pp_product_bom_id,
-bl.pp_product_bomline_id,
-bl.description, bl.iscritical,
-bl.componenttype,
-t.m_product_id,
-bl.c_uom_id,
-bl.issuemethod,
-bl.line,
-bl.m_attributesetinstance_id,
-bl.scrap,
-bl.validfrom,
-bl.validto,
-bl.qtybom,
-bl.qtybatch,
-bl.isqtypercentage
-FROM pp_product_bomline bl
-RIGHT JOIN t_bomline t ON t.pp_product_bomline_id = bl.pp_product_bomline_id
-;
-
+DROP VIEW rv_pp_order_receipt_issue;
 
 DROP VIEW rv_pp_order_storage;
 
@@ -544,6 +582,37 @@ LEFT JOIN m_storage s ON s.m_product_id = obl.m_product_id AND s.qtyonhand <> 0 
 LEFT JOIN m_locator l ON l.m_locator_id = s.m_locator_id
 ;
 
+CREATE OR REPLACE VIEW rv_pp_order_receipt_issue AS 
+SELECT obl.pp_order_bomline_id,
+obl.iscritical,
+p.value,
+obl.m_product_id,
+mos.name AS productname,
+mos.m_attributesetinstance_id,
+asi.description AS instancename,
+mos.c_uom_id,
+u.name AS uomname,
+obl.qtyrequiered,
+obl.qtyreserved AS qtyreserved_order,
+mos.qtyonhand,
+mos.qtyreserved AS qtyreserved_storage,
+mos.qtyavailable,
+mos.m_locator_id,
+mos.m_warehouse_id,
+w.name AS warehousename,
+mos.qtybom,
+mos.isqtypercentage,
+mos.qtybatch,
+obl.componenttype,
+mos.qtyrequiered - obl.qtydelivered AS qtyopen,
+obl.pp_order_id
+FROM rv_pp_order_storage mos
+JOIN pp_order_bomline obl ON mos.pp_order_bomline_id = obl.pp_order_bomline_id
+JOIN m_attributesetinstance asi ON mos.m_attributesetinstance_id = asi.m_attributesetinstance_id
+JOIN c_uom u ON mos.c_uom_id = u.c_uom_id
+JOIN m_product p ON mos.m_product_id = p.m_product_id
+JOIN m_warehouse w ON mos.m_warehouse_id = w.m_warehouse_id;
+
 DROP VIEW rv_pp_order_transactions;
 
 CREATE OR REPLACE VIEW rv_pp_order_transactions AS 
@@ -576,7 +645,7 @@ FROM pp_order o
 JOIN pp_order_bomline ol ON ol.pp_order_id = o.pp_order_id
 LEFT JOIN m_transaction mt ON mt.pp_order_bomline_id = ol.pp_order_bomline_id
 ;
-                   
+
 DROP VIEW rv_pp_order;
 
 CREATE OR REPLACE VIEW rv_pp_order AS 
