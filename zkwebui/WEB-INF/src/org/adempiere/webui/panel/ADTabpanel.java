@@ -60,12 +60,14 @@ import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.zkoss.zhtml.Span;
 import org.zkoss.zhtml.Text;
+import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.West;
@@ -592,12 +594,24 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         	else
         		listPanel.deactivate();
         } else {
-        	if (activate)
+        	if (activate) {
         		formComponent.setVisible(activate);
+        		setInitialFocus();
+        	}
         }
     }
     
-    public boolean isEditing()
+    private void setInitialFocus() {
+		for (WEditor editor : editors) {
+			if (editor.isVisible() && editor.isReadWrite()) {
+				Clients.response(new AuFocus(editor.getComponent()));
+				break;
+			}
+		}
+		
+	}
+
+	public boolean isEditing()
     {
         return this.editing;
     }
