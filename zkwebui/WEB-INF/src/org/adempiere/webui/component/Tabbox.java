@@ -17,9 +17,6 @@
 
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.LayoutUtils;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zul.Tabpanels;
 
 /**

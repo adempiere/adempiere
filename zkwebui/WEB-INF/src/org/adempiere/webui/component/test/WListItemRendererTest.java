@@ -23,15 +23,11 @@ import java.util.Vector;
 
 import org.adempiere.webui.component.ListHead;
 import org.adempiere.webui.component.ListHeader;
-import org.adempiere.webui.component.ListItem;
-import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.WListItemRenderer;
-import org.adempiere.webui.component.WListbox;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.zkoss.zul.Listitem;
 
 /**
  * @author Andrew Kimball

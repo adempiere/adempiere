@@ -17,7 +17,6 @@
 
 package org.adempiere.webui.component;
 
-import java.awt.Color;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;

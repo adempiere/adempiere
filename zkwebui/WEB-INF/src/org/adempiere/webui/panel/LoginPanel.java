@@ -17,7 +17,6 @@
 
 package org.adempiere.webui.panel;
 
-import java.util.ArrayList;
 import java.util.Properties;
 
 import org.adempiere.webui.component.Grid;
@@ -32,7 +31,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
-import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
@@ -42,7 +40,6 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 
 /**
  *

@@ -41,7 +41,6 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Label;
 
