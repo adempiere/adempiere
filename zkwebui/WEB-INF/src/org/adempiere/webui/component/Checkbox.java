@@ -31,4 +31,9 @@ public class Checkbox extends org.zkoss.zul.Checkbox
     {
         this.setDisabled(!enabled);
     }
+    
+    public boolean isEnabled()
+    {
+    	return !this.isDisabled();
+    }
 }

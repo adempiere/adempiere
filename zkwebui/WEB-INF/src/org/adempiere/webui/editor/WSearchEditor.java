@@ -42,7 +42,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -56,7 +55,6 @@ import org.zkoss.zk.ui.event.Events;
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
-	private Searchbox 			searchbox;
 	private Lookup 				lookup;
 	private String				m_tableName = null;
 	private String				m_keyColumnName = null;
@@ -78,23 +76,23 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		init();
 	}
 
-    /**
-     * Set the underlying component.
-     *
-     *  @param comp the component to use
-     */
-    protected void setComponent(Component comp)
-    {
-        // TODO remove this duplication of components.
-        // Only need component from WEditor (superclass)
-        // and can then override get component and cast it to Searchbox
-        if (!(comp instanceof Searchbox))
-        {
-            throw new IllegalArgumentException("A search editor must contain a Searchbox");
-        }
-        super.setComponent(comp);
-        this.searchbox = (Searchbox)super.component;
-    }
+	
+    @Override
+	public Searchbox getComponent() {
+		return (Searchbox) super.getComponent();
+	}
+    
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
 
 	/**
 	 * Constructor for use if a grid field is unavailable
@@ -131,19 +129,19 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		columnName = this.getColumnName();
         popupMenu = new WEditorPopupMenu(true, true, true, true);
         
-		(searchbox.getTextBox()).setContext(popupMenu.getId());
+		(getComponent().getTextBox()).setContext(popupMenu.getId());
 
 		if (columnName.equals("C_BPartner_ID"))
 		{
-			searchbox.setButtonImage("/images/BPartner10.gif");
+			getComponent().setButtonImage("/images/BPartner10.gif");
 		}
 		else if (columnName.equals("M_Product_ID"))
 		{
-			searchbox.setButtonImage("/images/Product10.gif");
+			getComponent().setButtonImage("/images/Product10.gif");
 		}
 		else
 		{
-			searchbox.setButtonImage("/images/PickOpen10.gif");
+			getComponent().setButtonImage("/images/PickOpen10.gif");
 		}
 
 		return;
@@ -167,24 +165,13 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
                 text = text.substring(1);
             }
 
-            searchbox.setText(text);
+            getComponent().setText(text);
 		}
 		else
 		{
-			searchbox.setText("");
+			getComponent().setText("");
 		}
 	}
-
-    /**
-     * Set whether the editor represents a mandatory field.
-     *
-     * @param mandatory whether the editor must be filled
-     */
-    public void setMandatory(boolean mandatory)
-    {
-        searchbox.setMandatory(mandatory);
-        super.setMandatory(mandatory);
-    }
 
 	@Override
 	public Object getValue()
@@ -195,14 +182,14 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	@Override
 	public String getDisplay()
 	{
-		return searchbox.getText();
+		return getComponent().getText();
 	}
 
 	public void onEvent(Event e)
 	{
 		if ("onChange".equals(e.getName()))
 		{
-			actionText(searchbox.getText());
+			actionText(getComponent().getText());
 
 		}
 		else if ("onClick".equals(e.getName()))
@@ -345,7 +332,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				log.fine(getColumnName() + " - Not Unique - " + finalSQL);
 
 			//m_value = null;	// force re-display
-			actionButton(searchbox.getText());
+			actionButton(getComponent().getText());
 			return;
 		}
 		log.fine(getColumnName() + " - Unique ID=" + id);
@@ -454,8 +441,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			Env.setContext(Env.getCtx(), lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
 
 			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && searchbox.getText().length() > 0)
-				queryValue = "@" + searchbox.getText() + "@";   //  Name indicator - otherwise Value
+			if (queryValue.length() == 0 && getComponent().getText().length() > 0)
+				queryValue = "@" + getComponent().getText() + "@";   //  Name indicator - otherwise Value
 
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), lookup.getWindowNo(), "M_PriceList_ID");
@@ -475,8 +462,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		else if (col.equals("C_BPartner_ID"))
 		{
 			//  Replace Value with name if no value exists
-			if (queryValue.length() == 0 && searchbox.getText().length() > 0)
-				queryValue = searchbox.getText();
+			if (queryValue.length() == 0 && getComponent().getText().length() > 0)
+				queryValue = getComponent().getText();
 
 			boolean isSOTrx = true;     //  default
 
@@ -503,8 +490,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			if (m_tableName == null)	//	sets table name & key column
 				getDirectAccessSQL("*");
 
-            if (queryValue.length() == 0 && searchbox.getText().length() > 0)
-                queryValue = searchbox.getText();
+            if (queryValue.length() == 0 && getComponent().getText().length() > 0)
+                queryValue = getComponent().getText();
 
 			boolean isSOTrx = true;     //  default
 

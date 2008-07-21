@@ -45,13 +45,11 @@ public class WYesNoEditor extends WEditor
         logger = CLogger.getCLogger(WYesNoEditor.class);
     }
     
-    private Checkbox checkbox;
     private boolean oldValue = false;
     
     public WYesNoEditor(GridField gridField)
     {
         super(new Checkbox(), gridField);
-        checkbox = (Checkbox)super.component;
         init();
     }
     
@@ -59,7 +57,7 @@ public class WYesNoEditor extends WEditor
     {
         super.label.setValue("");
         super.label.setTooltiptext("");
-        checkbox.setLabel(gridField.getHeader());
+        getComponent().setLabel(gridField.getHeader());
     }
 
     public void onEvent(Event event)
@@ -81,14 +79,14 @@ public class WYesNoEditor extends WEditor
     @Override
     public String getDisplay()
     {
-        String display = checkbox.isChecked() ? "Y" : "N";
+        String display = getComponent().isChecked() ? "Y" : "N";
         return Msg.translate(Env.getCtx(), display);
     }
 
     @Override
     public Object getValue()
     {
-        return new Boolean(checkbox.isChecked());
+        return new Boolean(getComponent().isChecked());
     }
 
     @Override
@@ -98,13 +96,13 @@ public class WYesNoEditor extends WEditor
         {
             Boolean val = ((value == null) ? false
                     : (Boolean) value);
-            checkbox.setChecked(val);
+            getComponent().setChecked(val);
             oldValue = val;
         }
         else if (value instanceof String)
         {
             Boolean val = value.equals("Y");
-            checkbox.setChecked(val);
+            getComponent().setChecked(val);
             oldValue = val;
         }
         else
@@ -113,11 +111,26 @@ public class WYesNoEditor extends WEditor
                     "New field value of unknown type, Type: "  
                     + value.getClass()
                     + ", Value: " + value);
-            checkbox.setChecked(false);
+            getComponent().setChecked(false);
         }
     }
     
-    public String[] getEvents()
+    @Override
+	public Checkbox getComponent() {
+		return (Checkbox) component;
+	}
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
+	public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }

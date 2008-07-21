@@ -59,14 +59,12 @@ ContextMenuListener, IZoomableEditor
     }
     
     private Lookup  lookup;
-    private Listbox listbox;
     private Object oldValue;
     private WEditorPopupMenu popupMenu;
        
     public WTableDirEditor(GridField gridField)
     {
         super(new Listbox(), gridField);
-        listbox = (Listbox)super.component;
         lookup = gridField.getLookup();
         init();
     }
@@ -90,7 +88,6 @@ ContextMenuListener, IZoomableEditor
 			throw new IllegalArgumentException("Lookup cannot be null");
 		}
 		
-		this.listbox = (Listbox)super.component;
 		this.lookup = lookup;
 		super.setColumnName(lookup.getColumnName());
 		init();
@@ -98,11 +95,11 @@ ContextMenuListener, IZoomableEditor
     
     private void init()
     {
-    	listbox.setRows(0);
-        listbox.setMultiple(false);
-        listbox.setMold("select");
-        listbox.setWidth("200px"); 
-        listbox.addPropertyChangeListener(this);
+    	getComponent().setRows(0);
+        getComponent().setMultiple(false);
+        getComponent().setMold("select");
+        getComponent().setWidth("200px"); 
+        getComponent().addPropertyChangeListener(this);
 
         boolean zoom= false;
         if (lookup != null)
@@ -119,7 +116,7 @@ ContextMenuListener, IZoomableEditor
         }
         
         popupMenu = new WEditorPopupMenu(zoom, true, true);
-        listbox.setContext(popupMenu.getId());
+        getComponent().setContext(popupMenu.getId());
     }
 
     @Override
@@ -127,7 +124,7 @@ ContextMenuListener, IZoomableEditor
     {
 
         String display = null;
-        ListItem selItem = listbox.getSelectedItem();
+        ListItem selItem = getComponent().getSelectedItem();
         if (selItem != null)
         {
         	display = selItem.getLabel();
@@ -139,7 +136,7 @@ ContextMenuListener, IZoomableEditor
     public Object getValue()
     {
         Object retVal = null;
-        ListItem selItem = listbox.getSelectedItem();
+        ListItem selItem = getComponent().getSelectedItem();
         if (selItem != null)
         {
             retVal = selItem.getValue();
@@ -151,9 +148,9 @@ ContextMenuListener, IZoomableEditor
     {
     	if (value != null && (value instanceof Integer || value instanceof String))
         {
-            listbox.setValue(value);
+            getComponent().setValue(value);
             
-            if (listbox.getSelectedIndex() == -1 && lookup != null)
+            if (getComponent().getSelectedIndex() == -1 && lookup != null)
             {
                 lookup.refresh();
                 oldValue = value;
@@ -162,16 +159,31 @@ ContextMenuListener, IZoomableEditor
         }
         else
         {
-            listbox.setValue(null);
+            getComponent().setValue(null);
         }
         
         oldValue = value;
     }
     
-    private void refreshList()
+    @Override
+	public Listbox getComponent() {
+		return (Listbox) component;
+	}
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
+	private void refreshList()
     {
-    	if (listbox.getItemCount() > 0)
-    		listbox.getItems().clear();
+    	if (getComponent().getItemCount() > 0)
+    		getComponent().getItems().clear();
 
         if (lookup != null)
         {
@@ -183,17 +195,17 @@ ContextMenuListener, IZoomableEditor
                 if (obj instanceof KeyNamePair)
                 {
                     KeyNamePair lookupKNPair = (KeyNamePair) obj;
-                    listbox.appendItem(lookupKNPair.getName(), lookupKNPair.getKey());
+                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getKey());
                 }
                 else if (obj instanceof ValueNamePair)
                 {
                     ValueNamePair lookupKNPair = (ValueNamePair) obj;
-                    listbox.appendItem(lookupKNPair.getName(), lookupKNPair.getValue());
+                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getValue());
                 }
             }
         }
         
-        listbox.setValue(oldValue);
+        getComponent().setValue(oldValue);
     }
     
     public void onEvent(Event event)

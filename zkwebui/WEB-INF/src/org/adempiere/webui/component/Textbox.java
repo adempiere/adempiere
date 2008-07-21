@@ -18,6 +18,8 @@
 package org.adempiere.webui.component;
 
 import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zul.Constraint;
+import org.zkoss.zul.SimpleConstraint;
 
 /**
  *
@@ -43,20 +45,5 @@ public class Textbox extends org.zkoss.zul.Textbox
     public void setEnabled(boolean enabled)
     {
         this.setDisabled(!enabled);
-    }
-
-    /**
-     * Set whether the textbox represents a mandatory field.
-     *
-     * @param mandatory whether the texbox must be filled
-     */
-    public void setMandatory(boolean mandatory)
-    {
-/*        if (mandatory)
-        {
-            ZkCssHelper.setStyleBackgroundColor(this, AdempierePLAF.getFieldBackground_Mandatory());
-        }
-*/  
-    	this.setStyle("background-color:#e1d6d6");
     }
 }

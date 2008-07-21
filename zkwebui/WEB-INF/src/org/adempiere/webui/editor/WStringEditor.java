@@ -54,8 +54,18 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     public Textbox getComponent() {
     	return (Textbox) component;
     }
-    
-    private void init()
+            
+    @Override
+	public boolean isReadWrite() {
+		return !getComponent().isReadonly();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setReadonly(!readWrite);
+	}
+	
+	private void init()
     {
         getComponent().setMaxlength(gridField.getFieldLength());
         int displayLength = gridField.getDisplayLength();

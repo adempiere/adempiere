@@ -46,12 +46,9 @@ public class WDateEditor extends WEditor
     
     private Timestamp oldValue = new Timestamp(0);
     
-    private Datebox datebox;
-    
     public WDateEditor(GridField gridField)
     {
         super(new Datebox(), gridField);
-        datebox = (Datebox)super.component;
     }
     
 	
@@ -73,7 +70,6 @@ public class WDateEditor extends WEditor
 	{
 		super(new Datebox(), label, description, mandatory, readonly, updateable);
 		
-		this.datebox = (Datebox)super.component;
 		setColumnName("Date");
 	}
 	
@@ -84,7 +80,7 @@ public class WDateEditor extends WEditor
     
     public void onEvent(Event event)
     {
-        Date date = datebox.getValue();
+        Date date = getComponent().getValue();
         Timestamp newValue = null;
         
         if (date != null)
@@ -129,7 +125,7 @@ public class WDateEditor extends WEditor
     	}
     	else if (value instanceof Timestamp)
         {
-            datebox.setValue((Timestamp)value);
+            getComponent().setValue((Timestamp)value);
             oldValue = (Timestamp)value;
         }
         else
@@ -137,7 +133,23 @@ public class WDateEditor extends WEditor
             logger.log(Level.SEVERE, "New field value is not of type timestamp");
         }
     }
-    	
+    
+	@Override
+	public Datebox getComponent() {
+		return (Datebox) component;
+	}
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
 	public String[] getEvents()
     {
         return LISTENER_EVENTS;

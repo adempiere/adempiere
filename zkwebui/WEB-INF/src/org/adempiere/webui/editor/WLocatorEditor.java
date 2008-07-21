@@ -53,7 +53,6 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
     
 	private String m_columnName;
 	private MLocatorLookup m_mLocator;
-	private EditorBox editorbox;
 	private MLocator m_value;
 	private int m_WindowNo;
 	
@@ -85,8 +84,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		
 		m_columnName = columnName;
 		m_mLocator = mLocator;
-		editorbox = (EditorBox)super.component;
-		editorbox.setButtonImage("/images/Locator10.gif");
+		getComponent().setButtonImage("/images/Locator10.gif");
 		
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
 	}
@@ -114,7 +112,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		}
 
 		m_value = m_mLocator.getMLocator(value, null);
-		editorbox.setText(m_mLocator.getDisplay(value));	//	loads value
+		getComponent().setText(m_mLocator.getDisplay(value));	//	loads value
 		
 		//	Data Binding
 		if (fire) {
@@ -137,6 +135,21 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		return m_value;
 	} // getValue
 	
+	@Override
+	public EditorBox getComponent() {
+		return (EditorBox) component;
+	}
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();		
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
 	/**
 	 * 	Get M_Locator_ID
 	 *	@return id
@@ -157,7 +170,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	
 	public String getDisplay()
 	{
-		return editorbox.getText();
+		return getComponent().getText();
 	} // getDisplay
 
 	public void onEvent(Event event) throws Exception
@@ -171,7 +184,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 
 		//	Text Entry ok
 		
-		if (event.getTarget() == editorbox && actionText(only_Warehouse_ID, only_Product_ID))
+		if (event.getTarget() == getComponent() && actionText(only_Warehouse_ID, only_Product_ID))
 			return;
 
 		//	 Button - Start Dialog
@@ -210,7 +223,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	
 	private boolean actionText(int only_Warehouse_ID, int only_Product_ID)
 	{
-		String text = editorbox.getText();
+		String text = getComponent().getText();
 		log.fine(text);
 		
 		//	Null

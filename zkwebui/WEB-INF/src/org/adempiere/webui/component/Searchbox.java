@@ -97,14 +97,4 @@ public class Searchbox extends Hbox
 	 {
 			m_propertyChangeListeners.addPropertyChangeListener(l);
 	 }
-
-	 /**
-	  * Set whether the SearchBox represents a mandatory field.
-	  *
-	  * @param mandatory whether the search box must be filled
-	  */
-     public void setMandatory(boolean mandatory)
-     {
-         txt.setMandatory(mandatory);
-     }
 }

@@ -31,4 +31,9 @@ public class Datebox extends org.zkoss.zul.Datebox
     {
         this.setReadonly(!enabled);
     }
+    
+    public boolean isEnabled()
+    {
+    	return !isReadonly();
+    }
 }

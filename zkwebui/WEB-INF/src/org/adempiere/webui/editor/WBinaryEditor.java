@@ -9,9 +9,6 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
 
 package org.adempiere.webui.editor;
@@ -83,6 +80,16 @@ public class WBinaryEditor extends WEditor
     }
     
     @Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
+	@Override
     public void setValue(Object value)
     {
     	log.config("=" + value);

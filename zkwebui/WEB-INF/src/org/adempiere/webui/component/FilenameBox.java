@@ -74,6 +74,11 @@ public class FilenameBox extends Hbox
         button.setEnabled(enabled);
     }
     
+    public boolean isEnabled()
+    {
+    	return !textbox.isReadonly();
+    }
+    
     public void setButtonEnabled(boolean enabled)
     {
         button.setEnabled(enabled);

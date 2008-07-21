@@ -57,8 +57,6 @@ public class WButtonEditor extends WEditor
         logger = CLogger.getCLogger(WButtonEditor.class);
     }
     
-    private Button button;
-    
     private String          m_text;
     private boolean         m_mandatory;
     private Object          m_value;
@@ -77,7 +75,6 @@ public class WButtonEditor extends WEditor
     public WButtonEditor(GridField gridField)
     {
         super(new Button(), gridField);
-        button = (Button)super.component;
         m_text = gridField.getHeader();
         AD_Process_ID = gridField.getAD_Process_ID();
         gridfield = gridField;
@@ -101,37 +98,37 @@ public class WButtonEditor extends WEditor
     private void init()
     {
         label.setValue(" ");
-        button.setLabel(gridField.getHeader());
-        button.setTooltiptext(gridField.getDescription());
-        button.addEventListener(Events.ON_CLICK, this);
+        getComponent().setLabel(gridField.getHeader());
+        getComponent().setTooltiptext(gridField.getDescription());
+        getComponent().addEventListener(Events.ON_CLICK, this);
         
         String columnName = super.getColumnName();
         if (columnName.equals("PaymentRule"))
         {
             readReference(195);
 //            this.setForeground(Color.blue);
-            button.setImage("/images/Payment16.gif");    //  29*14
+            getComponent().setImage("/images/Payment16.gif");    //  29*14
         }
         else if (columnName.equals("DocAction"))
         {
             readReference(135);
 //            this.setForeground(Color.blue);
-            button.setImage("/images/Process16.gif");    //  16*16
+            getComponent().setImage("/images/Process16.gif");    //  16*16
         }
         else if (columnName.equals("CreateFrom"))
         {
-            button.setImage("/images/Copy16.gif");       //  16*16
+            getComponent().setImage("/images/Copy16.gif");       //  16*16
         }
         else if (columnName.equals("Record_ID"))
         {
-            button.setImage("/images/Zoom16.gif");       //  16*16
-            button.setLabel(Msg.getMsg(Env.getCtx(), "ZoomDocument"));
+            getComponent().setImage("/images/Zoom16.gif");       //  16*16
+            getComponent().setLabel(Msg.getMsg(Env.getCtx(), "ZoomDocument"));
         }
         else if (columnName.equals("Posted"))
         {
             readReference(234);
 //            this.setForeground(Color.magenta);
-            button.setImage("/images/InfoAccount16.gif");    //  16*16
+            getComponent().setImage("/images/InfoAccount16.gif");    //  16*16
         }
         
         if (gridField.getColumnName().endsWith("_ID") && !gridField.getColumnName().equals("Record_ID"))
@@ -193,10 +190,25 @@ public class WButtonEditor extends WEditor
             if (pp != null)
                 text = pp.getName();
         }
-        button.setLabel(text != null ? text : "");
+        getComponent().setLabel(text != null ? text : "");
     }
     
-    public HashMap getValues()
+    @Override
+	public Button getComponent() {
+		return (Button) component;
+	}
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
+	public HashMap getValues()
     {
     	return m_values;
     }	//	getValues

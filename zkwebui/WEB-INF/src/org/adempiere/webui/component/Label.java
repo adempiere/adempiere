@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.component;
 
+import org.zkoss.zk.ui.Component;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -26,6 +28,10 @@ package org.adempiere.webui.component;
 public class Label extends org.zkoss.zul.Label
 {
     private static final long serialVersionUID = 1L;
+    
+    private Component decorator;
+    
+    private boolean mandatory;
 
     public Label()
     {
@@ -36,4 +42,44 @@ public class Label extends org.zkoss.zul.Label
     {
         super(value);
     }
+
+	public boolean isMandatory() {
+		return mandatory;
+	}
+
+	public void setMandatory(boolean mandatory) {
+		this.mandatory = mandatory;		
+		setupMandatoryDecorator();
+	}
+	
+	public Component getDecorator() {
+		return decorator;
+	}
+
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
+		setupMandatoryDecorator();
+	}		
+	
+	@Override
+	public boolean setVisible(boolean visible) {
+		if (decorator != null) {
+			if (visible)
+				decorator.setVisible(getValue() != null && getValue().trim().length() > 0 && mandatory);
+			else
+				decorator.setVisible(false);
+		}
+		return super.setVisible(visible);
+	}
+
+	private void setupMandatoryDecorator() {
+		String value = getValue();
+		if (value != null && (value.trim().length() > 0) && mandatory) {
+			if (decorator == null)
+				decorator = new Label("*");
+			((Label)decorator).setStyle("text-decoration: none; font-size: xx-small; vertical-align: top;");
+		} else if (decorator != null)
+			decorator.setVisible(false);
+	}
 }

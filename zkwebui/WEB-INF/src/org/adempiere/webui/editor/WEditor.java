@@ -22,15 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Checkbox;
-import org.adempiere.webui.component.Datebox;
-import org.adempiere.webui.component.EditorBox;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.Locationbox;
-import org.adempiere.webui.component.Searchbox;
-import org.adempiere.webui.component.Urlbox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.model.GridField;
@@ -38,7 +30,6 @@ import org.compiere.model.GridTab;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.impl.InputElement;
 
 /**
  *
@@ -257,77 +248,9 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         return label;
     }
 
-    public void setReadWrite(boolean readWrite)
-    {
-        if (component instanceof Checkbox)
-        {
-            ((Checkbox)component).setEnabled(readWrite);
-        }
-        else if (component instanceof Button)
-        {
-            ((Button)component).setEnabled(readWrite);
-        }
-        else if (component instanceof Listbox)
-        {
-            ((Listbox)component).setEnabled(readWrite);
-        }
-        else if (component instanceof Datebox)
-        {
-            ((Datebox)component).setEnabled(readWrite);
-        }
-        else if (component instanceof Urlbox)
-        {
-            ((Urlbox)component).setEnabled(readWrite);
-        }
-        else if (component instanceof Searchbox)
-        {
-        	((Searchbox)component).setEnabled(readWrite);
-        }
-        else if (component instanceof Locationbox)
-        {
-            ((Locationbox)component).setEnabled(readWrite);
-        }
-        else if (component instanceof EditorBox)
-        {
-        	((EditorBox)component).setEnabled(readWrite);
-        }
-        else
-        {
-            ((InputElement)component).setReadonly(!readWrite);
-        }
-    }
+    public abstract void setReadWrite(boolean readWrite);
 
-    public boolean isReadWrite()
-    {
-        if (component instanceof Checkbox)
-        {
-            return ((Checkbox)component).isDisabled();
-        }
-        else if (component instanceof Button)
-        {
-            return ((Button)component).isEnabled();
-        }
-        else if (component instanceof Listbox)
-        {
-            return ((Listbox)component).isEnabled();
-        }
-        else if (component instanceof Searchbox)
-        {
-        	return ((Searchbox)component).isEnabled();
-        }
-        else if (component instanceof Locationbox)
-        {
-            return ((Locationbox)component).isEnabled();
-        }
-        else if (component instanceof EditorBox)
-        {
-        	return ((EditorBox)component).isEnabled();
-        }
-        else
-        {
-            return ((InputElement)component).isReadonly();
-        }
-    }
+    public abstract boolean isReadWrite();
 
     public void setVisible(boolean visible)
     {
@@ -378,6 +301,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     public void setMandatory (boolean mandatory)
     {
         this.mandatory = mandatory;
+        if (label != null)
+        	label.setMandatory(mandatory);
     }
 
     public boolean isMandatory()

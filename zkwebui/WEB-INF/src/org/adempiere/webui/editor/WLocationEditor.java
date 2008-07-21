@@ -44,7 +44,6 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     
     private static CLogger log = CLogger.getCLogger(WLocationEditor.class);
     private static final long serialVersionUID = 1L;
-    private Locationbox         locationbox;
     private String              m_columnName;
     private MLocationLookup     m_Location;
     private MLocation           m_value;
@@ -64,14 +63,13 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
        
         m_columnName = columnName;
         m_Location = mLocation;
-        locationbox = (Locationbox)super.component;
-        locationbox.setButtonImage("/images/Location10.gif");
+        getComponent().setButtonImage("/images/Location10.gif");
     }
 
     @Override
     public String getDisplay()
     {
-        return locationbox.getText();
+        return getComponent().getText();
     }
 
     @Override
@@ -88,19 +86,34 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         if (value == null)
         {
             m_value = null;
-            locationbox.setText(null);
+            getComponent().setText(null);
         }
         else
         {
             m_value = m_Location.getLocation(value, null);
             if (m_value == null)
-                locationbox.setText("<" + value + ">");
+                getComponent().setText("<" + value + ">");
             else
-                locationbox.setText(m_value.toString());
+                getComponent().setText(m_value.toString());
         }
     }
+    
+    @Override
+	public Locationbox getComponent() {
+		return (Locationbox) component;
+	}
 
-    /**
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
+	/**
      *  Return Editor value
      *  @return value
      */

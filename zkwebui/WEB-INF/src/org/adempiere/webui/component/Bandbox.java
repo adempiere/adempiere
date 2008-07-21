@@ -31,4 +31,9 @@ public class Bandbox extends org.zkoss.zul.Bandbox
     {
         this.setDisabled(!enabled);
     }
+    
+    public boolean isEnabled()
+    {
+    	return !isDisabled();
+    }
 }

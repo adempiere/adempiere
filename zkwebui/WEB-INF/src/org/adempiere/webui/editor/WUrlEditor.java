@@ -31,13 +31,10 @@ public class WUrlEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 	
-	private Urlbox urlbox;
-
 	public WUrlEditor(GridField gridField) 
 	{
 		super(new Urlbox(), gridField);
-		this.urlbox = (Urlbox)super.component;
-		urlbox.setButtonImage("/images/Online16.gif");
+		getComponent().setButtonImage("/images/Online16.gif");
 	}
 	
 
@@ -46,36 +43,54 @@ public class WUrlEditor extends WEditor
 	{
         if (value == null)
         {
-            urlbox.setText("");
+            getComponent().setText("");
         }
         else
         {
-            urlbox.setText(String.valueOf(value));
+            getComponent().setText(String.valueOf(value));
         }
 	}
 
 	@Override
 	public Object getValue() 
 	{
-		return urlbox.getText();
+		return getComponent().getText();
 	}
 
 	@Override
 	public String getDisplay() 
 	{
-		return urlbox.getText();
+		return getComponent().getText();
 	}
+	
+	@Override
+	public Urlbox getComponent() {
+		return (Urlbox) component;
+	}
+
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
 
 	public void onEvent(Event event) 
 	{
 		if (Events.ON_CHANGE.equals(event.getName()))
 		{
-			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), urlbox.getText(), urlbox.getText());
+			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), getComponent().getText(), getComponent().getText());
 			fireValueChange(changeEvent);
 		}
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
-			String urlString =urlbox.getText();
+			String urlString =getComponent().getText();
             String message = null;
 			if (urlString != null && urlString.length() > 0)
 			{

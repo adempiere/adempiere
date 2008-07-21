@@ -332,6 +332,8 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     div.setAlign("right");
                     Label label = editor.getLabel();
                     div.appendChild(label);
+                    if (label.getDecorator() != null)
+                    	div.appendChild(label.getDecorator());
                     row.appendChild(div);
                     row.appendChild(editor.getComponent());
                     if (field.isLongField()) {

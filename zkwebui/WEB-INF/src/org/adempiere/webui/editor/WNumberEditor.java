@@ -39,8 +39,6 @@ public class WNumberEditor extends WEditor
     
     public static final int MAX_DISPLAY_LENGTH = 20;
 
-    private NumberBox comp;
-    
     private String oldValue;
     
     private boolean mandatory = false;
@@ -49,42 +47,55 @@ public class WNumberEditor extends WEditor
     {
         super(new NumberBox(gridField.getDisplayType() == DisplayType.Integer),
                 gridField);
-        comp = (NumberBox)super.component;
         init();
     }
     
     public WNumberEditor(GridField gridField, boolean integral)
     {
         super(new NumberBox(integral), gridField);
-        comp = (NumberBox)super.component;
         init();
     }
 
     private void init()
     {
-        comp.setMaxlength(gridField.getFieldLength());
-        comp.setCols(MAX_DISPLAY_LENGTH);
-        comp.setTooltiptext(gridField.getDescription());
+        getComponent().setMaxlength(gridField.getFieldLength());
+        getComponent().setCols(MAX_DISPLAY_LENGTH);
+        getComponent().setTooltiptext(gridField.getDescription());
     }
     
     public void onEvent(Event event)
     {
-        String newValue = comp.getValue();
+        String newValue = getComponent().getValue();
         ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
         super.fireValueChange(changeEvent);
         oldValue = newValue;
     }
-
+    
     @Override
+	public NumberBox getComponent() {
+		return (NumberBox) component;
+	}
+
+	@Override
+	public boolean isReadWrite() {
+		return getComponent().isEnabled();
+	}
+
+	@Override
+	public void setReadWrite(boolean readWrite) {
+		getComponent().setEnabled(readWrite);
+	}
+
+	@Override
     public String getDisplay()
     {
-        return comp.getValue();
+        return getComponent().getValue();
     }
 
     @Override
     public Object getValue()
     {
-        return comp.getValue();
+        return getComponent().getValue();
     }
 
     @Override
@@ -104,11 +115,11 @@ public class WNumberEditor extends WEditor
     {
         if (value != null)
         {
-            comp.setValue(value.toString());
+            getComponent().setValue(value.toString());
         }
         else
         {
-            comp.setValue("0");
+            getComponent().setValue("0");
         }
     }
     

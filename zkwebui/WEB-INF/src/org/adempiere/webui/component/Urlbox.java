@@ -74,6 +74,11 @@ public class Urlbox extends Hbox
         btnUrl.setEnabled(enabled);
     }
     
+    public boolean isEnabled() 
+    {
+    	return !txtUrl.isReadonly();
+    }
+    
     public void setButtonEnabled(boolean enabled)
     {
         btnUrl.setEnabled(enabled);
