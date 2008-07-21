@@ -146,15 +146,15 @@ public class InvoiceWriteOff extends SvrProcess
 				sql.append(" AND IsSOTrx='N'");
 			//
 			if (p_DateInvoiced_From != null && p_DateInvoiced_To != null)
-				sql.append(" AND TRIM(DateInvoiced) BETWEEN ")
+				sql.append(" AND TRUNC(DateInvoiced) BETWEEN ")
 					.append(DB.TO_DATE(p_DateInvoiced_From, true))
 					.append(" AND ")
 					.append(DB.TO_DATE(p_DateInvoiced_To, true));
 			else if (p_DateInvoiced_From != null)
-				sql.append(" AND TRIM(DateInvoiced) >= ")
+				sql.append(" AND TRUNC(DateInvoiced) >= ")
 					.append(DB.TO_DATE(p_DateInvoiced_From, true));
 			else if (p_DateInvoiced_To != null)
-				sql.append(" AND TRIM(DateInvoiced) <= ")
+				sql.append(" AND TRUNC(DateInvoiced) <= ")
 					.append(DB.TO_DATE(p_DateInvoiced_To, true));
 		}
 		sql.append(" AND IsPaid='N' ORDER BY C_Currency_ID, C_BPartner_ID, DateInvoiced");
