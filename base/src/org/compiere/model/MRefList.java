@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Reference List Value
@@ -42,37 +49,9 @@ public class MRefList extends X_AD_Ref_List
 	 */
 	public static MRefList get (Properties ctx, int AD_Reference_ID, String Value, String trxName)
 	{
-		MRefList retValue = null;
-		String sql = "SELECT * FROM AD_Ref_List "
-			+ "WHERE AD_Reference_ID=? AND Value=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, AD_Reference_ID);
-			pstmt.setString (2, Value);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MRefList (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-
-		return retValue;
+		return new Query(ctx, Table_Name, "AD_Reference_ID=? AND Value=?", trxName)
+					.setParameters(new Object[]{AD_Reference_ID, Value})
+					.first();
 	}	//	get
 
 	/**
@@ -98,6 +77,7 @@ public class MRefList extends X_AD_Ref_List
 			+ " INNER JOIN AD_Ref_List r ON (r.AD_Ref_List_ID=t.AD_Ref_List_ID) "
 			+ "WHERE r.AD_Reference_ID=? AND r.Value=? AND t.AD_Language=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -105,26 +85,18 @@ public class MRefList extends X_AD_Ref_List
 			pstmt.setString(2, Value);
 			if (!isBaseLanguage)
 				pstmt.setString(3, AD_Language);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = rs.getString(1);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql + " - " + key, ex);
 		}
-		try
-		{
-			if (pstmt != null)
-			   pstmt.close ();
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 
 		//	Save into Cache
 		if (retValue == null)
@@ -158,6 +130,7 @@ public class MRefList extends X_AD_Ref_List
 			+ " ORDER BY t.Name"
 		;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<ValueNamePair> list = new ArrayList<ValueNamePair>();
 		if (optional)
 			list.add(new ValueNamePair("", ""));
@@ -167,26 +140,21 @@ public class MRefList extends X_AD_Ref_List
 			pstmt.setInt(1, AD_Reference_ID);
 			if (!isBaseLanguage)
 				pstmt.setString(2, ad_language);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new ValueNamePair(rs.getString(1), rs.getString(2)));
 			rs.close();
 			pstmt.close();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		ValueNamePair[] retValue = new ValueNamePair[list.size()];
 		list.toArray(retValue);
