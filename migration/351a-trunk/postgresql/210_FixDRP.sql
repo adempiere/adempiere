@@ -202,14 +202,3 @@ insert into t_alter_column values('dd_networkdistributionline','M_Shipper_ID','N
 -- Completed the DRP
 insert into t_alter_column values('dd_networkdistributionline','M_Shipper_ID',null,'NOT NULL',null)
 ;
-
--- Jun 23, 2008 12:40:09 AM CDT
--- Completed the DRP
-insert into t_alter_column values('dd_networkdistributionline','M_Shipper_ID','NUMERIC(10)',null,'NULL')
-;
-
--- Jun 23, 2008 12:40:10 AM CDT
--- Completed the DRP
-insert into t_alter_column values('dd_networkdistributionline','M_Shipper_ID',null,'NOT NULL',null)
-;
-

@@ -203,14 +203,3 @@ ALTER TABLE DD_NetworkDistributionLine MODIFY M_Shipper_ID NUMBER(10) DEFAULT  N
 -- Completed the DRP
 ALTER TABLE DD_NetworkDistributionLine MODIFY M_Shipper_ID NOT NULL
 ;
-
--- Jun 23, 2008 12:40:09 AM CDT
--- Completed the DRP
-ALTER TABLE DD_NetworkDistributionLine MODIFY M_Shipper_ID NUMBER(10) DEFAULT  NULL 
-;
-
--- Jun 23, 2008 12:40:10 AM CDT
--- Completed the DRP
-ALTER TABLE DD_NetworkDistributionLine MODIFY M_Shipper_ID NOT NULL
-;
-
