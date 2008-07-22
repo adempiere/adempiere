@@ -188,15 +188,17 @@ tr.tab-desktop-tb-m {
 	padding: 0;
 	width: 100%;
 	height: 100%;
+	border: none;
 }
 
 .adtab-content {	 
 	margin: 0; 
 	padding: 0; 
+	border: none;
 	overflow: auto;
 	width: 100%;
 	height: 100%;
-	position: absolute;
+	position: absolute;	
 }
 
 .adtab-grid-panel {

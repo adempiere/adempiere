@@ -18,8 +18,6 @@
 package org.adempiere.webui.component;
 
 import org.zkoss.zk.ui.WrongValueException;
-import org.zkoss.zul.Constraint;
-import org.zkoss.zul.SimpleConstraint;
 
 /**
  *

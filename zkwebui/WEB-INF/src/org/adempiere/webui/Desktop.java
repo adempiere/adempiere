@@ -28,6 +28,9 @@ import java.util.logging.Level;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
@@ -69,6 +72,7 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
@@ -95,7 +99,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	private Borderlayout layout;
 
 	private WindowContainer windowContainer;
-	
+
 	private Button btnNotice, btnRequest, btnWorkflow;
 
     public Desktop()
@@ -112,8 +116,13 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         
         layout = new Borderlayout();
         if (parent != null)
+        {
         	layout.setParent(parent);
-        else
+        	layout.setWidth("100%");
+        	layout.setHeight("100%");
+        	layout.setStyle("position: absolute");
+        }
+        else         	
         	layout.setPage(page);
         
         North n = new North();
@@ -193,7 +202,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         borderlayout.setWidth("100%");
         borderlayout.setHeight("100%");
         borderlayout.setStyle("background-color: transparent; position: absolute;");
-
+        
         West west = new West();
         west.appendChild(gbxFav);
         borderlayout.appendChild(west);
@@ -204,12 +213,12 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         center.appendChild(gbxView);
         borderlayout.appendChild(center);
         center.setStyle("background-color: transparent");
-
+        
 		South south = new South();
 		south.appendChild(hbox);
 		borderlayout.appendChild(south);
 		south.setStyle("background-color: transparent");
-
+        
         //register as 0
         registerWindow(homeTab);
         
@@ -537,7 +546,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
             	if(menuId > 0) onMenuSelected(menuId);
             }
         }
-    }
+	}
     
     /**
      * Retrieves the Client website url

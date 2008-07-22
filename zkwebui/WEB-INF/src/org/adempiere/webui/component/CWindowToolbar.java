@@ -20,7 +20,9 @@ package org.adempiere.webui.component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
@@ -32,6 +34,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zul.Label;
 
 /**
@@ -67,8 +70,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 //    private ToolBarButton btnExit;
     
     private ArrayList<ToolbarListener> listeners = new ArrayList<ToolbarListener>();
-
-private Event event;
+        
+    private Event event;
+    
+    private Map<Integer, ToolBarButton> keyMap = new HashMap<Integer, ToolBarButton>();
 
     public CWindowToolbar()
     {
@@ -259,11 +264,28 @@ private Event event;
         btnGridToggle.setDisabled(false);
         
         btnZoomAcross.setDisabled(false);
-        
+                
         btnActiveWorkflows.setDisabled(false); // Elaine 2008/07/17
+        
+        configureKeyMap();
+        
     }
 
-    protected void addSeparator()
+    private void configureKeyMap() {
+		keyMap.put(KeyEvent.F1, btnHelp);		
+		keyMap.put(KeyEvent.F2, btnNew);
+		keyMap.put(KeyEvent.F3, btnDelete);
+		keyMap.put(KeyEvent.F4, btnSave);
+		keyMap.put(KeyEvent.F5, btnRefresh);
+		keyMap.put(KeyEvent.F6, btnFind);
+		keyMap.put(KeyEvent.F7, btnAttachment);
+		keyMap.put(KeyEvent.F8, btnGridToggle);
+		keyMap.put(KeyEvent.F9, btnHistoryRecords);
+		keyMap.put(KeyEvent.F11, btnReport);
+		keyMap.put(KeyEvent.F12, btnPrint);
+	}
+
+	protected void addSeparator()
     {
         Label lblSeparator = new Label();
         lblSeparator.setWidth("3px");
@@ -286,49 +308,57 @@ private Event event;
     {    	
         String eventName = event.getName();
         Component eventComp = event.getTarget();
-
-        Iterator<ToolbarListener> listenerIter = listeners.iterator();
+        
         if(eventName.equals(Events.ON_CLICK))
         {
-            if(eventComp instanceof ToolBarButton)
+            if(event.getTarget() instanceof ToolBarButton)
             {
-            	this.event = event;
-            	ToolBarButton cComponent = (ToolBarButton) eventComp;
-                String compName = cComponent.getName();
-                String methodName = "on" + compName.substring(3);
-                while(listenerIter.hasNext())
-                {
-                    try
-                    {
-                        ToolbarListener tListener = listenerIter.next();
-                        Method method = tListener.getClass().getMethod(methodName, (Class[]) null);
-                        method.invoke(tListener, (Object[]) null);
-                    }
-                    catch(SecurityException e)
-                    {
-                        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-                    }
-                    catch(NoSuchMethodException e)
-                    {
-                        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-                    }
-                    catch(IllegalArgumentException e)
-                    {
-                        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-                    }
-                    catch(IllegalAccessException e)
-                    {
-                        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-                    }
-                    catch(InvocationTargetException e)
-                    {
-                        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
-                    }
-                }
-                this.event = null;
+            	doOnClick(event);
             }
+        } else if (eventName.equals(Events.ON_CTRL_KEY)) 
+        {
+        	KeyEvent keyEvent = (KeyEvent) event;
+        	this.onCtrlKeyEvent(keyEvent.getKeyCode());
         }
     }
+
+	private void doOnClick(Event event) {
+		this.event = event;
+		ToolBarButton cComponent = (ToolBarButton) event.getTarget();
+		String compName = cComponent.getName();
+		String methodName = "on" + compName.substring(3);
+		Iterator<ToolbarListener> listenerIter = listeners.iterator();
+		while(listenerIter.hasNext())
+		{
+		    try
+		    {
+		        ToolbarListener tListener = listenerIter.next();
+		        Method method = tListener.getClass().getMethod(methodName, (Class[]) null);
+		        method.invoke(tListener, (Object[]) null);
+		    }
+		    catch(SecurityException e)
+		    {
+		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
+		    }
+		    catch(NoSuchMethodException e)
+		    {
+		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
+		    }
+		    catch(IllegalArgumentException e)
+		    {
+		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
+		    }
+		    catch(IllegalAccessException e)
+		    {
+		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
+		    }
+		    catch(InvocationTargetException e)
+		    {
+		        log.log(Level.SEVERE, "Could not invoke Toolbar listener method: " + methodName + "()", e);
+		    }
+		}
+		this.event = null;
+	}
     
     public void enableHistoryRecords(boolean enabled)
     {
@@ -460,4 +490,26 @@ private Event event;
     {
     	return event;
     }
+
+	public void onCtrlKeyEvent(int keycode) {
+		if (isRealVisible()) {
+			ToolBarButton btn = keyMap.get(keycode);
+			if (btn != null && !btn.isDisabled() && btn.isVisible()) {
+				Events.sendEvent(btn, new Event(Events.ON_CLICK, btn));
+			}
+		}
+		
+	}
+
+	private boolean isRealVisible() {
+		if (!isVisible())
+			return false;
+		Component parent = this.getParent();
+		while (parent != null) {
+			if (!parent.isVisible())
+				return false;
+			parent = parent.getParent();
+		}
+		return true;
+	}
 }

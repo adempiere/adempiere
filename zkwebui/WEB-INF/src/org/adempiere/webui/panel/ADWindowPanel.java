@@ -29,12 +29,14 @@ import org.adempiere.webui.component.Tabs;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.Window;
 
 /**
  * 
@@ -69,7 +71,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	protected Component doCreatePart(Component parent)
     {				
         layout = new Borderlayout();
-        if (layout != null) {
+        if (parent != null) {
 	        layout.setParent(parent);
 	        layout.setStyle("position:absolute");
 	        layout.setHeight("100%");
@@ -111,6 +113,11 @@ public class ADWindowPanel extends AbstractADWindowPanel
         if (parent instanceof Tabpanel) {
         	TabOnCloseHanlder handler = new TabOnCloseHanlder();
         	((Tabpanel)parent).setOnCloseHandler(handler);
+        }
+        
+        if (adTab.getComponent() instanceof Window) {
+        	Window w = (Window) adTab.getComponent();
+        	w.addEventListener(Events.ON_CTRL_KEY, toolbar);
         }
         return layout;
     }

@@ -16,6 +16,7 @@ public abstract class AbstractUIPart implements UIPart {
 			page = (Page)parent;
 		} else if (parent instanceof Component) {
 			component = (Component)parent;
+			page = component.getPage();
 		} else {
 			throw new IllegalArgumentException("Parent must of class Page or Component.");
 		}
