@@ -115,6 +115,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
         initComponents();
         init();
 		initInfo(queryValue, whereClause);
+		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
         
         int no = contentPanel.getRowCount();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);

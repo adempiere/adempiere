@@ -248,7 +248,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		mainBox.appendChild(boxCol3);
 		
 		this.setWidth("850px");
-		this.setTitle("Payment Info");
+//		this.setTitle("Payment Info");
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.appendChild(mainBox);

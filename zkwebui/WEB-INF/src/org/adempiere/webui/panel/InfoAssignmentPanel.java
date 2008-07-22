@@ -198,7 +198,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		//	parameterPanel.add(checkCustomer, null);
 		
 		this.setWidth("850px");
-		this.setTitle("Info Asset");
+//		this.setTitle("Info Asset");
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.appendChild(mainBox);

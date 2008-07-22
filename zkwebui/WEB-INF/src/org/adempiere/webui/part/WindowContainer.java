@@ -122,6 +122,16 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     public Tab getSelectedTab() {
     	return (Tab) tabbox.getSelectedTab();
     }
+    
+    // Elaine 2008/07/21
+    public void setTabTitle(int tabNo, String title, String tooltip)
+    {
+    	org.zkoss.zul.Tabs tabs = tabbox.getTabs();
+    	Tab tab = (Tab) tabs.getChildren().get(tabNo);
+    	tab.setLabel(title);
+    	tab.setTooltiptext(tooltip);
+    }
+    //
 
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_SELECT.equals(event.getName()))

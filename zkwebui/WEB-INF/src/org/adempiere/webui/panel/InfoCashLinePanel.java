@@ -276,7 +276,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		mainBox.appendChild(boxCol3);
 		
 		this.setWidth("850px");
-		this.setTitle("CashLine Info");
+//		this.setTitle("CashLine Info");
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.appendChild(mainBox);

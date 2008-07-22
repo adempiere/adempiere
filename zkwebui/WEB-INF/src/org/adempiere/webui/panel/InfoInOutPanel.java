@@ -231,7 +231,7 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		mainBox.appendChild(boxCol3);
 		
 		this.setWidth("850px");
-		this.setTitle("InOut Info");
+//		this.setTitle("InOut Info");
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.appendChild(mainBox);

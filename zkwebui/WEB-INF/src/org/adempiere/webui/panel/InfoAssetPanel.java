@@ -186,7 +186,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		mainBox.appendChild(boxCol2);
 		
 		this.setWidth("850px");
-		this.setTitle("Info Asset");
+//		this.setTitle("Info Asset");
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.appendChild(mainBox);

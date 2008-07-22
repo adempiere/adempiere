@@ -148,11 +148,7 @@ public abstract class ADForm extends Window implements EventListener
 		 */		
 		if (matcher.find()== false)
 		{
-			// What to do with those that do not have .compiere. in it
-			throw new ApplicationException("The selected custom form '" + 
-					originalName + 
-					"' is not part of the core distribution and " +
-					"has not been implemented for the web based user interface");			
+			return originalName;
 		}
 		
 		/*

@@ -124,42 +124,39 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 * @param frame Parent Frame
 	 * @param WindowNo window no
 	 */
-	/*public static void showProduct (Frame frame, int WindowNo)
+	public static void showProduct (int WindowNo)
 	{
-		Info info = new InfoProduct (frame, false, WindowNo,
-			Env.getContextAsInt(Env.getCtx(), WindowNo, "M_Warehouse_ID"),
-			Env.getContextAsInt(Env.getCtx(), WindowNo, "M_PriceList_ID"), 
-			"",		//	value 
-			false, "");
-		AEnv.showCenterWindow(frame, info);
+		InfoPanel info = new InfoProductPanel(WindowNo, 
+				Env.getContextAsInt(Env.getCtx(), WindowNo, "M_Warehouse_ID"),
+				Env.getContextAsInt(Env.getCtx(), WindowNo, "M_PriceList_ID"),
+				false, "", "");
+		AEnv.showWindow(info);
 	}   //  showProduct
-*/
+	
 	/**
 	 * Show Order Info (non modal)
 	 * @param frame Parent Frame
 	 * @param WindowNo window no
 	 * @param value query value
 	 */
-	/*public static void showOrder (Frame frame, int WindowNo, String value)
+	public static void showOrder (int WindowNo, String value)
 	{
-		Info info = new InfoOrder (frame, false, WindowNo, value,
-			false, "");
-		AEnv.showCenterWindow(frame, info);
+		InfoPanel info = new InfoOrderPanel(WindowNo, "", false, "");
+		AEnv.showWindow(info);
 	}   //  showOrder
-*/
+
 	/**
 	 * Show Invoice Info (non modal)
 	 * @param frame Parent Frame
 	 * @param WindowNo window no
 	 * @param value query value
 	 */
-	/*public static void showInvoice (Frame frame, int WindowNo, String value)
+	public static void showInvoice (int WindowNo, String value)
 	{
-		Info info = new InfoInvoice (frame, false, WindowNo, value,
-			false, "");
-		AEnv.showCenterWindow(frame, info);
+		InfoPanel info = new InfoInvoicePanel(WindowNo, "", false, "");
+		AEnv.showWindow(info);
 	}   //  showInvoice
-*/
+
 	/**
 	 * Show Shipment Info (non modal)
 	 * @param frame Parent Frame
