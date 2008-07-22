@@ -29,12 +29,12 @@ public class MStorageTest extends AdempiereTestCase {
 	private MLocator createLocator(MWarehouse wh, String locatorValue, double qtyOnHand) {
 		MLocator loc = new MLocator(wh, wh.getValue()+"-"+locatorValue);
 		loc.setXYZ("X"+locatorValue, "Y"+locatorValue, "Z"+locatorValue);
-		loc.save();
+		loc.saveEx();
 		//
 		BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand);
 		MStorage s1 = MStorage.getCreate(getCtx(), loc.get_ID(), product_id, 0, getTrxName());
 		s1.setQtyOnHand(targetQty);
-		s1.save();
+		s1.saveEx();
 		//
 		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), loc.get_ID(), product_id, 0, getTrxName());
 		assertEquals("Error on locator "+locatorValue, targetQty, qty);
@@ -54,7 +54,7 @@ public class MStorageTest extends AdempiereTestCase {
 		wh.setValue("test-wh");
 		wh.setName("test-wh");
 		wh.setC_Location_ID(location_id);
-		wh.save();
+		wh.saveEx();
 		assertWarehouseQty(wh, whQty);
 		//
 		for (int i = 1; i <= 10; i++) {
