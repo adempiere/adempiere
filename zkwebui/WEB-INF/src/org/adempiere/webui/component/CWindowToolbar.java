@@ -266,6 +266,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnZoomAcross.setDisabled(false);
                 
         btnActiveWorkflows.setDisabled(false); // Elaine 2008/07/17
+        btnRequests.setDisabled(false); // Elaine 2008/07/22
+        btnProductInfo.setDisabled(false); // Elaine 2008/07/22
         
         configureKeyMap();
         

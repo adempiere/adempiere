@@ -20,6 +20,7 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.webui.WRequest;
 import org.adempiere.webui.WZoomAcross;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
@@ -27,16 +28,13 @@ import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.apps.form.WCreateFrom;
 import org.adempiere.webui.apps.form.WPayment;
 import org.adempiere.webui.component.CWindowToolbar;
-import org.adempiere.webui.component.IADTabList;
 import org.adempiere.webui.component.IADTab;
+import org.adempiere.webui.component.IADTabList;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.event.ActionEvent;
 import org.adempiere.webui.event.ActionListener;
 import org.adempiere.webui.event.ToolbarListener;
 import org.adempiere.webui.exception.ApplicationException;
-import org.adempiere.webui.panel.StatusBarPanel;
-import org.adempiere.webui.panel.WDocActionPanel;
-import org.adempiere.webui.panel.WOnlyCurrentDays;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
@@ -1004,37 +1002,36 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public void onActiveWorkflows() {
 		if (toolbar.getEvent() != null)
 		{
-			int record_ID = curTab.getRecord_ID();
-			if (record_ID <= 0)
+			if (curTab.getRecord_ID() <= 0) 
 				return;
-
-			//	Query
-			MQuery query = new MQuery();
-			//	Current row
-			String link = curTab.getKeyColumnName();
-
-			//	Link for detail records
-			if (link.length() == 0)
-				link = curTab.getLinkColumnName();
-			if (link.length() != 0)
-			{
-				if (link.endsWith("_ID"))
-				{					
-					int AD_Table_ID = DB.getSQLValue(null, "SELECT AD_Table_ID FROM AD_Table WHERE TableName = ?", link.substring(0, link.length() - 3));
-					int Record_ID = new Integer(Env.getContextAsInt(ctx, curWindowNo, link));
-					
-					query.addRestriction("AD_Table_ID", MQuery.EQUAL, AD_Table_ID);
-					query.addRestriction("Record_ID", MQuery.EQUAL, Record_ID);
-				}
-				else
-				{
-					query.addRestriction(link, MQuery.EQUAL, Env.getContext(ctx, curWindowNo, link));
-				}
-			}
-			
-	        int AD_Window_ID = DB.getSQLValue(null, "SELECT AD_Window_ID FROM AD_Window WHERE Name = 'Workflow Process'");
-	        if (AD_Window_ID > 0) AEnv.zoom(AD_Window_ID, query);
+			else 
+				AEnv.startWorkflowProcess(curTab.getAD_Table_ID(), curTab.getRecord_ID());
 		}
+	}
+	//
+	
+	// Elaine 2008/07/22
+	public void onRequests()
+	{
+		if (toolbar.getEvent() != null)
+		{
+			if (curTab.getRecord_ID() <= 0) 
+				return;
+			
+			int C_BPartner_ID = 0;
+			Object bpartner = curTab.getValue("C_BPartner_ID");
+			if(bpartner != null)
+				C_BPartner_ID = Integer.valueOf(bpartner.toString());
+			
+			new WRequest(toolbar.getEvent().getTarget(), curTab.getAD_Table_ID(), curTab.getRecord_ID(), C_BPartner_ID);
+		}
+	}
+	//
+	
+	// Elaine 2008/07/22
+	public void onProductInfo()
+	{
+		InfoPanel.showProduct(0);
 	}
 	//
     
@@ -1050,12 +1047,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		boolean batch = false;
 		String col = wButton.getColumnName();
 
-		//  Zoom
-		
+		//  Zoom		
 		if (col.equals("Record_ID"))
 		{
 			int AD_Table_ID = Env.getContextAsInt (ctx, curWindowNo, "AD_Table_ID");
 			int Record_ID = Env.getContextAsInt (ctx, curWindowNo, "Record_ID");
+			
 			AEnv.zoom(AD_Table_ID, Record_ID);
 			return;
 		} // Zoom

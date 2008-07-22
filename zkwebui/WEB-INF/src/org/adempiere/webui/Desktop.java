@@ -175,7 +175,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         btnNotice.setLabel("Notice : 0");
         btnNotice.setTooltiptext("Notice");
         btnNotice.setImage("/images/GetMail16.gif");
-        int AD_Menu_ID = DB.getSQLValue(null, "SELECT MAX(AD_Menu_ID) FROM AD_Menu WHERE Name = 'Notice'");
+        int AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Notice' AND IsSummary = 'N'");
         btnNotice.setName(String.valueOf(AD_Menu_ID));
         btnNotice.addEventListener(Events.ON_CLICK, this);
         
@@ -184,7 +184,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         btnRequest.setLabel("Request : 0");
         btnRequest.setTooltiptext("Request");
         btnRequest.setImage("/images/Request16.gif");
-        AD_Menu_ID = DB.getSQLValue(null, "SELECT MAX(AD_Menu_ID) FROM AD_Menu WHERE Name = 'Request'");
+        AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Request' AND IsSummary = 'N'");
         btnRequest.setName(String.valueOf(AD_Menu_ID));
         btnRequest.addEventListener(Events.ON_CLICK, this);
         
@@ -193,7 +193,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         btnWorkflow.setLabel("Workflow Activities : 0");
         btnWorkflow.setTooltiptext("Workflow Activities");
         btnWorkflow.setImage("/images/Assignment16.gif");
-        AD_Menu_ID = DB.getSQLValue(null, "SELECT MAX(AD_Menu_ID) FROM AD_Menu WHERE Name = 'Workflow Activities'");
+        AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Workflow Activities' AND IsSummary = 'N'");
         btnWorkflow.setName(String.valueOf(AD_Menu_ID));
         btnWorkflow.addEventListener(Events.ON_CLICK, this);
 
@@ -531,10 +531,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
             {
             	Button btn = (Button) comp;
             	
-//        		int AD_Window_ID = Integer.valueOf(btn.getName());
-//        		if (AD_Window_ID > 0) AEnv.zoom(AD_Window_ID, new MQuery());
-        		
-        		int menuId = 0;
+            	int menuId = 0;
             	try
             	{
             		menuId = Integer.valueOf(btn.getName());            		

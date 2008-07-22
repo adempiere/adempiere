@@ -40,4 +40,13 @@ public class Combobox extends org.zkoss.zul.Combobox
         item.setParent(this);
         return item;
     }
+    
+    // Elaine 2008/07/22
+    public ComboItem getSelectedItem()
+    {
+    	Comboitem item = super.getSelectedItem();
+    	if(item == null) return null;
+    	return new ComboItem(item.getLabel(), (String) item.getValue());
+    }
+    //
 }

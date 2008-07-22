@@ -17,23 +17,35 @@
 
 package org.adempiere.webui.apps;
 
-import java.io.*;
+import java.io.InvalidClassException;
+import java.io.NotSerializableException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.rmi.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.rmi.RemoteException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.logging.Level;
 
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.Adempiere;
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.adempiere.webui.component.Window;
+import org.compiere.apps.ALogin;
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.Lookup;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
 
 /**
  *  Windows Application Environment and utilities
@@ -239,7 +251,7 @@ public final class AEnv
 	 *  @param text text with '&'
 	 *  @return Mnemonic or 0
 	 */
-		public static char getMnemonic (String text)
+	public static char getMnemonic (String text)
 	{
 
 		int pos = text.indexOf('&');
@@ -257,9 +269,7 @@ public final class AEnv
 	 */
 	public static void zoom (int AD_Table_ID, int Record_ID)
 	{
-		/*
-
-		 String TableName = null;
+		String TableName = null;
 		int AD_Window_ID = 0;
 		int PO_Window_ID = 0;
 		String sql = "SELECT TableName, AD_Window_ID, PO_Window_ID FROM AD_Table WHERE AD_Table_ID=?";
@@ -295,21 +305,8 @@ public final class AEnv
 				AD_Window_ID = PO_Window_ID;
 		}
 
-		log.config(TableName + " - Record_ID=" + Record_ID + " (IsSOTrx=" + isSOTrx + ")");
-		AWindow frame = new AWindow();
-		if (!frame.initWindow(AD_Window_ID, MQuery.getEqualQuery(TableName + "_ID", Record_ID)))
-			return;
-		addToWindowManager(frame);
-		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
-		{
-			AEnv.showMaximized(frame);
-		}
-		else
-		{
-			AEnv.showCenterScreen(frame);
-		}
-		frame = null;
-		*/
+		log.config(TableName + " - Record_ID=" + Record_ID + " (IsSOTrx=" + isSOTrx + ")");		
+		zoom(AD_Window_ID, MQuery.getEqualQuery(TableName + "_ID", Record_ID));
 	}	//	zoom
 
 	/**
@@ -393,31 +390,19 @@ public final class AEnv
 	 */
 	public static void startWorkflowProcess (int AD_Table_ID, int Record_ID)
 	{
-		/*
+		if (s_workflow_Window_ID == 0)
+		{
+			int AD_Window_ID = DB.getSQLValue(null, "SELECT AD_Window_ID FROM AD_Window WHERE Name = 'Workflow Process'");
+			s_workflow_Window_ID = AD_Window_ID;
+		}
+		
 		if (s_workflow_Window_ID == 0)
 			return;
-		//
-		MQuery query = null;
-		if (AD_Table_ID != 0 && Record_ID != 0)
-		{
-			query = new MQuery("AD_WF_Process");
-			query.addRestriction("AD_Table_ID", MQuery.EQUAL, AD_Table_ID);
-			query.addRestriction("Record_ID", MQuery.EQUAL, Record_ID);
-		}
-		//
-		AWindow frame = new AWindow();
-		if (!frame.initWindow(s_workflow_Window_ID, query))
-			return;
-		addToWindowManager(frame);
-		if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED) ) {
-			frame.pack();
-			frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-			frame.setVisible(true);
-			frame.toFront();
-		} else
-			AEnv.showCenterScreen(frame);
-		frame = null;
-		*/
+		
+		MQuery query = new MQuery();
+		query.addRestriction("AD_Table_ID", MQuery.EQUAL, AD_Table_ID);
+		query.addRestriction("Record_ID", MQuery.EQUAL, Record_ID);
+		AEnv.zoom(s_workflow_Window_ID, query);
 	}	//	startWorkflowProcess
 
 
@@ -480,7 +465,7 @@ public final class AEnv
 	 */
 	public static String getServerVersion ()
 	{
-			return CConnection.get().getServerVersion();
+		return CConnection.get().getServerVersion();
 	}   //  getServerVersion
 
 	/**	Window Cache		*/
@@ -592,7 +577,7 @@ public final class AEnv
 	 *  @param  force           force posting
 	 *  @return null if success, otherwise error
 	 */
-		public static String postImmediate (int WindowNo, int AD_Client_ID,
+	public static String postImmediate (int WindowNo, int AD_Client_ID,
 		int AD_Table_ID, int Record_ID, boolean force)
 	{
 
