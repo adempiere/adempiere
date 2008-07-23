@@ -65,6 +65,17 @@
 		<url-pattern>/zkau/*</url-pattern>
 	</servlet-mapping>
 	<!-- //// -->
+	<servlet>
+		<description>servlet to provide timeline xml event feed</description>
+		<servlet-name>timelineFeed</servlet-name>
+		<servlet-class>
+			org.adempiere.webui.TimelineEventFeed
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>timelineFeed</servlet-name>
+		<url-pattern>/timeline</url-pattern>
+	</servlet-mapping>
 
 	<!-- /////////// -->
 	<!-- Miscellaneous -->

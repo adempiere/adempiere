@@ -95,7 +95,7 @@ public class MultiTabPart extends AbstractUIPart
     	tabbox.getSelectedTab().onClose();
     }
 
-	public Component getComponent() {
+	public Tabbox getComponent() {
 		return tabbox;
 	}
 }

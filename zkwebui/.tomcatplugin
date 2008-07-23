@@ -53,5 +53,20 @@
         <webClassPathEntry>/tools/lib/swingx-0.9.0.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/xdoclet-1.2.3.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/xercesImpl.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/classes</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/junit.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/timelinez.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zcommon.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zhtml.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zk.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zkex.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zkmax.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zkplus.jar</webClassPathEntry>
+        <webClassPathEntry>/zkwebui/WEB-INF/lib/zul.jar</webClassPathEntry>
+        <webClassPathEntry>C:/Users/Low Heng Sin/Applications/eclipse/plugins/org.junit_3.8.2.v200706111738/junit.jar</webClassPathEntry>
+        <webClassPathEntry>org.eclipse.jdt.junit.JUNIT_CONTAINER/3</webClassPathEntry>
+        <webClassPathEntry>org.eclipse.jst.j2ee.internal.module.container</webClassPathEntry>
+        <webClassPathEntry>org.eclipse.jst.j2ee.internal.web.container</webClassPathEntry>
+        <webClassPathEntry>org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/C-_applications_apache-tomcat-5.5.26</webClassPathEntry>
     </webClassPathEntries>
 </tomcatProjectProperties>

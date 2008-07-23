@@ -38,7 +38,7 @@ import org.zkoss.zkplus.util.ThreadLocals;
 public class SessionContextListener implements ExecutionInit,
         ExecutionCleanup, EventThreadInit, EventThreadResume
 {
-    private static final String SESSION_CTX = "WebUISessionContext";
+    public static final String SESSION_CTX = "WebUISessionContext";
 
     public void init(Execution exec, Execution parent)
     {
@@ -47,10 +47,10 @@ public class SessionContextListener implements ExecutionInit,
             WebContext ctx = (WebContext)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
             if (ctx == null)
             {
-                ctx = new WebContext();
-                setWebContext(ctx);
+                ctx = new WebContext();                
                 exec.getDesktop().getSession().setAttribute(SESSION_CTX, ctx);
             }
+            setWebContext(ctx);
             exec.setAttribute(SESSION_CTX, ctx);
         }
     }
@@ -93,9 +93,10 @@ public class SessionContextListener implements ExecutionInit,
     }
 
     @SuppressWarnings("unchecked")
-    private void setWebContext(WebContext ctx)
+    public void setWebContext(WebContext ctx)
     {
         getContextThreadLocal().set(ctx);
+        WebContext.setCurrentInstance(ctx);
     }
 
     private ThreadLocal getContextThreadLocal()

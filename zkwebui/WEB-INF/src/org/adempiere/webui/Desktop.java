@@ -43,6 +43,7 @@ import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
+import org.adempiere.webui.window.InfoSchedule;
 import org.compiere.model.MClient;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
@@ -500,6 +501,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
             		{
             			// TODO: Schedule Info Panel
 //            			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
+            			new InfoSchedule(null, false);
             		}
             		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
             		{
