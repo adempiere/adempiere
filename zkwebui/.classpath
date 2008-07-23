@@ -22,5 +22,7 @@
 	<classpathentry kind="lib" path="/tools/lib/j2ee.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/timelinez.jar" sourcepath="WEB-INF/lib/timelinez-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zweb.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jcommon.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jfreechart.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
