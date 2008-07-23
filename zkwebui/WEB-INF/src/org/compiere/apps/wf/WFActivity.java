@@ -121,7 +121,7 @@ public class WFActivity extends ADForm implements EventListener
 		Grid grid = new Grid();
 		grid.setWidth("99%");
         grid.setHeight("100%");        
-        grid.setStyle("margin:0; padding:0; position: absolute");
+        grid.setStyle("margin:0; padding:0; position: absolute; align: center; valign: center;");
         grid.setSclass("grid-no-striped");
         grid.setOddRowSclass("even");
         

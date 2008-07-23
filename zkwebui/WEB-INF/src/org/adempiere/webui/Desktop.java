@@ -27,10 +27,8 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessDialog;
+import org.adempiere.webui.apps.graph.WPAPanel;
 import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
@@ -66,14 +64,12 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
-import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Box;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
@@ -151,28 +147,81 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         return layout;
     }
 
-	private void createHomeTab() {
+	private void createHomeTab() 
+	{
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, "Home", false);
 
+        Hbox hbox = new Hbox();
+        homeTab.appendChild(hbox);
+        hbox.setWidths("30%, 70%");
+
+        Vbox vbGroupBox = new Vbox();    
+        hbox.appendChild(vbGroupBox);
+        vbGroupBox.setWidth("100%");
+                        
         Groupbox gbxFav = new Groupbox();
-        gbxFav.setMold("3d");
-        gbxFav.setClosable(true);
-        gbxFav.setHeight("100%");
+        vbGroupBox.appendChild(gbxFav);
         gbxFav.appendChild(new Caption("Favourites"));
         gbxFav.appendChild(createFavouritesPanel());
+        gbxFav.setMold("3d");
+        gbxFav.setClosable(true);
         
         Groupbox gbxView = new Groupbox();
-        gbxView.setMold("3d");
-        gbxView.setClosable(true);
-        gbxView.setHeight("100%");
+        vbGroupBox.appendChild(gbxView);
         gbxView.appendChild(new Caption("Views"));
         gbxView.appendChild(createViewPanel());
+        gbxView.setMold("3d");
+        gbxView.setClosable(true);
 		
-		final Hbox hbox = new Hbox();
+        final Groupbox gbxAct = new Groupbox();
+        vbGroupBox.appendChild(gbxAct);
+        gbxAct.appendChild(new Caption("Activities"));
+        gbxAct.appendChild(createActivitiesPanel());
+        gbxAct.setMold("3d");
+        gbxAct.setClosable(true);
+        
+        WPAPanel panel = WPAPanel.get();
+        hbox.appendChild(panel);
+        
+        //register as 0
+        registerWindow(homeTab);
+        
+        // enable server push for this desktop
+        if (!gbxAct.getDesktop().isServerPushEnabled())
+        	gbxAct.getDesktop().enableServerPush(true);
+        
+        updateInfo();
+        
+        new Thread(new Runnable() 
+        {
+			public void run() 
+			{
+				try {
+					// get full control of desktop
+					Executions.activate(gbxAct.getDesktop());
+					try {
+						updateInfo();
+						Threads.sleep(500);// Update each 0.5 seconds
+					} catch (Error ex) {
+						throw ex;
+					} finally {
+						// release full control of desktop
+						Executions.deactivate(gbxAct.getDesktop());
+					}
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "Failed to run NRW", e);
+				}
+			}
+		}).start();
+	}
+	
+	private Box createActivitiesPanel()
+	{
+		Vbox vbox = new Vbox();
 		
         btnNotice = new Button();
-        hbox.appendChild(btnNotice);
+        vbox.appendChild(btnNotice);
         btnNotice.setLabel("Notice : 0");
         btnNotice.setTooltiptext("Notice");
         btnNotice.setImage("/images/GetMail16.gif");
@@ -181,7 +230,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         btnNotice.addEventListener(Events.ON_CLICK, this);
         
         btnRequest = new Button();
-        hbox.appendChild(btnRequest);
+        vbox.appendChild(btnRequest);
         btnRequest.setLabel("Request : 0");
         btnRequest.setTooltiptext("Request");
         btnRequest.setImage("/images/Request16.gif");
@@ -190,64 +239,15 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         btnRequest.addEventListener(Events.ON_CLICK, this);
         
         btnWorkflow = new Button();
-        hbox.appendChild(btnWorkflow);
+        vbox.appendChild(btnWorkflow);
         btnWorkflow.setLabel("Workflow Activities : 0");
         btnWorkflow.setTooltiptext("Workflow Activities");
         btnWorkflow.setImage("/images/Assignment16.gif");
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Workflow Activities' AND IsSummary = 'N'");
         btnWorkflow.setName(String.valueOf(AD_Menu_ID));
         btnWorkflow.addEventListener(Events.ON_CLICK, this);
-
-        Borderlayout borderlayout = new Borderlayout();
-		homeTab.appendChild(borderlayout);
-        borderlayout.setWidth("100%");
-        borderlayout.setHeight("100%");
-        borderlayout.setStyle("background-color: transparent; position: absolute;");
         
-        West west = new West();
-        west.appendChild(gbxFav);
-        borderlayout.appendChild(west);
-        west.setSplittable(true);
-        west.setStyle("background-color: transparent");
-        
-        Center center = new Center();
-        center.appendChild(gbxView);
-        borderlayout.appendChild(center);
-        center.setStyle("background-color: transparent");
-        
-		South south = new South();
-		south.appendChild(hbox);
-		borderlayout.appendChild(south);
-		south.setStyle("background-color: transparent");
-        
-        //register as 0
-        registerWindow(homeTab);
-        
-        // enable server push for this desktop
-        if (!hbox.getDesktop().isServerPushEnabled())
-        	hbox.getDesktop().enableServerPush(true);
-        
-        updateInfo();
-        
-        new Thread(new Runnable() {
-			public void run() {
-				try {
-					// get full control of desktop
-					Executions.activate(hbox.getDesktop());
-					try {
-						updateInfo();
-						Threads.sleep(500);// Update each 0.5 seconds
-					} catch (Error ex) {
-						throw ex;
-					} finally {
-						// release full control of desktop
-						Executions.deactivate(hbox.getDesktop());
-					}
-				} catch (Exception e) {
-					logger.log(Level.WARNING, "Failed to run NRW", e);
-				}
-			}
-		}).start();
+        return vbox;
 	}
 	
 	private Box createFavouritesPanel()
@@ -452,6 +452,13 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		windowContainer.setTabTitle(0, "Home (" + total + ")", 
 				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
+    
+    public void addWindow2TabPanel(Window window)
+    {
+    	Tabpanel tabPanel = new Tabpanel();
+    	window.setParent(tabPanel);
+    	windowContainer.addWindow(tabPanel, window.getTitle(), true); 
+    }
 	
     public void onEvent(Event event)
     {
