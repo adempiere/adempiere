@@ -411,11 +411,11 @@ public class MLookupFactory
 			if (KeyColumn.endsWith("_ID"))
 				realSQL.append("NULL,");
 			if (isValueDisplayed)
-				realSQL.append(TableName).append(".Value || '-' || ");
+				realSQL.append("NVL(").append(TableName).append(".Value,'-1') || '-' || ");
 			if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
-				realSQL.append(displayColumnSQL);
+				realSQL.append("NVL(").append(displayColumnSQL).append(",'-1')");
 			else
-				realSQL.append(TableName).append("_Trl.").append(DisplayColumn);
+				realSQL.append("NVL(").append(TableName).append("_Trl.").append(DisplayColumn).append(",'-1')");
 			realSQL.append(",").append(TableName).append(".IsActive");
 			realSQL.append(" FROM ").append(TableName)
 				.append(" INNER JOIN ").append(TableName).append("_TRL ON (")
@@ -431,11 +431,11 @@ public class MLookupFactory
 			if (KeyColumn.endsWith("_ID"))
 				realSQL.append("NULL,");
 			if (isValueDisplayed)
-				realSQL.append(TableName).append(".Value || '-' || ");
+				realSQL.append("NVL(").append(TableName).append(".Value,'-1') || '-' || ");
 			if (displayColumnSQL != null && displayColumnSQL.trim().length() > 0)
-				realSQL.append(displayColumnSQL);
+				realSQL.append("NVL(").append(displayColumnSQL).append(",'-1')");
 			else
-				realSQL.append(TableName).append(".").append(DisplayColumn);
+				realSQL.append("NVL(").append(TableName).append(".").append(DisplayColumn).append(",'-1')");
 			realSQL.append(",").append(TableName).append(".IsActive");
 			realSQL.append(" FROM ").append(TableName);
 		}
@@ -668,6 +668,8 @@ public class MLookupFactory
 				displayColumn.append(" ||'_'|| " );
 			LookupDisplayColumn ldc = (LookupDisplayColumn)list.get(i);
 
+			displayColumn.append("NVL(");
+
 			//  translated
 			if (ldc.IsTranslated && !Env.isBaseLanguage(language, TableName))
 				displayColumn.append(TableName).append("_Trl.").append(ldc.ColumnName);
@@ -699,6 +701,9 @@ public class MLookupFactory
 			//  String
 			else
 				displayColumn.append(TableName).append(".").append(ldc.ColumnName);
+			
+			displayColumn.append(",'-1')");
+			
 		}
 		realSQL.append(displayColumn.toString());
 		realSQL.append(",").append(TableName).append(".IsActive");
