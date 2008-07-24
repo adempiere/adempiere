@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="org/apache/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/Verisign.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/standard.jar"/>

@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="lib" path="/tools/lib/junit.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.0.0.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
