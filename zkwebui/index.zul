@@ -6,5 +6,6 @@ Copyright (C) 2007 Ashley G Ramdass.
 <zk>
 	<style src="css/default.css.dsp"/>
 	<script src="js/layout.js"/>
+	<script src="js/calc.js"/>
 	<window use="org.adempiere.webui.AdempiereWebUI"/>
 </zk>
