@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.editor;
 
+import java.math.BigDecimal;
+
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
@@ -66,7 +68,13 @@ public class WNumberEditor extends WEditor
     public void onEvent(Event event)
     {
         String newValue = getComponent().getValue();
-        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+        BigDecimal oldNumber = null;
+        if (oldValue != null && oldValue.trim().length() > 0)
+        	oldNumber = new BigDecimal(oldValue);
+        BigDecimal newNumber = null;
+        if (newValue != null && newValue.trim().length() > 0)
+        	newNumber = new BigDecimal(newValue);
+        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldNumber, newNumber);
         super.fireValueChange(changeEvent);
         oldValue = newValue;
     }

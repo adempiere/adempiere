@@ -531,11 +531,44 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		    return true;
 		}
 		
-		if (curTabpanel.isEditing())
+		if (curTab != null)
 		{
-		    FDialog.warn(curWindowNo, "Please save your changes before " +
-		            "switching tabs!!!", title);
-		    return false;
+			if (curTab.isSortTab())
+			{
+				if (curTabpanel instanceof ADSortTab) 
+				{
+					((ADSortTab)curTabpanel).saveData();
+					((ADSortTab)curTabpanel).unregisterPanel();
+				}
+			}
+			else if (curTab.needSave(true, false)) 
+		    {
+		    	if (curTab.needSave(true, true))
+				{
+					//	Automatic Save
+					if (Env.isAutoCommit(ctx, curWindowNo))
+					{
+						if (!curTab.dataSave(true))
+						{	
+							//  there is a problem, stop here
+							return false;
+						}
+					}
+					//  explicitly ask when changing tabs
+					else if (FDialog.ask(curWindowNo, this.getComponent(), "SaveChanges?", curTab.getCommitWarning()))
+					{   //  yes we want to save
+						if (!curTab.dataSave(true))
+						{   
+							//  there is a problem, stop here
+							return false;
+						}
+					}
+					else    //  Don't save
+						curTab.dataIgnore();
+				}
+				else    //  new record, but nothing changed
+					curTab.dataIgnore();
+			}   //  there is a change
 		}
 
 		if (!adTab.updateSelectedIndex(oldTabIndex, newTabIndex))
@@ -565,6 +598,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		
 		curTabIndex = newTabIndex;
 		curTabpanel = newTabpanel;
+		
+		if (curTabpanel instanceof ADSortTab) 
+		{
+			((ADSortTab)curTabpanel).registerAPanel(this);
+		}
 
 		updateToolbar();
 		
