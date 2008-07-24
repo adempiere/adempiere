@@ -15,18 +15,28 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import java.util.logging.*;
-import java.io.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.process.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
-import org.compiere.wf.*;
-import org.compiere.print.*;
-import org.compiere.util.TimeUtil.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MDocType;
+import org.compiere.model.MPeriod;
+import org.compiere.model.MRule;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.Scriptlet;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Order Model.
@@ -182,11 +192,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		org.compiere.model.MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), period.getDateAcct(), dt.getDocBaseType()))
-		{
-			m_processMsg = "@PeriodClosed@";
-			return DocAction.STATUS_Invalid;
-		}
+		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), dt.getDocBaseType()); // arhipac: teo_sarca
 		
 		//	New or in Progress/Invalid
 		if (DOCSTATUS_Drafted.equals(getDocStatus()) || DOCSTATUS_InProgress.equals(getDocStatus())
@@ -259,7 +265,10 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 
 				m_attribute = DB.getSQLValue(get_TrxName(),attSql);
 				if (m_attribute < 0 || concept.isRegistered())
+				{
+					log.info("Skip concept "+concept+" - attribute not found");
 					continue;
+				}
 				X_HR_Attribute att =  new X_HR_Attribute(Env.getCtx(),m_attribute,get_TrxName());
 			
 				if(!concept.getType().equals("E")) 					// Not Rule Engine - Only put HashTable
@@ -288,23 +297,30 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				}
 				else												// Rule Engine, Process and put HashTable
 				{
-					X_AD_Rule rulee     = new X_AD_Rule(Env.getCtx(),att.getAD_Rule_ID(),get_TrxName());
+					MRule rulee = MRule.get(getCtx(), att.getAD_Rule_ID());
 					Object result = null;
 					try
 					{
 						String text = "";
 						if(rulee.getScript() != null)
 							text = rulee.getScript().trim().replace("get", "org.eevolution.model.MHRProcess.get");
-						String execute     = (" import org.compiere.util.DB; import java.sql.*; double result = 0;"+ text);
+						String execute = 
+							 " import org.compiere.util.DB;"
+							+" import java.math.*;"
+							+" import java.sql.*;"
+							+" double result = 0;"
+							+ text;
 						Scriptlet m_script = new Scriptlet (Scriptlet.VARIABLE, ";", Env.getCtx(), 0);	
 						m_script.setScript(execute);
-						m_script.execute();
+						Exception ex = m_script.execute();
+						if (ex != null)
+							throw ex;
 						result = m_script.getResult(false);
 					} catch	(Exception e) {
-						m_processMsg = e.toString();
+						m_processMsg = e.toString() + ", @AD_Rule_ID@="+rulee.getValue();
 					    return DocAction.STATUS_Invalid;
 					}
-					if(result.toString() == null)
+					if(result == null)
 					{
 						System.err.println("Esta cosa esta NULL");
 						continue;
@@ -356,6 +372,10 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				{	
 					if (!m.save())
 					throw new IllegalStateException("Could not create HR Movement");	
+				}
+				else
+				{
+					log.fine("Skip saving "+m);
 				}
 			}			
 		} // employee
