@@ -250,13 +250,32 @@ public class FDialog
 		return;
     }
 
-	/**************************************************************************
+    /**************************************************************************
 	 *	Ask Question with question icon and (OK) (Cancel) buttons
 	 *
 	 *	@param	WindowNo	Number of Window
 	 *  @param  c           Container (owner)
 	 *	@param	AD_Message	Message to be translated
 	 *	@param	msg			Additional clear text message
+	 *
+	 *	@return true, if OK
+	 */    
+    public static boolean ask(int windowNo, Component comp, String adMessage, String msg)
+    {
+    	StringBuffer out = new StringBuffer();
+		if (adMessage != null && !adMessage.equals(""))
+			out.append(Msg.getMsg(Env.getCtx(), adMessage));
+		if (msg != null && msg.length() > 0)
+			out.append("\n").append(msg);
+		return ask(windowNo, comp, out.toString());
+    }
+    
+	/**************************************************************************
+	 *	Ask Question with question icon and (OK) (Cancel) buttons
+	 *
+	 *	@param	WindowNo	Number of Window
+	 *  @param  c           Container (owner)
+	 *	@param	AD_Message	Message to be translated
 	 *
 	 *	@return true, if OK
 	 */
