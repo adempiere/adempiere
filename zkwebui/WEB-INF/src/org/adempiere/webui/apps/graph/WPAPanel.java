@@ -1,5 +1,7 @@
 package org.adempiere.webui.apps.graph;
 
+import java.awt.Color;
+
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
@@ -50,30 +52,25 @@ public class WPAPanel extends Panel implements EventListener
 	 */
 	private void init()
 	{
-        Grid grid = new Grid();
-        appendChild(grid);
-        grid.setStyle("margin:0; padding:0; position: absolute");
-        grid.setSclass("grid-no-striped");
-        grid.setOddRowSclass("even");
-        
-        Rows rows = new Rows();
-        grid.appendChild(rows);
-        
-        Row row = new Row();
-        rows.appendChild(row);
-        row.setWidth("50%, 50%");
+		Grid grid = new Grid();
+		appendChild(grid);
+		grid.setWidth("100%");
+		grid.setStyle("margin:0; padding:0; position: absolute;");
+		grid.setSclass("grid-no-striped");
+		grid.setOddRowSclass("even");
+
+		Rows rows = new Rows();
+		grid.appendChild(rows);
+
 		for (int i = 0; i < m_goals.length; i++)
-		{			
+		{
+			Row row = new Row();
+			rows.appendChild(row);
+			row.setWidth("100%");
+			
 			WPerformanceIndicator pi = new WPerformanceIndicator(m_goals[i]);
 			row.appendChild(pi);
-			pi.addEventListener(Events.ON_CLICK, this);
-			
-			if( (i + 1) < m_goals.length && (i + 1) % 2 == 0 )
-			{
-		        row = new Row();
-		        rows.appendChild(row);
-		        row.setWidth("50%, 50%");
-			}
+			pi.addEventListener(Events.ON_CLICK, this);			
 		}	
 	}	//	init
 

@@ -47,6 +47,7 @@ public class WPerformanceIndicator extends Panel implements EventListener
 	public WPerformanceIndicator(MGoal goal)
 	{
 		super();
+		
 		m_goal = goal;
 //		setName(m_goal.getName());
         
@@ -161,11 +162,13 @@ public class WPerformanceIndicator extends Panel implements EventListener
         //plot.setDialBackgroundPaint(new GradientPaint(0, 0, m_goal.getColor(), 0, 1000, Color.black));
         plot.setNeedlePaint(Color.white);  
         plot.setTickSize(2000);
-        plot.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
+        plot.setTickLabelFont(new Font("SansSerif", Font.BOLD, 11));
+        plot.setValueFont(new Font("SansSerif", Font.BOLD, 11));
+        plot.setNoDataMessageFont(new Font("SansSerif", Font.BOLD, 11));
         plot.setTickLabelPaint(Color.white);
         plot.setInsets(new RectangleInsets(1.0, 2.0, 3.0, 4.0)); 
 
-        chart = new JFreeChart( m_text, new Font("SansSerif", Font.BOLD, 12), plot,false);
+        chart = new JFreeChart( m_text, new Font("SansSerif", Font.BOLD, 11), plot,false);
         
 		return chart;
 	}
@@ -177,8 +180,8 @@ public class WPerformanceIndicator extends Panel implements EventListener
 	private void init() 
 	{
 		JFreeChart chart = createChart();
-		
-		BufferedImage bi = chart.createBufferedImage(350, 250, BufferedImage.TRANSLUCENT , null);		
+				
+		BufferedImage bi = chart.createBufferedImage(200, 120, BufferedImage.TRANSLUCENT , null);		
 		try {
 		    byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
 		    

@@ -17,6 +17,7 @@
 
 package org.adempiere.webui;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,11 +59,13 @@ import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Box;
@@ -70,7 +73,10 @@ import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.Treerow;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -98,6 +104,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	private WindowContainer windowContainer;
 
 	private Button btnNotice, btnRequest, btnWorkflow;
+	
+	private int m_AD_Tree_ID;
+	
+	private Box bxFav;
 
     public Desktop()
     {
@@ -153,36 +163,80 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         windowContainer.addWindow(homeTab, "Home", false);
 
         Hbox hbox = new Hbox();
-        homeTab.appendChild(hbox);
-        hbox.setWidths("30%, 70%");
+        hbox.setStyle("margin: 5px");
+        hbox.setSpacing("5px");
+        hbox.setWidths("50%, 50%");
 
-        Vbox vbGroupBox = new Vbox();    
-        hbox.appendChild(vbGroupBox);
-        vbGroupBox.setWidth("100%");
-                        
+        Vbox vbCol1 = new Vbox();    
+        hbox.appendChild(vbCol1);
+        vbCol1.setWidth("100%");
+
         Groupbox gbxFav = new Groupbox();
-        vbGroupBox.appendChild(gbxFav);
-        gbxFav.appendChild(new Caption("Favourites"));
+        vbCol1.appendChild(gbxFav);
+        Caption caption = new Caption("Favourites");
+        // Elaine 2008/07/24
+        Image img = new Image("/images/Delete24.gif");
+        caption.appendChild(img);
+        img.setAlign("right");
+        img.setDroppable("deleteFav");
+        img.addEventListener(Events.ON_DROP, this);
+        //
+        gbxFav.appendChild(caption);
         gbxFav.appendChild(createFavouritesPanel());
         gbxFav.setMold("3d");
         gbxFav.setClosable(true);
+        // Elaine 2008/07/24
+        gbxFav.setDroppable("favourite"); 
+        gbxFav.addEventListener(Events.ON_DROP, this);
+        //
         
         Groupbox gbxView = new Groupbox();
-        vbGroupBox.appendChild(gbxView);
+        vbCol1.appendChild(gbxView);
         gbxView.appendChild(new Caption("Views"));
         gbxView.appendChild(createViewPanel());
         gbxView.setMold("3d");
         gbxView.setClosable(true);
-		
+
+        Vbox vbCol2 = new Vbox();    
+        hbox.appendChild(vbCol2);
+        vbCol2.setWidth("100%");
+        
+        Groupbox gbxCalendar = new Groupbox();
+        vbCol2.appendChild(gbxCalendar);
+        gbxCalendar.appendChild(new Caption("Calendar"));
+        Iframe iframe = new Iframe("http://www.google.com/calendar/embed?showTitle=0&showTabs=0&height=300&wkst=1&bgcolor=%23FFFFFF&color=%232952A3");
+        iframe.setStyle("border-width: 0;");
+        iframe.setScrolling("no");
+        iframe.setWidth("300px");
+        iframe.setHeight("300px");
+        gbxCalendar.appendChild(iframe);
+        gbxCalendar.setStyle("margin-left: 5px; margin-right: 5px; margin-top: 0px; margin-bottom: 0px;");
+        gbxCalendar.setMold("3d");
+        gbxCalendar.setClosable(true);
+        
         final Groupbox gbxAct = new Groupbox();
-        vbGroupBox.appendChild(gbxAct);
-        gbxAct.appendChild(new Caption("Activities"));
+        vbCol2.appendChild(gbxAct);
+        gbxAct.appendChild(new Caption("Activities"));            
         gbxAct.appendChild(createActivitiesPanel());
+        gbxAct.setStyle("margin-left: 5px; margin-right: 5px; margin-top: 0px; margin-bottom: 0px;");
         gbxAct.setMold("3d");
         gbxAct.setClosable(true);
         
-        WPAPanel panel = WPAPanel.get();
-        hbox.appendChild(panel);
+        Borderlayout borderlayout = new Borderlayout();
+        homeTab.appendChild(borderlayout);
+        borderlayout.setWidth("100%");
+        borderlayout.setHeight("100%");
+        borderlayout.setStyle("position: absolute");
+        
+        East east = new East();
+        borderlayout.appendChild(east);
+        east.appendChild(WPAPanel.get());
+        east.setWidth("205px");
+        
+        Center center = new Center();
+        borderlayout.appendChild(center);
+        center.appendChild(hbox);
+        center.setFlex(true);
         
         //register as 0
         registerWindow(homeTab);
@@ -249,10 +303,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         
         return vbox;
 	}
-	
+
 	private Box createFavouritesPanel()
 	{
-		Vbox vbox = new Vbox();
+		bxFav = new Vbox();
 		
 		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
 		int AD_Tree_ID = DB.getSQLValue(null,
@@ -262,6 +316,8 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 			+ "WHERE AD_Role_ID=?", AD_Role_ID);
 		if (AD_Tree_ID <= 0)
 			AD_Tree_ID = 10;	//	Menu
+		
+		m_AD_Tree_ID = AD_Tree_ID;
 		
 		MTree vTree = new MTree(Env.getCtx(), AD_Tree_ID, false, true, null);
 		MTreeNode m_root = vTree.getRoot();
@@ -277,13 +333,15 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 					String label = nd.toString().trim();
 					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
 					btnFavItem.setLabel(label);
+					btnFavItem.setDraggable("deleteFav");
 					btnFavItem.addEventListener(Events.ON_CLICK, this);
-					vbox.appendChild(btnFavItem);
+					btnFavItem.addEventListener(Events.ON_DROP, this);
+					bxFav.appendChild(btnFavItem);
 				}
 			}
 		}
 		
-		return vbox;
+		return bxFav;
 	}
 	
 	private Box createViewPanel()
@@ -506,8 +564,6 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
             		}
             		else if (actionCommand.equals("InfoSchedule") && AEnv.canAccessInfo("SCHEDULE"))
             		{
-            			// TODO: Schedule Info Panel
-//            			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
             			new InfoSchedule(null, false);
             		}
             		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
@@ -552,6 +608,86 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
             	if(menuId > 0) onMenuSelected(menuId);
             }
         }
+        // Elaine 2008/07/24
+        else if(eventName.equals(Events.ON_DROP))
+        {
+        	DropEvent de = (DropEvent) event;
+    		Component dragged = de.getDragged();
+        	
+        	if(comp instanceof Groupbox)
+        	{
+        		if(dragged instanceof Treerow)
+        		{
+        			Treerow treerow = (Treerow) dragged;
+        			Treeitem treeitem = treerow.getTreeitem();
+        			
+        			Object value = treeitem.getValue();
+        			if(value != null)
+        			{
+        				int Node_ID = Integer.valueOf(value.toString());
+        				if(barDBupdate(true, Node_ID))
+        				{
+        					String label = treeitem.getLabel().trim();
+        					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
+        					btnFavItem.setLabel(label);
+        					btnFavItem.setDraggable("deleteFav");
+        					btnFavItem.addEventListener(Events.ON_CLICK, this);
+        					btnFavItem.addEventListener(Events.ON_DROP, this);
+        					bxFav.appendChild(btnFavItem);
+        					bxFav.invalidate();
+        				}
+        			}
+        		}
+        	}
+        	else if(comp instanceof Image)
+        	{
+        		if(dragged instanceof ToolBarButton)
+        		{
+        			ToolBarButton btn = (ToolBarButton) dragged;
+        			String value = btn.getName();
+        			
+        			if(value != null)
+        			{
+        				int Node_ID = Integer.valueOf(value.toString());
+        				if(barDBupdate(false, Node_ID))
+        				{
+        					bxFav.removeChild(btn);
+        					bxFav.invalidate();
+        				}
+        			}
+        		}
+        	}
+        }
+        //
+	}
+    
+    /**
+	 *	Make Bar add/remove persistent
+	 *  @param add true if add - otherwise remove
+	 *  @param Node_ID Node ID
+	 *  @return true if updated
+	 */
+    private boolean barDBupdate(boolean add, int Node_ID)
+	{
+		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		int AD_Org_ID = Env.getContextAsInt(Env.getCtx(), "#AD_Org_ID");
+		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+		StringBuffer sql = new StringBuffer();
+		if (add)
+			sql.append("INSERT INTO AD_TreeBar "
+				+ "(AD_Tree_ID,AD_User_ID,Node_ID, "
+				+ "AD_Client_ID,AD_Org_ID, "
+				+ "IsActive,Created,CreatedBy,Updated,UpdatedBy)VALUES (")
+				.append(m_AD_Tree_ID).append(",").append(AD_User_ID).append(",").append(Node_ID).append(",")
+				.append(AD_Client_ID).append(",").append(AD_Org_ID).append(",")
+				.append("'Y',SysDate,").append(AD_User_ID).append(",SysDate,").append(AD_User_ID).append(")");
+			//	if already exist, will result in ORA-00001: unique constraint (ADEMPIERE.AD_TREEBAR_KEY)
+		else
+			sql.append("DELETE AD_TreeBar WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
+				.append(" AND AD_User_ID=").append(AD_User_ID)
+				.append(" AND Node_ID=").append(Node_ID);
+		int no = DB.executeUpdate(sql.toString(), false, null);
+		return no == 1;
 	}
     
     /**

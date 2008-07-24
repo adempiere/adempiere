@@ -69,7 +69,7 @@ public class MenuPanel extends Panel implements EventListener
         {
             throw new ApplicationException("Could not load menu tree");
         }
-
+        
         MTreeNode rootNode = mTree.getRoot();
         init();
         initMenu(rootNode);
@@ -173,6 +173,7 @@ public class MenuPanel extends Panel implements EventListener
                 else
                 	treeitem.setImage("/images/mWindow.gif");
                 
+                treeitem.getTreerow().setDraggable("favourite"); // Elaine 2008/07/24
                 pnlSearch.addTreeItem(treeitem);
             }
         }
