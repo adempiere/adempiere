@@ -15,7 +15,7 @@
         <webClassPathEntry>/JasperReportsTools/lib/commons-digester-1.7.jar</webClassPathEntry>
         <webClassPathEntry>/JasperReportsTools/lib/iReport.jar</webClassPathEntry>
         <webClassPathEntry>/JasperReportsTools/lib/jasperreports-1.3.0.jar</webClassPathEntry>
-        <webClassPathEntry>/JasperReportsTools/lib/jfreechart-0.9.21.jar</webClassPathEntry>
+        <webClassPathEntry>/JasperReportsTools/lib/jfreechart-1.0.2.jar</webClassPathEntry>
         <webClassPathEntry>/base/build</webClassPathEntry>
         <webClassPathEntry>/client/build</webClassPathEntry>
         <webClassPathEntry>/jboss/client/jbossall-client.jar</webClassPathEntry>
@@ -63,7 +63,6 @@
         <webClassPathEntry>/zkwebui/WEB-INF/lib/zkmax.jar</webClassPathEntry>
         <webClassPathEntry>/zkwebui/WEB-INF/lib/zkplus.jar</webClassPathEntry>
         <webClassPathEntry>/zkwebui/WEB-INF/lib/zul.jar</webClassPathEntry>
-        <webClassPathEntry>C:/Users/Low Heng Sin/Applications/eclipse/plugins/org.junit_3.8.2.v200706111738/junit.jar</webClassPathEntry>
         <webClassPathEntry>org.eclipse.jdt.junit.JUNIT_CONTAINER/3</webClassPathEntry>
         <webClassPathEntry>org.eclipse.jst.j2ee.internal.module.container</webClassPathEntry>
         <webClassPathEntry>org.eclipse.jst.j2ee.internal.web.container</webClassPathEntry>
