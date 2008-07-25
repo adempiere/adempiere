@@ -86,27 +86,25 @@ public class ExportFormatGenerator extends SvrProcess
 		{
 			MTable table = null;
 			String format = null;
-			
-			if(p_IsInsertRecord)
-			{	
-				if(tab.isInsertRecord())
-				{	
-				table = new MTable(getCtx(), tab.getAD_Table_ID(), get_TrxName());				
-			    format = createFormat(table);
-
-				}
-			}
-			else
+			if(tab.isActive())
 			{
-				table = new MTable(getCtx(), tab.getAD_Table_ID(), get_TrxName());
-				format = createFormat(table);
-
-			}
-			
-			if (tab.getTabLevel() > m_level)
-			{	
-				m_parent_table = table.getTableName();
-				m_format_value = format; 
+				if(p_IsInsertRecord&tab.isInsertRecord())
+				{	
+					table = new MTable(getCtx(), tab.getAD_Table_ID(), get_TrxName());				
+				    format = createFormat(table);
+				}
+				else if(!p_IsInsertRecord)
+				{
+					table = new MTable(getCtx(), tab.getAD_Table_ID(), get_TrxName());
+					format = createFormat(table);
+				}else
+					continue;
+				
+				if (tab.getTabLevel() > m_level)
+				{	
+					m_parent_table = table.getTableName();
+					m_format_value = format; 
+				}
 			}
 		}
 		return "ok";
@@ -161,25 +159,20 @@ public class ExportFormatGenerator extends SvrProcess
 			if(p_IsMandatory)
 			{	
 				if(col.isMandatory())
-				createFormatLine(format, table, col, position);
+				createFormatLine(format, table, col, position,false);
 			}	
 			else
-				createFormatLine(format, table, col, position);
+				createFormatLine(format, table, col, position,false);
 			
 			position++;
 		}
 		return format.getValue(); 
 	}
 	
-	private int createFormatLine(MEXPFormat format, MTable table, MColumn col, int position) throws Exception 
+	private int createFormatLine(MEXPFormat format, MTable table, MColumn col, int position,boolean force) throws Exception 
 	{	
-			    //validate redount tables
-				//String column = table.getTableName()+"_ID";
-				//if(column.equals(col.getColumnName()) & !col.isIdentifier())
-				//	return 0;
 				
 				MEXPFormatLine format_line =null;
-				//String formatlinevalue= table.getTableName()+"_"+col.getColumnName();
 				String formatlinevalue= col.getColumnName();
 				format_line  = MEXPFormatLine.getFormatLineByValue(getCtx(),formatlinevalue ,format.getEXP_Format_ID(),get_TrxName());
 				if(format_line==null)
@@ -192,16 +185,70 @@ public class ExportFormatGenerator extends SvrProcess
 				format_line.setHelp(col.getHelp());
 				format_line.setPosition(position);
 				format_line.setIsMandatory(col.isMandatory());
-				if(col.isIdentifier())
+				if(force||col.isIdentifier())
 				{
-				format_line.setIsPartUniqueIndex(true);	
-				format_line.setIsActive(true);
+					format_line.setIsPartUniqueIndex(true);	
+					format_line.setIsActive(true);
 				}
 				else
-				format_line.setIsActive(false);
+					format_line.setIsActive(false);
 				MTable tabledir = null;
+
+				if(col.getColumnName().equals(m_parent_table+"_ID")&(col.getAD_Reference_ID()==DisplayType.Search|col.getAD_Reference_ID()==DisplayType.TableDir))
+				{
+					MEXPFormat referenceFormat = null;
+					referenceFormat = MEXPFormat.getFormatByValueAD_Client_IDAndVersion(getCtx(), m_parent_table+"_Key", getAD_Client_ID(), "1", get_TrxName());
+					if(referenceFormat == null)
+						referenceFormat = new MEXPFormat(getCtx(), 0 , get_TrxName());
+					referenceFormat.setValue(m_parent_table+"_Key");
+					referenceFormat.setName(m_parent_table+"_Key");
+					referenceFormat.setAD_Table_ID(table.getAD_Table_ID());
+					referenceFormat.setDescription(table.getDescription());
+					referenceFormat.setHelp(table.getHelp());
+					referenceFormat.setVersion("1");
+					referenceFormat.save();
+					
+					int AD_Column_ID=DB.getSQLValue(get_TrxName(), "SELECT AD_Column_ID FROM AD_Column WHERE AD_Table_ID=(SELECT AD_Table_ID FROM AD_Table WHERE TableName=?) AND UPPER(ColumnName)='DocumentNo'",m_parent_table);
+					if(AD_Column_ID>0)
+					{
+						//used if the export format is a document like invoice, etc.
+						createFormatLine(referenceFormat, table, new MColumn(getCtx(),AD_Column_ID,get_TrxName()), 10,true);					
+						AD_Column_ID=0;
+						AD_Column_ID=DB.getSQLValue(get_TrxName(), "SELECT AD_Column_ID FROM AD_Column WHERE AD_Table_ID=(SELECT AD_Table_ID FROM AD_Table WHERE TableName=?) AND UPPER(ColumnName)='C_DocType_ID'",m_parent_table);
+						if(AD_Column_ID>0)
+							createFormatLine(referenceFormat, table, new MColumn(getCtx(),AD_Column_ID,get_TrxName()), 20,true);
+						
+						format_line.setValue(m_parent_table+"_DocumentNo_C_DocType_Key");
+						format_line.setName("Key DocumentNo_C_DocType");
+						format_line.setAD_Column_ID(col.getAD_Column_ID());
+						format_line.setType(MEXPFormatLine.TYPE_ReferencedEXPFormat);
+						format_line.setEXP_EmbeddedFormat_ID(referenceFormat.getEXP_Format_ID());
+						format_line.save();
+						return format_line.getEXP_FormatLine_ID();
+					}else
+					{
+						AD_Column_ID=DB.getSQLValue(get_TrxName(), "SELECT AD_Column_ID FROM AD_Column WHERE AD_Table_ID=(SELECT AD_Table_ID FROM AD_Table WHERE TableName=?) AND UPPER(ColumnName)='NAME'",m_parent_table);
+						if(AD_Column_ID>0)
+							createFormatLine(referenceFormat, table, new MColumn(getCtx(),AD_Column_ID,get_TrxName()), 10,true);
+						else
+						{
+							AD_Column_ID=DB.getSQLValue(get_TrxName(), "SELECT AD_Column_ID FROM AD_Column WHERE AD_Table_ID=(SELECT AD_Table_ID FROM AD_Table WHERE TableName=?) AND UPPER(ColumnName)='VALUE'",m_parent_table);
+							if(AD_Column_ID>0)
+								createFormatLine(referenceFormat, table, new MColumn(getCtx(),AD_Column_ID,get_TrxName()), 10,true);
+							else
+								throw new Exception("Table without name or value column");
+						}
+						format_line.setValue(m_parent_table+"_Key");
+						format_line.setName("Key "+ col.getColumnName());
+						format_line.setAD_Column_ID(col.getAD_Column_ID());
+						format_line.setType(MEXPFormatLine.TYPE_ReferencedEXPFormat);
+						format_line.setEXP_EmbeddedFormat_ID(referenceFormat.getEXP_Format_ID());
+						format_line.save();
+						return format_line.getEXP_FormatLine_ID();
+					}
+				}
 				
-				if(col.getAD_Reference_ID()==DisplayType.Table)
+				if((col.getAD_Reference_ID()==DisplayType.Table||col.getAD_Reference_ID()==DisplayType.Search)&col.getAD_Reference_Value_ID()>0)
 				{
 					int AD_Table_ID = DB.getSQLValue(get_TrxName(), "SELECT rt.AD_Table_ID FROM AD_Reference r INNER JOIN AD_Ref_Table rt ON (r.AD_Reference_ID=rt.AD_Reference_ID)  WHERE r.AD_Reference_ID=?", col.getAD_Reference_Value_ID());
 					if (AD_Table_ID > 0)
@@ -220,14 +267,18 @@ public class ExportFormatGenerator extends SvrProcess
 					
 				}
 				
-				if((col.getColumnName().endsWith("_ID") & col.isKey()== false) || (col.getColumnName().endsWith("_ID") & col.isParent() == true))
+				if((col.getAD_Reference_ID()==DisplayType.TableDir & col.isKey()== false) || (col.getAD_Reference_ID()==DisplayType.TableDir & col.isParent() == true))
 				{
 
 					String tableName = col.getColumnName().substring(0, col.getColumnName().lastIndexOf("_ID"));
 					log.info("Table Name:"+tableName);
 				
-			
+					if(tableName==null)
+						log.info("Table Name: null");
+					
 					tabledir = MTable.get(getCtx(), tableName);	
+					if(tabledir==null)
+						throw new Exception ("Ilegal Table Name");
 					
 					format_line.setValue(tabledir.getTableName()+"_Reference");
 					format_line.setName("Referenced "+ tabledir.getTableName());
