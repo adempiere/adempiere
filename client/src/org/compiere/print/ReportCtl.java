@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
@@ -104,6 +105,10 @@ public class ReportCtl
 		 */
 		if (pi.getAD_Process_ID() == 110)			//	C_Order
 			return startDocumentPrint(ReportEngine.ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
+		if (pi.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt PP_Order", null))			//	C_Order
+			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
+		if (pi.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt DD_Order", null))			//	C_Order
+			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 116)		//	C_Invoice
 			return startDocumentPrint(ReportEngine.INVOICE, pi.getRecord_ID(), parent, WindowNo, !pi.isPrintPreview());
 		else if (pi.getAD_Process_ID() == 117)		//	M_InOut

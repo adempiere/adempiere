@@ -1110,3 +1110,659 @@ UPDATE AD_Column SET FieldLength=22,Updated=TO_DATE('2008-07-24 22:19:35','YYYY-
 UPDATE AD_Column SET FieldLength=22,Updated=TO_DATE('2008-07-24 22:20:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=56190
 ;
 
+-- Jul 25, 2008 12:41:32 AM CDT
+-- Order Distribution
+UPDATE AD_Process SET AD_PrintFormat_ID=NULL,Updated=TO_DATE('2008-07-25 00:41:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_ID=53028
+;
+
+-- Jul 25, 2008 12:42:06 AM CDT
+-- Order Distribution
+UPDATE AD_Process SET AD_PrintFormat_ID=NULL,Updated=TO_DATE('2008-07-25 00:42:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_ID=53044
+;
+
+-- Jul 25, 2008 1:09:20 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53670,0,'ManufacturingOrder_MailText_ID',TO_DATE('2008-07-25 01:09:09','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order','EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Manufacturing Order Mail Text','Manufacturing Order Text',TO_DATE('2008-07-25 01:09:09','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:09:21 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=53670 AND EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Element_ID!=t.AD_Element_ID)
+;
+
+-- Jul 25, 2008 1:11:42 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53671,0,'ManufacturingOrder_PrintFormat_ID',TO_DATE('2008-07-25 01:11:38','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order','EE01','You need to define a Print Format to print the document.','Y','Manufacturing Order Print Format','Manufacturing Order Print Format',TO_DATE('2008-07-25 01:11:38','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:11:42 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=53671 AND EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Element_ID!=t.AD_Element_ID)
+;
+
+-- Jul 25, 2008 1:12:15 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53672,0,'DistributionOrder_PrintFormat_ID',TO_DATE('2008-07-25 01:12:13','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order','EE01','You need to define a Print Format to print the document.','Y','Distribution Order Print Format','Distribution Order Print Format',TO_DATE('2008-07-25 01:12:13','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:12:15 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=53672 AND EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Element_ID!=t.AD_Element_ID)
+;
+
+-- Jul 25, 2008 1:12:52 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53673,0,'DistributionOrder_MailText_ID',TO_DATE('2008-07-25 01:12:52','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order','EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Distribution Order Mail Text','Distribution Order Text',TO_DATE('2008-07-25 01:12:52','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:12:52 AM CDT
+-- Order Distribution
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=53673 AND EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Element_ID!=t.AD_Element_ID)
+;
+
+-- Jul 25, 2008 1:18:14 AM CDT
+-- Order Distribution
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53281,TO_DATE('2008-07-25 01:18:14','YYYY-MM-DD HH24:MI:SS'),0,'EE01','Y','N','AD_PrintFormat Order Manufacturing',TO_DATE('2008-07-25 01:18:14','YYYY-MM-DD HH24:MI:SS'),0,'T')
+;
+
+-- Jul 25, 2008 1:18:14 AM CDT
+-- Order Distribution
+INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Reference_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Reference t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Reference_ID=53281 AND EXISTS (SELECT * FROM AD_Reference_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Reference_ID!=t.AD_Reference_ID)
+;
+
+-- Jul 25, 2008 1:26:47 AM CDT
+-- Order Distribution
+INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsValueDisplayed,Updated,UpdatedBy,WhereClause) VALUES (0,7019,7026,0,53281,493,TO_DATE('2008-07-25 01:26:45','YYYY-MM-DD HH24:MI:SS'),0,'EE01','Y','N',TO_DATE('2008-07-25 01:26:45','YYYY-MM-DD HH24:MI:SS'),0,'AD_PrintFormat.AD_Table_ID=53027')
+;
+
+-- Jul 25, 2008 1:29:25 AM CDT
+-- Order Distribution
+UPDATE AD_Reference SET Name='AD_PrintFormat Manufacturing Order',Updated=TO_DATE('2008-07-25 01:29:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=53281
+;
+
+-- Jul 25, 2008 1:29:25 AM CDT
+-- Order Distribution
+UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=53281
+;
+
+-- Jul 25, 2008 1:29:45 AM CDT
+-- Order Distribution
+INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53282,TO_DATE('2008-07-25 01:29:44','YYYY-MM-DD HH24:MI:SS'),0,'EE01','Y','N','AD_PrintFormat Distribution Order',TO_DATE('2008-07-25 01:29:44','YYYY-MM-DD HH24:MI:SS'),0,'T')
+;
+
+-- Jul 25, 2008 1:29:45 AM CDT
+-- Order Distribution
+INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Reference_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Reference t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Reference_ID=53282 AND EXISTS (SELECT * FROM AD_Reference_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Reference_ID!=t.AD_Reference_ID)
+;
+
+-- Jul 25, 2008 1:32:17 AM CDT
+-- Order Distribution
+INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsValueDisplayed,Updated,UpdatedBy,WhereClause) VALUES (0,7019,7026,0,53282,493,TO_DATE('2008-07-25 01:32:17','YYYY-MM-DD HH24:MI:SS'),0,'EE01','Y','N',TO_DATE('2008-07-25 01:32:17','YYYY-MM-DD HH24:MI:SS'),0,'AD_PrintFormat.AD_Table_ID=53037')
+;
+
+-- Jul 25, 2008 1:33:47 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56242,53670,0,18,274,454,'ManufacturingOrder_MailText_ID',TO_DATE('2008-07-25 01:33:46','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order','EE01',22,'Standard email template used to send Manufacturing Order as attachments.','Y','N','N','N','N','N','N','N','N','N','Y','Manufacturing Order Mail Text',0,TO_DATE('2008-07-25 01:33:46','YYYY-MM-DD HH24:MI:SS'),0,1)
+;
+
+-- Jul 25, 2008 1:33:47 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=56242 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
+;
+
+-- Jul 25, 2008 1:33:53 AM CDT
+-- Order Distribution
+ALTER TABLE AD_PrintForm ADD ManufacturingOrder_MailText_ID NUMBER(10)
+;
+
+-- Jul 25, 2008 1:34:57 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56243,53671,0,18,53281,454,'ManufacturingOrder_PrintFormat_ID',TO_DATE('2008-07-25 01:34:56','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order','EE01',22,'You need to define a Print Format to print the document.','Y','N','N','N','N','N','N','N','N','N','Y','Manufacturing Order Print Format',0,TO_DATE('2008-07-25 01:34:56','YYYY-MM-DD HH24:MI:SS'),0,1)
+;
+
+-- Jul 25, 2008 1:34:57 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=56243 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
+;
+
+-- Jul 25, 2008 1:35:02 AM CDT
+-- Order Distribution
+ALTER TABLE AD_PrintForm ADD ManufacturingOrder_PrintFormat_ID NUMBER(10)
+;
+
+-- Jul 25, 2008 1:35:47 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56244,53673,0,18,274,454,'DistributionOrder_MailText_ID',TO_DATE('2008-07-25 01:35:47','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order','EE01',22,'Standard email template used to send Manufacturing Order as attachments.','Y','N','N','N','N','N','N','N','N','N','Y','Distribution Order Mail Text',0,TO_DATE('2008-07-25 01:35:47','YYYY-MM-DD HH24:MI:SS'),0,1)
+;
+
+-- Jul 25, 2008 1:35:47 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=56244 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
+;
+
+-- Jul 25, 2008 1:35:51 AM CDT
+-- Order Distribution
+ALTER TABLE AD_PrintForm ADD DistributionOrder_MailText_ID NUMBER(10)
+;
+
+-- Jul 25, 2008 1:36:23 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56245,53672,0,18,53282,454,'DistributionOrder_PrintFormat_ID',TO_DATE('2008-07-25 01:36:22','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order','EE01',22,'You need to define a Print Format to print the document.','Y','N','N','N','N','N','N','N','N','N','Y','Distribution Order Print Format',0,TO_DATE('2008-07-25 01:36:22','YYYY-MM-DD HH24:MI:SS'),0,1)
+;
+
+-- Jul 25, 2008 1:36:23 AM CDT
+-- Order Distribution
+INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=56245 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
+;
+
+-- Jul 25, 2008 1:36:25 AM CDT
+-- Order Distribution
+ALTER TABLE AD_PrintForm ADD DistributionOrder_PrintFormat_ID NUMBER(10)
+;
+
+-- Jul 25, 2008 1:36:42 AM CDT
+-- Order Distribution
+ALTER TABLE AD_PrintForm MODIFY DistributionOrder_MailText_ID NUMBER(10) DEFAULT  NULL 
+;
+
+-- Jul 25, 2008 1:38:11 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56244,56319,0,385,TO_DATE('2008-07-25 01:38:10','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order',22,'EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Y','Y','N','N','N','N','N','Distribution Order Mail Text',TO_DATE('2008-07-25 01:38:10','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:38:11 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=56319 AND EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Field_ID!=t.AD_Field_ID)
+;
+
+-- Jul 25, 2008 1:38:12 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56245,56320,0,385,TO_DATE('2008-07-25 01:38:12','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order',22,'EE01','You need to define a Print Format to print the document.','Y','Y','Y','N','N','N','N','N','Distribution Order Print Format',TO_DATE('2008-07-25 01:38:12','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:38:12 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=56320 AND EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Field_ID!=t.AD_Field_ID)
+;
+
+-- Jul 25, 2008 1:38:13 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56242,56321,0,385,TO_DATE('2008-07-25 01:38:12','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order',22,'EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Y','Y','N','N','N','N','N','Manufacturing Order Mail Text',TO_DATE('2008-07-25 01:38:12','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:38:13 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=56321 AND EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Field_ID!=t.AD_Field_ID)
+;
+
+-- Jul 25, 2008 1:38:13 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56243,56322,0,385,TO_DATE('2008-07-25 01:38:13','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order',22,'EE01','You need to define a Print Format to print the document.','Y','Y','Y','N','N','N','N','N','Manufacturing Order Print Format',TO_DATE('2008-07-25 01:38:13','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 25, 2008 1:38:13 AM CDT
+-- Order Distribution
+INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=56322 AND EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Field_ID!=t.AD_Field_ID)
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=0,IsDisplayed='N' WHERE AD_Field_ID=4918
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=10,IsDisplayed='Y' WHERE AD_Field_ID=4919
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=20,IsDisplayed='Y' WHERE AD_Field_ID=4920
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=30,IsDisplayed='Y' WHERE AD_Field_ID=4922
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=40,IsDisplayed='Y' WHERE AD_Field_ID=4923
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=50,IsDisplayed='Y' WHERE AD_Field_ID=4921
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=60,IsDisplayed='Y' WHERE AD_Field_ID=5740
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=70,IsDisplayed='Y' WHERE AD_Field_ID=6222
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=80,IsDisplayed='Y' WHERE AD_Field_ID=5739
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=90,IsDisplayed='Y' WHERE AD_Field_ID=6224
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=100,IsDisplayed='Y' WHERE AD_Field_ID=5741
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=110,IsDisplayed='Y' WHERE AD_Field_ID=6223
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=120,IsDisplayed='Y' WHERE AD_Field_ID=5742
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=130,IsDisplayed='Y' WHERE AD_Field_ID=6225
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=140,IsDisplayed='Y' WHERE AD_Field_ID=6510
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=150,IsDisplayed='Y' WHERE AD_Field_ID=6509
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=160,IsDisplayed='Y' WHERE AD_Field_ID=56320
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=170,IsDisplayed='Y' WHERE AD_Field_ID=56319
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=180,IsDisplayed='Y' WHERE AD_Field_ID=56322
+;
+
+-- Jul 25, 2008 1:38:33 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET SeqNo=190,IsDisplayed='Y' WHERE AD_Field_ID=56321
+;
+
+-- Jul 25, 2008 1:38:43 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2008-07-25 01:38:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=56319
+;
+
+-- Jul 25, 2008 1:38:47 AM CDT
+-- Order Distribution
+UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2008-07-25 01:38:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=56321
+;
+
+-- Jul 25, 2008 1:59:58 AM CDT
+-- Order Distribution
+UPDATE AD_Ref_Table SET WhereClause='AD_PrintFormat.AD_Table_ID=53039',Updated=TO_DATE('2008-07-25 01:59:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=53282
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=100,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50360
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=110,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50369
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=120,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50370
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=130,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50371
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=140,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50358
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=150,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50372
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=160,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50359
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=170,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50378
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=180,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50373
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=190,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50374
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=200,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50375
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=210,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50376
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=220,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50377
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=230,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50379
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=240,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50380
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=250,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50381
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=260,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50357
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=270,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50383
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=280,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50384
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=290,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50385
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=300,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50386
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=310,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50387
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=320,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50388
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=330,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50389
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=340,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50390
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=350,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50391
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=360,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50392
+;
+
+-- Jul 25, 2008 2:16:49 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET SeqNo=370,IsPrinted='Y' WHERE AD_PrintFormatItem_ID=50393
+;
+
+-- Jul 25, 2008 2:17:02 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53926, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50361
+;
+
+-- Jul 25, 2008 2:17:09 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53940, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50362
+;
+
+-- Jul 25, 2008 2:17:15 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53929, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50363
+;
+
+-- Jul 25, 2008 2:17:27 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53928, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50364
+;
+
+-- Jul 25, 2008 2:17:35 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53951, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50382
+;
+
+-- Jul 25, 2008 2:17:47 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53950, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50365
+;
+
+-- Jul 25, 2008 2:17:57 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53949, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:17:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50366
+;
+
+-- Jul 25, 2008 2:18:05 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53948, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:05','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50367
+;
+
+-- Jul 25, 2008 2:18:10 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53947, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50368
+;
+
+-- Jul 25, 2008 2:18:16 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53943, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50360
+;
+
+-- Jul 25, 2008 2:18:22 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53965, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50369
+;
+
+-- Jul 25, 2008 2:18:28 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53966, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:28','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50370
+;
+
+-- Jul 25, 2008 2:18:33 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53931, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50371
+;
+
+-- Jul 25, 2008 2:18:37 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53961, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50358
+;
+
+-- Jul 25, 2008 2:18:51 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53927, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50372
+;
+
+-- Jul 25, 2008 2:18:56 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53937, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:18:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50359
+;
+
+-- Jul 25, 2008 2:19:01 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53930, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50378
+;
+
+-- Jul 25, 2008 2:19:06 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53938, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50373
+;
+
+-- Jul 25, 2008 2:19:11 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53939, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50374
+;
+
+-- Jul 25, 2008 2:19:21 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53953, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50375
+;
+
+-- Jul 25, 2008 2:19:26 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53941, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50376
+;
+
+-- Jul 25, 2008 2:19:37 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53944, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:37','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50377
+;
+
+-- Jul 25, 2008 2:19:41 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53942, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50379
+;
+
+-- Jul 25, 2008 2:19:47 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53945, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:19:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50380
+;
+
+-- Jul 25, 2008 2:20:17 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53946, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:20:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50381
+;
+
+-- Jul 25, 2008 2:20:23 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53964, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:20:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50357
+;
+
+-- Jul 25, 2008 2:20:35 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53952, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:20:35','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50383
+;
+
+-- Jul 25, 2008 2:20:40 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53932, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:20:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50384
+;
+
+-- Jul 25, 2008 2:20:48 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53927, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:20:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50385
+;
+
+-- Jul 25, 2008 2:21:03 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53928, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50386
+;
+
+-- Jul 25, 2008 2:21:14 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53955, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50387
+;
+
+-- Jul 25, 2008 2:21:19 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53956, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50388
+;
+
+-- Jul 25, 2008 2:21:26 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53957, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:26','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50389
+;
+
+-- Jul 25, 2008 2:21:32 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53963, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50390
+;
+
+-- Jul 25, 2008 2:21:43 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53933, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:43','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50391
+;
+
+-- Jul 25, 2008 2:21:50 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53960, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50392
+;
+
+-- Jul 25, 2008 2:21:56 AM CDT
+-- Order Distribution
+UPDATE AD_PrintFormatItem SET AD_Column_ID=53962, IsGroupBy='N', IsPageBreak='N', SortNo=0, XPosition=0, YPosition=0,Updated=TO_DATE('2008-07-25 02:21:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_PrintFormatItem_ID=50393
+;
+
+-- Jul 25, 2008 2:23:13 AM CDT
+-- Order Distribution
+DELETE  FROM  AD_PrintFormatItem_Trl WHERE AD_PrintFormatItem_ID=50372
+;
+
+-- Jul 25, 2008 2:23:14 AM CDT
+-- Order Distribution
+DELETE FROM AD_PrintFormatItem WHERE AD_PrintFormatItem_ID=50372
+;
+
+-- Jul 25, 2008 2:23:28 AM CDT
+-- Order Distribution
+DELETE  FROM  AD_PrintFormatItem_Trl WHERE AD_PrintFormatItem_ID=50386
+;
+
+-- Jul 25, 2008 2:23:28 AM CDT
+-- Order Distribution
+DELETE FROM AD_PrintFormatItem WHERE AD_PrintFormatItem_ID=50386
+;
+
+

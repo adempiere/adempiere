@@ -82,6 +82,32 @@ public interface I_AD_PrintForm
 	  */
 	public String getDescription();
 
+    /** Column name DistributionOrder_MailText_ID */
+    public static final String COLUMNNAME_DistributionOrder_MailText_ID = "DistributionOrder_MailText_ID";
+
+	/** Set Distribution Order Mail Text.
+	  * Email text used for sending Distribution Order
+	  */
+	public void setDistributionOrder_MailText_ID (int DistributionOrder_MailText_ID);
+
+	/** Get Distribution Order Mail Text.
+	  * Email text used for sending Distribution Order
+	  */
+	public int getDistributionOrder_MailText_ID();
+
+    /** Column name DistributionOrder_PrintFormat_ID */
+    public static final String COLUMNNAME_DistributionOrder_PrintFormat_ID = "DistributionOrder_PrintFormat_ID";
+
+	/** Set Distribution Order Print Format.
+	  * Print Format for printing Distribution Order
+	  */
+	public void setDistributionOrder_PrintFormat_ID (int DistributionOrder_PrintFormat_ID);
+
+	/** Get Distribution Order Print Format.
+	  * Print Format for printing Distribution Order
+	  */
+	public int getDistributionOrder_PrintFormat_ID();
+
     /** Column name Invoice_MailText_ID */
     public static final String COLUMNNAME_Invoice_MailText_ID = "Invoice_MailText_ID";
 
@@ -107,6 +133,32 @@ public interface I_AD_PrintForm
 	  * Print Format for printing Invoices
 	  */
 	public int getInvoice_PrintFormat_ID();
+
+    /** Column name ManufacturingOrder_MailText_ID */
+    public static final String COLUMNNAME_ManufacturingOrder_MailText_ID = "ManufacturingOrder_MailText_ID";
+
+	/** Set Manufacturing Order Mail Text.
+	  * Email text used for sending Manufacturing Order
+	  */
+	public void setManufacturingOrder_MailText_ID (int ManufacturingOrder_MailText_ID);
+
+	/** Get Manufacturing Order Mail Text.
+	  * Email text used for sending Manufacturing Order
+	  */
+	public int getManufacturingOrder_MailText_ID();
+
+    /** Column name ManufacturingOrder_PrintFormat_ID */
+    public static final String COLUMNNAME_ManufacturingOrder_PrintFormat_ID = "ManufacturingOrder_PrintFormat_ID";
+
+	/** Set Manufacturing Order Print Format.
+	  * Print Format for printing Manufacturing Order
+	  */
+	public void setManufacturingOrder_PrintFormat_ID (int ManufacturingOrder_PrintFormat_ID);
+
+	/** Get Manufacturing Order Print Format.
+	  * Print Format for printing Manufacturing Order
+	  */
+	public int getManufacturingOrder_PrintFormat_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

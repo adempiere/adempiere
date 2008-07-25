@@ -116,6 +116,56 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** DistributionOrder_MailText_ID AD_Reference_ID=274 */
+	public static final int DISTRIBUTIONORDER_MAILTEXT_ID_AD_Reference_ID=274;
+	/** Set Distribution Order Mail Text.
+		@param DistributionOrder_MailText_ID 
+		Email text used for sending Distribution Order
+	  */
+	public void setDistributionOrder_MailText_ID (int DistributionOrder_MailText_ID)
+	{
+		if (DistributionOrder_MailText_ID < 1) 
+			set_Value (COLUMNNAME_DistributionOrder_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_DistributionOrder_MailText_ID, Integer.valueOf(DistributionOrder_MailText_ID));
+	}
+
+	/** Get Distribution Order Mail Text.
+		@return Email text used for sending Distribution Order
+	  */
+	public int getDistributionOrder_MailText_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DistributionOrder_MailText_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** DistributionOrder_PrintFormat_ID AD_Reference_ID=53282 */
+	public static final int DISTRIBUTIONORDER_PRINTFORMAT_ID_AD_Reference_ID=53282;
+	/** Set Distribution Order Print Format.
+		@param DistributionOrder_PrintFormat_ID 
+		Print Format for printing Distribution Order
+	  */
+	public void setDistributionOrder_PrintFormat_ID (int DistributionOrder_PrintFormat_ID)
+	{
+		if (DistributionOrder_PrintFormat_ID < 1) 
+			set_Value (COLUMNNAME_DistributionOrder_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_DistributionOrder_PrintFormat_ID, Integer.valueOf(DistributionOrder_PrintFormat_ID));
+	}
+
+	/** Get Distribution Order Print Format.
+		@return Print Format for printing Distribution Order
+	  */
+	public int getDistributionOrder_PrintFormat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DistributionOrder_PrintFormat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Invoice_MailText_ID AD_Reference_ID=274 */
 	public static final int INVOICE_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Invoice Mail Text.
@@ -161,6 +211,56 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	public int getInvoice_PrintFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Invoice_PrintFormat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** ManufacturingOrder_MailText_ID AD_Reference_ID=274 */
+	public static final int MANUFACTURINGORDER_MAILTEXT_ID_AD_Reference_ID=274;
+	/** Set Manufacturing Order Mail Text.
+		@param ManufacturingOrder_MailText_ID 
+		Email text used for sending Manufacturing Order
+	  */
+	public void setManufacturingOrder_MailText_ID (int ManufacturingOrder_MailText_ID)
+	{
+		if (ManufacturingOrder_MailText_ID < 1) 
+			set_Value (COLUMNNAME_ManufacturingOrder_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_ManufacturingOrder_MailText_ID, Integer.valueOf(ManufacturingOrder_MailText_ID));
+	}
+
+	/** Get Manufacturing Order Mail Text.
+		@return Email text used for sending Manufacturing Order
+	  */
+	public int getManufacturingOrder_MailText_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturingOrder_MailText_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** ManufacturingOrder_PrintFormat_ID AD_Reference_ID=53281 */
+	public static final int MANUFACTURINGORDER_PRINTFORMAT_ID_AD_Reference_ID=53281;
+	/** Set Manufacturing Order Print Format.
+		@param ManufacturingOrder_PrintFormat_ID 
+		Print Format for printing Manufacturing Order
+	  */
+	public void setManufacturingOrder_PrintFormat_ID (int ManufacturingOrder_PrintFormat_ID)
+	{
+		if (ManufacturingOrder_PrintFormat_ID < 1) 
+			set_Value (COLUMNNAME_ManufacturingOrder_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_ManufacturingOrder_PrintFormat_ID, Integer.valueOf(ManufacturingOrder_PrintFormat_ID));
+	}
+
+	/** Get Manufacturing Order Print Format.
+		@return Print Format for printing Manufacturing Order
+	  */
+	public int getManufacturingOrder_PrintFormat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturingOrder_PrintFormat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
