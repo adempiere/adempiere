@@ -53,6 +53,8 @@ public class TimelineEventFeed extends HttpServlet {
 		String uuid = req.getParameter("uuid");
 		if (uuid == null || uuid.trim().length() == 0) return;
 		
+		String timeLineId = req.getParameter("tlid");
+		
 		Date date = null;
 		String dateParam = req.getParameter("date");
 		if (dateParam != null && dateParam.trim().length() > 0) {
@@ -103,12 +105,12 @@ public class TimelineEventFeed extends HttpServlet {
 			   .append(">");
 			if (slot.getDescription() != null && slot.getDescription().trim().length() > 0) {
 				xml.append("\r\n")
-				   .append(XMLs.encodeText(slot.getDescription()))
-				   .append("<br/>");
+				   .append(XMLs.encodeText(slot.getDescription() + "<br/>"));
 			}
 			if (slot.getMAssignment() != null) {
 				//encode assignment id as coordinate x
-				String link = "<a href=\"javascript:void(0)\" onclick=\""
+				String link = "<a href=\"javascript:void(0)\" onclick=\"" 
+					+ "ad_closeBuble('" + timeLineId + "');"
 				    + "zkau.send({uuid: '" + uuid + "', cmd: 'onClick', data: " 
 				    + "[" + slot.getMAssignment().getS_ResourceAssignment_ID() + ", 0]" 
 				    + ", ctl: true})\">Edit</a>";

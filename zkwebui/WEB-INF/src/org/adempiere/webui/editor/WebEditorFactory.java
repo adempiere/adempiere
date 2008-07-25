@@ -162,6 +162,10 @@ public class WebEditorFactory
         {
         	editor = new WPAttributeEditor(gridTab, gridField);
         }
+        else if (displayType == DisplayType.Assignment)
+        {
+        	editor = new WAssignmentEditor(gridField);
+        }
         else
         {
             editor = new WUnknownEditor(gridField);

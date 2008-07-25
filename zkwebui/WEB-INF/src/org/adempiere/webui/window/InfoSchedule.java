@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
@@ -24,7 +25,6 @@ import java.util.logging.*;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
@@ -63,8 +63,10 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 	{
 		super();
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoSchedule"));
-//		setAttribute("modal", Boolean.valueOf(createNew));
-		setAttribute("mode", "overlapped");
+		if (createNew)
+			setAttribute("mode", "modal");
+		else
+			setAttribute("mode", "overlapped");
 		this.setWidth("600px");
 		this.setHeight("600px");
 		this.setBorder("normal");
@@ -116,10 +118,7 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 	private Listbox fieldResourceType = new Listbox();
 	private Label labelResource = new Label();
 	private Listbox fieldResource = new Listbox();
-	private Button bPrevious = new Button();
 	private Label labelDate = new Label();
-	private Datebox fieldDate = new Datebox();
-	private Button bNext = new Button();
 	private WSchedule schedulePane = new WSchedule(this);
 	private StatusBarPanel statusBar = new StatusBarPanel();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
@@ -136,9 +135,7 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		
 		labelResourceType.setValue(Msg.translate(Env.getCtx(), "S_ResourceType_ID"));
 		labelResource.setValue(Msg.translate(Env.getCtx(), "S_Resource_ID"));
-		bPrevious.setLabel("<");
 		labelDate.setValue(Msg.translate(Env.getCtx(), "Date"));
-		bNext.setLabel(">");
 		
 		mainLayout.appendChild(parameterPanel);
 		
@@ -148,17 +145,12 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		rows.appendChild(row);
 		
 		row.appendChild(labelResourceType);
-		row.appendChild(labelResource);
-		row.appendChild(bPrevious);
-		row.appendChild(labelDate);
-		row.appendChild(bNext);
+		row.appendChild(fieldResourceType);				
 		
 		row = new Row();
 		rows.appendChild(row);
-		row.appendChild(fieldResourceType);
+		row.appendChild(labelResource);
 		row.appendChild(fieldResource);
-		row.appendChild(new Label(" "));
-		row.appendChild(fieldDate);		
 		//
 		
 		mainLayout.appendChild(schedulePane);
@@ -186,19 +178,17 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		fieldResourceType.addEventListener(Events.ON_SELECT, this);
 		fieldResource.addEventListener(Events.ON_SELECT, this);
 
-		//	Date
-		fieldDate.setValue(m_dateFrom);
-		fieldDate.addEventListener(Events.ON_CHANGE, this);
-		bPrevious.addEventListener(Events.ON_CLICK, this);
-		bNext.addEventListener(Events.ON_CLICK, this);
-
 		//
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
-		Button button = confirmPanel.createButton("Add");
-		confirmPanel.addComponentsLeft(button);
-		button.addEventListener(Events.ON_CLICK, this);
-		button.setLabel("Add");
-		
+		if (createNew) {
+			Button btnNew = new Button();
+	        btnNew.setName("btnNew");
+	        btnNew.setId("New");
+	        btnNew.setSrc("/images/New24.gif");
+	        
+			confirmPanel.addComponentsLeft(btnNew);			
+			btnNew.addEventListener(Events.ON_CLICK, this);
+		}
 		displayCalendar();
 	}	//	dynInit
 
@@ -332,7 +322,8 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		KeyNamePair pp = new KeyNamePair((Integer)listItem.getValue(), listItem.getLabel());
 		int S_Resource_ID = pp.getKey();
 		m_mAssignment.setS_Resource_ID(S_Resource_ID);
-		Date date = fieldDate.getValue();
+//		Date date = fieldDate.getValue();
+		Date date = m_dateFrom;
 
 		//	Set Info
 		m_loading = true;
@@ -349,25 +340,11 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		this.detach();
 	}	//	dispose
 
-	/**
-	 * 	Adjust Date
-	 * 	@param diff difference
-	 */
-	private void adjustDate (int diff)
-	{
-		Date date = fieldDate.getValue();
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(date);
-		cal.add(java.util.Calendar.DAY_OF_YEAR, diff);
-		fieldDate.setValue(new Date(cal.getTimeInMillis()));
-		displayCalendar ();
-	}	//	adjustDate
-
 	/*************************************************************************/
 
 	/**
 	 * 	Callback.
-	 * 	Called from VSchedulePanel after VAssignmentDialog finished
+	 * 	Called from WSchedule after WAssignmentDialog finished
 	 * 	@param assignment New/Changed Assignment
 	 */
 	public void mAssignmentCallback (MResourceAssignment assignment)
@@ -403,25 +380,89 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 			displayCalendar();
 		}
 		//
-		else if (event.getTarget() == fieldResource || event.getTarget() == fieldDate)
-			displayCalendar();
-		//
-		else if (event.getTarget() == bPrevious)
-			adjustDate(-1);
-		else if (event.getTarget() == bNext)
-			adjustDate(+1);
-		else if (event.getTarget().getId().equals("Add"))
+		else if (event.getTarget().getId().equals("New"))
 			doAdd();
 		//
 		
 	}
 
 	private void doAdd() {
-		// TODO Auto-generated method stub
+		ListItem listItem = fieldResource.getSelectedItem();
+		if (listItem == null)
+			return;
+		//	Get Resource Type
+		KeyNamePair pp = new KeyNamePair((Integer)listItem.getValue(), listItem.getLabel());
+		int S_Resource_ID = pp.getKey();
 		
+		ScheduleUtil schedule = new ScheduleUtil (Env.getCtx());
+		Timestamp start = m_dateFrom;
+		java.sql.Date startDate = new java.sql.Date(start.getTime());
+		Calendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(startDate.getTime());
+		start = new Timestamp(startDate.getTime());
+		start = new Timestamp(cal.getTimeInMillis());
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		start = new Timestamp(cal.getTimeInMillis());
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		Timestamp end = new Timestamp(cal.getTimeInMillis());
+		MAssignmentSlot[] mas = schedule.getAssignmentSlots(S_Resource_ID, start, end, null, true, null);
+		MAssignmentSlot[] mts = schedule.getDayTimeSlots ();
+		
+		MAssignmentSlot slot = null;
+		for (int i = 0; i < mts.length; i++) {
+			slot = mts[i];
+			for(int j = 0; j < mas.length; j++) {
+				if (mts[i].getStartTime().getTime() == mas[j].getStartTime().getTime()) {
+					slot = null;
+					break;
+				}
+				if (mas[j].getEndTime() != null) {
+					if (mts[i].getStartTime().getTime() > mas[j].getStartTime().getTime()
+						&& mts[i].getStartTime().getTime() < mas[j].getEndTime().getTime()) {
+						slot = null;
+						break;
+					} else if (mts[i].getEndTime().getTime() > mas[j].getStartTime().getTime()
+							&& mts[i].getEndTime().getTime() < mas[j].getEndTime().getTime()) {
+						slot = null;
+						break;
+					} else if (mts[i].getStartTime().getTime() < mas[j].getStartTime().getTime()
+						&& mts[i].getEndTime().getTime() >= mas[j].getEndTime().getTime()) {
+						slot = null;
+						break;
+					}
+				}
+			}
+			if (slot != null) 
+				break;
+		}
+		if (slot != null) {
+			MResourceAssignment ma = new MResourceAssignment(Env.getCtx(), 0, null);
+			ma.setS_Resource_ID(S_Resource_ID);
+			
+			ma.setAssignDateFrom(TimeUtil.getDayTime(start, slot.getStartTime()));
+			ma.setQty(new BigDecimal(1));
+			WAssignmentDialog vad =  new WAssignmentDialog (ma, false, m_createNew);
+			mAssignmentCallback(vad.getMResourceAssignment());		
+		} else {
+			FDialog.error(0, this, "No available time slot for the selected day.");
+		}
 	}
 
+	public boolean isCreateNew() {
+		return m_createNew;
+	}
 
+	/**
+	 * Callback from WSchedule
+	 * @param date
+	 */
+	public void dateCallback(Date date) {
+		m_dateFrom = new Timestamp(date.getTime());
+	}
+	
 
 	/**
 SELECT o.DocumentNo, ol.Line, ol.Description

@@ -17,8 +17,10 @@
 
 package org.adempiere.webui.component;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Hbox;
@@ -33,6 +35,8 @@ public final class ConfirmPanel extends Hbox
 {
     
     private static final long serialVersionUID = 1L;
+    
+    private Map<String, Button> buttonMap = new HashMap<String, Button>();
     
     /**
      * Creates a button of the specified id
@@ -63,6 +67,9 @@ public final class ConfirmPanel extends Hbox
         button.setName("btn"+name);
         button.setId(name);
         button.setSrc("images/"+name+"24.gif");
+        
+        buttonMap.put(name, button);
+        
         return button;
     }
     
@@ -200,7 +207,7 @@ public final class ConfirmPanel extends Hbox
      */
     public Button getButton(String id)
     {
-        return (Button)this.getFellowIfAny(id);
+        return buttonMap.get(id);
     }
     
     /**

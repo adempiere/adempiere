@@ -151,12 +151,10 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         grid = new Grid();
         //have problem moving the following out as css class
         grid.setWidth("99%");
-        grid.setHeight("100%");                
-        grid.setSclass("grid-no-striped");
+        grid.setHeight("100%");
         grid.setStyle("margin:0; padding:0; position: absolute");
-        grid.setOddRowSclass("even");
-        
-        
+        grid.makeNoStrip();
+                
         listPanel = new GridPanel();
         listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);
                 

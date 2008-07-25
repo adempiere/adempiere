@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.compiere.util.KeyNamePair;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -42,8 +43,21 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
     private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
     private List<EventListener> onDropListeners = new ArrayList<EventListener>();
 	private boolean draggable;
+	
+    public Listbox() {
+		super();
+	}
     
-    public void setEnabled(boolean enabled)
+    public Listbox(KeyNamePair[] pairs) {
+    	super();
+    	if (pairs != null && pairs.length > 0) {
+    		for(KeyNamePair pair : pairs) {
+    			this.appendItem(pair.getName(), pair.getKey());
+    		}
+    	}
+    }
+
+	public void setEnabled(boolean enabled)
     {
         this.setDisabled(!enabled);
     }

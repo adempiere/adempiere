@@ -10,3 +10,11 @@ function _ad_deferBDL(uuid) {
 	zk.onSizeAt();
 	zkau.getMeta($e(uuid)).render();
 }
+
+function ad_closeBuble(uuid) {
+	var cmp = $e(uuid); 
+	for(i=0;i<cmp.bandInfos.length;i++){
+		cmp.instance.getBand(i).closeBubble();
+	}
+}
+

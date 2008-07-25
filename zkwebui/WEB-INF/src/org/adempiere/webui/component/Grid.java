@@ -26,4 +26,9 @@ package org.adempiere.webui.component;
 public class Grid extends org.zkoss.zul.Grid
 {
     private static final long serialVersionUID = 1L;
+    
+    public void makeNoStrip() {
+    	setSclass("grid-no-striped");        
+        setOddRowSclass("even");
+    }
 }

@@ -23,12 +23,16 @@ import java.util.logging.*;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.window.InfoSchedule;
+import org.adempiere.webui.window.WAssignmentDialog;
+import org.compiere.model.MResourceAssignment;
 import org.compiere.util.*;
 import org.zkforge.timeline.Bandinfo;
 import org.zkforge.timeline.Timeline;
+import org.zkforge.timeline.event.BandScrollEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.MouseEvent;
 
 /**
  *	Visual and Control Part of Schedule.
@@ -36,6 +40,9 @@ import org.zkoss.zk.ui.event.Events;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VSchedule.java,v 1.3 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ *  Zk Port
+ *  @author Low Heng Sin
  */
 public class WSchedule extends Panel implements EventListener
 {
@@ -49,6 +56,7 @@ public class WSchedule extends Panel implements EventListener
 	public WSchedule (InfoSchedule is)
 	{		
 		infoSchedule = is;
+		
 		try
 		{
 			init();
@@ -56,17 +64,23 @@ public class WSchedule extends Panel implements EventListener
 		catch(Exception e)
 		{
 			log.log(Level.SEVERE, "VSchedule", e);
-		}
+		}		
 	}	//	WSchedule
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WSchedule.class);
 
-	Timeline schedulePanel;
+	Timeline timeLine;
 	private Bandinfo hourBand;
 	private Bandinfo dayBand;
 
 	private ToolBarButton button;
+
+	private Bandinfo mthBand;
+
+	private Date m_center;
+
+	private MResourceAssignment _assignmentDialogResult;
 
 	/**
 	 * 	Static init
@@ -78,30 +92,16 @@ public class WSchedule extends Panel implements EventListener
 	 */
 	private void init() throws Exception
 	{
-		schedulePanel = new Timeline();
-		schedulePanel.setHeight("400px");
-		schedulePanel.setWidth("100%");
-		schedulePanel.setId("resoureSchedule");
+		this.getChildren().clear();
+				
+		timeLine = new Timeline();
+		timeLine.setHeight("400px");
+		timeLine.setWidth("100%");
+		timeLine.setId("resoureSchedule");
 		
-		this.appendChild(schedulePanel);
+		this.appendChild(timeLine);		
 		
-		hourBand = new Bandinfo();
-		schedulePanel.appendChild(hourBand);
-		hourBand.setIntervalUnit("hour");
-		hourBand.setWidth("60%");
-		hourBand.setIntervalPixels(40);
-		hourBand.setId("hour");
-		hourBand.setTimeZone(TimeZone.getDefault());
-		
-		dayBand = new Bandinfo();
-		schedulePanel.appendChild(dayBand);
-		dayBand.setIntervalUnit("day");
-		dayBand.setWidth("40%");
-		dayBand.setIntervalPixels(100);
-		dayBand.setId("day");
-		dayBand.setSyncWith("hour");		
-		dayBand.setTimeZone(TimeZone.getDefault());
-		dayBand.setShowEventText(false);
+		initBandInfo();
 		
 		button = new ToolBarButton();
 		button.setLabel("Edit");
@@ -109,6 +109,41 @@ public class WSchedule extends Panel implements EventListener
 		button.addEventListener(Events.ON_CLICK, this);
 		this.appendChild(button);
 	}	//	jbInit
+
+	private void initBandInfo() {
+		if (hourBand != null)
+			hourBand.detach();		
+		hourBand = new Bandinfo();
+		timeLine.appendChild(hourBand);
+		hourBand.setIntervalUnit("hour");
+		hourBand.setWidth("40%");
+		hourBand.setIntervalPixels(40);
+		hourBand.setTimeZone(TimeZone.getDefault());
+		
+		if (dayBand != null)
+			dayBand.detach();
+		dayBand = new Bandinfo();
+		timeLine.appendChild(dayBand);
+		dayBand.setIntervalUnit("day");
+		dayBand.setWidth("35%");
+		dayBand.setIntervalPixels(100);
+		dayBand.setSyncWith(hourBand.getId());		
+		dayBand.setTimeZone(TimeZone.getDefault());
+		dayBand.setShowEventText(false);
+		// listening band scroll event
+		dayBand.addEventListener("onBandScroll", this);
+		
+		if (mthBand != null)
+			mthBand.detach();
+		mthBand = new Bandinfo();
+		timeLine.appendChild(mthBand);
+		mthBand.setIntervalUnit("month");
+		mthBand.setWidth("25%");
+		mthBand.setIntervalPixels(150);
+		mthBand.setSyncWith(dayBand.getId());		
+		mthBand.setTimeZone(TimeZone.getDefault());
+		mthBand.setShowEventText(false);		
+	}
 
 	/**
 	 * 	Recreate View
@@ -118,26 +153,42 @@ public class WSchedule extends Panel implements EventListener
 	public void recreate (int S_Resource_ID, Date date)
 	{
 		hourBand.setDate(date);
-		hourBand.scrollToCenter(date);
+		if (m_center == null || date.getTime() != m_center.getTime())
+			hourBand.scrollToCenter(date);
 		
 		String feedUrl = "timeline?S_Resource_ID=" + S_Resource_ID + "&date=" + DateFormat.getInstance().format(date)
-			+ "&uuid=" + button.getUuid();
+			+ "&uuid=" + button.getUuid() + "&tlid=" + timeLine.getUuid();
 		hourBand.setEventSourceUrl(feedUrl);
 		dayBand.setEventSourceUrl(feedUrl);
-		schedulePanel.invalidate();
 	}	//	recreate
 
-	/**
-	 * 	Enable/disable to Create New Assignments
-	 * 	@param createNew if true, allows to create new Assignments
-	 */
-	public void setCreateNew (boolean createNew)
-	{
-//		schedulePanel.setCreateNew(createNew);
-	}	//	setCreateNew
-
+	public void onAssignmentCallback() {
+		if (_assignmentDialogResult != null)
+			infoSchedule.mAssignmentCallback(_assignmentDialogResult);
+		_assignmentDialogResult = null;
+	}
+	
 	public void onEvent(Event event) throws Exception {
-		//TODO: Edit, S_ResourceAssignment_ID is in MouseEvent.x
+		if (event instanceof MouseEvent) {
+			MouseEvent me = (MouseEvent) event;
+			if (me.getX() > 0) {
+				MResourceAssignment assignment = new MResourceAssignment(Env.getCtx(), me.getX(), null);
+				WAssignmentDialog wad = new WAssignmentDialog(assignment, false, infoSchedule.isCreateNew());
+				if (!wad.isCancelled()) {
+					_assignmentDialogResult =  wad.getMResourceAssignment();
+					Events.echoEvent("onAssignmentCallback", this, null);				
+				}
+			}
+		} else if (event instanceof BandScrollEvent){
+			BandScrollEvent e = (BandScrollEvent) event;
+			Date end = e.getMax();
+			Date start = e.getMin();
+			Date mid = e.getCenter();
+			if (mid != null) {
+				m_center = mid;
+				infoSchedule.dateCallback(mid);
+			}
+		}
 	}
 
 }	//	WSchedule
