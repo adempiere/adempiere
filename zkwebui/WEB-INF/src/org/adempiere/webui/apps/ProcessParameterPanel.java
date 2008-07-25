@@ -32,6 +32,7 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.IProcessParameter;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
@@ -329,7 +330,7 @@ implements ValueChangeListener, IProcessParameter
 
 			if (sb.length() != 0)
 			{
-				//ADialog.error(m_WindowNo, this, "FillMandatory", sb.toString());
+				FDialog.error(m_WindowNo, this, "FillMandatory", sb.toString());
 				return false;
 			}
 

@@ -14,12 +14,12 @@ import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
-import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.DesktopUnavailableException;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -56,9 +56,10 @@ import org.zkoss.zul.Html;
  *  @author     arboleda - globalqss
  *  - Implement ShowHelp option on processes and reports
  */
-public class ProcessDialog extends Window implements EventListener, ASyncProcess
+public class ProcessDialog extends Window implements EventListener//, ASyncProcess
 {
-	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Dialog to start a process/report
 	 * @param ctx
@@ -258,7 +259,31 @@ public class ProcessDialog extends Window implements EventListener, ASyncProcess
 			getDesktop().enableServerPush(true);
 		
 		this.lockUI(m_pi);
-		ProcessCtl.process(this, m_WindowNo, parameterPanel, m_pi, null);		
+		Runnable runnable = new Runnable() {
+			public void run() {
+				//get full control of desktop
+				org.zkoss.zk.ui.Desktop desktop = ProcessDialog.this.getDesktop();
+				try {
+					Executions.activate(desktop);
+				} catch (DesktopUnavailableException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {                    
+					ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
+                } catch(Error ex){                    
+                	throw ex;                    
+                } finally{
+                	unlockUI(m_pi);
+                	//release full control of desktop
+                	Executions.deactivate(desktop);
+                }								
+			}			
+		};
+		new Thread(runnable).start();	
 	}
 
 	public boolean isAsap() {

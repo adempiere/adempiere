@@ -349,6 +349,7 @@ public class WBarGraph extends Panel
 				myImage.appendChild(area);
 				area.setCoords(ce.getShapeCoords());
 				area.setShape(ce.getShapeType());
+				area.setTooltiptext(tooltip);
 				area.setId("WBG_"+tooltip);
 				count++;
 			}

@@ -17,7 +17,6 @@
 
 package org.adempiere.webui;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -69,7 +69,6 @@ public class WDateEditor extends WEditor
 	public WDateEditor (String label, String description, boolean mandatory, boolean readonly, boolean updateable)
 	{
 		super(new Datebox(), label, description, mandatory, readonly, updateable);
-		
 		setColumnName("Date");
 	}
 	
@@ -102,7 +101,10 @@ public class WDateEditor extends WEditor
     @Override
     public Object getValue()
     {
-        return null;
+    	// Elaine 2008/07/25
+    	if(getComponent().getValue() == null) return null;
+    	return new Timestamp(getComponent().getValue().getTime());
+    	//
     }
 
     @Override

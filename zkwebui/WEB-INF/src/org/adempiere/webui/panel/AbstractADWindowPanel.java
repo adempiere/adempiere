@@ -856,6 +856,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             curTab.setQuery(query);
             curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
         }
+        
+        curTab.dataRefresh(); // Elaine 2008/07/25
     }
     
     public void onIgnore()

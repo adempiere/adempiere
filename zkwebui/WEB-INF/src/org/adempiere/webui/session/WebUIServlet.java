@@ -61,7 +61,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
         super.init(servletConfig);
 
         /** Initialise context for the current thread*/
-        WebContext.setCurrentInstance(new WebContext());        
+        WebContext.setCurrentInstance(new WebContext());
         Env.setContextProvider(new ZkContextProvider());
         
         /**
