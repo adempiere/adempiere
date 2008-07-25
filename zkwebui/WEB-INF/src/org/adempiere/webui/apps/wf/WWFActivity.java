@@ -1,4 +1,4 @@
-package org.compiere.apps.wf;
+package org.adempiere.webui.apps.wf;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +43,7 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 
-public class WFActivity extends ADForm implements EventListener
+public class WWFActivity extends ADForm implements EventListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -62,7 +62,7 @@ public class WFActivity extends ADForm implements EventListener
 	/**	Set Column					*/
 	private	MColumn 			m_column = null; 
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WFActivity.class);
+	private static CLogger log = CLogger.getCLogger(WWFActivity.class);
 	
 	//
 //	private Panel centerPanel = new Panel();
@@ -91,7 +91,7 @@ public class WFActivity extends ADForm implements EventListener
 	private Label lOptional = new Label("(" + Msg.translate(Env.getCtx(), "Optional") + ")");
 	private WStatusBar statusBar = new WStatusBar(); 
 	
-	public WFActivity()
+	public WWFActivity()
 	{
 		super();
 	}

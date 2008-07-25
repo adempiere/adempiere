@@ -31,7 +31,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 
 /**
- * Adempeire Web UI custom form.
+ * Adempiere Web UI custom form.
  * The form is abstract, so specific types of custom form must be implemented
  * 
  * @author Andrew Kimball
@@ -189,6 +189,8 @@ public abstract class ADForm extends Window implements EventListener
     	
     		if ("org.compiere.apps.form.ArchiveViewer".equals(richClassName))
     			webClassName = "org.adempiere.webui.apps.form.WArchiveViewer"; // TEMP
+    		else if ("org.compiere.apps.wf.WFActivity".equals(richClassName))
+    			webClassName = "org.adempiere.webui.apps.wf.WWFActivity"; // TEMP
     		else
     			webClassName = translateFormClassName(richClassName);
     		
