@@ -23,6 +23,7 @@ import org.adempiere.webui.component.WConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.db.CConnection;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
@@ -71,6 +72,10 @@ public class RolePanel extends Window implements EventListener
         rolesKNPairs = login.getRoles(userName, password);
         if(rolesKNPairs == null)
             throw new ApplicationException("Login is invalid, UserName: " + userName + " and Password:" + password);
+        
+        //set app server credentials
+        CConnection.get().setAppServerCredential(userName, password);
+        
         initComponents();
         init();
         this.setId("rolePanel");
