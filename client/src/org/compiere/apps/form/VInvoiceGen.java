@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -103,6 +103,9 @@ public class VInvoiceGen extends CPanel
 	
 	private CLabel     lDocType = new CLabel();
     private VComboBox  cmbDocType = new VComboBox();
+    private CLabel lDocAction = new CLabel();
+    private VLookup docAction;
+
 	
 	/**
 	 *	Static Init.
@@ -122,6 +125,8 @@ public class VInvoiceGen extends CPanel
 		selPanel.setLayout(selPanelLayout);
 		lOrg.setLabelFor(fOrg);
 		lOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		lDocAction.setLabelFor(docAction);
+		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
 		lBPartner.setLabelFor(fBPartner);
 		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		selNorthPanel.setLayout(northPanelLayout);
@@ -150,6 +155,9 @@ public class VInvoiceGen extends CPanel
 		lDocType.setLabelFor(cmbDocType);
         selNorthPanel.add(lDocType, null);
         selNorthPanel.add(cmbDocType, null);
+		selNorthPanel.add(lDocAction, null);
+		selNorthPanel.add(docAction, null);
+
 	}	//	jbInit
 
 	/**
@@ -161,8 +169,16 @@ public class VInvoiceGen extends CPanel
 	{
 		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2163, DisplayType.TableDir);
 		fOrg = new VLookup ("AD_Org_ID", false, false, true, orgL);
-	//	lOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		//	lOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
 		fOrg.addVetoableChangeListener(this);
+		
+		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 3494 /* C_Invoice.DocStatus */, 
+				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
+				false, "AD_Ref_List.Value IN ('CO','PR')");
+		docAction = new VLookup("DocAction", true, false, true,docActionL);
+		//  lDcoACtion.setText((Msg.translate(Env.getCtx(), "DocAction")););
+		docAction.addVetoableChangeListener(this);
+		
 		//
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
@@ -220,7 +236,9 @@ public class VInvoiceGen extends CPanel
 	            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
 	            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
 	            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
-	            + " AND ic.AD_Client_ID=?");
+	            + " AND ic.AD_Client_ID=?"
+	            + " AND NOT EXISTS (SELECT * FROM C_Invoice i"
+	            + " WHERE i.C_Order_ID=ic.C_Order_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
 
         if (m_AD_Org_ID != null)
             sql.append(" AND ic.AD_Org_ID=").append(m_AD_Org_ID);
@@ -538,8 +556,11 @@ public class VInvoiceGen extends CPanel
 			log.log(Level.SEVERE, msg);
 			return;
 		}
+		
 		para = new MPInstancePara(instance, 20);
-		para.setParameter("DocAction", "CO");
+		String docActionSelected = (String)docAction.getValue();
+		para.setParameter("DocAction", docActionSelected);
+		
 		if (!para.save())
 		{
 			String msg = "No DocAction Parameter added";  //  not translated
