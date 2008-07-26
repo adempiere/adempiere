@@ -1,7 +1,5 @@
 package org.adempiere.webui.apps.graph;
 
-import java.awt.Color;
-
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;

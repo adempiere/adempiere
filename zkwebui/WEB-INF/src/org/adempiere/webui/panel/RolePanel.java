@@ -328,7 +328,14 @@ public class RolePanel extends Window implements EventListener
             warehouseKNPair = new KeyNamePair(warehouseId, lstItemWarehouse.getLabel());
         }
 
-        String msg = login.loadPreferences(orgKNPair, warehouseKNPair, null, null);
+        String msg = login.validateLogin(orgKNPair);
+		if (msg != null && msg.length() > 0)
+		{
+			lblErrorMsg.setValue("Error for user login: " + msg);
+			return;
+		}
+		
+        msg = login.loadPreferences(orgKNPair, warehouseKNPair, null, null);
         if(!(msg == null || msg.length() == 0))
         {
             lblErrorMsg.setValue("Error for user login: " + msg);

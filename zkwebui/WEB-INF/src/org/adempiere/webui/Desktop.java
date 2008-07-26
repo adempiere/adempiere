@@ -227,10 +227,13 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         borderlayout.setHeight("100%");
         borderlayout.setStyle("position: absolute");
         
-        East east = new East();
-        borderlayout.appendChild(east);
-        east.appendChild(WPAPanel.get());
-        east.setWidth("205px");
+        WPAPanel paPanel = WPAPanel.get();
+        if (paPanel != null) {
+	        East east = new East();
+	        borderlayout.appendChild(east);        
+	        east.appendChild(paPanel);
+	        east.setWidth("205px");
+        }
         
         Center center = new Center();
         borderlayout.appendChild(center);
@@ -246,27 +249,32 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         
         updateInfo();
         
-        new Thread(new Runnable() 
-        {
-			public void run() 
-			{
+        new Thread(new UpdateInfoRunnable(gbxAct.getDesktop())).start();
+	}
+	
+	private class UpdateInfoRunnable implements Runnable {
+		private org.zkoss.zk.ui.Desktop desktop;
+		UpdateInfoRunnable(org.zkoss.zk.ui.Desktop desktop) {
+			this.desktop = desktop;
+		}
+		public void run() 
+		{
+			try {
+				// get full control of desktop
+				Executions.activate(desktop);
 				try {
-					// get full control of desktop
-					Executions.activate(gbxAct.getDesktop());
-					try {
-						updateInfo();
-						Threads.sleep(500);// Update each 0.5 seconds
-					} catch (Error ex) {
-						throw ex;
-					} finally {
-						// release full control of desktop
-						Executions.deactivate(gbxAct.getDesktop());
-					}
-				} catch (Exception e) {
-					logger.log(Level.WARNING, "Failed to run NRW", e);
+					updateInfo();
+					Threads.sleep(500);// Update each 0.5 seconds
+				} catch (Error ex) {
+					throw ex;
+				} finally {
+					// release full control of desktop
+					Executions.deactivate(desktop);
 				}
+			} catch (Exception e) {
+				logger.log(Level.WARNING, "Failed to run NRW", e);
 			}
-		}).start();
+		}
 	}
 	
 	private Box createActivitiesPanel()
