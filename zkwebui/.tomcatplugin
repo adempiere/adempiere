@@ -18,6 +18,7 @@
         <webClassPathEntry>/JasperReportsTools/lib/jfreechart-1.0.2.jar</webClassPathEntry>
         <webClassPathEntry>/base/build</webClassPathEntry>
         <webClassPathEntry>/client/build</webClassPathEntry>
+        <webClassPathEntry>/extend/build</webClassPathEntry>
         <webClassPathEntry>/jboss/client/jbossall-client.jar</webClassPathEntry>
         <webClassPathEntry>/looks/build</webClassPathEntry>
         <webClassPathEntry>/tools/build</webClassPathEntry>

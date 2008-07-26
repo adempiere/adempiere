@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/zweb.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jfreechart.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
