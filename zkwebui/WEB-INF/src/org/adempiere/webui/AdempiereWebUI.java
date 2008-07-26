@@ -132,30 +132,36 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		{
 			ExecutionCarryOver eco = (ExecutionCarryOver) currSess.getAttribute("execution.carryover");
 			if (eco != null) {
+				//try restore
 				appDesktop = (Desktop) d;
 				
 				ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
 				ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
 				Visualizer vi = ctrl.getVisualizer();
 				eco.carryOver();
-				ctrl = ExecutionsCtrl.getCurrentCtrl();
-				ctrl.setVisualizer(vi);
+				try {
+					ctrl = ExecutionsCtrl.getCurrentCtrl();
+					ctrl.setVisualizer(vi);
+					
+					appDesktop.getComponent().detach();
+				} catch (Exception e) {
+					appDesktop = null;
+				} finally {
+					eco.cleanup();
+					current.carryOver();
+				}
 				
-				appDesktop.getComponent().detach();
-				
-				eco.cleanup();
-				
-				current.carryOver();
-				
-				appDesktop.setPage(this.getPage());
-				
-				currSess.setAttribute("execution.carryover", current);
+				if (appDesktop != null) {										
+					appDesktop.setPage(this.getPage());					
+					currSess.setAttribute("execution.carryover", current);
+				}
 				
 			}
 		}
-		
+				
 		if (appDesktop == null) 
 		{
+			//create new desktop
 			appDesktop = new Desktop();
 			appDesktop.setClientInfo(clientInfo);
 			appDesktop.createPart(this.getPage());
