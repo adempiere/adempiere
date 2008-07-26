@@ -37,6 +37,10 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class Document {
 
+	static {
+		FontFactory.registerDirectories();
+	}
+	
 	private static void writePDF(Pageable pageable, OutputStream output)
 	{
 		try {
@@ -49,8 +53,7 @@ public class Document {
                     document, output);
             writer.setPdfVersion(PdfWriter.VERSION_1_2);
             document.open();
-            final DefaultFontMapper mapper = new DefaultFontMapper();
-            FontFactory.registerDirectories();
+            final DefaultFontMapper mapper = new DefaultFontMapper();            
             final float w = (float) pf.getWidth();
             final float h = (float) pf.getHeight();
             final PdfContentByte cb = writer.getDirectContent();
