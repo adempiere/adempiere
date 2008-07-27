@@ -1,9 +1,4 @@
 SET DEFINE OFF 
- 
- -- Jul 24, 2008 3:36:06 PM CDT
--- Order Distribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,AD_Val_Rule_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,Updated,UpdatedBy,Version) VALUES (0,56188,113,0,19,53038,130,'AD_Org_ID',TO_DATE('2007-12-17 07:21:37','YYYY-MM-DD HH24:MI:SS'),0,'@AD_Org_ID@','Organizational entity within client','EE01',22,'An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.','Y','N','N','N','N','Y','N','N','Y','N','N','Organization',TO_DATE('2007-12-17 07:21:37','YYYY-MM-DD HH24:MI:SS'),0,1)
-;
 
 -- Jul 24, 2008 3:37:40 PM CDT
 -- Order Distribution
