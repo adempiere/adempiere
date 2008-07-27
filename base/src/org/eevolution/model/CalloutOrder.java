@@ -116,25 +116,6 @@ public class CalloutOrder extends CalloutEngine
 			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
 			mTab.setValue("QtyEntered", QtyEntered);
 		}
-
-		/*String DocStatus = (String) mTab.getValue("DocStatus");
-		if (!DocStatus.equals(MPPOrder.STATUS_Completed))
-        {               
-
-                    Integer PP_Order_ID = (Integer)mTab.getValue("PP_Order_ID");
-                    if (PP_Order_ID==null)
-                		return "";
-
-                    QtyOrdered = ((BigDecimal)mTab.getValue("QtyOrdered"));
-                    MPPOrder order = new  MPPOrder(ctx, PP_Order_ID,null);
-                    MPPOrderBOMLine[] obl = MPPOrder.getLines(PP_Order_ID);
-                    for (int i = 0 ; i < obl.length ; i ++) 
-                    { 
-                    	order.setBOMLineQtys(obl[i]);
-                    	obl[i].save(null);
-                    }                    
-        }*/
-
 		return qtyBatch(ctx,WindowNo,mTab,mField,value);
 		//return "";
 	}	//	qty
