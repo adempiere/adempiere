@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * 	Product Model
@@ -34,6 +41,12 @@ import org.compiere.util.*;
  */
 public class MProduct extends X_M_Product
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9065433844664694783L;
+
+
 	/**
 	 * 	Get MProduct from Cache
 	 *	@param ctx context
@@ -570,6 +583,12 @@ public class MProduct extends X_M_Product
 				return false;
 			}
 		}	//	storage
+	
+		// it checks if UOM has been changed , if so disallow the change if the condition is true.
+		if ((!newRecord) && is_ValueChanged("C_UOM_ID") && hasInventoryOrCost ()) {
+			log.saveError("Error", Msg.getMsg(getCtx(), "SaveUomError"));
+			return false; 
+		}
 		
 		//	Reset Stocked if not Item
 		//AZ Goodwill: Bug Fix isStocked always return false
@@ -584,6 +603,24 @@ public class MProduct extends X_M_Product
 		return true;
 	}	//	beforeSave
 
+	/**
+	 * 	HasInventoryOrCost 
+	 *	@return true if it has Inventory or Cost
+	 */
+	protected boolean hasInventoryOrCost () {
+		//check if it has transactions 
+		int trans = DB.getSQLValue(null,"SELECT COUNT(*) FROM M_Transaction WHERE M_Product_ID=? AND IsActive='Y'", getM_Product_ID());
+		if (trans > 0)
+			return true;
+
+		//check if it has cost
+		int cost = DB.getSQLValue(null,"SELECT COUNT(*) FROM M_CostDetail WHERE M_Product_ID=? AND IsActive='Y'", getM_Product_ID());
+		if (cost > 0)		
+			return true;
+
+		return false;
+	}
+	
 	/**
 	 * 	After Save
 	 *	@param newRecord new
