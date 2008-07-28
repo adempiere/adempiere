@@ -624,9 +624,6 @@ public final class Ini implements Serializable
 	 */
 	public static boolean isPropertyBool (String key)
 	{
-		//hengsin: temporary solution for problem with zk client 
-		if (P_ADEMPIERESYS.equals(key) && !isClient())
-			return false;
 		return getProperty (key).equals("Y");
 	}	//	getProperty
 
