@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
 
 /**
  *	Unit Of Measure Model
@@ -47,9 +52,6 @@ public class MUOM extends X_C_UOM
 	/** X12 Element 355 Code	Year 	*/
 	static final String		X12_YEAR = "YR";
 
-	/**	Logger			*/
-	private static CLogger s_log = CLogger.getCLogger(MUOM.class);
-
 	/**
 	 * 	Get Minute C_UOM_ID
 	 *  @param ctx context
@@ -59,32 +61,17 @@ public class MUOM extends X_C_UOM
 	{
 		if (Ini.isClient())
 		{
-			Iterator it = s_cache.values().iterator();
+			Iterator<MUOM> it = s_cache.values().iterator();
 			while (it.hasNext())
 			{
-				MUOM uom = (MUOM)it.next();
+				MUOM uom = it.next();
 				if (uom.isMinute())
 					return uom.getC_UOM_ID();
 			}
 		}
 		//	Server
-		int C_UOM_ID = 0;
-		String sql = "SELECT C_UOM_ID FROM C_UOM "
-			+ "WHERE IsActive='Y' AND X12DE355='MJ'";	//	HardCoded
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				C_UOM_ID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		return C_UOM_ID;
+		String sql = "SELECT C_UOM_ID FROM C_UOM WHERE IsActive='Y' AND X12DE355=?";
+		return DB.getSQLValue(null, sql, X12_MINUTE);
 	}	//	getMinute_UOM_ID
 
 	/**
@@ -104,8 +91,7 @@ public class MUOM extends X_C_UOM
 	/*************************************************************************/
 
 	/**	UOM Cache				*/
-	private static CCache<Integer,MUOM>	s_cache 
-		= new CCache<Integer,MUOM>("C_UOM", 30);
+	private static CCache<Integer,MUOM>	s_cache = new CCache<Integer,MUOM>("C_UOM", 30);
 
 	/**
 	 * 	Get UOM from Cache
@@ -118,15 +104,14 @@ public class MUOM extends X_C_UOM
 		if (s_cache.size() == 0)
 			loadUOMs (ctx);
 		//
-		Integer ii = new Integer (C_UOM_ID);
-		MUOM uom = (MUOM)s_cache.get(ii);
+		MUOM uom = s_cache.get(C_UOM_ID);
 		if (uom != null)
 			return uom;
 		//
 		uom = new MUOM (ctx, C_UOM_ID, null);
-		s_cache.put(new Integer(C_UOM_ID), uom);
+		s_cache.put(C_UOM_ID, uom);
 		return uom;
-	}	//	getUOMfromCache
+	}	//	get
 	
 	/**
 	 * Get UOM by name
@@ -161,25 +146,12 @@ public class MUOM extends X_C_UOM
 	 */
 	private static void loadUOMs (Properties ctx)
 	{
-		String sql = MRole.getDefault(ctx, false).addAccessSQL(
-			"SELECT * FROM C_UOM "
-			+ "WHERE IsActive='Y'",
-			"C_UOM", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MUOM uom = new MUOM(ctx, rs, null);
-				s_cache.put (new Integer(uom.getC_UOM_ID()), uom);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
+		List<MUOM> list = new Query(ctx, Table_Name, "IsActive='Y'", null)
+								.setApplyAccessFilter(true)
+								.list();
+		//
+		for (MUOM uom : list) {
+			s_cache.put(uom.get_ID(), uom);
 		}
 	}	//	loadUOMs
 	
