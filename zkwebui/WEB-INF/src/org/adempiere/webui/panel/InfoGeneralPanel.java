@@ -87,7 +87,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	
 	private void initComponents()
 	{
-		
 		Hbox parameterPanel = new Hbox();
 		parameterPanel.setWidth("100%");
         parameterPanel.appendChild(lbl1);
@@ -100,6 +99,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
         parameterPanel.appendChild(txt4);
 		
 		Vbox mainPanel = new Vbox();
+		mainPanel.setWidth("100%");
         mainPanel.appendChild(parameterPanel);
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");

@@ -126,6 +126,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			 executeQuery();
              renderItems();
         }
+		p_loadedOK = true; // Elaine 2008/07/28
 			
 	}
 	

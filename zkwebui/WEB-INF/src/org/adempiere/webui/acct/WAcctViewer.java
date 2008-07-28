@@ -492,7 +492,7 @@ public class WAcctViewer extends Window implements EventListener
 		table.setWidth("99%;");
 //      table.setMold("paging");
 //		table.setPageSize(10);
-		table.setVflex(true);
+//		table.setVflex(true);
 		
 		result.setWidth("100%");
 		result.setHeight("100%");
@@ -889,7 +889,7 @@ public class WAcctViewer extends Window implements EventListener
 			vp = (ValueNamePair)listitem.getValue();
 			if (vp.getName() != null && vp.getName().trim().length() > 0)
 			{
-				m_data.sortBy1 = vp.getName();
+				m_data.sortBy1 = vp.getValue();//vp.getName();
 				m_data.group1 = group1.isChecked();
 				para.append(" - Sorting: ").append(m_data.sortBy1).append("/").append(m_data.group1);
 			}
@@ -903,7 +903,7 @@ public class WAcctViewer extends Window implements EventListener
 			vp = (ValueNamePair)listitem.getValue();
 			if (vp.getName() != null && vp.getName().trim().length() > 0)
 			{
-				m_data.sortBy2 = vp.getName();
+				m_data.sortBy2 = vp.getValue();//vp.getName();
 				m_data.group2 = group2.isChecked();
 				para.append(", ").append(m_data.sortBy2).append("/").append(m_data.group2);
 			}
@@ -917,7 +917,7 @@ public class WAcctViewer extends Window implements EventListener
 			vp = (ValueNamePair)listitem.getValue();
 			if (vp.getName() != null && vp.getName().trim().length() > 0)
 			{
-				m_data.sortBy3 = vp.getName();
+				m_data.sortBy3 = vp.getValue();//vp.getName();
 				m_data.group3 = group3.isChecked();
 				para.append(", ").append(m_data.sortBy3).append("/").append(m_data.group3);
 			}
@@ -931,7 +931,7 @@ public class WAcctViewer extends Window implements EventListener
 			vp = (ValueNamePair)listitem.getValue();
 			if (vp.getName() != null && vp.getName().trim().length() > 0)
 			{
-				m_data.sortBy4 = vp.getName();
+				m_data.sortBy4 = vp.getValue();//vp.getName();
 				m_data.group4 = group4.isChecked();
 				para.append(", ").append(m_data.sortBy4).append("/").append(m_data.group4);
 			}
@@ -965,6 +965,30 @@ public class WAcctViewer extends Window implements EventListener
 			
 			table.appendChild(listhead);
 		}
+		// Elaine 2008/07/28
+		else
+		{
+			Listhead listhead = table.getListhead();
+			
+			// remove existing column header
+			for (int i = listhead.getChildren().size() - 1; i >= 0; i--)
+			{
+				Object o = listhead.getChildren().get(i);
+				if(o instanceof Listheader)
+				{
+					Listheader listheader = (Listheader) o;
+					listhead.removeChild(listheader);
+				}
+			}
+			
+			// add in new column header
+			for (int i = 0; i < rmodel.getColumnCount(); i++)
+			{
+				Listheader listheader = new Listheader(rmodel.getColumnName(i));
+				listhead.appendChild(listheader);
+			}			
+		}
+		//
 
 		table.getItems().clear();
 		
@@ -1063,7 +1087,7 @@ public class WAcctViewer extends Window implements EventListener
 	{
 		String keyColumn = button.getName();
 		log.info(keyColumn);
-		String whereClause = "IsSummary='N'";
+		String whereClause = ""; // Elaine 2008/07/28
 		String lookupColumn = keyColumn;
 		
 		if ("Account_ID".equals(keyColumn))
@@ -1097,6 +1121,7 @@ public class WAcctViewer extends Window implements EventListener
 			whereClause = "";
 		
 		String tableName = lookupColumn.substring(0, lookupColumn.length()-3);
+		whereClause = tableName + ".IsSummary='N'" + whereClause; // Elaine 2008/07/28
 		
 		InfoPanel info = InfoPanel.create(m_data.WindowNo, tableName, lookupColumn, "", false, whereClause);
 		
@@ -1108,7 +1133,7 @@ public class WAcctViewer extends Window implements EventListener
 			m_data.whereInfo.put(keyColumn, "");
 			return 0;
 		}
-		
+
 		info.setVisible(true);
 		AEnv.showWindow(info);
 		
