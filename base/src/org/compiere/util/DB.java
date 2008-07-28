@@ -70,6 +70,7 @@ import org.compiere.process.SequenceCheck;
  * 		<li>FR [ 1884435 ] Add more DB.getSQLValue helper methods
  * 		<li>FR [ 1904460 ] DB.executeUpdate should handle Boolean params
  * 		<li>BF [ 1962568 ] DB.executeUpdate should handle null params
+ * 		<li>BF [ 2030233 ] Remove duplicate code from DB class
  */
 public final class DB
 {
@@ -783,6 +784,35 @@ public final class DB
 	{
 		return new CStatement(resultSetType, resultSetConcurrency, trxName);
 	}	//	createStatement
+	
+	/**
+	 * Set parameters for given statement
+	 * @param stmt statements
+	 * @param params parameters array
+	 */
+	private static void setParameters(PreparedStatement stmt, Object[] params) throws SQLException
+	{
+		if (params == null || params.length == 0) {
+			return;
+		}
+		//
+		for (int i = 0; i < params.length; i++)
+		{
+			Object param = params[i];
+			if (param == null)
+				stmt.setObject(i+1, null);
+			else if (param instanceof String)
+				stmt.setString(i+1, (String)param);
+			else if (param instanceof Integer)
+				stmt.setInt(i+1, ((Integer)param).intValue());
+			else if (param instanceof BigDecimal)
+				stmt.setBigDecimal(i+1, (BigDecimal)param);
+			else if (param instanceof Timestamp)
+				stmt.setTimestamp(i+1, (Timestamp)param);
+			else if (param instanceof Boolean)
+				stmt.setString(i+1, ((Boolean)param).booleanValue() ? "Y" : "N");
+		}
+	}
 
 	/**
 	 *	Execute Update.
@@ -881,27 +911,7 @@ public final class DB
 		
 		try
 		{
-			//	Set Parameter
-			if (params != null)
-			{
-				for (int i = 0; i < params.length; i++)
-				{
-					Object param = params[i];
-					if (param == null)
-						cs.setObject(i+1, null);
-					else if (param instanceof String)
-						cs.setString(i+1, (String)param);
-					else if (param instanceof Integer)
-						cs.setInt(i+1, ((Integer)param).intValue());
-					else if (param instanceof BigDecimal)
-						cs.setBigDecimal(i+1, (BigDecimal)param);
-					else if (param instanceof Timestamp)
-						cs.setTimestamp(i+1, (Timestamp)param);
-					else if (param instanceof Boolean)
-						cs.setString(i+1, ((Boolean)param).booleanValue() ? "Y" : "N");
-				}
-			}
-			//
+			setParameters(cs, params);
 			no = cs.executeUpdate();
 			//	No Transaction - Commit
 			if (trxName == null)
@@ -1106,190 +1116,6 @@ public final class DB
 	}	//	getRowSet
 
     /**
-     *  Get Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @return first value or -1
-     */
-    public static int getSQLValue (String trxName, String sql)
-    {
-        int retValue = -1;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getInt(1);
-            else
-                log.fine("No Value " + sql);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql, e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValue
-
-    /**
-     *  Get Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @param int_param1 parameter 1
-     *  @return first value or -1
-     */
-    public static int getSQLValue (String trxName, String sql, int int_param1)
-    {
-        int retValue = -1;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            pstmt.setInt(1, int_param1);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getInt(1);
-            else
-                log.config("No Value " + sql + " - Param1=" + int_param1);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + " [" + trxName + "]", e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValue
-
-    /**
-     *  Get Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @param int_param1 parameter 1
-     *  @param int_param2 parameter 2
-     *  @return first value or -1
-     */
-    public static int getSQLValue (String trxName, String sql, int int_param1, int int_param2)
-    {
-        int retValue = -1;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            pstmt.setInt(1, int_param1);
-            pstmt.setInt(2, int_param2);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getInt(1);
-            else
-                log.info("No Value " + sql
-                    + " - Param1=" + int_param1 + ",Param2=" + int_param2);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + ",Param2=" + int_param2
-                + " [" + trxName + "]", e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValue
-
-    /**
-     *  Get Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @param str_param1 parameter 1
-     *  @return first value or -1
-     */
-    public static int getSQLValue (String trxName, String sql, String str_param1)
-    {
-        int retValue = -1;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            pstmt.setString(1, str_param1);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getInt(1);
-            else
-                log.info("No Value " + sql + " - Param1=" + str_param1);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql + " - Param1=" + str_param1, e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValue
-
-    /**
-     *  Get Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @param int_param1 parameter 1
-     *  @param s_param2 parameter 2
-     *  @return first value or -1
-     */
-    public static int getSQLValue (String trxName, String sql, int int_param1, String s_param2)
-    {
-        int retValue = -1;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            pstmt.setInt(1, int_param1);
-            pstmt.setString(2, s_param2);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getInt(1);
-            else
-                log.info("No Value: " + sql + " - Param1=" + int_param1 + ",Param2=" + s_param2);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + ",Param2=" + s_param2, e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValue
-
-    /**
      * Get int Value from sql
      * @param trxName trx
      * @param sql sql
@@ -1304,9 +1130,7 @@ public final class DB
     	try
     	{
     		pstmt = prepareStatement(sql, trxName);
-    		for (int i = 0; i < params.length; i++) {
-    			pstmt.setObject(i+1, params[i]);
-    		}
+    		setParameters(pstmt, params);
     		rs = pstmt.executeQuery();
     		if (rs.next())
     			retValue = rs.getInt(1);
@@ -1340,42 +1164,6 @@ public final class DB
     }
     
     /**
-     *  Get String Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @param int_param1 parameter 1
-     *  @return first value or null
-     */
-    public static String getSQLValueString (String trxName, String sql, int int_param1)
-    {
-        String retValue = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            pstmt.setInt(1, int_param1);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getString(1);
-            else
-                log.info("No Value " + sql + " - Param1=" + int_param1);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql + " - Param1=" + int_param1, e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValueString
-
-    /**
      * Get String Value from sql
      * @param trxName trx
      * @param sql sql
@@ -1390,9 +1178,7 @@ public final class DB
     	try
     	{
     		pstmt = prepareStatement(sql, trxName);
-    		for (int i = 0; i < params.length; i++) {
-    			pstmt.setObject(i+1, params[i]);
-    		}
+    		setParameters(pstmt, params);
     		rs = pstmt.executeQuery();
     		if (rs.next())
     			retValue = rs.getString(1);
@@ -1426,42 +1212,6 @@ public final class DB
     }
 
     /**
-     *  Get BigDecimal Value from sql
-     *  @param trxName trx
-     *  @param sql sql
-     *  @param int_param1 parameter 1
-     *  @return first value or null
-     */
-    public static BigDecimal getSQLValueBD (String trxName, String sql, int int_param1)
-    {
-        BigDecimal retValue = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = prepareStatement(sql, trxName);
-            pstmt.setInt(1, int_param1);
-            rs = pstmt.executeQuery();
-            if (rs.next())
-                retValue = rs.getBigDecimal(1);
-            else
-                log.info("No Value " + sql + " - Param1=" + int_param1);
-        }
-        catch (Exception e)
-        {
-            log.log(Level.SEVERE, sql + " - Param1=" + int_param1 + " [" + trxName + "]", e);
-        }
-        finally
-        {
-            close(rs);
-            close(pstmt);
-            rs= null;
-            pstmt = null;
-        }
-        return retValue;
-    }   //  getSQLValueBD
-
-    /**
      * Get BigDecimal Value from sql
      * @param trxName trx
      * @param sql sql
@@ -1476,9 +1226,7 @@ public final class DB
     	try
     	{
     		pstmt = prepareStatement(sql, trxName);
-    		for (int i = 0; i < params.length; i++) {
-    			pstmt.setObject(i+1, params[i]);
-    		}
+    		setParameters(pstmt, params);
     		rs = pstmt.executeQuery();
     		if (rs.next())
     			retValue = rs.getBigDecimal(1);
@@ -1526,9 +1274,7 @@ public final class DB
     	try
     	{
     		pstmt = prepareStatement(sql, trxName);
-    		for (int i = 0; i < params.length; i++) {
-    			pstmt.setObject(i+1, params[i]);
-    		}
+    		setParameters(pstmt, params);
     		rs = pstmt.executeQuery();
     		if (rs.next())
     			retValue = rs.getTimestamp(1);
