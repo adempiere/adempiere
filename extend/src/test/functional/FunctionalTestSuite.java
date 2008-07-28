@@ -19,6 +19,7 @@ public class FunctionalTestSuite {
 		suite.addTestSuite(MSysConfigTest.class);
 		suite.addTestSuite(QueryTest.class);
 		suite.addTestSuite(MRefListTest.class);
+		suite.addTestSuite(MUOMTest.class);
 		//$JUnit-END$
 		return suite;
 	}
