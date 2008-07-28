@@ -455,6 +455,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				payment.setAmount(check.getParent().getC_Currency_ID(), check.getPayAmt());
 				payment.setDiscountAmt(check.getDiscountAmt());
 				payment.setDateTrx(check.getParent().getPayDate());
+				payment.setDateAcct(payment.getDateTrx()); // globalqss [ 2030685 ]
 				payment.setC_BPartner_ID(check.getC_BPartner_ID());
 				//	Link to Batch
 				if (batch != null)
