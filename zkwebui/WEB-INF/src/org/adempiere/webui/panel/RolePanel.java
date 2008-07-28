@@ -254,6 +254,7 @@ public class RolePanel extends Window implements EventListener
             {
                 for(int i = 0; i < warehouseKNPairs.length; i++)
                     lstWarehouse.appendItem(warehouseKNPairs[i].getName(), warehouseKNPairs[i].getID());
+                lstWarehouse.setSelectedIndex(0);
             }
         }
     }
@@ -300,7 +301,7 @@ public class RolePanel extends Window implements EventListener
         Listitem lstItemRole = lstRole.getSelectedItem();
         Listitem lstItemClient = lstClient.getSelectedItem();
         Listitem lstItemOrg = lstOrganisation.getSelectedItem();
-        Listitem lstItemWarehouse = lstOrganisation.getSelectedItem();
+        Listitem lstItemWarehouse = lstWarehouse.getSelectedItem();
 
         if(lstItemRole == null || lstItemRole.getValue() == null)
         {

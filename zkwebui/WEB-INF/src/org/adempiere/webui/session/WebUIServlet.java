@@ -36,6 +36,7 @@ import org.compiere.report.ReportStarter;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
 
 /**
@@ -82,6 +83,9 @@ public class WebUIServlet extends DHtmlLayoutServlet
         {
             throw new ServletException("Could not start ADempiere");
         }
+        
+        // hengsin: temporary solution for problem with zk client
+        Ini.setProperty(Ini.P_ADEMPIERESYS, false);
         ReportCtl.setReportViewerProvider(new ZkReportViewerProvider());
         ReportStarter.setReportViewerProvider(new ZkJRViewerProvider());
         logger.info("ADempiere started successfully");
