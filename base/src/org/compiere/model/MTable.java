@@ -775,7 +775,7 @@ public class MTable extends X_AD_Table
 	 */
 	public Query createQuery(String whereClause, String trxName) 
 	{
-		return new Query(this, whereClause, trxName);
+		return new Query(this.getCtx(), this, whereClause, trxName);
 	}
 
 	/**

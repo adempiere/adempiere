@@ -30,18 +30,19 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  * 
  * @author Low Heng Sin
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1981760 ] Improve Query class
+ * 			<li>BF [ 2030280 ] org.compiere.model.Query apply access fielter issue
  */
 public class Query {
 
 	private static CLogger log	= CLogger.getCLogger (Query.class);
 	
+	private Properties ctx = null;
 	private MTable table = null;
 	private String whereClause = null;
 	private String orderBy = null;
@@ -54,15 +55,37 @@ public class Query {
 	 * @param table
 	 * @param whereClause
 	 * @param trxName
+	 * @deprecated Use {@link #Query(Properties, MTable, String, String)} instead because this method is security error prone
 	 */
 	public Query(MTable table, String whereClause, String trxName) {
+		this.ctx = table.getCtx();
 		this.table = table;
 		this.whereClause = whereClause;
 		this.trxName = trxName;
 	}
 	
+	/**
+	 * @param ctx context 
+	 * @param table
+	 * @param whereClause
+	 * @param trxName
+	 */
+	public Query(Properties ctx, MTable table, String whereClause, String trxName) {
+		this.ctx = ctx;
+		this.table = table;
+		this.whereClause = whereClause;
+		this.trxName = trxName;
+	}
+	
+	/**
+	 * 
+	 * @param ctx
+	 * @param tableName
+	 * @param whereClause
+	 * @param trxName
+	 */
 	public Query(Properties ctx, String tableName, String whereClause, String trxName) {
-		this(MTable.get(ctx, tableName), whereClause, trxName);
+		this(ctx, MTable.get(ctx, tableName), whereClause, trxName);
 		if (this.table == null)
 			throw new IllegalArgumentException("Table Name Not Found - "+tableName);
 	}
@@ -283,7 +306,7 @@ public class Query {
 	 */
 	private final String buildSQL(StringBuffer selectClause) {
 		if (selectClause == null) {
-			POInfo info = POInfo.getPOInfo(Env.getCtx(), table.getAD_Table_ID(), trxName);
+			POInfo info = POInfo.getPOInfo(this.ctx, table.getAD_Table_ID(), trxName);
 			if (info == null)
 				throw new IllegalStateException("No POInfo found for AD_Table_ID="+table.getAD_Table_ID());
 			selectClause = info.buildSelect();
@@ -295,7 +318,7 @@ public class Query {
 			sqlBuffer.append(" Order By ").append(orderBy);
 		String sql = sqlBuffer.toString();
 		if (applyAccessFilter) {
-			MRole role = MRole.getDefault();
+			MRole role = MRole.getDefault(this.ctx, false);
 			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
 		return sql;
