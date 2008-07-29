@@ -54,6 +54,8 @@ INSERT INTO AD_Reference (UpdatedBy,ValidationType,AD_Org_ID,Updated,VFormat,Hel
 INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Help,Name,Description, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Reference_ID, t.Help,t.Name,t.Description, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Reference t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Reference_ID=53280 AND EXISTS (SELECT * FROM AD_Reference_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Reference_ID!=t.AD_Reference_ID)
 ;
 
+SET CLIENT_ENCODING TO 'LATIN1';
+
 -- Jul 9, 2008 3:34:47 PM COT
 -- Financial Report Source with Type Combination
 UPDATE AD_Reference_Trl SET Description='Tipos de elementos para elementos contables - igual a C_AcctSchema ElementType mas Combinación',Help='Tipos de elementos definidos en forma fija',Updated=TO_TIMESTAMP('2008-07-09 15:34:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53280 AND AD_Language LIKE 'es_%'
@@ -313,6 +315,8 @@ UPDATE AD_Ref_List_Trl SET IsTranslated='Y',Name='Elemento de Usuario 2',Updated
 -- Financial Report Source with Type Combination
 UPDATE AD_Ref_List_Trl SET IsTranslated='Y',Name='Combinación',Description='Combinacion de dimensiones contables',Updated=TO_TIMESTAMP('2008-07-09 15:44:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=53434 AND AD_Language LIKE 'es_%'
 ;
+
+SET CLIENT_ENCODING TO 'UTF8';
 
 -- Jul 9, 2008 3:45:38 PM COT
 -- Financial Report Source with Type Combination
