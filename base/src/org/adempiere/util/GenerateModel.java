@@ -117,7 +117,7 @@ public class GenerateModel
 			+ "FROM AD_Table "
 			+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')"	//	special views
 			+ " OR IsView='N')"
-			+ " AND TableName NOT LIKE '%_Trl' AND ");
+			+ " AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
 		sql.append(" AND TableName LIKE ").append(tableLike);
 
 		sql.append(" ORDER BY TableName");

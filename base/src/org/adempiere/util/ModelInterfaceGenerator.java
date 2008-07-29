@@ -588,7 +588,7 @@ public class ModelInterfaceGenerator {
 		// complete sql
 		sql.insert(0, "SELECT AD_Table_ID " + "FROM AD_Table "
 				+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')" // special views
-				+ " OR IsView='N')" + " AND TableName NOT LIKE '%_Trl' AND ");
+				+ " OR IsView='N') AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
 		sql.append(" AND TableName LIKE ").append(tableLike);
 		sql.append(" ORDER BY TableName");
 
