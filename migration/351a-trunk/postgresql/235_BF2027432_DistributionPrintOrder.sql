@@ -1115,7 +1115,7 @@ UPDATE AD_Process SET AD_PrintFormat_ID=NULL,Updated=TO_TIMESTAMP('2008-07-25 00
 
 -- Jul 25, 2008 1:09:20 AM CDT
 -- Order Distribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53670,0,'ManufacturingOrder_MailText_ID',TO_TIMESTAMP('2008-07-25 01:09:09','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order','EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Manufacturing Order Mail Text','Manufacturing Order Text',TO_TIMESTAMP('2008-07-25 01:09:09','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53670,0,'Manuf_Order_MailText_ID',TO_TIMESTAMP('2008-07-25 01:09:09','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order','EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Manufacturing Order Mail Text','Manufacturing Order Text',TO_TIMESTAMP('2008-07-25 01:09:09','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jul 25, 2008 1:09:21 AM CDT
@@ -1145,7 +1145,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 25, 2008 1:12:52 AM CDT
 -- Order Distribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53673,0,'DistributionOrder_MailText_ID',TO_TIMESTAMP('2008-07-25 01:12:52','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order','EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Distribution Order Mail Text','Distribution Order Text',TO_TIMESTAMP('2008-07-25 01:12:52','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53673,0,'Distrib_Order_MailText_ID',TO_TIMESTAMP('2008-07-25 01:12:52','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order','EE01','Standard email template used to send Manufacturing Order as attachments.','Y','Distribution Order Mail Text','Distribution Order Text',TO_TIMESTAMP('2008-07-25 01:12:52','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jul 25, 2008 1:12:52 AM CDT
@@ -1195,7 +1195,7 @@ INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_
 
 -- Jul 25, 2008 1:33:47 AM CDT
 -- Order Distribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56242,53670,0,18,274,454,'ManufacturingOrder_MailText_ID',TO_TIMESTAMP('2008-07-25 01:33:46','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order','EE01',22,'Standard email template used to send Manufacturing Order as attachments.','Y','N','N','N','N','N','N','N','N','N','Y','Manufacturing Order Mail Text',0,TO_TIMESTAMP('2008-07-25 01:33:46','YYYY-MM-DD HH24:MI:SS'),0,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56242,53670,0,18,274,454,'Manuf_Order_MailText_ID',TO_TIMESTAMP('2008-07-25 01:33:46','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Manufacturing Order','EE01',22,'Standard email template used to send Manufacturing Order as attachments.','Y','N','N','N','N','N','N','N','N','N','Y','Manufacturing Order Mail Text',0,TO_TIMESTAMP('2008-07-25 01:33:46','YYYY-MM-DD HH24:MI:SS'),0,1)
 ;
 
 -- Jul 25, 2008 1:33:47 AM CDT
@@ -1205,7 +1205,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 25, 2008 1:33:53 AM CDT
 -- Order Distribution
-ALTER TABLE AD_PrintForm ADD COLUMN ManufacturingOrder_MailText_ID NUMERIC(10)
+ALTER TABLE AD_PrintForm ADD COLUMN Manuf_Order_MailText_ID NUMERIC(10)
 ;
 
 -- Jul 25, 2008 1:34:57 AM CDT
@@ -1225,7 +1225,7 @@ ALTER TABLE AD_PrintForm ADD COLUMN Manuf_Order_PrintFormat_ID NUMERIC(10)
 
 -- Jul 25, 2008 1:35:47 AM CDT
 -- Order Distribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56244,53673,0,18,274,454,'DistributionOrder_MailText_ID',TO_TIMESTAMP('2008-07-25 01:35:47','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order','EE01',22,'Standard email template used to send Manufacturing Order as attachments.','Y','N','N','N','N','N','N','N','N','N','Y','Distribution Order Mail Text',0,TO_TIMESTAMP('2008-07-25 01:35:47','YYYY-MM-DD HH24:MI:SS'),0,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56244,53673,0,18,274,454,'Distrib_Order_MailText_ID',TO_TIMESTAMP('2008-07-25 01:35:47','YYYY-MM-DD HH24:MI:SS'),0,'Email text used for sending Distribution Order','EE01',22,'Standard email template used to send Manufacturing Order as attachments.','Y','N','N','N','N','N','N','N','N','N','Y','Distribution Order Mail Text',0,TO_TIMESTAMP('2008-07-25 01:35:47','YYYY-MM-DD HH24:MI:SS'),0,1)
 ;
 
 -- Jul 25, 2008 1:35:47 AM CDT
@@ -1235,7 +1235,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 25, 2008 1:35:51 AM CDT
 -- Order Distribution
-ALTER TABLE AD_PrintForm ADD COLUMN DistributionOrder_MailText_ID NUMERIC(10)
+ALTER TABLE AD_PrintForm ADD COLUMN Distrib_Order_MailText_ID NUMERIC(10)
 ;
 
 -- Jul 25, 2008 1:36:23 AM CDT
@@ -1255,7 +1255,7 @@ ALTER TABLE AD_PrintForm ADD COLUMN Distrib_Order_PrintFormat_ID NUMERIC(10)
 
 -- Jul 25, 2008 1:36:42 AM CDT
 -- Order Distribution
-insert into t_alter_column values('ad_printform','DistributionOrder_MailText_ID','NUMERIC(10)',null,'NULL')
+insert into t_alter_column values('ad_printform','Distrib_Order_MailText_ID','NUMERIC(10)',null,'NULL')
 ;
 
 -- Jul 25, 2008 1:38:11 AM CDT
