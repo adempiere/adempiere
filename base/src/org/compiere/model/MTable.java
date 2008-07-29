@@ -52,11 +52,13 @@ public class MTable extends X_AD_Table
 	{
 		Integer key = new Integer (AD_Table_ID);
 		MTable retValue = (MTable) s_cache.get (key);
-		if (retValue != null)
+		if (retValue != null && retValue.getCtx() == ctx) {
 			return retValue;
+		}
 		retValue = new MTable (ctx, AD_Table_ID, null);
-		if (retValue.get_ID () != 0)
+		if (retValue.get_ID () != 0) {
 			s_cache.put (key, retValue);
+		}
 		return retValue;
 	}	//	get
 
@@ -74,8 +76,12 @@ public class MTable extends X_AD_Table
 		while (it.hasNext())
 		{
 			MTable retValue = (MTable)it.next();
-			if (tableName.equalsIgnoreCase(retValue.getTableName()))
+			if (tableName.equalsIgnoreCase(retValue.getTableName()) 
+					&& retValue.getCtx() == ctx 
+				) 
+			{
 				return retValue;
+		}
 		}
 		//
 		MTable retValue = null;
