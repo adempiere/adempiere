@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,14 +16,23 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Shipment Model
@@ -40,6 +49,12 @@ import org.compiere.util.*;
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1222763355238200128L;
+
+
 	/**
 	 * 	Create Shipment From Order
 	 *	@param order order
@@ -1242,25 +1257,26 @@ public class MInOut extends X_M_InOut implements DocAction
 						BigDecimal QtyMA = ma.getMovementQty();
 						if (MovementType.charAt(1) == '-')	//	C- Customer Shipment - V- Vendor Return
 							QtyMA = QtyMA.negate();
-						BigDecimal QtySOMA = Env.ZERO;
-						BigDecimal QtyPOMA = Env.ZERO;
+						BigDecimal reservedDiff = Env.ZERO;
+						BigDecimal orderedDiff = Env.ZERO;
 						if (sLine.getC_OrderLine_ID() != 0)
 						{
 							if (isSOTrx())
-								QtySOMA = ma.getMovementQty();
+								reservedDiff = ma.getMovementQty().negate();
 							else
-								QtyPOMA = ma.getMovementQty();
+								orderedDiff = ma.getMovementQty().negate();
 						}
-						BigDecimal diffQtyOrdered = QtyPOMA.negate();
-						if (!sameWarehouse) {
-							diffQtyOrdered = Env.ZERO;
-						}
+						
+						
 						//	Update Storage - see also VMatch.createMatchRecord
 						if (!MStorage.add(getCtx(), getM_Warehouse_ID(),
 							sLine.getM_Locator_ID(),
 							sLine.getM_Product_ID(), 
 							ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-							QtyMA, QtySOMA.negate(), diffQtyOrdered, get_TrxName()))
+							QtyMA,
+							sameWarehouse ? reservedDiff : Env.ZERO,
+							sameWarehouse ? orderedDiff : Env.ZERO,
+							get_TrxName()))
 						{
 							m_processMsg = "Cannot correct Inventory (MA)";
 							return DocAction.STATUS_Invalid;
@@ -1272,7 +1288,7 @@ public class MInOut extends X_M_InOut implements DocAction
 									wh.getDefaultLocator().getM_Locator_ID(),
 									sLine.getM_Product_ID(), 
 									ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-									Env.ZERO, Env.ZERO, QtyPOMA.negate(), get_TrxName()))
+									Env.ZERO, reservedDiff, orderedDiff, get_TrxName()))
 								{
 									m_processMsg = "Cannot correct Inventory (MA) in order warehouse";
 									return DocAction.STATUS_Invalid;
@@ -1294,16 +1310,15 @@ public class MInOut extends X_M_InOut implements DocAction
 				//	sLine.getM_AttributeSetInstance_ID() != 0
 				if (mtrx == null)
 				{
-					BigDecimal diffQtyOrdered = QtyPO.negate();
-					if (!sameWarehouse) {
-						diffQtyOrdered = Env.ZERO;
-					}
+					BigDecimal reservedDiff = sameWarehouse ? QtySO.negate() : Env.ZERO;
+					BigDecimal orderedDiff = sameWarehouse ? QtyPO.negate(): Env.ZERO;
+					
 					//	Fallback: Update Storage - see also VMatch.createMatchRecord
 					if (!MStorage.add(getCtx(), getM_Warehouse_ID(), 
 						sLine.getM_Locator_ID(),
 						sLine.getM_Product_ID(), 
 						sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-						Qty, QtySO.negate(), diffQtyOrdered, get_TrxName()))
+						Qty, reservedDiff, orderedDiff, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory";
 						return DocAction.STATUS_Invalid;
@@ -1315,7 +1330,7 @@ public class MInOut extends X_M_InOut implements DocAction
 								wh.getDefaultLocator().getM_Locator_ID(),
 								sLine.getM_Product_ID(), 
 								sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-								Env.ZERO, Env.ZERO, QtyPO.negate(), get_TrxName()))
+								Env.ZERO, QtySO.negate(), QtyPO.negate(), get_TrxName()))
 							{
 								m_processMsg = "Cannot correct Inventory";
 								return DocAction.STATUS_Invalid;
