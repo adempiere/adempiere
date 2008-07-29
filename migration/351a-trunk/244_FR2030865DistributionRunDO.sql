@@ -40,7 +40,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=20
 
 -- Jul 28, 2008 8:27:42 PM CDT
 -- Distribution Run Orders
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,1000022,0,53150,53219,20,'CreateDO',TO_DATE('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0,'Create Distribution Order','EE01',1,'Create Distribution Order','Y','Y','N','N','Create Distribution Order',50,TO_DATE('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,NULL,0,53150,53219,20,'CreateDO',TO_DATE('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0,'Create Distribution Order','EE01',1,'Create Distribution Order','Y','Y','N','N','Create Distribution Order',50,TO_DATE('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jul 28, 2008 8:27:42 PM CDT
