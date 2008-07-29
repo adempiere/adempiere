@@ -51,6 +51,8 @@ import org.compiere.util.ValueNamePair;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1761891 ] Included print format with report view attached issue
  * 				<li>BF [ 1807368 ] DataEngine does not close DB connection
+ * @author victor.perez@e-evolution.com 
+ *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
  */
 public class DataEngine
 {
@@ -92,7 +94,8 @@ public class DataEngine
 	private String			m_runningTotalString = null;
 	/** TrxName String					*/
 	private String			m_trxName = null;
-	
+	/** Report Summary FR [ 2011569 ]**/ 
+	private boolean 		m_summary = false;
 	/** Key Indicator in Report			*/
 	public static final String KEY = "*";
 
@@ -107,6 +110,10 @@ public class DataEngine
 	 */
 	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query)
 	{
+
+		/** Report Summary FR [ 2011569 ]**/ 
+		m_summary = "Y".equals(Env.getContext(Env.getCtx(),0, "IsReportSummary")); 
+
 		if (format == null)
 			throw new IllegalStateException ("No print format");
 		String tableName = null;
@@ -793,6 +800,9 @@ public class DataEngine
 
 				//	new row ---------------------------------------------------
 				printRunningTotal(pd, levelNo, rowNo++);
+
+				/** Report Summary FR [ 2011569 ]**/ 
+				if(!m_summary)					
 				pd.addRow(false, levelNo);
 				int counter = 1;
 				//	get columns
@@ -909,6 +919,8 @@ public class DataEngine
 					}	//	Non-Key Column
 					if (pde != null)
 					{
+						/** Report Summary FR [ 2011569 ]**/ 
+						if(!m_summary)
 						pd.addNode(pde);
 						m_group.addValue(pde.getColumnName(), pde.getFunctionValue());
 					}

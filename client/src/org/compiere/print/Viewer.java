@@ -48,7 +48,8 @@ import org.adempiere.pdf.*;
  * 				<li>FR [ 1762466 ] Add "Window" menu to report viewer.
  * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
  * @author victor.perez@e-evolution.com 
- * @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ *				<li>FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
  * 
  */
 public class Viewer extends CFrame
@@ -139,6 +140,8 @@ public class Viewer extends CFrame
 	private JSpinner spinner = new JSpinner(spinnerModel);
 	private CLabel labelDrill = new CLabel();
 	private CComboBox comboDrill = new CComboBox();
+	//FR 201156
+	private CCheckBox summary = new CCheckBox();
 //	private CComboBox comboZoom = new CComboBox(View.ZOOM_OPTIONS);
 
 
@@ -184,6 +187,9 @@ public class Viewer extends CFrame
 		toolBar.addSeparator();
 		toolBar.add(comboReport);
 		comboReport.setToolTipText(Msg.translate(m_ctx, "AD_PrintFormat_ID"));
+		//FR 201156
+		toolBar.add(summary);
+		summary.setText(Msg.getMsg(m_ctx, "Summary"));
 		toolBar.add(bCustomize);
 		bCustomize.setToolTipText(Msg.getMsg(m_ctx, "PrintCustomize"));
 		toolBar.add(bFind);
@@ -218,7 +224,8 @@ public class Viewer extends CFrame
 		//pb comment this out so that scrolling works normally
 		//centerScrollPane.getViewport().addChangeListener(this);
 		// end pb
-
+		//FR 201156
+		summary.addActionListener(this);
 		//	Max Page
 		m_pageMax = m_viewPanel.getPageCount();
 		spinnerModel.setMaximum(new Integer(m_pageMax));
@@ -557,6 +564,11 @@ public class Viewer extends CFrame
 			cmd_report();
 		else if (e.getSource() == comboDrill)
 			cmd_drill();
+		else if (e.getSource() == summary) //FR 201156
+		{	
+			Env.setContext(Env.getCtx(), 0, "IsReportSummary", (Boolean)summary.getValue() ? "Y" : "N" );
+			cmd_report();
+		}	
 		else if (cmd.equals("First"))
 			setPage(1);
 		else if (cmd.equals("PreviousPage") || cmd.equals("Previous"))
