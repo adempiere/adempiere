@@ -23,6 +23,7 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -103,6 +104,8 @@ public class VInOutGen extends CPanel
 	
 	private CLabel     lDocType = new CLabel();
 	private VComboBox  cmbDocType = new VComboBox();
+	private CLabel     lDocAction = new CLabel();
+	private VLookup    docAction;
 
 	/** User selection */
 	private ArrayList<Integer> selection = null;
@@ -125,7 +128,9 @@ public class VInOutGen extends CPanel
 		selPanel.setLayout(selPanelLayout);
 		lWarehouse.setLabelFor(fWarehouse);
 		lBPartner.setLabelFor(fBPartner);
-		lBPartner.setText("BPartner");
+		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		lDocAction.setLabelFor(docAction);
+		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
 		selNorthPanel.setLayout(northPanelLayout);
 		northPanelLayout.setAlignment(FlowLayout.LEFT);
 		tabbedPane.add(selPanel, Msg.getMsg(Env.getCtx(), "Select"));
@@ -152,6 +157,8 @@ public class VInOutGen extends CPanel
 		lDocType.setLabelFor(cmbDocType);
 		selNorthPanel.add(lDocType, null);
 		selNorthPanel.add(cmbDocType, null);
+		selNorthPanel.add(lDocAction, null);
+		selNorthPanel.add(docAction, null);
 	}	//	jbInit
 
 	/**
@@ -167,7 +174,13 @@ public class VInOutGen extends CPanel
 		lWarehouse.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		fWarehouse.addVetoableChangeListener(this);
 		m_M_Warehouse_ID = fWarehouse.getValue();
-		//	C_Order.C_BPartner_ID
+		//   Document Action Prepared/ Completed
+		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocStatus */, 
+				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
+				false, "AD_Ref_List.Value IN ('CO','PR')");
+		docAction = new VLookup("DocAction", true, false, true,docActionL);
+		docAction.addVetoableChangeListener(this);
+		//		C_Order.C_BPartner_ID
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
 		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
@@ -228,7 +241,10 @@ public class VInOutGen extends CPanel
             + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
             + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
             + " AND ic.C_DocType_ID=dt.C_DocType_ID"
-            + " AND ic.AD_Client_ID=?");
+            + " AND ic.AD_Client_ID=?"
+            + " AND NOT EXISTS (SELECT * FROM M_InOut i, M_InOutLine il, C_OrderLine ol"
+            + " WHERE ol.C_Order_ID=ic.C_Order_ID AND  i.M_InOut_ID = il.M_InOut_ID AND"
+            + " il.C_OrderLine_ID = ol.C_OrderLine_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
 
         if (m_M_Warehouse_ID != null)
             sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
@@ -556,10 +572,21 @@ public class VInOutGen extends CPanel
 			log.log(Level.SEVERE, msg);
 			return;
 		}
-		//	Add Parameter - M_Warehouse_ID=x
+		//Add Document action parameter
 		ip = new MPInstancePara(instance, 20);
+		String docActionSelected = (String)docAction.getValue();
+		ip.setParameter("DocAction", docActionSelected);
+		if(!ip.save())
+		{
+			String msg = "No DocACtion Parameter added";
+			info.setText(msg);
+			log.log(Level.SEVERE, msg);
+			return;
+		}
+		//	Add Parameter - M_Warehouse_ID=x
+		ip = new MPInstancePara(instance, 30);
 		ip.setParameter("M_Warehouse_ID", Integer.parseInt(m_M_Warehouse_ID.toString()));
-		if (!ip.save())
+		if(!ip.save())
 		{
 			String msg = "No Parameter added";  //  not translated
 			info.setText(msg);
