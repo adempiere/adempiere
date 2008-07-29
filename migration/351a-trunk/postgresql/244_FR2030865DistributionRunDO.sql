@@ -113,3 +113,9 @@ INSERT INTO AD_Menu_Trl (AD_Language,AD_Menu_ID, Description,Name, IsTranslated,
 Insert INTO AD_TREENODEMM(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, Parent_ID, SeqNo, AD_Tree_ID, Node_ID)VALUES(0, 0, 0, 0, 53066,7, 10, 53184)
 ;
 
+-- Jul 28, 2008 8:59:40 PM CDT
+-- Distribution Run Orders
+UPDATE AD_Val_Rule SET Code='C_DocType.DocBaseType IN (''SOO'', ''POO'',''DOO'')',Updated=TO_TIMESTAMP('2008-07-28 20:59:40','YYYY
+-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Val_Rule_ID=172
+;
+
