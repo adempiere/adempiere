@@ -329,6 +329,8 @@ public abstract class AbstractExcelExporter
 				if (isColumnPrinted(col))
 				{
 					HSSFCell cell = row.createCell(colnum);
+					cell.setEncoding(HSSFCell.ENCODING_UTF_16); // Bug-2017673 - Export Report as Excel - Bad Encoding
+					
 					// line row
 					Object obj = getValueAt(rownum, col);
 					int displayType = getDisplayType(rownum, col);
