@@ -566,13 +566,14 @@ public class ModelClassGenerator
 			// String length check
 			if (clazz.equals(String.class) && fieldLength > 0)
 			{
+				sb.append( "\t\tint fieldLength = p_info.getFieldLength( COLUMNNAME_").append( columnName ).append( " );" ).append(NL);
 				sb.append ("\n\t\tif (");
 				if (!isMandatory)
 					sb.append(columnName).append(" != null && ");
-				sb.append(columnName).append(".length() > ").append(fieldLength).append(")").append(NL)
+				sb.append(columnName).append(".length() > fieldLength ").append(")").append(NL)
 					.append("\t\t{").append(NL)
-					.append("\t\t\tlog.warning(\"Length > ").append(fieldLength).append(" - truncated\");").append(NL)
-					.append("\t\t\t").append(columnName).append(" = ").append(columnName).append(".substring(0, ").append(fieldLength).append(");").append(NL)
+					.append("\t\t\tlog.warning(\"Length > \" + fieldLength + \" - truncated\");").append(NL)
+					.append("\t\t\t").append(columnName).append(" = ").append( columnName ).append(".substring(0, fieldLength ").append(");").append(NL)
 					.append("\t\t}").append(NL)
 				;
 			}
@@ -599,7 +600,7 @@ public class ModelClassGenerator
 			else if (clazz.equals(BigDecimal.class))
 				mandatory.append("Env.ZERO");
 			else if (clazz.equals(Timestamp.class))
-				mandatory.append("new Timestamp(System.currentTimeMillis())");
+				mandatory.append("new Timestamp( System.currentTimeMillis() )");
 			else
 				mandatory.append("null");
 			mandatory.append(");").append(NL);

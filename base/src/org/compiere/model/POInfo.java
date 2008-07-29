@@ -606,6 +606,20 @@ public class POInfo implements Serializable
 	}   //  getFieldLength
 
 	/**
+	 *  Get Column FieldLength
+	 *  @param columnName Column Name
+	 *  @return field length or 0
+	 */
+	public int getFieldLength (String columnName)
+	{
+		int index = getColumnIndex( columnName );
+		if (index >= 0) {
+			return getFieldLength( index );
+		}
+		return 0;
+	}
+	
+	/**
 	 *  Validate Content
 	 *  @param index index
 	 * 	@param value new Value
