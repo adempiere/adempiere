@@ -141,26 +141,26 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** DistributionOrder_PrintFormat_ID AD_Reference_ID=53282 */
-	public static final int DISTRIBUTIONORDER_PRINTFORMAT_ID_AD_Reference_ID=53282;
+	/** Distrib_Order_PrintFormat_ID AD_Reference_ID=53282 */
+	public static final int Distrib_Order_PrintFormat_ID_AD_Reference_ID=53282;
 	/** Set Distribution Order Print Format.
-		@param DistributionOrder_PrintFormat_ID 
+		@param Distrib_Order_PrintFormat_ID 
 		Print Format for printing Distribution Order
 	  */
-	public void setDistributionOrder_PrintFormat_ID (int DistributionOrder_PrintFormat_ID)
+	public void setDistrib_Order_PrintFormat_ID (int Distrib_Order_PrintFormat_ID)
 	{
-		if (DistributionOrder_PrintFormat_ID < 1) 
-			set_Value (COLUMNNAME_DistributionOrder_PrintFormat_ID, null);
+		if (Distrib_Order_PrintFormat_ID < 1) 
+			set_Value (COLUMNNAME_Distrib_Order_PrintFormat_ID, null);
 		else 
-			set_Value (COLUMNNAME_DistributionOrder_PrintFormat_ID, Integer.valueOf(DistributionOrder_PrintFormat_ID));
+			set_Value (COLUMNNAME_Distrib_Order_PrintFormat_ID, Integer.valueOf(Distrib_Order_PrintFormat_ID));
 	}
 
 	/** Get Distribution Order Print Format.
 		@return Print Format for printing Distribution Order
 	  */
-	public int getDistributionOrder_PrintFormat_ID () 
+	public int getDistrib_Order_PrintFormat_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DistributionOrder_PrintFormat_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Distrib_Order_PrintFormat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -241,26 +241,26 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** ManufacturingOrder_PrintFormat_ID AD_Reference_ID=53281 */
-	public static final int MANUFACTURINGORDER_PRINTFORMAT_ID_AD_Reference_ID=53281;
+	/** Manuf_Order_PrintFormat_ID AD_Reference_ID=53281 */
+	public static final int Manuf_Order_PrintFormat_ID_AD_Reference_ID=53281;
 	/** Set Manufacturing Order Print Format.
-		@param ManufacturingOrder_PrintFormat_ID 
+		@param Manuf_Order_PrintFormat_ID 
 		Print Format for printing Manufacturing Order
 	  */
-	public void setManufacturingOrder_PrintFormat_ID (int ManufacturingOrder_PrintFormat_ID)
+	public void setManuf_Order_PrintFormat_ID (int Manuf_Order_PrintFormat_ID)
 	{
-		if (ManufacturingOrder_PrintFormat_ID < 1) 
-			set_Value (COLUMNNAME_ManufacturingOrder_PrintFormat_ID, null);
+		if (Manuf_Order_PrintFormat_ID < 1) 
+			set_Value (COLUMNNAME_Manuf_Order_PrintFormat_ID, null);
 		else 
-			set_Value (COLUMNNAME_ManufacturingOrder_PrintFormat_ID, Integer.valueOf(ManufacturingOrder_PrintFormat_ID));
+			set_Value (COLUMNNAME_Manuf_Order_PrintFormat_ID, Integer.valueOf(Manuf_Order_PrintFormat_ID));
 	}
 
 	/** Get Manufacturing Order Print Format.
 		@return Print Format for printing Manufacturing Order
 	  */
-	public int getManufacturingOrder_PrintFormat_ID () 
+	public int getManuf_Order_PrintFormat_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturingOrder_PrintFormat_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Manuf_Order_PrintFormat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

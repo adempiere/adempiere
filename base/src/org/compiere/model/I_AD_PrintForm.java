@@ -95,18 +95,18 @@ public interface I_AD_PrintForm
 	  */
 	public int getDistributionOrder_MailText_ID();
 
-    /** Column name DistributionOrder_PrintFormat_ID */
-    public static final String COLUMNNAME_DistributionOrder_PrintFormat_ID = "DistributionOrder_PrintFormat_ID";
+    /** Column name Distrib_Order_PrintFormat_ID */
+    public static final String COLUMNNAME_Distrib_Order_PrintFormat_ID = "Distrib_Order_PrintFormat_ID";
 
 	/** Set Distribution Order Print Format.
 	  * Print Format for printing Distribution Order
 	  */
-	public void setDistributionOrder_PrintFormat_ID (int DistributionOrder_PrintFormat_ID);
+	public void setDistrib_Order_PrintFormat_ID (int Distrib_Order_PrintFormat_ID);
 
 	/** Get Distribution Order Print Format.
 	  * Print Format for printing Distribution Order
 	  */
-	public int getDistributionOrder_PrintFormat_ID();
+	public int getDistrib_Order_PrintFormat_ID();
 
     /** Column name Invoice_MailText_ID */
     public static final String COLUMNNAME_Invoice_MailText_ID = "Invoice_MailText_ID";
@@ -147,18 +147,18 @@ public interface I_AD_PrintForm
 	  */
 	public int getManufacturingOrder_MailText_ID();
 
-    /** Column name ManufacturingOrder_PrintFormat_ID */
-    public static final String COLUMNNAME_ManufacturingOrder_PrintFormat_ID = "ManufacturingOrder_PrintFormat_ID";
+    /** Column name Manuf_Order_PrintFormat_ID */
+    public static final String COLUMNNAME_Manuf_Order_PrintFormat_ID = "Manuf_Order_PrintFormat_ID";
 
 	/** Set Manufacturing Order Print Format.
 	  * Print Format for printing Manufacturing Order
 	  */
-	public void setManufacturingOrder_PrintFormat_ID (int ManufacturingOrder_PrintFormat_ID);
+	public void setManuf_Order_PrintFormat_ID (int Manuf_Order_PrintFormat_ID);
 
 	/** Get Manufacturing Order Print Format.
 	  * Print Format for printing Manufacturing Order
 	  */
-	public int getManufacturingOrder_PrintFormat_ID();
+	public int getManuf_Order_PrintFormat_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

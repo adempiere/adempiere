@@ -1125,7 +1125,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 25, 2008 1:11:42 AM CDT
 -- Order Distribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53671,0,'ManufacturingOrder_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:11:38','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order','EE01','You need to define a Print Format to print the document.','Y','Manufacturing Order Print Format','Manufacturing Order Print Format',TO_TIMESTAMP('2008-07-25 01:11:38','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53671,0,'Manuf_Order_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:11:38','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order','EE01','You need to define a Print Format to print the document.','Y','Manufacturing Order Print Format','Manufacturing Order Print Format',TO_TIMESTAMP('2008-07-25 01:11:38','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jul 25, 2008 1:11:42 AM CDT
@@ -1135,7 +1135,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jul 25, 2008 1:12:15 AM CDT
 -- Order Distribution
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53672,0,'DistributionOrder_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:12:13','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order','EE01','You need to define a Print Format to print the document.','Y','Distribution Order Print Format','Distribution Order Print Format',TO_TIMESTAMP('2008-07-25 01:12:13','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53672,0,'Distrib_Order_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:12:13','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order','EE01','You need to define a Print Format to print the document.','Y','Distribution Order Print Format','Distribution Order Print Format',TO_TIMESTAMP('2008-07-25 01:12:13','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jul 25, 2008 1:12:15 AM CDT
@@ -1210,7 +1210,7 @@ ALTER TABLE AD_PrintForm ADD COLUMN ManufacturingOrder_MailText_ID NUMERIC(10)
 
 -- Jul 25, 2008 1:34:57 AM CDT
 -- Order Distribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56243,53671,0,18,53281,454,'ManufacturingOrder_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:34:56','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order','EE01',22,'You need to define a Print Format to print the document.','Y','N','N','N','N','N','N','N','N','N','Y','Manufacturing Order Print Format',0,TO_TIMESTAMP('2008-07-25 01:34:56','YYYY-MM-DD HH24:MI:SS'),0,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56243,53671,0,18,53281,454,'Manuf_Order_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:34:56','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Manufacturing Order','EE01',22,'You need to define a Print Format to print the document.','Y','N','N','N','N','N','N','N','N','N','Y','Manufacturing Order Print Format',0,TO_TIMESTAMP('2008-07-25 01:34:56','YYYY-MM-DD HH24:MI:SS'),0,1)
 ;
 
 -- Jul 25, 2008 1:34:57 AM CDT
@@ -1220,7 +1220,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 25, 2008 1:35:02 AM CDT
 -- Order Distribution
-ALTER TABLE AD_PrintForm ADD COLUMN ManufacturingOrder_PrintFormat_ID NUMERIC(10)
+ALTER TABLE AD_PrintForm ADD COLUMN Manuf_Order_PrintFormat_ID NUMERIC(10)
 ;
 
 -- Jul 25, 2008 1:35:47 AM CDT
@@ -1240,7 +1240,7 @@ ALTER TABLE AD_PrintForm ADD COLUMN DistributionOrder_MailText_ID NUMERIC(10)
 
 -- Jul 25, 2008 1:36:23 AM CDT
 -- Order Distribution
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56245,53672,0,18,53282,454,'DistributionOrder_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:36:22','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order','EE01',22,'You need to define a Print Format to print the document.','Y','N','N','N','N','N','N','N','N','N','Y','Distribution Order Print Format',0,TO_TIMESTAMP('2008-07-25 01:36:22','YYYY-MM-DD HH24:MI:SS'),0,1)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56245,53672,0,18,53282,454,'Distrib_Order_PrintFormat_ID',TO_TIMESTAMP('2008-07-25 01:36:22','YYYY-MM-DD HH24:MI:SS'),0,'Print Format for printing Distribution Order','EE01',22,'You need to define a Print Format to print the document.','Y','N','N','N','N','N','N','N','N','N','Y','Distribution Order Print Format',0,TO_TIMESTAMP('2008-07-25 01:36:22','YYYY-MM-DD HH24:MI:SS'),0,1)
 ;
 
 -- Jul 25, 2008 1:36:23 AM CDT
@@ -1250,7 +1250,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 
 -- Jul 25, 2008 1:36:25 AM CDT
 -- Order Distribution
-ALTER TABLE AD_PrintForm ADD COLUMN DistributionOrder_PrintFormat_ID NUMERIC(10)
+ALTER TABLE AD_PrintForm ADD COLUMN Distrib_Order_PrintFormat_ID NUMERIC(10)
 ;
 
 -- Jul 25, 2008 1:36:42 AM CDT

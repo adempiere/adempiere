@@ -189,7 +189,7 @@ public class ModelInterfaceGenerator {
 		createImports(start);
 		// Interface
 		start.append("/** Generated Interface for ").append(tableName).append("\n")
-			 .append(" *  @author Trifon Trifonov (generated) \n")
+			 .append(" *  @author Adempiere (generated) \n")
 			 .append(" *  @version ").append(Adempiere.MAIN_VERSION).append(NL) //.append(" - ").append(s_run).append("\n")
 			 .append(" */\n")
 			 .append("public interface ").append(className).append(" {").append("\n")
