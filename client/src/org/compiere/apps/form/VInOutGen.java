@@ -16,27 +16,62 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.VetoableChangeListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ADialogDialog;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.StatusBar;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MPrivateAccess;
+import org.compiere.model.MRMA;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTextPane;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 /**
  *	Manual Shipment Selection
@@ -48,6 +83,11 @@ public class VInOutGen extends CPanel
 	implements FormPanel, ActionListener, VetoableChangeListener, 
 		ChangeListener, TableModelListener, ASyncProcess
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8529925342013824806L;
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
