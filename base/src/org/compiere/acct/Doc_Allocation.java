@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -50,6 +50,9 @@ import org.compiere.util.Env;
  *  FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual 
  *  Avoid posting if Receipt and both accounts Unallocated Cash and Receivable are equal
  *  Avoid posting if Payment and both accounts Payment Select and Liability are equal
+ *  
+ *  @author phib
+ *  BF [ 2019262 ] Allocation posting currency gain/loss omits line reference
  *  
  */
 public class Doc_Allocation extends Doc
@@ -427,8 +430,8 @@ public class Doc_Allocation extends Doc
 				&& (getC_Currency_ID() != as.getC_Currency_ID()			//	payment allocation in foreign currency
 					|| getC_Currency_ID() != line.getInvoiceC_Currency_ID()))	//	allocation <> invoice currency
 			{
-				p_Error = createRealizedGainLoss (as, fact, bpAcct, invoice, 
-					allocationSourceForRGL, allocationAccountedForRGL);
+				p_Error = createRealizedGainLoss (line, as, fact, bpAcct, invoice, 
+					allocationSource, allocationAccounted);
 				if (p_Error != null)
 					return null;
 			}
@@ -694,7 +697,7 @@ public class Doc_Allocation extends Doc
 	 *	@param allocationAccounted acct amt
 	 *	@return Error Message or null if OK
 	 */
-	private String createRealizedGainLoss (MAcctSchema as, Fact fact, MAccount acct,
+	private String createRealizedGainLoss (DocLine line, MAcctSchema as, Fact fact, MAccount acct,
 		MInvoice invoice, BigDecimal allocationSource, BigDecimal allocationAccounted)
 	{
 		BigDecimal invoiceSource = null;
@@ -794,18 +797,18 @@ public class Doc_Allocation extends Doc
 		//
 		if (invoice.isSOTrx())
 		{
-			FactLine fl = fact.createLine (null, loss, gain, 
+			FactLine fl = fact.createLine (line, loss, gain, 
 				as.getC_Currency_ID(), acctDifference);
 			fl.setDescription(description);
-			fact.createLine (null, acct, 
+			fact.createLine (line, acct, 
 				as.getC_Currency_ID(), acctDifference.negate());
 			fl.setDescription(description);
 		}
 		else
 		{
-			fact.createLine (null, acct,
+			fact.createLine (line, acct,
 				as.getC_Currency_ID(), acctDifference);
-			FactLine fl = fact.createLine (null, loss, gain, 
+			FactLine fl = fact.createLine (line, loss, gain, 
 				as.getC_Currency_ID(), acctDifference.negate());
 		}
 		return null;
