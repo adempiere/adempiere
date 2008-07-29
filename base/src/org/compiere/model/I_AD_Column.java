@@ -289,6 +289,19 @@ public interface I_AD_Column
 	  */
 	public boolean isAlwaysUpdateable();
 
+    /** Column name IsAutocomplete */
+    public static final String COLUMNNAME_IsAutocomplete = "IsAutocomplete";
+
+	/** Set Autocomplete.
+	  * Automatic completion for textfields
+	  */
+	public void setIsAutocomplete (boolean IsAutocomplete);
+
+	/** Get Autocomplete.
+	  * Automatic completion for textfields
+	  */
+	public boolean isAutocomplete();
+
     /** Column name IsEncrypted */
     public static final String COLUMNNAME_IsEncrypted = "IsEncrypted";
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -17,13 +17,27 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.beans.*;
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Evaluatee;
+import org.compiere.util.Evaluator;
 
 /**
  *  Grid Field Model.
@@ -47,8 +61,13 @@ public class GridField
 	implements Serializable, Evaluatee
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1783359481690560938L;
+
+	/**
 	 *  Field Constructor.
-	 *  requires initField for complete instatanciation
+	 *  requires initField for complete instantiation
 	 *  @param vo ValueObjecy
 	 */
 	public GridField (GridFieldVO vo)
@@ -927,6 +946,13 @@ public class GridField
 		return m_vo.IsUpdateable;
 	}
 	/**
+	 * 	Is Autocomplete
+	 *	@return true if autocomplete
+	 */
+	public boolean isAutocomplete() {
+		return m_vo.IsAutocomplete;
+	}
+	/**
 	 * 	Is Always Updateable
 	 *	@return true if always updateable
 	 */
@@ -1649,5 +1675,59 @@ public class GridField
 	 */
 	public boolean getIsCollapsedByDefault() {
 		return m_vo.IsCollapsedByDefault;
+	}
+	
+	/**
+	 * Returns a list containing all existing entries of this field
+	 * with the actual AD_Org_ID and AD_Client_ID.
+	 * @return List of existing entries for this field
+	 */
+	public List getEntries() {
+		ArrayList<String> list = new ArrayList<String>();
+		PreparedStatement pstmt1;
+		PreparedStatement pstmt2;
+		String sql = "";
+		
+		try
+		{
+			String tableName = null;
+			String columnName = null;
+			int AD_Org_ID = Env.getAD_Org_ID(Env.getCtx());
+			int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+			sql = "SELECT t.TableName, c.ColumnName " +
+					" FROM AD_COLUMN c INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID)" +
+					" WHERE AD_Column_ID=?";
+			pstmt1 = DB.prepareStatement(sql, null);
+			pstmt1.setInt(1, getAD_Column_ID());
+			ResultSet rs1 = pstmt1.executeQuery();
+			if (rs1.next())
+			{
+				tableName = rs1.getString(1);
+				columnName = rs1.getString(2);
+							}
+			DB.close(rs1, pstmt1);
+			
+			if (tableName != null && columnName != null) {
+				sql = "SELECT DISTINCT "  + columnName + " FROM " + tableName + " WHERE AD_Client_ID=? "
+				+ " AND AD_Org_ID=?";
+				pstmt2 = DB.prepareStatement(sql, null);
+				pstmt2.setInt(1, AD_Client_ID);
+				pstmt2.setInt(2, AD_Org_ID);
+				
+				ResultSet rs2 = pstmt2.executeQuery();
+				while (rs2.next())
+				{
+					list.add(rs2.getString(1));
+				}
+				DB.close(rs2, pstmt2);
+			}
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		
+		
+		return list;
 	}
 }   //  MField

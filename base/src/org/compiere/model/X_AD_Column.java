@@ -51,6 +51,8 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 // U
 			setIsAlwaysUpdateable (false);
 // N
+			setIsAutocomplete (false);
+// N
 			setIsEncrypted (null);
 // N
 			setIsIdentifier (false);
@@ -550,6 +552,30 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	public boolean isAlwaysUpdateable () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsAlwaysUpdateable);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Autocomplete.
+		@param IsAutocomplete 
+		Automatic completion for textfields
+	  */
+	public void setIsAutocomplete (boolean IsAutocomplete)
+	{
+		set_Value (COLUMNNAME_IsAutocomplete, Boolean.valueOf(IsAutocomplete));
+	}
+
+	/** Get Autocomplete.
+		@return Automatic completion for textfields
+	  */
+	public boolean isAutocomplete () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAutocomplete);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

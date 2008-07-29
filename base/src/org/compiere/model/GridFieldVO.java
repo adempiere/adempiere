@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -174,6 +174,9 @@ public class GridFieldVO implements Serializable
 				//Info Factory class
 				else if (columnName.equalsIgnoreCase("InfoFactoryClass"))
 					vo.InfoFactoryClass  = rs.getString(i);
+//				Feature Request FR [ 2003044 ]
+				else if (columnName.equalsIgnoreCase("IsAutocomplete"))
+					vo.IsAutocomplete  = "Y".equals(rs.getString(i));
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
@@ -504,6 +507,8 @@ public class GridFieldVO implements Serializable
 
 	/** Collapse By Default * */
 	public boolean IsCollapsedByDefault = false;
+	/**  Autocompletion for textfields - Feature Request FR [ 1757088 ] */
+	public boolean IsAutocomplete = false;
 	
 	/**
 	 *  Set Context including contained elements
@@ -599,6 +604,7 @@ public class GridFieldVO implements Serializable
 		clone.IsEncryptedField = IsEncryptedField;
 		clone.IsEncryptedColumn = IsEncryptedColumn;
 		clone.IsSelectionColumn = IsSelectionColumn;
+		clone.IsAutocomplete = IsAutocomplete;
 		clone.SortNo = SortNo;
 		clone.FieldLength = FieldLength;
 		clone.VFormat = VFormat;

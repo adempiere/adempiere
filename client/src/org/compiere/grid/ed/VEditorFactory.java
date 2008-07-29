@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,16 +16,23 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.MAccountLookup;
+import org.compiere.model.MLocationLookup;
+import org.compiere.model.MLocatorLookup;
+import org.compiere.model.MPAttributeLookup;
+import org.compiere.swing.CLabel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 
 /**
  *  Factory for VEditor and its Label for single Row display and multi row-editor
  *
  *  @see VCellRenderer for multi-row display
- *  @author  Jorg Janke
+ *  @author  Jorg Janked
  *  @version $Id: VEditorFactory.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VEditorFactory
@@ -87,6 +94,9 @@ public class VEditorFactory
 					mField.getVFormat(), mField.getObscureType());
 				vs.setName (columnName);
 				vs.setField (mField);
+				if (mField.isAutocomplete()) {
+					ADempiereAutoCompleteDecorator.decorate(vs, mField.getEntries(), false);
+				}
 				editor = vs;
 			}
 		}
@@ -318,5 +328,6 @@ public class VEditorFactory
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VEditorFactory.class);
+	
 
 }   //  VEditorFactory
