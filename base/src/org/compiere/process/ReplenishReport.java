@@ -17,14 +17,35 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.eevolution.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MDocType;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrg;
+import org.compiere.model.MProduct;
+import org.compiere.model.MRequisition;
+import org.compiere.model.MRequisitionLine;
+import org.compiere.model.MStorage;
+import org.compiere.model.MWarehouse;
+import org.compiere.model.X_T_Replenish;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.ReplenishInterface;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
 
 /**
  *	Replenishment Report
@@ -73,7 +94,7 @@ public class ReplenishReport extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message 
 	 *  @throws Exception if not successful
 	 */
@@ -244,7 +265,8 @@ public class ReplenishReport extends SvrProcess
 			+ "WHERE (EXISTS (SELECT * FROM M_Product p "
 				+ "WHERE p.M_Product_ID=r.M_Product_ID AND p.IsActive='N')"
 			+ " OR EXISTS (SELECT * FROM M_Replenish rr "
-				+ " WHERE rr.M_Product_ID=r.M_Product_ID AND rr.IsActive='N'))"
+				+ " WHERE rr.M_Product_ID=r.M_Product_ID AND rr.IsActive='N'"
+				+ " AND rr.M_Warehouse_ID=" + p_M_Warehouse_ID + " ))"
 			+ " AND AD_PInstance_ID=" + getAD_PInstance_ID();
 		no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
