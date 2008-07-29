@@ -161,10 +161,15 @@ public class Scriptlet
 	{
 		if (m_ctx == null)
 			return;
-		Iterator it = m_ctx.keySet().iterator();
+		Iterator<String> it = m_ctx.keySet().iterator();
 		while (it.hasNext())
 		{
-			String key = (String)it.next();
+			String key = it.next();
+			//
+			// If key contains ".", skip it - teo_sarca BF [ 2031461 ] 
+			if (key.indexOf(".") >= 0)
+				continue;
+			//
 			Object value = m_ctx.get(key);
 			try
 			{
@@ -240,7 +245,7 @@ public class Scriptlet
 
 		m_ctx = new HashMap<String,Object>();
 		//  Convert properties to HashMap
-		Enumeration en = prop.keys();
+		Enumeration<?> en = prop.keys();
 		while (en.hasMoreElements())
 		{
 			String key = en.nextElement().toString();
