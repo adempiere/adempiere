@@ -57,12 +57,12 @@ public final class Adempiere
 	static public final String	ID				= "$Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $";
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
-	// the releases will have a suffix (b) for beta - (t) for trunk - and (s) for stable
-	static public final String	MAIN_VERSION	= "Release 3.5.1a";
+	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - and (s) for stable
+	static public final String	MAIN_VERSION	= "Release 3.5.2a";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public final String	DATE_VERSION	= "2008-05-29";
+	static public final String	DATE_VERSION	= "2008-07-29";
 	/** Database Version as date    Compared with AD_System		*/
-	static public final String	DB_VERSION		= "2008-05-29";
+	static public final String	DB_VERSION		= "2008-07-29";
 
 	/** Product Name            */
 	static public final String	NAME 			= "Adempiere\u00AE";
