@@ -22,6 +22,10 @@ import java.util.logging.*;
 import org.compiere.model.*;
 import org.compiere.report.*;
 import org.compiere.util.*;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MHRProcess;
+import org.eevolution.model.MPPCostCollector;
+import org.eevolution.model.MPPOrder;
 
 /**
  *	Accounting Fact Reset
@@ -187,6 +191,28 @@ public class FactAcctReset extends SvrProcess
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchInvoice + "'";
 		else if (AD_Table_ID == MMatchPO.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchPO + "'";
+		else if (AD_Table_ID == MPPOrder.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrder + "'";
+		else if (AD_Table_ID == MPPOrder.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MaintenanceOrder + "'";
+		else if (AD_Table_ID == MPPOrder.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_QualityOrder + "'";
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderIssue + "'";
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderMethodVariation+ "'";
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderRateVariation+ "'";
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderReceipt+ "'";
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderUseVariation+ "'";
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOperationActivity+ "'";
+		else if (AD_Table_ID == MDDOrder.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
+		else if (AD_Table_ID == MHRProcess.Table_ID)
+			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll+ "'";
 		//
 		if (docBaseType == null)
 		{
