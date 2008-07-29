@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,15 +16,21 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.beans.*;
+import java.awt.Component;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
-import javax.swing.table.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.table.TableModel;
+
+import org.compiere.grid.ed.VCellEditor;
+import org.compiere.grid.ed.VEditor;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridTable;
+import org.compiere.swing.CColumnControlButton;
+import org.compiere.swing.CTable;
+import org.compiere.util.CLogger;
 import org.jdesktop.swingx.action.BoundAction;
 
 /**
@@ -39,6 +45,10 @@ import org.jdesktop.swingx.action.BoundAction;
 public final class VTable extends CTable 
 	implements PropertyChangeListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2655102084935019329L;
 	private final static String PACK_ALL_COMMAND = CColumnControlButton.COLUMN_CONTROL_MARKER + "packAll";
 	
 	/**
@@ -92,7 +102,8 @@ public final class VTable extends CTable
 				return;
 			log.config(GridTab.PROPERTY + "=" + row + " from " + selRow);
 			setRowSelectionInterval(row,row);
-		    Rectangle cellRect = getCellRect(row, 1, false);
+			setColumnSelectionInterval(0, 0);
+		    Rectangle cellRect = getCellRect(row, 0, false);
 		    if (cellRect != null)
 		    	scrollRectToVisible(cellRect);
 			log.config(GridTab.PROPERTY + "=" + row + " from " + selRow);
