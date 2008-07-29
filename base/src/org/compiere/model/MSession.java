@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,13 +16,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.TimeUtil;
 
 /**
  *	Session Model.
@@ -37,6 +41,12 @@ import org.compiere.util.*;
  */
 public class MSession extends X_AD_Session
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 480745219310430126L;
+
+
 	/**
 	 * 	Get existing or create local session
 	 *	@param ctx context
@@ -269,11 +279,6 @@ public class MSession extends X_AD_Session
 		if (OldValue != null && NewValue != null && OldValue.equals(NewValue))
 			return null;
 
-		//	No Log
-		if (AD_Column_ID == 6652 
-			|| AD_Column_ID == 6653)	//	AD_Process.Statistics_
-			return null;
-		
 		//	Role Logging
 		MRole role = MRole.getDefault(getCtx(), false);
 		//	Do we need to log
@@ -288,8 +293,6 @@ public class MSession extends X_AD_Session
 				+ ", AD_Session_ID=" + getAD_Session_ID()
 				+ ", AD_Table_ID=" + AD_Table_ID + ", AD_Column_ID=" + AD_Column_ID
 				+ ": " + OldValue + " -> " + NewValue);
-		boolean success = false;
-		
 		try
 		{
 			MChangeLog cl = new MChangeLog(getCtx(), 

@@ -509,4 +509,13 @@ public interface I_AD_Column
 	  * Version of the table definition
 	  */
 	public BigDecimal getVersion();
+	
+	 /** Column name IsAllowLogging  */
+    public static final String COLUMNNAME_isAllowLogging = "IsAllowLogging";
+
+
+	/** Get IsAllowLogging .
+	  * Determines, if a column must be recorded into the change log
+	  */
+	public boolean IsAllowLogging() ;
 }

@@ -491,6 +491,14 @@ public class MColumn extends X_AD_Column
 		return sb.toString ();
 	}	//	toString
 	
+	/** Get IsAllowLogging .
+	  * Determines, if a column must be recorded into the change log
+	  */
+	public boolean IsAllowLogging() {
+		return super.IsAllowLogging();
+	}
+	
+	
 	//begin vpj-cd e-evolution
 	/**
 	 * 	get Column ID

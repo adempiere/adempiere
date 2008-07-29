@@ -75,6 +75,11 @@ public abstract class PO
 	implements Serializable, Comparator, Evaluatee
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7147383015345754638L;
+
+	/**
 	 * 	Set Document Value Workflow Manager
 	 *	@param docWFMgr mgr
 	 */
@@ -2241,6 +2246,7 @@ public abstract class PO
 			//	Change Log	- Only 
 			if (session != null
 				&& m_IDs.length == 1 
+				&& p_info.isAllowLogging(i)		//	logging allowed
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
@@ -2466,6 +2472,7 @@ public abstract class PO
 			String insertLog = MSysConfig.getValue("SYSTEM_INSERT_CHANGELOG", "Y", getAD_Client_ID());
 			if (   session != null
 				&& m_IDs.length == 1 
+				&& p_info.isAllowLogging(i)		//	logging allowed
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
@@ -2740,6 +2747,7 @@ public abstract class PO
 					{
 						Object value = m_oldValues[i];
 						if (value != null
+							&& p_info.isAllowLogging(i)		//	logging allowed
 							&& !p_info.isEncrypted(i)		//	not encrypted
 							&& !p_info.isVirtualColumn(i)	//	no virtual column
 							&& !"Password".equals(p_info.getColumnName(i))

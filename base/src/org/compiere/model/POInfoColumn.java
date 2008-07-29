@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
 
 /**
  *	PO Info Column Info Value Object
@@ -35,7 +36,7 @@ public class POInfoColumn implements Serializable
 	/**
 	 *  Constructor
 	 *	@param ad_Column_ID Column ID
-	 *	@param columnName Dolumn name
+	 *	@param columnName Column name
 	 *	@param columnSQL virtual column
 	 *	@param displayType Display Type
 	 *	@param isMandatory Mandatory
@@ -52,6 +53,7 @@ public class POInfoColumn implements Serializable
 	 * 	@param valueMax maximal value
 	 * 	@param isTranslated translated
 	 * 	@param isEncrypted encrypted 
+	 * 	@param isAllowLogging allow logging 
 	 */
 	public POInfoColumn (int ad_Column_ID, String columnName, String columnSQL, int displayType,
 		boolean isMandatory, boolean isUpdateable, String defaultLogic,
@@ -59,7 +61,7 @@ public class POInfoColumn implements Serializable
 		boolean isKey, boolean isParent,
 		int ad_Reference_Value_ID, String validationCode,
 		int fieldLength, String valueMin, String valueMax,
-		boolean isTranslated, boolean isEncrypted)
+		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging)
 	{
 		AD_Column_ID = ad_Column_ID;
 		ColumnName = columnName;
@@ -117,6 +119,7 @@ public class POInfoColumn implements Serializable
 		}
 		IsTranslated = isTranslated;
 		IsEncrypted = isEncrypted;
+		IsAllowLogging = isAllowLogging;
 	}   //  Column
 
 	/** Column ID		*/
@@ -128,7 +131,7 @@ public class POInfoColumn implements Serializable
 	/** Display Type	*/
 	public int          DisplayType;
 	/**	Data Type		*/
-	public Class        ColumnClass;
+	public Class<?>        ColumnClass;
 	/**	Mandatory		*/
 	public boolean      IsMandatory;
 	/**	Default Value	*/
@@ -145,8 +148,10 @@ public class POInfoColumn implements Serializable
 	public boolean		IsParent;
 	/**	Translated		*/
 	public boolean		IsTranslated;
-	/**	Encryoted		*/
+	/**	Encrypted		*/
 	public boolean		IsEncrypted;
+	/**	Allow Logging		*/
+	public boolean		IsAllowLogging;
 	
 	/** Reference Value	*/
 	public int			AD_Reference_Value_ID;

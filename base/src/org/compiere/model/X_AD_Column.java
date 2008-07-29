@@ -958,4 +958,20 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 			 return Env.ZERO;
 		return bd;
 	}
+
+	/** Get IsAllowLogging .
+	  * Determines, if a column must be recorded into the change log
+	  */
+	public boolean IsAllowLogging() {
+		Object oo = get_Value(COLUMNNAME_isAllowLogging);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
 }
+	
+	

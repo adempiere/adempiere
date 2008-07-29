@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -135,7 +135,8 @@ public class POInfo implements Serializable
 			+ "c.IsKey,c.IsParent, "										//	10..11
 			+ "c.AD_Reference_Value_ID, vr.Code, "							//	12..13
 			+ "c.FieldLength, c.ValueMin, c.ValueMax, c.IsTranslated, "		//	14..17
-			+ "t.AccessLevel, c.ColumnSQL, c.IsEncrypted ");				//	18..20
+			+ "t.AccessLevel, c.ColumnSQL, c.IsEncrypted, "					// 18..20
+			+ "c.IsAllowLogging ");											// 21
 		sql.append("FROM AD_Table t"
 			+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 			+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
@@ -182,6 +183,7 @@ public class POInfo implements Serializable
 				m_AccessLevel = rs.getString(18);
 				String ColumnSQL = rs.getString(19);
 				boolean IsEncrypted = "Y".equals(rs.getString(20));
+				boolean IsAllowLogging = "Y".equals(rs.getString(21));
 
 				POInfoColumn col = new POInfoColumn (
 					AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
@@ -190,7 +192,8 @@ public class POInfo implements Serializable
 					IsKey, IsParent,
 					AD_Reference_Value_ID, ValidationCode,
 					FieldLength, ValueMin, ValueMax,
-					IsTranslated, IsEncrypted);
+					IsTranslated, IsEncrypted,
+					IsAllowLogging);
 				list.add(col);
 			}
 		}
@@ -397,7 +400,7 @@ public class POInfo implements Serializable
 	 *  @param index index
 	 *  @return Class
 	 */
-	public Class getColumnClass (int index)
+	public Class<?> getColumnClass (int index)
 	{
 		if (index < 0 || index >= m_columns.length)
 			return null;
@@ -576,6 +579,19 @@ public class POInfo implements Serializable
 			return false;
 		return m_columns[index].IsEncrypted;
 	}   //  isEncrypted
+
+	/**
+	 * Is allowed logging on this column
+	 * 
+	 * @param index
+	 *            index
+	 * @return true if column is allowed to be logged
+	 */
+	public boolean isAllowLogging(int index) {
+		if (index < 0 || index >= m_columns.length)
+			return false;
+		return m_columns[index].IsAllowLogging;
+	} // isAllowLogging
 
 	/**
 	 *  Get Column FieldLength
