@@ -18,9 +18,15 @@ package org.compiere.process;
 
 import java.math.*;
 import java.sql.*;
+import java.util.List;
 import java.util.logging.*;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.util.*;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
+import org.eevolution.model.MPPMRP;
 
 /**
  *	Create Distribution	
@@ -38,6 +44,10 @@ public class DistributionRun extends SvrProcess
 	private int					p_C_DocType_ID = 0;
 	/** Test Mode				*/
 	private boolean				p_IsTest = false;
+	/** Warehouse to Distribution Order */
+	private int 				p_M_Warehouse_ID = 0;
+	/** Create Ordered **/
+	private boolean				p_CreateDO = true;
 	
 	/**	Distribution Run			*/
 	private MDistributionRun		m_run = null;
@@ -66,11 +76,18 @@ public class DistributionRun extends SvrProcess
 			if (para[i].getParameter() == null)
 				;
 			else if (name.equals("C_DocType_ID"))
+			{	
 				p_C_DocType_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				m_docType = new MDocType(getCtx(),p_C_DocType_ID, get_TrxName());
+			}	
 			else if (name.equals("DatePromised"))
 				p_DatePromised = (Timestamp)para[i].getParameter();
 			else if (name.equals("IsTest"))
 				p_IsTest = "Y".equals(para[i].getParameter());
+			else if (m_docType.getDocBaseType().equals(MDocType.DOCBASETYPE_DistributionOrder) & name.equals("M_Warehouse_ID"))
+				p_M_Warehouse_ID=((BigDecimal)para[i].getParameter()).intValue();
+			else if (m_docType.getDocBaseType().equals(MDocType.DOCBASETYPE_DistributionOrder) & name.equals("CreateDO"))
+				p_CreateDO="Y".equals((String)para[i].getParameter());
 			else
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);		
 		}
@@ -109,9 +126,18 @@ public class DistributionRun extends SvrProcess
 		if (p_DatePromised == null)
 			p_DatePromised = m_DateOrdered;
 		
-		//	Create Temp Lines
-		if (insertDetails() == 0)
-			throw new Exception ("No Lines");
+		if(m_docType.getDocBaseType().equals(MDocType.DOCBASETYPE_DistributionOrder)  & p_M_Warehouse_ID > 0)
+		{
+			//Create Temp Lines
+			if (insertDetailsDistribution() == 0)
+				throw new Exception ("No Lines");
+		}
+		else
+		{	
+			//	Create Temp Lines
+			if (insertDetails() == 0)
+				throw new Exception ("No Lines");
+		}
 		
 		//	Order By Distribution Run Line
 		m_details = MDistributionRunDetail.get(getCtx(), p_M_DistributionRun_ID, false, get_TrxName());
@@ -130,6 +156,13 @@ public class DistributionRun extends SvrProcess
 		
 		//	Order By Business Partner
 		m_details = MDistributionRunDetail.get(getCtx(), p_M_DistributionRun_ID, true, get_TrxName());
+		
+		//Implement Distribution Order
+		if(m_docType.getDocBaseType().equals(MDocType.DOCBASETYPE_DistributionOrder))
+		{
+			distributionOrders();
+		}
+		else	
 		//	Create Orders
 		createOrders();
 		
@@ -501,5 +534,321 @@ public class DistributionRun extends SvrProcess
 		
 		return true;
 	}	//	createOrders
+	
+	
+	/**
+	 * 	Insert Details
+	 *	@return number of rows inserted
+	 */
+	private int insertDetailsDistribution()
+	{
+		//	Handle NULL
+		String sql = "UPDATE M_DistributionRunLine SET MinQty = 0 WHERE MinQty IS NULL";
+		int no = DB.executeUpdate(sql, get_TrxName());
+		
+		sql = "UPDATE M_DistributionListLine SET MinQty = 0 WHERE MinQty IS NULL";
+		no = DB.executeUpdate(sql, get_TrxName());
+		
+		//	Delete Old
+		sql = "DELETE FROM T_DistributionRunDetail WHERE M_DistributionRun_ID="
+			+ p_M_DistributionRun_ID;
+		no = DB.executeUpdate(sql, get_TrxName());
+		log.fine("insertDetails - deleted #" + no);
+		
+		//	Insert New
+		sql = "INSERT INTO T_DistributionRunDetail "
+			+ "(M_DistributionRun_ID, M_DistributionRunLine_ID, M_DistributionList_ID, M_DistributionListLine_ID,"
+			+ "AD_Client_ID,AD_Org_ID, IsActive, Created,CreatedBy, Updated,UpdatedBy,"
+			+ "C_BPartner_ID, C_BPartner_Location_ID, M_Product_ID,"
+			+ "Ratio, MinQty, Qty) "			
+			+"SELECT rl.M_DistributionRun_ID, rl.M_DistributionRunLine_ID,ll.M_DistributionList_ID, ll.M_DistributionListLine_ID, "
+			+"rl.AD_Client_ID,rl.AD_Org_ID, rl.IsActive, rl.Created,rl.CreatedBy, rl.Updated,rl.UpdatedBy, "
+			+"ll.C_BPartner_ID, ll.C_BPartner_Location_ID, rl.M_Product_ID, ll.Ratio, "
+			+"ol.PickedQty AS MinQty , 0 FROM M_DistributionRunLine rl "
+			+"INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID) "
+			+"INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
+			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID) "
+			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) AND ol.DatePromised BETWEEN "
+			+ DB.TO_DATE(new Timestamp (System.currentTimeMillis())) +" AND "+ DB.TO_DATE(p_DatePromised) 
+			+" INNER JOIN M_Locator loc ON (loc.M_Locator_ID=ol.M_Locator_ID AND loc.M_Warehouse_ID="+p_M_Warehouse_ID+") "
+			+" WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND l.RatioTotal<>0 AND rl.IsActive='Y' AND ll.IsActive='Y'";	
+			no = DB.executeUpdate(sql, get_TrxName());
+			
+			Query query = MTable.get(getCtx(), MDistributionRunDetail.Table_ID).
+			createQuery(MDistributionRunDetail.COLUMNNAME_M_DistributionRun_ID + "=?", get_TrxName());
+			query.setParameters(new Object[]{p_M_DistributionRun_ID});
+			
+			List<MDistributionRunDetail> records = query.list();
+			
+			for(MDistributionRunDetail record : records)
+			{
+					BigDecimal total_ration = DB.getSQLValueBD(get_TrxName(), 
+					"SELECT SUM(Ratio) FROM T_DistributionRunDetail WHERE M_DistributionRun_ID=? AND M_Product_ID=? GROUP BY  M_Product_ID"
+					, p_M_DistributionRun_ID, record.getM_Product_ID());
+					MDistributionRunLine drl = (MDistributionRunLine) MTable.get(getCtx(), MDistributionRunLine.Table_ID).getPO(record.getM_DistributionRunLine_ID(), get_TrxName());
+					BigDecimal ration = record.getRatio();
+					BigDecimal factor = ration.divide(total_ration,BigDecimal.ROUND_HALF_UP);
+					record.setQty(factor.multiply(drl.getTotalQty()));
+					record.save();
+			}			
+		log.fine("inserted #" + no);
+		return no;
+	}	//	insertDetails
+	
+	
+	/**************************************************************************
+	 * 	Create Orders
+	 * 	@return true if created
+	 */
+	private boolean distributionOrders()
+	{
+		if (!p_CreateDO)	
+		{	
+			//			For all lines
+			for (int i = 0; i < m_details.length; i++)
+			{
+				MDistributionRunDetail detail = m_details[i];
+				
+				StringBuffer sql = new StringBuffer("SELECT * FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID)  INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) ");
+				sql.append(" WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  l.M_Warehouse_ID=?  AND ol.DatePromised BETWEEN ? AND ? ");
+	
+		 	    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    Timestamp today = new Timestamp (System.currentTimeMillis());  
+		 	    try
+		 	    {
+		 	    		pstmt = DB.prepareStatement (sql.toString(),get_TrxName());
+		 	    		pstmt.setInt(1, detail.getC_BPartner_ID());
+		 	    		pstmt.setInt(2, detail.getM_Product_ID());
+		 	    		pstmt.setInt(3, p_M_Warehouse_ID);
+		 	    		pstmt.setTimestamp(4, today);
+		 	    		pstmt.setTimestamp(5, p_DatePromised);
+		 	    		
+		 	            
+		 	            rs = pstmt.executeQuery();
+		 	            while (rs.next())
+		 	            {           	
+			 	   			//	Create Order Line
+			 	   			MDDOrderLine line = new MDDOrderLine(getCtx(), rs , get_TrxName());
+			 	   			line.setM_Product_ID(detail.getM_Product_ID());
+			 	   			line.setConfirmedQty(detail.getActualAllocation());
+			 	   			
+			 	   			//line.setPrice();
+			 	   			if (!line.save())
+			 	   			{
+			 	   				log.log(Level.SEVERE, "OrderLine not saved");
+			 	   				return false;
+			 	   			}
+			 	   			break;
+			 	   			//addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 
+			 	   			//	+ ": " + bp.getName() + " - " + product.getName());
+		 	            }
+		 		}
+		 	    catch (Exception e)
+		 		{
+		 	            	log.log(Level.SEVERE,"doIt - " + sql, e);
+		 	                return false;
+		 		}
+		 		finally
+		 		{
+		 			DB.close(rs, pstmt);
+		 			rs = null;
+		 			pstmt = null;
+		 		}	
+			}	
+			
+			return true;
+		}
+		
+		//		Get Counter Org/BP
+		int runAD_Org_ID = m_run.getAD_Org_ID();
+		if (runAD_Org_ID == 0)
+			runAD_Org_ID = Env.getAD_Org_ID(getCtx());
+		MOrg runOrg = MOrg.get(getCtx(), runAD_Org_ID);
+		int runC_BPartner_ID = runOrg.getLinkedC_BPartner_ID(get_TrxName());
+		boolean counter = !m_run.isCreateSingleOrder()	//	no single Order 
+			&& runC_BPartner_ID > 0						//	Org linked to BP
+			&& !m_docType.isSOTrx();					//	PO
+		MBPartner runBPartner = counter ? new MBPartner(getCtx(), runC_BPartner_ID, get_TrxName()) : null;
+		if (!counter || runBPartner == null || runBPartner.get_ID() != runC_BPartner_ID)
+			counter = false;
+		if (counter)
+			log.info("RunBP=" + runBPartner
+				+ " - " + m_docType);
+		log.info("Single=" + m_run.isCreateSingleOrder()
+			+ " - " + m_docType + ",SO=" + m_docType.isSOTrx());
+		log.fine("Counter=" + counter 
+			+ ",C_BPartner_ID=" + runC_BPartner_ID + "," + runBPartner);
+		//
+		MBPartner bp = null;
+		MDDOrder singleOrder = null;
+		MProduct product = null;
+		//	Consolidated Order
+		if (m_run.isCreateSingleOrder())
+		{
+			bp = new MBPartner (getCtx(), m_run.getC_BPartner_ID(), get_TrxName());
+			if (bp.get_ID() == 0)
+				throw new IllegalArgumentException("Business Partner not found - C_BPartner_ID=" + m_run.getC_BPartner_ID());
+			//
+			if (!p_IsTest)
+			{
+				singleOrder = new MDDOrder (getCtx(), 0, get_TrxName());
+				//singleOrder.setC_DocTypeTarget_ID(m_docType.getC_DocType_ID());
+				singleOrder.setC_DocType_ID(m_docType.getC_DocType_ID());
+				singleOrder.setIsSOTrx(m_docType.isSOTrx());
+				singleOrder.setBPartner(bp);
+				if (m_run.getC_BPartner_Location_ID() != 0)
+					singleOrder.setC_BPartner_Location_ID(m_run.getC_BPartner_Location_ID());
+				singleOrder.setDateOrdered(m_DateOrdered);
+				singleOrder.setDatePromised(p_DatePromised);
+				if (!singleOrder.save())
+				{
+					log.log(Level.SEVERE, "Order not saved");
+					return false;
+				}
+				m_counter++;
+			}
+		}
+		
+		int lastC_BPartner_ID = 0;
+		int lastC_BPartner_Location_ID = 0;
+		MDDOrder order = null;
+		MWarehouse 	 m_source = null;
+		MLocator m_locator= null ;
+		MWarehouse  m_target= null;
+		MLocator m_locator_to= null;
+		MWarehouse[] ws = null;
+		
+		MOrgInfo oi_source = MOrgInfo.get(getCtx(), m_run.getAD_Org_ID());
+		m_source = MWarehouse.get(getCtx(), oi_source.getM_Warehouse_ID());
+		if(m_source == null)
+			throw new AdempiereException("Do not exist Defautl Warehouse Source");
+		
+		m_locator =  MLocator.getDefault(m_source);
+		
+		//get the warehouse in transit
+		ws = MWarehouse.getInTransitForOrg(getCtx(), m_source.getAD_Org_ID());
+		
+		if(ws==null)
+			throw new AdempiereException("Warehouse Intransit do not found");
+		
+		//	For all lines
+		for (int i = 0; i < m_details.length; i++)
+		{
+			MDistributionRunDetail detail = m_details[i];
+			
+			//	Create Order Header
+			if (m_run.isCreateSingleOrder())
+				order = singleOrder;
+			//	New Business Partner
+			else if (lastC_BPartner_ID != detail.getC_BPartner_ID()
+				|| lastC_BPartner_Location_ID != detail.getC_BPartner_Location_ID())
+			{
+				//	finish order
+				order = null;
+			}
+			lastC_BPartner_ID = detail.getC_BPartner_ID();
+			lastC_BPartner_Location_ID = detail.getC_BPartner_Location_ID();
+			
+			//	New Order
+			if (order == null)
+			{
+				bp = new MBPartner (getCtx(), detail.getC_BPartner_ID(), get_TrxName());
+				if (!p_IsTest)
+				{
+					order = new MDDOrder (getCtx(), 0, get_TrxName());
+					//order.setC_DocTypeTarget_ID(m_docType.getC_DocType_ID());
+					order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
+					order.setC_DocType_ID(m_docType.getC_DocType_ID());
+					order.setIsSOTrx(m_docType.isSOTrx());
+
+					MOrgInfo oi_target = MOrgInfo.get(getCtx(), bp.getAD_OrgBP_ID_Int());
+					m_target = MWarehouse.get(getCtx(), oi_target.getM_Warehouse_ID());
+					if(m_target==null)
+						throw new AdempiereException("Do not exist Default Warehouse Target");
+					
+					m_locator_to = MLocator.getDefault(m_target); 
+
+					if (m_locator == null || m_locator_to == null)
+					{
+						throw new AdempiereException("Do not exist default Locator for Warehouses");
+					}
+					
+
+					//	Counter Doc
+					if (counter && bp.getAD_OrgBP_ID_Int() > 0)
+					{
+						log.fine("Counter - From_BPOrg=" + bp.getAD_OrgBP_ID_Int() 
+							+ "-" + bp + ", To_BP=" + runBPartner);
+						order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
+						if (ws[0].getM_Warehouse_ID() > 0)
+						order.setM_Warehouse_ID(ws[0].getM_Warehouse_ID());
+						order.setBPartner(runBPartner);
+					}
+					else	//	normal
+					{
+						log.fine("From_Org=" + runAD_Org_ID 
+							+ ", To_BP=" + bp);
+						order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
+						order.setBPartner(bp);
+						if (detail.getC_BPartner_Location_ID() != 0)
+							order.setC_BPartner_Location_ID(detail.getC_BPartner_Location_ID());
+					}
+					order.setDateOrdered(m_DateOrdered);
+					order.setDatePromised(p_DatePromised);
+					order.setIsInDispute(false);
+					order.setIsInTransit(false);
+					if (!order.save())
+					{
+						log.log(Level.SEVERE, "Order not saved");
+						return false;
+					}
+				}
+			}
+			
+			//	Line
+			if (product == null || product.getM_Product_ID() != detail.getM_Product_ID())
+				product = MProduct.get (getCtx(), detail.getM_Product_ID());
+			if (p_IsTest)
+			{
+				addLog(0,null, detail.getActualAllocation(), 
+					bp.getName() + " - " + product.getName());
+				continue;
+			}
+
+			//	Create Order Line
+			MDDOrderLine line = new MDDOrderLine(order);
+			if (counter && bp.getAD_OrgBP_ID_Int() > 0)
+				;	//	don't overwrite counter doc
+			/*else	//	normal - optionally overwrite
+			{
+				line.setC_BPartner_ID(detail.getC_BPartner_ID());
+				if (detail.getC_BPartner_Location_ID() != 0)
+					line.setC_BPartner_Location_ID(detail.getC_BPartner_Location_ID());
+			}*/
+			//
+			line.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
+			line.setM_Locator_ID(m_locator.getM_Locator_ID());
+			line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
+			line.setIsInvoiced(false);
+			line.setProduct(product);
+			line.setQty(detail.getActualAllocation());
+			line.setPickedQty(detail.getActualAllocation());
+			line.setQtyEntered(detail.getActualAllocation());
+			line.setConfirmedQty(detail.getActualAllocation());
+			//line.setQty(detail.getActualAllocation());
+			//line.setPrice();
+			if (!line.save())
+			{
+				log.log(Level.SEVERE, "OrderLine not saved");
+				return false;
+			}
+			addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 
+				+ ": " + bp.getName() + " - " + product.getName());
+		}
+		//	finish order
+		order = null;
+		return true;
+	}
 	
 }	//	DistributionRun
