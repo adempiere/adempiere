@@ -54,6 +54,7 @@ import org.compiere.util.Env;
  * 				<li>better formating of generated source 
  * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
+ * 				<li>FR [ 1990848 ] Generated Models: remove hardcoded field length
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
@@ -563,21 +564,6 @@ public class ModelClassGenerator
 					.append("\t\t\tthrow new IllegalArgumentException (\"")
 				  	.append(columnName).append(" is mandatory.\");").append(NL);
 			}
-			// String length check
-			if (clazz.equals(String.class) && fieldLength > 0)
-			{
-				sb.append( "\t\tint fieldLength = p_info.getFieldLength( COLUMNNAME_").append( columnName ).append( " );" ).append(NL);
-				sb.append ("\n\t\tif (");
-				if (!isMandatory)
-					sb.append(columnName).append(" != null && ");
-				sb.append(columnName).append(".length() > fieldLength ").append(")").append(NL)
-					.append("\t\t{").append(NL)
-					.append("\t\t\tlog.warning(\"Length > \" + fieldLength + \" - truncated\");").append(NL)
-					.append("\t\t\t").append(columnName).append(" = ").append( columnName ).append(".substring(0, fieldLength ").append(");").append(NL)
-					.append("\t\t}").append(NL)
-				;
-			}
-					  
 			//
 			sb.append(setValue).append(" (").append ("COLUMNNAME_").append (columnName).append (", ")
 				.append(columnName).append (");").append(NL);
