@@ -37,6 +37,7 @@ import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *  Order Model.
@@ -46,6 +47,9 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version $Id: MOrder.java,v 1.57 2004/05/21 02:27:38 jjanke Exp $
+ * 
+ * @author Cristina Ghita, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 2031197 ] Skips saving
  */
 public class MHRProcess extends X_HR_Process implements DocAction {
 	public static int m_process   = 0;
@@ -192,7 +196,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		org.compiere.model.MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
 
 		//	Std Period open?
-		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), dt.getDocBaseType()); // arhipac: teo_sarca
+		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), dt.getDocBaseType());
 		
 		//	New or in Progress/Invalid
 		if (DOCSTATUS_Drafted.equals(getDocStatus()) || DOCSTATUS_InProgress.equals(getDocStatus())
@@ -368,10 +372,13 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				MHRConcept  c = new MHRConcept(Env.getCtx(),pc.getHR_Concept_ID(),get_TrxName());
 				if(m == null)
 					continue;
-				if( !c.isRegistered() & (m.getQty().compareTo(Env.ZERO) > 0 || m.getAmount().compareTo(Env.ZERO) > 0) )
+				if( !c.isRegistered() &&
+						(m.getQty().signum() > 0
+						|| m.getAmount().signum() > 0
+						|| !Util.isEmpty(m.getTextMsg()))
+					)
 				{	
-					if (!m.save())
-					throw new IllegalStateException("Could not create HR Movement");	
+					m.saveEx();
 				}
 				else
 				{
