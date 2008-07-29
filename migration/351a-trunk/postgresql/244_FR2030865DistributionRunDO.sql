@@ -1,3 +1,17 @@
+-- Jul 29, 2008 11:00:46 AM CDT
+-- Fix Payroll bug
+INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53675,0,'CreateDO',TO_TIMESTAMP('2008-07-29 11:00:37','YYYY-MM-DD HH24:MI:SS'),0,'EE01','Y','Create Distribution Order','
+Create Distribution Order',TO_TIMESTAMP('2008-07-29 11:00:37','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jul 29, 2008 11:00:46 AM CDT
+-- Fix Payroll bug
+INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO
+_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=53675 AND EXI
+STS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Element_ID!=t.AD_Element_ID)
+;
+
+
 -- Jul 28, 2008 8:27:38 PM CDT
 -- Distribution Run Orders
 INSERT INTO AD_Process (AD_Client_ID,AD_Org_ID,AD_Process_ID,AccessLevel,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value,WorkflowValue) VALUES (0,0,53150,'1','org.eevolution.process.DistributionRunOrders',TO_TIMESTAMP('2008-07-28 20:27:26','YYYY-MM-DD HH24:MI:SS'),0,'Create Distribution Run Orders based on Distribution List and redistribute the quantity into Distribution Plan line items','EE01','Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.','Y','N','N','N','Distribution Run Orders','Y',0,0,TO_TIMESTAMP('2008-07-28 20:27:26','YYYY-MM-DD HH24:MI:SS'),0,'M_DistributionRun Orders',NULL)
@@ -40,7 +54,7 @@ UPDATE AD_Reference_Trl SET IsTranslated='N' WHERE AD_Reference_ID=20
 
 -- Jul 28, 2008 8:27:42 PM CDT
 -- Distribution Run Orders
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,NULL,0,53150,53219,20,'CreateDO',TO_TIMESTAMP('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0,'Create Distribution Order','EE01',1,'Create Distribution Order','Y','Y','N','N','Create Distribution Order',50,TO_TIMESTAMP('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,53675,0,53150,53219,20,'CreateDO',TO_TIMESTAMP('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0,'Create Distribution Order','EE01',1,'Create Distribution Order','Y','Y','N','N','Create Distribution Order',50,TO_TIMESTAMP('2008-07-28 20:27:41','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Jul 28, 2008 8:27:42 PM CDT
