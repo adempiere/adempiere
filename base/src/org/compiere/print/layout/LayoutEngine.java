@@ -154,7 +154,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private float 				m_lastWidth[] = new float[] {0f, 0f, 0f};
 
 	/**	Draw using attributed String vs. Text Layout where possible */
-	public static boolean		s_FASTDRAW = true;
+	//hengsin: [ 1564523 ] Max width of print element not always respected
+	public static boolean		s_FASTDRAW = false;
 	/** Print Copy (print interface)	*/
 	private boolean				m_isCopy = false;
 
