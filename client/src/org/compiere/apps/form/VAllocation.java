@@ -16,27 +16,63 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.VetoableChangeListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.StatusBar;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPayment;
+import org.compiere.model.MRole;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.process.DocAction;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 /**
  * Allocation Form
@@ -50,6 +86,11 @@ public class VAllocation extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5322824600164192235L;
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -99,8 +140,8 @@ public class VAllocation extends CPanel
 	private int         i_open = 6;
 	private int         i_discount = 7;
 	private int         i_writeOff = 8; 
-	private int 		i_overUnder = 9; 
-	private int         i_applied = 10;
+	private int         i_applied = 9;
+	private int 		i_overUnder = 10;
 //	private int			i_multiplier = 10;
 	//
 	private CPanel mainPanel = new CPanel();
@@ -497,8 +538,9 @@ public class VAllocation extends CPanel
 					discount = Env.ZERO;
 				line.add(discount);					//  5/7-ConvAllowedDisc
 				line.add(Env.ZERO);      			//  6/8-WriteOff
-				line.add(Env.ZERO);				    //  7/9-OverUnder
-				line.add(Env.ZERO);					// 8/10-Applied
+				line.add(Env.ZERO);					// 7/9-Applied
+				line.add(open);				    //  8/10-OverUnder
+
 //				line.add(rs.getBigDecimal(9));		//	8/10-Multiplier
 				//	Add when open <> 0 (i.e. not if no conversion rate)
 				if (Env.ZERO.compareTo(open) != 0)
@@ -528,8 +570,8 @@ public class VAllocation extends CPanel
 		columnNames.add(Msg.getMsg(Env.getCtx(), "OpenAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Discount"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "WriteOff"));
-		columnNames.add(Msg.getMsg(Env.getCtx(), "OverUnderAmt"));
 		columnNames.add(Msg.getMsg(Env.getCtx(), "AppliedAmt"));
+		columnNames.add(Msg.getMsg(Env.getCtx(), "OverUnderAmt"));
 //		columnNames.add(" ");	//	Multiplier
 
 		//  Set Model
@@ -551,7 +593,7 @@ public class VAllocation extends CPanel
 		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  7-Conv Discount
 		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  8-Conv WriteOff
 		invoiceTable.setColumnClass(i++, BigDecimal.class, false);      //  9-Conv OverUnder
-		invoiceTable.setColumnClass(i++, BigDecimal.class, false);		//	10-Conv Applied
+		invoiceTable.setColumnClass(i++, BigDecimal.class, true);		//	10-Conv Applied
 //		invoiceTable.setColumnClass(i++, BigDecimal.class, true);      	//  10-Multiplier
 		//  Table UI
 		invoiceTable.autoSize();
@@ -559,8 +601,8 @@ public class VAllocation extends CPanel
 		i_open = multiCurrency.isSelected() ? 6 : 4;
 		i_discount = multiCurrency.isSelected() ? 7 : 5;
 		i_writeOff = multiCurrency.isSelected() ? 8 : 6;
-		i_overUnder = multiCurrency.isSelected() ? 9 : 7;
-		i_applied = multiCurrency.isSelected() ? 10 : 8;
+		i_applied = multiCurrency.isSelected() ? 9 : 7;
+		i_overUnder = multiCurrency.isSelected() ? 10 : 8;
 //		i_multiplier = multiCurrency.isSelected() ? 10 : 8;
 
 		//  Calculate Totals
@@ -696,7 +738,7 @@ public class VAllocation extends CPanel
 			if ( selected && col != 0 )
 			{
 				
-				// values should have same sign as open except over/under
+				// values should have same sign as open except possibly over/under
 				if ( discount.signum() == -openSign )
 					discount = discount.negate();
 				if ( writeOff.signum() == -openSign)
@@ -710,155 +752,42 @@ public class VAllocation extends CPanel
 				if ( writeOff.abs().compareTo(open.abs()) > 0)
 					writeOff = open;
 				
-				//	 if overUnder has same sign as open it is an under payment -> less than open
-				if ( overUnder.signum() == openSign && overUnder.abs().compareTo(open.abs()) > 0)
-					overUnder = open;
 				
 				/*
-				 * Three rules to maintain:
-				 * 1) |overUnder + writeOff + discount| < open
-				 * 2) |writeOff + discount| < open ( in case overUnder is 'negative')
-				 * 3) discount + writeOff + overUnder + applied = 0
+				 * Two rules to maintain:
+				 *
+				 * 1) |writeOff + discount| < |open| 
+				 * 2) discount + writeOff + overUnder + applied = 0
 				 *
 				 *   As only one column is edited at a time and the initial position was one of compliance
 				 *   with the rules, we only need to redistribute the increase/decrease in the edited column to 
 				 *   the others.
 				*/
+				BigDecimal newTotal = discount.add(writeOff).add(applied).add(overUnder);  // all have same sign
+				BigDecimal difference = newTotal.subtract(open);
 				
-				// comply with rules 1 or 2
-				BigDecimal amtOver;
-				if ( overUnder.signum() == -openSign )
-					amtOver = (discount.add(writeOff)).subtract(open);
-				else
-					amtOver = (discount.add(writeOff.add(overUnder))).subtract(open);
-				
-				if ( amtOver.signum() == openSign )
-				{
-					BigDecimal temp = Env.ZERO;
-					if ( col != i_overUnder && overUnder.signum() == openSign )
-					{
-						temp = overUnder.subtract(amtOver);
-						if ( temp.signum() == -openSign )
-						{
-							overUnder = Env.ZERO;
-							amtOver = temp.negate();
-					}
-						else
-					{
-							overUnder = temp;
-							amtOver = Env.ZERO;
-					}
-					}
-					
-					if ( col != i_writeOff )
-					{
-						temp = writeOff.subtract(amtOver);
-						if ( temp.signum() == -openSign )
-						{
-							writeOff = Env.ZERO;
-							amtOver = temp.negate();
-				}
-						else
-						{
-							writeOff = temp;
-							amtOver = Env.ZERO;
-						}
-					}
-				
-					if ( col != i_discount )
-					{
-						temp = discount.subtract(amtOver);
-						if ( temp.signum() == -openSign )
-						{
-							discount = Env.ZERO;
-							amtOver = temp.negate();
-						}
-				else
-						{
-							discount = temp;
-							amtOver = Env.ZERO;
-						}
-					}
-				}
-				
-				
-				// make everything balance to open
-				BigDecimal remainder = open.subtract(discount.add(writeOff.add(overUnder.add(applied))));
-				
-				// need to increase something
-				if ( remainder.signum() == openSign )
-				{
-					BigDecimal temp = Env.ZERO;
-					BigDecimal amtUnder = amtOver.negate();
+				// rule 2
+				BigDecimal diffWOD = writeOff.add(discount).subtract(open);
 										
-					if ( autoWriteOff.isSelected() && col != i_writeOff )
+				if ( diffWOD.signum() == open.signum() )  // writeOff and discount are too large
 					{
-						temp = writeOff.add(remainder);
-						
-						if ( temp.abs().compareTo(amtUnder.abs()) > 0  )
+					if ( col == i_discount )       // then edit writeoff
 						{
-							writeOff = amtUnder;
-							remainder = temp.subtract(amtUnder);
+						writeOff = writeOff.subtract(diffWOD);
 			} 
-						else
+					else                            // col = i_writeoff
 						{
-							writeOff = temp;
-							remainder = Env.ZERO;
-						}
-					}
-			
-					if ( col != i_overUnder )
-					{
-						temp = overUnder.add(remainder);
-						if ( temp.abs().compareTo(amtUnder.abs()) > 0 )
-						{
-							overUnder = amtUnder;
-							remainder = temp.subtract(amtUnder);
-						}
-						else
-						{
-							overUnder = temp;
-							remainder = Env.ZERO;
-						}
+						discount = discount.subtract(diffWOD);
 					}
 					
-					if ( col != i_applied && remainder.signum() != 0 )
-					{
-						applied = applied.add(remainder);
-						remainder = Env.ZERO;
-					}	
+					difference = difference.subtract(diffWOD);
 				}
 				
-				//		need to decrease some amount/s
-				if ( remainder.signum() == -openSign )
-				{
-					BigDecimal temp = Env.ZERO;
-					
-										
-					if ( autoWriteOff.isSelected() && col != i_writeOff )
-					{
-						temp = writeOff.add(remainder);
-						
-						if ( temp.signum() == -openSign  )
-						{
-							writeOff = Env.ZERO;
-							remainder = temp;
-						}
+				// rule 1
+				if ( col == i_applied )
+					overUnder = overUnder.subtract(difference);
 						else
-						{
-							writeOff = temp;
-							remainder = Env.ZERO;
-						}
-					}
-					
-					
-					
-					if ( col != i_overUnder && remainder.signum() != 0 )
-					{
-						overUnder = overUnder.add(remainder);
-						remainder = Env.ZERO;
-					}	
-				}
+					applied = applied.subtract(difference);
 				
 			}
 			
