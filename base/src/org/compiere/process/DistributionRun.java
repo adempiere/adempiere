@@ -564,7 +564,7 @@ public class DistributionRun extends SvrProcess
 			+"SELECT rl.M_DistributionRun_ID, rl.M_DistributionRunLine_ID,ll.M_DistributionList_ID, ll.M_DistributionListLine_ID, "
 			+"rl.AD_Client_ID,rl.AD_Org_ID, rl.IsActive, rl.Created,rl.CreatedBy, rl.Updated,rl.UpdatedBy, "
 			+"ll.C_BPartner_ID, ll.C_BPartner_Location_ID, rl.M_Product_ID, ll.Ratio, "
-			+"ol.PickedQty AS MinQty , 0 FROM M_DistributionRunLine rl "
+			+"ol.TargetQty AS MinQty , 0 FROM M_DistributionRunLine rl "
 			+"INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID) "
 			+"INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
 			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID) "
@@ -833,7 +833,7 @@ public class DistributionRun extends SvrProcess
 			line.setIsInvoiced(false);
 			line.setProduct(product);
 			line.setQty(detail.getActualAllocation());
-			line.setPickedQty(detail.getActualAllocation());
+			line.setTargetQty(detail.getActualAllocation());
 			line.setQtyEntered(detail.getActualAllocation());
 			line.setConfirmedQty(detail.getActualAllocation());
 			//line.setQty(detail.getActualAllocation());
