@@ -1402,6 +1402,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			Env.setContext(ctx, curWindowNo, "Processed", "Y");
 		curTabpanel.dynamicDisplay(0);
 		//	Update Status Line
+		String summary = pi.getSummary();
+		if (summary != null && summary.indexOf('@') != -1)
+			pi.setSummary(Msg.parseTranslation(Env.getCtx(), summary));
 		statusBar.setStatusLine(pi.getSummary(), pi.isError());
 		//	Get Log Info
 		ProcessInfoUtil.setLogFromDB(pi);

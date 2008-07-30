@@ -127,6 +127,7 @@ public class StatusBarPanel extends Panel implements EventListener
     public void setStatusLine (String text, boolean error)
     {
         statusLine.setValue(text);
+        statusLine.setTooltiptext(text);
     }
     
     /**
