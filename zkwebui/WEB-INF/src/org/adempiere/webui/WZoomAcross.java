@@ -150,7 +150,8 @@ public class WZoomAcross implements EventListener
 		//	No Zoom
 		if (m_list.size() == 0)
 		{
-			m_popup.appendChild(new Label(Msg.getMsg(Env.getCtx(), "NoZoomTarget")));  // Added
+			Menuitem menuItem = new Menuitem(Msg.getMsg(Env.getCtx(), "NoZoomTarget"));
+			m_popup.appendChild(menuItem);  // Added
 			log.info("BaseLanguage=" + baseLanguage);
 		}
 		m_popup.setPage(invoker.getPage());
