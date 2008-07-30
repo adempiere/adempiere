@@ -265,22 +265,18 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				org.zkoss.zk.ui.Desktop desktop = ProcessDialog.this.getDesktop();
 				try {
 					Executions.activate(desktop);
+					try {                    
+						ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
+	                } finally{
+	                	unlockUI(m_pi);
+	                	//release full control of desktop
+	                	Executions.deactivate(desktop);
+	                }
 				} catch (DesktopUnavailableException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {                    
-					ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
-                } catch(Error ex){                    
-                	throw ex;                    
-                } finally{
-                	unlockUI(m_pi);
-                	//release full control of desktop
-                	Executions.deactivate(desktop);
-                }								
+					log.log(Level.WARNING, e.getLocalizedMessage(), e);
+				}												
 			}			
 		};
 		new Thread(runnable).start();	
