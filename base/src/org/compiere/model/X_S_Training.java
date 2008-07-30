@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Training
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_S_Training extends PO implements I_S_Training, I_Persistent 
 {
 
@@ -158,12 +158,6 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -181,12 +175,6 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
-
-		if (DescriptionURL != null && DescriptionURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
 
@@ -204,12 +192,6 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
-
-		if (DocumentNote != null && DocumentNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
 
@@ -227,12 +209,6 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -250,12 +226,6 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	  */
 	public void setImageURL (String ImageURL)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
 
@@ -313,12 +283,6 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

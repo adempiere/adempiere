@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionListLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_DistributionListLine extends PO implements I_M_DistributionListLine, I_Persistent 
 {
 
@@ -44,8 +44,8 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
         {
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
-			setM_DistributionListLine_ID (0);
 			setM_DistributionList_ID (0);
+			setM_DistributionListLine_ID (0);
 			setMinQty (Env.ZERO);
         } */
     }
@@ -160,12 +160,6 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -175,28 +169,6 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Distribution List Line.
-		@param M_DistributionListLine_ID 
-		Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
-	{
-		if (M_DistributionListLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionListLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
-	}
-
-	/** Get Distribution List Line.
-		@return Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionListLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_M_DistributionList getM_DistributionList() throws Exception 
@@ -244,6 +216,28 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionList_ID()));
     }
+
+	/** Set Distribution List Line.
+		@param M_DistributionListLine_ID 
+		Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
+	{
+		if (M_DistributionListLine_ID < 1)
+			 throw new IllegalArgumentException ("M_DistributionListLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
+	}
+
+	/** Get Distribution List Line.
+		@return Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public int getM_DistributionListLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionListLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Minimum Quantity.
 		@param MinQty 

@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankStatementLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_BankStatementLine 
 {
@@ -57,34 +53,6 @@ public interface I_C_BankStatementLine
 
     /** Load Meta Data */
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws Exception;
-
-    /** Column name C_BankStatementLine_ID */
-    public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
-
-	/** Set Bank statement line.
-	  * Line on a statement from this Bank
-	  */
-	public void setC_BankStatementLine_ID (int C_BankStatementLine_ID);
-
-	/** Get Bank statement line.
-	  * Line on a statement from this Bank
-	  */
-	public int getC_BankStatementLine_ID();
-
     /** Column name C_BankStatement_ID */
     public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
 
@@ -99,6 +67,34 @@ public interface I_C_BankStatementLine
 	public int getC_BankStatement_ID();
 
 	public I_C_BankStatement getC_BankStatement() throws Exception;
+
+    /** Column name C_BankStatementLine_ID */
+    public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
+
+	/** Set Bank statement line.
+	  * Line on a statement from this Bank
+	  */
+	public void setC_BankStatementLine_ID (int C_BankStatementLine_ID);
+
+	/** Get Bank statement line.
+	  * Line on a statement from this Bank
+	  */
+	public int getC_BankStatementLine_ID();
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws Exception;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -130,6 +126,19 @@ public interface I_C_BankStatementLine
 
 	public I_C_Currency getC_Currency() throws Exception;
 
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -159,19 +168,6 @@ public interface I_C_BankStatementLine
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws Exception;
-
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
 
     /** Column name CreatePayment */
     public static final String COLUMNNAME_CreatePayment = "CreatePayment";

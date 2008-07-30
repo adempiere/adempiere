@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent 
 {
 
@@ -209,12 +209,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -232,12 +226,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -257,12 +245,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	{
 		if (Meta_Author == null)
 			throw new IllegalArgumentException ("Meta_Author is mandatory.");
-
-		if (Meta_Author.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Author = Meta_Author.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Author, Meta_Author);
 	}
 
@@ -282,12 +264,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	{
 		if (Meta_Content == null)
 			throw new IllegalArgumentException ("Meta_Content is mandatory.");
-
-		if (Meta_Content.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Content = Meta_Content.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Content, Meta_Content);
 	}
 
@@ -307,12 +283,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	{
 		if (Meta_Copyright == null)
 			throw new IllegalArgumentException ("Meta_Copyright is mandatory.");
-
-		if (Meta_Copyright.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Copyright = Meta_Copyright.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Copyright, Meta_Copyright);
 	}
 
@@ -332,12 +302,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	{
 		if (Meta_Publisher == null)
 			throw new IllegalArgumentException ("Meta_Publisher is mandatory.");
-
-		if (Meta_Publisher.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Publisher = Meta_Publisher.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Publisher, Meta_Publisher);
 	}
 
@@ -357,12 +321,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	{
 		if (Meta_RobotsTag == null)
 			throw new IllegalArgumentException ("Meta_RobotsTag is mandatory.");
-
-		if (Meta_RobotsTag.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_RobotsTag = Meta_RobotsTag.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_RobotsTag, Meta_RobotsTag);
 	}
 
@@ -382,12 +340,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

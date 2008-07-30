@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Table_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciation_Table_Detail, I_Persistent 
 {
 
@@ -101,12 +101,6 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 	{
 		if (A_Depreciation_Table_Code == null)
 			throw new IllegalArgumentException ("A_Depreciation_Table_Code is mandatory.");
-
-		if (A_Depreciation_Table_Code.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			A_Depreciation_Table_Code = A_Depreciation_Table_Code.substring(0, 20);
-		}
 		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Code, A_Depreciation_Table_Code);
 	}
 
@@ -172,13 +166,7 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 	public void setA_Table_Rate_Type (String A_Table_Rate_Type)
 	{
 
-		if (A_Table_Rate_Type == null || A_Table_Rate_Type.equals("AM") || A_Table_Rate_Type.equals("RT")); else throw new IllegalArgumentException ("A_Table_Rate_Type Invalid value - " + A_Table_Rate_Type + " - Reference_ID=53255 - AM - RT");
-		if (A_Table_Rate_Type != null && A_Table_Rate_Type.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Table_Rate_Type = A_Table_Rate_Type.substring(0, 2);
-		}
-		set_ValueNoCheck (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
+		if (A_Table_Rate_Type == null || A_Table_Rate_Type.equals("AM") || A_Table_Rate_Type.equals("RT")); else throw new IllegalArgumentException ("A_Table_Rate_Type Invalid value - " + A_Table_Rate_Type + " - Reference_ID=53255 - AM - RT");		set_ValueNoCheck (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
 	}
 
 	/** Get A_Table_Rate_Type.

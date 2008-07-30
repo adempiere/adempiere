@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent 
 {
 
@@ -206,6 +206,102 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return ii.intValue();
 	}
 
+	/** CommitmentType AD_Reference_ID=359 */
+	public static final int COMMITMENTTYPE_AD_Reference_ID=359;
+	/** PO Commitment only = C */
+	public static final String COMMITMENTTYPE_POCommitmentOnly = "C";
+	/** PO Commitment & Reservation = B */
+	public static final String COMMITMENTTYPE_POCommitmentReservation = "B";
+	/** None = N */
+	public static final String COMMITMENTTYPE_None = "N";
+	/** PO/SO Commitment & Reservation = A */
+	public static final String COMMITMENTTYPE_POSOCommitmentReservation = "A";
+	/** SO Commitment only = S */
+	public static final String COMMITMENTTYPE_SOCommitmentOnly = "S";
+	/** PO/SO Commitment = O */
+	public static final String COMMITMENTTYPE_POSOCommitment = "O";
+	/** Set Commitment Type.
+		@param CommitmentType 
+		Create Commitment and/or Reservations for Budget Control
+	  */
+	public void setCommitmentType (String CommitmentType)
+	{
+		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
+		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
+	}
+
+	/** Get Commitment Type.
+		@return Create Commitment and/or Reservations for Budget Control
+	  */
+	public String getCommitmentType () 
+	{
+		return (String)get_Value(COLUMNNAME_CommitmentType);
+	}
+
+	/** CostingLevel AD_Reference_ID=355 */
+	public static final int COSTINGLEVEL_AD_Reference_ID=355;
+	/** Client = C */
+	public static final String COSTINGLEVEL_Client = "C";
+	/** Organization = O */
+	public static final String COSTINGLEVEL_Organization = "O";
+	/** Batch/Lot = B */
+	public static final String COSTINGLEVEL_BatchLot = "B";
+	/** Set Costing Level.
+		@param CostingLevel 
+		The lowest level to accumulate Costing Information
+	  */
+	public void setCostingLevel (String CostingLevel)
+	{
+		if (CostingLevel == null) throw new IllegalArgumentException ("CostingLevel is mandatory");
+		if (CostingLevel.equals("C") || CostingLevel.equals("O") || CostingLevel.equals("B")); else throw new IllegalArgumentException ("CostingLevel Invalid value - " + CostingLevel + " - Reference_ID=355 - C - O - B");		set_Value (COLUMNNAME_CostingLevel, CostingLevel);
+	}
+
+	/** Get Costing Level.
+		@return The lowest level to accumulate Costing Information
+	  */
+	public String getCostingLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_CostingLevel);
+	}
+
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
+	/** Set Costing Method.
+		@param CostingMethod 
+		Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod)
+	{
+		if (CostingMethod == null) throw new IllegalArgumentException ("CostingMethod is mandatory");
+		if (CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
+	}
+
+	/** Get Costing Method.
+		@return Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod () 
+	{
+		return (String)get_Value(COLUMNNAME_CostingMethod);
+	}
+
 	public I_C_Period getC_Period() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
@@ -245,132 +341,12 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CommitmentType AD_Reference_ID=359 */
-	public static final int COMMITMENTTYPE_AD_Reference_ID=359;
-	/** PO Commitment only = C */
-	public static final String COMMITMENTTYPE_POCommitmentOnly = "C";
-	/** PO Commitment & Reservation = B */
-	public static final String COMMITMENTTYPE_POCommitmentReservation = "B";
-	/** None = N */
-	public static final String COMMITMENTTYPE_None = "N";
-	/** PO/SO Commitment & Reservation = A */
-	public static final String COMMITMENTTYPE_POSOCommitmentReservation = "A";
-	/** SO Commitment only = S */
-	public static final String COMMITMENTTYPE_SOCommitmentOnly = "S";
-	/** PO/SO Commitment = O */
-	public static final String COMMITMENTTYPE_POSOCommitment = "O";
-	/** Set Commitment Type.
-		@param CommitmentType 
-		Create Commitment and/or Reservations for Budget Control
-	  */
-	public void setCommitmentType (String CommitmentType)
-	{
-		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
-		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");
-		if (CommitmentType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CommitmentType = CommitmentType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
-	}
-
-	/** Get Commitment Type.
-		@return Create Commitment and/or Reservations for Budget Control
-	  */
-	public String getCommitmentType () 
-	{
-		return (String)get_Value(COLUMNNAME_CommitmentType);
-	}
-
-	/** CostingLevel AD_Reference_ID=355 */
-	public static final int COSTINGLEVEL_AD_Reference_ID=355;
-	/** Client = C */
-	public static final String COSTINGLEVEL_Client = "C";
-	/** Organization = O */
-	public static final String COSTINGLEVEL_Organization = "O";
-	/** Batch/Lot = B */
-	public static final String COSTINGLEVEL_BatchLot = "B";
-	/** Set Costing Level.
-		@param CostingLevel 
-		The lowest level to accumulate Costing Information
-	  */
-	public void setCostingLevel (String CostingLevel)
-	{
-		if (CostingLevel == null) throw new IllegalArgumentException ("CostingLevel is mandatory");
-		if (CostingLevel.equals("C") || CostingLevel.equals("O") || CostingLevel.equals("B")); else throw new IllegalArgumentException ("CostingLevel Invalid value - " + CostingLevel + " - Reference_ID=355 - C - O - B");
-		if (CostingLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CostingLevel = CostingLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CostingLevel, CostingLevel);
-	}
-
-	/** Get Costing Level.
-		@return The lowest level to accumulate Costing Information
-	  */
-	public String getCostingLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_CostingLevel);
-	}
-
-	/** CostingMethod AD_Reference_ID=122 */
-	public static final int COSTINGMETHOD_AD_Reference_ID=122;
-	/** Standard Costing = S */
-	public static final String COSTINGMETHOD_StandardCosting = "S";
-	/** Average PO = A */
-	public static final String COSTINGMETHOD_AveragePO = "A";
-	/** Lifo = L */
-	public static final String COSTINGMETHOD_Lifo = "L";
-	/** Fifo = F */
-	public static final String COSTINGMETHOD_Fifo = "F";
-	/** Last PO Price = p */
-	public static final String COSTINGMETHOD_LastPOPrice = "p";
-	/** Average Invoice = I */
-	public static final String COSTINGMETHOD_AverageInvoice = "I";
-	/** Last Invoice = i */
-	public static final String COSTINGMETHOD_LastInvoice = "i";
-	/** User Defined = U */
-	public static final String COSTINGMETHOD_UserDefined = "U";
-	/** _ = x */
-	public static final String COSTINGMETHOD__ = "x";
-	/** Set Costing Method.
-		@param CostingMethod 
-		Indicates how Costs will be calculated
-	  */
-	public void setCostingMethod (String CostingMethod)
-	{
-		if (CostingMethod == null) throw new IllegalArgumentException ("CostingMethod is mandatory");
-		if (CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
-		if (CostingMethod.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CostingMethod = CostingMethod.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
-	}
-
-	/** Get Costing Method.
-		@return Indicates how Costs will be calculated
-	  */
-	public String getCostingMethod () 
-	{
-		return (String)get_Value(COLUMNNAME_CostingMethod);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -401,13 +377,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setGAAP (String GAAP)
 	{
 		if (GAAP == null) throw new IllegalArgumentException ("GAAP is mandatory");
-		if (GAAP.equals("UN") || GAAP.equals("US") || GAAP.equals("DE") || GAAP.equals("FR") || GAAP.equals("XX")); else throw new IllegalArgumentException ("GAAP Invalid value - " + GAAP + " - Reference_ID=123 - UN - US - DE - FR - XX");
-		if (GAAP.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			GAAP = GAAP.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_GAAP, GAAP);
+		if (GAAP.equals("UN") || GAAP.equals("US") || GAAP.equals("DE") || GAAP.equals("FR") || GAAP.equals("XX")); else throw new IllegalArgumentException ("GAAP Invalid value - " + GAAP + " - Reference_ID=123 - UN - US - DE - FR - XX");		set_Value (COLUMNNAME_GAAP, GAAP);
 	}
 
 	/** Get GAAP.
@@ -704,12 +674,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -798,12 +762,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	{
 		if (Separator == null)
 			throw new IllegalArgumentException ("Separator is mandatory.");
-
-		if (Separator.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Separator = Separator.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_Separator, Separator);
 	}
 
@@ -832,13 +790,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setTaxCorrectionType (String TaxCorrectionType)
 	{
 		if (TaxCorrectionType == null) throw new IllegalArgumentException ("TaxCorrectionType is mandatory");
-		if (TaxCorrectionType.equals("N") || TaxCorrectionType.equals("W") || TaxCorrectionType.equals("D") || TaxCorrectionType.equals("B")); else throw new IllegalArgumentException ("TaxCorrectionType Invalid value - " + TaxCorrectionType + " - Reference_ID=392 - N - W - D - B");
-		if (TaxCorrectionType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			TaxCorrectionType = TaxCorrectionType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_TaxCorrectionType, TaxCorrectionType);
+		if (TaxCorrectionType.equals("N") || TaxCorrectionType.equals("W") || TaxCorrectionType.equals("D") || TaxCorrectionType.equals("B")); else throw new IllegalArgumentException ("TaxCorrectionType Invalid value - " + TaxCorrectionType + " - Reference_ID=392 - N - W - D - B");		set_Value (COLUMNNAME_TaxCorrectionType, TaxCorrectionType);
 	}
 
 	/** Get Tax Correction.

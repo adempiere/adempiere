@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_JobRemuneration
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_JobRemuneration 
 {
@@ -57,19 +53,6 @@ public interface I_C_JobRemuneration
 
     /** Load Meta Data */
 
-    /** Column name C_JobRemuneration_ID */
-    public static final String COLUMNNAME_C_JobRemuneration_ID = "C_JobRemuneration_ID";
-
-	/** Set Position Remuneration.
-	  * Remuneration for the Position
-	  */
-	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID);
-
-	/** Get Position Remuneration.
-	  * Remuneration for the Position
-	  */
-	public int getC_JobRemuneration_ID();
-
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
 
@@ -84,6 +67,19 @@ public interface I_C_JobRemuneration
 	public int getC_Job_ID();
 
 	public I_C_Job getC_Job() throws Exception;
+
+    /** Column name C_JobRemuneration_ID */
+    public static final String COLUMNNAME_C_JobRemuneration_ID = "C_JobRemuneration_ID";
+
+	/** Set Position Remuneration.
+	  * Remuneration for the Position
+	  */
+	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID);
+
+	/** Get Position Remuneration.
+	  * Remuneration for the Position
+	  */
+	public int getC_JobRemuneration_ID();
 
     /** Column name C_Remuneration_ID */
     public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";

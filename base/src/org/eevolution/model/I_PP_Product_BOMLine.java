@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -38,8 +34,8 @@ import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_BOMLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_PP_Product_BOMLine 
 {
@@ -364,17 +360,4 @@ public interface I_PP_Product_BOMLine
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
 }

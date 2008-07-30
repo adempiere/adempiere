@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
@@ -52,11 +52,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 			setIsDefaultCounterDoc (false);
 			setIsDocNoControlled (true);
 // Y
-			setIsInTransit (false);
 			setIsIndexed (false);
+			setIsInTransit (false);
 			setIsPickQAConfirm (false);
-			setIsSOTrx (false);
 			setIsShipConfirm (false);
+			setIsSOTrx (false);
 			setIsSplitWhenDifference (false);
 // N
 			setName (null);
@@ -156,6 +156,28 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID)
+	{
+		if (C_DocType_ID < 0)
+			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+	}
+
+	/** Get Document Type.
+		@return Document type or rules
+	  */
+	public int getC_DocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** C_DocTypeInvoice_ID AD_Reference_ID=170 */
 	public static final int C_DOCTYPEINVOICE_ID_AD_Reference_ID=170;
 	/** Set Document Type for Invoice.
@@ -231,28 +253,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID)
-	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
-	}
-
-	/** Get Document Type.
-		@return Document type or rules
-	  */
-	public int getC_DocType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** DefiniteSequence_ID AD_Reference_ID=128 */
 	public static final int DEFINITESEQUENCE_ID_AD_Reference_ID=128;
 	/** Set Definite Sequence.
@@ -281,12 +281,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -375,13 +369,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public void setDocBaseType (String DocBaseType)
 	{
 		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
-		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOA") || DocBaseType.equals("MOF") || DocBaseType.equals("MOI") || DocBaseType.equals("MOM") || DocBaseType.equals("MOP") || DocBaseType.equals("MOR") || DocBaseType.equals("MOU") || DocBaseType.equals("MOV") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOA - MOF - MOI - MOM - MOP - MOR - MOU - MOV - MQO - HRP - DOO");
-		if (DocBaseType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			DocBaseType = DocBaseType.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
+		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOA") || DocBaseType.equals("MOF") || DocBaseType.equals("MOI") || DocBaseType.equals("MOM") || DocBaseType.equals("MOP") || DocBaseType.equals("MOR") || DocBaseType.equals("MOU") || DocBaseType.equals("MOV") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOA - MOF - MOI - MOM - MOP - MOR - MOU - MOV - MQO - HRP - DOO");		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
 	/** Get Document BaseType.
@@ -442,13 +430,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public void setDocSubTypeSO (String DocSubTypeSO)
 	{
 
-		if (DocSubTypeSO == null || DocSubTypeSO.equals("WI") || DocSubTypeSO.equals("WR") || DocSubTypeSO.equals("WP") || DocSubTypeSO.equals("SO") || DocSubTypeSO.equals("ON") || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("RM") || DocSubTypeSO.equals("PR")); else throw new IllegalArgumentException ("DocSubTypeSO Invalid value - " + DocSubTypeSO + " - Reference_ID=148 - WI - WR - WP - SO - ON - OB - RM - PR");
-		if (DocSubTypeSO != null && DocSubTypeSO.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocSubTypeSO = DocSubTypeSO.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocSubTypeSO, DocSubTypeSO);
+		if (DocSubTypeSO == null || DocSubTypeSO.equals("WI") || DocSubTypeSO.equals("WR") || DocSubTypeSO.equals("WP") || DocSubTypeSO.equals("SO") || DocSubTypeSO.equals("ON") || DocSubTypeSO.equals("OB") || DocSubTypeSO.equals("RM") || DocSubTypeSO.equals("PR")); else throw new IllegalArgumentException ("DocSubTypeSO Invalid value - " + DocSubTypeSO + " - Reference_ID=148 - WI - WR - WP - SO - ON - OB - RM - PR");		set_Value (COLUMNNAME_DocSubTypeSO, DocSubTypeSO);
 	}
 
 	/** Get SO Sub Type.
@@ -485,12 +467,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
-
-		if (DocumentNote != null && DocumentNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
 
@@ -684,30 +660,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	/** Set In Transit.
-		@param IsInTransit 
-		Movement is in transit
-	  */
-	public void setIsInTransit (boolean IsInTransit)
-	{
-		set_Value (COLUMNNAME_IsInTransit, Boolean.valueOf(IsInTransit));
-	}
-
-	/** Get In Transit.
-		@return Movement is in transit
-	  */
-	public boolean isInTransit () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsInTransit);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Indexed.
 		@param IsIndexed 
 		Index the document for the internal search engine
@@ -723,6 +675,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isIndexed () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsIndexed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set In Transit.
+		@param IsInTransit 
+		Movement is in transit
+	  */
+	public void setIsInTransit (boolean IsInTransit)
+	{
+		set_Value (COLUMNNAME_IsInTransit, Boolean.valueOf(IsInTransit));
+	}
+
+	/** Get In Transit.
+		@return Movement is in transit
+	  */
+	public boolean isInTransit () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInTransit);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -798,30 +774,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	/** Set Sales Transaction.
-		@param IsSOTrx 
-		This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx)
-	{
-		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
-	}
-
-	/** Get Sales Transaction.
-		@return This is a Sales Transaction
-	  */
-	public boolean isSOTrx () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Ship/Receipt Confirmation.
 		@param IsShipConfirm 
 		Require Ship or Receipt Confirmation before processing
@@ -837,6 +789,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isShipConfirm () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsShipConfirm);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx)
+	{
+		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public boolean isSOTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSOTrx);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -878,12 +854,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -911,12 +881,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	{
 		if (PrintName == null)
 			throw new IllegalArgumentException ("PrintName is mandatory.");
-
-		if (PrintName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PrintName = PrintName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 

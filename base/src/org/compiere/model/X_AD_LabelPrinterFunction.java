@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LabelPrinterFunction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFunction, I_Persistent 
 {
 
@@ -141,12 +141,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -164,12 +158,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setFunctionPrefix (String FunctionPrefix)
 	{
-
-		if (FunctionPrefix != null && FunctionPrefix.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			FunctionPrefix = FunctionPrefix.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_FunctionPrefix, FunctionPrefix);
 	}
 
@@ -187,12 +175,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setFunctionSuffix (String FunctionSuffix)
 	{
-
-		if (FunctionSuffix != null && FunctionSuffix.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			FunctionSuffix = FunctionSuffix.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_FunctionSuffix, FunctionSuffix);
 	}
 
@@ -236,12 +218,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -267,12 +243,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setXYSeparator (String XYSeparator)
 	{
-
-		if (XYSeparator != null && XYSeparator.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			XYSeparator = XYSeparator.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_XYSeparator, XYSeparator);
 	}
 

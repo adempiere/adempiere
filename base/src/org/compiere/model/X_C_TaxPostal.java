@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxPostal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
       super (ctx, C_TaxPostal_ID, trxName);
       /** if (C_TaxPostal_ID == 0)
         {
-			setC_TaxPostal_ID (0);
 			setC_Tax_ID (0);
+			setC_TaxPostal_ID (0);
 			setPostal (null);
         } */
     }
@@ -73,28 +73,6 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Tax ZIP.
-		@param C_TaxPostal_ID 
-		Tax Postal/ZIP
-	  */
-	public void setC_TaxPostal_ID (int C_TaxPostal_ID)
-	{
-		if (C_TaxPostal_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxPostal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, Integer.valueOf(C_TaxPostal_ID));
-	}
-
-	/** Get Tax ZIP.
-		@return Tax Postal/ZIP
-	  */
-	public int getC_TaxPostal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxPostal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_Tax getC_Tax() throws Exception 
     {
@@ -134,6 +112,28 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Tax ZIP.
+		@param C_TaxPostal_ID 
+		Tax Postal/ZIP
+	  */
+	public void setC_TaxPostal_ID (int C_TaxPostal_ID)
+	{
+		if (C_TaxPostal_ID < 1)
+			 throw new IllegalArgumentException ("C_TaxPostal_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, Integer.valueOf(C_TaxPostal_ID));
+	}
+
+	/** Get Tax ZIP.
+		@return Tax Postal/ZIP
+	  */
+	public int getC_TaxPostal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxPostal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set ZIP.
 		@param Postal 
 		Postal code
@@ -142,12 +142,6 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	{
 		if (Postal == null)
 			throw new IllegalArgumentException ("Postal is mandatory.");
-
-		if (Postal.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
 
@@ -173,12 +167,6 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	  */
 	public void setPostal_To (String Postal_To)
 	{
-
-		if (Postal_To != null && Postal_To.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal_To = Postal_To.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal_To, Postal_To);
 	}
 

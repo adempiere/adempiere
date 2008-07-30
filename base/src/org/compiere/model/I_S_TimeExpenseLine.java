@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for S_TimeExpenseLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_S_TimeExpenseLine 
 {
@@ -132,6 +128,19 @@ public interface I_S_TimeExpenseLine
 
 	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
 
+    /** Column name ConvertedAmt */
+    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
+
+	/** Set Converted Amount.
+	  * Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt);
+
+	/** Get Converted Amount.
+	  * Converted Amount
+	  */
+	public BigDecimal getConvertedAmt();
+
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -146,6 +155,21 @@ public interface I_S_TimeExpenseLine
 	public int getC_OrderLine_ID();
 
 	public I_C_OrderLine getC_OrderLine() throws Exception;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public I_C_Project getC_Project() throws Exception;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -177,21 +201,6 @@ public interface I_S_TimeExpenseLine
 
 	public I_C_ProjectTask getC_ProjectTask() throws Exception;
 
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public I_C_Project getC_Project() throws Exception;
-
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 
@@ -206,19 +215,6 @@ public interface I_S_TimeExpenseLine
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name ConvertedAmt */
-    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
-
-	/** Set Converted Amount.
-	  * Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt);
-
-	/** Get Converted Amount.
-	  * Converted Amount
-	  */
-	public BigDecimal getConvertedAmt();
 
     /** Column name DateExpense */
     public static final String COLUMNNAME_DateExpense = "DateExpense";
@@ -430,19 +426,6 @@ public interface I_S_TimeExpenseLine
 	  */
 	public int getS_ResourceAssignment_ID();
 
-    /** Column name S_TimeExpenseLine_ID */
-    public static final String COLUMNNAME_S_TimeExpenseLine_ID = "S_TimeExpenseLine_ID";
-
-	/** Set Expense Line.
-	  * Time and Expense Report Line
-	  */
-	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID);
-
-	/** Get Expense Line.
-	  * Time and Expense Report Line
-	  */
-	public int getS_TimeExpenseLine_ID();
-
     /** Column name S_TimeExpense_ID */
     public static final String COLUMNNAME_S_TimeExpense_ID = "S_TimeExpense_ID";
 
@@ -457,6 +440,19 @@ public interface I_S_TimeExpenseLine
 	public int getS_TimeExpense_ID();
 
 	public I_S_TimeExpense getS_TimeExpense() throws Exception;
+
+    /** Column name S_TimeExpenseLine_ID */
+    public static final String COLUMNNAME_S_TimeExpenseLine_ID = "S_TimeExpenseLine_ID";
+
+	/** Set Expense Line.
+	  * Time and Expense Report Line
+	  */
+	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID);
+
+	/** Get Expense Line.
+	  * Time and Expense Report Line
+	  */
+	public int getS_TimeExpenseLine_ID();
 
     /** Column name S_TimeType_ID */
     public static final String COLUMNNAME_S_TimeType_ID = "S_TimeType_ID";

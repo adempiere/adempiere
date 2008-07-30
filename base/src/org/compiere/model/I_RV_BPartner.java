@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for RV_BPartner
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_RV_BPartner 
 {
@@ -56,60 +52,6 @@ public interface I_RV_BPartner
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name AD_Language */
-    public static final String COLUMNNAME_AD_Language = "AD_Language";
-
-	/** Set Language.
-	  * Language for this entity
-	  */
-	public void setAD_Language (String AD_Language);
-
-	/** Get Language.
-	  * Language for this entity
-	  */
-	public String getAD_Language();
-
-    /** Column name AD_OrgBP_ID */
-    public static final String COLUMNNAME_AD_OrgBP_ID = "AD_OrgBP_ID";
-
-	/** Set Linked Organization.
-	  * The Business Partner is another Organization for explicit Inter-Org transactions
-	  */
-	public void setAD_OrgBP_ID (int AD_OrgBP_ID);
-
-	/** Get Linked Organization.
-	  * The Business Partner is another Organization for explicit Inter-Org transactions
-	  */
-	public int getAD_OrgBP_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws Exception;
 
     /** Column name AcqusitionCost */
     public static final String COLUMNNAME_AcqusitionCost = "AcqusitionCost";
@@ -176,31 +118,59 @@ public interface I_RV_BPartner
 	  */
 	public String getAddress3();
 
-    /** Column name BPContactGreeting */
-    public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
+    /** Column name AD_Language */
+    public static final String COLUMNNAME_AD_Language = "AD_Language";
 
-	/** Set BP Contact Greeting.
-	  * Greeting for Business Partner Contact
+	/** Set Language.
+	  * Language for this entity
 	  */
-	public void setBPContactGreeting (int BPContactGreeting);
+	public void setAD_Language (String AD_Language);
 
-	/** Get BP Contact Greeting.
-	  * Greeting for Business Partner Contact
+	/** Get Language.
+	  * Language for this entity
 	  */
-	public int getBPContactGreeting();
+	public String getAD_Language();
 
-    /** Column name BPartner_Parent_ID */
-    public static final String COLUMNNAME_BPartner_Parent_ID = "BPartner_Parent_ID";
+    /** Column name AD_OrgBP_ID */
+    public static final String COLUMNNAME_AD_OrgBP_ID = "AD_OrgBP_ID";
 
-	/** Set Partner Parent.
-	  * Business Partner Parent
+	/** Set Linked Organization.
+	  * The Business Partner is another Organization for explicit Inter-Org transactions
 	  */
-	public void setBPartner_Parent_ID (int BPartner_Parent_ID);
+	public void setAD_OrgBP_ID (int AD_OrgBP_ID);
 
-	/** Get Partner Parent.
-	  * Business Partner Parent
+	/** Get Linked Organization.
+	  * The Business Partner is another Organization for explicit Inter-Org transactions
 	  */
-	public int getBPartner_Parent_ID();
+	public int getAD_OrgBP_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -215,20 +185,31 @@ public interface I_RV_BPartner
 	  */
 	public Timestamp getBirthday();
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+    /** Column name BPartner_Parent_ID */
+    public static final String COLUMNNAME_BPartner_Parent_ID = "BPartner_Parent_ID";
 
-	/** Set Business Partner Group.
-	  * Business Partner Group
+	/** Set Partner Parent.
+	  * Business Partner Parent
 	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
+	public void setBPartner_Parent_ID (int BPartner_Parent_ID);
 
-	/** Get Business Partner Group.
-	  * Business Partner Group
+	/** Get Partner Parent.
+	  * Business Partner Parent
 	  */
-	public int getC_BP_Group_ID();
+	public int getBPartner_Parent_ID();
 
-	public I_C_BP_Group getC_BP_Group() throws Exception;
+    /** Column name BPContactGreeting */
+    public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
+
+	/** Set BP Contact Greeting.
+	  * Greeting for Business Partner Contact
+	  */
+	public void setBPContactGreeting (int BPContactGreeting);
+
+	/** Get BP Contact Greeting.
+	  * Greeting for Business Partner Contact
+	  */
+	public int getBPContactGreeting();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -257,6 +238,21 @@ public interface I_RV_BPartner
 	public int getC_BPartner_Location_ID();
 
 	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public I_C_BP_Group getC_BP_Group() throws Exception;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -317,36 +313,6 @@ public interface I_RV_BPartner
 	public int getC_InvoiceSchedule_ID();
 
 	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws Exception;
-
-    /** Column name C_PaymentTerm_ID */
-    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
-
-	/** Set Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
-
-	/** Get Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID();
-
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
-
-    /** Column name C_Region_ID */
-    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
-
-	/** Set Region.
-	  * Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID);
-
-	/** Get Region.
-	  * Identifies a geographical Region
-	  */
-	public int getC_Region_ID();
-
-	public I_C_Region getC_Region() throws Exception;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -413,18 +379,35 @@ public interface I_RV_BPartner
 	  */
 	public String getCountryName();
 
-    /** Column name DUNS */
-    public static final String COLUMNNAME_DUNS = "DUNS";
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 
-	/** Set D-U-N-S.
-	  * Dun & Bradstreet Number
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
 	  */
-	public void setDUNS (String DUNS);
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
 
-	/** Get D-U-N-S.
-	  * Dun & Bradstreet Number
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
 	  */
-	public String getDUNS();
+	public int getC_PaymentTerm_ID();
+
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
+
+    /** Column name C_Region_ID */
+    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
+
+	/** Set Region.
+	  * Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID);
+
+	/** Get Region.
+	  * Identifies a geographical Region
+	  */
+	public int getC_Region_ID();
+
+	public I_C_Region getC_Region() throws Exception;
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -477,6 +460,19 @@ public interface I_RV_BPartner
 	  * Number of copies to be printed
 	  */
 	public int getDocumentCopies();
+
+    /** Column name DUNS */
+    public static final String COLUMNNAME_DUNS = "DUNS";
+
+	/** Set D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS);
+
+	/** Get D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public String getDUNS();
 
     /** Column name EMail */
     public static final String COLUMNNAME_EMail = "EMail";
@@ -582,19 +578,6 @@ public interface I_RV_BPartner
 	  */
 	public String getFreightCostRule();
 
-    /** Column name InvoiceRule */
-    public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
-
-	/** Set Invoice Rule.
-	  * Frequency and method of invoicing 
-	  */
-	public void setInvoiceRule (String InvoiceRule);
-
-	/** Get Invoice Rule.
-	  * Frequency and method of invoicing 
-	  */
-	public String getInvoiceRule();
-
     /** Column name Invoice_PrintFormat_ID */
     public static final String COLUMNNAME_Invoice_PrintFormat_ID = "Invoice_PrintFormat_ID";
 
@@ -607,6 +590,19 @@ public interface I_RV_BPartner
 	  * Print Format for printing Invoices
 	  */
 	public int getInvoice_PrintFormat_ID();
+
+    /** Column name InvoiceRule */
+    public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
+
+	/** Set Invoice Rule.
+	  * Frequency and method of invoicing 
+	  */
+	public void setInvoiceRule (String InvoiceRule);
+
+	/** Get Invoice Rule.
+	  * Frequency and method of invoicing 
+	  */
+	public String getInvoiceRule();
 
     /** Column name IsCustomer */
     public static final String COLUMNNAME_IsCustomer = "IsCustomer";
@@ -721,19 +717,6 @@ public interface I_RV_BPartner
 	  */
 	public boolean isVendor();
 
-    /** Column name LDAPUser */
-    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
-
-	/** Set LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (boolean LDAPUser);
-
-	/** Get LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
-	  */
-	public boolean isLDAPUser();
-
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";
 
@@ -759,6 +742,19 @@ public interface I_RV_BPartner
 	  * Result of last contact
 	  */
 	public String getLastResult();
+
+    /** Column name LDAPUser */
+    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
+
+	/** Set LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (boolean LDAPUser);
+
+	/** Get LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public boolean isLDAPUser();
 
     /** Column name M_DiscountSchema_ID */
     public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
@@ -855,58 +851,6 @@ public interface I_RV_BPartner
 	  */
 	public int getNumberEmployees();
 
-    /** Column name POReference */
-    public static final String COLUMNNAME_POReference = "POReference";
-
-	/** Set Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference);
-
-	/** Get Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference();
-
-    /** Column name PO_DiscountSchema_ID */
-    public static final String COLUMNNAME_PO_DiscountSchema_ID = "PO_DiscountSchema_ID";
-
-	/** Set PO Discount Schema.
-	  * Schema to calculate the purchase trade discount percentage
-	  */
-	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID);
-
-	/** Get PO Discount Schema.
-	  * Schema to calculate the purchase trade discount percentage
-	  */
-	public int getPO_DiscountSchema_ID();
-
-    /** Column name PO_PaymentTerm_ID */
-    public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
-
-	/** Set PO Payment Term.
-	  * Payment rules for a purchase order
-	  */
-	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID);
-
-	/** Get PO Payment Term.
-	  * Payment rules for a purchase order
-	  */
-	public int getPO_PaymentTerm_ID();
-
-    /** Column name PO_PriceList_ID */
-    public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
-
-	/** Set Purchase Pricelist.
-	  * Price List used by this Business Partner
-	  */
-	public void setPO_PriceList_ID (int PO_PriceList_ID);
-
-	/** Get Purchase Pricelist.
-	  * Price List used by this Business Partner
-	  */
-	public int getPO_PriceList_ID();
-
     /** Column name PaymentRule */
     public static final String COLUMNNAME_PaymentRule = "PaymentRule";
 
@@ -958,6 +902,58 @@ public interface I_RV_BPartner
 	  * Identifies an alternate telephone number.
 	  */
 	public String getPhone2();
+
+    /** Column name PO_DiscountSchema_ID */
+    public static final String COLUMNNAME_PO_DiscountSchema_ID = "PO_DiscountSchema_ID";
+
+	/** Set PO Discount Schema.
+	  * Schema to calculate the purchase trade discount percentage
+	  */
+	public void setPO_DiscountSchema_ID (int PO_DiscountSchema_ID);
+
+	/** Get PO Discount Schema.
+	  * Schema to calculate the purchase trade discount percentage
+	  */
+	public int getPO_DiscountSchema_ID();
+
+    /** Column name PO_PaymentTerm_ID */
+    public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
+
+	/** Set PO Payment Term.
+	  * Payment rules for a purchase order
+	  */
+	public void setPO_PaymentTerm_ID (int PO_PaymentTerm_ID);
+
+	/** Get PO Payment Term.
+	  * Payment rules for a purchase order
+	  */
+	public int getPO_PaymentTerm_ID();
+
+    /** Column name PO_PriceList_ID */
+    public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
+
+	/** Set Purchase Pricelist.
+	  * Price List used by this Business Partner
+	  */
+	public void setPO_PriceList_ID (int PO_PriceList_ID);
+
+	/** Get Purchase Pricelist.
+	  * Price List used by this Business Partner
+	  */
+	public int getPO_PriceList_ID();
+
+    /** Column name POReference */
+    public static final String COLUMNNAME_POReference = "POReference";
+
+	/** Set Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference);
+
+	/** Get Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference();
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";
@@ -1024,71 +1020,6 @@ public interface I_RV_BPartner
 	  */
 	public String getRegionName();
 
-    /** Column name SOCreditStatus */
-    public static final String COLUMNNAME_SOCreditStatus = "SOCreditStatus";
-
-	/** Set Credit Status.
-	  * Business Partner Credit Status
-	  */
-	public void setSOCreditStatus (String SOCreditStatus);
-
-	/** Get Credit Status.
-	  * Business Partner Credit Status
-	  */
-	public String getSOCreditStatus();
-
-    /** Column name SO_CreditAvailable */
-    public static final String COLUMNNAME_SO_CreditAvailable = "SO_CreditAvailable";
-
-	/** Set Credit Available.
-	  * Available Credit based on Credit Limit (not Total Open Balance) and Credit Used
-	  */
-	public void setSO_CreditAvailable (BigDecimal SO_CreditAvailable);
-
-	/** Get Credit Available.
-	  * Available Credit based on Credit Limit (not Total Open Balance) and Credit Used
-	  */
-	public BigDecimal getSO_CreditAvailable();
-
-    /** Column name SO_CreditLimit */
-    public static final String COLUMNNAME_SO_CreditLimit = "SO_CreditLimit";
-
-	/** Set Credit Limit.
-	  * Total outstanding invoice amounts allowed
-	  */
-	public void setSO_CreditLimit (BigDecimal SO_CreditLimit);
-
-	/** Get Credit Limit.
-	  * Total outstanding invoice amounts allowed
-	  */
-	public BigDecimal getSO_CreditLimit();
-
-    /** Column name SO_CreditUsed */
-    public static final String COLUMNNAME_SO_CreditUsed = "SO_CreditUsed";
-
-	/** Set Credit Used.
-	  * Current open balance
-	  */
-	public void setSO_CreditUsed (BigDecimal SO_CreditUsed);
-
-	/** Get Credit Used.
-	  * Current open balance
-	  */
-	public BigDecimal getSO_CreditUsed();
-
-    /** Column name SO_Description */
-    public static final String COLUMNNAME_SO_Description = "SO_Description";
-
-	/** Set Order Description.
-	  * Description to be used on orders
-	  */
-	public void setSO_Description (String SO_Description);
-
-	/** Get Order Description.
-	  * Description to be used on orders
-	  */
-	public String getSO_Description();
-
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -1153,6 +1084,71 @@ public interface I_RV_BPartner
 	  * Minimum Shelf Life in percent based on Product Instance Guarantee Date
 	  */
 	public int getShelfLifeMinPct();
+
+    /** Column name SO_CreditAvailable */
+    public static final String COLUMNNAME_SO_CreditAvailable = "SO_CreditAvailable";
+
+	/** Set Credit Available.
+	  * Available Credit based on Credit Limit (not Total Open Balance) and Credit Used
+	  */
+	public void setSO_CreditAvailable (BigDecimal SO_CreditAvailable);
+
+	/** Get Credit Available.
+	  * Available Credit based on Credit Limit (not Total Open Balance) and Credit Used
+	  */
+	public BigDecimal getSO_CreditAvailable();
+
+    /** Column name SO_CreditLimit */
+    public static final String COLUMNNAME_SO_CreditLimit = "SO_CreditLimit";
+
+	/** Set Credit Limit.
+	  * Total outstanding invoice amounts allowed
+	  */
+	public void setSO_CreditLimit (BigDecimal SO_CreditLimit);
+
+	/** Get Credit Limit.
+	  * Total outstanding invoice amounts allowed
+	  */
+	public BigDecimal getSO_CreditLimit();
+
+    /** Column name SOCreditStatus */
+    public static final String COLUMNNAME_SOCreditStatus = "SOCreditStatus";
+
+	/** Set Credit Status.
+	  * Business Partner Credit Status
+	  */
+	public void setSOCreditStatus (String SOCreditStatus);
+
+	/** Get Credit Status.
+	  * Business Partner Credit Status
+	  */
+	public String getSOCreditStatus();
+
+    /** Column name SO_CreditUsed */
+    public static final String COLUMNNAME_SO_CreditUsed = "SO_CreditUsed";
+
+	/** Set Credit Used.
+	  * Current open balance
+	  */
+	public void setSO_CreditUsed (BigDecimal SO_CreditUsed);
+
+	/** Get Credit Used.
+	  * Current open balance
+	  */
+	public BigDecimal getSO_CreditUsed();
+
+    /** Column name SO_Description */
+    public static final String COLUMNNAME_SO_Description = "SO_Description";
+
+	/** Set Order Description.
+	  * Description to be used on orders
+	  */
+	public void setSO_Description (String SO_Description);
+
+	/** Get Order Description.
+	  * Description to be used on orders
+	  */
+	public String getSO_Description();
 
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";

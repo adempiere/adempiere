@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry, I_Persistent 
 {
 
@@ -48,9 +48,9 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 // @$C_CURRENCY_ID@
 			setC_DocType_ID (0);
 			setC_Period_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @Date@
-			setDateDoc (new Timestamp(System.currentTimeMillis()));
+			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @Date@
 			setDescription (null);
 			setDocumentNo (null);
@@ -136,13 +136,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
 		if (A_Entry_Type == null) throw new IllegalArgumentException ("A_Entry_Type is mandatory");
-		if (A_Entry_Type.equals("DEP") || A_Entry_Type.equals("DIS") || A_Entry_Type.equals("FOR") || A_Entry_Type.equals("NEW") || A_Entry_Type.equals("SPL") || A_Entry_Type.equals("TRN")); else throw new IllegalArgumentException ("A_Entry_Type Invalid value - " + A_Entry_Type + " - Reference_ID=53257 - DEP - DIS - FOR - NEW - SPL - TRN");
-		if (A_Entry_Type.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Entry_Type = A_Entry_Type.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
+		if (A_Entry_Type.equals("DEP") || A_Entry_Type.equals("DIS") || A_Entry_Type.equals("FOR") || A_Entry_Type.equals("NEW") || A_Entry_Type.equals("SPL") || A_Entry_Type.equals("TRN")); else throw new IllegalArgumentException ("A_Entry_Type Invalid value - " + A_Entry_Type + " - Reference_ID=53257 - DEP - DIS - FOR - NEW - SPL - TRN");		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
 	/** Get A_Entry_Type.
@@ -336,12 +330,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -361,12 +349,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DocumentNo = DocumentNo.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -435,13 +417,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

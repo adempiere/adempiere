@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintForm
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_PrintForm 
 {
@@ -82,19 +78,6 @@ public interface I_AD_PrintForm
 	  */
 	public String getDescription();
 
-    /** Column name DistributionOrder_MailText_ID */
-    public static final String COLUMNNAME_DistributionOrder_MailText_ID = "DistributionOrder_MailText_ID";
-
-	/** Set Distribution Order Mail Text.
-	  * Email text used for sending Distribution Order
-	  */
-	public void setDistributionOrder_MailText_ID (int DistributionOrder_MailText_ID);
-
-	/** Get Distribution Order Mail Text.
-	  * Email text used for sending Distribution Order
-	  */
-	public int getDistributionOrder_MailText_ID();
-
     /** Column name Distrib_Order_PrintFormat_ID */
     public static final String COLUMNNAME_Distrib_Order_PrintFormat_ID = "Distrib_Order_PrintFormat_ID";
 
@@ -107,6 +90,19 @@ public interface I_AD_PrintForm
 	  * Print Format for printing Distribution Order
 	  */
 	public int getDistrib_Order_PrintFormat_ID();
+
+    /** Column name DistributionOrder_MailText_ID */
+    public static final String COLUMNNAME_DistributionOrder_MailText_ID = "DistributionOrder_MailText_ID";
+
+	/** Set Distribution Order Mail Text.
+	  * Email text used for sending Distribution Order
+	  */
+	public void setDistributionOrder_MailText_ID (int DistributionOrder_MailText_ID);
+
+	/** Get Distribution Order Mail Text.
+	  * Email text used for sending Distribution Order
+	  */
+	public int getDistributionOrder_MailText_ID();
 
     /** Column name Invoice_MailText_ID */
     public static final String COLUMNNAME_Invoice_MailText_ID = "Invoice_MailText_ID";
@@ -134,18 +130,18 @@ public interface I_AD_PrintForm
 	  */
 	public int getInvoice_PrintFormat_ID();
 
-    /** Column name ManufacturingOrder_MailText_ID */
-    public static final String COLUMNNAME_ManufacturingOrder_MailText_ID = "ManufacturingOrder_MailText_ID";
+    /** Column name Manuf_Order_MailText_ID */
+    public static final String COLUMNNAME_Manuf_Order_MailText_ID = "Manuf_Order_MailText_ID";
 
 	/** Set Manufacturing Order Mail Text.
 	  * Email text used for sending Manufacturing Order
 	  */
-	public void setManufacturingOrder_MailText_ID (int ManufacturingOrder_MailText_ID);
+	public void setManuf_Order_MailText_ID (int Manuf_Order_MailText_ID);
 
 	/** Get Manufacturing Order Mail Text.
 	  * Email text used for sending Manufacturing Order
 	  */
-	public int getManufacturingOrder_MailText_ID();
+	public int getManuf_Order_MailText_ID();
 
     /** Column name Manuf_Order_PrintFormat_ID */
     public static final String COLUMNNAME_Manuf_Order_PrintFormat_ID = "Manuf_Order_PrintFormat_ID";

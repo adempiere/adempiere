@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Persistent 
 {
 
@@ -140,6 +140,20 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
+	/** Set A_Insurance_Co.
+		@param A_Insurance_Co A_Insurance_Co	  */
+	public void setA_Insurance_Co (String A_Insurance_Co)
+	{
+		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
+	}
+
+	/** Get A_Insurance_Co.
+		@return A_Insurance_Co	  */
+	public String getA_Insurance_Co () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
+	}
+
 	/** Set A_Ins_Value.
 		@param A_Ins_Value A_Ins_Value	  */
 	public void setA_Ins_Value (BigDecimal A_Ins_Value)
@@ -157,36 +171,10 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set A_Insurance_Co.
-		@param A_Insurance_Co A_Insurance_Co	  */
-	public void setA_Insurance_Co (String A_Insurance_Co)
-	{
-
-		if (A_Insurance_Co != null && A_Insurance_Co.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			A_Insurance_Co = A_Insurance_Co.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
-	}
-
-	/** Get A_Insurance_Co.
-		@return A_Insurance_Co	  */
-	public String getA_Insurance_Co () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
-	}
-
 	/** Set A_Policy_No.
 		@param A_Policy_No A_Policy_No	  */
 	public void setA_Policy_No (String A_Policy_No)
 	{
-
-		if (A_Policy_No != null && A_Policy_No.length() > 100)
-		{
-			log.warning("Length > 100 - truncated");
-			A_Policy_No = A_Policy_No.substring(0, 100);
-		}
 		set_Value (COLUMNNAME_A_Policy_No, A_Policy_No);
 	}
 
@@ -232,12 +220,6 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		@param Text Text	  */
 	public void setText (String Text)
 	{
-
-		if (Text != null && Text.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Text = Text.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Text, Text);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceUnAvailable
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailable, I_Persistent 
 {
 
@@ -41,9 +41,9 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
       super (ctx, S_ResourceUnAvailable_ID, trxName);
       /** if (S_ResourceUnAvailable_ID == 0)
         {
-			setDateFrom (new Timestamp(System.currentTimeMillis()));
-			setS_ResourceUnAvailable_ID (0);
+			setDateFrom (new Timestamp( System.currentTimeMillis() ));
 			setS_Resource_ID (0);
+			setS_ResourceUnAvailable_ID (0);
         } */
     }
 
@@ -117,12 +117,6 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -132,25 +126,6 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Resource Unavailability.
-		@param S_ResourceUnAvailable_ID Resource Unavailability	  */
-	public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID)
-	{
-		if (S_ResourceUnAvailable_ID < 1)
-			 throw new IllegalArgumentException ("S_ResourceUnAvailable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_ResourceUnAvailable_ID, Integer.valueOf(S_ResourceUnAvailable_ID));
-	}
-
-	/** Get Resource Unavailability.
-		@return Resource Unavailability	  */
-	public int getS_ResourceUnAvailable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceUnAvailable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_S_Resource getS_Resource() throws Exception 
@@ -198,4 +173,23 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
     {
         return new KeyNamePair(get_ID(), String.valueOf(getS_Resource_ID()));
     }
+
+	/** Set Resource Unavailability.
+		@param S_ResourceUnAvailable_ID Resource Unavailability	  */
+	public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID)
+	{
+		if (S_ResourceUnAvailable_ID < 1)
+			 throw new IllegalArgumentException ("S_ResourceUnAvailable_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_S_ResourceUnAvailable_ID, Integer.valueOf(S_ResourceUnAvailable_ID));
+	}
+
+	/** Get Resource Unavailability.
+		@return Resource Unavailability	  */
+	public int getS_ResourceUnAvailable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceUnAvailable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

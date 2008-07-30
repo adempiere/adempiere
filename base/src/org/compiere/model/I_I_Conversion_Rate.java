@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Conversion_Rate
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_I_Conversion_Rate 
 {
@@ -57,21 +53,6 @@ public interface I_I_Conversion_Rate
 
     /** Load Meta Data */
 
-    /** Column name C_ConversionType_ID */
-    public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
-
-	/** Set Currency Type.
-	  * Currency Conversion Rate Type
-	  */
-	public void setC_ConversionType_ID (int C_ConversionType_ID);
-
-	/** Get Currency Type.
-	  * Currency Conversion Rate Type
-	  */
-	public int getC_ConversionType_ID();
-
-	public I_C_ConversionType getC_ConversionType() throws Exception;
-
     /** Column name C_Conversion_Rate_ID */
     public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
 
@@ -86,6 +67,21 @@ public interface I_I_Conversion_Rate
 	public int getC_Conversion_Rate_ID();
 
 	public I_C_Conversion_Rate getC_Conversion_Rate() throws Exception;
+
+    /** Column name C_ConversionType_ID */
+    public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
+
+	/** Set Currency Type.
+	  * Currency Conversion Rate Type
+	  */
+	public void setC_ConversionType_ID (int C_ConversionType_ID);
+
+	/** Get Currency Type.
+	  * Currency Conversion Rate Type
+	  */
+	public int getC_ConversionType_ID();
+
+	public I_C_ConversionType getC_ConversionType() throws Exception;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -154,32 +150,6 @@ public interface I_I_Conversion_Rate
 	  */
 	public BigDecimal getDivideRate();
 
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
-
-    /** Column name ISO_Code_To */
-    public static final String COLUMNNAME_ISO_Code_To = "ISO_Code_To";
-
-	/** Set ISO Currency To Code.
-	  * Three letter ISO 4217 Code of the To Currency
-	  */
-	public void setISO_Code_To (String ISO_Code_To);
-
-	/** Get ISO Currency To Code.
-	  * Three letter ISO 4217 Code of the To Currency
-	  */
-	public String getISO_Code_To();
-
     /** Column name I_Conversion_Rate_ID */
     public static final String COLUMNNAME_I_Conversion_Rate_ID = "I_Conversion_Rate_ID";
 
@@ -218,6 +188,32 @@ public interface I_I_Conversion_Rate
 	  * Has this import been processed
 	  */
 	public boolean isI_IsImported();
+
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
+
+    /** Column name ISO_Code_To */
+    public static final String COLUMNNAME_ISO_Code_To = "ISO_Code_To";
+
+	/** Set ISO Currency To Code.
+	  * Three letter ISO 4217 Code of the To Currency
+	  */
+	public void setISO_Code_To (String ISO_Code_To);
+
+	/** Get ISO Currency To Code.
+	  * Three letter ISO 4217 Code of the To Currency
+	  */
+	public String getISO_Code_To();
 
     /** Column name MultiplyRate */
     public static final String COLUMNNAME_MultiplyRate = "MultiplyRate";

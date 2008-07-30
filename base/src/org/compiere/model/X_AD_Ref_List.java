@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_List
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
       super (ctx, AD_Ref_List_ID, trxName);
       /** if (AD_Ref_List_ID == 0)
         {
-			setAD_Ref_List_ID (0);
 			setAD_Reference_ID (0);
+			setAD_Ref_List_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
@@ -77,28 +77,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Reference List.
-		@param AD_Ref_List_ID 
-		Reference List based on Table
-	  */
-	public void setAD_Ref_List_ID (int AD_Ref_List_ID)
-	{
-		if (AD_Ref_List_ID < 1)
-			 throw new IllegalArgumentException ("AD_Ref_List_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, Integer.valueOf(AD_Ref_List_ID));
-	}
-
-	/** Get Reference List.
-		@return Reference List based on Table
-	  */
-	public int getAD_Ref_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Ref_List_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_Reference getAD_Reference() throws Exception 
     {
@@ -138,18 +116,34 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Reference List.
+		@param AD_Ref_List_ID 
+		Reference List based on Table
+	  */
+	public void setAD_Ref_List_ID (int AD_Ref_List_ID)
+	{
+		if (AD_Ref_List_ID < 1)
+			 throw new IllegalArgumentException ("AD_Ref_List_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, Integer.valueOf(AD_Ref_List_ID));
+	}
+
+	/** Get Reference List.
+		@return Reference List based on Table
+	  */
+	public int getAD_Ref_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Ref_List_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -169,12 +163,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -194,12 +182,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -261,12 +243,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Value = Value.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

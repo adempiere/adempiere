@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_FieldGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent 
 {
 
@@ -103,12 +103,6 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -133,13 +127,7 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	public void setFieldGroupType (String FieldGroupType)
 	{
 
-		if (FieldGroupType == null || FieldGroupType.equals("T") || FieldGroupType.equals("L") || FieldGroupType.equals("C")); else throw new IllegalArgumentException ("FieldGroupType Invalid value - " + FieldGroupType + " - Reference_ID=53000 - T - L - C");
-		if (FieldGroupType != null && FieldGroupType.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			FieldGroupType = FieldGroupType.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_FieldGroupType, FieldGroupType);
+		if (FieldGroupType == null || FieldGroupType.equals("T") || FieldGroupType.equals("L") || FieldGroupType.equals("C")); else throw new IllegalArgumentException ("FieldGroupType Invalid value - " + FieldGroupType + " - Reference_ID=53000 - T - L - C");		set_Value (COLUMNNAME_FieldGroupType, FieldGroupType);
 	}
 
 	/** Get Field Group Type.
@@ -181,12 +169,6 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

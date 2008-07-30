@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_Specification
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_QM_Specification extends PO implements I_QM_Specification, I_Persistent 
 {
 
@@ -120,12 +120,6 @@ public class X_QM_Specification extends PO implements I_QM_Specification, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -219,12 +213,6 @@ public class X_QM_Specification extends PO implements I_QM_Specification, I_Pers
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -334,12 +322,6 @@ public class X_QM_Specification extends PO implements I_QM_Specification, I_Pers
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

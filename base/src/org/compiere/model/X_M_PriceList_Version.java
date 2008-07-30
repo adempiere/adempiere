@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, I_Persistent 
 {
 
@@ -46,7 +46,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 			setM_PriceList_Version_ID (0);
 			setName (null);
 // @#Date@
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
         } */
     }
@@ -85,12 +85,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -178,28 +172,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-	/** Set Price List Version.
-		@param M_PriceList_Version_ID 
-		Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
-	{
-		if (M_PriceList_Version_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
-	}
-
-	/** Get Price List Version.
-		@return Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** M_Pricelist_Version_Base_ID AD_Reference_ID=188 */
 	public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
 	/** Set Base Price List.
@@ -225,6 +197,28 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
+	/** Set Price List Version.
+		@param M_PriceList_Version_ID 
+		Identifies a unique instance of a Price List
+	  */
+	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
+	{
+		if (M_PriceList_Version_ID < 1)
+			 throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+	}
+
+	/** Get Price List Version.
+		@return Identifies a unique instance of a Price List
+	  */
+	public int getM_PriceList_Version_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -233,12 +227,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -262,12 +250,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		@param ProcCreate Create	  */
 	public void setProcCreate (String ProcCreate)
 	{
-
-		if (ProcCreate != null && ProcCreate.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProcCreate = ProcCreate.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_ProcCreate, ProcCreate);
 	}
 

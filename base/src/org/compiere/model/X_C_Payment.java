@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Payment extends PO implements I_C_Payment, I_Persistent 
 {
 
@@ -43,14 +43,14 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
       super (ctx, C_Payment_ID, trxName);
       /** if (C_Payment_ID == 0)
         {
-			setC_BPartner_ID (0);
 			setC_BankAccount_ID (0);
+			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
 			setC_DocType_ID (0);
 			setC_Payment_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
-			setDateTrx (new Timestamp(System.currentTimeMillis()));
+			setDateTrx (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);
 // CO
@@ -108,6 +108,57 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
       return sb.toString();
     }
 
+	/** Set Account No.
+		@param AccountNo 
+		Account Number
+	  */
+	public void setAccountNo (String AccountNo)
+	{
+		set_Value (COLUMNNAME_AccountNo, AccountNo);
+	}
+
+	/** Get Account No.
+		@return Account Number
+	  */
+	public String getAccountNo () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountNo);
+	}
+
+	/** Set Account City.
+		@param A_City 
+		City or the Credit Card or Account Holder
+	  */
+	public void setA_City (String A_City)
+	{
+		set_Value (COLUMNNAME_A_City, A_City);
+	}
+
+	/** Get Account City.
+		@return City or the Credit Card or Account Holder
+	  */
+	public String getA_City () 
+	{
+		return (String)get_Value(COLUMNNAME_A_City);
+	}
+
+	/** Set Account Country.
+		@param A_Country 
+		Country
+	  */
+	public void setA_Country (String A_Country)
+	{
+		set_Value (COLUMNNAME_A_Country, A_Country);
+	}
+
+	/** Get Account Country.
+		@return Country
+	  */
+	public String getA_Country () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Country);
+	}
+
 	/** AD_OrgTrx_ID AD_Reference_ID=130 */
 	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
@@ -133,64 +184,12 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Account City.
-		@param A_City 
-		City or the Credit Card or Account Holder
-	  */
-	public void setA_City (String A_City)
-	{
-
-		if (A_City != null && A_City.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			A_City = A_City.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_A_City, A_City);
-	}
-
-	/** Get Account City.
-		@return City or the Credit Card or Account Holder
-	  */
-	public String getA_City () 
-	{
-		return (String)get_Value(COLUMNNAME_A_City);
-	}
-
-	/** Set Account Country.
-		@param A_Country 
-		Country
-	  */
-	public void setA_Country (String A_Country)
-	{
-
-		if (A_Country != null && A_Country.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_Country = A_Country.substring(0, 40);
-		}
-		set_Value (COLUMNNAME_A_Country, A_Country);
-	}
-
-	/** Get Account Country.
-		@return Country
-	  */
-	public String getA_Country () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Country);
-	}
-
 	/** Set Account EMail.
 		@param A_EMail 
 		Email Address
 	  */
 	public void setA_EMail (String A_EMail)
 	{
-
-		if (A_EMail != null && A_EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			A_EMail = A_EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_A_EMail, A_EMail);
 	}
 
@@ -208,12 +207,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setA_Ident_DL (String A_Ident_DL)
 	{
-
-		if (A_Ident_DL != null && A_Ident_DL.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			A_Ident_DL = A_Ident_DL.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_A_Ident_DL, A_Ident_DL);
 	}
 
@@ -231,12 +224,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setA_Ident_SSN (String A_Ident_SSN)
 	{
-
-		if (A_Ident_SSN != null && A_Ident_SSN.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			A_Ident_SSN = A_Ident_SSN.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_A_Ident_SSN, A_Ident_SSN);
 	}
 
@@ -254,12 +241,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setA_Name (String A_Name)
 	{
-
-		if (A_Name != null && A_Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			A_Name = A_Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_A_Name, A_Name);
 	}
 
@@ -277,12 +258,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setA_State (String A_State)
 	{
-
-		if (A_State != null && A_State.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_State = A_State.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_A_State, A_State);
 	}
 
@@ -300,12 +275,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setA_Street (String A_Street)
 	{
-
-		if (A_Street != null && A_Street.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			A_Street = A_Street.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_A_Street, A_Street);
 	}
 
@@ -323,12 +292,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setA_Zip (String A_Zip)
 	{
-
-		if (A_Zip != null && A_Zip.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			A_Zip = A_Zip.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_A_Zip, A_Zip);
 	}
 
@@ -338,29 +301,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getA_Zip () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Zip);
-	}
-
-	/** Set Account No.
-		@param AccountNo 
-		Account Number
-	  */
-	public void setAccountNo (String AccountNo)
-	{
-
-		if (AccountNo != null && AccountNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			AccountNo = AccountNo.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_AccountNo, AccountNo);
-	}
-
-	/** Get Account No.
-		@return Account Number
-	  */
-	public String getAccountNo () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
 	public I_C_Activity getC_Activity() throws Exception 
@@ -402,14 +342,14 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
-        Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
-        I_C_BP_BankAccount result = null;
+        Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
+        I_C_BankAccount result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_BankAccount_ID()), get_TrxName()});
+    	    result = (I_C_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BankAccount_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -418,24 +358,23 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
         return result;
     }
 
-	/** Set Partner Bank Account.
-		@param C_BP_BankAccount_ID 
-		Bank Account of the Business Partner
+	/** Set Bank Account.
+		@param C_BankAccount_ID 
+		Account at the Bank
 	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
+	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BP_BankAccount_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
+		if (C_BankAccount_ID < 1)
+			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
+		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
-	/** Get Partner Bank Account.
-		@return Bank Account of the Business Partner
+	/** Get Bank Account.
+		@return Account at the Bank
 	  */
-	public int getC_BP_BankAccount_ID () 
+	public int getC_BankAccount_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -479,14 +418,14 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws Exception 
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception 
     {
-        Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
-        I_C_BankAccount result = null;
+        Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
+        I_C_BP_BankAccount result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BankAccount_ID()), get_TrxName()});
+    	    result = (I_C_BP_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_BankAccount_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -495,23 +434,24 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
         return result;
     }
 
-	/** Set Bank Account.
-		@param C_BankAccount_ID 
-		Account at the Bank
+	/** Set Partner Bank Account.
+		@param C_BP_BankAccount_ID 
+		Bank Account of the Business Partner
 	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID)
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BP_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_BankAccount_ID, Integer.valueOf(C_BP_BankAccount_ID));
 	}
 
-	/** Get Bank Account.
-		@return Account at the Bank
+	/** Get Partner Bank Account.
+		@return Bank Account of the Business Partner
 	  */
-	public int getC_BankAccount_ID () 
+	public int getC_BP_BankAccount_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -710,6 +650,43 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Check No.
+		@param CheckNo 
+		Check Number
+	  */
+	public void setCheckNo (String CheckNo)
+	{
+		set_Value (COLUMNNAME_CheckNo, CheckNo);
+	}
+
+	/** Get Check No.
+		@return Check Number
+	  */
+	public String getCheckNo () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckNo);
+	}
+
 	public I_C_Invoice getC_Invoice() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
@@ -888,49 +865,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Check No.
-		@param CheckNo 
-		Check Number
-	  */
-	public void setCheckNo (String CheckNo)
-	{
-
-		if (CheckNo != null && CheckNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			CheckNo = CheckNo.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_CheckNo, CheckNo);
-	}
-
-	/** Get Check No.
-		@return Check Number
-	  */
-	public String getCheckNo () 
-	{
-		return (String)get_Value(COLUMNNAME_CheckNo);
-	}
-
 	/** Set Exp. Month.
 		@param CreditCardExpMM 
 		Expiry Month
@@ -977,12 +911,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setCreditCardNumber (String CreditCardNumber)
 	{
-
-		if (CreditCardNumber != null && CreditCardNumber.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			CreditCardNumber = CreditCardNumber.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_CreditCardNumber, CreditCardNumber);
 	}
 
@@ -1017,13 +945,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setCreditCardType (String CreditCardType)
 	{
 
-		if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("M") || CreditCardType.equals("V") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("N") || CreditCardType.equals("P")); else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - M - V - C - D - N - P");
-		if (CreditCardType != null && CreditCardType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreditCardType = CreditCardType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
+		if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("M") || CreditCardType.equals("V") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("N") || CreditCardType.equals("P")); else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - M - V - C - D - N - P");		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
 	}
 
 	/** Get Credit Card.
@@ -1040,12 +962,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setCreditCardVV (String CreditCardVV)
 	{
-
-		if (CreditCardVV != null && CreditCardVV.length() > 4)
-		{
-			log.warning("Length > 4 - truncated");
-			CreditCardVV = CreditCardVV.substring(0, 4);
-		}
 		set_Value (COLUMNNAME_CreditCardVV, CreditCardVV);
 	}
 
@@ -1101,12 +1017,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -1175,13 +1085,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -1225,13 +1129,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-		if (DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -1250,12 +1148,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -1497,12 +1389,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setMicr (String Micr)
 	{
-
-		if (Micr != null && Micr.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Micr = Micr.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Micr, Micr);
 	}
 
@@ -1520,12 +1406,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setOProcessing (String OProcessing)
 	{
-
-		if (OProcessing != null && OProcessing.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			OProcessing = OProcessing.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_OProcessing, OProcessing);
 	}
 
@@ -1543,12 +1423,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setOrig_TrxID (String Orig_TrxID)
 	{
-
-		if (Orig_TrxID != null && Orig_TrxID.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Orig_TrxID = Orig_TrxID.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Orig_TrxID, Orig_TrxID);
 	}
 
@@ -1580,29 +1454,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return bd;
 	}
 
-	/** Set PO Number.
-		@param PONum 
-		Purchase Order Number
-	  */
-	public void setPONum (String PONum)
-	{
-
-		if (PONum != null && PONum.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PONum = PONum.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_PONum, PONum);
-	}
-
-	/** Get PO Number.
-		@return Purchase Order Number
-	  */
-	public String getPONum () 
-	{
-		return (String)get_Value(COLUMNNAME_PONum);
-	}
-
 	/** Set Payment amount.
 		@param PayAmt 
 		Amount being paid
@@ -1623,6 +1474,23 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set PO Number.
+		@param PONum 
+		Purchase Order Number
+	  */
+	public void setPONum (String PONum)
+	{
+		set_Value (COLUMNNAME_PONum, PONum);
+	}
+
+	/** Get PO Number.
+		@return Purchase Order Number
+	  */
+	public String getPONum () 
+	{
+		return (String)get_Value(COLUMNNAME_PONum);
 	}
 
 	/** Set Posted.
@@ -1700,12 +1568,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setR_AuthCode (String R_AuthCode)
 	{
-
-		if (R_AuthCode != null && R_AuthCode.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			R_AuthCode = R_AuthCode.substring(0, 20);
-		}
 		set_ValueNoCheck (COLUMNNAME_R_AuthCode, R_AuthCode);
 	}
 
@@ -1723,12 +1585,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setR_AuthCode_DC (String R_AuthCode_DC)
 	{
-
-		if (R_AuthCode_DC != null && R_AuthCode_DC.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			R_AuthCode_DC = R_AuthCode_DC.substring(0, 20);
-		}
 		set_ValueNoCheck (COLUMNNAME_R_AuthCode_DC, R_AuthCode_DC);
 	}
 
@@ -1755,13 +1611,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setR_AvsAddr (String R_AvsAddr)
 	{
 
-		if (R_AvsAddr == null || R_AvsAddr.equals("Y") || R_AvsAddr.equals("N") || R_AvsAddr.equals("X")); else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - Y - N - X");
-		if (R_AvsAddr != null && R_AvsAddr.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			R_AvsAddr = R_AvsAddr.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
+		if (R_AvsAddr == null || R_AvsAddr.equals("Y") || R_AvsAddr.equals("N") || R_AvsAddr.equals("X")); else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - Y - N - X");		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
 	}
 
 	/** Get Address verified.
@@ -1787,13 +1637,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setR_AvsZip (String R_AvsZip)
 	{
 
-		if (R_AvsZip == null || R_AvsZip.equals("Y") || R_AvsZip.equals("N") || R_AvsZip.equals("X")); else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - Y - N - X");
-		if (R_AvsZip != null && R_AvsZip.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			R_AvsZip = R_AvsZip.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
+		if (R_AvsZip == null || R_AvsZip.equals("Y") || R_AvsZip.equals("N") || R_AvsZip.equals("X")); else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - Y - N - X");		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
 	}
 
 	/** Get Zip verified.
@@ -1826,121 +1670,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set Info.
-		@param R_Info 
-		Response info
-	  */
-	public void setR_Info (String R_Info)
-	{
-
-		if (R_Info != null && R_Info.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			R_Info = R_Info.substring(0, 2000);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_Info, R_Info);
-	}
-
-	/** Get Info.
-		@return Response info
-	  */
-	public String getR_Info () 
-	{
-		return (String)get_Value(COLUMNNAME_R_Info);
-	}
-
-	/** Set Reference.
-		@param R_PnRef 
-		Payment reference
-	  */
-	public void setR_PnRef (String R_PnRef)
-	{
-
-		if (R_PnRef != null && R_PnRef.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			R_PnRef = R_PnRef.substring(0, 20);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_PnRef, R_PnRef);
-	}
-
-	/** Get Reference.
-		@return Payment reference
-	  */
-	public String getR_PnRef () 
-	{
-		return (String)get_Value(COLUMNNAME_R_PnRef);
-	}
-
-	/** Set Reference (DC).
-		@param R_PnRef_DC 
-		Payment Reference Delayed Capture
-	  */
-	public void setR_PnRef_DC (String R_PnRef_DC)
-	{
-
-		if (R_PnRef_DC != null && R_PnRef_DC.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			R_PnRef_DC = R_PnRef_DC.substring(0, 20);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_PnRef_DC, R_PnRef_DC);
-	}
-
-	/** Get Reference (DC).
-		@return Payment Reference Delayed Capture
-	  */
-	public String getR_PnRef_DC () 
-	{
-		return (String)get_Value(COLUMNNAME_R_PnRef_DC);
-	}
-
-	/** Set Response Message.
-		@param R_RespMsg 
-		Response message
-	  */
-	public void setR_RespMsg (String R_RespMsg)
-	{
-
-		if (R_RespMsg != null && R_RespMsg.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			R_RespMsg = R_RespMsg.substring(0, 60);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_RespMsg, R_RespMsg);
-	}
-
-	/** Get Response Message.
-		@return Response message
-	  */
-	public String getR_RespMsg () 
-	{
-		return (String)get_Value(COLUMNNAME_R_RespMsg);
-	}
-
-	/** Set Result.
-		@param R_Result 
-		Result of transmission
-	  */
-	public void setR_Result (String R_Result)
-	{
-
-		if (R_Result != null && R_Result.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			R_Result = R_Result.substring(0, 20);
-		}
-		set_ValueNoCheck (COLUMNNAME_R_Result, R_Result);
-	}
-
-	/** Get Result.
-		@return Result of transmission
-	  */
-	public String getR_Result () 
-	{
-		return (String)get_Value(COLUMNNAME_R_Result);
 	}
 
 	/** Ref_Payment_ID AD_Reference_ID=343 */
@@ -1990,18 +1719,29 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Info.
+		@param R_Info 
+		Response info
+	  */
+	public void setR_Info (String R_Info)
+	{
+		set_ValueNoCheck (COLUMNNAME_R_Info, R_Info);
+	}
+
+	/** Get Info.
+		@return Response info
+	  */
+	public String getR_Info () 
+	{
+		return (String)get_Value(COLUMNNAME_R_Info);
+	}
+
 	/** Set Routing No.
 		@param RoutingNo 
 		Bank Routing Number
 	  */
 	public void setRoutingNo (String RoutingNo)
 	{
-
-		if (RoutingNo != null && RoutingNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			RoutingNo = RoutingNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
 	}
 
@@ -2013,18 +1753,80 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_RoutingNo);
 	}
 
+	/** Set Reference.
+		@param R_PnRef 
+		Payment reference
+	  */
+	public void setR_PnRef (String R_PnRef)
+	{
+		set_ValueNoCheck (COLUMNNAME_R_PnRef, R_PnRef);
+	}
+
+	/** Get Reference.
+		@return Payment reference
+	  */
+	public String getR_PnRef () 
+	{
+		return (String)get_Value(COLUMNNAME_R_PnRef);
+	}
+
+	/** Set Reference (DC).
+		@param R_PnRef_DC 
+		Payment Reference Delayed Capture
+	  */
+	public void setR_PnRef_DC (String R_PnRef_DC)
+	{
+		set_ValueNoCheck (COLUMNNAME_R_PnRef_DC, R_PnRef_DC);
+	}
+
+	/** Get Reference (DC).
+		@return Payment Reference Delayed Capture
+	  */
+	public String getR_PnRef_DC () 
+	{
+		return (String)get_Value(COLUMNNAME_R_PnRef_DC);
+	}
+
+	/** Set Response Message.
+		@param R_RespMsg 
+		Response message
+	  */
+	public void setR_RespMsg (String R_RespMsg)
+	{
+		set_ValueNoCheck (COLUMNNAME_R_RespMsg, R_RespMsg);
+	}
+
+	/** Get Response Message.
+		@return Response message
+	  */
+	public String getR_RespMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_R_RespMsg);
+	}
+
+	/** Set Result.
+		@param R_Result 
+		Result of transmission
+	  */
+	public void setR_Result (String R_Result)
+	{
+		set_ValueNoCheck (COLUMNNAME_R_Result, R_Result);
+	}
+
+	/** Get Result.
+		@return Result of transmission
+	  */
+	public String getR_Result () 
+	{
+		return (String)get_Value(COLUMNNAME_R_Result);
+	}
+
 	/** Set Swipe.
 		@param Swipe 
 		Track 1 and 2 of the Credit Card
 	  */
 	public void setSwipe (String Swipe)
 	{
-
-		if (Swipe != null && Swipe.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			Swipe = Swipe.substring(0, 80);
-		}
 		set_ValueNoCheck (COLUMNNAME_Swipe, Swipe);
 	}
 
@@ -2075,13 +1877,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setTenderType (String TenderType)
 	{
 		if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");
-		if (TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T");
-		if (TenderType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			TenderType = TenderType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_TenderType, TenderType);
+		if (TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T");		set_Value (COLUMNNAME_TenderType, TenderType);
 	}
 
 	/** Get Tender type.
@@ -2113,13 +1909,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setTrxType (String TrxType)
 	{
 		if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
-		if (TrxType.equals("S") || TrxType.equals("D") || TrxType.equals("C") || TrxType.equals("F") || TrxType.equals("A") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - S - D - C - F - A - V");
-		if (TrxType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			TrxType = TrxType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_TrxType, TrxType);
+		if (TrxType.equals("S") || TrxType.equals("D") || TrxType.equals("C") || TrxType.equals("F") || TrxType.equals("A") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - S - D - C - F - A - V");		set_Value (COLUMNNAME_TrxType, TrxType);
 	}
 
 	/** Get Transaction Type.
@@ -2186,12 +1976,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setVoiceAuthCode (String VoiceAuthCode)
 	{
-
-		if (VoiceAuthCode != null && VoiceAuthCode.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			VoiceAuthCode = VoiceAuthCode.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_VoiceAuthCode, VoiceAuthCode);
 	}
 

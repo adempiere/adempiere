@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Basket
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_W_Basket extends PO implements I_W_Basket, I_Persistent 
 {
 
@@ -157,12 +157,6 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 

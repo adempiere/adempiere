@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintPaper
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent 
 {
 
@@ -116,12 +116,6 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	{
 		if (Code == null)
 			throw new IllegalArgumentException ("Code is mandatory.");
-
-		if (Code.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -139,12 +133,6 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -169,13 +157,7 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	public void setDimensionUnits (String DimensionUnits)
 	{
 
-		if (DimensionUnits == null || DimensionUnits.equals("M") || DimensionUnits.equals("I")); else throw new IllegalArgumentException ("DimensionUnits Invalid value - " + DimensionUnits + " - Reference_ID=375 - M - I");
-		if (DimensionUnits != null && DimensionUnits.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DimensionUnits = DimensionUnits.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DimensionUnits, DimensionUnits);
+		if (DimensionUnits == null || DimensionUnits.equals("M") || DimensionUnits.equals("I")); else throw new IllegalArgumentException ("DimensionUnits Invalid value - " + DimensionUnits + " - Reference_ID=375 - M - I");		set_Value (COLUMNNAME_DimensionUnits, DimensionUnits);
 	}
 
 	/** Get Dimension Units.
@@ -322,12 +304,6 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for A_Asset_Info_Oth
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Persistent 
 {
 
@@ -115,12 +115,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User1 A_User1	  */
 	public void setA_User1 (String A_User1)
 	{
-
-		if (A_User1 != null && A_User1.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User1 = A_User1.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User1, A_User1);
 	}
 
@@ -135,12 +129,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User10 A_User10	  */
 	public void setA_User10 (String A_User10)
 	{
-
-		if (A_User10 != null && A_User10.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User10 = A_User10.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User10, A_User10);
 	}
 
@@ -155,12 +143,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User11 A_User11	  */
 	public void setA_User11 (String A_User11)
 	{
-
-		if (A_User11 != null && A_User11.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_User11 = A_User11.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_A_User11, A_User11);
 	}
 
@@ -175,12 +157,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User12 A_User12	  */
 	public void setA_User12 (String A_User12)
 	{
-
-		if (A_User12 != null && A_User12.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_User12 = A_User12.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_A_User12, A_User12);
 	}
 
@@ -195,12 +171,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User13 A_User13	  */
 	public void setA_User13 (String A_User13)
 	{
-
-		if (A_User13 != null && A_User13.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_User13 = A_User13.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_A_User13, A_User13);
 	}
 
@@ -215,12 +185,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User14 A_User14	  */
 	public void setA_User14 (String A_User14)
 	{
-
-		if (A_User14 != null && A_User14.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_User14 = A_User14.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_A_User14, A_User14);
 	}
 
@@ -235,12 +199,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User15 A_User15	  */
 	public void setA_User15 (String A_User15)
 	{
-
-		if (A_User15 != null && A_User15.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_User15 = A_User15.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_A_User15, A_User15);
 	}
 
@@ -255,12 +213,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User2 A_User2	  */
 	public void setA_User2 (String A_User2)
 	{
-
-		if (A_User2 != null && A_User2.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User2 = A_User2.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User2, A_User2);
 	}
 
@@ -275,12 +227,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User3 A_User3	  */
 	public void setA_User3 (String A_User3)
 	{
-
-		if (A_User3 != null && A_User3.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User3 = A_User3.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User3, A_User3);
 	}
 
@@ -295,12 +241,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User4 A_User4	  */
 	public void setA_User4 (String A_User4)
 	{
-
-		if (A_User4 != null && A_User4.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User4 = A_User4.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User4, A_User4);
 	}
 
@@ -315,12 +255,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User5 A_User5	  */
 	public void setA_User5 (String A_User5)
 	{
-
-		if (A_User5 != null && A_User5.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User5 = A_User5.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User5, A_User5);
 	}
 
@@ -335,12 +269,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User6 A_User6	  */
 	public void setA_User6 (String A_User6)
 	{
-
-		if (A_User6 != null && A_User6.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User6 = A_User6.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User6, A_User6);
 	}
 
@@ -355,12 +283,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User7 A_User7	  */
 	public void setA_User7 (String A_User7)
 	{
-
-		if (A_User7 != null && A_User7.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User7 = A_User7.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User7, A_User7);
 	}
 
@@ -375,12 +297,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User8 A_User8	  */
 	public void setA_User8 (String A_User8)
 	{
-
-		if (A_User8 != null && A_User8.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User8 = A_User8.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User8, A_User8);
 	}
 
@@ -395,12 +311,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param A_User9 A_User9	  */
 	public void setA_User9 (String A_User9)
 	{
-
-		if (A_User9 != null && A_User9.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_User9 = A_User9.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_User9, A_User9);
 	}
 
@@ -415,12 +325,6 @@ public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Pers
 		@param Text Text	  */
 	public void setText (String Text)
 	{
-
-		if (Text != null && Text.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Text = Text.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Text, Text);
 	}
 

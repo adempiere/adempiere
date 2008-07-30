@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, I_Persistent 
 {
 
@@ -98,12 +98,6 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	  */
 	public void setAD_Package_Dir (String AD_Package_Dir)
 	{
-
-		if (AD_Package_Dir != null && AD_Package_Dir.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			AD_Package_Dir = AD_Package_Dir.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_AD_Package_Dir, AD_Package_Dir);
 	}
 
@@ -142,12 +136,6 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	{
 		if (AD_Package_Source == null)
 			throw new IllegalArgumentException ("AD_Package_Source is mandatory.");
-
-		if (AD_Package_Source.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			AD_Package_Source = AD_Package_Source.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_AD_Package_Source, AD_Package_Source);
 	}
 
@@ -172,13 +160,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	public void setAD_Package_Source_Type (String AD_Package_Source_Type)
 	{
 		if (AD_Package_Source_Type == null) throw new IllegalArgumentException ("AD_Package_Source_Type is mandatory");
-		if (AD_Package_Source_Type.equals("File") || AD_Package_Source_Type.equals("WS")); else throw new IllegalArgumentException ("AD_Package_Source_Type Invalid value - " + AD_Package_Source_Type + " - Reference_ID=50005 - File - WS");
-		if (AD_Package_Source_Type.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			AD_Package_Source_Type = AD_Package_Source_Type.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_AD_Package_Source_Type, AD_Package_Source_Type);
+		if (AD_Package_Source_Type.equals("File") || AD_Package_Source_Type.equals("WS")); else throw new IllegalArgumentException ("AD_Package_Source_Type Invalid value - " + AD_Package_Source_Type + " - Reference_ID=50005 - File - WS");		set_Value (COLUMNNAME_AD_Package_Source_Type, AD_Package_Source_Type);
 	}
 
 	/** Get Package Source Type.

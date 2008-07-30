@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectTask
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent 
 {
 
@@ -42,9 +42,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       super (ctx, C_ProjectTask_ID, trxName);
       /** if (C_ProjectTask_ID == 0)
         {
+			setCommittedAmt (Env.ZERO);
 			setC_ProjectPhase_ID (0);
 			setC_ProjectTask_ID (0);
-			setCommittedAmt (Env.ZERO);
 			setName (null);
 			setPlannedAmt (Env.ZERO);
 			setProjInvoiceRule (null);
@@ -81,6 +81,28 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		if (CommittedAmt == null)
+			throw new IllegalArgumentException ("CommittedAmt is mandatory.");
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
     {
@@ -181,40 +203,12 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
-	{
-		if (CommittedAmt == null)
-			throw new IllegalArgumentException ("CommittedAmt is mandatory.");
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
-	}
-
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -232,12 +226,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -296,12 +284,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -354,13 +336,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public void setProjInvoiceRule (String ProjInvoiceRule)
 	{
 		if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");
-		if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("c") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("P")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - c - T - P");
-		if (ProjInvoiceRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProjInvoiceRule = ProjInvoiceRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
+		if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("c") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("P")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - c - T - P");		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
 	}
 
 	/** Get Invoice Rule.

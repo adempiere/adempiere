@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Persistent 
 {
 
@@ -43,13 +43,13 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
         {
 			setA_Asset_Disposed_ID (0);
 			setA_Asset_ID (0);
-			setA_Disposed_Date (new Timestamp(System.currentTimeMillis()));
+			setA_Disposed_Date (new Timestamp( System.currentTimeMillis() ));
 			setA_Disposed_Method (null);
 			setA_Disposed_Reason (null);
 			setC_Period_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @Date@
-			setDateDoc (new Timestamp(System.currentTimeMillis()));
+			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @Date@
 			setProcessed (false);
 			setProcessing (false);
@@ -186,13 +186,7 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	public void setA_Disposed_Method (String A_Disposed_Method)
 	{
 		if (A_Disposed_Method == null) throw new IllegalArgumentException ("A_Disposed_Method is mandatory");
-		if (A_Disposed_Method.equals("C") || A_Disposed_Method.equals("S") || A_Disposed_Method.equals("T1") || A_Disposed_Method.equals("T2")); else throw new IllegalArgumentException ("A_Disposed_Method Invalid value - " + A_Disposed_Method + " - Reference_ID=53270 - C - S - T1 - T2");
-		if (A_Disposed_Method.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_Disposed_Method = A_Disposed_Method.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_A_Disposed_Method, A_Disposed_Method);
+		if (A_Disposed_Method.equals("C") || A_Disposed_Method.equals("S") || A_Disposed_Method.equals("T1") || A_Disposed_Method.equals("T2")); else throw new IllegalArgumentException ("A_Disposed_Method Invalid value - " + A_Disposed_Method + " - Reference_ID=53270 - C - S - T1 - T2");		set_Value (COLUMNNAME_A_Disposed_Method, A_Disposed_Method);
 	}
 
 	/** Get A_Disposed_Method.
@@ -221,13 +215,7 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	public void setA_Disposed_Reason (String A_Disposed_Reason)
 	{
 		if (A_Disposed_Reason == null) throw new IllegalArgumentException ("A_Disposed_Reason is mandatory");
-		if (A_Disposed_Reason.equals("C") || A_Disposed_Reason.equals("D") || A_Disposed_Reason.equals("S") || A_Disposed_Reason.equals("S1") || A_Disposed_Reason.equals("S2") || A_Disposed_Reason.equals("T")); else throw new IllegalArgumentException ("A_Disposed_Reason Invalid value - " + A_Disposed_Reason + " - Reference_ID=53269 - C - D - S - S1 - S2 - T");
-		if (A_Disposed_Reason.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			A_Disposed_Reason = A_Disposed_Reason.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_A_Disposed_Reason, A_Disposed_Reason);
+		if (A_Disposed_Reason.equals("C") || A_Disposed_Reason.equals("D") || A_Disposed_Reason.equals("S") || A_Disposed_Reason.equals("S1") || A_Disposed_Reason.equals("S2") || A_Disposed_Reason.equals("T")); else throw new IllegalArgumentException ("A_Disposed_Reason Invalid value - " + A_Disposed_Reason + " - Reference_ID=53269 - C - D - S - S1 - S2 - T");		set_Value (COLUMNNAME_A_Disposed_Reason, A_Disposed_Reason);
 	}
 
 	/** Get A_Disposed_Reason.

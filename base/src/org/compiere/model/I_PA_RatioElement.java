@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_RatioElement
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_PA_RatioElement 
 {
@@ -136,19 +132,6 @@ public interface I_PA_RatioElement
 	  */
 	public int getPA_RatioElement_ID();
 
-    /** Column name PA_RatioUsed_ID */
-    public static final String COLUMNNAME_PA_RatioUsed_ID = "PA_RatioUsed_ID";
-
-	/** Set Ratio Used.
-	  * Performace Ratio Used
-	  */
-	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID);
-
-	/** Get Ratio Used.
-	  * Performace Ratio Used
-	  */
-	public int getPA_RatioUsed_ID();
-
     /** Column name PA_Ratio_ID */
     public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
 
@@ -163,6 +146,19 @@ public interface I_PA_RatioElement
 	public int getPA_Ratio_ID();
 
 	public I_PA_Ratio getPA_Ratio() throws Exception;
+
+    /** Column name PA_RatioUsed_ID */
+    public static final String COLUMNNAME_PA_RatioUsed_ID = "PA_RatioUsed_ID";
+
+	/** Set Ratio Used.
+	  * Performace Ratio Used
+	  */
+	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID);
+
+	/** Get Ratio Used.
+	  * Performace Ratio Used
+	  */
+	public int getPA_RatioUsed_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

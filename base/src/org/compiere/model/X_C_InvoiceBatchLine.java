@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceBatchLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_Persistent 
 {
 
@@ -50,12 +50,12 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 			setC_Charge_ID (0);
 			setC_DocType_ID (0);
 // @C_DocType_ID@
-			setC_InvoiceBatchLine_ID (0);
 			setC_InvoiceBatch_ID (0);
+			setC_InvoiceBatchLine_ID (0);
 			setC_Tax_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @DateAcct@;@DateDoc@
-			setDateInvoiced (new Timestamp(System.currentTimeMillis()));
+			setDateInvoiced (new Timestamp( System.currentTimeMillis() ));
 // @DateInvoiced@;@DateDoc@
 			setDocumentNo (null);
 // @DocumentNo@
@@ -356,28 +356,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 		return ii.intValue();
 	}
 
-	/** Set Invoice Batch Line.
-		@param C_InvoiceBatchLine_ID 
-		Expense Invoice Batch Line
-	  */
-	public void setC_InvoiceBatchLine_ID (int C_InvoiceBatchLine_ID)
-	{
-		if (C_InvoiceBatchLine_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceBatchLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceBatchLine_ID, Integer.valueOf(C_InvoiceBatchLine_ID));
-	}
-
-	/** Get Invoice Batch Line.
-		@return Expense Invoice Batch Line
-	  */
-	public int getC_InvoiceBatchLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceBatchLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_InvoiceBatch getC_InvoiceBatch() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceBatch.Table_Name);
@@ -416,40 +394,23 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
-        I_C_InvoiceLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Invoice Line.
-		@param C_InvoiceLine_ID 
-		Invoice Detail Line
+	/** Set Invoice Batch Line.
+		@param C_InvoiceBatchLine_ID 
+		Expense Invoice Batch Line
 	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	public void setC_InvoiceBatchLine_ID (int C_InvoiceBatchLine_ID)
 	{
-		if (C_InvoiceLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceBatchLine_ID < 1)
+			 throw new IllegalArgumentException ("C_InvoiceBatchLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_InvoiceBatchLine_ID, Integer.valueOf(C_InvoiceBatchLine_ID));
 	}
 
-	/** Get Invoice Line.
-		@return Invoice Detail Line
+	/** Get Invoice Batch Line.
+		@return Expense Invoice Batch Line
 	  */
-	public int getC_InvoiceLine_ID () 
+	public int getC_InvoiceBatchLine_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceBatchLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -489,6 +450,45 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	public int getC_Invoice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Invoice Line.
+		@param C_InvoiceLine_ID 
+		Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	{
+		if (C_InvoiceLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+	}
+
+	/** Get Invoice Line.
+		@return Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -615,12 +615,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -640,12 +634,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 

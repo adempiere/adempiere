@@ -24,7 +24,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for U_WebMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent 
 {
 
@@ -80,12 +80,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		@param Category Category	  */
 	public void setCategory (String Category)
 	{
-
-		if (Category != null && Category.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Category = Category.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Category, Category);
 	}
 
@@ -102,12 +96,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 200)
-		{
-			log.warning("Length > 200 - truncated");
-			Description = Description.substring(0, 200);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -146,12 +134,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -167,12 +149,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		@param ImageLink Image Link	  */
 	public void setImageLink (String ImageLink)
 	{
-
-		if (ImageLink != null && ImageLink.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			ImageLink = ImageLink.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_ImageLink, ImageLink);
 	}
 
@@ -189,12 +165,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	{
 		if (MenuLink == null)
 			throw new IllegalArgumentException ("MenuLink is mandatory.");
-
-		if (MenuLink.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			MenuLink = MenuLink.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_MenuLink, MenuLink);
 	}
 
@@ -211,12 +181,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	{
 		if (Module == null)
 			throw new IllegalArgumentException ("Module is mandatory.");
-
-		if (Module.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Module = Module.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Module, Module);
 	}
 
@@ -235,12 +199,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -278,12 +236,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		@param Position Position	  */
 	public void setPosition (String Position)
 	{
-
-		if (Position != null && Position.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Position = Position.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Position, Position);
 	}
 

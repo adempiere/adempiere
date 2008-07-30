@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Persistent 
 {
 
@@ -116,13 +116,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setAccessLevel (String AccessLevel)
 	{
 		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
-		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
-		if (AccessLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccessLevel = AccessLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
 	/** Get Data Access Level.
@@ -335,12 +329,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	{
 		if (Author == null)
 			throw new IllegalArgumentException ("Author is mandatory.");
-
-		if (Author.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Author = Author.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Author, Author);
 	}
 
@@ -378,12 +366,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -401,12 +383,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 32)
-		{
-			log.warning("Length > 32 - truncated");
-			DocumentNo = DocumentNo.substring(0, 32);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -459,13 +435,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setDurationUnit (String DurationUnit)
 	{
 		if (DurationUnit == null) throw new IllegalArgumentException ("DurationUnit is mandatory");
-		if (DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s")); else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");
-		if (DurationUnit.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DurationUnit = DurationUnit.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+		if (DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s")); else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
 	}
 
 	/** Get Duration Unit.
@@ -484,12 +454,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -507,12 +471,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -593,12 +551,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -669,8 +621,8 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
         return result;
     }
 
-	/** Set PP_Order_Node_ID.
-		@param PP_Order_Node_ID PP_Order_Node_ID	  */
+	/** Set Manufacturing Order Activity.
+		@param PP_Order_Node_ID Manufacturing Order Activity	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1) 
@@ -679,8 +631,8 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 			set_Value (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
 	}
 
-	/** Get PP_Order_Node_ID.
-		@return PP_Order_Node_ID	  */
+	/** Get Manufacturing Order Activity.
+		@return Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
@@ -747,13 +699,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setProcessType (String ProcessType)
 	{
 
-		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL")); else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");
-		if (ProcessType != null && ProcessType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			ProcessType = ProcessType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_ProcessType, ProcessType);
+		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL")); else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");		set_Value (COLUMNNAME_ProcessType, ProcessType);
 	}
 
 	/** Get ProcessType.
@@ -780,13 +726,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setPublishStatus (String PublishStatus)
 	{
 		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
-		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");
-		if (PublishStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PublishStatus = PublishStatus.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
+		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
 
 	/** Get Publication Status.
@@ -896,12 +836,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	{
 		if (ValidateWorkflow == null)
 			throw new IllegalArgumentException ("ValidateWorkflow is mandatory.");
-
-		if (ValidateWorkflow.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ValidateWorkflow = ValidateWorkflow.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_ValidateWorkflow, ValidateWorkflow);
 	}
 
@@ -952,12 +886,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 240)
-		{
-			log.warning("Length > 240 - truncated");
-			Value = Value.substring(0, 240);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1026,13 +954,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setWorkflowType (String WorkflowType)
 	{
 
-		if (WorkflowType == null || WorkflowType.equals("S") || WorkflowType.equals("M") || WorkflowType.equals("T") || WorkflowType.equals("Q")); else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=108 - S - M - T - Q");
-		if (WorkflowType != null && WorkflowType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			WorkflowType = WorkflowType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
+		if (WorkflowType == null || WorkflowType.equals("S") || WorkflowType.equals("M") || WorkflowType.equals("T") || WorkflowType.equals("Q")); else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=108 - S - M - T - Q");		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
 	}
 
 	/** Get Workflow Type.

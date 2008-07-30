@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintColor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintColor extends PO implements I_AD_PrintColor, I_Persistent 
 {
 
@@ -103,12 +103,6 @@ public class X_AD_PrintColor extends PO implements I_AD_PrintColor, I_Persistent
 	{
 		if (Code == null)
 			throw new IllegalArgumentException ("Code is mandatory.");
-
-		if (Code.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -152,12 +146,6 @@ public class X_AD_PrintColor extends PO implements I_AD_PrintColor, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

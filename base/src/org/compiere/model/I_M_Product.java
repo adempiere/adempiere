@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_M_Product 
 {
@@ -56,6 +52,19 @@ public interface I_M_Product
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name Classification */
+    public static final String COLUMNNAME_Classification = "Classification";
+
+	/** Set Classification.
+	  * Classification for grouping
+	  */
+	public void setClassification (String Classification);
+
+	/** Get Classification.
+	  * Classification for grouping
+	  */
+	public String getClassification();
 
     /** Column name C_RevenueRecognition_ID */
     public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
@@ -114,19 +123,6 @@ public interface I_M_Product
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name Classification */
-    public static final String COLUMNNAME_Classification = "Classification";
-
-	/** Set Classification.
-	  * Classification for grouping
-	  */
-	public void setClassification (String Classification);
-
-	/** Get Classification.
-	  * Classification for grouping
-	  */
-	public String getClassification();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -428,19 +424,6 @@ public interface I_M_Product
 	/** Get LowLevel	  */
 	public int getLowLevel();
 
-    /** Column name M_AttributeSetInstance_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
-
-	/** Set Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
-
-	/** Get Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID();
-
     /** Column name M_AttributeSet_ID */
     public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 
@@ -455,6 +438,19 @@ public interface I_M_Product
 	public int getM_AttributeSet_ID();
 
 	public I_M_AttributeSet getM_AttributeSet() throws Exception;
+
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
+
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID();
 
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
@@ -562,18 +558,18 @@ public interface I_M_Product
 
 	public I_R_MailText getR_MailText() throws Exception;
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
-	/** Set SKU.
-	  * Stock Keeping Unit
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
 	  */
-	public void setSKU (String SKU);
+	public void setSalesRep_ID (int SalesRep_ID);
 
-	/** Get SKU.
-	  * Stock Keeping Unit
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
 	  */
-	public String getSKU();
+	public int getSalesRep_ID();
 
     /** Column name S_ExpenseType_ID */
     public static final String COLUMNNAME_S_ExpenseType_ID = "S_ExpenseType_ID";
@@ -589,34 +585,6 @@ public interface I_M_Product
 	public int getS_ExpenseType_ID();
 
 	public I_S_ExpenseType getS_ExpenseType() throws Exception;
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws Exception;
-
-    /** Column name SalesRep_ID */
-    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
-
-	/** Set Sales Representative.
-	  * Sales Representative or Company Agent
-	  */
-	public void setSalesRep_ID (int SalesRep_ID);
-
-	/** Get Sales Representative.
-	  * Sales Representative or Company Agent
-	  */
-	public int getSalesRep_ID();
 
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
@@ -657,18 +625,33 @@ public interface I_M_Product
 	  */
 	public int getShelfWidth();
 
-    /** Column name UPC */
-    public static final String COLUMNNAME_UPC = "UPC";
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
 
-	/** Set UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
+	/** Set SKU.
+	  * Stock Keeping Unit
 	  */
-	public void setUPC (String UPC);
+	public void setSKU (String SKU);
 
-	/** Get UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
+	/** Get SKU.
+	  * Stock Keeping Unit
 	  */
-	public String getUPC();
+	public String getSKU();
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public I_S_Resource getS_Resource() throws Exception;
 
     /** Column name UnitsPerPallet */
     public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";
@@ -682,6 +665,19 @@ public interface I_M_Product
 	  * Units Per Pallet
 	  */
 	public BigDecimal getUnitsPerPallet();
+
+    /** Column name UPC */
+    public static final String COLUMNNAME_UPC = "UPC";
+
+	/** Set UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public void setUPC (String UPC);
+
+	/** Get UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public String getUPC();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

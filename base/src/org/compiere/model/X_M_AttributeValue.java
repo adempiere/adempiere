@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
       super (ctx, M_AttributeValue_ID, trxName);
       /** if (M_AttributeValue_ID == 0)
         {
-			setM_AttributeValue_ID (0);
 			setM_Attribute_ID (0);
+			setM_AttributeValue_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -81,12 +81,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -96,28 +90,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Attribute Value.
-		@param M_AttributeValue_ID 
-		Product Attribute Value
-	  */
-	public void setM_AttributeValue_ID (int M_AttributeValue_ID)
-	{
-		if (M_AttributeValue_ID < 1)
-			 throw new IllegalArgumentException ("M_AttributeValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
-	}
-
-	/** Get Attribute Value.
-		@return Product Attribute Value
-	  */
-	public int getM_AttributeValue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeValue_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_M_Attribute getM_Attribute() throws Exception 
@@ -158,6 +130,28 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Attribute Value.
+		@param M_AttributeValue_ID 
+		Product Attribute Value
+	  */
+	public void setM_AttributeValue_ID (int M_AttributeValue_ID)
+	{
+		if (M_AttributeValue_ID < 1)
+			 throw new IllegalArgumentException ("M_AttributeValue_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
+	}
+
+	/** Get Attribute Value.
+		@return Product Attribute Value
+	  */
+	public int getM_AttributeValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -166,12 +160,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -199,12 +187,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

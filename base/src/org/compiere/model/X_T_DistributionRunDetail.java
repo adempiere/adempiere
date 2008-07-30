@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRunDetail, I_Persistent 
 {
 
@@ -44,12 +44,12 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         {
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
-			setM_DistributionListLine_ID (0);
 			setM_DistributionList_ID (0);
-			setM_DistributionRunLine_ID (0);
+			setM_DistributionListLine_ID (0);
 			setM_DistributionRun_ID (0);
-			setM_Product_ID (0);
+			setM_DistributionRunLine_ID (0);
 			setMinQty (Env.ZERO);
+			setM_Product_ID (0);
 			setQty (Env.ZERO);
 			setRatio (Env.ZERO);
         } */
@@ -159,44 +159,6 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionListLine getM_DistributionListLine() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_M_DistributionListLine.Table_Name);
-        I_M_DistributionListLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DistributionListLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionListLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Distribution List Line.
-		@param M_DistributionListLine_ID 
-		Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
-	{
-		if (M_DistributionListLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionListLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
-	}
-
-	/** Get Distribution List Line.
-		@return Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionListLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_DistributionList getM_DistributionList() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionList.Table_Name);
@@ -235,14 +197,14 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionRunLine getM_DistributionRunLine() throws Exception 
+	public I_M_DistributionListLine getM_DistributionListLine() throws Exception 
     {
-        Class<?> clazz = MTable.getClass(I_M_DistributionRunLine.Table_Name);
-        I_M_DistributionRunLine result = null;
+        Class<?> clazz = MTable.getClass(I_M_DistributionListLine.Table_Name);
+        I_M_DistributionListLine result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DistributionRunLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionRunLine_ID()), get_TrxName()});
+    	    result = (I_M_DistributionListLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionListLine_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -251,23 +213,23 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         return result;
     }
 
-	/** Set Distribution Run Line.
-		@param M_DistributionRunLine_ID 
-		Distribution Run Lines define Distribution List, the Product and Quantiries
+	/** Set Distribution List Line.
+		@param M_DistributionListLine_ID 
+		Distribution List Line with Business Partner and Quantity/Percentage
 	  */
-	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
 	{
-		if (M_DistributionRunLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionRunLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
+		if (M_DistributionListLine_ID < 1)
+			 throw new IllegalArgumentException ("M_DistributionListLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
 	}
 
-	/** Get Distribution Run Line.
-		@return Distribution Run Lines define Distribution List, the Product and Quantiries
+	/** Get Distribution List Line.
+		@return Distribution List Line with Business Partner and Quantity/Percentage
 	  */
-	public int getM_DistributionRunLine_ID () 
+	public int getM_DistributionListLine_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionRunLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionListLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -319,6 +281,66 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
     }
 
+	public I_M_DistributionRunLine getM_DistributionRunLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_DistributionRunLine.Table_Name);
+        I_M_DistributionRunLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_DistributionRunLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionRunLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Distribution Run Line.
+		@param M_DistributionRunLine_ID 
+		Distribution Run Lines define Distribution List, the Product and Quantiries
+	  */
+	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
+	{
+		if (M_DistributionRunLine_ID < 1)
+			 throw new IllegalArgumentException ("M_DistributionRunLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
+	}
+
+	/** Get Distribution Run Line.
+		@return Distribution Run Lines define Distribution List, the Product and Quantiries
+	  */
+	public int getM_DistributionRunLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionRunLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Minimum Quantity.
+		@param MinQty 
+		Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty)
+	{
+		if (MinQty == null)
+			throw new IllegalArgumentException ("MinQty is mandatory.");
+		set_Value (COLUMNNAME_MinQty, MinQty);
+	}
+
+	/** Get Minimum Quantity.
+		@return Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -355,28 +377,6 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Minimum Quantity.
-		@param MinQty 
-		Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty)
-	{
-		if (MinQty == null)
-			throw new IllegalArgumentException ("MinQty is mandatory.");
-		set_Value (COLUMNNAME_MinQty, MinQty);
-	}
-
-	/** Get Minimum Quantity.
-		@return Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Quantity.

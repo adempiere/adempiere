@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent 
 {
 
@@ -51,7 +51,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 			setAmtSourceBalance (Env.ZERO);
 			setC_ConversionTypeReval_ID (0);
 			setC_Invoice_ID (0);
-			setDateReval (new Timestamp(System.currentTimeMillis()));
+			setDateReval (new Timestamp( System.currentTimeMillis() ));
 			setFact_Acct_ID (0);
 			setGrandTotal (Env.ZERO);
 			setIsAllCurrencies (false);
@@ -123,38 +123,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** APAR AD_Reference_ID=332 */
-	public static final int APAR_AD_Reference_ID=332;
-	/** Receivables & Payables = A */
-	public static final String APAR_ReceivablesPayables = "A";
-	/** Receivables only = R */
-	public static final String APAR_ReceivablesOnly = "R";
-	/** Payables only = P */
-	public static final String APAR_PayablesOnly = "P";
-	/** Set AP - AR.
-		@param APAR 
-		Include Receivables and/or Payables transactions
-	  */
-	public void setAPAR (String APAR)
-	{
-
-		if (APAR == null || APAR.equals("A") || APAR.equals("R") || APAR.equals("P")); else throw new IllegalArgumentException ("APAR Invalid value - " + APAR + " - Reference_ID=332 - A - R - P");
-		if (APAR != null && APAR.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			APAR = APAR.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_APAR, APAR);
-	}
-
-	/** Get AP - AR.
-		@return Include Receivables and/or Payables transactions
-	  */
-	public String getAPAR () 
-	{
-		return (String)get_Value(COLUMNNAME_APAR);
 	}
 
 	/** Set Accounted Balance.
@@ -287,6 +255,32 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** APAR AD_Reference_ID=332 */
+	public static final int APAR_AD_Reference_ID=332;
+	/** Receivables & Payables = A */
+	public static final String APAR_ReceivablesPayables = "A";
+	/** Receivables only = R */
+	public static final String APAR_ReceivablesOnly = "R";
+	/** Payables only = P */
+	public static final String APAR_PayablesOnly = "P";
+	/** Set AP - AR.
+		@param APAR 
+		Include Receivables and/or Payables transactions
+	  */
+	public void setAPAR (String APAR)
+	{
+
+		if (APAR == null || APAR.equals("A") || APAR.equals("R") || APAR.equals("P")); else throw new IllegalArgumentException ("APAR Invalid value - " + APAR + " - Reference_ID=332 - A - R - P");		set_Value (COLUMNNAME_APAR, APAR);
+	}
+
+	/** Get AP - AR.
+		@return Include Receivables and/or Payables transactions
+	  */
+	public String getAPAR () 
+	{
+		return (String)get_Value(COLUMNNAME_APAR);
 	}
 
 	/** C_ConversionTypeReval_ID AD_Reference_ID=352 */

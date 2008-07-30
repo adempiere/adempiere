@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Payment
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_Payment 
 {
@@ -57,18 +53,18 @@ public interface I_C_Payment
 
     /** Load Meta Data */
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
 
-	/** Set Trx Organization.
-	  * Performing or initiating organization
+	/** Set Account No.
+	  * Account Number
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAccountNo (String AccountNo);
 
-	/** Get Trx Organization.
-	  * Performing or initiating organization
+	/** Get Account No.
+	  * Account Number
 	  */
-	public int getAD_OrgTrx_ID();
+	public String getAccountNo();
 
     /** Column name A_City */
     public static final String COLUMNNAME_A_City = "A_City";
@@ -95,6 +91,19 @@ public interface I_C_Payment
 	  * Country
 	  */
 	public String getA_Country();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name A_EMail */
     public static final String COLUMNNAME_A_EMail = "A_EMail";
@@ -187,19 +196,6 @@ public interface I_C_Payment
 	  */
 	public String getA_Zip();
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
-
-	/** Set Account No.
-	  * Account Number
-	  */
-	public void setAccountNo (String AccountNo);
-
-	/** Get Account No.
-	  * Account Number
-	  */
-	public String getAccountNo();
-
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -215,20 +211,20 @@ public interface I_C_Payment
 
 	public I_C_Activity getC_Activity() throws Exception;
 
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+    /** Column name C_BankAccount_ID */
+    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
+	/** Set Bank Account.
+	  * Account at the Bank
 	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+	public void setC_BankAccount_ID (int C_BankAccount_ID);
 
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
+	/** Get Bank Account.
+	  * Account at the Bank
 	  */
-	public int getC_BP_BankAccount_ID();
+	public int getC_BankAccount_ID();
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception;
+	public I_C_BankAccount getC_BankAccount() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -245,20 +241,20 @@ public interface I_C_Payment
 
 	public I_C_BPartner getC_BPartner() throws Exception;
 
-    /** Column name C_BankAccount_ID */
-    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 
-	/** Set Bank Account.
-	  * Account at the Bank
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
 	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID);
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
 
-	/** Get Bank Account.
-	  * Account at the Bank
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
 	  */
-	public int getC_BankAccount_ID();
+	public int getC_BP_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws Exception;
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -335,6 +331,32 @@ public interface I_C_Payment
 
 	public I_C_DocType getC_DocType() throws Exception;
 
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
+    /** Column name CheckNo */
+    public static final String COLUMNNAME_CheckNo = "CheckNo";
+
+	/** Set Check No.
+	  * Check Number
+	  */
+	public void setCheckNo (String CheckNo);
+
+	/** Get Check No.
+	  * Check Number
+	  */
+	public String getCheckNo();
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -407,32 +429,6 @@ public interface I_C_Payment
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws Exception;
-
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
-    /** Column name CheckNo */
-    public static final String COLUMNNAME_CheckNo = "CheckNo";
-
-	/** Set Check No.
-	  * Check Number
-	  */
-	public void setCheckNo (String CheckNo);
-
-	/** Get Check No.
-	  * Check Number
-	  */
-	public String getCheckNo();
 
     /** Column name CreditCardExpMM */
     public static final String COLUMNNAME_CreditCardExpMM = "CreditCardExpMM";
@@ -759,19 +755,6 @@ public interface I_C_Payment
 	  */
 	public BigDecimal getOverUnderAmt();
 
-    /** Column name PONum */
-    public static final String COLUMNNAME_PONum = "PONum";
-
-	/** Set PO Number.
-	  * Purchase Order Number
-	  */
-	public void setPONum (String PONum);
-
-	/** Get PO Number.
-	  * Purchase Order Number
-	  */
-	public String getPONum();
-
     /** Column name PayAmt */
     public static final String COLUMNNAME_PayAmt = "PayAmt";
 
@@ -784,6 +767,19 @@ public interface I_C_Payment
 	  * Amount being paid
 	  */
 	public BigDecimal getPayAmt();
+
+    /** Column name PONum */
+    public static final String COLUMNNAME_PONum = "PONum";
+
+	/** Set PO Number.
+	  * Purchase Order Number
+	  */
+	public void setPONum (String PONum);
+
+	/** Get PO Number.
+	  * Purchase Order Number
+	  */
+	public String getPONum();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";
@@ -885,6 +881,28 @@ public interface I_C_Payment
 	  */
 	public boolean isR_CVV2Match();
 
+    /** Column name Ref_Payment_ID */
+    public static final String COLUMNNAME_Ref_Payment_ID = "Ref_Payment_ID";
+
+	/** Set Referenced Payment	  */
+	public void setRef_Payment_ID (int Ref_Payment_ID);
+
+	/** Get Referenced Payment	  */
+	public int getRef_Payment_ID();
+
+    /** Column name Reversal_ID */
+    public static final String COLUMNNAME_Reversal_ID = "Reversal_ID";
+
+	/** Set Reversal ID.
+	  * ID of document reversal
+	  */
+	public void setReversal_ID (int Reversal_ID);
+
+	/** Get Reversal ID.
+	  * ID of document reversal
+	  */
+	public int getReversal_ID();
+
     /** Column name R_Info */
     public static final String COLUMNNAME_R_Info = "R_Info";
 
@@ -897,6 +915,19 @@ public interface I_C_Payment
 	  * Response info
 	  */
 	public String getR_Info();
+
+    /** Column name RoutingNo */
+    public static final String COLUMNNAME_RoutingNo = "RoutingNo";
+
+	/** Set Routing No.
+	  * Bank Routing Number
+	  */
+	public void setRoutingNo (String RoutingNo);
+
+	/** Get Routing No.
+	  * Bank Routing Number
+	  */
+	public String getRoutingNo();
 
     /** Column name R_PnRef */
     public static final String COLUMNNAME_R_PnRef = "R_PnRef";
@@ -949,41 +980,6 @@ public interface I_C_Payment
 	  * Result of transmission
 	  */
 	public String getR_Result();
-
-    /** Column name Ref_Payment_ID */
-    public static final String COLUMNNAME_Ref_Payment_ID = "Ref_Payment_ID";
-
-	/** Set Referenced Payment	  */
-	public void setRef_Payment_ID (int Ref_Payment_ID);
-
-	/** Get Referenced Payment	  */
-	public int getRef_Payment_ID();
-
-    /** Column name Reversal_ID */
-    public static final String COLUMNNAME_Reversal_ID = "Reversal_ID";
-
-	/** Set Reversal ID.
-	  * ID of document reversal
-	  */
-	public void setReversal_ID (int Reversal_ID);
-
-	/** Get Reversal ID.
-	  * ID of document reversal
-	  */
-	public int getReversal_ID();
-
-    /** Column name RoutingNo */
-    public static final String COLUMNNAME_RoutingNo = "RoutingNo";
-
-	/** Set Routing No.
-	  * Bank Routing Number
-	  */
-	public void setRoutingNo (String RoutingNo);
-
-	/** Get Routing No.
-	  * Bank Routing Number
-	  */
-	public String getRoutingNo();
 
     /** Column name Swipe */
     public static final String COLUMNNAME_Swipe = "Swipe";

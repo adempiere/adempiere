@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_BOM extends PO implements I_M_BOM, I_Persistent 
 {
 
@@ -103,13 +103,7 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	public void setBOMType (String BOMType)
 	{
 		if (BOMType == null) throw new IllegalArgumentException ("BOMType is mandatory");
-		if (BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");
-		if (BOMType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMType = BOMType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMType, BOMType);
+		if (BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
 
 	/** Get BOM Type.
@@ -139,13 +133,7 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	public void setBOMUse (String BOMUse)
 	{
 		if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");
-		if (BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");
-		if (BOMUse.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMUse = BOMUse.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMUse, BOMUse);
+		if (BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");		set_Value (COLUMNNAME_BOMUse, BOMUse);
 	}
 
 	/** Get BOM Use.
@@ -162,12 +150,6 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -185,12 +167,6 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -309,12 +285,6 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

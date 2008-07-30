@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintForm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent 
 {
 
@@ -99,12 +99,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -114,6 +108,31 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Distrib_Order_PrintFormat_ID AD_Reference_ID=53282 */
+	public static final int DISTRIB_ORDER_PRINTFORMAT_ID_AD_Reference_ID=53282;
+	/** Set Distribution Order Print Format.
+		@param Distrib_Order_PrintFormat_ID 
+		Print Format for printing Distribution Order
+	  */
+	public void setDistrib_Order_PrintFormat_ID (int Distrib_Order_PrintFormat_ID)
+	{
+		if (Distrib_Order_PrintFormat_ID < 1) 
+			set_Value (COLUMNNAME_Distrib_Order_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_Distrib_Order_PrintFormat_ID, Integer.valueOf(Distrib_Order_PrintFormat_ID));
+	}
+
+	/** Get Distribution Order Print Format.
+		@return Print Format for printing Distribution Order
+	  */
+	public int getDistrib_Order_PrintFormat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Distrib_Order_PrintFormat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** DistributionOrder_MailText_ID AD_Reference_ID=274 */
@@ -136,31 +155,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	public int getDistributionOrder_MailText_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DistributionOrder_MailText_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Distrib_Order_PrintFormat_ID AD_Reference_ID=53282 */
-	public static final int Distrib_Order_PrintFormat_ID_AD_Reference_ID=53282;
-	/** Set Distribution Order Print Format.
-		@param Distrib_Order_PrintFormat_ID 
-		Print Format for printing Distribution Order
-	  */
-	public void setDistrib_Order_PrintFormat_ID (int Distrib_Order_PrintFormat_ID)
-	{
-		if (Distrib_Order_PrintFormat_ID < 1) 
-			set_Value (COLUMNNAME_Distrib_Order_PrintFormat_ID, null);
-		else 
-			set_Value (COLUMNNAME_Distrib_Order_PrintFormat_ID, Integer.valueOf(Distrib_Order_PrintFormat_ID));
-	}
-
-	/** Get Distribution Order Print Format.
-		@return Print Format for printing Distribution Order
-	  */
-	public int getDistrib_Order_PrintFormat_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Distrib_Order_PrintFormat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -216,33 +210,33 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** ManufacturingOrder_MailText_ID AD_Reference_ID=274 */
-	public static final int MANUFACTURINGORDER_MAILTEXT_ID_AD_Reference_ID=274;
+	/** Manuf_Order_MailText_ID AD_Reference_ID=274 */
+	public static final int MANUF_ORDER_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Manufacturing Order Mail Text.
-		@param ManufacturingOrder_MailText_ID 
+		@param Manuf_Order_MailText_ID 
 		Email text used for sending Manufacturing Order
 	  */
-	public void setManufacturingOrder_MailText_ID (int ManufacturingOrder_MailText_ID)
+	public void setManuf_Order_MailText_ID (int Manuf_Order_MailText_ID)
 	{
-		if (ManufacturingOrder_MailText_ID < 1) 
-			set_Value (COLUMNNAME_ManufacturingOrder_MailText_ID, null);
+		if (Manuf_Order_MailText_ID < 1) 
+			set_Value (COLUMNNAME_Manuf_Order_MailText_ID, null);
 		else 
-			set_Value (COLUMNNAME_ManufacturingOrder_MailText_ID, Integer.valueOf(ManufacturingOrder_MailText_ID));
+			set_Value (COLUMNNAME_Manuf_Order_MailText_ID, Integer.valueOf(Manuf_Order_MailText_ID));
 	}
 
 	/** Get Manufacturing Order Mail Text.
 		@return Email text used for sending Manufacturing Order
 	  */
-	public int getManufacturingOrder_MailText_ID () 
+	public int getManuf_Order_MailText_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturingOrder_MailText_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Manuf_Order_MailText_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
 	/** Manuf_Order_PrintFormat_ID AD_Reference_ID=53281 */
-	public static final int Manuf_Order_PrintFormat_ID_AD_Reference_ID=53281;
+	public static final int MANUF_ORDER_PRINTFORMAT_ID_AD_Reference_ID=53281;
 	/** Set Manufacturing Order Print Format.
 		@param Manuf_Order_PrintFormat_ID 
 		Print Format for printing Manufacturing Order
@@ -274,12 +268,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

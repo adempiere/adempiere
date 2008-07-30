@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -38,8 +34,8 @@ import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_OrderLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.0
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_DD_OrderLine 
 {
@@ -116,6 +112,19 @@ public interface I_DD_OrderLine
 
 	public I_C_Charge getC_Charge() throws Exception;
 
+    /** Column name ConfirmedQty */
+    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
+
+	/** Set Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty);
+
+	/** Get Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -145,39 +154,6 @@ public interface I_DD_OrderLine
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name ConfirmedQty */
-    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
-
-	/** Set Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty);
-
-	/** Get Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty();
-
-    /** Column name DD_OrderLine_ID */
-    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
-
-	/** Set Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
-
-	/** Get Distribution Order Line	  */
-	public int getDD_OrderLine_ID();
-
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
-
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
-
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
-
-	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -217,6 +193,26 @@ public interface I_DD_OrderLine
 	  * Date Order was promised
 	  */
 	public Timestamp getDatePromised();
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception;
+
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -296,19 +292,6 @@ public interface I_DD_OrderLine
 	  */
 	public BigDecimal getLineNetAmt();
 
-    /** Column name M_AttributeSetInstanceTo_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
-
-	/** Set Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
-
-	/** Get Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstanceTo_ID();
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -322,18 +305,18 @@ public interface I_DD_OrderLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
-    /** Column name M_LocatorTo_ID */
-    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+    /** Column name M_AttributeSetInstanceTo_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
 
-	/** Set Locator To.
-	  * Location inventory is moved to
+	/** Set Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
 
-	/** Get Locator To.
-	  * Location inventory is moved to
+	/** Get Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public int getM_LocatorTo_ID();
+	public int getM_AttributeSetInstanceTo_ID();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -347,6 +330,21 @@ public interface I_DD_OrderLine
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws Exception;
+
+    /** Column name M_LocatorTo_ID */
+    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+
+	/** Set Locator To.
+	  * Location inventory is moved to
+	  */
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+
+	/** Get Locator To.
+	  * Location inventory is moved to
+	  */
+	public int getM_LocatorTo_ID();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       super (ctx, GL_DistributionLine_ID, trxName);
       /** if (GL_DistributionLine_ID == 0)
         {
-			setGL_DistributionLine_ID (0);
 			setGL_Distribution_ID (0);
+			setGL_DistributionLine_ID (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM GL_DistributionLine WHERE GL_Distribution_ID=@GL_Distribution_ID@
 			setOverwriteAcct (false);
@@ -91,31 +91,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Account_ID AD_Reference_ID=132 */
 	public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	/** Set Account.
@@ -136,6 +111,31 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public int getAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** AD_OrgTrx_ID AD_Reference_ID=130 */
+	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -392,12 +392,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -407,28 +401,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set GL Distribution Line.
-		@param GL_DistributionLine_ID 
-		General Ledger Distribution Line
-	  */
-	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
-	{
-		if (GL_DistributionLine_ID < 1)
-			 throw new IllegalArgumentException ("GL_DistributionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
-	}
-
-	/** Get GL Distribution Line.
-		@return General Ledger Distribution Line
-	  */
-	public int getGL_DistributionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_DistributionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_GL_Distribution getGL_Distribution() throws Exception 
@@ -464,6 +436,28 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public int getGL_Distribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Distribution_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set GL Distribution Line.
+		@param GL_DistributionLine_ID 
+		General Ledger Distribution Line
+	  */
+	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
+	{
+		if (GL_DistributionLine_ID < 1)
+			 throw new IllegalArgumentException ("GL_DistributionLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
+	}
+
+	/** Get GL Distribution Line.
+		@return General Ledger Distribution Line
+	  */
+	public int getGL_DistributionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_DistributionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

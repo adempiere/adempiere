@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Cost extends PO implements I_M_Cost, I_Persistent 
 {
 
@@ -43,6 +43,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
         {
 			setC_AcctSchema_ID (0);
 			setCurrentCostPrice (Env.ZERO);
+			setCurrentCostPriceLL (Env.ZERO);
 			setCurrentQty (Env.ZERO);
 			setFutureCostPrice (Env.ZERO);
 			setM_AttributeSetInstance_ID (0);
@@ -217,18 +218,17 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set Current Cost Price Low Level.
-		@param CurrentCostPriceLL 
-		The low level cost is using to accumulation the cost for low level in a bill of material or formula.
-	  */
+	/** Set CurrentCostPriceLL.
+		@param CurrentCostPriceLL CurrentCostPriceLL	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
 	{
-		set_ValueNoCheck (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
+		if (CurrentCostPriceLL == null)
+			throw new IllegalArgumentException ("CurrentCostPriceLL is mandatory.");
+		set_Value (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
-	/** Get Current Cost Price Low Level.
-		@return The low level cost is using to accumulation the cost for low level in a bill of material or formula.
-	  */
+	/** Get CurrentCostPriceLL.
+		@return CurrentCostPriceLL	  */
 	public BigDecimal getCurrentCostPriceLL () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
@@ -265,12 +265,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

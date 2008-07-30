@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_IndexStop
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_K_IndexStop 
 {
@@ -56,21 +52,6 @@ public interface I_K_IndexStop
 
     /** Load Meta Data */
 
-    /** Column name CM_WebProject_ID */
-    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
-
-	/** Set Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID);
-
-	/** Get Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID();
-
-	public I_CM_WebProject getCM_WebProject() throws Exception;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -86,6 +67,21 @@ public interface I_K_IndexStop
 
 	public I_C_DocType getC_DocType() throws Exception;
 
+    /** Column name CM_WebProject_ID */
+    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
+
+	/** Set Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID);
+
+	/** Get Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID();
+
+	public I_CM_WebProject getCM_WebProject() throws Exception;
+
     /** Column name IsManual */
     public static final String COLUMNNAME_IsManual = "IsManual";
 
@@ -99,19 +95,6 @@ public interface I_K_IndexStop
 	  */
 	public boolean isManual();
 
-    /** Column name K_IndexStop_ID */
-    public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
-
-	/** Set Index Stop.
-	  * Keyword not to be indexed
-	  */
-	public void setK_IndexStop_ID (int K_IndexStop_ID);
-
-	/** Get Index Stop.
-	  * Keyword not to be indexed
-	  */
-	public int getK_IndexStop_ID();
-
     /** Column name Keyword */
     public static final String COLUMNNAME_Keyword = "Keyword";
 
@@ -124,6 +107,19 @@ public interface I_K_IndexStop
 	  * Case insensitive keyword
 	  */
 	public String getKeyword();
+
+    /** Column name K_IndexStop_ID */
+    public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
+
+	/** Set Index Stop.
+	  * Keyword not to be indexed
+	  */
+	public void setK_IndexStop_ID (int K_IndexStop_ID);
+
+	/** Get Index Stop.
+	  * Keyword not to be indexed
+	  */
+	public int getK_IndexStop_ID();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

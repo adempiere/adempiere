@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persistent 
 {
 
@@ -142,12 +142,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	  */
 	public void setDateFormat (String DateFormat)
 	{
-
-		if (DateFormat != null && DateFormat.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			DateFormat = DateFormat.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_DateFormat, DateFormat);
 	}
 
@@ -165,12 +159,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -199,25 +187,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public int getEXP_EmbeddedFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_EmbeddedFormat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set EXP_FormatLine_ID.
-		@param EXP_FormatLine_ID EXP_FormatLine_ID	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
-	{
-		if (EXP_FormatLine_ID < 1)
-			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
-	}
-
-	/** Get EXP_FormatLine_ID.
-		@return EXP_FormatLine_ID	  */
-	public int getEXP_FormatLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -259,18 +228,31 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set EXP_FormatLine_ID.
+		@param EXP_FormatLine_ID EXP_FormatLine_ID	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
+	{
+		if (EXP_FormatLine_ID < 1)
+			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
+	}
+
+	/** Get EXP_FormatLine_ID.
+		@return EXP_FormatLine_ID	  */
+	public int getEXP_FormatLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -335,12 +317,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -386,13 +362,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("E") || Type.equals("A") || Type.equals("M") || Type.equals("R")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53241 - E - A - M - R");
-		if (Type.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Type = Type.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Type, Type);
+		if (Type.equals("E") || Type.equals("A") || Type.equals("M") || Type.equals("R")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53241 - E - A - M - R");		set_Value (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.
@@ -411,12 +381,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

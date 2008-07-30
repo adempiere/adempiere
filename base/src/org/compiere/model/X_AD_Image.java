@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Image
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Image extends PO implements I_AD_Image, I_Persistent 
 {
 
@@ -118,12 +118,6 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -143,12 +137,6 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -166,12 +154,6 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	  */
 	public void setImageURL (String ImageURL)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
 
@@ -191,12 +173,6 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

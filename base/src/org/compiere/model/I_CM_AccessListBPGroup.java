@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_AccessListBPGroup
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_CM_AccessListBPGroup 
 {
@@ -56,21 +52,6 @@ public interface I_CM_AccessListBPGroup
 
     /** Load Meta Data */
 
-    /** Column name CM_AccessProfile_ID */
-    public static final String COLUMNNAME_CM_AccessProfile_ID = "CM_AccessProfile_ID";
-
-	/** Set Web Access Profile.
-	  * Web Access Profile
-	  */
-	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID);
-
-	/** Get Web Access Profile.
-	  * Web Access Profile
-	  */
-	public int getCM_AccessProfile_ID();
-
-	public I_CM_AccessProfile getCM_AccessProfile() throws Exception;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -85,4 +66,19 @@ public interface I_CM_AccessListBPGroup
 	public int getC_BP_Group_ID();
 
 	public I_C_BP_Group getC_BP_Group() throws Exception;
+
+    /** Column name CM_AccessProfile_ID */
+    public static final String COLUMNNAME_CM_AccessProfile_ID = "CM_AccessProfile_ID";
+
+	/** Set Web Access Profile.
+	  * Web Access Profile
+	  */
+	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID);
+
+	/** Get Web Access Profile.
+	  * Web Access Profile
+	  */
+	public int getCM_AccessProfile_ID();
+
+	public I_CM_AccessProfile getCM_AccessProfile() throws Exception;
 }

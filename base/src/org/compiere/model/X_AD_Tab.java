@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent 
 {
 
@@ -90,6 +90,45 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Column getAD_Column() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
+        I_AD_Column result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Column.
+		@param AD_Column_ID 
+		Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID)
+	{
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+	}
+
+	/** Get Column.
+		@return Column in the table
+	  */
+	public int getAD_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** AD_ColumnSortOrder_ID AD_Reference_ID=257 */
 	public static final int AD_COLUMNSORTORDER_ID_AD_Reference_ID=257;
 	/** Set Order Column.
@@ -135,45 +174,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	public int getAD_ColumnSortYesNo_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnSortYesNo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Column getAD_Column() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Column.
-		@param AD_Column_ID 
-		Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID)
-	{
-		if (AD_Column_ID < 1) 
-			set_Value (COLUMNNAME_AD_Column_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
-	}
-
-	/** Get Column.
-		@return Column in the table
-	  */
-	public int getAD_Column_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -361,12 +361,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setCommitWarning (String CommitWarning)
 	{
-
-		if (CommitWarning != null && CommitWarning.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			CommitWarning = CommitWarning.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_CommitWarning, CommitWarning);
 	}
 
@@ -384,12 +378,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -407,12 +395,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setDisplayLogic (String DisplayLogic)
 	{
-
-		if (DisplayLogic != null && DisplayLogic.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DisplayLogic = DisplayLogic.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
 	}
 
@@ -432,12 +414,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -479,12 +455,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -502,12 +472,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setImportFields (String ImportFields)
 	{
-
-		if (ImportFields != null && ImportFields.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ImportFields = ImportFields.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_ImportFields, ImportFields);
 	}
 
@@ -720,12 +684,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -751,12 +709,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setOrderByClause (String OrderByClause)
 	{
-
-		if (OrderByClause != null && OrderByClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OrderByClause = OrderByClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OrderByClause, OrderByClause);
 	}
 
@@ -795,12 +747,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setReadOnlyLogic (String ReadOnlyLogic)
 	{
-
-		if (ReadOnlyLogic != null && ReadOnlyLogic.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ReadOnlyLogic = ReadOnlyLogic.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ReadOnlyLogic, ReadOnlyLogic);
 	}
 
@@ -858,12 +804,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-
-		if (WhereClause != null && WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

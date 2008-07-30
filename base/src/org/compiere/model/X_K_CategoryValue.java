@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
       super (ctx, K_CategoryValue_ID, trxName);
       /** if (K_CategoryValue_ID == 0)
         {
-			setK_CategoryValue_ID (0);
 			setK_Category_ID (0);
+			setK_CategoryValue_ID (0);
 			setName (null);
         } */
     }
@@ -80,12 +80,6 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -95,28 +89,6 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Category Value.
-		@param K_CategoryValue_ID 
-		The value of the category
-	  */
-	public void setK_CategoryValue_ID (int K_CategoryValue_ID)
-	{
-		if (K_CategoryValue_ID < 1)
-			 throw new IllegalArgumentException ("K_CategoryValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
-	}
-
-	/** Get Category Value.
-		@return The value of the category
-	  */
-	public int getK_CategoryValue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_CategoryValue_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_K_Category getK_Category() throws Exception 
@@ -157,6 +129,28 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Category Value.
+		@param K_CategoryValue_ID 
+		The value of the category
+	  */
+	public void setK_CategoryValue_ID (int K_CategoryValue_ID)
+	{
+		if (K_CategoryValue_ID < 1)
+			 throw new IllegalArgumentException ("K_CategoryValue_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
+	}
+
+	/** Get Category Value.
+		@return The value of the category
+	  */
+	public int getK_CategoryValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_CategoryValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -165,12 +159,6 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

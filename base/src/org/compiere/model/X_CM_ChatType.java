@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent 
 {
 
@@ -140,12 +140,6 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -172,13 +166,7 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	public void setModerationType (String ModerationType)
 	{
 
-		if (ModerationType == null || ModerationType.equals("N") || ModerationType.equals("B") || ModerationType.equals("A")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - N - B - A");
-		if (ModerationType != null && ModerationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ModerationType = ModerationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ModerationType, ModerationType);
+		if (ModerationType == null || ModerationType.equals("N") || ModerationType.equals("B") || ModerationType.equals("A")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - N - B - A");		set_Value (COLUMNNAME_ModerationType, ModerationType);
 	}
 
 	/** Get Moderation Type.
@@ -197,12 +185,6 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

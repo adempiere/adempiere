@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeUse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
       super (ctx, M_AttributeUse_ID, trxName);
       /** if (M_AttributeUse_ID == 0)
         {
-			setM_AttributeSet_ID (0);
 			setM_Attribute_ID (0);
+			setM_AttributeSet_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_AttributeUse WHERE M_AttributeSet_ID=@M_AttributeSet_ID@
         } */
@@ -74,6 +74,44 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_M_Attribute getM_Attribute() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
+        I_M_Attribute result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Attribute)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Attribute_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Attribute.
+		@param M_Attribute_ID 
+		Product Attribute
+	  */
+	public void setM_Attribute_ID (int M_Attribute_ID)
+	{
+		if (M_Attribute_ID < 1)
+			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+	}
+
+	/** Get Attribute.
+		@return Product Attribute
+	  */
+	public int getM_Attribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_M_AttributeSet getM_AttributeSet() throws Exception 
     {
@@ -120,44 +158,6 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSet_ID()));
     }
-
-	public I_M_Attribute getM_Attribute() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
-        I_M_Attribute result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Attribute)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Attribute_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Attribute.
-		@param M_Attribute_ID 
-		Product Attribute
-	  */
-	public void setM_Attribute_ID (int M_Attribute_ID)
-	{
-		if (M_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
-	}
-
-	/** Get Attribute.
-		@return Product Attribute
-	  */
-	public int getM_Attribute_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Sequence.
 		@param SeqNo 

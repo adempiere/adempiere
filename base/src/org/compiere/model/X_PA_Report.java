@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
@@ -46,8 +46,8 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			setListTrx (false);
 			setName (null);
 			setPA_ReportColumnSet_ID (0);
-			setPA_ReportLineSet_ID (0);
 			setPA_Report_ID (0);
+			setPA_ReportLineSet_ID (0);
 			setProcessing (false);
         } */
     }
@@ -201,12 +201,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -247,12 +241,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		@param JasperProcessing Jasper Process Now	  */
 	public void setJasperProcessing (String JasperProcessing)
 	{
-
-		if (JasperProcessing != null && JasperProcessing.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			JasperProcessing = JasperProcessing.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_JasperProcessing, JasperProcessing);
 	}
 
@@ -319,12 +307,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -382,6 +364,28 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Financial Report.
+		@param PA_Report_ID 
+		Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID)
+	{
+		if (PA_Report_ID < 1)
+			 throw new IllegalArgumentException ("PA_Report_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
+	}
+
+	/** Get Financial Report.
+		@return Financial Report
+	  */
+	public int getPA_Report_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
@@ -412,28 +416,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Financial Report.
-		@param PA_Report_ID 
-		Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID)
-	{
-		if (PA_Report_ID < 1)
-			 throw new IllegalArgumentException ("PA_Report_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
-	}
-
-	/** Get Financial Report.
-		@return Financial Report
-	  */
-	public int getPA_Report_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

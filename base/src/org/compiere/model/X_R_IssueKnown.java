@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
       /** if (R_IssueKnown_ID == 0)
         {
 			setIssueSummary (null);
-			setR_IssueKnown_ID (0);
 			setReleaseNo (null);
+			setR_IssueKnown_ID (0);
         } */
     }
 
@@ -80,12 +80,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -103,12 +97,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setIssueStatus (String IssueStatus)
 	{
-
-		if (IssueStatus != null && IssueStatus.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			IssueStatus = IssueStatus.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_IssueStatus, IssueStatus);
 	}
 
@@ -128,12 +116,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	{
 		if (IssueSummary == null)
 			throw new IllegalArgumentException ("IssueSummary is mandatory.");
-
-		if (IssueSummary.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			IssueSummary = IssueSummary.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_IssueSummary, IssueSummary);
 	}
 
@@ -171,12 +153,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setLoggerName (String LoggerName)
 	{
-
-		if (LoggerName != null && LoggerName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			LoggerName = LoggerName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_LoggerName, LoggerName);
 	}
 
@@ -208,6 +184,33 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		}
 		return false;
 	}
+
+	/** Set Release No.
+		@param ReleaseNo 
+		Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo)
+	{
+		if (ReleaseNo == null)
+			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
+		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
+	}
+
+	/** Get Release No.
+		@return Internal Release Number
+	  */
+	public String getReleaseNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseNo);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getReleaseNo());
+    }
 
 	/** Set Known Issue.
 		@param R_IssueKnown_ID 
@@ -348,51 +351,12 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Release No.
-		@param ReleaseNo 
-		Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo)
-	{
-		if (ReleaseNo == null)
-			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
-
-		if (ReleaseNo.length() > 4)
-		{
-			log.warning("Length > 4 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 4);
-		}
-		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
-	}
-
-	/** Get Release No.
-		@return Internal Release Number
-	  */
-	public String getReleaseNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseNo);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getReleaseNo());
-    }
-
 	/** Set Source Class.
 		@param SourceClassName 
 		Source Class Name
 	  */
 	public void setSourceClassName (String SourceClassName)
 	{
-
-		if (SourceClassName != null && SourceClassName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			SourceClassName = SourceClassName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_SourceClassName, SourceClassName);
 	}
 
@@ -410,12 +374,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setSourceMethodName (String SourceMethodName)
 	{
-
-		if (SourceMethodName != null && SourceMethodName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			SourceMethodName = SourceMethodName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_SourceMethodName, SourceMethodName);
 	}
 

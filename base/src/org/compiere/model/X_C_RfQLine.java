@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
       super (ctx, C_RfQLine_ID, trxName);
       /** if (C_RfQLine_ID == 0)
         {
-			setC_RfQLine_ID (0);
 			setC_RfQ_ID (0);
+			setC_RfQLine_ID (0);
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM C_RfQLine WHERE C_RfQ_ID=@C_RfQ_ID@
 			setM_AttributeSetInstance_ID (0);
@@ -76,28 +76,6 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set RfQ Line.
-		@param C_RfQLine_ID 
-		Request for Quotation Line
-	  */
-	public void setC_RfQLine_ID (int C_RfQLine_ID)
-	{
-		if (C_RfQLine_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
-	}
-
-	/** Get RfQ Line.
-		@return Request for Quotation Line
-	  */
-	public int getC_RfQLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_RfQ getC_RfQ() throws Exception 
     {
@@ -144,6 +122,28 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_RfQ_ID()));
     }
+
+	/** Set RfQ Line.
+		@param C_RfQLine_ID 
+		Request for Quotation Line
+	  */
+	public void setC_RfQLine_ID (int C_RfQLine_ID)
+	{
+		if (C_RfQLine_ID < 1)
+			 throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
+	}
+
+	/** Get RfQ Line.
+		@return Request for Quotation Line
+	  */
+	public int getC_RfQLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Work Complete.
 		@param DateWorkComplete 
@@ -205,12 +205,6 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -228,12 +222,6 @@ public class X_C_RfQLine extends PO implements I_C_RfQLine, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 

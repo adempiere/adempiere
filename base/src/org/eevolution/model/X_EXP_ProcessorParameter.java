@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParameter, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
       super (ctx, EXP_ProcessorParameter_ID, trxName);
       /** if (EXP_ProcessorParameter_ID == 0)
         {
-			setEXP_ProcessorParameter_ID (0);
 			setEXP_Processor_ID (0);
+			setEXP_ProcessorParameter_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -81,12 +81,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -96,25 +90,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set EXP_ProcessorParameter_ID.
-		@param EXP_ProcessorParameter_ID EXP_ProcessorParameter_ID	  */
-	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
-	{
-		if (EXP_ProcessorParameter_ID < 1)
-			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
-	}
-
-	/** Get EXP_ProcessorParameter_ID.
-		@return EXP_ProcessorParameter_ID	  */
-	public int getEXP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws Exception 
@@ -152,18 +127,31 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 		return ii.intValue();
 	}
 
+	/** Set EXP_ProcessorParameter_ID.
+		@param EXP_ProcessorParameter_ID EXP_ProcessorParameter_ID	  */
+	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
+	{
+		if (EXP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
+	}
+
+	/** Get EXP_ProcessorParameter_ID.
+		@return EXP_ProcessorParameter_ID	  */
+	public int getEXP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -183,12 +171,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -204,12 +186,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 		@param ParameterValue ParameterValue	  */
 	public void setParameterValue (String ParameterValue)
 	{
-
-		if (ParameterValue != null && ParameterValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ParameterValue = ParameterValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ParameterValue, ParameterValue);
 	}
 
@@ -228,12 +204,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

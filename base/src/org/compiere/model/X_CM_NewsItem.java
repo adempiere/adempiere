@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_NewsItem
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent 
 {
 
@@ -79,12 +79,6 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setAuthor (String Author)
 	{
-
-		if (Author != null && Author.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Author = Author.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Author, Author);
 	}
 
@@ -179,12 +173,6 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -202,12 +190,6 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setLinkURL (String LinkURL)
 	{
-
-		if (LinkURL != null && LinkURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			LinkURL = LinkURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_LinkURL, LinkURL);
 	}
 
@@ -242,12 +224,6 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
-
-		if (Title != null && Title.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Title = Title.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Title, Title);
 	}
 

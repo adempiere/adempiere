@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductOperation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
       super (ctx, M_ProductOperation_ID, trxName);
       /** if (M_ProductOperation_ID == 0)
         {
-			setM_ProductOperation_ID (0);
 			setM_Product_ID (0);
+			setM_ProductOperation_ID (0);
 			setName (null);
         } */
     }
@@ -82,12 +82,6 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -105,12 +99,6 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -120,28 +108,6 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
-	}
-
-	/** Set Product Operation.
-		@param M_ProductOperation_ID 
-		Product Manufacturing Operation
-	  */
-	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
-	{
-		if (M_ProductOperation_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductOperation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
-	}
-
-	/** Get Product Operation.
-		@return Product Manufacturing Operation
-	  */
-	public int getM_ProductOperation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductOperation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_M_Product getM_Product() throws Exception 
@@ -182,6 +148,28 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 		return ii.intValue();
 	}
 
+	/** Set Product Operation.
+		@param M_ProductOperation_ID 
+		Product Manufacturing Operation
+	  */
+	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
+	{
+		if (M_ProductOperation_ID < 1)
+			 throw new IllegalArgumentException ("M_ProductOperation_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
+	}
+
+	/** Get Product Operation.
+		@return Product Manufacturing Operation
+	  */
+	public int getM_ProductOperation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductOperation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -190,12 +178,6 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

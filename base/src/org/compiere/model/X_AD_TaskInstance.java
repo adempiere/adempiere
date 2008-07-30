@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_TaskInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persistent 
 {
 
@@ -38,8 +38,8 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
       super (ctx, AD_TaskInstance_ID, trxName);
       /** if (AD_TaskInstance_ID == 0)
         {
-			setAD_TaskInstance_ID (0);
 			setAD_Task_ID (0);
+			setAD_TaskInstance_ID (0);
         } */
     }
 
@@ -71,6 +71,28 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
       return sb.toString();
     }
 
+	/** Set OS Task.
+		@param AD_Task_ID 
+		Operation System Task
+	  */
+	public void setAD_Task_ID (int AD_Task_ID)
+	{
+		if (AD_Task_ID < 1)
+			 throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
+		set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+	}
+
+	/** Get OS Task.
+		@return Operation System Task
+	  */
+	public int getAD_Task_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Task_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Task Instance.
 		@param AD_TaskInstance_ID Task Instance	  */
 	public void setAD_TaskInstance_ID (int AD_TaskInstance_ID)
@@ -97,26 +119,4 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_TaskInstance_ID()));
     }
-
-	/** Set OS Task.
-		@param AD_Task_ID 
-		Operation System Task
-	  */
-	public void setAD_Task_ID (int AD_Task_ID)
-	{
-		if (AD_Task_ID < 1)
-			 throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
-	}
-
-	/** Get OS Task.
-		@return Operation System Task
-	  */
-	public int getAD_Task_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Task_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 }

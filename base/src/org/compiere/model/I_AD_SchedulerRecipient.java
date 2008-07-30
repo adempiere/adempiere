@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_SchedulerRecipient
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_SchedulerRecipient 
 {
@@ -71,19 +67,6 @@ public interface I_AD_SchedulerRecipient
 
 	public I_AD_Role getAD_Role() throws Exception;
 
-    /** Column name AD_SchedulerRecipient_ID */
-    public static final String COLUMNNAME_AD_SchedulerRecipient_ID = "AD_SchedulerRecipient_ID";
-
-	/** Set Scheduler Recipient.
-	  * Recipient of the Scheduler Notification
-	  */
-	public void setAD_SchedulerRecipient_ID (int AD_SchedulerRecipient_ID);
-
-	/** Get Scheduler Recipient.
-	  * Recipient of the Scheduler Notification
-	  */
-	public int getAD_SchedulerRecipient_ID();
-
     /** Column name AD_Scheduler_ID */
     public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
 
@@ -98,6 +81,19 @@ public interface I_AD_SchedulerRecipient
 	public int getAD_Scheduler_ID();
 
 	public I_AD_Scheduler getAD_Scheduler() throws Exception;
+
+    /** Column name AD_SchedulerRecipient_ID */
+    public static final String COLUMNNAME_AD_SchedulerRecipient_ID = "AD_SchedulerRecipient_ID";
+
+	/** Set Scheduler Recipient.
+	  * Recipient of the Scheduler Notification
+	  */
+	public void setAD_SchedulerRecipient_ID (int AD_SchedulerRecipient_ID);
+
+	/** Get Scheduler Recipient.
+	  * Recipient of the Scheduler Notification
+	  */
+	public int getAD_SchedulerRecipient_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";

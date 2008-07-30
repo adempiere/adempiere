@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_List
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_List extends PO implements I_HR_List, I_Persistent 
 {
 
@@ -81,12 +81,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -170,6 +164,25 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Payroll List.
+		@param HR_List_ID Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID)
+	{
+		if (HR_List_ID < 1)
+			 throw new IllegalArgumentException ("HR_List_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
+	}
+
+	/** Get Payroll List.
+		@return Payroll List	  */
+	public int getHR_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_ListType getHR_ListType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_ListType.Table_Name);
@@ -201,25 +214,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	public int getHR_ListType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll List.
-		@param HR_List_ID Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID)
-	{
-		if (HR_List_ID < 1)
-			 throw new IllegalArgumentException ("HR_List_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
-	}
-
-	/** Get Payroll List.
-		@return Payroll List	  */
-	public int getHR_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -293,12 +287,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -341,12 +329,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

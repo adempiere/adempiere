@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent 
 {
 
@@ -89,12 +89,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	{
 		if (AccountNo == null)
 			throw new IllegalArgumentException ("AccountNo is mandatory.");
-
-		if (AccountNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			AccountNo = AccountNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_AccountNo, AccountNo);
 	}
 
@@ -104,29 +98,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public String getAccountNo () 
 	{
 		return (String)get_Value(COLUMNNAME_AccountNo);
-	}
-
-	/** Set BBAN.
-		@param BBAN 
-		Basic Bank Account Number
-	  */
-	public void setBBAN (String BBAN)
-	{
-
-		if (BBAN != null && BBAN.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			BBAN = BBAN.substring(0, 40);
-		}
-		set_Value (COLUMNNAME_BBAN, BBAN);
-	}
-
-	/** Get BBAN.
-		@return Basic Bank Account Number
-	  */
-	public String getBBAN () 
-	{
-		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
 	/** BankAccountType AD_Reference_ID=216 */
@@ -142,13 +113,7 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public void setBankAccountType (String BankAccountType)
 	{
 		if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountType is mandatory");
-		if (BankAccountType.equals("C") || BankAccountType.equals("S")); else throw new IllegalArgumentException ("BankAccountType Invalid value - " + BankAccountType + " - Reference_ID=216 - C - S");
-		if (BankAccountType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BankAccountType = BankAccountType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
+		if (BankAccountType.equals("C") || BankAccountType.equals("S")); else throw new IllegalArgumentException ("BankAccountType Invalid value - " + BankAccountType + " - Reference_ID=216 - C - S");		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
 	}
 
 	/** Get Bank Account Type.
@@ -157,6 +122,23 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public String getBankAccountType () 
 	{
 		return (String)get_Value(COLUMNNAME_BankAccountType);
+	}
+
+	/** Set BBAN.
+		@param BBAN 
+		Basic Bank Account Number
+	  */
+	public void setBBAN (String BBAN)
+	{
+		set_Value (COLUMNNAME_BBAN, BBAN);
+	}
+
+	/** Get BBAN.
+		@return Basic Bank Account Number
+	  */
+	public String getBBAN () 
+	{
+		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
 	/** Set Bank Account.
@@ -315,12 +297,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -338,12 +314,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setIBAN (String IBAN)
 	{
-
-		if (IBAN != null && IBAN.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			IBAN = IBAN.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_IBAN, IBAN);
 	}
 

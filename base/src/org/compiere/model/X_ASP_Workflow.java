@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_ASP_Workflow extends PO implements I_ASP_Workflow, I_Persistent 
 {
 
@@ -160,13 +160,7 @@ public class X_ASP_Workflow extends PO implements I_ASP_Workflow, I_Persistent
 	public void setASP_Status (String ASP_Status)
 	{
 		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
-		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");
-		if (ASP_Status.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ASP_Status = ASP_Status.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
+		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 
 	/** Get ASP Status.

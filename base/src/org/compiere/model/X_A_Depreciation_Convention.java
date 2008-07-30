@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Convention
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_Convention, I_Persistent 
 {
 
@@ -102,12 +102,6 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 		@param ConventionType ConventionType	  */
 	public void setConventionType (String ConventionType)
 	{
-
-		if (ConventionType != null && ConventionType.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			ConventionType = ConventionType.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_ConventionType, ConventionType);
 	}
 
@@ -124,12 +118,6 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -147,12 +135,6 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -192,12 +174,6 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 		@param Textmsg Textmsg	  */
 	public void setTextmsg (String Textmsg)
 	{
-
-		if (Textmsg != null && Textmsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Textmsg = Textmsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Textmsg, Textmsg);
 	}
 

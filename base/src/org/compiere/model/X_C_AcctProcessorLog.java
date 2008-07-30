@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_AcctProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_Persistent 
 {
 
@@ -39,8 +39,8 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
       super (ctx, C_AcctProcessorLog_ID, trxName);
       /** if (C_AcctProcessorLog_ID == 0)
         {
-			setC_AcctProcessorLog_ID (0);
 			setC_AcctProcessor_ID (0);
+			setC_AcctProcessorLog_ID (0);
 			setIsError (false);
         } */
     }
@@ -90,28 +90,6 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
-	/** Set Accounting Processor Log.
-		@param C_AcctProcessorLog_ID 
-		Result of the execution of the Accounting Processor
-	  */
-	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID)
-	{
-		if (C_AcctProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctProcessorLog_ID, Integer.valueOf(C_AcctProcessorLog_ID));
-	}
-
-	/** Get Accounting Processor Log.
-		@return Result of the execution of the Accounting Processor
-	  */
-	public int getC_AcctProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctProcessorLog_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_AcctProcessor getC_AcctProcessor() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctProcessor.Table_Name);
@@ -150,18 +128,34 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 		return ii.intValue();
 	}
 
+	/** Set Accounting Processor Log.
+		@param C_AcctProcessorLog_ID 
+		Result of the execution of the Accounting Processor
+	  */
+	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID)
+	{
+		if (C_AcctProcessorLog_ID < 1)
+			 throw new IllegalArgumentException ("C_AcctProcessorLog_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_AcctProcessorLog_ID, Integer.valueOf(C_AcctProcessorLog_ID));
+	}
+
+	/** Get Accounting Processor Log.
+		@return Result of the execution of the Accounting Processor
+	  */
+	public int getC_AcctProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -203,12 +197,6 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setReference (String Reference)
 	{
-
-		if (Reference != null && Reference.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
 
@@ -226,12 +214,6 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setSummary (String Summary)
 	{
-
-		if (Summary != null && Summary.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
 
@@ -249,12 +231,6 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

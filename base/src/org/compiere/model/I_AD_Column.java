@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Column
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_Column 
 {
@@ -276,6 +272,19 @@ public interface I_AD_Column
 	  */
 	public String getInfoFactoryClass();
 
+    /** Column name IsAllowLogging */
+    public static final String COLUMNNAME_IsAllowLogging = "IsAllowLogging";
+
+	/** Set IsAllowLogging.
+	  * Determine if a column must be recorded into the change log
+	  */
+	public void setIsAllowLogging (boolean IsAllowLogging);
+
+	/** Get IsAllowLogging.
+	  * Determine if a column must be recorded into the change log
+	  */
+	public boolean isAllowLogging();
+
     /** Column name IsAlwaysUpdateable */
     public static final String COLUMNNAME_IsAlwaysUpdateable = "IsAlwaysUpdateable";
 
@@ -469,21 +478,6 @@ public interface I_AD_Column
 	  */
 	public int getSeqNo();
 
-    /** Column name VFormat */
-    public static final String COLUMNNAME_VFormat = "VFormat";
-
-	/** Set Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat);
-
-	/** Get Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat();
-
     /** Column name ValueMax */
     public static final String COLUMNNAME_ValueMax = "ValueMax";
 
@@ -522,13 +516,19 @@ public interface I_AD_Column
 	  * Version of the table definition
 	  */
 	public BigDecimal getVersion();
-	
-	 /** Column name IsAllowLogging  */
-    public static final String COLUMNNAME_isAllowLogging = "IsAllowLogging";
 
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
 
-	/** Get IsAllowLogging .
-	  * Determines, if a column must be recorded into the change log
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
 	  */
-	public boolean IsAllowLogging() ;
+	public void setVFormat (String VFormat);
+
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat();
 }

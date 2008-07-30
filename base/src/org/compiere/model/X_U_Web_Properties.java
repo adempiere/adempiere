@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_Web_Properties
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Persistent 
 {
 
@@ -77,12 +77,6 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 	{
 		if (U_Key == null)
 			throw new IllegalArgumentException ("U_Key is mandatory.");
-
-		if (U_Key.length() > 240)
-		{
-			log.warning("Length > 240 - truncated");
-			U_Key = U_Key.substring(0, 240);
-		}
 		set_Value (COLUMNNAME_U_Key, U_Key);
 	}
 
@@ -99,12 +93,6 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 	{
 		if (U_Value == null)
 			throw new IllegalArgumentException ("U_Value is mandatory.");
-
-		if (U_Value.length() > 240)
-		{
-			log.warning("Length > 240 - truncated");
-			U_Value = U_Value.substring(0, 240);
-		}
 		set_Value (COLUMNNAME_U_Value, U_Value);
 	}
 

@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Registration extends PO implements I_AD_Registration, I_Persistent 
 {
 
@@ -210,12 +210,6 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -233,12 +227,6 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setIndustryInfo (String IndustryInfo)
 	{
-
-		if (IndustryInfo != null && IndustryInfo.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			IndustryInfo = IndustryInfo.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_IndustryInfo, IndustryInfo);
 	}
 
@@ -372,12 +360,6 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setPlatformInfo (String PlatformInfo)
 	{
-
-		if (PlatformInfo != null && PlatformInfo.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			PlatformInfo = PlatformInfo.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_PlatformInfo, PlatformInfo);
 	}
 
@@ -439,12 +421,6 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
-
-		if (Remote_Addr != null && Remote_Addr.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
 
@@ -462,12 +438,6 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
-
-		if (Remote_Host != null && Remote_Host.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 120);
-		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
 	}
 

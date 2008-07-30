@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Relation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent 
 {
 
@@ -40,10 +40,10 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
       super (ctx, C_BP_Relation_ID, trxName);
       /** if (C_BP_Relation_ID == 0)
         {
-			setC_BP_Relation_ID (0);
+			setC_BPartner_ID (0);
 			setC_BPartnerRelation_ID (0);
 			setC_BPartnerRelation_Location_ID (0);
-			setC_BPartner_ID (0);
+			setC_BP_Relation_ID (0);
 			setIsBillTo (false);
 			setIsPayFrom (false);
 			setIsRemitTo (false);
@@ -80,76 +80,6 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Partner Relation.
-		@param C_BP_Relation_ID 
-		Business Partner Relation
-	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
-	{
-		if (C_BP_Relation_ID < 1)
-			 throw new IllegalArgumentException ("C_BP_Relation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
-	}
-
-	/** Get Partner Relation.
-		@return Business Partner Relation
-	  */
-	public int getC_BP_Relation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** C_BPartnerRelation_ID AD_Reference_ID=138 */
-	public static final int C_BPARTNERRELATION_ID_AD_Reference_ID=138;
-	/** Set Related Partner.
-		@param C_BPartnerRelation_ID 
-		Related Business Partner
-	  */
-	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID)
-	{
-		if (C_BPartnerRelation_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartnerRelation_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartnerRelation_ID, Integer.valueOf(C_BPartnerRelation_ID));
-	}
-
-	/** Get Related Partner.
-		@return Related Business Partner
-	  */
-	public int getC_BPartnerRelation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerRelation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** C_BPartnerRelation_Location_ID AD_Reference_ID=159 */
-	public static final int C_BPARTNERRELATION_LOCATION_ID_AD_Reference_ID=159;
-	/** Set Related Partner Location.
-		@param C_BPartnerRelation_Location_ID 
-		Location of the related Business Partner
-	  */
-	public void setC_BPartnerRelation_Location_ID (int C_BPartnerRelation_Location_ID)
-	{
-		if (C_BPartnerRelation_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartnerRelation_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartnerRelation_Location_ID, Integer.valueOf(C_BPartnerRelation_Location_ID));
-	}
-
-	/** Get Related Partner Location.
-		@return Location of the related Business Partner
-	  */
-	public int getC_BPartnerRelation_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerRelation_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_BPartner getC_BPartner() throws Exception 
     {
@@ -228,18 +158,82 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 		return ii.intValue();
 	}
 
+	/** C_BPartnerRelation_ID AD_Reference_ID=138 */
+	public static final int C_BPARTNERRELATION_ID_AD_Reference_ID=138;
+	/** Set Related Partner.
+		@param C_BPartnerRelation_ID 
+		Related Business Partner
+	  */
+	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID)
+	{
+		if (C_BPartnerRelation_ID < 1)
+			 throw new IllegalArgumentException ("C_BPartnerRelation_ID is mandatory.");
+		set_Value (COLUMNNAME_C_BPartnerRelation_ID, Integer.valueOf(C_BPartnerRelation_ID));
+	}
+
+	/** Get Related Partner.
+		@return Related Business Partner
+	  */
+	public int getC_BPartnerRelation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerRelation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** C_BPartnerRelation_Location_ID AD_Reference_ID=159 */
+	public static final int C_BPARTNERRELATION_LOCATION_ID_AD_Reference_ID=159;
+	/** Set Related Partner Location.
+		@param C_BPartnerRelation_Location_ID 
+		Location of the related Business Partner
+	  */
+	public void setC_BPartnerRelation_Location_ID (int C_BPartnerRelation_Location_ID)
+	{
+		if (C_BPartnerRelation_Location_ID < 1)
+			 throw new IllegalArgumentException ("C_BPartnerRelation_Location_ID is mandatory.");
+		set_Value (COLUMNNAME_C_BPartnerRelation_Location_ID, Integer.valueOf(C_BPartnerRelation_Location_ID));
+	}
+
+	/** Get Related Partner Location.
+		@return Location of the related Business Partner
+	  */
+	public int getC_BPartnerRelation_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerRelation_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Partner Relation.
+		@param C_BP_Relation_ID 
+		Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
+	{
+		if (C_BP_Relation_ID < 1)
+			 throw new IllegalArgumentException ("C_BP_Relation_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
+	}
+
+	/** Get Partner Relation.
+		@return Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -355,12 +349,6 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

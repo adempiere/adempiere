@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent 
 {
 
@@ -79,6 +79,23 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
       return sb.toString();
     }
 
+	/** Set Calculation Class.
+		@param CalculationClass 
+		Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass)
+	{
+		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
+	}
+
+	/** Get Calculation Class.
+		@return Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationClass);
+	}
+
 	public I_C_ProjectType getC_ProjectType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectType.Table_Name);
@@ -118,41 +135,12 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Calculation Class.
-		@param CalculationClass 
-		Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass)
-	{
-
-		if (CalculationClass != null && CalculationClass.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			CalculationClass = CalculationClass.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
-	}
-
-	/** Get Calculation Class.
-		@return Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationClass);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -190,12 +178,6 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setManualNote (String ManualNote)
 	{
-
-		if (ManualNote != null && ManualNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ManualNote = ManualNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ManualNote, ManualNote);
 	}
 
@@ -220,13 +202,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	public void setMeasureDataType (String MeasureDataType)
 	{
 		if (MeasureDataType == null) throw new IllegalArgumentException ("MeasureDataType is mandatory");
-		if (MeasureDataType.equals("T") || MeasureDataType.equals("S")); else throw new IllegalArgumentException ("MeasureDataType Invalid value - " + MeasureDataType + " - Reference_ID=369 - T - S");
-		if (MeasureDataType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MeasureDataType = MeasureDataType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MeasureDataType, MeasureDataType);
+		if (MeasureDataType.equals("T") || MeasureDataType.equals("S")); else throw new IllegalArgumentException ("MeasureDataType Invalid value - " + MeasureDataType + " - Reference_ID=369 - T - S");		set_Value (COLUMNNAME_MeasureDataType, MeasureDataType);
 	}
 
 	/** Get Measure Data Type.
@@ -260,13 +236,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	public void setMeasureType (String MeasureType)
 	{
 		if (MeasureType == null) throw new IllegalArgumentException ("MeasureType is mandatory");
-		if (MeasureType.equals("M") || MeasureType.equals("C") || MeasureType.equals("A") || MeasureType.equals("U") || MeasureType.equals("R") || MeasureType.equals("Q") || MeasureType.equals("P")); else throw new IllegalArgumentException ("MeasureType Invalid value - " + MeasureType + " - Reference_ID=231 - M - C - A - U - R - Q - P");
-		if (MeasureType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MeasureType = MeasureType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MeasureType, MeasureType);
+		if (MeasureType.equals("M") || MeasureType.equals("C") || MeasureType.equals("A") || MeasureType.equals("U") || MeasureType.equals("R") || MeasureType.equals("Q") || MeasureType.equals("P")); else throw new IllegalArgumentException ("MeasureType Invalid value - " + MeasureType + " - Reference_ID=231 - M - C - A - U - R - Q - P");		set_Value (COLUMNNAME_MeasureType, MeasureType);
 	}
 
 	/** Get Measure Type.
@@ -285,12 +255,6 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

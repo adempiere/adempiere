@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent 
 {
 
@@ -220,12 +220,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -326,13 +320,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public void setMeasureDisplay (String MeasureDisplay)
 	{
 
-		if (MeasureDisplay == null || MeasureDisplay.equals("1") || MeasureDisplay.equals("3") || MeasureDisplay.equals("5") || MeasureDisplay.equals("0") || MeasureDisplay.equals("7") || MeasureDisplay.equals("8")); else throw new IllegalArgumentException ("MeasureDisplay Invalid value - " + MeasureDisplay + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");
-		if (MeasureDisplay != null && MeasureDisplay.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MeasureDisplay = MeasureDisplay.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MeasureDisplay, MeasureDisplay);
+		if (MeasureDisplay == null || MeasureDisplay.equals("1") || MeasureDisplay.equals("3") || MeasureDisplay.equals("5") || MeasureDisplay.equals("0") || MeasureDisplay.equals("7") || MeasureDisplay.equals("8")); else throw new IllegalArgumentException ("MeasureDisplay Invalid value - " + MeasureDisplay + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");		set_Value (COLUMNNAME_MeasureDisplay, MeasureDisplay);
 	}
 
 	/** Get Measure Display.
@@ -364,13 +352,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public void setMeasureScope (String MeasureScope)
 	{
 		if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is mandatory");
-		if (MeasureScope.equals("1") || MeasureScope.equals("3") || MeasureScope.equals("5") || MeasureScope.equals("0") || MeasureScope.equals("7") || MeasureScope.equals("8")); else throw new IllegalArgumentException ("MeasureScope Invalid value - " + MeasureScope + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");
-		if (MeasureScope.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MeasureScope = MeasureScope.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MeasureScope, MeasureScope);
+		if (MeasureScope.equals("1") || MeasureScope.equals("3") || MeasureScope.equals("5") || MeasureScope.equals("0") || MeasureScope.equals("7") || MeasureScope.equals("8")); else throw new IllegalArgumentException ("MeasureScope Invalid value - " + MeasureScope + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");		set_Value (COLUMNNAME_MeasureScope, MeasureScope);
 	}
 
 	/** Get Measure Scope.
@@ -411,12 +393,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -442,12 +418,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setNote (String Note)
 	{
-
-		if (Note != null && Note.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
 
@@ -497,6 +467,28 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Goal.
+		@param PA_Goal_ID 
+		Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID)
+	{
+		if (PA_Goal_ID < 1)
+			 throw new IllegalArgumentException ("PA_Goal_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
+	}
+
+	/** Get Goal.
+		@return Performance Goal
+	  */
+	public int getPA_Goal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** PA_GoalParent_ID AD_Reference_ID=230 */
 	public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
 	/** Set Parent Goal.
@@ -517,28 +509,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public int getPA_GoalParent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalParent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Goal.
-		@param PA_Goal_ID 
-		Performance Goal
-	  */
-	public void setPA_Goal_ID (int PA_Goal_ID)
-	{
-		if (PA_Goal_ID < 1)
-			 throw new IllegalArgumentException ("PA_Goal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
-	}
-
-	/** Get Goal.
-		@return Performance Goal
-	  */
-	public int getPA_Goal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

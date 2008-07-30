@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent 
 {
 
@@ -205,12 +205,6 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -342,12 +336,6 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -452,13 +440,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	public void setPriorityBase (String PriorityBase)
 	{
 
-		if (PriorityBase == null || PriorityBase.equals("S") || PriorityBase.equals("L") || PriorityBase.equals("H")); else throw new IllegalArgumentException ("PriorityBase Invalid value - " + PriorityBase + " - Reference_ID=350 - S - L - H");
-		if (PriorityBase != null && PriorityBase.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PriorityBase = PriorityBase.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PriorityBase, PriorityBase);
+		if (PriorityBase == null || PriorityBase.equals("S") || PriorityBase.equals("L") || PriorityBase.equals("H")); else throw new IllegalArgumentException ("PriorityBase Invalid value - " + PriorityBase + " - Reference_ID=350 - S - L - H");		set_Value (COLUMNNAME_PriorityBase, PriorityBase);
 	}
 
 	/** Get Priority Base.
@@ -477,12 +459,6 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

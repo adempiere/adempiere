@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
@@ -304,12 +304,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setComments (String Comments)
 	{
-
-		if (Comments != null && Comments.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Comments = Comments.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Comments, Comments);
 	}
 
@@ -338,13 +332,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public void setConnectionProfile (String ConnectionProfile)
 	{
 
-		if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");
-		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConnectionProfile = ConnectionProfile.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConnectionProfile, ConnectionProfile);
+		if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");		set_Value (COLUMNNAME_ConnectionProfile, ConnectionProfile);
 	}
 
 	/** Get Connection Profile.
@@ -361,12 +349,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -384,12 +366,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -407,12 +383,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setEMailUser (String EMailUser)
 	{
-
-		if (EMailUser != null && EMailUser.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMailUser = EMailUser.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMailUser, EMailUser);
 	}
 
@@ -430,12 +400,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setEMailUserPW (String EMailUserPW)
 	{
-
-		if (EMailUserPW != null && EMailUserPW.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			EMailUserPW = EMailUserPW.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_EMailUserPW, EMailUserPW);
 	}
 
@@ -453,12 +417,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setEMailVerify (String EMailVerify)
 	{
-
-		if (EMailVerify != null && EMailVerify.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EMailVerify = EMailVerify.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_EMailVerify, EMailVerify);
 	}
 
@@ -493,12 +451,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setFax (String Fax)
 	{
-
-		if (Fax != null && Fax.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Fax, Fax);
 	}
 
@@ -534,27 +486,28 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
-	/** Set LDAP User Name.
-		@param LDAPUser 
-		User Name used for authorization via LDAP (directory) services
+	/** Set Is In Payroll.
+		@param IsInPayroll 
+		Defined if any User Contact will be used for Calculate Payroll
 	  */
-	public void setLDAPUser (String LDAPUser)
+	public void setIsInPayroll (boolean IsInPayroll)
 	{
-
-		if (LDAPUser != null && LDAPUser.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			LDAPUser = LDAPUser.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
+		set_Value (COLUMNNAME_IsInPayroll, Boolean.valueOf(IsInPayroll));
 	}
 
-	/** Get LDAP User Name.
-		@return User Name used for authorization via LDAP (directory) services
+	/** Get Is In Payroll.
+		@return Defined if any User Contact will be used for Calculate Payroll
 	  */
-	public String getLDAPUser () 
+	public boolean isInPayroll () 
 	{
-		return (String)get_Value(COLUMNNAME_LDAPUser);
+		Object oo = get_Value(COLUMNNAME_IsInPayroll);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Last Contact.
@@ -580,12 +533,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setLastResult (String LastResult)
 	{
-
-		if (LastResult != null && LastResult.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			LastResult = LastResult.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_LastResult, LastResult);
 	}
 
@@ -597,6 +544,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return (String)get_Value(COLUMNNAME_LastResult);
 	}
 
+	/** Set LDAP User Name.
+		@param LDAPUser 
+		User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser)
+	{
+		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
+	}
+
+	/** Get LDAP User Name.
+		@return User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser () 
+	{
+		return (String)get_Value(COLUMNNAME_LDAPUser);
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -605,12 +569,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -647,13 +605,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public void setNotificationType (String NotificationType)
 	{
 		if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");
-		if (NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X") || NotificationType.equals("B")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - E - N - X - B");
-		if (NotificationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			NotificationType = NotificationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_NotificationType, NotificationType);
+		if (NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X") || NotificationType.equals("B")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - E - N - X - B");		set_Value (COLUMNNAME_NotificationType, NotificationType);
 	}
 
 	/** Get Notification Type.
@@ -670,12 +622,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setPassword (String Password)
 	{
-
-		if (Password != null && Password.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Password = Password.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
 
@@ -693,12 +639,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setPhone (String Phone)
 	{
-
-		if (Phone != null && Phone.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
 
@@ -716,12 +656,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setPhone2 (String Phone2)
 	{
-
-		if (Phone2 != null && Phone2.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone2, Phone2);
 	}
 
@@ -785,12 +719,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
-
-		if (Title != null && Title.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Title = Title.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Title, Title);
 	}
 
@@ -806,12 +734,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		@param UserPIN UserPIN	  */
 	public void setUserPIN (String UserPIN)
 	{
-
-		if (UserPIN != null && UserPIN.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			UserPIN = UserPIN.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_UserPIN, UserPIN);
 	}
 
@@ -828,12 +750,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

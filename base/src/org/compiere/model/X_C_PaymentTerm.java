@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent 
 {
 
@@ -43,9 +43,9 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 			setAfterDelivery (false);
 			setC_PaymentTerm_ID (0);
 			setDiscount (Env.ZERO);
-			setDiscount2 (Env.ZERO);
 			setDiscountDays (0);
 			setDiscountDays2 (0);
+			setDiscount2 (Env.ZERO);
 			setGraceDays (0);
 			setIsDueFixed (false);
 			setIsValid (false);
@@ -135,12 +135,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -169,28 +163,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	public BigDecimal getDiscount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Discount 2 %.
-		@param Discount2 
-		Discount in percent
-	  */
-	public void setDiscount2 (BigDecimal Discount2)
-	{
-		if (Discount2 == null)
-			throw new IllegalArgumentException ("Discount2 is mandatory.");
-		set_Value (COLUMNNAME_Discount2, Discount2);
-	}
-
-	/** Get Discount 2 %.
-		@return Discount in percent
-	  */
-	public BigDecimal getDiscount2 () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount2);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -236,18 +208,34 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Discount 2 %.
+		@param Discount2 
+		Discount in percent
+	  */
+	public void setDiscount2 (BigDecimal Discount2)
+	{
+		if (Discount2 == null)
+			throw new IllegalArgumentException ("Discount2 is mandatory.");
+		set_Value (COLUMNNAME_Discount2, Discount2);
+	}
+
+	/** Get Discount 2 %.
+		@return Discount in percent
+	  */
+	public BigDecimal getDiscount2 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount2);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Document Note.
 		@param DocumentNote 
 		Additional information for a Document
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
-
-		if (DocumentNote != null && DocumentNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
 
@@ -443,12 +431,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -491,13 +473,7 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	public void setNetDay (String NetDay)
 	{
 
-		if (NetDay == null || NetDay.equals("7") || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6")); else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
-		if (NetDay != null && NetDay.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			NetDay = NetDay.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_NetDay, NetDay);
+		if (NetDay == null || NetDay.equals("7") || NetDay.equals("1") || NetDay.equals("2") || NetDay.equals("3") || NetDay.equals("4") || NetDay.equals("5") || NetDay.equals("6")); else throw new IllegalArgumentException ("NetDay Invalid value - " + NetDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_NetDay, NetDay);
 	}
 
 	/** Get Net Day.
@@ -557,12 +533,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

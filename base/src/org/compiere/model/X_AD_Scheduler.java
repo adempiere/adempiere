@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Scheduler
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent 
 {
 
@@ -182,12 +182,6 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -234,13 +228,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");
-		if (FrequencyType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.
@@ -299,12 +287,6 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -360,13 +342,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public void setScheduleType (String ScheduleType)
 	{
 		if (ScheduleType == null) throw new IllegalArgumentException ("ScheduleType is mandatory");
-		if (ScheduleType.equals("F") || ScheduleType.equals("W") || ScheduleType.equals("M")); else throw new IllegalArgumentException ("ScheduleType Invalid value - " + ScheduleType + " - Reference_ID=318 - F - W - M");
-		if (ScheduleType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ScheduleType = ScheduleType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
+		if (ScheduleType.equals("F") || ScheduleType.equals("W") || ScheduleType.equals("M")); else throw new IllegalArgumentException ("ScheduleType Invalid value - " + ScheduleType + " - Reference_ID=318 - F - W - M");		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
 	}
 
 	/** Get Schedule Type.
@@ -424,13 +400,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public void setWeekDay (String WeekDay)
 	{
 
-		if (WeekDay == null || WeekDay.equals("7") || WeekDay.equals("1") || WeekDay.equals("2") || WeekDay.equals("3") || WeekDay.equals("4") || WeekDay.equals("5") || WeekDay.equals("6")); else throw new IllegalArgumentException ("WeekDay Invalid value - " + WeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
-		if (WeekDay != null && WeekDay.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			WeekDay = WeekDay.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_WeekDay, WeekDay);
+		if (WeekDay == null || WeekDay.equals("7") || WeekDay.equals("1") || WeekDay.equals("2") || WeekDay.equals("3") || WeekDay.equals("4") || WeekDay.equals("5") || WeekDay.equals("6")); else throw new IllegalArgumentException ("WeekDay Invalid value - " + WeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_WeekDay, WeekDay);
 	}
 
 	/** Get Day of the Week.

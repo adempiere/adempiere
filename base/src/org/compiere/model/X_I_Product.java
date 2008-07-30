@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_Product extends PO implements I_I_Product, I_Persistent 
 {
 
@@ -82,12 +82,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setBPartner_Value (String BPartner_Value)
 	{
-
-		if (BPartner_Value != null && BPartner_Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			BPartner_Value = BPartner_Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_BPartner_Value, BPartner_Value);
 	}
 
@@ -177,6 +171,43 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Classification.
+		@param Classification 
+		Classification for grouping
+	  */
+	public void setClassification (String Classification)
+	{
+		set_Value (COLUMNNAME_Classification, Classification);
+	}
+
+	/** Get Classification.
+		@return Classification for grouping
+	  */
+	public String getClassification () 
+	{
+		return (String)get_Value(COLUMNNAME_Classification);
+	}
+
+	/** Set Cost per Order.
+		@param CostPerOrder 
+		Fixed Cost Per Order
+	  */
+	public void setCostPerOrder (BigDecimal CostPerOrder)
+	{
+		set_Value (COLUMNNAME_CostPerOrder, CostPerOrder);
+	}
+
+	/** Get Cost per Order.
+		@return Fixed Cost Per Order
+	  */
+	public BigDecimal getCostPerOrder () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostPerOrder);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
@@ -216,49 +247,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Classification.
-		@param Classification 
-		Classification for grouping
-	  */
-	public void setClassification (String Classification)
-	{
-
-		if (Classification != null && Classification.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Classification = Classification.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Classification, Classification);
-	}
-
-	/** Get Classification.
-		@return Classification for grouping
-	  */
-	public String getClassification () 
-	{
-		return (String)get_Value(COLUMNNAME_Classification);
-	}
-
-	/** Set Cost per Order.
-		@param CostPerOrder 
-		Fixed Cost Per Order
-	  */
-	public void setCostPerOrder (BigDecimal CostPerOrder)
-	{
-		set_Value (COLUMNNAME_CostPerOrder, CostPerOrder);
-	}
-
-	/** Get Cost per Order.
-		@return Fixed Cost Per Order
-	  */
-	public BigDecimal getCostPerOrder () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostPerOrder);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Promised Delivery Time.
 		@param DeliveryTime_Promised 
 		Promised days between order and delivery
@@ -285,12 +273,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -308,12 +290,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
-
-		if (DescriptionURL != null && DescriptionURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
 
@@ -372,12 +348,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
-
-		if (DocumentNote != null && DocumentNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
 
@@ -395,12 +365,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -412,41 +376,12 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-
-		if (ISO_Code != null && ISO_Code.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
 	/** Set Import Error Message.
 		@param I_ErrorMsg 
 		Messages generated from import process
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -482,6 +417,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return false;
 	}
 
+	/** Set Image URL.
+		@param ImageURL 
+		URL of  image
+	  */
+	public void setImageURL (String ImageURL)
+	{
+		set_Value (COLUMNNAME_ImageURL, ImageURL);
+	}
+
+	/** Get Image URL.
+		@return URL of  image
+	  */
+	public String getImageURL () 
+	{
+		return (String)get_Value(COLUMNNAME_ImageURL);
+	}
+
 	/** Set Import Product.
 		@param I_Product_ID 
 		Import Item or Service
@@ -504,27 +456,38 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Image URL.
-		@param ImageURL 
-		URL of  image
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
 	  */
-	public void setImageURL (String ImageURL)
+	public void setISO_Code (String ISO_Code)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
-		set_Value (COLUMNNAME_ImageURL, ImageURL);
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
 
-	/** Get Image URL.
-		@return URL of  image
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
 	  */
-	public String getImageURL () 
+	public String getISO_Code () 
 	{
-		return (String)get_Value(COLUMNNAME_ImageURL);
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	public I_M_Product_Category getM_Product_Category() throws Exception 
@@ -605,41 +568,12 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-
-		if (Manufacturer != null && Manufacturer.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Manufacturer = Manufacturer.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -837,12 +771,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		@param ProductCategory_Value Product Category Key	  */
 	public void setProductCategory_Value (String ProductCategory_Value)
 	{
-
-		if (ProductCategory_Value != null && ProductCategory_Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ProductCategory_Value = ProductCategory_Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ProductCategory_Value, ProductCategory_Value);
 	}
 
@@ -872,13 +800,7 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	public void setProductType (String ProductType)
 	{
 
-		if (ProductType == null || ProductType.equals("I") || ProductType.equals("S") || ProductType.equals("R") || ProductType.equals("E") || ProductType.equals("O")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - I - S - R - E - O");
-		if (ProductType != null && ProductType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProductType = ProductType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ProductType, ProductType);
+		if (ProductType == null || ProductType.equals("I") || ProductType.equals("S") || ProductType.equals("R") || ProductType.equals("E") || ProductType.equals("O")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - I - S - R - E - O");		set_Value (COLUMNNAME_ProductType, ProductType);
 	}
 
 	/** Get Product Type.
@@ -907,29 +829,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set SKU.
-		@param SKU 
-		Stock Keeping Unit
-	  */
-	public void setSKU (String SKU)
-	{
-
-		if (SKU != null && SKU.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_SKU, SKU);
-	}
-
-	/** Get SKU.
-		@return Stock Keeping Unit
-	  */
-	public String getSKU () 
-	{
-		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
 	/** Set Shelf Depth.
@@ -992,27 +891,21 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set UPC/EAN.
-		@param UPC 
-		Bar Code (Universal Product Code or its superset European Article Number)
+	/** Set SKU.
+		@param SKU 
+		Stock Keeping Unit
 	  */
-	public void setUPC (String UPC)
+	public void setSKU (String SKU)
 	{
-
-		if (UPC != null && UPC.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_UPC, UPC);
+		set_Value (COLUMNNAME_SKU, SKU);
 	}
 
-	/** Get UPC/EAN.
-		@return Bar Code (Universal Product Code or its superset European Article Number)
+	/** Get SKU.
+		@return Stock Keeping Unit
 	  */
-	public String getUPC () 
+	public String getSKU () 
 	{
-		return (String)get_Value(COLUMNNAME_UPC);
+		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
 	/** Set Units Per Pallet.
@@ -1035,18 +928,29 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set UPC/EAN.
+		@param UPC 
+		Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public void setUPC (String UPC)
+	{
+		set_Value (COLUMNNAME_UPC, UPC);
+	}
+
+	/** Get UPC/EAN.
+		@return Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public String getUPC () 
+	{
+		return (String)get_Value(COLUMNNAME_UPC);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1072,12 +976,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setVendorCategory (String VendorCategory)
 	{
-
-		if (VendorCategory != null && VendorCategory.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			VendorCategory = VendorCategory.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_VendorCategory, VendorCategory);
 	}
 
@@ -1095,12 +993,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setVendorProductNo (String VendorProductNo)
 	{
-
-		if (VendorProductNo != null && VendorProductNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			VendorProductNo = VendorProductNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_VendorProductNo, VendorProductNo);
 	}
 
@@ -1158,12 +1050,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setX12DE355 (String X12DE355)
 	{
-
-		if (X12DE355 != null && X12DE355.length() > 4)
-		{
-			log.warning("Length > 4 - truncated");
-			X12DE355 = X12DE355.substring(0, 4);
-		}
 		set_Value (COLUMNNAME_X12DE355, X12DE355);
 	}
 

@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Goal
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_PA_Goal 
 {
@@ -258,19 +254,6 @@ public interface I_PA_Goal
 
 	public I_PA_ColorSchema getPA_ColorSchema() throws Exception;
 
-    /** Column name PA_GoalParent_ID */
-    public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
-
-	/** Set Parent Goal.
-	  * Parent Goal
-	  */
-	public void setPA_GoalParent_ID (int PA_GoalParent_ID);
-
-	/** Get Parent Goal.
-	  * Parent Goal
-	  */
-	public int getPA_GoalParent_ID();
-
     /** Column name PA_Goal_ID */
     public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
 
@@ -283,6 +266,19 @@ public interface I_PA_Goal
 	  * Performance Goal
 	  */
 	public int getPA_Goal_ID();
+
+    /** Column name PA_GoalParent_ID */
+    public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
+
+	/** Set Parent Goal.
+	  * Parent Goal
+	  */
+	public void setPA_GoalParent_ID (int PA_GoalParent_ID);
+
+	/** Get Parent Goal.
+	  * Parent Goal
+	  */
+	public int getPA_GoalParent_ID();
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";

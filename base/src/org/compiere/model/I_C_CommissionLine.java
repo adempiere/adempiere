@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_CommissionLine 
 {
@@ -82,21 +78,6 @@ public interface I_C_CommissionLine
 	  */
 	public BigDecimal getAmtSubtract();
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public I_C_BP_Group getC_BP_Group() throws Exception;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -112,18 +93,20 @@ public interface I_C_CommissionLine
 
 	public I_C_BPartner getC_BPartner() throws Exception;
 
-    /** Column name C_CommissionLine_ID */
-    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
-	/** Set Commission Line.
-	  * Commission Line
+	/** Set Business Partner Group.
+	  * Business Partner Group
 	  */
-	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
 
-	/** Get Commission Line.
-	  * Commission Line
+	/** Get Business Partner Group.
+	  * Business Partner Group
 	  */
-	public int getC_CommissionLine_ID();
+	public int getC_BP_Group_ID();
+
+	public I_C_BP_Group getC_BP_Group() throws Exception;
 
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
@@ -140,6 +123,32 @@ public interface I_C_CommissionLine
 
 	public I_C_Commission getC_Commission() throws Exception;
 
+    /** Column name C_CommissionLine_ID */
+    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
+
+	/** Set Commission Line.
+	  * Commission Line
+	  */
+	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
+
+	/** Get Commission Line.
+	  * Commission Line
+	  */
+	public int getC_CommissionLine_ID();
+
+    /** Column name CommissionOrders */
+    public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
+
+	/** Set Commission only specified Orders.
+	  * Commission only Orders or Invoices, where this Sales Rep is entered
+	  */
+	public void setCommissionOrders (boolean CommissionOrders);
+
+	/** Get Commission only specified Orders.
+	  * Commission only Orders or Invoices, where this Sales Rep is entered
+	  */
+	public boolean isCommissionOrders();
+
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -154,19 +163,6 @@ public interface I_C_CommissionLine
 	public int getC_SalesRegion_ID();
 
 	public I_C_SalesRegion getC_SalesRegion() throws Exception;
-
-    /** Column name CommissionOrders */
-    public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
-
-	/** Set Commission only specified Orders.
-	  * Commission only Orders or Invoices, where this Sales Rep is entered
-	  */
-	public void setCommissionOrders (boolean CommissionOrders);
-
-	/** Get Commission only specified Orders.
-	  * Commission only Orders or Invoices, where this Sales Rep is entered
-	  */
-	public boolean isCommissionOrders();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_JobAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persistent 
 {
 
@@ -44,7 +44,7 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 			setAD_User_ID (0);
 			setC_JobAssignment_ID (0);
 			setC_Job_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -188,12 +188,6 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

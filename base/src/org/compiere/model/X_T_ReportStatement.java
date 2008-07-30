@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Persistent 
 {
 
@@ -44,7 +44,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
       /** if (T_ReportStatement_ID == 0)
         {
 			setAD_PInstance_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 			setFact_Acct_ID (0);
 			setLevelNo (0);
         } */
@@ -198,12 +198,6 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_ValueNoCheck (COLUMNNAME_Description, Description);
 	}
 
@@ -273,12 +267,6 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}
 

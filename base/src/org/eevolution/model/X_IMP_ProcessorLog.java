@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_ProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
       super (ctx, IMP_ProcessorLog_ID, trxName);
       /** if (IMP_ProcessorLog_ID == 0)
         {
-			setIMP_ProcessorLog_ID (0);
 			setIMP_Processor_ID (0);
+			setIMP_ProcessorLog_ID (0);
 			setIsError (true);
 // 'Y'
         } */
@@ -98,12 +98,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -121,12 +115,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -136,25 +124,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
-	}
-
-	/** Set IMP_ProcessorLog_ID.
-		@param IMP_ProcessorLog_ID IMP_ProcessorLog_ID	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
-	{
-		if (IMP_ProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("IMP_ProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
-	}
-
-	/** Get IMP_ProcessorLog_ID.
-		@return IMP_ProcessorLog_ID	  */
-	public int getIMP_ProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorLog_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws Exception 
@@ -192,6 +161,25 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set IMP_ProcessorLog_ID.
+		@param IMP_ProcessorLog_ID IMP_ProcessorLog_ID	  */
+	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
+	{
+		if (IMP_ProcessorLog_ID < 1)
+			 throw new IllegalArgumentException ("IMP_ProcessorLog_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
+	}
+
+	/** Get IMP_ProcessorLog_ID.
+		@return IMP_ProcessorLog_ID	  */
+	public int getIMP_ProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Error.
 		@param IsError 
 		An Error occured in the execution
@@ -222,12 +210,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	  */
 	public void setReference (String Reference)
 	{
-
-		if (Reference != null && Reference.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
 
@@ -245,12 +227,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	  */
 	public void setSummary (String Summary)
 	{
-
-		if (Summary != null && Summary.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
 
@@ -268,12 +244,6 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

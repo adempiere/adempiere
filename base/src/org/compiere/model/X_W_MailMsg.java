@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_MailMsg
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent 
 {
 
@@ -83,12 +83,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -127,13 +121,7 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	public void setMailMsgType (String MailMsgType)
 	{
 		if (MailMsgType == null) throw new IllegalArgumentException ("MailMsgType is mandatory");
-		if (MailMsgType.equals("OA") || MailMsgType.equals("PA") || MailMsgType.equals("PE") || MailMsgType.equals("UV") || MailMsgType.equals("UP") || MailMsgType.equals("LS") || MailMsgType.equals("LU") || MailMsgType.equals("UA") || MailMsgType.equals("WR")); else throw new IllegalArgumentException ("MailMsgType Invalid value - " + MailMsgType + " - Reference_ID=342 - OA - PA - PE - UV - UP - LS - LU - UA - WR");
-		if (MailMsgType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			MailMsgType = MailMsgType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_MailMsgType, MailMsgType);
+		if (MailMsgType.equals("OA") || MailMsgType.equals("PA") || MailMsgType.equals("PE") || MailMsgType.equals("UV") || MailMsgType.equals("UP") || MailMsgType.equals("LS") || MailMsgType.equals("LU") || MailMsgType.equals("UA") || MailMsgType.equals("WR")); else throw new IllegalArgumentException ("MailMsgType Invalid value - " + MailMsgType + " - Reference_ID=342 - OA - PA - PE - UV - UP - LS - LU - UA - WR");		set_Value (COLUMNNAME_MailMsgType, MailMsgType);
 	}
 
 	/** Get Message Type.
@@ -152,12 +140,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	{
 		if (Message == null)
 			throw new IllegalArgumentException ("Message is mandatory.");
-
-		if (Message.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Message = Message.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Message, Message);
 	}
 
@@ -175,12 +157,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setMessage2 (String Message2)
 	{
-
-		if (Message2 != null && Message2.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Message2 = Message2.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Message2, Message2);
 	}
 
@@ -198,12 +174,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setMessage3 (String Message3)
 	{
-
-		if (Message3 != null && Message3.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Message3 = Message3.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Message3, Message3);
 	}
 
@@ -223,12 +193,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -256,12 +220,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	{
 		if (Subject == null)
 			throw new IllegalArgumentException ("Subject is mandatory.");
-
-		if (Subject.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Subject = Subject.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Subject, Subject);
 	}
 

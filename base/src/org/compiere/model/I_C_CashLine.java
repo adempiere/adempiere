@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CashLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_CashLine 
 {
@@ -69,6 +65,19 @@ public interface I_C_CashLine
 	  */
 	public BigDecimal getAmount();
 
+    /** Column name CashType */
+    public static final String COLUMNNAME_CashType = "CashType";
+
+	/** Set Cash Type.
+	  * Source of Cash
+	  */
+	public void setCashType (String CashType);
+
+	/** Get Cash Type.
+	  * Source of Cash
+	  */
+	public String getCashType();
+
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
@@ -84,19 +93,6 @@ public interface I_C_CashLine
 
 	public I_C_BankAccount getC_BankAccount() throws Exception;
 
-    /** Column name C_CashLine_ID */
-    public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
-
-	/** Set Cash Journal Line.
-	  * Cash Journal Line
-	  */
-	public void setC_CashLine_ID (int C_CashLine_ID);
-
-	/** Get Cash Journal Line.
-	  * Cash Journal Line
-	  */
-	public int getC_CashLine_ID();
-
     /** Column name C_Cash_ID */
     public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
 
@@ -111,6 +107,19 @@ public interface I_C_CashLine
 	public int getC_Cash_ID();
 
 	public I_C_Cash getC_Cash() throws Exception;
+
+    /** Column name C_CashLine_ID */
+    public static final String COLUMNNAME_C_CashLine_ID = "C_CashLine_ID";
+
+	/** Set Cash Journal Line.
+	  * Cash Journal Line
+	  */
+	public void setC_CashLine_ID (int C_CashLine_ID);
+
+	/** Get Cash Journal Line.
+	  * Cash Journal Line
+	  */
+	public int getC_CashLine_ID();
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -171,19 +180,6 @@ public interface I_C_CashLine
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws Exception;
-
-    /** Column name CashType */
-    public static final String COLUMNNAME_CashType = "CashType";
-
-	/** Set Cash Type.
-	  * Source of Cash
-	  */
-	public void setCashType (String CashType);
-
-	/** Get Cash Type.
-	  * Source of Cash
-	  */
-	public String getCashType();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

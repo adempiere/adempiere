@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_CostElement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent 
 {
 
@@ -92,13 +92,7 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	public void setCostElementType (String CostElementType)
 	{
 		if (CostElementType == null) throw new IllegalArgumentException ("CostElementType is mandatory");
-		if (CostElementType.equals("M") || CostElementType.equals("O") || CostElementType.equals("B") || CostElementType.equals("X") || CostElementType.equals("R")); else throw new IllegalArgumentException ("CostElementType Invalid value - " + CostElementType + " - Reference_ID=338 - M - O - B - X - R");
-		if (CostElementType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CostElementType = CostElementType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CostElementType, CostElementType);
+		if (CostElementType.equals("M") || CostElementType.equals("O") || CostElementType.equals("B") || CostElementType.equals("X") || CostElementType.equals("R")); else throw new IllegalArgumentException ("CostElementType Invalid value - " + CostElementType + " - Reference_ID=338 - M - O - B - X - R");		set_Value (COLUMNNAME_CostElementType, CostElementType);
 	}
 
 	/** Get Cost Element Type.
@@ -136,13 +130,7 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 
-		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
-		if (CostingMethod != null && CostingMethod.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CostingMethod = CostingMethod.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
 	/** Get Costing Method.
@@ -159,12 +147,6 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -230,12 +212,6 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

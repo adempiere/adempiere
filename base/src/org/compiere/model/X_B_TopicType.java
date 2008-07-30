@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_TopicType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 			setAuctionType (null);
 			setB_TopicType_ID (0);
 			setM_PriceList_ID (0);
-			setM_ProductMember_ID (0);
 			setM_Product_ID (0);
+			setM_ProductMember_ID (0);
 			setName (null);
         } */
     }
@@ -83,12 +83,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	{
 		if (AuctionType == null)
 			throw new IllegalArgumentException ("AuctionType is mandatory.");
-
-		if (AuctionType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AuctionType = AuctionType.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_AuctionType, AuctionType);
 	}
 
@@ -127,12 +121,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -150,12 +138,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -205,30 +187,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_ProductMember_ID AD_Reference_ID=162 */
-	public static final int M_PRODUCTMEMBER_ID_AD_Reference_ID=162;
-	/** Set Membership.
-		@param M_ProductMember_ID 
-		Product used to deternine the price of the membership for the topic type
-	  */
-	public void setM_ProductMember_ID (int M_ProductMember_ID)
-	{
-		if (M_ProductMember_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductMember_ID is mandatory.");
-		set_Value (COLUMNNAME_M_ProductMember_ID, Integer.valueOf(M_ProductMember_ID));
-	}
-
-	/** Get Membership.
-		@return Product used to deternine the price of the membership for the topic type
-	  */
-	public int getM_ProductMember_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductMember_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -267,6 +225,30 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 		return ii.intValue();
 	}
 
+	/** M_ProductMember_ID AD_Reference_ID=162 */
+	public static final int M_PRODUCTMEMBER_ID_AD_Reference_ID=162;
+	/** Set Membership.
+		@param M_ProductMember_ID 
+		Product used to deternine the price of the membership for the topic type
+	  */
+	public void setM_ProductMember_ID (int M_ProductMember_ID)
+	{
+		if (M_ProductMember_ID < 1)
+			 throw new IllegalArgumentException ("M_ProductMember_ID is mandatory.");
+		set_Value (COLUMNNAME_M_ProductMember_ID, Integer.valueOf(M_ProductMember_ID));
+	}
+
+	/** Get Membership.
+		@return Product used to deternine the price of the membership for the topic type
+	  */
+	public int getM_ProductMember_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductMember_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -275,12 +257,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

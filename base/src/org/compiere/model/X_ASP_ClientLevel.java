@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persistent 
 {
 
@@ -168,12 +168,6 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 

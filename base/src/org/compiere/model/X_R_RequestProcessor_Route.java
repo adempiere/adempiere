@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestProcessor_Route
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcessor_Route, I_Persistent 
 {
 
@@ -119,12 +119,6 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	  */
 	public void setKeyword (String Keyword)
 	{
-
-		if (Keyword != null && Keyword.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Keyword = Keyword.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Keyword, Keyword);
 	}
 

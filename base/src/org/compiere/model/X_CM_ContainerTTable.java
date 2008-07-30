@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ContainerTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       super (ctx, CM_ContainerTTable_ID, trxName);
       /** if (CM_ContainerTTable_ID == 0)
         {
-			setCM_ContainerTTable_ID (0);
 			setCM_Container_ID (0);
+			setCM_ContainerTTable_ID (0);
 			setCM_TemplateTable_ID (0);
 			setName (null);
         } */
@@ -74,28 +74,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Container T.Table.
-		@param CM_ContainerTTable_ID 
-		Container Template Table
-	  */
-	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
-	{
-		if (CM_ContainerTTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_ContainerTTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
-	}
-
-	/** Get Container T.Table.
-		@return Container Template Table
-	  */
-	public int getCM_ContainerTTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerTTable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_CM_Container getCM_Container() throws Exception 
     {
@@ -130,6 +108,28 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	public int getCM_Container_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Container T.Table.
+		@param CM_ContainerTTable_ID 
+		Container Template Table
+	  */
+	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
+	{
+		if (CM_ContainerTTable_ID < 1)
+			 throw new IllegalArgumentException ("CM_ContainerTTable_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
+	}
+
+	/** Get Container T.Table.
+		@return Container Template Table
+	  */
+	public int getCM_ContainerTTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerTTable_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -179,12 +179,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -204,12 +198,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -235,12 +223,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setOtherClause (String OtherClause)
 	{
-
-		if (OtherClause != null && OtherClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
 
@@ -281,12 +263,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-
-		if (WhereClause != null && WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

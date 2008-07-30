@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent 
 {
 
@@ -47,8 +47,8 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_RfQResponse_ID (0);
 			setC_RfQ_ID (0);
+			setC_RfQResponse_ID (0);
 			setIsComplete (false);
 			setIsSelectedWinner (false);
 			setIsSelfService (false);
@@ -239,6 +239,20 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Check Complete.
+		@param CheckComplete Check Complete	  */
+	public void setCheckComplete (String CheckComplete)
+	{
+		set_Value (COLUMNNAME_CheckComplete, CheckComplete);
+	}
+
+	/** Get Check Complete.
+		@return Check Complete	  */
+	public String getCheckComplete () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckComplete);
+	}
+
 	public I_C_Order getC_Order() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -273,28 +287,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set RfQ Response.
-		@param C_RfQResponse_ID 
-		Request for Quotation Response from a potential Vendor
-	  */
-	public void setC_RfQResponse_ID (int C_RfQResponse_ID)
-	{
-		if (C_RfQResponse_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
-	}
-
-	/** Get RfQ Response.
-		@return Request for Quotation Response from a potential Vendor
-	  */
-	public int getC_RfQResponse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -338,24 +330,26 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Check Complete.
-		@param CheckComplete Check Complete	  */
-	public void setCheckComplete (String CheckComplete)
+	/** Set RfQ Response.
+		@param C_RfQResponse_ID 
+		Request for Quotation Response from a potential Vendor
+	  */
+	public void setC_RfQResponse_ID (int C_RfQResponse_ID)
 	{
-
-		if (CheckComplete != null && CheckComplete.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CheckComplete = CheckComplete.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CheckComplete, CheckComplete);
+		if (C_RfQResponse_ID < 1)
+			 throw new IllegalArgumentException ("C_RfQResponse_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
 	}
 
-	/** Get Check Complete.
-		@return Check Complete	  */
-	public String getCheckComplete () 
+	/** Get RfQ Response.
+		@return Request for Quotation Response from a potential Vendor
+	  */
+	public int getC_RfQResponse_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CheckComplete);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Invited.
@@ -452,12 +446,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -475,12 +463,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -572,12 +554,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

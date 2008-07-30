@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReportView_Col
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Persistent 
 {
 
@@ -187,12 +187,6 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 	{
 		if (FunctionColumn == null)
 			throw new IllegalArgumentException ("FunctionColumn is mandatory.");
-
-		if (FunctionColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			FunctionColumn = FunctionColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_FunctionColumn, FunctionColumn);
 	}
 

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_City
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_City extends PO implements I_C_City, I_Persistent 
 {
 
@@ -79,12 +79,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	  */
 	public void setAreaCode (String AreaCode)
 	{
-
-		if (AreaCode != null && AreaCode.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			AreaCode = AreaCode.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_AreaCode, AreaCode);
 	}
 
@@ -157,6 +151,23 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Coordinates.
+		@param Coordinates 
+		Location coordinate
+	  */
+	public void setCoordinates (String Coordinates)
+	{
+		set_Value (COLUMNNAME_Coordinates, Coordinates);
+	}
+
+	/** Get Coordinates.
+		@return Location coordinate
+	  */
+	public String getCoordinates () 
+	{
+		return (String)get_Value(COLUMNNAME_Coordinates);
+	}
+
 	/** C_Region_ID AD_Reference_ID=157 */
 	public static final int C_REGION_ID_AD_Reference_ID=157;
 	/** Set Region.
@@ -182,41 +193,12 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Coordinates.
-		@param Coordinates 
-		Location coordinate
-	  */
-	public void setCoordinates (String Coordinates)
-	{
-
-		if (Coordinates != null && Coordinates.length() > 15)
-		{
-			log.warning("Length > 15 - truncated");
-			Coordinates = Coordinates.substring(0, 15);
-		}
-		set_Value (COLUMNNAME_Coordinates, Coordinates);
-	}
-
-	/** Get Coordinates.
-		@return Location coordinate
-	  */
-	public String getCoordinates () 
-	{
-		return (String)get_Value(COLUMNNAME_Coordinates);
-	}
-
 	/** Set Locode.
 		@param Locode 
 		Location code - UN/LOCODE 
 	  */
 	public void setLocode (String Locode)
 	{
-
-		if (Locode != null && Locode.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Locode = Locode.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Locode, Locode);
 	}
 
@@ -236,12 +218,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -267,12 +243,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	  */
 	public void setPostal (String Postal)
 	{
-
-		if (Postal != null && Postal.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
 

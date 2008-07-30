@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_S_Resource extends PO implements I_S_Resource, I_Persistent 
 {
 
@@ -46,8 +46,8 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 // Y
 			setM_Warehouse_ID (0);
 			setName (null);
-			setS_ResourceType_ID (0);
 			setS_Resource_ID (0);
+			setS_ResourceType_ID (0);
 			setValue (null);
         } */
     }
@@ -159,12 +159,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -200,15 +194,15 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return false;
 	}
 
-	/** Set IsManufacturingResource.
-		@param IsManufacturingResource IsManufacturingResource	  */
+	/** Set Manufacturing Resource.
+		@param IsManufacturingResource Manufacturing Resource	  */
 	public void setIsManufacturingResource (boolean IsManufacturingResource)
 	{
 		set_Value (COLUMNNAME_IsManufacturingResource, Boolean.valueOf(IsManufacturingResource));
 	}
 
-	/** Get IsManufacturingResource.
-		@return IsManufacturingResource	  */
+	/** Get Manufacturing Resource.
+		@return Manufacturing Resource	  */
 	public boolean isManufacturingResource () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsManufacturingResource);
@@ -219,6 +213,31 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** ManufacturingResourceType AD_Reference_ID=53223 */
+	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
+	/** Production Line = PL */
+	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
+	/** Plant = PT */
+	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
+	/** Work Center = WC */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
+	/** Work Station = WS */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
+	/** Set Manufacturing Resource Type.
+		@param ManufacturingResourceType Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType)
+	{
+
+		if (ManufacturingResourceType == null || ManufacturingResourceType.equals("PL") || ManufacturingResourceType.equals("PT") || ManufacturingResourceType.equals("WC") || ManufacturingResourceType.equals("WS")); else throw new IllegalArgumentException ("ManufacturingResourceType Invalid value - " + ManufacturingResourceType + " - Reference_ID=53223 - PL - PT - WC - WS");		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
+	}
+
+	/** Get Manufacturing Resource Type.
+		@return Manufacturing Resource Type	  */
+	public String getManufacturingResourceType () 
+	{
+		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
 	}
 
 	public I_M_Warehouse getM_Warehouse() throws Exception 
@@ -259,37 +278,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return ii.intValue();
 	}
 
-	/** ManufacturingResourceType AD_Reference_ID=53223 */
-	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
-	/** Production Line = PL */
-	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
-	/** Plant = PT */
-	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
-	/** Work Center = WC */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
-	/** Work Station = WS */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
-	/** Set ManufacturingResourceType.
-		@param ManufacturingResourceType ManufacturingResourceType	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType)
-	{
-
-		if (ManufacturingResourceType == null || ManufacturingResourceType.equals("PL") || ManufacturingResourceType.equals("PT") || ManufacturingResourceType.equals("WC") || ManufacturingResourceType.equals("WS")); else throw new IllegalArgumentException ("ManufacturingResourceType Invalid value - " + ManufacturingResourceType + " - Reference_ID=53223 - PL - PT - WC - WS");
-		if (ManufacturingResourceType != null && ManufacturingResourceType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			ManufacturingResourceType = ManufacturingResourceType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
-	}
-
-	/** Get ManufacturingResourceType.
-		@return ManufacturingResourceType	  */
-	public String getManufacturingResourceType () 
-	{
-		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -298,12 +286,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -377,6 +359,28 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return bd;
 	}
 
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1)
+			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_S_ResourceType getS_ResourceType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_ResourceType.Table_Name);
@@ -412,28 +416,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1)
-			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique
@@ -442,12 +424,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_Index extends PO implements I_K_Index, I_Persistent 
 {
 
@@ -42,10 +42,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
       /** if (K_Index_ID == 0)
         {
 			setAD_Table_ID (0);
-			setK_INDEX_ID (0);
 			setKeyword (null);
+			setK_INDEX_ID (0);
 			setRecord_ID (0);
-			setSourceUpdated (new Timestamp(System.currentTimeMillis()));
+			setSourceUpdated (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -115,45 +115,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
-        I_CM_WebProject result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Web Project.
-		@param CM_WebProject_ID 
-		A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID)
-	{
-		if (CM_WebProject_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
-	}
-
-	/** Get Web Project.
-		@return A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_DocType getC_DocType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
@@ -193,18 +154,51 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
+        I_CM_WebProject result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Web Project.
+		@param CM_WebProject_ID 
+		A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID)
+	{
+		if (CM_WebProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+	}
+
+	/** Get Web Project.
+		@return A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Excerpt.
 		@param Excerpt 
 		Surrounding text of the keyword
 	  */
 	public void setExcerpt (String Excerpt)
 	{
-
-		if (Excerpt != null && Excerpt.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Excerpt = Excerpt.substring(0, 2000);
-		}
 		set_ValueNoCheck (COLUMNNAME_Excerpt, Excerpt);
 	}
 
@@ -215,6 +209,33 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Excerpt);
 	}
+
+	/** Set Keyword.
+		@param Keyword 
+		Case insensitive keyword
+	  */
+	public void setKeyword (String Keyword)
+	{
+		if (Keyword == null)
+			throw new IllegalArgumentException ("Keyword is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_Keyword, Keyword);
+	}
+
+	/** Get Keyword.
+		@return Case insensitive keyword
+	  */
+	public String getKeyword () 
+	{
+		return (String)get_Value(COLUMNNAME_Keyword);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getKeyword());
+    }
 
 	/** Set Index.
 		@param K_INDEX_ID 
@@ -238,38 +259,27 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Keyword.
-		@param Keyword 
-		Case insensitive keyword
+	/** Set Record ID.
+		@param Record_ID 
+		Direct internal record ID
 	  */
-	public void setKeyword (String Keyword)
+	public void setRecord_ID (int Record_ID)
 	{
-		if (Keyword == null)
-			throw new IllegalArgumentException ("Keyword is mandatory.");
-
-		if (Keyword.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Keyword = Keyword.substring(0, 255);
-		}
-		set_ValueNoCheck (COLUMNNAME_Keyword, Keyword);
+		if (Record_ID < 0)
+			 throw new IllegalArgumentException ("Record_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
-	/** Get Keyword.
-		@return Case insensitive keyword
+	/** Get Record ID.
+		@return Direct internal record ID
 	  */
-	public String getKeyword () 
+	public int getRecord_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_Keyword);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getKeyword());
-    }
 
 	public I_R_RequestType getR_RequestType() throws Exception 
     {
@@ -305,28 +315,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	public int getR_RequestType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Record ID.
-		@param Record_ID 
-		Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID)
-	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
-	}
-
-	/** Get Record ID.
-		@return Direct internal record ID
-	  */
-	public int getRecord_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

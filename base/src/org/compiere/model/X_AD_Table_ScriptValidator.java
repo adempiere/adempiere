@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table_ScriptValidator
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptValidator, I_Persistent 
 {
 
@@ -226,13 +226,7 @@ public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptV
 	public void setEventModelValidator (String EventModelValidator)
 	{
 		if (EventModelValidator == null) throw new IllegalArgumentException ("EventModelValidator is mandatory");
-		if (EventModelValidator.equals("TBN") || EventModelValidator.equals("TBC") || EventModelValidator.equals("TBD") || EventModelValidator.equals("TAN") || EventModelValidator.equals("TAC") || EventModelValidator.equals("TAD") || EventModelValidator.equals("DBPR") || EventModelValidator.equals("DBVO") || EventModelValidator.equals("DBCL") || EventModelValidator.equals("DBAC") || EventModelValidator.equals("DBRC") || EventModelValidator.equals("DBRA") || EventModelValidator.equals("DBCO") || EventModelValidator.equals("DBPO") || EventModelValidator.equals("DAPR") || EventModelValidator.equals("DAVO") || EventModelValidator.equals("DACL") || EventModelValidator.equals("DAAC") || EventModelValidator.equals("DARC") || EventModelValidator.equals("DARA") || EventModelValidator.equals("DACO") || EventModelValidator.equals("DAPO") || EventModelValidator.equals("TANR") || EventModelValidator.equals("TACR") || EventModelValidator.equals("TBDR")); else throw new IllegalArgumentException ("EventModelValidator Invalid value - " + EventModelValidator + " - Reference_ID=53237 - TBN - TBC - TBD - TAN - TAC - TAD - DBPR - DBVO - DBCL - DBAC - DBRC - DBRA - DBCO - DBPO - DAPR - DAVO - DACL - DAAC - DARC - DARA - DACO - DAPO - TANR - TACR - TBDR");
-		if (EventModelValidator.length() > 4)
-		{
-			log.warning("Length > 4 - truncated");
-			EventModelValidator = EventModelValidator.substring(0, 4);
-		}
-		set_Value (COLUMNNAME_EventModelValidator, EventModelValidator);
+		if (EventModelValidator.equals("TBN") || EventModelValidator.equals("TBC") || EventModelValidator.equals("TBD") || EventModelValidator.equals("TAN") || EventModelValidator.equals("TAC") || EventModelValidator.equals("TAD") || EventModelValidator.equals("DBPR") || EventModelValidator.equals("DBVO") || EventModelValidator.equals("DBCL") || EventModelValidator.equals("DBAC") || EventModelValidator.equals("DBRC") || EventModelValidator.equals("DBRA") || EventModelValidator.equals("DBCO") || EventModelValidator.equals("DBPO") || EventModelValidator.equals("DAPR") || EventModelValidator.equals("DAVO") || EventModelValidator.equals("DACL") || EventModelValidator.equals("DAAC") || EventModelValidator.equals("DARC") || EventModelValidator.equals("DARA") || EventModelValidator.equals("DACO") || EventModelValidator.equals("DAPO") || EventModelValidator.equals("TANR") || EventModelValidator.equals("TACR") || EventModelValidator.equals("TBDR")); else throw new IllegalArgumentException ("EventModelValidator Invalid value - " + EventModelValidator + " - Reference_ID=53237 - TBN - TBC - TBD - TAN - TAC - TAD - DBPR - DBVO - DBCL - DBAC - DBRC - DBRA - DBCO - DBPO - DAPR - DAVO - DACL - DAAC - DARC - DARA - DACO - DAPO - TANR - TACR - TBDR");		set_Value (COLUMNNAME_EventModelValidator, EventModelValidator);
 	}
 
 	/** Get Event Model Validator.

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Locator
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Locator extends PO implements I_M_Locator, I_Persistent 
 {
 
@@ -192,12 +192,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -225,12 +219,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (X == null)
 			throw new IllegalArgumentException ("X is mandatory.");
-
-		if (X.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			X = X.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_X, X);
 	}
 
@@ -250,12 +238,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (Y == null)
 			throw new IllegalArgumentException ("Y is mandatory.");
-
-		if (Y.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Y = Y.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Y, Y);
 	}
 
@@ -275,12 +257,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	{
 		if (Z == null)
 			throw new IllegalArgumentException ("Z is mandatory.");
-
-		if (Z.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Z = Z.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Z, Z);
 	}
 

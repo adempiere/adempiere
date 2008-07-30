@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_IssueKnown
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_R_IssueKnown 
 {
@@ -130,6 +126,19 @@ public interface I_R_IssueKnown
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name ReleaseNo */
+    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
+
+	/** Set Release No.
+	  * Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo);
+
+	/** Get Release No.
+	  * Internal Release Number
+	  */
+	public String getReleaseNo();
+
     /** Column name R_IssueKnown_ID */
     public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
 
@@ -187,19 +196,6 @@ public interface I_R_IssueKnown
 	public int getR_Request_ID();
 
 	public I_R_Request getR_Request() throws Exception;
-
-    /** Column name ReleaseNo */
-    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
-
-	/** Set Release No.
-	  * Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo);
-
-	/** Get Release No.
-	  * Internal Release Number
-	  */
-	public String getReleaseNo();
 
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";

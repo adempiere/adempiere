@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WikiToken
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent 
 {
 
@@ -142,12 +142,6 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -165,12 +159,6 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setMacro (String Macro)
 	{
-
-		if (Macro != null && Macro.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Macro = Macro.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Macro, Macro);
 	}
 
@@ -190,12 +178,6 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -221,12 +203,6 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setSelectClause (String SelectClause)
 	{
-
-		if (SelectClause != null && SelectClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			SelectClause = SelectClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
 
@@ -255,13 +231,7 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	public void setTokenType (String TokenType)
 	{
 		if (TokenType == null) throw new IllegalArgumentException ("TokenType is mandatory");
-		if (TokenType.equals("Q") || TokenType.equals("I") || TokenType.equals("E") || TokenType.equals("S")); else throw new IllegalArgumentException ("TokenType Invalid value - " + TokenType + " - Reference_ID=397 - Q - I - E - S");
-		if (TokenType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			TokenType = TokenType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_TokenType, TokenType);
+		if (TokenType.equals("Q") || TokenType.equals("I") || TokenType.equals("E") || TokenType.equals("S")); else throw new IllegalArgumentException ("TokenType Invalid value - " + TokenType + " - Reference_ID=397 - Q - I - E - S");		set_Value (COLUMNNAME_TokenType, TokenType);
 	}
 
 	/** Get TokenType.
@@ -278,12 +248,6 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-
-		if (WhereClause != null && WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persistent 
 {
 
@@ -219,12 +219,6 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -271,13 +265,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");
-		if (FrequencyType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.
@@ -316,12 +304,6 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

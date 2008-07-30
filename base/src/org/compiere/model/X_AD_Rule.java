@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent 
 {
 
@@ -76,25 +76,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
       return sb.toString();
     }
 
-	/** Set Rule.
-		@param AD_Rule_ID Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID)
-	{
-		if (AD_Rule_ID < 1)
-			 throw new IllegalArgumentException ("AD_Rule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
-	}
-
-	/** Get Rule.
-		@return Rule	  */
-	public int getAD_Rule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** AccessLevel AD_Reference_ID=5 */
 	public static final int ACCESSLEVEL_AD_Reference_ID=5;
 	/** Organization = 1 */
@@ -116,13 +97,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public void setAccessLevel (String AccessLevel)
 	{
 
-		if (AccessLevel == null || AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
-		if (AccessLevel != null && AccessLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccessLevel = AccessLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+		if (AccessLevel == null || AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
 	/** Get Data Access Level.
@@ -133,18 +108,31 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
+	/** Set Rule.
+		@param AD_Rule_ID Rule	  */
+	public void setAD_Rule_ID (int AD_Rule_ID)
+	{
+		if (AD_Rule_ID < 1)
+			 throw new IllegalArgumentException ("AD_Rule_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+	}
+
+	/** Get Rule.
+		@return Rule	  */
+	public int getAD_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -164,12 +152,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -200,13 +182,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public void setEventType (String EventType)
 	{
 		if (EventType == null) throw new IllegalArgumentException ("EventType is mandatory");
-		if (EventType.equals("C") || EventType.equals("P") || EventType.equals("T") || EventType.equals("D") || EventType.equals("L")); else throw new IllegalArgumentException ("EventType Invalid value - " + EventType + " - Reference_ID=53236 - C - P - T - D - L");
-		if (EventType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			EventType = EventType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_EventType, EventType);
+		if (EventType.equals("C") || EventType.equals("P") || EventType.equals("T") || EventType.equals("D") || EventType.equals("L")); else throw new IllegalArgumentException ("EventType Invalid value - " + EventType + " - Reference_ID=53236 - C - P - T - D - L");		set_Value (COLUMNNAME_EventType, EventType);
 	}
 
 	/** Get Event Type.
@@ -223,12 +199,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -248,12 +218,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -288,13 +252,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public void setRuleType (String RuleType)
 	{
 		if (RuleType == null) throw new IllegalArgumentException ("RuleType is mandatory");
-		if (RuleType.equals("A") || RuleType.equals("S") || RuleType.equals("R") || RuleType.equals("Q")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - S - R - Q");
-		if (RuleType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RuleType = RuleType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_RuleType, RuleType);
+		if (RuleType.equals("A") || RuleType.equals("S") || RuleType.equals("R") || RuleType.equals("Q")); else throw new IllegalArgumentException ("RuleType Invalid value - " + RuleType + " - Reference_ID=53235 - A - S - R - Q");		set_Value (COLUMNNAME_RuleType, RuleType);
 	}
 
 	/** Get Rule Type.
@@ -310,12 +268,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setScript (String Script)
 	{
-
-		if (Script != null && Script.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Script = Script.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Script, Script);
 	}
 
@@ -335,12 +287,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

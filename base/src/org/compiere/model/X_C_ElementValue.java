@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persistent 
 {
 
@@ -45,8 +45,8 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 // N
 			setAccountType (null);
 // E
-			setC_ElementValue_ID (0);
 			setC_Element_ID (0);
+			setC_ElementValue_ID (0);
 			setIsSummary (false);
 			setName (null);
 			setPostActual (true);
@@ -104,13 +104,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	public void setAccountSign (String AccountSign)
 	{
 		if (AccountSign == null) throw new IllegalArgumentException ("AccountSign is mandatory");
-		if (AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");
-		if (AccountSign.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccountSign = AccountSign.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
+		if (AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");		set_Value (COLUMNNAME_AccountSign, AccountSign);
 	}
 
 	/** Get Account Sign.
@@ -142,13 +136,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	public void setAccountType (String AccountType)
 	{
 		if (AccountType == null) throw new IllegalArgumentException ("AccountType is mandatory");
-		if (AccountType.equals("A") || AccountType.equals("L") || AccountType.equals("R") || AccountType.equals("E") || AccountType.equals("O") || AccountType.equals("M")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - L - R - E - O - M");
-		if (AccountType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccountType = AccountType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccountType, AccountType);
+		if (AccountType.equals("A") || AccountType.equals("L") || AccountType.equals("R") || AccountType.equals("E") || AccountType.equals("O") || AccountType.equals("M")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - L - R - E - O - M");		set_Value (COLUMNNAME_AccountType, AccountType);
 	}
 
 	/** Get Account Type.
@@ -237,28 +225,6 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Account Element.
-		@param C_ElementValue_ID 
-		Account Element
-	  */
-	public void setC_ElementValue_ID (int C_ElementValue_ID)
-	{
-		if (C_ElementValue_ID < 1)
-			 throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
-	}
-
-	/** Get Account Element.
-		@return Account Element
-	  */
-	public int getC_ElementValue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ElementValue_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Element getC_Element() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
@@ -297,18 +263,34 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Account Element.
+		@param C_ElementValue_ID 
+		Account Element
+	  */
+	public void setC_ElementValue_ID (int C_ElementValue_ID)
+	{
+		if (C_ElementValue_ID < 1)
+			 throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+	}
+
+	/** Get Account Element.
+		@return Account Element
+	  */
+	public int getC_ElementValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ElementValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -424,12 +406,6 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -579,12 +555,6 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

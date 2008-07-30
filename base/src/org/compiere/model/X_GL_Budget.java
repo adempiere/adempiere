@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Budget
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent 
 {
 
@@ -85,13 +85,7 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
 	public void setBudgetStatus (String BudgetStatus)
 	{
 
-		if (BudgetStatus == null || BudgetStatus.equals("D") || BudgetStatus.equals("A")); else throw new IllegalArgumentException ("BudgetStatus Invalid value - " + BudgetStatus + " - Reference_ID=178 - D - A");
-		if (BudgetStatus != null && BudgetStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BudgetStatus = BudgetStatus.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BudgetStatus, BudgetStatus);
+		if (BudgetStatus == null || BudgetStatus.equals("D") || BudgetStatus.equals("A")); else throw new IllegalArgumentException ("BudgetStatus Invalid value - " + BudgetStatus + " - Reference_ID=178 - D - A");		set_Value (COLUMNNAME_BudgetStatus, BudgetStatus);
 	}
 
 	/** Get Budget Status.
@@ -108,12 +102,6 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -179,12 +167,6 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

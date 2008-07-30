@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Element extends PO implements I_C_Element, I_Persistent 
 {
 
@@ -144,12 +144,6 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -174,13 +168,7 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	public void setElementType (String ElementType)
 	{
 		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
-		if (ElementType.equals("A") || ElementType.equals("U")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=116 - A - U");
-		if (ElementType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ElementType = ElementType.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_ElementType, ElementType);
+		if (ElementType.equals("A") || ElementType.equals("U")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=116 - A - U");		set_ValueNoCheck (COLUMNNAME_ElementType, ElementType);
 	}
 
 	/** Get Type.
@@ -247,12 +235,6 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -278,12 +260,6 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	  */
 	public void setVFormat (String VFormat)
 	{
-
-		if (VFormat != null && VFormat.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			VFormat = VFormat.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_VFormat, VFormat);
 	}
 

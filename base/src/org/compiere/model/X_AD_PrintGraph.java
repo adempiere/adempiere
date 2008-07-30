@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent 
 {
 
@@ -138,6 +138,30 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Data_PrintFormatItem_ID AD_Reference_ID=264 */
+	public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
+	/** Set Data Column.
+		@param Data_PrintFormatItem_ID 
+		Data Column for Pie and Line Charts
+	  */
+	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
+	{
+		if (Data_PrintFormatItem_ID < 1)
+			 throw new IllegalArgumentException ("Data_PrintFormatItem_ID is mandatory.");
+		set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
+	}
+
+	/** Get Data Column.
+		@return Data Column for Pie and Line Charts
+	  */
+	public int getData_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Data1_PrintFormatItem_ID AD_Reference_ID=264 */
 	public static final int DATA1_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 2.
@@ -238,42 +262,12 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Data_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
-	/** Set Data Column.
-		@param Data_PrintFormatItem_ID 
-		Data Column for Pie and Line Charts
-	  */
-	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
-	{
-		if (Data_PrintFormatItem_ID < 1)
-			 throw new IllegalArgumentException ("Data_PrintFormatItem_ID is mandatory.");
-		set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
-	}
-
-	/** Get Data Column.
-		@return Data Column for Pie and Line Charts
-	  */
-	public int getData_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -324,13 +318,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	public void setGraphType (String GraphType)
 	{
 		if (GraphType == null) throw new IllegalArgumentException ("GraphType is mandatory");
-		if (GraphType.equals("P") || GraphType.equals("L") || GraphType.equals("B")); else throw new IllegalArgumentException ("GraphType Invalid value - " + GraphType + " - Reference_ID=265 - P - L - B");
-		if (GraphType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			GraphType = GraphType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_GraphType, GraphType);
+		if (GraphType.equals("P") || GraphType.equals("L") || GraphType.equals("B")); else throw new IllegalArgumentException ("GraphType Invalid value - " + GraphType + " - Reference_ID=265 - P - L - B");		set_Value (COLUMNNAME_GraphType, GraphType);
 	}
 
 	/** Get Graph Type.
@@ -349,12 +337,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

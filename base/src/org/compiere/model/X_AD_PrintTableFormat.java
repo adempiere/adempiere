@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, I_Persistent 
 {
 
@@ -43,9 +43,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 			setAD_PrintTableFormat_ID (0);
 			setIsDefault (false);
 			setIsPaintBoundaryLines (false);
-			setIsPaintHLines (false);
 			setIsPaintHeaderLines (true);
 // Y
+			setIsPaintHLines (false);
 			setIsPaintVLines (false);
 			setIsPrintFunctionSymbols (false);
 			setName (null);
@@ -108,12 +108,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -131,12 +125,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFooterCenter (String FooterCenter)
 	{
-
-		if (FooterCenter != null && FooterCenter.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			FooterCenter = FooterCenter.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_FooterCenter, FooterCenter);
 	}
 
@@ -154,12 +142,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFooterLeft (String FooterLeft)
 	{
-
-		if (FooterLeft != null && FooterLeft.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			FooterLeft = FooterLeft.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_FooterLeft, FooterLeft);
 	}
 
@@ -177,12 +159,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setFooterRight (String FooterRight)
 	{
-
-		if (FooterRight != null && FooterRight.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			FooterRight = FooterRight.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_FooterRight, FooterRight);
 	}
 
@@ -294,6 +270,31 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
+	/** Hdr_PrintFont_ID AD_Reference_ID=267 */
+	public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
+	/** Set Header Row Font.
+		@param Hdr_PrintFont_ID 
+		Header row Font
+	  */
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
+	{
+		if (Hdr_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
+	}
+
+	/** Get Header Row Font.
+		@return Header row Font
+	  */
+	public int getHdr_PrintFont_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Header Stroke.
 		@param HdrStroke 
 		Width of the Header Line Stroke
@@ -331,13 +332,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public void setHdrStrokeType (String HdrStrokeType)
 	{
 
-		if (HdrStrokeType == null || HdrStrokeType.equals("S") || HdrStrokeType.equals("D") || HdrStrokeType.equals("d") || HdrStrokeType.equals("2")); else throw new IllegalArgumentException ("HdrStrokeType Invalid value - " + HdrStrokeType + " - Reference_ID=312 - S - D - d - 2");
-		if (HdrStrokeType != null && HdrStrokeType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			HdrStrokeType = HdrStrokeType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_HdrStrokeType, HdrStrokeType);
+		if (HdrStrokeType == null || HdrStrokeType.equals("S") || HdrStrokeType.equals("D") || HdrStrokeType.equals("d") || HdrStrokeType.equals("2")); else throw new IllegalArgumentException ("HdrStrokeType Invalid value - " + HdrStrokeType + " - Reference_ID=312 - S - D - d - 2");		set_Value (COLUMNNAME_HdrStrokeType, HdrStrokeType);
 	}
 
 	/** Get Header Stroke Type.
@@ -398,43 +393,12 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** Hdr_PrintFont_ID AD_Reference_ID=267 */
-	public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
-	/** Set Header Row Font.
-		@param Hdr_PrintFont_ID 
-		Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
-	{
-		if (Hdr_PrintFont_ID < 1) 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
-		else 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
-	}
-
-	/** Get Header Row Font.
-		@return Header row Font
-	  */
-	public int getHdr_PrintFont_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Header Center.
 		@param HeaderCenter 
 		Content of the center portion of the header.
 	  */
 	public void setHeaderCenter (String HeaderCenter)
 	{
-
-		if (HeaderCenter != null && HeaderCenter.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			HeaderCenter = HeaderCenter.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_HeaderCenter, HeaderCenter);
 	}
 
@@ -452,12 +416,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setHeaderLeft (String HeaderLeft)
 	{
-
-		if (HeaderLeft != null && HeaderLeft.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			HeaderLeft = HeaderLeft.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_HeaderLeft, HeaderLeft);
 	}
 
@@ -475,12 +433,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setHeaderRight (String HeaderRight)
 	{
-
-		if (HeaderRight != null && HeaderRight.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			HeaderRight = HeaderRight.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_HeaderRight, HeaderRight);
 	}
 
@@ -522,12 +474,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setImageURL (String ImageURL)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
 
@@ -587,30 +533,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return false;
 	}
 
-	/** Set Paint Horizontal Lines.
-		@param IsPaintHLines 
-		Paint horizontal lines
-	  */
-	public void setIsPaintHLines (boolean IsPaintHLines)
-	{
-		set_Value (COLUMNNAME_IsPaintHLines, Boolean.valueOf(IsPaintHLines));
-	}
-
-	/** Get Paint Horizontal Lines.
-		@return Paint horizontal lines
-	  */
-	public boolean isPaintHLines () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsPaintHLines);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Paint Header Lines.
 		@param IsPaintHeaderLines 
 		Paint Lines over/under the Header Line 
@@ -626,6 +548,30 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public boolean isPaintHeaderLines () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPaintHeaderLines);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Paint Horizontal Lines.
+		@param IsPaintHLines 
+		Paint horizontal lines
+	  */
+	public void setIsPaintHLines (boolean IsPaintHLines)
+	{
+		set_Value (COLUMNNAME_IsPaintHLines, Boolean.valueOf(IsPaintHLines));
+	}
+
+	/** Get Paint Horizontal Lines.
+		@return Paint horizontal lines
+	  */
+	public boolean isPaintHLines () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPaintHLines);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -683,6 +629,31 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return false;
 	}
 
+	/** Line_PrintColor_ID AD_Reference_ID=266 */
+	public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
+	/** Set Line Color.
+		@param Line_PrintColor_ID 
+		Table line color
+	  */
+	public void setLine_PrintColor_ID (int Line_PrintColor_ID)
+	{
+		if (Line_PrintColor_ID < 1) 
+			set_Value (COLUMNNAME_Line_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));
+	}
+
+	/** Get Line Color.
+		@return Table line color
+	  */
+	public int getLine_PrintColor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Line_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Line Stroke.
 		@param LineStroke 
 		Width of the Line Stroke
@@ -720,13 +691,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public void setLineStrokeType (String LineStrokeType)
 	{
 
-		if (LineStrokeType == null || LineStrokeType.equals("S") || LineStrokeType.equals("D") || LineStrokeType.equals("d") || LineStrokeType.equals("2")); else throw new IllegalArgumentException ("LineStrokeType Invalid value - " + LineStrokeType + " - Reference_ID=312 - S - D - d - 2");
-		if (LineStrokeType != null && LineStrokeType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			LineStrokeType = LineStrokeType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_LineStrokeType, LineStrokeType);
+		if (LineStrokeType == null || LineStrokeType.equals("S") || LineStrokeType.equals("D") || LineStrokeType.equals("d") || LineStrokeType.equals("2")); else throw new IllegalArgumentException ("LineStrokeType Invalid value - " + LineStrokeType + " - Reference_ID=312 - S - D - d - 2");		set_Value (COLUMNNAME_LineStrokeType, LineStrokeType);
 	}
 
 	/** Get Line Stroke Type.
@@ -737,31 +702,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_LineStrokeType);
 	}
 
-	/** Line_PrintColor_ID AD_Reference_ID=266 */
-	public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
-	/** Set Line Color.
-		@param Line_PrintColor_ID 
-		Table line color
-	  */
-	public void setLine_PrintColor_ID (int Line_PrintColor_ID)
-	{
-		if (Line_PrintColor_ID < 1) 
-			set_Value (COLUMNNAME_Line_PrintColor_ID, null);
-		else 
-			set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));
-	}
-
-	/** Get Line Color.
-		@return Table line color
-	  */
-	public int getLine_PrintColor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Line_PrintColor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -770,12 +710,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

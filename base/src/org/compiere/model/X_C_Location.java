@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Location extends PO implements I_C_Location, I_Persistent 
 {
 
@@ -79,12 +79,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress1 (String Address1)
 	{
-
-		if (Address1 != null && Address1.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Address1, Address1);
 	}
 
@@ -102,12 +96,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress2 (String Address2)
 	{
-
-		if (Address2 != null && Address2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Address2, Address2);
 	}
 
@@ -125,12 +113,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress3 (String Address3)
 	{
-
-		if (Address3 != null && Address3.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address3 = Address3.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Address3, Address3);
 	}
 
@@ -148,12 +130,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setAddress4 (String Address4)
 	{
-
-		if (Address4 != null && Address4.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address4 = Address4.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Address4, Address4);
 	}
 
@@ -242,6 +218,31 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getCity());
+    }
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -303,49 +304,12 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-
-		if (City != null && City.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getCity());
-    }
-
 	/** Set ZIP.
 		@param Postal 
 		Postal code
 	  */
 	public void setPostal (String Postal)
 	{
-
-		if (Postal != null && Postal.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
 
@@ -363,12 +327,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setPostal_Add (String Postal_Add)
 	{
-
-		if (Postal_Add != null && Postal_Add.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal_Add = Postal_Add.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal_Add, Postal_Add);
 	}
 
@@ -386,12 +344,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	  */
 	public void setRegionName (String RegionName)
 	{
-
-		if (RegionName != null && RegionName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			RegionName = RegionName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}
 

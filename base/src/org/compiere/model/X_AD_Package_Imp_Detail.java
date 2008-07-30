@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Detail, I_Persistent 
 {
 
@@ -70,6 +70,43 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
+	}
+
+	/** Set Ad_Backup_ID.
+		@param Ad_Backup_ID Ad_Backup_ID	  */
+	public void setAd_Backup_ID (int Ad_Backup_ID)
+	{
+		if (Ad_Backup_ID < 1) 
+			set_Value (COLUMNNAME_Ad_Backup_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ad_Backup_ID, Integer.valueOf(Ad_Backup_ID));
+	}
+
+	/** Get Ad_Backup_ID.
+		@return Ad_Backup_ID	  */
+	public int getAd_Backup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_Backup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set AD_Original_ID.
 		@param AD_Original_ID AD_Original_ID	  */
@@ -151,61 +188,12 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		return ii.intValue();
 	}
 
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-
-		if (Action != null && Action.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Action = Action.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
-
-	/** Set Ad_Backup_ID.
-		@param Ad_Backup_ID Ad_Backup_ID	  */
-	public void setAd_Backup_ID (int Ad_Backup_ID)
-	{
-		if (Ad_Backup_ID < 1) 
-			set_Value (COLUMNNAME_Ad_Backup_ID, null);
-		else 
-			set_Value (COLUMNNAME_Ad_Backup_ID, Integer.valueOf(Ad_Backup_ID));
-	}
-
-	/** Get Ad_Backup_ID.
-		@return Ad_Backup_ID	  */
-	public int getAd_Backup_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_Backup_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -221,12 +209,6 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param Success Success	  */
 	public void setSuccess (String Success)
 	{
-
-		if (Success != null && Success.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Success = Success.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Success, Success);
 	}
 
@@ -243,12 +225,6 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setTableName (String TableName)
 	{
-
-		if (TableName != null && TableName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			TableName = TableName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_TableName, TableName);
 	}
 
@@ -266,12 +242,6 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	  */
 	public void setType (String Type)
 	{
-
-		if (Type != null && Type.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Type = Type.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Type, Type);
 	}
 

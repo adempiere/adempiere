@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
       /** if (C_PaySelectionLine_ID == 0)
         {
 			setC_Invoice_ID (0);
-			setC_PaySelectionLine_ID (0);
 			setC_PaySelection_ID (0);
+			setC_PaySelectionLine_ID (0);
 			setDifferenceAmt (Env.ZERO);
 			setDiscountAmt (Env.ZERO);
 			setIsManual (false);
@@ -165,36 +165,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-	/** Set Payment Selection Line.
-		@param C_PaySelectionLine_ID 
-		Payment Selection Line
-	  */
-	public void setC_PaySelectionLine_ID (int C_PaySelectionLine_ID)
-	{
-		if (C_PaySelectionLine_ID < 1)
-			 throw new IllegalArgumentException ("C_PaySelectionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaySelectionLine_ID, Integer.valueOf(C_PaySelectionLine_ID));
-	}
-
-	/** Get Payment Selection Line.
-		@return Payment Selection Line
-	  */
-	public int getC_PaySelectionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getC_PaySelectionLine_ID()));
-    }
-
 	public I_C_PaySelection getC_PaySelection() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_PaySelection.Table_Name);
@@ -233,18 +203,42 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
+	/** Set Payment Selection Line.
+		@param C_PaySelectionLine_ID 
+		Payment Selection Line
+	  */
+	public void setC_PaySelectionLine_ID (int C_PaySelectionLine_ID)
+	{
+		if (C_PaySelectionLine_ID < 1)
+			 throw new IllegalArgumentException ("C_PaySelectionLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_PaySelectionLine_ID, Integer.valueOf(C_PaySelectionLine_ID));
+	}
+
+	/** Get Payment Selection Line.
+		@return Payment Selection Line
+	  */
+	public int getC_PaySelectionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_PaySelectionLine_ID()));
+    }
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -433,13 +427,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
-		if (PaymentRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

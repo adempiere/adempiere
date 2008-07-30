@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent 
 {
 
@@ -45,7 +45,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         {
 			setHR_Attribute_ID (0);
 			setHR_Concept_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -187,13 +187,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	public void setColumnType (String ColumnType)
 	{
 
-		if (ColumnType == null || ColumnType.equals("A") || ColumnType.equals("D") || ColumnType.equals("Q") || ColumnType.equals("T")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=53243 - A - D - Q - T");
-		if (ColumnType != null && ColumnType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ColumnType = ColumnType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ColumnType, ColumnType);
+		if (ColumnType == null || ColumnType.equals("A") || ColumnType.equals("D") || ColumnType.equals("Q") || ColumnType.equals("T")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=53243 - A - D - Q - T");		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
 	/** Get Column Type.
@@ -209,12 +203,6 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -545,12 +533,6 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			TextMsg = TextMsg.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

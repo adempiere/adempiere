@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ImpFormat_Row
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Persistent 
 {
 
@@ -179,12 +179,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setCallout (String Callout)
 	{
-
-		if (Callout != null && Callout.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Callout = Callout.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Callout, Callout);
 	}
 
@@ -202,12 +196,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setConstantValue (String ConstantValue)
 	{
-
-		if (ConstantValue != null && ConstantValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ConstantValue = ConstantValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ConstantValue, ConstantValue);
 	}
 
@@ -225,12 +213,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setDataFormat (String DataFormat)
 	{
-
-		if (DataFormat != null && DataFormat.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			DataFormat = DataFormat.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_DataFormat, DataFormat);
 	}
 
@@ -259,13 +241,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	public void setDataType (String DataType)
 	{
 		if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory");
-		if (DataType.equals("S") || DataType.equals("N") || DataType.equals("D") || DataType.equals("C")); else throw new IllegalArgumentException ("DataType Invalid value - " + DataType + " - Reference_ID=210 - S - N - D - C");
-		if (DataType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DataType = DataType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DataType, DataType);
+		if (DataType.equals("S") || DataType.equals("N") || DataType.equals("D") || DataType.equals("C")); else throw new IllegalArgumentException ("DataType Invalid value - " + DataType + " - Reference_ID=210 - S - N - D - C");		set_Value (COLUMNNAME_DataType, DataType);
 	}
 
 	/** Get Data Type.
@@ -284,12 +260,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	{
 		if (DecimalPoint == null)
 			throw new IllegalArgumentException ("DecimalPoint is mandatory.");
-
-		if (DecimalPoint.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DecimalPoint = DecimalPoint.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_DecimalPoint, DecimalPoint);
 	}
 
@@ -350,12 +320,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -381,12 +345,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setScript (String Script)
 	{
-
-		if (Script != null && Script.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Script = Script.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Script, Script);
 	}
 

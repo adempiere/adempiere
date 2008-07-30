@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_Index
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_K_Index 
 {
@@ -72,21 +68,6 @@ public interface I_K_Index
 
 	public I_AD_Table getAD_Table() throws Exception;
 
-    /** Column name CM_WebProject_ID */
-    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
-
-	/** Set Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID);
-
-	/** Get Web Project.
-	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID();
-
-	public I_CM_WebProject getCM_WebProject() throws Exception;
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -102,6 +83,21 @@ public interface I_K_Index
 
 	public I_C_DocType getC_DocType() throws Exception;
 
+    /** Column name CM_WebProject_ID */
+    public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
+
+	/** Set Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID);
+
+	/** Get Web Project.
+	  * A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID();
+
+	public I_CM_WebProject getCM_WebProject() throws Exception;
+
     /** Column name Excerpt */
     public static final String COLUMNNAME_Excerpt = "Excerpt";
 
@@ -114,6 +110,19 @@ public interface I_K_Index
 	  * Surrounding text of the keyword
 	  */
 	public String getExcerpt();
+
+    /** Column name Keyword */
+    public static final String COLUMNNAME_Keyword = "Keyword";
+
+	/** Set Keyword.
+	  * Case insensitive keyword
+	  */
+	public void setKeyword (String Keyword);
+
+	/** Get Keyword.
+	  * Case insensitive keyword
+	  */
+	public String getKeyword();
 
     /** Column name K_INDEX_ID */
     public static final String COLUMNNAME_K_INDEX_ID = "K_INDEX_ID";
@@ -128,18 +137,18 @@ public interface I_K_Index
 	  */
 	public int getK_INDEX_ID();
 
-    /** Column name Keyword */
-    public static final String COLUMNNAME_Keyword = "Keyword";
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
 
-	/** Set Keyword.
-	  * Case insensitive keyword
+	/** Set Record ID.
+	  * Direct internal record ID
 	  */
-	public void setKeyword (String Keyword);
+	public void setRecord_ID (int Record_ID);
 
-	/** Get Keyword.
-	  * Case insensitive keyword
+	/** Get Record ID.
+	  * Direct internal record ID
 	  */
-	public String getKeyword();
+	public int getRecord_ID();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -155,19 +164,6 @@ public interface I_K_Index
 	public int getR_RequestType_ID();
 
 	public I_R_RequestType getR_RequestType() throws Exception;
-
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
-
-	/** Set Record ID.
-	  * Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID);
-
-	/** Get Record ID.
-	  * Direct internal record ID
-	  */
-	public int getRecord_ID();
 
     /** Column name SourceUpdated */
     public static final String COLUMNNAME_SourceUpdated = "SourceUpdated";

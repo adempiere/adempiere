@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_Order_Node_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Product, I_Persistent 
 {
 
@@ -165,8 +165,8 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
         return result;
     }
 
-	/** Set PP_Order_Node_ID.
-		@param PP_Order_Node_ID PP_Order_Node_ID	  */
+	/** Set Manufacturing Order Activity.
+		@param PP_Order_Node_ID Manufacturing Order Activity	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1)
@@ -174,8 +174,8 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
 	}
 
-	/** Get PP_Order_Node_ID.
-		@return PP_Order_Node_ID	  */
+	/** Get Manufacturing Order Activity.
+		@return Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);

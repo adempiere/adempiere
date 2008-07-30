@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Product_PO
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent 
 {
 
@@ -158,6 +158,26 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Cost per Order.
+		@param CostPerOrder 
+		Fixed Cost Per Order
+	  */
+	public void setCostPerOrder (BigDecimal CostPerOrder)
+	{
+		set_Value (COLUMNNAME_CostPerOrder, CostPerOrder);
+	}
+
+	/** Get Cost per Order.
+		@return Fixed Cost Per Order
+	  */
+	public BigDecimal getCostPerOrder () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostPerOrder);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_UOM getC_UOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
@@ -195,26 +215,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Cost per Order.
-		@param CostPerOrder 
-		Fixed Cost Per Order
-	  */
-	public void setCostPerOrder (BigDecimal CostPerOrder)
-	{
-		set_Value (COLUMNNAME_CostPerOrder, CostPerOrder);
-	}
-
-	/** Get Cost per Order.
-		@return Fixed Cost Per Order
-	  */
-	public BigDecimal getCostPerOrder () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostPerOrder);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Actual Delivery Time.
@@ -322,6 +322,23 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return false;
 	}
 
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
+	}
+
 	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -358,29 +375,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-
-		if (Manufacturer != null && Manufacturer.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Manufacturer = Manufacturer.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Minimum Order Qty.
@@ -566,12 +560,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setUPC (String UPC)
 	{
-
-		if (UPC != null && UPC.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			UPC = UPC.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
 
@@ -589,12 +577,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setVendorCategory (String VendorCategory)
 	{
-
-		if (VendorCategory != null && VendorCategory.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			VendorCategory = VendorCategory.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_VendorCategory, VendorCategory);
 	}
 
@@ -614,12 +596,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	{
 		if (VendorProductNo == null)
 			throw new IllegalArgumentException ("VendorProductNo is mandatory.");
-
-		if (VendorProductNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			VendorProductNo = VendorProductNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_VendorProductNo, VendorProductNo);
 	}
 

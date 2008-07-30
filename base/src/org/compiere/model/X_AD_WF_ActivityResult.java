@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ActivityResult
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
       super (ctx, AD_WF_ActivityResult_ID, trxName);
       /** if (AD_WF_ActivityResult_ID == 0)
         {
-			setAD_WF_ActivityResult_ID (0);
 			setAD_WF_Activity_ID (0);
+			setAD_WF_ActivityResult_ID (0);
 			setAttributeName (null);
         } */
     }
@@ -73,28 +73,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Workflow Activity Result.
-		@param AD_WF_ActivityResult_ID 
-		Result of the Workflow Process Activity
-	  */
-	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID)
-	{
-		if (AD_WF_ActivityResult_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_ActivityResult_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, Integer.valueOf(AD_WF_ActivityResult_ID));
-	}
-
-	/** Get Workflow Activity Result.
-		@return Result of the Workflow Process Activity
-	  */
-	public int getAD_WF_ActivityResult_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_ActivityResult_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_WF_Activity getAD_WF_Activity() throws Exception 
     {
@@ -142,6 +120,28 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
         return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Activity_ID()));
     }
 
+	/** Set Workflow Activity Result.
+		@param AD_WF_ActivityResult_ID 
+		Result of the Workflow Process Activity
+	  */
+	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID)
+	{
+		if (AD_WF_ActivityResult_ID < 1)
+			 throw new IllegalArgumentException ("AD_WF_ActivityResult_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, Integer.valueOf(AD_WF_ActivityResult_ID));
+	}
+
+	/** Get Workflow Activity Result.
+		@return Result of the Workflow Process Activity
+	  */
+	public int getAD_WF_ActivityResult_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_ActivityResult_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Attribute Name.
 		@param AttributeName 
 		Name of the Attribute
@@ -150,12 +150,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	{
 		if (AttributeName == null)
 			throw new IllegalArgumentException ("AttributeName is mandatory.");
-
-		if (AttributeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 
@@ -173,12 +167,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
-
-		if (AttributeValue != null && AttributeValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			AttributeValue = AttributeValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
 
@@ -196,12 +184,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -219,12 +201,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueSystem
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent 
 {
 
@@ -121,12 +121,6 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	{
 		if (DBAddress == null)
 			throw new IllegalArgumentException ("DBAddress is mandatory.");
-
-		if (DBAddress.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			DBAddress = DBAddress.substring(0, 255);
-		}
 		set_ValueNoCheck (COLUMNNAME_DBAddress, DBAddress);
 	}
 
@@ -152,12 +146,6 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	  */
 	public void setProfileInfo (String ProfileInfo)
 	{
-
-		if (ProfileInfo != null && ProfileInfo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ProfileInfo = ProfileInfo.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_ProfileInfo, ProfileInfo);
 	}
 
@@ -197,12 +185,6 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	  */
 	public void setStatisticsInfo (String StatisticsInfo)
 	{
-
-		if (StatisticsInfo != null && StatisticsInfo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			StatisticsInfo = StatisticsInfo.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_StatisticsInfo, StatisticsInfo);
 	}
 
@@ -229,13 +211,7 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	public void setSystemStatus (String SystemStatus)
 	{
 		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
-		if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");
-		if (SystemStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SystemStatus = SystemStatus.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
+		if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
 
 	/** Get System Status.

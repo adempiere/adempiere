@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Detail, I_Persistent 
 {
 
@@ -235,12 +235,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param AD_Package_Code_New AD_Package_Code_New	  */
 	public void setAD_Package_Code_New (String AD_Package_Code_New)
 	{
-
-		if (AD_Package_Code_New != null && AD_Package_Code_New.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			AD_Package_Code_New = AD_Package_Code_New.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_AD_Package_Code_New, AD_Package_Code_New);
 	}
 
@@ -255,12 +249,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param AD_Package_Code_Old AD_Package_Code_Old	  */
 	public void setAD_Package_Code_Old (String AD_Package_Code_Old)
 	{
-
-		if (AD_Package_Code_Old != null && AD_Package_Code_Old.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			AD_Package_Code_Old = AD_Package_Code_Old.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_AD_Package_Code_Old, AD_Package_Code_Old);
 	}
 
@@ -714,13 +702,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public void setDBType (String DBType)
 	{
 
-		if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase")); else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");
-		if (DBType != null && DBType.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			DBType = DBType.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_DBType, DBType);
+		if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase")); else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");		set_Value (COLUMNNAME_DBType, DBType);
 	}
 
 	/** Get DBType.
@@ -738,12 +720,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 1000)
-		{
-			log.warning("Length > 1000 - truncated");
-			Description = Description.substring(0, 1000);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -759,12 +735,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param Destination_Directory Destination_Directory	  */
 	public void setDestination_Directory (String Destination_Directory)
 	{
-
-		if (Destination_Directory != null && Destination_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Destination_Directory = Destination_Directory.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Destination_Directory, Destination_Directory);
 	}
 
@@ -779,12 +749,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param Destination_FileName Destination_FileName	  */
 	public void setDestination_FileName (String Destination_FileName)
 	{
-
-		if (Destination_FileName != null && Destination_FileName.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Destination_FileName = Destination_FileName.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Destination_FileName, Destination_FileName);
 	}
 
@@ -795,18 +759,26 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return (String)get_Value(COLUMNNAME_Destination_FileName);
 	}
 
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory () 
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
+	}
+
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
 	  */
 	public void setFileName (String FileName)
 	{
-
-		if (FileName != null && FileName.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			FileName = FileName.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_FileName, FileName);
 	}
 
@@ -816,26 +788,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
-	}
-
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-
-		if (File_Directory != null && File_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			File_Directory = File_Directory.substring(0, 255);
-		}
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.
@@ -864,12 +816,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setName2 (String Name2)
 	{
-
-		if (Name2 != null && Name2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
 
@@ -957,13 +903,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public void setReleaseNo (String ReleaseNo)
 	{
 
-		if (ReleaseNo == null || ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all") || ReleaseNo.equals("Release 3.1.0") || ReleaseNo.equals("Release 3.2.0") || ReleaseNo.equals("Release 3.3.0")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all - Release 3.1.0 - Release 3.2.0 - Release 3.3.0");
-		if (ReleaseNo != null && ReleaseNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
+		if (ReleaseNo == null || ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all") || ReleaseNo.equals("Release 3.1.0") || ReleaseNo.equals("Release 3.2.0") || ReleaseNo.equals("Release 3.3.0")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all - Release 3.1.0 - Release 3.2.0 - Release 3.3.0");		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
 	/** Get Release No.
@@ -978,12 +918,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param SQLStatement SQLStatement	  */
 	public void setSQLStatement (String SQLStatement)
 	{
-
-		if (SQLStatement != null && SQLStatement.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			SQLStatement = SQLStatement.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_SQLStatement, SQLStatement);
 	}
 
@@ -998,12 +932,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param Target_Directory Target_Directory	  */
 	public void setTarget_Directory (String Target_Directory)
 	{
-
-		if (Target_Directory != null && Target_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Target_Directory = Target_Directory.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Target_Directory, Target_Directory);
 	}
 
@@ -1059,13 +987,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT") || Type.equals("REF")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT - REF");
-		if (Type.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Type = Type.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_Type, Type);
+		if (Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT") || Type.equals("REF")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT - REF");		set_Value (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.

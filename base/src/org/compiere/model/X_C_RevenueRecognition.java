@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RevenueRecognition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition, I_Persistent 
 {
 
@@ -101,12 +101,6 @@ public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -150,12 +144,6 @@ public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -205,13 +193,7 @@ public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition
 	public void setRecognitionFrequency (String RecognitionFrequency)
 	{
 		if (RecognitionFrequency == null) throw new IllegalArgumentException ("RecognitionFrequency is mandatory");
-		if (RecognitionFrequency.equals("M") || RecognitionFrequency.equals("Q") || RecognitionFrequency.equals("Y")); else throw new IllegalArgumentException ("RecognitionFrequency Invalid value - " + RecognitionFrequency + " - Reference_ID=196 - M - Q - Y");
-		if (RecognitionFrequency.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RecognitionFrequency = RecognitionFrequency.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_RecognitionFrequency, RecognitionFrequency);
+		if (RecognitionFrequency.equals("M") || RecognitionFrequency.equals("Q") || RecognitionFrequency.equals("Y")); else throw new IllegalArgumentException ("RecognitionFrequency Invalid value - " + RecognitionFrequency + " - Reference_ID=196 - M - Q - Y");		set_Value (COLUMNNAME_RecognitionFrequency, RecognitionFrequency);
 	}
 
 	/** Get Recognition frequency.

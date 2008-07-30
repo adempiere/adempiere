@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Workflow
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_Workflow 
 {
@@ -56,6 +52,19 @@ public interface I_AD_Workflow
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -102,6 +111,19 @@ public interface I_AD_Workflow
 
 	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
 
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 
@@ -116,32 +138,6 @@ public interface I_AD_Workflow
 	public int getAD_WorkflowProcessor_ID();
 
 	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception;
-
-    /** Column name AD_Workflow_ID */
-    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID();
-
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
 
     /** Column name Author */
     public static final String COLUMNNAME_Author = "Author";
@@ -182,19 +178,6 @@ public interface I_AD_Workflow
 	  */
 	public String getDescription();
 
-    /** Column name DocValueLogic */
-    public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
-
-	/** Set Document Value Logic.
-	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public void setDocValueLogic (String DocValueLogic);
-
-	/** Get Document Value Logic.
-	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public String getDocValueLogic();
-
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
@@ -207,6 +190,19 @@ public interface I_AD_Workflow
 	  * Document sequence number of the document
 	  */
 	public String getDocumentNo();
+
+    /** Column name DocValueLogic */
+    public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
+
+	/** Set Document Value Logic.
+	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public void setDocValueLogic (String DocValueLogic);
+
+	/** Get Document Value Logic.
+	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public String getDocValueLogic();
 
     /** Column name Duration */
     public static final String COLUMNNAME_Duration = "Duration";
@@ -376,6 +372,19 @@ public interface I_AD_Workflow
 	/** Get QueuingTime	  */
 	public int getQueuingTime();
 
+    /** Column name SetupTime */
+    public static final String COLUMNNAME_SetupTime = "SetupTime";
+
+	/** Set Setup Time.
+	  * Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime);
+
+	/** Get Setup Time.
+	  * Setup time before starting Production
+	  */
+	public int getSetupTime();
+
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -391,18 +400,14 @@ public interface I_AD_Workflow
 
 	public I_S_Resource getS_Resource() throws Exception;
 
-    /** Column name SetupTime */
-    public static final String COLUMNNAME_SetupTime = "SetupTime";
+    /** Column name ValidateWorkflow */
+    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
 
-	/** Set Setup Time.
-	  * Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime);
+	/** Set Validate Workflow	  */
+	public void setValidateWorkflow (String ValidateWorkflow);
 
-	/** Get Setup Time.
-	  * Setup time before starting Production
-	  */
-	public int getSetupTime();
+	/** Get Validate Workflow	  */
+	public String getValidateWorkflow();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
@@ -429,15 +434,6 @@ public interface I_AD_Workflow
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
-
-    /** Column name ValidateWorkflow */
-    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
-
-	/** Set Validate Workflow	  */
-	public void setValidateWorkflow (String ValidateWorkflow);
-
-	/** Get Validate Workflow	  */
-	public String getValidateWorkflow();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

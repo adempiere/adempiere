@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent 
 {
 
@@ -43,10 +43,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
       super (ctx, AD_WF_Node_ID, trxName);
       /** if (AD_WF_Node_ID == 0)
         {
-			setAD_WF_Node_ID (0);
-			setAD_Workflow_ID (0);
 			setAction (null);
 // N
+			setAD_WF_Node_ID (0);
+			setAD_Workflow_ID (0);
 			setCost (Env.ZERO);
 			setDuration (0);
 			setEntityType (null);
@@ -93,6 +93,50 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
+		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
+	}
 
 	public I_AD_Column getAD_Column() throws Exception 
     {
@@ -466,68 +510,12 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
-		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");
-		if (Action.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Action = Action.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
-
 	/** Set Attribute Name.
 		@param AttributeName 
 		Name of the Attribute
 	  */
 	public void setAttributeName (String AttributeName)
 	{
-
-		if (AttributeName != null && AttributeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 
@@ -545,12 +533,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
-
-		if (AttributeValue != null && AttributeValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeValue = AttributeValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
 
@@ -629,12 +611,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -683,13 +659,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 
-		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction != null && DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -755,13 +725,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setDynPriorityUnit (String DynPriorityUnit)
 	{
 
-		if (DynPriorityUnit == null || DynPriorityUnit.equals("M") || DynPriorityUnit.equals("H") || DynPriorityUnit.equals("D")); else throw new IllegalArgumentException ("DynPriorityUnit Invalid value - " + DynPriorityUnit + " - Reference_ID=221 - M - H - D");
-		if (DynPriorityUnit != null && DynPriorityUnit.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DynPriorityUnit = DynPriorityUnit.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DynPriorityUnit, DynPriorityUnit);
+		if (DynPriorityUnit == null || DynPriorityUnit.equals("M") || DynPriorityUnit.equals("H") || DynPriorityUnit.equals("D")); else throw new IllegalArgumentException ("DynPriorityUnit Invalid value - " + DynPriorityUnit + " - Reference_ID=221 - M - H - D");		set_Value (COLUMNNAME_DynPriorityUnit, DynPriorityUnit);
 	}
 
 	/** Get Dynamic Priority Unit.
@@ -778,12 +742,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -810,13 +768,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setEMailRecipient (String EMailRecipient)
 	{
 
-		if (EMailRecipient == null || EMailRecipient.equals("D") || EMailRecipient.equals("B") || EMailRecipient.equals("R")); else throw new IllegalArgumentException ("EMailRecipient Invalid value - " + EMailRecipient + " - Reference_ID=363 - D - B - R");
-		if (EMailRecipient != null && EMailRecipient.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			EMailRecipient = EMailRecipient.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_EMailRecipient, EMailRecipient);
+		if (EMailRecipient == null || EMailRecipient.equals("D") || EMailRecipient.equals("B") || EMailRecipient.equals("R")); else throw new IllegalArgumentException ("EMailRecipient Invalid value - " + EMailRecipient + " - Reference_ID=363 - D - B - R");		set_Value (COLUMNNAME_EMailRecipient, EMailRecipient);
 	}
 
 	/** Get EMail Recipient.
@@ -835,12 +787,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -865,13 +811,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setFinishMode (String FinishMode)
 	{
 
-		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");
-		if (FinishMode != null && FinishMode.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FinishMode = FinishMode.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FinishMode, FinishMode);
+		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");		set_Value (COLUMNNAME_FinishMode, FinishMode);
 	}
 
 	/** Get Finish Mode.
@@ -888,12 +828,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -984,13 +918,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setJoinElement (String JoinElement)
 	{
 		if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");
-		if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");
-		if (JoinElement.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			JoinElement = JoinElement.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_JoinElement, JoinElement);
+		if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");		set_Value (COLUMNNAME_JoinElement, JoinElement);
 	}
 
 	/** Get Join Element.
@@ -1046,12 +974,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1164,6 +1086,50 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Setup Time.
+		@param SetupTime 
+		Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime)
+	{
+		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
+	}
+
+	/** Get Setup Time.
+		@return Setup time before starting Production
+	  */
+	public int getSetupTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** SplitElement AD_Reference_ID=301 */
+	public static final int SPLITELEMENT_AD_Reference_ID=301;
+	/** AND = A */
+	public static final String SPLITELEMENT_AND = "A";
+	/** XOR = X */
+	public static final String SPLITELEMENT_XOR = "X";
+	/** Set Split Element.
+		@param SplitElement 
+		Semantics for multiple outgoing Transitions
+	  */
+	public void setSplitElement (String SplitElement)
+	{
+		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
+		if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");		set_Value (COLUMNNAME_SplitElement, SplitElement);
+	}
+
+	/** Get Split Element.
+		@return Semantics for multiple outgoing Transitions
+	  */
+	public String getSplitElement () 
+	{
+		return (String)get_Value(COLUMNNAME_SplitElement);
+	}
+
 	public I_S_Resource getS_Resource() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -1203,56 +1169,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Setup Time.
-		@param SetupTime 
-		Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime)
-	{
-		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
-	}
-
-	/** Get Setup Time.
-		@return Setup time before starting Production
-	  */
-	public int getSetupTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** SplitElement AD_Reference_ID=301 */
-	public static final int SPLITELEMENT_AD_Reference_ID=301;
-	/** AND = A */
-	public static final String SPLITELEMENT_AND = "A";
-	/** XOR = X */
-	public static final String SPLITELEMENT_XOR = "X";
-	/** Set Split Element.
-		@param SplitElement 
-		Semantics for multiple outgoing Transitions
-	  */
-	public void setSplitElement (String SplitElement)
-	{
-		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
-		if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");
-		if (SplitElement.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SplitElement = SplitElement.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SplitElement, SplitElement);
-	}
-
-	/** Get Split Element.
-		@return Semantics for multiple outgoing Transitions
-	  */
-	public String getSplitElement () 
-	{
-		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
 	/** StartMode AD_Reference_ID=303 */
 	public static final int STARTMODE_AD_Reference_ID=303;
 	/** Automatic = A */
@@ -1266,13 +1182,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setStartMode (String StartMode)
 	{
 
-		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");
-		if (StartMode != null && StartMode.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			StartMode = StartMode.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_StartMode, StartMode);
+		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");		set_Value (COLUMNNAME_StartMode, StartMode);
 	}
 
 	/** Get Start Mode.
@@ -1296,13 +1206,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public void setSubflowExecution (String SubflowExecution)
 	{
 
-		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");
-		if (SubflowExecution != null && SubflowExecution.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SubflowExecution = SubflowExecution.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
+		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
 	}
 
 	/** Get Subflow Execution.
@@ -1372,12 +1276,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1387,26 +1285,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public String getValue () 
 	{
 		return (String)get_Value(COLUMNNAME_Value);
-	}
-
-	/** Set Wait Time.
-		@param WaitTime 
-		Time in minutes to wait (sleep)
-	  */
-	public void setWaitTime (int WaitTime)
-	{
-		set_Value (COLUMNNAME_WaitTime, Integer.valueOf(WaitTime));
-	}
-
-	/** Get Wait Time.
-		@return Time in minutes to wait (sleep)
-	  */
-	public int getWaitTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WaitTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Waiting Time.
@@ -1424,6 +1302,26 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public int getWaitingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Wait Time.
+		@param WaitTime 
+		Time in minutes to wait (sleep)
+	  */
+	public void setWaitTime (int WaitTime)
+	{
+		set_Value (COLUMNNAME_WaitTime, Integer.valueOf(WaitTime));
+	}
+
+	/** Get Wait Time.
+		@return Time in minutes to wait (sleep)
+	  */
+	public int getWaitTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WaitTime);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

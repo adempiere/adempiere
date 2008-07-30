@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Request
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_R_Request 
 {
@@ -56,6 +52,21 @@ public interface I_R_Request
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -102,21 +113,6 @@ public interface I_R_Request
 
 	public I_AD_User getAD_User() throws Exception;
 
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public I_A_Asset getA_Asset() throws Exception;
-
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -162,19 +158,6 @@ public interface I_R_Request
 
 	public I_C_Campaign getC_Campaign() throws Exception;
 
-    /** Column name C_InvoiceRequest_ID */
-    public static final String COLUMNNAME_C_InvoiceRequest_ID = "C_InvoiceRequest_ID";
-
-	/** Set Request Invoice.
-	  * The generated invoice for this request
-	  */
-	public void setC_InvoiceRequest_ID (int C_InvoiceRequest_ID);
-
-	/** Get Request Invoice.
-	  * The generated invoice for this request
-	  */
-	public int getC_InvoiceRequest_ID();
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -189,6 +172,58 @@ public interface I_R_Request
 	public int getC_Invoice_ID();
 
 	public I_C_Invoice getC_Invoice() throws Exception;
+
+    /** Column name C_InvoiceRequest_ID */
+    public static final String COLUMNNAME_C_InvoiceRequest_ID = "C_InvoiceRequest_ID";
+
+	/** Set Request Invoice.
+	  * The generated invoice for this request
+	  */
+	public void setC_InvoiceRequest_ID (int C_InvoiceRequest_ID);
+
+	/** Get Request Invoice.
+	  * The generated invoice for this request
+	  */
+	public int getC_InvoiceRequest_ID();
+
+    /** Column name CloseDate */
+    public static final String COLUMNNAME_CloseDate = "CloseDate";
+
+	/** Set Close Date.
+	  * Close Date
+	  */
+	public void setCloseDate (Timestamp CloseDate);
+
+	/** Get Close Date.
+	  * Close Date
+	  */
+	public Timestamp getCloseDate();
+
+    /** Column name ConfidentialType */
+    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
+
+	/** Set Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType);
+
+	/** Get Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public String getConfidentialType();
+
+    /** Column name ConfidentialTypeEntry */
+    public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
+
+	/** Set Entry Confidentiality.
+	  * Confidentiality of the individual entry
+	  */
+	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
+
+	/** Get Entry Confidentiality.
+	  * Confidentiality of the individual entry
+	  */
+	public String getConfidentialTypeEntry();
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -234,45 +269,6 @@ public interface I_R_Request
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws Exception;
-
-    /** Column name CloseDate */
-    public static final String COLUMNNAME_CloseDate = "CloseDate";
-
-	/** Set Close Date.
-	  * Close Date
-	  */
-	public void setCloseDate (Timestamp CloseDate);
-
-	/** Get Close Date.
-	  * Close Date
-	  */
-	public Timestamp getCloseDate();
-
-    /** Column name ConfidentialType */
-    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
-
-	/** Set Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType);
-
-	/** Get Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public String getConfidentialType();
-
-    /** Column name ConfidentialTypeEntry */
-    public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
-
-	/** Set Entry Confidentiality.
-	  * Confidentiality of the individual entry
-	  */
-	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
-
-	/** Get Entry Confidentiality.
-	  * Confidentiality of the individual entry
-	  */
-	public String getConfidentialTypeEntry();
 
     /** Column name DateCompletePlan */
     public static final String COLUMNNAME_DateCompletePlan = "DateCompletePlan";
@@ -473,19 +469,6 @@ public interface I_R_Request
 
 	public I_M_InOut getM_InOut() throws Exception;
 
-    /** Column name M_ProductSpent_ID */
-    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
-
-	/** Set Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
-
-	/** Get Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public int getM_ProductSpent_ID();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -500,6 +483,19 @@ public interface I_R_Request
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws Exception;
+
+    /** Column name M_ProductSpent_ID */
+    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
+
+	/** Set Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
+
+	/** Get Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public int getM_ProductSpent_ID();
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -622,6 +618,45 @@ public interface I_R_Request
 
 	public I_R_Category getR_Category() throws Exception;
 
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
+
+    /** Column name RequestAmt */
+    public static final String COLUMNNAME_RequestAmt = "RequestAmt";
+
+	/** Set Request Amount.
+	  * Amount associated with this request
+	  */
+	public void setRequestAmt (BigDecimal RequestAmt);
+
+	/** Get Request Amount.
+	  * Amount associated with this request
+	  */
+	public BigDecimal getRequestAmt();
+
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
+
+	/** Set Result.
+	  * Result of the action taken
+	  */
+	public void setResult (String Result);
+
+	/** Get Result.
+	  * Result of the action taken
+	  */
+	public String getResult();
+
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
 
@@ -652,6 +687,19 @@ public interface I_R_Request
 
 	public I_R_MailText getR_MailText() throws Exception;
 
+    /** Column name R_Request_ID */
+    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
+
+	/** Set Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public void setR_Request_ID (int R_Request_ID);
+
+	/** Get Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public int getR_Request_ID();
+
     /** Column name R_RequestRelated_ID */
     public static final String COLUMNNAME_R_RequestRelated_ID = "R_RequestRelated_ID";
 
@@ -679,19 +727,6 @@ public interface I_R_Request
 	public int getR_RequestType_ID();
 
 	public I_R_RequestType getR_RequestType() throws Exception;
-
-    /** Column name R_Request_ID */
-    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
-
-	/** Set Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public void setR_Request_ID (int R_Request_ID);
-
-	/** Get Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public int getR_Request_ID();
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";
@@ -737,45 +772,6 @@ public interface I_R_Request
 	public int getR_Status_ID();
 
 	public I_R_Status getR_Status() throws Exception;
-
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
-
-	/** Set Record ID.
-	  * Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID);
-
-	/** Get Record ID.
-	  * Direct internal record ID
-	  */
-	public int getRecord_ID();
-
-    /** Column name RequestAmt */
-    public static final String COLUMNNAME_RequestAmt = "RequestAmt";
-
-	/** Set Request Amount.
-	  * Amount associated with this request
-	  */
-	public void setRequestAmt (BigDecimal RequestAmt);
-
-	/** Get Request Amount.
-	  * Amount associated with this request
-	  */
-	public BigDecimal getRequestAmt();
-
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
-
-	/** Set Result.
-	  * Result of the action taken
-	  */
-	public void setResult (String Result);
-
-	/** Get Result.
-	  * Result of the action taken
-	  */
-	public String getResult();
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

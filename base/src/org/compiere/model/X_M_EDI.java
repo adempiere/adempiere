@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_EDI
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_EDI extends PO implements I_M_EDI, I_Persistent 
 {
 
@@ -52,8 +52,8 @@ public class X_M_EDI extends PO implements I_M_EDI, I_Persistent
 			setM_Warehouse_ID (0);
 			setProcessed (false);
 			setRequest_Qty (Env.ZERO);
-			setRequest_Shipdate (new Timestamp(System.currentTimeMillis()));
-			setTrxSent (new Timestamp(System.currentTimeMillis()));
+			setRequest_Shipdate (new Timestamp( System.currentTimeMillis() ));
+			setTrxSent (new Timestamp( System.currentTimeMillis() ));
 			setTrxType (null);
         } */
     }
@@ -132,11 +132,12 @@ public class X_M_EDI extends PO implements I_M_EDI, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
+		int fieldLength = p_info.getFieldLength( COLUMNNAME_DocumentNo );
 
-		if (DocumentNo.length() > 30)
+		if (DocumentNo.length() > fieldLength )
 		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
+			log.warning("Length > " + fieldLength + " - truncated");
+			DocumentNo = DocumentNo.substring(0, fieldLength );
 		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
@@ -172,11 +173,12 @@ public class X_M_EDI extends PO implements I_M_EDI, I_Persistent
 	public void setEDIStatus (String EDIStatus)
 	{
 		if (EDIStatus == null) throw new IllegalArgumentException ("EDIStatus is mandatory");
-		if (EDIStatus.equals("D") || EDIStatus.equals("S") || EDIStatus.equals("A") || EDIStatus.equals("C")); else throw new IllegalArgumentException ("EDIStatus Invalid value - " + EDIStatus + " - Reference_ID=202 - D - S - A - C");
-		if (EDIStatus.length() > 1)
+		if (EDIStatus.equals("D") || EDIStatus.equals("S") || EDIStatus.equals("A") || EDIStatus.equals("C")); else throw new IllegalArgumentException ("EDIStatus Invalid value - " + EDIStatus + " - Reference_ID=202 - D - S - A - C");		int fieldLength = p_info.getFieldLength( COLUMNNAME_EDIStatus );
+
+		if (EDIStatus.length() > fieldLength )
 		{
-			log.warning("Length > 1 - truncated");
-			EDIStatus = EDIStatus.substring(0, 1);
+			log.warning("Length > " + fieldLength + " - truncated");
+			EDIStatus = EDIStatus.substring(0, fieldLength );
 		}
 		set_ValueNoCheck (COLUMNNAME_EDIStatus, EDIStatus);
 	}
@@ -399,11 +401,12 @@ public class X_M_EDI extends PO implements I_M_EDI, I_Persistent
 		@param Reply_Remarks Reply Remarks	  */
 	public void setReply_Remarks (String Reply_Remarks)
 	{
+		int fieldLength = p_info.getFieldLength( COLUMNNAME_Reply_Remarks );
 
-		if (Reply_Remarks != null && Reply_Remarks.length() > 2000)
+		if (Reply_Remarks != null && Reply_Remarks.length() > fieldLength )
 		{
-			log.warning("Length > 2000 - truncated");
-			Reply_Remarks = Reply_Remarks.substring(0, 2000);
+			log.warning("Length > " + fieldLength + " - truncated");
+			Reply_Remarks = Reply_Remarks.substring(0, fieldLength );
 		}
 		set_Value (COLUMNNAME_Reply_Remarks, Reply_Remarks);
 	}
@@ -524,11 +527,12 @@ public class X_M_EDI extends PO implements I_M_EDI, I_Persistent
 	public void setTrxType (String TrxType)
 	{
 		if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
-		if (TrxType.equals("I") || TrxType.equals("O")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=203 - I - O");
-		if (TrxType.length() > 1)
+		if (TrxType.equals("I") || TrxType.equals("O")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=203 - I - O");		int fieldLength = p_info.getFieldLength( COLUMNNAME_TrxType );
+
+		if (TrxType.length() > fieldLength )
 		{
-			log.warning("Length > 1 - truncated");
-			TrxType = TrxType.substring(0, 1);
+			log.warning("Length > " + fieldLength + " - truncated");
+			TrxType = TrxType.substring(0, fieldLength );
 		}
 		set_ValueNoCheck (COLUMNNAME_TrxType, TrxType);
 	}

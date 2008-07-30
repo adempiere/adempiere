@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMALine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
       super (ctx, M_RMALine_ID, trxName);
       /** if (M_RMALine_ID == 0)
         {
-			setM_RMALine_ID (0);
 			setM_RMA_ID (0);
+			setM_RMALine_ID (0);
 			setProcessed (false);
 			setQty (Env.ZERO);
         } */
@@ -142,12 +142,6 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -238,28 +232,6 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set RMA Line.
-		@param M_RMALine_ID 
-		Return Material Authorization Line
-	  */
-	public void setM_RMALine_ID (int M_RMALine_ID)
-	{
-		if (M_RMALine_ID < 1)
-			 throw new IllegalArgumentException ("M_RMALine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, Integer.valueOf(M_RMALine_ID));
-	}
-
-	/** Get RMA Line.
-		@return Return Material Authorization Line
-	  */
-	public int getM_RMALine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMALine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_RMA getM_RMA() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_RMA.Table_Name);
@@ -305,6 +277,28 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_RMA_ID()));
     }
+
+	/** Set RMA Line.
+		@param M_RMALine_ID 
+		Return Material Authorization Line
+	  */
+	public void setM_RMALine_ID (int M_RMALine_ID)
+	{
+		if (M_RMALine_ID < 1)
+			 throw new IllegalArgumentException ("M_RMALine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, Integer.valueOf(M_RMALine_ID));
+	}
+
+	/** Get RMA Line.
+		@return Return Material Authorization Line
+	  */
+	public int getM_RMALine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMALine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Processed.
 		@param Processed 

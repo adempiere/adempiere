@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_Processor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent 
 {
 
@@ -84,12 +84,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		@param Account Account	  */
 	public void setAccount (String Account)
 	{
-
-		if (Account != null && Account.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Account = Account.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Account, Account);
 	}
 
@@ -140,12 +134,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -192,13 +180,7 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");
-		if (FrequencyType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.
@@ -215,12 +197,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -236,12 +212,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		@param Host Host	  */
 	public void setHost (String Host)
 	{
-
-		if (Host != null && Host.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Host = Host.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Host, Host);
 	}
 
@@ -334,12 +304,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -355,12 +319,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		@param PasswordInfo PasswordInfo	  */
 	public void setPasswordInfo (String PasswordInfo)
 	{
-
-		if (PasswordInfo != null && PasswordInfo.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			PasswordInfo = PasswordInfo.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_PasswordInfo, PasswordInfo);
 	}
 
@@ -417,12 +375,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

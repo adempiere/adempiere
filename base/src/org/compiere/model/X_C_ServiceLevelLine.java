@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_Persistent 
 {
 
@@ -43,9 +43,9 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
       super (ctx, C_ServiceLevelLine_ID, trxName);
       /** if (C_ServiceLevelLine_ID == 0)
         {
-			setC_ServiceLevelLine_ID (0);
 			setC_ServiceLevel_ID (0);
-			setServiceDate (new Timestamp(System.currentTimeMillis()));
+			setC_ServiceLevelLine_ID (0);
+			setServiceDate (new Timestamp( System.currentTimeMillis() ));
 			setServiceLevelProvided (Env.ZERO);
         } */
     }
@@ -77,28 +77,6 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Service Level Line.
-		@param C_ServiceLevelLine_ID 
-		Product Revenue Recognition Service Level Line
-	  */
-	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID)
-	{
-		if (C_ServiceLevelLine_ID < 1)
-			 throw new IllegalArgumentException ("C_ServiceLevelLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, Integer.valueOf(C_ServiceLevelLine_ID));
-	}
-
-	/** Get Service Level Line.
-		@return Product Revenue Recognition Service Level Line
-	  */
-	public int getC_ServiceLevelLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ServiceLevelLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_ServiceLevel getC_ServiceLevel() throws Exception 
     {
@@ -138,18 +116,34 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 		return ii.intValue();
 	}
 
+	/** Set Service Level Line.
+		@param C_ServiceLevelLine_ID 
+		Product Revenue Recognition Service Level Line
+	  */
+	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID)
+	{
+		if (C_ServiceLevelLine_ID < 1)
+			 throw new IllegalArgumentException ("C_ServiceLevelLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, Integer.valueOf(C_ServiceLevelLine_ID));
+	}
+
+	/** Get Service Level Line.
+		@return Product Revenue Recognition Service Level Line
+	  */
+	public int getC_ServiceLevelLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ServiceLevelLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

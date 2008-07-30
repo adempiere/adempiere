@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent 
 {
 
@@ -74,6 +74,54 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set ActivityValue.
+		@param ActivityValue ActivityValue	  */
+	public void setActivityValue (String ActivityValue)
+	{
+		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
+	}
+
+	/** Get ActivityValue.
+		@return ActivityValue	  */
+	public String getActivityValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ActivityValue);
+	}
+
+	/** Set Address 1.
+		@param Address1 
+		Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1)
+	{
+		set_Value (COLUMNNAME_Address1, Address1);
+	}
+
+	/** Get Address 1.
+		@return Address line 1 for this location
+	  */
+	public String getAddress1 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address1);
+	}
+
+	/** Set Address 2.
+		@param Address2 
+		Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2)
+	{
+		set_Value (COLUMNNAME_Address2, Address2);
+	}
+
+	/** Get Address 2.
+		@return Address line 2 for this location
+	  */
+	public String getAddress2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address2);
+	}
 
 	/** AD_OrgTrx_ID AD_Reference_ID=130 */
 	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
@@ -139,84 +187,12 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set ActivityValue.
-		@param ActivityValue ActivityValue	  */
-	public void setActivityValue (String ActivityValue)
-	{
-
-		if (ActivityValue != null && ActivityValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ActivityValue = ActivityValue.substring(0, 40);
-		}
-		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
-	}
-
-	/** Get ActivityValue.
-		@return ActivityValue	  */
-	public String getActivityValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ActivityValue);
-	}
-
-	/** Set Address 1.
-		@param Address1 
-		Address line 1 for this location
-	  */
-	public void setAddress1 (String Address1)
-	{
-
-		if (Address1 != null && Address1.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_Address1, Address1);
-	}
-
-	/** Get Address 1.
-		@return Address line 1 for this location
-	  */
-	public String getAddress1 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address1);
-	}
-
-	/** Set Address 2.
-		@param Address2 
-		Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2)
-	{
-
-		if (Address2 != null && Address2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_Address2, Address2);
-	}
-
-	/** Get Address 2.
-		@return Address line 2 for this location
-	  */
-	public String getAddress2 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address2);
-	}
-
 	/** Set Business Partner Key.
 		@param BPartnerValue 
 		Key of the Business Partner
 	  */
 	public void setBPartnerValue (String BPartnerValue)
 	{
-
-		if (BPartnerValue != null && BPartnerValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			BPartnerValue = BPartnerValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
 
@@ -540,43 +516,21 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
-        I_C_InvoiceLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Invoice Line.
-		@param C_InvoiceLine_ID 
-		Invoice Detail Line
+	/** Set Charge Name.
+		@param ChargeName 
+		Name of the Charge
 	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	public void setChargeName (String ChargeName)
 	{
-		if (C_InvoiceLine_ID < 1) 
-			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		set_Value (COLUMNNAME_ChargeName, ChargeName);
 	}
 
-	/** Get Invoice Line.
-		@return Invoice Detail Line
+	/** Get Charge Name.
+		@return Name of the Charge
 	  */
-	public int getC_InvoiceLine_ID () 
+	public String getChargeName () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_ChargeName);
 	}
 
 	public I_C_Invoice getC_Invoice() throws Exception 
@@ -618,6 +572,62 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
+        I_C_InvoiceLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Invoice Line.
+		@param C_InvoiceLine_ID 
+		Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	{
+		if (C_InvoiceLine_ID < 1) 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+	}
+
+	/** Get Invoice Line.
+		@return Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
+	}
+
 	public I_C_Location getC_Location() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Location.Table_Name);
@@ -655,6 +665,47 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Contact Name.
+		@param ContactName 
+		Business Partner Contact Name
+	  */
+	public void setContactName (String ContactName)
+	{
+		set_Value (COLUMNNAME_ContactName, ContactName);
+	}
+
+	/** Get Contact Name.
+		@return Business Partner Contact Name
+	  */
+	public String getContactName () 
+	{
+		return (String)get_Value(COLUMNNAME_ContactName);
+	}
+
+	/** Set ISO Country Code.
+		@param CountryCode 
+		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public void setCountryCode (boolean CountryCode)
+	{
+		set_Value (COLUMNNAME_CountryCode, Boolean.valueOf(CountryCode));
+	}
+
+	/** Get ISO Country Code.
+		@return Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public boolean isCountryCode () 
+	{
+		Object oo = get_Value(COLUMNNAME_CountryCode);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
@@ -813,99 +864,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge Name.
-		@param ChargeName 
-		Name of the Charge
-	  */
-	public void setChargeName (String ChargeName)
-	{
-
-		if (ChargeName != null && ChargeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ChargeName = ChargeName.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_ChargeName, ChargeName);
-	}
-
-	/** Get Charge Name.
-		@return Name of the Charge
-	  */
-	public String getChargeName () 
-	{
-		return (String)get_Value(COLUMNNAME_ChargeName);
-	}
-
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-
-		if (City != null && City.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
-	/** Set Contact Name.
-		@param ContactName 
-		Business Partner Contact Name
-	  */
-	public void setContactName (String ContactName)
-	{
-
-		if (ContactName != null && ContactName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ContactName = ContactName.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_ContactName, ContactName);
-	}
-
-	/** Get Contact Name.
-		@return Business Partner Contact Name
-	  */
-	public String getContactName () 
-	{
-		return (String)get_Value(COLUMNNAME_ContactName);
-	}
-
-	/** Set ISO Country Code.
-		@param CountryCode 
-		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public void setCountryCode (boolean CountryCode)
-	{
-		set_Value (COLUMNNAME_CountryCode, Boolean.valueOf(CountryCode));
-	}
-
-	/** Get ISO Country Code.
-		@return Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public boolean isCountryCode () 
-	{
-		Object oo = get_Value(COLUMNNAME_CountryCode);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Account Date.
 		@param DateAcct 
 		Accounting Date
@@ -946,12 +904,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -969,12 +921,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setDocTypeName (String DocTypeName)
 	{
-
-		if (DocTypeName != null && DocTypeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DocTypeName = DocTypeName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DocTypeName, DocTypeName);
 	}
 
@@ -992,12 +938,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -1015,12 +955,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -1038,12 +972,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -1131,12 +1059,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setLineDescription (String LineDescription)
 	{
-
-		if (LineDescription != null && LineDescription.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			LineDescription = LineDescription.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_LineDescription, LineDescription);
 	}
 
@@ -1232,12 +1154,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1255,12 +1171,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setPaymentTermValue (String PaymentTermValue)
 	{
-
-		if (PaymentTermValue != null && PaymentTermValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			PaymentTermValue = PaymentTermValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_PaymentTermValue, PaymentTermValue);
 	}
 
@@ -1278,12 +1188,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setPhone (String Phone)
 	{
-
-		if (Phone != null && Phone.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
 
@@ -1301,12 +1205,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setPostal (String Postal)
 	{
-
-		if (Postal != null && Postal.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
 
@@ -1389,12 +1287,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setProductValue (String ProductValue)
 	{
-
-		if (ProductValue != null && ProductValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ProductValue = ProductValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ProductValue, ProductValue);
 	}
 
@@ -1412,12 +1304,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setProjectValue (String ProjectValue)
 	{
-
-		if (ProjectValue != null && ProjectValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ProjectValue = ProjectValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
 	}
 
@@ -1455,12 +1341,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setRegionName (String RegionName)
 	{
-
-		if (RegionName != null && RegionName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}
 
@@ -1470,29 +1350,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	public String getRegionName () 
 	{
 		return (String)get_Value(COLUMNNAME_RegionName);
-	}
-
-	/** Set SKU.
-		@param SKU 
-		Stock Keeping Unit
-	  */
-	public void setSKU (String SKU)
-	{
-
-		if (SKU != null && SKU.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_SKU, SKU);
-	}
-
-	/** Get SKU.
-		@return Stock Keeping Unit
-	  */
-	public String getSKU () 
-	{
-		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
 	/** SalesRep_ID AD_Reference_ID=190 */
@@ -1518,6 +1375,23 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set SKU.
+		@param SKU 
+		Stock Keeping Unit
+	  */
+	public void setSKU (String SKU)
+	{
+		set_Value (COLUMNNAME_SKU, SKU);
+	}
+
+	/** Get SKU.
+		@return Stock Keeping Unit
+	  */
+	public String getSKU () 
+	{
+		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
 	/** Set Tax Amount.
@@ -1546,12 +1420,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setTaxIndicator (String TaxIndicator)
 	{
-
-		if (TaxIndicator != null && TaxIndicator.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			TaxIndicator = TaxIndicator.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_TaxIndicator, TaxIndicator);
 	}
 
@@ -1569,12 +1437,6 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setUPC (String UPC)
 	{
-
-		if (UPC != null && UPC.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
 

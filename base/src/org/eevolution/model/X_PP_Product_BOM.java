@@ -18,18 +18,16 @@
 package org.eevolution.model;
 
 import java.lang.reflect.Constructor;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persistent 
 {
 
@@ -47,7 +45,7 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 			setM_Product_ID (0);
 			setName (null);
 			setPP_Product_BOM_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setValue (null);
         } */
@@ -81,25 +79,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
       return sb.toString();
     }
 
-	/** Set Amount.
-		@param Amt 
-		Amount
-	  */
-	public void setAmt (BigDecimal Amt)
-	{
-		throw new IllegalArgumentException ("Amt is virtual column");	}
-
-	/** Get Amount.
-		@return Amount
-	  */
-	public BigDecimal getAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Amt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** BOMType AD_Reference_ID=347 */
 	public static final int BOMTYPE_AD_Reference_ID=347;
 	/** Current Active = A */
@@ -125,13 +104,7 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public void setBOMType (String BOMType)
 	{
 
-		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");
-		if (BOMType != null && BOMType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMType = BOMType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMType, BOMType);
+		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
 
 	/** Get BOM Type.
@@ -161,13 +134,7 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public void setBOMUse (String BOMUse)
 	{
 
-		if (BOMUse == null || BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");
-		if (BOMUse != null && BOMUse.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMUse = BOMUse.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMUse, BOMUse);
+		if (BOMUse == null || BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");		set_Value (COLUMNNAME_BOMUse, BOMUse);
 	}
 
 	/** Get BOM Use.
@@ -184,12 +151,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	  */
 	public void setCopyFrom (String CopyFrom)
 	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
 
@@ -199,26 +160,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public String getCopyFrom () 
 	{
 		return (String)get_Value(COLUMNNAME_CopyFrom);
-	}
-
-	/** Set Cost.
-		@param Cost 
-		Cost information
-	  */
-	public void setCost (BigDecimal Cost)
-	{
-		set_Value (COLUMNNAME_Cost, Cost);
-	}
-
-	/** Get Cost.
-		@return Cost information
-	  */
-	public BigDecimal getCost () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	public I_C_UOM getC_UOM() throws Exception 
@@ -266,12 +207,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -289,12 +224,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			DocumentNo = DocumentNo.substring(0, 22);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -312,12 +241,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -327,25 +250,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
-	}
-
-	/** Set Margin %.
-		@param Margin 
-		Margin for a product as a percentage
-	  */
-	public void setMargin (BigDecimal Margin)
-	{
-		throw new IllegalArgumentException ("Margin is virtual column");	}
-
-	/** Get Margin %.
-		@return Margin for a product as a percentage
-	  */
-	public BigDecimal getMargin () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Attribute Set Instance.
@@ -410,45 +314,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
-        I_M_PriceList_Version result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList_Version)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_Version_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Price List Version.
-		@param M_PriceList_Version_ID 
-		Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
-	{
-		if (M_PriceList_Version_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
-	}
-
-	/** Get Price List Version.
-		@return Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -495,12 +360,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -534,26 +393,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Price.
-		@param Price 
-		Price
-	  */
-	public void setPrice (BigDecimal Price)
-	{
-		set_Value (COLUMNNAME_Price, Price);
-	}
-
-	/** Get Price.
-		@return Price
-	  */
-	public BigDecimal getPrice () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Price);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Process Now.
 		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)
@@ -579,12 +418,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 		@param Revision Revision	  */
 	public void setRevision (String Revision)
 	{
-
-		if (Revision != null && Revision.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Revision = Revision.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Revision, Revision);
 	}
 
@@ -639,12 +472,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			Value = Value.substring(0, 80);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

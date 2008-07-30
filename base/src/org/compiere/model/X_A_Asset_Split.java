@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent 
 {
 
@@ -54,7 +54,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 			setA_Transfer_Balance_IS (false);
 			setC_Period_ID (0);
 // @Date@
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @Date@
 			setPostingType (null);
 // @SQL=SELECT PostingType FROM A_Depreciation_Workfile WHERE A_Depreciation_Workfile.A_Depreciation_Workfile_ID=@A_Depreciation_Workfile_ID@
@@ -314,13 +314,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public void setA_Split_Type (String A_Split_Type)
 	{
 		if (A_Split_Type == null) throw new IllegalArgumentException ("A_Split_Type is mandatory");
-		if (A_Split_Type.equals("AMT") || A_Split_Type.equals("PER") || A_Split_Type.equals("QTY")); else throw new IllegalArgumentException ("A_Split_Type Invalid value - " + A_Split_Type + " - Reference_ID=53263 - AMT - PER - QTY");
-		if (A_Split_Type.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Split_Type = A_Split_Type.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Split_Type, A_Split_Type);
+		if (A_Split_Type.equals("AMT") || A_Split_Type.equals("PER") || A_Split_Type.equals("QTY")); else throw new IllegalArgumentException ("A_Split_Type Invalid value - " + A_Split_Type + " - Reference_ID=53263 - AMT - PER - QTY");		set_Value (COLUMNNAME_A_Split_Type, A_Split_Type);
 	}
 
 	/** Get A_Split_Type.
@@ -413,13 +407,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

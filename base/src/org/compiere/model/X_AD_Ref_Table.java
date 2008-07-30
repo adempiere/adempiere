@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent 
 {
 
@@ -214,12 +214,6 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -261,12 +255,6 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 	  */
 	public void setOrderByClause (String OrderByClause)
 	{
-
-		if (OrderByClause != null && OrderByClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OrderByClause = OrderByClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OrderByClause, OrderByClause);
 	}
 
@@ -284,12 +272,6 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-
-		if (WhereClause != null && WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

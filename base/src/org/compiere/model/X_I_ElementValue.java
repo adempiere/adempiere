@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persistent 
 {
 
@@ -73,31 +73,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
       return sb.toString();
     }
 
-	/** AD_Column_ID AD_Reference_ID=272 */
-	public static final int AD_COLUMN_ID_AD_Reference_ID=272;
-	/** Set Column.
-		@param AD_Column_ID 
-		Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID)
-	{
-		if (AD_Column_ID < 1) 
-			set_Value (COLUMNNAME_AD_Column_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
-	}
-
-	/** Get Column.
-		@return Column in the table
-	  */
-	public int getAD_Column_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** AccountSign AD_Reference_ID=118 */
 	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
 	/** Natural = N */
@@ -113,13 +88,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	public void setAccountSign (String AccountSign)
 	{
 
-		if (AccountSign == null || AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");
-		if (AccountSign != null && AccountSign.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccountSign = AccountSign.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
+		if (AccountSign == null || AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");		set_Value (COLUMNNAME_AccountSign, AccountSign);
 	}
 
 	/** Get Account Sign.
@@ -151,13 +120,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	public void setAccountType (String AccountType)
 	{
 
-		if (AccountType == null || AccountType.equals("A") || AccountType.equals("L") || AccountType.equals("R") || AccountType.equals("E") || AccountType.equals("O") || AccountType.equals("M")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - L - R - E - O - M");
-		if (AccountType != null && AccountType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccountType = AccountType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccountType, AccountType);
+		if (AccountType == null || AccountType.equals("A") || AccountType.equals("L") || AccountType.equals("R") || AccountType.equals("E") || AccountType.equals("O") || AccountType.equals("M")); else throw new IllegalArgumentException ("AccountType Invalid value - " + AccountType + " - Reference_ID=117 - A - L - R - E - O - M");		set_Value (COLUMNNAME_AccountType, AccountType);
 	}
 
 	/** Get Account Type.
@@ -168,40 +131,26 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	public I_C_ElementValue getC_ElementValue() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
-        I_C_ElementValue result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ElementValue)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ElementValue_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Account Element.
-		@param C_ElementValue_ID 
-		Account Element
+	/** AD_Column_ID AD_Reference_ID=272 */
+	public static final int AD_COLUMN_ID_AD_Reference_ID=272;
+	/** Set Column.
+		@param AD_Column_ID 
+		Column in the table
 	  */
-	public void setC_ElementValue_ID (int C_ElementValue_ID)
+	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (C_ElementValue_ID < 1) 
-			set_Value (COLUMNNAME_C_ElementValue_ID, null);
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
-	/** Get Account Element.
-		@return Account Element
+	/** Get Column.
+		@return Column in the table
 	  */
-	public int getC_ElementValue_ID () 
+	public int getAD_Column_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ElementValue_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -246,18 +195,51 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_ElementValue getC_ElementValue() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
+        I_C_ElementValue result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ElementValue)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ElementValue_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Account Element.
+		@param C_ElementValue_ID 
+		Account Element
+	  */
+	public void setC_ElementValue_ID (int C_ElementValue_ID)
+	{
+		if (C_ElementValue_ID < 1) 
+			set_Value (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+	}
+
+	/** Get Account Element.
+		@return Account Element
+	  */
+	public int getC_ElementValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ElementValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Default Account.
 		@param Default_Account 
 		Name of the Default Account Column
 	  */
 	public void setDefault_Account (String Default_Account)
 	{
-
-		if (Default_Account != null && Default_Account.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Default_Account = Default_Account.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_Default_Account, Default_Account);
 	}
 
@@ -275,12 +257,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -298,12 +274,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setElementName (String ElementName)
 	{
-
-		if (ElementName != null && ElementName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ElementName = ElementName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ElementName, ElementName);
 	}
 
@@ -343,12 +313,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -438,12 +402,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -486,12 +444,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setParentValue (String ParentValue)
 	{
-
-		if (ParentValue != null && ParentValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ParentValue = ParentValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ParentValue, ParentValue);
 	}
 
@@ -650,12 +602,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

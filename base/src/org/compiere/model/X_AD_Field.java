@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
@@ -320,12 +320,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setDefaultValue (String DefaultValue)
 	{
-
-		if (DefaultValue != null && DefaultValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DefaultValue = DefaultValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
 	}
 
@@ -343,12 +337,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -386,12 +374,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setDisplayLogic (String DisplayLogic)
 	{
-
-		if (DisplayLogic != null && DisplayLogic.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DisplayLogic = DisplayLogic.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
 	}
 
@@ -411,12 +393,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -434,12 +410,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -457,12 +427,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setInfoFactoryClass (String InfoFactoryClass)
 	{
-
-		if (InfoFactoryClass != null && InfoFactoryClass.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			InfoFactoryClass = InfoFactoryClass.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_InfoFactoryClass, InfoFactoryClass);
 	}
 
@@ -607,13 +571,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public void setIsMandatory (String IsMandatory)
 	{
 
-		if (IsMandatory == null || IsMandatory.equals("Y") || IsMandatory.equals("N")); else throw new IllegalArgumentException ("IsMandatory Invalid value - " + IsMandatory + " - Reference_ID=319 - Y - N");
-		if (IsMandatory != null && IsMandatory.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IsMandatory = IsMandatory.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_IsMandatory, IsMandatory);
+		if (IsMandatory == null || IsMandatory.equals("Y") || IsMandatory.equals("N")); else throw new IllegalArgumentException ("IsMandatory Invalid value - " + IsMandatory + " - Reference_ID=319 - Y - N");		set_Value (COLUMNNAME_IsMandatory, IsMandatory);
 	}
 
 	/** Get Mandatory.
@@ -680,12 +638,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -722,13 +674,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public void setObscureType (String ObscureType)
 	{
 
-		if (ObscureType == null || ObscureType.equals("904") || ObscureType.equals("944") || ObscureType.equals("A44") || ObscureType.equals("A04")); else throw new IllegalArgumentException ("ObscureType Invalid value - " + ObscureType + " - Reference_ID=291 - 904 - 944 - A44 - A04");
-		if (ObscureType != null && ObscureType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ObscureType = ObscureType.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_ObscureType, ObscureType);
+		if (ObscureType == null || ObscureType.equals("904") || ObscureType.equals("944") || ObscureType.equals("A44") || ObscureType.equals("A04")); else throw new IllegalArgumentException ("ObscureType Invalid value - " + ObscureType + " - Reference_ID=291 - 904 - 944 - A44 - A04");		set_Value (COLUMNNAME_ObscureType, ObscureType);
 	}
 
 	/** Get Obscure.

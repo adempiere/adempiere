@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Persistent 
 {
 
@@ -61,7 +61,7 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 			setQtyRequiered (Env.ZERO);
 			setQtyReserved (Env.ZERO);
 			setQtyScrap (Env.ZERO);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
         } */
     }
@@ -145,12 +145,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	  */
 	public void setBackflushGroup (String BackflushGroup)
 	{
-
-		if (BackflushGroup != null && BackflushGroup.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			BackflushGroup = BackflushGroup.substring(0, 30);
-		}
 		set_ValueNoCheck (COLUMNNAME_BackflushGroup, BackflushGroup);
 	}
 
@@ -187,13 +181,7 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public void setComponentType (String ComponentType)
 	{
 
-		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA")); else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");
-		if (ComponentType != null && ComponentType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			ComponentType = ComponentType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_ComponentType, ComponentType);
+		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA")); else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");		set_Value (COLUMNNAME_ComponentType, ComponentType);
 	}
 
 	/** Get Component Type.
@@ -265,12 +253,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -288,12 +270,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	  */
 	public void setFeature (String Feature)
 	{
-
-		if (Feature != null && Feature.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Feature = Feature.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_Feature, Feature);
 	}
 
@@ -331,12 +307,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -409,13 +379,7 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public void setIssueMethod (String IssueMethod)
 	{
 
-		if (IssueMethod == null || IssueMethod.equals("0") || IssueMethod.equals("1")); else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1");
-		if (IssueMethod != null && IssueMethod.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IssueMethod = IssueMethod.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
+		if (IssueMethod == null || IssueMethod.equals("0") || IssueMethod.equals("1")); else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1");		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
 	}
 
 	/** Get Issue Method.

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persistent 
 {
 
@@ -59,7 +59,7 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 			setPosted (false);
 // N
 			setProcessed (false);
-			setStatementDate (new Timestamp(System.currentTimeMillis()));
+			setStatementDate (new Timestamp( System.currentTimeMillis() ));
 // @Date@
         } */
     }
@@ -178,12 +178,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setCreateFrom (String CreateFrom)
 	{
-
-		if (CreateFrom != null && CreateFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreateFrom = CreateFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
 	}
 
@@ -201,12 +195,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -255,13 +243,7 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -305,13 +287,7 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-		if (DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -345,12 +321,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setEftStatementReference (String EftStatementReference)
 	{
-
-		if (EftStatementReference != null && EftStatementReference.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EftStatementReference = EftStatementReference.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EftStatementReference, EftStatementReference);
 	}
 
@@ -436,12 +406,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 		@param MatchStatement Match Statement	  */
 	public void setMatchStatement (String MatchStatement)
 	{
-
-		if (MatchStatement != null && MatchStatement.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MatchStatement = MatchStatement.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_MatchStatement, MatchStatement);
 	}
 
@@ -460,12 +424,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

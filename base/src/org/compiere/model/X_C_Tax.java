@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Tax extends PO implements I_C_Tax, I_Persistent 
 {
 
@@ -56,7 +56,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 			setRequiresTaxCertificate (false);
 			setSOPOType (null);
 // B
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -240,12 +240,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -385,12 +379,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -496,13 +484,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	public void setSOPOType (String SOPOType)
 	{
 		if (SOPOType == null) throw new IllegalArgumentException ("SOPOType is mandatory");
-		if (SOPOType.equals("B") || SOPOType.equals("S") || SOPOType.equals("P")); else throw new IllegalArgumentException ("SOPOType Invalid value - " + SOPOType + " - Reference_ID=287 - B - S - P");
-		if (SOPOType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SOPOType = SOPOType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SOPOType, SOPOType);
+		if (SOPOType.equals("B") || SOPOType.equals("S") || SOPOType.equals("P")); else throw new IllegalArgumentException ("SOPOType Invalid value - " + SOPOType + " - Reference_ID=287 - B - S - P");		set_Value (COLUMNNAME_SOPOType, SOPOType);
 	}
 
 	/** Get SO/PO Type.
@@ -519,12 +501,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setTaxIndicator (String TaxIndicator)
 	{
-
-		if (TaxIndicator != null && TaxIndicator.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			TaxIndicator = TaxIndicator.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_TaxIndicator, TaxIndicator);
 	}
 

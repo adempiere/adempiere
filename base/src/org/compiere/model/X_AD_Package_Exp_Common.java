@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Common, I_Persistent 
 {
 
@@ -509,13 +509,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public void setDBType (String DBType)
 	{
 
-		if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase")); else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");
-		if (DBType != null && DBType.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			DBType = DBType.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_DBType, DBType);
+		if (DBType == null || DBType.equals("ALL") || DBType.equals("DB2") || DBType.equals("Firebird") || DBType.equals("MySQL") || DBType.equals("Oracle") || DBType.equals("Postgres") || DBType.equals("SQL") || DBType.equals("Sybase")); else throw new IllegalArgumentException ("DBType Invalid value - " + DBType + " - Reference_ID=50003 - ALL - DB2 - Firebird - MySQL - Oracle - Postgres - SQL - Sybase");		set_Value (COLUMNNAME_DBType, DBType);
 	}
 
 	/** Get DBType.
@@ -531,12 +525,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 1000)
-		{
-			log.warning("Length > 1000 - truncated");
-			Description = Description.substring(0, 1000);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -552,12 +540,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		@param Destination_Directory Destination_Directory	  */
 	public void setDestination_Directory (String Destination_Directory)
 	{
-
-		if (Destination_Directory != null && Destination_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Destination_Directory = Destination_Directory.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Destination_Directory, Destination_Directory);
 	}
 
@@ -568,18 +550,26 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return (String)get_Value(COLUMNNAME_Destination_Directory);
 	}
 
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory () 
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
+	}
+
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
 	  */
 	public void setFileName (String FileName)
 	{
-
-		if (FileName != null && FileName.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			FileName = FileName.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_FileName, FileName);
 	}
 
@@ -589,26 +579,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
-	}
-
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-
-		if (File_Directory != null && File_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			File_Directory = File_Directory.substring(0, 255);
-		}
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.
@@ -637,12 +607,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -660,12 +624,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setName2 (String Name2)
 	{
-
-		if (Name2 != null && Name2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
 
@@ -726,12 +684,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		@param SQLStatement SQLStatement	  */
 	public void setSQLStatement (String SQLStatement)
 	{
-
-		if (SQLStatement != null && SQLStatement.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			SQLStatement = SQLStatement.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_SQLStatement, SQLStatement);
 	}
 
@@ -746,12 +698,6 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		@param Target_Directory Target_Directory	  */
 	public void setTarget_Directory (String Target_Directory)
 	{
-
-		if (Target_Directory != null && Target_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Target_Directory = Target_Directory.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Target_Directory, Target_Directory);
 	}
 
@@ -807,13 +753,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public void setType (String Type)
 	{
 
-		if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT") || Type.equals("REF")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT - REF");
-		if (Type != null && Type.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Type = Type.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_Type, Type);
+		if (Type == null || Type.equals("B") || Type.equals("C") || Type.equals("D") || Type.equals("F") || Type.equals("IMP") || Type.equals("M") || Type.equals("P") || Type.equals("R") || Type.equals("S") || Type.equals("SNI") || Type.equals("SQL") || Type.equals("T") || Type.equals("W") || Type.equals("X") || Type.equals("V") || Type.equals("MSG") || Type.equals("PFT") || Type.equals("REF")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=50004 - B - C - D - F - IMP - M - P - R - S - SNI - SQL - T - W - X - V - MSG - PFT - REF");		set_Value (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.

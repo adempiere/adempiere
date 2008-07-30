@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Color
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Color extends PO implements I_AD_Color, I_Persistent 
 {
 
@@ -240,13 +240,7 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	public void setColorType (String ColorType)
 	{
 		if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandatory");
-		if (ColorType.equals("F") || ColorType.equals("G") || ColorType.equals("L") || ColorType.equals("T")); else throw new IllegalArgumentException ("ColorType Invalid value - " + ColorType + " - Reference_ID=243 - F - G - L - T");
-		if (ColorType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ColorType = ColorType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ColorType, ColorType);
+		if (ColorType.equals("F") || ColorType.equals("G") || ColorType.equals("L") || ColorType.equals("T")); else throw new IllegalArgumentException ("ColorType Invalid value - " + ColorType + " - Reference_ID=243 - F - G - L - T");		set_Value (COLUMNNAME_ColorType, ColorType);
 	}
 
 	/** Get Color Type.
@@ -391,12 +385,6 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -501,13 +489,7 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	public void setStartPoint (String StartPoint)
 	{
 
-		if (StartPoint == null || StartPoint.equals("1") || StartPoint.equals("2") || StartPoint.equals("3") || StartPoint.equals("4") || StartPoint.equals("5") || StartPoint.equals("6") || StartPoint.equals("7") || StartPoint.equals("8")); else throw new IllegalArgumentException ("StartPoint Invalid value - " + StartPoint + " - Reference_ID=248 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8");
-		if (StartPoint != null && StartPoint.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			StartPoint = StartPoint.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_StartPoint, StartPoint);
+		if (StartPoint == null || StartPoint.equals("1") || StartPoint.equals("2") || StartPoint.equals("3") || StartPoint.equals("4") || StartPoint.equals("5") || StartPoint.equals("6") || StartPoint.equals("7") || StartPoint.equals("8")); else throw new IllegalArgumentException ("StartPoint Invalid value - " + StartPoint + " - Reference_ID=248 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8");		set_Value (COLUMNNAME_StartPoint, StartPoint);
 	}
 
 	/** Get Start Point.

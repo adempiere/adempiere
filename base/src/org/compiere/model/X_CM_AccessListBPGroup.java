@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_AccessListBPGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup, I_Persistent 
 {
 
@@ -39,8 +39,8 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       super (ctx, CM_AccessListBPGroup_ID, trxName);
       /** if (CM_AccessListBPGroup_ID == 0)
         {
-			setCM_AccessProfile_ID (0);
 			setC_BP_Group_ID (0);
+			setCM_AccessProfile_ID (0);
         } */
     }
 
@@ -71,44 +71,6 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_CM_AccessProfile getCM_AccessProfile() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
-        I_CM_AccessProfile result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_AccessProfile)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_AccessProfile_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Web Access Profile.
-		@param CM_AccessProfile_ID 
-		Web Access Profile
-	  */
-	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
-	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
-	}
-
-	/** Get Web Access Profile.
-		@return Web Access Profile
-	  */
-	public int getCM_AccessProfile_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_BP_Group getC_BP_Group() throws Exception 
     {
@@ -143,6 +105,44 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_CM_AccessProfile getCM_AccessProfile() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
+        I_CM_AccessProfile result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_CM_AccessProfile)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_AccessProfile_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Web Access Profile.
+		@param CM_AccessProfile_ID 
+		Web Access Profile
+	  */
+	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
+	{
+		if (CM_AccessProfile_ID < 1)
+			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+	}
+
+	/** Get Web Access Profile.
+		@return Web Access Profile
+	  */
+	public int getCM_AccessProfile_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

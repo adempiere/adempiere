@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Product_Category extends PO implements I_M_Product_Category, I_Persistent 
 {
 
@@ -82,45 +82,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
-        I_AD_PrintColor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintColor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintColor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Print Color.
-		@param AD_PrintColor_ID 
-		Color used for printing and display
-	  */
-	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
-	{
-		if (AD_PrintColor_ID < 1) 
-			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
-	}
-
-	/** Get Print Color.
-		@return Color used for printing and display
-	  */
-	public int getAD_PrintColor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintColor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_A_Asset_Group getA_Asset_Group() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
@@ -160,18 +121,51 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return ii.intValue();
 	}
 
+	public I_AD_PrintColor getAD_PrintColor() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
+        I_AD_PrintColor result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_PrintColor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintColor_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Print Color.
+		@param AD_PrintColor_ID 
+		Color used for printing and display
+	  */
+	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
+	{
+		if (AD_PrintColor_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
+	}
+
+	/** Get Print Color.
+		@return Color used for printing and display
+	  */
+	public int getAD_PrintColor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -244,13 +238,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	public void setMMPolicy (String MMPolicy)
 	{
 		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
-		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");
-		if (MMPolicy.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MMPolicy = MMPolicy.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
+		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
 
 	/** Get Material Policy.
@@ -313,12 +301,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -368,12 +350,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

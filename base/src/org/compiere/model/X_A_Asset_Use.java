@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Use
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent 
 {
 
@@ -41,7 +41,7 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
         {
 			setA_Asset_ID (0);
 			setA_Asset_Use_ID (0);
-			setUseDate (new Timestamp(System.currentTimeMillis()));
+			setUseDate (new Timestamp( System.currentTimeMillis() ));
 			setUseUnits (0);
         } */
     }
@@ -129,12 +129,6 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

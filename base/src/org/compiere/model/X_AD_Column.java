@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Column extends PO implements I_AD_Column, I_Persistent 
 {
 
@@ -327,12 +327,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setCallout (String Callout)
 	{
-
-		if (Callout != null && Callout.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Callout = Callout.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Callout, Callout);
 	}
 
@@ -352,12 +346,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	{
 		if (ColumnName == null)
 			throw new IllegalArgumentException ("ColumnName is mandatory.");
-
-		if (ColumnName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ColumnName = ColumnName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -383,12 +371,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setColumnSQL (String ColumnSQL)
 	{
-
-		if (ColumnSQL != null && ColumnSQL.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ColumnSQL = ColumnSQL.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ColumnSQL, ColumnSQL);
 	}
 
@@ -406,12 +388,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setDefaultValue (String DefaultValue)
 	{
-
-		if (DefaultValue != null && DefaultValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DefaultValue = DefaultValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
 	}
 
@@ -429,12 +405,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -454,12 +424,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -497,12 +461,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -520,12 +478,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setInfoFactoryClass (String InfoFactoryClass)
 	{
-
-		if (InfoFactoryClass != null && InfoFactoryClass.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			InfoFactoryClass = InfoFactoryClass.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_InfoFactoryClass, InfoFactoryClass);
 	}
 
@@ -535,6 +487,30 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	public String getInfoFactoryClass () 
 	{
 		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
+	}
+
+	/** Set IsAllowLogging.
+		@param IsAllowLogging 
+		Determine if a column must be recorded into the change log
+	  */
+	public void setIsAllowLogging (boolean IsAllowLogging)
+	{
+		set_Value (COLUMNNAME_IsAllowLogging, Boolean.valueOf(IsAllowLogging));
+	}
+
+	/** Get IsAllowLogging.
+		@return Determine if a column must be recorded into the change log
+	  */
+	public boolean isAllowLogging () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsAllowLogging);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Always Updateable.
@@ -598,13 +574,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	public void setIsEncrypted (String IsEncrypted)
 	{
 		if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is mandatory");
-		if (IsEncrypted.equals("Y") || IsEncrypted.equals("N")); else throw new IllegalArgumentException ("IsEncrypted Invalid value - " + IsEncrypted + " - Reference_ID=354 - Y - N");
-		if (IsEncrypted.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IsEncrypted = IsEncrypted.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_IsEncrypted, IsEncrypted);
+		if (IsEncrypted.equals("Y") || IsEncrypted.equals("N")); else throw new IllegalArgumentException ("IsEncrypted Invalid value - " + IsEncrypted + " - Reference_ID=354 - Y - N");		set_Value (COLUMNNAME_IsEncrypted, IsEncrypted);
 	}
 
 	/** Get Encrypted.
@@ -741,12 +711,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setIsSyncDatabase (String IsSyncDatabase)
 	{
-
-		if (IsSyncDatabase != null && IsSyncDatabase.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IsSyncDatabase = IsSyncDatabase.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_IsSyncDatabase, IsSyncDatabase);
 	}
 
@@ -810,12 +774,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		@param MandatoryLogic Mandatory Logic	  */
 	public void setMandatoryLogic (String MandatoryLogic)
 	{
-
-		if (MandatoryLogic != null && MandatoryLogic.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MandatoryLogic = MandatoryLogic.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MandatoryLogic, MandatoryLogic);
 	}
 
@@ -834,12 +792,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -857,12 +809,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setReadOnlyLogic (String ReadOnlyLogic)
 	{
-
-		if (ReadOnlyLogic != null && ReadOnlyLogic.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ReadOnlyLogic = ReadOnlyLogic.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ReadOnlyLogic, ReadOnlyLogic);
 	}
 
@@ -894,41 +840,12 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-
-		if (VFormat != null && VFormat.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			VFormat = VFormat.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
-	}
-
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
 	  */
 	public void setValueMax (String ValueMax)
 	{
-
-		if (ValueMax != null && ValueMax.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ValueMax = ValueMax.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ValueMax, ValueMax);
 	}
 
@@ -946,12 +863,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setValueMin (String ValueMin)
 	{
-
-		if (ValueMin != null && ValueMin.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ValueMin = ValueMin.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ValueMin, ValueMin);
 	}
 
@@ -985,19 +896,20 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return bd;
 	}
 
-	/** Get IsAllowLogging .
-	  * Determines, if a column must be recorded into the change log
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
 	  */
-	public boolean IsAllowLogging() {
-		Object oo = get_Value(COLUMNNAME_isAllowLogging);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }
-	
-	

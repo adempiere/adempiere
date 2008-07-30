@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persistent 
 {
 
@@ -185,12 +185,6 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setAttributeName (String AttributeName)
 	{
-
-		if (AttributeName != null && AttributeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 
@@ -208,12 +202,6 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
-
-		if (AttributeValue != null && AttributeValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeValue = AttributeValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
 
@@ -231,12 +219,6 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -256,12 +238,6 @@ public class X_AD_WF_Node_Para extends PO implements I_AD_WF_Node_Para, I_Persis
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationAttribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAttribute, I_Persistent 
 {
 
@@ -152,12 +152,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	  */
 	public void setColumnName (String ColumnName)
 	{
-
-		if (ColumnName != null && ColumnName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ColumnName = ColumnName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -175,12 +169,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -224,12 +212,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

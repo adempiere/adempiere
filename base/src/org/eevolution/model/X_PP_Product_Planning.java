@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Product_Planning
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, I_Persistent 
 {
 
@@ -469,13 +469,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	public void setOrder_Policy (String Order_Policy)
 	{
 
-		if (Order_Policy == null || Order_Policy.equals("FQ") || Order_Policy.equals("LFL") || Order_Policy.equals("POQ")); else throw new IllegalArgumentException ("Order_Policy Invalid value - " + Order_Policy + " - Reference_ID=53228 - FQ - LFL - POQ");
-		if (Order_Policy != null && Order_Policy.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			Order_Policy = Order_Policy.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_Order_Policy, Order_Policy);
+		if (Order_Policy == null || Order_Policy.equals("FQ") || Order_Policy.equals("LFL") || Order_Policy.equals("POQ")); else throw new IllegalArgumentException ("Order_Policy Invalid value - " + Order_Policy + " - Reference_ID=53228 - FQ - LFL - POQ");		set_Value (COLUMNNAME_Order_Policy, Order_Policy);
 	}
 
 	/** Get Order Policy.

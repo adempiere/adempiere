@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_MailText
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_MailText extends PO implements I_R_MailText, I_Persistent 
 {
 
@@ -103,12 +103,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailHeader (String MailHeader)
 	{
-
-		if (MailHeader != null && MailHeader.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MailHeader = MailHeader.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MailHeader, MailHeader);
 	}
 
@@ -128,12 +122,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	{
 		if (MailText == null)
 			throw new IllegalArgumentException ("MailText is mandatory.");
-
-		if (MailText.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MailText = MailText.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MailText, MailText);
 	}
 
@@ -151,12 +139,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailText2 (String MailText2)
 	{
-
-		if (MailText2 != null && MailText2.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MailText2 = MailText2.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MailText2, MailText2);
 	}
 
@@ -174,12 +156,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailText3 (String MailText3)
 	{
-
-		if (MailText3 != null && MailText3.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MailText3 = MailText3.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MailText3, MailText3);
 	}
 
@@ -199,12 +175,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

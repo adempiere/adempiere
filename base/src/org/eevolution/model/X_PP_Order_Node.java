@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent 
 {
 
@@ -131,13 +131,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setAction (String Action)
 	{
 		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
-		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");
-		if (Action.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Action = Action.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Action, Action);
+		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");		set_Value (COLUMNNAME_Action, Action);
 	}
 
 	/** Get Action.
@@ -542,12 +536,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setAttributeName (String AttributeName)
 	{
-
-		if (AttributeName != null && AttributeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 
@@ -565,12 +553,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setAttributeValue (String AttributeValue)
 	{
-
-		if (AttributeValue != null && AttributeValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeValue = AttributeValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeValue, AttributeValue);
 	}
 
@@ -708,12 +690,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -762,13 +738,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 
-		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction != null && DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -812,13 +782,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-		if (DocStatus != null && DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -891,12 +855,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -921,13 +879,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setFinishMode (String FinishMode)
 	{
 
-		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");
-		if (FinishMode != null && FinishMode.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FinishMode = FinishMode.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FinishMode, FinishMode);
+		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");		set_Value (COLUMNNAME_FinishMode, FinishMode);
 	}
 
 	/** Get Finish Mode.
@@ -944,12 +896,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -1040,13 +986,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setJoinElement (String JoinElement)
 	{
 		if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");
-		if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");
-		if (JoinElement.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			JoinElement = JoinElement.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_JoinElement, JoinElement);
+		if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");		set_Value (COLUMNNAME_JoinElement, JoinElement);
 	}
 
 	/** Get Join Element.
@@ -1102,12 +1042,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1179,8 +1113,8 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_Node_ID.
-		@param PP_Order_Node_ID PP_Order_Node_ID	  */
+	/** Set Manufacturing Order Activity.
+		@param PP_Order_Node_ID Manufacturing Order Activity	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1)
@@ -1188,8 +1122,8 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
 	}
 
-	/** Get PP_Order_Node_ID.
-		@return PP_Order_Node_ID	  */
+	/** Get Manufacturing Order Activity.
+		@return Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
@@ -1408,13 +1342,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setSplitElement (String SplitElement)
 	{
 		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
-		if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");
-		if (SplitElement.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SplitElement = SplitElement.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SplitElement, SplitElement);
+		if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");		set_Value (COLUMNNAME_SplitElement, SplitElement);
 	}
 
 	/** Get Split Element.
@@ -1477,13 +1405,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setStartMode (String StartMode)
 	{
 
-		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");
-		if (StartMode != null && StartMode.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			StartMode = StartMode.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_StartMode, StartMode);
+		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");		set_Value (COLUMNNAME_StartMode, StartMode);
 	}
 
 	/** Get Start Mode.
@@ -1507,13 +1429,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setSubflowExecution (String SubflowExecution)
 	{
 
-		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");
-		if (SubflowExecution != null && SubflowExecution.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SubflowExecution = SubflowExecution.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
+		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
 	}
 
 	/** Get Subflow Execution.
@@ -1583,12 +1499,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

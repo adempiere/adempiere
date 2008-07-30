@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
       /** if (M_DemandLine_ID == 0)
         {
 			setC_Period_ID (0);
-			setM_DemandLine_ID (0);
 			setM_Demand_ID (0);
+			setM_DemandLine_ID (0);
 			setM_Product_ID (0);
 			setQty (Env.ZERO);
 			setQtyCalculated (Env.ZERO);
@@ -125,28 +125,6 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Period_ID()));
     }
 
-	/** Set Demand Line.
-		@param M_DemandLine_ID 
-		Material Demand Line
-	  */
-	public void setM_DemandLine_ID (int M_DemandLine_ID)
-	{
-		if (M_DemandLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DemandLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, Integer.valueOf(M_DemandLine_ID));
-	}
-
-	/** Get Demand Line.
-		@return Material Demand Line
-	  */
-	public int getM_DemandLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DemandLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Demand getM_Demand() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Demand.Table_Name);
@@ -180,6 +158,28 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	public int getM_Demand_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Demand_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Demand Line.
+		@param M_DemandLine_ID 
+		Material Demand Line
+	  */
+	public void setM_DemandLine_ID (int M_DemandLine_ID)
+	{
+		if (M_DemandLine_ID < 1)
+			 throw new IllegalArgumentException ("M_DemandLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, Integer.valueOf(M_DemandLine_ID));
+	}
+
+	/** Get Demand Line.
+		@return Material Demand Line
+	  */
+	public int getM_DemandLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DemandLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

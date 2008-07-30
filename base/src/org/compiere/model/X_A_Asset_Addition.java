@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Addition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Persistent 
 {
 
@@ -136,13 +136,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public void setA_CapvsExp (String A_CapvsExp)
 	{
 
-		if (A_CapvsExp == null || A_CapvsExp.equals("Cap") || A_CapvsExp.equals("Exp")); else throw new IllegalArgumentException ("A_CapvsExp Invalid value - " + A_CapvsExp + " - Reference_ID=53277 - Cap - Exp");
-		if (A_CapvsExp != null && A_CapvsExp.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_CapvsExp = A_CapvsExp.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
+		if (A_CapvsExp == null || A_CapvsExp.equals("Cap") || A_CapvsExp.equals("Exp")); else throw new IllegalArgumentException ("A_CapvsExp Invalid value - " + A_CapvsExp + " - Reference_ID=53277 - Cap - Exp");		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
 	}
 
 	/** Get A_CapvsExp.
@@ -184,13 +178,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public void setA_SourceType (String A_SourceType)
 	{
 
-		if (A_SourceType == null || A_SourceType.equals("IMP") || A_SourceType.equals("INV") || A_SourceType.equals("JRN") || A_SourceType.equals("MAN")); else throw new IllegalArgumentException ("A_SourceType Invalid value - " + A_SourceType + " - Reference_ID=53276 - IMP - INV - JRN - MAN");
-		if (A_SourceType != null && A_SourceType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_SourceType = A_SourceType.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_SourceType, A_SourceType);
+		if (A_SourceType == null || A_SourceType.equals("IMP") || A_SourceType.equals("INV") || A_SourceType.equals("JRN") || A_SourceType.equals("MAN")); else throw new IllegalArgumentException ("A_SourceType Invalid value - " + A_SourceType + " - Reference_ID=53276 - IMP - INV - JRN - MAN");		set_Value (COLUMNNAME_A_SourceType, A_SourceType);
 	}
 
 	/** Get A_SourceType.
@@ -269,12 +257,6 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -294,12 +276,6 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -412,13 +388,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

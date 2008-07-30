@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persistent 
 {
 
@@ -143,12 +143,6 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -176,12 +170,6 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

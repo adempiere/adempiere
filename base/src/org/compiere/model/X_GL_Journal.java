@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Journal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent 
 {
 
@@ -54,9 +54,9 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 // @C_Period_ID@
 			setCurrencyRate (Env.ZERO);
 // 1
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @DateAcct@
-			setDateDoc (new Timestamp(System.currentTimeMillis()));
+			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @DateDoc@
 			setDescription (null);
 			setDocAction (null);
@@ -262,6 +262,26 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Control Amount.
+		@param ControlAmt 
+		If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public void setControlAmt (BigDecimal ControlAmt)
+	{
+		set_Value (COLUMNNAME_ControlAmt, ControlAmt);
+	}
+
+	/** Get Control Amount.
+		@return If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public BigDecimal getControlAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ControlAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** C_Period_ID AD_Reference_ID=275 */
 	public static final int C_PERIOD_ID_AD_Reference_ID=275;
 	/** Set Period.
@@ -284,26 +304,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Control Amount.
-		@param ControlAmt 
-		If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public void setControlAmt (BigDecimal ControlAmt)
-	{
-		set_Value (COLUMNNAME_ControlAmt, ControlAmt);
-	}
-
-	/** Get Control Amount.
-		@return If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public BigDecimal getControlAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ControlAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Rate.
@@ -374,12 +374,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -428,13 +422,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -478,13 +466,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-		if (DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -503,12 +485,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -757,13 +733,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

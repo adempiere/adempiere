@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Element extends PO implements I_AD_Element, I_Persistent 
 {
 
@@ -105,12 +105,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	{
 		if (ColumnName == null)
 			throw new IllegalArgumentException ("ColumnName is mandatory.");
-
-		if (ColumnName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ColumnName = ColumnName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -136,12 +130,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -161,12 +149,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -184,12 +166,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -209,12 +185,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -232,12 +202,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setPO_Description (String PO_Description)
 	{
-
-		if (PO_Description != null && PO_Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			PO_Description = PO_Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_PO_Description, PO_Description);
 	}
 
@@ -255,12 +219,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setPO_Help (String PO_Help)
 	{
-
-		if (PO_Help != null && PO_Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			PO_Help = PO_Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_PO_Help, PO_Help);
 	}
 
@@ -278,12 +236,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setPO_Name (String PO_Name)
 	{
-
-		if (PO_Name != null && PO_Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PO_Name = PO_Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PO_Name, PO_Name);
 	}
 
@@ -301,12 +253,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setPO_PrintName (String PO_PrintName)
 	{
-
-		if (PO_PrintName != null && PO_PrintName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PO_PrintName = PO_PrintName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PO_PrintName, PO_PrintName);
 	}
 
@@ -326,12 +272,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	{
 		if (PrintName == null)
 			throw new IllegalArgumentException ("PrintName is mandatory.");
-
-		if (PrintName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PrintName = PrintName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryRelated
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
       super (ctx, K_EntryRelated_ID, trxName);
       /** if (K_EntryRelated_ID == 0)
         {
-			setK_EntryRelated_ID (0);
 			setK_Entry_ID (0);
+			setK_EntryRelated_ID (0);
         } */
     }
 
@@ -71,38 +71,6 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
       StringBuffer sb = new StringBuffer ("X_K_EntryRelated[")
         .append(get_ID()).append("]");
       return sb.toString();
-    }
-
-	/** K_EntryRelated_ID AD_Reference_ID=285 */
-	public static final int K_ENTRYRELATED_ID_AD_Reference_ID=285;
-	/** Set Related Entry.
-		@param K_EntryRelated_ID 
-		Related Entry for this Enntry
-	  */
-	public void setK_EntryRelated_ID (int K_EntryRelated_ID)
-	{
-		if (K_EntryRelated_ID < 1)
-			 throw new IllegalArgumentException ("K_EntryRelated_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_EntryRelated_ID, Integer.valueOf(K_EntryRelated_ID));
-	}
-
-	/** Get Related Entry.
-		@return Related Entry for this Enntry
-	  */
-	public int getK_EntryRelated_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_EntryRelated_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getK_EntryRelated_ID()));
     }
 
 	public I_K_Entry getK_Entry() throws Exception 
@@ -143,18 +111,44 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
 		return ii.intValue();
 	}
 
+	/** K_EntryRelated_ID AD_Reference_ID=285 */
+	public static final int K_ENTRYRELATED_ID_AD_Reference_ID=285;
+	/** Set Related Entry.
+		@param K_EntryRelated_ID 
+		Related Entry for this Enntry
+	  */
+	public void setK_EntryRelated_ID (int K_EntryRelated_ID)
+	{
+		if (K_EntryRelated_ID < 1)
+			 throw new IllegalArgumentException ("K_EntryRelated_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_K_EntryRelated_ID, Integer.valueOf(K_EntryRelated_ID));
+	}
+
+	/** Get Related Entry.
+		@return Related Entry for this Enntry
+	  */
+	public int getK_EntryRelated_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_EntryRelated_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getK_EntryRelated_ID()));
+    }
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

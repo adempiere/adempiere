@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Reval_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, I_Persistent 
 {
 
@@ -42,11 +42,11 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
       /** if (A_Asset_Reval_Entry_ID == 0)
         {
 			setA_Asset_Reval_Entry_ID (0);
-			setA_Effective_Date (new Timestamp(System.currentTimeMillis()));
-			setA_Rev_Code (null);
+			setA_Effective_Date (new Timestamp( System.currentTimeMillis() ));
 			setA_Reval_Cal_Method (null);
 			setA_Reval_Effective_Date (null);
 			setA_Reval_Multiplier (null);
+			setA_Rev_Code (null);
 			setC_Currency_ID (0);
 			setDescription (null);
 			setDocumentNo (null);
@@ -127,35 +127,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		return (Timestamp)get_Value(COLUMNNAME_A_Effective_Date);
 	}
 
-	/** A_Rev_Code AD_Reference_ID=53262 */
-	public static final int A_REV_CODE_AD_Reference_ID=53262;
-	/** Revaluation Code #1 = R01 */
-	public static final String A_REV_CODE_RevaluationCode1 = "R01";
-	/** Revaluation Code #2 = R02 */
-	public static final String A_REV_CODE_RevaluationCode2 = "R02";
-	/** Revaluation Code #3 = R03 */
-	public static final String A_REV_CODE_RevaluationCode3 = "R03";
-	/** Set A_Rev_Code.
-		@param A_Rev_Code A_Rev_Code	  */
-	public void setA_Rev_Code (String A_Rev_Code)
-	{
-		if (A_Rev_Code == null) throw new IllegalArgumentException ("A_Rev_Code is mandatory");
-		if (A_Rev_Code.equals("R01") || A_Rev_Code.equals("R02") || A_Rev_Code.equals("R03")); else throw new IllegalArgumentException ("A_Rev_Code Invalid value - " + A_Rev_Code + " - Reference_ID=53262 - R01 - R02 - R03");
-		if (A_Rev_Code.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Rev_Code = A_Rev_Code.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
-	}
-
-	/** Get A_Rev_Code.
-		@return A_Rev_Code	  */
-	public String getA_Rev_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Rev_Code);
-	}
-
 	/** A_Reval_Cal_Method AD_Reference_ID=53259 */
 	public static final int A_REVAL_CAL_METHOD_AD_Reference_ID=53259;
 	/** Default = DFT */
@@ -169,13 +140,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 		if (A_Reval_Cal_Method == null) throw new IllegalArgumentException ("A_Reval_Cal_Method is mandatory");
-		if (A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");
-		if (A_Reval_Cal_Method.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Reval_Cal_Method = A_Reval_Cal_Method.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
+		if (A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
 	/** Get A_Reval_Cal_Method.
@@ -198,13 +163,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Reval_Effective_Date (String A_Reval_Effective_Date)
 	{
 		if (A_Reval_Effective_Date == null) throw new IllegalArgumentException ("A_Reval_Effective_Date is mandatory");
-		if (A_Reval_Effective_Date.equals("DA") || A_Reval_Effective_Date.equals("RD") || A_Reval_Effective_Date.equals("SD")); else throw new IllegalArgumentException ("A_Reval_Effective_Date Invalid value - " + A_Reval_Effective_Date + " - Reference_ID=53261 - DA - RD - SD");
-		if (A_Reval_Effective_Date.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Reval_Effective_Date = A_Reval_Effective_Date.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Reval_Effective_Date, A_Reval_Effective_Date);
+		if (A_Reval_Effective_Date.equals("DA") || A_Reval_Effective_Date.equals("RD") || A_Reval_Effective_Date.equals("SD")); else throw new IllegalArgumentException ("A_Reval_Effective_Date Invalid value - " + A_Reval_Effective_Date + " - Reference_ID=53261 - DA - RD - SD");		set_Value (COLUMNNAME_A_Reval_Effective_Date, A_Reval_Effective_Date);
 	}
 
 	/** Get A_Reval_Effective_Date.
@@ -225,13 +184,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier)
 	{
 		if (A_Reval_Multiplier == null) throw new IllegalArgumentException ("A_Reval_Multiplier is mandatory");
-		if (A_Reval_Multiplier.equals("FAC") || A_Reval_Multiplier.equals("IND")); else throw new IllegalArgumentException ("A_Reval_Multiplier Invalid value - " + A_Reval_Multiplier + " - Reference_ID=53260 - FAC - IND");
-		if (A_Reval_Multiplier.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Reval_Multiplier = A_Reval_Multiplier.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
+		if (A_Reval_Multiplier.equals("FAC") || A_Reval_Multiplier.equals("IND")); else throw new IllegalArgumentException ("A_Reval_Multiplier Invalid value - " + A_Reval_Multiplier + " - Reference_ID=53260 - FAC - IND");		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
 	}
 
 	/** Get A_Reval_Multiplier.
@@ -239,6 +192,29 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public String getA_Reval_Multiplier () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Multiplier);
+	}
+
+	/** A_Rev_Code AD_Reference_ID=53262 */
+	public static final int A_REV_CODE_AD_Reference_ID=53262;
+	/** Revaluation Code #1 = R01 */
+	public static final String A_REV_CODE_RevaluationCode1 = "R01";
+	/** Revaluation Code #2 = R02 */
+	public static final String A_REV_CODE_RevaluationCode2 = "R02";
+	/** Revaluation Code #3 = R03 */
+	public static final String A_REV_CODE_RevaluationCode3 = "R03";
+	/** Set A_Rev_Code.
+		@param A_Rev_Code A_Rev_Code	  */
+	public void setA_Rev_Code (String A_Rev_Code)
+	{
+		if (A_Rev_Code == null) throw new IllegalArgumentException ("A_Rev_Code is mandatory");
+		if (A_Rev_Code.equals("R01") || A_Rev_Code.equals("R02") || A_Rev_Code.equals("R03")); else throw new IllegalArgumentException ("A_Rev_Code Invalid value - " + A_Rev_Code + " - Reference_ID=53262 - R01 - R02 - R03");		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
+	}
+
+	/** Get A_Rev_Code.
+		@return A_Rev_Code	  */
+	public String getA_Rev_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Rev_Code);
 	}
 
 	public I_C_AcctSchema getC_AcctSchema() throws Exception 
@@ -424,12 +400,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -449,12 +419,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DocumentNo = DocumentNo.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -524,13 +488,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

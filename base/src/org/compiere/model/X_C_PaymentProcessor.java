@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_Persistent 
 {
 
@@ -53,9 +53,9 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 			setAcceptMC (false);
 			setAcceptVisa (false);
 			setC_BankAccount_ID (0);
-			setC_PaymentProcessor_ID (0);
 			setCommission (Env.ZERO);
 			setCostPerTrx (Env.ZERO);
+			setC_PaymentProcessor_ID (0);
 			setHostAddress (null);
 			setHostPort (0);
 			setName (null);
@@ -92,31 +92,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** AD_Sequence_ID AD_Reference_ID=128 */
-	public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
-	/** Set Sequence.
-		@param AD_Sequence_ID 
-		Document Sequence
-	  */
-	public void setAD_Sequence_ID (int AD_Sequence_ID)
-	{
-		if (AD_Sequence_ID < 1) 
-			set_Value (COLUMNNAME_AD_Sequence_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
-	}
-
-	/** Get Sequence.
-		@return Document Sequence
-	  */
-	public int getAD_Sequence_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Sequence_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Accept AMEX.
 		@param AcceptAMEX 
@@ -358,6 +333,31 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return false;
 	}
 
+	/** AD_Sequence_ID AD_Reference_ID=128 */
+	public static final int AD_SEQUENCE_ID_AD_Reference_ID=128;
+	/** Set Sequence.
+		@param AD_Sequence_ID 
+		Document Sequence
+	  */
+	public void setAD_Sequence_ID (int AD_Sequence_ID)
+	{
+		if (AD_Sequence_ID < 1) 
+			set_Value (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+	}
+
+	/** Get Sequence.
+		@return Document Sequence
+	  */
+	public int getAD_Sequence_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Sequence_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
@@ -435,28 +435,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return ii.intValue();
 	}
 
-	/** Set Payment Processor.
-		@param C_PaymentProcessor_ID 
-		Payment processor for electronic payments
-	  */
-	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
-	{
-		if (C_PaymentProcessor_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
-	}
-
-	/** Get Payment Processor.
-		@return Payment processor for electronic payments
-	  */
-	public int getC_PaymentProcessor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Commission %.
 		@param Commission 
 		Commission stated as a percentage
@@ -501,18 +479,34 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return bd;
 	}
 
+	/** Set Payment Processor.
+		@param C_PaymentProcessor_ID 
+		Payment processor for electronic payments
+	  */
+	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
+	{
+		if (C_PaymentProcessor_ID < 1)
+			 throw new IllegalArgumentException ("C_PaymentProcessor_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
+	}
+
+	/** Get Payment Processor.
+		@return Payment processor for electronic payments
+	  */
+	public int getC_PaymentProcessor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentProcessor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -532,12 +526,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	{
 		if (HostAddress == null)
 			throw new IllegalArgumentException ("HostAddress is mandatory.");
-
-		if (HostAddress.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			HostAddress = HostAddress.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_HostAddress, HostAddress);
 	}
 
@@ -597,12 +585,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -628,12 +610,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setPartnerID (String PartnerID)
 	{
-
-		if (PartnerID != null && PartnerID.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PartnerID = PartnerID.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PartnerID, PartnerID);
 	}
 
@@ -653,12 +629,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	{
 		if (Password == null)
 			throw new IllegalArgumentException ("Password is mandatory.");
-
-		if (Password.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Password = Password.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
 
@@ -676,12 +646,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setPayProcessorClass (String PayProcessorClass)
 	{
-
-		if (PayProcessorClass != null && PayProcessorClass.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PayProcessorClass = PayProcessorClass.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PayProcessorClass, PayProcessorClass);
 	}
 
@@ -699,12 +663,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setProxyAddress (String ProxyAddress)
 	{
-
-		if (ProxyAddress != null && ProxyAddress.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ProxyAddress = ProxyAddress.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ProxyAddress, ProxyAddress);
 	}
 
@@ -722,12 +680,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setProxyLogon (String ProxyLogon)
 	{
-
-		if (ProxyLogon != null && ProxyLogon.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ProxyLogon = ProxyLogon.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ProxyLogon, ProxyLogon);
 	}
 
@@ -745,12 +697,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setProxyPassword (String ProxyPassword)
 	{
-
-		if (ProxyPassword != null && ProxyPassword.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ProxyPassword = ProxyPassword.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ProxyPassword, ProxyPassword);
 	}
 
@@ -814,12 +760,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	{
 		if (UserID == null)
 			throw new IllegalArgumentException ("UserID is mandatory.");
-
-		if (UserID.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			UserID = UserID.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_UserID, UserID);
 	}
 
@@ -837,12 +777,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setVendorID (String VendorID)
 	{
-
-		if (VendorID != null && VendorID.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			VendorID = VendorID.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_VendorID, VendorID);
 	}
 

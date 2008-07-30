@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Media
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_Media extends PO implements I_CM_Media, I_Persistent 
 {
 
@@ -178,12 +178,6 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -199,12 +193,6 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 		@param DirectDeploy Direct Deploy	  */
 	public void setDirectDeploy (String DirectDeploy)
 	{
-
-		if (DirectDeploy != null && DirectDeploy.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DirectDeploy = DirectDeploy.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_DirectDeploy, DirectDeploy);
 	}
 
@@ -221,12 +209,6 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -283,13 +265,7 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	public void setMediaType (String MediaType)
 	{
 
-		if (MediaType == null || MediaType.equals("GIF") || MediaType.equals("JPG") || MediaType.equals("PNG") || MediaType.equals("PDF") || MediaType.equals("CSS") || MediaType.equals("JS")); else throw new IllegalArgumentException ("MediaType Invalid value - " + MediaType + " - Reference_ID=388 - GIF - JPG - PNG - PDF - CSS - JS");
-		if (MediaType != null && MediaType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			MediaType = MediaType.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_MediaType, MediaType);
+		if (MediaType == null || MediaType.equals("GIF") || MediaType.equals("JPG") || MediaType.equals("PNG") || MediaType.equals("PDF") || MediaType.equals("CSS") || MediaType.equals("JS")); else throw new IllegalArgumentException ("MediaType Invalid value - " + MediaType + " - Reference_ID=388 - GIF - JPG - PNG - PDF - CSS - JS");		set_Value (COLUMNNAME_MediaType, MediaType);
 	}
 
 	/** Get Media Type.
@@ -308,12 +284,6 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

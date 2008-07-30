@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_FundRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
       /** if (GL_FundRestriction_ID == 0)
         {
 			setC_ElementValue_ID (0);
-			setGL_FundRestriction_ID (0);
 			setGL_Fund_ID (0);
+			setGL_FundRestriction_ID (0);
 			setName (null);
         } */
     }
@@ -119,12 +119,6 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -134,28 +128,6 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Fund Restriction.
-		@param GL_FundRestriction_ID 
-		Restriction of Funds
-	  */
-	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
-	{
-		if (GL_FundRestriction_ID < 1)
-			 throw new IllegalArgumentException ("GL_FundRestriction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
-	}
-
-	/** Get Fund Restriction.
-		@return Restriction of Funds
-	  */
-	public int getGL_FundRestriction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_FundRestriction_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_GL_Fund getGL_Fund() throws Exception 
@@ -196,6 +168,28 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 		return ii.intValue();
 	}
 
+	/** Set Fund Restriction.
+		@param GL_FundRestriction_ID 
+		Restriction of Funds
+	  */
+	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
+	{
+		if (GL_FundRestriction_ID < 1)
+			 throw new IllegalArgumentException ("GL_FundRestriction_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
+	}
+
+	/** Get Fund Restriction.
+		@return Restriction of Funds
+	  */
+	public int getGL_FundRestriction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_FundRestriction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -204,12 +198,6 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

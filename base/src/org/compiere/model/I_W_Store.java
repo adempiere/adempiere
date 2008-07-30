@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Store
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_W_Store 
 {
@@ -348,58 +344,6 @@ public interface I_W_Store
 	  */
 	public String getURL();
 
-    /** Column name WStoreEMail */
-    public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
-
-	/** Set Web Store EMail.
-	  * EMail address used as the sender (From)
-	  */
-	public void setWStoreEMail (String WStoreEMail);
-
-	/** Get Web Store EMail.
-	  * EMail address used as the sender (From)
-	  */
-	public String getWStoreEMail();
-
-    /** Column name WStoreUser */
-    public static final String COLUMNNAME_WStoreUser = "WStoreUser";
-
-	/** Set WebStore User.
-	  * User ID of the Web Store EMail address
-	  */
-	public void setWStoreUser (String WStoreUser);
-
-	/** Get WebStore User.
-	  * User ID of the Web Store EMail address
-	  */
-	public String getWStoreUser();
-
-    /** Column name WStoreUserPW */
-    public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
-
-	/** Set WebStore Password.
-	  * Password of the Web Store EMail address
-	  */
-	public void setWStoreUserPW (String WStoreUserPW);
-
-	/** Get WebStore Password.
-	  * Password of the Web Store EMail address
-	  */
-	public String getWStoreUserPW();
-
-    /** Column name W_Store_ID */
-    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
-
-	/** Set Web Store.
-	  * A Web Store of the Client
-	  */
-	public void setW_Store_ID (int W_Store_ID);
-
-	/** Get Web Store.
-	  * A Web Store of the Client
-	  */
-	public int getW_Store_ID();
-
     /** Column name WebContext */
     public static final String COLUMNNAME_WebContext = "WebContext";
 
@@ -516,4 +460,56 @@ public interface I_W_Store
 	  * Web Site Parameter 6 (default footer right)
 	  */
 	public String getWebParam6();
+
+    /** Column name WStoreEMail */
+    public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
+
+	/** Set Web Store EMail.
+	  * EMail address used as the sender (From)
+	  */
+	public void setWStoreEMail (String WStoreEMail);
+
+	/** Get Web Store EMail.
+	  * EMail address used as the sender (From)
+	  */
+	public String getWStoreEMail();
+
+    /** Column name W_Store_ID */
+    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
+
+	/** Set Web Store.
+	  * A Web Store of the Client
+	  */
+	public void setW_Store_ID (int W_Store_ID);
+
+	/** Get Web Store.
+	  * A Web Store of the Client
+	  */
+	public int getW_Store_ID();
+
+    /** Column name WStoreUser */
+    public static final String COLUMNNAME_WStoreUser = "WStoreUser";
+
+	/** Set WebStore User.
+	  * User ID of the Web Store EMail address
+	  */
+	public void setWStoreUser (String WStoreUser);
+
+	/** Get WebStore User.
+	  * User ID of the Web Store EMail address
+	  */
+	public String getWStoreUser();
+
+    /** Column name WStoreUserPW */
+    public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
+
+	/** Set WebStore Password.
+	  * Password of the Web Store EMail address
+	  */
+	public void setWStoreUserPW (String WStoreUserPW);
+
+	/** Get WebStore Password.
+	  * Password of the Web Store EMail address
+	  */
+	public String getWStoreUserPW();
 }

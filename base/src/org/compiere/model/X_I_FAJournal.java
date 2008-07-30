@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_FAJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent 
 {
 
@@ -75,6 +75,88 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Asset.
+		@param A_Asset_ID 
+		Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID)
+	{
+		if (A_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+	}
+
+	/** Get Asset.
+		@return Asset used internally or by customers
+	  */
+	public int getA_Asset_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Account_ID AD_Reference_ID=331 */
+	public static final int ACCOUNT_ID_AD_Reference_ID=331;
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Account Key.
+		@param AccountValue 
+		Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue)
+	{
+		set_Value (COLUMNNAME_AccountValue, AccountValue);
+	}
+
+	/** Get Account Key.
+		@return Key of Account Element
+	  */
+	public String getAccountValue () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountValue);
+	}
+
+	/** Set Account Schema Name.
+		@param AcctSchemaName 
+		Name of the Accounting Schema
+	  */
+	public void setAcctSchemaName (String AcctSchemaName)
+	{
+		set_Value (COLUMNNAME_AcctSchemaName, AcctSchemaName);
+	}
+
+	/** Get Account Schema Name.
+		@return Name of the Accounting Schema
+	  */
+	public String getAcctSchemaName () 
+	{
+		return (String)get_Value(COLUMNNAME_AcctSchemaName);
+	}
 
 	/** AD_OrgDoc_ID AD_Reference_ID=130 */
 	public static final int AD_ORGDOC_ID_AD_Reference_ID=130;
@@ -126,39 +208,10 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Asset.
-		@param A_Asset_ID 
-		Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID)
-	{
-		if (A_Asset_ID < 1) 
-			set_Value (COLUMNNAME_A_Asset_ID, null);
-		else 
-			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
-	}
-
-	/** Get Asset.
-		@return Asset used internally or by customers
-	  */
-	public int getA_Asset_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set A_Entry_Type.
 		@param A_Entry_Type A_Entry_Type	  */
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
-
-		if (A_Entry_Type != null && A_Entry_Type.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Entry_Type = A_Entry_Type.substring(0, 3);
-		}
 		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
@@ -167,77 +220,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public String getA_Entry_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Entry_Type);
-	}
-
-	/** Set Account Key.
-		@param AccountValue 
-		Key of Account Element
-	  */
-	public void setAccountValue (String AccountValue)
-	{
-
-		if (AccountValue != null && AccountValue.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			AccountValue = AccountValue.substring(0, 80);
-		}
-		set_Value (COLUMNNAME_AccountValue, AccountValue);
-	}
-
-	/** Get Account Key.
-		@return Key of Account Element
-	  */
-	public String getAccountValue () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountValue);
-	}
-
-	/** Account_ID AD_Reference_ID=331 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=331;
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Account Schema Name.
-		@param AcctSchemaName 
-		Name of the Accounting Schema
-	  */
-	public void setAcctSchemaName (String AcctSchemaName)
-	{
-
-		if (AcctSchemaName != null && AcctSchemaName.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			AcctSchemaName = AcctSchemaName.substring(0, 120);
-		}
-		set_Value (COLUMNNAME_AcctSchemaName, AcctSchemaName);
-	}
-
-	/** Get Account Schema Name.
-		@return Name of the Accounting Schema
-	  */
-	public String getAcctSchemaName () 
-	{
-		return (String)get_Value(COLUMNNAME_AcctSchemaName);
 	}
 
 	/** Set Accounted Credit.
@@ -320,41 +302,12 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return bd;
 	}
 
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-
-		if (BPartnerValue != null && BPartnerValue.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			BPartnerValue = BPartnerValue.substring(0, 80);
-		}
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
 	/** Set Batch Description.
 		@param BatchDescription 
 		Description of the Batch
 	  */
 	public void setBatchDescription (String BatchDescription)
 	{
-
-		if (BatchDescription != null && BatchDescription.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			BatchDescription = BatchDescription.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_BatchDescription, BatchDescription);
 	}
 
@@ -372,12 +325,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setBatchDocumentNo (String BatchDocumentNo)
 	{
-
-		if (BatchDocumentNo != null && BatchDocumentNo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			BatchDocumentNo = BatchDocumentNo.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_BatchDocumentNo, BatchDocumentNo);
 	}
 
@@ -387,6 +334,23 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public String getBatchDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_BatchDocumentNo);
+	}
+
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue)
+	{
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
+	}
+
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
+	  */
+	public String getBPartnerValue () 
+	{
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
 	public I_C_AcctSchema getC_AcctSchema() throws Exception 
@@ -465,6 +429,23 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Category Name.
+		@param CategoryName 
+		Name of the Category
+	  */
+	public void setCategoryName (String CategoryName)
+	{
+		set_Value (COLUMNNAME_CategoryName, CategoryName);
+	}
+
+	/** Get Category Name.
+		@return Name of the Category
+	  */
+	public String getCategoryName () 
+	{
+		return (String)get_Value(COLUMNNAME_CategoryName);
 	}
 
 	public I_C_BPartner getC_BPartner() throws Exception 
@@ -646,6 +627,23 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Client Key.
+		@param ClientValue 
+		Key of the Client
+	  */
+	public void setClientValue (String ClientValue)
+	{
+		set_Value (COLUMNNAME_ClientValue, ClientValue);
+	}
+
+	/** Get Client Key.
+		@return Key of the Client
+	  */
+	public String getClientValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ClientValue);
+	}
+
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -690,6 +688,23 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Currency Type Key.
+		@param ConversionTypeValue 
+		Key value for the Currency Conversion Rate Type
+	  */
+	public void setConversionTypeValue (String ConversionTypeValue)
+	{
+		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
+	}
+
+	/** Get Currency Type Key.
+		@return Key value for the Currency Conversion Rate Type
+	  */
+	public String getConversionTypeValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
 	}
 
 	public I_C_Period getC_Period() throws Exception 
@@ -871,114 +886,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ValidCombination getC_ValidCombination() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_ValidCombination.Table_Name);
-        I_C_ValidCombination result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ValidCombination)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ValidCombination_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1) 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Category Name.
-		@param CategoryName 
-		Name of the Category
-	  */
-	public void setCategoryName (String CategoryName)
-	{
-
-		if (CategoryName != null && CategoryName.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			CategoryName = CategoryName.substring(0, 120);
-		}
-		set_Value (COLUMNNAME_CategoryName, CategoryName);
-	}
-
-	/** Get Category Name.
-		@return Name of the Category
-	  */
-	public String getCategoryName () 
-	{
-		return (String)get_Value(COLUMNNAME_CategoryName);
-	}
-
-	/** Set Client Key.
-		@param ClientValue 
-		Key of the Client
-	  */
-	public void setClientValue (String ClientValue)
-	{
-
-		if (ClientValue != null && ClientValue.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			ClientValue = ClientValue.substring(0, 80);
-		}
-		set_Value (COLUMNNAME_ClientValue, ClientValue);
-	}
-
-	/** Get Client Key.
-		@return Key of the Client
-	  */
-	public String getClientValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ClientValue);
-	}
-
-	/** Set Currency Type Key.
-		@param ConversionTypeValue 
-		Key value for the Currency Conversion Rate Type
-	  */
-	public void setConversionTypeValue (String ConversionTypeValue)
-	{
-
-		if (ConversionTypeValue != null && ConversionTypeValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ConversionTypeValue = ConversionTypeValue.substring(0, 40);
-		}
-		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
-	}
-
-	/** Get Currency Type Key.
-		@return Key value for the Currency Conversion Rate Type
-	  */
-	public String getConversionTypeValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
-	}
-
 	/** Set Rate.
 		@param CurrencyRate 
 		Currency Conversion Rate
@@ -1022,13 +929,7 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public void setCurrencyRateType (String CurrencyRateType)
 	{
 
-		if (CurrencyRateType == null || CurrencyRateType.equals("S") || CurrencyRateType.equals("P") || CurrencyRateType.equals("N") || CurrencyRateType.equals("F") || CurrencyRateType.equals("A") || CurrencyRateType.equals("C") || CurrencyRateType.equals("U") || CurrencyRateType.equals("M")); else throw new IllegalArgumentException ("CurrencyRateType Invalid value - " + CurrencyRateType + " - Reference_ID=111 - S - P - N - F - A - C - U - M");
-		if (CurrencyRateType != null && CurrencyRateType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CurrencyRateType = CurrencyRateType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CurrencyRateType, CurrencyRateType);
+		if (CurrencyRateType == null || CurrencyRateType.equals("S") || CurrencyRateType.equals("P") || CurrencyRateType.equals("N") || CurrencyRateType.equals("F") || CurrencyRateType.equals("A") || CurrencyRateType.equals("C") || CurrencyRateType.equals("U") || CurrencyRateType.equals("M")); else throw new IllegalArgumentException ("CurrencyRateType Invalid value - " + CurrencyRateType + " - Reference_ID=111 - S - P - N - F - A - C - U - M");		set_Value (COLUMNNAME_CurrencyRateType, CurrencyRateType);
 	}
 
 	/** Get CurrencyRateType.
@@ -1036,6 +937,45 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public String getCurrencyRateType () 
 	{
 		return (String)get_Value(COLUMNNAME_CurrencyRateType);
+	}
+
+	public I_C_ValidCombination getC_ValidCombination() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ValidCombination.Table_Name);
+        I_C_ValidCombination result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ValidCombination)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ValidCombination_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Account Date.
@@ -1061,12 +1001,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -1084,12 +1018,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setDocTypeName (String DocTypeName)
 	{
-
-		if (DocTypeName != null && DocTypeName.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DocTypeName = DocTypeName.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DocTypeName, DocTypeName);
 	}
 
@@ -1218,45 +1146,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalLine getGL_JournalLine() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_GL_JournalLine.Table_Name);
-        I_GL_JournalLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_JournalLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Journal Line.
-		@param GL_JournalLine_ID 
-		General Ledger Journal Line
-	  */
-	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
-	{
-		if (GL_JournalLine_ID < 1) 
-			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
-	}
-
-	/** Get Journal Line.
-		@return General Ledger Journal Line
-	  */
-	public int getGL_JournalLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_GL_Journal getGL_Journal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
@@ -1296,27 +1185,43 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
+	public I_GL_JournalLine getGL_JournalLine() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_JournalLine.Table_Name);
+        I_GL_JournalLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_JournalLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
 
-		if (ISO_Code != null && ISO_Code.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	/** Set Journal Line.
+		@param GL_JournalLine_ID 
+		General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
+	{
+		if (GL_JournalLine_ID < 1) 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
 	}
 
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
+	/** Get Journal Line.
+		@return General Ledger Journal Line
 	  */
-	public String getISO_Code () 
+	public int getGL_JournalLine_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Import Error Message.
@@ -1325,12 +1230,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -1399,12 +1298,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setIsDepreciated (String IsDepreciated)
 	{
-
-		if (IsDepreciated != null && IsDepreciated.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IsDepreciated = IsDepreciated.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_IsDepreciated, IsDepreciated);
 	}
 
@@ -1416,18 +1309,29 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_IsDepreciated);
 	}
 
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
 	/** Set Journal Document No.
 		@param JournalDocumentNo 
 		Document number of the Journal
 	  */
 	public void setJournalDocumentNo (String JournalDocumentNo)
 	{
-
-		if (JournalDocumentNo != null && JournalDocumentNo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			JournalDocumentNo = JournalDocumentNo.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_JournalDocumentNo, JournalDocumentNo);
 	}
 
@@ -1504,12 +1408,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setOrgTrxValue (String OrgTrxValue)
 	{
-
-		if (OrgTrxValue != null && OrgTrxValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			OrgTrxValue = OrgTrxValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_OrgTrxValue, OrgTrxValue);
 	}
 
@@ -1527,12 +1425,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setOrgValue (String OrgValue)
 	{
-
-		if (OrgValue != null && OrgValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			OrgValue = OrgValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_OrgValue, OrgValue);
 	}
 
@@ -1563,13 +1455,7 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.
@@ -1631,12 +1517,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setProductValue (String ProductValue)
 	{
-
-		if (ProductValue != null && ProductValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ProductValue = ProductValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ProductValue, ProductValue);
 	}
 
@@ -1654,12 +1534,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setProjectValue (String ProjectValue)
 	{
-
-		if (ProjectValue != null && ProjectValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ProjectValue = ProjectValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ProjectValue, ProjectValue);
 	}
 
@@ -1697,12 +1571,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setSKU (String SKU)
 	{
-
-		if (SKU != null && SKU.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_SKU, SKU);
 	}
 
@@ -1720,12 +1588,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setUPC (String UPC)
 	{
-
-		if (UPC != null && UPC.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_UPC, UPC);
 	}
 
@@ -1735,6 +1597,52 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public String getUPC () 
 	{
 		return (String)get_Value(COLUMNNAME_UPC);
+	}
+
+	/** Set User Element 1.
+		@param UserElement1_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID)
+	{
+		if (UserElement1_ID < 1) 
+			set_Value (COLUMNNAME_UserElement1_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
+	}
+
+	/** Get User Element 1.
+		@return User defined accounting Element
+	  */
+	public int getUserElement1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User Element 2.
+		@param UserElement2_ID 
+		User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID)
+	{
+		if (UserElement2_ID < 1) 
+			set_Value (COLUMNNAME_UserElement2_ID, null);
+		else 
+			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
+	}
+
+	/** Get User Element 2.
+		@return User defined accounting Element
+	  */
+	public int getUserElement2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** User1_ID AD_Reference_ID=134 */
@@ -1782,52 +1690,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public int getUser2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Element 1.
-		@param UserElement1_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID)
-	{
-		if (UserElement1_ID < 1) 
-			set_Value (COLUMNNAME_UserElement1_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement1_ID, Integer.valueOf(UserElement1_ID));
-	}
-
-	/** Get User Element 1.
-		@return User defined accounting Element
-	  */
-	public int getUserElement1_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement1_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Element 2.
-		@param UserElement2_ID 
-		User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID)
-	{
-		if (UserElement2_ID < 1) 
-			set_Value (COLUMNNAME_UserElement2_ID, null);
-		else 
-			set_Value (COLUMNNAME_UserElement2_ID, Integer.valueOf(UserElement2_ID));
-	}
-
-	/** Get User Element 2.
-		@return User defined accounting Element
-	  */
-	public int getUserElement2_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

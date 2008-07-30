@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDistributionLine, I_Persistent 
 {
 
@@ -43,11 +43,12 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
       super (ctx, DD_NetworkDistributionLine_ID, trxName);
       /** if (DD_NetworkDistributionLine_ID == 0)
         {
-			setDD_NetworkDistributionLine_ID (0);
 			setDD_NetworkDistribution_ID (0);
-			setM_WarehouseSource_ID (0);
+			setDD_NetworkDistributionLine_ID (0);
+			setM_Shipper_ID (0);
 			setM_Warehouse_ID (0);
 // @M_Warehouse_ID@
+			setM_WarehouseSource_ID (0);
         } */
     }
 
@@ -78,25 +79,6 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set DD_NetworkDistributionLine_ID.
-		@param DD_NetworkDistributionLine_ID DD_NetworkDistributionLine_ID	  */
-	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID)
-	{
-		if (DD_NetworkDistributionLine_ID < 1)
-			 throw new IllegalArgumentException ("DD_NetworkDistributionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_NetworkDistributionLine_ID, Integer.valueOf(DD_NetworkDistributionLine_ID));
-	}
-
-	/** Get DD_NetworkDistributionLine_ID.
-		@return DD_NetworkDistributionLine_ID	  */
-	public int getDD_NetworkDistributionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistributionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws Exception 
     {
@@ -133,6 +115,25 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
+	/** Set DD_NetworkDistributionLine_ID.
+		@param DD_NetworkDistributionLine_ID DD_NetworkDistributionLine_ID	  */
+	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID)
+	{
+		if (DD_NetworkDistributionLine_ID < 1)
+			 throw new IllegalArgumentException ("DD_NetworkDistributionLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_DD_NetworkDistributionLine_ID, Integer.valueOf(DD_NetworkDistributionLine_ID));
+	}
+
+	/** Get DD_NetworkDistributionLine_ID.
+		@return DD_NetworkDistributionLine_ID	  */
+	public int getDD_NetworkDistributionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistributionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Shipper getM_Shipper() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
@@ -155,10 +156,9 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID < 1) 
-			set_Value (COLUMNNAME_M_Shipper_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+		if (M_Shipper_ID < 1)
+			 throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
+		set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
 	/** Get Shipper.
@@ -167,30 +167,6 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	public int getM_Shipper_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Shipper_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** M_WarehouseSource_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
-	/** Set Source Warehouse.
-		@param M_WarehouseSource_ID 
-		Optional Warehouse to replenish from
-	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
-	{
-		if (M_WarehouseSource_ID < 1)
-			 throw new IllegalArgumentException ("M_WarehouseSource_ID is mandatory.");
-		set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
-	}
-
-	/** Get Source Warehouse.
-		@return Optional Warehouse to replenish from
-	  */
-	public int getM_WarehouseSource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -215,6 +191,30 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	public int getM_Warehouse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** M_WarehouseSource_ID AD_Reference_ID=197 */
+	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
+	/** Set Source Warehouse.
+		@param M_WarehouseSource_ID 
+		Optional Warehouse to replenish from
+	  */
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
+	{
+		if (M_WarehouseSource_ID < 1)
+			 throw new IllegalArgumentException ("M_WarehouseSource_ID is mandatory.");
+		set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
+	}
+
+	/** Get Source Warehouse.
+		@return Optional Warehouse to replenish from
+	  */
+	public int getM_WarehouseSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

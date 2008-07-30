@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
       super (ctx, C_CycleStep_ID, trxName);
       /** if (C_CycleStep_ID == 0)
         {
-			setC_CycleStep_ID (0);
 			setC_Cycle_ID (0);
+			setC_CycleStep_ID (0);
 			setName (null);
 			setRelativeWeight (Env.ZERO);
 // 1
@@ -79,28 +79,6 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Cycle Step.
-		@param C_CycleStep_ID 
-		The step for this Cycle
-	  */
-	public void setC_CycleStep_ID (int C_CycleStep_ID)
-	{
-		if (C_CycleStep_ID < 1)
-			 throw new IllegalArgumentException ("C_CycleStep_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
-	}
-
-	/** Get Cycle Step.
-		@return The step for this Cycle
-	  */
-	public int getC_CycleStep_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CycleStep_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_Cycle getC_Cycle() throws Exception 
     {
@@ -140,6 +118,28 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Cycle Step.
+		@param C_CycleStep_ID 
+		The step for this Cycle
+	  */
+	public void setC_CycleStep_ID (int C_CycleStep_ID)
+	{
+		if (C_CycleStep_ID < 1)
+			 throw new IllegalArgumentException ("C_CycleStep_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
+	}
+
+	/** Get Cycle Step.
+		@return The step for this Cycle
+	  */
+	public int getC_CycleStep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CycleStep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -148,12 +148,6 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

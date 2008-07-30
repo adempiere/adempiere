@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Order_BOMLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_Persistent 
 {
 

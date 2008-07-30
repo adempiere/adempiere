@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_EntityType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent 
 {
 
@@ -100,12 +100,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setClasspath (String Classpath)
 	{
-
-		if (Classpath != null && Classpath.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Classpath = Classpath.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Classpath, Classpath);
 	}
 
@@ -123,12 +117,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -148,12 +136,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	{
 		if (EntityType == null)
 			throw new IllegalArgumentException ("EntityType is mandatory.");
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -171,12 +153,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -194,12 +170,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setModelPackage (String ModelPackage)
 	{
-
-		if (ModelPackage != null && ModelPackage.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			ModelPackage = ModelPackage.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_ModelPackage, ModelPackage);
 	}
 
@@ -219,12 +189,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -271,12 +235,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setVersion (String Version)
 	{
-
-		if (Version != null && Version.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Version = Version.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Version, Version);
 	}
 

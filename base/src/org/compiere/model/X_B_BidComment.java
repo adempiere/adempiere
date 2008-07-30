@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for B_BidComment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent 
 {
 
@@ -180,12 +180,6 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 	{
 		if (TextMsg == null)
 			throw new IllegalArgumentException ("TextMsg is mandatory.");
-
-		if (TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

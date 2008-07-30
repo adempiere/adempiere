@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_R_RequestUpdate 
 {
@@ -122,18 +118,18 @@ public interface I_R_RequestUpdate
 	  */
 	public BigDecimal getQtySpent();
 
-    /** Column name R_RequestUpdate_ID */
-    public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
 
-	/** Set Request Update.
-	  * Request Updates
+	/** Set Result.
+	  * Result of the action taken
 	  */
-	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID);
+	public void setResult (String Result);
 
-	/** Get Request Update.
-	  * Request Updates
+	/** Get Result.
+	  * Result of the action taken
 	  */
-	public int getR_RequestUpdate_ID();
+	public String getResult();
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -150,18 +146,18 @@ public interface I_R_RequestUpdate
 
 	public I_R_Request getR_Request() throws Exception;
 
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
+    /** Column name R_RequestUpdate_ID */
+    public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
 
-	/** Set Result.
-	  * Result of the action taken
+	/** Set Request Update.
+	  * Request Updates
 	  */
-	public void setResult (String Result);
+	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID);
 
-	/** Get Result.
-	  * Result of the action taken
+	/** Get Request Update.
+	  * Request Updates
 	  */
-	public String getResult();
+	public int getR_RequestUpdate_ID();
 
     /** Column name StartTime */
     public static final String COLUMNNAME_StartTime = "StartTime";

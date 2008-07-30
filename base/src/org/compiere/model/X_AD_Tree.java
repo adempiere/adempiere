@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tree
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent 
 {
 
@@ -103,12 +103,6 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -176,12 +170,6 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -269,13 +257,7 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	public void setTreeType (String TreeType)
 	{
 		if (TreeType == null) throw new IllegalArgumentException ("TreeType is mandatory");
-		if (TreeType.equals("MM") || TreeType.equals("EV") || TreeType.equals("PR") || TreeType.equals("BP") || TreeType.equals("OO") || TreeType.equals("BB") || TreeType.equals("PJ") || TreeType.equals("SR") || TreeType.equals("PC") || TreeType.equals("MC") || TreeType.equals("AY") || TreeType.equals("U1") || TreeType.equals("U2") || TreeType.equals("U3") || TreeType.equals("U4") || TreeType.equals("CC") || TreeType.equals("CS") || TreeType.equals("CT") || TreeType.equals("CM")); else throw new IllegalArgumentException ("TreeType Invalid value - " + TreeType + " - Reference_ID=120 - MM - EV - PR - BP - OO - BB - PJ - SR - PC - MC - AY - U1 - U2 - U3 - U4 - CC - CS - CT - CM");
-		if (TreeType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			TreeType = TreeType.substring(0, 2);
-		}
-		set_ValueNoCheck (COLUMNNAME_TreeType, TreeType);
+		if (TreeType.equals("MM") || TreeType.equals("EV") || TreeType.equals("PR") || TreeType.equals("BP") || TreeType.equals("OO") || TreeType.equals("BB") || TreeType.equals("PJ") || TreeType.equals("SR") || TreeType.equals("PC") || TreeType.equals("MC") || TreeType.equals("AY") || TreeType.equals("U1") || TreeType.equals("U2") || TreeType.equals("U3") || TreeType.equals("U4") || TreeType.equals("CC") || TreeType.equals("CS") || TreeType.equals("CT") || TreeType.equals("CM")); else throw new IllegalArgumentException ("TreeType Invalid value - " + TreeType + " - Reference_ID=120 - MM - EV - PR - BP - OO - BB - PJ - SR - PC - MC - AY - U1 - U2 - U3 - U4 - CC - CS - CT - CM");		set_ValueNoCheck (COLUMNNAME_TreeType, TreeType);
 	}
 
 	/** Get Type | Area.

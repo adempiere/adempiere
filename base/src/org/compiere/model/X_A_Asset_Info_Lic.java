@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Lic
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Persistent 
 {
 
@@ -127,12 +127,6 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		@param A_Issuing_Agency A_Issuing_Agency	  */
 	public void setA_Issuing_Agency (String A_Issuing_Agency)
 	{
-
-		if (A_Issuing_Agency != null && A_Issuing_Agency.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			A_Issuing_Agency = A_Issuing_Agency.substring(0, 22);
-		}
 		set_Value (COLUMNNAME_A_Issuing_Agency, A_Issuing_Agency);
 	}
 
@@ -164,12 +158,6 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		@param A_License_No A_License_No	  */
 	public void setA_License_No (String A_License_No)
 	{
-
-		if (A_License_No != null && A_License_No.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			A_License_No = A_License_No.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_A_License_No, A_License_No);
 	}
 
@@ -200,12 +188,6 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 	  */
 	public void setA_State (String A_State)
 	{
-
-		if (A_State != null && A_State.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			A_State = A_State.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_A_State, A_State);
 	}
 
@@ -221,12 +203,6 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		@param Text Text	  */
 	public void setText (String Text)
 	{
-
-		if (Text != null && Text.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Text = Text.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Text, Text);
 	}
 

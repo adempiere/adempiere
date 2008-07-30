@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for T_MRP_CRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent 
 {
 
@@ -117,12 +117,6 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 50)
-		{
-			log.warning("Length > 50 - truncated");
-			Description = Description.substring(0, 50);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

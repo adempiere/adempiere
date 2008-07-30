@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent 
 {
 
@@ -106,13 +106,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setAmountType (String AmountType)
 	{
 
-		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY");
-		if (AmountType != null && AmountType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			AmountType = AmountType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_AmountType, AmountType);
+		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY");		set_Value (COLUMNNAME_AmountType, AmountType);
 	}
 
 	/** Get Amount Type.
@@ -121,6 +115,31 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public String getAmountType () 
 	{
 		return (String)get_Value(COLUMNNAME_AmountType);
+	}
+
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
+	/** Set Calculation.
+		@param CalculationType Calculation	  */
+	public void setCalculationType (String CalculationType)
+	{
+
+		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");		set_Value (COLUMNNAME_CalculationType, CalculationType);
+	}
+
+	/** Get Calculation.
+		@return Calculation	  */
+	public String getCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
 	public I_C_ElementValue getC_ElementValue() throws Exception 
@@ -162,49 +181,12 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CalculationType AD_Reference_ID=236 */
-	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
-	/** Add (Op1+Op2) = A */
-	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
-	/** Subtract (Op1-Op2) = S */
-	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
-	/** Percentage (Op1 of Op2) = P */
-	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
-	/** Add Range (Op1 to Op2) = R */
-	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
-	/** Set Calculation.
-		@param CalculationType Calculation	  */
-	public void setCalculationType (String CalculationType)
-	{
-
-		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");
-		if (CalculationType != null && CalculationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CalculationType = CalculationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CalculationType, CalculationType);
-	}
-
-	/** Get Calculation.
-		@return Calculation	  */
-	public String getCalculationType () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationType);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -222,12 +204,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setElementValue (String ElementValue)
 	{
-
-		if (ElementValue != null && ElementValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ElementValue = ElementValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ElementValue, ElementValue);
 	}
 
@@ -245,12 +221,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -367,13 +337,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setLineType (String LineType)
 	{
 
-		if (LineType == null || LineType.equals("S") || LineType.equals("C")); else throw new IllegalArgumentException ("LineType Invalid value - " + LineType + " - Reference_ID=241 - S - C");
-		if (LineType != null && LineType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			LineType = LineType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_LineType, LineType);
+		if (LineType == null || LineType.equals("S") || LineType.equals("C")); else throw new IllegalArgumentException ("LineType Invalid value - " + LineType + " - Reference_ID=241 - S - C");		set_Value (COLUMNNAME_LineType, LineType);
 	}
 
 	/** Get Line Type.
@@ -389,12 +353,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -413,42 +371,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
-
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
-        I_PA_ReportLineSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_ReportLineSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ReportLineSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Report Line Set.
-		@param PA_ReportLineSet_ID Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
-	{
-		if (PA_ReportLineSet_ID < 1) 
-			set_Value (COLUMNNAME_PA_ReportLineSet_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
-	}
-
-	/** Get Report Line Set.
-		@return Report Line Set	  */
-	public int getPA_ReportLineSet_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_PA_ReportLine getPA_ReportLine() throws Exception 
     {
@@ -481,6 +403,42 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public int getPA_ReportLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
+        I_PA_ReportLineSet result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_PA_ReportLineSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ReportLineSet_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Report Line Set.
+		@param PA_ReportLineSet_ID Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
+	{
+		if (PA_ReportLineSet_ID < 1) 
+			set_Value (COLUMNNAME_PA_ReportLineSet_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
+	}
+
+	/** Get Report Line Set.
+		@return Report Line Set	  */
+	public int getPA_ReportLineSet_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -544,13 +502,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.
@@ -612,12 +564,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setReportLineSetName (String ReportLineSetName)
 	{
-
-		if (ReportLineSetName != null && ReportLineSetName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ReportLineSetName = ReportLineSetName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ReportLineSetName, ReportLineSetName);
 	}
 

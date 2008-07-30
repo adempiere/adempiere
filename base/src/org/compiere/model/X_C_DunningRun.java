@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningRun
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent 
 {
 
@@ -43,7 +43,7 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
         {
 			setC_DunningLevel_ID (0);
 			setC_DunningRun_ID (0);
-			setDunningDate (new Timestamp(System.currentTimeMillis()));
+			setDunningDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setProcessed (false);
         } */
@@ -140,12 +140,6 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -233,12 +227,6 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 		@param SendIt Send	  */
 	public void setSendIt (String SendIt)
 	{
-
-		if (SendIt != null && SendIt.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SendIt = SendIt.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_SendIt, SendIt);
 	}
 

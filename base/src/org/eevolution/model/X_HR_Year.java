@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_Year extends PO implements I_HR_Year, I_Persistent 
 {
 
@@ -46,7 +46,7 @@ public class X_HR_Year extends PO implements I_HR_Year, I_Persistent
 			setHR_Year_ID (0);
 			setNetDays (0);
 			setQty (0);
-			setStartDate (new Timestamp(System.currentTimeMillis()));
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 

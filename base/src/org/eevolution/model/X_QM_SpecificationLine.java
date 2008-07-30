@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine, I_Persistent 
 {
 
@@ -89,13 +89,7 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public void setAndOr (String AndOr)
 	{
 		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
-		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");
-		if (AndOr.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AndOr = AndOr.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AndOr, AndOr);
+		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
 
 	/** Get And/Or.
@@ -171,13 +165,7 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public void setOperation (String Operation)
 	{
 		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
-		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");
-		if (Operation.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			Operation = Operation.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_Operation, Operation);
+		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");		set_Value (COLUMNNAME_Operation, Operation);
 	}
 
 	/** Get Operation.
@@ -186,25 +174,6 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public String getOperation () 
 	{
 		return (String)get_Value(COLUMNNAME_Operation);
-	}
-
-	/** Set QM_SpecificationLine_ID.
-		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
-	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
-	{
-		if (QM_SpecificationLine_ID < 1)
-			 throw new IllegalArgumentException ("QM_SpecificationLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
-	}
-
-	/** Get QM_SpecificationLine_ID.
-		@return QM_SpecificationLine_ID	  */
-	public int getQM_SpecificationLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_QM_Specification getQM_Specification() throws Exception 
@@ -243,6 +212,25 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return ii.intValue();
 	}
 
+	/** Set QM_SpecificationLine_ID.
+		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
+	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
+	{
+		if (QM_SpecificationLine_ID < 1)
+			 throw new IllegalArgumentException ("QM_SpecificationLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
+	}
+
+	/** Get QM_SpecificationLine_ID.
+		@return QM_SpecificationLine_ID	  */
+	public int getQM_SpecificationLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first
@@ -269,12 +257,6 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	  */
 	public void setValidFrom (String ValidFrom)
 	{
-
-		if (ValidFrom != null && ValidFrom.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			ValidFrom = ValidFrom.substring(0, 22);
-		}
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 
@@ -309,12 +291,6 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

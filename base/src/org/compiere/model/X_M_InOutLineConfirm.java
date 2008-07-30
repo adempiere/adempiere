@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_Persistent 
 {
 
@@ -124,12 +124,6 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setConfirmationNo (String ConfirmationNo)
 	{
-
-		if (ConfirmationNo != null && ConfirmationNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ConfirmationNo = ConfirmationNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
 	}
 
@@ -169,12 +163,6 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

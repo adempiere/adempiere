@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_DistributionLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_GL_DistributionLine 
 {
@@ -56,19 +52,6 @@ public interface I_GL_DistributionLine
 
     /** Load Meta Data */
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name Account_ID */
     public static final String COLUMNNAME_Account_ID = "Account_ID";
 
@@ -81,6 +64,19 @@ public interface I_GL_DistributionLine
 	  * Account used
 	  */
 	public int getAccount_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -196,19 +192,6 @@ public interface I_GL_DistributionLine
 	  */
 	public String getDescription();
 
-    /** Column name GL_DistributionLine_ID */
-    public static final String COLUMNNAME_GL_DistributionLine_ID = "GL_DistributionLine_ID";
-
-	/** Set GL Distribution Line.
-	  * General Ledger Distribution Line
-	  */
-	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID);
-
-	/** Get GL Distribution Line.
-	  * General Ledger Distribution Line
-	  */
-	public int getGL_DistributionLine_ID();
-
     /** Column name GL_Distribution_ID */
     public static final String COLUMNNAME_GL_Distribution_ID = "GL_Distribution_ID";
 
@@ -223,6 +206,19 @@ public interface I_GL_DistributionLine
 	public int getGL_Distribution_ID();
 
 	public I_GL_Distribution getGL_Distribution() throws Exception;
+
+    /** Column name GL_DistributionLine_ID */
+    public static final String COLUMNNAME_GL_DistributionLine_ID = "GL_DistributionLine_ID";
+
+	/** Set GL Distribution Line.
+	  * General Ledger Distribution Line
+	  */
+	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID);
+
+	/** Get GL Distribution Line.
+	  * General Ledger Distribution Line
+	  */
+	public int getGL_DistributionLine_ID();
 
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";

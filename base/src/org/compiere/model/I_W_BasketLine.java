@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_BasketLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_W_BasketLine 
 {
@@ -132,19 +128,6 @@ public interface I_W_BasketLine
 	  */
 	public BigDecimal getQty();
 
-    /** Column name W_BasketLine_ID */
-    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
-
-	/** Set Basket Line.
-	  * Web Basket Line
-	  */
-	public void setW_BasketLine_ID (int W_BasketLine_ID);
-
-	/** Get Basket Line.
-	  * Web Basket Line
-	  */
-	public int getW_BasketLine_ID();
-
     /** Column name W_Basket_ID */
     public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
 
@@ -159,4 +142,17 @@ public interface I_W_BasketLine
 	public int getW_Basket_ID();
 
 	public I_W_Basket getW_Basket() throws Exception;
+
+    /** Column name W_BasketLine_ID */
+    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
+
+	/** Set Basket Line.
+	  * Web Basket Line
+	  */
+	public void setW_BasketLine_ID (int W_BasketLine_ID);
+
+	/** Get Basket Line.
+	  * Web Basket Line
+	  */
+	public int getW_BasketLine_ID();
 }

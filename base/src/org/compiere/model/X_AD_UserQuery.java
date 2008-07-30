@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserQuery
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent 
 {
 
@@ -151,28 +151,6 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set User Query.
-		@param AD_UserQuery_ID 
-		Saved User Query
-	  */
-	public void setAD_UserQuery_ID (int AD_UserQuery_ID)
-	{
-		if (AD_UserQuery_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserQuery_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, Integer.valueOf(AD_UserQuery_ID));
-	}
-
-	/** Get User Query.
-		@return Saved User Query
-	  */
-	public int getAD_UserQuery_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserQuery_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -212,6 +190,28 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set User Query.
+		@param AD_UserQuery_ID 
+		Saved User Query
+	  */
+	public void setAD_UserQuery_ID (int AD_UserQuery_ID)
+	{
+		if (AD_UserQuery_ID < 1)
+			 throw new IllegalArgumentException ("AD_UserQuery_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, Integer.valueOf(AD_UserQuery_ID));
+	}
+
+	/** Get User Query.
+		@return Saved User Query
+	  */
+	public int getAD_UserQuery_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserQuery_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Validation code.
 		@param Code 
 		Validation Code
@@ -235,12 +235,6 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -260,12 +254,6 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

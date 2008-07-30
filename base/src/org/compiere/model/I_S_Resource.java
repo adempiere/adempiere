@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for S_Resource
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_S_Resource 
 {
@@ -118,11 +114,20 @@ public interface I_S_Resource
     /** Column name IsManufacturingResource */
     public static final String COLUMNNAME_IsManufacturingResource = "IsManufacturingResource";
 
-	/** Set IsManufacturingResource	  */
+	/** Set Manufacturing Resource	  */
 	public void setIsManufacturingResource (boolean IsManufacturingResource);
 
-	/** Get IsManufacturingResource	  */
+	/** Get Manufacturing Resource	  */
 	public boolean isManufacturingResource();
+
+    /** Column name ManufacturingResourceType */
+    public static final String COLUMNNAME_ManufacturingResourceType = "ManufacturingResourceType";
+
+	/** Set Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType);
+
+	/** Get Manufacturing Resource Type	  */
+	public String getManufacturingResourceType();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -138,15 +143,6 @@ public interface I_S_Resource
 	public int getM_Warehouse_ID();
 
 	public I_M_Warehouse getM_Warehouse() throws Exception;
-
-    /** Column name ManufacturingResourceType */
-    public static final String COLUMNNAME_ManufacturingResourceType = "ManufacturingResourceType";
-
-	/** Set ManufacturingResourceType	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType);
-
-	/** Get ManufacturingResourceType	  */
-	public String getManufacturingResourceType();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -192,17 +188,6 @@ public interface I_S_Resource
 	/** Get QueuingTime	  */
 	public BigDecimal getQueuingTime();
 
-    /** Column name S_ResourceType_ID */
-    public static final String COLUMNNAME_S_ResourceType_ID = "S_ResourceType_ID";
-
-	/** Set Resource Type	  */
-	public void setS_ResourceType_ID (int S_ResourceType_ID);
-
-	/** Get Resource Type	  */
-	public int getS_ResourceType_ID();
-
-	public I_S_ResourceType getS_ResourceType() throws Exception;
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -215,6 +200,17 @@ public interface I_S_Resource
 	  * Resource
 	  */
 	public int getS_Resource_ID();
+
+    /** Column name S_ResourceType_ID */
+    public static final String COLUMNNAME_S_ResourceType_ID = "S_ResourceType_ID";
+
+	/** Set Resource Type	  */
+	public void setS_ResourceType_ID (int S_ResourceType_ID);
+
+	/** Get Resource Type	  */
+	public int getS_ResourceType_ID();
+
+	public I_S_ResourceType getS_ResourceType() throws Exception;
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

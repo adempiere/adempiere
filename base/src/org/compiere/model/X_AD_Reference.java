@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Reference
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent 
 {
 
@@ -102,12 +102,6 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -127,12 +121,6 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -150,12 +138,6 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -199,12 +181,6 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -224,29 +200,6 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-
-		if (VFormat != null && VFormat.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			VFormat = VFormat.substring(0, 40);
-		}
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
-	}
-
 	/** ValidationType AD_Reference_ID=2 */
 	public static final int VALIDATIONTYPE_AD_Reference_ID=2;
 	/** List Validation = L */
@@ -262,13 +215,7 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	public void setValidationType (String ValidationType)
 	{
 		if (ValidationType == null) throw new IllegalArgumentException ("ValidationType is mandatory");
-		if (ValidationType.equals("L") || ValidationType.equals("D") || ValidationType.equals("T")); else throw new IllegalArgumentException ("ValidationType Invalid value - " + ValidationType + " - Reference_ID=2 - L - D - T");
-		if (ValidationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ValidationType = ValidationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ValidationType, ValidationType);
+		if (ValidationType.equals("L") || ValidationType.equals("D") || ValidationType.equals("T")); else throw new IllegalArgumentException ("ValidationType Invalid value - " + ValidationType + " - Reference_ID=2 - L - D - T");		set_Value (COLUMNNAME_ValidationType, ValidationType);
 	}
 
 	/** Get Validation type.
@@ -277,5 +224,22 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	public String getValidationType () 
 	{
 		return (String)get_Value(COLUMNNAME_ValidationType);
+	}
+
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

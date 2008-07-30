@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_Persistent 
 {
 
@@ -50,7 +50,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 			setM_Product_ID (0);
 			setPP_Product_BOM_ID (0);
 			setPP_Product_BOMLine_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
         } */
     }
@@ -109,12 +109,6 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setBackflushGroup (String BackflushGroup)
 	{
-
-		if (BackflushGroup != null && BackflushGroup.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			BackflushGroup = BackflushGroup.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_BackflushGroup, BackflushGroup);
 	}
 
@@ -151,13 +145,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	public void setComponentType (String ComponentType)
 	{
 
-		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA")); else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");
-		if (ComponentType != null && ComponentType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			ComponentType = ComponentType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_ComponentType, ComponentType);
+		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA")); else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");		set_Value (COLUMNNAME_ComponentType, ComponentType);
 	}
 
 	/** Get Component Type.
@@ -213,12 +201,6 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -236,12 +218,6 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setFeature (String Feature)
 	{
-
-		if (Feature != null && Feature.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Feature = Feature.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_Feature, Feature);
 	}
 
@@ -279,12 +255,6 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -357,13 +327,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	public void setIssueMethod (String IssueMethod)
 	{
 		if (IssueMethod == null) throw new IllegalArgumentException ("IssueMethod is mandatory");
-		if (IssueMethod.equals("0") || IssueMethod.equals("1")); else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1");
-		if (IssueMethod.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IssueMethod = IssueMethod.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
+		if (IssueMethod.equals("0") || IssueMethod.equals("1")); else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1");		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
 	}
 
 	/** Get Issue Method.
@@ -668,21 +632,5 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	public Timestamp getValidTo () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ValidTo);
-	}
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		throw new IllegalArgumentException ("Value is virtual column");	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
 	}
 }

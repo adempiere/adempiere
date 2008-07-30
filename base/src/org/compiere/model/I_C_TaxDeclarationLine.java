@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDeclarationLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_TaxDeclarationLine 
 {
@@ -102,21 +98,6 @@ public interface I_C_TaxDeclarationLine
 
 	public I_C_Currency getC_Currency() throws Exception;
 
-    /** Column name C_InvoiceLine_ID */
-    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
-
-	/** Set Invoice Line.
-	  * Invoice Detail Line
-	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
-
-	/** Get Invoice Line.
-	  * Invoice Detail Line
-	  */
-	public int getC_InvoiceLine_ID();
-
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -132,18 +113,20 @@ public interface I_C_TaxDeclarationLine
 
 	public I_C_Invoice getC_Invoice() throws Exception;
 
-    /** Column name C_TaxDeclarationLine_ID */
-    public static final String COLUMNNAME_C_TaxDeclarationLine_ID = "C_TaxDeclarationLine_ID";
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 
-	/** Set Tax Declaration Line.
-	  * Tax Declaration Document Information
+	/** Set Invoice Line.
+	  * Invoice Detail Line
 	  */
-	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID);
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
 
-	/** Get Tax Declaration Line.
-	  * Tax Declaration Document Information
+	/** Get Invoice Line.
+	  * Invoice Detail Line
 	  */
-	public int getC_TaxDeclarationLine_ID();
+	public int getC_InvoiceLine_ID();
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
 
     /** Column name C_TaxDeclaration_ID */
     public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
@@ -159,6 +142,19 @@ public interface I_C_TaxDeclarationLine
 	public int getC_TaxDeclaration_ID();
 
 	public I_C_TaxDeclaration getC_TaxDeclaration() throws Exception;
+
+    /** Column name C_TaxDeclarationLine_ID */
+    public static final String COLUMNNAME_C_TaxDeclarationLine_ID = "C_TaxDeclarationLine_ID";
+
+	/** Set Tax Declaration Line.
+	  * Tax Declaration Document Information
+	  */
+	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID);
+
+	/** Get Tax Declaration Line.
+	  * Tax Declaration Document Information
+	  */
+	public int getC_TaxDeclarationLine_ID();
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";

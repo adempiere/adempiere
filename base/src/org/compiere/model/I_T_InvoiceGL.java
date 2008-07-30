@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_InvoiceGL
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_T_InvoiceGL 
 {
@@ -71,19 +67,6 @@ public interface I_T_InvoiceGL
 	public int getAD_PInstance_ID();
 
 	public I_AD_PInstance getAD_PInstance() throws Exception;
-
-    /** Column name APAR */
-    public static final String COLUMNNAME_APAR = "APAR";
-
-	/** Set AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public void setAPAR (String APAR);
-
-	/** Get AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public String getAPAR();
 
     /** Column name AmtAcctBalance */
     public static final String COLUMNNAME_AmtAcctBalance = "AmtAcctBalance";
@@ -162,6 +145,19 @@ public interface I_T_InvoiceGL
 	  * Source Balance Amount
 	  */
 	public BigDecimal getAmtSourceBalance();
+
+    /** Column name APAR */
+    public static final String COLUMNNAME_APAR = "APAR";
+
+	/** Set AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public void setAPAR (String APAR);
+
+	/** Get AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public String getAPAR();
 
     /** Column name C_ConversionTypeReval_ID */
     public static final String COLUMNNAME_C_ConversionTypeReval_ID = "C_ConversionTypeReval_ID";

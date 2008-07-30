@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Scheduler_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Persistent 
 {
 
@@ -151,12 +151,6 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -174,12 +168,6 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 	  */
 	public void setParameterDefault (String ParameterDefault)
 	{
-
-		if (ParameterDefault != null && ParameterDefault.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ParameterDefault = ParameterDefault.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ParameterDefault, ParameterDefault);
 	}
 

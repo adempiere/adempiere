@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_TaxCategory extends PO implements I_C_TaxCategory, I_Persistent 
 {
 
@@ -72,6 +72,23 @@ public class X_C_TaxCategory extends PO implements I_C_TaxCategory, I_Persistent
       return sb.toString();
     }
 
+	/** Set Commodity Code.
+		@param CommodityCode 
+		Commodity code used for tax calculation
+	  */
+	public void setCommodityCode (String CommodityCode)
+	{
+		set_Value (COLUMNNAME_CommodityCode, CommodityCode);
+	}
+
+	/** Get Commodity Code.
+		@return Commodity code used for tax calculation
+	  */
+	public String getCommodityCode () 
+	{
+		return (String)get_Value(COLUMNNAME_CommodityCode);
+	}
+
 	/** Set Tax Category.
 		@param C_TaxCategory_ID 
 		Tax Category
@@ -94,41 +111,12 @@ public class X_C_TaxCategory extends PO implements I_C_TaxCategory, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Commodity Code.
-		@param CommodityCode 
-		Commodity code used for tax calculation
-	  */
-	public void setCommodityCode (String CommodityCode)
-	{
-
-		if (CommodityCode != null && CommodityCode.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			CommodityCode = CommodityCode.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_CommodityCode, CommodityCode);
-	}
-
-	/** Get Commodity Code.
-		@return Commodity code used for tax calculation
-	  */
-	public String getCommodityCode () 
-	{
-		return (String)get_Value(COLUMNNAME_CommodityCode);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -172,12 +160,6 @@ public class X_C_TaxCategory extends PO implements I_C_TaxCategory, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

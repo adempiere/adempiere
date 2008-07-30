@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent 
 {
 
@@ -125,13 +125,7 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 	public void setConfidentialType (String ConfidentialType)
 	{
 		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
-		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
-		if (ConfidentialType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConfidentialType = ConfidentialType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
+		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
 	/** Get Confidentiality.
@@ -148,12 +142,6 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -385,12 +373,6 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persistent 
 {
 
@@ -42,7 +42,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
         {
 			setAD_User_ID (0);
 			setC_OrgAssignment_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -140,12 +140,6 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankAccount
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_BankAccount 
 {
@@ -69,19 +65,6 @@ public interface I_C_BankAccount
 	  */
 	public String getAccountNo();
 
-    /** Column name BBAN */
-    public static final String COLUMNNAME_BBAN = "BBAN";
-
-	/** Set BBAN.
-	  * Basic Bank Account Number
-	  */
-	public void setBBAN (String BBAN);
-
-	/** Get BBAN.
-	  * Basic Bank Account Number
-	  */
-	public String getBBAN();
-
     /** Column name BankAccountType */
     public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 
@@ -94,6 +77,19 @@ public interface I_C_BankAccount
 	  * Bank Account Type
 	  */
 	public String getBankAccountType();
+
+    /** Column name BBAN */
+    public static final String COLUMNNAME_BBAN = "BBAN";
+
+	/** Set BBAN.
+	  * Basic Bank Account Number
+	  */
+	public void setBBAN (String BBAN);
+
+	/** Get BBAN.
+	  * Basic Bank Account Number
+	  */
+	public String getBBAN();
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";

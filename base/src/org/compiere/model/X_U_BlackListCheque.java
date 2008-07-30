@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_BlackListCheque
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Persistent 
 {
 
@@ -77,12 +77,6 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 	{
 		if (BankName == null)
 			throw new IllegalArgumentException ("BankName is mandatory.");
-
-		if (BankName.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			BankName = BankName.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_BankName, BankName);
 	}
 
@@ -99,12 +93,6 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 	{
 		if (ChequeNo == null)
 			throw new IllegalArgumentException ("ChequeNo is mandatory.");
-
-		if (ChequeNo.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ChequeNo = ChequeNo.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ChequeNo, ChequeNo);
 	}
 

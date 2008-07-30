@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Persistent 
 {
 
@@ -135,13 +135,7 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 	public void setA_Finance_Meth (String A_Finance_Meth)
 	{
 
-		if (A_Finance_Meth == null || A_Finance_Meth.equals("CL") || A_Finance_Meth.equals("NL") || A_Finance_Meth.equals("OW") || A_Finance_Meth.equals("RE")); else throw new IllegalArgumentException ("A_Finance_Meth Invalid value - " + A_Finance_Meth + " - Reference_ID=53271 - CL - NL - OW - RE");
-		if (A_Finance_Meth != null && A_Finance_Meth.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Finance_Meth = A_Finance_Meth.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Finance_Meth, A_Finance_Meth);
+		if (A_Finance_Meth == null || A_Finance_Meth.equals("CL") || A_Finance_Meth.equals("NL") || A_Finance_Meth.equals("OW") || A_Finance_Meth.equals("RE")); else throw new IllegalArgumentException ("A_Finance_Meth Invalid value - " + A_Finance_Meth + " - Reference_ID=53271 - CL - NL - OW - RE");		set_Value (COLUMNNAME_A_Finance_Meth, A_Finance_Meth);
 	}
 
 	/** Get A_Finance_Meth.
@@ -195,12 +189,6 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 	  */
 	public void setA_State (String A_State)
 	{
-
-		if (A_State != null && A_State.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			A_State = A_State.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_A_State, A_State);
 	}
 
@@ -216,12 +204,6 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 		@param A_Tax_Entity A_Tax_Entity	  */
 	public void setA_Tax_Entity (String A_Tax_Entity)
 	{
-
-		if (A_Tax_Entity != null && A_Tax_Entity.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			A_Tax_Entity = A_Tax_Entity.substring(0, 22);
-		}
 		set_Value (COLUMNNAME_A_Tax_Entity, A_Tax_Entity);
 	}
 
@@ -238,12 +220,6 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			TextMsg = TextMsg.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

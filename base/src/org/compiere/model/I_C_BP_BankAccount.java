@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_BankAccount
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_BP_BankAccount 
 {
@@ -56,20 +52,18 @@ public interface I_C_BP_BankAccount
 
     /** Load Meta Data */
 
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
 
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
+	/** Set Account No.
+	  * Account Number
 	  */
-	public void setAD_User_ID (int AD_User_ID);
+	public void setAccountNo (String AccountNo);
 
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
+	/** Get Account No.
+	  * Account Number
 	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws Exception;
+	public String getAccountNo();
 
     /** Column name A_City */
     public static final String COLUMNNAME_A_City = "A_City";
@@ -96,6 +90,21 @@ public interface I_C_BP_BankAccount
 	  * Country
 	  */
 	public String getA_Country();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name A_EMail */
     public static final String COLUMNNAME_A_EMail = "A_EMail";
@@ -188,18 +197,18 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getA_Zip();
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
+    /** Column name BankAccountType */
+    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 
-	/** Set Account No.
-	  * Account Number
+	/** Set Bank Account Type.
+	  * Bank Account Type
 	  */
-	public void setAccountNo (String AccountNo);
+	public void setBankAccountType (String BankAccountType);
 
-	/** Get Account No.
-	  * Account Number
+	/** Get Bank Account Type.
+	  * Bank Account Type
 	  */
-	public String getAccountNo();
+	public String getBankAccountType();
 
     /** Column name BPBankAcctUse */
     public static final String COLUMNNAME_BPBankAcctUse = "BPBankAcctUse";
@@ -214,31 +223,20 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getBPBankAcctUse();
 
-    /** Column name BankAccountType */
-    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
+    /** Column name C_Bank_ID */
+    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 
-	/** Set Bank Account Type.
-	  * Bank Account Type
+	/** Set Bank.
+	  * Bank
 	  */
-	public void setBankAccountType (String BankAccountType);
+	public void setC_Bank_ID (int C_Bank_ID);
 
-	/** Get Bank Account Type.
-	  * Bank Account Type
+	/** Get Bank.
+	  * Bank
 	  */
-	public String getBankAccountType();
+	public int getC_Bank_ID();
 
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
-
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
-
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID();
+	public I_C_Bank getC_Bank() throws Exception;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -255,20 +253,18 @@ public interface I_C_BP_BankAccount
 
 	public I_C_BPartner getC_BPartner() throws Exception;
 
-    /** Column name C_Bank_ID */
-    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 
-	/** Set Bank.
-	  * Bank
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
 	  */
-	public void setC_Bank_ID (int C_Bank_ID);
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
 
-	/** Get Bank.
-	  * Bank
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
 	  */
-	public int getC_Bank_ID();
-
-	public I_C_Bank getC_Bank() throws Exception;
+	public int getC_BP_BankAccount_ID();
 
     /** Column name CreditCardExpMM */
     public static final String COLUMNNAME_CreditCardExpMM = "CreditCardExpMM";

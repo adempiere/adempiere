@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_BP_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Persistent 
 {
 
@@ -156,12 +156,6 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 	  */
 	public void setExemptReason (String ExemptReason)
 	{
-
-		if (ExemptReason != null && ExemptReason.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ExemptReason = ExemptReason.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ExemptReason, ExemptReason);
 	}
 

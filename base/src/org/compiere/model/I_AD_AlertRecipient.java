@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AlertRecipient
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_AlertRecipient 
 {
@@ -56,19 +52,6 @@ public interface I_AD_AlertRecipient
 
     /** Load Meta Data */
 
-    /** Column name AD_AlertRecipient_ID */
-    public static final String COLUMNNAME_AD_AlertRecipient_ID = "AD_AlertRecipient_ID";
-
-	/** Set Alert Recipient.
-	  * Recipient of the Alert Notification
-	  */
-	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID);
-
-	/** Get Alert Recipient.
-	  * Recipient of the Alert Notification
-	  */
-	public int getAD_AlertRecipient_ID();
-
     /** Column name AD_Alert_ID */
     public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
 
@@ -83,6 +66,19 @@ public interface I_AD_AlertRecipient
 	public int getAD_Alert_ID();
 
 	public I_AD_Alert getAD_Alert() throws Exception;
+
+    /** Column name AD_AlertRecipient_ID */
+    public static final String COLUMNNAME_AD_AlertRecipient_ID = "AD_AlertRecipient_ID";
+
+	/** Set Alert Recipient.
+	  * Recipient of the Alert Notification
+	  */
+	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID);
+
+	/** Get Alert Recipient.
+	  * Recipient of the Alert Notification
+	  */
+	public int getAD_AlertRecipient_ID();
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";

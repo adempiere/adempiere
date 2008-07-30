@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_SysConfig
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent 
 {
 
@@ -108,13 +108,7 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	public void setConfigurationLevel (String ConfigurationLevel)
 	{
 
-		if (ConfigurationLevel == null || ConfigurationLevel.equals("S") || ConfigurationLevel.equals("C") || ConfigurationLevel.equals("O")); else throw new IllegalArgumentException ("ConfigurationLevel Invalid value - " + ConfigurationLevel + " - Reference_ID=53222 - S - C - O");
-		if (ConfigurationLevel != null && ConfigurationLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConfigurationLevel = ConfigurationLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConfigurationLevel, ConfigurationLevel);
+		if (ConfigurationLevel == null || ConfigurationLevel.equals("S") || ConfigurationLevel.equals("C") || ConfigurationLevel.equals("O")); else throw new IllegalArgumentException ("ConfigurationLevel Invalid value - " + ConfigurationLevel + " - Reference_ID=53222 - S - C - O");		set_Value (COLUMNNAME_ConfigurationLevel, ConfigurationLevel);
 	}
 
 	/** Get Configuration Level.
@@ -131,12 +125,6 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -156,12 +144,6 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -181,12 +163,6 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 100)
-		{
-			log.warning("Length > 100 - truncated");
-			Name = Name.substring(0, 100);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -214,12 +190,6 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Value = Value.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

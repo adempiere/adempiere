@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Product
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_I_Product 
 {
@@ -100,21 +96,6 @@ public interface I_I_Product
 
 	public I_C_Currency getC_Currency() throws Exception;
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws Exception;
-
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";
 
@@ -140,6 +121,21 @@ public interface I_I_Product
 	  * Fixed Cost Per Order
 	  */
 	public BigDecimal getCostPerOrder();
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws Exception;
 
     /** Column name DeliveryTime_Promised */
     public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
@@ -232,19 +228,6 @@ public interface I_I_Product
 	  */
 	public String getHelp();
 
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
-
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 
@@ -271,6 +254,19 @@ public interface I_I_Product
 	  */
 	public boolean isI_IsImported();
 
+    /** Column name ImageURL */
+    public static final String COLUMNNAME_ImageURL = "ImageURL";
+
+	/** Set Image URL.
+	  * URL of  image
+	  */
+	public void setImageURL (String ImageURL);
+
+	/** Get Image URL.
+	  * URL of  image
+	  */
+	public String getImageURL();
+
     /** Column name I_Product_ID */
     public static final String COLUMNNAME_I_Product_ID = "I_Product_ID";
 
@@ -284,18 +280,31 @@ public interface I_I_Product
 	  */
 	public int getI_Product_ID();
 
-    /** Column name ImageURL */
-    public static final String COLUMNNAME_ImageURL = "ImageURL";
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
 
-	/** Set Image URL.
-	  * URL of  image
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
 	  */
-	public void setImageURL (String ImageURL);
+	public void setISO_Code (String ISO_Code);
 
-	/** Get Image URL.
-	  * URL of  image
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
 	  */
-	public String getImageURL();
+	public String getISO_Code();
+
+    /** Column name Manufacturer */
+    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
+
+	/** Set Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer);
+
+	/** Get Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public String getManufacturer();
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -326,19 +335,6 @@ public interface I_I_Product
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws Exception;
-
-    /** Column name Manufacturer */
-    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
-
-	/** Set Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer);
-
-	/** Get Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public String getManufacturer();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -501,19 +497,6 @@ public interface I_I_Product
 	  */
 	public BigDecimal getRoyaltyAmt();
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
-
-	/** Set SKU.
-	  * Stock Keeping Unit
-	  */
-	public void setSKU (String SKU);
-
-	/** Get SKU.
-	  * Stock Keeping Unit
-	  */
-	public String getSKU();
-
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
 
@@ -553,18 +536,18 @@ public interface I_I_Product
 	  */
 	public int getShelfWidth();
 
-    /** Column name UPC */
-    public static final String COLUMNNAME_UPC = "UPC";
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
 
-	/** Set UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
+	/** Set SKU.
+	  * Stock Keeping Unit
 	  */
-	public void setUPC (String UPC);
+	public void setSKU (String SKU);
 
-	/** Get UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
+	/** Get SKU.
+	  * Stock Keeping Unit
 	  */
-	public String getUPC();
+	public String getSKU();
 
     /** Column name UnitsPerPallet */
     public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";
@@ -578,6 +561,19 @@ public interface I_I_Product
 	  * Units Per Pallet
 	  */
 	public int getUnitsPerPallet();
+
+    /** Column name UPC */
+    public static final String COLUMNNAME_UPC = "UPC";
+
+	/** Set UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public void setUPC (String UPC);
+
+	/** Get UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public String getUPC();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

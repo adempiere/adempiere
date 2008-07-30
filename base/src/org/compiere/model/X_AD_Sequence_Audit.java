@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Sequence_Audit
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Persistent 
 {
 
@@ -158,12 +158,6 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 

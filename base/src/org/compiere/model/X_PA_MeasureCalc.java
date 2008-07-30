@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_MeasureCalc
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persistent 
 {
 
@@ -129,12 +129,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setBPartnerColumn (String BPartnerColumn)
 	{
-
-		if (BPartnerColumn != null && BPartnerColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			BPartnerColumn = BPartnerColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_BPartnerColumn, BPartnerColumn);
 	}
 
@@ -154,12 +148,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	{
 		if (DateColumn == null)
 			throw new IllegalArgumentException ("DateColumn is mandatory.");
-
-		if (DateColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DateColumn = DateColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DateColumn, DateColumn);
 	}
 
@@ -177,12 +165,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -202,12 +184,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -227,12 +203,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	{
 		if (KeyColumn == null)
 			throw new IllegalArgumentException ("KeyColumn is mandatory.");
-
-		if (KeyColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			KeyColumn = KeyColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_KeyColumn, KeyColumn);
 	}
 
@@ -252,12 +222,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -285,12 +249,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	{
 		if (OrgColumn == null)
 			throw new IllegalArgumentException ("OrgColumn is mandatory.");
-
-		if (OrgColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			OrgColumn = OrgColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_OrgColumn, OrgColumn);
 	}
 
@@ -330,12 +288,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setProductColumn (String ProductColumn)
 	{
-
-		if (ProductColumn != null && ProductColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ProductColumn = ProductColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ProductColumn, ProductColumn);
 	}
 
@@ -355,12 +307,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	{
 		if (SelectClause == null)
 			throw new IllegalArgumentException ("SelectClause is mandatory.");
-
-		if (SelectClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			SelectClause = SelectClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
 
@@ -380,12 +326,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	{
 		if (WhereClause == null)
 			throw new IllegalArgumentException ("WhereClause is mandatory.");
-
-		if (WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

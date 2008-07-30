@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POS
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_POS extends PO implements I_C_POS, I_Persistent 
 {
 
@@ -79,29 +79,18 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
       return sb.toString();
     }
 
-	/** C_BPartnerCashTrx_ID AD_Reference_ID=173 */
-	public static final int C_BPARTNERCASHTRX_ID_AD_Reference_ID=173;
-	/** Set Template B.Partner.
-		@param C_BPartnerCashTrx_ID 
-		Business Partner used for creating new Business Partners on the fly
-	  */
-	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
+	/** Set CashDrawer.
+		@param CashDrawer CashDrawer	  */
+	public void setCashDrawer (String CashDrawer)
 	{
-		if (C_BPartnerCashTrx_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
+		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
 	}
 
-	/** Get Template B.Partner.
-		@return Business Partner used for creating new Business Partners on the fly
-	  */
-	public int getC_BPartnerCashTrx_ID () 
+	/** Get CashDrawer.
+		@return CashDrawer	  */
+	public String getCashDrawer () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerCashTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_CashDrawer);
 	}
 
 	public I_C_BankAccount getC_BankAccount() throws Exception 
@@ -138,6 +127,31 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** C_BPartnerCashTrx_ID AD_Reference_ID=173 */
+	public static final int C_BPARTNERCASHTRX_ID_AD_Reference_ID=173;
+	/** Set Template B.Partner.
+		@param C_BPartnerCashTrx_ID 
+		Business Partner used for creating new Business Partners on the fly
+	  */
+	public void setC_BPartnerCashTrx_ID (int C_BPartnerCashTrx_ID)
+	{
+		if (C_BPartnerCashTrx_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerCashTrx_ID, Integer.valueOf(C_BPartnerCashTrx_ID));
+	}
+
+	/** Get Template B.Partner.
+		@return Business Partner used for creating new Business Partners on the fly
+	  */
+	public int getC_BPartnerCashTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerCashTrx_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -220,6 +234,28 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID < 1)
+			 throw new IllegalArgumentException ("C_POS_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_POSKeyLayout getC_POSKeyLayout() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_POSKeyLayout.Table_Name);
@@ -259,60 +295,12 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set POS Terminal.
-		@param C_POS_ID 
-		Point of Sales Terminal
-	  */
-	public void setC_POS_ID (int C_POS_ID)
-	{
-		if (C_POS_ID < 1)
-			 throw new IllegalArgumentException ("C_POS_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
-	}
-
-	/** Get POS Terminal.
-		@return Point of Sales Terminal
-	  */
-	public int getC_POS_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set CashDrawer.
-		@param CashDrawer CashDrawer	  */
-	public void setCashDrawer (String CashDrawer)
-	{
-
-		if (CashDrawer != null && CashDrawer.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			CashDrawer = CashDrawer.substring(0, 120);
-		}
-		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
-	}
-
-	/** Get CashDrawer.
-		@return CashDrawer	  */
-	public String getCashDrawer () 
-	{
-		return (String)get_Value(COLUMNNAME_CashDrawer);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -330,12 +318,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -455,12 +437,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -486,12 +462,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	  */
 	public void setPrinterName (String PrinterName)
 	{
-
-		if (PrinterName != null && PrinterName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PrinterName = PrinterName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PrinterName, PrinterName);
 	}
 

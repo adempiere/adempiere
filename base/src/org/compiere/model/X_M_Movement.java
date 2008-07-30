@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Movement extends PO implements I_M_Movement, I_Persistent 
 {
 
@@ -52,7 +52,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 			setIsApproved (false);
 			setIsInTransit (false);
 			setM_Movement_ID (0);
-			setMovementDate (new Timestamp(System.currentTimeMillis()));
+			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setPosted (false);
 			setProcessed (false);
@@ -374,6 +374,26 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_Project getC_Project() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
@@ -413,38 +433,12 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Create lines from.
 		@param CreateFrom 
 		Process which will generate a new document lines based on an existing document
 	  */
 	public void setCreateFrom (String CreateFrom)
 	{
-
-		if (CreateFrom != null && CreateFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreateFrom = CreateFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
 	}
 
@@ -454,6 +448,23 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public String getCreateFrom () 
 	{
 		return (String)get_Value(COLUMNNAME_CreateFrom);
+	}
+
+	/** Set Date received.
+		@param DateReceived 
+		Date a product was received
+	  */
+	public void setDateReceived (Timestamp DateReceived)
+	{
+		set_Value (COLUMNNAME_DateReceived, DateReceived);
+	}
+
+	/** Get Date received.
+		@return Date a product was received
+	  */
+	public Timestamp getDateReceived () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
 	}
 
 	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception 
@@ -492,23 +503,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Date received.
-		@param DateReceived 
-		Date a product was received
-	  */
-	public void setDateReceived (Timestamp DateReceived)
-	{
-		set_Value (COLUMNNAME_DateReceived, DateReceived);
-	}
-
-	/** Get Date received.
-		@return Date a product was received
-	  */
-	public Timestamp getDateReceived () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
-	}
-
 	/** DeliveryRule AD_Reference_ID=151 */
 	public static final int DELIVERYRULE_AD_Reference_ID=151;
 	/** After Receipt = R */
@@ -530,13 +524,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public void setDeliveryRule (String DeliveryRule)
 	{
 
-		if (DeliveryRule == null || DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");
-		if (DeliveryRule != null && DeliveryRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DeliveryRule = DeliveryRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
+		if (DeliveryRule == null || DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
 	}
 
 	/** Get Delivery Rule.
@@ -562,13 +550,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public void setDeliveryViaRule (String DeliveryViaRule)
 	{
 
-		if (DeliveryViaRule == null || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");
-		if (DeliveryViaRule != null && DeliveryViaRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DeliveryViaRule = DeliveryViaRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
+		if (DeliveryViaRule == null || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");		set_Value (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
 	}
 
 	/** Get Delivery Via.
@@ -585,12 +567,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -639,13 +615,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -689,13 +659,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-		if (DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -714,12 +678,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -776,13 +734,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public void setFreightCostRule (String FreightCostRule)
 	{
 
-		if (FreightCostRule == null || FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");
-		if (FreightCostRule != null && FreightCostRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FreightCostRule = FreightCostRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FreightCostRule, FreightCostRule);
+		if (FreightCostRule == null || FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");		set_Value (COLUMNNAME_FreightCostRule, FreightCostRule);
 	}
 
 	/** Get Freight Cost Rule.
@@ -863,6 +815,25 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		if (MovementDate == null)
+			throw new IllegalArgumentException ("MovementDate is mandatory.");
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
 	public I_M_Shipper getM_Shipper() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
@@ -902,23 +873,21 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
-	public void setMovementDate (Timestamp MovementDate)
+	public void setPOReference (String POReference)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
+		set_Value (COLUMNNAME_POReference, POReference);
 	}
 
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
-	public Timestamp getMovementDate () 
+	public String getPOReference () 
 	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Posted.
@@ -964,13 +933,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	public void setPriorityRule (String PriorityRule)
 	{
 
-		if (PriorityRule == null || PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
-		if (PriorityRule != null && PriorityRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PriorityRule = PriorityRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+		if (PriorityRule == null || PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
 	}
 
 	/** Get Priority.

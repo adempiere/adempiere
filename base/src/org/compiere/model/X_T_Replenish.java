@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent 
 {
 
@@ -276,31 +276,6 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_WarehouseSource_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
-	/** Set Source Warehouse.
-		@param M_WarehouseSource_ID 
-		Optional Warehouse to replenish from
-	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
-	{
-		if (M_WarehouseSource_ID < 1) 
-			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
-	}
-
-	/** Get Source Warehouse.
-		@return Optional Warehouse to replenish from
-	  */
-	public int getM_WarehouseSource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Warehouse getM_Warehouse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
@@ -334,6 +309,31 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	public int getM_Warehouse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** M_WarehouseSource_ID AD_Reference_ID=197 */
+	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
+	/** Set Source Warehouse.
+		@param M_WarehouseSource_ID 
+		Optional Warehouse to replenish from
+	  */
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
+	{
+		if (M_WarehouseSource_ID < 1) 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
+	}
+
+	/** Get Source Warehouse.
+		@return Optional Warehouse to replenish from
+	  */
+	public int getM_WarehouseSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_WarehouseSource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -456,40 +456,6 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return bd;
 	}
 
-	/** ReplenishType AD_Reference_ID=164 */
-	public static final int REPLENISHTYPE_AD_Reference_ID=164;
-	/** Maintain Maximum Level = 2 */
-	public static final String REPLENISHTYPE_MaintainMaximumLevel = "2";
-	/** Manual = 0 */
-	public static final String REPLENISHTYPE_Manual = "0";
-	/** Reorder below Minimum Level = 1 */
-	public static final String REPLENISHTYPE_ReorderBelowMinimumLevel = "1";
-	/** Custom = 9 */
-	public static final String REPLENISHTYPE_Custom = "9";
-	/** Set Replenish Type.
-		@param ReplenishType 
-		Method for re-ordering a product
-	  */
-	public void setReplenishType (String ReplenishType)
-	{
-		if (ReplenishType == null) throw new IllegalArgumentException ("ReplenishType is mandatory");
-		if (ReplenishType.equals("2") || ReplenishType.equals("0") || ReplenishType.equals("1") || ReplenishType.equals("9")); else throw new IllegalArgumentException ("ReplenishType Invalid value - " + ReplenishType + " - Reference_ID=164 - 2 - 0 - 1 - 9");
-		if (ReplenishType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ReplenishType = ReplenishType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ReplenishType, ReplenishType);
-	}
-
-	/** Get Replenish Type.
-		@return Method for re-ordering a product
-	  */
-	public String getReplenishType () 
-	{
-		return (String)get_Value(COLUMNNAME_ReplenishType);
-	}
-
 	/** ReplenishmentCreate AD_Reference_ID=329 */
 	public static final int REPLENISHMENTCREATE_AD_Reference_ID=329;
 	/** Purchase Order = POO */
@@ -507,13 +473,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	public void setReplenishmentCreate (String ReplenishmentCreate)
 	{
 
-		if (ReplenishmentCreate == null || ReplenishmentCreate.equals("POO") || ReplenishmentCreate.equals("POR") || ReplenishmentCreate.equals("MMM") || ReplenishmentCreate.equals("DOO")); else throw new IllegalArgumentException ("ReplenishmentCreate Invalid value - " + ReplenishmentCreate + " - Reference_ID=329 - POO - POR - MMM - DOO");
-		if (ReplenishmentCreate != null && ReplenishmentCreate.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ReplenishmentCreate = ReplenishmentCreate.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ReplenishmentCreate, ReplenishmentCreate);
+		if (ReplenishmentCreate == null || ReplenishmentCreate.equals("POO") || ReplenishmentCreate.equals("POR") || ReplenishmentCreate.equals("MMM") || ReplenishmentCreate.equals("DOO")); else throw new IllegalArgumentException ("ReplenishmentCreate Invalid value - " + ReplenishmentCreate + " - Reference_ID=329 - POO - POR - MMM - DOO");		set_Value (COLUMNNAME_ReplenishmentCreate, ReplenishmentCreate);
 	}
 
 	/** Get Create.
@@ -522,5 +482,33 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	public String getReplenishmentCreate () 
 	{
 		return (String)get_Value(COLUMNNAME_ReplenishmentCreate);
+	}
+
+	/** ReplenishType AD_Reference_ID=164 */
+	public static final int REPLENISHTYPE_AD_Reference_ID=164;
+	/** Maintain Maximum Level = 2 */
+	public static final String REPLENISHTYPE_MaintainMaximumLevel = "2";
+	/** Manual = 0 */
+	public static final String REPLENISHTYPE_Manual = "0";
+	/** Reorder below Minimum Level = 1 */
+	public static final String REPLENISHTYPE_ReorderBelowMinimumLevel = "1";
+	/** Custom = 9 */
+	public static final String REPLENISHTYPE_Custom = "9";
+	/** Set Replenish Type.
+		@param ReplenishType 
+		Method for re-ordering a product
+	  */
+	public void setReplenishType (String ReplenishType)
+	{
+		if (ReplenishType == null) throw new IllegalArgumentException ("ReplenishType is mandatory");
+		if (ReplenishType.equals("2") || ReplenishType.equals("0") || ReplenishType.equals("1") || ReplenishType.equals("9")); else throw new IllegalArgumentException ("ReplenishType Invalid value - " + ReplenishType + " - Reference_ID=164 - 2 - 0 - 1 - 9");		set_Value (COLUMNNAME_ReplenishType, ReplenishType);
+	}
+
+	/** Get Replenish Type.
+		@return Method for re-ordering a product
+	  */
+	public String getReplenishType () 
+	{
+		return (String)get_Value(COLUMNNAME_ReplenishType);
 	}
 }

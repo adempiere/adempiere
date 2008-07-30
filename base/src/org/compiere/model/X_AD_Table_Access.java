@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persistent 
 {
 
@@ -40,10 +40,10 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
       super (ctx, AD_Table_Access_ID, trxName);
       /** if (AD_Table_Access_ID == 0)
         {
-			setAD_Role_ID (0);
-			setAD_Table_ID (0);
 			setAccessTypeRule (null);
 // A
+			setAD_Role_ID (0);
+			setAD_Table_ID (0);
 			setIsCanExport (false);
 			setIsCanReport (false);
 			setIsExclude (true);
@@ -79,6 +79,32 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** AccessTypeRule AD_Reference_ID=293 */
+	public static final int ACCESSTYPERULE_AD_Reference_ID=293;
+	/** Accessing = A */
+	public static final String ACCESSTYPERULE_Accessing = "A";
+	/** Reporting = R */
+	public static final String ACCESSTYPERULE_Reporting = "R";
+	/** Exporting = E */
+	public static final String ACCESSTYPERULE_Exporting = "E";
+	/** Set Access Type.
+		@param AccessTypeRule 
+		The type of access for this rule
+	  */
+	public void setAccessTypeRule (String AccessTypeRule)
+	{
+		if (AccessTypeRule == null) throw new IllegalArgumentException ("AccessTypeRule is mandatory");
+		if (AccessTypeRule.equals("A") || AccessTypeRule.equals("R") || AccessTypeRule.equals("E")); else throw new IllegalArgumentException ("AccessTypeRule Invalid value - " + AccessTypeRule + " - Reference_ID=293 - A - R - E");		set_ValueNoCheck (COLUMNNAME_AccessTypeRule, AccessTypeRule);
+	}
+
+	/** Get Access Type.
+		@return The type of access for this rule
+	  */
+	public String getAccessTypeRule () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessTypeRule);
+	}
 
 	public I_AD_Role getAD_Role() throws Exception 
     {
@@ -163,38 +189,6 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Table_ID()));
     }
-
-	/** AccessTypeRule AD_Reference_ID=293 */
-	public static final int ACCESSTYPERULE_AD_Reference_ID=293;
-	/** Accessing = A */
-	public static final String ACCESSTYPERULE_Accessing = "A";
-	/** Reporting = R */
-	public static final String ACCESSTYPERULE_Reporting = "R";
-	/** Exporting = E */
-	public static final String ACCESSTYPERULE_Exporting = "E";
-	/** Set Access Type.
-		@param AccessTypeRule 
-		The type of access for this rule
-	  */
-	public void setAccessTypeRule (String AccessTypeRule)
-	{
-		if (AccessTypeRule == null) throw new IllegalArgumentException ("AccessTypeRule is mandatory");
-		if (AccessTypeRule.equals("A") || AccessTypeRule.equals("R") || AccessTypeRule.equals("E")); else throw new IllegalArgumentException ("AccessTypeRule Invalid value - " + AccessTypeRule + " - Reference_ID=293 - A - R - E");
-		if (AccessTypeRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccessTypeRule = AccessTypeRule.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_AccessTypeRule, AccessTypeRule);
-	}
-
-	/** Get Access Type.
-		@return The type of access for this rule
-	  */
-	public String getAccessTypeRule () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessTypeRule);
-	}
 
 	/** Set Can Export.
 		@param IsCanExport 

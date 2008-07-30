@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
       super (ctx, AD_UserMail_ID, trxName);
       /** if (AD_UserMail_ID == 0)
         {
-			setAD_UserMail_ID (0);
 			setAD_User_ID (0);
+			setAD_UserMail_ID (0);
         } */
     }
 
@@ -72,28 +72,6 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set User Mail.
-		@param AD_UserMail_ID 
-		Mail sent to the user
-	  */
-	public void setAD_UserMail_ID (int AD_UserMail_ID)
-	{
-		if (AD_UserMail_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserMail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
-	}
-
-	/** Get User Mail.
-		@return Mail sent to the user
-	  */
-	public int getAD_UserMail_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserMail_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_User getAD_User() throws Exception 
     {
@@ -141,18 +119,34 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
     }
 
+	/** Set User Mail.
+		@param AD_UserMail_ID 
+		Mail sent to the user
+	  */
+	public void setAD_UserMail_ID (int AD_UserMail_ID)
+	{
+		if (AD_UserMail_ID < 1)
+			 throw new IllegalArgumentException ("AD_UserMail_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
+	}
+
+	/** Get User Mail.
+		@return Mail sent to the user
+	  */
+	public int getAD_UserMail_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserMail_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Delivery Confirmation.
 		@param DeliveryConfirmation 
 		EMail Delivery confirmation
 	  */
 	public void setDeliveryConfirmation (String DeliveryConfirmation)
 	{
-
-		if (DeliveryConfirmation != null && DeliveryConfirmation.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DeliveryConfirmation = DeliveryConfirmation.substring(0, 120);
-		}
 		set_ValueNoCheck (COLUMNNAME_DeliveryConfirmation, DeliveryConfirmation);
 	}
 
@@ -175,13 +169,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	public void setIsDelivered (String IsDelivered)
 	{
 
-		if (IsDelivered == null || IsDelivered.equals("Y") || IsDelivered.equals("N")); else throw new IllegalArgumentException ("IsDelivered Invalid value - " + IsDelivered + " - Reference_ID=319 - Y - N");
-		if (IsDelivered != null && IsDelivered.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			IsDelivered = IsDelivered.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_IsDelivered, IsDelivered);
+		if (IsDelivered == null || IsDelivered.equals("Y") || IsDelivered.equals("N")); else throw new IllegalArgumentException ("IsDelivered Invalid value - " + IsDelivered + " - Reference_ID=319 - Y - N");		set_ValueNoCheck (COLUMNNAME_IsDelivered, IsDelivered);
 	}
 
 	/** Get Delivered.
@@ -197,12 +185,6 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	  */
 	public void setMailText (String MailText)
 	{
-
-		if (MailText != null && MailText.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MailText = MailText.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MailText, MailText);
 	}
 
@@ -220,12 +202,6 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	  */
 	public void setMessageID (String MessageID)
 	{
-
-		if (MessageID != null && MessageID.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			MessageID = MessageID.substring(0, 120);
-		}
 		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
 	}
 
@@ -282,12 +258,6 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	  */
 	public void setSubject (String Subject)
 	{
-
-		if (Subject != null && Subject.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Subject = Subject.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Subject, Subject);
 	}
 

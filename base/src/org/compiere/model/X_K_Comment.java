@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Comment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_Comment extends PO implements I_K_Comment, I_Persistent 
 {
 
@@ -236,12 +236,6 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
 	{
 		if (TextMsg == null)
 			throw new IllegalArgumentException ("TextMsg is mandatory.");
-
-		if (TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

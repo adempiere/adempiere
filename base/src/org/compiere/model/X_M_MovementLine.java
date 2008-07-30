@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persistent 
 {
 
@@ -44,15 +44,15 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
         {
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_MovementLine WHERE M_Movement_ID=@M_Movement_ID@
-			setM_LocatorTo_ID (0);
-// @M_LocatorTo_ID@
 			setM_Locator_ID (0);
 // @M_Locator_ID@
-			setM_MovementLine_ID (0);
+			setM_LocatorTo_ID (0);
+// @M_LocatorTo_ID@
 			setM_Movement_ID (0);
-			setM_Product_ID (0);
+			setM_MovementLine_ID (0);
 			setMovementQty (Env.ZERO);
 // 1
+			setM_Product_ID (0);
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
 // 0
@@ -149,12 +149,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -194,29 +188,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	/** Set Attribute Set Instance To.
-		@param M_AttributeSetInstanceTo_ID 
-		Target Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
-	{
-		if (M_AttributeSetInstanceTo_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));
-	}
-
-	/** Get Attribute Set Instance To.
-		@return Target Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstanceTo_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstanceTo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -240,25 +211,24 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** M_LocatorTo_ID AD_Reference_ID=191 */
-	public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
-	/** Set Locator To.
-		@param M_LocatorTo_ID 
-		Location inventory is moved to
+	/** Set Attribute Set Instance To.
+		@param M_AttributeSetInstanceTo_ID 
+		Target Product Attribute Set Instance
 	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
+	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
 	{
-		if (M_LocatorTo_ID < 1)
-			 throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
-		set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
+		if (M_AttributeSetInstanceTo_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));
 	}
 
-	/** Get Locator To.
-		@return Location inventory is moved to
+	/** Get Attribute Set Instance To.
+		@return Target Product Attribute Set Instance
 	  */
-	public int getM_LocatorTo_ID () 
+	public int getM_AttributeSetInstanceTo_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_LocatorTo_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstanceTo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -286,23 +256,25 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Move Line.
-		@param M_MovementLine_ID 
-		Inventory Move document Line
+	/** M_LocatorTo_ID AD_Reference_ID=191 */
+	public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
+	/** Set Locator To.
+		@param M_LocatorTo_ID 
+		Location inventory is moved to
 	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID)
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
 	{
-		if (M_MovementLine_ID < 1)
-			 throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+		if (M_LocatorTo_ID < 1)
+			 throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
+		set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
 	}
 
-	/** Get Move Line.
-		@return Inventory Move document Line
+	/** Get Locator To.
+		@return Location inventory is moved to
 	  */
-	public int getM_MovementLine_ID () 
+	public int getM_LocatorTo_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_LocatorTo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -346,25 +318,23 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** M_Product_ID AD_Reference_ID=171 */
-	public static final int M_PRODUCT_ID_AD_Reference_ID=171;
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
+	/** Set Move Line.
+		@param M_MovementLine_ID 
+		Inventory Move document Line
 	  */
-	public void setM_Product_ID (int M_Product_ID)
+	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_MovementLine_ID < 1)
+			 throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
 	}
 
-	/** Get Product.
-		@return Product, Service, Item
+	/** Get Move Line.
+		@return Inventory Move document Line
 	  */
-	public int getM_Product_ID () 
+	public int getM_MovementLine_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -390,6 +360,30 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** M_Product_ID AD_Reference_ID=171 */
+	public static final int M_PRODUCT_ID_AD_Reference_ID=171;
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1)
+			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
+		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Processed.

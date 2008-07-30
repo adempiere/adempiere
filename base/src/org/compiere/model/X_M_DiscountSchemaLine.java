@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine, I_Persistent 
 {
 
@@ -44,7 +44,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
       /** if (M_DiscountSchemaLine_ID == 0)
         {
 			setC_ConversionType_ID (0);
-			setConversionDate (new Timestamp(System.currentTimeMillis()));
+			setConversionDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setLimit_AddAmt (Env.ZERO);
 			setLimit_Base (null);
@@ -62,8 +62,8 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 			setList_MinAmt (Env.ZERO);
 			setList_Rounding (null);
 // C
-			setM_DiscountSchemaLine_ID (0);
 			setM_DiscountSchema_ID (0);
+			setM_DiscountSchemaLine_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_DiscountSchemaLine WHERE M_DiscountSchema_ID=@M_DiscountSchema_ID@
 			setStd_AddAmt (Env.ZERO);
@@ -188,12 +188,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setClassification (String Classification)
 	{
-
-		if (Classification != null && Classification.length() > 12)
-		{
-			log.warning("Length > 12 - truncated");
-			Classification = Classification.substring(0, 12);
-		}
 		set_Value (COLUMNNAME_Classification, Classification);
 	}
 
@@ -228,12 +222,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		@param Group1 Group1	  */
 	public void setGroup1 (String Group1)
 	{
-
-		if (Group1 != null && Group1.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Group1 = Group1.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Group1, Group1);
 	}
 
@@ -248,12 +236,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		@param Group2 Group2	  */
 	public void setGroup2 (String Group2)
 	{
-
-		if (Group2 != null && Group2.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Group2 = Group2.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Group2, Group2);
 	}
 
@@ -303,13 +285,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setLimit_Base (String Limit_Base)
 	{
 		if (Limit_Base == null) throw new IllegalArgumentException ("Limit_Base is mandatory");
-		if (Limit_Base.equals("L") || Limit_Base.equals("S") || Limit_Base.equals("X") || Limit_Base.equals("F")); else throw new IllegalArgumentException ("Limit_Base Invalid value - " + Limit_Base + " - Reference_ID=194 - L - S - X - F");
-		if (Limit_Base.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Limit_Base = Limit_Base.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Limit_Base, Limit_Base);
+		if (Limit_Base.equals("L") || Limit_Base.equals("S") || Limit_Base.equals("X") || Limit_Base.equals("F")); else throw new IllegalArgumentException ("Limit_Base Invalid value - " + Limit_Base + " - Reference_ID=194 - L - S - X - F");		set_Value (COLUMNNAME_Limit_Base, Limit_Base);
 	}
 
 	/** Get Limit price Base.
@@ -431,13 +407,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setLimit_Rounding (String Limit_Rounding)
 	{
 		if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding is mandatory");
-		if (Limit_Rounding.equals("0") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("D") || Limit_Rounding.equals("5") || Limit_Rounding.equals("T") || Limit_Rounding.equals("C") || Limit_Rounding.equals("9")); else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");
-		if (Limit_Rounding.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Limit_Rounding = Limit_Rounding.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Limit_Rounding, Limit_Rounding);
+		if (Limit_Rounding.equals("0") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("D") || Limit_Rounding.equals("5") || Limit_Rounding.equals("T") || Limit_Rounding.equals("C") || Limit_Rounding.equals("9")); else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");		set_Value (COLUMNNAME_Limit_Rounding, Limit_Rounding);
 	}
 
 	/** Get Limit price Rounding.
@@ -487,13 +457,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setList_Base (String List_Base)
 	{
 		if (List_Base == null) throw new IllegalArgumentException ("List_Base is mandatory");
-		if (List_Base.equals("L") || List_Base.equals("S") || List_Base.equals("X") || List_Base.equals("F")); else throw new IllegalArgumentException ("List_Base Invalid value - " + List_Base + " - Reference_ID=194 - L - S - X - F");
-		if (List_Base.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			List_Base = List_Base.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_List_Base, List_Base);
+		if (List_Base.equals("L") || List_Base.equals("S") || List_Base.equals("X") || List_Base.equals("F")); else throw new IllegalArgumentException ("List_Base Invalid value - " + List_Base + " - Reference_ID=194 - L - S - X - F");		set_Value (COLUMNNAME_List_Base, List_Base);
 	}
 
 	/** Get List price Base.
@@ -615,13 +579,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setList_Rounding (String List_Rounding)
 	{
 		if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is mandatory");
-		if (List_Rounding.equals("0") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("D") || List_Rounding.equals("5") || List_Rounding.equals("T") || List_Rounding.equals("C") || List_Rounding.equals("9")); else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");
-		if (List_Rounding.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			List_Rounding = List_Rounding.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_List_Rounding, List_Rounding);
+		if (List_Rounding.equals("0") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("D") || List_Rounding.equals("5") || List_Rounding.equals("T") || List_Rounding.equals("C") || List_Rounding.equals("9")); else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");		set_Value (COLUMNNAME_List_Rounding, List_Rounding);
 	}
 
 	/** Get List price Rounding.
@@ -630,28 +588,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public String getList_Rounding () 
 	{
 		return (String)get_Value(COLUMNNAME_List_Rounding);
-	}
-
-	/** Set Discount Pricelist.
-		@param M_DiscountSchemaLine_ID 
-		Line of the pricelist trade discount schema
-	  */
-	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
-	{
-		if (M_DiscountSchemaLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchemaLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
-	}
-
-	/** Get Discount Pricelist.
-		@return Line of the pricelist trade discount schema
-	  */
-	public int getM_DiscountSchemaLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchemaLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
@@ -687,6 +623,28 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public int getM_DiscountSchema_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Discount Pricelist.
+		@param M_DiscountSchemaLine_ID 
+		Line of the pricelist trade discount schema
+	  */
+	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
+	{
+		if (M_DiscountSchemaLine_ID < 1)
+			 throw new IllegalArgumentException ("M_DiscountSchemaLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
+	}
+
+	/** Get Discount Pricelist.
+		@return Line of the pricelist trade discount schema
+	  */
+	public int getM_DiscountSchemaLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchemaLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -837,13 +795,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setStd_Base (String Std_Base)
 	{
 		if (Std_Base == null) throw new IllegalArgumentException ("Std_Base is mandatory");
-		if (Std_Base.equals("L") || Std_Base.equals("S") || Std_Base.equals("X") || Std_Base.equals("F")); else throw new IllegalArgumentException ("Std_Base Invalid value - " + Std_Base + " - Reference_ID=194 - L - S - X - F");
-		if (Std_Base.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Std_Base = Std_Base.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Std_Base, Std_Base);
+		if (Std_Base.equals("L") || Std_Base.equals("S") || Std_Base.equals("X") || Std_Base.equals("F")); else throw new IllegalArgumentException ("Std_Base Invalid value - " + Std_Base + " - Reference_ID=194 - L - S - X - F");		set_Value (COLUMNNAME_Std_Base, Std_Base);
 	}
 
 	/** Get Standard price Base.
@@ -965,13 +917,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setStd_Rounding (String Std_Rounding)
 	{
 		if (Std_Rounding == null) throw new IllegalArgumentException ("Std_Rounding is mandatory");
-		if (Std_Rounding.equals("0") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("D") || Std_Rounding.equals("5") || Std_Rounding.equals("T") || Std_Rounding.equals("C") || Std_Rounding.equals("9")); else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");
-		if (Std_Rounding.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Std_Rounding = Std_Rounding.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Std_Rounding, Std_Rounding);
+		if (Std_Rounding.equals("0") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("D") || Std_Rounding.equals("5") || Std_Rounding.equals("T") || Std_Rounding.equals("C") || Std_Rounding.equals("9")); else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");		set_Value (COLUMNNAME_Std_Rounding, Std_Rounding);
 	}
 
 	/** Get Standard price Rounding.

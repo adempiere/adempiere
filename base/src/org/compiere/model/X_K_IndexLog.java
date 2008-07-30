@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_IndexLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent 
 {
 
@@ -81,12 +81,6 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	{
 		if (IndexQuery == null)
 			throw new IllegalArgumentException ("IndexQuery is mandatory.");
-
-		if (IndexQuery.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			IndexQuery = IndexQuery.substring(0, 255);
-		}
 		set_ValueNoCheck (COLUMNNAME_IndexQuery, IndexQuery);
 	}
 
@@ -165,13 +159,7 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	public void setQuerySource (String QuerySource)
 	{
 		if (QuerySource == null) throw new IllegalArgumentException ("QuerySource is mandatory");
-		if (QuerySource.equals("C") || QuerySource.equals("J") || QuerySource.equals("H") || QuerySource.equals("W")); else throw new IllegalArgumentException ("QuerySource Invalid value - " + QuerySource + " - Reference_ID=391 - C - J - H - W");
-		if (QuerySource.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			QuerySource = QuerySource.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_QuerySource, QuerySource);
+		if (QuerySource.equals("C") || QuerySource.equals("J") || QuerySource.equals("H") || QuerySource.equals("W")); else throw new IllegalArgumentException ("QuerySource Invalid value - " + QuerySource + " - Reference_ID=391 - C - J - H - W");		set_Value (COLUMNNAME_QuerySource, QuerySource);
 	}
 
 	/** Get Query Source.

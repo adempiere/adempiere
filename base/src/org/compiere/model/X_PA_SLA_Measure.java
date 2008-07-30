@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_SLA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persistent 
 {
 
@@ -43,7 +43,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
       super (ctx, PA_SLA_Measure_ID, trxName);
       /** if (PA_SLA_Measure_ID == 0)
         {
-			setDateTrx (new Timestamp(System.currentTimeMillis()));
+			setDateTrx (new Timestamp( System.currentTimeMillis() ));
 			setMeasureActual (Env.ZERO);
 			setPA_SLA_Goal_ID (0);
 			setPA_SLA_Measure_ID (0);
@@ -151,12 +151,6 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

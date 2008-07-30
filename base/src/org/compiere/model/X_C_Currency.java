@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Currency extends PO implements I_C_Currency, I_Persistent 
 {
 
@@ -45,11 +45,11 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 			setCostingPrecision (0);
 // 4
 			setDescription (null);
-			setISO_Code (null);
 			setIsEMUMember (false);
 // N
 			setIsEuro (false);
 // N
+			setISO_Code (null);
 			setStdPrecision (0);
 // 2
         } */
@@ -131,12 +131,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	  */
 	public void setCurSymbol (String CurSymbol)
 	{
-
-		if (CurSymbol != null && CurSymbol.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			CurSymbol = CurSymbol.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_CurSymbol, CurSymbol);
 	}
 
@@ -156,12 +150,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -210,39 +198,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		return bd;
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		if (ISO_Code == null)
-			throw new IllegalArgumentException ("ISO_Code is mandatory.");
-
-		if (ISO_Code.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getISO_Code());
-    }
-
 	/** Set EMU Member.
 		@param IsEMUMember 
 		This currency is member if the European Monetary Union
@@ -290,6 +245,33 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		}
 		return false;
 	}
+
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		if (ISO_Code == null)
+			throw new IllegalArgumentException ("ISO_Code is mandatory.");
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getISO_Code());
+    }
 
 	/** Set Standard Precision.
 		@param StdPrecision 

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
@@ -101,6 +101,23 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Classification.
+		@param Classification 
+		Classification for grouping
+	  */
+	public void setClassification (String Classification)
+	{
+		set_Value (COLUMNNAME_Classification, Classification);
+	}
+
+	/** Get Classification.
+		@return Classification for grouping
+	  */
+	public String getClassification () 
+	{
+		return (String)get_Value(COLUMNNAME_Classification);
+	}
 
 	public I_C_RevenueRecognition getC_RevenueRecognition() throws Exception 
     {
@@ -240,41 +257,12 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Classification.
-		@param Classification 
-		Classification for grouping
-	  */
-	public void setClassification (String Classification)
-	{
-
-		if (Classification != null && Classification.length() > 12)
-		{
-			log.warning("Length > 12 - truncated");
-			Classification = Classification.substring(0, 12);
-		}
-		set_Value (COLUMNNAME_Classification, Classification);
-	}
-
-	/** Get Classification.
-		@return Classification for grouping
-	  */
-	public String getClassification () 
-	{
-		return (String)get_Value(COLUMNNAME_Classification);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -292,12 +280,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
-
-		if (DescriptionURL != null && DescriptionURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
 
@@ -356,12 +338,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setDocumentNote (String DocumentNote)
 	{
-
-		if (DocumentNote != null && DocumentNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DocumentNote = DocumentNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DocumentNote, DocumentNote);
 	}
 
@@ -377,12 +353,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		@param Group1 Group1	  */
 	public void setGroup1 (String Group1)
 	{
-
-		if (Group1 != null && Group1.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Group1 = Group1.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Group1, Group1);
 	}
 
@@ -397,12 +367,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		@param Group2 Group2	  */
 	public void setGroup2 (String Group2)
 	{
-
-		if (Group2 != null && Group2.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Group2 = Group2.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Group2, Group2);
 	}
 
@@ -459,12 +423,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -482,12 +440,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setImageURL (String ImageURL)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
 
@@ -804,28 +756,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Attribute Set Instance.
-		@param M_AttributeSetInstance_ID 
-		Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
-	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
-	}
-
-	/** Get Attribute Set Instance.
-		@return Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_AttributeSet getM_AttributeSet() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
@@ -860,6 +790,28 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public int getM_AttributeSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Attribute Set Instance.
+		@param M_AttributeSetInstance_ID 
+		Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
+	{
+		if (M_AttributeSetInstance_ID < 0)
+			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
+		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+	}
+
+	/** Get Attribute Set Instance.
+		@return Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -997,12 +949,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Name = Name.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1054,13 +1000,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public void setProductType (String ProductType)
 	{
 		if (ProductType == null) throw new IllegalArgumentException ("ProductType is mandatory");
-		if (ProductType.equals("I") || ProductType.equals("S") || ProductType.equals("R") || ProductType.equals("E") || ProductType.equals("O")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - I - S - R - E - O");
-		if (ProductType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProductType = ProductType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ProductType, ProductType);
+		if (ProductType.equals("I") || ProductType.equals("S") || ProductType.equals("R") || ProductType.equals("E") || ProductType.equals("O")); else throw new IllegalArgumentException ("ProductType Invalid value - " + ProductType + " - Reference_ID=270 - I - S - R - E - O");		set_Value (COLUMNNAME_ProductType, ProductType);
 	}
 
 	/** Get Product Type.
@@ -1110,27 +1050,29 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set SKU.
-		@param SKU 
-		Stock Keeping Unit
+	/** SalesRep_ID AD_Reference_ID=190 */
+	public static final int SALESREP_ID_AD_Reference_ID=190;
+	/** Set Sales Representative.
+		@param SalesRep_ID 
+		Sales Representative or Company Agent
 	  */
-	public void setSKU (String SKU)
+	public void setSalesRep_ID (int SalesRep_ID)
 	{
-
-		if (SKU != null && SKU.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_SKU, SKU);
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
-	/** Get SKU.
-		@return Stock Keeping Unit
+	/** Get Sales Representative.
+		@return Sales Representative or Company Agent
 	  */
-	public String getSKU () 
+	public int getSalesRep_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_SKU);
+		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_S_ExpenseType getS_ExpenseType() throws Exception 
@@ -1167,70 +1109,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public int getS_ExpenseType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_S_Resource getS_Resource() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
-	/** Set Sales Representative.
-		@param SalesRep_ID 
-		Sales Representative or Company Agent
-	  */
-	public void setSalesRep_ID (int SalesRep_ID)
-	{
-		if (SalesRep_ID < 1) 
-			set_Value (COLUMNNAME_SalesRep_ID, null);
-		else 
-			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
-	}
-
-	/** Get Sales Representative.
-		@return Sales Representative or Company Agent
-	  */
-	public int getSalesRep_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1296,27 +1174,60 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set UPC/EAN.
-		@param UPC 
-		Bar Code (Universal Product Code or its superset European Article Number)
+	/** Set SKU.
+		@param SKU 
+		Stock Keeping Unit
 	  */
-	public void setUPC (String UPC)
+	public void setSKU (String SKU)
 	{
-
-		if (UPC != null && UPC.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_UPC, UPC);
+		set_Value (COLUMNNAME_SKU, SKU);
 	}
 
-	/** Get UPC/EAN.
-		@return Bar Code (Universal Product Code or its superset European Article Number)
+	/** Get SKU.
+		@return Stock Keeping Unit
 	  */
-	public String getUPC () 
+	public String getSKU () 
 	{
-		return (String)get_Value(COLUMNNAME_UPC);
+		return (String)get_Value(COLUMNNAME_SKU);
+	}
+
+	public I_S_Resource getS_Resource() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
+        I_S_Resource result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Units Per Pallet.
@@ -1339,6 +1250,23 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return bd;
 	}
 
+	/** Set UPC/EAN.
+		@param UPC 
+		Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public void setUPC (String UPC)
+	{
+		set_Value (COLUMNNAME_UPC, UPC);
+	}
+
+	/** Get UPC/EAN.
+		@return Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public String getUPC () 
+	{
+		return (String)get_Value(COLUMNNAME_UPC);
+	}
+
 	/** Set Search Key.
 		@param Value 
 		Search key for the record in the format required - must be unique
@@ -1347,12 +1275,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1378,12 +1300,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	  */
 	public void setVersionNo (String VersionNo)
 	{
-
-		if (VersionNo != null && VersionNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_VersionNo, VersionNo);
 	}
 

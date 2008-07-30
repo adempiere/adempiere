@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_EDI
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
       /** if (C_BP_EDI_ID == 0)
         {
 			setAD_Sequence_ID (0);
-			setC_BP_EDI_ID (0);
 			setC_BPartner_ID (0);
+			setC_BP_EDI_ID (0);
 			setCustomerNo (null);
 			setEDIType (null);
 			setEMail_Error_To (null);
@@ -110,28 +110,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set EDI Definition.
-		@param C_BP_EDI_ID 
-		Electronic Data Interchange
-	  */
-	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
-	{
-		if (C_BP_EDI_ID < 1)
-			 throw new IllegalArgumentException ("C_BP_EDI_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
-	}
-
-	/** Get EDI Definition.
-		@return Electronic Data Interchange
-	  */
-	public int getC_BP_EDI_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_EDI_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BPartner getC_BPartner() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
@@ -170,6 +148,28 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set EDI Definition.
+		@param C_BP_EDI_ID 
+		Electronic Data Interchange
+	  */
+	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
+	{
+		if (C_BP_EDI_ID < 1)
+			 throw new IllegalArgumentException ("C_BP_EDI_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
+	}
+
+	/** Get EDI Definition.
+		@return Electronic Data Interchange
+	  */
+	public int getC_BP_EDI_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_EDI_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Customer No.
 		@param CustomerNo 
 		EDI Identification Number 
@@ -178,12 +178,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	{
 		if (CustomerNo == null)
 			throw new IllegalArgumentException ("CustomerNo is mandatory.");
-
-		if (CustomerNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			CustomerNo = CustomerNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_CustomerNo, CustomerNo);
 	}
 
@@ -201,12 +195,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -231,13 +219,7 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	public void setEDIType (String EDIType)
 	{
 		if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory");
-		if (EDIType.equals("X") || EDIType.equals("E") || EDIType.equals("M")); else throw new IllegalArgumentException ("EDIType Invalid value - " + EDIType + " - Reference_ID=201 - X - E - M");
-		if (EDIType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			EDIType = EDIType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_EDIType, EDIType);
+		if (EDIType.equals("X") || EDIType.equals("E") || EDIType.equals("M")); else throw new IllegalArgumentException ("EDIType Invalid value - " + EDIType + " - Reference_ID=201 - X - E - M");		set_Value (COLUMNNAME_EDIType, EDIType);
 	}
 
 	/** Get EDI Type.
@@ -255,12 +237,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	{
 		if (EMail_Error_To == null)
 			throw new IllegalArgumentException ("EMail_Error_To is mandatory.");
-
-		if (EMail_Error_To.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail_Error_To = EMail_Error_To.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail_Error_To, EMail_Error_To);
 	}
 
@@ -278,12 +254,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setEMail_From (String EMail_From)
 	{
-
-		if (EMail_From != null && EMail_From.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail_From = EMail_From.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail_From, EMail_From);
 	}
 
@@ -301,12 +271,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setEMail_From_Pwd (String EMail_From_Pwd)
 	{
-
-		if (EMail_From_Pwd != null && EMail_From_Pwd.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			EMail_From_Pwd = EMail_From_Pwd.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_EMail_From_Pwd, EMail_From_Pwd);
 	}
 
@@ -324,12 +288,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setEMail_From_Uid (String EMail_From_Uid)
 	{
-
-		if (EMail_From_Uid != null && EMail_From_Uid.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			EMail_From_Uid = EMail_From_Uid.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_EMail_From_Uid, EMail_From_Uid);
 	}
 
@@ -349,12 +307,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	{
 		if (EMail_Info_To == null)
 			throw new IllegalArgumentException ("EMail_Info_To is mandatory.");
-
-		if (EMail_Info_To.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail_Info_To = EMail_Info_To.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail_Info_To, EMail_Info_To);
 	}
 
@@ -372,12 +324,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setEMail_To (String EMail_To)
 	{
-
-		if (EMail_To != null && EMail_To.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail_To = EMail_To.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail_To, EMail_To);
 	}
 
@@ -483,12 +429,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

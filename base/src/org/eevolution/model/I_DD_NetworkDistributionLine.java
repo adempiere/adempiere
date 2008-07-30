@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -38,8 +34,8 @@ import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistributionLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.0
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_DD_NetworkDistributionLine 
 {
@@ -58,15 +54,6 @@ public interface I_DD_NetworkDistributionLine
 
     /** Load Meta Data */
 
-    /** Column name DD_NetworkDistributionLine_ID */
-    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
-
-	/** Set DD_NetworkDistributionLine_ID	  */
-	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
-
-	/** Get DD_NetworkDistributionLine_ID	  */
-	public int getDD_NetworkDistributionLine_ID();
-
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
@@ -77,6 +64,15 @@ public interface I_DD_NetworkDistributionLine
 	public int getDD_NetworkDistribution_ID();
 
 	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws Exception;
+
+    /** Column name DD_NetworkDistributionLine_ID */
+    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
+
+	/** Set DD_NetworkDistributionLine_ID	  */
+	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
+
+	/** Get DD_NetworkDistributionLine_ID	  */
+	public int getDD_NetworkDistributionLine_ID();
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -93,19 +89,6 @@ public interface I_DD_NetworkDistributionLine
 
 	public I_M_Shipper getM_Shipper() throws Exception;
 
-    /** Column name M_WarehouseSource_ID */
-    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
-
-	/** Set Source Warehouse.
-	  * Optional Warehouse to replenish from
-	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
-
-	/** Get Source Warehouse.
-	  * Optional Warehouse to replenish from
-	  */
-	public int getM_WarehouseSource_ID();
-
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -118,6 +101,19 @@ public interface I_DD_NetworkDistributionLine
 	  * Storage Warehouse and Service Point
 	  */
 	public int getM_Warehouse_ID();
+
+    /** Column name M_WarehouseSource_ID */
+    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
+
+	/** Set Source Warehouse.
+	  * Optional Warehouse to replenish from
+	  */
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
+
+	/** Get Source Warehouse.
+	  * Optional Warehouse to replenish from
+	  */
+	public int getM_WarehouseSource_ID();
 
     /** Column name Percent */
     public static final String COLUMNNAME_Percent = "Percent";

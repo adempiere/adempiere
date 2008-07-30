@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_Relation
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_BP_Relation 
 {
@@ -55,45 +51,6 @@ public interface I_C_BP_Relation
     BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
-
-    /** Column name C_BP_Relation_ID */
-    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
-
-	/** Set Partner Relation.
-	  * Business Partner Relation
-	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
-
-	/** Get Partner Relation.
-	  * Business Partner Relation
-	  */
-	public int getC_BP_Relation_ID();
-
-    /** Column name C_BPartnerRelation_ID */
-    public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
-
-	/** Set Related Partner.
-	  * Related Business Partner
-	  */
-	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID);
-
-	/** Get Related Partner.
-	  * Related Business Partner
-	  */
-	public int getC_BPartnerRelation_ID();
-
-    /** Column name C_BPartnerRelation_Location_ID */
-    public static final String COLUMNNAME_C_BPartnerRelation_Location_ID = "C_BPartnerRelation_Location_ID";
-
-	/** Set Related Partner Location.
-	  * Location of the related Business Partner
-	  */
-	public void setC_BPartnerRelation_Location_ID (int C_BPartnerRelation_Location_ID);
-
-	/** Get Related Partner Location.
-	  * Location of the related Business Partner
-	  */
-	public int getC_BPartnerRelation_Location_ID();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -124,6 +81,45 @@ public interface I_C_BP_Relation
 	public int getC_BPartner_Location_ID();
 
 	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
+
+    /** Column name C_BPartnerRelation_ID */
+    public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
+
+	/** Set Related Partner.
+	  * Related Business Partner
+	  */
+	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID);
+
+	/** Get Related Partner.
+	  * Related Business Partner
+	  */
+	public int getC_BPartnerRelation_ID();
+
+    /** Column name C_BPartnerRelation_Location_ID */
+    public static final String COLUMNNAME_C_BPartnerRelation_Location_ID = "C_BPartnerRelation_Location_ID";
+
+	/** Set Related Partner Location.
+	  * Location of the related Business Partner
+	  */
+	public void setC_BPartnerRelation_Location_ID (int C_BPartnerRelation_Location_ID);
+
+	/** Get Related Partner Location.
+	  * Location of the related Business Partner
+	  */
+	public int getC_BPartnerRelation_Location_ID();
+
+    /** Column name C_BP_Relation_ID */
+    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
+
+	/** Set Partner Relation.
+	  * Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
+
+	/** Get Partner Relation.
+	  * Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

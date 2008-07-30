@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for RV_WarehousePrice
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Persistent 
 {
 
@@ -139,6 +139,26 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Margin %.
+		@param Margin 
+		Margin for a product as a percentage
+	  */
+	public void setMargin (BigDecimal Margin)
+	{
+		set_ValueNoCheck (COLUMNNAME_Margin, Margin);
+	}
+
+	/** Get Margin %.
+		@return Margin for a product as a percentage
+	  */
+	public BigDecimal getMargin () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
@@ -255,26 +275,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Margin %.
-		@param Margin 
-		Margin for a product as a percentage
-	  */
-	public void setMargin (BigDecimal Margin)
-	{
-		set_ValueNoCheck (COLUMNNAME_Margin, Margin);
-	}
-
-	/** Get Margin %.
-		@return Margin for a product as a percentage
-	  */
-	public BigDecimal getMargin () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -283,12 +283,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}
 
@@ -446,12 +440,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 	  */
 	public void setSKU (String SKU)
 	{
-
-		if (SKU != null && SKU.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			SKU = SKU.substring(0, 30);
-		}
 		set_ValueNoCheck (COLUMNNAME_SKU, SKU);
 	}
 
@@ -469,12 +457,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 	  */
 	public void setUOMSymbol (String UOMSymbol)
 	{
-
-		if (UOMSymbol != null && UOMSymbol.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			UOMSymbol = UOMSymbol.substring(0, 10);
-		}
 		set_ValueNoCheck (COLUMNNAME_UOMSymbol, UOMSymbol);
 	}
 
@@ -492,12 +474,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 	  */
 	public void setUPC (String UPC)
 	{
-
-		if (UPC != null && UPC.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			UPC = UPC.substring(0, 30);
-		}
 		set_ValueNoCheck (COLUMNNAME_UPC, UPC);
 	}
 
@@ -517,12 +493,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_Value, Value);
 	}
 
@@ -542,12 +512,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 	{
 		if (WarehouseName == null)
 			throw new IllegalArgumentException ("WarehouseName is mandatory.");
-
-		if (WarehouseName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			WarehouseName = WarehouseName.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_WarehouseName, WarehouseName);
 	}
 

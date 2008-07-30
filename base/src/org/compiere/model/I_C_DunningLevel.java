@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DunningLevel
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_DunningLevel 
 {
@@ -56,15 +52,6 @@ public interface I_C_DunningLevel
 
     /** Load Meta Data */
 
-    /** Column name C_DunningLevel_ID */
-    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
-
-	/** Set Dunning Level	  */
-	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
-
-	/** Get Dunning Level	  */
-	public int getC_DunningLevel_ID();
-
     /** Column name C_Dunning_ID */
     public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
 
@@ -80,20 +67,14 @@ public interface I_C_DunningLevel
 
 	public I_C_Dunning getC_Dunning() throws Exception;
 
-    /** Column name C_PaymentTerm_ID */
-    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+    /** Column name C_DunningLevel_ID */
+    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 
-	/** Set Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+	/** Set Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
 
-	/** Get Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID();
-
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
+	/** Get Dunning Level	  */
+	public int getC_DunningLevel_ID();
 
     /** Column name ChargeFee */
     public static final String COLUMNNAME_ChargeFee = "ChargeFee";
@@ -120,6 +101,21 @@ public interface I_C_DunningLevel
 	  * Indicates if interest will be charged on overdue invoices
 	  */
 	public boolean isChargeInterest();
+
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
 
     /** Column name DaysAfterDue */
     public static final String COLUMNNAME_DaysAfterDue = "DaysAfterDue";

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Chat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent 
 {
 
@@ -114,6 +114,28 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Chat.
+		@param CM_Chat_ID 
+		Chat or discussion thread
+	  */
+	public void setCM_Chat_ID (int CM_Chat_ID)
+	{
+		if (CM_Chat_ID < 1)
+			 throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+	}
+
+	/** Get Chat.
+		@return Chat or discussion thread
+	  */
+	public int getCM_Chat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_CM_ChatType getCM_ChatType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_ChatType.Table_Name);
@@ -153,28 +175,6 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Chat.
-		@param CM_Chat_ID 
-		Chat or discussion thread
-	  */
-	public void setCM_Chat_ID (int CM_Chat_ID)
-	{
-		if (CM_Chat_ID < 1)
-			 throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
-	}
-
-	/** Get Chat.
-		@return Chat or discussion thread
-	  */
-	public int getCM_Chat_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** ConfidentialType AD_Reference_ID=340 */
 	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
 	/** Public Information = A */
@@ -192,13 +192,7 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	public void setConfidentialType (String ConfidentialType)
 	{
 		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
-		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
-		if (ConfidentialType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConfidentialType = ConfidentialType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
+		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
 	/** Get Confidentiality.
@@ -217,12 +211,6 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -257,13 +245,7 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	public void setModerationType (String ModerationType)
 	{
 
-		if (ModerationType == null || ModerationType.equals("N") || ModerationType.equals("B") || ModerationType.equals("A")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - N - B - A");
-		if (ModerationType != null && ModerationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ModerationType = ModerationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ModerationType, ModerationType);
+		if (ModerationType == null || ModerationType.equals("N") || ModerationType.equals("B") || ModerationType.equals("A")); else throw new IllegalArgumentException ("ModerationType Invalid value - " + ModerationType + " - Reference_ID=395 - N - B - A");		set_Value (COLUMNNAME_ModerationType, ModerationType);
 	}
 
 	/** Get Moderation Type.

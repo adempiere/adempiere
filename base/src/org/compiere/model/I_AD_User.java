@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_User 
 {
@@ -286,18 +282,18 @@ public interface I_AD_User
 	  */
 	public boolean isFullBPAccess();
 
-    /** Column name LDAPUser */
-    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
+    /** Column name IsInPayroll */
+    public static final String COLUMNNAME_IsInPayroll = "IsInPayroll";
 
-	/** Set LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
+	/** Set Is In Payroll.
+	  * Defined if any User Contact will be used for Calculate Payroll
 	  */
-	public void setLDAPUser (String LDAPUser);
+	public void setIsInPayroll (boolean IsInPayroll);
 
-	/** Get LDAP User Name.
-	  * User Name used for authorization via LDAP (directory) services
+	/** Get Is In Payroll.
+	  * Defined if any User Contact will be used for Calculate Payroll
 	  */
-	public String getLDAPUser();
+	public boolean isInPayroll();
 
     /** Column name LastContact */
     public static final String COLUMNNAME_LastContact = "LastContact";
@@ -324,6 +320,19 @@ public interface I_AD_User
 	  * Result of last contact
 	  */
 	public String getLastResult();
+
+    /** Column name LDAPUser */
+    public static final String COLUMNNAME_LDAPUser = "LDAPUser";
+
+	/** Set LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser);
+
+	/** Get LDAP User Name.
+	  * User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

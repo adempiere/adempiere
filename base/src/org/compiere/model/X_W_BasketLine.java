@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_BasketLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent 
 {
 
@@ -47,8 +47,8 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 			setPrice (Env.ZERO);
 			setProduct (null);
 			setQty (Env.ZERO);
-			setW_BasketLine_ID (0);
 			setW_Basket_ID (0);
+			setW_BasketLine_ID (0);
         } */
     }
 
@@ -88,12 +88,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -200,12 +194,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	{
 		if (Product == null)
 			throw new IllegalArgumentException ("Product is mandatory.");
-
-		if (Product.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Product = Product.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Product, Product);
 	}
 
@@ -236,28 +224,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Basket Line.
-		@param W_BasketLine_ID 
-		Web Basket Line
-	  */
-	public void setW_BasketLine_ID (int W_BasketLine_ID)
-	{
-		if (W_BasketLine_ID < 1)
-			 throw new IllegalArgumentException ("W_BasketLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
-	}
-
-	/** Get Basket Line.
-		@return Web Basket Line
-	  */
-	public int getW_BasketLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_BasketLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_W_Basket getW_Basket() throws Exception 
@@ -293,6 +259,28 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	public int getW_Basket_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_Basket_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Basket Line.
+		@param W_BasketLine_ID 
+		Web Basket Line
+	  */
+	public void setW_BasketLine_ID (int W_BasketLine_ID)
+	{
+		if (W_BasketLine_ID < 1)
+			 throw new IllegalArgumentException ("W_BasketLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
+	}
+
+	/** Get Basket Line.
+		@return Web Basket Line
+	  */
+	public int getW_BasketLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_BasketLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

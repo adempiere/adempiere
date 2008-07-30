@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset extends PO implements I_A_Asset, I_Persistent 
 {
 
@@ -84,45 +84,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_AD_User getAD_User() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set A_Asset_CreateDate.
 		@param A_Asset_CreateDate A_Asset_CreateDate	  */
@@ -210,6 +171,45 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	public Timestamp getA_Asset_RevalDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
+	}
+
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** A_Parent_Asset_ID AD_Reference_ID=53258 */
@@ -319,31 +319,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	/** C_BPartnerSR_ID AD_Reference_ID=232 */
-	public static final int C_BPARTNERSR_ID_AD_Reference_ID=232;
-	/** Set BPartner (Agent).
-		@param C_BPartnerSR_ID 
-		Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
-	{
-		if (C_BPartnerSR_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
-	}
-
-	/** Get BPartner (Agent).
-		@return Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BPartner getC_BPartner() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
@@ -417,6 +392,31 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	public int getC_BPartner_Location_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** C_BPartnerSR_ID AD_Reference_ID=232 */
+	public static final int C_BPARTNERSR_ID_AD_Reference_ID=232;
+	/** Set BPartner (Agent).
+		@param C_BPartnerSR_ID 
+		Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
+	{
+		if (C_BPartnerSR_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
+	}
+
+	/** Get BPartner (Agent).
+		@return Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -506,12 +506,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -546,12 +540,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -706,12 +694,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setLastMaintenanceNote (String LastMaintenanceNote)
 	{
-
-		if (LastMaintenanceNote != null && LastMaintenanceNote.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			LastMaintenanceNote = LastMaintenanceNote.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_LastMaintenanceNote, LastMaintenanceNote);
 	}
 
@@ -743,23 +725,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Lease Termination.
-		@param LeaseTerminationDate 
-		Lease Termination Date
-	  */
-	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate)
-	{
-		set_Value (COLUMNNAME_LeaseTerminationDate, LeaseTerminationDate);
-	}
-
-	/** Get Lease Termination.
-		@return Lease Termination Date
-	  */
-	public Timestamp getLeaseTerminationDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_LeaseTerminationDate);
-	}
-
 	/** Lease_BPartner_ID AD_Reference_ID=192 */
 	public static final int LEASE_BPARTNER_ID_AD_Reference_ID=192;
 	/** Set Lessor.
@@ -783,6 +748,23 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Lease Termination.
+		@param LeaseTerminationDate 
+		Lease Termination Date
+	  */
+	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate)
+	{
+		set_Value (COLUMNNAME_LeaseTerminationDate, LeaseTerminationDate);
+	}
+
+	/** Get Lease Termination.
+		@return Lease Termination Date
+	  */
+	public Timestamp getLeaseTerminationDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_LeaseTerminationDate);
 	}
 
 	/** Set Life use.
@@ -811,12 +793,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setLocationComment (String LocationComment)
 	{
-
-		if (LocationComment != null && LocationComment.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			LocationComment = LocationComment.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_LocationComment, LocationComment);
 	}
 
@@ -834,12 +810,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setLot (String Lot)
 	{
-
-		if (Lot != null && Lot.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Lot = Lot.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
 
@@ -998,12 +968,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1107,12 +1071,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setSerNo (String SerNo)
 	{
-
-		if (SerNo != null && SerNo.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			SerNo = SerNo.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}
 
@@ -1192,12 +1150,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1215,12 +1167,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	  */
 	public void setVersionNo (String VersionNo)
 	{
-
-		if (VersionNo != null && VersionNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_VersionNo, VersionNo);
 	}
 

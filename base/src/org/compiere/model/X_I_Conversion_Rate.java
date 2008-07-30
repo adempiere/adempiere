@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Persistent 
 {
 
@@ -75,45 +75,6 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
       return sb.toString();
     }
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
-        I_C_ConversionType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ConversionType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ConversionType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Currency Type.
-		@param C_ConversionType_ID 
-		Currency Conversion Rate Type
-	  */
-	public void setC_ConversionType_ID (int C_ConversionType_ID)
-	{
-		if (C_ConversionType_ID < 1) 
-			set_Value (COLUMNNAME_C_ConversionType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
-	}
-
-	/** Get Currency Type.
-		@return Currency Conversion Rate Type
-	  */
-	public int getC_ConversionType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Conversion_Rate getC_Conversion_Rate() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Conversion_Rate.Table_Name);
@@ -148,6 +109,45 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	public int getC_Conversion_Rate_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Conversion_Rate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ConversionType getC_ConversionType() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
+        I_C_ConversionType result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ConversionType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ConversionType_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Currency Type.
+		@param C_ConversionType_ID 
+		Currency Conversion Rate Type
+	  */
+	public void setC_ConversionType_ID (int C_ConversionType_ID)
+	{
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+	}
+
+	/** Get Currency Type.
+		@return Currency Conversion Rate Type
+	  */
+	public int getC_ConversionType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -220,12 +220,6 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setConversionTypeValue (String ConversionTypeValue)
 	{
-
-		if (ConversionTypeValue != null && ConversionTypeValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ConversionTypeValue = ConversionTypeValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
 	}
 
@@ -281,52 +275,6 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 		return bd;
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-
-		if (ISO_Code != null && ISO_Code.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ISO_Code = ISO_Code.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
-	/** Set ISO Currency To Code.
-		@param ISO_Code_To 
-		Three letter ISO 4217 Code of the To Currency
-	  */
-	public void setISO_Code_To (String ISO_Code_To)
-	{
-
-		if (ISO_Code_To != null && ISO_Code_To.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ISO_Code_To = ISO_Code_To.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_ISO_Code_To, ISO_Code_To);
-	}
-
-	/** Get ISO Currency To Code.
-		@return Three letter ISO 4217 Code of the To Currency
-	  */
-	public String getISO_Code_To () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code_To);
-	}
-
 	/** Set Import Conversion Rate.
 		@param I_Conversion_Rate_ID 
 		Import Currency Conversion Rate
@@ -363,12 +311,6 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -402,6 +344,40 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+	/** Set ISO Currency To Code.
+		@param ISO_Code_To 
+		Three letter ISO 4217 Code of the To Currency
+	  */
+	public void setISO_Code_To (String ISO_Code_To)
+	{
+		set_Value (COLUMNNAME_ISO_Code_To, ISO_Code_To);
+	}
+
+	/** Get ISO Currency To Code.
+		@return Three letter ISO 4217 Code of the To Currency
+	  */
+	public String getISO_Code_To () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code_To);
 	}
 
 	/** Set Multiply Rate.

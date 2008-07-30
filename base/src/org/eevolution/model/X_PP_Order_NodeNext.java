@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_Order_NodeNext
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Persistent 
 {
 
@@ -147,12 +147,6 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -172,12 +166,6 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -286,8 +274,8 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
         return result;
     }
 
-	/** Set PP_Order_Node_ID.
-		@param PP_Order_Node_ID PP_Order_Node_ID	  */
+	/** Set Manufacturing Order Activity.
+		@param PP_Order_Node_ID Manufacturing Order Activity	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1)
@@ -295,8 +283,8 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
 	}
 
-	/** Get PP_Order_Node_ID.
-		@return PP_Order_Node_ID	  */
+	/** Get Manufacturing Order Activity.
+		@return Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
@@ -353,12 +341,6 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	  */
 	public void setTransitionCode (String TransitionCode)
 	{
-
-		if (TransitionCode != null && TransitionCode.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TransitionCode = TransitionCode.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TransitionCode, TransitionCode);
 	}
 

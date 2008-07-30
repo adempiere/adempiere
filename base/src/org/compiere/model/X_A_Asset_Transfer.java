@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Persistent 
 {
 
@@ -56,7 +56,7 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			setA_Transfer_Balance (true);
 // Y
 			setA_Transfer_Balance_IS (false);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @Date@
 			setProcessed (false);
 			setProcessing (false);
@@ -129,12 +129,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Accumdepreciation_Acct_Str A_Accumdepreciation_Acct_Str	  */
 	public void setA_Accumdepreciation_Acct_Str (String A_Accumdepreciation_Acct_Str)
 	{
-
-		if (A_Accumdepreciation_Acct_Str != null && A_Accumdepreciation_Acct_Str.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_Accumdepreciation_Acct_Str = A_Accumdepreciation_Acct_Str.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_A_Accumdepreciation_Acct_Str, A_Accumdepreciation_Acct_Str);
 	}
 
@@ -203,12 +197,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Asset_Acct_Str A_Asset_Acct_Str	  */
 	public void setA_Asset_Acct_Str (String A_Asset_Acct_Str)
 	{
-
-		if (A_Asset_Acct_Str != null && A_Asset_Acct_Str.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_Asset_Acct_Str = A_Asset_Acct_Str.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_A_Asset_Acct_Str, A_Asset_Acct_Str);
 	}
 
@@ -307,12 +295,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Depreciation_Acct_Str A_Depreciation_Acct_Str	  */
 	public void setA_Depreciation_Acct_Str (String A_Depreciation_Acct_Str)
 	{
-
-		if (A_Depreciation_Acct_Str != null && A_Depreciation_Acct_Str.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_Depreciation_Acct_Str = A_Depreciation_Acct_Str.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Acct_Str, A_Depreciation_Acct_Str);
 	}
 
@@ -361,12 +343,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Disposal_Loss_Str A_Disposal_Loss_Str	  */
 	public void setA_Disposal_Loss_Str (String A_Disposal_Loss_Str)
 	{
-
-		if (A_Disposal_Loss_Str != null && A_Disposal_Loss_Str.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_Disposal_Loss_Str = A_Disposal_Loss_Str.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_A_Disposal_Loss_Str, A_Disposal_Loss_Str);
 	}
 
@@ -415,12 +391,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Disposal_Revenue_Str A_Disposal_Revenue_Str	  */
 	public void setA_Disposal_Revenue_Str (String A_Disposal_Revenue_Str)
 	{
-
-		if (A_Disposal_Revenue_Str != null && A_Disposal_Revenue_Str.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			A_Disposal_Revenue_Str = A_Disposal_Revenue_Str.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_A_Disposal_Revenue_Str, A_Disposal_Revenue_Str);
 	}
 
@@ -614,13 +584,7 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

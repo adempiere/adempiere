@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_Persistent 
 {
 
@@ -88,12 +88,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	{
 		if (ConfirmationNo == null)
 			throw new IllegalArgumentException ("ConfirmationNo is mandatory.");
-
-		if (ConfirmationNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ConfirmationNo = ConfirmationNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
 	}
 
@@ -133,12 +127,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -178,12 +166,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 

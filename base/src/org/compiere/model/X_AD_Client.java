@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Client extends PO implements I_AD_Client, I_Persistent 
 {
 
@@ -99,12 +99,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setAD_Language (String AD_Language)
 	{
-
-		if (AD_Language != null && AD_Language.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 6);
-		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -172,13 +166,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	public void setAutoArchive (String AutoArchive)
 	{
 		if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is mandatory");
-		if (AutoArchive.equals("N") || AutoArchive.equals("1") || AutoArchive.equals("2") || AutoArchive.equals("3")); else throw new IllegalArgumentException ("AutoArchive Invalid value - " + AutoArchive + " - Reference_ID=334 - N - 1 - 2 - 3");
-		if (AutoArchive.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AutoArchive = AutoArchive.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AutoArchive, AutoArchive);
+		if (AutoArchive.equals("N") || AutoArchive.equals("1") || AutoArchive.equals("2") || AutoArchive.equals("3")); else throw new IllegalArgumentException ("AutoArchive Invalid value - " + AutoArchive + " - Reference_ID=334 - N - 1 - 2 - 3");		set_Value (COLUMNNAME_AutoArchive, AutoArchive);
 	}
 
 	/** Get Auto Archive.
@@ -195,12 +183,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -218,12 +200,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setDocumentDir (String DocumentDir)
 	{
-
-		if (DocumentDir != null && DocumentDir.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DocumentDir = DocumentDir.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DocumentDir, DocumentDir);
 	}
 
@@ -241,12 +217,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setEMailTest (String EMailTest)
 	{
-
-		if (EMailTest != null && EMailTest.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			EMailTest = EMailTest.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_EMailTest, EMailTest);
 	}
 
@@ -436,13 +406,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	public void setMMPolicy (String MMPolicy)
 	{
 		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
-		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");
-		if (MMPolicy.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MMPolicy = MMPolicy.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
+		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
 
 	/** Get Material Policy.
@@ -459,12 +423,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setModelValidationClasses (String ModelValidationClasses)
 	{
-
-		if (ModelValidationClasses != null && ModelValidationClasses.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			ModelValidationClasses = ModelValidationClasses.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_ModelValidationClasses, ModelValidationClasses);
 	}
 
@@ -484,12 +442,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -515,12 +467,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setRequestEMail (String RequestEMail)
 	{
-
-		if (RequestEMail != null && RequestEMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			RequestEMail = RequestEMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_RequestEMail, RequestEMail);
 	}
 
@@ -538,12 +484,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setRequestFolder (String RequestFolder)
 	{
-
-		if (RequestFolder != null && RequestFolder.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			RequestFolder = RequestFolder.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_RequestFolder, RequestFolder);
 	}
 
@@ -561,12 +501,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setRequestUser (String RequestUser)
 	{
-
-		if (RequestUser != null && RequestUser.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			RequestUser = RequestUser.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_RequestUser, RequestUser);
 	}
 
@@ -584,12 +518,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setRequestUserPW (String RequestUserPW)
 	{
-
-		if (RequestUserPW != null && RequestUserPW.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			RequestUserPW = RequestUserPW.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_RequestUserPW, RequestUserPW);
 	}
 
@@ -607,12 +535,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setSMTPHost (String SMTPHost)
 	{
-
-		if (SMTPHost != null && SMTPHost.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			SMTPHost = SMTPHost.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_SMTPHost, SMTPHost);
 	}
 
@@ -670,12 +592,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		@param UnixArchivePath Unix Archive Path	  */
 	public void setUnixArchivePath (String UnixArchivePath)
 	{
-
-		if (UnixArchivePath != null && UnixArchivePath.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			UnixArchivePath = UnixArchivePath.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_UnixArchivePath, UnixArchivePath);
 	}
 
@@ -690,12 +606,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		@param UnixAttachmentPath Unix Attachment Path	  */
 	public void setUnixAttachmentPath (String UnixAttachmentPath)
 	{
-
-		if (UnixAttachmentPath != null && UnixAttachmentPath.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			UnixAttachmentPath = UnixAttachmentPath.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_UnixAttachmentPath, UnixAttachmentPath);
 	}
 
@@ -714,12 +624,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -735,12 +639,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		@param WindowsArchivePath Windows Archive Path	  */
 	public void setWindowsArchivePath (String WindowsArchivePath)
 	{
-
-		if (WindowsArchivePath != null && WindowsArchivePath.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			WindowsArchivePath = WindowsArchivePath.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_WindowsArchivePath, WindowsArchivePath);
 	}
 
@@ -755,12 +653,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 		@param WindowsAttachmentPath Windows Attachment Path	  */
 	public void setWindowsAttachmentPath (String WindowsAttachmentPath)
 	{
-
-		if (WindowsAttachmentPath != null && WindowsAttachmentPath.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			WindowsAttachmentPath = WindowsAttachmentPath.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_WindowsAttachmentPath, WindowsAttachmentPath);
 	}
 

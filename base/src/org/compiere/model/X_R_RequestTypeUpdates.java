@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for R_RequestTypeUpdates
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_RequestTypeUpdates extends PO implements I_R_RequestTypeUpdates, I_Persistent 
 {
 

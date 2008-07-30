@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_EventAudit
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Persistent 
 {
 
@@ -295,12 +295,6 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	  */
 	public void setAttributeName (String AttributeName)
 	{
-
-		if (AttributeName != null && AttributeName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AttributeName = AttributeName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 
@@ -318,12 +312,6 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -372,13 +360,7 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	public void setEventType (String EventType)
 	{
 		if (EventType == null) throw new IllegalArgumentException ("EventType is mandatory");
-		if (EventType.equals("PC") || EventType.equals("SC") || EventType.equals("PX")); else throw new IllegalArgumentException ("EventType Invalid value - " + EventType + " - Reference_ID=306 - PC - SC - PX");
-		if (EventType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			EventType = EventType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_EventType, EventType);
+		if (EventType.equals("PC") || EventType.equals("SC") || EventType.equals("PX")); else throw new IllegalArgumentException ("EventType Invalid value - " + EventType + " - Reference_ID=306 - PC - SC - PX");		set_Value (COLUMNNAME_EventType, EventType);
 	}
 
 	/** Get Event Type.
@@ -395,12 +377,6 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	  */
 	public void setNewValue (String NewValue)
 	{
-
-		if (NewValue != null && NewValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			NewValue = NewValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_NewValue, NewValue);
 	}
 
@@ -418,12 +394,6 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	  */
 	public void setOldValue (String OldValue)
 	{
-
-		if (OldValue != null && OldValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OldValue = OldValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OldValue, OldValue);
 	}
 
@@ -463,12 +433,6 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 
@@ -501,13 +465,7 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	public void setWFState (String WFState)
 	{
 		if (WFState == null) throw new IllegalArgumentException ("WFState is mandatory");
-		if (WFState.equals("ON") || WFState.equals("OR") || WFState.equals("OS") || WFState.equals("CC") || WFState.equals("CA") || WFState.equals("CT")); else throw new IllegalArgumentException ("WFState Invalid value - " + WFState + " - Reference_ID=305 - ON - OR - OS - CC - CA - CT");
-		if (WFState.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			WFState = WFState.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_WFState, WFState);
+		if (WFState.equals("ON") || WFState.equals("OR") || WFState.equals("OS") || WFState.equals("CC") || WFState.equals("CA") || WFState.equals("CT")); else throw new IllegalArgumentException ("WFState Invalid value - " + WFState + " - Reference_ID=305 - ON - OR - OS - CC - CA - CT");		set_Value (COLUMNNAME_WFState, WFState);
 	}
 
 	/** Get Workflow State.

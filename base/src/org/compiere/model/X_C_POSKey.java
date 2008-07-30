@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POSKey
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
       super (ctx, C_POSKey_ID, trxName);
       /** if (C_POSKey_ID == 0)
         {
-			setC_POSKeyLayout_ID (0);
 			setC_POSKey_ID (0);
+			setC_POSKeyLayout_ID (0);
 			setM_Product_ID (0);
 			setName (null);
 			setQty (Env.ZERO);
@@ -118,6 +118,28 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set POS Key.
+		@param C_POSKey_ID 
+		POS Function Key
+	  */
+	public void setC_POSKey_ID (int C_POSKey_ID)
+	{
+		if (C_POSKey_ID < 1)
+			 throw new IllegalArgumentException ("C_POSKey_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, Integer.valueOf(C_POSKey_ID));
+	}
+
+	/** Get POS Key.
+		@return POS Function Key
+	  */
+	public int getC_POSKey_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKey_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_POSKeyLayout getC_POSKeyLayout() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_POSKeyLayout.Table_Name);
@@ -156,40 +178,12 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set POS Key.
-		@param C_POSKey_ID 
-		POS Function Key
-	  */
-	public void setC_POSKey_ID (int C_POSKey_ID)
-	{
-		if (C_POSKey_ID < 1)
-			 throw new IllegalArgumentException ("C_POSKey_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, Integer.valueOf(C_POSKey_ID));
-	}
-
-	/** Get POS Key.
-		@return POS Function Key
-	  */
-	public int getC_POSKey_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKey_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -247,12 +241,6 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

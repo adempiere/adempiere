@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent 
 {
 
@@ -46,8 +46,8 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 // 1
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_Product_BOM WHERE M_Product_ID=@M_Product_ID@
-			setM_ProductBOM_ID (0);
 			setM_Product_BOM_ID (0);
+			setM_ProductBOM_ID (0);
 			setM_Product_ID (0);
         } */
     }
@@ -133,13 +133,7 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	public void setBOMType (String BOMType)
 	{
 
-		if (BOMType == null || BOMType.equals("P") || BOMType.equals("O") || BOMType.equals("1") || BOMType.equals("2") || BOMType.equals("3") || BOMType.equals("4") || BOMType.equals("5") || BOMType.equals("6") || BOMType.equals("7") || BOMType.equals("8") || BOMType.equals("9")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=279 - P - O - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9");
-		if (BOMType != null && BOMType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMType = BOMType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMType, BOMType);
+		if (BOMType == null || BOMType.equals("P") || BOMType.equals("O") || BOMType.equals("1") || BOMType.equals("2") || BOMType.equals("3") || BOMType.equals("4") || BOMType.equals("5") || BOMType.equals("6") || BOMType.equals("7") || BOMType.equals("8") || BOMType.equals("9")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=279 - P - O - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9");		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
 
 	/** Get BOM Type.
@@ -156,12 +150,6 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -188,6 +176,25 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	public int getLine () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Line);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set BOM Line.
+		@param M_Product_BOM_ID BOM Line	  */
+	public void setM_Product_BOM_ID (int M_Product_BOM_ID)
+	{
+		if (M_Product_BOM_ID < 1)
+			 throw new IllegalArgumentException ("M_Product_BOM_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, Integer.valueOf(M_Product_BOM_ID));
+	}
+
+	/** Get BOM Line.
+		@return BOM Line	  */
+	public int getM_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_BOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -224,25 +231,6 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
     }
-
-	/** Set BOM Line.
-		@param M_Product_BOM_ID BOM Line	  */
-	public void setM_Product_BOM_ID (int M_Product_BOM_ID)
-	{
-		if (M_Product_BOM_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_BOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, Integer.valueOf(M_Product_BOM_ID));
-	}
-
-	/** Get BOM Line.
-		@return BOM Line	  */
-	public int getM_Product_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_M_Product getM_Product() throws Exception 
     {

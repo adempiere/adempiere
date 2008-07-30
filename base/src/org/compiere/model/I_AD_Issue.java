@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Issue
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_Issue 
 {
@@ -55,6 +51,21 @@ public interface I_AD_Issue
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -114,21 +125,6 @@ public interface I_AD_Issue
 
 	public I_AD_Window getAD_Window() throws Exception;
 
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public I_A_Asset getA_Asset() throws Exception;
-
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
 
@@ -142,19 +138,6 @@ public interface I_AD_Issue
 	  */
 	public String getComments();
 
-    /** Column name DBAddress */
-    public static final String COLUMNNAME_DBAddress = "DBAddress";
-
-	/** Set DB Address.
-	  * JDBC URL of the database server
-	  */
-	public void setDBAddress (String DBAddress);
-
-	/** Get DB Address.
-	  * JDBC URL of the database server
-	  */
-	public String getDBAddress();
-
     /** Column name DatabaseInfo */
     public static final String COLUMNNAME_DatabaseInfo = "DatabaseInfo";
 
@@ -167,6 +150,19 @@ public interface I_AD_Issue
 	  * Database Information
 	  */
 	public String getDatabaseInfo();
+
+    /** Column name DBAddress */
+    public static final String COLUMNNAME_DBAddress = "DBAddress";
+
+	/** Set DB Address.
+	  * JDBC URL of the database server
+	  */
+	public void setDBAddress (String DBAddress);
+
+	/** Get DB Address.
+	  * JDBC URL of the database server
+	  */
+	public String getDBAddress();
 
     /** Column name ErrorTrace */
     public static final String COLUMNNAME_ErrorTrace = "ErrorTrace";
@@ -194,19 +190,6 @@ public interface I_AD_Issue
 	  */
 	public String getIsReproducible();
 
-    /** Column name IsVanillaSystem */
-    public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
-
-	/** Set Vanilla System.
-	  * The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public void setIsVanillaSystem (String IsVanillaSystem);
-
-	/** Get Vanilla System.
-	  * The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public String getIsVanillaSystem();
-
     /** Column name IssueSource */
     public static final String COLUMNNAME_IssueSource = "IssueSource";
 
@@ -232,6 +215,19 @@ public interface I_AD_Issue
 	  * Issue Summary
 	  */
 	public String getIssueSummary();
+
+    /** Column name IsVanillaSystem */
+    public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
+
+	/** Set Vanilla System.
+	  * The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public void setIsVanillaSystem (String IsVanillaSystem);
+
+	/** Get Vanilla System.
+	  * The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public String getIsVanillaSystem();
 
     /** Column name JavaInfo */
     public static final String COLUMNNAME_JavaInfo = "JavaInfo";
@@ -346,81 +342,6 @@ public interface I_AD_Issue
 	  */
 	public String getProfileInfo();
 
-    /** Column name R_IssueKnown_ID */
-    public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
-
-	/** Set Known Issue.
-	  * Known Issue
-	  */
-	public void setR_IssueKnown_ID (int R_IssueKnown_ID);
-
-	/** Get Known Issue.
-	  * Known Issue
-	  */
-	public int getR_IssueKnown_ID();
-
-	public I_R_IssueKnown getR_IssueKnown() throws Exception;
-
-    /** Column name R_IssueProject_ID */
-    public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
-
-	/** Set Issue Project.
-	  * Implementation Projects
-	  */
-	public void setR_IssueProject_ID (int R_IssueProject_ID);
-
-	/** Get Issue Project.
-	  * Implementation Projects
-	  */
-	public int getR_IssueProject_ID();
-
-	public I_R_IssueProject getR_IssueProject() throws Exception;
-
-    /** Column name R_IssueSystem_ID */
-    public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
-
-	/** Set Issue System.
-	  * System creating the issue
-	  */
-	public void setR_IssueSystem_ID (int R_IssueSystem_ID);
-
-	/** Get Issue System.
-	  * System creating the issue
-	  */
-	public int getR_IssueSystem_ID();
-
-	public I_R_IssueSystem getR_IssueSystem() throws Exception;
-
-    /** Column name R_IssueUser_ID */
-    public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
-
-	/** Set IssueUser.
-	  * User who reported issues
-	  */
-	public void setR_IssueUser_ID (int R_IssueUser_ID);
-
-	/** Get IssueUser.
-	  * User who reported issues
-	  */
-	public int getR_IssueUser_ID();
-
-	public I_R_IssueUser getR_IssueUser() throws Exception;
-
-    /** Column name R_Request_ID */
-    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
-
-	/** Set Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public void setR_Request_ID (int R_Request_ID);
-
-	/** Get Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public int getR_Request_ID();
-
-	public I_R_Request getR_Request() throws Exception;
-
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";
 
@@ -511,6 +432,81 @@ public interface I_AD_Issue
 	  * Request Response Text
 	  */
 	public String getResponseText();
+
+    /** Column name R_IssueKnown_ID */
+    public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
+
+	/** Set Known Issue.
+	  * Known Issue
+	  */
+	public void setR_IssueKnown_ID (int R_IssueKnown_ID);
+
+	/** Get Known Issue.
+	  * Known Issue
+	  */
+	public int getR_IssueKnown_ID();
+
+	public I_R_IssueKnown getR_IssueKnown() throws Exception;
+
+    /** Column name R_IssueProject_ID */
+    public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
+
+	/** Set Issue Project.
+	  * Implementation Projects
+	  */
+	public void setR_IssueProject_ID (int R_IssueProject_ID);
+
+	/** Get Issue Project.
+	  * Implementation Projects
+	  */
+	public int getR_IssueProject_ID();
+
+	public I_R_IssueProject getR_IssueProject() throws Exception;
+
+    /** Column name R_IssueSystem_ID */
+    public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
+
+	/** Set Issue System.
+	  * System creating the issue
+	  */
+	public void setR_IssueSystem_ID (int R_IssueSystem_ID);
+
+	/** Get Issue System.
+	  * System creating the issue
+	  */
+	public int getR_IssueSystem_ID();
+
+	public I_R_IssueSystem getR_IssueSystem() throws Exception;
+
+    /** Column name R_IssueUser_ID */
+    public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
+
+	/** Set IssueUser.
+	  * User who reported issues
+	  */
+	public void setR_IssueUser_ID (int R_IssueUser_ID);
+
+	/** Get IssueUser.
+	  * User who reported issues
+	  */
+	public int getR_IssueUser_ID();
+
+	public I_R_IssueUser getR_IssueUser() throws Exception;
+
+    /** Column name R_Request_ID */
+    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
+
+	/** Set Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public void setR_Request_ID (int R_Request_ID);
+
+	/** Get Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public int getR_Request_ID();
+
+	public I_R_Request getR_Request() throws Exception;
 
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";

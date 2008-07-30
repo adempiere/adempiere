@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
       super (ctx, K_EntryCategory_ID, trxName);
       /** if (K_EntryCategory_ID == 0)
         {
-			setK_CategoryValue_ID (0);
 			setK_Category_ID (0);
+			setK_CategoryValue_ID (0);
 			setK_Entry_ID (0);
         } */
     }
@@ -73,6 +73,44 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_K_Category getK_Category() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_K_Category.Table_Name);
+        I_K_Category result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_K_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Category_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Knowledge Category.
+		@param K_Category_ID 
+		Knowledge Category
+	  */
+	public void setK_Category_ID (int K_Category_ID)
+	{
+		if (K_Category_ID < 1)
+			 throw new IllegalArgumentException ("K_Category_ID is mandatory.");
+		set_Value (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
+	}
+
+	/** Get Knowledge Category.
+		@return Knowledge Category
+	  */
+	public int getK_Category_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_K_CategoryValue getK_CategoryValue() throws Exception 
     {
@@ -119,44 +157,6 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
     }
-
-	public I_K_Category getK_Category() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_K_Category.Table_Name);
-        I_K_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_K_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Knowledge Category.
-		@param K_Category_ID 
-		Knowledge Category
-	  */
-	public void setK_Category_ID (int K_Category_ID)
-	{
-		if (K_Category_ID < 1)
-			 throw new IllegalArgumentException ("K_Category_ID is mandatory.");
-		set_Value (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
-	}
-
-	/** Get Knowledge Category.
-		@return Knowledge Category
-	  */
-	public int getK_Category_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_Category_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_K_Entry getK_Entry() throws Exception 
     {

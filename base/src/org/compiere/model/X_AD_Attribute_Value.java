@@ -23,7 +23,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Attribute_Value
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_Persistent 
 {
 
@@ -130,12 +130,6 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		@param V_Number V_Number	  */
 	public void setV_Number (String V_Number)
 	{
-
-		if (V_Number != null && V_Number.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			V_Number = V_Number.substring(0, 22);
-		}
 		set_Value (COLUMNNAME_V_Number, V_Number);
 	}
 
@@ -150,12 +144,6 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		@param V_String V_String	  */
 	public void setV_String (String V_String)
 	{
-
-		if (V_String != null && V_String.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			V_String = V_String.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_V_String, V_String);
 	}
 

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent 
 {
 
@@ -47,7 +47,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 // @$C_Currency_ID @
 			setC_RfQ_ID (0);
 			setC_RfQ_Topic_ID (0);
-			setDateResponse (new Timestamp(System.currentTimeMillis()));
+			setDateResponse (new Timestamp( System.currentTimeMillis() ));
 			setDocumentNo (null);
 			setIsInvitedVendorsOnly (false);
 			setIsQuoteAllQty (false);
@@ -247,6 +247,20 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Copy Lines.
+		@param CopyLines Copy Lines	  */
+	public void setCopyLines (String CopyLines)
+	{
+		set_Value (COLUMNNAME_CopyLines, CopyLines);
+	}
+
+	/** Get Copy Lines.
+		@return Copy Lines	  */
+	public String getCopyLines () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyLines);
+	}
+
 	public I_C_Order getC_Order() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -284,6 +298,37 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Create PO.
+		@param CreatePO 
+		Create Purchase Order
+	  */
+	public void setCreatePO (String CreatePO)
+	{
+		set_Value (COLUMNNAME_CreatePO, CreatePO);
+	}
+
+	/** Get Create PO.
+		@return Create Purchase Order
+	  */
+	public String getCreatePO () 
+	{
+		return (String)get_Value(COLUMNNAME_CreatePO);
+	}
+
+	/** Set Create SO.
+		@param CreateSO Create SO	  */
+	public void setCreateSO (String CreateSO)
+	{
+		set_Value (COLUMNNAME_CreateSO, CreateSO);
+	}
+
+	/** Get Create SO.
+		@return Create SO	  */
+	public String getCreateSO () 
+	{
+		return (String)get_Value(COLUMNNAME_CreateSO);
 	}
 
 	/** Set RfQ.
@@ -344,69 +389,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Copy Lines.
-		@param CopyLines Copy Lines	  */
-	public void setCopyLines (String CopyLines)
-	{
-
-		if (CopyLines != null && CopyLines.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyLines = CopyLines.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CopyLines, CopyLines);
-	}
-
-	/** Get Copy Lines.
-		@return Copy Lines	  */
-	public String getCopyLines () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyLines);
-	}
-
-	/** Set Create PO.
-		@param CreatePO 
-		Create Purchase Order
-	  */
-	public void setCreatePO (String CreatePO)
-	{
-
-		if (CreatePO != null && CreatePO.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreatePO = CreatePO.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CreatePO, CreatePO);
-	}
-
-	/** Get Create PO.
-		@return Create Purchase Order
-	  */
-	public String getCreatePO () 
-	{
-		return (String)get_Value(COLUMNNAME_CreatePO);
-	}
-
-	/** Set Create SO.
-		@param CreateSO Create SO	  */
-	public void setCreateSO (String CreateSO)
-	{
-
-		if (CreateSO != null && CreateSO.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreateSO = CreateSO.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CreateSO, CreateSO);
-	}
-
-	/** Get Create SO.
-		@return Create SO	  */
-	public String getCreateSO () 
-	{
-		return (String)get_Value(COLUMNNAME_CreateSO);
 	}
 
 	/** Set Response Date.
@@ -488,12 +470,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -513,12 +489,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -544,12 +514,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -709,12 +673,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -775,12 +733,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		@param PublishRfQ Publish RfQ	  */
 	public void setPublishRfQ (String PublishRfQ)
 	{
-
-		if (PublishRfQ != null && PublishRfQ.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PublishRfQ = PublishRfQ.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_PublishRfQ, PublishRfQ);
 	}
 
@@ -806,13 +758,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	public void setQuoteType (String QuoteType)
 	{
 		if (QuoteType == null) throw new IllegalArgumentException ("QuoteType is mandatory");
-		if (QuoteType.equals("T") || QuoteType.equals("S") || QuoteType.equals("A")); else throw new IllegalArgumentException ("QuoteType Invalid value - " + QuoteType + " - Reference_ID=314 - T - S - A");
-		if (QuoteType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			QuoteType = QuoteType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_QuoteType, QuoteType);
+		if (QuoteType.equals("T") || QuoteType.equals("S") || QuoteType.equals("A")); else throw new IllegalArgumentException ("QuoteType Invalid value - " + QuoteType + " - Reference_ID=314 - T - S - A");		set_Value (COLUMNNAME_QuoteType, QuoteType);
 	}
 
 	/** Get RfQ Type.
@@ -827,12 +773,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		@param RankRfQ Rank RfQ	  */
 	public void setRankRfQ (String RankRfQ)
 	{
-
-		if (RankRfQ != null && RankRfQ.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RankRfQ = RankRfQ.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_RankRfQ, RankRfQ);
 	}
 

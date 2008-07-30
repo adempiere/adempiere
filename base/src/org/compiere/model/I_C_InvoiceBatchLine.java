@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoiceBatchLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_InvoiceBatchLine 
 {
@@ -160,19 +156,6 @@ public interface I_C_InvoiceBatchLine
 
 	public I_C_DocType getC_DocType() throws Exception;
 
-    /** Column name C_InvoiceBatchLine_ID */
-    public static final String COLUMNNAME_C_InvoiceBatchLine_ID = "C_InvoiceBatchLine_ID";
-
-	/** Set Invoice Batch Line.
-	  * Expense Invoice Batch Line
-	  */
-	public void setC_InvoiceBatchLine_ID (int C_InvoiceBatchLine_ID);
-
-	/** Get Invoice Batch Line.
-	  * Expense Invoice Batch Line
-	  */
-	public int getC_InvoiceBatchLine_ID();
-
     /** Column name C_InvoiceBatch_ID */
     public static final String COLUMNNAME_C_InvoiceBatch_ID = "C_InvoiceBatch_ID";
 
@@ -188,20 +171,18 @@ public interface I_C_InvoiceBatchLine
 
 	public I_C_InvoiceBatch getC_InvoiceBatch() throws Exception;
 
-    /** Column name C_InvoiceLine_ID */
-    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+    /** Column name C_InvoiceBatchLine_ID */
+    public static final String COLUMNNAME_C_InvoiceBatchLine_ID = "C_InvoiceBatchLine_ID";
 
-	/** Set Invoice Line.
-	  * Invoice Detail Line
+	/** Set Invoice Batch Line.
+	  * Expense Invoice Batch Line
 	  */
-	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+	public void setC_InvoiceBatchLine_ID (int C_InvoiceBatchLine_ID);
 
-	/** Get Invoice Line.
-	  * Invoice Detail Line
+	/** Get Invoice Batch Line.
+	  * Expense Invoice Batch Line
 	  */
-	public int getC_InvoiceLine_ID();
-
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+	public int getC_InvoiceBatchLine_ID();
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -217,6 +198,21 @@ public interface I_C_InvoiceBatchLine
 	public int getC_Invoice_ID();
 
 	public I_C_Invoice getC_Invoice() throws Exception;
+
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+
+	/** Set Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+
+	/** Get Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID();
+
+	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";

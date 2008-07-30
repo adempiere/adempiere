@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Reval_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, I_Persistent 
 {
 
@@ -42,7 +42,7 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
       /** if (A_Asset_Reval_Index_ID == 0)
         {
 			setA_Asset_Reval_Index_ID (0);
-			setA_Effective_Date (new Timestamp(System.currentTimeMillis()));
+			setA_Effective_Date (new Timestamp( System.currentTimeMillis() ));
 			setA_Reval_Code (null);
 			setA_Reval_Multiplier (null);
 			setA_Reval_Rate (Env.ZERO);
@@ -133,13 +133,7 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 	public void setA_Reval_Code (String A_Reval_Code)
 	{
 		if (A_Reval_Code == null) throw new IllegalArgumentException ("A_Reval_Code is mandatory");
-		if (A_Reval_Code.equals("R01") || A_Reval_Code.equals("R02") || A_Reval_Code.equals("R03")); else throw new IllegalArgumentException ("A_Reval_Code Invalid value - " + A_Reval_Code + " - Reference_ID=53262 - R01 - R02 - R03");
-		if (A_Reval_Code.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Reval_Code = A_Reval_Code.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Reval_Code, A_Reval_Code);
+		if (A_Reval_Code.equals("R01") || A_Reval_Code.equals("R02") || A_Reval_Code.equals("R03")); else throw new IllegalArgumentException ("A_Reval_Code Invalid value - " + A_Reval_Code + " - Reference_ID=53262 - R01 - R02 - R03");		set_Value (COLUMNNAME_A_Reval_Code, A_Reval_Code);
 	}
 
 	/** Get A_Reval_Code.
@@ -160,13 +154,7 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier)
 	{
 		if (A_Reval_Multiplier == null) throw new IllegalArgumentException ("A_Reval_Multiplier is mandatory");
-		if (A_Reval_Multiplier.equals("FAC") || A_Reval_Multiplier.equals("IND")); else throw new IllegalArgumentException ("A_Reval_Multiplier Invalid value - " + A_Reval_Multiplier + " - Reference_ID=53260 - FAC - IND");
-		if (A_Reval_Multiplier.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Reval_Multiplier = A_Reval_Multiplier.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
+		if (A_Reval_Multiplier.equals("FAC") || A_Reval_Multiplier.equals("IND")); else throw new IllegalArgumentException ("A_Reval_Multiplier Invalid value - " + A_Reval_Multiplier + " - Reference_ID=53260 - FAC - IND");		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
 	}
 
 	/** Get A_Reval_Multiplier.

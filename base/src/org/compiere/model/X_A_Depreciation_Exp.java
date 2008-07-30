@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_Persistent 
 {
 
@@ -166,13 +166,7 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
 		if (A_Entry_Type == null) throw new IllegalArgumentException ("A_Entry_Type is mandatory");
-		if (A_Entry_Type.equals("DEP") || A_Entry_Type.equals("DIS") || A_Entry_Type.equals("FOR") || A_Entry_Type.equals("NEW") || A_Entry_Type.equals("SPL") || A_Entry_Type.equals("TRN")); else throw new IllegalArgumentException ("A_Entry_Type Invalid value - " + A_Entry_Type + " - Reference_ID=53257 - DEP - DIS - FOR - NEW - SPL - TRN");
-		if (A_Entry_Type.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Entry_Type = A_Entry_Type.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
+		if (A_Entry_Type.equals("DEP") || A_Entry_Type.equals("DIS") || A_Entry_Type.equals("FOR") || A_Entry_Type.equals("NEW") || A_Entry_Type.equals("SPL") || A_Entry_Type.equals("TRN")); else throw new IllegalArgumentException ("A_Entry_Type Invalid value - " + A_Entry_Type + " - Reference_ID=53257 - DEP - DIS - FOR - NEW - SPL - TRN");		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
 	/** Get A_Entry_Type.
@@ -224,12 +218,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -290,12 +278,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	  */
 	public void setPostingType (String PostingType)
 	{
-
-		if (PostingType != null && PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 

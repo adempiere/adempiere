@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product_Category
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_M_Product_Category 
 {
@@ -56,21 +52,6 @@ public interface I_M_Product_Category
 
     /** Load Meta Data */
 
-    /** Column name AD_PrintColor_ID */
-    public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
-
-	/** Set Print Color.
-	  * Color used for printing and display
-	  */
-	public void setAD_PrintColor_ID (int AD_PrintColor_ID);
-
-	/** Get Print Color.
-	  * Color used for printing and display
-	  */
-	public int getAD_PrintColor_ID();
-
-	public I_AD_PrintColor getAD_PrintColor() throws Exception;
-
     /** Column name A_Asset_Group_ID */
     public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
 
@@ -85,6 +66,21 @@ public interface I_M_Product_Category
 	public int getA_Asset_Group_ID();
 
 	public I_A_Asset_Group getA_Asset_Group() throws Exception;
+
+    /** Column name AD_PrintColor_ID */
+    public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
+
+	/** Set Print Color.
+	  * Color used for printing and display
+	  */
+	public void setAD_PrintColor_ID (int AD_PrintColor_ID);
+
+	/** Get Print Color.
+	  * Color used for printing and display
+	  */
+	public int getAD_PrintColor_ID();
+
+	public I_AD_PrintColor getAD_PrintColor() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
@@ -50,13 +50,13 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 			setC_ConversionType_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_ValidCombination_ID (0);
 			setCurrencyRate (Env.ZERO);
 // @CurrencyRate@;1
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setC_ValidCombination_ID (0);
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @DateAcct@
-			setGL_JournalLine_ID (0);
 			setGL_Journal_ID (0);
+			setGL_JournalLine_ID (0);
 			setIsGenerated (false);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM GL_JournalLine WHERE GL_Journal_ID=@GL_Journal_ID@
@@ -177,27 +177,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return false;
 	}
 
-	/** Set A_Processed.
-		@param A_Processed A_Processed	  */
-	public void setA_Processed (boolean A_Processed)
-	{
-		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
-	}
-
-	/** Get A_Processed.
-		@return A_Processed	  */
-	public boolean isA_Processed () 
-	{
-		Object oo = get_Value(COLUMNNAME_A_Processed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Accounted Credit.
 		@param AmtAcctCr 
 		Accounted Credit Amount
@@ -284,6 +263,27 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set A_Processed.
+		@param A_Processed A_Processed	  */
+	public void setA_Processed (boolean A_Processed)
+	{
+		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
+	}
+
+	/** Get A_Processed.
+		@return A_Processed	  */
+	public boolean isA_Processed () 
+	{
+		Object oo = get_Value(COLUMNNAME_A_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_C_ConversionType getC_ConversionType() throws Exception 
@@ -401,28 +401,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1)
-			 throw new IllegalArgumentException ("C_ValidCombination_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Rate.
 		@param CurrencyRate 
 		Currency Conversion Rate
@@ -443,6 +421,28 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1)
+			 throw new IllegalArgumentException ("C_ValidCombination_ID is mandatory.");
+		set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Account Date.
@@ -470,12 +470,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -485,28 +479,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Journal Line.
-		@param GL_JournalLine_ID 
-		General Ledger Journal Line
-	  */
-	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
-	{
-		if (GL_JournalLine_ID < 1)
-			 throw new IllegalArgumentException ("GL_JournalLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
-	}
-
-	/** Get Journal Line.
-		@return General Ledger Journal Line
-	  */
-	public int getGL_JournalLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_GL_Journal getGL_Journal() throws Exception 
@@ -542,6 +514,28 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	public int getGL_Journal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Journal Line.
+		@param GL_JournalLine_ID 
+		General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
+	{
+		if (GL_JournalLine_ID < 1)
+			 throw new IllegalArgumentException ("GL_JournalLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+	}
+
+	/** Get Journal Line.
+		@return General Ledger Journal Line
+	  */
+	public int getGL_JournalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

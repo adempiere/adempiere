@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Persistent 
 {
 
@@ -43,7 +43,7 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
         {
 			setA_Asset_Delivery_ID (0);
 			setA_Asset_ID (0);
-			setMovementDate (new Timestamp(System.currentTimeMillis()));
+			setMovementDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -74,45 +74,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_AD_User getAD_User() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Asset Delivery.
 		@param A_Asset_Delivery_ID 
@@ -174,18 +135,51 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
+	public I_AD_User getAD_User() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Delivery Confirmation.
 		@param DeliveryConfirmation 
 		EMail Delivery confirmation
 	  */
 	public void setDeliveryConfirmation (String DeliveryConfirmation)
 	{
-
-		if (DeliveryConfirmation != null && DeliveryConfirmation.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DeliveryConfirmation = DeliveryConfirmation.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DeliveryConfirmation, DeliveryConfirmation);
 	}
 
@@ -203,12 +197,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -226,12 +214,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_EMail, EMail);
 	}
 
@@ -249,12 +231,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setLot (String Lot)
 	{
-
-		if (Lot != null && Lot.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Lot = Lot.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_Lot, Lot);
 	}
 
@@ -264,6 +240,23 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	public String getLot () 
 	{
 		return (String)get_Value(COLUMNNAME_Lot);
+	}
+
+	/** Set Message ID.
+		@param MessageID 
+		EMail Message ID
+	  */
+	public void setMessageID (String MessageID)
+	{
+		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
+	}
+
+	/** Get Message ID.
+		@return EMail Message ID
+	  */
+	public String getMessageID () 
+	{
+		return (String)get_Value(COLUMNNAME_MessageID);
 	}
 
 	public I_M_InOutLine getM_InOutLine() throws Exception 
@@ -305,6 +298,33 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		if (MovementDate == null)
+			throw new IllegalArgumentException ("MovementDate is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
+    }
+
 	public I_M_ProductDownload getM_ProductDownload() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductDownload.Table_Name);
@@ -344,68 +364,12 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Message ID.
-		@param MessageID 
-		EMail Message ID
-	  */
-	public void setMessageID (String MessageID)
-	{
-
-		if (MessageID != null && MessageID.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			MessageID = MessageID.substring(0, 120);
-		}
-		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
-	}
-
-	/** Get Message ID.
-		@return EMail Message ID
-	  */
-	public String getMessageID () 
-	{
-		return (String)get_Value(COLUMNNAME_MessageID);
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
-    }
-
 	/** Set Referrer.
 		@param Referrer 
 		Referring web address
 	  */
 	public void setReferrer (String Referrer)
 	{
-
-		if (Referrer != null && Referrer.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Referrer = Referrer.substring(0, 255);
-		}
 		set_ValueNoCheck (COLUMNNAME_Referrer, Referrer);
 	}
 
@@ -423,12 +387,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
-
-		if (Remote_Addr != null && Remote_Addr.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
 
@@ -446,12 +404,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
-
-		if (Remote_Host != null && Remote_Host.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Remote_Host = Remote_Host.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
 	}
 
@@ -469,12 +421,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setSerNo (String SerNo)
 	{
-
-		if (SerNo != null && SerNo.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			SerNo = SerNo.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_SerNo, SerNo);
 	}
 
@@ -492,12 +438,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setURL (String URL)
 	{
-
-		if (URL != null && URL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			URL = URL.substring(0, 120);
-		}
 		set_ValueNoCheck (COLUMNNAME_URL, URL);
 	}
 
@@ -515,12 +455,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setVersionNo (String VersionNo)
 	{
-
-		if (VersionNo != null && VersionNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 20);
-		}
 		set_ValueNoCheck (COLUMNNAME_VersionNo, VersionNo);
 	}
 

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Sequence_No
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persistent 
 {
 
@@ -119,12 +119,6 @@ public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persiste
 	{
 		if (CalendarYear == null)
 			throw new IllegalArgumentException ("CalendarYear is mandatory.");
-
-		if (CalendarYear.length() > 4)
-		{
-			log.warning("Length > 4 - truncated");
-			CalendarYear = CalendarYear.substring(0, 4);
-		}
 		set_ValueNoCheck (COLUMNNAME_CalendarYear, CalendarYear);
 	}
 

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persistent 
 {
 
@@ -131,12 +131,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -156,12 +150,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -234,31 +222,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
-	/** PA_RatioUsed_ID AD_Reference_ID=371 */
-	public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
-	/** Set Ratio Used.
-		@param PA_RatioUsed_ID 
-		Performace Ratio Used
-	  */
-	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
-	{
-		if (PA_RatioUsed_ID < 1) 
-			set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));
-	}
-
-	/** Get Ratio Used.
-		@return Performace Ratio Used
-	  */
-	public int getPA_RatioUsed_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioUsed_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_PA_Ratio getPA_Ratio() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Ratio.Table_Name);
@@ -297,6 +260,31 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
+	/** PA_RatioUsed_ID AD_Reference_ID=371 */
+	public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
+	/** Set Ratio Used.
+		@param PA_RatioUsed_ID 
+		Performace Ratio Used
+	  */
+	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
+	{
+		if (PA_RatioUsed_ID < 1) 
+			set_Value (COLUMNNAME_PA_RatioUsed_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_RatioUsed_ID, Integer.valueOf(PA_RatioUsed_ID));
+	}
+
+	/** Get Ratio Used.
+		@return Performace Ratio Used
+	  */
+	public int getPA_RatioUsed_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioUsed_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** PostingType AD_Reference_ID=125 */
 	public static final int POSTINGTYPE_AD_Reference_ID=125;
 	/** Actual = A */
@@ -316,13 +304,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PostingType = PostingType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.
@@ -350,13 +332,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public void setRatioElementType (String RatioElementType)
 	{
 		if (RatioElementType == null) throw new IllegalArgumentException ("RatioElementType is mandatory");
-		if (RatioElementType.equals("R") || RatioElementType.equals("C") || RatioElementType.equals("X") || RatioElementType.equals("A")); else throw new IllegalArgumentException ("RatioElementType Invalid value - " + RatioElementType + " - Reference_ID=372 - R - C - X - A");
-		if (RatioElementType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RatioElementType = RatioElementType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_RatioElementType, RatioElementType);
+		if (RatioElementType.equals("R") || RatioElementType.equals("C") || RatioElementType.equals("X") || RatioElementType.equals("A")); else throw new IllegalArgumentException ("RatioElementType Invalid value - " + RatioElementType + " - Reference_ID=372 - R - C - X - A");		set_Value (COLUMNNAME_RatioElementType, RatioElementType);
 	}
 
 	/** Get Element Type.
@@ -384,13 +360,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public void setRatioOperand (String RatioOperand)
 	{
 		if (RatioOperand == null) throw new IllegalArgumentException ("RatioOperand is mandatory");
-		if (RatioOperand.equals("P") || RatioOperand.equals("N") || RatioOperand.equals("M") || RatioOperand.equals("D")); else throw new IllegalArgumentException ("RatioOperand Invalid value - " + RatioOperand + " - Reference_ID=373 - P - N - M - D");
-		if (RatioOperand.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RatioOperand = RatioOperand.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_RatioOperand, RatioOperand);
+		if (RatioOperand.equals("P") || RatioOperand.equals("N") || RatioOperand.equals("M") || RatioOperand.equals("D")); else throw new IllegalArgumentException ("RatioOperand Invalid value - " + RatioOperand + " - Reference_ID=373 - P - N - M - D");		set_Value (COLUMNNAME_RatioOperand, RatioOperand);
 	}
 
 	/** Get Operand.

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Preference
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Preference extends PO implements I_AD_Preference, I_Persistent 
 {
 
@@ -180,12 +180,6 @@ public class X_AD_Preference extends PO implements I_AD_Preference, I_Persistent
 	{
 		if (Attribute == null)
 			throw new IllegalArgumentException ("Attribute is mandatory.");
-
-		if (Attribute.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Attribute = Attribute.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Attribute, Attribute);
 	}
 
@@ -212,12 +206,6 @@ public class X_AD_Preference extends PO implements I_AD_Preference, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Value = Value.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

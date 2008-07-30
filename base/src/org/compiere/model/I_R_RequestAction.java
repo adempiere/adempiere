@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestAction
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_R_RequestAction 
 {
@@ -56,6 +52,21 @@ public interface I_R_RequestAction
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -86,21 +97,6 @@ public interface I_R_RequestAction
 	public int getAD_User_ID();
 
 	public I_AD_User getAD_User() throws Exception;
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public I_A_Asset getA_Asset() throws Exception;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -147,6 +143,19 @@ public interface I_R_RequestAction
 
 	public I_C_Invoice getC_Invoice() throws Exception;
 
+    /** Column name ConfidentialType */
+    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
+
+	/** Set Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType);
+
+	/** Get Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public String getConfidentialType();
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -191,19 +200,6 @@ public interface I_R_RequestAction
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws Exception;
-
-    /** Column name ConfidentialType */
-    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
-
-	/** Set Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType);
-
-	/** Get Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public String getConfidentialType();
 
     /** Column name DateCompletePlan */
     public static final String COLUMNNAME_DateCompletePlan = "DateCompletePlan";
@@ -311,19 +307,6 @@ public interface I_R_RequestAction
 
 	public I_M_InOut getM_InOut() throws Exception;
 
-    /** Column name M_ProductSpent_ID */
-    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
-
-	/** Set Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
-
-	/** Get Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public int getM_ProductSpent_ID();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -338,6 +321,19 @@ public interface I_R_RequestAction
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws Exception;
+
+    /** Column name M_ProductSpent_ID */
+    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
+
+	/** Set Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
+
+	/** Get Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public int getM_ProductSpent_ID();
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -475,21 +471,6 @@ public interface I_R_RequestAction
 	  */
 	public int getR_RequestAction_ID();
 
-    /** Column name R_RequestType_ID */
-    public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
-
-	/** Set Request Type.
-	  * Type of request (e.g. Inquiry, Complaint, ..)
-	  */
-	public void setR_RequestType_ID (int R_RequestType_ID);
-
-	/** Get Request Type.
-	  * Type of request (e.g. Inquiry, Complaint, ..)
-	  */
-	public int getR_RequestType_ID();
-
-	public I_R_RequestType getR_RequestType() throws Exception;
-
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 
@@ -504,6 +485,21 @@ public interface I_R_RequestAction
 	public int getR_Request_ID();
 
 	public I_R_Request getR_Request() throws Exception;
+
+    /** Column name R_RequestType_ID */
+    public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
+
+	/** Set Request Type.
+	  * Type of request (e.g. Inquiry, Complaint, ..)
+	  */
+	public void setR_RequestType_ID (int R_RequestType_ID);
+
+	/** Get Request Type.
+	  * Type of request (e.g. Inquiry, Complaint, ..)
+	  */
+	public int getR_RequestType_ID();
+
+	public I_R_RequestType getR_RequestType() throws Exception;
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningRunEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Persistent 
 {
 
@@ -331,12 +331,6 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 	  */
 	public void setNote (String Note)
 	{
-
-		if (Note != null && Note.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
 

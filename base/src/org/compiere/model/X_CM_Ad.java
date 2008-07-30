@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Ad
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent 
 {
 
@@ -51,7 +51,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 			setMaxClick (0);
 			setMaxImpression (0);
 			setName (null);
-			setStartDate (new Timestamp(System.currentTimeMillis()));
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
 			setStartImpression (0);
 			setTarget_Frame (null);
         } */
@@ -229,12 +229,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setContentHTML (String ContentHTML)
 	{
-
-		if (ContentHTML != null && ContentHTML.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ContentHTML = ContentHTML.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ContentHTML, ContentHTML);
 	}
 
@@ -252,12 +246,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -292,12 +280,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -405,12 +387,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -469,29 +445,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Target URL.
-		@param TargetURL 
-		URL for the Target
-	  */
-	public void setTargetURL (String TargetURL)
-	{
-
-		if (TargetURL != null && TargetURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			TargetURL = TargetURL.substring(0, 120);
-		}
-		set_Value (COLUMNNAME_TargetURL, TargetURL);
-	}
-
-	/** Get Target URL.
-		@return URL for the Target
-	  */
-	public String getTargetURL () 
-	{
-		return (String)get_Value(COLUMNNAME_TargetURL);
-	}
-
 	/** Set Target Frame.
 		@param Target_Frame 
 		Which target should be used if user clicks?
@@ -500,12 +453,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	{
 		if (Target_Frame == null)
 			throw new IllegalArgumentException ("Target_Frame is mandatory.");
-
-		if (Target_Frame.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Target_Frame = Target_Frame.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
 	}
 
@@ -515,5 +462,22 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	public String getTarget_Frame () 
 	{
 		return (String)get_Value(COLUMNNAME_Target_Frame);
+	}
+
+	/** Set Target URL.
+		@param TargetURL 
+		URL for the Target
+	  */
+	public void setTargetURL (String TargetURL)
+	{
+		set_Value (COLUMNNAME_TargetURL, TargetURL);
+	}
+
+	/** Get Target URL.
+		@return URL for the Target
+	  */
+	public String getTargetURL () 
+	{
+		return (String)get_Value(COLUMNNAME_TargetURL);
 	}
 }

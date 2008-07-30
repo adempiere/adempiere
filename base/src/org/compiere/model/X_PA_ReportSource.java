@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportSource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persistent 
 {
 
@@ -345,12 +345,6 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -405,13 +399,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	public void setElementType (String ElementType)
 	{
 		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
-		if (ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2") || ElementType.equals("CO")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=53280 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2 - CO");
-		if (ElementType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			ElementType = ElementType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_ElementType, ElementType);
+		if (ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2") || ElementType.equals("CO")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=53280 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2 - CO");		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
 
 	/** Get Type.

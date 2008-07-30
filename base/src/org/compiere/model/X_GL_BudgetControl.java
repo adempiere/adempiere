@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_BudgetControl
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Persistent 
 {
 
@@ -94,13 +94,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	public void setBudgetControlScope (String BudgetControlScope)
 	{
 		if (BudgetControlScope == null) throw new IllegalArgumentException ("BudgetControlScope is mandatory");
-		if (BudgetControlScope.equals("P") || BudgetControlScope.equals("Y") || BudgetControlScope.equals("T")); else throw new IllegalArgumentException ("BudgetControlScope Invalid value - " + BudgetControlScope + " - Reference_ID=361 - P - Y - T");
-		if (BudgetControlScope.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BudgetControlScope = BudgetControlScope.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BudgetControlScope, BudgetControlScope);
+		if (BudgetControlScope.equals("P") || BudgetControlScope.equals("Y") || BudgetControlScope.equals("T")); else throw new IllegalArgumentException ("BudgetControlScope Invalid value - " + BudgetControlScope + " - Reference_ID=361 - P - Y - T");		set_Value (COLUMNNAME_BudgetControlScope, BudgetControlScope);
 	}
 
 	/** Get Control Scope.
@@ -170,13 +164,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	public void setCommitmentType (String CommitmentType)
 	{
 		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
-		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");
-		if (CommitmentType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CommitmentType = CommitmentType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
+		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
 	}
 
 	/** Get Commitment Type.
@@ -193,12 +181,6 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -276,12 +258,6 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -325,12 +301,6 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

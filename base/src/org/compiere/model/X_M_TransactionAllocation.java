@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_TransactionAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllocation, I_Persistent 
 {
 
@@ -94,13 +94,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	public void setAllocationStrategyType (String AllocationStrategyType)
 	{
 		if (AllocationStrategyType == null) throw new IllegalArgumentException ("AllocationStrategyType is mandatory");
-		if (AllocationStrategyType.equals("L") || AllocationStrategyType.equals("F")); else throw new IllegalArgumentException ("AllocationStrategyType Invalid value - " + AllocationStrategyType + " - Reference_ID=294 - L - F");
-		if (AllocationStrategyType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AllocationStrategyType = AllocationStrategyType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AllocationStrategyType, AllocationStrategyType);
+		if (AllocationStrategyType.equals("L") || AllocationStrategyType.equals("F")); else throw new IllegalArgumentException ("AllocationStrategyType Invalid value - " + AllocationStrategyType + " - Reference_ID=294 - L - F");		set_Value (COLUMNNAME_AllocationStrategyType, AllocationStrategyType);
 	}
 
 	/** Get Allocation Strategy.

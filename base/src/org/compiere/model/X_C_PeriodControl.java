@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PeriodControl
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persistent 
 {
 
@@ -218,13 +218,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setDocBaseType (String DocBaseType)
 	{
 		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
-		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOA") || DocBaseType.equals("MOF") || DocBaseType.equals("MOI") || DocBaseType.equals("MOM") || DocBaseType.equals("MOP") || DocBaseType.equals("MOR") || DocBaseType.equals("MOU") || DocBaseType.equals("MOV") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOA - MOF - MOI - MOM - MOP - MOR - MOU - MOV - MQO - HRP - DOO");
-		if (DocBaseType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			DocBaseType = DocBaseType.substring(0, 3);
-		}
-		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
+		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOA") || DocBaseType.equals("MOF") || DocBaseType.equals("MOI") || DocBaseType.equals("MOM") || DocBaseType.equals("MOP") || DocBaseType.equals("MOR") || DocBaseType.equals("MOU") || DocBaseType.equals("MOV") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOA - MOF - MOI - MOM - MOP - MOR - MOU - MOV - MQO - HRP - DOO");		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
 	/** Get Document BaseType.
@@ -252,13 +246,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setPeriodAction (String PeriodAction)
 	{
 		if (PeriodAction == null) throw new IllegalArgumentException ("PeriodAction is mandatory");
-		if (PeriodAction.equals("O") || PeriodAction.equals("C") || PeriodAction.equals("P") || PeriodAction.equals("N")); else throw new IllegalArgumentException ("PeriodAction Invalid value - " + PeriodAction + " - Reference_ID=176 - O - C - P - N");
-		if (PeriodAction.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PeriodAction = PeriodAction.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
+		if (PeriodAction.equals("O") || PeriodAction.equals("C") || PeriodAction.equals("P") || PeriodAction.equals("N")); else throw new IllegalArgumentException ("PeriodAction Invalid value - " + PeriodAction + " - Reference_ID=176 - O - C - P - N");		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
 	}
 
 	/** Get Period Action.
@@ -286,13 +274,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setPeriodStatus (String PeriodStatus)
 	{
 
-		if (PeriodStatus == null || PeriodStatus.equals("O") || PeriodStatus.equals("C") || PeriodStatus.equals("P") || PeriodStatus.equals("N")); else throw new IllegalArgumentException ("PeriodStatus Invalid value - " + PeriodStatus + " - Reference_ID=177 - O - C - P - N");
-		if (PeriodStatus != null && PeriodStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PeriodStatus = PeriodStatus.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_PeriodStatus, PeriodStatus);
+		if (PeriodStatus == null || PeriodStatus.equals("O") || PeriodStatus.equals("C") || PeriodStatus.equals("P") || PeriodStatus.equals("N")); else throw new IllegalArgumentException ("PeriodStatus Invalid value - " + PeriodStatus + " - Reference_ID=177 - O - C - P - N");		set_ValueNoCheck (COLUMNNAME_PeriodStatus, PeriodStatus);
 	}
 
 	/** Get Period Status.

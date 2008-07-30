@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_BOMProduct
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_M_BOMProduct 
 {
@@ -175,19 +171,6 @@ public interface I_M_BOMProduct
 
 	public I_M_BOMAlternative getM_BOMAlternative() throws Exception;
 
-    /** Column name M_BOMProduct_ID */
-    public static final String COLUMNNAME_M_BOMProduct_ID = "M_BOMProduct_ID";
-
-	/** Set BOM Component.
-	  * Bill of Material Component (Product)
-	  */
-	public void setM_BOMProduct_ID (int M_BOMProduct_ID);
-
-	/** Get BOM Component.
-	  * Bill of Material Component (Product)
-	  */
-	public int getM_BOMProduct_ID();
-
     /** Column name M_BOM_ID */
     public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 
@@ -202,6 +185,19 @@ public interface I_M_BOMProduct
 	public int getM_BOM_ID();
 
 	public I_M_BOM getM_BOM() throws Exception;
+
+    /** Column name M_BOMProduct_ID */
+    public static final String COLUMNNAME_M_BOMProduct_ID = "M_BOMProduct_ID";
+
+	/** Set BOM Component.
+	  * Bill of Material Component (Product)
+	  */
+	public void setM_BOMProduct_ID (int M_BOMProduct_ID);
+
+	/** Get BOM Component.
+	  * Bill of Material Component (Product)
+	  */
+	public int getM_BOMProduct_ID();
 
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";

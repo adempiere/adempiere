@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Persistent 
 {
 
@@ -47,7 +47,7 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 // Y
 			setM_DiscountSchema_ID (0);
 			setName (null);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -90,13 +90,7 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	public void setCumulativeLevel (String CumulativeLevel)
 	{
 
-		if (CumulativeLevel == null || CumulativeLevel.equals("L")); else throw new IllegalArgumentException ("CumulativeLevel Invalid value - " + CumulativeLevel + " - Reference_ID=246 - L");
-		if (CumulativeLevel != null && CumulativeLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CumulativeLevel = CumulativeLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CumulativeLevel, CumulativeLevel);
+		if (CumulativeLevel == null || CumulativeLevel.equals("L")); else throw new IllegalArgumentException ("CumulativeLevel Invalid value - " + CumulativeLevel + " - Reference_ID=246 - L");		set_Value (COLUMNNAME_CumulativeLevel, CumulativeLevel);
 	}
 
 	/** Get Accumulation Level.
@@ -113,12 +107,6 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -147,13 +135,7 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	public void setDiscountType (String DiscountType)
 	{
 		if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is mandatory");
-		if (DiscountType.equals("F") || DiscountType.equals("S") || DiscountType.equals("B") || DiscountType.equals("P")); else throw new IllegalArgumentException ("DiscountType Invalid value - " + DiscountType + " - Reference_ID=247 - F - S - B - P");
-		if (DiscountType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DiscountType = DiscountType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DiscountType, DiscountType);
+		if (DiscountType.equals("F") || DiscountType.equals("S") || DiscountType.equals("B") || DiscountType.equals("P")); else throw new IllegalArgumentException ("DiscountType Invalid value - " + DiscountType + " - Reference_ID=247 - F - S - B - P");		set_Value (COLUMNNAME_DiscountType, DiscountType);
 	}
 
 	/** Get Discount Type.
@@ -262,12 +244,6 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -314,12 +290,6 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	  */
 	public void setScript (String Script)
 	{
-
-		if (Script != null && Script.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Script = Script.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Script, Script);
 	}
 

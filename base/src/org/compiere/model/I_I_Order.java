@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Order
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_I_Order 
 {
@@ -56,6 +52,32 @@ public interface I_I_Order
     BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
+
+    /** Column name Address1 */
+    public static final String COLUMNNAME_Address1 = "Address1";
+
+	/** Set Address 1.
+	  * Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1);
+
+	/** Get Address 1.
+	  * Address line 1 for this location
+	  */
+	public String getAddress1();
+
+    /** Column name Address2 */
+    public static final String COLUMNNAME_Address2 = "Address2";
+
+	/** Set Address 2.
+	  * Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2);
+
+	/** Get Address 2.
+	  * Address line 2 for this location
+	  */
+	public String getAddress2();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -85,31 +107,18 @@ public interface I_I_Order
 
 	public I_AD_User getAD_User() throws Exception;
 
-    /** Column name Address1 */
-    public static final String COLUMNNAME_Address1 = "Address1";
+    /** Column name BillTo_ID */
+    public static final String COLUMNNAME_BillTo_ID = "BillTo_ID";
 
-	/** Set Address 1.
-	  * Address line 1 for this location
+	/** Set Invoice To.
+	  * Bill to Address
 	  */
-	public void setAddress1 (String Address1);
+	public void setBillTo_ID (int BillTo_ID);
 
-	/** Get Address 1.
-	  * Address line 1 for this location
+	/** Get Invoice To.
+	  * Bill to Address
 	  */
-	public String getAddress1();
-
-    /** Column name Address2 */
-    public static final String COLUMNNAME_Address2 = "Address2";
-
-	/** Set Address 2.
-	  * Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2);
-
-	/** Get Address 2.
-	  * Address line 2 for this location
-	  */
-	public String getAddress2();
+	public int getBillTo_ID();
 
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
@@ -123,19 +132,6 @@ public interface I_I_Order
 	  * Key of the Business Partner
 	  */
 	public String getBPartnerValue();
-
-    /** Column name BillTo_ID */
-    public static final String COLUMNNAME_BillTo_ID = "BillTo_ID";
-
-	/** Set Invoice To.
-	  * Bill to Address
-	  */
-	public void setBillTo_ID (int BillTo_ID);
-
-	/** Get Invoice To.
-	  * Bill to Address
-	  */
-	public int getBillTo_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -242,6 +238,19 @@ public interface I_I_Order
 
 	public I_C_DocType getC_DocType() throws Exception;
 
+    /** Column name City */
+    public static final String COLUMNNAME_City = "City";
+
+	/** Set City.
+	  * Identifies a City
+	  */
+	public void setCity (String City);
+
+	/** Get City.
+	  * Identifies a City
+	  */
+	public String getCity();
+
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -256,6 +265,34 @@ public interface I_I_Order
 	public int getC_Location_ID();
 
 	public I_C_Location getC_Location() throws Exception;
+
+    /** Column name ContactName */
+    public static final String COLUMNNAME_ContactName = "ContactName";
+
+	/** Set Contact Name.
+	  * Business Partner Contact Name
+	  */
+	public void setContactName (String ContactName);
+
+	/** Get Contact Name.
+	  * Business Partner Contact Name
+	  */
+	public String getContactName();
+
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public I_C_Order getC_Order() throws Exception;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -272,20 +309,18 @@ public interface I_I_Order
 
 	public I_C_OrderLine getC_OrderLine() throws Exception;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name CountryCode */
+    public static final String COLUMNNAME_CountryCode = "CountryCode";
 
-	/** Set Order.
-	  * Order
+	/** Set ISO Country Code.
+	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
 	  */
-	public void setC_Order_ID (int C_Order_ID);
+	public void setCountryCode (String CountryCode);
 
-	/** Get Order.
-	  * Order
+	/** Get ISO Country Code.
+	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
 	  */
-	public int getC_Order_ID();
-
-	public I_C_Order getC_Order() throws Exception;
+	public String getCountryCode();
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -361,45 +396,6 @@ public interface I_I_Order
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name City */
-    public static final String COLUMNNAME_City = "City";
-
-	/** Set City.
-	  * Identifies a City
-	  */
-	public void setCity (String City);
-
-	/** Get City.
-	  * Identifies a City
-	  */
-	public String getCity();
-
-    /** Column name ContactName */
-    public static final String COLUMNNAME_ContactName = "ContactName";
-
-	/** Set Contact Name.
-	  * Business Partner Contact Name
-	  */
-	public void setContactName (String ContactName);
-
-	/** Get Contact Name.
-	  * Business Partner Contact Name
-	  */
-	public String getContactName();
-
-    /** Column name CountryCode */
-    public static final String COLUMNNAME_CountryCode = "CountryCode";
-
-	/** Set ISO Country Code.
-	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public void setCountryCode (String CountryCode);
-
-	/** Get ISO Country Code.
-	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public String getCountryCode();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -743,19 +739,6 @@ public interface I_I_Order
 	  */
 	public String getRegionName();
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
-
-	/** Set SKU.
-	  * Stock Keeping Unit
-	  */
-	public void setSKU (String SKU);
-
-	/** Get SKU.
-	  * Stock Keeping Unit
-	  */
-	public String getSKU();
-
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -768,6 +751,19 @@ public interface I_I_Order
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
+
+	/** Set SKU.
+	  * Stock Keeping Unit
+	  */
+	public void setSKU (String SKU);
+
+	/** Get SKU.
+	  * Stock Keeping Unit
+	  */
+	public String getSKU();
 
     /** Column name TaxAmt */
     public static final String COLUMNNAME_TaxAmt = "TaxAmt";

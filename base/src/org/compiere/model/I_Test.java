@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for Test
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_Test 
 {
@@ -109,6 +105,19 @@ public interface I_Test
 
 	public I_C_Currency getC_Currency() throws Exception;
 
+    /** Column name CharacterData */
+    public static final String COLUMNNAME_CharacterData = "CharacterData";
+
+	/** Set Character Data.
+	  * Long Character Field
+	  */
+	public void setCharacterData (String CharacterData);
+
+	/** Get Character Data.
+	  * Long Character Field
+	  */
+	public String getCharacterData();
+
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -151,19 +160,6 @@ public interface I_Test
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name CharacterData */
-    public static final String COLUMNNAME_CharacterData = "CharacterData";
-
-	/** Set Character Data.
-	  * Long Character Field
-	  */
-	public void setCharacterData (String CharacterData);
-
-	/** Get Character Data.
-	  * Long Character Field
-	  */
-	public String getCharacterData();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -281,6 +277,15 @@ public interface I_Test
 	/** Get DateTime	  */
 	public Timestamp getT_DateTime();
 
+    /** Column name Test_ID */
+    public static final String COLUMNNAME_Test_ID = "Test_ID";
+
+	/** Set Test ID	  */
+	public void setTest_ID (int Test_ID);
+
+	/** Get Test ID	  */
+	public int getTest_ID();
+
     /** Column name T_Integer */
     public static final String COLUMNNAME_T_Integer = "T_Integer";
 
@@ -307,13 +312,4 @@ public interface I_Test
 
 	/** Get Qty	  */
 	public BigDecimal getT_Qty();
-
-    /** Column name Test_ID */
-    public static final String COLUMNNAME_Test_ID = "Test_ID";
-
-	/** Set Test ID	  */
-	public void setTest_ID (int Test_ID);
-
-	/** Get Test ID	  */
-	public int getTest_ID();
 }

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Benchmark
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent 
 {
 
@@ -85,13 +85,7 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	public void setAccumulationType (String AccumulationType)
 	{
 		if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationType is mandatory");
-		if (AccumulationType.equals("A") || AccumulationType.equals("S")); else throw new IllegalArgumentException ("AccumulationType Invalid value - " + AccumulationType + " - Reference_ID=370 - A - S");
-		if (AccumulationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccumulationType = AccumulationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccumulationType, AccumulationType);
+		if (AccumulationType.equals("A") || AccumulationType.equals("S")); else throw new IllegalArgumentException ("AccumulationType Invalid value - " + AccumulationType + " - Reference_ID=370 - A - S");		set_Value (COLUMNNAME_AccumulationType, AccumulationType);
 	}
 
 	/** Get Accumulation Type.
@@ -108,12 +102,6 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -131,12 +119,6 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -156,12 +138,6 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

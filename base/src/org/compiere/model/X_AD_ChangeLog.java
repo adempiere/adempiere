@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ChangeLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent 
 {
 
@@ -227,12 +227,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -259,13 +253,7 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	public void setEventChangeLog (String EventChangeLog)
 	{
 
-		if (EventChangeLog == null || EventChangeLog.equals("I") || EventChangeLog.equals("D") || EventChangeLog.equals("U")); else throw new IllegalArgumentException ("EventChangeLog Invalid value - " + EventChangeLog + " - Reference_ID=53238 - I - D - U");
-		if (EventChangeLog != null && EventChangeLog.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			EventChangeLog = EventChangeLog.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_EventChangeLog, EventChangeLog);
+		if (EventChangeLog == null || EventChangeLog.equals("I") || EventChangeLog.equals("D") || EventChangeLog.equals("U")); else throw new IllegalArgumentException ("EventChangeLog Invalid value - " + EventChangeLog + " - Reference_ID=53238 - I - D - U");		set_Value (COLUMNNAME_EventChangeLog, EventChangeLog);
 	}
 
 	/** Get Event Change Log.
@@ -306,12 +294,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setNewValue (String NewValue)
 	{
-
-		if (NewValue != null && NewValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			NewValue = NewValue.substring(0, 2000);
-		}
 		set_ValueNoCheck (COLUMNNAME_NewValue, NewValue);
 	}
 
@@ -329,12 +311,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setOldValue (String OldValue)
 	{
-
-		if (OldValue != null && OldValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OldValue = OldValue.substring(0, 2000);
-		}
 		set_ValueNoCheck (COLUMNNAME_OldValue, OldValue);
 	}
 
@@ -372,12 +348,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		@param Redo Redo	  */
 	public void setRedo (String Redo)
 	{
-
-		if (Redo != null && Redo.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Redo = Redo.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_Redo, Redo);
 	}
 
@@ -394,12 +364,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setTrxName (String TrxName)
 	{
-
-		if (TrxName != null && TrxName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			TrxName = TrxName.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_TrxName, TrxName);
 	}
 
@@ -415,12 +379,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		@param Undo Undo	  */
 	public void setUndo (String Undo)
 	{
-
-		if (Undo != null && Undo.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Undo = Undo.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_Undo, Undo);
 	}
 

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
       /** if (C_RfQLineQty_ID == 0)
         {
 			setBenchmarkPrice (Env.ZERO);
-			setC_RfQLineQty_ID (0);
 			setC_RfQLine_ID (0);
+			setC_RfQLineQty_ID (0);
 			setC_UOM_ID (0);
 			setIsOfferQty (false);
 			setIsPurchaseQty (false);
@@ -125,28 +125,6 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return bd;
 	}
 
-	/** Set RfQ Line Quantity.
-		@param C_RfQLineQty_ID 
-		Request for Quotation Line Quantity
-	  */
-	public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
-	{
-		if (C_RfQLineQty_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQLineQty_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, Integer.valueOf(C_RfQLineQty_ID));
-	}
-
-	/** Get RfQ Line Quantity.
-		@return Request for Quotation Line Quantity
-	  */
-	public int getC_RfQLineQty_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQLineQty_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_RfQLine getC_RfQLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQLine.Table_Name);
@@ -180,6 +158,28 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	public int getC_RfQLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set RfQ Line Quantity.
+		@param C_RfQLineQty_ID 
+		Request for Quotation Line Quantity
+	  */
+	public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
+	{
+		if (C_RfQLineQty_ID < 1)
+			 throw new IllegalArgumentException ("C_RfQLineQty_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, Integer.valueOf(C_RfQLineQty_ID));
+	}
+
+	/** Get RfQ Line Quantity.
+		@return Request for Quotation Line Quantity
+	  */
+	public int getC_RfQLineQty_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQLineQty_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

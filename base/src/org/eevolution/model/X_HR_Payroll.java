@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent 
 {
 
@@ -160,12 +160,6 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -239,12 +233,6 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -283,13 +271,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("C") || PaymentRule.equals("K") || PaymentRule.equals("A") || PaymentRule.equals("D") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=214 - C - K - A - D - T");
-		if (PaymentRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("C") || PaymentRule.equals("K") || PaymentRule.equals("A") || PaymentRule.equals("D") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=214 - C - K - A - D - T");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.
@@ -351,12 +333,6 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

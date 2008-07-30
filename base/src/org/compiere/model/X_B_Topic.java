@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_B_Topic extends PO implements I_B_Topic, I_Persistent 
 {
 
@@ -42,9 +42,9 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
       /** if (B_Topic_ID == 0)
         {
 			setB_TopicCategory_ID (0);
-			setB_TopicType_ID (0);
 			setB_Topic_ID (0);
-			setDecisionDate (new Timestamp(System.currentTimeMillis()));
+			setB_TopicType_ID (0);
+			setDecisionDate (new Timestamp( System.currentTimeMillis() ));
 			setDocumentNo (null);
 			setIsPublished (false);
 			setName (null);
@@ -120,6 +120,28 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Topic.
+		@param B_Topic_ID 
+		Auction Topic
+	  */
+	public void setB_Topic_ID (int B_Topic_ID)
+	{
+		if (B_Topic_ID < 1)
+			 throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
+	}
+
+	/** Get Topic.
+		@return Auction Topic
+	  */
+	public int getB_Topic_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_B_Topic_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_B_TopicType getB_TopicType() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_B_TopicType.Table_Name);
@@ -158,28 +180,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Topic.
-		@param B_Topic_ID 
-		Auction Topic
-	  */
-	public void setB_Topic_ID (int B_Topic_ID)
-	{
-		if (B_Topic_ID < 1)
-			 throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
-	}
-
-	/** Get Topic.
-		@return Auction Topic
-	  */
-	public int getB_Topic_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_B_Topic_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Decision date.
 		@param DecisionDate Decision date	  */
 	public void setDecisionDate (Timestamp DecisionDate)
@@ -202,12 +202,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -227,12 +221,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -276,12 +264,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -350,12 +332,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		@param TextDetails Details	  */
 	public void setTextDetails (String TextDetails)
 	{
-
-		if (TextDetails != null && TextDetails.length() > 4000)
-		{
-			log.warning("Length > 4000 - truncated");
-			TextDetails = TextDetails.substring(0, 4000);
-		}
 		set_Value (COLUMNNAME_TextDetails, TextDetails);
 	}
 
@@ -372,12 +348,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 
@@ -395,12 +365,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (TopicAction == null)
 			throw new IllegalArgumentException ("TopicAction is mandatory.");
-
-		if (TopicAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			TopicAction = TopicAction.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_TopicAction, TopicAction);
 	}
 
@@ -417,12 +381,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	{
 		if (TopicStatus == null)
 			throw new IllegalArgumentException ("TopicStatus is mandatory.");
-
-		if (TopicStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			TopicStatus = TopicStatus.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_TopicStatus, TopicStatus);
 	}
 

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ClientShare
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persistent 
 {
 
@@ -141,12 +141,6 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -166,12 +160,6 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -206,13 +194,7 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	public void setShareType (String ShareType)
 	{
 		if (ShareType == null) throw new IllegalArgumentException ("ShareType is mandatory");
-		if (ShareType.equals("C") || ShareType.equals("O") || ShareType.equals("x")); else throw new IllegalArgumentException ("ShareType Invalid value - " + ShareType + " - Reference_ID=365 - C - O - x");
-		if (ShareType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ShareType = ShareType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ShareType, ShareType);
+		if (ShareType.equals("C") || ShareType.equals("O") || ShareType.equals("x")); else throw new IllegalArgumentException ("ShareType Invalid value - " + ShareType + " - Reference_ID=365 - C - O - x");		set_Value (COLUMNNAME_ShareType, ShareType);
 	}
 
 	/** Get Share Type.

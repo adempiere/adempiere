@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AlertRule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
       super (ctx, AD_AlertRule_ID, trxName);
       /** if (AD_AlertRule_ID == 0)
         {
-			setAD_AlertRule_ID (0);
 			setAD_Alert_ID (0);
+			setAD_AlertRule_ID (0);
 			setFromClause (null);
 			setIsValid (true);
 // Y
@@ -78,28 +78,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
       return sb.toString();
     }
 
-	/** Set Alert Rule.
-		@param AD_AlertRule_ID 
-		Definition of the alert element
-	  */
-	public void setAD_AlertRule_ID (int AD_AlertRule_ID)
-	{
-		if (AD_AlertRule_ID < 1)
-			 throw new IllegalArgumentException ("AD_AlertRule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, Integer.valueOf(AD_AlertRule_ID));
-	}
-
-	/** Get Alert Rule.
-		@return Definition of the alert element
-	  */
-	public int getAD_AlertRule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_Alert getAD_Alert() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_Alert.Table_Name);
@@ -133,6 +111,28 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	public int getAD_Alert_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Alert_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Alert Rule.
+		@param AD_AlertRule_ID 
+		Definition of the alert element
+	  */
+	public void setAD_AlertRule_ID (int AD_AlertRule_ID)
+	{
+		if (AD_AlertRule_ID < 1)
+			 throw new IllegalArgumentException ("AD_AlertRule_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, Integer.valueOf(AD_AlertRule_ID));
+	}
+
+	/** Get Alert Rule.
+		@return Definition of the alert element
+	  */
+	public int getAD_AlertRule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -181,12 +181,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 		@param ErrorMsg Error Msg	  */
 	public void setErrorMsg (String ErrorMsg)
 	{
-
-		if (ErrorMsg != null && ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ErrorMsg = ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ErrorMsg, ErrorMsg);
 	}
 
@@ -205,12 +199,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	{
 		if (FromClause == null)
 			throw new IllegalArgumentException ("FromClause is mandatory.");
-
-		if (FromClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			FromClause = FromClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_FromClause, FromClause);
 	}
 
@@ -254,12 +242,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -285,12 +267,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setOtherClause (String OtherClause)
 	{
-
-		if (OtherClause != null && OtherClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
 
@@ -308,12 +284,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setPostProcessing (String PostProcessing)
 	{
-
-		if (PostProcessing != null && PostProcessing.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			PostProcessing = PostProcessing.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_PostProcessing, PostProcessing);
 	}
 
@@ -331,12 +301,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setPreProcessing (String PreProcessing)
 	{
-
-		if (PreProcessing != null && PreProcessing.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			PreProcessing = PreProcessing.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_PreProcessing, PreProcessing);
 	}
 
@@ -356,12 +320,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	{
 		if (SelectClause == null)
 			throw new IllegalArgumentException ("SelectClause is mandatory.");
-
-		if (SelectClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			SelectClause = SelectClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
 
@@ -379,12 +337,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-
-		if (WhereClause != null && WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

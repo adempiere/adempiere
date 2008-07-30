@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Project extends PO implements I_C_Project, I_Persistent 
 {
 
@@ -44,9 +44,9 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
       /** if (C_Project_ID == 0)
         {
 			setC_Currency_ID (0);
-			setC_Project_ID (0);
 			setCommittedAmt (Env.ZERO);
 			setCommittedQty (Env.ZERO);
+			setC_Project_ID (0);
 			setInvoicedAmt (Env.ZERO);
 			setInvoicedQty (Env.ZERO);
 			setIsCommitCeiling (false);
@@ -57,11 +57,11 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 			setPlannedMarginAmt (Env.ZERO);
 			setPlannedQty (Env.ZERO);
 			setProcessed (false);
-			setProjInvoiceRule (null);
-// -
 			setProjectBalanceAmt (Env.ZERO);
 			setProjectLineLevel (null);
 // P
+			setProjInvoiceRule (null);
+// -
 			setValue (null);
         } */
     }
@@ -128,31 +128,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** C_BPartnerSR_ID AD_Reference_ID=353 */
-	public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
-	/** Set BPartner (Agent).
-		@param C_BPartnerSR_ID 
-		Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
-	{
-		if (C_BPartnerSR_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
-	}
-
-	/** Get BPartner (Agent).
-		@return Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -236,6 +211,31 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return ii.intValue();
 	}
 
+	/** C_BPartnerSR_ID AD_Reference_ID=353 */
+	public static final int C_BPARTNERSR_ID_AD_Reference_ID=353;
+	/** Set BPartner (Agent).
+		@param C_BPartnerSR_ID 
+		Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
+	{
+		if (C_BPartnerSR_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
+	}
+
+	/** Get BPartner (Agent).
+		@return Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_Campaign getC_Campaign() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
@@ -311,6 +311,67 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		if (CommittedAmt == null)
+			throw new IllegalArgumentException ("CommittedAmt is mandatory.");
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Committed Quantity.
+		@param CommittedQty 
+		The (legal) commitment Quantity
+	  */
+	public void setCommittedQty (BigDecimal CommittedQty)
+	{
+		if (CommittedQty == null)
+			throw new IllegalArgumentException ("CommittedQty is mandatory.");
+		set_Value (COLUMNNAME_CommittedQty, CommittedQty);
+	}
+
+	/** Get Committed Quantity.
+		@return The (legal) commitment Quantity
+	  */
+	public BigDecimal getCommittedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
@@ -391,29 +452,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Project Type.
-		@param C_ProjectType_ID 
-		Type of the project
-	  */
-	public void setC_ProjectType_ID (String C_ProjectType_ID)
-	{
-
-		if (C_ProjectType_ID != null && C_ProjectType_ID.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			C_ProjectType_ID = C_ProjectType_ID.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_C_ProjectType_ID, C_ProjectType_ID);
-	}
-
-	/** Get Project Type.
-		@return Type of the project
-	  */
-	public String getC_ProjectType_ID () 
-	{
-		return (String)get_Value(COLUMNNAME_C_ProjectType_ID);
-	}
-
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
@@ -436,71 +474,21 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
+	/** Set Project Type.
+		@param C_ProjectType_ID 
+		Type of the project
 	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
+	public void setC_ProjectType_ID (String C_ProjectType_ID)
 	{
-		if (CommittedAmt == null)
-			throw new IllegalArgumentException ("CommittedAmt is mandatory.");
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+		set_Value (COLUMNNAME_C_ProjectType_ID, C_ProjectType_ID);
 	}
 
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
+	/** Get Project Type.
+		@return Type of the project
 	  */
-	public BigDecimal getCommittedAmt () 
+	public String getC_ProjectType_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Committed Quantity.
-		@param CommittedQty 
-		The (legal) commitment Quantity
-	  */
-	public void setCommittedQty (BigDecimal CommittedQty)
-	{
-		if (CommittedQty == null)
-			throw new IllegalArgumentException ("CommittedQty is mandatory.");
-		set_Value (COLUMNNAME_CommittedQty, CommittedQty);
-	}
-
-	/** Get Committed Quantity.
-		@return The (legal) commitment Quantity
-	  */
-	public BigDecimal getCommittedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
+		return (String)get_Value(COLUMNNAME_C_ProjectType_ID);
 	}
 
 	/** Set Contract Date.
@@ -543,12 +531,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -566,12 +548,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setGenerateTo (String GenerateTo)
 	{
-
-		if (GenerateTo != null && GenerateTo.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			GenerateTo = GenerateTo.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_GenerateTo, GenerateTo);
 	}
 
@@ -785,12 +761,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -808,12 +778,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	  */
 	public void setNote (String Note)
 	{
-
-		if (Note != null && Note.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Note = Note.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Note, Note);
 	}
 
@@ -823,29 +787,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public String getNote () 
 	{
 		return (String)get_Value(COLUMNNAME_Note);
-	}
-
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-
-		if (POReference != null && POReference.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			POReference = POReference.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Planned Amount.
@@ -914,6 +855,23 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return bd;
 	}
 
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -959,42 +917,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return false;
 	}
 
-	/** ProjInvoiceRule AD_Reference_ID=383 */
-	public static final int PROJINVOICERULE_AD_Reference_ID=383;
-	/** None = - */
-	public static final String PROJINVOICERULE_None = "-";
-	/** Committed Amount = C */
-	public static final String PROJINVOICERULE_CommittedAmount = "C";
-	/** Time&Material max Comitted = c */
-	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
-	/** Time&Material = T */
-	public static final String PROJINVOICERULE_TimeMaterial = "T";
-	/** Product  Quantity = P */
-	public static final String PROJINVOICERULE_ProductQuantity = "P";
-	/** Set Invoice Rule.
-		@param ProjInvoiceRule 
-		Invoice Rule for the project
-	  */
-	public void setProjInvoiceRule (String ProjInvoiceRule)
-	{
-		if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");
-		if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("c") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("P")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - c - T - P");
-		if (ProjInvoiceRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProjInvoiceRule = ProjInvoiceRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
-	}
-
-	/** Get Invoice Rule.
-		@return Invoice Rule for the project
-	  */
-	public String getProjInvoiceRule () 
-	{
-		return (String)get_Value(COLUMNNAME_ProjInvoiceRule);
-	}
-
 	/** Set Project Balance.
 		@param ProjectBalanceAmt 
 		Total Project Balance
@@ -1034,13 +956,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public void setProjectCategory (String ProjectCategory)
 	{
 
-		if (ProjectCategory == null || ProjectCategory.equals("N") || ProjectCategory.equals("A") || ProjectCategory.equals("W") || ProjectCategory.equals("S")); else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - N - A - W - S");
-		if (ProjectCategory != null && ProjectCategory.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProjectCategory = ProjectCategory.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ProjectCategory, ProjectCategory);
+		if (ProjectCategory == null || ProjectCategory.equals("N") || ProjectCategory.equals("A") || ProjectCategory.equals("W") || ProjectCategory.equals("S")); else throw new IllegalArgumentException ("ProjectCategory Invalid value - " + ProjectCategory + " - Reference_ID=288 - N - A - W - S");		set_Value (COLUMNNAME_ProjectCategory, ProjectCategory);
 	}
 
 	/** Get Project Category.
@@ -1066,13 +982,7 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public void setProjectLineLevel (String ProjectLineLevel)
 	{
 		if (ProjectLineLevel == null) throw new IllegalArgumentException ("ProjectLineLevel is mandatory");
-		if (ProjectLineLevel.equals("P") || ProjectLineLevel.equals("A") || ProjectLineLevel.equals("T")); else throw new IllegalArgumentException ("ProjectLineLevel Invalid value - " + ProjectLineLevel + " - Reference_ID=384 - P - A - T");
-		if (ProjectLineLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ProjectLineLevel = ProjectLineLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ProjectLineLevel, ProjectLineLevel);
+		if (ProjectLineLevel.equals("P") || ProjectLineLevel.equals("A") || ProjectLineLevel.equals("T")); else throw new IllegalArgumentException ("ProjectLineLevel Invalid value - " + ProjectLineLevel + " - Reference_ID=384 - P - A - T");		set_Value (COLUMNNAME_ProjectLineLevel, ProjectLineLevel);
 	}
 
 	/** Get Line Level.
@@ -1081,6 +991,36 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public String getProjectLineLevel () 
 	{
 		return (String)get_Value(COLUMNNAME_ProjectLineLevel);
+	}
+
+	/** ProjInvoiceRule AD_Reference_ID=383 */
+	public static final int PROJINVOICERULE_AD_Reference_ID=383;
+	/** None = - */
+	public static final String PROJINVOICERULE_None = "-";
+	/** Committed Amount = C */
+	public static final String PROJINVOICERULE_CommittedAmount = "C";
+	/** Time&Material max Comitted = c */
+	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** Time&Material = T */
+	public static final String PROJINVOICERULE_TimeMaterial = "T";
+	/** Product  Quantity = P */
+	public static final String PROJINVOICERULE_ProductQuantity = "P";
+	/** Set Invoice Rule.
+		@param ProjInvoiceRule 
+		Invoice Rule for the project
+	  */
+	public void setProjInvoiceRule (String ProjInvoiceRule)
+	{
+		if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");
+		if (ProjInvoiceRule.equals("-") || ProjInvoiceRule.equals("C") || ProjInvoiceRule.equals("c") || ProjInvoiceRule.equals("T") || ProjInvoiceRule.equals("P")); else throw new IllegalArgumentException ("ProjInvoiceRule Invalid value - " + ProjInvoiceRule + " - Reference_ID=383 - - - C - c - T - P");		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
+	}
+
+	/** Get Invoice Rule.
+		@return Invoice Rule for the project
+	  */
+	public String getProjInvoiceRule () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjInvoiceRule);
 	}
 
 	/** SalesRep_ID AD_Reference_ID=190 */
@@ -1116,12 +1056,6 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

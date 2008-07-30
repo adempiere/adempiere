@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persistent 
 {
 
@@ -342,12 +342,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		@param Args Args	  */
 	public void setArgs (String Args)
 	{
-
-		if (Args != null && Args.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Args = Args.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Args, Args);
 	}
 
@@ -362,12 +356,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		@param ClassName ClassName	  */
 	public void setClassName (String ClassName)
 	{
-
-		if (ClassName != null && ClassName.length() > 240)
-		{
-			log.warning("Length > 240 - truncated");
-			ClassName = ClassName.substring(0, 240);
-		}
 		set_Value (COLUMNNAME_ClassName, ClassName);
 	}
 
@@ -382,12 +370,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		@param CreateCopy Create Copy	  */
 	public void setCreateCopy (String CreateCopy)
 	{
-
-		if (CreateCopy != null && CreateCopy.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreateCopy = CreateCopy.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CreateCopy, CreateCopy);
 	}
 
@@ -404,12 +386,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -590,12 +566,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -621,12 +591,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setPrinterName (String PrinterName)
 	{
-
-		if (PrinterName != null && PrinterName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			PrinterName = PrinterName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_PrinterName, PrinterName);
 	}
 

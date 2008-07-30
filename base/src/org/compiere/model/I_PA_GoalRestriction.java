@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_GoalRestriction
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_PA_GoalRestriction 
 {
@@ -56,21 +52,6 @@ public interface I_PA_GoalRestriction
 
     /** Load Meta Data */
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public I_C_BP_Group getC_BP_Group() throws Exception;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -85,6 +66,21 @@ public interface I_PA_GoalRestriction
 	public int getC_BPartner_ID();
 
 	public I_C_BPartner getC_BPartner() throws Exception;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public I_C_BP_Group getC_BP_Group() throws Exception;
 
     /** Column name GoalRestrictionType */
     public static final String COLUMNNAME_GoalRestrictionType = "GoalRestrictionType";
@@ -155,19 +151,6 @@ public interface I_PA_GoalRestriction
 	  */
 	public int getOrg_ID();
 
-    /** Column name PA_GoalRestriction_ID */
-    public static final String COLUMNNAME_PA_GoalRestriction_ID = "PA_GoalRestriction_ID";
-
-	/** Set Goal Restriction.
-	  * Performance Goal Restriction
-	  */
-	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID);
-
-	/** Get Goal Restriction.
-	  * Performance Goal Restriction
-	  */
-	public int getPA_GoalRestriction_ID();
-
     /** Column name PA_Goal_ID */
     public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
 
@@ -182,4 +165,17 @@ public interface I_PA_GoalRestriction
 	public int getPA_Goal_ID();
 
 	public I_PA_Goal getPA_Goal() throws Exception;
+
+    /** Column name PA_GoalRestriction_ID */
+    public static final String COLUMNNAME_PA_GoalRestriction_ID = "PA_GoalRestriction_ID";
+
+	/** Set Goal Restriction.
+	  * Performance Goal Restriction
+	  */
+	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID);
+
+	/** Get Goal Restriction.
+	  * Performance Goal Restriction
+	  */
+	public int getPA_GoalRestriction_ID();
 }

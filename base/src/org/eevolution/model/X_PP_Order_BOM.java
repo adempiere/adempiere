@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent 
 {
 
@@ -47,7 +47,7 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 			setName (null);
 			setPP_Order_BOM_ID (0);
 			setPP_Order_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
 			setValue (null);
         } */
     }
@@ -105,13 +105,7 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	public void setBOMType (String BOMType)
 	{
 
-		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");
-		if (BOMType != null && BOMType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMType = BOMType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMType, BOMType);
+		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
 
 	/** Get BOM Type.
@@ -141,13 +135,7 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	public void setBOMUse (String BOMUse)
 	{
 
-		if (BOMUse == null || BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");
-		if (BOMUse != null && BOMUse.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMUse = BOMUse.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMUse, BOMUse);
+		if (BOMUse == null || BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");		set_Value (COLUMNNAME_BOMUse, BOMUse);
 	}
 
 	/** Get BOM Use.
@@ -164,12 +152,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	  */
 	public void setCopyFrom (String CopyFrom)
 	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
 
@@ -225,12 +207,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -248,12 +224,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			DocumentNo = DocumentNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -271,12 +241,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -396,12 +360,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -500,12 +458,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 		@param Revision Revision	  */
 	public void setRevision (String Revision)
 	{
-
-		if (Revision != null && Revision.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Revision = Revision.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Revision, Revision);
 	}
 
@@ -560,12 +512,6 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			Value = Value.substring(0, 80);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

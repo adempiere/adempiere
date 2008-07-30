@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_W_Click extends PO implements I_W_Click, I_Persistent 
 {
 
@@ -73,6 +73,23 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
       return sb.toString();
     }
 
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
+	}
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -96,41 +113,12 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-
-		if (AcceptLanguage != null && AcceptLanguage.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			AcceptLanguage = AcceptLanguage.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
 	/** Set EMail Address.
 		@param EMail 
 		Electronic Mail Address
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -172,12 +160,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setReferrer (String Referrer)
 	{
-
-		if (Referrer != null && Referrer.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Referrer = Referrer.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Referrer, Referrer);
 	}
 
@@ -195,12 +177,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
-
-		if (Remote_Addr != null && Remote_Addr.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
 
@@ -226,12 +202,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
-
-		if (Remote_Host != null && Remote_Host.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Remote_Host = Remote_Host.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
 
@@ -249,12 +219,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setTargetURL (String TargetURL)
 	{
-
-		if (TargetURL != null && TargetURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			TargetURL = TargetURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_TargetURL, TargetURL);
 	}
 
@@ -272,12 +236,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setUserAgent (String UserAgent)
 	{
-
-		if (UserAgent != null && UserAgent.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			UserAgent = UserAgent.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_UserAgent, UserAgent);
 	}
 

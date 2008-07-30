@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Persistent 
 {
 
@@ -43,13 +43,13 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
       super (ctx, C_Conversion_Rate_ID, trxName);
       /** if (C_Conversion_Rate_ID == 0)
         {
-			setC_ConversionType_ID (0);
 			setC_Conversion_Rate_ID (0);
+			setC_ConversionType_ID (0);
 			setC_Currency_ID (0);
 			setC_Currency_ID_To (0);
 			setDivideRate (Env.ZERO);
 			setMultiplyRate (Env.ZERO);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -79,6 +79,36 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
       StringBuffer sb = new StringBuffer ("X_C_Conversion_Rate[")
         .append(get_ID()).append("]");
       return sb.toString();
+    }
+
+	/** Set Conversion Rate.
+		@param C_Conversion_Rate_ID 
+		Rate used for converting currencies
+	  */
+	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
+	{
+		if (C_Conversion_Rate_ID < 1)
+			 throw new IllegalArgumentException ("C_Conversion_Rate_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
+	}
+
+	/** Get Conversion Rate.
+		@return Rate used for converting currencies
+	  */
+	public int getC_Conversion_Rate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Conversion_Rate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_Conversion_Rate_ID()));
     }
 
 	public I_C_ConversionType getC_ConversionType() throws Exception 
@@ -118,36 +148,6 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
-
-	/** Set Conversion Rate.
-		@param C_Conversion_Rate_ID 
-		Rate used for converting currencies
-	  */
-	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
-	{
-		if (C_Conversion_Rate_ID < 1)
-			 throw new IllegalArgumentException ("C_Conversion_Rate_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
-	}
-
-	/** Get Conversion Rate.
-		@return Rate used for converting currencies
-	  */
-	public int getC_Conversion_Rate_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Conversion_Rate_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getC_Conversion_Rate_ID()));
-    }
 
 	/** C_Currency_ID AD_Reference_ID=112 */
 	public static final int C_CURRENCY_ID_AD_Reference_ID=112;

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PInstance_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Persistent 
 {
 
@@ -120,12 +120,6 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	  */
 	public void setInfo (String Info)
 	{
-
-		if (Info != null && Info.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Info = Info.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Info, Info);
 	}
 
@@ -141,12 +135,6 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 		@param Info_To Info To	  */
 	public void setInfo_To (String Info_To)
 	{
-
-		if (Info_To != null && Info_To.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Info_To = Info_To.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Info_To, Info_To);
 	}
 
@@ -156,6 +144,28 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	{
 		return (String)get_Value(COLUMNNAME_Info_To);
 	}
+
+	/** Set Parameter Name.
+		@param ParameterName Parameter Name	  */
+	public void setParameterName (String ParameterName)
+	{
+		set_Value (COLUMNNAME_ParameterName, ParameterName);
+	}
+
+	/** Get Parameter Name.
+		@return Parameter Name	  */
+	public String getParameterName () 
+	{
+		return (String)get_Value(COLUMNNAME_ParameterName);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getParameterName());
+    }
 
 	/** Set Process Date.
 		@param P_Date 
@@ -237,12 +247,6 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	  */
 	public void setP_String (String P_String)
 	{
-
-		if (P_String != null && P_String.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			P_String = P_String.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_P_String, P_String);
 	}
 
@@ -260,12 +264,6 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	  */
 	public void setP_String_To (String P_String_To)
 	{
-
-		if (P_String_To != null && P_String_To.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			P_String_To = P_String_To.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_P_String_To, P_String_To);
 	}
 
@@ -276,34 +274,6 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	{
 		return (String)get_Value(COLUMNNAME_P_String_To);
 	}
-
-	/** Set Parameter Name.
-		@param ParameterName Parameter Name	  */
-	public void setParameterName (String ParameterName)
-	{
-
-		if (ParameterName != null && ParameterName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ParameterName = ParameterName.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_ParameterName, ParameterName);
-	}
-
-	/** Get Parameter Name.
-		@return Parameter Name	  */
-	public String getParameterName () 
-	{
-		return (String)get_Value(COLUMNNAME_ParameterName);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getParameterName());
-    }
 
 	/** Set Sequence.
 		@param SeqNo 

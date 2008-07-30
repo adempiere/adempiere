@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Reval_Entry
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_A_Asset_Reval_Entry 
 {
@@ -75,15 +71,6 @@ public interface I_A_Asset_Reval_Entry
 	/** Get A_Effective_Date	  */
 	public Timestamp getA_Effective_Date();
 
-    /** Column name A_Rev_Code */
-    public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
-
-	/** Set A_Rev_Code	  */
-	public void setA_Rev_Code (String A_Rev_Code);
-
-	/** Get A_Rev_Code	  */
-	public String getA_Rev_Code();
-
     /** Column name A_Reval_Cal_Method */
     public static final String COLUMNNAME_A_Reval_Cal_Method = "A_Reval_Cal_Method";
 
@@ -110,6 +97,15 @@ public interface I_A_Asset_Reval_Entry
 
 	/** Get A_Reval_Multiplier	  */
 	public String getA_Reval_Multiplier();
+
+    /** Column name A_Rev_Code */
+    public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
+
+	/** Set A_Rev_Code	  */
+	public void setA_Rev_Code (String A_Rev_Code);
+
+	/** Get A_Rev_Code	  */
+	public String getA_Rev_Code();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

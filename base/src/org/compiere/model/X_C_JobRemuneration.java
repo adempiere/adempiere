@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_JobRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Persistent 
 {
 
@@ -41,10 +41,10 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
       super (ctx, C_JobRemuneration_ID, trxName);
       /** if (C_JobRemuneration_ID == 0)
         {
-			setC_JobRemuneration_ID (0);
 			setC_Job_ID (0);
+			setC_JobRemuneration_ID (0);
 			setC_Remuneration_ID (0);
-			setValidFrom (new Timestamp(System.currentTimeMillis()));
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -75,28 +75,6 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Position Remuneration.
-		@param C_JobRemuneration_ID 
-		Remuneration for the Position
-	  */
-	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID)
-	{
-		if (C_JobRemuneration_ID < 1)
-			 throw new IllegalArgumentException ("C_JobRemuneration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, Integer.valueOf(C_JobRemuneration_ID));
-	}
-
-	/** Get Position Remuneration.
-		@return Remuneration for the Position
-	  */
-	public int getC_JobRemuneration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobRemuneration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_Job getC_Job() throws Exception 
     {
@@ -144,6 +122,28 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getC_Job_ID()));
     }
 
+	/** Set Position Remuneration.
+		@param C_JobRemuneration_ID 
+		Remuneration for the Position
+	  */
+	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID)
+	{
+		if (C_JobRemuneration_ID < 1)
+			 throw new IllegalArgumentException ("C_JobRemuneration_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, Integer.valueOf(C_JobRemuneration_ID));
+	}
+
+	/** Get Position Remuneration.
+		@return Remuneration for the Position
+	  */
+	public int getC_JobRemuneration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobRemuneration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_Remuneration getC_Remuneration() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Remuneration.Table_Name);
@@ -188,12 +188,6 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Employee
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent 
 {
 
@@ -45,7 +45,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 			setHR_Department_ID (0);
 			setHR_Employee_ID (0);
 			setHR_Job_ID (0);
-			setStartDate (new Timestamp(System.currentTimeMillis()));
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -161,12 +161,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	  */
 	public void setCode (String Code)
 	{
-
-		if (Code != null && Code.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Code = Code.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -343,12 +337,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Name = Name.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -374,12 +362,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	  */
 	public void setName2 (String Name2)
 	{
-
-		if (Name2 != null && Name2.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Name2 = Name2.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
 
@@ -395,12 +377,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		@param NationalCode National Code	  */
 	public void setNationalCode (String NationalCode)
 	{
-
-		if (NationalCode != null && NationalCode.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			NationalCode = NationalCode.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_NationalCode, NationalCode);
 	}
 
@@ -415,12 +391,6 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		@param SSCode Social Security Code	  */
 	public void setSSCode (String SSCode)
 	{
-
-		if (SSCode != null && SSCode.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			SSCode = SSCode.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_SSCode, SSCode);
 	}
 

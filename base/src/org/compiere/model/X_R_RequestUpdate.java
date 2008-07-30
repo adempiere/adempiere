@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
 {
 
@@ -44,8 +44,8 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
       /** if (R_RequestUpdate_ID == 0)
         {
 			setConfidentialTypeEntry (null);
-			setR_RequestUpdate_ID (0);
 			setR_Request_ID (0);
+			setR_RequestUpdate_ID (0);
         } */
     }
 
@@ -94,13 +94,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	public void setConfidentialTypeEntry (String ConfidentialTypeEntry)
 	{
 		if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("ConfidentialTypeEntry is mandatory");
-		if (ConfidentialTypeEntry.equals("A") || ConfidentialTypeEntry.equals("C") || ConfidentialTypeEntry.equals("I") || ConfidentialTypeEntry.equals("P")); else throw new IllegalArgumentException ("ConfidentialTypeEntry Invalid value - " + ConfidentialTypeEntry + " - Reference_ID=340 - A - C - I - P");
-		if (ConfidentialTypeEntry.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConfidentialTypeEntry = ConfidentialTypeEntry.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
+		if (ConfidentialTypeEntry.equals("A") || ConfidentialTypeEntry.equals("C") || ConfidentialTypeEntry.equals("I") || ConfidentialTypeEntry.equals("P")); else throw new IllegalArgumentException ("ConfidentialTypeEntry Invalid value - " + ConfidentialTypeEntry + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
 	}
 
 	/** Get Entry Confidentiality.
@@ -193,35 +187,22 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return bd;
 	}
 
-	/** Set Request Update.
-		@param R_RequestUpdate_ID 
-		Request Updates
+	/** Set Result.
+		@param Result 
+		Result of the action taken
 	  */
-	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID)
+	public void setResult (String Result)
 	{
-		if (R_RequestUpdate_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestUpdate_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestUpdate_ID, Integer.valueOf(R_RequestUpdate_ID));
+		set_ValueNoCheck (COLUMNNAME_Result, Result);
 	}
 
-	/** Get Request Update.
-		@return Request Updates
+	/** Get Result.
+		@return Result of the action taken
 	  */
-	public int getR_RequestUpdate_ID () 
+	public String getResult () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestUpdate_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Result);
 	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
-    }
 
 	public I_R_Request getR_Request() throws Exception 
     {
@@ -261,28 +242,35 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Result.
-		@param Result 
-		Result of the action taken
+	/** Set Request Update.
+		@param R_RequestUpdate_ID 
+		Request Updates
 	  */
-	public void setResult (String Result)
+	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID)
 	{
-
-		if (Result != null && Result.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Result = Result.substring(0, 2000);
-		}
-		set_ValueNoCheck (COLUMNNAME_Result, Result);
+		if (R_RequestUpdate_ID < 1)
+			 throw new IllegalArgumentException ("R_RequestUpdate_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_R_RequestUpdate_ID, Integer.valueOf(R_RequestUpdate_ID));
 	}
 
-	/** Get Result.
-		@return Result of the action taken
+	/** Get Request Update.
+		@return Request Updates
 	  */
-	public String getResult () 
+	public int getR_RequestUpdate_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_Result);
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestUpdate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
+    }
 
 	/** Set Start Time.
 		@param StartTime 

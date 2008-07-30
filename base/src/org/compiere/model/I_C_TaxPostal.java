@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxPostal
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_TaxPostal 
 {
@@ -56,19 +52,6 @@ public interface I_C_TaxPostal
 
     /** Load Meta Data */
 
-    /** Column name C_TaxPostal_ID */
-    public static final String COLUMNNAME_C_TaxPostal_ID = "C_TaxPostal_ID";
-
-	/** Set Tax ZIP.
-	  * Tax Postal/ZIP
-	  */
-	public void setC_TaxPostal_ID (int C_TaxPostal_ID);
-
-	/** Get Tax ZIP.
-	  * Tax Postal/ZIP
-	  */
-	public int getC_TaxPostal_ID();
-
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -83,6 +66,19 @@ public interface I_C_TaxPostal
 	public int getC_Tax_ID();
 
 	public I_C_Tax getC_Tax() throws Exception;
+
+    /** Column name C_TaxPostal_ID */
+    public static final String COLUMNNAME_C_TaxPostal_ID = "C_TaxPostal_ID";
+
+	/** Set Tax ZIP.
+	  * Tax Postal/ZIP
+	  */
+	public void setC_TaxPostal_ID (int C_TaxPostal_ID);
+
+	/** Get Tax ZIP.
+	  * Tax Postal/ZIP
+	  */
+	public int getC_TaxPostal_ID();
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";

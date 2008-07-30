@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Find
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Find extends PO implements I_AD_Find, I_Persistent 
 {
 
@@ -143,13 +143,7 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	public void setAndOr (String AndOr)
 	{
 		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
-		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");
-		if (AndOr.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AndOr = AndOr.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AndOr, AndOr);
+		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
 
 	/** Get And/Or.
@@ -206,13 +200,7 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	public void setOperation (String Operation)
 	{
 		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
-		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");
-		if (Operation.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			Operation = Operation.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_Operation, Operation);
+		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");		set_Value (COLUMNNAME_Operation, Operation);
 	}
 
 	/** Get Operation.
@@ -231,12 +219,6 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -254,12 +236,6 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	  */
 	public void setValue2 (String Value2)
 	{
-
-		if (Value2 != null && Value2.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value2 = Value2.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value2, Value2);
 	}
 

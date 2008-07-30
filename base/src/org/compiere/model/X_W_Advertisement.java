@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Advertisement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persistent 
 {
 
@@ -81,6 +81,23 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
       return sb.toString();
     }
 
+	/** Set Advertisement Text.
+		@param AdText 
+		Text of the Advertisement
+	  */
+	public void setAdText (String AdText)
+	{
+		set_Value (COLUMNNAME_AdText, AdText);
+	}
+
+	/** Get Advertisement Text.
+		@return Text of the Advertisement
+	  */
+	public String getAdText () 
+	{
+		return (String)get_Value(COLUMNNAME_AdText);
+	}
+
 	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -119,29 +136,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Advertisement Text.
-		@param AdText 
-		Text of the Advertisement
-	  */
-	public void setAdText (String AdText)
-	{
-
-		if (AdText != null && AdText.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			AdText = AdText.substring(0, 2000);
-		}
-		set_Value (COLUMNNAME_AdText, AdText);
-	}
-
-	/** Get Advertisement Text.
-		@return Text of the Advertisement
-	  */
-	public String getAdText () 
-	{
-		return (String)get_Value(COLUMNNAME_AdText);
-	}
-
 	/** C_BPartner_ID AD_Reference_ID=232 */
 	public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	/** Set Business Partner .
@@ -172,12 +166,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -195,12 +183,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -218,12 +200,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setImageURL (String ImageURL)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
 
@@ -267,12 +243,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -330,13 +300,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	public void setPublishStatus (String PublishStatus)
 	{
 		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
-		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");
-		if (PublishStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PublishStatus = PublishStatus.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
+		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
 
 	/** Get Publication Status.
@@ -507,12 +471,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setWebParam1 (String WebParam1)
 	{
-
-		if (WebParam1 != null && WebParam1.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WebParam1 = WebParam1.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WebParam1, WebParam1);
 	}
 
@@ -530,12 +488,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setWebParam2 (String WebParam2)
 	{
-
-		if (WebParam2 != null && WebParam2.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WebParam2 = WebParam2.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WebParam2, WebParam2);
 	}
 
@@ -553,12 +505,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setWebParam3 (String WebParam3)
 	{
-
-		if (WebParam3 != null && WebParam3.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WebParam3 = WebParam3.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WebParam3, WebParam3);
 	}
 
@@ -576,12 +522,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setWebParam4 (String WebParam4)
 	{
-
-		if (WebParam4 != null && WebParam4.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WebParam4 = WebParam4.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WebParam4, WebParam4);
 	}
 

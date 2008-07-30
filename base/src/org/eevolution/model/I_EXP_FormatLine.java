@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_FormatLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.0
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_EXP_FormatLine 
 {
@@ -120,15 +116,6 @@ public interface I_EXP_FormatLine
 	/** Get EXP_EmbeddedFormat_ID	  */
 	public int getEXP_EmbeddedFormat_ID();
 
-    /** Column name EXP_FormatLine_ID */
-    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
-
-	/** Set EXP_FormatLine_ID	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
-
-	/** Get EXP_FormatLine_ID	  */
-	public int getEXP_FormatLine_ID();
-
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
 
@@ -139,6 +126,15 @@ public interface I_EXP_FormatLine
 	public int getEXP_Format_ID();
 
 	public org.eevolution.model.I_EXP_Format getEXP_Format() throws Exception;
+
+    /** Column name EXP_FormatLine_ID */
+    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
+
+	/** Set EXP_FormatLine_ID	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
+
+	/** Get EXP_FormatLine_ID	  */
+	public int getEXP_FormatLine_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

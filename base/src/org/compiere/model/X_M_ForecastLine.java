@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ForecastLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persistent 
 {
 
@@ -44,9 +44,9 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
       /** if (M_ForecastLine_ID == 0)
         {
 			setC_Period_ID (0);
-			setDatePromised (new Timestamp(System.currentTimeMillis()));
-			setM_ForecastLine_ID (0);
+			setDatePromised (new Timestamp( System.currentTimeMillis() ));
 			setM_Forecast_ID (0);
+			setM_ForecastLine_ID (0);
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
 			setQty (Env.ZERO);
@@ -147,28 +147,6 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
-	/** Set Forecast Line.
-		@param M_ForecastLine_ID 
-		Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
-	{
-		if (M_ForecastLine_ID < 1)
-			 throw new IllegalArgumentException ("M_ForecastLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
-	}
-
-	/** Get Forecast Line.
-		@return Forecast Line
-	  */
-	public int getM_ForecastLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Forecast getM_Forecast() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Forecast.Table_Name);
@@ -202,6 +180,28 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	public int getM_Forecast_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Forecast Line.
+		@param M_ForecastLine_ID 
+		Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
+	{
+		if (M_ForecastLine_ID < 1)
+			 throw new IllegalArgumentException ("M_ForecastLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
+	}
+
+	/** Get Forecast Line.
+		@return Forecast Line
+	  */
+	public int getM_ForecastLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

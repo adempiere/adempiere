@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_Package
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Package extends PO implements I_M_Package, I_Persistent 
 {
 
@@ -98,12 +98,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -123,12 +117,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -244,12 +232,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setReceivedInfo (String ReceivedInfo)
 	{
-
-		if (ReceivedInfo != null && ReceivedInfo.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			ReceivedInfo = ReceivedInfo.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_ReceivedInfo, ReceivedInfo);
 	}
 
@@ -282,12 +264,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 		@param TrackingInfo Tracking Info	  */
 	public void setTrackingInfo (String TrackingInfo)
 	{
-
-		if (TrackingInfo != null && TrackingInfo.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			TrackingInfo = TrackingInfo.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_TrackingInfo, TrackingInfo);
 	}
 

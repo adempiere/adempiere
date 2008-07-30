@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Persistent 
 {
 
@@ -44,8 +44,8 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
         {
 			setAmtMultiplier (Env.ZERO);
 			setAmtSubtract (Env.ZERO);
-			setC_CommissionLine_ID (0);
 			setC_Commission_ID (0);
+			setC_CommissionLine_ID (0);
 			setCommissionOrders (false);
 			setIsPositiveOnly (false);
 			setLine (0);
@@ -127,45 +127,6 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 		return bd;
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BPartner getC_BPartner() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
@@ -205,23 +166,40 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Commission Line.
-		@param C_CommissionLine_ID 
-		Commission Line
+	public I_C_BP_Group getC_BP_Group() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
+        I_C_BP_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
 	  */
-	public void setC_CommissionLine_ID (int C_CommissionLine_ID)
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_CommissionLine_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionLine_ID, Integer.valueOf(C_CommissionLine_ID));
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
 	}
 
-	/** Get Commission Line.
-		@return Commission Line
+	/** Get Business Partner Group.
+		@return Business Partner Group
 	  */
-	public int getC_CommissionLine_ID () 
+	public int getC_BP_Group_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -273,6 +251,52 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_Commission_ID()));
     }
 
+	/** Set Commission Line.
+		@param C_CommissionLine_ID 
+		Commission Line
+	  */
+	public void setC_CommissionLine_ID (int C_CommissionLine_ID)
+	{
+		if (C_CommissionLine_ID < 1)
+			 throw new IllegalArgumentException ("C_CommissionLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_CommissionLine_ID, Integer.valueOf(C_CommissionLine_ID));
+	}
+
+	/** Get Commission Line.
+		@return Commission Line
+	  */
+	public int getC_CommissionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Commission only specified Orders.
+		@param CommissionOrders 
+		Commission only Orders or Invoices, where this Sales Rep is entered
+	  */
+	public void setCommissionOrders (boolean CommissionOrders)
+	{
+		set_Value (COLUMNNAME_CommissionOrders, Boolean.valueOf(CommissionOrders));
+	}
+
+	/** Get Commission only specified Orders.
+		@return Commission only Orders or Invoices, where this Sales Rep is entered
+	  */
+	public boolean isCommissionOrders () 
+	{
+		Object oo = get_Value(COLUMNNAME_CommissionOrders);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_C_SalesRegion getC_SalesRegion() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
@@ -312,42 +336,12 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Commission only specified Orders.
-		@param CommissionOrders 
-		Commission only Orders or Invoices, where this Sales Rep is entered
-	  */
-	public void setCommissionOrders (boolean CommissionOrders)
-	{
-		set_Value (COLUMNNAME_CommissionOrders, Boolean.valueOf(CommissionOrders));
-	}
-
-	/** Get Commission only specified Orders.
-		@return Commission only Orders or Invoices, where this Sales Rep is entered
-	  */
-	public boolean isCommissionOrders () 
-	{
-		Object oo = get_Value(COLUMNNAME_CommissionOrders);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -527,13 +521,7 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	public void setPaymentRule (String PaymentRule)
 	{
 
-		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
-		if (PaymentRule != null && PaymentRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

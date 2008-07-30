@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent 
 {
 
@@ -43,10 +43,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
       /** if (C_CashLine_ID == 0)
         {
 			setAmount (Env.ZERO);
-			setC_CashLine_ID (0);
-			setC_Cash_ID (0);
 			setCashType (null);
 // E
+			setC_Cash_ID (0);
+			setC_CashLine_ID (0);
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM C_CashLine WHERE C_Cash_ID=@C_Cash_ID@
 			setProcessed (false);
@@ -103,6 +103,38 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return bd;
 	}
 
+	/** CashType AD_Reference_ID=217 */
+	public static final int CASHTYPE_AD_Reference_ID=217;
+	/** Bank Account Transfer = T */
+	public static final String CASHTYPE_BankAccountTransfer = "T";
+	/** Invoice = I */
+	public static final String CASHTYPE_Invoice = "I";
+	/** General Expense = E */
+	public static final String CASHTYPE_GeneralExpense = "E";
+	/** General Receipts = R */
+	public static final String CASHTYPE_GeneralReceipts = "R";
+	/** Charge = C */
+	public static final String CASHTYPE_Charge = "C";
+	/** Difference = D */
+	public static final String CASHTYPE_Difference = "D";
+	/** Set Cash Type.
+		@param CashType 
+		Source of Cash
+	  */
+	public void setCashType (String CashType)
+	{
+		if (CashType == null) throw new IllegalArgumentException ("CashType is mandatory");
+		if (CashType.equals("T") || CashType.equals("I") || CashType.equals("E") || CashType.equals("R") || CashType.equals("C") || CashType.equals("D")); else throw new IllegalArgumentException ("CashType Invalid value - " + CashType + " - Reference_ID=217 - T - I - E - R - C - D");		set_ValueNoCheck (COLUMNNAME_CashType, CashType);
+	}
+
+	/** Get Cash Type.
+		@return Source of Cash
+	  */
+	public String getCashType () 
+	{
+		return (String)get_Value(COLUMNNAME_CashType);
+	}
+
 	public I_C_BankAccount getC_BankAccount() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
@@ -137,28 +169,6 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Cash Journal Line.
-		@param C_CashLine_ID 
-		Cash Journal Line
-	  */
-	public void setC_CashLine_ID (int C_CashLine_ID)
-	{
-		if (C_CashLine_ID < 1)
-			 throw new IllegalArgumentException ("C_CashLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
-	}
-
-	/** Get Cash Journal Line.
-		@return Cash Journal Line
-	  */
-	public int getC_CashLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -209,6 +219,28 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Cash_ID()));
     }
+
+	/** Set Cash Journal Line.
+		@param C_CashLine_ID 
+		Cash Journal Line
+	  */
+	public void setC_CashLine_ID (int C_CashLine_ID)
+	{
+		if (C_CashLine_ID < 1)
+			 throw new IllegalArgumentException ("C_CashLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
+	}
+
+	/** Get Cash Journal Line.
+		@return Cash Journal Line
+	  */
+	public int getC_CashLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_Charge getC_Charge() throws Exception 
     {
@@ -366,56 +398,12 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CashType AD_Reference_ID=217 */
-	public static final int CASHTYPE_AD_Reference_ID=217;
-	/** Bank Account Transfer = T */
-	public static final String CASHTYPE_BankAccountTransfer = "T";
-	/** Invoice = I */
-	public static final String CASHTYPE_Invoice = "I";
-	/** General Expense = E */
-	public static final String CASHTYPE_GeneralExpense = "E";
-	/** General Receipts = R */
-	public static final String CASHTYPE_GeneralReceipts = "R";
-	/** Charge = C */
-	public static final String CASHTYPE_Charge = "C";
-	/** Difference = D */
-	public static final String CASHTYPE_Difference = "D";
-	/** Set Cash Type.
-		@param CashType 
-		Source of Cash
-	  */
-	public void setCashType (String CashType)
-	{
-		if (CashType == null) throw new IllegalArgumentException ("CashType is mandatory");
-		if (CashType.equals("T") || CashType.equals("I") || CashType.equals("E") || CashType.equals("R") || CashType.equals("C") || CashType.equals("D")); else throw new IllegalArgumentException ("CashType Invalid value - " + CashType + " - Reference_ID=217 - T - I - E - R - C - D");
-		if (CashType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CashType = CashType.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_CashType, CashType);
-	}
-
-	/** Get Cash Type.
-		@return Source of Cash
-	  */
-	public String getCashType () 
-	{
-		return (String)get_Value(COLUMNNAME_CashType);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

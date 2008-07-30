@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent 
 {
 
@@ -92,13 +92,7 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	public void setAttributeValueType (String AttributeValueType)
 	{
 		if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeValueType is mandatory");
-		if (AttributeValueType.equals("S") || AttributeValueType.equals("N") || AttributeValueType.equals("L")); else throw new IllegalArgumentException ("AttributeValueType Invalid value - " + AttributeValueType + " - Reference_ID=326 - S - N - L");
-		if (AttributeValueType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AttributeValueType = AttributeValueType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AttributeValueType, AttributeValueType);
+		if (AttributeValueType.equals("S") || AttributeValueType.equals("N") || AttributeValueType.equals("L")); else throw new IllegalArgumentException ("AttributeValueType Invalid value - " + AttributeValueType + " - Reference_ID=326 - S - N - L");		set_Value (COLUMNNAME_AttributeValueType, AttributeValueType);
 	}
 
 	/** Get Attribute Value Type.
@@ -115,12 +109,6 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -180,6 +168,28 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 		return false;
 	}
 
+	/** Set Attribute.
+		@param M_Attribute_ID 
+		Product Attribute
+	  */
+	public void setM_Attribute_ID (int M_Attribute_ID)
+	{
+		if (M_Attribute_ID < 1)
+			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+	}
+
+	/** Get Attribute.
+		@return Product Attribute
+	  */
+	public int getM_Attribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_AttributeSearch getM_AttributeSearch() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSearch.Table_Name);
@@ -219,28 +229,6 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Attribute.
-		@param M_Attribute_ID 
-		Product Attribute
-	  */
-	public void setM_Attribute_ID (int M_Attribute_ID)
-	{
-		if (M_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
-	}
-
-	/** Get Attribute.
-		@return Product Attribute
-	  */
-	public int getM_Attribute_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -249,12 +237,6 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

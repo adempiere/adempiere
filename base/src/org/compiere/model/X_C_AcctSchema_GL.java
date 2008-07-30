@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_GL
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
       /** if (C_AcctSchema_GL_ID == 0)
         {
 			setC_AcctSchema_ID (0);
-			setCommitmentOffsetSales_Acct (0);
 			setCommitmentOffset_Acct (0);
+			setCommitmentOffsetSales_Acct (0);
 			setIncomeSummary_Acct (0);
 			setIntercompanyDueFrom_Acct (0);
 			setIntercompanyDueTo_Acct (0);
@@ -128,26 +128,6 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
     }
 
-	/** Set Commitment Offset Sales.
-		@param CommitmentOffsetSales_Acct 
-		Budgetary Commitment Offset Account for Sales
-	  */
-	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct)
-	{
-		set_Value (COLUMNNAME_CommitmentOffsetSales_Acct, Integer.valueOf(CommitmentOffsetSales_Acct));
-	}
-
-	/** Get Commitment Offset Sales.
-		@return Budgetary Commitment Offset Account for Sales
-	  */
-	public int getCommitmentOffsetSales_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Commitment Offset.
 		@param CommitmentOffset_Acct 
 		Budgetary Commitment Offset Account
@@ -163,6 +143,26 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 	public int getCommitmentOffset_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Commitment Offset Sales.
+		@param CommitmentOffsetSales_Acct 
+		Budgetary Commitment Offset Account for Sales
+	  */
+	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct)
+	{
+		set_Value (COLUMNNAME_CommitmentOffsetSales_Acct, Integer.valueOf(CommitmentOffsetSales_Acct));
+	}
+
+	/** Get Commitment Offset Sales.
+		@return Budgetary Commitment Offset Account for Sales
+	  */
+	public int getCommitmentOffsetSales_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

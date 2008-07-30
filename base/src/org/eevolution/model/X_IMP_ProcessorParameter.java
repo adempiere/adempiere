@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParameter, I_Persistent 
 {
 
@@ -40,8 +40,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
       super (ctx, IMP_ProcessorParameter_ID, trxName);
       /** if (IMP_ProcessorParameter_ID == 0)
         {
-			setIMP_ProcessorParameter_ID (0);
 			setIMP_Processor_ID (0);
+			setIMP_ProcessorParameter_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -81,12 +81,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -104,12 +98,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -119,25 +107,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
-	}
-
-	/** Set IMP_ProcessorParameter_ID.
-		@param IMP_ProcessorParameter_ID IMP_ProcessorParameter_ID	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
-	{
-		if (IMP_ProcessorParameter_ID < 1)
-			 throw new IllegalArgumentException ("IMP_ProcessorParameter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
-	}
-
-	/** Get IMP_ProcessorParameter_ID.
-		@return IMP_ProcessorParameter_ID	  */
-	public int getIMP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws Exception 
@@ -175,6 +144,25 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return ii.intValue();
 	}
 
+	/** Set IMP_ProcessorParameter_ID.
+		@param IMP_ProcessorParameter_ID IMP_ProcessorParameter_ID	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
+	{
+		if (IMP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("IMP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
+	}
+
+	/** Get IMP_ProcessorParameter_ID.
+		@return IMP_ProcessorParameter_ID	  */
+	public int getIMP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -183,12 +171,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -204,12 +186,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		@param ParameterValue ParameterValue	  */
 	public void setParameterValue (String ParameterValue)
 	{
-
-		if (ParameterValue != null && ParameterValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ParameterValue = ParameterValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ParameterValue, ParameterValue);
 	}
 
@@ -228,12 +204,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

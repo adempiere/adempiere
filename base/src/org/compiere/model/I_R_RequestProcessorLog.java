@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestProcessorLog
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_R_RequestProcessorLog 
 {
@@ -95,18 +91,18 @@ public interface I_R_RequestProcessorLog
 	  */
 	public boolean isError();
 
-    /** Column name R_RequestProcessorLog_ID */
-    public static final String COLUMNNAME_R_RequestProcessorLog_ID = "R_RequestProcessorLog_ID";
+    /** Column name Reference */
+    public static final String COLUMNNAME_Reference = "Reference";
 
-	/** Set Request Processor Log.
-	  * Result of the execution of the Request Processor
+	/** Set Reference.
+	  * Reference for this record
 	  */
-	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID);
+	public void setReference (String Reference);
 
-	/** Get Request Processor Log.
-	  * Result of the execution of the Request Processor
+	/** Get Reference.
+	  * Reference for this record
 	  */
-	public int getR_RequestProcessorLog_ID();
+	public String getReference();
 
     /** Column name R_RequestProcessor_ID */
     public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
@@ -123,18 +119,18 @@ public interface I_R_RequestProcessorLog
 
 	public I_R_RequestProcessor getR_RequestProcessor() throws Exception;
 
-    /** Column name Reference */
-    public static final String COLUMNNAME_Reference = "Reference";
+    /** Column name R_RequestProcessorLog_ID */
+    public static final String COLUMNNAME_R_RequestProcessorLog_ID = "R_RequestProcessorLog_ID";
 
-	/** Set Reference.
-	  * Reference for this record
+	/** Set Request Processor Log.
+	  * Result of the execution of the Request Processor
 	  */
-	public void setReference (String Reference);
+	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID);
 
-	/** Get Reference.
-	  * Reference for this record
+	/** Get Request Processor Log.
+	  * Result of the execution of the Request Processor
 	  */
-	public String getReference();
+	public int getR_RequestProcessorLog_ID();
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persistent 
 {
 
@@ -43,12 +43,12 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
       super (ctx, C_CommissionRun_ID, trxName);
       /** if (C_CommissionRun_ID == 0)
         {
-			setC_CommissionRun_ID (0);
 			setC_Commission_ID (0);
+			setC_CommissionRun_ID (0);
 			setDocumentNo (null);
 			setGrandTotal (Env.ZERO);
 			setProcessed (false);
-			setStartDate (new Timestamp(System.currentTimeMillis()));
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -79,28 +79,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Commission Run.
-		@param C_CommissionRun_ID 
-		Commission Run or Process
-	  */
-	public void setC_CommissionRun_ID (int C_CommissionRun_ID)
-	{
-		if (C_CommissionRun_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionRun_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
-	}
-
-	/** Get Commission Run.
-		@return Commission Run or Process
-	  */
-	public int getC_CommissionRun_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionRun_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_Commission getC_Commission() throws Exception 
     {
@@ -140,18 +118,34 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Commission Run.
+		@param C_CommissionRun_ID 
+		Commission Run or Process
+	  */
+	public void setC_CommissionRun_ID (int C_CommissionRun_ID)
+	{
+		if (C_CommissionRun_ID < 1)
+			 throw new IllegalArgumentException ("C_CommissionRun_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
+	}
+
+	/** Get Commission Run.
+		@return Commission Run or Process
+	  */
+	public int getC_CommissionRun_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionRun_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -171,12 +165,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 

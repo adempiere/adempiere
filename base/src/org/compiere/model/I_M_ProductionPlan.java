@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ProductionPlan
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_M_ProductionPlan 
 {
@@ -108,19 +104,6 @@ public interface I_M_ProductionPlan
 	  */
 	public int getM_Product_ID();
 
-    /** Column name M_ProductionPlan_ID */
-    public static final String COLUMNNAME_M_ProductionPlan_ID = "M_ProductionPlan_ID";
-
-	/** Set Production Plan.
-	  * Plan for how a product is produced
-	  */
-	public void setM_ProductionPlan_ID (int M_ProductionPlan_ID);
-
-	/** Get Production Plan.
-	  * Plan for how a product is produced
-	  */
-	public int getM_ProductionPlan_ID();
-
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 
@@ -135,6 +118,19 @@ public interface I_M_ProductionPlan
 	public int getM_Production_ID();
 
 	public I_M_Production getM_Production() throws Exception;
+
+    /** Column name M_ProductionPlan_ID */
+    public static final String COLUMNNAME_M_ProductionPlan_ID = "M_ProductionPlan_ID";
+
+	/** Set Production Plan.
+	  * Plan for how a product is produced
+	  */
+	public void setM_ProductionPlan_ID (int M_ProductionPlan_ID);
+
+	/** Get Production Plan.
+	  * Plan for how a product is produced
+	  */
+	public int getM_ProductionPlan_ID();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

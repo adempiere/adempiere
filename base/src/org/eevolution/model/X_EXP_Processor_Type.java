@@ -23,7 +23,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_Processor_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_Persistent 
 {
 
@@ -79,12 +79,6 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -121,12 +115,6 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -144,12 +132,6 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	{
 		if (JavaClass == null)
 			throw new IllegalArgumentException ("JavaClass is mandatory.");
-
-		if (JavaClass.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			JavaClass = JavaClass.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_JavaClass, JavaClass);
 	}
 
@@ -168,12 +150,6 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -193,12 +169,6 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

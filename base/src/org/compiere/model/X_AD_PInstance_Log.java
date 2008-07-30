@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for AD_PInstance_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Persistent 
 {
 
@@ -173,12 +173,6 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 		@param P_Msg Process Message	  */
 	public void setP_Msg (String P_Msg)
 	{
-
-		if (P_Msg != null && P_Msg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			P_Msg = P_Msg.substring(0, 2000);
-		}
 		set_ValueNoCheck (COLUMNNAME_P_Msg, P_Msg);
 	}
 

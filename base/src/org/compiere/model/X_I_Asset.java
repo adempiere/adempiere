@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_Asset extends PO implements I_I_Asset, I_Persistent 
 {
 
@@ -74,29 +74,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set A_Accumdepreciation_Acct.
 		@param A_Accumdepreciation_Acct A_Accumdepreciation_Acct	  */
@@ -415,13 +392,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
-		if (A_Depreciation_Manual_Period == null || A_Depreciation_Manual_Period.equals("PR") || A_Depreciation_Manual_Period.equals("YR")); else throw new IllegalArgumentException ("A_Depreciation_Manual_Period Invalid value - " + A_Depreciation_Manual_Period + " - Reference_ID=53256 - PR - YR");
-		if (A_Depreciation_Manual_Period != null && A_Depreciation_Manual_Period.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Depreciation_Manual_Period = A_Depreciation_Manual_Period.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
+		if (A_Depreciation_Manual_Period == null || A_Depreciation_Manual_Period.equals("PR") || A_Depreciation_Manual_Period.equals("YR")); else throw new IllegalArgumentException ("A_Depreciation_Manual_Period Invalid value - " + A_Depreciation_Manual_Period + " - Reference_ID=53256 - PR - YR");		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
 	/** Get A_Depreciation_Manual_Period.
@@ -499,6 +470,29 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public int getA_Disposal_Revenue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -690,13 +684,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 
-		if (A_Reval_Cal_Method == null || A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");
-		if (A_Reval_Cal_Method != null && A_Reval_Cal_Method.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Reval_Cal_Method = A_Reval_Cal_Method.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
+		if (A_Reval_Cal_Method == null || A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
 	/** Get A_Reval_Cal_Method.
@@ -1062,12 +1050,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -1102,12 +1084,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -1152,12 +1128,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -1336,12 +1306,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setLocationComment (String LocationComment)
 	{
-
-		if (LocationComment != null && LocationComment.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			LocationComment = LocationComment.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_LocationComment, LocationComment);
 	}
 
@@ -1359,12 +1323,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setLot (String Lot)
 	{
-
-		if (Lot != null && Lot.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Lot = Lot.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
 
@@ -1483,12 +1441,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1519,13 +1471,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			PostingType = PostingType.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.
@@ -1587,12 +1533,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setSerNo (String SerNo)
 	{
-
-		if (SerNo != null && SerNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			SerNo = SerNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}
 
@@ -1670,12 +1610,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1693,12 +1627,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setVersionNo (String VersionNo)
 	{
-
-		if (VersionNo != null && VersionNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			VersionNo = VersionNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_VersionNo, VersionNo);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_BPartner_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_Persistent 
 {
 
@@ -120,12 +120,6 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -135,6 +129,23 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	public I_M_Product getM_Product() throws Exception 
@@ -173,29 +184,6 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-
-		if (Manufacturer != null && Manufacturer.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			Manufacturer = Manufacturer.substring(0, 30);
-		}
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Quality Rating.
@@ -264,12 +252,6 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 	  */
 	public void setVendorCategory (String VendorCategory)
 	{
-
-		if (VendorCategory != null && VendorCategory.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			VendorCategory = VendorCategory.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_VendorCategory, VendorCategory);
 	}
 
@@ -287,12 +269,6 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 	  */
 	public void setVendorProductNo (String VendorProductNo)
 	{
-
-		if (VendorProductNo != null && VendorProductNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			VendorProductNo = VendorProductNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_VendorProductNo, VendorProductNo);
 	}
 

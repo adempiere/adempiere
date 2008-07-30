@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for B_TopicType
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_B_TopicType 
 {
@@ -119,19 +115,6 @@ public interface I_B_TopicType
 
 	public I_M_PriceList getM_PriceList() throws Exception;
 
-    /** Column name M_ProductMember_ID */
-    public static final String COLUMNNAME_M_ProductMember_ID = "M_ProductMember_ID";
-
-	/** Set Membership.
-	  * Product used to deternine the price of the membership for the topic type
-	  */
-	public void setM_ProductMember_ID (int M_ProductMember_ID);
-
-	/** Get Membership.
-	  * Product used to deternine the price of the membership for the topic type
-	  */
-	public int getM_ProductMember_ID();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -146,6 +129,19 @@ public interface I_B_TopicType
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws Exception;
+
+    /** Column name M_ProductMember_ID */
+    public static final String COLUMNNAME_M_ProductMember_ID = "M_ProductMember_ID";
+
+	/** Set Membership.
+	  * Product used to deternine the price of the membership for the topic type
+	  */
+	public void setM_ProductMember_ID (int M_ProductMember_ID);
+
+	/** Get Membership.
+	  * Product used to deternine the price of the membership for the topic type
+	  */
+	public int getM_ProductMember_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

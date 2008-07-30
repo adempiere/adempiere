@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element, I_Persistent 
 {
 
@@ -294,6 +294,44 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
+	public I_C_Element getC_Element() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
+        I_C_Element result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Element)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Element_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Element.
+		@param C_Element_ID 
+		Accounting Element
+	  */
+	public void setC_Element_ID (int C_Element_ID)
+	{
+		if (C_Element_ID < 1)
+			 throw new IllegalArgumentException ("C_Element_ID is mandatory.");
+		set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
+	}
+
+	/** Get Element.
+		@return Accounting Element
+	  */
+	public int getC_Element_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Element_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_ElementValue getC_ElementValue() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
@@ -328,44 +366,6 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	public int getC_ElementValue_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ElementValue_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Element getC_Element() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
-        I_C_Element result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Element)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Element_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Element.
-		@param C_Element_ID 
-		Accounting Element
-	  */
-	public void setC_Element_ID (int C_Element_ID)
-	{
-		if (C_Element_ID < 1)
-			 throw new IllegalArgumentException ("C_Element_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
-	}
-
-	/** Get Element.
-		@return Accounting Element
-	  */
-	public int getC_Element_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Element_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -513,13 +513,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	public void setElementType (String ElementType)
 	{
 		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
-		if (ElementType.equals("OO") || ElementType.equals("AC") || ElementType.equals("PR") || ElementType.equals("BP") || ElementType.equals("OT") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("SR") || ElementType.equals("PJ") || ElementType.equals("MC") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("AY") || ElementType.equals("SA") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - OO - AC - PR - BP - OT - LF - LT - SR - PJ - MC - U1 - U2 - AY - SA - X1 - X2");
-		if (ElementType.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			ElementType = ElementType.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_ElementType, ElementType);
+		if (ElementType.equals("OO") || ElementType.equals("AC") || ElementType.equals("PR") || ElementType.equals("BP") || ElementType.equals("OT") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("SR") || ElementType.equals("PJ") || ElementType.equals("MC") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("AY") || ElementType.equals("SA") || ElementType.equals("X1") || ElementType.equals("X2")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=181 - OO - AC - PR - BP - OT - LF - LT - SR - PJ - MC - U1 - U2 - AY - SA - X1 - X2");		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
 
 	/** Get Type.
@@ -622,12 +616,6 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

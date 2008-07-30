@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_Persistent 
 {
 
@@ -260,6 +260,28 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
+	/** Set Converted Amount.
+		@param ConvertedAmt 
+		Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt)
+	{
+		if (ConvertedAmt == null)
+			throw new IllegalArgumentException ("ConvertedAmt is mandatory.");
+		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
+	}
+
+	/** Get Converted Amount.
+		@return Converted Amount
+	  */
+	public BigDecimal getConvertedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_OrderLine getC_OrderLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
@@ -299,40 +321,12 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
-	/** Set Converted Amount.
-		@param ConvertedAmt 
-		Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt)
-	{
-		if (ConvertedAmt == null)
-			throw new IllegalArgumentException ("ConvertedAmt is mandatory.");
-		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
-	}
-
-	/** Get Converted Amount.
-		@return Converted Amount
-	  */
-	public BigDecimal getConvertedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Info.
 		@param Info 
 		Information
 	  */
 	public void setInfo (String Info)
 	{
-
-		if (Info != null && Info.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Info = Info.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Info, Info);
 	}
 
@@ -350,12 +344,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setReference (String Reference)
 	{
-
-		if (Reference != null && Reference.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
 

@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_AttributeSet
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_M_AttributeSet 
 {
@@ -199,6 +195,19 @@ public interface I_M_AttributeSet
 	  */
 	public String getLotCharSOverwrite();
 
+    /** Column name MandatoryType */
+    public static final String COLUMNNAME_MandatoryType = "MandatoryType";
+
+	/** Set Mandatory Type.
+	  * The specification of a Product Attribute Instance is mandatory
+	  */
+	public void setMandatoryType (String MandatoryType);
+
+	/** Get Mandatory Type.
+	  * The specification of a Product Attribute Instance is mandatory
+	  */
+	public String getMandatoryType();
+
     /** Column name M_AttributeSet_ID */
     public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 
@@ -241,19 +250,6 @@ public interface I_M_AttributeSet
 	public int getM_SerNoCtl_ID();
 
 	public I_M_SerNoCtl getM_SerNoCtl() throws Exception;
-
-    /** Column name MandatoryType */
-    public static final String COLUMNNAME_MandatoryType = "MandatoryType";
-
-	/** Set Mandatory Type.
-	  * The specification of a Product Attribute Instance is mandatory
-	  */
-	public void setMandatoryType (String MandatoryType);
-
-	/** Get Mandatory Type.
-	  * The specification of a Product Attribute Instance is mandatory
-	  */
-	public String getMandatoryType();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

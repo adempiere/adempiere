@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctSchema_Default
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_AcctSchema_Default 
 {
@@ -82,19 +78,6 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_Expense_Acct();
 
-    /** Column name B_InTransit_Acct */
-    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
-
-	/** Set Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct);
-
-	/** Get Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct();
-
     /** Column name B_InterestExp_Acct */
     public static final String COLUMNNAME_B_InterestExp_Acct = "B_InterestExp_Acct";
 
@@ -120,6 +103,19 @@ public interface I_C_AcctSchema_Default
 	  * Bank Interest Revenue Account
 	  */
 	public int getB_InterestRev_Acct();
+
+    /** Column name B_InTransit_Acct */
+    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
+
+	/** Set Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct);
+
+	/** Get Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct();
 
     /** Column name B_PaymentSelect_Acct */
     public static final String COLUMNNAME_B_PaymentSelect_Acct = "B_PaymentSelect_Acct";
@@ -212,6 +208,21 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_Unidentified_Acct();
 
+    /** Column name C_AcctSchema_ID */
+    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
+
+	/** Set Accounting Schema.
+	  * Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
+
+	/** Get Accounting Schema.
+	  * Rules for accounting
+	  */
+	public int getC_AcctSchema_ID();
+
+	public I_C_AcctSchema getC_AcctSchema() throws Exception;
+
     /** Column name CB_Asset_Acct */
     public static final String COLUMNNAME_CB_Asset_Acct = "CB_Asset_Acct";
 
@@ -277,20 +288,31 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getCB_Receipt_Acct();
 
-    /** Column name C_AcctSchema_ID */
-    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
+    /** Column name Ch_Expense_Acct */
+    public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
 
-	/** Set Accounting Schema.
-	  * Rules for accounting
+	/** Set Charge Expense.
+	  * Charge Expense Account
 	  */
-	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
+	public void setCh_Expense_Acct (int Ch_Expense_Acct);
 
-	/** Get Accounting Schema.
-	  * Rules for accounting
+	/** Get Charge Expense.
+	  * Charge Expense Account
 	  */
-	public int getC_AcctSchema_ID();
+	public int getCh_Expense_Acct();
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception;
+    /** Column name Ch_Revenue_Acct */
+    public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
+
+	/** Set Charge Revenue.
+	  * Charge Revenue Account
+	  */
+	public void setCh_Revenue_Acct (int Ch_Revenue_Acct);
+
+	/** Get Charge Revenue.
+	  * Charge Revenue Account
+	  */
+	public int getCh_Revenue_Acct();
 
     /** Column name C_Prepayment_Acct */
     public static final String COLUMNNAME_C_Prepayment_Acct = "C_Prepayment_Acct";
@@ -330,32 +352,6 @@ public interface I_C_AcctSchema_Default
 	  * Customer Accounts Receivables Services Account
 	  */
 	public int getC_Receivable_Services_Acct();
-
-    /** Column name Ch_Expense_Acct */
-    public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
-
-	/** Set Charge Expense.
-	  * Charge Expense Account
-	  */
-	public void setCh_Expense_Acct (int Ch_Expense_Acct);
-
-	/** Get Charge Expense.
-	  * Charge Expense Account
-	  */
-	public int getCh_Expense_Acct();
-
-    /** Column name Ch_Revenue_Acct */
-    public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
-
-	/** Set Charge Revenue.
-	  * Charge Revenue Account
-	  */
-	public void setCh_Revenue_Acct (int Ch_Revenue_Acct);
-
-	/** Get Charge Revenue.
-	  * Charge Revenue Account
-	  */
-	public int getCh_Revenue_Acct();
 
     /** Column name E_Expense_Acct */
     public static final String COLUMNNAME_E_Expense_Acct = "E_Expense_Acct";
@@ -422,32 +418,6 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getNotInvoicedRevenue_Acct();
 
-    /** Column name PJ_Asset_Acct */
-    public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
-
-	/** Set Project Asset.
-	  * Project Asset Account
-	  */
-	public void setPJ_Asset_Acct (int PJ_Asset_Acct);
-
-	/** Get Project Asset.
-	  * Project Asset Account
-	  */
-	public int getPJ_Asset_Acct();
-
-    /** Column name PJ_WIP_Acct */
-    public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
-
-	/** Set Work In Progress.
-	  * Account for Work in Progress
-	  */
-	public void setPJ_WIP_Acct (int PJ_WIP_Acct);
-
-	/** Get Work In Progress.
-	  * Account for Work in Progress
-	  */
-	public int getPJ_WIP_Acct();
-
     /** Column name P_Asset_Acct */
     public static final String COLUMNNAME_P_Asset_Acct = "P_Asset_Acct";
 
@@ -460,6 +430,32 @@ public interface I_C_AcctSchema_Default
 	  * Account for Product Asset (Inventory)
 	  */
 	public int getP_Asset_Acct();
+
+    /** Column name PayDiscount_Exp_Acct */
+    public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
+
+	/** Set Payment Discount Expense.
+	  * Payment Discount Expense Account
+	  */
+	public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct);
+
+	/** Get Payment Discount Expense.
+	  * Payment Discount Expense Account
+	  */
+	public int getPayDiscount_Exp_Acct();
+
+    /** Column name PayDiscount_Rev_Acct */
+    public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
+
+	/** Set Payment Discount Revenue.
+	  * Payment Discount Revenue Account
+	  */
+	public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct);
+
+	/** Get Payment Discount Revenue.
+	  * Payment Discount Revenue Account
+	  */
+	public int getPayDiscount_Rev_Acct();
 
     /** Column name P_COGS_Acct */
     public static final String COLUMNNAME_P_COGS_Acct = "P_COGS_Acct";
@@ -526,6 +522,32 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_InvoicePriceVariance_Acct();
 
+    /** Column name PJ_Asset_Acct */
+    public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
+
+	/** Set Project Asset.
+	  * Project Asset Account
+	  */
+	public void setPJ_Asset_Acct (int PJ_Asset_Acct);
+
+	/** Get Project Asset.
+	  * Project Asset Account
+	  */
+	public int getPJ_Asset_Acct();
+
+    /** Column name PJ_WIP_Acct */
+    public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
+
+	/** Set Work In Progress.
+	  * Account for Work in Progress
+	  */
+	public void setPJ_WIP_Acct (int PJ_WIP_Acct);
+
+	/** Get Work In Progress.
+	  * Account for Work in Progress
+	  */
+	public int getPJ_WIP_Acct();
+
     /** Column name P_PurchasePriceVariance_Acct */
     public static final String COLUMNNAME_P_PurchasePriceVariance_Acct = "P_PurchasePriceVariance_Acct";
 
@@ -552,6 +574,15 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Revenue_Acct();
 
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
+
     /** Column name P_TradeDiscountGrant_Acct */
     public static final String COLUMNNAME_P_TradeDiscountGrant_Acct = "P_TradeDiscountGrant_Acct";
 
@@ -577,41 +608,6 @@ public interface I_C_AcctSchema_Default
 	  * Trade Discount Receivable Account
 	  */
 	public int getP_TradeDiscountRec_Acct();
-
-    /** Column name PayDiscount_Exp_Acct */
-    public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
-
-	/** Set Payment Discount Expense.
-	  * Payment Discount Expense Account
-	  */
-	public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct);
-
-	/** Get Payment Discount Expense.
-	  * Payment Discount Expense Account
-	  */
-	public int getPayDiscount_Exp_Acct();
-
-    /** Column name PayDiscount_Rev_Acct */
-    public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
-
-	/** Set Payment Discount Revenue.
-	  * Payment Discount Revenue Account
-	  */
-	public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct);
-
-	/** Get Payment Discount Revenue.
-	  * Payment Discount Revenue Account
-	  */
-	public int getPayDiscount_Rev_Acct();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name RealizedGain_Acct */
     public static final String COLUMNNAME_RealizedGain_Acct = "RealizedGain_Acct";
@@ -821,19 +817,6 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getW_Inventory_Acct();
 
-    /** Column name W_Revaluation_Acct */
-    public static final String COLUMNNAME_W_Revaluation_Acct = "W_Revaluation_Acct";
-
-	/** Set Inventory Revaluation.
-	  * Account for Inventory Revaluation
-	  */
-	public void setW_Revaluation_Acct (int W_Revaluation_Acct);
-
-	/** Get Inventory Revaluation.
-	  * Account for Inventory Revaluation
-	  */
-	public int getW_Revaluation_Acct();
-
     /** Column name Withholding_Acct */
     public static final String COLUMNNAME_Withholding_Acct = "Withholding_Acct";
 
@@ -846,6 +829,19 @@ public interface I_C_AcctSchema_Default
 	  * Account for Withholdings
 	  */
 	public int getWithholding_Acct();
+
+    /** Column name W_Revaluation_Acct */
+    public static final String COLUMNNAME_W_Revaluation_Acct = "W_Revaluation_Acct";
+
+	/** Set Inventory Revaluation.
+	  * Account for Inventory Revaluation
+	  */
+	public void setW_Revaluation_Acct (int W_Revaluation_Acct);
+
+	/** Get Inventory Revaluation.
+	  * Account for Inventory Revaluation
+	  */
+	public int getW_Revaluation_Acct();
 
     /** Column name WriteOff_Acct */
     public static final String COLUMNNAME_WriteOff_Acct = "WriteOff_Acct";

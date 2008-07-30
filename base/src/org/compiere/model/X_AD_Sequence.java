@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Sequence
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent 
 {
 
@@ -148,12 +148,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setDateColumn (String DateColumn)
 	{
-
-		if (DateColumn != null && DateColumn.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DateColumn = DateColumn.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DateColumn, DateColumn);
 	}
 
@@ -171,12 +165,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setDecimalPattern (String DecimalPattern)
 	{
-
-		if (DecimalPattern != null && DecimalPattern.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			DecimalPattern = DecimalPattern.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_DecimalPattern, DecimalPattern);
 	}
 
@@ -194,12 +182,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -311,12 +293,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -342,12 +318,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setPrefix (String Prefix)
 	{
-
-		if (Prefix != null && Prefix.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Prefix = Prefix.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Prefix, Prefix);
 	}
 
@@ -409,12 +379,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setSuffix (String Suffix)
 	{
-
-		if (Suffix != null && Suffix.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Suffix = Suffix.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Suffix, Suffix);
 	}
 
@@ -432,12 +396,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setVFormat (String VFormat)
 	{
-
-		if (VFormat != null && VFormat.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			VFormat = VFormat.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_VFormat, VFormat);
 	}
 

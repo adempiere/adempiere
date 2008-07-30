@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ListVersion
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
       super (ctx, HR_ListVersion_ID, trxName);
       /** if (HR_ListVersion_ID == 0)
         {
-			setHR_ListVersion_ID (0);
 			setHR_List_ID (0);
+			setHR_ListVersion_ID (0);
 			setName (null);
         } */
     }
@@ -82,12 +82,6 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -116,25 +110,6 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 	public int getHR_ListBase_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListBase_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll List Version.
-		@param HR_ListVersion_ID Payroll List Version	  */
-	public void setHR_ListVersion_ID (int HR_ListVersion_ID)
-	{
-		if (HR_ListVersion_ID < 1)
-			 throw new IllegalArgumentException ("HR_ListVersion_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_ListVersion_ID, Integer.valueOf(HR_ListVersion_ID));
-	}
-
-	/** Get Payroll List Version.
-		@return Payroll List Version	  */
-	public int getHR_ListVersion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListVersion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -175,6 +150,25 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Payroll List Version.
+		@param HR_ListVersion_ID Payroll List Version	  */
+	public void setHR_ListVersion_ID (int HR_ListVersion_ID)
+	{
+		if (HR_ListVersion_ID < 1)
+			 throw new IllegalArgumentException ("HR_ListVersion_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_HR_ListVersion_ID, Integer.valueOf(HR_ListVersion_ID));
+	}
+
+	/** Get Payroll List Version.
+		@return Payroll List Version	  */
+	public int getHR_ListVersion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListVersion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -183,12 +177,6 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

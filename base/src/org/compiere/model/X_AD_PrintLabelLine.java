@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintLabelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
       /** if (AD_PrintLabelLine_ID == 0)
         {
 			setAD_LabelPrinterFunction_ID (0);
-			setAD_PrintLabelLine_ID (0);
 			setAD_PrintLabel_ID (0);
+			setAD_PrintLabelLine_ID (0);
 			setLabelFormatType (null);
 // F
 			setName (null);
@@ -157,28 +157,6 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Print Label Line.
-		@param AD_PrintLabelLine_ID 
-		Print Label Line Format
-	  */
-	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
-	{
-		if (AD_PrintLabelLine_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintLabelLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, Integer.valueOf(AD_PrintLabelLine_ID));
-	}
-
-	/** Get Print Label Line.
-		@return Print Label Line Format
-	  */
-	public int getAD_PrintLabelLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintLabelLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_PrintLabel getAD_PrintLabel() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintLabel.Table_Name);
@@ -217,6 +195,28 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Print Label Line.
+		@param AD_PrintLabelLine_ID 
+		Print Label Line Format
+	  */
+	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
+	{
+		if (AD_PrintLabelLine_ID < 1)
+			 throw new IllegalArgumentException ("AD_PrintLabelLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, Integer.valueOf(AD_PrintLabelLine_ID));
+	}
+
+	/** Get Print Label Line.
+		@return Print Label Line Format
+	  */
+	public int getAD_PrintLabelLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintLabelLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** LabelFormatType AD_Reference_ID=280 */
 	public static final int LABELFORMATTYPE_AD_Reference_ID=280;
 	/** Field = F */
@@ -230,13 +230,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	public void setLabelFormatType (String LabelFormatType)
 	{
 		if (LabelFormatType == null) throw new IllegalArgumentException ("LabelFormatType is mandatory");
-		if (LabelFormatType.equals("F") || LabelFormatType.equals("T")); else throw new IllegalArgumentException ("LabelFormatType Invalid value - " + LabelFormatType + " - Reference_ID=280 - F - T");
-		if (LabelFormatType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			LabelFormatType = LabelFormatType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_LabelFormatType, LabelFormatType);
+		if (LabelFormatType.equals("F") || LabelFormatType.equals("T")); else throw new IllegalArgumentException ("LabelFormatType Invalid value - " + LabelFormatType + " - Reference_ID=280 - F - T");		set_Value (COLUMNNAME_LabelFormatType, LabelFormatType);
 	}
 
 	/** Get Label Format Type.
@@ -255,12 +249,6 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -278,12 +266,6 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setPrintName (String PrintName)
 	{
-
-		if (PrintName != null && PrintName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PrintName = PrintName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 

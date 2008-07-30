@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_User_OrgAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_User_OrgAccess extends PO implements I_AD_User_OrgAccess, I_Persistent 
 {
 

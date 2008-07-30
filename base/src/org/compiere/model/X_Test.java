@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Test
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_Test extends PO implements I_Test, I_Persistent 
 {
 
@@ -191,6 +191,23 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Character Data.
+		@param CharacterData 
+		Long Character Field
+	  */
+	public void setCharacterData (String CharacterData)
+	{
+		set_Value (COLUMNNAME_CharacterData, CharacterData);
+	}
+
+	/** Get Character Data.
+		@return Long Character Field
+	  */
+	public String getCharacterData () 
+	{
+		return (String)get_Value(COLUMNNAME_CharacterData);
+	}
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -292,35 +309,12 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Character Data.
-		@param CharacterData 
-		Long Character Field
-	  */
-	public void setCharacterData (String CharacterData)
-	{
-		set_Value (COLUMNNAME_CharacterData, CharacterData);
-	}
-
-	/** Get Character Data.
-		@return Long Character Field
-	  */
-	public String getCharacterData () 
-	{
-		return (String)get_Value(COLUMNNAME_CharacterData);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -338,12 +332,6 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -425,12 +413,6 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -540,6 +522,25 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_T_DateTime);
 	}
 
+	/** Set Test ID.
+		@param Test_ID Test ID	  */
+	public void setTest_ID (int Test_ID)
+	{
+		if (Test_ID < 1)
+			 throw new IllegalArgumentException ("Test_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
+	}
+
+	/** Get Test ID.
+		@return Test ID	  */
+	public int getTest_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Integer.
 		@param T_Integer Integer	  */
 	public void setT_Integer (int T_Integer)
@@ -589,24 +590,5 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Test ID.
-		@param Test_ID Test ID	  */
-	public void setTest_ID (int Test_ID)
-	{
-		if (Test_ID < 1)
-			 throw new IllegalArgumentException ("Test_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
-	}
-
-	/** Get Test ID.
-		@return Test ID	  */
-	public int getTest_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 }

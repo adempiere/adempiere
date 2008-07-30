@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Persistent 
 {
 
@@ -47,8 +47,8 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 			setM_Locator_ID (0);
 // @M_Locator_ID@
 			setM_Product_ID (0);
-			setM_ProductionPlan_ID (0);
 			setM_Production_ID (0);
+			setM_ProductionPlan_ID (0);
 			setProcessed (false);
 			setProductionQty (Env.ZERO);
 // 1
@@ -89,12 +89,6 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -180,28 +174,6 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Production Plan.
-		@param M_ProductionPlan_ID 
-		Plan for how a product is produced
-	  */
-	public void setM_ProductionPlan_ID (int M_ProductionPlan_ID)
-	{
-		if (M_ProductionPlan_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductionPlan_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductionPlan_ID, Integer.valueOf(M_ProductionPlan_ID));
-	}
-
-	/** Get Production Plan.
-		@return Plan for how a product is produced
-	  */
-	public int getM_ProductionPlan_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionPlan_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Production getM_Production() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Production.Table_Name);
@@ -235,6 +207,28 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	public int getM_Production_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Production Plan.
+		@param M_ProductionPlan_ID 
+		Plan for how a product is produced
+	  */
+	public void setM_ProductionPlan_ID (int M_ProductionPlan_ID)
+	{
+		if (M_ProductionPlan_ID < 1)
+			 throw new IllegalArgumentException ("M_ProductionPlan_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_ProductionPlan_ID, Integer.valueOf(M_ProductionPlan_ID));
+	}
+
+	/** Get Production Plan.
+		@return Plan for how a product is produced
+	  */
+	public int getM_ProductionPlan_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionPlan_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

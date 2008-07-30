@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductDownload
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Persistent 
 {
 
@@ -83,12 +83,6 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	{
 		if (DownloadURL == null)
 			throw new IllegalArgumentException ("DownloadURL is mandatory.");
-
-		if (DownloadURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DownloadURL = DownloadURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DownloadURL, DownloadURL);
 	}
 
@@ -168,12 +162,6 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

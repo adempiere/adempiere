@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for A_Depreciation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persistent 
 {
 
@@ -98,12 +98,6 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 	{
 		if (DepreciationType == null)
 			throw new IllegalArgumentException ("DepreciationType is mandatory.");
-
-		if (DepreciationType.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			DepreciationType = DepreciationType.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_DepreciationType, DepreciationType);
 	}
 
@@ -120,12 +114,6 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -145,12 +133,6 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -190,12 +172,6 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 		@param Text Text	  */
 	public void setText (String Text)
 	{
-
-		if (Text != null && Text.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Text = Text.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Text, Text);
 	}
 

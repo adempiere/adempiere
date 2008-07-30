@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent 
 {
 
@@ -47,12 +47,12 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 // @C_BPartner_Location_ID@
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_OrderLine_ID (0);
 			setC_Order_ID (0);
+			setC_OrderLine_ID (0);
 			setC_Tax_ID (0);
 			setC_UOM_ID (0);
 // @#C_UOM_ID@
-			setDateOrdered (new Timestamp(System.currentTimeMillis()));
+			setDateOrdered (new Timestamp( System.currentTimeMillis() ));
 // @DateOrdered@
 			setFreightAmt (Env.ZERO);
 			setIsDescription (false);
@@ -364,28 +364,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Sales Order Line.
-		@param C_OrderLine_ID 
-		Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID)
-	{
-		if (C_OrderLine_ID < 1)
-			 throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
-	}
-
-	/** Get Sales Order Line.
-		@return Sales Order Line
-	  */
-	public int getC_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Order getC_Order() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -431,6 +409,67 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Order_ID()));
     }
+
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1)
+			 throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Project getC_Project() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
     {
@@ -505,45 +544,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Project getC_Project() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
-        I_C_Project result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -701,12 +701,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -1239,6 +1233,31 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return bd;
 	}
 
+	/** Ref_OrderLine_ID AD_Reference_ID=271 */
+	public static final int REF_ORDERLINE_ID_AD_Reference_ID=271;
+	/** Set Referenced Order Line.
+		@param Ref_OrderLine_ID 
+		Reference to corresponding Sales/Purchase Order
+	  */
+	public void setRef_OrderLine_ID (int Ref_OrderLine_ID)
+	{
+		if (Ref_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_Ref_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ref_OrderLine_ID, Integer.valueOf(Ref_OrderLine_ID));
+	}
+
+	/** Get Referenced Order Line.
+		@return Reference to corresponding Sales/Purchase Order
+	  */
+	public int getRef_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Revenue Recognition Amt.
 		@param RRAmt 
 		Revenue Recognition Amount
@@ -1274,31 +1293,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	public Timestamp getRRStartDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_RRStartDate);
-	}
-
-	/** Ref_OrderLine_ID AD_Reference_ID=271 */
-	public static final int REF_ORDERLINE_ID_AD_Reference_ID=271;
-	/** Set Referenced Order Line.
-		@param Ref_OrderLine_ID 
-		Reference to corresponding Sales/Purchase Order
-	  */
-	public void setRef_OrderLine_ID (int Ref_OrderLine_ID)
-	{
-		if (Ref_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_Ref_OrderLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_Ref_OrderLine_ID, Integer.valueOf(Ref_OrderLine_ID));
-	}
-
-	/** Get Referenced Order Line.
-		@return Reference to corresponding Sales/Purchase Order
-	  */
-	public int getRef_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Resource Assignment.

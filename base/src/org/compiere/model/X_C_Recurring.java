@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Recurring
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent 
 {
 
@@ -42,7 +42,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
       /** if (C_Recurring_ID == 0)
         {
 			setC_Recurring_ID (0);
-			setDateNextRun (new Timestamp(System.currentTimeMillis()));
+			setDateNextRun (new Timestamp( System.currentTimeMillis() ));
 			setFrequencyType (null);
 // M
 			setName (null);
@@ -300,12 +300,6 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -354,13 +348,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("D") || FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=283 - D - W - M - Q");
-		if (FrequencyType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		if (FrequencyType.equals("D") || FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=283 - D - W - M - Q");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.
@@ -416,12 +404,6 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -441,12 +423,6 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -504,13 +480,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	public void setRecurringType (String RecurringType)
 	{
 		if (RecurringType == null) throw new IllegalArgumentException ("RecurringType is mandatory");
-		if (RecurringType.equals("I") || RecurringType.equals("O") || RecurringType.equals("G") || RecurringType.equals("J")); else throw new IllegalArgumentException ("RecurringType Invalid value - " + RecurringType + " - Reference_ID=282 - I - O - G - J");
-		if (RecurringType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RecurringType = RecurringType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_RecurringType, RecurringType);
+		if (RecurringType.equals("I") || RecurringType.equals("O") || RecurringType.equals("G") || RecurringType.equals("J")); else throw new IllegalArgumentException ("RecurringType Invalid value - " + RecurringType + " - Reference_ID=282 - I - O - G - J");		set_Value (COLUMNNAME_RecurringType, RecurringType);
 	}
 
 	/** Get Recurring Type.

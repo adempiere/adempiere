@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         {
 			setGoalRestrictionType (null);
 			setName (null);
-			setPA_GoalRestriction_ID (0);
 			setPA_Goal_ID (0);
+			setPA_GoalRestriction_ID (0);
         } */
     }
 
@@ -74,45 +74,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_C_BP_Group getC_BP_Group() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_BPartner getC_BPartner() throws Exception 
     {
@@ -153,6 +114,45 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
+	public I_C_BP_Group getC_BP_Group() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
+        I_C_BP_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** GoalRestrictionType AD_Reference_ID=368 */
 	public static final int GOALRESTRICTIONTYPE_AD_Reference_ID=368;
 	/** Organization = O */
@@ -172,13 +172,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	public void setGoalRestrictionType (String GoalRestrictionType)
 	{
 		if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestrictionType is mandatory");
-		if (GoalRestrictionType.equals("O") || GoalRestrictionType.equals("B") || GoalRestrictionType.equals("P") || GoalRestrictionType.equals("G") || GoalRestrictionType.equals("C")); else throw new IllegalArgumentException ("GoalRestrictionType Invalid value - " + GoalRestrictionType + " - Reference_ID=368 - O - B - P - G - C");
-		if (GoalRestrictionType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			GoalRestrictionType = GoalRestrictionType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_GoalRestrictionType, GoalRestrictionType);
+		if (GoalRestrictionType.equals("O") || GoalRestrictionType.equals("B") || GoalRestrictionType.equals("P") || GoalRestrictionType.equals("G") || GoalRestrictionType.equals("C")); else throw new IllegalArgumentException ("GoalRestrictionType Invalid value - " + GoalRestrictionType + " - Reference_ID=368 - O - B - P - G - C");		set_Value (COLUMNNAME_GoalRestrictionType, GoalRestrictionType);
 	}
 
 	/** Get Restriction Type.
@@ -275,12 +269,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -325,28 +313,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	/** Set Goal Restriction.
-		@param PA_GoalRestriction_ID 
-		Performance Goal Restriction
-	  */
-	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
-	{
-		if (PA_GoalRestriction_ID < 1)
-			 throw new IllegalArgumentException ("PA_GoalRestriction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
-	}
-
-	/** Get Goal Restriction.
-		@return Performance Goal Restriction
-	  */
-	public int getPA_GoalRestriction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalRestriction_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_PA_Goal getPA_Goal() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
@@ -380,6 +346,28 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	public int getPA_Goal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Goal Restriction.
+		@param PA_GoalRestriction_ID 
+		Performance Goal Restriction
+	  */
+	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
+	{
+		if (PA_GoalRestriction_ID < 1)
+			 throw new IllegalArgumentException ("PA_GoalRestriction_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
+	}
+
+	/** Get Goal Restriction.
+		@return Performance Goal Restriction
+	  */
+	public int getPA_GoalRestriction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalRestriction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

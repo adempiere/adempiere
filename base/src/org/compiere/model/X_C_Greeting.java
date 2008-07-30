@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Greeting
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent 
 {
 
@@ -101,12 +101,6 @@ public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent
 	  */
 	public void setGreeting (String Greeting)
 	{
-
-		if (Greeting != null && Greeting.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Greeting = Greeting.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Greeting, Greeting);
 	}
 
@@ -174,12 +168,6 @@ public class X_C_Greeting extends PO implements I_C_Greeting, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

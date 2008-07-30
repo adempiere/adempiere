@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStage
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent 
 {
 
@@ -86,6 +86,28 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
       return sb.toString();
     }
 
+	/** Set Web Container Stage.
+		@param CM_CStage_ID 
+		Web Container Stage contains the staging content like images, text etc.
+	  */
+	public void setCM_CStage_ID (int CM_CStage_ID)
+	{
+		if (CM_CStage_ID < 1)
+			 throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
+	}
+
+	/** Get Web Container Stage.
+		@return Web Container Stage contains the staging content like images, text etc.
+	  */
+	public int getCM_CStage_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStage_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** CM_CStageLink_ID AD_Reference_ID=387 */
 	public static final int CM_CSTAGELINK_ID_AD_Reference_ID=387;
 	/** Set Container Link.
@@ -106,28 +128,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	public int getCM_CStageLink_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStageLink_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Web Container Stage.
-		@param CM_CStage_ID 
-		Web Container Stage contains the staging content like images, text etc.
-	  */
-	public void setCM_CStage_ID (int CM_CStage_ID)
-	{
-		if (CM_CStage_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
-	}
-
-	/** Get Web Container Stage.
-		@return Web Container Stage contains the staging content like images, text etc.
-	  */
-	public int getCM_CStage_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStage_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -216,12 +216,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setContainerLinkURL (String ContainerLinkURL)
 	{
-
-		if (ContainerLinkURL != null && ContainerLinkURL.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ContainerLinkURL = ContainerLinkURL.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ContainerLinkURL, ContainerLinkURL);
 	}
 
@@ -248,13 +242,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	public void setContainerType (String ContainerType)
 	{
 		if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is mandatory");
-		if (ContainerType.equals("D") || ContainerType.equals("L") || ContainerType.equals("U")); else throw new IllegalArgumentException ("ContainerType Invalid value - " + ContainerType + " - Reference_ID=385 - D - L - U");
-		if (ContainerType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ContainerType = ContainerType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ContainerType, ContainerType);
+		if (ContainerType.equals("D") || ContainerType.equals("L") || ContainerType.equals("U")); else throw new IllegalArgumentException ("ContainerType Invalid value - " + ContainerType + " - Reference_ID=385 - D - L - U");		set_Value (COLUMNNAME_ContainerType, ContainerType);
 	}
 
 	/** Get Web Container Type.
@@ -271,12 +259,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setContainerXML (String ContainerXML)
 	{
-
-		if (ContainerXML != null && ContainerXML.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ContainerXML = ContainerXML.substring(0, 2000);
-		}
 		set_ValueNoCheck (COLUMNNAME_ContainerXML, ContainerXML);
 	}
 
@@ -294,12 +276,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Description = Description.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -317,12 +293,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -460,12 +430,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Author (String Meta_Author)
 	{
-
-		if (Meta_Author != null && Meta_Author.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Author = Meta_Author.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Author, Meta_Author);
 	}
 
@@ -483,12 +447,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Content (String Meta_Content)
 	{
-
-		if (Meta_Content != null && Meta_Content.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Content = Meta_Content.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Content, Meta_Content);
 	}
 
@@ -506,12 +464,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Copyright (String Meta_Copyright)
 	{
-
-		if (Meta_Copyright != null && Meta_Copyright.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Copyright = Meta_Copyright.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Copyright, Meta_Copyright);
 	}
 
@@ -531,12 +483,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	{
 		if (Meta_Description == null)
 			throw new IllegalArgumentException ("Meta_Description is mandatory.");
-
-		if (Meta_Description.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Description = Meta_Description.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Description, Meta_Description);
 	}
 
@@ -556,12 +502,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	{
 		if (Meta_Keywords == null)
 			throw new IllegalArgumentException ("Meta_Keywords is mandatory.");
-
-		if (Meta_Keywords.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Keywords = Meta_Keywords.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Keywords, Meta_Keywords);
 	}
 
@@ -579,12 +519,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Language (String Meta_Language)
 	{
-
-		if (Meta_Language != null && Meta_Language.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			Meta_Language = Meta_Language.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_Meta_Language, Meta_Language);
 	}
 
@@ -602,12 +536,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Publisher (String Meta_Publisher)
 	{
-
-		if (Meta_Publisher != null && Meta_Publisher.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_Publisher = Meta_Publisher.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_Publisher, Meta_Publisher);
 	}
 
@@ -625,12 +553,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_RobotsTag (String Meta_RobotsTag)
 	{
-
-		if (Meta_RobotsTag != null && Meta_RobotsTag.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Meta_RobotsTag = Meta_RobotsTag.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Meta_RobotsTag, Meta_RobotsTag);
 	}
 
@@ -650,12 +572,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -683,12 +599,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	{
 		if (Notice == null)
 			throw new IllegalArgumentException ("Notice is mandatory.");
-
-		if (Notice.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Notice = Notice.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Notice, Notice);
 	}
 
@@ -749,12 +659,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	{
 		if (RelativeURL == null)
 			throw new IllegalArgumentException ("RelativeURL is mandatory.");
-
-		if (RelativeURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			RelativeURL = RelativeURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_RelativeURL, RelativeURL);
 	}
 
@@ -772,12 +676,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setStructureXML (String StructureXML)
 	{
-
-		if (StructureXML != null && StructureXML.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			StructureXML = StructureXML.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_StructureXML, StructureXML);
 	}
 
@@ -795,12 +693,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
-
-		if (Title != null && Title.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Title = Title.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Title, Title);
 	}
 

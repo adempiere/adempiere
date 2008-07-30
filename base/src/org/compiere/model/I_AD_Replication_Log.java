@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Replication_Log
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_Replication_Log 
 {
@@ -55,21 +51,6 @@ public interface I_AD_Replication_Log
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AD_ReplicationTable_ID */
-    public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
-
-	/** Set Replication Table.
-	  * Data Replication Strategy Table Info
-	  */
-	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID);
-
-	/** Get Replication Table.
-	  * Data Replication Strategy Table Info
-	  */
-	public int getAD_ReplicationTable_ID();
-
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws Exception;
 
     /** Column name AD_Replication_Log_ID */
     public static final String COLUMNNAME_AD_Replication_Log_ID = "AD_Replication_Log_ID";
@@ -98,6 +79,21 @@ public interface I_AD_Replication_Log
 	public int getAD_Replication_Run_ID();
 
 	public I_AD_Replication_Run getAD_Replication_Run() throws Exception;
+
+    /** Column name AD_ReplicationTable_ID */
+    public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
+
+	/** Set Replication Table.
+	  * Data Replication Strategy Table Info
+	  */
+	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID);
+
+	/** Get Replication Table.
+	  * Data Replication Strategy Table Info
+	  */
+	public int getAD_ReplicationTable_ID();
+
+	public I_AD_ReplicationTable getAD_ReplicationTable() throws Exception;
 
     /** Column name IsReplicated */
     public static final String COLUMNNAME_IsReplicated = "IsReplicated";

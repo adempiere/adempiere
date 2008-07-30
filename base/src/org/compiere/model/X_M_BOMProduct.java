@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent 
 {
 
@@ -50,8 +50,8 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 			setLeadTimeOffset (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_BOMProduct WHERE M_BOM_ID=@M_BOM_ID@
-			setM_BOMProduct_ID (0);
 			setM_BOM_ID (0);
+			setM_BOMProduct_ID (0);
         } */
     }
 
@@ -102,13 +102,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	public void setBOMProductType (String BOMProductType)
 	{
 		if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType is mandatory");
-		if (BOMProductType.equals("S") || BOMProductType.equals("O") || BOMProductType.equals("A") || BOMProductType.equals("D") || BOMProductType.equals("X")); else throw new IllegalArgumentException ("BOMProductType Invalid value - " + BOMProductType + " - Reference_ID=349 - S - O - A - D - X");
-		if (BOMProductType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			BOMProductType = BOMProductType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_BOMProductType, BOMProductType);
+		if (BOMProductType.equals("S") || BOMProductType.equals("O") || BOMProductType.equals("A") || BOMProductType.equals("D") || BOMProductType.equals("X")); else throw new IllegalArgumentException ("BOMProductType Invalid value - " + BOMProductType + " - Reference_ID=349 - S - O - A - D - X");		set_Value (COLUMNNAME_BOMProductType, BOMProductType);
 	}
 
 	/** Get Component Type.
@@ -147,12 +141,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -170,12 +158,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -321,28 +303,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set BOM Component.
-		@param M_BOMProduct_ID 
-		Bill of Material Component (Product)
-	  */
-	public void setM_BOMProduct_ID (int M_BOMProduct_ID)
-	{
-		if (M_BOMProduct_ID < 1)
-			 throw new IllegalArgumentException ("M_BOMProduct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_BOMProduct_ID, Integer.valueOf(M_BOMProduct_ID));
-	}
-
-	/** Get BOM Component.
-		@return Bill of Material Component (Product)
-	  */
-	public int getM_BOMProduct_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOMProduct_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_BOM getM_BOM() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
@@ -376,6 +336,28 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	public int getM_BOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set BOM Component.
+		@param M_BOMProduct_ID 
+		Bill of Material Component (Product)
+	  */
+	public void setM_BOMProduct_ID (int M_BOMProduct_ID)
+	{
+		if (M_BOMProduct_ID < 1)
+			 throw new IllegalArgumentException ("M_BOMProduct_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_BOMProduct_ID, Integer.valueOf(M_BOMProduct_ID));
+	}
+
+	/** Get BOM Component.
+		@return Bill of Material Component (Product)
+	  */
+	public int getM_BOMProduct_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOMProduct_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

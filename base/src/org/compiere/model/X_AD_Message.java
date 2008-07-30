@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Message
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Message extends PO implements I_AD_Message, I_Persistent 
 {
 
@@ -106,12 +106,6 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -131,12 +125,6 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	{
 		if (MsgText == null)
 			throw new IllegalArgumentException ("MsgText is mandatory.");
-
-		if (MsgText.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MsgText = MsgText.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MsgText, MsgText);
 	}
 
@@ -154,12 +142,6 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	  */
 	public void setMsgTip (String MsgTip)
 	{
-
-		if (MsgTip != null && MsgTip.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			MsgTip = MsgTip.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_MsgTip, MsgTip);
 	}
 
@@ -186,13 +168,7 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	public void setMsgType (String MsgType)
 	{
 		if (MsgType == null) throw new IllegalArgumentException ("MsgType is mandatory");
-		if (MsgType.equals("E") || MsgType.equals("I") || MsgType.equals("M")); else throw new IllegalArgumentException ("MsgType Invalid value - " + MsgType + " - Reference_ID=103 - E - I - M");
-		if (MsgType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MsgType = MsgType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MsgType, MsgType);
+		if (MsgType.equals("E") || MsgType.equals("I") || MsgType.equals("M")); else throw new IllegalArgumentException ("MsgType Invalid value - " + MsgType + " - Reference_ID=103 - E - I - M");		set_Value (COLUMNNAME_MsgType, MsgType);
 	}
 
 	/** Get Message Type.
@@ -211,12 +187,6 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ_TopicSubscriber
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscriber, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
         {
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
-			setC_RfQ_TopicSubscriber_ID (0);
 			setC_RfQ_Topic_ID (0);
+			setC_RfQ_TopicSubscriber_ID (0);
         } */
     }
 
@@ -191,28 +191,6 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 		return ii.intValue();
 	}
 
-	/** Set RfQ Subscriber.
-		@param C_RfQ_TopicSubscriber_ID 
-		Request for Quotation Topic Subscriber
-	  */
-	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
-	{
-		if (C_RfQ_TopicSubscriber_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_TopicSubscriber_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, Integer.valueOf(C_RfQ_TopicSubscriber_ID));
-	}
-
-	/** Get RfQ Subscriber.
-		@return Request for Quotation Topic Subscriber
-	  */
-	public int getC_RfQ_TopicSubscriber_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriber_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_RfQ_Topic getC_RfQ_Topic() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQ_Topic.Table_Name);
@@ -258,6 +236,28 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_RfQ_Topic_ID()));
     }
+
+	/** Set RfQ Subscriber.
+		@param C_RfQ_TopicSubscriber_ID 
+		Request for Quotation Topic Subscriber
+	  */
+	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
+	{
+		if (C_RfQ_TopicSubscriber_ID < 1)
+			 throw new IllegalArgumentException ("C_RfQ_TopicSubscriber_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, Integer.valueOf(C_RfQ_TopicSubscriber_ID));
+	}
+
+	/** Get RfQ Subscriber.
+		@return Request for Quotation Topic Subscriber
+	  */
+	public int getC_RfQ_TopicSubscriber_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriber_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Opt-out Date.
 		@param OptOutDate 

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Process_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persistent 
 {
 
@@ -277,12 +277,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	{
 		if (ColumnName == null)
 			throw new IllegalArgumentException ("ColumnName is mandatory.");
-
-		if (ColumnName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ColumnName = ColumnName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -300,12 +294,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setDefaultValue (String DefaultValue)
 	{
-
-		if (DefaultValue != null && DefaultValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DefaultValue = DefaultValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
 	}
 
@@ -323,12 +311,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setDefaultValue2 (String DefaultValue2)
 	{
-
-		if (DefaultValue2 != null && DefaultValue2.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			DefaultValue2 = DefaultValue2.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_DefaultValue2, DefaultValue2);
 	}
 
@@ -346,12 +328,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -371,12 +347,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -414,12 +384,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -511,12 +475,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -556,41 +514,12 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-
-		if (VFormat != null && VFormat.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			VFormat = VFormat.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
-	}
-
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
 	  */
 	public void setValueMax (String ValueMax)
 	{
-
-		if (ValueMax != null && ValueMax.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ValueMax = ValueMax.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ValueMax, ValueMax);
 	}
 
@@ -608,12 +537,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setValueMin (String ValueMin)
 	{
-
-		if (ValueMin != null && ValueMin.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ValueMin = ValueMin.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ValueMin, ValueMin);
 	}
 
@@ -623,5 +546,22 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
+	}
+
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

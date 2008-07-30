@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQResponseLineQty
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_RfQResponseLineQty 
 {
@@ -71,19 +67,6 @@ public interface I_C_RfQResponseLineQty
 
 	public I_C_RfQLineQty getC_RfQLineQty() throws Exception;
 
-    /** Column name C_RfQResponseLineQty_ID */
-    public static final String COLUMNNAME_C_RfQResponseLineQty_ID = "C_RfQResponseLineQty_ID";
-
-	/** Set RfQ Response Line Qty.
-	  * Request for Quotation Response Line Quantity
-	  */
-	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID);
-
-	/** Get RfQ Response Line Qty.
-	  * Request for Quotation Response Line Quantity
-	  */
-	public int getC_RfQResponseLineQty_ID();
-
     /** Column name C_RfQResponseLine_ID */
     public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
 
@@ -98,6 +81,19 @@ public interface I_C_RfQResponseLineQty
 	public int getC_RfQResponseLine_ID();
 
 	public I_C_RfQResponseLine getC_RfQResponseLine() throws Exception;
+
+    /** Column name C_RfQResponseLineQty_ID */
+    public static final String COLUMNNAME_C_RfQResponseLineQty_ID = "C_RfQResponseLineQty_ID";
+
+	/** Set RfQ Response Line Qty.
+	  * Request for Quotation Response Line Quantity
+	  */
+	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID);
+
+	/** Get RfQ Response Line Qty.
+	  * Request for Quotation Response Line Quantity
+	  */
+	public int getC_RfQResponseLineQty_ID();
 
     /** Column name Discount */
     public static final String COLUMNNAME_Discount = "Discount";

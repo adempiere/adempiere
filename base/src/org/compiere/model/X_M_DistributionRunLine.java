@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLine, I_Persistent 
 {
 
@@ -45,11 +45,11 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_DistributionRunLine WHERE M_DistributionRun_ID=@M_DistributionRun_ID@
 			setM_DistributionList_ID (0);
-			setM_DistributionRunLine_ID (0);
 			setM_DistributionRun_ID (0);
-			setM_Product_ID (0);
+			setM_DistributionRunLine_ID (0);
 			setMinQty (Env.ZERO);
 // 0
+			setM_Product_ID (0);
 			setTotalQty (Env.ZERO);
         } */
     }
@@ -88,12 +88,6 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -163,28 +157,6 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 		return ii.intValue();
 	}
 
-	/** Set Distribution Run Line.
-		@param M_DistributionRunLine_ID 
-		Distribution Run Lines define Distribution List, the Product and Quantiries
-	  */
-	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
-	{
-		if (M_DistributionRunLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionRunLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
-	}
-
-	/** Get Distribution Run Line.
-		@return Distribution Run Lines define Distribution List, the Product and Quantiries
-	  */
-	public int getM_DistributionRunLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionRunLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_DistributionRun getM_DistributionRun() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionRun.Table_Name);
@@ -231,6 +203,50 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
     }
 
+	/** Set Distribution Run Line.
+		@param M_DistributionRunLine_ID 
+		Distribution Run Lines define Distribution List, the Product and Quantiries
+	  */
+	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
+	{
+		if (M_DistributionRunLine_ID < 1)
+			 throw new IllegalArgumentException ("M_DistributionRunLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
+	}
+
+	/** Get Distribution Run Line.
+		@return Distribution Run Lines define Distribution List, the Product and Quantiries
+	  */
+	public int getM_DistributionRunLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DistributionRunLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Minimum Quantity.
+		@param MinQty 
+		Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty)
+	{
+		if (MinQty == null)
+			throw new IllegalArgumentException ("MinQty is mandatory.");
+		set_Value (COLUMNNAME_MinQty, MinQty);
+	}
+
+	/** Get Minimum Quantity.
+		@return Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_M_Product getM_Product() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -267,28 +283,6 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Minimum Quantity.
-		@param MinQty 
-		Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty)
-	{
-		if (MinQty == null)
-			throw new IllegalArgumentException ("MinQty is mandatory.");
-		set_Value (COLUMNNAME_MinQty, MinQty);
-	}
-
-	/** Get Minimum Quantity.
-		@return Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Total Quantity.

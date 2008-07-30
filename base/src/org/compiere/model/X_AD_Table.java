@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Table extends PO implements I_AD_Table, I_Persistent 
 {
 
@@ -40,9 +40,9 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
       super (ctx, AD_Table_ID, trxName);
       /** if (AD_Table_ID == 0)
         {
-			setAD_Table_ID (0);
 			setAccessLevel (null);
 // 4
+			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setIsChangeLog (false);
@@ -86,6 +86,38 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -187,54 +219,10 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
-		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
-		if (AccessLevel.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccessLevel = AccessLevel.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
-	}
-
-	/** Get Data Access Level.
-		@return Access Level required
-	  */
-	public String getAccessLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
-
 	/** Set Copy Columns From Table.
 		@param CopyColumnsFromTable Copy Columns From Table	  */
 	public void setCopyColumnsFromTable (String CopyColumnsFromTable)
 	{
-
-		if (CopyColumnsFromTable != null && CopyColumnsFromTable.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyColumnsFromTable = CopyColumnsFromTable.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CopyColumnsFromTable, CopyColumnsFromTable);
 	}
 
@@ -251,12 +239,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -276,12 +258,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -299,12 +275,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -322,12 +292,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setImportTable (String ImportTable)
 	{
-
-		if (ImportTable != null && ImportTable.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ImportTable = ImportTable.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_ImportTable, ImportTable);
 	}
 
@@ -484,12 +448,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -541,13 +499,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	public void setReplicationType (String ReplicationType)
 	{
 		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
-		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");
-		if (ReplicationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ReplicationType = ReplicationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
+		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 
 	/** Get Replication Type.
@@ -566,12 +518,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	{
 		if (TableName == null)
 			throw new IllegalArgumentException ("TableName is mandatory.");
-
-		if (TableName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			TableName = TableName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_TableName, TableName);
 	}
 

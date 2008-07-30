@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
@@ -142,12 +142,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	{
 		if (DUNS == null)
 			throw new IllegalArgumentException ("DUNS is mandatory.");
-
-		if (DUNS.length() > 11)
-		{
-			log.warning("Length > 11 - truncated");
-			DUNS = DUNS.substring(0, 11);
-		}
 		set_Value (COLUMNNAME_DUNS, DUNS);
 	}
 
@@ -256,12 +250,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	{
 		if (TaxID == null)
 			throw new IllegalArgumentException ("TaxID is mandatory.");
-
-		if (TaxID.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			TaxID = TaxID.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_TaxID, TaxID);
 	}
 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StandardResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_Persistent 
 {
 
@@ -39,8 +39,8 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
       /** if (R_StandardResponse_ID == 0)
         {
 			setName (null);
-			setR_StandardResponse_ID (0);
 			setResponseText (null);
+			setR_StandardResponse_ID (0);
         } */
     }
 
@@ -80,12 +80,6 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -104,6 +98,25 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Response Text.
+		@param ResponseText 
+		Request Response Text
+	  */
+	public void setResponseText (String ResponseText)
+	{
+		if (ResponseText == null)
+			throw new IllegalArgumentException ("ResponseText is mandatory.");
+		set_Value (COLUMNNAME_ResponseText, ResponseText);
+	}
+
+	/** Get Response Text.
+		@return Request Response Text
+	  */
+	public String getResponseText () 
+	{
+		return (String)get_Value(COLUMNNAME_ResponseText);
+	}
 
 	/** Set Standard Response.
 		@param R_StandardResponse_ID 
@@ -125,30 +138,5 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Response Text.
-		@param ResponseText 
-		Request Response Text
-	  */
-	public void setResponseText (String ResponseText)
-	{
-		if (ResponseText == null)
-			throw new IllegalArgumentException ("ResponseText is mandatory.");
-
-		if (ResponseText.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ResponseText = ResponseText.substring(0, 2000);
-		}
-		set_Value (COLUMNNAME_ResponseText, ResponseText);
-	}
-
-	/** Get Response Text.
-		@return Request Response Text
-	  */
-	public String getResponseText () 
-	{
-		return (String)get_Value(COLUMNNAME_ResponseText);
 	}
 }

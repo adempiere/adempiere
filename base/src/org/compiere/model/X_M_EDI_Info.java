@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_EDI_Info
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent 
 {
 
@@ -82,11 +82,12 @@ public class X_M_EDI_Info extends PO implements I_M_EDI_Info, I_Persistent
 	{
 		if (Info == null)
 			throw new IllegalArgumentException ("Info is mandatory.");
+		int fieldLength = p_info.getFieldLength( COLUMNNAME_Info );
 
-		if (Info.length() > 4000)
+		if (Info.length() > fieldLength )
 		{
-			log.warning("Length > 4000 - truncated");
-			Info = Info.substring(0, 4000);
+			log.warning("Length > " + fieldLength + " - truncated");
+			Info = Info.substring(0, fieldLength );
 		}
 		set_Value (COLUMNNAME_Info, Info);
 	}

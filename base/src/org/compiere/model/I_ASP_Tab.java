@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_Tab
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_ASP_Tab 
 {
@@ -86,6 +82,15 @@ public interface I_ASP_Tab
 
 	public I_AD_Window getAD_Window() throws Exception;
 
+    /** Column name AllFields */
+    public static final String COLUMNNAME_AllFields = "AllFields";
+
+	/** Set AllFields	  */
+	public void setAllFields (boolean AllFields);
+
+	/** Get AllFields	  */
+	public boolean isAllFields();
+
     /** Column name ASP_Level_ID */
     public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
 
@@ -105,15 +110,6 @@ public interface I_ASP_Tab
 
 	/** Get ASP Status	  */
 	public String getASP_Status();
-
-    /** Column name AllFields */
-    public static final String COLUMNNAME_AllFields = "AllFields";
-
-	/** Set AllFields	  */
-	public void setAllFields (boolean AllFields);
-
-	/** Get AllFields	  */
-	public boolean isAllFields();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

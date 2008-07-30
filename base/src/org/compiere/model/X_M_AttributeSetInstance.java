@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSetInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInstance, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
       super (ctx, M_AttributeSetInstance_ID, trxName);
       /** if (M_AttributeSetInstance_ID == 0)
         {
-			setM_AttributeSetInstance_ID (0);
 			setM_AttributeSet_ID (0);
+			setM_AttributeSetInstance_ID (0);
         } */
     }
 
@@ -80,12 +80,6 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -120,12 +114,6 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	  */
 	public void setLot (String Lot)
 	{
-
-		if (Lot != null && Lot.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Lot = Lot.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
 
@@ -136,36 +124,6 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	{
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
-
-	/** Set Attribute Set Instance.
-		@param M_AttributeSetInstance_ID 
-		Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
-	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
-	}
-
-	/** Get Attribute Set Instance.
-		@return Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()));
-    }
 
 	public I_M_AttributeSet getM_AttributeSet() throws Exception 
     {
@@ -204,6 +162,36 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Attribute Set Instance.
+		@param M_AttributeSetInstance_ID 
+		Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
+	{
+		if (M_AttributeSetInstance_ID < 0)
+			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+	}
+
+	/** Get Attribute Set Instance.
+		@return Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()));
+    }
 
 	public I_M_Lot getM_Lot() throws Exception 
     {
@@ -250,12 +238,6 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 	  */
 	public void setSerNo (String SerNo)
 	{
-
-		if (SerNo != null && SerNo.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			SerNo = SerNo.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}
 

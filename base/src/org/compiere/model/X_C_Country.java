@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Country extends PO implements I_C_Country, I_Persistent 
 {
 
@@ -88,12 +88,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setAD_Language (String AD_Language)
 	{
-
-		if (AD_Language != null && AD_Language.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 6);
-		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -174,12 +168,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	{
 		if (CountryCode == null)
 			throw new IllegalArgumentException ("CountryCode is mandatory.");
-
-		if (CountryCode.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			CountryCode = CountryCode.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_CountryCode, CountryCode);
 	}
 
@@ -197,12 +185,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -222,12 +204,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	{
 		if (DisplaySequence == null)
 			throw new IllegalArgumentException ("DisplaySequence is mandatory.");
-
-		if (DisplaySequence.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			DisplaySequence = DisplaySequence.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_DisplaySequence, DisplaySequence);
 	}
 
@@ -245,12 +221,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setDisplaySequenceLocal (String DisplaySequenceLocal)
 	{
-
-		if (DisplaySequenceLocal != null && DisplaySequenceLocal.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			DisplaySequenceLocal = DisplaySequenceLocal.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_DisplaySequenceLocal, DisplaySequenceLocal);
 	}
 
@@ -268,12 +238,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setExpressionBankAccountNo (String ExpressionBankAccountNo)
 	{
-
-		if (ExpressionBankAccountNo != null && ExpressionBankAccountNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ExpressionBankAccountNo = ExpressionBankAccountNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ExpressionBankAccountNo, ExpressionBankAccountNo);
 	}
 
@@ -291,12 +255,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setExpressionBankRoutingNo (String ExpressionBankRoutingNo)
 	{
-
-		if (ExpressionBankRoutingNo != null && ExpressionBankRoutingNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ExpressionBankRoutingNo = ExpressionBankRoutingNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ExpressionBankRoutingNo, ExpressionBankRoutingNo);
 	}
 
@@ -314,12 +272,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setExpressionPhone (String ExpressionPhone)
 	{
-
-		if (ExpressionPhone != null && ExpressionPhone.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ExpressionPhone = ExpressionPhone.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ExpressionPhone, ExpressionPhone);
 	}
 
@@ -337,12 +289,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setExpressionPostal (String ExpressionPostal)
 	{
-
-		if (ExpressionPostal != null && ExpressionPostal.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ExpressionPostal = ExpressionPostal.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ExpressionPostal, ExpressionPostal);
 	}
 
@@ -360,12 +306,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setExpressionPostal_Add (String ExpressionPostal_Add)
 	{
-
-		if (ExpressionPostal_Add != null && ExpressionPostal_Add.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ExpressionPostal_Add = ExpressionPostal_Add.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_ExpressionPostal_Add, ExpressionPostal_Add);
 	}
 
@@ -503,12 +443,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setLookupClassName (String LookupClassName)
 	{
-
-		if (LookupClassName != null && LookupClassName.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			LookupClassName = LookupClassName.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_LookupClassName, LookupClassName);
 	}
 
@@ -526,12 +460,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setLookupClientID (String LookupClientID)
 	{
-
-		if (LookupClientID != null && LookupClientID.length() > 50)
-		{
-			log.warning("Length > 50 - truncated");
-			LookupClientID = LookupClientID.substring(0, 50);
-		}
 		set_Value (COLUMNNAME_LookupClientID, LookupClientID);
 	}
 
@@ -549,12 +477,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setLookupPassword (String LookupPassword)
 	{
-
-		if (LookupPassword != null && LookupPassword.length() > 50)
-		{
-			log.warning("Length > 50 - truncated");
-			LookupPassword = LookupPassword.substring(0, 50);
-		}
 		set_Value (COLUMNNAME_LookupPassword, LookupPassword);
 	}
 
@@ -572,12 +494,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setLookupUrl (String LookupUrl)
 	{
-
-		if (LookupUrl != null && LookupUrl.length() > 100)
-		{
-			log.warning("Length > 100 - truncated");
-			LookupUrl = LookupUrl.substring(0, 100);
-		}
 		set_Value (COLUMNNAME_LookupUrl, LookupUrl);
 	}
 
@@ -595,12 +511,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setMediaSize (String MediaSize)
 	{
-
-		if (MediaSize != null && MediaSize.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			MediaSize = MediaSize.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_MediaSize, MediaSize);
 	}
 
@@ -620,12 +530,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -651,12 +555,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setRegionName (String RegionName)
 	{
-
-		if (RegionName != null && RegionName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_RegionName, RegionName);
 	}
 

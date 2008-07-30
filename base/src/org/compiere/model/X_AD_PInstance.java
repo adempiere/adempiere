@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PInstance
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent 
 {
 
@@ -186,12 +186,6 @@ public class X_AD_PInstance extends PO implements I_AD_PInstance, I_Persistent
 		@param ErrorMsg Error Msg	  */
 	public void setErrorMsg (String ErrorMsg)
 	{
-
-		if (ErrorMsg != null && ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ErrorMsg = ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ErrorMsg, ErrorMsg);
 	}
 

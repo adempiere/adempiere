@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
@@ -40,11 +40,11 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
       super (ctx, CM_ChatEntry_ID, trxName);
       /** if (CM_ChatEntry_ID == 0)
         {
-			setCM_ChatEntry_ID (0);
-			setCM_Chat_ID (0);
 			setCharacterData (null);
 			setChatEntryType (null);
 // N
+			setCM_ChatEntry_ID (0);
+			setCM_Chat_ID (0);
 			setConfidentialType (null);
         } */
     }
@@ -116,6 +116,51 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Character Data.
+		@param CharacterData 
+		Long Character Field
+	  */
+	public void setCharacterData (String CharacterData)
+	{
+		if (CharacterData == null)
+			throw new IllegalArgumentException ("CharacterData is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CharacterData, CharacterData);
+	}
+
+	/** Get Character Data.
+		@return Long Character Field
+	  */
+	public String getCharacterData () 
+	{
+		return (String)get_Value(COLUMNNAME_CharacterData);
+	}
+
+	/** ChatEntryType AD_Reference_ID=398 */
+	public static final int CHATENTRYTYPE_AD_Reference_ID=398;
+	/** Wiki = W */
+	public static final String CHATENTRYTYPE_Wiki = "W";
+	/** Note (flat) = N */
+	public static final String CHATENTRYTYPE_NoteFlat = "N";
+	/** Forum (threaded) = F */
+	public static final String CHATENTRYTYPE_ForumThreaded = "F";
+	/** Set Chat Entry Type.
+		@param ChatEntryType 
+		Type of Chat/Forum Entry
+	  */
+	public void setChatEntryType (String ChatEntryType)
+	{
+		if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is mandatory");
+		if (ChatEntryType.equals("W") || ChatEntryType.equals("N") || ChatEntryType.equals("F")); else throw new IllegalArgumentException ("ChatEntryType Invalid value - " + ChatEntryType + " - Reference_ID=398 - W - N - F");		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
+	}
+
+	/** Get Chat Entry Type.
+		@return Type of Chat/Forum Entry
+	  */
+	public String getChatEntryType () 
+	{
+		return (String)get_Value(COLUMNNAME_ChatEntryType);
+	}
+
 	/** CM_ChatEntryGrandParent_ID AD_Reference_ID=399 */
 	public static final int CM_CHATENTRYGRANDPARENT_ID_AD_Reference_ID=399;
 	/** Set Chat Entry Grandparent.
@@ -136,31 +181,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public int getCM_ChatEntryGrandParent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntryGrandParent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** CM_ChatEntryParent_ID AD_Reference_ID=399 */
-	public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
-	/** Set Chat Entry Parent.
-		@param CM_ChatEntryParent_ID 
-		Link to direct Parent
-	  */
-	public void setCM_ChatEntryParent_ID (int CM_ChatEntryParent_ID)
-	{
-		if (CM_ChatEntryParent_ID < 1) 
-			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, null);
-		else 
-			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, Integer.valueOf(CM_ChatEntryParent_ID));
-	}
-
-	/** Get Chat Entry Parent.
-		@return Link to direct Parent
-	  */
-	public int getCM_ChatEntryParent_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntryParent_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -195,6 +215,31 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
     }
+
+	/** CM_ChatEntryParent_ID AD_Reference_ID=399 */
+	public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
+	/** Set Chat Entry Parent.
+		@param CM_ChatEntryParent_ID 
+		Link to direct Parent
+	  */
+	public void setCM_ChatEntryParent_ID (int CM_ChatEntryParent_ID)
+	{
+		if (CM_ChatEntryParent_ID < 1) 
+			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_ChatEntryParent_ID, Integer.valueOf(CM_ChatEntryParent_ID));
+	}
+
+	/** Get Chat Entry Parent.
+		@return Link to direct Parent
+	  */
+	public int getCM_ChatEntryParent_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntryParent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_CM_Chat getCM_Chat() throws Exception 
     {
@@ -234,57 +279,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Character Data.
-		@param CharacterData 
-		Long Character Field
-	  */
-	public void setCharacterData (String CharacterData)
-	{
-		if (CharacterData == null)
-			throw new IllegalArgumentException ("CharacterData is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CharacterData, CharacterData);
-	}
-
-	/** Get Character Data.
-		@return Long Character Field
-	  */
-	public String getCharacterData () 
-	{
-		return (String)get_Value(COLUMNNAME_CharacterData);
-	}
-
-	/** ChatEntryType AD_Reference_ID=398 */
-	public static final int CHATENTRYTYPE_AD_Reference_ID=398;
-	/** Wiki = W */
-	public static final String CHATENTRYTYPE_Wiki = "W";
-	/** Note (flat) = N */
-	public static final String CHATENTRYTYPE_NoteFlat = "N";
-	/** Forum (threaded) = F */
-	public static final String CHATENTRYTYPE_ForumThreaded = "F";
-	/** Set Chat Entry Type.
-		@param ChatEntryType 
-		Type of Chat/Forum Entry
-	  */
-	public void setChatEntryType (String ChatEntryType)
-	{
-		if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is mandatory");
-		if (ChatEntryType.equals("W") || ChatEntryType.equals("N") || ChatEntryType.equals("F")); else throw new IllegalArgumentException ("ChatEntryType Invalid value - " + ChatEntryType + " - Reference_ID=398 - W - N - F");
-		if (ChatEntryType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ChatEntryType = ChatEntryType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
-	}
-
-	/** Get Chat Entry Type.
-		@return Type of Chat/Forum Entry
-	  */
-	public String getChatEntryType () 
-	{
-		return (String)get_Value(COLUMNNAME_ChatEntryType);
-	}
-
 	/** ConfidentialType AD_Reference_ID=340 */
 	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
 	/** Public Information = A */
@@ -302,13 +296,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public void setConfidentialType (String ConfidentialType)
 	{
 		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
-		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");
-		if (ConfidentialType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConfidentialType = ConfidentialType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
+		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
 	/** Get Confidentiality.
@@ -336,13 +324,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public void setModeratorStatus (String ModeratorStatus)
 	{
 
-		if (ModeratorStatus == null || ModeratorStatus.equals("N") || ModeratorStatus.equals("P") || ModeratorStatus.equals("R") || ModeratorStatus.equals("S")); else throw new IllegalArgumentException ("ModeratorStatus Invalid value - " + ModeratorStatus + " - Reference_ID=396 - N - P - R - S");
-		if (ModeratorStatus != null && ModeratorStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ModeratorStatus = ModeratorStatus.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ModeratorStatus, ModeratorStatus);
+		if (ModeratorStatus == null || ModeratorStatus.equals("N") || ModeratorStatus.equals("P") || ModeratorStatus.equals("R") || ModeratorStatus.equals("S")); else throw new IllegalArgumentException ("ModeratorStatus Invalid value - " + ModeratorStatus + " - Reference_ID=396 - N - P - R - S");		set_Value (COLUMNNAME_ModeratorStatus, ModeratorStatus);
 	}
 
 	/** Get Moderation Status.
@@ -359,12 +341,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setSubject (String Subject)
 	{
-
-		if (Subject != null && Subject.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Subject = Subject.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Subject, Subject);
 	}
 

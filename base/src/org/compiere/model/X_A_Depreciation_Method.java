@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Method
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Method, I_Persistent 
 {
 
@@ -103,12 +103,6 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 		@param DepreciationType DepreciationType	  */
 	public void setDepreciationType (String DepreciationType)
 	{
-
-		if (DepreciationType != null && DepreciationType.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			DepreciationType = DepreciationType.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_DepreciationType, DepreciationType);
 	}
 
@@ -125,12 +119,6 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -148,12 +136,6 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -193,12 +175,6 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 		@param Text Text	  */
 	public void setText (String Text)
 	{
-
-		if (Text != null && Text.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Text = Text.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Text, Text);
 	}
 

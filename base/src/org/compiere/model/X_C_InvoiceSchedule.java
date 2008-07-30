@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceSchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Persistent 
 {
 
@@ -130,12 +130,6 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -228,13 +222,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	public void setInvoiceFrequency (String InvoiceFrequency)
 	{
 		if (InvoiceFrequency == null) throw new IllegalArgumentException ("InvoiceFrequency is mandatory");
-		if (InvoiceFrequency.equals("D") || InvoiceFrequency.equals("W") || InvoiceFrequency.equals("M") || InvoiceFrequency.equals("T")); else throw new IllegalArgumentException ("InvoiceFrequency Invalid value - " + InvoiceFrequency + " - Reference_ID=168 - D - W - M - T");
-		if (InvoiceFrequency.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			InvoiceFrequency = InvoiceFrequency.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_InvoiceFrequency, InvoiceFrequency);
+		if (InvoiceFrequency.equals("D") || InvoiceFrequency.equals("W") || InvoiceFrequency.equals("M") || InvoiceFrequency.equals("T")); else throw new IllegalArgumentException ("InvoiceFrequency Invalid value - " + InvoiceFrequency + " - Reference_ID=168 - D - W - M - T");		set_Value (COLUMNNAME_InvoiceFrequency, InvoiceFrequency);
 	}
 
 	/** Get Invoice Frequency.
@@ -268,13 +256,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	public void setInvoiceWeekDay (String InvoiceWeekDay)
 	{
 		if (InvoiceWeekDay == null) throw new IllegalArgumentException ("InvoiceWeekDay is mandatory");
-		if (InvoiceWeekDay.equals("7") || InvoiceWeekDay.equals("1") || InvoiceWeekDay.equals("2") || InvoiceWeekDay.equals("3") || InvoiceWeekDay.equals("4") || InvoiceWeekDay.equals("5") || InvoiceWeekDay.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDay Invalid value - " + InvoiceWeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
-		if (InvoiceWeekDay.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			InvoiceWeekDay = InvoiceWeekDay.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_InvoiceWeekDay, InvoiceWeekDay);
+		if (InvoiceWeekDay.equals("7") || InvoiceWeekDay.equals("1") || InvoiceWeekDay.equals("2") || InvoiceWeekDay.equals("3") || InvoiceWeekDay.equals("4") || InvoiceWeekDay.equals("5") || InvoiceWeekDay.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDay Invalid value - " + InvoiceWeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_InvoiceWeekDay, InvoiceWeekDay);
 	}
 
 	/** Get Invoice Week Day.
@@ -308,13 +290,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	public void setInvoiceWeekDayCutoff (String InvoiceWeekDayCutoff)
 	{
 
-		if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("7") || InvoiceWeekDayCutoff.equals("1") || InvoiceWeekDayCutoff.equals("2") || InvoiceWeekDayCutoff.equals("3") || InvoiceWeekDayCutoff.equals("4") || InvoiceWeekDayCutoff.equals("5") || InvoiceWeekDayCutoff.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDayCutoff Invalid value - " + InvoiceWeekDayCutoff + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");
-		if (InvoiceWeekDayCutoff != null && InvoiceWeekDayCutoff.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			InvoiceWeekDayCutoff = InvoiceWeekDayCutoff.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_InvoiceWeekDayCutoff, InvoiceWeekDayCutoff);
+		if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("7") || InvoiceWeekDayCutoff.equals("1") || InvoiceWeekDayCutoff.equals("2") || InvoiceWeekDayCutoff.equals("3") || InvoiceWeekDayCutoff.equals("4") || InvoiceWeekDayCutoff.equals("5") || InvoiceWeekDayCutoff.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDayCutoff Invalid value - " + InvoiceWeekDayCutoff + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_InvoiceWeekDayCutoff, InvoiceWeekDayCutoff);
 	}
 
 	/** Get Invoice weekday cutoff.
@@ -381,12 +357,6 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

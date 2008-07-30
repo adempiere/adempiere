@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
@@ -210,12 +210,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setCreateFrom (String CreateFrom)
 	{
-
-		if (CreateFrom != null && CreateFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CreateFrom = CreateFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
 	}
 
@@ -250,12 +244,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -282,13 +270,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public void setDocBasisType (String DocBasisType)
 	{
 		if (DocBasisType == null) throw new IllegalArgumentException ("DocBasisType is mandatory");
-		if (DocBasisType.equals("O") || DocBasisType.equals("I") || DocBasisType.equals("R")); else throw new IllegalArgumentException ("DocBasisType Invalid value - " + DocBasisType + " - Reference_ID=224 - O - I - R");
-		if (DocBasisType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DocBasisType = DocBasisType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DocBasisType, DocBasisType);
+		if (DocBasisType.equals("O") || DocBasisType.equals("I") || DocBasisType.equals("R")); else throw new IllegalArgumentException ("DocBasisType Invalid value - " + DocBasisType + " - Reference_ID=224 - O - I - R");		set_Value (COLUMNNAME_DocBasisType, DocBasisType);
 	}
 
 	/** Get Calculation Basis.
@@ -316,13 +298,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q") || FrequencyType.equals("Y")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=225 - W - M - Q - Y");
-		if (FrequencyType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FrequencyType = FrequencyType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		if (FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q") || FrequencyType.equals("Y")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=225 - W - M - Q - Y");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.
@@ -365,12 +341,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

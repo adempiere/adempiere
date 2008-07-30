@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_SchedulerLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persistent 
 {
 
@@ -39,8 +39,8 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
       super (ctx, AD_SchedulerLog_ID, trxName);
       /** if (AD_SchedulerLog_ID == 0)
         {
-			setAD_SchedulerLog_ID (0);
 			setAD_Scheduler_ID (0);
+			setAD_SchedulerLog_ID (0);
 			setIsError (false);
         } */
     }
@@ -72,28 +72,6 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Scheduler Log.
-		@param AD_SchedulerLog_ID 
-		Result of the execution of the Scheduler
-	  */
-	public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID)
-	{
-		if (AD_SchedulerLog_ID < 1)
-			 throw new IllegalArgumentException ("AD_SchedulerLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_SchedulerLog_ID, Integer.valueOf(AD_SchedulerLog_ID));
-	}
-
-	/** Get Scheduler Log.
-		@return Result of the execution of the Scheduler
-	  */
-	public int getAD_SchedulerLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SchedulerLog_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_Scheduler getAD_Scheduler() throws Exception 
     {
@@ -133,6 +111,28 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Scheduler Log.
+		@param AD_SchedulerLog_ID 
+		Result of the execution of the Scheduler
+	  */
+	public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID)
+	{
+		if (AD_SchedulerLog_ID < 1)
+			 throw new IllegalArgumentException ("AD_SchedulerLog_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_SchedulerLog_ID, Integer.valueOf(AD_SchedulerLog_ID));
+	}
+
+	/** Get Scheduler Log.
+		@return Result of the execution of the Scheduler
+	  */
+	public int getAD_SchedulerLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SchedulerLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set BinaryData.
 		@param BinaryData 
 		Binary Data
@@ -156,12 +156,6 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -203,12 +197,6 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
 	  */
 	public void setReference (String Reference)
 	{
-
-		if (Reference != null && Reference.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Reference = Reference.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
 
@@ -226,12 +214,6 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
 	  */
 	public void setSummary (String Summary)
 	{
-
-		if (Summary != null && Summary.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Summary = Summary.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
 
@@ -249,12 +231,6 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

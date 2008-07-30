@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persistent 
 {
 
@@ -47,8 +47,8 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 			setIsLotMandatory (false);
 			setIsSerNo (false);
 			setIsSerNoMandatory (false);
-			setM_AttributeSet_ID (0);
 			setMandatoryType (null);
+			setM_AttributeSet_ID (0);
 			setName (null);
         } */
     }
@@ -87,12 +87,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -298,12 +292,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setLotCharEOverwrite (String LotCharEOverwrite)
 	{
-
-		if (LotCharEOverwrite != null && LotCharEOverwrite.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			LotCharEOverwrite = LotCharEOverwrite.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_LotCharEOverwrite, LotCharEOverwrite);
 	}
 
@@ -321,12 +309,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setLotCharSOverwrite (String LotCharSOverwrite)
 	{
-
-		if (LotCharSOverwrite != null && LotCharSOverwrite.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			LotCharSOverwrite = LotCharSOverwrite.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_LotCharSOverwrite, LotCharSOverwrite);
 	}
 
@@ -336,6 +318,32 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	public String getLotCharSOverwrite () 
 	{
 		return (String)get_Value(COLUMNNAME_LotCharSOverwrite);
+	}
+
+	/** MandatoryType AD_Reference_ID=324 */
+	public static final int MANDATORYTYPE_AD_Reference_ID=324;
+	/** Not Mandatary = N */
+	public static final String MANDATORYTYPE_NotMandatary = "N";
+	/** Always Mandatory = Y */
+	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
+	/** When Shipping = S */
+	public static final String MANDATORYTYPE_WhenShipping = "S";
+	/** Set Mandatory Type.
+		@param MandatoryType 
+		The specification of a Product Attribute Instance is mandatory
+	  */
+	public void setMandatoryType (String MandatoryType)
+	{
+		if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is mandatory");
+		if (MandatoryType.equals("N") || MandatoryType.equals("Y") || MandatoryType.equals("S")); else throw new IllegalArgumentException ("MandatoryType Invalid value - " + MandatoryType + " - Reference_ID=324 - N - Y - S");		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
+	}
+
+	/** Get Mandatory Type.
+		@return The specification of a Product Attribute Instance is mandatory
+	  */
+	public String getMandatoryType () 
+	{
+		return (String)get_Value(COLUMNNAME_MandatoryType);
 	}
 
 	/** Set Attribute Set.
@@ -438,38 +446,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	/** MandatoryType AD_Reference_ID=324 */
-	public static final int MANDATORYTYPE_AD_Reference_ID=324;
-	/** Not Mandatary = N */
-	public static final String MANDATORYTYPE_NotMandatary = "N";
-	/** Always Mandatory = Y */
-	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
-	/** When Shipping = S */
-	public static final String MANDATORYTYPE_WhenShipping = "S";
-	/** Set Mandatory Type.
-		@param MandatoryType 
-		The specification of a Product Attribute Instance is mandatory
-	  */
-	public void setMandatoryType (String MandatoryType)
-	{
-		if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is mandatory");
-		if (MandatoryType.equals("N") || MandatoryType.equals("Y") || MandatoryType.equals("S")); else throw new IllegalArgumentException ("MandatoryType Invalid value - " + MandatoryType + " - Reference_ID=324 - N - Y - S");
-		if (MandatoryType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			MandatoryType = MandatoryType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
-	}
-
-	/** Get Mandatory Type.
-		@return The specification of a Product Attribute Instance is mandatory
-	  */
-	public String getMandatoryType () 
-	{
-		return (String)get_Value(COLUMNNAME_MandatoryType);
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -478,12 +454,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -509,12 +479,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setSerNoCharEOverwrite (String SerNoCharEOverwrite)
 	{
-
-		if (SerNoCharEOverwrite != null && SerNoCharEOverwrite.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SerNoCharEOverwrite = SerNoCharEOverwrite.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_SerNoCharEOverwrite, SerNoCharEOverwrite);
 	}
 
@@ -532,12 +496,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setSerNoCharSOverwrite (String SerNoCharSOverwrite)
 	{
-
-		if (SerNoCharSOverwrite != null && SerNoCharSOverwrite.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SerNoCharSOverwrite = SerNoCharSOverwrite.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_SerNoCharSOverwrite, SerNoCharSOverwrite);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_Entry extends PO implements I_K_Entry, I_Persistent 
 {
 
@@ -124,12 +124,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setDescriptionURL (String DescriptionURL)
 	{
-
-		if (DescriptionURL != null && DescriptionURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			DescriptionURL = DescriptionURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_DescriptionURL, DescriptionURL);
 	}
 
@@ -185,6 +179,23 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Keywords.
+		@param Keywords 
+		List of Keywords - separated by space, comma or semicolon
+	  */
+	public void setKeywords (String Keywords)
+	{
+		set_Value (COLUMNNAME_Keywords, Keywords);
+	}
+
+	/** Get Keywords.
+		@return List of Keywords - separated by space, comma or semicolon
+	  */
+	public String getKeywords () 
+	{
+		return (String)get_Value(COLUMNNAME_Keywords);
 	}
 
 	public I_K_Source getK_Source() throws Exception 
@@ -264,29 +275,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Keywords.
-		@param Keywords 
-		List of Keywords - separated by space, comma or semicolon
-	  */
-	public void setKeywords (String Keywords)
-	{
-
-		if (Keywords != null && Keywords.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Keywords = Keywords.substring(0, 255);
-		}
-		set_Value (COLUMNNAME_Keywords, Keywords);
-	}
-
-	/** Get Keywords.
-		@return List of Keywords - separated by space, comma or semicolon
-	  */
-	public String getKeywords () 
-	{
-		return (String)get_Value(COLUMNNAME_Keywords);
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -295,12 +283,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -348,12 +330,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	{
 		if (TextMsg == null)
 			throw new IllegalArgumentException ("TextMsg is mandatory.");
-
-		if (TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

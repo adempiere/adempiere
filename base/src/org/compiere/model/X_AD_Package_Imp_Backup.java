@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Backup, I_Persistent 
 {
 
@@ -128,12 +128,6 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		@param AD_Package_Imp_Bck_Dir AD_Package_Imp_Bck_Dir	  */
 	public void setAD_Package_Imp_Bck_Dir (String AD_Package_Imp_Bck_Dir)
 	{
-
-		if (AD_Package_Imp_Bck_Dir != null && AD_Package_Imp_Bck_Dir.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			AD_Package_Imp_Bck_Dir = AD_Package_Imp_Bck_Dir.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_AD_Package_Imp_Bck_Dir, AD_Package_Imp_Bck_Dir);
 	}
 
@@ -186,12 +180,6 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		@param AD_Package_Imp_Org_Dir AD_Package_Imp_Org_Dir	  */
 	public void setAD_Package_Imp_Org_Dir (String AD_Package_Imp_Org_Dir)
 	{
-
-		if (AD_Package_Imp_Org_Dir != null && AD_Package_Imp_Org_Dir.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			AD_Package_Imp_Org_Dir = AD_Package_Imp_Org_Dir.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_AD_Package_Imp_Org_Dir, AD_Package_Imp_Org_Dir);
 	}
 
@@ -254,12 +242,6 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		@param ColValue ColValue	  */
 	public void setColValue (String ColValue)
 	{
-
-		if (ColValue != null && ColValue.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			ColValue = ColValue.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_ColValue, ColValue);
 	}
 

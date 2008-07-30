@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Delivery
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_A_Asset_Delivery 
 {
@@ -56,21 +52,6 @@ public interface I_A_Asset_Delivery
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws Exception;
 
     /** Column name A_Asset_Delivery_ID */
     public static final String COLUMNNAME_A_Asset_Delivery_ID = "A_Asset_Delivery_ID";
@@ -99,6 +80,21 @@ public interface I_A_Asset_Delivery
 	public int getA_Asset_ID();
 
 	public I_A_Asset getA_Asset() throws Exception;
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name DeliveryConfirmation */
     public static final String COLUMNNAME_DeliveryConfirmation = "DeliveryConfirmation";
@@ -152,6 +148,19 @@ public interface I_A_Asset_Delivery
 	  */
 	public String getLot();
 
+    /** Column name MessageID */
+    public static final String COLUMNNAME_MessageID = "MessageID";
+
+	/** Set Message ID.
+	  * EMail Message ID
+	  */
+	public void setMessageID (String MessageID);
+
+	/** Get Message ID.
+	  * EMail Message ID
+	  */
+	public String getMessageID();
+
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -167,6 +176,19 @@ public interface I_A_Asset_Delivery
 
 	public I_M_InOutLine getM_InOutLine() throws Exception;
 
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
+
     /** Column name M_ProductDownload_ID */
     public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
 
@@ -181,32 +203,6 @@ public interface I_A_Asset_Delivery
 	public int getM_ProductDownload_ID();
 
 	public I_M_ProductDownload getM_ProductDownload() throws Exception;
-
-    /** Column name MessageID */
-    public static final String COLUMNNAME_MessageID = "MessageID";
-
-	/** Set Message ID.
-	  * EMail Message ID
-	  */
-	public void setMessageID (String MessageID);
-
-	/** Get Message ID.
-	  * EMail Message ID
-	  */
-	public String getMessageID();
-
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
 
     /** Column name Referrer */
     public static final String COLUMNNAME_Referrer = "Referrer";

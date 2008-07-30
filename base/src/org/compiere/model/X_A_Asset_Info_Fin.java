@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Fin
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Persistent 
 {
 
@@ -152,13 +152,7 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 	public void setA_Due_On (String A_Due_On)
 	{
 
-		if (A_Due_On == null || A_Due_On.equals("15T") || A_Due_On.equals("1st") || A_Due_On.equals("BEG") || A_Due_On.equals("YER")); else throw new IllegalArgumentException ("A_Due_On Invalid value - " + A_Due_On + " - Reference_ID=53272 - 15T - 1st - BEG - YER");
-		if (A_Due_On != null && A_Due_On.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			A_Due_On = A_Due_On.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_A_Due_On, A_Due_On);
+		if (A_Due_On == null || A_Due_On.equals("15T") || A_Due_On.equals("1st") || A_Due_On.equals("BEG") || A_Due_On.equals("YER")); else throw new IllegalArgumentException ("A_Due_On Invalid value - " + A_Due_On + " - Reference_ID=53272 - 15T - 1st - BEG - YER");		set_Value (COLUMNNAME_A_Due_On, A_Due_On);
 	}
 
 	/** Get A_Due_On.
@@ -197,13 +191,7 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 	public void setA_Finance_Meth (String A_Finance_Meth)
 	{
 
-		if (A_Finance_Meth == null || A_Finance_Meth.equals("CL") || A_Finance_Meth.equals("NL") || A_Finance_Meth.equals("OW") || A_Finance_Meth.equals("RE")); else throw new IllegalArgumentException ("A_Finance_Meth Invalid value - " + A_Finance_Meth + " - Reference_ID=53271 - CL - NL - OW - RE");
-		if (A_Finance_Meth != null && A_Finance_Meth.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Finance_Meth = A_Finance_Meth.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Finance_Meth, A_Finance_Meth);
+		if (A_Finance_Meth == null || A_Finance_Meth.equals("CL") || A_Finance_Meth.equals("NL") || A_Finance_Meth.equals("OW") || A_Finance_Meth.equals("RE")); else throw new IllegalArgumentException ("A_Finance_Meth Invalid value - " + A_Finance_Meth + " - Reference_ID=53271 - CL - NL - OW - RE");		set_Value (COLUMNNAME_A_Finance_Meth, A_Finance_Meth);
 	}
 
 	/** Get A_Finance_Meth.
@@ -331,12 +319,6 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			TextMsg = TextMsg.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_GL_Category extends PO implements I_GL_Category, I_Persistent 
 {
 
@@ -91,13 +91,7 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	public void setCategoryType (String CategoryType)
 	{
 		if (CategoryType == null) throw new IllegalArgumentException ("CategoryType is mandatory");
-		if (CategoryType.equals("M") || CategoryType.equals("I") || CategoryType.equals("D") || CategoryType.equals("S")); else throw new IllegalArgumentException ("CategoryType Invalid value - " + CategoryType + " - Reference_ID=207 - M - I - D - S");
-		if (CategoryType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CategoryType = CategoryType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_CategoryType, CategoryType);
+		if (CategoryType.equals("M") || CategoryType.equals("I") || CategoryType.equals("D") || CategoryType.equals("S")); else throw new IllegalArgumentException ("CategoryType Invalid value - " + CategoryType + " - Reference_ID=207 - M - I - D - S");		set_Value (COLUMNNAME_CategoryType, CategoryType);
 	}
 
 	/** Get Category Type.
@@ -114,12 +108,6 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -185,12 +173,6 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

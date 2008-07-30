@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Remuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persistent 
 {
 
@@ -107,12 +107,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -174,12 +168,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -199,12 +187,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -289,13 +271,7 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	public void setRemunerationType (String RemunerationType)
 	{
 		if (RemunerationType == null) throw new IllegalArgumentException ("RemunerationType is mandatory");
-		if (RemunerationType.equals("H") || RemunerationType.equals("D") || RemunerationType.equals("W") || RemunerationType.equals("M") || RemunerationType.equals("T") || RemunerationType.equals("B")); else throw new IllegalArgumentException ("RemunerationType Invalid value - " + RemunerationType + " - Reference_ID=346 - H - D - W - M - T - B");
-		if (RemunerationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			RemunerationType = RemunerationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_RemunerationType, RemunerationType);
+		if (RemunerationType.equals("H") || RemunerationType.equals("D") || RemunerationType.equals("W") || RemunerationType.equals("M") || RemunerationType.equals("T") || RemunerationType.equals("B")); else throw new IllegalArgumentException ("RemunerationType Invalid value - " + RemunerationType + " - Reference_ID=346 - H - D - W - M - T - B");		set_Value (COLUMNNAME_RemunerationType, RemunerationType);
 	}
 
 	/** Get Remuneration Type.

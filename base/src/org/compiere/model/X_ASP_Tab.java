@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent 
 {
 
@@ -151,6 +151,27 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set AllFields.
+		@param AllFields AllFields	  */
+	public void setAllFields (boolean AllFields)
+	{
+		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
+	}
+
+	/** Get AllFields.
+		@return AllFields	  */
+	public boolean isAllFields () 
+	{
+		Object oo = get_Value(COLUMNNAME_AllFields);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_ASP_Level getASP_Level() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
@@ -199,13 +220,7 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	public void setASP_Status (String ASP_Status)
 	{
 		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
-		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");
-		if (ASP_Status.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ASP_Status = ASP_Status.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
+		if (ASP_Status.equals("H") || ASP_Status.equals("S") || ASP_Status.equals("U")); else throw new IllegalArgumentException ("ASP_Status Invalid value - " + ASP_Status + " - Reference_ID=53234 - H - S - U");		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 
 	/** Get ASP Status.
@@ -213,27 +228,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	public String getASP_Status () 
 	{
 		return (String)get_Value(COLUMNNAME_ASP_Status);
-	}
-
-	/** Set AllFields.
-		@param AllFields AllFields	  */
-	public void setAllFields (boolean AllFields)
-	{
-		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
-	}
-
-	/** Get AllFields.
-		@return AllFields	  */
-	public boolean isAllFields () 
-	{
-		Object oo = get_Value(COLUMNNAME_AllFields);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** Set Process Now.

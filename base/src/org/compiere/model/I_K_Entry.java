@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_Entry
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_K_Entry 
 {
@@ -111,6 +107,19 @@ public interface I_K_Entry
 	  */
 	public int getK_Entry_ID();
 
+    /** Column name Keywords */
+    public static final String COLUMNNAME_Keywords = "Keywords";
+
+	/** Set Keywords.
+	  * List of Keywords - separated by space, comma or semicolon
+	  */
+	public void setKeywords (String Keywords);
+
+	/** Get Keywords.
+	  * List of Keywords - separated by space, comma or semicolon
+	  */
+	public String getKeywords();
+
     /** Column name K_Source_ID */
     public static final String COLUMNNAME_K_Source_ID = "K_Source_ID";
 
@@ -140,19 +149,6 @@ public interface I_K_Entry
 	public int getK_Topic_ID();
 
 	public I_K_Topic getK_Topic() throws Exception;
-
-    /** Column name Keywords */
-    public static final String COLUMNNAME_Keywords = "Keywords";
-
-	/** Set Keywords.
-	  * List of Keywords - separated by space, comma or semicolon
-	  */
-	public void setKeywords (String Keywords);
-
-	/** Get Keywords.
-	  * List of Keywords - separated by space, comma or semicolon
-	  */
-	public String getKeywords();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

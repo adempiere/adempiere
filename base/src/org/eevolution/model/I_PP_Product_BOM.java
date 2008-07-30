@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -38,8 +34,8 @@ import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_BOM
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_PP_Product_BOM 
 {
@@ -57,19 +53,6 @@ public interface I_PP_Product_BOM
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name Amt */
-    public static final String COLUMNNAME_Amt = "Amt";
-
-	/** Set Amount.
-	  * Amount
-	  */
-	public void setAmt (BigDecimal Amt);
-
-	/** Get Amount.
-	  * Amount
-	  */
-	public BigDecimal getAmt();
 
     /** Column name BOMType */
     public static final String COLUMNNAME_BOMType = "BOMType";
@@ -109,19 +92,6 @@ public interface I_PP_Product_BOM
 	  * Copy From Record
 	  */
 	public String getCopyFrom();
-
-    /** Column name Cost */
-    public static final String COLUMNNAME_Cost = "Cost";
-
-	/** Set Cost.
-	  * Cost information
-	  */
-	public void setCost (BigDecimal Cost);
-
-	/** Get Cost.
-	  * Cost information
-	  */
-	public BigDecimal getCost();
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -177,19 +147,6 @@ public interface I_PP_Product_BOM
 	  */
 	public String getHelp();
 
-    /** Column name Margin */
-    public static final String COLUMNNAME_Margin = "Margin";
-
-	/** Set Margin %.
-	  * Margin for a product as a percentage
-	  */
-	public void setMargin (BigDecimal Margin);
-
-	/** Get Margin %.
-	  * Margin for a product as a percentage
-	  */
-	public BigDecimal getMargin();
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -217,21 +174,6 @@ public interface I_PP_Product_BOM
 	public int getM_ChangeNotice_ID();
 
 	public I_M_ChangeNotice getM_ChangeNotice() throws Exception;
-
-    /** Column name M_PriceList_Version_ID */
-    public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
-
-	/** Set Price List Version.
-	  * Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID);
-
-	/** Get Price List Version.
-	  * Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID();
-
-	public I_M_PriceList_Version getM_PriceList_Version() throws Exception;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -273,19 +215,6 @@ public interface I_PP_Product_BOM
 	  * BOM & Formula
 	  */
 	public int getPP_Product_BOM_ID();
-
-    /** Column name Price */
-    public static final String COLUMNNAME_Price = "Price";
-
-	/** Set Price.
-	  * Price
-	  */
-	public void setPrice (BigDecimal Price);
-
-	/** Get Price.
-	  * Price
-	  */
-	public BigDecimal getPrice();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MatchInv
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent 
 {
 
@@ -44,8 +44,8 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
       /** if (M_MatchInv_ID == 0)
         {
 			setC_InvoiceLine_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
-			setDateTrx (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
+			setDateTrx (new Timestamp( System.currentTimeMillis() ));
 			setM_InOutLine_ID (0);
 			setM_MatchInv_ID (0);
 			setM_Product_ID (0);
@@ -166,12 +166,6 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -189,12 +183,6 @@ public class X_M_MatchInv extends PO implements I_M_MatchInv, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			DocumentNo = DocumentNo.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 

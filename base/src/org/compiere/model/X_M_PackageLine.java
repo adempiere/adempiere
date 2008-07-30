@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
       /** if (M_PackageLine_ID == 0)
         {
 			setM_InOutLine_ID (0);
-			setM_PackageLine_ID (0);
 			setM_Package_ID (0);
+			setM_PackageLine_ID (0);
 			setQty (Env.ZERO);
         } */
     }
@@ -83,12 +83,6 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -133,28 +127,6 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	public int getM_InOutLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Package Line.
-		@param M_PackageLine_ID 
-		The detail content of the Package
-	  */
-	public void setM_PackageLine_ID (int M_PackageLine_ID)
-	{
-		if (M_PackageLine_ID < 1)
-			 throw new IllegalArgumentException ("M_PackageLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, Integer.valueOf(M_PackageLine_ID));
-	}
-
-	/** Get Package Line.
-		@return The detail content of the Package
-	  */
-	public int getM_PackageLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PackageLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -205,6 +177,28 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_Package_ID()));
     }
+
+	/** Set Package Line.
+		@param M_PackageLine_ID 
+		The detail content of the Package
+	  */
+	public void setM_PackageLine_ID (int M_PackageLine_ID)
+	{
+		if (M_PackageLine_ID < 1)
+			 throw new IllegalArgumentException ("M_PackageLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, Integer.valueOf(M_PackageLine_ID));
+	}
+
+	/** Get Package Line.
+		@return The detail content of the Package
+	  */
+	public int getM_PackageLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PackageLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Quantity.
 		@param Qty 

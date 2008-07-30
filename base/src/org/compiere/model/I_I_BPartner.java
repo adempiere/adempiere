@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BPartner
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_I_BPartner 
 {
@@ -56,21 +52,6 @@ public interface I_I_BPartner
     BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws Exception;
 
     /** Column name Address1 */
     public static final String COLUMNNAME_Address1 = "Address1";
@@ -98,18 +79,20 @@ public interface I_I_BPartner
 	  */
 	public String getAddress2();
 
-    /** Column name BPContactGreeting */
-    public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
-	/** Set BP Contact Greeting.
-	  * Greeting for Business Partner Contact
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
 	  */
-	public void setBPContactGreeting (String BPContactGreeting);
+	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get BP Contact Greeting.
-	  * Greeting for Business Partner Contact
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
 	  */
-	public String getBPContactGreeting();
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws Exception;
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -124,20 +107,18 @@ public interface I_I_BPartner
 	  */
 	public Timestamp getBirthday();
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+    /** Column name BPContactGreeting */
+    public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
 
-	/** Set Business Partner Group.
-	  * Business Partner Group
+	/** Set BP Contact Greeting.
+	  * Greeting for Business Partner Contact
 	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
+	public void setBPContactGreeting (String BPContactGreeting);
 
-	/** Get Business Partner Group.
-	  * Business Partner Group
+	/** Get BP Contact Greeting.
+	  * Greeting for Business Partner Contact
 	  */
-	public int getC_BP_Group_ID();
-
-	public I_C_BP_Group getC_BP_Group() throws Exception;
+	public String getBPContactGreeting();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -169,6 +150,21 @@ public interface I_I_BPartner
 
 	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
 
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public I_C_BP_Group getC_BP_Group() throws Exception;
+
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 
@@ -198,21 +194,6 @@ public interface I_I_BPartner
 	public int getC_Greeting_ID();
 
 	public I_C_Greeting getC_Greeting() throws Exception;
-
-    /** Column name C_Region_ID */
-    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
-
-	/** Set Region.
-	  * Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID);
-
-	/** Get Region.
-	  * Identifies a geographical Region
-	  */
-	public int getC_Region_ID();
-
-	public I_C_Region getC_Region() throws Exception;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -279,18 +260,20 @@ public interface I_I_BPartner
 	  */
 	public String getCountryCode();
 
-    /** Column name DUNS */
-    public static final String COLUMNNAME_DUNS = "DUNS";
+    /** Column name C_Region_ID */
+    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 
-	/** Set D-U-N-S.
-	  * Dun & Bradstreet Number
+	/** Set Region.
+	  * Identifies a geographical Region
 	  */
-	public void setDUNS (String DUNS);
+	public void setC_Region_ID (int C_Region_ID);
 
-	/** Get D-U-N-S.
-	  * Dun & Bradstreet Number
+	/** Get Region.
+	  * Identifies a geographical Region
 	  */
-	public String getDUNS();
+	public int getC_Region_ID();
+
+	public I_C_Region getC_Region() throws Exception;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -304,6 +287,19 @@ public interface I_I_BPartner
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name DUNS */
+    public static final String COLUMNNAME_DUNS = "DUNS";
+
+	/** Set D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS);
+
+	/** Get D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public String getDUNS();
 
     /** Column name EMail */
     public static final String COLUMNNAME_EMail = "EMail";
@@ -518,6 +514,19 @@ public interface I_I_BPartner
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name RegionName */
+    public static final String COLUMNNAME_RegionName = "RegionName";
+
+	/** Set Region.
+	  * Name of the Region
+	  */
+	public void setRegionName (String RegionName);
+
+	/** Get Region.
+	  * Name of the Region
+	  */
+	public String getRegionName();
+
     /** Column name R_InterestArea_ID */
     public static final String COLUMNNAME_R_InterestArea_ID = "R_InterestArea_ID";
 
@@ -532,19 +541,6 @@ public interface I_I_BPartner
 	public int getR_InterestArea_ID();
 
 	public I_R_InterestArea getR_InterestArea() throws Exception;
-
-    /** Column name RegionName */
-    public static final String COLUMNNAME_RegionName = "RegionName";
-
-	/** Set Region.
-	  * Name of the Region
-	  */
-	public void setRegionName (String RegionName);
-
-	/** Get Region.
-	  * Name of the Region
-	  */
-	public String getRegionName();
 
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";

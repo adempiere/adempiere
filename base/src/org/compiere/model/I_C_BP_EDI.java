@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_EDI
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_BP_EDI 
 {
@@ -69,19 +65,6 @@ public interface I_C_BP_EDI
 	  */
 	public int getAD_Sequence_ID();
 
-    /** Column name C_BP_EDI_ID */
-    public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
-
-	/** Set EDI Definition.
-	  * Electronic Data Interchange
-	  */
-	public void setC_BP_EDI_ID (int C_BP_EDI_ID);
-
-	/** Get EDI Definition.
-	  * Electronic Data Interchange
-	  */
-	public int getC_BP_EDI_ID();
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -96,6 +79,19 @@ public interface I_C_BP_EDI
 	public int getC_BPartner_ID();
 
 	public I_C_BPartner getC_BPartner() throws Exception;
+
+    /** Column name C_BP_EDI_ID */
+    public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
+
+	/** Set EDI Definition.
+	  * Electronic Data Interchange
+	  */
+	public void setC_BP_EDI_ID (int C_BP_EDI_ID);
+
+	/** Get EDI Definition.
+	  * Electronic Data Interchange
+	  */
+	public int getC_BP_EDI_ID();
 
     /** Column name CustomerNo */
     public static final String COLUMNNAME_CustomerNo = "CustomerNo";

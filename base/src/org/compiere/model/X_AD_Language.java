@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Language
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Language extends PO implements I_AD_Language, I_Persistent 
 {
 
@@ -85,12 +85,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	{
 		if (AD_Language == null)
 			throw new IllegalArgumentException ("AD_Language is mandatory.");
-
-		if (AD_Language.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 6);
-		}
 		set_ValueNoCheck (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -127,12 +121,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setCountryCode (String CountryCode)
 	{
-
-		if (CountryCode != null && CountryCode.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			CountryCode = CountryCode.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_CountryCode, CountryCode);
 	}
 
@@ -150,12 +138,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setDatePattern (String DatePattern)
 	{
-
-		if (DatePattern != null && DatePattern.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			DatePattern = DatePattern.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_DatePattern, DatePattern);
 	}
 
@@ -245,12 +227,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setLanguageISO (String LanguageISO)
 	{
-
-		if (LanguageISO != null && LanguageISO.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			LanguageISO = LanguageISO.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_LanguageISO, LanguageISO);
 	}
 
@@ -270,12 +246,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -322,12 +292,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setTimePattern (String TimePattern)
 	{
-
-		if (TimePattern != null && TimePattern.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			TimePattern = TimePattern.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_TimePattern, TimePattern);
 	}
 

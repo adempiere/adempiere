@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_Order extends PO implements I_PP_Order, I_Persistent 
 {
 
@@ -49,10 +49,10 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 // 0
 			setC_UOM_ID (0);
 // @UOMConversion@=Y | @Processed@='Y'
-			setDateOrdered (new Timestamp(System.currentTimeMillis()));
+			setDateOrdered (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
-			setDatePromised (new Timestamp(System.currentTimeMillis()));
-			setDateStartSchedule (new Timestamp(System.currentTimeMillis()));
+			setDatePromised (new Timestamp( System.currentTimeMillis() ));
+			setDateStartSchedule (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);
 // --
@@ -333,12 +333,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setCopyFrom (String CopyFrom)
 	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
 
@@ -602,12 +596,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -656,13 +644,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-		if (DocAction.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocAction = DocAction.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -706,13 +688,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-		if (DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -731,12 +707,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	{
 		if (DocumentNo == null)
 			throw new IllegalArgumentException ("DocumentNo is mandatory.");
-
-		if (DocumentNo.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DocumentNo = DocumentNo.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -933,12 +903,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setLot (String Lot)
 	{
-
-		if (Lot != null && Lot.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Lot = Lot.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Lot, Lot);
 	}
 
@@ -1053,12 +1017,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		@param OrderType OrderType	  */
 	public void setOrderType (String OrderType)
 	{
-
-		if (OrderType != null && OrderType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			OrderType = OrderType.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
@@ -1191,13 +1149,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setPriorityRule (String PriorityRule)
 	{
 		if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");
-		if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
-		if (PriorityRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PriorityRule = PriorityRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+		if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
 	}
 
 	/** Get Priority.
@@ -1415,12 +1367,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setScheduleType (String ScheduleType)
 	{
-
-		if (ScheduleType != null && ScheduleType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ScheduleType = ScheduleType.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
 	}
 
@@ -1438,12 +1384,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setSerNo (String SerNo)
 	{
-
-		if (SerNo != null && SerNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			SerNo = SerNo.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_SerNo, SerNo);
 	}
 

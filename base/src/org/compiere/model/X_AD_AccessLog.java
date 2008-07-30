@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent 
 {
 
@@ -186,12 +186,6 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -232,12 +226,6 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
-
-		if (Remote_Addr != null && Remote_Addr.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Remote_Addr = Remote_Addr.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
 
@@ -255,12 +243,6 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
-
-		if (Remote_Host != null && Remote_Host.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Remote_Host = Remote_Host.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
 
@@ -278,12 +260,6 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setReply (String Reply)
 	{
-
-		if (Reply != null && Reply.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Reply = Reply.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Reply, Reply);
 	}
 
@@ -301,12 +277,6 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

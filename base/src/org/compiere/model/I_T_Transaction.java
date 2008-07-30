@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Transaction
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_T_Transaction 
 {
@@ -72,21 +68,6 @@ public interface I_T_Transaction
 
 	public I_AD_PInstance getAD_PInstance() throws Exception;
 
-    /** Column name C_ProjectIssue_ID */
-    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
-
-	/** Set Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
-
-	/** Get Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID();
-
-	public I_C_ProjectIssue getC_ProjectIssue() throws Exception;
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -102,6 +83,21 @@ public interface I_T_Transaction
 
 	public I_C_Project getC_Project() throws Exception;
 
+    /** Column name C_ProjectIssue_ID */
+    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
+
+	/** Set Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
+
+	/** Get Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID();
+
+	public I_C_ProjectIssue getC_ProjectIssue() throws Exception;
+
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -114,21 +110,6 @@ public interface I_T_Transaction
 	  * Product Attribute Set Instance
 	  */
 	public int getM_AttributeSetInstance_ID();
-
-    /** Column name M_InOutLine_ID */
-    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
-
-	/** Set Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
-
-	/** Get Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID();
-
-	public I_M_InOutLine getM_InOutLine() throws Exception;
 
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
@@ -145,20 +126,20 @@ public interface I_T_Transaction
 
 	public I_M_InOut getM_InOut() throws Exception;
 
-    /** Column name M_InventoryLine_ID */
-    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
-	/** Set Phys.Inventory Line.
-	  * Unique line in an Inventory document
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
 	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
 
-	/** Get Phys.Inventory Line.
-	  * Unique line in an Inventory document
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
 	  */
-	public int getM_InventoryLine_ID();
+	public int getM_InOutLine_ID();
 
-	public I_M_InventoryLine getM_InventoryLine() throws Exception;
+	public I_M_InOutLine getM_InOutLine() throws Exception;
 
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
@@ -175,6 +156,21 @@ public interface I_T_Transaction
 
 	public I_M_Inventory getM_Inventory() throws Exception;
 
+    /** Column name M_InventoryLine_ID */
+    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+
+	/** Set Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+
+	/** Get Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID();
+
+	public I_M_InventoryLine getM_InventoryLine() throws Exception;
+
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -187,21 +183,6 @@ public interface I_T_Transaction
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
-
-    /** Column name M_MovementLine_ID */
-    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
-
-	/** Set Move Line.
-	  * Inventory Move document Line
-	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID);
-
-	/** Get Move Line.
-	  * Inventory Move document Line
-	  */
-	public int getM_MovementLine_ID();
-
-	public I_M_MovementLine getM_MovementLine() throws Exception;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -218,61 +199,20 @@ public interface I_T_Transaction
 
 	public I_M_Movement getM_Movement() throws Exception;
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 
-	/** Set Product.
-	  * Product, Service, Item
+	/** Set Move Line.
+	  * Inventory Move document Line
 	  */
-	public void setM_Product_ID (int M_Product_ID);
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
 
-	/** Get Product.
-	  * Product, Service, Item
+	/** Get Move Line.
+	  * Inventory Move document Line
 	  */
-	public int getM_Product_ID();
+	public int getM_MovementLine_ID();
 
-	public I_M_Product getM_Product() throws Exception;
-
-    /** Column name M_ProductionLine_ID */
-    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
-
-	/** Set Production Line.
-	  * Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
-
-	/** Get Production Line.
-	  * Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID();
-
-	public I_M_ProductionLine getM_ProductionLine() throws Exception;
-
-    /** Column name M_Production_ID */
-    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
-
-	/** Set Production.
-	  * Plan for producing a product
-	  */
-	public void setM_Production_ID (int M_Production_ID);
-
-	/** Get Production.
-	  * Plan for producing a product
-	  */
-	public int getM_Production_ID();
-
-	public I_M_Production getM_Production() throws Exception;
-
-    /** Column name M_Transaction_ID */
-    public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
-
-	/** Set Inventory Transaction	  */
-	public void setM_Transaction_ID (int M_Transaction_ID);
-
-	/** Get Inventory Transaction	  */
-	public int getM_Transaction_ID();
-
-	public I_M_Transaction getM_Transaction() throws Exception;
+	public I_M_MovementLine getM_MovementLine() throws Exception;
 
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
@@ -312,6 +252,62 @@ public interface I_T_Transaction
 	  * Method of moving the inventory
 	  */
 	public String getMovementType();
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws Exception;
+
+    /** Column name M_Production_ID */
+    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
+
+	/** Set Production.
+	  * Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID);
+
+	/** Get Production.
+	  * Plan for producing a product
+	  */
+	public int getM_Production_ID();
+
+	public I_M_Production getM_Production() throws Exception;
+
+    /** Column name M_ProductionLine_ID */
+    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
+
+	/** Set Production Line.
+	  * Document Line representing a production
+	  */
+	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
+
+	/** Get Production Line.
+	  * Document Line representing a production
+	  */
+	public int getM_ProductionLine_ID();
+
+	public I_M_ProductionLine getM_ProductionLine() throws Exception;
+
+    /** Column name M_Transaction_ID */
+    public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
+
+	/** Set Inventory Transaction	  */
+	public void setM_Transaction_ID (int M_Transaction_ID);
+
+	/** Get Inventory Transaction	  */
+	public int getM_Transaction_ID();
+
+	public I_M_Transaction getM_Transaction() throws Exception;
 
     /** Column name Search_InOut_ID */
     public static final String COLUMNNAME_Search_InOut_ID = "Search_InOut_ID";

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Role extends PO implements I_AD_Role, I_Persistent 
 {
 
@@ -238,27 +238,6 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return false;
 	}
 
-	/** Set Allow Info CRP.
-		@param Allow_Info_CRP Allow Info CRP	  */
-	public void setAllow_Info_CRP (boolean Allow_Info_CRP)
-	{
-		set_Value (COLUMNNAME_Allow_Info_CRP, Boolean.valueOf(Allow_Info_CRP));
-	}
-
-	/** Get Allow Info CRP.
-		@return Allow Info CRP	  */
-	public boolean isAllow_Info_CRP () 
-	{
-		Object oo = get_Value(COLUMNNAME_Allow_Info_CRP);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Allow Info CashJournal.
 		@param Allow_Info_CashJournal Allow Info CashJournal	  */
 	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal)
@@ -271,6 +250,27 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public boolean isAllow_Info_CashJournal () 
 	{
 		Object oo = get_Value(COLUMNNAME_Allow_Info_CashJournal);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Allow Info CRP.
+		@param Allow_Info_CRP Allow Info CRP	  */
+	public void setAllow_Info_CRP (boolean Allow_Info_CRP)
+	{
+		set_Value (COLUMNNAME_Allow_Info_CRP, Boolean.valueOf(Allow_Info_CRP));
+	}
+
+	/** Get Allow Info CRP.
+		@return Allow Info CRP	  */
+	public boolean isAllow_Info_CRP () 
+	{
+		Object oo = get_Value(COLUMNNAME_Allow_Info_CRP);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -544,13 +544,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public void setConnectionProfile (String ConnectionProfile)
 	{
 
-		if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");
-		if (ConnectionProfile != null && ConnectionProfile.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ConnectionProfile = ConnectionProfile.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ConnectionProfile, ConnectionProfile);
+		if (ConnectionProfile == null || ConnectionProfile.equals("L") || ConnectionProfile.equals("T") || ConnectionProfile.equals("V") || ConnectionProfile.equals("W")); else throw new IllegalArgumentException ("ConnectionProfile Invalid value - " + ConnectionProfile + " - Reference_ID=364 - L - T - V - W");		set_Value (COLUMNNAME_ConnectionProfile, ConnectionProfile);
 	}
 
 	/** Get Connection Profile.
@@ -567,12 +561,6 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -852,12 +840,6 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -918,13 +900,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public void setPreferenceType (String PreferenceType)
 	{
 		if (PreferenceType == null) throw new IllegalArgumentException ("PreferenceType is mandatory");
-		if (PreferenceType.equals("C") || PreferenceType.equals("O") || PreferenceType.equals("U") || PreferenceType.equals("N")); else throw new IllegalArgumentException ("PreferenceType Invalid value - " + PreferenceType + " - Reference_ID=330 - C - O - U - N");
-		if (PreferenceType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PreferenceType = PreferenceType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PreferenceType, PreferenceType);
+		if (PreferenceType.equals("C") || PreferenceType.equals("O") || PreferenceType.equals("U") || PreferenceType.equals("N")); else throw new IllegalArgumentException ("PreferenceType Invalid value - " + PreferenceType + " - Reference_ID=330 - C - O - U - N");		set_Value (COLUMNNAME_PreferenceType, PreferenceType);
 	}
 
 	/** Get Preference Level.
@@ -994,13 +970,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public void setUserLevel (String UserLevel)
 	{
 		if (UserLevel == null) throw new IllegalArgumentException ("UserLevel is mandatory");
-		if (UserLevel.equals("S  ") || UserLevel.equals(" C ") || UserLevel.equals("  O") || UserLevel.equals(" CO")); else throw new IllegalArgumentException ("UserLevel Invalid value - " + UserLevel + " - Reference_ID=226 - S   -  C  -   O -  CO");
-		if (UserLevel.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			UserLevel = UserLevel.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_UserLevel, UserLevel);
+		if (UserLevel.equals("S  ") || UserLevel.equals(" C ") || UserLevel.equals("  O") || UserLevel.equals(" CO")); else throw new IllegalArgumentException ("UserLevel Invalid value - " + UserLevel + " - Reference_ID=226 - S   -  C  -   O -  CO");		set_Value (COLUMNNAME_UserLevel, UserLevel);
 	}
 
 	/** Get User Level.

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
       /** if (M_ProductionLineMA_ID == 0)
         {
 			setM_AttributeSetInstance_ID (0);
-			setM_ProductionLine_ID (0);
 			setMovementQty (Env.ZERO);
+			setM_ProductionLine_ID (0);
         } */
     }
 
@@ -98,6 +98,28 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 		return ii.intValue();
 	}
 
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		if (MovementQty == null)
+			throw new IllegalArgumentException ("MovementQty is mandatory.");
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_M_ProductionLine getM_ProductionLine() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
@@ -143,26 +165,4 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_ProductionLine_ID()));
     }
-
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
 }

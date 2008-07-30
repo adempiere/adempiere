@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent 
 {
 
@@ -44,8 +44,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
       super (ctx, PP_MRP_ID, trxName);
       /** if (PP_MRP_ID == 0)
         {
-			setDateOrdered (new Timestamp(System.currentTimeMillis()));
-			setDatePromised (new Timestamp(System.currentTimeMillis()));
+			setDateOrdered (new Timestamp( System.currentTimeMillis() ));
+			setDatePromised (new Timestamp( System.currentTimeMillis() ));
 			setM_Warehouse_ID (0);
 			setPP_MRP_ID (0);
 			setValue (null);
@@ -383,12 +383,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 1020)
-		{
-			log.warning("Length > 1020 - truncated");
-			Description = Description.substring(0, 1020);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -406,12 +400,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-
-		if (DocStatus != null && DocStatus.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			DocStatus = DocStatus.substring(0, 2);
-		}
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -686,12 +674,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -730,13 +712,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setOrderType (String OrderType)
 	{
 
-		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO")); else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");
-		if (OrderType != null && OrderType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			OrderType = OrderType.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_OrderType, OrderType);
+		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO")); else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
 	/** Get OrderType.
@@ -865,12 +841,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setPriority (String Priority)
 	{
-
-		if (Priority != null && Priority.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Priority = Priority.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Priority, Priority);
 	}
 
@@ -952,13 +922,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setTypeMRP (String TypeMRP)
 	{
 
-		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S")); else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");
-		if (TypeMRP != null && TypeMRP.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			TypeMRP = TypeMRP.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
+		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S")); else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
 	}
 
 	/** Get TypeMRP.
@@ -976,12 +940,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			Value = Value.substring(0, 80);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

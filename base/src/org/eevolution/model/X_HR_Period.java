@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_Period extends PO implements I_HR_Period, I_Persistent 
 {
 
@@ -44,12 +44,12 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
         {
 			setC_Period_ID (0);
 			setC_Year_ID (0);
-			setDateAcct (new Timestamp(System.currentTimeMillis()));
+			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 			setHR_Payroll_ID (0);
 			setHR_Period_ID (0);
 			setName (null);
 			setPeriodNo (0);
-			setStartDate (new Timestamp(System.currentTimeMillis()));
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -182,12 +182,6 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -314,12 +308,6 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Name = Name.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -345,12 +333,6 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
 	  */
 	public void setPeriodAction (String PeriodAction)
 	{
-
-		if (PeriodAction != null && PeriodAction.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PeriodAction = PeriodAction.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
 	}
 
@@ -388,12 +370,6 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
 	  */
 	public void setPeriodStatus (String PeriodStatus)
 	{
-
-		if (PeriodStatus != null && PeriodStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PeriodStatus = PeriodStatus.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_PeriodStatus, PeriodStatus);
 	}
 

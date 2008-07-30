@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent 
 {
 
@@ -379,12 +379,6 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 
@@ -417,13 +411,7 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
 	public void setWFState (String WFState)
 	{
 		if (WFState == null) throw new IllegalArgumentException ("WFState is mandatory");
-		if (WFState.equals("ON") || WFState.equals("OR") || WFState.equals("OS") || WFState.equals("CC") || WFState.equals("CA") || WFState.equals("CT")); else throw new IllegalArgumentException ("WFState Invalid value - " + WFState + " - Reference_ID=305 - ON - OR - OS - CC - CA - CT");
-		if (WFState.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			WFState = WFState.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_WFState, WFState);
+		if (WFState.equals("ON") || WFState.equals("OR") || WFState.equals("OS") || WFState.equals("CC") || WFState.equals("CA") || WFState.equals("CT")); else throw new IllegalArgumentException ("WFState Invalid value - " + WFState + " - Reference_ID=305 - ON - OR - OS - CC - CA - CT");		set_Value (COLUMNNAME_WFState, WFState);
 	}
 
 	/** Get Workflow State.

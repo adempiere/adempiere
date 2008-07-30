@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CycleStep
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_CycleStep 
 {
@@ -56,19 +52,6 @@ public interface I_C_CycleStep
 
     /** Load Meta Data */
 
-    /** Column name C_CycleStep_ID */
-    public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";
-
-	/** Set Cycle Step.
-	  * The step for this Cycle
-	  */
-	public void setC_CycleStep_ID (int C_CycleStep_ID);
-
-	/** Get Cycle Step.
-	  * The step for this Cycle
-	  */
-	public int getC_CycleStep_ID();
-
     /** Column name C_Cycle_ID */
     public static final String COLUMNNAME_C_Cycle_ID = "C_Cycle_ID";
 
@@ -83,6 +66,19 @@ public interface I_C_CycleStep
 	public int getC_Cycle_ID();
 
 	public I_C_Cycle getC_Cycle() throws Exception;
+
+    /** Column name C_CycleStep_ID */
+    public static final String COLUMNNAME_C_CycleStep_ID = "C_CycleStep_ID";
+
+	/** Set Cycle Step.
+	  * The step for this Cycle
+	  */
+	public void setC_CycleStep_ID (int C_CycleStep_ID);
+
+	/** Get Cycle Step.
+	  * The step for this Cycle
+	  */
+	public int getC_CycleStep_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

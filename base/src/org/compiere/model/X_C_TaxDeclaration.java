@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxDeclaration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Persistent 
 {
 
@@ -40,9 +40,9 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
       /** if (C_TaxDeclaration_ID == 0)
         {
 			setC_TaxDeclaration_ID (0);
-			setDateFrom (new Timestamp(System.currentTimeMillis()));
-			setDateTo (new Timestamp(System.currentTimeMillis()));
-			setDateTrx (new Timestamp(System.currentTimeMillis()));
+			setDateFrom (new Timestamp( System.currentTimeMillis() ));
+			setDateTo (new Timestamp( System.currentTimeMillis() ));
+			setDateTrx (new Timestamp( System.currentTimeMillis() ));
 			setName (null);
 			setProcessed (false);
         } */
@@ -161,12 +161,6 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -186,12 +180,6 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

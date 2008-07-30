@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_RfQResponseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
       /** if (C_RfQResponseLine_ID == 0)
         {
 			setC_RfQLine_ID (0);
-			setC_RfQResponseLine_ID (0);
 			setC_RfQResponse_ID (0);
+			setC_RfQResponseLine_ID (0);
 			setIsSelectedWinner (false);
 			setIsSelfService (false);
         } */
@@ -114,28 +114,6 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set RfQ Response Line.
-		@param C_RfQResponseLine_ID 
-		Request for Quotation Response Line
-	  */
-	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
-	{
-		if (C_RfQResponseLine_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponseLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
-	}
-
-	/** Get RfQ Response Line.
-		@return Request for Quotation Response Line
-	  */
-	public int getC_RfQResponseLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponseLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_RfQResponse getC_RfQResponse() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQResponse.Table_Name);
@@ -169,6 +147,28 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	public int getC_RfQResponse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set RfQ Response Line.
+		@param C_RfQResponseLine_ID 
+		Request for Quotation Response Line
+	  */
+	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
+	{
+		if (C_RfQResponseLine_ID < 1)
+			 throw new IllegalArgumentException ("C_RfQResponseLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
+	}
+
+	/** Get RfQ Response Line.
+		@return Request for Quotation Response Line
+	  */
+	public int getC_RfQResponseLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponseLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -234,12 +234,6 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -257,12 +251,6 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 

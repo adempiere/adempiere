@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -37,8 +33,8 @@ import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_JournalLine
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_GL_JournalLine 
 {
@@ -94,15 +90,6 @@ public interface I_GL_JournalLine
 	/** Get A_CreateAsset	  */
 	public boolean isA_CreateAsset();
 
-    /** Column name A_Processed */
-    public static final String COLUMNNAME_A_Processed = "A_Processed";
-
-	/** Set A_Processed	  */
-	public void setA_Processed (boolean A_Processed);
-
-	/** Get A_Processed	  */
-	public boolean isA_Processed();
-
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
 
@@ -155,6 +142,15 @@ public interface I_GL_JournalLine
 	  */
 	public BigDecimal getAmtSourceDr();
 
+    /** Column name A_Processed */
+    public static final String COLUMNNAME_A_Processed = "A_Processed";
+
+	/** Set A_Processed	  */
+	public void setA_Processed (boolean A_Processed);
+
+	/** Get A_Processed	  */
+	public boolean isA_Processed();
+
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -200,19 +196,6 @@ public interface I_GL_JournalLine
 
 	public I_C_UOM getC_UOM() throws Exception;
 
-    /** Column name C_ValidCombination_ID */
-    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
-
-	/** Set Combination.
-	  * Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
-
-	/** Get Combination.
-	  * Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID();
-
     /** Column name CurrencyRate */
     public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
 
@@ -225,6 +208,19 @@ public interface I_GL_JournalLine
 	  * Currency Conversion Rate
 	  */
 	public BigDecimal getCurrencyRate();
+
+    /** Column name C_ValidCombination_ID */
+    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
+
+	/** Set Combination.
+	  * Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
+
+	/** Get Combination.
+	  * Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -252,19 +248,6 @@ public interface I_GL_JournalLine
 	  */
 	public String getDescription();
 
-    /** Column name GL_JournalLine_ID */
-    public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
-
-	/** Set Journal Line.
-	  * General Ledger Journal Line
-	  */
-	public void setGL_JournalLine_ID (int GL_JournalLine_ID);
-
-	/** Get Journal Line.
-	  * General Ledger Journal Line
-	  */
-	public int getGL_JournalLine_ID();
-
     /** Column name GL_Journal_ID */
     public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 
@@ -279,6 +262,19 @@ public interface I_GL_JournalLine
 	public int getGL_Journal_ID();
 
 	public I_GL_Journal getGL_Journal() throws Exception;
+
+    /** Column name GL_JournalLine_ID */
+    public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
+
+	/** Set Journal Line.
+	  * General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID);
+
+	/** Get Journal Line.
+	  * General Ledger Journal Line
+	  */
+	public int getGL_JournalLine_ID();
 
     /** Column name IsGenerated */
     public static final String COLUMNNAME_IsGenerated = "IsGenerated";

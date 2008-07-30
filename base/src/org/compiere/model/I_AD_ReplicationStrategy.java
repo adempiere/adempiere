@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ReplicationStrategy
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_ReplicationStrategy 
 {
@@ -82,17 +78,6 @@ public interface I_AD_ReplicationStrategy
 	  */
 	public String getDescription();
 
-    /** Column name EXP_Processor_ID */
-    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
-
-	/** Set EXP_Processor_ID	  */
-	public void setEXP_Processor_ID (int EXP_Processor_ID);
-
-	/** Get EXP_Processor_ID	  */
-	public int getEXP_Processor_ID();
-
-	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws Exception;
-
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
 
@@ -107,6 +92,17 @@ public interface I_AD_ReplicationStrategy
  Determines ownership and synchronization
 	  */
 	public String getEntityType();
+
+    /** Column name EXP_Processor_ID */
+    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
+
+	/** Set EXP_Processor_ID	  */
+	public void setEXP_Processor_ID (int EXP_Processor_ID);
+
+	/** Get EXP_Processor_ID	  */
+	public int getEXP_Processor_ID();
+
+	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws Exception;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

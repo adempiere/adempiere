@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persistent 
 {
 
@@ -120,13 +120,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public void setAD_Package_Type (String AD_Package_Type)
 	{
 
-		if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.equals("R") || AD_Package_Type.equals("X")); else throw new IllegalArgumentException ("AD_Package_Type Invalid value - " + AD_Package_Type + " - Reference_ID=50001 - L - R - X");
-		if (AD_Package_Type != null && AD_Package_Type.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AD_Package_Type = AD_Package_Type.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AD_Package_Type, AD_Package_Type);
+		if (AD_Package_Type == null || AD_Package_Type.equals("L") || AD_Package_Type.equals("R") || AD_Package_Type.equals("X")); else throw new IllegalArgumentException ("AD_Package_Type Invalid value - " + AD_Package_Type + " - Reference_ID=50001 - L - R - X");		set_Value (COLUMNNAME_AD_Package_Type, AD_Package_Type);
 	}
 
 	/** Get AD_Package_Type.
@@ -144,12 +138,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 1000)
-		{
-			log.warning("Length > 1000 - truncated");
-			Description = Description.substring(0, 1000);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -169,12 +157,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (EMail == null)
 			throw new IllegalArgumentException ("EMail is mandatory.");
-
-		if (EMail.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			EMail = EMail.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -192,12 +174,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (File_Directory == null)
 			throw new IllegalArgumentException ("File_Directory is mandatory.");
-
-		if (File_Directory.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			File_Directory = File_Directory.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_File_Directory, File_Directory);
 	}
 
@@ -214,12 +190,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (Instructions == null)
 			throw new IllegalArgumentException ("Instructions is mandatory.");
-
-		if (Instructions.length() > 1000)
-		{
-			log.warning("Length > 1000 - truncated");
-			Instructions = Instructions.substring(0, 1000);
-		}
 		set_Value (COLUMNNAME_Instructions, Instructions);
 	}
 
@@ -238,12 +208,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -261,12 +225,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (PK_Version == null)
 			throw new IllegalArgumentException ("PK_Version is mandatory.");
-
-		if (PK_Version.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			PK_Version = PK_Version.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_PK_Version, PK_Version);
 	}
 
@@ -353,13 +311,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public void setReleaseNo (String ReleaseNo)
 	{
 		if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandatory");
-		if (ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all") || ReleaseNo.equals("Release 3.1.0") || ReleaseNo.equals("Release 3.2.0") || ReleaseNo.equals("Release 3.3.0")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all - Release 3.1.0 - Release 3.2.0 - Release 3.3.0");
-		if (ReleaseNo.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
+		if (ReleaseNo.equals("Release 2.5.2a") || ReleaseNo.equals("Release 2.5.2b") || ReleaseNo.equals("Release 2.5.2c") || ReleaseNo.equals("Release 2.5.2d") || ReleaseNo.equals("Release 2.5.2e") || ReleaseNo.equals("Release 2.5.3a") || ReleaseNo.equals("Release 2.5.3b") || ReleaseNo.equals("all") || ReleaseNo.equals("Release 3.1.0") || ReleaseNo.equals("Release 3.2.0") || ReleaseNo.equals("Release 3.3.0")); else throw new IllegalArgumentException ("ReleaseNo Invalid value - " + ReleaseNo + " - Reference_ID=50002 - Release 2.5.2a - Release 2.5.2b - Release 2.5.2c - Release 2.5.2d - Release 2.5.2e - Release 2.5.3a - Release 2.5.3b - all - Release 3.1.0 - Release 3.2.0 - Release 3.3.0");		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
 	/** Get Release No.
@@ -378,12 +330,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (UserName == null)
 			throw new IllegalArgumentException ("UserName is mandatory.");
-
-		if (UserName.length() > 30)
-		{
-			log.warning("Length > 30 - truncated");
-			UserName = UserName.substring(0, 30);
-		}
 		set_Value (COLUMNNAME_UserName, UserName);
 	}
 
@@ -403,12 +349,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	{
 		if (Version == null)
 			throw new IllegalArgumentException ("Version is mandatory.");
-
-		if (Version.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Version = Version.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Version, Version);
 	}
 

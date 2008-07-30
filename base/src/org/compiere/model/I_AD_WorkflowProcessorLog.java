@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WorkflowProcessorLog
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_AD_WorkflowProcessorLog 
 {
@@ -56,19 +52,6 @@ public interface I_AD_WorkflowProcessorLog
 
     /** Load Meta Data */
 
-    /** Column name AD_WorkflowProcessorLog_ID */
-    public static final String COLUMNNAME_AD_WorkflowProcessorLog_ID = "AD_WorkflowProcessorLog_ID";
-
-	/** Set Workflow Processorl Log.
-	  * Result of the execution of the Workflow Processor
-	  */
-	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID);
-
-	/** Get Workflow Processorl Log.
-	  * Result of the execution of the Workflow Processor
-	  */
-	public int getAD_WorkflowProcessorLog_ID();
-
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 
@@ -83,6 +66,19 @@ public interface I_AD_WorkflowProcessorLog
 	public int getAD_WorkflowProcessor_ID();
 
 	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception;
+
+    /** Column name AD_WorkflowProcessorLog_ID */
+    public static final String COLUMNNAME_AD_WorkflowProcessorLog_ID = "AD_WorkflowProcessorLog_ID";
+
+	/** Set Workflow Processorl Log.
+	  * Result of the execution of the Workflow Processor
+	  */
+	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID);
+
+	/** Get Workflow Processorl Log.
+	  * Result of the execution of the Workflow Processor
+	  */
+	public int getAD_WorkflowProcessorLog_ID();
 
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";

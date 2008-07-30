@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_NewsChannel
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persistent 
 {
 
@@ -83,12 +83,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setAD_Language (String AD_Language)
 	{
-
-		if (AD_Language != null && AD_Language.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 6);
-		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -168,12 +162,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Description = Description.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -191,12 +179,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -214,12 +196,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setLink (String Link)
 	{
-
-		if (Link != null && Link.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Link = Link.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Link, Link);
 	}
 
@@ -239,12 +215,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

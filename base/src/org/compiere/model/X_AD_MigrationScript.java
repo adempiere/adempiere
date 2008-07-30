@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_MigrationScript
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_Persistent 
 {
 
@@ -40,11 +40,11 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
         {
 			setAD_MigrationScript_ID (0);
 			setFileName (null);
+			setisApply (false);
 			setName (null);
 			setProjectName (null);
 			setReleaseNo (null);
 			setStatus (null);
-			setisApply (false);
         } */
     }
 
@@ -101,12 +101,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Description = Description.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -122,12 +116,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 		@param DeveloperName Developer Name	  */
 	public void setDeveloperName (String DeveloperName)
 	{
-
-		if (DeveloperName != null && DeveloperName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			DeveloperName = DeveloperName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_DeveloperName, DeveloperName);
 	}
 
@@ -146,12 +134,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	{
 		if (FileName == null)
 			throw new IllegalArgumentException ("FileName is mandatory.");
-
-		if (FileName.length() > 500)
-		{
-			log.warning("Length > 500 - truncated");
-			FileName = FileName.substring(0, 500);
-		}
 		set_Value (COLUMNNAME_FileName, FileName);
 	}
 
@@ -163,6 +145,27 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 		return (String)get_Value(COLUMNNAME_FileName);
 	}
 
+	/** Set Apply Script.
+		@param isApply Apply Script	  */
+	public void setisApply (boolean isApply)
+	{
+		set_Value (COLUMNNAME_isApply, Boolean.valueOf(isApply));
+	}
+
+	/** Get Apply Script.
+		@return Apply Script	  */
+	public boolean isApply () 
+	{
+		Object oo = get_Value(COLUMNNAME_isApply);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -171,12 +174,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -204,12 +201,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	{
 		if (ProjectName == null)
 			throw new IllegalArgumentException ("ProjectName is mandatory.");
-
-		if (ProjectName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ProjectName = ProjectName.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ProjectName, ProjectName);
 	}
 
@@ -227,12 +218,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setReference (String Reference)
 	{
-
-		if (Reference != null && Reference.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Reference = Reference.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Reference, Reference);
 	}
 
@@ -252,12 +237,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	{
 		if (ReleaseNo == null)
 			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
-
-		if (ReleaseNo.length() > 4)
-		{
-			log.warning("Length > 4 - truncated");
-			ReleaseNo = ReleaseNo.substring(0, 4);
-		}
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
@@ -290,12 +269,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 		@param ScriptRoll Roll the Script	  */
 	public void setScriptRoll (String ScriptRoll)
 	{
-
-		if (ScriptRoll != null && ScriptRoll.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ScriptRoll = ScriptRoll.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_ScriptRoll, ScriptRoll);
 	}
 
@@ -321,13 +294,7 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	public void setStatus (String Status)
 	{
 		if (Status == null) throw new IllegalArgumentException ("Status is mandatory");
-		if (Status.equals("IP") || Status.equals("CO") || Status.equals("ER")); else throw new IllegalArgumentException ("Status Invalid value - " + Status + " - Reference_ID=53239 - IP - CO - ER");
-		if (Status.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			Status = Status.substring(0, 2);
-		}
-		set_ValueNoCheck (COLUMNNAME_Status, Status);
+		if (Status.equals("IP") || Status.equals("CO") || Status.equals("ER")); else throw new IllegalArgumentException ("Status Invalid value - " + Status + " - Reference_ID=53239 - IP - CO - ER");		set_ValueNoCheck (COLUMNNAME_Status, Status);
 	}
 
 	/** Get Status.
@@ -344,12 +311,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setURL (String URL)
 	{
-
-		if (URL != null && URL.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			URL = URL.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_URL, URL);
 	}
 
@@ -359,26 +320,5 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	public String getURL () 
 	{
 		return (String)get_Value(COLUMNNAME_URL);
-	}
-
-	/** Set Apply Script.
-		@param isApply Apply Script	  */
-	public void setisApply (boolean isApply)
-	{
-		set_Value (COLUMNNAME_isApply, Boolean.valueOf(isApply));
-	}
-
-	/** Get Apply Script.
-		@return Apply Script	  */
-	public boolean isApply () 
-	{
-		Object oo = get_Value(COLUMNNAME_isApply);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 }

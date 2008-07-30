@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Change
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persistent 
 {
 
@@ -337,13 +337,7 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
-		if (A_Depreciation_Manual_Period == null || A_Depreciation_Manual_Period.equals("PR") || A_Depreciation_Manual_Period.equals("YR")); else throw new IllegalArgumentException ("A_Depreciation_Manual_Period Invalid value - " + A_Depreciation_Manual_Period + " - Reference_ID=53256 - PR - YR");
-		if (A_Depreciation_Manual_Period != null && A_Depreciation_Manual_Period.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Depreciation_Manual_Period = A_Depreciation_Manual_Period.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
+		if (A_Depreciation_Manual_Period == null || A_Depreciation_Manual_Period.equals("PR") || A_Depreciation_Manual_Period.equals("YR")); else throw new IllegalArgumentException ("A_Depreciation_Manual_Period Invalid value - " + A_Depreciation_Manual_Period + " - Reference_ID=53256 - PR - YR");		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
 	/** Get A_Depreciation_Manual_Period.
@@ -421,6 +415,28 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public int getA_Disposal_Revenue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Ad_User_ID AD_Reference_ID=286 */
+	public static final int AD_USER_ID_AD_Reference_ID=286;
+	/** Set Ad_User_ID.
+		@param Ad_User_ID Ad_User_ID	  */
+	public void setAd_User_ID (int Ad_User_ID)
+	{
+		if (Ad_User_ID < 1) 
+			set_Value (COLUMNNAME_Ad_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ad_User_ID, Integer.valueOf(Ad_User_ID));
+	}
+
+	/** Get Ad_User_ID.
+		@return Ad_User_ID	  */
+	public int getAd_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_User_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -563,13 +579,7 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 
-		if (A_Reval_Cal_Method == null || A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");
-		if (A_Reval_Cal_Method != null && A_Reval_Cal_Method.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			A_Reval_Cal_Method = A_Reval_Cal_Method.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
+		if (A_Reval_Cal_Method == null || A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
 	/** Get A_Reval_Cal_Method.
@@ -662,28 +672,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Ad_User_ID AD_Reference_ID=286 */
-	public static final int AD_USER_ID_AD_Reference_ID=286;
-	/** Set Ad_User_ID.
-		@param Ad_User_ID Ad_User_ID	  */
-	public void setAd_User_ID (int Ad_User_ID)
-	{
-		if (Ad_User_ID < 1) 
-			set_Value (COLUMNNAME_Ad_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_Ad_User_ID, Integer.valueOf(Ad_User_ID));
-	}
-
-	/** Get Ad_User_ID.
-		@return Ad_User_ID	  */
-	public int getAd_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set AssetAccumDepreciationAmt.
@@ -898,54 +886,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** C_Location_ID AD_Reference_ID=133 */
-	public static final int C_LOCATION_ID_AD_Reference_ID=133;
-	/** Set Address.
-		@param C_Location_ID 
-		Location or Address
-	  */
-	public void setC_Location_ID (int C_Location_ID)
-	{
-		if (C_Location_ID < 1) 
-			set_Value (COLUMNNAME_C_Location_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
-	}
-
-	/** Get Address.
-		@return Location or Address
-	  */
-	public int getC_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1) 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set ChangeAmt.
 		@param ChangeAmt ChangeAmt	  */
 	public void setChangeAmt (BigDecimal ChangeAmt)
@@ -1012,13 +952,7 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public void setChangeType (String ChangeType)
 	{
 		if (ChangeType == null) throw new IllegalArgumentException ("ChangeType is mandatory");
-		if (ChangeType.equals("ADD") || ChangeType.equals("BAL") || ChangeType.equals("CRT") || ChangeType.equals("DEP") || ChangeType.equals("DIS") || ChangeType.equals("EXP") || ChangeType.equals("FOR") || ChangeType.equals("IMP") || ChangeType.equals("RVL") || ChangeType.equals("SET") || ChangeType.equals("SPL") || ChangeType.equals("TRN") || ChangeType.equals("UPD") || ChangeType.equals("USE")); else throw new IllegalArgumentException ("ChangeType Invalid value - " + ChangeType + " - Reference_ID=53273 - ADD - BAL - CRT - DEP - DIS - EXP - FOR - IMP - RVL - SET - SPL - TRN - UPD - USE");
-		if (ChangeType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			ChangeType = ChangeType.substring(0, 3);
-		}
-		set_ValueNoCheck (COLUMNNAME_ChangeType, ChangeType);
+		if (ChangeType.equals("ADD") || ChangeType.equals("BAL") || ChangeType.equals("CRT") || ChangeType.equals("DEP") || ChangeType.equals("DIS") || ChangeType.equals("EXP") || ChangeType.equals("FOR") || ChangeType.equals("IMP") || ChangeType.equals("RVL") || ChangeType.equals("SET") || ChangeType.equals("SPL") || ChangeType.equals("TRN") || ChangeType.equals("UPD") || ChangeType.equals("USE")); else throw new IllegalArgumentException ("ChangeType Invalid value - " + ChangeType + " - Reference_ID=53273 - ADD - BAL - CRT - DEP - DIS - EXP - FOR - IMP - RVL - SET - SPL - TRN - UPD - USE");		set_ValueNoCheck (COLUMNNAME_ChangeType, ChangeType);
 	}
 
 	/** Get ChangeType.
@@ -1026,6 +960,31 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public String getChangeType () 
 	{
 		return (String)get_Value(COLUMNNAME_ChangeType);
+	}
+
+	/** C_Location_ID AD_Reference_ID=133 */
+	public static final int C_LOCATION_ID_AD_Reference_ID=133;
+	/** Set Address.
+		@param C_Location_ID 
+		Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID)
+	{
+		if (C_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+	}
+
+	/** Get Address.
+		@return Location or Address
+	  */
+	public int getC_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** ConventionType AD_Reference_ID=53267 */
@@ -1042,6 +1001,29 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public int getConventionType () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ConventionType);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1229,12 +1211,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	  */
 	public void setLot (String Lot)
 	{
-
-		if (Lot != null && Lot.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Lot = Lot.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_Lot, Lot);
 	}
 
@@ -1265,13 +1241,7 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");
-		if (PostingType != null && PostingType.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			PostingType = PostingType.substring(0, 10);
-		}
-		set_Value (COLUMNNAME_PostingType, PostingType);
+		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.
@@ -1286,12 +1256,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		@param Serno Serno	  */
 	public void setSerno (String Serno)
 	{
-
-		if (Serno != null && Serno.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Serno = Serno.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_Serno, Serno);
 	}
 
@@ -1308,12 +1272,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	{
 		if (TextDetails == null)
 			throw new IllegalArgumentException ("TextDetails is mandatory.");
-
-		if (TextDetails.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			TextDetails = TextDetails.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_TextDetails, TextDetails);
 	}
 
@@ -1388,12 +1346,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		@param Versionno Versionno	  */
 	public void setVersionno (String Versionno)
 	{
-
-		if (Versionno != null && Versionno.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Versionno = Versionno.substring(0, 40);
-		}
 		set_ValueNoCheck (COLUMNNAME_Versionno, Versionno);
 	}
 

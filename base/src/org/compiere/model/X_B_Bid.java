@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_Bid
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_B_Bid extends PO implements I_B_Bid, I_Persistent 
 {
 
@@ -242,12 +242,6 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -273,12 +267,6 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setPrivateNote (String PrivateNote)
 	{
-
-		if (PrivateNote != null && PrivateNote.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			PrivateNote = PrivateNote.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_PrivateNote, PrivateNote);
 	}
 
@@ -296,12 +284,6 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-
-		if (TextMsg != null && TextMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			TextMsg = TextMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

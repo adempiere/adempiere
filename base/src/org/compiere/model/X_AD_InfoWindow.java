@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoWindow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent 
 {
 
@@ -143,12 +143,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -168,12 +162,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -193,12 +181,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	{
 		if (FromClause == null)
 			throw new IllegalArgumentException ("FromClause is mandatory.");
-
-		if (FromClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			FromClause = FromClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_FromClause, FromClause);
 	}
 
@@ -216,12 +198,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -241,12 +217,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -272,12 +242,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setOtherClause (String OtherClause)
 	{
-
-		if (OtherClause != null && OtherClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
 

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persistent 
 {
 
@@ -119,6 +119,23 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
+	/** Set Chargeable Quantity.
+		@param ChargeableQty Chargeable Quantity	  */
+	public void setChargeableQty (int ChargeableQty)
+	{
+		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
+	}
+
+	/** Get Chargeable Quantity.
+		@return Chargeable Quantity	  */
+	public int getChargeableQty () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_TaxCategory getC_TaxCategory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
@@ -195,35 +212,12 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Chargeable Quantity.
-		@param ChargeableQty Chargeable Quantity	  */
-	public void setChargeableQty (int ChargeableQty)
-	{
-		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
-	}
-
-	/** Get Chargeable Quantity.
-		@return Chargeable Quantity	  */
-	public int getChargeableQty () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -353,12 +347,6 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -607,12 +595,6 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

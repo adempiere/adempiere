@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent 
 {
 
@@ -92,13 +92,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public void setAccountSign (String AccountSign)
 	{
 
-		if (AccountSign == null || AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");
-		if (AccountSign != null && AccountSign.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			AccountSign = AccountSign.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
+		if (AccountSign == null || AccountSign.equals("N") || AccountSign.equals("D") || AccountSign.equals("C")); else throw new IllegalArgumentException ("AccountSign Invalid value - " + AccountSign + " - Reference_ID=118 - N - D - C");		set_Value (COLUMNNAME_AccountSign, AccountSign);
 	}
 
 	/** Get Account Sign.
@@ -124,13 +118,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public void setColumnType (String ColumnType)
 	{
 		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
-		if (ColumnType.equals("A") || ColumnType.equals("D") || ColumnType.equals("Q") || ColumnType.equals("T")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=53243 - A - D - Q - T");
-		if (ColumnType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ColumnType = ColumnType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ColumnType, ColumnType);
+		if (ColumnType.equals("A") || ColumnType.equals("D") || ColumnType.equals("Q") || ColumnType.equals("T")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=53243 - A - D - Q - T");		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
 	/** Get Column Type.
@@ -146,12 +134,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -502,12 +484,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -536,13 +512,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("C") || Type.equals("E") || Type.equals("I") || Type.equals("R")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53245 - C - E - I - R");
-		if (Type.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Type = Type.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Type, Type);
+		if (Type.equals("C") || Type.equals("E") || Type.equals("I") || Type.equals("R")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53245 - C - E - I - R");		set_Value (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.
@@ -593,12 +563,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

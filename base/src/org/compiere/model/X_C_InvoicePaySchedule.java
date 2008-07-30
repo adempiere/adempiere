@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoicePaySchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule, I_Persistent 
 {
 
@@ -43,12 +43,12 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
       super (ctx, C_InvoicePaySchedule_ID, trxName);
       /** if (C_InvoicePaySchedule_ID == 0)
         {
-			setC_InvoicePaySchedule_ID (0);
 			setC_Invoice_ID (0);
+			setC_InvoicePaySchedule_ID (0);
 			setDiscountAmt (Env.ZERO);
-			setDiscountDate (new Timestamp(System.currentTimeMillis()));
+			setDiscountDate (new Timestamp( System.currentTimeMillis() ));
 			setDueAmt (Env.ZERO);
-			setDueDate (new Timestamp(System.currentTimeMillis()));
+			setDueDate (new Timestamp( System.currentTimeMillis() ));
 			setIsValid (false);
 			setProcessed (false);
         } */
@@ -81,28 +81,6 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Invoice Payment Schedule.
-		@param C_InvoicePaySchedule_ID 
-		Invoice Payment Schedule
-	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
-	{
-		if (C_InvoicePaySchedule_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoicePaySchedule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
-	}
-
-	/** Get Invoice Payment Schedule.
-		@return Invoice Payment Schedule
-	  */
-	public int getC_InvoicePaySchedule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_Invoice getC_Invoice() throws Exception 
     {
@@ -137,6 +115,28 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	public int getC_Invoice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Invoice Payment Schedule.
+		@param C_InvoicePaySchedule_ID 
+		Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
+	{
+		if (C_InvoicePaySchedule_ID < 1)
+			 throw new IllegalArgumentException ("C_InvoicePaySchedule_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	/** Get Invoice Payment Schedule.
+		@return Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

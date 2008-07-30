@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_CStage
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_CM_CStage 
 {
@@ -56,19 +52,6 @@ public interface I_CM_CStage
 
     /** Load Meta Data */
 
-    /** Column name CM_CStageLink_ID */
-    public static final String COLUMNNAME_CM_CStageLink_ID = "CM_CStageLink_ID";
-
-	/** Set Container Link.
-	  * Stage Link to another Container in the Web Project
-	  */
-	public void setCM_CStageLink_ID (int CM_CStageLink_ID);
-
-	/** Get Container Link.
-	  * Stage Link to another Container in the Web Project
-	  */
-	public int getCM_CStageLink_ID();
-
     /** Column name CM_CStage_ID */
     public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
 
@@ -81,6 +64,19 @@ public interface I_CM_CStage
 	  * Web Container Stage contains the staging content like images, text etc.
 	  */
 	public int getCM_CStage_ID();
+
+    /** Column name CM_CStageLink_ID */
+    public static final String COLUMNNAME_CM_CStageLink_ID = "CM_CStageLink_ID";
+
+	/** Set Container Link.
+	  * Stage Link to another Container in the Web Project
+	  */
+	public void setCM_CStageLink_ID (int CM_CStageLink_ID);
+
+	/** Get Container Link.
+	  * Stage Link to another Container in the Web Project
+	  */
+	public int getCM_CStageLink_ID();
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";

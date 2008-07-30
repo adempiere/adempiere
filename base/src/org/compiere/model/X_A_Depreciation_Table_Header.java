@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Table_Header
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciation_Table_Header, I_Persistent 
 {
 
@@ -81,12 +81,6 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	{
 		if (A_Depreciation_Table_Code == null)
 			throw new IllegalArgumentException ("A_Depreciation_Table_Code is mandatory.");
-
-		if (A_Depreciation_Table_Code.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			A_Depreciation_Table_Code = A_Depreciation_Table_Code.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_A_Depreciation_Table_Code, A_Depreciation_Table_Code);
 	}
 
@@ -135,13 +129,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	public void setA_Table_Rate_Type (String A_Table_Rate_Type)
 	{
 		if (A_Table_Rate_Type == null) throw new IllegalArgumentException ("A_Table_Rate_Type is mandatory");
-		if (A_Table_Rate_Type.equals("AM") || A_Table_Rate_Type.equals("RT")); else throw new IllegalArgumentException ("A_Table_Rate_Type Invalid value - " + A_Table_Rate_Type + " - Reference_ID=53255 - AM - RT");
-		if (A_Table_Rate_Type.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Table_Rate_Type = A_Table_Rate_Type.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
+		if (A_Table_Rate_Type.equals("AM") || A_Table_Rate_Type.equals("RT")); else throw new IllegalArgumentException ("A_Table_Rate_Type Invalid value - " + A_Table_Rate_Type + " - Reference_ID=53255 - AM - RT");		set_Value (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
 	}
 
 	/** Get A_Table_Rate_Type.
@@ -162,13 +150,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	public void setA_Term (String A_Term)
 	{
 		if (A_Term == null) throw new IllegalArgumentException ("A_Term is mandatory");
-		if (A_Term.equals("PR") || A_Term.equals("YR")); else throw new IllegalArgumentException ("A_Term Invalid value - " + A_Term + " - Reference_ID=53256 - PR - YR");
-		if (A_Term.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			A_Term = A_Term.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_A_Term, A_Term);
+		if (A_Term.equals("PR") || A_Term.equals("YR")); else throw new IllegalArgumentException ("A_Term Invalid value - " + A_Term + " - Reference_ID=53256 - PR - YR");		set_Value (COLUMNNAME_A_Term, A_Term);
 	}
 
 	/** Get A_Term.
@@ -186,12 +168,6 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	{
 		if (Description == null)
 			throw new IllegalArgumentException ("Description is mandatory.");
-
-		if (Description.length() > 510)
-		{
-			log.warning("Length > 510 - truncated");
-			Description = Description.substring(0, 510);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_TemplateTable
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Persistent 
 {
 
@@ -41,8 +41,8 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
       /** if (CM_TemplateTable_ID == 0)
         {
 			setAD_Table_ID (0);
-			setCM_TemplateTable_ID (0);
 			setCM_Template_ID (0);
+			setCM_TemplateTable_ID (0);
 			setName (null);
         } */
     }
@@ -113,28 +113,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Template Table.
-		@param CM_TemplateTable_ID 
-		CM Template Table Link
-	  */
-	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
-	{
-		if (CM_TemplateTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_TemplateTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
-	}
-
-	/** Get Template Table.
-		@return CM Template Table Link
-	  */
-	public int getCM_TemplateTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_TemplateTable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_CM_Template getCM_Template() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_CM_Template.Table_Name);
@@ -173,18 +151,34 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Template Table.
+		@param CM_TemplateTable_ID 
+		CM Template Table Link
+	  */
+	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
+	{
+		if (CM_TemplateTable_ID < 1)
+			 throw new IllegalArgumentException ("CM_TemplateTable_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
+	}
+
+	/** Get Template Table.
+		@return CM Template Table Link
+	  */
+	public int getCM_TemplateTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_TemplateTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -204,12 +198,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			Name = Name.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -235,12 +223,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setOtherClause (String OtherClause)
 	{
-
-		if (OtherClause != null && OtherClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			OtherClause = OtherClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_OtherClause, OtherClause);
 	}
 
@@ -258,12 +240,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-
-		if (WhereClause != null && WhereClause.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			WhereClause = WhereClause.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

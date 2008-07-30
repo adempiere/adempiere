@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
         {
 			setAD_Column_ID (0);
 			setAD_PrintFormatChild_ID (0);
-			setAD_PrintFormatItem_ID (0);
 			setAD_PrintFormat_ID (0);
+			setAD_PrintFormatItem_ID (0);
 			setFieldAlignmentType (null);
 // D
 			setImageIsAttached (false);
@@ -261,28 +261,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	/** Set Print Format Item.
-		@param AD_PrintFormatItem_ID 
-		Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
-	{
-		if (AD_PrintFormatItem_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFormatItem_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
-	}
-
-	/** Get Print Format Item.
-		@return Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
@@ -316,6 +294,28 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public int getAD_PrintFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Print Format Item.
+		@param AD_PrintFormatItem_ID 
+		Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
+	{
+		if (AD_PrintFormatItem_ID < 1)
+			 throw new IllegalArgumentException ("AD_PrintFormatItem_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
+	}
+
+	/** Get Print Format Item.
+		@return Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -437,13 +437,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setBarcodeType (String BarcodeType)
 	{
 
-		if (BarcodeType == null || BarcodeType.equals("2o9") || BarcodeType.equals("3o9") || BarcodeType.equals("COD") || BarcodeType.equals("C28") || BarcodeType.equals("28A") || BarcodeType.equals("28B") || BarcodeType.equals("28C") || BarcodeType.equals("C39") || BarcodeType.equals("E28") || BarcodeType.equals("GTN") || BarcodeType.equals("MON") || BarcodeType.equals("NW7") || BarcodeType.equals("417") || BarcodeType.equals("C14") || BarcodeType.equals("SID") || BarcodeType.equals("U28") || BarcodeType.equals("US3") || BarcodeType.equals("US4") || BarcodeType.equals("USP") || BarcodeType.equals("C18") || BarcodeType.equals("us3") || BarcodeType.equals("3O9") || BarcodeType.equals("c39") || BarcodeType.equals("E13")); else throw new IllegalArgumentException ("BarcodeType Invalid value - " + BarcodeType + " - Reference_ID=377 - 2o9 - 3o9 - COD - C28 - 28A - 28B - 28C - C39 - E28 - GTN - MON - NW7 - 417 - C14 - SID - U28 - US3 - US4 - USP - C18 - us3 - 3O9 - c39 - E13");
-		if (BarcodeType != null && BarcodeType.length() > 3)
-		{
-			log.warning("Length > 3 - truncated");
-			BarcodeType = BarcodeType.substring(0, 3);
-		}
-		set_Value (COLUMNNAME_BarcodeType, BarcodeType);
+		if (BarcodeType == null || BarcodeType.equals("2o9") || BarcodeType.equals("3o9") || BarcodeType.equals("COD") || BarcodeType.equals("C28") || BarcodeType.equals("28A") || BarcodeType.equals("28B") || BarcodeType.equals("28C") || BarcodeType.equals("C39") || BarcodeType.equals("E28") || BarcodeType.equals("GTN") || BarcodeType.equals("MON") || BarcodeType.equals("NW7") || BarcodeType.equals("417") || BarcodeType.equals("C14") || BarcodeType.equals("SID") || BarcodeType.equals("U28") || BarcodeType.equals("US3") || BarcodeType.equals("US4") || BarcodeType.equals("USP") || BarcodeType.equals("C18") || BarcodeType.equals("us3") || BarcodeType.equals("3O9") || BarcodeType.equals("c39") || BarcodeType.equals("E13")); else throw new IllegalArgumentException ("BarcodeType Invalid value - " + BarcodeType + " - Reference_ID=377 - 2o9 - 3o9 - COD - C28 - 28A - 28B - 28C - C39 - E28 - GTN - MON - NW7 - 417 - C14 - SID - U28 - US3 - US4 - USP - C18 - us3 - 3O9 - c39 - E13");		set_Value (COLUMNNAME_BarcodeType, BarcodeType);
 	}
 
 	/** Get Barcode Type.
@@ -493,13 +487,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setFieldAlignmentType (String FieldAlignmentType)
 	{
 		if (FieldAlignmentType == null) throw new IllegalArgumentException ("FieldAlignmentType is mandatory");
-		if (FieldAlignmentType.equals("D") || FieldAlignmentType.equals("L") || FieldAlignmentType.equals("T") || FieldAlignmentType.equals("B") || FieldAlignmentType.equals("C")); else throw new IllegalArgumentException ("FieldAlignmentType Invalid value - " + FieldAlignmentType + " - Reference_ID=253 - D - L - T - B - C");
-		if (FieldAlignmentType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FieldAlignmentType = FieldAlignmentType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FieldAlignmentType, FieldAlignmentType);
+		if (FieldAlignmentType.equals("D") || FieldAlignmentType.equals("L") || FieldAlignmentType.equals("T") || FieldAlignmentType.equals("B") || FieldAlignmentType.equals("C")); else throw new IllegalArgumentException ("FieldAlignmentType Invalid value - " + FieldAlignmentType + " - Reference_ID=253 - D - L - T - B - C");		set_Value (COLUMNNAME_FieldAlignmentType, FieldAlignmentType);
 	}
 
 	/** Get Field Alignment.
@@ -540,12 +528,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setImageURL (String ImageURL)
 	{
-
-		if (ImageURL != null && ImageURL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			ImageURL = ImageURL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
 
@@ -1102,13 +1084,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setLineAlignmentType (String LineAlignmentType)
 	{
 		if (LineAlignmentType == null) throw new IllegalArgumentException ("LineAlignmentType is mandatory");
-		if (LineAlignmentType.equals("L") || LineAlignmentType.equals("C") || LineAlignmentType.equals("T") || LineAlignmentType.equals("X")); else throw new IllegalArgumentException ("LineAlignmentType Invalid value - " + LineAlignmentType + " - Reference_ID=254 - L - C - T - X");
-		if (LineAlignmentType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			LineAlignmentType = LineAlignmentType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_LineAlignmentType, LineAlignmentType);
+		if (LineAlignmentType.equals("L") || LineAlignmentType.equals("C") || LineAlignmentType.equals("T") || LineAlignmentType.equals("X")); else throw new IllegalArgumentException ("LineAlignmentType Invalid value - " + LineAlignmentType + " - Reference_ID=254 - L - C - T - X");		set_Value (COLUMNNAME_LineAlignmentType, LineAlignmentType);
 	}
 
 	/** Get Line Alignment.
@@ -1187,12 +1163,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1227,13 +1197,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setPrintAreaType (String PrintAreaType)
 	{
 		if (PrintAreaType == null) throw new IllegalArgumentException ("PrintAreaType is mandatory");
-		if (PrintAreaType.equals("C") || PrintAreaType.equals("H") || PrintAreaType.equals("F")); else throw new IllegalArgumentException ("PrintAreaType Invalid value - " + PrintAreaType + " - Reference_ID=256 - C - H - F");
-		if (PrintAreaType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PrintAreaType = PrintAreaType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PrintAreaType, PrintAreaType);
+		if (PrintAreaType.equals("C") || PrintAreaType.equals("H") || PrintAreaType.equals("F")); else throw new IllegalArgumentException ("PrintAreaType Invalid value - " + PrintAreaType + " - Reference_ID=256 - C - H - F");		set_Value (COLUMNNAME_PrintAreaType, PrintAreaType);
 	}
 
 	/** Get Area.
@@ -1265,13 +1229,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setPrintFormatType (String PrintFormatType)
 	{
 		if (PrintFormatType == null) throw new IllegalArgumentException ("PrintFormatType is mandatory");
-		if (PrintFormatType.equals("F") || PrintFormatType.equals("T") || PrintFormatType.equals("P") || PrintFormatType.equals("I") || PrintFormatType.equals("R") || PrintFormatType.equals("L")); else throw new IllegalArgumentException ("PrintFormatType Invalid value - " + PrintFormatType + " - Reference_ID=255 - F - T - P - I - R - L");
-		if (PrintFormatType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PrintFormatType = PrintFormatType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PrintFormatType, PrintFormatType);
+		if (PrintFormatType.equals("F") || PrintFormatType.equals("T") || PrintFormatType.equals("P") || PrintFormatType.equals("I") || PrintFormatType.equals("R") || PrintFormatType.equals("L")); else throw new IllegalArgumentException ("PrintFormatType Invalid value - " + PrintFormatType + " - Reference_ID=255 - F - T - P - I - R - L");		set_Value (COLUMNNAME_PrintFormatType, PrintFormatType);
 	}
 
 	/** Get Format Type.
@@ -1288,12 +1246,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setPrintName (String PrintName)
 	{
-
-		if (PrintName != null && PrintName.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			PrintName = PrintName.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 
@@ -1311,12 +1263,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setPrintNameSuffix (String PrintNameSuffix)
 	{
-
-		if (PrintNameSuffix != null && PrintNameSuffix.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			PrintNameSuffix = PrintNameSuffix.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_PrintNameSuffix, PrintNameSuffix);
 	}
 
@@ -1385,13 +1331,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public void setShapeType (String ShapeType)
 	{
 
-		if (ShapeType == null || ShapeType.equals("3") || ShapeType.equals("O") || ShapeType.equals("R") || ShapeType.equals("N")); else throw new IllegalArgumentException ("ShapeType Invalid value - " + ShapeType + " - Reference_ID=333 - 3 - O - R - N");
-		if (ShapeType != null && ShapeType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ShapeType = ShapeType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ShapeType, ShapeType);
+		if (ShapeType == null || ShapeType.equals("3") || ShapeType.equals("O") || ShapeType.equals("R") || ShapeType.equals("N")); else throw new IllegalArgumentException ("ShapeType Invalid value - " + ShapeType + " - Reference_ID=333 - 3 - O - R - N");		set_Value (COLUMNNAME_ShapeType, ShapeType);
 	}
 
 	/** Get Shape Type.

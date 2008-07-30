@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_Period extends PO implements I_C_Period, I_Persistent 
 {
 
@@ -47,7 +47,7 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 			setPeriodNo (0);
 			setPeriodType (null);
 // S
-			setStartDate (new Timestamp(System.currentTimeMillis()));
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -164,12 +164,6 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -222,13 +216,7 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	public void setPeriodType (String PeriodType)
 	{
 		if (PeriodType == null) throw new IllegalArgumentException ("PeriodType is mandatory");
-		if (PeriodType.equals("S") || PeriodType.equals("A")); else throw new IllegalArgumentException ("PeriodType Invalid value - " + PeriodType + " - Reference_ID=115 - S - A");
-		if (PeriodType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PeriodType = PeriodType.substring(0, 1);
-		}
-		set_ValueNoCheck (COLUMNNAME_PeriodType, PeriodType);
+		if (PeriodType.equals("S") || PeriodType.equals("A")); else throw new IllegalArgumentException ("PeriodType Invalid value - " + PeriodType + " - Reference_ID=115 - S - A");		set_ValueNoCheck (COLUMNNAME_PeriodType, PeriodType);
 	}
 
 	/** Get Period Type.

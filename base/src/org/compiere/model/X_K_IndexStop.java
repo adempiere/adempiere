@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_IndexStop
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent 
 {
 
@@ -42,8 +42,8 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
         {
 			setIsManual (true);
 // Y
-			setK_IndexStop_ID (0);
 			setKeyword (null);
+			setK_IndexStop_ID (0);
         } */
     }
 
@@ -74,45 +74,6 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_CM_WebProject getCM_WebProject() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
-        I_CM_WebProject result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Web Project.
-		@param CM_WebProject_ID 
-		A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public void setCM_WebProject_ID (int CM_WebProject_ID)
-	{
-		if (CM_WebProject_ID < 1) 
-			set_Value (COLUMNNAME_CM_WebProject_ID, null);
-		else 
-			set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
-	}
-
-	/** Get Web Project.
-		@return A web project is the main data container for Containers, URLs, Ads, Media etc.
-	  */
-	public int getCM_WebProject_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_DocType getC_DocType() throws Exception 
     {
@@ -153,6 +114,45 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_CM_WebProject getCM_WebProject() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
+        I_CM_WebProject result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Web Project.
+		@param CM_WebProject_ID 
+		A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public void setCM_WebProject_ID (int CM_WebProject_ID)
+	{
+		if (CM_WebProject_ID < 1) 
+			set_Value (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+	}
+
+	/** Get Web Project.
+		@return A web project is the main data container for Containers, URLs, Ads, Media etc.
+	  */
+	public int getCM_WebProject_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Manual.
 		@param IsManual 
 		This is a manual process
@@ -177,6 +177,33 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 		return false;
 	}
 
+	/** Set Keyword.
+		@param Keyword 
+		Case insensitive keyword
+	  */
+	public void setKeyword (String Keyword)
+	{
+		if (Keyword == null)
+			throw new IllegalArgumentException ("Keyword is mandatory.");
+		set_Value (COLUMNNAME_Keyword, Keyword);
+	}
+
+	/** Get Keyword.
+		@return Case insensitive keyword
+	  */
+	public String getKeyword () 
+	{
+		return (String)get_Value(COLUMNNAME_Keyword);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getKeyword());
+    }
+
 	/** Set Index Stop.
 		@param K_IndexStop_ID 
 		Keyword not to be indexed
@@ -198,39 +225,6 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
-
-	/** Set Keyword.
-		@param Keyword 
-		Case insensitive keyword
-	  */
-	public void setKeyword (String Keyword)
-	{
-		if (Keyword == null)
-			throw new IllegalArgumentException ("Keyword is mandatory.");
-
-		if (Keyword.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Keyword = Keyword.substring(0, 255);
-		}
-		set_Value (COLUMNNAME_Keyword, Keyword);
-	}
-
-	/** Get Keyword.
-		@return Case insensitive keyword
-	  */
-	public String getKeyword () 
-	{
-		return (String)get_Value(COLUMNNAME_Keyword);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getKeyword());
-    }
 
 	public I_R_RequestType getR_RequestType() throws Exception 
     {

@@ -5,22 +5,18 @@
  * Copyright (C) Trifon Trifonov.                                     *
  * Copyright (C) Contributors                                         *
  *                                                                    *
- * This program is free software;
- you can redistribute it and/or      *
+ * This program is free software, you can redistribute it and/or      *
  * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
+ * as published by the Free Software Foundation, either version 2     *
  * of the License, or (at your option) any later version.             *
  *                                                                    *
  * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
  * GNU General Public License for more details.                       *
  *                                                                    *
  * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
+ * along with this program, if not, write to the Free Software        *
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
  * MA 02110-1301, USA.                                                *
  *                                                                    *
@@ -36,8 +32,8 @@ import java.math.BigDecimal;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctProcessorLog
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.1a
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
  */
 public interface I_C_AcctProcessorLog 
 {
@@ -69,19 +65,6 @@ public interface I_C_AcctProcessorLog
 	  */
 	public byte[] getBinaryData();
 
-    /** Column name C_AcctProcessorLog_ID */
-    public static final String COLUMNNAME_C_AcctProcessorLog_ID = "C_AcctProcessorLog_ID";
-
-	/** Set Accounting Processor Log.
-	  * Result of the execution of the Accounting Processor
-	  */
-	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID);
-
-	/** Get Accounting Processor Log.
-	  * Result of the execution of the Accounting Processor
-	  */
-	public int getC_AcctProcessorLog_ID();
-
     /** Column name C_AcctProcessor_ID */
     public static final String COLUMNNAME_C_AcctProcessor_ID = "C_AcctProcessor_ID";
 
@@ -96,6 +79,19 @@ public interface I_C_AcctProcessorLog
 	public int getC_AcctProcessor_ID();
 
 	public I_C_AcctProcessor getC_AcctProcessor() throws Exception;
+
+    /** Column name C_AcctProcessorLog_ID */
+    public static final String COLUMNNAME_C_AcctProcessorLog_ID = "C_AcctProcessorLog_ID";
+
+	/** Set Accounting Processor Log.
+	  * Result of the execution of the Accounting Processor
+	  */
+	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID);
+
+	/** Get Accounting Processor Log.
+	  * Result of the execution of the Accounting Processor
+	  */
+	public int getC_AcctProcessorLog_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Val_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent 
 {
 
@@ -102,12 +102,6 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setCode (String Code)
 	{
-
-		if (Code != null && Code.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -125,12 +119,6 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -150,12 +138,6 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -175,12 +157,6 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -215,13 +191,7 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("S") || Type.equals("J") || Type.equals("E")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=101 - S - J - E");
-		if (Type.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Type = Type.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Type, Type);
+		if (Type.equals("S") || Type.equals("J") || Type.equals("E")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=101 - S - J - E");		set_Value (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.

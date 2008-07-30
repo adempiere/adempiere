@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_NetworkDistribution
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribution, I_Persistent 
 {
 
@@ -82,12 +82,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	  */
 	public void setCopyFrom (String CopyFrom)
 	{
-
-		if (CopyFrom != null && CopyFrom.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			CopyFrom = CopyFrom.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
 	}
 
@@ -124,12 +118,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -147,12 +135,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-
-		if (DocumentNo != null && DocumentNo.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			DocumentNo = DocumentNo.substring(0, 22);
-		}
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -170,12 +152,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -234,12 +210,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -276,12 +246,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 		@param Revision Revision	  */
 	public void setRevision (String Revision)
 	{
-
-		if (Revision != null && Revision.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Revision = Revision.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Revision, Revision);
 	}
 
@@ -334,12 +298,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 80)
-		{
-			log.warning("Length > 80 - truncated");
-			Value = Value.substring(0, 80);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

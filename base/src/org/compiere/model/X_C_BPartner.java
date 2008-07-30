@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent 
 {
 
@@ -43,8 +43,8 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
       super (ctx, C_BPartner_ID, trxName);
       /** if (C_BPartner_ID == 0)
         {
-			setC_BP_Group_ID (0);
 			setC_BPartner_ID (0);
+			setC_BP_Group_ID (0);
 			setIsCustomer (false);
 			setIsEmployee (false);
 			setIsOneTime (false);
@@ -53,9 +53,9 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 			setIsSummary (false);
 			setIsVendor (false);
 			setName (null);
+			setSendEMail (false);
 			setSO_CreditLimit (Env.ZERO);
 			setSO_CreditUsed (Env.ZERO);
-			setSendEMail (false);
 			setValue (null);
         } */
     }
@@ -87,54 +87,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** AD_Language AD_Reference_ID=327 */
-	public static final int AD_LANGUAGE_AD_Reference_ID=327;
-	/** Set Language.
-		@param AD_Language 
-		Language for this entity
-	  */
-	public void setAD_Language (String AD_Language)
-	{
-
-		if (AD_Language != null && AD_Language.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 6);
-		}
-		set_Value (COLUMNNAME_AD_Language, AD_Language);
-	}
-
-	/** Get Language.
-		@return Language for this entity
-	  */
-	public String getAD_Language () 
-	{
-		return (String)get_Value(COLUMNNAME_AD_Language);
-	}
-
-	/** Set Linked Organization.
-		@param AD_OrgBP_ID 
-		The Business Partner is another Organization for explicit Inter-Org transactions
-	  */
-	public void setAD_OrgBP_ID (String AD_OrgBP_ID)
-	{
-
-		if (AD_OrgBP_ID != null && AD_OrgBP_ID.length() > 22)
-		{
-			log.warning("Length > 22 - truncated");
-			AD_OrgBP_ID = AD_OrgBP_ID.substring(0, 22);
-		}
-		set_Value (COLUMNNAME_AD_OrgBP_ID, AD_OrgBP_ID);
-	}
-
-	/** Get Linked Organization.
-		@return The Business Partner is another Organization for explicit Inter-Org transactions
-	  */
-	public String getAD_OrgBP_ID () 
-	{
-		return (String)get_Value(COLUMNNAME_AD_OrgBP_ID);
-	}
 
 	/** Set Acquisition Cost.
 		@param AcqusitionCost 
@@ -176,6 +128,42 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return bd;
 	}
 
+	/** AD_Language AD_Reference_ID=327 */
+	public static final int AD_LANGUAGE_AD_Reference_ID=327;
+	/** Set Language.
+		@param AD_Language 
+		Language for this entity
+	  */
+	public void setAD_Language (String AD_Language)
+	{
+		set_Value (COLUMNNAME_AD_Language, AD_Language);
+	}
+
+	/** Get Language.
+		@return Language for this entity
+	  */
+	public String getAD_Language () 
+	{
+		return (String)get_Value(COLUMNNAME_AD_Language);
+	}
+
+	/** Set Linked Organization.
+		@param AD_OrgBP_ID 
+		The Business Partner is another Organization for explicit Inter-Org transactions
+	  */
+	public void setAD_OrgBP_ID (String AD_OrgBP_ID)
+	{
+		set_Value (COLUMNNAME_AD_OrgBP_ID, AD_OrgBP_ID);
+	}
+
+	/** Get Linked Organization.
+		@return The Business Partner is another Organization for explicit Inter-Org transactions
+	  */
+	public String getAD_OrgBP_ID () 
+	{
+		return (String)get_Value(COLUMNNAME_AD_OrgBP_ID);
+	}
+
 	/** Set Partner Parent.
 		@param BPartner_Parent_ID 
 		Business Partner Parent
@@ -194,6 +182,28 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public int getBPartner_Parent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_BPartner_Parent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1)
+			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -232,28 +242,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -451,29 +439,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set D-U-N-S.
-		@param DUNS 
-		Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS)
-	{
-
-		if (DUNS != null && DUNS.length() > 11)
-		{
-			log.warning("Length > 11 - truncated");
-			DUNS = DUNS.substring(0, 11);
-		}
-		set_Value (COLUMNNAME_DUNS, DUNS);
-	}
-
-	/** Get D-U-N-S.
-		@return Dun & Bradstreet Number
-	  */
-	public String getDUNS () 
-	{
-		return (String)get_Value(COLUMNNAME_DUNS);
-	}
-
 	/** DeliveryRule AD_Reference_ID=151 */
 	public static final int DELIVERYRULE_AD_Reference_ID=151;
 	/** After Receipt = R */
@@ -495,13 +460,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public void setDeliveryRule (String DeliveryRule)
 	{
 
-		if (DeliveryRule == null || DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");
-		if (DeliveryRule != null && DeliveryRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DeliveryRule = DeliveryRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
+		if (DeliveryRule == null || DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
 	}
 
 	/** Get Delivery Rule.
@@ -527,13 +486,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public void setDeliveryViaRule (String DeliveryViaRule)
 	{
 
-		if (DeliveryViaRule == null || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");
-		if (DeliveryViaRule != null && DeliveryViaRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			DeliveryViaRule = DeliveryViaRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
+		if (DeliveryViaRule == null || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");		set_Value (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
 	}
 
 	/** Get Delivery Via.
@@ -550,12 +503,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -599,6 +546,23 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public Timestamp getDunningGrace () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DunningGrace);
+	}
+
+	/** Set D-U-N-S.
+		@param DUNS 
+		Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS)
+	{
+		set_Value (COLUMNNAME_DUNS, DUNS);
+	}
+
+	/** Get D-U-N-S.
+		@return Dun & Bradstreet Number
+	  */
+	public String getDUNS () 
+	{
+		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
 	/** Set First Sale.
@@ -655,13 +619,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public void setFreightCostRule (String FreightCostRule)
 	{
 
-		if (FreightCostRule == null || FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");
-		if (FreightCostRule != null && FreightCostRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			FreightCostRule = FreightCostRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_FreightCostRule, FreightCostRule);
+		if (FreightCostRule == null || FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");		set_Value (COLUMNNAME_FreightCostRule, FreightCostRule);
 	}
 
 	/** Get Freight Cost Rule.
@@ -670,40 +628,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getFreightCostRule () 
 	{
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
-	}
-
-	/** InvoiceRule AD_Reference_ID=150 */
-	public static final int INVOICERULE_AD_Reference_ID=150;
-	/** After Order delivered = O */
-	public static final String INVOICERULE_AfterOrderDelivered = "O";
-	/** After Delivery = D */
-	public static final String INVOICERULE_AfterDelivery = "D";
-	/** Customer Schedule after Delivery = S */
-	public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
-	/** Immediate = I */
-	public static final String INVOICERULE_Immediate = "I";
-	/** Set Invoice Rule.
-		@param InvoiceRule 
-		Frequency and method of invoicing 
-	  */
-	public void setInvoiceRule (String InvoiceRule)
-	{
-
-		if (InvoiceRule == null || InvoiceRule.equals("O") || InvoiceRule.equals("D") || InvoiceRule.equals("S") || InvoiceRule.equals("I")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - O - D - S - I");
-		if (InvoiceRule != null && InvoiceRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			InvoiceRule = InvoiceRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_InvoiceRule, InvoiceRule);
-	}
-
-	/** Get Invoice Rule.
-		@return Frequency and method of invoicing 
-	  */
-	public String getInvoiceRule () 
-	{
-		return (String)get_Value(COLUMNNAME_InvoiceRule);
 	}
 
 	/** Invoice_PrintFormat_ID AD_Reference_ID=261 */
@@ -729,6 +653,34 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** InvoiceRule AD_Reference_ID=150 */
+	public static final int INVOICERULE_AD_Reference_ID=150;
+	/** After Order delivered = O */
+	public static final String INVOICERULE_AfterOrderDelivered = "O";
+	/** After Delivery = D */
+	public static final String INVOICERULE_AfterDelivery = "D";
+	/** Customer Schedule after Delivery = S */
+	public static final String INVOICERULE_CustomerScheduleAfterDelivery = "S";
+	/** Immediate = I */
+	public static final String INVOICERULE_Immediate = "I";
+	/** Set Invoice Rule.
+		@param InvoiceRule 
+		Frequency and method of invoicing 
+	  */
+	public void setInvoiceRule (String InvoiceRule)
+	{
+
+		if (InvoiceRule == null || InvoiceRule.equals("O") || InvoiceRule.equals("D") || InvoiceRule.equals("S") || InvoiceRule.equals("I")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - O - D - S - I");		set_Value (COLUMNNAME_InvoiceRule, InvoiceRule);
+	}
+
+	/** Get Invoice Rule.
+		@return Frequency and method of invoicing 
+	  */
+	public String getInvoiceRule () 
+	{
+		return (String)get_Value(COLUMNNAME_InvoiceRule);
 	}
 
 	/** Set Customer.
@@ -1014,12 +966,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setNAICS (String NAICS)
 	{
-
-		if (NAICS != null && NAICS.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			NAICS = NAICS.substring(0, 6);
-		}
 		set_Value (COLUMNNAME_NAICS, NAICS);
 	}
 
@@ -1039,12 +985,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1070,12 +1010,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setName2 (String Name2)
 	{
-
-		if (Name2 != null && Name2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
 
@@ -1107,27 +1041,68 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Set Payment Rule.
+		@param PaymentRule 
+		How you pay the invoice
 	  */
-	public void setPOReference (String POReference)
+	public void setPaymentRule (String PaymentRule)
 	{
 
-		if (POReference != null && POReference.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			POReference = POReference.substring(0, 20);
-		}
-		set_Value (COLUMNNAME_POReference, POReference);
+		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	/** Get Payment Rule.
+		@return How you pay the invoice
 	  */
-	public String getPOReference () 
+	public String getPaymentRule () 
 	{
-		return (String)get_Value(COLUMNNAME_POReference);
+		return (String)get_Value(COLUMNNAME_PaymentRule);
+	}
+
+	/** PaymentRulePO AD_Reference_ID=195 */
+	public static final int PAYMENTRULEPO_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULEPO_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULEPO_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULEPO_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULEPO_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULEPO_OnCredit = "P";
+	/** Direct Debit = D */
+	public static final String PAYMENTRULEPO_DirectDebit = "D";
+	/** Set Payment Rule.
+		@param PaymentRulePO 
+		Purchase payment option
+	  */
+	public void setPaymentRulePO (String PaymentRulePO)
+	{
+
+		if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("K") || PaymentRulePO.equals("T") || PaymentRulePO.equals("S") || PaymentRulePO.equals("P") || PaymentRulePO.equals("D")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRulePO, PaymentRulePO);
+	}
+
+	/** Get Payment Rule.
+		@return Purchase payment option
+	  */
+	public String getPaymentRulePO () 
+	{
+		return (String)get_Value(COLUMNNAME_PaymentRulePO);
 	}
 
 	/** PO_DiscountSchema_ID AD_Reference_ID=325 */
@@ -1205,80 +1180,21 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** PaymentRule AD_Reference_ID=195 */
-	public static final int PAYMENTRULE_AD_Reference_ID=195;
-	/** Cash = B */
-	public static final String PAYMENTRULE_Cash = "B";
-	/** Credit Card = K */
-	public static final String PAYMENTRULE_CreditCard = "K";
-	/** Direct Deposit = T */
-	public static final String PAYMENTRULE_DirectDeposit = "T";
-	/** Check = S */
-	public static final String PAYMENTRULE_Check = "S";
-	/** On Credit = P */
-	public static final String PAYMENTRULE_OnCredit = "P";
-	/** Direct Debit = D */
-	public static final String PAYMENTRULE_DirectDebit = "D";
-	/** Set Payment Rule.
-		@param PaymentRule 
-		How you pay the invoice
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
-	public void setPaymentRule (String PaymentRule)
+	public void setPOReference (String POReference)
 	{
-
-		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");
-		if (PaymentRule != null && PaymentRule.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PaymentRule = PaymentRule.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		set_Value (COLUMNNAME_POReference, POReference);
 	}
 
-	/** Get Payment Rule.
-		@return How you pay the invoice
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
 	  */
-	public String getPaymentRule () 
+	public String getPOReference () 
 	{
-		return (String)get_Value(COLUMNNAME_PaymentRule);
-	}
-
-	/** PaymentRulePO AD_Reference_ID=195 */
-	public static final int PAYMENTRULEPO_AD_Reference_ID=195;
-	/** Cash = B */
-	public static final String PAYMENTRULEPO_Cash = "B";
-	/** Credit Card = K */
-	public static final String PAYMENTRULEPO_CreditCard = "K";
-	/** Direct Deposit = T */
-	public static final String PAYMENTRULEPO_DirectDeposit = "T";
-	/** Check = S */
-	public static final String PAYMENTRULEPO_Check = "S";
-	/** On Credit = P */
-	public static final String PAYMENTRULEPO_OnCredit = "P";
-	/** Direct Debit = D */
-	public static final String PAYMENTRULEPO_DirectDebit = "D";
-	/** Set Payment Rule.
-		@param PaymentRulePO 
-		Purchase payment option
-	  */
-	public void setPaymentRulePO (String PaymentRulePO)
-	{
-
-		if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("K") || PaymentRulePO.equals("T") || PaymentRulePO.equals("S") || PaymentRulePO.equals("P") || PaymentRulePO.equals("D")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - K - T - S - P - D");
-		if (PaymentRulePO != null && PaymentRulePO.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			PaymentRulePO = PaymentRulePO.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_PaymentRulePO, PaymentRulePO);
-	}
-
-	/** Get Payment Rule.
-		@return Purchase payment option
-	  */
-	public String getPaymentRulePO () 
-	{
-		return (String)get_Value(COLUMNNAME_PaymentRulePO);
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Potential Life Time Value.
@@ -1307,12 +1223,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setRating (String Rating)
 	{
-
-		if (Rating != null && Rating.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Rating = Rating.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_Rating, Rating);
 	}
 
@@ -1330,12 +1240,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setReferenceNo (String ReferenceNo)
 	{
-
-		if (ReferenceNo != null && ReferenceNo.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ReferenceNo = ReferenceNo.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_ReferenceNo, ReferenceNo);
 	}
 
@@ -1345,109 +1249,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getReferenceNo () 
 	{
 		return (String)get_Value(COLUMNNAME_ReferenceNo);
-	}
-
-	/** SOCreditStatus AD_Reference_ID=289 */
-	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
-	/** Credit Stop = S */
-	public static final String SOCREDITSTATUS_CreditStop = "S";
-	/** Credit Hold = H */
-	public static final String SOCREDITSTATUS_CreditHold = "H";
-	/** Credit Watch = W */
-	public static final String SOCREDITSTATUS_CreditWatch = "W";
-	/** No Credit Check = X */
-	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
-	/** Credit OK = O */
-	public static final String SOCREDITSTATUS_CreditOK = "O";
-	/** Set Credit Status.
-		@param SOCreditStatus 
-		Business Partner Credit Status
-	  */
-	public void setSOCreditStatus (String SOCreditStatus)
-	{
-
-		if (SOCreditStatus == null || SOCreditStatus.equals("S") || SOCreditStatus.equals("H") || SOCreditStatus.equals("W") || SOCreditStatus.equals("X") || SOCreditStatus.equals("O")); else throw new IllegalArgumentException ("SOCreditStatus Invalid value - " + SOCreditStatus + " - Reference_ID=289 - S - H - W - X - O");
-		if (SOCreditStatus != null && SOCreditStatus.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			SOCreditStatus = SOCreditStatus.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_SOCreditStatus, SOCreditStatus);
-	}
-
-	/** Get Credit Status.
-		@return Business Partner Credit Status
-	  */
-	public String getSOCreditStatus () 
-	{
-		return (String)get_Value(COLUMNNAME_SOCreditStatus);
-	}
-
-	/** Set Credit Limit.
-		@param SO_CreditLimit 
-		Total outstanding invoice amounts allowed
-	  */
-	public void setSO_CreditLimit (BigDecimal SO_CreditLimit)
-	{
-		if (SO_CreditLimit == null)
-			throw new IllegalArgumentException ("SO_CreditLimit is mandatory.");
-		set_Value (COLUMNNAME_SO_CreditLimit, SO_CreditLimit);
-	}
-
-	/** Get Credit Limit.
-		@return Total outstanding invoice amounts allowed
-	  */
-	public BigDecimal getSO_CreditLimit () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SO_CreditLimit);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Credit Used.
-		@param SO_CreditUsed 
-		Current open balance
-	  */
-	public void setSO_CreditUsed (BigDecimal SO_CreditUsed)
-	{
-		if (SO_CreditUsed == null)
-			throw new IllegalArgumentException ("SO_CreditUsed is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_SO_CreditUsed, SO_CreditUsed);
-	}
-
-	/** Get Credit Used.
-		@return Current open balance
-	  */
-	public BigDecimal getSO_CreditUsed () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SO_CreditUsed);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Order Description.
-		@param SO_Description 
-		Description to be used on orders
-	  */
-	public void setSO_Description (String SO_Description)
-	{
-
-		if (SO_Description != null && SO_Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			SO_Description = SO_Description.substring(0, 255);
-		}
-		set_Value (COLUMNNAME_SO_Description, SO_Description);
-	}
-
-	/** Get Order Description.
-		@return Description to be used on orders
-	  */
-	public String getSO_Description () 
-	{
-		return (String)get_Value(COLUMNNAME_SO_Description);
 	}
 
 	/** SalesRep_ID AD_Reference_ID=190 */
@@ -1559,18 +1360,103 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Credit Limit.
+		@param SO_CreditLimit 
+		Total outstanding invoice amounts allowed
+	  */
+	public void setSO_CreditLimit (BigDecimal SO_CreditLimit)
+	{
+		if (SO_CreditLimit == null)
+			throw new IllegalArgumentException ("SO_CreditLimit is mandatory.");
+		set_Value (COLUMNNAME_SO_CreditLimit, SO_CreditLimit);
+	}
+
+	/** Get Credit Limit.
+		@return Total outstanding invoice amounts allowed
+	  */
+	public BigDecimal getSO_CreditLimit () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SO_CreditLimit);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** SOCreditStatus AD_Reference_ID=289 */
+	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
+	/** Credit Stop = S */
+	public static final String SOCREDITSTATUS_CreditStop = "S";
+	/** Credit Hold = H */
+	public static final String SOCREDITSTATUS_CreditHold = "H";
+	/** Credit Watch = W */
+	public static final String SOCREDITSTATUS_CreditWatch = "W";
+	/** No Credit Check = X */
+	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
+	/** Credit OK = O */
+	public static final String SOCREDITSTATUS_CreditOK = "O";
+	/** Set Credit Status.
+		@param SOCreditStatus 
+		Business Partner Credit Status
+	  */
+	public void setSOCreditStatus (String SOCreditStatus)
+	{
+
+		if (SOCreditStatus == null || SOCreditStatus.equals("S") || SOCreditStatus.equals("H") || SOCreditStatus.equals("W") || SOCreditStatus.equals("X") || SOCreditStatus.equals("O")); else throw new IllegalArgumentException ("SOCreditStatus Invalid value - " + SOCreditStatus + " - Reference_ID=289 - S - H - W - X - O");		set_Value (COLUMNNAME_SOCreditStatus, SOCreditStatus);
+	}
+
+	/** Get Credit Status.
+		@return Business Partner Credit Status
+	  */
+	public String getSOCreditStatus () 
+	{
+		return (String)get_Value(COLUMNNAME_SOCreditStatus);
+	}
+
+	/** Set Credit Used.
+		@param SO_CreditUsed 
+		Current open balance
+	  */
+	public void setSO_CreditUsed (BigDecimal SO_CreditUsed)
+	{
+		if (SO_CreditUsed == null)
+			throw new IllegalArgumentException ("SO_CreditUsed is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_SO_CreditUsed, SO_CreditUsed);
+	}
+
+	/** Get Credit Used.
+		@return Current open balance
+	  */
+	public BigDecimal getSO_CreditUsed () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SO_CreditUsed);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Order Description.
+		@param SO_Description 
+		Description to be used on orders
+	  */
+	public void setSO_Description (String SO_Description)
+	{
+		set_Value (COLUMNNAME_SO_Description, SO_Description);
+	}
+
+	/** Get Order Description.
+		@return Description to be used on orders
+	  */
+	public String getSO_Description () 
+	{
+		return (String)get_Value(COLUMNNAME_SO_Description);
+	}
+
 	/** Set Tax ID.
 		@param TaxID 
 		Tax Identification
 	  */
 	public void setTaxID (String TaxID)
 	{
-
-		if (TaxID != null && TaxID.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			TaxID = TaxID.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_TaxID, TaxID);
 	}
 
@@ -1608,12 +1494,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setURL (String URL)
 	{
-
-		if (URL != null && URL.length() > 120)
-		{
-			log.warning("Length > 120 - truncated");
-			URL = URL.substring(0, 120);
-		}
 		set_Value (COLUMNNAME_URL, URL);
 	}
 
@@ -1633,12 +1513,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

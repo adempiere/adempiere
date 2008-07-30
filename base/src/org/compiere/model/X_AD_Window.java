@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Window
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Window extends PO implements I_AD_Window, I_Persistent 
 {
 
@@ -187,12 +187,6 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -212,12 +206,6 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -235,12 +223,6 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -332,12 +314,6 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -378,6 +354,34 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		return false;
 	}
 
+	/** WindowType AD_Reference_ID=108 */
+	public static final int WINDOWTYPE_AD_Reference_ID=108;
+	/** Single Record = S */
+	public static final String WINDOWTYPE_SingleRecord = "S";
+	/** Maintain = M */
+	public static final String WINDOWTYPE_Maintain = "M";
+	/** Transaction = T */
+	public static final String WINDOWTYPE_Transaction = "T";
+	/** Query Only = Q */
+	public static final String WINDOWTYPE_QueryOnly = "Q";
+	/** Set WindowType.
+		@param WindowType 
+		Type or classification of a Window
+	  */
+	public void setWindowType (String WindowType)
+	{
+		if (WindowType == null) throw new IllegalArgumentException ("WindowType is mandatory");
+		if (WindowType.equals("S") || WindowType.equals("M") || WindowType.equals("T") || WindowType.equals("Q")); else throw new IllegalArgumentException ("WindowType Invalid value - " + WindowType + " - Reference_ID=108 - S - M - T - Q");		set_Value (COLUMNNAME_WindowType, WindowType);
+	}
+
+	/** Get WindowType.
+		@return Type or classification of a Window
+	  */
+	public String getWindowType () 
+	{
+		return (String)get_Value(COLUMNNAME_WindowType);
+	}
+
 	/** Set Window Height.
 		@param WinHeight Window Height	  */
 	public void setWinHeight (int WinHeight)
@@ -410,39 +414,5 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** WindowType AD_Reference_ID=108 */
-	public static final int WINDOWTYPE_AD_Reference_ID=108;
-	/** Single Record = S */
-	public static final String WINDOWTYPE_SingleRecord = "S";
-	/** Maintain = M */
-	public static final String WINDOWTYPE_Maintain = "M";
-	/** Transaction = T */
-	public static final String WINDOWTYPE_Transaction = "T";
-	/** Query Only = Q */
-	public static final String WINDOWTYPE_QueryOnly = "Q";
-	/** Set WindowType.
-		@param WindowType 
-		Type or classification of a Window
-	  */
-	public void setWindowType (String WindowType)
-	{
-		if (WindowType == null) throw new IllegalArgumentException ("WindowType is mandatory");
-		if (WindowType.equals("S") || WindowType.equals("M") || WindowType.equals("T") || WindowType.equals("Q")); else throw new IllegalArgumentException ("WindowType Invalid value - " + WindowType + " - Reference_ID=108 - S - M - T - Q");
-		if (WindowType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			WindowType = WindowType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_WindowType, WindowType);
-	}
-
-	/** Get WindowType.
-		@return Type or classification of a Window
-	  */
-	public String getWindowType () 
-	{
-		return (String)get_Value(COLUMNNAME_WindowType);
 	}
 }

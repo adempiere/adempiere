@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Error
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_Error extends PO implements I_AD_Error, I_Persistent 
 {
 
@@ -98,12 +98,6 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 	  */
 	public void setAD_Language (String AD_Language)
 	{
-
-		if (AD_Language != null && AD_Language.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			AD_Language = AD_Language.substring(0, 6);
-		}
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -121,12 +115,6 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 	  */
 	public void setCode (String Code)
 	{
-
-		if (Code != null && Code.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Code = Code.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -146,12 +134,6 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

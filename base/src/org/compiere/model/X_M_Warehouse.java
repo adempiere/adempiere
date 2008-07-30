@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Warehouse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent 
 {
 
@@ -103,12 +103,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -144,6 +138,28 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 		return false;
 	}
 
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 1)
+			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** M_WarehouseSource_ID AD_Reference_ID=197 */
 	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	/** Set Source Warehouse.
@@ -169,28 +185,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
-	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
-	}
-
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -199,12 +193,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -230,12 +218,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	  */
 	public void setReplenishmentClass (String ReplenishmentClass)
 	{
-
-		if (ReplenishmentClass != null && ReplenishmentClass.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ReplenishmentClass = ReplenishmentClass.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ReplenishmentClass, ReplenishmentClass);
 	}
 
@@ -255,12 +237,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	{
 		if (Separator == null)
 			throw new IllegalArgumentException ("Separator is mandatory.");
-
-		if (Separator.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Separator = Separator.substring(0, 1);
-		}
 		set_Value (COLUMNNAME_Separator, Separator);
 	}
 
@@ -280,12 +256,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

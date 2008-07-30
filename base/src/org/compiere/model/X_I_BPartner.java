@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
@@ -75,6 +75,40 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
       return sb.toString();
     }
 
+	/** Set Address 1.
+		@param Address1 
+		Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1)
+	{
+		set_Value (COLUMNNAME_Address1, Address1);
+	}
+
+	/** Get Address 1.
+		@return Address line 1 for this location
+	  */
+	public String getAddress1 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address1);
+	}
+
+	/** Set Address 2.
+		@param Address2 
+		Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2)
+	{
+		set_Value (COLUMNNAME_Address2, Address2);
+	}
+
+	/** Get Address 2.
+		@return Address line 2 for this location
+	  */
+	public String getAddress2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address2);
+	}
+
 	public I_AD_User getAD_User() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -114,75 +148,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Address 1.
-		@param Address1 
-		Address line 1 for this location
-	  */
-	public void setAddress1 (String Address1)
-	{
-
-		if (Address1 != null && Address1.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address1 = Address1.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_Address1, Address1);
-	}
-
-	/** Get Address 1.
-		@return Address line 1 for this location
-	  */
-	public String getAddress1 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address1);
-	}
-
-	/** Set Address 2.
-		@param Address2 
-		Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2)
-	{
-
-		if (Address2 != null && Address2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Address2 = Address2.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_Address2, Address2);
-	}
-
-	/** Get Address 2.
-		@return Address line 2 for this location
-	  */
-	public String getAddress2 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address2);
-	}
-
-	/** Set BP Contact Greeting.
-		@param BPContactGreeting 
-		Greeting for Business Partner Contact
-	  */
-	public void setBPContactGreeting (String BPContactGreeting)
-	{
-
-		if (BPContactGreeting != null && BPContactGreeting.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			BPContactGreeting = BPContactGreeting.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_BPContactGreeting, BPContactGreeting);
-	}
-
-	/** Get BP Contact Greeting.
-		@return Greeting for Business Partner Contact
-	  */
-	public String getBPContactGreeting () 
-	{
-		return (String)get_Value(COLUMNNAME_BPContactGreeting);
-	}
-
 	/** Set Birthday.
 		@param Birthday 
 		Birthday or Anniversary day
@@ -200,43 +165,21 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
+	/** Set BP Contact Greeting.
+		@param BPContactGreeting 
+		Greeting for Business Partner Contact
 	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	public void setBPContactGreeting (String BPContactGreeting)
 	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+		set_Value (COLUMNNAME_BPContactGreeting, BPContactGreeting);
 	}
 
-	/** Get Business Partner Group.
-		@return Business Partner Group
+	/** Get BP Contact Greeting.
+		@return Greeting for Business Partner Contact
 	  */
-	public int getC_BP_Group_ID () 
+	public String getBPContactGreeting () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_BPContactGreeting);
 	}
 
 	public I_C_BPartner getC_BPartner() throws Exception 
@@ -312,6 +255,45 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public int getC_BPartner_Location_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_BP_Group getC_BP_Group() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
+        I_C_BP_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -395,6 +377,91 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
+	}
+
+	/** Set Comments.
+		@param Comments 
+		Comments or additional information
+	  */
+	public void setComments (String Comments)
+	{
+		set_Value (COLUMNNAME_Comments, Comments);
+	}
+
+	/** Get Comments.
+		@return Comments or additional information
+	  */
+	public String getComments () 
+	{
+		return (String)get_Value(COLUMNNAME_Comments);
+	}
+
+	/** Set Contact Description.
+		@param ContactDescription 
+		Description of Contact
+	  */
+	public void setContactDescription (String ContactDescription)
+	{
+		set_Value (COLUMNNAME_ContactDescription, ContactDescription);
+	}
+
+	/** Get Contact Description.
+		@return Description of Contact
+	  */
+	public String getContactDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_ContactDescription);
+	}
+
+	/** Set Contact Name.
+		@param ContactName 
+		Business Partner Contact Name
+	  */
+	public void setContactName (String ContactName)
+	{
+		set_Value (COLUMNNAME_ContactName, ContactName);
+	}
+
+	/** Get Contact Name.
+		@return Business Partner Contact Name
+	  */
+	public String getContactName () 
+	{
+		return (String)get_Value(COLUMNNAME_ContactName);
+	}
+
+	/** Set ISO Country Code.
+		@param CountryCode 
+		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public void setCountryCode (String CountryCode)
+	{
+		set_Value (COLUMNNAME_CountryCode, CountryCode);
+	}
+
+	/** Get ISO Country Code.
+		@return Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public String getCountryCode () 
+	{
+		return (String)get_Value(COLUMNNAME_CountryCode);
+	}
+
 	public I_C_Region getC_Region() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
@@ -434,156 +501,12 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-
-		if (City != null && City.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			City = City.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
-	/** Set Comments.
-		@param Comments 
-		Comments or additional information
-	  */
-	public void setComments (String Comments)
-	{
-
-		if (Comments != null && Comments.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Comments = Comments.substring(0, 2000);
-		}
-		set_Value (COLUMNNAME_Comments, Comments);
-	}
-
-	/** Get Comments.
-		@return Comments or additional information
-	  */
-	public String getComments () 
-	{
-		return (String)get_Value(COLUMNNAME_Comments);
-	}
-
-	/** Set Contact Description.
-		@param ContactDescription 
-		Description of Contact
-	  */
-	public void setContactDescription (String ContactDescription)
-	{
-
-		if (ContactDescription != null && ContactDescription.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			ContactDescription = ContactDescription.substring(0, 255);
-		}
-		set_Value (COLUMNNAME_ContactDescription, ContactDescription);
-	}
-
-	/** Get Contact Description.
-		@return Description of Contact
-	  */
-	public String getContactDescription () 
-	{
-		return (String)get_Value(COLUMNNAME_ContactDescription);
-	}
-
-	/** Set Contact Name.
-		@param ContactName 
-		Business Partner Contact Name
-	  */
-	public void setContactName (String ContactName)
-	{
-
-		if (ContactName != null && ContactName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ContactName = ContactName.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_ContactName, ContactName);
-	}
-
-	/** Get Contact Name.
-		@return Business Partner Contact Name
-	  */
-	public String getContactName () 
-	{
-		return (String)get_Value(COLUMNNAME_ContactName);
-	}
-
-	/** Set ISO Country Code.
-		@param CountryCode 
-		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public void setCountryCode (String CountryCode)
-	{
-
-		if (CountryCode != null && CountryCode.length() > 2)
-		{
-			log.warning("Length > 2 - truncated");
-			CountryCode = CountryCode.substring(0, 2);
-		}
-		set_Value (COLUMNNAME_CountryCode, CountryCode);
-	}
-
-	/** Get ISO Country Code.
-		@return Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public String getCountryCode () 
-	{
-		return (String)get_Value(COLUMNNAME_CountryCode);
-	}
-
-	/** Set D-U-N-S.
-		@param DUNS 
-		Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS)
-	{
-
-		if (DUNS != null && DUNS.length() > 11)
-		{
-			log.warning("Length > 11 - truncated");
-			DUNS = DUNS.substring(0, 11);
-		}
-		set_Value (COLUMNNAME_DUNS, DUNS);
-	}
-
-	/** Get D-U-N-S.
-		@return Dun & Bradstreet Number
-	  */
-	public String getDUNS () 
-	{
-		return (String)get_Value(COLUMNNAME_DUNS);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -595,18 +518,29 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set D-U-N-S.
+		@param DUNS 
+		Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS)
+	{
+		set_Value (COLUMNNAME_DUNS, DUNS);
+	}
+
+	/** Get D-U-N-S.
+		@return Dun & Bradstreet Number
+	  */
+	public String getDUNS () 
+	{
+		return (String)get_Value(COLUMNNAME_DUNS);
+	}
+
 	/** Set EMail Address.
 		@param EMail 
 		Electronic Mail Address
 	  */
 	public void setEMail (String EMail)
 	{
-
-		if (EMail != null && EMail.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			EMail = EMail.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -624,12 +558,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setFax (String Fax)
 	{
-
-		if (Fax != null && Fax.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Fax, Fax);
 	}
 
@@ -647,12 +575,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setGroupValue (String GroupValue)
 	{
-
-		if (GroupValue != null && GroupValue.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			GroupValue = GroupValue.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_GroupValue, GroupValue);
 	}
 
@@ -689,12 +611,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setI_ErrorMsg (String I_ErrorMsg)
 	{
-
-		if (I_ErrorMsg != null && I_ErrorMsg.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			I_ErrorMsg = I_ErrorMsg.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_I_ErrorMsg, I_ErrorMsg);
 	}
 
@@ -736,12 +652,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setInterestAreaName (String InterestAreaName)
 	{
-
-		if (InterestAreaName != null && InterestAreaName.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			InterestAreaName = InterestAreaName.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_InterestAreaName, InterestAreaName);
 	}
 
@@ -759,12 +669,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setNAICS (String NAICS)
 	{
-
-		if (NAICS != null && NAICS.length() > 6)
-		{
-			log.warning("Length > 6 - truncated");
-			NAICS = NAICS.substring(0, 6);
-		}
 		set_Value (COLUMNNAME_NAICS, NAICS);
 	}
 
@@ -782,12 +686,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-
-		if (Name != null && Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -805,12 +703,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setName2 (String Name2)
 	{
-
-		if (Name2 != null && Name2.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name2 = Name2.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name2, Name2);
 	}
 
@@ -828,12 +720,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPassword (String Password)
 	{
-
-		if (Password != null && Password.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			Password = Password.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_Password, Password);
 	}
 
@@ -851,12 +737,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPhone (String Phone)
 	{
-
-		if (Phone != null && Phone.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
 
@@ -874,12 +754,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPhone2 (String Phone2)
 	{
-
-		if (Phone2 != null && Phone2.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone2, Phone2);
 	}
 
@@ -897,12 +771,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPostal (String Postal)
 	{
-
-		if (Postal != null && Postal.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal = Postal.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
 
@@ -920,12 +788,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setPostal_Add (String Postal_Add)
 	{
-
-		if (Postal_Add != null && Postal_Add.length() > 10)
-		{
-			log.warning("Length > 10 - truncated");
-			Postal_Add = Postal_Add.substring(0, 10);
-		}
 		set_Value (COLUMNNAME_Postal_Add, Postal_Add);
 	}
 
@@ -982,6 +844,23 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return false;
 	}
 
+	/** Set Region.
+		@param RegionName 
+		Name of the Region
+	  */
+	public void setRegionName (String RegionName)
+	{
+		set_Value (COLUMNNAME_RegionName, RegionName);
+	}
+
+	/** Get Region.
+		@return Name of the Region
+	  */
+	public String getRegionName () 
+	{
+		return (String)get_Value(COLUMNNAME_RegionName);
+	}
+
 	public I_R_InterestArea getR_InterestArea() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_R_InterestArea.Table_Name);
@@ -1021,41 +900,12 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Region.
-		@param RegionName 
-		Name of the Region
-	  */
-	public void setRegionName (String RegionName)
-	{
-
-		if (RegionName != null && RegionName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			RegionName = RegionName.substring(0, 60);
-		}
-		set_Value (COLUMNNAME_RegionName, RegionName);
-	}
-
-	/** Get Region.
-		@return Name of the Region
-	  */
-	public String getRegionName () 
-	{
-		return (String)get_Value(COLUMNNAME_RegionName);
-	}
-
 	/** Set Tax ID.
 		@param TaxID 
 		Tax Identification
 	  */
 	public void setTaxID (String TaxID)
 	{
-
-		if (TaxID != null && TaxID.length() > 20)
-		{
-			log.warning("Length > 20 - truncated");
-			TaxID = TaxID.substring(0, 20);
-		}
 		set_Value (COLUMNNAME_TaxID, TaxID);
 	}
 
@@ -1073,12 +923,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
-
-		if (Title != null && Title.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Title = Title.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Title, Title);
 	}
 
@@ -1096,12 +940,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-
-		if (Value != null && Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

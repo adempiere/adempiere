@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationTable
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, I_Persistent 
 {
 
@@ -191,12 +191,6 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	  */
 	public void setEntityType (String EntityType)
 	{
-
-		if (EntityType.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			EntityType = EntityType.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -223,13 +217,7 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	public void setReplicationType (String ReplicationType)
 	{
 		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
-		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");
-		if (ReplicationType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ReplicationType = ReplicationType.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
+		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 
 	/** Get Replication Type.

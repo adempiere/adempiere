@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.5.1a - $Id$ */
+ *  @version Release 3.5.2a - $Id$ */
 public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, I_Persistent 
 {
 
@@ -211,12 +211,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setFax (String Fax)
 	{
-
-		if (Fax != null && Fax.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Fax = Fax.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Fax, Fax);
 	}
 
@@ -226,29 +220,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	public String getFax () 
 	{
 		return (String)get_Value(COLUMNNAME_Fax);
-	}
-
-	/** Set ISDN.
-		@param ISDN 
-		ISDN or modem line
-	  */
-	public void setISDN (String ISDN)
-	{
-
-		if (ISDN != null && ISDN.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			ISDN = ISDN.substring(0, 40);
-		}
-		set_Value (COLUMNNAME_ISDN, ISDN);
-	}
-
-	/** Get ISDN.
-		@return ISDN or modem line
-	  */
-	public String getISDN () 
-	{
-		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Invoice Address.
@@ -273,6 +244,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set ISDN.
+		@param ISDN 
+		ISDN or modem line
+	  */
+	public void setISDN (String ISDN)
+	{
+		set_Value (COLUMNNAME_ISDN, ISDN);
+	}
+
+	/** Get ISDN.
+		@return ISDN or modem line
+	  */
+	public String getISDN () 
+	{
+		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Pay-From Address.
@@ -355,12 +343,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -386,12 +368,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setPhone (String Phone)
 	{
-
-		if (Phone != null && Phone.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone = Phone.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone, Phone);
 	}
 
@@ -409,12 +385,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setPhone2 (String Phone2)
 	{
-
-		if (Phone2 != null && Phone2.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Phone2 = Phone2.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Phone2, Phone2);
 	}
 
