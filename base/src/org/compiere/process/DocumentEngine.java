@@ -461,23 +461,16 @@ public class DocumentEngine implements DocAction
 		try
 		{
 			//	Should work on Client and Server
-			InitialContext ctx = CConnection.get().getInitialContext(true);
-			ServerHome serverHome = (ServerHome)ctx.lookup (ServerHome.JNDI_NAME);
-			if (serverHome != null)
+			Server server = CConnection.get().getServer();
+			if (server != null)
 			{
-				Server server = serverHome.create();
-				if (server != null)
-				{
-					String error = server.postImmediate(Env.getCtx(), 
-						m_document.getAD_Client_ID(),
-						m_document.get_Table_ID(), m_document.get_ID(), 
-						true, m_document.get_TrxName());
-					m_document.get_Logger().config("Server: " + error == null ? "OK" : error);
-					return error == null;
-				}
+				String error = server.postImmediate(Env.getCtx(), 
+					m_document.getAD_Client_ID(),
+					m_document.get_Table_ID(), m_document.get_ID(), 
+					true, m_document.get_TrxName());
+				m_document.get_Logger().config("Server: " + error == null ? "OK" : error);
+				return error == null;
 			}
-			else
-				m_document.get_Logger().config("NoServerHome");
 		}
 		catch (Exception e)
 		{
