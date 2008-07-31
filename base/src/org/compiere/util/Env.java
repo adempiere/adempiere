@@ -743,6 +743,8 @@ public final class Env
 		//  timestamp requires time
 		if (s.trim().length() == 10)
 			s = s.trim() + " 00:00:00.0";
+		else if (s.trim().length() == 20 && s.trim().endsWith(".")) // FF3 returning date without the ending 0
+			s = s.trim() + "0";
 		else if (s.indexOf('.') == -1)
 			s = s.trim() + ".0";
 
