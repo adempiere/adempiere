@@ -60,7 +60,8 @@ public class MenuSearchPanel extends Panel implements EventListener
     private void init()
     {
         lblSearch = new Label();
-        lblSearch.setValue(Msg.getMsg(Env.getCtx(),"Lookup") + ":");
+        lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
+        lblSearch.setTooltip(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
         
         cmbSearch = new AutoComplete();
         cmbSearch.setAutodrop(true);
@@ -113,7 +114,7 @@ public class MenuSearchPanel extends Panel implements EventListener
             if (treeItem != null)
             {
                 select(treeItem);
-                Clients.showBusy("Loding...", true);
+                Clients.showBusy(Msg.getMsg(Env.getCtx(), "Loading"), true);
                 Events.echoEvent("onPostSelect", this, null);
             }
         }

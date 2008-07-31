@@ -177,7 +177,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         }        
         this.setBorder("normal");
         this.setWidth("550px");
-        this.setTitle("Lookup Record: "+ title);
+        this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
         this.setAttribute("mode", "modal");
         this.setClosable(true);
     }
@@ -188,16 +188,16 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private void initSimple()
     {
         lblDocumentNo = new Label();
-        lblDocumentNo.setValue(Msg.translate(Env.getCtx(),"DocumentNo").substring(1));
+        lblDocumentNo.setValue(Msg.translate(Env.getCtx(),"DocumentNo").replaceAll("&", ""));
         
         lblDescription = new Label();
-        lblDescription.setValue(Msg.translate(Env.getCtx(),"Description"));
+        lblDescription.setValue(Msg.translate(Env.getCtx(),"Description").replaceAll("&", ""));
         
         lblName = new Label();
-        lblName.setValue(Msg.translate(Env.getCtx(),"Name").substring(1));
+        lblName.setValue(Msg.translate(Env.getCtx(),"Name").replaceAll("&", ""));
         
         lblValue = new Label();
-        lblValue.setValue(Msg.translate(Env.getCtx(),"Value").substring(1));
+        lblValue.setValue(Msg.translate(Env.getCtx(),"Value").replaceAll("&", ""));
         
         fieldDocumentNo = new Textbox();
         fieldDocumentNo.setId("fieldDocumentNo");
@@ -329,18 +329,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         listhead.setSizable(true);
         
         ListHeader lstHColumn = new ListHeader();
-        lstHColumn.setLabel("Column");    
+        lstHColumn.setLabel(Msg.translate(Env.getCtx(), "AD_Column_ID"));    
         lstHColumn.setWidth("100px");
                
         ListHeader lstHOperator = new ListHeader();
-        lstHOperator.setLabel("Operator");
+        lstHOperator.setLabel(Msg.getMsg(Env.getCtx(), "Operator"));
         
         ListHeader lstHQueryValue = new ListHeader();
-        lstHQueryValue.setLabel("Query Value");
+        lstHQueryValue.setLabel(Msg.getMsg(Env.getCtx(), "QueryValue"));
         lstHQueryValue.setWidth("200px");
         
         ListHeader lstHQueryTo = new ListHeader();
-        lstHQueryTo.setLabel("To Query Value");
+        lstHQueryTo.setLabel(Msg.getMsg(Env.getCtx(), "QueryValue2"));
         lstHQueryTo.setWidth("200px");
         
         listhead.appendChild(lstHColumn);
@@ -369,8 +369,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         winMain.createPart(this);
         winAdvanced = new Window();
         winLookupRecord = new Window();     
-        winMain.addTab(winLookupRecord, "Lookup Record",false, true);
-        winMain.addTab(winAdvanced, "Advanced", false, false);
+        winMain.addTab(winLookupRecord, Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", ""),false, true);
+        winMain.addTab(winAdvanced, Msg.getMsg(Env.getCtx(), "Advanced").replaceAll("&", ""), false, false);
         initSimple();
         initAdvanced();        
         

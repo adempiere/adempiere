@@ -159,7 +159,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	private void createHomeTab() 
 	{
         Tabpanel homeTab = new Tabpanel();
-        windowContainer.addWindow(homeTab, "Home", false);
+        windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
         Hbox hbox = new Hbox();
         hbox.setStyle("margin: 5px");

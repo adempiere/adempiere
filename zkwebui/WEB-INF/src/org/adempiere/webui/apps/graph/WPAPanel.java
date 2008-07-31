@@ -16,7 +16,7 @@ public class WPAPanel extends Panel implements EventListener
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 	Get Panel if User has Perfpormance Goals
+	 * 	Get Panel if User has Performance Goals
 	 *	@return panel pr null
 	 */
 	public static WPAPanel get()
