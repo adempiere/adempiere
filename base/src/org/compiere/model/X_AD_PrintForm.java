@@ -110,6 +110,31 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Distrib_Order_MailText_ID AD_Reference_ID=274 */
+	public static final int DISTRIB_ORDER_MAILTEXT_ID_AD_Reference_ID=274;
+	/** Set Distribution Order Mail Text.
+		@param Distrib_Order_MailText_ID 
+		Email text used for sending Distribution Order
+	  */
+	public void setDistrib_Order_MailText_ID (int Distrib_Order_MailText_ID)
+	{
+		if (Distrib_Order_MailText_ID < 1) 
+			set_Value (COLUMNNAME_Distrib_Order_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_Distrib_Order_MailText_ID, Integer.valueOf(Distrib_Order_MailText_ID));
+	}
+
+	/** Get Distribution Order Mail Text.
+		@return Email text used for sending Distribution Order
+	  */
+	public int getDistrib_Order_MailText_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Distrib_Order_MailText_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Distrib_Order_PrintFormat_ID AD_Reference_ID=53282 */
 	public static final int DISTRIB_ORDER_PRINTFORMAT_ID_AD_Reference_ID=53282;
 	/** Set Distribution Order Print Format.
@@ -130,31 +155,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	public int getDistrib_Order_PrintFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Distrib_Order_PrintFormat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** DistributionOrder_MailText_ID AD_Reference_ID=274 */
-	public static final int DISTRIBUTIONORDER_MAILTEXT_ID_AD_Reference_ID=274;
-	/** Set Distribution Order Mail Text.
-		@param DistributionOrder_MailText_ID 
-		Email text used for sending Distribution Order
-	  */
-	public void setDistributionOrder_MailText_ID (int DistributionOrder_MailText_ID)
-	{
-		if (DistributionOrder_MailText_ID < 1) 
-			set_Value (COLUMNNAME_DistributionOrder_MailText_ID, null);
-		else 
-			set_Value (COLUMNNAME_DistributionOrder_MailText_ID, Integer.valueOf(DistributionOrder_MailText_ID));
-	}
-
-	/** Get Distribution Order Mail Text.
-		@return Email text used for sending Distribution Order
-	  */
-	public int getDistributionOrder_MailText_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DistributionOrder_MailText_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

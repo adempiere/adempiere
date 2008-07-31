@@ -1182,7 +1182,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ "WHERE d.C_Project_ID=?"					//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
 		else if (type == MANUFACTURING_ORDER)
-			sql = "SELECT ManufacturingOrder_PrintFormat_ID,"
+			sql = "SELECT pf.Manuf_Order_PrintFormat_ID,"
 				+ " c.IsMultiLingualDocument,bp.AD_Language, 0 , d.DocumentNo "
 				+ "FROM PP_Order d"
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
@@ -1190,7 +1190,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ "WHERE d.PP_Order_ID=?"					//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
 		else if (type == DISTRIBUTION_ORDER)
-			sql = "SELECT DistributionOrder_PrintFormat_ID,"
+			sql = "SELECT pf.Distrib_Order_PrintFormat_ID,"
 				+ " c.IsMultiLingualDocument,bp.AD_Language, bp.C_BPartner_ID , d.DocumentNo "
 				+ "FROM DD_Order d"
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
@@ -1218,7 +1218,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " pf.Project_PrintFormat_ID, pf.Remittance_PrintFormat_ID,"		//	4..5
 				+ " c.IsMultiLingualDocument, bp.AD_Language,"						//	6..7
 				+ " COALESCE(dt.DocumentCopies,0)+COALESCE(bp.DocumentCopies,1), " 	// 	8
-				+ " dt.AD_PrintFormat_ID,bp.C_BPartner_ID,d.DocumentNo , ManufacturingOrder_PrintFormat_ID , pf.DistributionOrder_PrintFormat_ID "			//	9..11 , 12 ,13
+				+ " dt.AD_PrintFormat_ID,bp.C_BPartner_ID,d.DocumentNo, "			//  9..11 
+				+ " pf.Manuf_Order_PrintFormat_ID, pf.Distrib_Order_PrintFormat_ID "	//	12..13
 				+ "FROM " + DOC_BASETABLES[type] + " d"
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
 				+ " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"

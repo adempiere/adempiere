@@ -78,6 +78,19 @@ public interface I_AD_PrintForm
 	  */
 	public String getDescription();
 
+    /** Column name Distrib_Order_MailText_ID */
+    public static final String COLUMNNAME_Distrib_Order_MailText_ID = "Distrib_Order_MailText_ID";
+
+	/** Set Distribution Order Mail Text.
+	  * Email text used for sending Distribution Order
+	  */
+	public void setDistrib_Order_MailText_ID (int Distrib_Order_MailText_ID);
+
+	/** Get Distribution Order Mail Text.
+	  * Email text used for sending Distribution Order
+	  */
+	public int getDistrib_Order_MailText_ID();
+
     /** Column name Distrib_Order_PrintFormat_ID */
     public static final String COLUMNNAME_Distrib_Order_PrintFormat_ID = "Distrib_Order_PrintFormat_ID";
 
@@ -90,19 +103,6 @@ public interface I_AD_PrintForm
 	  * Print Format for printing Distribution Order
 	  */
 	public int getDistrib_Order_PrintFormat_ID();
-
-    /** Column name DistributionOrder_MailText_ID */
-    public static final String COLUMNNAME_DistributionOrder_MailText_ID = "DistributionOrder_MailText_ID";
-
-	/** Set Distribution Order Mail Text.
-	  * Email text used for sending Distribution Order
-	  */
-	public void setDistributionOrder_MailText_ID (int DistributionOrder_MailText_ID);
-
-	/** Get Distribution Order Mail Text.
-	  * Email text used for sending Distribution Order
-	  */
-	public int getDistributionOrder_MailText_ID();
 
     /** Column name Invoice_MailText_ID */
     public static final String COLUMNNAME_Invoice_MailText_ID = "Invoice_MailText_ID";
