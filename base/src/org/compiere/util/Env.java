@@ -235,8 +235,8 @@ public final class Env
 		else
 		{	//	JDBC Format	2005-05-09 00:00:00.0
 			String stringValue = value.toString();
-			//	Chop off .0
-			stringValue = stringValue.substring(0, stringValue.length()-2);		
+			//	Chop off .0 (nanos)
+			stringValue = stringValue.substring(0, stringValue.indexOf("."));		
 			ctx.setProperty(context, stringValue);
 			s_log.finer("Context " + context + "==" + stringValue);
 		}
@@ -308,8 +308,8 @@ public final class Env
 		else
 		{	//	JDBC Format	2005-05-09 00:00:00.0
 			String stringValue = value.toString();
-			//	Chop off .0
-			stringValue = stringValue.substring(0, stringValue.length()-2);		
+			//	Chop off .0 (nanos)
+			stringValue = stringValue.substring(0, stringValue.indexOf("."));		
 			ctx.setProperty(WindowNo+"|"+context, stringValue);
 			s_log.finer("Context("+WindowNo+") " + context + "==" + stringValue);
 		}
@@ -743,8 +743,6 @@ public final class Env
 		//  timestamp requires time
 		if (s.trim().length() == 10)
 			s = s.trim() + " 00:00:00.0";
-		else if (s.trim().length() == 20 && s.trim().endsWith(".")) // FF3 returning date without the ending 0
-			s = s.trim() + "0";
 		else if (s.indexOf('.') == -1)
 			s = s.trim() + ".0";
 
