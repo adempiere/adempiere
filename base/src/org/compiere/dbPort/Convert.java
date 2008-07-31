@@ -487,7 +487,7 @@ public abstract class Convert
 				"T_TRANSACTION",
 				"T_TRIALBALANCE"
 			};
-		String uppStmt = statement.toUpperCase();
+		String uppStmt = statement.toUpperCase().trim();
 		// don't log selects
 		if (uppStmt.startsWith("SELECT "))
 			return true;
