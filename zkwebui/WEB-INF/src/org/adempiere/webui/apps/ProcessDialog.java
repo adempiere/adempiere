@@ -254,10 +254,10 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	public void startProcess()
 	{
 		m_pi.setPrintPreview(true);
-		
+
 		if (!getDesktop().isServerPushEnabled())
 			getDesktop().enableServerPush(true);
-		
+
 		this.lockUI(m_pi);
 		Runnable runnable = new Runnable() {
 			public void run() {
@@ -267,11 +267,11 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 					Executions.activate(desktop);
 					try {                    
 						ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
-	                } finally{
-	                	unlockUI(m_pi);
-	                	//release full control of desktop
-	                	Executions.deactivate(desktop);
-	                }
+					} finally{
+						unlockUI(m_pi);
+						//release full control of desktop
+						Executions.deactivate(desktop);
+					}
 				} catch (DesktopUnavailableException e) {
 					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				} catch (InterruptedException e) {
