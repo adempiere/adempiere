@@ -318,7 +318,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		@param ImageURL 
 		URL of  image
 	  */
-	public void setImageURL (byte[] ImageURL)
+	public void setImageURL (String ImageURL)
 	{
 		set_Value (COLUMNNAME_ImageURL, ImageURL);
 	}
@@ -326,9 +326,9 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	/** Get Image URL.
 		@return URL of  image
 	  */
-	public byte[] getImageURL () 
+	public String getImageURL () 
 	{
-		return (byte[])get_Value(COLUMNNAME_ImageURL);
+		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
 	/** Set Name.

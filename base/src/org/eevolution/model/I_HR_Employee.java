@@ -158,12 +158,12 @@ public interface I_HR_Employee
 	/** Set Image URL.
 	  * URL of  image
 	  */
-	public void setImageURL (byte[] ImageURL);
+	public void setImageURL (String ImageURL);
 
 	/** Get Image URL.
 	  * URL of  image
 	  */
-	public byte[] getImageURL();
+	public String getImageURL();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
