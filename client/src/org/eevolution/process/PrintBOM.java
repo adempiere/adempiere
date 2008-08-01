@@ -15,26 +15,25 @@
  *****************************************************************************/
 package org.eevolution.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.*;
-import java.math.BigDecimal;
+import java.util.logging.Level;
 
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;
-import org.eevolution.model.X_T_BOMLine;
-import org.eevolution.model.X_RV_PP_Product_BOMLine;
 import org.compiere.print.MPrintFormat;
-import org.compiere.print.Viewer;
-import org.compiere.print.ReportEngine;
 import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.eevolution.model.X_RV_PP_Product_BOMLine;
+import org.eevolution.model.X_T_BOMLine;
 
 /**
  *  BOM lines explosion for print
@@ -103,29 +102,27 @@ public class PrintBOM extends SvrProcess {
 	 * Print result generate for this report
 	 */
 	void print() {
-		MPrintFormat format = null;
 		Language language = Language.getLoginLanguage(); //	Base Language
-
-		format = MPrintFormat.get(getCtx(), MPrintFormat
-				.getPrintFormat_ID("Multi Level BOM & Formula Detail", 53063, getAD_Client_ID()), false);
-		if (format == null)
-			format = MPrintFormat.get(getCtx(), MPrintFormat
-					.getPrintFormat_ID("Multi Level BOM & Formula Detail", 53063, 0), false); //try client 0
-		format.setLanguage(language);
-		format.setTranslationLanguage(language);
+		//try current client first, then system
+		int pfid = MPrintFormat.getPrintFormat_ID("Multi Level BOM & Formula Detail", 
+				X_RV_PP_Product_BOMLine.Table_ID, getAD_Client_ID());
+		if (pfid < 0)
+			pfid = MPrintFormat.getPrintFormat_ID("Multi Level BOM & Formula Detail", 
+					X_RV_PP_Product_BOMLine.Table_ID, 0);
+			
+		MPrintFormat pf = MPrintFormat.get(getCtx(), pfid, false); 
+		pf.setLanguage(language);
+		pf.setTranslationLanguage(language);
 		//	query
-		MQuery query = MQuery.get(getCtx(), AD_PInstance_ID,
-				"RV_PP_Product_BOMLine");
+		MQuery query = MQuery.get(getCtx(), AD_PInstance_ID, "RV_PP_Product_BOMLine");
 		query.addRestriction("AD_PInstance_ID", MQuery.EQUAL, AD_PInstance_ID);
 		//	Engine
-		PrintInfo info = new PrintInfo("RV_PP_Product_BOMLine",
-				X_RV_PP_Product_BOMLine.Table_ID, getRecord_ID());
-		ReportEngine re = new ReportEngine(getCtx(), format, query, info);
+		PrintInfo info = new PrintInfo("RV_PP_Product_BOMLine",	X_RV_PP_Product_BOMLine.Table_ID, getRecord_ID());
+		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
 		
 		ReportCtl.preview(re);
 
-		String sql = "DELETE FROM T_BomLine WHERE AD_PInstance_ID = "
-				+ AD_PInstance_ID;
+		String sql = "DELETE FROM T_BomLine WHERE AD_PInstance_ID = " + AD_PInstance_ID;
 		DB.executeUpdate(sql, get_TrxName());
 	}
 
@@ -248,7 +245,8 @@ public class PrintBOM extends SvrProcess {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sql = new String(
-				"SELECT PP_Product_BOMLine_ID, M_Product_ID FROM PP_Product_BOMLine boml WHERE IsActive = 'Y' AND PP_Product_BOM_ID = ? ");
+				"SELECT PP_Product_BOMLine_ID, M_Product_ID FROM PP_Product_BOMLine boml " 
+				+ "WHERE IsActive = 'Y' AND PP_Product_BOM_ID = ? ORDER BY Line ");
 		try {
 			stmt = DB.prepareStatement(sql, get_TrxName());
 			stmt.setInt(1, PP_Product_BOM_ID);
