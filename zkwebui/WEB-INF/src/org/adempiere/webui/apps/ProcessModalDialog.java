@@ -35,6 +35,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.DesktopUnavailableException;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -259,8 +261,35 @@ public class ProcessModalDialog extends Window implements EventListener
 		if (m_ASyncProcess != null) {
 			m_ASyncProcess.lockUI(m_pi);
 		}
-		ProcessCtl.process(m_ASyncProcess, m_WindowNo, parameterPanel, m_pi, null);
-		dispose();
+		
+		new Thread(new ProcessRunnable(Executions.getCurrent().getDesktop())).start();
+	}
+	
+	private class ProcessRunnable implements Runnable {
+		private org.zkoss.zk.ui.Desktop desktop;
+		ProcessRunnable(org.zkoss.zk.ui.Desktop desktop) {
+			this.desktop = desktop;
+		}
+		public void run() {
+			//get full control of desktop
+			try {
+				Executions.activate(desktop);
+				try {
+					ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
+					dispose();
+				} finally {
+					if (m_ASyncProcess != null) {
+						m_ASyncProcess.unlockUI(m_pi);
+					}
+					//release full control of desktop
+                	Executions.deactivate(desktop);
+				}
+			} catch (DesktopUnavailableException e) {
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			} catch (InterruptedException e) {
+				log.log(Level.WARNING, e.getLocalizedMessage(), e);
+			}
+		}
 	}
 
 	public boolean isAsap() {
