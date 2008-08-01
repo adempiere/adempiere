@@ -152,7 +152,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 *  If Layout was created, re-create layout
 	 * 	@param pf print format
 	 */
-	protected void setPrintFormat (MPrintFormat pf)
+	public void setPrintFormat (MPrintFormat pf)
 	{
 		m_printFormat = pf;
 		if (m_layout != null)
@@ -170,7 +170,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 *  If Layout was created, re-create layout
 	 * 	@param query query
 	 */
-	protected void setQuery (MQuery query)
+	public void setQuery (MQuery query)
 	{
 		m_query = query;
 		if (query == null)
@@ -245,7 +245,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 * 	Get Layout
 	 *  @return Layout
 	 */
-	protected LayoutEngine getLayout()
+	public LayoutEngine getLayout()
 	{
 		if (m_layout == null)
 			layout();
