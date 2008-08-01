@@ -33,7 +33,7 @@ public class ZkJRViewer extends Window {
 		toolbar.setHeight("26px");
 		Toolbarbutton button = new Toolbarbutton();
 		button.setImage("/images/Print24.gif");
-		button.setTooltip("Print");
+		button.setTooltiptext("Print");
 		toolbar.appendChild(button);
 		row.appendChild(toolbar);
 		rows.appendChild(row);

@@ -1,6 +1,5 @@
 package org.adempiere.webui.apps.graph;
 
-import org.adempiere.webui.Desktop;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MGoal;
@@ -29,6 +28,6 @@ public class WPerformanceDetail extends Window
 		WBarGraph barPanel = new WBarGraph(goal);
 		appendChild(barPanel);
 				
-		((Desktop) SessionManager.getAppDesktop()).addWindow2TabPanel(this);
+		SessionManager.getAppDesktop().showWindowInTabPanel(this);
 	}	//	PerformanceDetail
 }

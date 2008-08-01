@@ -28,20 +28,21 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
-import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
-import org.adempiere.webui.editor.WEditor;
-import org.adempiere.webui.editor.WTableDirEditor;
+import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
@@ -62,9 +63,9 @@ import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
-import org.zkoss.zul.Separator;
 
 /**
  * 	Archive Viewer
@@ -96,14 +97,14 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	private static CLogger log = CLogger.getCLogger(WArchiveViewer.class);
 	
 	
-	private VerticalBox queryPanel = new VerticalBox();
+//	private Vbox queryPanel = new Vbox();
 	private Checkbox reportField = new Checkbox();
 	private Label processLabel = new Label(Msg.translate(Env.getCtx(), "AD_Process_ID"));
 	private Listbox processField = new Listbox();
 	private Label tableLabel = new Label(Msg.translate(Env.getCtx(), "AD_Table_ID"));
 	private Listbox tableField = new Listbox();
 	private Label bPartnerLabel = new Label(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-	private WEditor bPartnerField = null;
+	private WSearchEditor bPartnerField = null;
 	private Label nameQLabel = new Label(Msg.translate(Env.getCtx(), "Name"));
 	private Textbox nameQField = new Textbox();
 	private Label descriptionQLabel = new Label(Msg.translate(Env.getCtx(), "Description"));
@@ -116,7 +117,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	private Datebox createdQFrom = new Datebox();
 	private Datebox createdQTo = new Datebox();
 	
-	private VerticalBox viewEnterPanel = new VerticalBox();
+//	private Vbox viewEnterPanel = new Vbox();
 	private Button bBack = new Button();
 	private Button bNext = new Button();
 	private Label positionInfo = new Label(".");
@@ -125,12 +126,12 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	private Datebox createdField = new Datebox();
 	
 	private Label nameLabel = new Label(Msg.translate(Env.getCtx(), "Name"));
-	private Textbox nameField = new Textbox("Name");
+	private Textbox nameField = new Textbox();
 	private Label descriptionLabel = new Label(Msg.translate(Env.getCtx(), "Description"));
-	private Textbox descriptionField = new Textbox("Description");
+	private Textbox descriptionField = new Textbox();
 	private Label helpLabel = new Label(Msg.translate(Env.getCtx(), "Help"));
-	private Textbox helpField = new Textbox("Help");
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
+	private Textbox helpField = new Textbox();
+	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
 	private Button updateArchive = new Button(); 
 		
 	private Tabbox tabbox = new Tabbox();
@@ -138,6 +139,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	private Tabpanels tabpanels = new Tabpanels(); 
 	
 	private Iframe iframe = new Iframe();
+	private Button bRefresh = new Button();
 	
 	public WArchiveViewer()
 	{
@@ -232,17 +234,16 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 				0, 2762, DisplayType.Search);
 
-		bPartnerField = new WTableDirEditor(lookup, Msg.translate(
+		bPartnerField = new WSearchEditor(lookup, Msg.translate(
 				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
-
 		bPartnerField.addValueChangeListner(this);
 	}	//	dynInit
 
 	private void reportViewer(byte[] data)
 	{
-		
 		AMedia media = new AMedia("Archive Viewer", "pdf", "application/pdf", data);
 		iframe.setContent(media);
+		iframe.invalidate();
 	}
 	
 	/**
@@ -253,8 +254,10 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	private void jbInit() throws Exception
 	{
 		tabbox.setWidth("100%");
+		tabbox.setHeight("90%");
 		tabbox.appendChild(tabs);
 		tabbox.appendChild(tabpanels);
+		tabbox.addEventListener(Events.ON_SELECT, this);
 		
 		processField.setMold("select");
 		processField.setRows(1);
@@ -265,131 +268,227 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		createdByQField.setMold("select");
 		createdByQField.setRows(1);
 		
+		updateArchive.setImage("/images/Ok24.gif");
+		updateArchive.setTooltiptext("Save Archive");
+		updateArchive.addEventListener(Events.ON_CLICK, this);
+		
+		bRefresh.setImage("/images/Refresh24.gif");
+		bRefresh.setTooltiptext("Refresh");
+		bRefresh.addEventListener(Events.ON_CLICK, this);
+		
+		bBack.setImage("/images/Parent24.gif");
+		bBack.setTooltiptext("Back");
+		bBack.addEventListener(Events.ON_CLICK, this);
+		
+		bNext.setImage("/images/Detail24.gif");
+		bNext.setTooltiptext("Next");
+		bNext.addEventListener(Events.ON_CLICK, this);
+		
 		nameField.addEventListener(Events.ON_CHANGE, this);
 		descriptionField.addEventListener(Events.ON_SELECT, this);
 		helpField.addEventListener(Events.ON_SELECT, this);
-		updateArchive.addEventListener(Events.ON_CLICK, this);
 		
 		reportField.setLabel(Msg.translate(Env.getCtx(), "IsReport"));
 		reportField.addEventListener(Events.ON_CLICK, this);
 		
-		Hbox boxProcess = new Hbox();
-		boxProcess.setWidth("100%");
-		boxProcess.setWidth("30%, 70%");
-		boxProcess.appendChild(processLabel);
-		boxProcess.appendChild(processField);
-
-		Hbox boxBPartner = new Hbox();
-		boxBPartner.setWidth("100%");
-		boxBPartner.setWidths("30%, 70%");
-		boxBPartner.appendChild(bPartnerLabel);
-		boxBPartner.appendChild(bPartnerField.getComponent());
-
-		Hbox boxTable = new Hbox();
-		boxTable.setWidth("100%");
-		boxTable.setWidths("30%, 70%");
-		boxTable.appendChild(tableLabel);
-		boxTable.appendChild(tableField);
-
-		Hbox boxNameQ = new Hbox();
-		boxNameQ.setWidth("100%");
-		boxNameQ.setWidths("30%, 70%");
-		boxNameQ.appendChild(nameQLabel);
-		boxNameQ.appendChild(nameQField);
+		Grid gridQuery = new Grid();
+		gridQuery.setWidth("500px");
+		gridQuery.setStyle("margin:0; padding:0;");
+		gridQuery.setSclass("grid-no-striped");
+		gridQuery.setOddRowSclass("even");
+        
+		Rows rows = new Rows();
+		gridQuery.appendChild(rows);
 		
-		Hbox boxDescritionQ = new Hbox();
-		boxDescritionQ.setWidth("100%");
-		boxDescritionQ.setWidths("30%, 70%");
-		boxDescritionQ.appendChild(descriptionQLabel);
-		boxDescritionQ.appendChild(descriptionQField);
+		Row row = new Row();
+		rows.appendChild(row);
+		row.setSpans("3");
+		row.setAlign("right");
+		row.appendChild(reportField);
 
-		Hbox boxHelpQ = new Hbox();
-		boxHelpQ.setWidth("100%");
-		boxHelpQ.setWidths("30%, 70%");
-		boxHelpQ.appendChild(helpQLabel);
-		boxHelpQ.appendChild(helpQField);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		Div div = new Div();
+		div.setAlign("right");
+		div.appendChild(processLabel);
+		row.appendChild(div);
+		row.appendChild(processField);
+		processField.setWidth("100%");
 		
-		Hbox boxCreatedBy = new Hbox();
-		boxCreatedBy.setWidth("100%");
-		boxCreatedBy.setWidths("30%, 70%");
-		boxCreatedBy.appendChild(createdByQLabel);
-		boxCreatedBy.appendChild(createdByQField);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(bPartnerLabel);
+		row.appendChild(div);
+		row.appendChild(bPartnerField.getComponent());
 		
-		Hbox boxCreatedQ = new Hbox();
-		boxCreatedQ.setWidth("100%");
-		boxCreatedQ.setWidths("30%, 35%, 35%");
-		boxCreatedQ.appendChild(createdQLabel);
-		boxCreatedQ.appendChild(createdQFrom);
-		boxCreatedQ.appendChild(createdQTo);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(tableLabel);
+		row.appendChild(div);
+		row.appendChild(tableField);
+		tableField.setWidth("100%");
 		
-		queryPanel.setWidth("50%");
-		queryPanel.appendChild(reportField);
-		queryPanel.appendChild(boxProcess);
-		queryPanel.appendChild(boxBPartner);
-		queryPanel.appendChild(boxTable);
-		queryPanel.appendChild(boxNameQ);
-		queryPanel.appendChild(boxDescritionQ);
-		queryPanel.appendChild(boxHelpQ);
-		queryPanel.appendChild(boxCreatedBy);
-		queryPanel.appendChild(boxCreatedQ);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(nameQLabel);
+		row.appendChild(div);
+		row.appendChild(nameQField);
+		nameQField.setWidth("100%");
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(descriptionQLabel);
+		row.appendChild(div);
+		row.appendChild(descriptionQField);
+		descriptionQField.setWidth("100%");
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(helpQLabel);
+		row.appendChild(div);
+		row.appendChild(helpQField);
+		helpQField.setWidth("100%");
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(createdByQLabel);
+		row.appendChild(div);
+		row.appendChild(createdByQField);
+		createdByQField.setWidth("100%");
+		
+		row = new Row();
+		rows.appendChild(row);
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(createdQLabel);
+		row.appendChild(div);
+		row.appendChild(createdQFrom);
+		createdQFrom.setWidth("100%");
+		row.appendChild(createdQTo);
+		createdQTo.setWidth("100%");
+		
+		div = new Div();
+		div.setAlign("center");
+		div.appendChild(gridQuery);
 		
 		Tabpanel tabQueryPanel = new Tabpanel();
-		tabQueryPanel.appendChild(queryPanel);
-		
+		tabQueryPanel.appendChild(div);
+
 		Tab tabQuery = new Tab("Query");
 
 		tabpanels.appendChild(tabQueryPanel);
 		tabs.appendChild(tabQuery);
+		
+		Grid gridView = new Grid();
+		gridView.setStyle("margin:0; padding:0;");
+		gridView.setSclass("grid-no-striped");
+		gridView.setOddRowSclass("even");
+        
+		rows = new Rows();
+		gridView.appendChild(rows);
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("1, 2, 1");
+		div = new Div();
+		div.setAlign("left");
+		div.appendChild(bBack);
+		row.appendChild(div);
+		div = new Div();
+		div.setAlign("center");
+		div.appendChild(positionInfo);
+		row.appendChild(div);
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(bNext);
+		row.appendChild(div);
 
-		bBack.addEventListener(Events.ON_CLICK, this);
-		bNext.addEventListener(Events.ON_CLICK, this);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(createdByLabel);
+		createdByLabel.setWidth("100%");
 		
-		Hbox boxViewEnter = new Hbox();
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(createdByField);
+		createdByField.setWidth("100%");
 		
-		bBack.setImage("/images/Parent24.gif");
-		bNext.setImage("/images/Detail24.gif");
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(createdField);
+		row.appendChild(div);
 		
-		boxViewEnter.setWidth("100%");
-		boxViewEnter.setWidths("10%, 80%, 10%");
-		boxViewEnter.appendChild(bBack);
-		boxViewEnter.appendChild(positionInfo);
-		boxViewEnter.appendChild(bNext);
-
-		Hbox boxCreatedByV = new Hbox();
-		boxCreatedByV.setWidth("100%");
-		boxCreatedByV.setWidths("30%, 50%, 20%");
-		boxCreatedByV.appendChild(createdByLabel);
-		boxCreatedByV.appendChild(createdByField);
-		boxCreatedByV.appendChild(createdField);
-
-		Hbox boxName = new Hbox();
-		boxName.setWidth("100%");
-		boxName.setWidths("40%, 60%");
-		boxName.appendChild(nameLabel);
-		boxName.appendChild(nameField);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(nameLabel);
+		nameLabel.setWidth("100%");
 		
-		Hbox boxDescription = new Hbox();
-		boxDescription.setWidth("100%");
-		boxDescription.setWidths("40%, 60%");
-		boxDescription.appendChild(descriptionLabel);
-		boxDescription.appendChild(descriptionField);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(nameField);
+		nameField.setWidth("100%");
 		
-		Hbox boxHelp = new Hbox();
-		boxHelp.setWidth("100%");
-		boxHelp.setWidths("40%, 60%");
-		boxHelp.appendChild(helpLabel);
-		boxHelp.appendChild(helpField);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(descriptionLabel);
+		descriptionLabel.setWidth("100%");
 		
-		updateArchive.setImage("/images/Ok24.gif");
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(descriptionField);
+		descriptionField.setRows(3);
+		descriptionField.setWidth("100%");
 		
-		viewEnterPanel.setWidth("100%");
-		viewEnterPanel.appendChild(boxViewEnter);
-		viewEnterPanel.appendChild(boxCreatedByV);
-		viewEnterPanel.appendChild(boxName);
-		viewEnterPanel.appendChild(boxDescription);
-		viewEnterPanel.appendChild(boxHelp);
-		viewEnterPanel.appendChild(updateArchive);
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(helpLabel);
+		helpLabel.setWidth("100%");
 		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		row.appendChild(helpField);
+		helpField.setRows(3);
+		helpField.setWidth("100%");
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.setSpans("4");
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(bRefresh);
+		div.appendChild(updateArchive);
+		row.appendChild(div);
+				
 		createdByField.setEnabled(false);
 		createdField.setEnabled(false);
 		
@@ -398,24 +497,28 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		Tabpanel tabViewPanel = new Tabpanel();
 		Hbox boxViewSeparator = new Hbox();
 		boxViewSeparator.setWidth("100%");
-		boxViewSeparator.setWidths("50%, 50%");
+		boxViewSeparator.setHeight("100%");	
+		boxViewSeparator.setWidths("70%, 30%");		
 		boxViewSeparator.appendChild(iframe);
-		boxViewSeparator.appendChild(viewEnterPanel);
+		boxViewSeparator.appendChild(gridView);
 		tabViewPanel.appendChild(boxViewSeparator);
 
 		tabs.appendChild(tabView);
 		tabpanels.appendChild(tabViewPanel);
 		
-		confirmPanel.addActionListener(Events.ON_CLICK, this);
+		confirmPanel.addEventListener(this);
 		updateQDisplay();
 
 		iframe.setId("reportFrame");
-		iframe.setHeight("100%");
+		int height = Double.valueOf(SessionManager.getAppDesktop().getClientInfo().desktopHeight * 0.8).intValue();
+		height = height - 50;
+		iframe.setHeight(height + "px");
 		iframe.setWidth("100%");
+		iframe.setAutohide(true);
 		
-		this.setWidth("900px");
+		this.setWidth("100%");
+		this.setHeight("100%");
 		this.appendChild(tabbox);
-		this.appendChild(new Separator());
 		this.appendChild(confirmPanel);
 	}
 	
@@ -425,9 +528,9 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		
 		if (e.getTarget() == updateArchive)
 			cmd_updateArchive();
-		else if (confirmPanel.getButton("Cancel").equals(e.getTarget()))
+		else if (e.getName().equals(WConfirmPanel.A_CANCEL))
 			SessionManager.getAppDesktop().removeWindow();
-		else if (confirmPanel.getButton("Ok").equals(e.getTarget()))
+		else if (e.getName().equals(WConfirmPanel.A_OK))
 		{
 			if (tabbox.getSelectedIndex() == 1)
 				SessionManager.getAppDesktop().removeWindow();
@@ -440,6 +543,13 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 			updateVDisplay(false);
 		else if (e.getTarget() == bNext)
 			updateVDisplay(true);
+		else if (e.getTarget() == bRefresh)
+			iframe.invalidate();
+		else if (e.getTarget() instanceof Tab)
+		{
+			if(tabbox.getSelectedIndex() == 1)
+				iframe.invalidate();
+		}
 	}
 	
 	public void valueChange(ValueChangeEvent evt) 
@@ -758,7 +868,8 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		log.info("Length=" + m_archives.length);
 		
 		//	Display
-		//this.setSelectedIndex(1);
+		tabbox.setSelectedIndex(1);
+		
 		m_index = 1;
 		updateVDisplay(false);
 	}	//	cmd_query	

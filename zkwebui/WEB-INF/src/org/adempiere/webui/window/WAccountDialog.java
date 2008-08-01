@@ -170,13 +170,13 @@ public final class WAccountDialog extends Window
 		toolBar.setStyle("border: none; margin: 5px");
 		
 		bSave.setImage("images/Save24.gif");
-		bSave.setTooltip(Msg.getMsg(Env.getCtx(),"AccountNewUpdate"));
+		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"AccountNewUpdate"));
 		bSave.addEventListener(Events.ON_CLICK, this);
 		bRefresh.setImage("images/Refresh24.gif");
-		bRefresh.setTooltip(Msg.getMsg(Env.getCtx(),"Refresh"));
+		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(),"Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 		bIgnore.setImage("images/Ignore24.gif");
-		bIgnore.setTooltip(Msg.getMsg(Env.getCtx(),"Ignore"));
+		bIgnore.setTooltiptext(Msg.getMsg(Env.getCtx(),"Ignore"));
 		bIgnore.addEventListener(Events.ON_CLICK, this);
 		//
 		toolBar.appendChild(bRefresh);

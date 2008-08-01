@@ -130,6 +130,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
         popupMenu = new WEditorPopupMenu(true, true, true, true);
         
 		(getComponent().getTextBox()).setContext(popupMenu.getId());
+//		getComponent().setContext(popupMenu.getId());
 
 		if (columnName.equals("C_BPartner_ID"))
 		{
@@ -200,7 +201,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	}
 	
 	@Override
-	public  void propertyChange(PropertyChangeEvent evt)
+	public void propertyChange(PropertyChangeEvent evt)
 	{
 		if ("FieldValue".equals(evt.getPropertyName()))
 		{
@@ -514,7 +515,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		//  Result
 		if (result != null)
 		{
-			log.config(gridField.getColumnName() + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
+//			log.config(gridField.getColumnName() + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
 			//  make sure that value is in cache
 			lookup.getDirect(result, false, true);
 			actionCombo (result);	//	data binding

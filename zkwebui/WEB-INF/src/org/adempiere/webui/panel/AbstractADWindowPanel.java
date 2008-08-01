@@ -20,6 +20,7 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.webui.WArchive;
 import org.adempiere.webui.WRequest;
 import org.adempiere.webui.WZoomAcross;
 import org.adempiere.webui.apps.AEnv;
@@ -473,11 +474,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         return true;
     }
 
-    private void find()
-    {
-    	MQuery mquery = new MQuery(curTab.getAD_Table_ID());
-    	
-    }
+//    private void find()
+//    {
+//    	MQuery mquery = new MQuery(curTab.getAD_Table_ID());
+//    	
+//    }
     
     public void onEvent(Event event)
     {
@@ -1007,7 +1008,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					infoName, infoDisplay);
 		}
 
-		new WReport (curTab.getAD_Table_ID(), query, null, curWindowNo);
+		new WReport (curTab.getAD_Table_ID(), query, toolbar.getEvent().getTarget(), curWindowNo);
 		
 	}
 	
@@ -1072,6 +1073,19 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public void onProductInfo()
 	{
 		InfoPanel.showProduct(0);
+	}
+	//
+	
+	// Elaine 2008/07/28
+	public void onArchive()
+	{
+		if (toolbar.getEvent() != null)
+		{
+			if (curTab.getRecord_ID() <= 0) 
+				return;
+			
+			new WArchive(toolbar.getEvent().getTarget(), curTab.getAD_Table_ID(), curTab.getRecord_ID());
+		}
 	}
 	//
     

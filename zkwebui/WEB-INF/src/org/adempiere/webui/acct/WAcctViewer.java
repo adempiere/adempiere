@@ -969,17 +969,9 @@ public class WAcctViewer extends Window implements EventListener
 		else
 		{
 			Listhead listhead = table.getListhead();
-			
+						
 			// remove existing column header
-			for (int i = listhead.getChildren().size() - 1; i >= 0; i--)
-			{
-				Object o = listhead.getChildren().get(i);
-				if(o instanceof Listheader)
-				{
-					Listheader listheader = (Listheader) o;
-					listhead.removeChild(listheader);
-				}
-			}
+			listhead.getChildren().clear();
 			
 			// add in new column header
 			for (int i = 0; i < rmodel.getColumnCount(); i++)

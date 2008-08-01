@@ -22,19 +22,19 @@ import java.beans.PropertyChangeSupport;
 
 import org.zkoss.zk.ui.event.EventListener;
 
-public class Searchbox extends Panel//Hbox
+public class Searchbox2 extends Bandbox
 {
 	private static final long serialVersionUID = 1L;
 	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
-	private Textbox txt;
-	private Button btn;
+//	private Textbox txt;
+//	private Button btn;
 
-	public Searchbox()
+	public Searchbox2()
 	{
 	     initComponents();
 	}
 
-	 public Searchbox(String text)
+	 public Searchbox2(String text)
 	 {
 	     initComponents();
 	     setText(text);
@@ -42,57 +42,53 @@ public class Searchbox extends Panel//Hbox
 
 	 public void setButtonImage(String imageSrc)
 	 {
-	     btn.setImage(imageSrc);
+		 this.setImage(imageSrc);
 	 }
 
 	 private void initComponents()
 	 {
-	     txt = new Textbox();
+//	     txt = new Textbox();
 //	     txt.setWidth("100%");
-	     btn = new Button();
-	     btn.setHeight("98%");
-	     appendChild(txt);
-	     appendChild(btn);
-	     
-	     this.setStyle("display: inline-block");
+//	     btn = new Button();
+//	     btn.setHeight("98%");
+//	     appendChild(txt);
+//	     appendChild(btn);
 	 }
+	 
+//	 public void setText(String value)
+//	 {
+//	    txt.setText(value);
+//	 }
 
-	 public Textbox getTextBox()
-	 {
-		 return txt;
-	 }
-
-	 public void setText(String value)
-	 {
-	    txt.setText(value);
-	 }
-
-	 public String getText()
-	 {
-	     return txt.getText();
-	 }
+//	 public String getText()
+//	 {
+//	     return txt.getText();
+//	 }
 
 	 public void setEnabled(boolean enabled)
 	 {
-	     txt.setReadonly(!enabled);
-	     btn.setEnabled(enabled);
+		 setReadonly(!enabled);
+//	     txt.setReadonly(!enabled);
+//	     btn.setEnabled(enabled);
 	 }
 
 	 public boolean isEnabled()
 	 {
-		 return txt.isReadonly();
+		 return !isReadonly();
+//		 return txt.isReadonly();
 	 }
-
+	 
 	 public boolean addEventListener(String evtnm, EventListener listener)
 	 {
-	     if("onClick".equals(evtnm))
-	     {
-	       	 return btn.addEventListener(evtnm, listener);
-	     }
-	     else
-	     {
-	         return txt.addEventListener(evtnm, listener);
-	     }
+		 return super.addEventListener(evtnm, listener);
+//	     if("onClick".equals(evtnm))
+//	     {
+//	       	 return btn.addEventListener(evtnm, listener);
+//	     }
+//	     else
+//	     {
+//	         return txt.addEventListener(evtnm, listener);
+//	     }
 	 }
 	 public synchronized void addPropertyChangeListener(PropertyChangeListener l)
 	 {

@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.print.ReportEngine;
 import org.compiere.print.ReportViewerProvider;
 
@@ -33,6 +33,8 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 		viewer.setAttribute("mode", "overlapped");
 		viewer.setClosable(true);
 		viewer.setWidth("95%");
-		AEnv.showWindow(viewer);
+		
+		SessionManager.getAppDesktop().showWindowInTabPanel(viewer);
+//		AEnv.showWindow(viewer);
 	}
 }

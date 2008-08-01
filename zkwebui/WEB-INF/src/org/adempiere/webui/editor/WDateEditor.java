@@ -95,7 +95,9 @@ public class WDateEditor extends WEditor
     @Override
     public String getDisplay()
     {
-        return null;
+    	// Elaine 2008/07/29
+    	return getComponent().getText();
+    	//
     }
 
     @Override

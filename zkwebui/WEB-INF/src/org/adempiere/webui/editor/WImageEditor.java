@@ -125,7 +125,7 @@ public class WImageEditor extends WEditor
 		log.fine(m_mImage.toString());
 		getComponent().setLabel(m_mImage.getName());
 		if (m_mImage.getDescription() != null)
-			getComponent().setTooltip(m_mImage.getDescription());
+			getComponent().setTooltiptext(m_mImage.getDescription());
     }
     
     @Override

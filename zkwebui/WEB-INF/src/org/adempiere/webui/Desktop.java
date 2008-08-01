@@ -518,7 +518,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
     
-    public void addWindow2TabPanel(Window window)
+    public void showWindowInTabPanel(Window window)
     {
     	Tabpanel tabPanel = new Tabpanel();
     	window.setParent(tabPanel);

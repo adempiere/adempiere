@@ -430,7 +430,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			label.setStyle("font-weight: bold");
 			
 		if (attribute.getDescription() != null)
-			label.setTooltip(attribute.getDescription());
+			label.setTooltiptext(attribute.getDescription());
 		
 		Row row = new Row();
 		row.setParent(rows);

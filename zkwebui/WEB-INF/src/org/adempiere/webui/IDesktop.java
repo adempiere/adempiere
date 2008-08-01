@@ -26,4 +26,5 @@ public interface IDesktop {
 
 	public void unregisterWindow(int windowNo);
 	
+	public void showWindowInTabPanel(Window win); // Elaine 2008/07/30
 }

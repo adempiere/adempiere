@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import javax.sql.RowSet;
 
 import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MQuery;
@@ -35,14 +34,15 @@ import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
-import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Menuitem;
+import org.zkoss.zul.Menupopup;
 
 /**
  * Base on org.compiere.print.AReport
@@ -72,7 +72,7 @@ public class WReport implements EventListener {
 	 *  @param parent The invoking parent window
 	 *  @param WindowNo The invoking parent window number
 	 */
-	public WReport (int AD_Table_ID, MQuery	query, ASyncProcess parent, 
+	public WReport (int AD_Table_ID, MQuery	query, Component parent, 
 			int WindowNo)
 	{
 		log.config("AD_Table_ID=" + AD_Table_ID + " " + query);
@@ -94,13 +94,13 @@ public class WReport implements EventListener {
 	private MQuery	 	m_query;
 	/**	The Popup						*/
 	private Listbox		m_listbox;
-	private Window		m_popup;
+	private Menupopup 	m_popup;
 	/**	The Option List					*/
 	private ArrayList<KeyNamePair>	m_list = new ArrayList<KeyNamePair>();
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AReport.class);
 	/** The parent window for locking/unlocking during process execution */
-	ASyncProcess parent;
+	Component parent;
 	/** The parent window number */
 	int WindowNo;
 
@@ -148,17 +148,17 @@ public class WReport implements EventListener {
 	}	//	getPrintFormats
 
 	private void showPopup() {
-		m_listbox = new Listbox();
-		m_listbox.setModel(ListModelList.instance(m_list));
-		m_listbox.addEventListener(Events.ON_SELECT, this);
-		m_listbox.setHeight("300px");
-		m_popup = new Window();
-		m_popup.setTitle("Select Report");
-		m_popup.appendChild(m_listbox);
-		m_popup.setAttribute("mode", "popup");
-		m_popup.setWidth("200px");
-		m_popup.setPosition("center");
-		AEnv.showWindow(m_popup);
+		m_popup = new Menupopup();		
+		for(int i = 0; i < m_list.size(); i++)
+		{
+			KeyNamePair pp = (KeyNamePair) m_list.get(i);
+			Menuitem menuitem = new Menuitem(pp.getName());
+			menuitem.setValue(i + "");
+			menuitem.addEventListener(Events.ON_CLICK, this);
+			m_popup.appendChild(menuitem);
+		}
+		m_popup.setPage(parent.getPage());
+		m_popup.open(parent);
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class WReport implements EventListener {
 			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID());
 			
 			//	Execute Process
-			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
+			ProcessCtl worker = ProcessCtl.process(null, WindowNo, pi, null);
 		}
 		else
 		{
@@ -238,14 +238,10 @@ public class WReport implements EventListener {
 	}
 
 	public void onEvent(Event event) {
-		if (event.getTarget() == m_listbox) {
-			int i = m_listbox.getSelectedIndex();
-			if (i >= 0 ) {
-				KeyNamePair pp = (KeyNamePair)m_list.get(i);
-				m_popup.setVisible(false);
-				m_popup.detach();
-				launchReport (pp);
-			}
-		}			
+		if(event.getTarget() instanceof Menuitem)
+		{
+			Menuitem mi = (Menuitem) event.getTarget();
+			launchReport(m_list.get(Integer.parseInt(mi.getValue().toString())));
+		}
 	}
 }
