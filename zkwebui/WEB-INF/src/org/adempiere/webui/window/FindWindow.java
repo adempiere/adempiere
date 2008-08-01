@@ -373,12 +373,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         listhead.setSizable(true);
         
         ListHeader lstHColumn = new ListHeader();
-<<<<<<< .mine
-        lstHColumn.setLabel("Column");
-=======
         lstHColumn.setLabel(Msg.translate(Env.getCtx(), "AD_Column_ID"));    
         lstHColumn.setWidth("100px");
->>>>>>> .r5927
                
         ListHeader lstHOperator = new ListHeader();
         lstHOperator.setLabel(Msg.getMsg(Env.getCtx(), "Operator"));
