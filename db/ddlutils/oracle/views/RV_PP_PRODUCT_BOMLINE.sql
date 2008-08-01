@@ -9,5 +9,4 @@ CREATE OR REPLACE VIEW rv_pp_product_bomline
             bl.validfrom, bl.validto, bl.qtybom, bl.qtybatch, bl.isqtypercentage
        FROM t_bomline t LEFT OUTER JOIN pp_product_bomline bl 
             ON t.pp_product_bomline_id = bl.pp_product_bomline_id 
-   ORDER BY t.seqno 
 ;
