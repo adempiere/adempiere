@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,12 +16,28 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.report.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MCash;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MJournal;
+import org.compiere.model.MMatchInv;
+import org.compiere.model.MMatchPO;
+import org.compiere.model.MMovement;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.MPeriodControl;
+import org.compiere.model.MProjectIssue;
+import org.compiere.model.MRequisition;
+import org.compiere.model.X_M_Production;
+import org.compiere.util.DB;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MHRProcess;
 import org.eevolution.model.MPPCostCollector;
@@ -68,7 +84,7 @@ public class FactAcctReset extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */
@@ -192,23 +208,16 @@ public class FactAcctReset extends SvrProcess
 		else if (AD_Table_ID == MMatchPO.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchPO + "'";
 		else if (AD_Table_ID == MPPOrder.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrder + "'";
-		else if (AD_Table_ID == MPPOrder.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MaintenanceOrder + "'";
-		else if (AD_Table_ID == MPPOrder.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_QualityOrder + "'";
+			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrder 
+				+ "','" + MPeriodControl.DOCBASETYPE_MaintenanceOrder
+				+ "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
 		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderIssue + "'";
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderMethodVariation+ "'";
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderRateVariation+ "'";
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderReceipt+ "'";
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOrderUseVariation+ "'";
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingOperationActivity+ "'";
+			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrderIssue 
+				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderMethodVariation
+				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderRateVariation
+				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderReceipt
+				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderUseVariation
+				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOperationActivity + "')";
 		else if (AD_Table_ID == MDDOrder.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
 		else if (AD_Table_ID == MHRProcess.Table_ID)
