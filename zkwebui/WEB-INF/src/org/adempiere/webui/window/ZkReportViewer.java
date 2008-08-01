@@ -23,16 +23,15 @@ import java.io.StringWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.pdf.Document;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.ComboItem;
-import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListItem;
+import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.WConfirmPanel;
@@ -54,17 +53,16 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.compiere.util.ValueNamePair;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.MouseEvent;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Separator;
@@ -137,21 +135,21 @@ public class ZkReportViewer extends Window implements EventListener {
 //	private Toolbarbutton bEnd = new Toolbarbutton();
 	private Toolbarbutton bFind = new Toolbarbutton();
 	private Toolbarbutton bExport = new Toolbarbutton();
-	private Combobox comboReport = new Combobox();
+	private Listbox comboReport = new Listbox();
 //	private Toolbarbutton bPrevious = new Toolbarbutton();
 //	private Toolbarbutton bNext = new Toolbarbutton();
 //	private SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1,1,100,1);
 //	private JSpinner spinner = new JSpinner(spinnerModel);
 	private Label labelDrill = new Label();
-	private Combobox comboDrill = new Combobox();
+	private Listbox comboDrill = new Listbox();
 	
 	private Toolbarbutton bRefresh = new Toolbarbutton();
 	private Iframe iframe;
 	
 	private Window winExportFile = null;
 	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
-	private Combobox cboType = new Combobox();
-	private ArrayList<ValueNamePair> fileTypes = new ArrayList<ValueNamePair>();
+	private Listbox cboType = new Listbox();
+//	private ArrayList<ValueNamePair> fileTypes = new ArrayList<ValueNamePair>();
 	
 	/**
 	 * 	Static Layout
@@ -200,11 +198,13 @@ public class ZkReportViewer extends Window implements EventListener {
 		labelDrill.setValue(Msg.getMsg(m_ctx, "Drill") + ": ");
 		toolBar.appendChild(labelDrill);
 		
+		comboDrill.setMold("select");
 		comboDrill.setTooltiptext(Msg.getMsg(m_ctx, "Drill"));
 		toolBar.appendChild(comboDrill);
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
+		comboReport.setMold("select");
 		comboReport.setTooltiptext(Msg.translate(m_ctx, "AD_PrintFormat_ID"));
 		toolBar.appendChild(comboReport);
 		
@@ -284,7 +284,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		fillComboReport(m_reportEngine.getPrintFormat().get_ID());
 
 		//	fill Drill Options (Name, TableName)
-		Comboitem ci = comboDrill.appendItem("");
+		comboDrill.appendItem("", null);
 		String sql = "SELECT t.AD_Table_ID, t.TableName, e.PrintName, NULLIF(e.PO_PrintName,e.PrintName) "
 			+ "FROM AD_Column c "
 			+ " INNER JOIN AD_Column used ON (c.ColumnName=used.ColumnName)"
@@ -319,8 +319,7 @@ public class ZkReportViewer extends Window implements EventListener {
 				String poName = rs.getString(4);
 				if (poName != null)
 					name += "/" + poName;
-				ci = comboDrill.appendItem(name);
-				ci.setId(tableName);
+				comboDrill.appendItem(name, tableName);
 			}
 			rs.close();
 			pstmt.close();
@@ -335,7 +334,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			comboDrill.setVisible(false);
 		}
 		else
-			comboDrill.addEventListener(Events.ON_CHANGE, this);
+			comboDrill.addEventListener(Events.ON_SELECT, this);
 
 		revalidate();
 	}	//	dynInit
@@ -346,7 +345,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	 */
 	private void fillComboReport(int AD_PrintFormat_ID)
 	{
-		comboReport.removeEventListener(Events.ON_CHANGE, this);
+		comboReport.removeEventListener(Events.ON_SELECT, this);
 		comboReport.getItems().clear();
 		KeyNamePair selectValue = null;
 		//	fill Report Options
@@ -368,13 +367,12 @@ public class ZkReportViewer extends Window implements EventListener {
 			while (rs.next())
 			{
 				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				Comboitem ci = comboReport.appendItem(pp.getName());
-				ci.setId(pp.getKey() + "");
+				Listitem li = comboReport.appendItem(pp.getName(), pp.getKey());
 				if (rs.getInt(1) == AD_PrintFormat_ID)
 				{
 					selectValue = pp;
 					if(selectValue != null)
-						comboReport.setSelectedItem(ci);
+						comboReport.setSelectedItem(li);
 				}
 			}
 			rs.close();
@@ -385,12 +383,9 @@ public class ZkReportViewer extends Window implements EventListener {
 			log.log(Level.SEVERE, sql, e);
 		}
 		StringBuffer sb = new StringBuffer("** ").append(Msg.getMsg(m_ctx, "NewReport")).append(" **");
-		KeyNamePair pp = new KeyNamePair(-1, sb.toString());		
-		Comboitem ci = comboReport.appendItem(pp.getName());
-		ci.setId(pp.getKey() + "");
-//		if (selectValue != null)
-//			comboReport.setSelectedItem(selectValue);
-		comboReport.addEventListener(Events.ON_CHANGE, this);
+		KeyNamePair pp = new KeyNamePair(-1, sb.toString());
+		comboReport.appendItem(pp.getName(), pp.getKey());
+		comboReport.addEventListener(Events.ON_SELECT, this);
 	}	//	fillComboReport
 
 	/**
@@ -432,7 +427,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			winExportFile.onClose();
 		else if(event.getName().equals(WConfirmPanel.A_OK))			
 			exportFile();
-		else if(event.getName().equals(Events.ON_CLICK) || event.getName().equals(Events.ON_CHANGE)) 
+		else if(event.getName().equals(Events.ON_CLICK) || event.getName().equals(Events.ON_SELECT)) 
 			actionPerformed(event);
 		else if(event.getName().equals(Events.ON_RIGHT_CLICK))
 			mouse_clicked(event, true);
@@ -561,16 +556,16 @@ public class ZkReportViewer extends Window implements EventListener {
 				executeDrill(query);
 			}
 		}
-		else if (comboDrill.getValue() != null && comboDrill.getValue().length() > 0)
+		else if (comboDrill.getSelectedItem() != null)
 		{
-			int index = comboDrill.getSelectedIndex();
-			if(index >= 0)
+			ListItem li = comboDrill.getSelectedItem();
+			
+			if(li.getValue() != null)
 			{
-				Comboitem ci = comboDrill.getItemAtIndex(index);
 				MQuery query  = m_viewPanel.getDrillAcross(point);
 				if (query != null)
 				{
-					query.setTableName(ci.getId());
+					query.setTableName(li.getValue().toString());
 					log.info("Drill Accross: " + query.getWhereClause(true));
 					executeDrill(query);
 				}				
@@ -681,26 +676,23 @@ public class ZkReportViewer extends Window implements EventListener {
 		{
 			winExportFile = new Window();
 			winExportFile.setTitle(Msg.getMsg(m_ctx, "Export") + ": " + getTitle());
-			winExportFile.setWidth("400px");
+			winExportFile.setWidth("450px");
 			winExportFile.setClosable(true);
 			winExportFile.setBorder("normal");
 			winExportFile.setStyle("position:absolute");
 
-			cboType.getItems().clear();
+			cboType.setMold("select");
 			
-			fileTypes.clear();
-			fileTypes.add(new ValueNamePair("ps", "ps" + " - " + Msg.getMsg(m_ctx, "FilePS")));
-			fileTypes.add(new ValueNamePair("xml", "xml" + " - " + Msg.getMsg(m_ctx, "FileXML")));
-			fileTypes.add(new ValueNamePair("pdf", "pdf" + " - " + Msg.getMsg(m_ctx, "FilePDF")));
-			fileTypes.add(new ValueNamePair("html", "html" + " - " + Msg.getMsg(m_ctx, "FileHTML")));
-			fileTypes.add(new ValueNamePair("txt", "txt" + " - " + Msg.getMsg(m_ctx, "FileTXT")));
-			fileTypes.add(new ValueNamePair("ssv", "ssv" + " - " + Msg.getMsg(m_ctx, "FileSSV")));
-			fileTypes.add(new ValueNamePair("csv", "csv" + " - " + Msg.getMsg(m_ctx, "FileCSV")));
-			fileTypes.add(new ValueNamePair("xls", "xls" + " - " + Msg.getMsg(m_ctx, "FileXLS")));
-
-			for(int i = 0; i < fileTypes.size(); i++)
-				cboType.appendItem(fileTypes.get(i).getName());
-			cboType.setSelectedIndex(2);
+			cboType.getItems().clear();			
+			cboType.appendItem("ps" + " - " + Msg.getMsg(m_ctx, "FilePS"), "ps");
+			cboType.appendItem("xml" + " - " + Msg.getMsg(m_ctx, "FileXML"), "xml");
+			ListItem li = cboType.appendItem("pdf" + " - " + Msg.getMsg(m_ctx, "FilePDF"), "pdf");
+			cboType.appendItem("html" + " - " + Msg.getMsg(m_ctx, "FileHTML"), "html");
+			cboType.appendItem("txt" + " - " + Msg.getMsg(m_ctx, "FileTXT"), "txt");
+			cboType.appendItem("ssv" + " - " + Msg.getMsg(m_ctx, "FileSSV"), "ssv");
+			cboType.appendItem("csv" + " - " + Msg.getMsg(m_ctx, "FileCSV"), "csv");
+			cboType.appendItem("xls" + " - " + Msg.getMsg(m_ctx, "FileXLS"), "xls");
+			cboType.setSelectedItem(li);
 			
 			Hbox hb = new Hbox();
 			Div div = new Div();
@@ -727,14 +719,14 @@ public class ZkReportViewer extends Window implements EventListener {
 	{
 		try
 		{
-			int index = cboType.getSelectedIndex();
-			if(index < 0)
+			ListItem li = cboType.getSelectedItem();
+			if(li == null || li.getValue() == null)
 			{
 				FDialog.error(m_WindowNo, winExportFile, "FileInvalidExtension");
 				return;
 			}
 			
-			String ext = fileTypes.get(index).getValue();
+			String ext = li.getValue().toString();
 			
 			byte[] data = null;
 									
@@ -799,11 +791,10 @@ public class ZkReportViewer extends Window implements EventListener {
 	 */
 	private void cmd_report()
 	{
-		int ind = comboReport.getSelectedIndex();
-		if(ind < 0) return;
+		ListItem li = comboReport.getSelectedItem();
+		if(li == null || li.getValue() == null) return;
 		
-		Comboitem ci = comboReport.getItemAtIndex(ind);
-		Object pp = ci.getId();
+		Object pp = li.getValue();
 		if (pp == null)
 			return;
 		//
@@ -843,6 +834,10 @@ public class ZkReportViewer extends Window implements EventListener {
 			pf.setTranslationLanguage(m_reportEngine.getPrintFormat().getLanguage());
 		}
 		m_reportEngine.setPrintFormat(pf);
+		
+		AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
+		iframe.setContent(media);
+
 		revalidate();
 
 		cmd_drill();	//	setCursor

@@ -7,9 +7,10 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListItem;
+import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
@@ -39,7 +40,6 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 
@@ -78,7 +78,7 @@ public class WWFActivity extends ADForm implements EventListener
 	private Label lAnswer = new Label(Msg.getMsg(Env.getCtx(), "Answer"));
 //	private Panel answers = new Panel(new FlowLayout(FlowLayout.LEADING));
 	private Textbox fAnswerText = new Textbox();
-	private Combobox fAnswerList = new Combobox();
+	private Listbox fAnswerList = new Listbox();
 	private Button fAnswerButton = new Button();
 	private Button bPrevious = new Button();//AEnv.getButton("Previous");
 	private Button bNext = new Button();//AEnv.getButton("Next");
@@ -101,6 +101,8 @@ public class WWFActivity extends ADForm implements EventListener
         super.init(adFormId, name);
         
         loadActivities();
+        
+        fAnswerList.setMold("select");
         
     	bPrevious.setImage("/images/Previous16.gif");
     	bNext.setImage("/images/Next16.gif");
@@ -444,8 +446,7 @@ public class WWFActivity extends ADForm implements EventListener
 					ValueNamePair[] values = MRefList.getList(Env.getCtx(), 319, false);		//	_YesNo
 					for(int i = 0; i < values.length; i++)
 					{
-						Comboitem ci = fAnswerList.appendItem(values[i].getName());
-						ci.setId(values[i].getValue());
+						fAnswerList.appendItem(values[i].getName(), values[i].getValue());
 					}
 //					fAnswerList.setModel(new DefaultComboBoxModel(values));
 					fAnswerList.setVisible(true);
@@ -455,8 +456,7 @@ public class WWFActivity extends ADForm implements EventListener
 					ValueNamePair[] values = MRefList.getList(Env.getCtx(), m_column.getAD_Reference_Value_ID(), false);
 					for(int i = 0; i < values.length; i++)
 					{
-						Comboitem ci = fAnswerList.appendItem(values[i].getName());
-						ci.setId(values[i].getValue());
+						fAnswerList.appendItem(values[i].getName(), values[i].getValue());
 					}
 //					fAnswerList.setModel(new DefaultComboBoxModel(values));
 					fAnswerList.setVisible(true);
@@ -647,11 +647,8 @@ public class WWFActivity extends ADForm implements EventListener
 			String value = fAnswerText.getText();
 			if (dt == DisplayType.YesNo || dt == DisplayType.List)
 			{
-//				ValueNamePair pp = (ValueNamePair)fAnswerList.getSelectedItem();
-//				value = pp.getValue();
-				int index = fAnswerList.getSelectedIndex();
-				if(index >= 0)
-					value = fAnswerList.getItemAtIndex(index).getId();
+				ListItem li = fAnswerList.getSelectedItem();
+				if(li != null) value = li.getValue().toString();
 			}
 			if (value == null || value.length() == 0)
 			{
