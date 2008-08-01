@@ -31,7 +31,7 @@ psql -U postgres -c "$ADEMPIERE_CREATE_ROLE_SQL"
 ADEMPIERE_CREATE_ROLE_SQL=
 
 export PGPASSWORD=$3
-createdb $ADEMPIERE_DB_NAME -E UNICODE -O $2 -U $2
+createdb -E UNICODE -O $2 -U $2 $ADEMPIERE_DB_NAME
 
 echo -------------------------------------
 echo Import Adempiere_pg.dmp
