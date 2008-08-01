@@ -48,6 +48,10 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MHRProcess;
+import org.eevolution.model.MPPCostCollector;
+import org.eevolution.model.MPPOrder;
 
 /**
  *	Document Action Engine
@@ -1039,6 +1043,82 @@ public class DocumentEngine implements DocAction
 				options[index++] = DocumentEngine.ACTION_Void;
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
 			}
+		}
+		/********************
+		 *  Manufacturing Order
+		 */
+		else if (AD_Table_ID == MPPOrder.Table_ID)
+		{
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+				{
+					options[index++] = DocumentEngine.ACTION_Prepare;
+					options[index++] = DocumentEngine.ACTION_Close;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				{
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+				}
+		}
+		/********************
+		 *  Manufacturing Cost Collector
+		 */
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+		{
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+				{
+					//options[index++] = DocumentEngine.ACTION_Prepare;
+					options[index++] = DocumentEngine.ACTION_Close;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				{
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+				}
+		}
+		/********************
+		 *  Distribution Order
+		 */
+		else if (AD_Table_ID == MDDOrder.Table_ID)
+		{
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+				{
+					options[index++] = DocumentEngine.ACTION_Prepare;
+					options[index++] = DocumentEngine.ACTION_Close;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				{
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+				}
+		}
+		/********************
+		 *  Payroll Process
+		 */
+		else if (AD_Table_ID == MHRProcess.Table_ID)
+		{
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+				{
+					options[index++] = DocumentEngine.ACTION_Prepare;
+					options[index++] = DocumentEngine.ACTION_Close;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				{
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+				}
 		}
 		return index;
 	}
