@@ -16,17 +16,18 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 
-import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tab;
@@ -36,18 +37,24 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.WConfirmPanel;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeValue;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductPrice;
 import org.compiere.model.MRole;
+import org.compiere.model.MStorage;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Vbox;
 
 
 /**
@@ -71,15 +78,18 @@ public class WAttributeGrid extends ADForm implements EventListener
         super.init(adFormId, name);
         
 		m_attributes = MAttribute.getOfClient(Env.getCtx(), true, true);
-		KeyNamePair[] vector = new KeyNamePair[m_attributes.length];
+		KeyNamePair[] vector = new KeyNamePair[m_attributes.length+1];
+		vector[0] = new KeyNamePair(0, "");
 		for (int i = 0; i < m_attributes.length; i++)
-			vector[i] = m_attributes[i].getKeyNamePair();
+			vector[i+1] = m_attributes[i].getKeyNamePair();
 		
 		attributeCombo1 = new Listbox(vector);
 		attributeCombo1.setMold("select");
+		attributeCombo1.setSelectedIndex(0);
 		
 		attributeCombo2 = new Listbox(vector);
 		attributeCombo2.setMold("select");
+		attributeCombo2.setSelectedIndex(0);
 		
 		pickPriceList.setMold("select");
 		pickWarehouse.setMold("select");
@@ -91,7 +101,7 @@ public class WAttributeGrid extends ADForm implements EventListener
 		modeCombo.setMold("select");
 		
 		tabbox.setWidth("100%");
-		tabbox.setHeight("90%");
+		tabbox.setHeight("85%");
 		tabbox.appendChild(tabs);
 		tabbox.appendChild(tabpanels);
 		tabbox.addEventListener(Events.ON_SELECT, this);
@@ -101,6 +111,10 @@ public class WAttributeGrid extends ADForm implements EventListener
 		gridSelection.setStyle("margin:0; padding:0;");
 		gridSelection.setSclass("grid-no-striped");
 		gridSelection.setOddRowSclass("even");
+		
+		gridView.setWidth("100%");
+		gridView.setHeight("100%");
+		gridView.setFixedLayout(true);
         
 		Rows rows = new Rows();
 		gridSelection.appendChild(rows);
@@ -161,9 +175,13 @@ public class WAttributeGrid extends ADForm implements EventListener
 		div.appendChild(modeLabel);
 		div.appendChild(modeCombo);
 		modeCombo.addEventListener(Events.ON_CHANGE, this);
+		
+		Vbox vbAttributeGrid = new Vbox();
+		vbAttributeGrid.appendChild(div);
+		vbAttributeGrid.appendChild(gridView);
 
 		Tabpanel tabAttributeGridPanel = new Tabpanel();
-		tabAttributeGridPanel.appendChild(div);
+		tabAttributeGridPanel.appendChild(vbAttributeGrid);
 		
 		Tab tabAttributeGrid = new Tab(Msg.getMsg(Env.getCtx(), "AttributeGrid"));
 		tabpanels.appendChild(tabAttributeGridPanel);
@@ -172,9 +190,9 @@ public class WAttributeGrid extends ADForm implements EventListener
 		this.setWidth("100%");
 		this.setHeight("100%");
 		this.appendChild(tabbox);
+		tabbox.addEventListener(Events.ON_SELECT, this);
 		this.appendChild(confirmPanel);
 		confirmPanel.addEventListener(this);
-		
 	}	//	init
 
 	/**	Window No			*/
@@ -220,6 +238,7 @@ public class WAttributeGrid extends ADForm implements EventListener
 	private Listbox 	pickWarehouse = new Listbox();
 	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
 	//
+	private Grid 		gridView = new Grid();
 //	private CPanel		gridPanel = new CPanel(new BorderLayout());
 //	private CPanel		modePanel = new CPanel();
 	private Label		modeLabel = new Label(Msg.getMsg(Env.getCtx(), "Mode"));
@@ -288,39 +307,25 @@ public class WAttributeGrid extends ADForm implements EventListener
 		}
 	}	//	fillPicks
 
-	
-	/**
-	 * 	Change Listener
-	 *	@param e event
-	 */
-//	public void stateChanged (ChangeEvent e)
-//	{
-//		if (e.getSource() != tabbedPane)
-//			return;
-//		if (tabbedPane.getSelectedIndex() == 1)
-//			createGrid();
-//	}	//	stateChanged
-
-	/**
-	 * 	Action Performed
-	 *	@param e event
-	 */
-//	public void actionPerformed (ActionEvent e)
-//	{
-//	//	log.fine(e.toString());
-//		if (e.getSource() == modeCombo)
-//			createGrid();
-//		else if (e.getActionCommand().equals(ConfirmPanel.A_OK))
-//		{
-//			if (tabbedPane.getSelectedIndex() == 0)
-//				createGrid();
-//			else
-//				gridOK();
-//		}
-//		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
-//			m_frame.dispose();
-//	}	//	actionPerformed
-
+	public void onEvent(Event e)
+	{
+		if (e.getTarget() instanceof Tab)
+		{
+			if(tabbox.getSelectedIndex() == 1)
+				createGrid();
+		}
+		else if(e.getTarget() ==  modeCombo)
+			createGrid();
+		else if (e.getName().equals(WConfirmPanel.A_OK))
+		{
+			if (tabbox.getSelectedIndex() == 0)
+				createGrid();
+			else
+				gridOK();
+		}
+		else if (e.getName().equals(WConfirmPanel.A_CANCEL))
+			onClose();
+	}	//	actionPerformed
 	
 	private void gridOK()
 	{
@@ -359,10 +364,13 @@ public class WAttributeGrid extends ADForm implements EventListener
 	{
 		if (attributeCombo1 == null || m_setting)
 			return;		//	init
-		int indexAttr1 = attributeCombo1.getSelectedIndex();
-		int indexAttr2 = attributeCombo2.getSelectedIndex();
-		if (indexAttr1 == indexAttr2)
+		
+		Object attr1 = attributeCombo1.getSelectedItem().getValue();
+		Object attr2 = attributeCombo2.getSelectedItem().getValue();
+		
+		if (attr1.equals(attr2))
 		{
+			FDialog.warn(m_windowNo, "Same Attribute Selected", getTitle());
 			log.warning("Same Attribute Selected");
 			tabbox.setSelectedIndex(0);
 			return;
@@ -379,81 +387,111 @@ public class WAttributeGrid extends ADForm implements EventListener
 			m_M_Warehouse_ID = Integer.valueOf(wh.getValue().toString());
 		
 		//	x dimension
-		int cols = 2;
+		int noOfCols = 2;
+		int indexAttr1 = 0;
 		MAttributeValue[] xValues = null;
-		if (indexAttr1 > 0)
-			xValues = m_attributes[indexAttr1-1].getMAttributeValues();
-		if (xValues != null)
+		if (attr1 != null)
 		{
-			cols = xValues.length;
-			log.info("X - " + m_attributes[indexAttr1-1].getName() + " #" + xValues.length);
+			int value = Integer.parseInt(attr1.toString());
+			for(int i = 0; i < m_attributes.length; i++)
+			{
+				if(m_attributes[i].getKeyNamePair().getKey() == value)
+				{
+					xValues = m_attributes[i].getMAttributeValues();
+					indexAttr1 = i;
+					break;
+				}
+			}
 		}
+		if (xValues != null)
+			noOfCols = xValues.length;
 		
 		//	y dimension
-		int rows = 2;
+		int noOfRows = 2;
+		int indexAttr2 = 0;
 		MAttributeValue[] yValues = null;
-		if (indexAttr2 > 0)
-			yValues = m_attributes[indexAttr2-1].getMAttributeValues();
-		if (yValues != null)
+		if (attr2 != null)
 		{
-			rows = yValues.length;
-			log.info("Y - " + m_attributes[indexAttr2-1].getName() + " #" + yValues.length);
+			int value = Integer.parseInt(attr2.toString());
+			for(int i = 0; i < m_attributes.length; i++)
+			{
+				if(m_attributes[i].getKeyNamePair().getKey() == value)
+				{
+					yValues = m_attributes[i].getMAttributeValues();
+					indexAttr2 = i;
+					break;
+				}
+			}
 		}
 		
-		//
-//		gridPanel.removeAll();
-//		CPanel grid = new CPanel(new GridLayout(rows, cols, 5,5));
-//		gridPanel.add(modePanel, BorderLayout.NORTH);
-//		gridPanel.add(new CScrollPane(grid), BorderLayout.CENTER);
-//		//
-//		log.info("Rows=" + rows + " - Cols=" + cols);
-//		for (int row = 0; row < rows; row++)
-//		{
-//			for (int col = 0; col < cols; col++)
-//			{
-//				MAttributeValue xValue = null;
-//				if (xValues != null)
-//					xValue = xValues[col];
-//				MAttributeValue yValue = null;
-//				if (yValues != null)
-//					yValue = yValues[row];
-//			//	log.fine("Row=" + row + " - Col=" + col);
-//				//
-//				if (row == 0 && col == 0)
-//				{
-//					CPanel descr = new CPanel(new GridLayout(2,1,0,0));
-//					if (xValues != null)
-//						descr.add(new JLabel(m_attributes[indexAttr1-1].getName(),JLabel.TRAILING));
-//					if (yValues != null)
-//						descr.add(new JLabel(m_attributes[indexAttr2-1].getName()));
-//					grid.add(descr);
-//				}
-//				else if (row == 0)	//	column labels
-//				{
-//					if (xValue != null)
-//					{
-//						grid.add(new JLabel(xValue.getName(), JLabel.TRAILING));
-//					}
-//					else
-//						grid.add(new JLabel());
-//				}
-//				else if (col == 0)	//	row labels
-//				{
-//					if (yValue != null)
-//						grid.add(new JLabel(yValue.getName()));
-//					else
-//						grid.add(new JLabel());
-//				}
-//				else
-//				{
-//					grid.add(getGridElement (xValue, yValue));
-//				}
-//			}
-//		}
-//		//
-//		tabbedPane.setSelectedIndex(1);
-//		m_setting = false;
-//		m_frame.pack();
+		if (yValues != null)
+			noOfRows = yValues.length;
+		
+		gridView.getChildren().clear();
+		
+		Rows rows = new Rows();
+		gridView.appendChild(rows);
+		
+		log.info("Rows=" + noOfRows + " - Cols=" + noOfCols);
+		for (int rowIndex = 0; rowIndex < noOfRows; rowIndex++)
+		{
+			Row row = new Row();
+			row.setWidth("100%");
+			rows.appendChild(row);
+			
+			for (int colIndex = 0; colIndex < noOfCols; colIndex++)
+			{
+				MAttributeValue xValue = null;
+				if (xValues != null)
+					xValue = xValues[colIndex];
+				MAttributeValue yValue = null;
+				if (yValues != null)
+					yValue = yValues[rowIndex];
+				
+				if (rowIndex == 0 && colIndex == 0)
+				{
+					Vbox descr = new Vbox();
+					descr.setWidth("100%");
+					if (xValues != null)
+					{
+						Div div = new Div();
+						div.setAlign("right");
+						div.appendChild(new Label(m_attributes[indexAttr1].getName()));
+						descr.appendChild(div);
+					}
+					if (yValues != null)
+						descr.appendChild(new Label(m_attributes[indexAttr2].getName()));
+					
+					row.appendChild(descr);
+				}
+				else if (rowIndex == 0)	//	column labels
+				{
+					if (xValue != null)
+					{
+						Div div = new Div();
+						div.setAlign("center");
+						div.appendChild(new Label(xValue.getName()));
+						row.appendChild(div);
+					}
+					else
+						row.appendChild(new Label());
+				}
+				else if (colIndex == 0)	//	row labels
+				{
+					if (yValue != null)
+						row.appendChild(new Label(yValue.getName()));
+					else
+						row.appendChild(new Label());
+				}
+				else
+				{
+					row.appendChild(getGridElement (xValue, yValue));
+				}
+			}
+		}
+		
+		tabbox.setSelectedIndex(1);
+		m_setting = false;
 	}	//	createGrid
 	
 	/**
@@ -462,127 +500,120 @@ public class WAttributeGrid extends ADForm implements EventListener
 	 *	@param yValue Y value
 	 *	@return Panel with Info
 	 */
-//	private CPanel getGridElement (MAttributeValue xValue, MAttributeValue yValue)
-//	{
-//		CPanel element = new CPanel();
-//		element.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-//		element.setLayout(new BoxLayout(element, BoxLayout.Y_AXIS));
-//		
-//		String sql = "SELECT * FROM M_Product WHERE IsActive='Y'";
-//		//	Product Attributes
-//		if (xValue != null)
-//			sql += " AND M_AttributeSetInstance_ID IN "
-//				+ "(SELECT M_AttributeSetInstance_ID "
-//				+ "FROM M_AttributeInstance "
-//				+ "WHERE M_Attribute_ID=" + xValue.getM_Attribute_ID()
-//				+ " AND M_AttributeValue_ID=" + xValue.getM_AttributeValue_ID() + ")"; 
-//		if (yValue != null)
-//			sql += " AND M_AttributeSetInstance_ID IN "
-//				+ "(SELECT M_AttributeSetInstance_ID "
-//				+ "FROM M_AttributeInstance "
-//				+ "WHERE M_Attribute_ID=" + yValue.getM_Attribute_ID()
-//				+ " AND M_AttributeValue_ID=" + yValue.getM_AttributeValue_ID() + ")"; 
-//		sql = MRole.getDefault().addAccessSQL(sql, "M_Product", 
-//			MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-//		PreparedStatement pstmt = null;
-//		int noProducts = 0;
-//		try
-//		{
-//			pstmt = DB.prepareStatement (sql, null);
-//			ResultSet rs = pstmt.executeQuery ();
-//			while (rs.next ())
-//			{
-//				MProduct product = new MProduct(Env.getCtx(), rs, null);
-//				addProduct (element, product);
-//				noProducts++;
-//			}
-//			rs.close ();
-//			pstmt.close ();
-//			pstmt = null;
-//		}
-//		catch (Exception e)
-//		{
-//			log.log (Level.SEVERE, sql, e);
-//		}
-//		try
-//		{
-//			if (pstmt != null)
-//				pstmt.close ();
-//			pstmt = null;
-//		}
-//		catch (Exception e)
-//		{
-//			pstmt = null;
-//		}
-//		
-//		int mode = modeCombo.getSelectedIndex();
-//		//	No Products
-//		if (noProducts == 0 && mode == MODE_VIEW)
-//		{
-//		//	CButton button = ConfirmPanel.createNewButton(true);
-//		//	button.addActionListener(this);
-//		//	element.add(button);
-//		}
-//		else	//	Additional Elements
-//		{
-//			if (mode == MODE_PRICE)
-//			{
-//				//	Price Field
-//			}
-//			else if (mode == MODE_PO)
-//			{
-//				//	Qty Field
-//			}
-//		}		
-//		return element;
-//	}	//	getGridElement
+	private Panel getGridElement (MAttributeValue xValue, MAttributeValue yValue)
+	{
+		Panel element = new Panel();
+		element.setStyle("border-width: thin; border-color: black;");
+		
+		String sql = "SELECT * FROM M_Product WHERE IsActive='Y'";
+		//	Product Attributes
+		if (xValue != null)
+			sql += " AND M_AttributeSetInstance_ID IN "
+				+ "(SELECT M_AttributeSetInstance_ID "
+				+ "FROM M_AttributeInstance "
+				+ "WHERE M_Attribute_ID=" + xValue.getM_Attribute_ID()
+				+ " AND M_AttributeValue_ID=" + xValue.getM_AttributeValue_ID() + ")"; 
+		if (yValue != null)
+			sql += " AND M_AttributeSetInstance_ID IN "
+				+ "(SELECT M_AttributeSetInstance_ID "
+				+ "FROM M_AttributeInstance "
+				+ "WHERE M_Attribute_ID=" + yValue.getM_Attribute_ID()
+				+ " AND M_AttributeValue_ID=" + yValue.getM_AttributeValue_ID() + ")"; 
+		sql = MRole.getDefault().addAccessSQL(sql, "M_Product", 
+			MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		PreparedStatement pstmt = null;
+		int noProducts = 0;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			ResultSet rs = pstmt.executeQuery ();
+			while (rs.next ())
+			{
+				MProduct product = new MProduct(Env.getCtx(), rs, null);
+				addProduct (element, product);
+				noProducts++;
+			}
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			log.log (Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
+		
+		int mode = modeCombo.getSelectedIndex();
+		//	No Products
+		if (noProducts == 0 && mode == MODE_VIEW)
+		{
+		//	CButton button = ConfirmPanel.createNewButton(true);
+		//	button.addActionListener(this);
+		//	element.add(button);
+		}
+		else	//	Additional Elements
+		{
+			if (mode == MODE_PRICE)
+			{
+				//	Price Field
+			}
+			else if (mode == MODE_PO)
+			{
+				//	Qty Field
+			}
+		}		
+		return element;
+	}	//	getGridElement
 	
 	/**
 	 * 	Add Product
 	 *	@param element panel
 	 *	@param product product
 	 */
-//	private void addProduct(CPanel element, MProduct product)
-//	{
-//		Insets ii = new Insets(2,4,2,4);
-//		int M_Product_ID = product.getM_Product_ID();
-//		CPanel pe = new CPanel();
-//		pe.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
-//		pe.setLayout(new GridBagLayout());
-//		
-//		//	Product Value - Price
-//		pe.add(new JLabel(product.getValue()), new GridBagConstraints(0,0, 1,1, 0,0, 
-//				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ii, 0,0));
-//		String formatted = "";
-//		if (m_M_PriceList_Version_ID != 0)
-//		{
-//			MProductPrice pp = MProductPrice.get(Env.getCtx(), m_M_PriceList_Version_ID, M_Product_ID, null);
-//			if (pp != null)
-//			{
-//				BigDecimal price = pp.getPriceStd();
-//				formatted = m_price.format(price);
-//			}
-//			else
-//				formatted = "-";
-//		}
-//		pe.add(new JLabel(formatted, JLabel.RIGHT), new GridBagConstraints(1,0, 1,1, .5,0, 
-//			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, ii, 0,0));
-//		
-//		//	Product Name - Qty
-//		pe.add(new JLabel(product.getName()), new GridBagConstraints(0,1, 1,1, 0,0, 
-//			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, ii, 0,0));
-//		formatted = "";
-//		if (m_M_Warehouse_ID != 0)
-//		{
-//			BigDecimal qty = MStorage.getQtyAvailable(m_M_Warehouse_ID, M_Product_ID, 0, null);
-//			if (qty == null)
-//				formatted = "-";
-//			else
-//				formatted = m_qty.format(qty);
-//		}
-//		pe.add(new JLabel(formatted, JLabel.RIGHT), new GridBagConstraints(1,1, 1,1, .5,0, 
-//			GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, ii, 0,0));
-//		//
-//		element.add(pe);
-//	}	//	addProduct
+	private void addProduct(Panel element, MProduct product)
+	{
+		int M_Product_ID = product.getM_Product_ID();
+		Vbox pe = new Vbox();
+		pe.setStyle("border-width: thin; border-color: blue;");
+		
+		//	Product Value - Price
+		pe.appendChild(new Label(product.getValue()));
+		String formatted = "";
+		if (m_M_PriceList_Version_ID != 0)
+		{
+			MProductPrice pp = MProductPrice.get(Env.getCtx(), m_M_PriceList_Version_ID, M_Product_ID, null);
+			if (pp != null)
+			{
+				BigDecimal price = pp.getPriceStd();
+				formatted = m_price.format(price);
+			}
+			else
+				formatted = "-";
+		}
+		pe.appendChild(new Label(formatted));
+		
+		//	Product Name - Qty
+		pe.appendChild(new Label(product.getName()));
+		formatted = "";
+		if (m_M_Warehouse_ID != 0)
+		{
+			BigDecimal qty = MStorage.getQtyAvailable(m_M_Warehouse_ID, M_Product_ID, 0, null);
+			if (qty == null)
+				formatted = "-";
+			else
+				formatted = m_qty.format(qty);
+		}
+		pe.appendChild(new Label(formatted));
+		//
+		element.appendChild(pe);
+	}	//	addProduct
 }	//	VAttributeTable
