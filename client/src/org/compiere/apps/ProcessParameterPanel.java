@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -50,6 +50,8 @@ import org.compiere.util.Env;
  *	- checks, if parameters exist and inquires and saves them
  *
  * 	@author 	Low Heng Sin
+ * @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process
+ *         Parameter: add display and readonly logic
  * 	@version 	2006-12-01
  */
 @SuppressWarnings("serial")
@@ -91,6 +93,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		private ArrayList<VEditor>	m_vEditors2 = new ArrayList<VEditor>();		//	for ranges
 		private ArrayList<GridField>	m_mFields = new ArrayList<GridField>();
 		private ArrayList<GridField>	m_mFields2 = new ArrayList<GridField>();
+		private ArrayList<JLabel> m_separators = new ArrayList<JLabel>();
 		//
 		private BorderLayout mainLayout = new BorderLayout();
 		private CPanel centerPanel = new CPanel();
@@ -116,6 +119,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			m_vEditors2.clear();
 			m_mFields.clear();
 			m_mFields2.clear();
+			m_separators.clear();
 			this.removeAll();
 		}   //  dispose
 
@@ -182,7 +186,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
 					+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
 					+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
-					+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode "
+					+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode, p.ReadOnlyLogic, p.DisplayLogic "
 					+ "FROM AD_Process_Para p"
 					+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
 					+ "WHERE p.AD_Process_ID=?"		//	1
@@ -193,7 +197,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 					+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
 					+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
 					+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
-					+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode "
+					+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode, p.ReadOnlyLogic, p.DisplayLogic "
 					+ "FROM AD_Process_Para p"
 					+ " INNER JOIN AD_Process_Para_Trl t ON (p.AD_Process_Para_ID=t.AD_Process_Para_ID)"
 					+ " LEFT OUTER JOIN AD_Val_Rule vr ON (p.AD_Val_Rule_ID=vr.AD_Val_Rule_ID) "
@@ -204,22 +208,28 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 
 			//	Create Fields
 			boolean hasFields = false;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, m_processInfo.getAD_Process_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
 					hasFields = true;
 					createField (rs);
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch(SQLException e)
 			{
 				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null;
+				pstmt = null;
 			}
 
 			//	both vectors the same?
@@ -235,18 +245,18 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				centerPanel.add(Box.createVerticalStrut(10), gbc);    	//	bottom gap
 				gbc.gridx = 3;
 				centerPanel.add(Box.createHorizontalStrut(12), gbc);   	//	right gap
+				dynamicDisplay();
 			}
 			else
 				dispose();
 			return hasFields;
-		}	//	initDialog
-
+		}	//	init
 
 		/**
 		 *	Create Field.
 		 *	- creates Fields and adds it to m_mFields list
 		 *  - creates Editor and adds it to m_vEditors list
-		 *  Handeles Ranges by adding additional mField/vEditor.
+		 *  Handles Ranges by adding additional mField/vEditor.
 		 *  <p>
 		 *  mFields are used for default value and mandatory checking;
 		 *  vEditors are used to retrieve the value (no data binding)
@@ -303,7 +313,9 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				gbc.gridx = 2;
 				gbc.weightx = 0;
 				gbc.fill = GridBagConstraints.NONE;
-				centerPanel.add (new JLabel(" - "), gbc);
+				JLabel dash = new JLabel(" - ");
+				centerPanel.add (dash, gbc);
+				m_separators.add(dash);
 				//  To Field
 				gbc.gridx = 3;
 				gbc.insets = fieldInsetRight;
@@ -327,6 +339,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			}
 			else
 			{
+				m_separators.add(null);
 				m_mFields2.add (null);
 				m_vEditors2.add (null);
 			}
@@ -340,9 +353,80 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException
 		{
 		//	log.fine( "ProcessParameterPanel.vetoableChange");
-			String value = evt.getNewValue() == null ? "" : evt.getNewValue().toString();
-			Env.setContext(Env.getCtx(), m_WindowNo, evt.getPropertyName(), value);
+			processNewValue(evt.getNewValue(), evt.getPropertyName());
 		}	//	vetoableChange
+
+		private void processNewValue(Object value, String name) {
+			if (value == null)
+				value = new String("");
+
+			if (value instanceof String)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, (String) value);
+			else if (value instanceof Integer)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, ((Integer) value)
+						.intValue());
+			else if (value instanceof Boolean)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, ((Boolean) value)
+						.booleanValue());
+			else if (value instanceof Timestamp)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, (Timestamp) value);
+			else
+				Env.setContext(Env.getCtx(), m_WindowNo, name, value.toString());
+
+			dynamicDisplay();
+		}
+
+		/**
+		 * Dynamic Display.
+		 * 
+		 **/
+		public void dynamicDisplay() {
+			Component[] comps = centerPanel.getComponents();
+			for (int i = 0; i < comps.length; i++) {
+				Component comp = comps[i];
+				String columnName = comp.getName();
+
+				if (columnName != null && columnName.length() > 0) {
+					int index = getIndex(columnName);
+					if (m_mFields.get(index) != null) {
+						if (m_mFields.get(index).isDisplayed(true)) { // check
+							// context
+							if (!comp.isVisible()) {
+								comp.setVisible(true); // visibility
+								if (m_mFields.get(index).getVO().isRange)
+									m_separators.get(index).setText(" - ");
+							}
+							boolean rw = m_mFields.get(index).isEditablePara(true); // r/w - check if field is Editable
+							m_vEditors.get(index).setReadWrite(rw);
+							if (m_mFields.get(index).getVO().isRange)
+								m_vEditors2.get(index).setReadWrite(rw);
+						} else {
+							if (comp.isVisible()) {
+								comp.setVisible(false);
+								if (m_mFields.get(index).getVO().isRange)
+									m_separators.get(index).setText("");
+							}
+						}
+					}
+				}
+			}
+		} // Dynamic Display.
+
+		/**
+		 * getIndex. Get m_mFields index from columnName
+		 * 
+		 * @param columnName
+		 * @return int
+		 **/
+		private int getIndex(String columnName) {
+
+			for (int i = 0; i < m_mFields.size(); i++) {
+				if (m_mFields.get(i).getColumnName().equals(columnName)) {
+					return i;
+				}
+			}
+			return 0;
+		} // getIndex
 
 		/* (non-Javadoc)
 		 * @see org.compiere.apps.ProcessParameters#saveParameters()
@@ -496,4 +580,3 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			}
 		}
 	}	//	ProcessParameterPanel
-

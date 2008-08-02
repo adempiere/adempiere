@@ -339,6 +339,23 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Display Logic.
+		@param DisplayLogic 
+		If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic)
+	{
+		set_Value (COLUMNNAME_DisplayLogic, DisplayLogic);
+	}
+
+	/** Get Display Logic.
+		@return If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_DisplayLogic);
+	}
+
 	/** EntityType AD_Reference_ID=389 */
 	public static final int ENTITYTYPE_AD_Reference_ID=389;
 	/** Set Entity Type.
@@ -493,6 +510,23 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Read Only Logic.
+		@param ReadOnlyLogic 
+		Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public void setReadOnlyLogic (String ReadOnlyLogic)
+	{
+		set_Value (COLUMNNAME_ReadOnlyLogic, ReadOnlyLogic);
+	}
+
+	/** Get Read Only Logic.
+		@return Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public String getReadOnlyLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_ReadOnlyLogic);
+	}
 
 	/** Set Sequence.
 		@param SeqNo 

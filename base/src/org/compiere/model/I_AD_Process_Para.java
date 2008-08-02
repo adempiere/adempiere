@@ -188,6 +188,19 @@ public interface I_AD_Process_Para
 	  */
 	public String getDescription();
 
+    /** Column name DisplayLogic */
+    public static final String COLUMNNAME_DisplayLogic = "DisplayLogic";
+
+	/** Set Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public void setDisplayLogic (String DisplayLogic);
+
+	/** Get Display Logic.
+	  * If the Field is displayed, the result determines if the field is actually displayed
+	  */
+	public String getDisplayLogic();
+
     /** Column name EntityType */
     public static final String COLUMNNAME_EntityType = "EntityType";
 
@@ -280,6 +293,19 @@ public interface I_AD_Process_Para
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name ReadOnlyLogic */
+    public static final String COLUMNNAME_ReadOnlyLogic = "ReadOnlyLogic";
+
+	/** Set Read Only Logic.
+	  * Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public void setReadOnlyLogic (String ReadOnlyLogic);
+
+	/** Get Read Only Logic.
+	  * Logic to determine if field is read only (applies only when field is read-write)
+	  */
+	public String getReadOnlyLogic();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

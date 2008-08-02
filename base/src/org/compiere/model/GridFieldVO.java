@@ -36,6 +36,7 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ] , [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
+ *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
@@ -292,6 +293,9 @@ public class GridFieldVO implements Serializable
 			//
 			vo.AD_Reference_Value_ID = rs.getInt("AD_Reference_Value_ID");
 			vo.ValidationCode = rs.getString("ValidationCode");
+			vo.ReadOnlyLogic = rs.getString("ReadOnlyLogic");
+			vo.DisplayLogic= rs.getString("DisplayLogic");
+			
 		}
 		catch (SQLException e)
 		{

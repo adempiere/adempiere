@@ -54,6 +54,7 @@ import org.compiere.util.Evaluator;
  *  @author Jorg Janke
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ], [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
+ *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
@@ -325,6 +326,25 @@ public class GridField
 	}	//	isMandatory
 
 	/**
+	 *	Is parameter Editable - checks if parameter is Read Only
+	 *  @param checkContext if true checks Context
+	 *  @return true, if editable
+	 */
+	public boolean isEditablePara(boolean checkContext) {
+		if (checkContext && m_vo.ReadOnlyLogic.length() > 0)
+		{
+			boolean retValue = !Evaluator.evaluateLogic(this, m_vo.ReadOnlyLogic);
+			log.finest(m_vo.ColumnName + " R/O(" + m_vo.ReadOnlyLogic + ") => R/W-" + retValue);
+			if (!retValue)
+				return false;
+		}
+
+		//  ultimately visibility decides
+		return isDisplayed (checkContext);
+	}
+	
+	
+	/**
 	 *	Is it Editable - checks IsActive, IsUpdateable, and isDisplayed
 	 *  @param checkContext if true checks Context for Active, IsProcessed, LinkColumn
 	 *  @return true, if editable
@@ -413,7 +433,7 @@ public class GridField
 		if (checkContext && !Env.getContext(m_vo.ctx, m_vo.WindowNo, "IsActive").equals("Y"))
 			return false;
 
-		//  ultimately visibily decides
+		//  ultimately visibility decides
 		return isDisplayed (checkContext);
 	}	//	isEditable
 
