@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,11 +26,8 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import javax.naming.InitialContext;
-
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
-import org.compiere.interfaces.ServerHome;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
@@ -43,7 +40,6 @@ import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
-import org.compiere.model.X_C_Order;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -516,7 +512,7 @@ public class DocumentEngine implements DocAction
 	public boolean closeIt()
 	{
 		if (m_document != null 	//	orders can be closed any time
-			&& m_document.get_Table_ID() == X_C_Order.Table_ID)
+			&& m_document.get_Table_ID() == MOrder.Table_ID)
 			;
 		else if (!isValidAction(ACTION_Close))
 			return false;
@@ -849,7 +845,7 @@ public class DocumentEngine implements DocAction
 	}
 	
 	/**
-	 * Get list of valid document action into the options arary parameter. 
+	 * Get list of valid document action into the options array parameter. 
 	 * Set default document action into the docAction array parameter.
 	 * @param docStatus
 	 * @param processing
