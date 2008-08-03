@@ -17,7 +17,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>AdempiereMonitorFilter</filter-name>
-		<url-pattern>/adempiereMonitor</url-pattern>
+		<url-pattern>/adempiereMonitor/*</url-pattern>
 	</filter-mapping>
 	<servlet>
 		<servlet-name>JnlpDownloadServlet</servlet-name>
