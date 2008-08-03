@@ -826,7 +826,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 		if (fResource_ID.getValue() != null)
     		sql.append(" AND PP_MRP.S_Resource_ID=?");
 		if (fPlanner_ID.getValue() != null)
-            sql.append(" AND PP_MRP.M_Planner_ID=?");
+            sql.append(" AND PP_MRP.Planner_ID=?");
         if (fWarehouse_ID.getValue() != null)
             sql.append(" AND PP_MRP.M_Warehouse_ID=?");
         if (fDueStart.getValue() != null || fDueStart.getValue() != null)
