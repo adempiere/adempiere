@@ -142,6 +142,15 @@ public interface I_PP_Order_NodeNext
 	/** Get PP_Order_Next_ID	  */
 	public int getPP_Order_Next_ID();
 
+    /** Column name PP_Order_NodeNext_ID */
+    public static final String COLUMNNAME_PP_Order_NodeNext_ID = "PP_Order_NodeNext_ID";
+
+	/** Set PP_Order_NodeNext_ID	  */
+	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID);
+
+	/** Get PP_Order_NodeNext_ID	  */
+	public int getPP_Order_NodeNext_ID();
+
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
 
@@ -152,15 +161,6 @@ public interface I_PP_Order_NodeNext
 	public int getPP_Order_Node_ID();
 
 	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws Exception;
-
-    /** Column name PP_Order_NodeNext_ID */
-    public static final String COLUMNNAME_PP_Order_NodeNext_ID = "PP_Order_NodeNext_ID";
-
-	/** Set PP_Order_NodeNext_ID	  */
-	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID);
-
-	/** Get PP_Order_NodeNext_ID	  */
-	public int getPP_Order_NodeNext_ID();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
