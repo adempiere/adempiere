@@ -36,6 +36,7 @@ import org.compiere.print.*;
 import org.compiere.process.*;
 import org.compiere.swing.*;
 import org.compiere.util.*;
+import org.eevolution.model.MDDOrder;
 
 /**
  *	Create Movement from Distribution Order
@@ -57,7 +58,7 @@ public class VOrderDistribution extends CPanel
 		log.info("");
 		m_WindowNo = WindowNo;
 		m_frame = frame;
-		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "Y");
+		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "N");
 		try
 		{
 			fillPicks();
@@ -78,7 +79,8 @@ public class VOrderDistribution extends CPanel
 	private FormFrame 		m_frame;
 
 	private boolean			m_selectionActive = true;
-	private Object 			m_M_Warehouse_ID = null;
+	private Object 			m_M_Locator_ID = null;
+	private Object 			m_M_LocatorTo_ID = null;
 	private Object 			m_C_BPartner_ID = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VOrderDistribution.class);
@@ -87,11 +89,12 @@ public class VOrderDistribution extends CPanel
 	private CPanel selPanel = new CPanel();
 	private CPanel selNorthPanel = new CPanel();
 	private BorderLayout selPanelLayout = new BorderLayout();
-	private CCheckBox isReceipt = new CCheckBox(Msg.translate(Env.getCtx(),"IsReceipt"));
 	private CLabel lOrder = new CLabel();
 	private VLookup fOrder;
-	private CLabel lWarehouse = new CLabel();
-	private VLookup fWarehouse;
+	private CLabel lLocator = new CLabel();
+	private VLookup fLocator;
+	private CLabel lLocatorTo = new CLabel();
+	private VLookup fLocatorTo;
 	private CLabel lBPartner = new CLabel();
 	private VLookup fBPartner;
 	private FlowLayout northPanelLayout = new FlowLayout();
@@ -127,18 +130,22 @@ public class VOrderDistribution extends CPanel
 		//
 		selPanel.setLayout(selPanelLayout);
 		lOrder.setLabelFor(fOrder);
-		lWarehouse.setLabelFor(fWarehouse);
+		lLocator.setLabelFor(fLocator);
+		lLocatorTo.setLabelFor(fLocatorTo);
 		lBPartner.setLabelFor(fBPartner);
 		lBPartner.setText("BPartner");
 		selNorthPanel.setLayout(northPanelLayout);
 		northPanelLayout.setAlignment(FlowLayout.LEFT);
 		tabbedPane.add(selPanel, Msg.getMsg(Env.getCtx(), "Select"));
 		selPanel.add(selNorthPanel, BorderLayout.NORTH);
-		selNorthPanel.add(isReceipt, null);
 		selNorthPanel.add(lOrder, null);
 		selNorthPanel.add(fOrder, null);
-		selNorthPanel.add(lWarehouse, null);
-		selNorthPanel.add(fWarehouse, null);
+		selNorthPanel.add(lLocator, null);
+		selNorthPanel.add(fLocator, null);
+		selNorthPanel.add(lLocatorTo, null);
+		selNorthPanel.add(fLocatorTo, null);
+		//selNorthPanel.add(lWarehouse, null);
+		//selNorthPanel.add(fWarehouse, null);
 		selNorthPanel.add(lBPartner, null);
 		selNorthPanel.add(fBPartner, null);
 		selPanel.setName("selPanel");
@@ -155,10 +162,6 @@ public class VOrderDistribution extends CPanel
 		info.setEditable(false);
 		genPanel.add(confirmPanelGen, BorderLayout.SOUTH);
 		confirmPanelGen.addActionListener(this);
-		
-		//lDocType.setLabelFor(cmbDocType);
-		//selNorthPanel.add(lDocType, null);
-		//selNorthPanel.add(cmbDocType, null);
 	}	//	jbInit
 
 	/**
@@ -168,21 +171,26 @@ public class VOrderDistribution extends CPanel
 	 */
 	private void fillPicks() throws Exception
 	{
-		isReceipt.addChangeListener(this);
 		// Order Distribution
-		MLookup orderL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, MColumn.getColumn_ID("DD_Order", "DD_Order_ID"), DisplayType.Search);
-		fOrder = new VLookup ("DD_Order_ID", true, false, true, orderL);
-		lOrder.setText(Msg.translate(Env.getCtx(), "DD_Order_ID"));
+		MLookup orderL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, MColumn.getColumn_ID(MDDOrder.Table_Name, MDDOrder.COLUMNNAME_DD_Order_ID), DisplayType.Search);
+		fOrder = new VLookup (MDDOrder.COLUMNNAME_DD_Order_ID, true, false, true, orderL);
+		lOrder.setText(Msg.translate(Env.getCtx(), MDDOrder.COLUMNNAME_DD_Order_ID));
 		fOrder.addVetoableChangeListener(this);
 		lOrder.setVisible(false);
 		fOrder.setVisible(false);
+	
+		MLookup llocator= MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 53950, DisplayType.TableDir);
+		fLocator = new VLookup (MLocator.COLUMNNAME_M_Locator_ID, true, false, true, llocator);
+		lLocator.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		fLocator.addVetoableChangeListener(this);
+		m_M_Locator_ID = fLocator.getValue();
 		
-		//	C_OrderLine.M_Warehouse_ID
-		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2223, DisplayType.TableDir);
-		fWarehouse = new VLookup ("M_Warehouse_ID", true, false, true, orgL);
-		lWarehouse.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-		fWarehouse.addVetoableChangeListener(this);
-		m_M_Warehouse_ID = fWarehouse.getValue();
+		MLookup llocatorto = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 53949, DisplayType.TableDir);
+		fLocatorTo = new VLookup ("M_LocatorTo_ID", false, false, true, llocatorto);
+		lLocatorTo.setText(Msg.translate(Env.getCtx(), "M_LocatorTo_ID"));
+		fLocatorTo.addVetoableChangeListener(this);
+		m_M_LocatorTo_ID = fLocatorTo.getValue();
+		
 		//	C_Order.C_BPartner_ID
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
@@ -239,15 +247,19 @@ public class VOrderDistribution extends CPanel
 	{
 	//  Create SQL
         StringBuffer sql = new StringBuffer(
-            "SELECT DD_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, QtyBackOrder "
+            "SELECT DD_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered "
             + "FROM M_Movement_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
             + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
             + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
             + " AND ic.C_DocType_ID=dt.C_DocType_ID"
             + " AND ic.AD_Client_ID=?");
 
-        if (m_M_Warehouse_ID != null)
-            sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        if(m_M_Locator_ID != null)
+        	sql.append(" AND ic.M_Locator_ID=").append(m_M_Locator_ID);
+        /*if (m_M_Warehouse_ID != null)
+            sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);*/
+        if(m_M_LocatorTo_ID != null)
+        	sql.append(" AND ic.M_LocatorTo_ID=").append(m_M_LocatorTo_ID);
         if (m_C_BPartner_ID != null)
             sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
         
@@ -305,7 +317,7 @@ public class VOrderDistribution extends CPanel
 				miniTable.setValueAt(rs.getString(4), row, 3);              //  Doc No
 				miniTable.setValueAt(rs.getString(5), row, 4);              //  BPartner
 				miniTable.setValueAt(rs.getTimestamp(6), row, 5);           //  DateOrdered
-				miniTable.setValueAt(rs.getBigDecimal(7), row, 6);          //  QtyBackOrder
+				//miniTable.setValueAt(rs.getBigDecimal(7), row, 6);          //  QtyBackOrder
 				//  prepare next
 				row++;
 			}
@@ -354,7 +366,7 @@ public class VOrderDistribution extends CPanel
 		if (selection != null
 			&& selection.size() > 0
 			&& m_selectionActive	//	on selection tab
-			&& m_M_Warehouse_ID != null)
+			&& m_M_Locator_ID != null)
 			generateMovements ();
 		else
 			dispose();
@@ -367,8 +379,12 @@ public class VOrderDistribution extends CPanel
 	public void vetoableChange(PropertyChangeEvent e)
 	{
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
-		if (e.getPropertyName().equals("M_Warehouse_ID"))
-			m_M_Warehouse_ID = e.getNewValue();
+		//if (e.getPropertyName().equals("M_Warehouse_ID"))
+			//m_M_Warehouse_ID = e.getNewValue();
+		if (e.getPropertyName().equals("M_Locator_ID"))
+			m_M_Locator_ID = e.getNewValue();
+		if (e.getPropertyName().equals("M_LocatorTo_ID"))
+			m_M_LocatorTo_ID = e.getNewValue();
 		if (e.getPropertyName().equals("C_BPartner_ID"))
 		{
 			m_C_BPartner_ID = e.getNewValue();
@@ -385,29 +401,7 @@ public class VOrderDistribution extends CPanel
 	{
 		int index = tabbedPane.getSelectedIndex();
 		m_selectionActive = (index == 0);
-		
-		if (isReceipt.equals(e.getSource()))
-		{
-			if((Boolean)isReceipt.getValue())
-			{
-				lOrder.setVisible(true);
-				fOrder.setVisible(true);
-				lWarehouse.setVisible(false);
-				fWarehouse.setVisible(false);
-				lBPartner.setVisible(false);
-				fBPartner.setVisible(false);
-			}
-			else
-			{
-				lOrder.setVisible(false);
-				fOrder.setVisible(false);
-				lWarehouse.setVisible(true);
-				fWarehouse.setVisible(true);
-				lBPartner.setVisible(true);
-				fBPartner.setVisible(true);
-			}
-			
-		}
+
 	}	//	stateChanged
 
 	/**
@@ -463,21 +457,20 @@ public class VOrderDistribution extends CPanel
 	 */
 	private void generateMovements ()
 	{
-		log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
+		//log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
+		log.info("M_Locator_ID=" + m_M_Locator_ID);
 		String trxName = Trx.createTrxName("IOG");	
 		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
 		//String trxName = null;
 		//Trx trx = null;
 		
 		m_selectionActive = false;  //  prevents from being called twice
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateGen"));
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "M_Movement_ID"));
 		statusBar.setStatusDB(String.valueOf(selection.size()));
 
 		//	Prepare Process
-		int AD_Process_ID = 0;	  
+		int AD_Process_ID = MProcess.getProcess_ID("M_Generate Movement", trxName);	  
 		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
-        
-		AD_Process_ID = MProcess.getProcess_ID("M_Movement_Generate (manual)",trxName);
 		
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save())
@@ -520,7 +513,7 @@ public class VOrderDistribution extends CPanel
 		{
 			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
 			{
-				String msg = "No Shipments";     //  not translated!
+				String msg = "No Movements";     //  not translated!
 				log.config(msg);
 				info.setText(msg);
 				trx.rollback();
@@ -542,9 +535,10 @@ public class VOrderDistribution extends CPanel
 			log.log(Level.SEVERE, msg);
 			return;
 		}
+		MLocator locator = MLocator.get(Env.getCtx(), Integer.parseInt(m_M_Locator_ID.toString()));
 		//	Add Parameter - M_Warehouse_ID=x
 		ip = new MPInstancePara(instance, 20);
-		ip.setParameter("M_Warehouse_ID", Integer.parseInt(m_M_Warehouse_ID.toString()));
+		ip.setParameter("M_Warehouse_ID", locator.getM_Warehouse_ID());
 		if (!ip.save())
 		{
 			String msg = "No Parameter added";  //  not translated
@@ -564,7 +558,7 @@ public class VOrderDistribution extends CPanel
 	 *  Called from Unlock UI
 	 *  @param pi process info
 	 */
-	private void generateShipments_complete (ProcessInfo pi)
+	private void generateMovements_complete (ProcessInfo pi)
 	{
 		//  Switch Tabs
 		tabbedPane.setSelectedIndex(1);
@@ -580,10 +574,10 @@ public class VOrderDistribution extends CPanel
 		info.setText(iText.toString());
 
 		//	Reset Selection
-		/*
-		String sql = "UPDATE C_Order SET IsSelected='N' WHERE " + m_whereClause;
-		int no = DB.executeUpdate(sql, null);
-		log.config("Reset=" + no);*/
+		
+		//String sql = "UPDATE DD_Order SET IsSelected='N' WHERE " + m_whereClause;
+		//int no = DB.executeUpdate(sql, null);
+		//log.config("Reset=" + no);
 
 		//	Get results
 		int[] ids = pi.getIDs();
@@ -593,7 +587,7 @@ public class VOrderDistribution extends CPanel
 
 		confirmPanelGen.getOKButton().setEnabled(false);
 		//	OK to print shipments
-		if (ADialog.ask(m_WindowNo, this, "PrintMovements"))
+		if (ADialog.ask(m_WindowNo, this, "PrintShipments"))
 		{
 		//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -603,8 +597,16 @@ public class VOrderDistribution extends CPanel
 				//	Loop through all items
 				for (int i = 0; i < ids.length; i++)
 				{
-					int M_InOut_ID = ids[i];
-					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
+					int M_Movement_ID = ids[i];
+					 MPrintFormat format = MPrintFormat.get(Env.getCtx(), MPrintFormat.getPrintFormat_ID("Inventory Move Hdr (Example)", MMovement.Table_ID,  0), false);
+					 MQuery query = new MQuery(MMovement.Table_Name);
+					 query.addRestriction(MMovement.COLUMNNAME_M_Movement_ID, MQuery.EQUAL, M_Movement_ID);
+		                                
+					//	Engine
+		             PrintInfo info = new PrintInfo(MMovement.Table_Name,MMovement.Table_ID, M_Movement_ID);               
+		             ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
+		             re.print();
+                     new Viewer(re);
 				}
 				ADialogDialog d = new ADialogDialog (m_frame,
 					Env.getHeader(Env.getCtx(), m_WindowNo),
@@ -642,7 +644,7 @@ public class VOrderDistribution extends CPanel
 		this.setEnabled(true);
 		this.setCursor(Cursor.getDefaultCursor());
 		//
-		generateShipments_complete(pi);
+		generateMovements_complete(pi);
 	}   //  unlockUI
 
 	/**

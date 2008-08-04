@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -216,7 +217,7 @@ public class MMovementLine extends X_M_MovementLine
 	 *      @param M_Locator_ID locator 
 	 *      @param Qty used only to find suitable locator 
 	 */ 
-	public void setOrderLine (MDDOrderLine oLine, int M_Locator_ID, BigDecimal Qty) 
+	public void setOrderLine (MDDOrderLine oLine, BigDecimal Qty, boolean isReceipt) 
 	{ 
 		setDD_OrderLine_ID(oLine.getDD_OrderLine_ID()); 
 		setLine(oLine.getLine()); 
@@ -226,32 +227,45 @@ public class MMovementLine extends X_M_MovementLine
 		{ 
 			set_ValueNoCheck("M_Product_ID", null); 
 			set_ValueNoCheck("M_AttributeSetInstance_ID", null); 
+			set_ValueNoCheck("M_AttributeSetInstanceTo_ID", null); 
 			set_ValueNoCheck("M_Locator_ID", null); 
+			set_ValueNoCheck("M_LocatorTo_ID", null); 
 		} 
 		else 
 		{ 
 			setM_Product_ID(oLine.getM_Product_ID()); 
 			setM_AttributeSetInstance_ID(oLine.getM_AttributeSetInstance_ID()); 
+			setM_AttributeSetInstanceTo_ID(oLine.getM_AttributeSetInstanceTo_ID()); 
 			// 
 			if (product.isItem()) 
 			{ 
-				setM_Locator_ID(M_Locator_ID); 
+				
+				MWarehouse w = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
+				MLocator locator_inTransit = MLocator.getDefault(w);
+				if(locator_inTransit == null)
+					throw new AdempiereException("Do not exist Locator for the  Warehouse in transit");
+				
+				if (isReceipt)
+				{
+					setM_Locator_ID(locator_inTransit.getM_Locator_ID()); 
+					setM_LocatorTo_ID(oLine.getM_LocatorTo_ID()); 
+				}
+				else 
+				{
+					setM_Locator_ID(oLine.getM_Locator_ID()); 
+					setM_LocatorTo_ID(locator_inTransit.getM_Locator_ID()); 
+				}
 			} 
 			else 
+			{	
 				set_ValueNoCheck("M_Locator_ID", null); 
+				set_ValueNoCheck("M_LocatorTo_ID", null); 
+			}	
 		} 
-		//setC_Charge_ID(oLine.getC_Charge_ID()); 
+	
 		setDescription(oLine.getDescription()); 
-		//setIsDescription(oLine.isDescription()); 
-		// 
-		//setC_Project_ID(oLine.getC_Project_ID()); 
-		//setC_ProjectPhase_ID(oLine.getC_ProjectPhase_ID()); 
-		//setC_ProjectTask_ID(oLine.getC_ProjectTask_ID()); 
-		//setC_Activity_ID(oLine.getC_Activity_ID()); 
-		//setC_Campaign_ID(oLine.getC_Campaign_ID()); 
-		//setAD_OrgTrx_ID(oLine.getAD_OrgTrx_ID()); 
-		//setUser1_ID(oLine.getUser1_ID()); 
-		//setUser2_ID(oLine.getUser2_ID()); 
+		this.setMovementQty(Qty);
+
 	}       //      setOrderLine 
 
 	/** 

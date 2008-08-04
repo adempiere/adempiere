@@ -587,6 +587,25 @@ public class MMovement extends X_M_Movement implements DocAction
 							return DocAction.STATUS_Invalid;
 						}
 					}	//	Fallback
+					
+						// update Distribution Order Line
+						if(line.getDD_OrderLine_ID() > 0)
+						{
+						   MDDOrderLine oline= new MDDOrderLine(getCtx(),line.getDD_OrderLine_ID(), get_TrxName());
+						   MLocator locator_to = MLocator.get(getCtx(), line.getM_LocatorTo_ID());
+						   MWarehouse warehouse =  MWarehouse.get(getCtx(), locator_to.getM_Warehouse_ID()); 
+						   if(warehouse.isInTransit())
+						   {
+							   oline.setQtyInTransit(oline.getQtyInTransit().add(line.getMovementQty()));
+							   oline.setConfirmedQty(Env.ZERO);
+						   }
+						   else
+						   {
+							   oline.setQtyInTransit(oline.getQtyInTransit().subtract(line.getMovementQty()));
+							   oline.setQtyDelivered(oline.getQtyDelivered().add(line.getMovementQty()));
+						   }   
+						   oline.save();
+						}
 				  } // product stock	
 				}	//	for all lines
 		//	User Validation
@@ -596,7 +615,16 @@ public class MMovement extends X_M_Movement implements DocAction
 			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
-
+		
+		// Set Distribution Order InTransit
+		
+		if(getDD_Order_ID() > 0)
+		{	
+			MDDOrder order = new MDDOrder(getCtx(),getDD_Order_ID(),get_TrxName());
+			order.setIsInTransit(true);
+			order.save();
+		}	
+		
 		// Set the definite document number after completed (if needed)
 		setDefiniteDocumentNo();
 
@@ -1023,11 +1051,11 @@ public class MMovement extends X_M_Movement implements DocAction
 		//setM_Warehouse_ID (order.getM_Warehouse_ID());
 		//setIsSOTrx (order.isSOTrx());
 		//setMovementType (order.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReceipts);
-		if (C_DocType_ID == 0)
-			C_DocType_ID = DB.getSQLValue(null,
-				"SELECT C_DocType_ID FROM C_DocType WHERE C_DocType_ID=?", 
-				order.getC_DocType_ID());
-		setC_DocType_ID (C_DocType_ID);
+		//if (C_DocType_ID == 0)
+		//	C_DocType_ID = DB.getSQLValue(null,
+		//		"SELECT C_DocType_ID FROM C_DocType WHERE C_DocType_ID=?", 
+		//		order.getC_DocType_ID());
+		//setC_DocType_ID (C_DocType_ID);
 		
 		//	Default - Today
 		if (movementDate != null)

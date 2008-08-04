@@ -132,6 +132,10 @@ public class MDDOrderLine extends X_DD_OrderLine
 			setM_AttributeSetInstance_ID(0);
 			//
 			setQtyEntered (Env.ZERO);
+			setQtyInTransit (Env.ZERO);
+			setConfirmedQty(Env.ZERO);
+			setTargetQty(Env.ZERO);
+			setPickedQty(Env.ZERO);
 			setQtyOrdered (Env.ZERO);	// 1
 			setQtyDelivered (Env.ZERO);
 			setQtyReserved (Env.ZERO);
@@ -531,7 +535,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 		
 		//	R/O Check - Product/Warehouse Change
 		if (!newRecord 
-			&& (is_ValueChanged("M_Product_ID") || is_ValueChanged("M_Warehouse_ID"))) 
+			&& (is_ValueChanged("M_Product_ID") || is_ValueChanged("M_Locator_ID") || is_ValueChanged("M_LocatorTo_ID"))) 
 		{
 			if (!canChangeWarehouse())
 				return false;

@@ -1120,9 +1120,9 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		StringBuffer info = new StringBuffer();
 		
 		//	Counter Documents
-		MDDOrder counter = createCounterDoc();
-		if (counter != null)
-			info.append(" - @CounterDoc@: @Order@=").append(counter.getDocumentNo());
+		//MDDOrder counter = createCounterDoc();
+		//if (counter != null)
+		//	info.append(" - @CounterDoc@: @Order@=").append(counter.getDocumentNo());
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
