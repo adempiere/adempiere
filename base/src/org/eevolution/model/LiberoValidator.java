@@ -16,11 +16,16 @@
 package org.eevolution.model;
 
 import java.math.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.*;
 
 import org.compiere.model.*;
 import org.compiere.util.*;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWFNodeNext;
+import org.compiere.wf.MWorkflow;
 
 
 /**
@@ -71,6 +76,9 @@ public class LiberoValidator implements ModelValidator
 		engine.addModelChange(MDDOrderLine.Table_Name, this);
 		engine.addModelChange(MPPOrder.Table_Name, this);
 		engine.addModelChange(MPPOrderBOMLine.Table_Name, this);
+		//engine.addModelChange(MProject.Table_Name, this);
+		//engine.addModelChange(MProjectPhase.Table_Name, this);
+		//engine.addModelChange(MProjectTask.Table_Name, this);
 	}	//	initialize
 
     /**
@@ -157,6 +165,93 @@ public class LiberoValidator implements ModelValidator
 			MPPMRP.PP_Order_BOMLine(ol, true);	
 			log.info(po.toString());
 		}
+		
+		log.info(po.get_TableName() + " Type: "+type);
+		if (po.get_TableName().equals(MProjectPhase.Table_Name) && ( type == TYPE_AFTER_NEW ))
+		{
+			MProjectPhase pf = (MProjectPhase)po;
+			
+			X_C_Phase phase = new X_C_Phase(pf.getCtx(), pf.getC_Phase_ID(),pf.get_TrxName());
+			int PP_Product_BOM_ID=(Integer)phase.get_Value("PP_Product_BOM_ID");
+			int AD_Workflow_ID=(Integer)phase.get_Value("AD_Workflow_ID");
+			
+			MProject project = new MProject(po.getCtx(), pf.getC_Project_ID(), pf.get_TrxName());
+			
+			/*int PP_Product_BOM_ID=(Integer)pf.get_Value("PP_Product_BOM_ID");
+			int AD_Workflow_ID=(Integer)pf.get_Value("AD_Workflow_ID");*/
+			
+			if(PP_Product_BOM_ID > 0 & AD_Workflow_ID > 0)
+			{
+				MPPOrder order = new MPPOrder(project,PP_Product_BOM_ID, AD_Workflow_ID );
+				order.save();
+				
+				Query query = MTable.get(order.getCtx(),MPPOrderBOMLine.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
+				query.setParameters(new Object[]{order.getPP_Order_ID()}); 
+				List<MPPOrderBOMLine> bomline = query.list();
+				
+				for (MPPOrderBOMLine line : bomline)
+				{
+					line.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
+					line.save();
+				}
+				
+				query = MTable.get(order.getCtx(),MPPOrderNode.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
+				query.setParameters(new Object[]{order.getPP_Order_ID()}); 
+				List<MPPOrderNode> nodes = query.list();
+				
+				for (MPPOrderNode activity : nodes)
+				{
+					activity.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
+					activity.save();
+				}
+			}	
+			
+			log.info(po.toString());
+		}
+			
+		if (po.get_TableName().equals(MProjectTask.Table_Name) && ( type == TYPE_AFTER_NEW ))
+		{
+			MProjectTask pt = (MProjectTask)po;
+			
+			
+			X_C_Task task = new X_C_Task(pt.getCtx(), pt.getC_Task_ID(),pt.get_TrxName());
+			int PP_Product_BOM_ID=(Integer)task.get_Value("PP_Product_BOM_ID");
+			int AD_Workflow_ID=(Integer)task.get_Value("AD_Workflow_ID");
+			
+			
+			MProjectPhase pf = new MProjectPhase(po.getCtx(), pt.getC_ProjectPhase_ID(), pt.get_TrxName());
+			MProject project = new MProject(po.getCtx(), pf.getC_Project_ID(), pf.get_TrxName());
+
+
+			if(PP_Product_BOM_ID > 0 & AD_Workflow_ID > 0)
+			{
+				MPPOrder order = new MPPOrder(project,PP_Product_BOM_ID, AD_Workflow_ID );
+				order.save();
+				
+				Query query = MTable.get(order.getCtx(),MPPOrderBOMLine.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
+				query.setParameters(new Object[]{order.getPP_Order_ID()}); 
+				List<MPPOrderBOMLine> list = query.list();
+				
+				for (MPPOrderBOMLine line : list)
+				{
+					line.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
+					line.set_CustomColumn("C_ProjectTask_ID", pt.getC_ProjectTask_ID());
+					line.save();
+				}
+				
+				query = MTable.get(order.getCtx(),MPPOrderNode.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
+				query.setParameters(new Object[]{order.getPP_Order_ID()}); 
+				List<MPPOrderNode> nodes = query.list();
+				
+				for (MPPOrderNode activity : nodes)
+				{
+					activity.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
+					activity.set_CustomColumn("C_ProjectTask_ID", pt.getC_ProjectTask_ID());
+					activity.save();
+				}
+			}		
+			log.info(po.toString());
+		}	
 		
 		return null;
 	}	//	modelChange

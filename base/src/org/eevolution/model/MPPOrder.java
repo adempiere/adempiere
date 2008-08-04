@@ -29,7 +29,9 @@ import org.compiere.model.MCost;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
+import org.compiere.model.MResource;
 import org.compiere.model.MStorage;
+import org.compiere.model.MTable;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -121,18 +123,25 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		super(ctx, PP_Order_ID, trxName);
 		//  New
 		if (PP_Order_ID == 0) {
-			setDocStatus(DOCSTATUS_Drafted);
-			setDocAction(DOCACTION_Prepare);
-			setC_DocType_ID(0);
-			set_ValueNoCheck("DocumentNo", null);
 			setIsSelected(false);
 			setIsSOTrx(false);
 			setIsApproved(false);
 			setIsPrinted(false);
 			setProcessed(false);
 			setProcessing(false);
-			setC_DocType_ID(0);
 			setPosted(false);
+			MDocType[] doc = MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_ManufacturingOrder);	
+			if(doc == null) 
+			throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
+			else
+			{	
+			setC_DocType_ID(doc[0].getC_DocType_ID());
+			setC_DocTypeTarget_ID(doc[0].getC_DocType_ID());
+			}
+			
+			//set_ValueNoCheck("DocumentNo", null);
+			setDocStatus(DOCSTATUS_Drafted);
+			setDocAction(DOCACTION_Prepare);
 		}
 	} //	PP_Order
 
@@ -141,41 +150,46 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 	 *  @param  project Project to create Order from
 	 * 	@param	DocSubTypeSO if SO DocType Target (default DocSubTypeSO_OnCredit)
 	 */
-	public MPPOrder(MProject project, boolean IsSOTrx, String DocSubTypeSO) {
-		this(project.getCtx(), 0, "PP_Order");
+	public MPPOrder(MProject project, int PP_Product_BOM_ID,int AD_Workflow_ID) {
+		this(project.getCtx(), 0, project.get_TrxName());
 		setAD_Client_ID(project.getAD_Client_ID());
 		setAD_Org_ID(project.getAD_Org_ID());
 		setC_Campaign_ID(project.getC_Campaign_ID());
-		//setC_DocTypeTarget_ID(1000005);
-		//setSalesRep_ID(project.getSalesRep_ID());
-		//
 		setC_Project_ID(project.getC_Project_ID());
 		setDescription(project.getName());
+		setLine(10);
+		setPriorityRule(MPPOrder.PRIORITYRULE_Medium);
+		if (project.getDateContract() == null)
+			throw new IllegalStateException("Date Contract is mandatory for Manufacturing Order.");
+		if (project.getDateFinish() == null)
+			throw new IllegalStateException("Date Finish is mandatory for Manufacturing Order.");
+		
 		Timestamp ts = project.getDateContract();
+		Timestamp df= project.getDateContract();
+		
 		if (ts != null) setDateOrdered(ts);
+		if (ts != null) this.setDateStartSchedule(ts);
 		ts = project.getDateFinish();
-		if (ts != null) setDatePromised(ts);
-		//
-		//setC_BPartner_ID(project.getC_BPartner_ID());
-		//setC_BPartner_Location_ID(project.getC_BPartner_Location_ID());
-		//setAD_User_ID(project.getAD_User_ID());
-		//
-		// 4Layers - Bug# 101
-		// Just commented the original code below
-		// setM_Warehouse_ID(project.getM_Warehouse_ID());
-		// 4Layers - Bug# 101 - end 
-		/*setM_PriceList_ID(project.getM_PriceList_ID());
-		 setC_PaymentTerm_ID(project.getC_PaymentTerm_ID());
-		 //*/
-		setIsSOTrx(IsSOTrx);
-		/*if (IsSOTrx) {
-		 if (DocSubTypeSO == null || DocSubTypeSO.length() == 0)
-		 setC_DocTypeTarget_ID(DocSubTypeSO_OnCredit);
-		 else
-		 setC_DocTypeTarget_ID(DocSubTypeSO);
-		 }
-		 else]*/
-		//setC_DocTypeTarget_ID();
+		if (df != null) setDatePromised(df);
+		setM_Warehouse_ID(project.getM_Warehouse_ID());
+		setPP_Product_BOM_ID(PP_Product_BOM_ID);
+		setAD_Workflow_ID(AD_Workflow_ID);
+		setQtyEntered(Env.ONE);
+		setQtyOrdered(Env.ONE);
+		MPPProductBOM bom = new MPPProductBOM(project.getCtx(), PP_Product_BOM_ID, project.get_TrxName());
+		MProduct product = MProduct.get(project.getCtx(), bom.getM_Product_ID());
+		setC_UOM_ID(product.getC_UOM_ID());
+		
+		setM_Product_ID(bom.getM_Product_ID());
+		
+		String where = MResource.COLUMNNAME_IsManufacturingResource   +" = 'Y' AND "+ 
+					   MResource.COLUMNNAME_ManufacturingResourceType +" = '" + MResource.MANUFACTURINGRESOURCETYPE_Plant + "' AND " +
+					   MResource.COLUMNNAME_M_Warehouse_ID + " = " + project.getM_Warehouse_ID();
+		MResource resoruce = (MResource) MTable.get(project.getCtx(), MResource.Table_ID).getPO( where , project.get_TrxName());
+		if (resoruce == null)
+			throw new IllegalStateException("Resource is mandatory.");
+		setS_Resource_ID(resoruce.getS_Resource_ID());
+
 	} //	MOrder
 
 	/**
@@ -489,7 +503,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		}
 		log.fine("afterSave - MPPOrder Query ok");
 
-		setC_DocType_ID(0);
+		//setC_DocType_ID(0);
 
 		// Create BOM Head
 		MPPProductBOM PP_Product_BOM = new MPPProductBOM(getCtx(), getPP_Product_BOM_ID(), get_TrxName());
@@ -521,7 +535,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			PP_Order_BOM.setValue(PP_Product_BOM.getValue());
 			PP_Order_BOM.setDocumentNo(PP_Product_BOM.getDocumentNo());
 			PP_Order_BOM.setC_UOM_ID(PP_Product_BOM.getC_UOM_ID());
-			PP_Order_BOM.save(get_TrxName());
+			PP_Order_BOM.save();
 
 			MPPProductBOMLine[] PP_Product_BOMline = PP_Product_BOM.getLines();
 
@@ -592,7 +606,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 								BigDecimal.ROUND_HALF_UP));
 					}
 
-					PP_Order_BOMLine.save(get_TrxName());
+					PP_Order_BOMLine.save();
 
 				} // end if From / To component    
 
@@ -652,7 +666,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			PP_Order_Workflow.setDescription(AD_Workflow.getDescription());
 			PP_Order_Workflow.setValidFrom(AD_Workflow.getValidFrom());
 			PP_Order_Workflow.setValidTo(AD_Workflow.getValidTo());
-			PP_Order_Workflow.save(get_TrxName());
+			PP_Order_Workflow.save();
 
 			MWFNode[] AD_WF_Node = AD_Workflow.getNodes(false, getAD_Client_ID());
 
@@ -695,7 +709,6 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 						PP_Order_Node.setMovingTime(AD_WF_Node[g].getMovingTime());
 						PP_Order_Node.setWaitingTime(AD_WF_Node[g].getWaitingTime());
 						PP_Order_Node.setWorkingTime(AD_WF_Node[g].getWorkingTime());
-						;
 						PP_Order_Node.setQueuingTime(AD_WF_Node[g].getQueuingTime());
 						PP_Order_Node.setXPosition(AD_WF_Node[g].getXPosition());
 						PP_Order_Node.setYPosition(AD_WF_Node[g].getYPosition());
@@ -712,8 +725,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 						PP_Order_Node.setFinishMode(AD_WF_Node[g].getFinishMode());
 						PP_Order_Node.setValidFrom(AD_WF_Node[g].getValidFrom());
 						PP_Order_Node.setValidTo(AD_WF_Node[g].getValidTo());
-
-						PP_Order_Node.save(get_TrxName());
+						PP_Order_Node.save();
 
 						MWFNodeNext[] AD_WF_NodeNext = AD_WF_Node[g].getTransitions(getAD_Client_ID());
 						log.log(Level.INFO, "AD_WF_NodeNext" + AD_WF_NodeNext.length);
@@ -730,7 +742,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 								PP_Order_NodeNext.setPP_Order_ID(getPP_Order_ID());
 								PP_Order_NodeNext.setSeqNo(AD_WF_NodeNext[n].getSeqNo());
 								PP_Order_NodeNext.setTransitionCode(AD_WF_NodeNext[n].getTransitionCode());
-								PP_Order_NodeNext.save(get_TrxName());
+								PP_Order_NodeNext.save();
 							}// for NodeNext
 						}
 
@@ -767,7 +779,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 								rs = pstmt.executeQuery();
 								while (rs.next()) {
 									nexts[x].setPP_Order_Next_ID(rs.getInt(1));
-									nexts[x].save(get_TrxName());
+									nexts[x].save();
 								}
 							}
 							catch (Exception e) {
@@ -784,7 +796,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 				}
 			}
 
-			OrderWorkflow.save(get_TrxName());
+			OrderWorkflow.save();
 
 		} // workflow valid from/to 
 
