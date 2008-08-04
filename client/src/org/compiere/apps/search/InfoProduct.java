@@ -31,10 +31,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.table.DefaultTableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.plaf.AdempiereTaskPaneUI;
@@ -46,6 +50,7 @@ import org.compiere.grid.ed.VComboBox;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MDocType;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -54,6 +59,7 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
 import org.compiere.swing.CTextArea;
 import org.compiere.swing.CTextField;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -68,7 +74,7 @@ import org.jdesktop.swingx.JXTaskPane;
  *  @author     Jorg Janke
  *  @version    $Id: InfoProduct.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
  */
-public final class InfoProduct extends Info implements ActionListener
+public final class InfoProduct extends Info implements ActionListener, ChangeListener
 {
 	/**
 	 *	Standard Constructor
@@ -149,6 +155,10 @@ public final class InfoProduct extends Info implements ActionListener
     String m_sqlSubstitute;
     MiniTable relatedTbl = new MiniTable();
     String m_sqlRelated;
+    //Available to Promise Tab
+	private MiniTable 			m_tableAtp = new MiniTable();
+	private DefaultTableModel 	m_modelAtp = null;
+	private int 				m_M_Product_ID = 0;
     int mWindowNo = 0;
 	//End - fer_luck @ centuryon
 
@@ -230,7 +240,7 @@ public final class InfoProduct extends Info implements ActionListener
 		//add taskpane
 		fieldDescription.setBackground(AdempierePLAF.getInfoBackground());
 		fieldDescription.setEditable(false);
-		fieldDescription.setPreferredSize(new Dimension(INFO_WIDTH - 100, 40));
+		fieldDescription.setPreferredSize(new Dimension(INFO_WIDTH - 100, 100));
 
         warehouseStockPanel.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
         warehouseStockPanel.setUI(new AdempiereTaskPaneUI());
@@ -295,14 +305,20 @@ public final class InfoProduct extends Info implements ActionListener
         relatedTbl.getSelectionModel().addListSelectionListener(this);
         relatedTbl.autoSize();
         
+        //Available to Promise Tab
+        m_tableAtp.setRowSelectionAllowed(false);
+        m_tableAtp.setMultiSelection(false);
+              
         CTabbedPane jTab  = new CTabbedPane();
         jTab.addTab(Msg.translate(Env.getCtx(), "Warehouse"), new JScrollPane(warehouseTbl));
         jTab.setPreferredSize(new Dimension(INFO_WIDTH, 105));
         jTab.addTab(Msg.translate(Env.getCtx(), "Description"), new JScrollPane(fieldDescription));
         jTab.addTab(Msg.translate(Env.getCtx(), "Substitute_ID"), new JScrollPane(substituteTbl));
         jTab.addTab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"), new JScrollPane(relatedTbl));
+		jTab.addTab (Msg.getMsg(Env.getCtx(), "ATP"), new JScrollPane(m_tableAtp));
+		jTab.addChangeListener(this);
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, 110));
-        tablePanel.add(jTab);
+        tablePanel.add(jTab);        
 
         warehouseStockPanel.setExpanded(false);
         warehouseStockPanel.add(tablePanel);
@@ -340,7 +356,7 @@ public final class InfoProduct extends Info implements ActionListener
 	 */
 	private void refresh(Object obj, int M_Warehouse_ID, int M_PriceList_Version_ID)
 	{
-		int M_Product_ID = 0;
+		//int M_Product_ID = 0;
 		String sql = m_sqlWarehouse;
 		//Add description to the query
 		sql = sql.replace(" FROM", ", DocumentNote FROM");
@@ -375,7 +391,7 @@ public final class InfoProduct extends Info implements ActionListener
 			pstmt.setString(1, (String)obj);
 			rs = pstmt.executeQuery();
 			if(rs.next())
-				M_Product_ID = rs.getInt(1);
+				m_M_Product_ID = rs.getInt(1);
 		} catch (Exception e) {
 			log.log(Level.WARNING, sql, e);
 		}
@@ -389,7 +405,7 @@ public final class InfoProduct extends Info implements ActionListener
 		log.finest(sql);
 		try {
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_Product_ID);
+			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, M_PriceList_Version_ID);
 			rs = pstmt.executeQuery();
 			substituteTbl.loadTable(rs);
@@ -407,7 +423,7 @@ public final class InfoProduct extends Info implements ActionListener
 		log.finest(sql);
 		try {
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_Product_ID);
+			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, M_PriceList_Version_ID);
 			rs = pstmt.executeQuery();
 			relatedTbl.loadTable(rs);
@@ -419,7 +435,8 @@ public final class InfoProduct extends Info implements ActionListener
 		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
-		}		
+		}
+		initAtpTab(M_Warehouse_ID);
 	}	//	refresh
 	//End - fer_luck @ centuryon
 	
@@ -1012,5 +1029,193 @@ public final class InfoProduct extends Info implements ActionListener
 			Env.getAD_Client_ID(Env.getCtx()));
 		return no > 0;
 	}	//	isUnconfirmed
+	
+	
+	/**
+	 * 	Tab Changed
+	 * 	@param e event
+	 */
+	public void stateChanged(ChangeEvent e)
+	{		
+			if(e.getSource() instanceof CTabbedPane)
+			{
+				CTabbedPane tab = (CTabbedPane) e.getSource();
+				
+				if(tab.getSelectedIndex() == 4 & warehouseTbl.getRowCount() > 0)
+				{	
+					String value = (String)warehouseTbl.getValueAt(warehouseTbl.getSelectedRow(),0);
+					int M_Warehouse_ID = DB.getSQLValue(null, "SELECT M_Warehouse_ID FROM M_Warehouse WHERE UPPER(Name) = UPPER(?) AND AD_Client_ID=?", new Object[] { value ,Env.getAD_Client_ID(Env.getCtx())});
+					initAtpTab(M_Warehouse_ID);
+				}	
+			}
+			
+	}	//	stateChanged
+	
+	/**
+	 *	Query ATP
+	 */
+	private void initAtpTab (int  m_M_Warehouse_ID)
+	{
+			
+		//	Header
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
+
+		//	Fill Storage Data
+		boolean showDetail = CLogMgt.isLevelFine();
+		String sql = "SELECT s.QtyOnHand, s.QtyReserved, s.QtyOrdered,"
+			+ " productAttribute(s.M_AttributeSetInstance_ID), s.M_AttributeSetInstance_ID,";
+		if (!showDetail)
+			sql = "SELECT SUM(s.QtyOnHand), SUM(s.QtyReserved), SUM(s.QtyOrdered),"
+				+ " productAttribute(s.M_AttributeSetInstance_ID), 0,";
+		sql += " w.Name, l.Value "
+			+ "FROM M_Storage s"
+			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
+			+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID) "
+			+ "WHERE M_Product_ID=?";
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND l.M_Warehouse_ID=?";
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND s.M_AttributeSetInstance_ID=?";
+		sql += " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
+		if (!showDetail)
+			sql += " GROUP BY productAttribute(s.M_AttributeSetInstance_ID), w.Name, l.Value";
+		sql += " ORDER BY l.Value";
+		
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		double qty = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			if (m_M_Warehouse_ID != 0)
+				pstmt.setInt(2, m_M_Warehouse_ID);
+			if (m_M_AttributeSetInstance_ID > 0)
+				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				Vector<Object> line = new Vector<Object>(9);
+				line.add(null);							//  Date
+				double qtyOnHand = rs.getDouble(1);
+				qty += qtyOnHand;
+				line.add(new Double(qtyOnHand));  		//  Qty
+				line.add(null);							//  BPartner
+				line.add(new Double(rs.getDouble(3)));  //  QtyOrdered
+				line.add(new Double(rs.getDouble(2)));  //  QtyReserved
+				line.add(rs.getString(7));      		//  Locator
+				String asi = rs.getString(4);
+				if (showDetail && (asi == null || asi.length() == 0))
+					asi = "{" + rs.getInt(5) + "}";
+				line.add(asi);							//  ASI
+				line.add(null);							//  DocumentNo
+				line.add(rs.getString(6));  			//	Warehouse
+				data.add(line);
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+
+		//	Orders
+		sql = "SELECT o.DatePromised, ol.QtyReserved,"
+			+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
+			+ " dt.DocBaseType, bp.Name,"
+			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name "
+			+ "FROM C_Order o"
+			+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
+			+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+			+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
+			+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
+			+ "WHERE ol.QtyReserved<>0"
+			+ " AND ol.M_Product_ID=?";
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND ol.M_Warehouse_ID=?";
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND ol.M_AttributeSetInstance_ID=?";
+		sql += " ORDER BY o.DatePromised";
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			if (m_M_Warehouse_ID != 0)
+				pstmt.setInt(2, m_M_Warehouse_ID);
+			if (m_M_AttributeSetInstance_ID > 0)
+				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				Vector<Object> line = new Vector<Object>(9);
+				line.add(rs.getTimestamp(1));			//  Date
+				double oq = rs.getDouble(2);
+				String DocBaseType = rs.getString(5);
+				Double qtyReserved = null;
+				Double qtyOrdered = null;
+				if (MDocType.DOCBASETYPE_PurchaseOrder.equals(DocBaseType))
+				{
+					qtyOrdered = new Double(oq);
+					qty += oq;
+				}
+				else
+				{
+					qtyReserved = new Double(oq);
+					qty -= oq;
+				}
+				line.add(new Double(qty)); 		 		//  Qty
+				line.add(rs.getString(6));				//  BPartner
+				line.add(qtyOrdered);					//  QtyOrdered
+				line.add(qtyReserved);					//  QtyReserved
+				line.add(null);				      		//  Locator
+				String asi = rs.getString(3);
+				if (showDetail && (asi == null || asi.length() == 0))
+					asi = "{" + rs.getInt(4) + "}";
+				line.add(asi);							//  ASI
+				line.add(rs.getString(7));				//  DocumentNo
+				line.add(rs.getString(8));  			//	Warehouse
+				data.add(line);
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+
+		//  Table
+		MiniTable table = null;
+		m_modelAtp = new DefaultTableModel(data, columnNames); 
+		m_tableAtp.setModel(m_modelAtp);
+		table = m_tableAtp;
+		//
+		table.setColumnClass(0, Timestamp.class, true);   //  Date
+		table.setColumnClass(1, Double.class, true);      //  Quantity
+		table.setColumnClass(2, String.class, true);      //  Partner
+		table.setColumnClass(3, Double.class, true);      //  Quantity
+		table.setColumnClass(4, Double.class, true);      //  Quantity
+		table.setColumnClass(5, String.class, true);   	  //  Locator
+		table.setColumnClass(6, String.class, true);   	  //  ASI
+		table.setColumnClass(7, String.class, true);      //  DocNo
+		table.setColumnClass(8, String.class, true);   	  //  Warehouse
+		//
+		table.autoSize();
+	}	//	initAtpTab
 
 }	//	InfoProduct
