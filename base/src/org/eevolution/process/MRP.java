@@ -151,7 +151,7 @@ public class MRP extends SvrProcess
 		else
 			DocTypeReq = doc[0].getC_DocType_ID();
 
-		doc = MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_MaintenanceOrder);
+		doc = MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_ManufacturingOrder);
 
 		if (doc==null || doc.length == 0) {
 			log.severe ("Not found default document type for docbasetype " +  MDocType.DOCBASETYPE_MaintenanceOrder);                                                           
