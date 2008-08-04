@@ -211,13 +211,13 @@ public class MovementGenerate extends SvrProcess
 					|| (m_movement != null 
 					&& (m_movement.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID()
 						|| m_movement.getM_Shipper_ID() != order.getM_Shipper_ID() )))
-					completeShipment();
+					completeMovement();
 				log.fine("check: " + order + " - DeliveryRule=" + order.getDeliveryRule());
 				//
 				Timestamp minGuaranteeDate = m_movementDate;
 				boolean completeOrder = MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
 				//	OrderLine WHERE
-				String where = " AND M_Warehouse_ID=" + p_M_Warehouse_ID;
+				String where = " AND " + p_M_Warehouse_ID + " IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=M_Locator_ID) ";
 				if (p_DatePromised != null)
 					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
 						+ " OR DatePromised IS NULL)";		
@@ -230,10 +230,10 @@ public class MovementGenerate extends SvrProcess
 				//	Exclude Unconfirmed
 				if (!p_IsUnconfirmedInOut)
 					where += " AND NOT EXISTS (SELECT * FROM M_MovementLine iol"
-							+ " INNER JOIN M_InOut io ON (iol.M_Movement_ID=io.M_Movement_ID) "
+							+ " INNER JOIN M_Movement io ON (iol.M_Movement_ID=io.M_Movement_ID) "
 								+ "WHERE iol.DD_OrderLine_ID=DD_OrderLine.DD_OrderLine_ID AND io.DocStatus IN ('IP','WC'))";
 				//	Deadlock Prevention - Order by M_Product_ID
-				MDDOrderLine[] lines = order.getLines (where, "ORDER BY C_BPartner_Location_ID, M_Product_ID");
+				MDDOrderLine[] lines = order.getLines (where, "ORDER BY  M_Product_ID");
 				for (int i = 0; i < lines.length; i++)
 				{
 					MDDOrderLine line = lines[i];
@@ -242,7 +242,8 @@ public class MovementGenerate extends SvrProcess
 						continue;
 					log.fine("check: " + line);
 					BigDecimal onHand = Env.ZERO;
-					BigDecimal toDeliver = line.getQtyOrdered()
+					//BigDecimal toDeliver = line.getQtyOrdered()
+					BigDecimal toDeliver = line.getConfirmedQty()
 						.subtract(line.getQtyDelivered());
 					MProduct product = line.getProduct();
 					//	Nothing to Deliver
@@ -411,7 +412,7 @@ public class MovementGenerate extends SvrProcess
 		{
 			pstmt = null;
 		}
-		completeShipment();
+		completeMovement();
 		return "@Created@ = " + m_created;
 	}	//	generate
 	
@@ -430,25 +431,27 @@ public class MovementGenerate extends SvrProcess
 	{
 		//	Complete last Shipment - can have multiple shipments
 		if (m_lastC_BPartner_Location_ID != order.getC_BPartner_Location_ID() )
-			completeShipment();
+			completeMovement();
 		m_lastC_BPartner_Location_ID = order.getC_BPartner_Location_ID();
 		//	Create New Shipment
 		if (m_movement == null)
 		{
 			m_movement = new MMovement (order, 0, m_movementDate);
 			//m_movement.setM_Warehouse_ID(orderLine.getM_Warehouse_ID());	//	sets Org too
+			m_movement.setIsInTransit(true);
+			m_movement.setDD_Order_ID(order.getDD_Order_ID());
 			if (order.getC_BPartner_ID() != order.getC_BPartner_ID())
 				m_movement.setC_BPartner_ID(order.getC_BPartner_ID());
 			if (order.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID())
 				m_movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
 			if (!m_movement.save())
-				throw new IllegalStateException("Could not create Shipment");
+				throw new IllegalStateException("Could not create Movement");
 		}
 		//	Non Inventory Lines
 		if (storages == null)
 		{
 			MMovementLine line = new MMovementLine (m_movement);
-			line.setOrderLine(orderLine, 0, Env.ZERO);
+			line.setOrderLine(orderLine, Env.ZERO, false);
 			line.setMovementQty(qty);	//	Correct UOM
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 				line.setMovementQty(qty
@@ -505,7 +508,7 @@ public class MovementGenerate extends SvrProcess
 			if (line == null)	//	new line
 			{
 				line = new MMovementLine (m_movement);
-				line.setOrderLine(orderLine, M_Locator_ID, order.isSOTrx() ? deliver : Env.ZERO);
+				line.setOrderLine(orderLine,  deliver , false);
 				line.setMovementQty(deliver);
 				list.add(line);
 			}
@@ -569,7 +572,7 @@ public class MovementGenerate extends SvrProcess
 	/**
 	 * 	Complete Shipment
 	 */
-	private void completeShipment()
+	private void completeMovement()
 	{
 		if (m_movement != null)
 		{
