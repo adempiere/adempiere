@@ -123,5 +123,7 @@
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zk.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
