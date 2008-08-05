@@ -458,8 +458,8 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 
 	/** Order_Policy AD_Reference_ID=53228 */
 	public static final int ORDER_POLICY_AD_Reference_ID=53228;
-	/** Order Fixed Quantity = FQ */
-	public static final String ORDER_POLICY_OrderFixedQuantity = "FQ";
+	/** Fixed Order Quantity = FOQ */
+	public static final String ORDER_POLICY_FixedOrderQuantity = "FOQ";
 	/** Lote For Lote = LFL */
 	public static final String ORDER_POLICY_LoteForLote = "LFL";
 	/** Period Order Quantity = POQ */
@@ -469,7 +469,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	public void setOrder_Policy (String Order_Policy)
 	{
 
-		if (Order_Policy == null || Order_Policy.equals("FQ") || Order_Policy.equals("LFL") || Order_Policy.equals("POQ")); else throw new IllegalArgumentException ("Order_Policy Invalid value - " + Order_Policy + " - Reference_ID=53228 - FQ - LFL - POQ");		set_Value (COLUMNNAME_Order_Policy, Order_Policy);
+		if (Order_Policy == null || Order_Policy.equals("FOQ") || Order_Policy.equals("LFL") || Order_Policy.equals("POQ")); else throw new IllegalArgumentException ("Order_Policy Invalid value - " + Order_Policy + " - Reference_ID=53228 - FOQ - LFL - POQ");		set_Value (COLUMNNAME_Order_Policy, Order_Policy);
 	}
 
 	/** Get Order Policy.
@@ -494,28 +494,6 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Planner_ID AD_Reference_ID=110 */
-	public static final int PLANNER_ID_AD_Reference_ID=110;
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
@@ -576,24 +554,26 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Set Safety Stock Qty.
-		@param SafetyStock 
-		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public void setSafetyStock (BigDecimal SafetyStock)
+	/** Planner_ID AD_Reference_ID=110 */
+	public static final int PLANNER_ID_AD_Reference_ID=110;
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
 	{
-		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
 	}
 
-	/** Get Safety Stock Qty.
-		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public BigDecimal getSafetyStock () 
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_S_Resource getS_Resource() throws Exception 
@@ -633,6 +613,26 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Safety Stock Qty.
+		@param SafetyStock 
+		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public void setSafetyStock (BigDecimal SafetyStock)
+	{
+		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
+	}
+
+	/** Get Safety Stock Qty.
+		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public BigDecimal getSafetyStock () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Time Fence.

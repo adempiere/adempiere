@@ -694,7 +694,7 @@ public class MRP extends SvrProcess
 
 			int loops = 1;
 
-			if (m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_OrderFixedQuantity))
+			if (m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_FixedOrderQuantity))
 			{    
 				if (m_product_planning.getOrder_Qty().compareTo(Env.ZERO) != 0)
 					loops = (QtyPlanned.divide(m_product_planning.getOrder_Qty() , 0 , BigDecimal.ROUND_UP)).intValue();
