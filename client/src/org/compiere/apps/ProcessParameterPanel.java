@@ -300,12 +300,12 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			vEditor.addVetoableChangeListener(this);
 			//  MField => VEditor - New Field value to be updated to editor
 			mField.addPropertyChangeListener(vEditor);
-			//  Set Default
-			Object defaultObject = mField.getDefault();
-			mField.setValue (defaultObject, true);
 			//
 			centerPanel.add ((Component)vEditor, gbc);
 			m_vEditors.add (vEditor);                   //  add to Editors
+			//  Set Default
+			Object defaultObject = mField.getDefault();
+			mField.setValue (defaultObject, true);
 			//
 			if (voF.isRange)
 			{
@@ -330,12 +330,12 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				VEditor vEditor2 = VEditorFactory.getEditor(mField2, false);
 				//  New Field value to be updated to editor
 				mField2.addPropertyChangeListener(vEditor2);
-				//  Set Default
-				Object defaultObject2 = mField2.getDefault();
-				mField2.setValue (defaultObject2, true);
 				//
 				centerPanel.add ((Component)vEditor2, gbc);
 				m_vEditors2.add (vEditor2);
+				//  Set Default
+				Object defaultObject2 = mField2.getDefault();
+				mField2.setValue (defaultObject2, true);
 			}
 			else
 			{
