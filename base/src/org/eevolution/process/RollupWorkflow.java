@@ -42,6 +42,7 @@ public class RollupWorkflow extends SvrProcess
        private int               p_C_AcctSchema_ID = 0;
        private int               p_M_Product_ID = 0;
        private int               p_M_CostType_ID = 0;       
+       private int 				 p_M_Product_Category_ID = 0;
         
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -57,19 +58,23 @@ public class RollupWorkflow extends SvrProcess
 				;
 			else if (name.equals("AD_Org_ID"))
             {    
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();       
+				p_AD_Org_ID = para[i].getParameterAsInt();       
+            }
+			else if (name.equals("C_AcctSchema_ID"))
+	        {    
+					p_C_AcctSchema_ID = para[i].getParameterAsInt();  
+	        }
+			else if (name.equals("M_CostType_ID"))
+            {    
+            	p_M_CostType_ID = para[i].getParameterAsInt();  
             }
             else if (name.equals("M_Product_ID"))
             {    
-				p_M_Product_ID = ((BigDecimal)para[i].getParameter()).intValue();
-            }
-            else if (name.equals("M_CostType_ID"))
+				p_M_Product_ID = para[i].getParameterAsInt();  
+            } 
+            else if (name.equals("M_Product_Category_ID"))
             {    
-            	p_M_CostType_ID = ((BigDecimal)para[i].getParameter()).intValue();
-            }
-            else if (name.equals("C_AcctSchema_ID"))
-            {    
-				p_C_AcctSchema_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_M_Product_Category_ID = para[i].getParameterAsInt();  
             } 
             else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
@@ -85,16 +90,19 @@ public class RollupWorkflow extends SvrProcess
      {
             
          
-                StringBuffer sql = new StringBuffer ("SELECT p.M_Product_ID FROM M_Product p WHERE p.ProductType = '" + MProduct.PRODUCTTYPE_Item + "' AND");
-                
-                if (p_M_Product_ID != 0)
-                {    
-                sql.append(" p.M_Product_ID = " + p_M_Product_ID + " AND ");
-                }               
-                sql.append(" p.AD_Client_ID = " + getAD_Client_ID());
-                sql.append(" ORDER BY p.LowLevel");
-                
-                
+        StringBuffer sql = new StringBuffer ("SELECT p.M_Product_ID FROM M_Product p WHERE p.ProductType = '" + MProduct.PRODUCTTYPE_Item + "' AND");
+        
+        if (p_M_Product_ID != 0)
+        {    
+        sql.append(" p.M_Product_ID = " + p_M_Product_ID + " AND ");
+        }    
+        if (p_M_Product_Category_ID != 0)
+        {    
+        sql.append(" p.M_Product_Category_ID = " + p_M_Product_Category_ID + " AND ");
+        }  
+        
+        sql.append(" p.AD_Client_ID = " + getAD_Client_ID());
+        sql.append(" ORDER BY p.LowLevel");        
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -138,7 +146,7 @@ public class RollupWorkflow extends SvrProcess
 		}
                 
                 
-            return "ok";
+		return "@OK@";
      }
      
 
@@ -173,7 +181,7 @@ public class RollupWorkflow extends SvrProcess
 	 			{	 			 
 	 				
 	 			 	BigDecimal time = new BigDecimal(seconds);
-	 			 	cost = cost.add(time.multiply(rate).divide(new BigDecimal(3600),BigDecimal.ROUND_HALF_UP,6));
+	 			 	cost = cost.add(time.multiply(rate).divide(new BigDecimal(3600),BigDecimal.ROUND_HALF_UP,12));
 	 			 	log.info("Yes isHour" + seconds);
 	 				log.info("seconds/3600"+ seconds/3600);
 	 				log.info("time.multiply(rate)"+ time.multiply(rate));
