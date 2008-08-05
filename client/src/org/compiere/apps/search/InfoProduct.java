@@ -73,6 +73,9 @@ import org.jdesktop.swingx.JXTaskPane;
  *
  *  @author     Jorg Janke
  *  @version    $Id: InfoProduct.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Bogdan Ioan, SC ARHIPAC SERVICE SRL
+ * 				<li>FR [ 2012362 ] Info Product: Add Product Category 
  */
 public final class InfoProduct extends Info implements ActionListener, ChangeListener
 {
@@ -144,6 +147,8 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 	private VComboBox pickWarehouse = new VComboBox();
 	private CLabel labelVendor = new CLabel();
 	private CTextField fieldVendor = new CTextField(10);
+	private CLabel labelProductCategory = new CLabel();
+	private VComboBox pickProductCategory = new VComboBox();
 	
 	//Begin - fer_luck @ centuryon
 	private CTextArea fieldDescription = new CTextArea();
@@ -201,6 +206,9 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 		labelPriceList.setText(Msg.getMsg(Env.getCtx(), "PriceListVersion"));
 		pickPriceList.setBackground(AdempierePLAF.getInfoBackground());
 
+		labelProductCategory.setText(Msg.translate(Env.getCtx(), "M_Product_Category_ID"));
+		pickProductCategory.setBackground(AdempierePLAF.getInfoBackground());
+		
 		m_InfoPAttributeButton.setMargin(new Insets(2,2,2,2));
 		m_InfoPAttributeButton.setToolTipText(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
 		m_InfoPAttributeButton.addActionListener(this);
@@ -229,6 +237,8 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 		// Line 3
 		parameterPanel.add(labelPriceList, new ALayoutConstraint(2,0));
 		parameterPanel.add(pickPriceList, null);
+		parameterPanel.add(labelProductCategory, null);
+		parameterPanel.add(pickProductCategory, null);
 		
 		//	Product Attribute Instance
 		m_PAttributeButton = ConfirmPanel.createPAttributeButton(true);
@@ -484,6 +494,7 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 		//
 		pickWarehouse.addActionListener(this);
 		pickPriceList.addActionListener(this);
+		pickProductCategory.addActionListener(this);
 	}	//	initInfo
 
 	/**
@@ -536,6 +547,16 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 				KeyNamePair kn = new KeyNamePair
 					(rs.getInt("M_Warehouse_ID"), rs.getString("ValueName"));
 				pickWarehouse.addItem(kn);
+			}
+			DB.close(rs, pstmt);
+			
+			//	Product Category
+			SQL = MRole.getDefault().addAccessSQL (
+				"SELECT M_Product_Category_ID, Value || ' - ' || Name FROM M_Product_Category WHERE IsActive='Y'",
+					"M_Product_Category", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+				+ " ORDER BY Value";
+			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
+				pickProductCategory.addItem(kn);
 			}
 		}
 		catch (SQLException e)
@@ -665,6 +686,11 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 		if (M_PriceList_Version_ID != 0)
 			where.append(" AND pr.M_PriceList_Version_ID=?");
 		
+		//  Optional Product Category
+		if (getM_Product_Category_ID() > 0) {
+			where.append(" AND p.M_Product_Category_ID=?");
+		}
+		
 		//	Product Attribute Search
 		if (m_pAttributeWhere != null)
 		{
@@ -735,6 +761,12 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 		{
 			pstmt.setInt(index++, M_PriceList_Version_ID);
 			log.fine("M_PriceList_Version_ID=" + M_PriceList_Version_ID);
+		}
+		//  => Product Category
+		int M_Product_Category_ID = getM_Product_Category_ID();
+		if (M_Product_Category_ID > 0) {
+			pstmt.setInt(index++, M_Product_Category_ID);
+			log.fine("M_Product_Category_ID=" + M_Product_Category_ID);
 		}
 		//	Rest of Parameter in Query for Attribute Search
 		if (m_pAttributeWhere != null)
@@ -1218,4 +1250,14 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 		table.autoSize();
 	}	//	initAtpTab
 
+	/**
+	 * @return selected product category ID
+	 */
+	public int getM_Product_Category_ID() {
+		int M_Product_Category_ID = 0;
+		KeyNamePair pc = (KeyNamePair)pickProductCategory.getSelectedItem();
+		if (pc != null)
+			M_Product_Category_ID = pc.getKey();
+		return M_Product_Category_ID;
+	}
 }	//	InfoProduct
