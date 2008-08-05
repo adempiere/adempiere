@@ -82,23 +82,24 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name 
 	 * @return MPPProductPlanning
 	 */    
-    public static MPPProductPlanning get(Properties ctx, int ad_org_id , int m_product_id, String trxname)               
+    public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_product_id, String trxname)               
 	{
     	int m_M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
     	if(m_M_Warehouse_ID <= 0)
     		return null;
     	
-    	int m_S_Resource_ID = DB.getSQLValue(trxname, "SELECT MAX(S_Resource_ID) FROM S_Resource WHERE IsManufacturingResource='Y' AND ManufacturingResourceType ='" + MResource.MANUFACTURINGRESOURCETYPE_Plant +"' AND M_Warehouse_ID= ?", m_M_Warehouse_ID);
+    	int m_S_Resource_ID = DB.getSQLValue(trxname, "SELECT MAX(S_Resource_ID) FROM S_Resource WHERE IsManufacturingResource='Y' AND ManufacturingResourceType ='" + MResource.MANUFACTURINGRESOURCETYPE_Plant +"' AND AD_Client_ID=? AND M_Warehouse_ID= ?", ad_client_id, m_M_Warehouse_ID);
     	
     	if (m_S_Resource_ID <=0 )
     		return null;
     	
-        return get(ctx,ad_org_id, m_M_Warehouse_ID, m_S_Resource_ID, m_product_id, trxname);
+        return get(ctx, ad_client_id,ad_org_id, m_M_Warehouse_ID, m_S_Resource_ID, m_product_id, trxname);
 	}
     
 	/**
 	 * Get Data Product Planning 
 	 * @param ctx Context
+	 * @param AD_Client_ID ID Organization
 	 * @param AD_Org_ID ID Organization
 	 * @param M_Warehouse_ID Warehouse
 	 * @param S_Resource_ID Resource type Plant
@@ -106,20 +107,26 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxname Trx Name
 	 * @return MPPProductPlanning
 	 */     
-    public static MPPProductPlanning get(Properties ctx, int ad_org_id , int m_warehouse_id, int s_resource_id, int m_product_id, String trxname)
+    public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_warehouse_id, int s_resource_id, int m_product_id, String trxname)
 	{
 		
-        log.info("Ad_Org_ID" + ad_org_id + "M_Product_ID" + m_product_id + "M_Warehouse_ID" + m_warehouse_id + "S_Resource_ID" + s_resource_id );             
-        String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Org_ID = ? AND pp.M_Product_ID = ? AND pp.M_Warehouse_ID = ? AND pp.S_Resource_ID = ? ";	
+        log.info("AD_Client_ID="  + ad_client_id + " AD_Org_ID=" + ad_org_id + " M_Product_ID=" + m_product_id + " M_Warehouse_ID=" + m_warehouse_id + " S_Resource_ID=" + s_resource_id );
+        String  sql_warehouse = "pp.M_Warehouse_ID = ? ";
+        if(m_warehouse_id == 0)
+        		sql_warehouse += "OR pp.M_Warehouse_ID IS NULL ";
+        	
+        	
+        String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Client_ID = ? AND pp.AD_Org_ID = ? AND pp.M_Product_ID = ? AND "+sql_warehouse+" AND pp.S_Resource_ID = ? ";	
                 
         PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxname);
-			pstmt.setInt(1, ad_org_id);
-			pstmt.setInt(2, m_product_id);
-			pstmt.setInt(3, m_warehouse_id);
-            pstmt.setInt(4, s_resource_id);
+			pstmt.setInt(1, ad_client_id);
+			pstmt.setInt(2, ad_org_id);
+			pstmt.setInt(3, m_product_id);
+			pstmt.setInt(4, m_warehouse_id);
+            pstmt.setInt(5, s_resource_id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				return new MPPProductPlanning(ctx, rs, trxname);
@@ -155,7 +162,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name
 	 *	@return MPPProductPlanning Planning Data
 	 */     
-    public static MPPProductPlanning getMPPProductPlanning(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
+    public static MPPProductPlanning getFisrt(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
 	{          
         MPPProductPlanning pp = null;        
         PreparedStatement pstmt = null;

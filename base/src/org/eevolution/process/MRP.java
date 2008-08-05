@@ -483,7 +483,7 @@ public class MRP extends SvrProcess
 	{
 
 		//find data product planning demand 
-		MPPProductPlanning pp = MPPProductPlanning.getMPPProductPlanning(getCtx(), AD_Client_ID ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
+		MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), AD_Client_ID ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
 		if (pp != null)

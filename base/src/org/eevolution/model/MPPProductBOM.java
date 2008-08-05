@@ -216,7 +216,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		// find Default BOM in Product Data Planning  
 		if (ad_org_id > 0 )
 		{	
-			MPPProductPlanning pp = MPPProductPlanning.get(ctx, ad_org_id, product.getM_Product_ID(), trxName);
+			MPPProductPlanning pp = MPPProductPlanning.get(ctx, product.getAD_Client_ID(),ad_org_id, product.getM_Product_ID(), trxName);
 			
 			if(pp!= null && pp.getPP_Product_BOM_ID() > 0 )
 			{
@@ -254,7 +254,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		// find Default BOM in Product Data Planning  
 		if (ad_org_id > 0 )
 		{	
-			MPPProductPlanning pp = MPPProductPlanning.get(ctx, ad_org_id, product.getM_Product_ID(), trxName);
+			MPPProductPlanning pp = MPPProductPlanning.get(ctx, product.getAD_Client_ID() ,ad_org_id, product.getM_Product_ID(), trxName);
 			
 			if(pp!= null && pp.getPP_Product_BOM_ID() > 0 )
 			{

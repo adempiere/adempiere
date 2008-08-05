@@ -118,7 +118,7 @@ public class RollupWorkflow extends SvrProcess
                     // check if element cost is of type Labor
                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Resource))
                     {                                    
-	                    BigDecimal Labor = getCost(element.COSTELEMENTTYPE_Resource , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);
+	                    BigDecimal Labor = getCost(element.COSTELEMENTTYPE_Resource , getAD_Client_ID(), p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);
 	                    log.info("Labor : " + Labor);                                
 	                    cost.setCurrentCostPrice(Labor);
 	                    cost.save();
@@ -126,7 +126,7 @@ public class RollupWorkflow extends SvrProcess
                     }
                     if (element.getCostElementType().equals(element.COSTELEMENTTYPE_BurdenMOverhead))
                     {                                    
-	                    BigDecimal Burden = getCost(element.COSTELEMENTTYPE_BurdenMOverhead, p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);
+	                    BigDecimal Burden = getCost(element.COSTELEMENTTYPE_BurdenMOverhead, getAD_Client_ID() , p_AD_Org_ID , M_Product_ID , p_M_CostType_ID , p_C_AcctSchema_ID);
 	                    log.info("Burden : " + Burden);                                   
 	                    cost.setCurrentCostPrice(Burden);
 	                    cost.save(get_TrxName());
@@ -160,11 +160,11 @@ public class RollupWorkflow extends SvrProcess
  	 *  @return Cost for this Element
  	 *  @throws Exception if not successful
  	 */
-     private BigDecimal getCost(String CostElementType , int AD_Org_ID , int M_Product_ID , int M_CostType_ID , int  C_AcctSchema_ID)
+     private BigDecimal getCost(String CostElementType ,int AD_Client_ID , int AD_Org_ID , int M_Product_ID , int M_CostType_ID , int  C_AcctSchema_ID)
      {                
          BigDecimal cost = Env.ZERO;        
          
-         int AD_Workflow_ID =  getAD_Workflow_ID(AD_Org_ID , M_Product_ID);
+         int AD_Workflow_ID =  getAD_Workflow_ID(AD_Client_ID , AD_Org_ID , M_Product_ID);
          if (AD_Workflow_ID != 0)
          {    
             MWorkflow Workflow = new MWorkflow(getCtx(),AD_Workflow_ID,get_TrxName());                 
@@ -256,10 +256,10 @@ public class RollupWorkflow extends SvrProcess
      *  @param M_Product_ID Product ID
      *  @return Workflow ID
      **/     
-     private int getAD_Workflow_ID(int AD_Org_ID , int M_Product_ID)
+     private int getAD_Workflow_ID(int AD_Client_ID ,int AD_Org_ID , int M_Product_ID)
      {
          
-         MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), AD_Org_ID , M_Product_ID, get_TrxName());                 
+         MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), AD_Client_ID, AD_Org_ID , M_Product_ID, get_TrxName());                 
          MProduct M_Product = new MProduct(getCtx(), M_Product_ID,null);
          
          int  AD_Workflow_ID = 0;       

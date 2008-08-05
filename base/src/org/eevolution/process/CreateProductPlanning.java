@@ -16,6 +16,7 @@
 
 package org.eevolution.process;
 
+import java.util.Properties;
 import java.util.logging.*;
 import java.math.*;
 import java.sql.*;
@@ -208,11 +209,12 @@ public class CreateProductPlanning extends SvrProcess
                         {                                                   
                    
                         	int M_Product_ID = rs.getInt(1);
-                        	MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), m_AD_Org_ID , p_M_Warehouse_ID, p_S_Resource_ID,M_Product_ID, get_TrxName());
-	                        if (pp==null && ( p_S_Resource_ID == 0 || p_M_Warehouse_ID == 0 ))
+                        	MPPProductPlanning pp = MPPProductPlanning.get(getCtx(),m_AD_Client_ID , m_AD_Org_ID , p_M_Warehouse_ID, p_S_Resource_ID,M_Product_ID, get_TrxName());
+	                        //Create Product Data Planning 
+                        	if (pp==null)
 	                        {
 	                                    pp = new MPPProductPlanning(getCtx(),0,get_TrxName());                  
-	                                    pp.setAD_Org_ID(0);
+	                                    pp.setAD_Org_ID(m_AD_Org_ID);
 	                                    pp.setM_Product_ID(rs.getInt(1));
 	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);		
 	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);
@@ -225,7 +227,7 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setM_Warehouse_ID(p_M_Warehouse_ID);
 	                                    pp.setS_Resource_ID(p_S_Resource_ID);
 	                                    pp.setDeliveryTime_Promised(p_DeliveryTime_Promised);
-	                                    pp.setOrder_Period(p_OrderPeriod);
+	                                    pp.setOrder_Period(p_OrderPeriod); 
 	                                    pp.setPlanner_ID(p_Planner);
 	                                    pp.setOrder_Policy(p_OrderPolicy);
 	                                    pp.setSafetyStock(p_SafetyStock);
@@ -236,11 +238,10 @@ public class CreateProductPlanning extends SvrProcess
 	                                    pp.setTimeFence(p_TimeFence);
 	                                    pp.setWorkingTime(p_WorkingTime);
 	                                    pp.setYield(p_Yield);                                                                                        
-	                                    pp.save(get_TrxName()); 
+	                                    pp.save(); 
 	                        }
 	                        else
 	                        {	
-	                                   
 	                                    pp.setDD_NetworkDistribution_ID (p_DD_NetworkDistribution_ID);	
 	                                    pp.setAD_Workflow_ID(p_AD_Workflow_ID);                                 	
 	                                    pp.setIsCreatePlan(p_CreatePlan);                                 
