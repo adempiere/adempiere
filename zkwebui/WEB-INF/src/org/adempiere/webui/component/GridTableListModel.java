@@ -119,7 +119,7 @@ public class GridTableListModel extends AbstractListModel implements ListitemRen
     				return "";
     		}
     		else
-    			return "Lookup";
+    			return obj.toString();
     	}
     	else if (tableModel.getColumnClass(columnIndex).equals(Timestamp.class))
     	{
