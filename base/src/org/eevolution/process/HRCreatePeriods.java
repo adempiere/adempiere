@@ -17,10 +17,9 @@
 //package org.eevolution.process;
 package org.eevolution.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
 import org.compiere.process.SvrProcess;
-import org.eevolution.model.*;
+import org.compiere.util.Msg;
+import org.eevolution.model.MHRYear;
 
 /**
  *	Create Periods of Payroll
@@ -30,15 +29,11 @@ import org.eevolution.model.*;
  */
 public class HRCreatePeriods extends SvrProcess
 {
-	private int	p_HR_Payroll_ID = 0;
-	
 	/**
 	 * 	Prepare
 	 */
 	protected void prepare ()
 	{
-		int payroll_ID = 0;
-
 	}	//	prepare
 
 	/**
@@ -50,15 +45,14 @@ public class HRCreatePeriods extends SvrProcess
 		throws Exception
 	{
 		int year_ID = getRecord_ID();
-		p_HR_Payroll_ID = DB.getSQLValue("HR_Year", "SELECT HR_Payroll_ID FROM HR_Year WHERE HR_Year_ID = "+year_ID);
 		MHRYear year = new MHRYear (getCtx(), getRecord_ID(), get_TrxName());		
-		if (year_ID == 0 || year.get_ID() != year_ID)
+		if (year.get_ID() <= 0 || year.get_ID() != year_ID)
 			return "Year not exist";
 		else if(year.isProcessed())
 			return "No Created, The Period's exist";
 		log.info(year.toString());
 		//
-		if (year.createPeriods(p_HR_Payroll_ID,year_ID, year.getC_Year_ID())){
+		if (year.createPeriods()){
 			year.setProcessed(true);
 			year.save();
 			return "@OK@ Create Periods";

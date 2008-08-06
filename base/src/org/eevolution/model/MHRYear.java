@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+
+import org.compiere.model.MCalendar;
+import org.compiere.model.MPeriod;
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 /**
  *	MHRYear Year for a Payroll
@@ -72,37 +75,34 @@ public class MHRYear extends X_HR_Year
 	 * 	@param  HR_Payroll_ID
 	 *	@return true if created
 	 */
-	public boolean createPeriods(int HR_Payroll_ID,int HR_Year_ID, int C_Year_ID)
+	public boolean createPeriods()
 	{
-
-		Timestamp StartDate = new Timestamp (System.currentTimeMillis());
-		Timestamp EndDate   = new Timestamp (System.currentTimeMillis());
-		int C_Period_ID     = 0;
 		int sumDays         = 0;
-		int C_Calendar_ID   = DB.getSQLValue("C_Calendar", "SELECT C_Calendar_ID FROM C_Year WHERE C_Year_ID = "+C_Year_ID);
-		if (C_Calendar_ID == 0)
+		int C_Calendar_ID   = DB.getSQLValue(get_TrxName(), "SELECT C_Calendar_ID FROM C_Year WHERE C_Year_ID = ?", getC_Year_ID());
+		if (C_Calendar_ID <= 0)
 			return false;
-		
-		MHRYear hr_year = new MHRYear(Env.getCtx(),HR_Year_ID,get_TrxName());
-		
+
+		MHRPayroll payroll = new MHRPayroll(getCtx(), getHR_Payroll_ID(), get_TrxName());
 		for (int period = 1; period <= getQty(); period++)
 		{
-			sumDays     =  period != 1 ? (period-1) * (getNetDays()) : 0;
-			StartDate   = TimeUtil.addDays(getStartDate(),sumDays);
-			EndDate     = TimeUtil.addDays(StartDate,getNetDays()-1);
-			C_Period_ID = DB.getSQLValue("C_Period","SELECT C_Period_ID FROM C_Period p "
-							+ " INNER JOIN C_Year y ON (p.C_Year_ID=y.C_Year_ID) "
-							+ " WHERE " + DB.TO_DATE(EndDate)
-					        + " BETWEEN p.startdate AND p.endDate AND y.C_Calendar_ID=" + C_Calendar_ID);
-			if(C_Period_ID == 0)
+			sumDays             =  period != 1 ? (period-1) * (getNetDays()) : 0;
+			Timestamp StartDate = TimeUtil.addDays(getStartDate(),sumDays);
+			Timestamp EndDate   = TimeUtil.addDays(StartDate,getNetDays()-1);
+			int C_Period_ID     = DB.getSQLValue(get_TrxName(),
+					"SELECT C_Period_ID FROM C_Period p "
+					+ " INNER JOIN C_Year y ON (p.C_Year_ID=y.C_Year_ID) "
+					+ " WHERE "
+					+ " ? BETWEEN p.startdate AND p.endDate"
+					+ " AND y.C_Calendar_ID=?",
+					EndDate, C_Calendar_ID);
+			if(C_Period_ID <= 0)
 				return false;
-			
-			MPeriod m_period = new MPeriod(getCtx(), C_Period_ID , get_TrxName());
-			MHRPayroll payroll = new MHRPayroll(Env.getCtx(),HR_Payroll_ID,get_TrxName());
-			X_HR_Period HR_Period = new X_HR_Period(Env.getCtx(),0,get_TrxName());
-			HR_Period.setAD_Org_ID(hr_year.getAD_Org_ID());
-			HR_Period.setHR_Year_ID(hr_year.getHR_Year_ID());
-			HR_Period.setHR_Payroll_ID(HR_Payroll_ID);
+
+			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID);
+			X_HR_Period HR_Period = new X_HR_Period(getCtx(), 0, get_TrxName());
+			HR_Period.setAD_Org_ID(getAD_Org_ID());
+			HR_Period.setHR_Year_ID(getHR_Year_ID());
+			HR_Period.setHR_Payroll_ID(getHR_Payroll_ID());
 			HR_Period.setName(StartDate.toString().substring(0, 10)+" "+Msg.translate(getCtx(), "To")+" "+EndDate.toString().substring(0, 10) );
 			HR_Period.setDescription(Msg.translate(getCtx(), "HR_Payroll_ID")+" "+payroll.getName().trim()+" "+Msg.translate(getCtx(), "From")+ " "+period+" " +Msg.translate(getCtx(), "To")+" "+ StartDate.toString().substring(0, 10)+" al "+EndDate.toString().substring(0, 10));
 			HR_Period.setPeriodNo(period);
@@ -112,9 +112,7 @@ public class MHRYear extends X_HR_Year
 			HR_Period.setEndDate(EndDate);
 			HR_Period.setDateAcct(EndDate);
 			HR_Period.setIsActive(true);
-			//
-			if ( !HR_Period.save() )	//	Creates Period Control
-				return false;
+			HR_Period.saveEx();
 		}
 		return true;
 	}	//	createPeriods
