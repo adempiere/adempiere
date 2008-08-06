@@ -150,7 +150,7 @@ public class DistributionRun extends SvrProcess
 					throw new Exception ("No Lines");
 				
 			}
-			else 
+			else  //Create Temp Lines
 			{	
 				if (insertDetailsDistribution() == 0)
 					throw new Exception ("No Lines");
@@ -611,18 +611,16 @@ public class DistributionRun extends SvrProcess
 			{
 				
 					MDistributionRunLine drl = (MDistributionRunLine) MTable.get(getCtx(), MDistributionRunLine.Table_ID).getPO(record.getM_DistributionRunLine_ID(), get_TrxName());
-					MProduct product = MProduct.get(getCtx(), record.getM_Product_ID());
-					
-					
+					MProduct product = MProduct.get(getCtx(), record.getM_Product_ID());					
 					BigDecimal ration = record.getRatio();
 					BigDecimal totalration = getQtyDemand(record.getM_Product_ID());
-					System.out.println("Value:" + product.getValue());
-					System.out.println("Product:" + product.getName());
-					System.out.println("Qty To Deliver:" + record.getRatio());
-					System.out.println("Qty Target:" + record.getMinQty());
-					System.out.println("Qty Total Available:" + drl.getTotalQty());
-					System.out.println("Qty Total Demand:" +  totalration);
-					
+					log.info("Value:" + product.getValue());
+					log.info("Value:" + product.getValue());
+					log.info("Product:" + product.getName());
+					log.info("Qty To Deliver:" + record.getRatio());
+					log.info("Qty Target:" + record.getMinQty());
+					log.info("Qty Total Available:" + drl.getTotalQty());
+					log.info("Qty Total Demand:" +  totalration);			
 					BigDecimal factor = ration.divide(totalration, 12 , BigDecimal.ROUND_HALF_UP);
 					record.setQty(drl.getTotalQty().multiply(factor));
 					record.save();
@@ -930,7 +928,6 @@ public class DistributionRun extends SvrProcess
 			//	New Order
 			if (order == null)
 			{
-				//bp = new MBPartner (getCtx(), detail.getC_BPartner_ID(), get_TrxName());
 				if (!p_IsTest)
 				{
 					order = new MDDOrder (getCtx(), 0, get_TrxName());
@@ -1001,8 +998,6 @@ public class DistributionRun extends SvrProcess
 			line.setQtyEntered(detail.getActualAllocation());
 			line.setConfirmedQty(detail.getActualAllocation());
 			line.setDescription("Distribution Push");
-			//line.setQty(detail.getActualAllocation());
-			//line.setPrice();
 			if (!line.save())
 			{
 				log.log(Level.SEVERE, "OrderLine not saved");
