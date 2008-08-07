@@ -15,13 +15,16 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MOrgInfo;
+import org.compiere.model.MResource;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	Product Data Planning 
@@ -37,16 +40,16 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 *	@param M_Product_Costing_ID id
 	 *	@return
 	 */
-   
-    
+
+
 	/**	Cache						*/
 	private static CCache	s_cache = new CCache ("M_Product_Costing", 20);
-	
-        /** Log									*/
-	
-        private static CLogger log = CLogger.getCLogger(MPPProductPlanning.class); 
-        
-	
+
+	/** Log									*/
+
+	private static CLogger log = CLogger.getCLogger(MPPProductPlanning.class); 
+
+
 	/**************************************************************************
 	 * 	Default Constructor
 	 *	@param ctx context
@@ -73,7 +76,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	{
 		super(ctx, rs,trxname);
 	}
-	
+
 	/**
 	 * 	Get Data Product Planning to Organization
 	 * @param ctx Context
@@ -82,20 +85,20 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name 
 	 * @return MPPProductPlanning
 	 */    
-    public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_product_id, String trxname)               
+	public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_product_id, String trxname)               
 	{
-    	int m_M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
-    	if(m_M_Warehouse_ID <= 0)
-    		return null;
-    	
-    	int m_S_Resource_ID = DB.getSQLValue(trxname, "SELECT MAX(S_Resource_ID) FROM S_Resource WHERE IsManufacturingResource='Y' AND ManufacturingResourceType ='" + MResource.MANUFACTURINGRESOURCETYPE_Plant +"' AND AD_Client_ID=? AND M_Warehouse_ID= ?", ad_client_id, m_M_Warehouse_ID);
-    	
-    	if (m_S_Resource_ID <=0 )
-    		return null;
-    	
-        return get(ctx, ad_client_id,ad_org_id, m_M_Warehouse_ID, m_S_Resource_ID, m_product_id, trxname);
+		int m_M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
+		if(m_M_Warehouse_ID <= 0)
+			return null;
+
+		int m_S_Resource_ID = DB.getSQLValue(trxname, "SELECT MAX(S_Resource_ID) FROM S_Resource WHERE IsManufacturingResource='Y' AND ManufacturingResourceType ='" + MResource.MANUFACTURINGRESOURCETYPE_Plant +"' AND AD_Client_ID=? AND M_Warehouse_ID= ?", ad_client_id, m_M_Warehouse_ID);
+
+		if (m_S_Resource_ID <=0 )
+			return null;
+
+		return get(ctx, ad_client_id,ad_org_id, m_M_Warehouse_ID, m_S_Resource_ID, m_product_id, trxname);
 	}
-    
+
 	/**
 	 * Get Data Product Planning 
 	 * @param ctx Context
@@ -107,18 +110,18 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxname Trx Name
 	 * @return MPPProductPlanning
 	 */     
-    public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_warehouse_id, int s_resource_id, int m_product_id, String trxname)
+	public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_warehouse_id, int s_resource_id, int m_product_id, String trxname)
 	{
-		
-        log.info("AD_Client_ID="  + ad_client_id + " AD_Org_ID=" + ad_org_id + " M_Product_ID=" + m_product_id + " M_Warehouse_ID=" + m_warehouse_id + " S_Resource_ID=" + s_resource_id );
-        String  sql_warehouse = "pp.M_Warehouse_ID = ? ";
-        if(m_warehouse_id == 0)
-        		sql_warehouse += "OR pp.M_Warehouse_ID IS NULL ";
-        	
-        	
-        String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Client_ID = ? AND pp.AD_Org_ID = ? AND pp.M_Product_ID = ? AND "+sql_warehouse+" AND pp.S_Resource_ID = ? ";	
-                
-        PreparedStatement pstmt = null;
+
+		log.info("AD_Client_ID="  + ad_client_id + " AD_Org_ID=" + ad_org_id + " M_Product_ID=" + m_product_id + " M_Warehouse_ID=" + m_warehouse_id + " S_Resource_ID=" + s_resource_id );
+		String  sql_warehouse = "pp.M_Warehouse_ID = ? ";
+		if(m_warehouse_id == 0)
+			sql_warehouse += "OR pp.M_Warehouse_ID IS NULL ";
+
+
+		String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Client_ID = ? AND pp.AD_Org_ID = ? AND pp.M_Product_ID = ? AND "+sql_warehouse+" AND pp.S_Resource_ID = ? ";	
+
+		PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxname);
@@ -126,7 +129,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 			pstmt.setInt(2, ad_org_id);
 			pstmt.setInt(3, m_product_id);
 			pstmt.setInt(4, m_warehouse_id);
-            pstmt.setInt(5, s_resource_id);
+			pstmt.setInt(5, s_resource_id);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				return new MPPProductPlanning(ctx, rs, trxname);
@@ -150,8 +153,8 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		}	
 		return null;
 	}       
-	
-    
+
+
 	/**************************************************************************
 	 * 	find data planning, try find the specific planning data if do not found then try find data planning general 
 	 * @param ctx Context
@@ -162,15 +165,15 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name
 	 *	@return MPPProductPlanning Planning Data
 	 */     
-    public static MPPProductPlanning getFisrt(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
+	public static MPPProductPlanning getFisrt(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
 	{          
-        MPPProductPlanning pp = null;        
-        PreparedStatement pstmt = null;
+		MPPProductPlanning pp = null;        
+		PreparedStatement pstmt = null;
 		try
 		{
 			// Find specific data planning
 			String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Client_ID = ? AND pp.AD_Org_ID = ?  AND pp.M_Warehouse_ID=? AND pp.S_Resource_ID = ? AND pp.M_Product_ID = ? ";	
-	        
+
 			pstmt = DB.prepareStatement(sql ,trxName);
 			pstmt.setInt(1, AD_Client_ID);
 			pstmt.setInt(2, AD_Org_ID);		
@@ -185,7 +188,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 			rs.close();
 			pstmt.close();
 			pstmt = null;
-			
+
 			// Find general data planning Org = * , Wharehouse = *  
 			sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Client_ID = ? AND (pp.AD_Org_ID = 0 OR AD_Org_ID IS NULL) AND (pp.M_Warehouse_ID = 0 OR  pp.M_Warehouse_ID IS NULL) AND pp.S_Resource_ID = ? AND pp.M_Product_ID = ? ";	
 			pstmt = DB.prepareStatement(sql ,trxName);
@@ -200,7 +203,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 			rs.close();
 			pstmt.close();
 			pstmt = null;
-			
+
 			// Find general data planning Org = * , Wharehouse = *  , Resource = *
 			sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Client_ID = ? AND (pp.AD_Org_ID = 0 OR AD_Org_ID IS NULL) AND (pp.M_Warehouse_ID = 0 OR  pp.M_Warehouse_ID IS NULL) AND (pp.S_Resource_ID =0 OR  pp.S_Resource_ID IS NULL ) AND pp.M_Product_ID = ? ";	
 			pstmt = DB.prepareStatement(sql ,trxName);
@@ -214,7 +217,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 			rs.close();
 			pstmt.close();
 			pstmt = null;
-			
+
 		}
 		catch (Exception e)
 		{
@@ -232,7 +235,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		}	
 		return null;
 	}
-    
+
 	/**************************************************************************
 	 * 	find planning data demand & supply to this warehouse
 	 *	@param ctx Context
@@ -241,17 +244,17 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 *  @param trxName Transaction Name
 	 *  @return MPPProductPlanning Planning Data
 	 */       
-    public static MPPProductPlanning getDemandSupplyResource(Properties ctx , int  AD_Org_ID , int M_Product_ID, String trxName )
+	public static MPPProductPlanning getDemandSupplyResource(Properties ctx , int  AD_Org_ID , int M_Product_ID, String trxName )
 	{           
-        String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Org_ID = ? AND pp.M_Product_ID = ?";	
-                
-                PreparedStatement pstmt = null;
+		String sql = "SELECT * FROM PP_Product_Planning  pp WHERE pp.AD_Org_ID = ? AND pp.M_Product_ID = ?";	
+
+		PreparedStatement pstmt = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql,trxName);
 			pstmt.setInt(1, AD_Org_ID);
 			pstmt.setInt(2, M_Product_ID);
-            //pstmt.setInt(4, S_Resource_ID);
+			//pstmt.setInt(4, S_Resource_ID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				return new MPPProductPlanning(ctx, rs,trxName);
