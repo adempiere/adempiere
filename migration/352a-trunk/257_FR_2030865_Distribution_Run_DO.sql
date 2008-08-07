@@ -1,3 +1,4 @@
+SET SQLBLANKLINES ON
 -- Aug 4, 2008 7:48:17 PM CDT
 -- DRP Functionality
 UPDATE AD_Process_Para SET IsMandatory='Y', IsRange='Y',Updated=TO_DATE('2008-08-04 19:48:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_Para_ID=53218

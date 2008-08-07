@@ -1,3 +1,4 @@
+SET SQLBLANKLINES ON
 -- Aug 5, 2008 9:09:09 PM CDT
 -- DRP Functionality
 UPDATE AD_Process_Para SET SeqNo=60,Updated=TO_DATE('2008-08-05 21:09:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_Para_ID=53220
