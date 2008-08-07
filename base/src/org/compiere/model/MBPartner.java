@@ -31,6 +31,8 @@ import org.compiere.util.*;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1568774 ] Walk-In BP: invalid created/updated values
  * 			<li>BF [ 1817752 ] MBPartner.getLocations should return only active one
+ *  @author Armen Rizal, GOODWILL CONSULT  
+ *      <LI>BF [ 2041226 ] BP Open Balance should count only Completed Invoice
  */
 public class MBPartner extends X_C_BPartner
 {
@@ -736,18 +738,19 @@ public class MBPartner extends X_C_BPartner
 	{
 		BigDecimal SO_CreditUsed = null;
 		BigDecimal TotalOpenBalance = null;
+		//AZ Goodwill -> BF: only count completed/closed docs.
 		String sql = "SELECT "
 			//	SO Credit Used
 			+ "COALESCE((SELECT SUM(currencyBase(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID,i.DateInvoiced, i.AD_Client_ID,i.AD_Org_ID)) FROM C_Invoice_v i "
-				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsSOTrx='Y' AND i.IsPaid='N'),0), "
+				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsSOTrx='Y' AND i.IsPaid='N' AND i.DocStatus IN ('CO','CL')),0), "
 			//	Balance (incl. unallocated payments)
 			+ "COALESCE((SELECT SUM(currencyBase(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID,i.DateInvoiced, i.AD_Client_ID,i.AD_Org_ID)*i.MultiplierAP) FROM C_Invoice_v i "
-				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsPaid='N'),0) - "
+				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsPaid='N' AND i.DocStatus IN ('CO','CL')),0) - "
 			+ "COALESCE((SELECT SUM(currencyBase(Paymentavailable(p.C_Payment_ID),p.C_Currency_ID,p.DateTrx,p.AD_Client_ID,p.AD_Org_ID)) FROM C_Payment_v p "
 				+ "WHERE p.C_BPartner_ID=bp.C_BPartner_ID AND p.IsAllocated='N'"
-				+ " AND p.C_Charge_ID IS NULL),0) "
+				+ " AND p.C_Charge_ID IS NULL AND p.DocStatus IN ('CO','CL')),0) "
 			+ "FROM C_BPartner bp "
-			+ "WHERE C_BPartner_ID=?";
+			+ "WHERE C_BPartner_ID=?";		
 		PreparedStatement pstmt = null;
 		try
 		{
