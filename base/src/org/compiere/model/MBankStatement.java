@@ -462,6 +462,13 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 			if (MFactAcct.delete(Table_ID, getC_BankStatement_ID(), get_TrxName()) < 0)
 				return false;	//	could not delete
 		}
+		
+		//Added Lines by AZ Goodwill
+		//Restore Bank Account Balance
+		MBankAccount ba = MBankAccount.get(getCtx(), getC_BankAccount_ID());		
+		ba.setCurrentBalance(ba.getCurrentBalance().subtract(getStatementDifference()));
+		ba.save(get_TrxName());
+		//End of Added Lines
 			
 		//	Set lines to 0
 		MBankStatementLine[] lines = getLines(true);
