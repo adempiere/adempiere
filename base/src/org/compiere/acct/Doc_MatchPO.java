@@ -121,14 +121,44 @@ public class Doc_MatchPO extends Doc
 		BigDecimal poCost = m_oLine.getPriceCost();
 		if (poCost == null || poCost.signum() == 0)
 			poCost = m_oLine.getPriceActual();
+		
+		MInOutLine receiptLine = new MInOutLine (getCtx(), m_M_InOutLine_ID, getTrxName());	
+		MInOut inOut = receiptLine.getParent(); 
+		boolean isReturnTrx = inOut.getMovementType().equals(X_M_InOut.MOVEMENTTYPE_VendorReturns);
+		
+		//	Create PO Cost Detail Record first
+		// MZ Goodwill
+		// Create Cost Detail Matched PO using Total Amount and Total Qty based on OrderLine
+		MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), m_oLine.getC_OrderLine_ID(), getTrxName());
+		BigDecimal tQty = Env.ZERO;
+		BigDecimal tAmt = Env.ZERO;
+		for (int i = 0 ; i < mPO.length ; i++)
+		{
+			if (mPO[i].isPosted()
+				&& mPO[i].getM_AttributeSetInstance_ID() == m_M_AttributeSetInstance_ID
+				&& mPO[i].getM_MatchPO_ID() != get_ID())
+			{
+				BigDecimal qty = (isReturnTrx ? mPO[i].getQty().negate() : mPO[i].getQty()); 
+				tQty = tQty.add(qty);
+				tAmt = tAmt.add(poCost.multiply(qty));
+			}
+		}
 		poCost = poCost.multiply(getQty());			//	Delivered so far
+		tAmt = tAmt.add(isReturnTrx ? poCost.negate() : poCost);
+		tQty = tQty.add(isReturnTrx ? getQty().negate() : getQty());
+		
 		//	Different currency
+		String costingMethod = as.getCostingMethod();
 		if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())
 		{
 			MOrder order = m_oLine.getParent();
+			Timestamp dateAcct = order.getDateAcct();
+			if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
+					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
+				dateAcct = inOut.getDateAcct(); 	//Movement Date
 			BigDecimal rate = MConversionRate.getRate(
 				order.getC_Currency_ID(), as.getC_Currency_ID(),
-				order.getDateAcct(), order.getC_ConversionType_ID(),
+				dateAcct, order.getC_ConversionType_ID(),
 				m_oLine.getAD_Client_ID(), m_oLine.getAD_Org_ID());
 			if (rate == null)
 			{
@@ -138,46 +168,10 @@ public class Doc_MatchPO extends Doc
 			poCost = poCost.multiply(rate);
 			if (poCost.scale() > as.getCostingPrecision())
 				poCost = poCost.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-		}
-
-		//	Create PO Cost Detail Record first
-		// MZ Goodwill
-		// Create Cost Detail Matched PO using Total Amount and Total Qty based on OrderLine
-		MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), m_oLine.getC_OrderLine_ID(), getTrxName());
-		BigDecimal tQty = Env.ZERO;
-		BigDecimal tAmt = Env.ZERO;
-		BigDecimal priceCost = m_oLine.getPriceCost();
-		if (priceCost == null || priceCost.signum() == 0)
-			priceCost = m_oLine.getPriceActual();
-		for (int i = 0 ; i < mPO.length ; i++)
-		{
-			if (mPO[i].isPosted() &&  mPO[i].getM_MatchPO_ID() != get_ID())
-			{
-				tQty = tQty.add(mPO[i].getQty());
-				tAmt = tAmt.add(priceCost.multiply(mPO[i].getQty()));
-			}
-		}
-
-		//	Different currency
-		if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())
-		{
-			MOrder order = m_oLine.getParent();
-			BigDecimal rate = MConversionRate.getRate(
-				order.getC_Currency_ID(), as.getC_Currency_ID(),
-				order.getDateAcct(), order.getC_ConversionType_ID(),
-				m_oLine.getAD_Client_ID(), m_oLine.getAD_Org_ID());
-			if (rate == null)
-			{
-				p_Error = "Purchase Order not convertible - " + as.getName();
-				return null;
-			}
 			tAmt = tAmt.multiply(rate);
 			if (tAmt.scale() > as.getCostingPrecision())
-				tAmt = tAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				tAmt = tAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);			
 		}
-		
-		tAmt = tAmt.add(poCost);
-		tQty = tQty.add(getQty());		
 
 		// Set Total Amount and Total Quantity from Matched PO 
 		MCostDetail.createOrder(as, m_oLine.getAD_Org_ID(), 
@@ -188,7 +182,6 @@ public class Doc_MatchPO extends Doc
 		// end MZ
 
 		//	Calculate PPV for standard costing
-		String costingMethod = as.getCostingMethod();
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
 			product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
@@ -221,10 +214,10 @@ public class Doc_MatchPO extends Doc
 			//  Product PPV
 			FactLine cr = fact.createLine(null,
 				m_pc.getAccount(ProductCost.ACCTTYPE_P_PPV, as),
-				as.getC_Currency_ID(), difference);
+				as.getC_Currency_ID(), isReturnTrx ? difference.negate() : difference);
 			if (cr != null)
 			{
-				cr.setQty(getQty());
+				cr.setQty(isReturnTrx ? getQty().negate() : getQty());
 				cr.setC_BPartner_ID(m_oLine.getC_BPartner_ID());
 				cr.setC_Activity_ID(m_oLine.getC_Activity_ID());
 				cr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
@@ -237,10 +230,10 @@ public class Doc_MatchPO extends Doc
 			//  PPV Offset
 			FactLine dr = fact.createLine(null,
 				getAccount(Doc.ACCTTYPE_PPVOffset, as),
-				as.getC_Currency_ID(), difference.negate());
+				as.getC_Currency_ID(), isReturnTrx ? difference : difference.negate());
 			if (dr != null)
 			{
-				dr.setQty(getQty().negate());
+				dr.setQty(isReturnTrx ? getQty() : getQty().negate());
 				dr.setC_BPartner_ID(m_oLine.getC_BPartner_ID());
 				dr.setC_Activity_ID(m_oLine.getC_Activity_ID());
 				dr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
