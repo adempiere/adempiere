@@ -16,19 +16,26 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.awt.Point;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.model.MColumn;
+import org.compiere.model.Query;
+import org.compiere.util.CCache;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Workflow Node Model
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MWFNode.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 2041799 ] Can't delete PP_Order_Node (Not found=PP_Order_Node_Trl)
  */
 public class MPPOrderNode extends X_PP_Order_Node
 {
@@ -40,18 +47,17 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	public static MPPOrderNode get (Properties ctx, int PP_Order_Node_ID)
 	{
-		Integer key = new Integer (PP_Order_Node_ID);
-		MPPOrderNode retValue = (MPPOrderNode) s_cache.get (key);
+		MPPOrderNode retValue = s_cache.get (PP_Order_Node_ID);
 		if (retValue != null)
 			return retValue;
 		retValue = new MPPOrderNode (ctx, PP_Order_Node_ID, null);
 		if (retValue.get_ID () != 0)
-			s_cache.put (key, retValue);
+			s_cache.put (PP_Order_Node_ID, retValue);
 		return retValue;
 	}	//	get
 
 	/**	Cache						*/
-	private static CCache<Integer,MPPOrderNode>	s_cache	= new CCache<Integer,MPPOrderNode> ("PP_Order_Node", 50);
+	private static CCache<Integer,MPPOrderNode>	s_cache	= new CCache<Integer,MPPOrderNode> (Table_Name, 50);
 	
 	
 	/**************************************************************************
@@ -83,7 +89,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		}
 		//	Save to Cache
 		if (get_ID() != 0)
-			s_cache.put (new Integer(getPP_Order_Node_ID()), this);
+			s_cache.put (getPP_Order_Node_ID(), this);
 	}	//	MPPOrderNode
 
 	/**
@@ -112,28 +118,15 @@ public class MPPOrderNode extends X_PP_Order_Node
 	{
 		super(ctx, rs, trxName);
 		loadNext();
-		//Tranlsation table for PP_Order_Node does not exist
-		//loadTrl();
 		//	Save to Cache
-		s_cache.put (new Integer(getPP_Order_Node_ID()), this);
+		s_cache.put (getPP_Order_Node_ID(), this);
 	}	//	MPPOrderNode
-
 	
 	
 	/**	Next Modes				*/
-	private ArrayList<MPPOrderNodeNext>	m_next = new ArrayList<MPPOrderNodeNext>();
-	/**	Translated Name			*/
-	private String			m_name_trl = null;
-	/**	Translated Description	*/
-	private String			m_description_trl = null;
-	/**	Translated Help			*/
-	private String			m_help_trl = null;
-	/**	Translation Flag		*/
-	private boolean			m_translated = false;
+	private List<MPPOrderNodeNext>	m_next = new ArrayList<MPPOrderNodeNext>();
 	/**	Column					*/
 	private MColumn		m_column = null;
-	/**	Process Parameters		*/
-	//private MPPOrderNodePara[]	m_paras = null;
 	/** Duration Base MS		*/
 	private long			m_durationBaseMS = -1;
 	
@@ -152,59 +145,17 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	private void loadNext()
 	{
-		String sql = "SELECT * FROM PP_Order_NodeNext WHERE PP_Order_Node_ID=? AND IsActive='Y' ORDER BY SeqNo";
 		boolean splitAnd = SPLITELEMENT_AND.equals(getSplitElement());
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, get_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MPPOrderNodeNext next = new MPPOrderNodeNext (getCtx(), rs, get_TrxName());
-				next.setFromSplitAnd(splitAnd);
-				m_next.add(next);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
+		String whereClause = "PP_Order_Node_ID=? AND IsActive='Y'";
+		m_next = new Query(getCtx(), MPPOrderNodeNext.Table_Name, whereClause, get_TrxName())
+											.setParameters(new Object[]{get_ID()})
+											.setOrderBy(MPPOrderNodeNext.COLUMNNAME_SeqNo)
+											.list();
+		for (MPPOrderNodeNext next : m_next) {
+			next.setFromSplitAnd(splitAnd);
 		}
 		log.fine("#" + m_next.size());
 	}	//	loadNext
-
-	/**
-	 * 	Load Translation
-	 */
-	private void loadTrl()
-	{
-		if (Env.isBaseLanguage(getCtx(), "PP_Order_Workflow") || get_ID() == 0)
-			return;
-		String sql = "SELECT Name, Description, Help FROM PP_Order_Node_Trl WHERE PP_Order_Node_ID=? AND AD_Language=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, get_ID());
-			pstmt.setString(2, Env.getAD_Language(getCtx()));
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_name_trl = rs.getString(1);
-				m_description_trl = rs.getString(2);
-				m_help_trl = rs.getString(3);
-				m_translated = true;
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		log.fine("Trl=" + m_translated);
-	}	//	loadTrl
 
 	/**
 	 * 	Get Number of Next Nodes
@@ -233,43 +184,6 @@ public class MPPOrderNode extends X_PP_Order_Node
 		list.toArray(retValue);
 		return retValue;
 	}	//	getNextNodes
-
-	
-	/**************************************************************************
-	 * 	Get Name
-	 * 	@param translated translated
-	 * 	@return Name
-	 */
-	public String getName(boolean translated)
-	{
-		if (translated && m_translated)
-			return m_name_trl;
-		return getName();
-	}	//	getName
-
-	/**
-	 * 	Get Description
-	 * 	@param translated translated
-	 * 	@return Description
-	 */
-	public String getDescription(boolean translated)
-	{
-		if (translated && m_translated)
-			return m_description_trl;
-		return getDescription();
-	}	//	getDescription
-
-	/**
-	 * 	Get Help
-	 * 	@param translated translated
-	 * 	@return Name
-	 */
-	public String getHelp(boolean translated)
-	{
-		if (translated && m_translated)
-			return m_help_trl;
-		return getHelp();
-	}	//	getHelp
 
 	/**
 	 * 	Set Position
@@ -338,6 +252,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 *	@see org.compiere.model.X_PP_Order_Node#getAttributeName()
 	 *	@return Attribute Name
 	 */
+	@Override
 	public String getAttributeName ()
 	{
 		if (getAD_Column_ID() == 0)
@@ -434,10 +349,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	public int getDurationCalendarField()
 	{
 		return getWorkflow().getDurationCalendarField();
-	}	//	getDirationCalendarField
-	
-	
-
+	}	//	getDurationCalendarField
 
 	/**
 	 * 	Get Workflow
@@ -480,6 +392,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 *	@param newRecord new
 	 *	@return true if can be saved
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		String action = getAction();
@@ -566,31 +479,4 @@ public class MPPOrderNode extends X_PP_Order_Node
 		
 		return true;
 	}	//	beforeSave
-	
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return saved
-	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (!success)
-			return success;
-		//TranslationTable.save(this, newRecord);
-		return true;
-	}	//	afterSave
-	
-	/**
-	 * 	After Delete
-	 *	@param success success
-	 *	@return deleted
-	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (TranslationTable.isActiveLanguages(false))
-			TranslationTable.delete(this);
-		return success;
-	}	//	afterDelete
-
 }	//	M_WFNext
