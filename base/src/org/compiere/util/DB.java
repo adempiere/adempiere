@@ -1762,5 +1762,38 @@ public final class DB
 		system.setIsJustMigrated(true);
 		afterMigration(Env.getCtx());
 	}	//	main
+	
+	
+    // Following methods are kept for BeanShell compatibility.
+	// See BF [ 2030233 ] Remove duplicate code from DB class
+    // TODO: remove this when BeanShell will support varargs methods
+    public static int getSQLValue (String trxName, String sql)
+    {
+    	return getSQLValue(trxName, sql, new Object[]{});
+    }
+    public static int getSQLValue (String trxName, String sql, int int_param1)
+    {
+    	return getSQLValue(trxName, sql, new Object[]{int_param1});    	
+    }
+    public static int getSQLValue (String trxName, String sql, int int_param1, int int_param2)
+    {
+    	return getSQLValue(trxName, sql, new Object[]{int_param1, int_param2});
+    }
+    public static int getSQLValue (String trxName, String sql, String str_param1)
+    {
+    	return getSQLValue(trxName, sql, new Object[]{str_param1});
+    }
+    public static int getSQLValue (String trxName, String sql, int int_param1, String str_param2)
+    {
+    	return getSQLValue(trxName, sql, new Object[]{int_param1, str_param2});
+    }
+    public static String getSQLValueString (String trxName, String sql, int int_param1)
+    {
+    	return getSQLValueString(trxName, sql, new Object[]{int_param1});
+    }
+    public static BigDecimal getSQLValueBD (String trxName, String sql, int int_param1)
+    {
+    	return getSQLValueBD(trxName, sql, new Object[]{int_param1});
+    }
 }	//	DB
 
