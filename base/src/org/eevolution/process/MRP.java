@@ -857,14 +857,12 @@ public class MRP extends SvrProcess
 						note.save();
 						continue;
 					}
-					// 4Layers - end
+
 
 					MRequisition req = new  MRequisition(getCtx(),0, get_TrxName()); 
 
 					req.setAD_User_ID(m_product_planning.getPlanner_ID());                                                        
 					req.setDateRequired(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(m_product_planning.getTransfertTime())).negate().intValue()));
-					//req.setDateRequired(BeforeDateStartSchedule); 
-
 					req.setDescription("Generate from MRP");
 					req.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
 					req.setDocumentNo(MSequence.getDocumentNo(DocTypeReq , get_TrxName() ,false));
@@ -893,7 +891,7 @@ public class MRP extends SvrProcess
 							log.info("Set Correct Dates for Plan");
 							MPPMRP mrp = new MPPMRP(getCtx(),rs,get_TrxName());                                                        	
 							mrp.setDateOrdered(Today);                                                            
-							mrp.setDatePromised(DemandDateStartSchedule);                                                            
+							mrp.setDatePromised(req.getDateRequired());                                                            
 							mrp.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (m_product_planning.getDeliveryTime_Promised().add(m_product_planning.getTransfertTime())).negate().intValue()));                                                            
 							mrp.setDateFinishSchedule(DemandDateStartSchedule);
 							mrp.save();

@@ -692,7 +692,7 @@ public class MPPMRP extends X_PP_MRP
 		}
 
 		sql =  new String("SELECT * FROM PP_MRP mrp WHERE mrp.M_RequisitionLine_ID = ? ");
-		MRequisition r = new MRequisition(Env.getCtx(), rl.getM_Requisition_ID(),"M_Requisition");
+		MRequisition r = new MRequisition(Env.getCtx(), rl.getM_Requisition_ID(),trxName);
 		MPPMRP mrp = null;
 
 		PreparedStatement pstmt = null;
