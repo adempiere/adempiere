@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -36,12 +37,14 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWFNodeNext;
 import org.compiere.wf.MWorkflow;
@@ -247,9 +250,6 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 	 setDocAction(DOCSTATUS_Completed);                       
 	 }*/
 
-	/**	Order Lines					*/
-	private MPPOrderBOMLine[] m_order_bomlines = null;
-
 	/**
 	 * 	Overwrite Client/Org if required
 	 * 	@param AD_Client_ID client
@@ -391,55 +391,27 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 	} //	toString
 
 	/**************************************************************************
-	 * 	Get Lines of Order
-	 * 	@param whereClause where clause or null (starting with AND)
-	 * 	@return invoices
+	 * Get BOM Lines of PP Order
+	 * @param whereClause where clause or null
+	 * @param orderClause order by clause or null 
+	 * @return invoices
 	 */
-	public MPPOrderBOMLine[] getLines(String whereClause, String orderClause) {
-		ArrayList<MPPOrderBOMLine> list = new ArrayList<MPPOrderBOMLine>();
-		StringBuffer sql = new StringBuffer("SELECT * FROM PP_Order_BOMLine WHERE PP_Order_ID=? ");
-		if (whereClause != null) sql.append(whereClause);
-		if (orderClause != null) sql.append(" ").append(orderClause);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, getPP_Order_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MPPOrderBOMLine(getCtx(), rs, get_TrxName()));
-		}
-		catch (Exception e) {
-			log.log(Level.SEVERE, "getLines - " + sql, e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+	public MPPOrderBOMLine[] getLines(String whereClause, String orderClause)
+	{
+		StringBuffer whereClauseFinal = new StringBuffer(MPPOrderBOMLine.COLUMNNAME_PP_Order_ID).append("=?");
+		if (!Util.isEmpty(whereClause, true))
+			whereClauseFinal.append("AND (").append(whereClause).append(")");
 		//
-		MPPOrderBOMLine[] lines = new MPPOrderBOMLine[list.size()];
-		list.toArray(lines);
-		return lines;
+		List<MPPOrderBOMLine> list = new Query(getCtx(), MPPOrderBOMLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
+												.setOrderBy(orderClause)
+												.list();
+		return list.toArray(new MPPOrderBOMLine[list.size()]);
 	} //	getLines
 
-	/**
-	 * 	Get Lines of Order
-	 * 	@param requery requery
-	 * 	@param orderBy optional order by column
-	 * 	@return lines
-	 */
-	public MPPOrderBOMLine[] getLines(boolean requery, String orderBy) {
-		if (m_order_bomlines != null && !requery) return m_order_bomlines;
-		//
-		String orderClause = "ORDER BY ";
-		if (orderBy != null && orderBy.length() > 0)
-			orderClause += orderBy;
-		else
-			orderClause += "Line";
-		m_order_bomlines = getLines(null, orderClause);
-		return m_order_bomlines;
-	} //	getLines       
+
+	public MPPOrderBOMLine[] getLines() {
+		return getLines(null, null);
+	} //	getLines
 
 	/**
 	 * 	Set Processed.
@@ -612,7 +584,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 
 				} // end if From / To component    
 
-				MPPOrderBOMLine[] lines = getLines(getPP_Order_ID());
+				MPPOrderBOMLine[] lines = getLines();
 				for (int l = 0; l < lines.length; l++) {
 					if (lines[l].getComponentType().equals(MPPProductBOMLine.COMPONENTTYPE_Phantom)) {
 						lines[l].setQtyRequiered(Env.ZERO);
@@ -814,14 +786,14 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			ids = PO.getAllIDs("PP_Order_Cost", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 
-				po = new MPPOrderCost(Env.getCtx(), ids[i], get_TrxName());
+				po = new MPPOrderCost(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			//
 			ids = PO.getAllIDs("PP_Order_Node_Asset", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 
-				po = new X_PP_Order_Node_Asset(Env.getCtx(), ids[i], get_TrxName());
+				po = new X_PP_Order_Node_Asset(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			// Reset workflow start node
@@ -829,38 +801,38 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			//
 			ids = PO.getAllIDs("PP_Order_Node", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-				po = new MPPOrderNode(Env.getCtx(), ids[i], get_TrxName());
+				po = new MPPOrderNode(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			//
 			ids = PO.getAllIDs("PP_Order_NodeNext", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-				po = new MPPOrderNodeNext(Env.getCtx(), ids[i], get_TrxName());
+				po = new MPPOrderNodeNext(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			//
 			ids = PO.getAllIDs("PP_Order_Node_Product", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-				po = new X_PP_Order_Node_Product(Env.getCtx(), ids[i], get_TrxName());
+				po = new X_PP_Order_Node_Product(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			//
 			ids = PO.getAllIDs("PP_Order_Workflow", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-				po = new MPPOrderWorkflow(Env.getCtx(), ids[i], get_TrxName());
+				po = new MPPOrderWorkflow(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			//
 			ids = PO.getAllIDs("PP_Order_BOMLine", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 
-				po = new MPPOrderBOMLine(Env.getCtx(), ids[i], get_TrxName());
+				po = new MPPOrderBOMLine(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 			//
 			ids = PO.getAllIDs("PP_Order_BOM", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-				po = new MPPOrderBOM(Env.getCtx(), ids[i], get_TrxName());
+				po = new MPPOrderBOM(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
 		} //return true;                
@@ -940,7 +912,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		 }*/
 
 		//	Lines
-		MPPOrderBOMLine[] lines = getLines(true, "M_Product_ID");
+		MPPOrderBOMLine[] lines = getLines(null, MPPOrderBOMLine.COLUMNNAME_M_Product_ID);
 		if (lines.length == 0) {
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
@@ -1187,7 +1159,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			}
 		}
 
-		MPPOrderBOMLine[] lines = getLines(getPP_Order_ID());
+		MPPOrderBOMLine[] lines = getLines();
 		log.info("MPPOrderBOMLine[]" + lines.toString());
 
 		for (MPPOrderBOMLine line : lines) {
@@ -1463,7 +1435,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		log.info(toString());
 
 		//	Close Not delivered Qty - SO/PO
-		MPPOrderBOMLine[] lines = getLines(true, "M_Product_ID");
+		MPPOrderBOMLine[] lines = getLines(null, MPPOrderBOMLine.COLUMNNAME_M_Product_ID);
 		/*
 		 for (int i = 0; i < lines.length; i++)
 		 {
@@ -1542,44 +1514,6 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 		setProcessed(false);
 		return true;
 	} //	reActivateIt
-
-	/**
-	 * 	Get Invoices of Order
-	 * 	@param C_Order_ID id
-	 * 	@return invoices
-	 */
-	public static MPPOrderBOMLine[] getLines(int PP_Order_ID) {
-		ArrayList list = new ArrayList();
-
-		String sql = "SELECT * FROM PP_Order_BOMLine WHERE PP_Order_ID=? ";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, PP_Order_ID);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				list.add(new MPPOrderBOMLine(Env.getCtx(), rs, "PP_Order_BOM_Line"));
-			}
-		}
-		catch (Exception e) {
-			//log.log(Level.SEVERE ,("getLines", e);
-			System.out.println("getLines" + e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		//
-		MPPOrderBOMLine[] retValue = new MPPOrderBOMLine[list.size()];
-		list.toArray(retValue);
-		return retValue;
-	} //	getLines
-
-	/**
-
-
 
 	 /*************************************************************************
 	 * 	Get Summary
