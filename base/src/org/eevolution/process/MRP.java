@@ -385,6 +385,10 @@ public class MRP extends SvrProcess
 
 						//Define m_product_planning
 						setProduct(AD_Client_ID,AD_Org_ID ,S_Resource_ID , M_Warehouse_ID,  product);
+						
+						if (m_product_planning==null)
+							continue;	  
+							
 
 						//first DatePromised.compareTo for ORDER_POLICY_PeriodOrderQuantity
 						if (m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity))
@@ -482,7 +486,7 @@ public class MRP extends SvrProcess
 	{
 
 		//find data product planning demand 
-		MPPProductPlanning pp = MPPProductPlanning.get(getCtx(), AD_Client_ID ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Client_ID ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
 		if (pp != null)
@@ -526,9 +530,8 @@ public class MRP extends SvrProcess
 			MMessage MRP=MMessage.get(getCtx(), "MRP-120");
 			MNote note = new MNote (getCtx(), MRP.getAD_Message_ID() , 0 , MPPMRP.Table_ID , 0 ,  product.getValue() + " " + product.getName()  , Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 			note.save();
-			log.severe(Msg.getMsg(getCtx(), MRP.getValue()));
-			m_product_planning.setIsCreatePlan(false);
-
+			//log.severe(Msg.getMsg(getCtx(), MRP.getValue()));
+			return;
 		}
 
 

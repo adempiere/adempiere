@@ -15,8 +15,10 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MResource;
@@ -126,8 +128,8 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param M_Product_ID Product ID
 	 * @param trxName Transaction Name
 	 *	@return MPPProductPlanning Planning Data
-	 *
-	public static MPPProductPlanning getFirst(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
+	 **/
+	public static MPPProductPlanning find(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
 	{          
 		MPPProductPlanning pp = null;        
 		PreparedStatement pstmt = null;
@@ -197,7 +199,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		}	
 		return null;
 	}
-	*/
+
 
 	/**************************************************************************
 	 * 	find planning data demand & supply to this warehouse
