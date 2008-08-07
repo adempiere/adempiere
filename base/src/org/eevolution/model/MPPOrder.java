@@ -565,7 +565,6 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 					PP_Order_BOMLine.setForecast(PP_Product_BOMline[i].getForecast());
 					PP_Order_BOMLine.setIsCritical(PP_Product_BOMline[i].isCritical());
 					PP_Order_BOMLine.setIssueMethod(PP_Product_BOMline[i].getIssueMethod());
-					PP_Order_BOMLine.setLine(MPPOrder.getLines(getPP_Order_ID()).length + 10);
 					PP_Order_BOMLine.setLeadTimeOffset(PP_Product_BOMline[i].getLeadTimeOffset());
 					PP_Order_BOMLine.setM_AttributeSetInstance_ID(PP_Product_BOMline[i].getM_AttributeSetInstance_ID());
 					PP_Order_BOMLine.setPP_Order_BOM_ID(PP_Order_BOM.getPP_Order_BOM_ID());

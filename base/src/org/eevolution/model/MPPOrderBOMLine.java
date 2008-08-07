@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.MProduct;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -62,6 +63,22 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 
 	private MPPOrder m_parent = null;
 	private MProduct 	m_product = null;
+
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		//	Get Line No
+		if (getLine() == 0)
+		{
+			String sql = "SELECT COALESCE(MAX("+COLUMNNAME_Line+"),0)+10 FROM "+Table_Name
+							+" WHERE "+COLUMNNAME_PP_Order_ID+"=?";
+			int ii = DB.getSQLValue (get_TrxName(), sql, getPP_Order_ID());
+			setLine (ii);
+		}
+		
+		return true;
+	}
+
 
 	/**************************************************************************
 	 * 	after Save
@@ -107,7 +124,6 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 					PP_Order_BOMLine.setForecast(PP_Product_BOMline[i].getForecast());
 					PP_Order_BOMLine.setIsCritical(PP_Product_BOMline[i].isCritical());
 					PP_Order_BOMLine.setIssueMethod(PP_Product_BOMline[i].getIssueMethod());    		                                                  
-					PP_Order_BOMLine.setLine(MPPOrder.getLines(getPP_Order_ID()).length+10);                                        
 					PP_Order_BOMLine.setLeadTimeOffset(PP_Product_BOMline[i].getLeadTimeOffset());
 					PP_Order_BOMLine.setM_AttributeSetInstance_ID(PP_Product_BOMline[i].getM_AttributeSetInstance_ID());
 					PP_Order_BOMLine.setPP_Order_BOM_ID(getPP_Order_BOM_ID());
