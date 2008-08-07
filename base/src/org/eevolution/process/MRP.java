@@ -412,7 +412,7 @@ public class MRP extends SvrProcess
 					// Create Notice for Demand due
 					if(DatePromised.compareTo(Today) < 0)
 					{                                        
-						MMessage MRP=MMessage.get(Env.getCtx(), "MRP-040");	
+						MMessage MRP=MMessage.get(getCtx(), "MRP-040");	
 						MNote note = new MNote (getCtx(), MRP.getAD_Message_ID() , m_product_planning.getPlanner_ID(), MPPMRP.Table_ID , rs.getInt("PP_MRP_ID") ,  product.getValue() + " " + product.getName()  , Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());    
 						note.save();
 						log.info( Msg.getMsg(getCtx(), MRP.getValue()));  
@@ -523,7 +523,7 @@ public class MRP extends SvrProcess
 		}
 		else
 		{           
-			MMessage MRP=MMessage.get(Env.getCtx(), "MRP-120");
+			MMessage MRP=MMessage.get(getCtx(), "MRP-120");
 			MNote note = new MNote (getCtx(), MRP.getAD_Message_ID() , 0 , MPPMRP.Table_ID , 0 ,  product.getValue() + " " + product.getName()  , Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 			note.save();
 			log.severe(Msg.getMsg(getCtx(), MRP.getValue()));
@@ -635,7 +635,7 @@ public class MRP extends SvrProcess
 
 		QtyNetReqs = ((QtyScheduledReceipts).add(QtyProjectOnHand)).subtract(QtyGrossReqs);
 
-		log.info("             Planning Data :" + product.getName() + "Create Plan:" + m_product_planning.isCreatePlan() + " OrderPlan:" + QtyPlanned);
+		log.info("             Planning Data :" + product.getName() + " Create Plan:" + m_product_planning.isCreatePlan() + " OrderPlan:" + QtyPlanned);
 		log.info(" Demand Date Start Schedule:" + DemandDateStartSchedule);
 		log.info("     Delivery Time Promised:" + m_product_planning.getDeliveryTime_Promised());
 		log.info("           DatePromisedFrom:" + DatePromisedFrom + " DatePromisedTo:" +   DatePromisedTo);    
@@ -662,11 +662,10 @@ public class MRP extends SvrProcess
 		}
 
 		// Check Order Min 
-
 		if(QtyPlanned.compareTo(Env.ZERO) > 0 && m_product_planning.getOrder_Min().compareTo(Env.ZERO) > 0)
 		{    
 			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
-			MMessage MRP=MMessage.get(Env.getCtx(), "MRP-080");
+			MMessage MRP=MMessage.get(getCtx(), "MRP-080");
 			MNote note = new MNote (getCtx(),  MRP.getAD_Message_ID(), m_product_planning.getPlanner_ID() , MPPMRP.Table_ID , PP_MPR_ID ,  product.getValue() + " " + product.getName()  , Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());    
 			note.save();
 		}
@@ -675,7 +674,7 @@ public class MRP extends SvrProcess
 		if(QtyPlanned.compareTo(m_product_planning.getOrder_Max()) > 0 && m_product_planning.getOrder_Max().compareTo(Env.ZERO) > 0)
 		{    
 			System.out.println("Error: Orden Planeada exede el maximo a ordenar");
-			MMessage MRP=MMessage.get(Env.getCtx(), "MRP-090");
+			MMessage MRP=MMessage.get(getCtx(), "MRP-090");
 			MNote note = new MNote (getCtx(),  MRP.getAD_Message_ID (), m_product_planning.getPlanner_ID() , MPPMRP.Table_ID , PP_MPR_ID ,  product.getValue() + " " + product.getName()  , Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());    
 			note.save();
 		}                        
@@ -702,7 +701,7 @@ public class MRP extends SvrProcess
 
 			for (int ofq = 1 ; ofq <= loops ; ofq ++ )
 			{      
-				log.info("Is Purchased:"+ product.isPurchased()+ " Is BOM" +  product.isBOM());
+				log.info("Is Purchased: "+ product.isPurchased()+ " Is BOM: " +  product.isBOM());
 
 				//Distribution Order
 				if(m_product_planning.getDD_NetworkDistribution_ID() > 0 && p_IsRequiredDRP)
@@ -732,7 +731,7 @@ public class MRP extends SvrProcess
 						if (locator == null || locator_to == null)
 						{
 							log.info("Do not exist default Locator for Warehouse" );
-							MMessage MRP=MMessage.get(Env.getCtx(), "DRP-001");
+							MMessage MRP=MMessage.get(getCtx(), "DRP-001");
 							MNote note = new MNote(getCtx(), MRP.getAD_Message_ID(), m_product_planning.getPlanner_ID(),MPPMRP.Table_ID, PP_MPR_ID,product.getValue() + " " + product.getName(),Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 							note.save();
 							continue;
@@ -743,7 +742,7 @@ public class MRP extends SvrProcess
 						if (wsts.length <= 0)
 						{
 							log.info("Do not exist Warehouse in Transit for this Organization");
-							MMessage MRP=MMessage.get(Env.getCtx(), "DRP-010");
+							MMessage MRP=MMessage.get(getCtx(), "DRP-010");
 							MNote note = new MNote(getCtx(), MRP.getAD_Message_ID (), m_product_planning.getPlanner_ID(),MPPMRP.Table_ID, PP_MPR_ID,product.getValue() + " " + product.getName(),Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 							note.save();
 							continue;
@@ -752,7 +751,7 @@ public class MRP extends SvrProcess
 						if(network_line.getM_Shipper_ID()==0)
 						{
 							log.info("Do not exist Shipper for Create Distribution Order");
-							MMessage MRP=MMessage.get(Env.getCtx(), "DRP-030");
+							MMessage MRP=MMessage.get(getCtx(), "DRP-030");
 							MNote note = new MNote(getCtx(), MRP.getAD_Message_ID (), m_product_planning.getPlanner_ID(),MPPMRP.Table_ID, PP_MPR_ID,product.getValue() + " " + product.getName(),Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 							note.save();
 							continue;
@@ -768,7 +767,7 @@ public class MRP extends SvrProcess
 							if (C_BPartner_ID == 0)
 							{
 								log.info("Organization targer do not linked with BPartner");
-								MMessage MRP=MMessage.get(Env.getCtx(), "DRP-020");
+								MMessage MRP=MMessage.get(getCtx(), "DRP-020");
 								MNote note = new MNote(getCtx(), MRP.getAD_Message_ID (), m_product_planning.getPlanner_ID(),MPPMRP.Table_ID, PP_MPR_ID,product.getValue() + " " + product.getName(),Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 								note.save();
 								continue;
@@ -850,7 +849,7 @@ public class MRP extends SvrProcess
 					if (M_PriceList_ID==0) 
 					{
 						log.info("No default pricelist has been retrieved");
-						MMessage MRP=MMessage.get(Env.getCtx(), "MRP-140");
+						MMessage MRP=MMessage.get(getCtx(), "MRP-140");
 						MNote note = new MNote(getCtx(), MRP.getAD_Message_ID (), m_product_planning.getPlanner_ID(),MPPMRP.Table_ID, PP_MPR_ID,product.getValue() + " " + product.getName(),Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());
 						note.save();
 						continue;
