@@ -54,6 +54,9 @@ import org.compiere.wf.MWorkflow;
  *
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrder.java,v 1.57 2004/05/21 02:27:38 vpj-cd Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 2041819 ] Can't delete PP Order
  */
 public class MPPOrder extends X_PP_Order implements DocAction {
 	/**
@@ -805,93 +808,61 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 
 	protected boolean beforeDelete() {
 		// OrderBOMLine
-		if (getDocStatus().equals(DOCSTATUS_Drafted) || getDocStatus().equals(this.DOCSTATUS_InProgress)) {
-
-			// This needs the missing PP_Order_Node_Trl table in AD_Table    	
+		if (getDocStatus().equals(DOCSTATUS_Drafted) || getDocStatus().equals(DOCSTATUS_InProgress)) {
 			int[] ids = null;
 			PO po = null;
-			boolean ok = true;
-
+			//
 			ids = PO.getAllIDs("PP_Order_Cost", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 
-				po = new MPPOrder(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po = new MPPOrderCost(Env.getCtx(), ids[i], get_TrxName());
+				po.deleteEx(true);
 			}
+			//
 			ids = PO.getAllIDs("PP_Order_Node_Asset", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 
 				po = new X_PP_Order_Node_Asset(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
+			// Reset workflow start node
+			DB.executeUpdate("UPDATE PP_Order_Workflow SET PP_Order_Node_ID=NULL WHERE PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
+			//
 			ids = PO.getAllIDs("PP_Order_Node", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-
 				po = new MPPOrderNode(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
-
+			//
 			ids = PO.getAllIDs("PP_Order_NodeNext", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-
 				po = new MPPOrderNodeNext(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
+			//
 			ids = PO.getAllIDs("PP_Order_Node_Product", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-
 				po = new X_PP_Order_Node_Product(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
+			//
 			ids = PO.getAllIDs("PP_Order_Workflow", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-
 				po = new MPPOrderWorkflow(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
+			//
 			ids = PO.getAllIDs("PP_Order_BOMLine", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 
 				po = new MPPOrderBOMLine(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
+			//
 			ids = PO.getAllIDs("PP_Order_BOM", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
-
 				po = new MPPOrderBOM(Env.getCtx(), ids[i], get_TrxName());
-				ok = po.delete(true);
-				if (!ok) {
-
-					return ok;
-				}
+				po.deleteEx(true);
 			}
 		} //return true;                
 		return true;
