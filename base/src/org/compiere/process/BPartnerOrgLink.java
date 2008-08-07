@@ -125,7 +125,7 @@ public class BPartnerOrgLink extends SvrProcess
 		if (wh == null)
 		{
 			wh = new MWarehouse(org);
-			if (!wh.save())
+			if (!wh.save(get_TrxName()))
 				throw new Exception ("Warehouse not saved");
 		}
 		//	Create Locator
@@ -134,12 +134,12 @@ public class BPartnerOrgLink extends SvrProcess
 		{
 			mLoc = new MLocator (wh, "Standard");
 			mLoc.setIsDefault(true);
-			mLoc.save();
+			mLoc.save(get_TrxName());
 		}
 		
 		//	Update/Save Org Info
 		oInfo.setM_Warehouse_ID(wh.getM_Warehouse_ID());
-		if (!oInfo.save())
+		if (!oInfo.save(get_TrxName()))
 			throw new Exception ("Organization Info not saved");
 		
 		//	Update BPartner
@@ -168,7 +168,7 @@ public class BPartnerOrgLink extends SvrProcess
 			if (!found)
 			{
 				MRoleOrgAccess orgAccess = new MRoleOrgAccess (org, p_AD_Role_ID);
-				orgAccess.save();
+				orgAccess.save(get_TrxName());
 			}
 		}
 		
