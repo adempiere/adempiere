@@ -37,6 +37,7 @@ import org.compiere.util.DB;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1981760 ] Improve Query class
  * 			<li>BF [ 2030280 ] org.compiere.model.Query apply access fielter issue
+ * 			<li>FR [ 2041894 ] Add Query.match() method
  */
 public class Query {
 
@@ -138,7 +139,7 @@ public class Query {
 	 */
 	public <T extends PO> List<T> list() throws DBException {
 		List<T> list = new ArrayList<T>();
-		String sql = buildSQL(null);
+		String sql = buildSQL(null, true);
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -170,7 +171,7 @@ public class Query {
 	 */
 	public <T extends PO> T first() throws DBException {
 		T po = null;
-		String sql = buildSQL(null);
+		String sql = buildSQL(null, true);
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -202,7 +203,7 @@ public class Query {
 	public int count() throws DBException
 	{
 		int count = -1;
-		String sql = buildSQL(new StringBuffer("SELECT COUNT(*) FROM ").append(table.getTableName()));
+		String sql = buildSQL(new StringBuffer("SELECT COUNT(*) FROM ").append(table.getTableName()), false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -221,6 +222,30 @@ public class Query {
 	}
 	
 	/**
+	 * Check if there items for query criteria
+	 * @return true if exists, false otherwise
+	 * @throws DBException
+	 */
+	public boolean match() {
+		String sql = buildSQL(new StringBuffer("SELECT 1 FROM ").append(table.getTableName()), false);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, this.trxName);
+			rs = createResultSet(pstmt);
+			if (rs.next())
+				return true;
+		}
+		catch (SQLException e) {
+			throw new DBException(e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+		}
+		return false;
+	}
+	
+	/**
 	 * Return an Iterator implementation to fetch one PO at a time. The implementation first retrieve
 	 * all IDS that match the query criteria and issue sql query to fetch the PO when caller want to
 	 * fetch the next PO. This minimize memory usage but it is slower than the list method.
@@ -236,7 +261,7 @@ public class Query {
 			sqlBuffer.append(keys[i]);
 		}
 		sqlBuffer.append(" FROM ").append(table.getTableName());
-		String sql = buildSQL(sqlBuffer);
+		String sql = buildSQL(sqlBuffer, true);
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -272,7 +297,7 @@ public class Query {
 	 * @throws DBException 
 	 */
 	public <T extends PO> POResultSet<T> scroll() throws DBException {
-		String sql = buildSQL(null);
+		String sql = buildSQL(null, true);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		POResultSet<T> rsPO = null;
@@ -304,7 +329,7 @@ public class Query {
 	 * @param selectClause optional; if null the select clause will be build according to POInfo
 	 * @return final SQL
 	 */
-	private final String buildSQL(StringBuffer selectClause) {
+	private final String buildSQL(StringBuffer selectClause, boolean useOrderByClause) {
 		if (selectClause == null) {
 			POInfo info = POInfo.getPOInfo(this.ctx, table.getAD_Table_ID(), trxName);
 			if (info == null)
@@ -314,8 +339,8 @@ public class Query {
 		StringBuffer sqlBuffer = new StringBuffer(selectClause);
 		if (whereClause != null && whereClause.trim().length() > 0)
 			sqlBuffer.append(" WHERE ").append(whereClause);
-		if (orderBy != null && orderBy.trim().length() > 0)
-			sqlBuffer.append(" Order By ").append(orderBy);
+		if (useOrderByClause && orderBy != null && orderBy.trim().length() > 0)
+			sqlBuffer.append(" ORDER BY ").append(orderBy);
 		String sql = sqlBuffer.toString();
 		if (applyAccessFilter) {
 			MRole role = MRole.getDefault(this.ctx, false);
