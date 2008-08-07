@@ -107,7 +107,7 @@ public class RollupBillOfMaterial extends SvrProcess
      protected String doIt() throws Exception                
      {
             
-       int lowlevel = MPPMRP.getMaxLowLevel();                                                               
+       int lowlevel = MPPMRP.getMaxLowLevel(getCtx());
        // Calculate Rollup for all levels
        for (int index = lowlevel ; index >= 0 ; index--)
        {                                

@@ -822,30 +822,15 @@ public class MPPMRP extends X_PP_MRP
 		return OnHand;
 	}
 
-	public static int getMaxLowLevel()
+	public static int getMaxLowLevel(Properties ctx)
 	{
 		int LowLevel = 0;
-		int AD_Client_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Client_ID"));
-		try
-		{
-			String sql = "SELECT Max(LowLevel) FROM M_Product WHERE AD_Client_ID = " + AD_Client_ID + " AND LowLevel IS NOT NULL";                      
-			PreparedStatement pstmt = null;
-			//pstmt.setInt(1, AD_Client_ID);
-			pstmt = DB.prepareStatement (sql,null);
-			ResultSet rs = pstmt.executeQuery();                            
-			rs.next();
-			LowLevel = rs.getInt(1); 
-			log.info("MaxLowLevel" + LowLevel);
-			rs.close();
-			pstmt.close();
-			return LowLevel + 1;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE,"not found MaxLowLevel", ex);
-			return LowLevel;
-		}
-
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		//
+		String sql = "SELECT MAX("+MProduct.COLUMNNAME_LowLevel+") FROM M_Product"
+					+" WHERE AD_Client_ID=? AND "+MProduct.COLUMNNAME_LowLevel+" IS NOT NULL";                      
+		LowLevel = DB.getSQLValue(null, sql, AD_Client_ID);
+		return LowLevel + 1;
 	}
 
 	public static BigDecimal getDays(int S_Resource_ID, int AD_Workflow_ID, BigDecimal QtyOrdered)

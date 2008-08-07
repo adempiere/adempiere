@@ -335,9 +335,8 @@ public class MRP extends SvrProcess
 
 			//String Order_Policy = MPPProductPlanning.ORDER_POLICY_LoteForLote;                       
 
-			int lowlevel = MPPMRP.getMaxLowLevel();                                                        
-			//int lowlevel = 0;
-			int Level = MPPMRP.getMaxLowLevel(); //lowlevel;                            ;
+			int lowlevel = MPPMRP.getMaxLowLevel(getCtx());
+			int Level = lowlevel;
 			log.info("Low Level Is :"+lowlevel);
 			// Calculate MRP for all levels
 			for (int index = 0 ; index <= lowlevel ; index++)
