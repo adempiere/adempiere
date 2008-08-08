@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -403,6 +402,7 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			whereClauseFinal.append("AND (").append(whereClause).append(")");
 		//
 		List<MPPOrderBOMLine> list = new Query(getCtx(), MPPOrderBOMLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
+												.setParameters(new Object[]{getPP_Order_ID()})
 												.setOrderBy(orderClause)
 												.list();
 		return list.toArray(new MPPOrderBOMLine[list.size()]);
