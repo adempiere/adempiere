@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * 	Cost Detail Model
@@ -31,6 +34,8 @@ import org.compiere.util.*;
  */
 public class MCostDetail extends X_M_CostDetail
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Create New Order Cost Detail for Purchase Orders.
 	 * 	Called from Doc_MatchPO
@@ -1070,5 +1075,58 @@ public class MCostDetail extends X_M_CostDetail
 		}
 		return cost.save();
 	}	//	process
+	
+	// Elaine 2008/6/20	
+	protected boolean afterDelete (boolean success)
+	{
+		if(success)
+		{
+			// recalculate MCost			
+			boolean ok = false;
+			//	get costing level for product
+			MAcctSchema as = new MAcctSchema (getCtx(), getC_AcctSchema_ID(), null);
+			String CostingLevel = as.getCostingLevel();
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			MProductCategoryAcct pca = MProductCategoryAcct.get (getCtx(),
+				product.getM_Product_Category_ID(), getC_AcctSchema_ID(), null);	
+			if (pca.getCostingLevel() != null)
+				CostingLevel = pca.getCostingLevel();
+			//	Org Element
+			int Org_ID = getAD_Org_ID();
+			int M_ASI_ID = getM_AttributeSetInstance_ID();
+			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+			{
+				Org_ID = 0;
+				M_ASI_ID = 0;
+			}
+			else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+				M_ASI_ID = 0;
+			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+				Org_ID = 0;
+
+			//	Create Material Cost elements
+			if (getM_CostElement_ID() == 0)
+			{
+				MCostElement[] ces = MCostElement.getCostingMethods(this);
+				for (int i = 0; i < ces.length; i++)
+				{
+					MCostElement ce = ces[i];
+					ok = process (as, product, ce, Org_ID, M_ASI_ID);
+					if (!ok)
+						break;
+				}
+			}	//	Material Cost elements
+			else
+			{
+				MCostElement ce = MCostElement.get(getCtx(), getM_CostElement_ID());
+				ok = process (as, product, ce, Org_ID, M_ASI_ID);
+			}
+			
+			return ok;
+		}
+		
+		return super.afterDelete(success);
+	}
+	//
 	
 }	//	MCostDetail

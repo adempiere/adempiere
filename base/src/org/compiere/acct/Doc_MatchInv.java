@@ -16,11 +16,22 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMatchInv;
+import org.compiere.model.ProductCost;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Post MatchInv Documents.
@@ -57,7 +68,7 @@ public class Doc_MatchInv extends Doc
 	private ProductCost		m_pc = null;
 
 	/** Commitments			*/
-	private DocLine[]		m_commitments = null;
+//	private DocLine[]		m_commitments = null;
 	
 	/**
 	 *  Load Specific Document Details
@@ -124,7 +135,7 @@ public class Doc_MatchInv extends Doc
 				+ ",Qty=" + getQty() + ",InOutQty=" + m_receiptLine.getMovementQty());
 			return facts;
 		}
-		MMatchInv matchInv = (MMatchInv)getPO();
+//		MMatchInv matchInv = (MMatchInv)getPO();
 		
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
@@ -262,7 +273,8 @@ public class Doc_MatchInv extends Doc
 			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
 		}
 		log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
-
+// Elaine 2008/6/20		
+/* Source move to MInvoice.createMatchInvCostDetail()
 		//	Cost Detail Record - data from Expense/IncClearing (CR) record
 		// MZ Goodwill
 		// Create Cost Detail Matched Invoice using Total Amount and Total Qty based on InvoiceLine
@@ -309,7 +321,7 @@ public class Doc_MatchInv extends Doc
 				m_invoiceLine.getC_InvoiceLine_ID(), 0,		//	No cost element
 				tAmt, tQty,	getDescription(), getTrxName());
 		// end MZ
-		
+*/
 		//  Update Costing
 		updateProductInfo(as.getC_AcctSchema_ID(), 
 			MAcctSchema.COSTINGMETHOD_StandardCosting.equals(as.getCostingMethod()));

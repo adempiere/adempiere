@@ -285,6 +285,9 @@ public class Doc_InOut extends Doc
 		{
 			for (int i = 0; i < p_lines.length; i++)
 			{
+				// Elaine 2008/06/26
+				int C_Currency_ID = as.getC_Currency_ID();
+				//
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
@@ -298,11 +301,23 @@ public class Doc_InOut extends Doc
 					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
 				{
 					int C_OrderLine_ID = line.getC_OrderLine_ID();
-					MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
-					costs = orderLine.getPriceCost();
-					if (costs == null || costs.signum() == 0)
-						costs = orderLine.getPriceActual();
-					costs = costs.multiply(line.getQty());
+					// Low - check if c_orderline_id is valid
+					if (C_OrderLine_ID > 0) 
+					{
+					    MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
+					    costs = orderLine.getPriceCost();
+					    if (costs == null || costs.signum() == 0)
+						   costs = orderLine.getPriceActual();
+					    costs = costs.multiply(line.getQty());
+					    // Elaine 2008/06/26 
+					    C_Currency_ID = orderLine.getC_Currency_ID();
+					    //
+                    }
+                    else
+                    {
+                        costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
+                    }
+                    //
 				}
 				else
 				{
@@ -318,8 +333,13 @@ public class Doc_InOut extends Doc
 				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 				if (product.isService())
 					assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+				
+				// Elaine 2008/06/26
+				/*dr = fact.createLine(line, assets,
+					as.getC_Currency_ID(), costs, null);*/
 				dr = fact.createLine(line, assets,
-					as.getC_Currency_ID(), costs, null);
+					C_Currency_ID, costs, null);
+				//
 				if (dr == null)
 				{
 					p_Error = "DR not created: " + line;
@@ -330,9 +350,14 @@ public class Doc_InOut extends Doc
 				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 				dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
 				//  NotInvoicedReceipt				CR
+				// Elaine 2008/06/26
+				/*cr = fact.createLine(line,
+					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
+					as.getC_Currency_ID(), null, costs);*/
 				cr = fact.createLine(line,
 					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
-					as.getC_Currency_ID(), null, costs);
+					C_Currency_ID, null, costs);
+				//
 				if (cr == null)
 				{
 					p_Error = "CR not created: " + line;
@@ -350,6 +375,9 @@ public class Doc_InOut extends Doc
 		{
 			for (int i = 0; i < p_lines.length; i++)
 			{
+				// Elaine 2008/06/26
+				int C_Currency_ID = as.getC_Currency_ID();
+				//
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
@@ -368,6 +396,9 @@ public class Doc_InOut extends Doc
 					if (costs == null || costs.signum() == 0)
 						costs = orderLine.getPriceActual();
 					costs = costs.multiply(line.getQty());
+					// Elaine 2008/06/26
+					C_Currency_ID = orderLine.getC_Currency_ID();
+					//
 				}
 				else
 				{
@@ -380,9 +411,14 @@ public class Doc_InOut extends Doc
 					return null;
 				}
 				//  NotInvoicedReceipt				DR
+				// Elaine 2008/06/26
+				/*dr = fact.createLine(line,
+					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
+					as.getC_Currency_ID(), costs , null);*/
 				dr = fact.createLine(line,
 					getAccount(Doc.ACCTTYPE_NotInvoicedReceipts, as),
-					as.getC_Currency_ID(), costs , null);
+					C_Currency_ID, costs , null);
+				//
 				if (dr == null)
 				{
 					p_Error = "CR not created: " + line;
@@ -398,8 +434,12 @@ public class Doc_InOut extends Doc
 				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 				if (product.isService())
 					assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+				// Elaine 2008/06/26
+				/*cr = fact.createLine(line, assets,
+					as.getC_Currency_ID(), null, costs);*/
 				cr = fact.createLine(line, assets,
-					as.getC_Currency_ID(), null, costs);
+					C_Currency_ID, null, costs);
+				//
 				if (cr == null)
 				{
 					p_Error = "DR not created: " + line;

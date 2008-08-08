@@ -126,6 +126,8 @@ public class Doc_MatchPO extends Doc
 		MInOut inOut = receiptLine.getParent(); 
 		boolean isReturnTrx = inOut.getMovementType().equals(X_M_InOut.MOVEMENTTYPE_VendorReturns);
 		
+// Elaine 2008/6/20
+/* Source move to MInOut.createMatchPOCostDetail()
 		//	Create PO Cost Detail Record first
 		// MZ Goodwill
 		// Create Cost Detail Matched PO using Total Amount and Total Qty based on OrderLine
@@ -143,9 +145,9 @@ public class Doc_MatchPO extends Doc
 				tAmt = tAmt.add(poCost.multiply(qty));
 			}
 		}
-		poCost = poCost.multiply(getQty());			//	Delivered so far
 		tAmt = tAmt.add(isReturnTrx ? poCost.negate() : poCost);
 		tQty = tQty.add(isReturnTrx ? getQty().negate() : getQty());
+		poCost = poCost.multiply(getQty());			//	Delivered so far
 		
 		//	Different currency
 		String costingMethod = as.getCostingMethod();
@@ -180,8 +182,9 @@ public class Doc_MatchPO extends Doc
 				tAmt, tQty,			//	Delivered
 				m_oLine.getDescription(), getTrxName());
 		// end MZ
-
+*/
 		//	Calculate PPV for standard costing
+		String costingMethod = as.getCostingMethod();
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
 			product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
