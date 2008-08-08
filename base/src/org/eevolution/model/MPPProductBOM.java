@@ -16,7 +16,6 @@
 //package org.compiere.mfg.model;
 package org.eevolution.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,24 +25,51 @@ import java.util.logging.Level;
 
 import org.compiere.model.MProduct;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
- *  Order Model.
- * 	Please do not set DocStatus and C_DocType_ID directly. 
- * 	They are set in the process() method. 
- * 	Use DocAction and C_DocTypeTarget_ID instead.
+ *  PP Product BOM Model.
  *
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrder.java,v 1.40 2004/04/13 04:19:30 vpj-cd Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
 public class MPPProductBOM extends X_PP_Product_BOM
 {
+	private static final long serialVersionUID = 1L;
 
-
-	private static CLogger log = CLogger.getCLogger(MPPProductBOM.class);     
+	/** Static Logger */
+	private static CLogger log = CLogger.getCLogger(MPPProductBOM.class);
+	/**	Cache						*/
+	private static CCache<Integer,MPPProductBOM> s_cache = new CCache<Integer,MPPProductBOM>(Table_Name, 40, 5);	//	5 minutes
+	
+	/**
+	 * Load/Get Product BOM by ID (cached) 
+	 * @param ctx
+	 * @param PP_Product_BOM_ID
+	 * @return product bom
+	 */
+	public static MPPProductBOM get(Properties ctx, int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID <= 0)
+			return null;
+		MPPProductBOM bom = s_cache.get(PP_Product_BOM_ID);
+		if (bom != null)
+			return bom;
+		bom = new MPPProductBOM(ctx, PP_Product_BOM_ID, null);
+		if (bom.get_ID() == PP_Product_BOM_ID) {
+			s_cache.put(PP_Product_BOM_ID, bom);
+		}
+		else {
+			bom = null;
+		}
+		return bom;
+	}
 
 	/**
 	 *  Default Constructor
@@ -161,12 +187,11 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 * BUG #104
 	 * @param lines
 	 */
-
-	List lines = null;
-
-	public void setLines(List lines) {
+	private void setLines(List<MPPProductBOMLine> lines) {
 		this.lines = lines;
 	}
+
+	private List<MPPProductBOMLine> lines = null;
 
 	/**
 	 * BUG #? - Does not persist objects!
@@ -181,7 +206,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		newBom.setDocumentNo(null);
 
 		if (copyLines) {
-			List newLines = new ArrayList();
+			List<MPPProductBOMLine> newLines = new ArrayList<MPPProductBOMLine>();
 			MPPProductBOMLine[] fromLines = from.getLines();
 			for (int i = 0; i < fromLines.length; i++) {
 				MPPProductBOMLine line = new MPPProductBOMLine(ctx, 0,null);
@@ -206,7 +231,6 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		return sb.toString ();
 	}	//	toString
 
-
 	/**
 	 * 	Get BOM for Product 
 	 *	@param product product
@@ -214,31 +238,24 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 *  @param trxName Transaction Name
 	 *	@return BOM
 	 */
-	public static MPPProductBOM get(MProduct product , int ad_org_id, String trxName)
+	public static MPPProductBOM get(MProduct product, int ad_org_id, String trxName)
 	{
-
 		MPPProductBOM bom =  null;
-
 		Properties ctx = product.getCtx();
 		// find Default BOM in Product Data Planning  
 		if (ad_org_id > 0 )
 		{	
 			MPPProductPlanning pp = MPPProductPlanning.get(ctx, product.getAD_Client_ID(),ad_org_id, product.getM_Product_ID(), trxName);
-
-			if(pp!= null && pp.getPP_Product_BOM_ID() > 0 )
+			if(pp != null && pp.getPP_Product_BOM_ID() > 0 )
 			{
 				bom = new MPPProductBOM(ctx, pp.getPP_Product_BOM_ID(),trxName);
 			}
 		}	
-
-		if (bom ==  null)
-		{	
+		if (bom == null)
+		{
 			//Find BOM with Default Logic where product = bom product and bom value = value 
-			String sql = "SELECT PP_Product_BOM_ID FROM PP_Product_BOM WHERE M_Product_ID=? AND Value=?";
-			int m_PP_Product_BOM_ID = DB.getSQLValue(trxName, sql, product.getM_Product_ID(), product.getValue());
-			bom = new MPPProductBOM(product.getCtx(), m_PP_Product_BOM_ID ,product.get_TableName());
+			bom = getDefault(product, trxName);
 		}	
-
 
 		return bom;
 
@@ -252,46 +269,23 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 *  @param trxName Transaction Name
 	 *	@return BOM
 	 */
-	public static MPPProductBOM get(MProduct product , int ad_org_id, Timestamp valid , String trxName)
+	public static MPPProductBOM get(MProduct product, int ad_org_id, Timestamp valid, String trxName)
 	{
-
-		MPPProductBOM bom =  null;
-
-		Properties ctx = product.getCtx();
-		// find Default BOM in Product Data Planning  
-		if (ad_org_id > 0 )
-		{	
-			MPPProductPlanning pp = MPPProductPlanning.get(ctx, product.getAD_Client_ID() ,ad_org_id, product.getM_Product_ID(), trxName);
-
-			if(pp!= null && pp.getPP_Product_BOM_ID() > 0 )
-			{
-				bom = new MPPProductBOM(ctx, pp.getPP_Product_BOM_ID(),trxName);
-			}
-		}	
-
-		if (bom ==  null)
-		{	
-			//Find BOM with Default Logic where product = bom product and bom value = value 
-			String sql = "SELECT PP_Product_BOM_ID FROM PP_Product_BOM WHERE M_Product_ID=? AND Value=?";
-			int m_PP_Product_BOM_ID = DB.getSQLValue(trxName, sql, product.getM_Product_ID(), product.getValue());
-			bom = new MPPProductBOM(product.getCtx(), m_PP_Product_BOM_ID ,product.get_TableName());
-		}	
-
+		MPPProductBOM bom = get(product, ad_org_id, trxName);
+		//
+		// Validate date
 		if (bom != null)
 		{	
 			boolean ValidFromBOM = true;
 			boolean ValidToBOM = true;
-
 			if (bom.getValidFrom() != null)
 			{		
 				ValidFromBOM = valid.compareTo(bom.getValidFrom()) >= 0 ? true : false;
 			}
-
 			if (bom.getValidTo() != null )
 			{		
 				ValidToBOM = valid.compareTo(bom.getValidTo()) <= 0 ? true : false;
 			}
-
 			if(ValidFromBOM && ValidToBOM)
 			{ 
 				return bom;
@@ -304,236 +298,75 @@ public class MPPProductBOM extends X_PP_Product_BOM
 
 	}	//	getBOM
 
-
-	/**************************************************************************
-	 * 	Get BOM lines
-	 * 	@return Array of BOM Lines
-	 */
-	public MPPProductBOMLine[] getLines()
-	{
-		return getLines (getPP_Product_BOM_ID());
-	}	//	getLines
-
-
-	/**************************************************************************
-	 * 	Get BOM lines
-	 *  @param  valid date to validate
-	 * 	@return Array of BOM Lines
-	 */
-	public MPPProductBOMLine[] getLines(Timestamp valid)
-	{
-		return getLines (getPP_Product_BOM_ID(), valid);
-	}	//	getLines
-
 	/**
 	 * 	Get BOM Lines valid date for Product BOM
-	 * 	@param pp_product_bom_id BOM ID
 	 *  @param valid Date to Validate
 	 * 	@return BOM Lines
 	 */
-	public  MPPProductBOMLine[] getLines (int pp_product_bom_id , Timestamp valid)
+	public MPPProductBOMLine[] getLines (Timestamp valid)
 	{
-
-		ArrayList<MPPProductBOMLine> list = new ArrayList<MPPProductBOMLine> ();
-		StringBuffer sql = new StringBuffer("SELECT * FROM PP_Product_BOMLine WHERE PP_Product_BOM_ID=? ");
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, pp_product_bom_id);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MPPProductBOMLine bl = new MPPProductBOMLine(getCtx(), rs, get_TrxName());
-				boolean ValidFromBOMLine = true;
-				boolean ValidToBOMLine = true;
-				if (bl.getValidFrom() != null)
-				{		
-					ValidFromBOMLine = valid.compareTo(bl.getValidFrom()) >= 0 ? true : false;
-				}
-
-				if (bl.getValidTo() != null )
-				{		
-					ValidToBOMLine = valid.compareTo(bl.getValidTo()) <= 0 ? true : false;
-				}        	        	
-				if(ValidFromBOMLine && ValidToBOMLine)
-				{ 
-					list.add(bl);
-				}	
+		MPPProductBOMLine[] bomlines = getLines(); // All BOM Lines
+		List<MPPProductBOMLine> list = new ArrayList<MPPProductBOMLine>(); // Selected BOM Lines Only
+		for (MPPProductBOMLine bl : bomlines) {
+			boolean ValidFromBOMLine = true;
+			boolean ValidToBOMLine = true;
+			if (bl.getValidFrom() != null)
+			{		
+				ValidFromBOMLine = valid.compareTo(bl.getValidFrom()) >= 0 ? true : false;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			if (bl.getValidTo() != null )
+			{		
+				ValidToBOMLine = valid.compareTo(bl.getValidTo()) <= 0 ? true : false;
+			}        	        	
+			if(ValidFromBOMLine && ValidToBOMLine)
+			{ 
+				list.add(bl);
+			}	
 		}
 		//
-		MPPProductBOMLine[] lines = new MPPProductBOMLine[list.size ()];
-		list.toArray (lines);
-		return lines;
-
+		return list.toArray(new MPPProductBOMLine[list.size()]);
 	}	//	getLines
 
 	/**
 	 * 	Get BOM Lines for Product BOM
-	 * 	@param pp_product_bom_id BOM ID
 	 * 	@return BOM Lines
 	 */
-	public  MPPProductBOMLine[] getLines (int PP_Product_BOM_ID)
+	public  MPPProductBOMLine[] getLines()
 	{
-
-		ArrayList<MPPProductBOMLine> list = new ArrayList<MPPProductBOMLine> ();
-		StringBuffer sql = new StringBuffer("SELECT * FROM PP_Product_BOMLine WHERE PP_Product_BOM_ID=? ");
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, PP_Product_BOM_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MPPProductBOMLine bl = new MPPProductBOMLine(getCtx(), rs, get_TrxName());
-				list.add(bl);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-
-		MPPProductBOMLine[] lines = new MPPProductBOMLine[list.size ()];
-		list.toArray (lines);
-		return lines;
-
+		// TODO: add caching support
+		String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?";
+		List<MPPProductBOMLine> list = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause, get_TrxName())
+											.setParameters(new Object[]{getPP_Product_BOM_ID()})
+											.list();
+		return list.toArray(new MPPProductBOMLine[list.size()]);
 	}	//	getLines    		
 
-
-
-
 	/**
-	 * 	Create new Order by copying
-	 * 	@param ctx context
-	 *	@param C_Order_ID invoice
-	 * 	@param dateDoc date of the document date
-	 *	@return Order
+	 * Get PP_Product_BOM_ID for given M_Product_ID
+	 * @param M_Product_ID
+	 * @return PP_Product_BOM_ID
 	 */
-	public static MPPProductBOM copyFrom (Properties ctx, int PP_Product_BOM_ID, Timestamp dateDoc)
+	public static int getBOMSearchKey(Properties ctx, int M_Product_ID)
 	{
-		MPPProductBOM from = new MPPProductBOM (ctx, PP_Product_BOM_ID,"PP_Product_BOM");
-		if (from.getPP_Product_BOM_ID() == 0)
-			throw new IllegalArgumentException ("From Invoice not found C_Invoice_ID=" + PP_Product_BOM_ID);
-		//
-		MPPProductBOM to = new MPPProductBOM (ctx, 0,"PP_Product_BOM");
-		PO.copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
-		to.setPP_Product_BOM_ID(0);
-		//to.set_ValueNoCheck ("DocumentNo", null);
-		//
-		//to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
-		//to.setDocAction(DOCACTION_Prepare);
-		//to.setC_DocTypeTarget_ID(to.getC_DocType_ID());
-		//to.setC_DocType_ID(0);
-		//to.setIsSelected (false);
-		//to.setDateOrdered (dateDoc);
-		//to.setDateAcct (dateDoc);
-		//to.setDatePromised (dateDoc);
-		//
-		//to.setIsApproved (false);
-		//to.setIsCreditApproved(false);
-		//to.setC_Payment_ID(0);
-		//to.setC_CashLine_ID(0);
-		//	Amounts are updated by trigger when adding lines
-		//to.setGrandTotal(Env.ZERO);
-		//to.setTotalLines(Env.ZERO);
-		//
-		//to.setIsDelivered(false);
-		//to.setIsInvoiced(false);
-		//to.setIsSelfService(false);
-		//to.setDatePrinted(null);
-		//to.setIsPrinted (false);
-		//to.setIsTransferred (false);
-		//to.setPosted (false);
-		//to.setProcessed (false);
-		//
-		if (!to.save())
-			throw new IllegalStateException("Could not create Order");
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 
-		if (to.copyLinesFrom(from) == 0)
-			throw new IllegalStateException("Could not create Order Lines");
-
-		return to;
-	}	//	copyFrom
-
-	public static int getBOMSearchKey(int M_Product_ID)
-	{
-
-		int PP_Product_BOM_ID = 0;
-		int AD_Client_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Client_ID"));
-
-		MProduct product = new MProduct(Env.getCtx(), M_Product_ID, "M_Product");
-		String sql = "SELECT pb.PP_Product_BOM_ID FROM PP_Product_BOM  pb WHERE pb.Value = ? AND pb.AD_Client_ID = ?";	
-
-
-
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql);
-			pstmt.setString(1, product.getValue());	
-			pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{	
-				PP_Product_BOM_ID = rs.getInt(1);
-				break;
-			}	
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-			return PP_Product_BOM_ID;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE,"getProductPlanning", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}	
-
-		return 0;
+		MProduct product = MProduct.get(ctx, M_Product_ID);
+		String sql = "SELECT pb.PP_Product_BOM_ID FROM PP_Product_BOM pb"
+						+" WHERE pb.Value = ? AND pb.AD_Client_ID = ?";
+		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);
+	}
+	
+	/**
+	 * Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value) 
+	 * @param product
+	 * @param trxName
+	 * @return product BOM
+	 */
+	public static MPPProductBOM getDefault(MProduct product, String trxName) {
+		return new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
+				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()})
+				.first();
+		
 	}
 
-}	//	MPP_ProductBOM
+}	//	MPPProductBOM

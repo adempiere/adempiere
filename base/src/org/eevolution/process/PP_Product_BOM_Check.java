@@ -18,12 +18,9 @@
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.logging.Level;
 
-import org.compiere.model.X_M_Product;
+import org.compiere.model.MProduct;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
@@ -39,7 +36,7 @@ import org.eevolution.model.MPPProductBOMLine;
  * BOMs which are already referenced
  * 
  * @author Tony Snook (tspc)
- * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
 public class PP_Product_BOM_Check extends SvrProcess
 {
@@ -72,14 +69,10 @@ public class PP_Product_BOM_Check extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-
-		int bomid = 0;
-		int lowlevel = 0;
-
 		log.info("Check BOM Structure");
 
 		// Record ID is M_Product_ID of product to be tested
-		X_M_Product xp = new X_M_Product(Env.getCtx(), p_Record_ID, get_TrxName());
+		MProduct xp = new MProduct(Env.getCtx(), p_Record_ID, get_TrxName());
 
 		if (!xp.isBOM())
 		{
@@ -89,67 +82,28 @@ public class PP_Product_BOM_Check extends SvrProcess
 		}
 
 		// Check Parent Level
-		MPPProductBOMLine bomline = new MPPProductBOMLine(getCtx(), 0, get_TrxName());
-
-		try
-		{
-			lowlevel = bomline.getLowLevel(p_Record_ID);
-		}
-		catch (Exception e)
-		{
-			raiseError("BOM Loop Error: ", e.getCause().getLocalizedMessage());
-		}
+		int lowlevel = MPPProductBOMLine.getLowLevel(getCtx(), p_Record_ID, get_TrxName());
 		xp.setLowLevel(lowlevel);
 		xp.setIsVerified(true);
-		xp.save(get_TrxName());
+		xp.saveEx();
 
-		// Get BOM ID for default BOM (where BOM search key equals Product
-		// search key)
-		String sql = new String("SELECT PP_Product_BOM_ID FROM PP_Product_BOM pb " + "LEFT JOIN M_Product p ON pb.M_Product_ID = p.M_Product_ID "
-				+ "WHERE pb.M_Product_ID = ? AND pb.value = p.value ");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, p_Record_ID);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				bomid = rs.getInt(1);
-			else
-				raiseError("No Default BOM found: ", "Check BOM Parent search key");
+		// Get Default BOM from this product
+		MPPProductBOM tbom = MPPProductBOM.getDefault(xp, get_TrxName());
+		if (tbom == null) {
+			raiseError("No Default BOM found: ", "Check BOM Parent search key");
 		}
-		catch (SQLException e)
-		{
-			log.severe("Error getting BOM_ID for product: " + e + "\n" + sql);
-			return "@Error@";
-		}
-		finally
-		{
-			rs.close();
-			pstmt.close();
-		}
-
+		
 		// Check All BOM Lines
-		MPPProductBOM tbom = new MPPProductBOM(getCtx(), bomid, get_TrxName());
 		if (tbom.getM_Product_ID() != 0)
 		{
 			MPPProductBOMLine[] tbomlines = tbom.getLines();
 			for (MPPProductBOMLine tbomline : tbomlines)
 			{
-				xp = new X_M_Product(Env.getCtx(), tbomline.getM_Product_ID(), get_TrxName());
-				lowlevel = 0;
-				try
-				{
-					lowlevel = bomline.getLowLevel(tbomline.getM_Product_ID());
-				}
-				catch (Exception e)
-				{
-					raiseError("BOM Loop Error: ", e.getLocalizedMessage());
-				}
-				xp.setLowLevel(lowlevel);
-				xp.setIsVerified(true);
-				xp.save(get_TrxName());
+				lowlevel = tbomline.getLowLevel(); 
+				MProduct p = new MProduct(getCtx(), tbomline.getM_Product_ID(), get_TrxName());
+				p.setLowLevel(lowlevel);
+				p.setIsVerified(true);
+				p.saveEx();
 			}
 		}
 		return "OK";
@@ -158,12 +112,13 @@ public class PP_Product_BOM_Check extends SvrProcess
 	private void raiseError(String string, String hint) throws Exception
 	{
 		DB.rollback(false, get_TrxName());
-		X_M_Product xp = new X_M_Product(getCtx(), p_Record_ID, null); // parent
+		MProduct xp = new MProduct(getCtx(), p_Record_ID, null); // parent
 		xp.setIsVerified(false); // set BOM not verified
 		xp.save();
 		String msg = string;
 		ValueNamePair pp = CLogger.retrieveError();
-		if (pp != null) msg = pp.getName() + " - ";
+		if (pp != null)
+			msg = pp.getName() + " - ";
 		msg += hint;
 		throw new AdempiereUserError(msg);
 	}

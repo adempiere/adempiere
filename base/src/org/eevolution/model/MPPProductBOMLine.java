@@ -20,35 +20,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MProduct;
-import org.compiere.model.X_M_Product;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
- *  Manufacturing Order Line Model.
+ *  PP Product BOM Line Model.
  * 	<code>
  * 			MPPProductBOMLine l = new MPPProductBOMLine(bom);
- l.setM_Product_ID(wbl.getM_Product_ID());
- l.setQty(wbl.getQuantity());;
- l.save();
+ * 			l.setM_Product_ID(wbl.getM_Product_ID());
+ * 			l.setQty(wbl.getQuantity());;
+ * 			l.saveEx();
  *	</code>
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrderLine.java,v 1.22 2004/03/22 07:15:03 vpj-cd Exp $
+ *  
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
 public class MPPProductBOMLine extends X_PP_Product_BOMLine
 {
-
-	static private int AD_Client_ID = 0;
-	static Hashtable<Integer, Integer> tableproduct = new Hashtable<Integer, Integer>();
-	private static CLogger s_log = CLogger.getCLogger(MPPProductBOMLine.class);
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 *  Default Constructor
@@ -63,18 +59,13 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 
 	/**
 	 *  Parent Constructor.
-	 ol.setM_Product_ID(wbl.getM_Product_ID());
-	 ol.setQtyOrdered(wbl.getQuantity());
-	 ol.setPrice();
-	 ol.setPriceActual(wbl.getPrice());
-	 ol.setTax();
-	 ol.save();
-	 *  @param  order parent order
+	 *  @param  bom parent BOM
 	 */
 	public MPPProductBOMLine(MPPProductBOM bom)
 	{
 		super(bom.getCtx(), 0, bom.get_TableName());
-		if (bom.get_ID() == 0) throw new IllegalArgumentException("Header not saved");
+		if (bom.get_ID() == 0)
+			throw new IllegalArgumentException("Header not saved");
 		setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID()); //	parent
 	}
 
@@ -89,162 +80,78 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	} //	 MPPProductBOMLine
 
 	/**
-	 * 	Set Defaults from BOM.
-	 * 	Does not set Parent !!
-	 * 	@param BOM BOM
+	 * Calculate Low Level of a Product
+	 * @param ID Product
+	 * @return int low level
 	 */
-	public void setMPPProductBOM(MPPProductBOM bom)
+	public int getLowLevel()
 	{
-		setClientOrg(bom);
+		return new ProductLowLevelCalculator(getCtx(), get_TrxName()).getLowLevel(getM_Product_ID());
 	}
 
 	/**
-	 * 	String Representation
-	 * 	@return info
+	 * Calculate Low Level of a Product
+	 * @param ID Product
+	 * @return int low level
 	 */
-	public String toString()
+	public static int getLowLevel(Properties ctx, int M_Product_ID, String trxName)
 	{
-		StringBuffer sb = new StringBuffer("MPPProductBOMLine[").append(get_ID()).append("]");
-		return sb.toString();
+		return new ProductLowLevelCalculator(ctx, trxName).getLowLevel(M_Product_ID);
 	}
 
-	/**
-	 * 	String Description
-	 * 	@return info
+	/**************************************************************************
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@return save
 	 */
-	public String getDescriptionText()
+	protected boolean afterSave(boolean newRecord, boolean success)
 	{
-		return super.getDescription();
-	} //	getDescriptionText
+		if (success)
+		{
+			int lowlevel = getLowLevel();
+			MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
+			product.setLowLevel(lowlevel); //update lowlevel
+			product.saveEx();
+		}
+		return true;
+	}
+}
 
+class ProductLowLevelCalculator {
+	private Hashtable<Integer, Integer> tableproduct = new Hashtable<Integer, Integer>();
+	private Properties m_ctx = null;
+	private String m_trxName = null;
+	
+	public ProductLowLevelCalculator(Properties ctx, String trxName)
+	{
+		m_ctx = ctx;
+		m_trxName = trxName;
+	}
+	
 	/**
 	 * get low level of a Product
 	 * @param ID Product
 	 * @return int low level
 	 */
-	public int getLowLevel(int M_Product_ID) throws Exception
+	public int getLowLevel(int M_Product_ID)
 	{
-		AD_Client_ID = Integer.valueOf(getCtx().getProperty("#AD_Client_ID"));
+		int AD_Client_ID = Env.getAD_Client_ID(m_ctx);
 		tableproduct.clear(); //reset tableproduct cache
 		DefaultMutableTreeNode ibom = null;
 
 		tableproduct.put(M_Product_ID, 0); //insert parent into cache
-		ibom = iparent(M_Product_ID, 0); //start traversing tree
+		ibom = iparent(AD_Client_ID, M_Product_ID, 0); //start traversing tree
 
 		return ibom.getDepth();
 	}
-
-	/**
-	 * get a implotion the a prduct 
-	 * @param ID Product
-	 * @param ID BOM
-	 * @return DefaultMutableTreeNode Tree with all parent product
-	 */
-	private DefaultMutableTreeNode parent(int M_Product_ID, int PP_Product_BOM_ID)
-	{
-
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|" + Integer.toString(PP_Product_BOM_ID));
-
-		String sql = new String(
-				"SELECT pbom.PP_Product_BOM_ID FROM PP_Product_BOM pbom WHERE pbom.IsActive = 'Y' AND pbom.AD_Client_ID= ? AND pbom.M_Product_ID = ? ");
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
-			pstmt.setInt(2, M_Product_ID);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				DefaultMutableTreeNode bom = component(rs.getInt(1), M_Product_ID, parent);
-				if (bom != null)
-				{
-					parent.add(bom);
-				}
-
-			}
-			return parent;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "doIt - " + sql + e);
-
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		return parent;
-	}
-
-	/**
-	 * get a explotion the a product 
-	 * @param ID BOM
-	 * @param ID Product
-	 * @param DefaultMutableTreeNode Tree BOM
-	 * @return DefaultMutableTreeNode Tree with all components product
-	 */
-	private DefaultMutableTreeNode component(int M_Product_BOM_ID, int M_Product_ID, DefaultMutableTreeNode bom)
-	{
-
-		String sql = new String(
-				"SELECT pboml.M_Product_ID , pbom.Value , pboml.PP_Product_BOMLine_ID , pbom.PP_Product_BOM_ID FROM" 
-				+ " PP_Product_BOM pbom INNER JOIN PP_Product_BOMLine pboml ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID)" 
-				+ " WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pbom.AD_Client_ID= ? AND pbom.PP_Product_BOM_ID = ? ");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
-			pstmt.setInt(2, M_Product_BOM_ID);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				if (M_Product_ID != rs.getInt(1))
-				{
-					bom.add(parent(rs.getInt(1), rs.getInt(4)));
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, "Componet will be deactivated for BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3)
-							+ ")", "Error Cycle BOM", JOptionPane.ERROR_MESSAGE);
-					MPPProductBOMLine PP_Product_BOMLine = new MPPProductBOMLine(Env.getCtx(), rs.getInt(3), get_TrxName());
-					PP_Product_BOMLine.setIsActive(false);
-					PP_Product_BOMLine.save();
-				}
-			}
-			if (rs.getRow() == 0)
-			{
-				DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|0");
-				bom.add(parent);
-				return bom;
-			}
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "doIt - " + sql + e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-
-
-		return null;
-	}
-
+	
 	/**
 	 * get an implotion the product 
 	 * @param ID Product
 	 * @param ID BOM
 	 * @return DefaultMutableTreeNode Tree with all parent product
 	 */
-	private DefaultMutableTreeNode iparent(int M_Product_ID, int PP_Product_BOM_ID) throws Exception
+	private DefaultMutableTreeNode iparent(int AD_Client_ID, int M_Product_ID, int PP_Product_BOM_ID)
 	{
 
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|" + Integer.toString(PP_Product_BOM_ID));
@@ -257,7 +164,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, m_trxName);
 			pstmt.setInt(1, AD_Client_ID);
 			pstmt.setInt(2, M_Product_ID);
 			rs = pstmt.executeQuery();
@@ -270,17 +177,16 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 					tableproduct.clear();
 					tableproduct.put(M_Product_ID, PP_Product_BOM_ID); //insert parent into cache
 				}
-				DefaultMutableTreeNode bom = icomponent(rs.getInt(1), M_Product_ID, parent);
+				DefaultMutableTreeNode bom = icomponent(AD_Client_ID, rs.getInt(1), M_Product_ID, parent);
 				if (bom != null)
 				{
 					parent.add(bom);
 				}
 			}
-			return parent;
 		}
 		catch (SQLException e)
 		{
-			s_log.log(Level.SEVERE, "iparent - " + sql + e);
+			throw new DBException(e);
 		}
 		finally {
 			DB.close(rs, pstmt);
@@ -296,17 +202,17 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	 * @param ID BOM
 	 * @return DefaultMutableTreeNode Tree with all parent product
 	 */
-	private DefaultMutableTreeNode icomponent(int PP_Product_BOMLine_ID, int M_Product_ID, DefaultMutableTreeNode bom) throws Exception
+	private DefaultMutableTreeNode icomponent(int AD_Client_ID, int PP_Product_BOMLine_ID, int M_Product_ID, DefaultMutableTreeNode bom)
 	{
-		String sql = new String(
+		String sql = 
 				"SELECT pbom.M_Product_ID , pbom.Value , pbom.PP_Product_BOM_ID FROM  PP_Product_BOMLine pboml"
 				+ " INNER JOIN PP_Product_BOM pbom ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID)"
-				+ " WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pboml.AD_Client_ID =? AND pboml.PP_Product_BOMLine_ID = ? ");
+				+ " WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pboml.AD_Client_ID =? AND pboml.PP_Product_BOMLine_ID = ? ";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, m_trxName);
 			pstmt.setInt(1, AD_Client_ID);
 			pstmt.setInt(2, PP_Product_BOMLine_ID);
 			rs = pstmt.executeQuery();
@@ -316,26 +222,24 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 				{
 					//BOM Loop Error
 					if (!tableproduct(rs.getInt(1), rs.getInt(3)))
-						bom.add(iparent(rs.getInt(1), rs.getInt(3)));
+						bom.add(iparent(AD_Client_ID, rs.getInt(1), rs.getInt(3)));
 					else
 					{
-						s_log.saveError("Error", "Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ")");
-						throw new Exception(CLogger.retrieveError().toString());
+						throw new AdempiereException("Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ")");
 					}
 				}
 				else
 				{
 					//Child = Parent error
-					X_M_Product product = new X_M_Product(getCtx(), M_Product_ID, null);
-					s_log.saveError("Error", "Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ") - Component: "
-							+ product.getValue() + "(" + product.getM_Product_ID() + ")");
-					throw new Exception(CLogger.retrieveError().toString());
+					MProduct product = MProduct.get(m_ctx, M_Product_ID);
+					throw new AdempiereException("Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) +")"
+													+ " - Component: " + product.getValue() + "(" + product.getM_Product_ID() + ")");
 				}
 			}
 		}
 		catch (SQLException e)
 		{
-			s_log.log(Level.SEVERE, "doIt - " + sql + e);
+			throw new DBException(e);
 		}
 		finally {
 			DB.close(rs, pstmt);
@@ -351,7 +255,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	 * @param ID BOM
 	 * @return true if product is found
 	 */
-	private static boolean tableproduct(int M_Product_ID, int PP_Product_BOM_ID)
+	private boolean tableproduct(int M_Product_ID, int PP_Product_BOM_ID)
 	{
 		Integer p = new Integer(M_Product_ID);
 		Integer bom = new Integer(PP_Product_BOM_ID);
@@ -362,31 +266,5 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		}
 		tableproduct.put(p, bom);
 		return false;
-	}
-
-	/**************************************************************************
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@return save
-	 */
-	protected boolean afterSave(boolean newRecord, boolean success)
-	{
-		if (success)
-		{
-			MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
-			int lowlevel = 0;
-			try
-			{
-				lowlevel = getLowLevel(getM_Product_ID());
-			}
-			catch (Exception e)
-			{
-				log.saveError("Error", Msg.parseTranslation(getCtx(), e.getMessage()), false);
-				return false;
-			}
-			product.setLowLevel(lowlevel); //update lowlevel
-			product.save(get_TrxName());
-		}
-		return true;
 	}
 }
