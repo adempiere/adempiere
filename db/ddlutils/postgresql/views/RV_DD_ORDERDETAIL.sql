@@ -1,7 +1,7 @@
---DROP VIEW RV_DD_ORDERDETAIL;
+DROP VIEW RV_DD_ORDERDETAIL;
 CREATE OR REPLACE VIEW RV_DD_ORDERDETAIL AS
 SELECT l.AD_Client_ID, l.AD_Org_ID, 
-	l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,
+	l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,o.DD_Order_ID,
 	o.C_Order_ID, o.DocStatus, o.DocAction, o.C_DocType_ID, o.IsApproved, --o.IsCreditApproved,
 	o.SalesRep_ID, 
 	o.IsDropShip, 
