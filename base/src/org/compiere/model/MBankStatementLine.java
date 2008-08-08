@@ -30,6 +30,9 @@ import org.compiere.util.*;
  *  
  *  Carlos Ruiz - globalqss - integrate bug fixing from Teo Sarca
  *    [ 1619076 ] Bank statement's StatementDifference becames NULL
+ *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1896885 ] BS Line: don't update header if after save/delete fails
  */
  public class MBankStatementLine extends X_C_BankStatementLine
  {
@@ -188,8 +191,9 @@ import org.compiere.util.*;
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		updateHeader();
-		return success;
+		if (!success)
+			return success;
+		return updateHeader();
 	}	//	afterSave
 	
 	/**
@@ -199,24 +203,34 @@ import org.compiere.util.*;
 	 */
 	protected boolean afterDelete (boolean success)
 	{
-		updateHeader();
-		return success;
+		if (!success)
+			return success;
+		return updateHeader();
 	}	//	afterSave
 
 	/**
 	 * 	Update Header
 	 */
-	private void updateHeader()
+	private boolean updateHeader()
 	{
 		String sql = "UPDATE C_BankStatement bs"
 			+ " SET StatementDifference=(SELECT COALESCE(SUM(StmtAmt),0) FROM C_BankStatementLine bsl "
 				+ "WHERE bsl.C_BankStatement_ID=bs.C_BankStatement_ID AND bsl.IsActive='Y') "
 			+ "WHERE C_BankStatement_ID=" + getC_BankStatement_ID();
-		DB.executeUpdate(sql, get_TrxName());
+		int no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 1) {
+			log.warning("StatementDifference #" + no);
+			return false;
+		}
 		sql = "UPDATE C_BankStatement bs"
 			+ " SET EndingBalance=BeginningBalance+StatementDifference "
 			+ "WHERE C_BankStatement_ID=" + getC_BankStatement_ID();
-		DB.executeUpdate(sql, get_TrxName());
+		no = DB.executeUpdate(sql, get_TrxName());
+		if (no != 1) {
+			log.warning("Balance #" + no);
+			return false;
+		}
+		return true;
 	}	//	updateHeader
 	
  }	//	MBankStatementLine
