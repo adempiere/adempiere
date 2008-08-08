@@ -52,6 +52,21 @@ public interface I_AD_PrintTableFormat
 
     /** Load Meta Data */
 
+    /** Column name AD_Image_ID */
+    public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
+
+	/** Set Image.
+	  * Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID);
+
+	/** Get Image.
+	  * Image or Icon
+	  */
+	public int getAD_Image_ID();
+
+	public I_AD_Image getAD_Image() throws Exception;
+
     /** Column name AD_PrintTableFormat_ID */
     public static final String COLUMNNAME_AD_PrintTableFormat_ID = "AD_PrintTableFormat_ID";
 
@@ -169,19 +184,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public int getHdrLine_PrintColor_ID();
 
-    /** Column name Hdr_PrintFont_ID */
-    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
-
-	/** Set Header Row Font.
-	  * Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
-
-	/** Get Header Row Font.
-	  * Header row Font
-	  */
-	public int getHdr_PrintFont_ID();
-
     /** Column name HdrStroke */
     public static final String COLUMNNAME_HdrStroke = "HdrStroke";
 
@@ -233,6 +235,19 @@ public interface I_AD_PrintTableFormat
 	  * Foreground color if the table header row
 	  */
 	public int getHdrTextFG_PrintColor_ID();
+
+    /** Column name Hdr_PrintFont_ID */
+    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
+
+	/** Set Header Row Font.
+	  * Header row Font
+	  */
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
+
+	/** Get Header Row Font.
+	  * Header row Font
+	  */
+	public int getHdr_PrintFont_ID();
 
     /** Column name HeaderCenter */
     public static final String COLUMNNAME_HeaderCenter = "HeaderCenter";
@@ -325,19 +340,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isPaintBoundaryLines();
 
-    /** Column name IsPaintHeaderLines */
-    public static final String COLUMNNAME_IsPaintHeaderLines = "IsPaintHeaderLines";
-
-	/** Set Paint Header Lines.
-	  * Paint Lines over/under the Header Line 
-	  */
-	public void setIsPaintHeaderLines (boolean IsPaintHeaderLines);
-
-	/** Get Paint Header Lines.
-	  * Paint Lines over/under the Header Line 
-	  */
-	public boolean isPaintHeaderLines();
-
     /** Column name IsPaintHLines */
     public static final String COLUMNNAME_IsPaintHLines = "IsPaintHLines";
 
@@ -350,6 +352,19 @@ public interface I_AD_PrintTableFormat
 	  * Paint horizontal lines
 	  */
 	public boolean isPaintHLines();
+
+    /** Column name IsPaintHeaderLines */
+    public static final String COLUMNNAME_IsPaintHeaderLines = "IsPaintHeaderLines";
+
+	/** Set Paint Header Lines.
+	  * Paint Lines over/under the Header Line 
+	  */
+	public void setIsPaintHeaderLines (boolean IsPaintHeaderLines);
+
+	/** Get Paint Header Lines.
+	  * Paint Lines over/under the Header Line 
+	  */
+	public boolean isPaintHeaderLines();
 
     /** Column name IsPaintVLines */
     public static final String COLUMNNAME_IsPaintVLines = "IsPaintVLines";
@@ -377,19 +392,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isPrintFunctionSymbols();
 
-    /** Column name Line_PrintColor_ID */
-    public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
-
-	/** Set Line Color.
-	  * Table line color
-	  */
-	public void setLine_PrintColor_ID (int Line_PrintColor_ID);
-
-	/** Get Line Color.
-	  * Table line color
-	  */
-	public int getLine_PrintColor_ID();
-
     /** Column name LineStroke */
     public static final String COLUMNNAME_LineStroke = "LineStroke";
 
@@ -415,6 +417,19 @@ public interface I_AD_PrintTableFormat
 	  * Type of the Line Stroke
 	  */
 	public String getLineStrokeType();
+
+    /** Column name Line_PrintColor_ID */
+    public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
+
+	/** Set Line Color.
+	  * Table line color
+	  */
+	public void setLine_PrintColor_ID (int Line_PrintColor_ID);
+
+	/** Get Line Color.
+	  * Table line color
+	  */
+	public int getLine_PrintColor_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

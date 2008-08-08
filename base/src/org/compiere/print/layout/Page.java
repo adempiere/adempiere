@@ -70,6 +70,8 @@ public class Page
 	private Properties 		m_ctx;
 	/** Page content				*/
 	private ArrayList<PrintElement>	m_elements = new ArrayList<PrintElement>();
+	/** Background Image */
+	private Image m_image = null;
 
 	/**
 	 * 	Get Page No
@@ -160,6 +162,15 @@ public class Page
 		g2D.setColor(Color.white);
 		g2D.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		//
+		//backgroundImage
+		if(m_image!=null)
+		{	
+			int x = (bounds.width/2) - (m_image.getWidth(null)/2); 
+			int y = (bounds.height/2) - (m_image.getHeight(null)/2); 
+			
+			g2D.drawImage(m_image, x  ,y ,null);
+		}
+		//
 		Point pageStart = new Point(bounds.getLocation());
 		for (int i = 0; i < m_elements.size(); i++)
 		{
@@ -202,7 +213,24 @@ public class Page
 		return retValue;
 	}	//	getDrillAcross
 	
-
+	/**
+	 * set Background Image
+	 * @param image
+	 */
+	public void setBackgroundImage(Image image)
+	{
+		m_image = image;
+	}
+	
+	/**
+	 * get Background Image
+	 * @return
+	 */
+	public Image getBackgroundImage()
+	{
+		return m_image;
+	}
+	
 	/**
 	 * 	String Representation
 	 * 	@return info

@@ -46,6 +46,9 @@ import org.compiere.util.*;
  * 				<li>BF [ 1807917 ] Layout positioning issue with m_maxHeightSinceNewLine
  *				<li>BF [ 1825876 ] Layout boxes with auto width not working
  *				<li>FR [ 1966406 ] Report Engine: AD_PInstance_Logs should be displayed
+ * @author victor.perez@e-evolution.com, e-Evolution
+ * 				<li>BF [ 2011567 ] Implement Background Image for Document printed 
+ * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
  */
 public class LayoutEngine implements Pageable, Printable, Doc
 {
@@ -55,9 +58,9 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 *  @param data Print Data
 	 *  @param query query for parameter info
 	 */
-	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query)
+	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query, PrintInfo info )
 	{
-		this(format, data, query, null);
+		this(format, data, query, info , null);
 	}	//	LayoutEngine
 	
 	/**
@@ -67,7 +70,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 *  @param query query for parameter info
 	 *  @param trxName
 	 */
-	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query, String trxName)
+	public LayoutEngine (MPrintFormat format, PrintData data, MQuery query, PrintInfo info ,  String trxName)
 	{
 		m_TrxName = trxName;
 		log.info(format + " - " + data + " - " + query);
@@ -75,6 +78,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		//
 		setPrintFormat(format, false);
 		setPrintData(data, query, false);
+		setPrintInfo(info);
 		layout();
 	}	//	LayoutEngine
 
@@ -101,6 +105,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private int					m_columnCount = -1;
 	/**	Transaction name		*/
 	private String				m_TrxName = null;
+	/** PrintInfo **/
+	private PrintInfo			m_PrintInfo = null;
 
 
 	/**	Paper - default: standard portrait		*/
@@ -425,6 +431,29 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			DisplayType.getDateFormat(DisplayType.Date, m_format.getLanguage()).format(now));
 		Env.setContext(m_printCtx, Page.CONTEXT_TIME,
 			DisplayType.getDateFormat(DisplayType.DateTime, m_format.getLanguage()).format(now));
+		
+		/*Page Background Image*/
+		Image image = null;
+		MPrintTableFormat tf = new MPrintTableFormat(getCtx(), m_format.getAD_PrintTableFormat_ID(), m_TrxName);
+		if (tf==null)
+			tf = MPrintTableFormat.getDefault(getCtx());
+		
+		String table_name = MTable.getTableName(getCtx(), getPrintInfo().getAD_Table_ID());
+		String sql = "SELECT AD_Column_ID FROM AD_Column WHERE ColumnName='IsPrinted' AND AD_Table_ID="+ getPrintInfo().getAD_Table_ID();
+		int AD_Column_ID = DB.getSQLValue(m_TrxName, sql);
+		if(AD_Column_ID > 0)
+		{
+			sql = "SELECT IsPrinted FROM "+table_name + " WHERE " +table_name+"_ID="+ getPrintInfo().getRecord_ID();
+			if("Y".equals(DB.getSQLValueString(m_TrxName, sql)))
+			{
+				image = tf.getImageWaterMark();
+			}
+		}
+		else
+		{
+				image = tf.getImage();
+		}
+		
 		//	Update Page Info
 		int pages = m_pages.size();
 		for (int i = 0; i < pages; i++)
@@ -434,6 +463,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			pageInfo = String.valueOf(pageNo) + getPageInfo(pageNo);
 			page.setPageInfo(pageInfo);
 			page.setPageCount(pages);
+			page.setBackgroundImage(image);
 		}
 
 		m_hasLayout = true;
@@ -1865,5 +1895,23 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	{
 		return null;
 	}	//	getStreamForBytes
+	
+	/**
+	 * 
+	 * @param PrintInfo info
+	 */
+	public void setPrintInfo(PrintInfo info)
+	{
+		m_PrintInfo = info;
+	}
+	
+	/**
+	 * 
+	 * @return PrintInfo
+	 */
+	public PrintInfo getPrintInfo()
+	{
+		return  m_PrintInfo;
+	}
 
 }	//	LayoutEngine

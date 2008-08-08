@@ -258,7 +258,8 @@ public class ReportCtl
 			return false;
 		}
 		
-		if(re.getPrintFormat() != null && re.getPrintFormat().getJasperProcess_ID() > 0)
+		//if(re.getPrintFormat() != null && re.getPrintFormat().getJasperProcess_ID() > 0)
+		if(re.getPrintFormat().getJasperProcess_ID() > 0)	
 		{
 			ProcessInfo pi = new ProcessInfo ("", re.getPrintFormat().getJasperProcess_ID());
 			pi.setPrintPreview( !IsDirectPrint );

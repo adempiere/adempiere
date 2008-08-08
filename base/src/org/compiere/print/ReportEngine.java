@@ -238,7 +238,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			throw new IllegalStateException ("No print format");
 		if (m_printData == null)
 			throw new IllegalStateException ("No print data (Delete Print Format and restart)");
-		m_layout = new LayoutEngine (m_printFormat, m_printData, m_query, m_trxName);
+		m_layout = new LayoutEngine (m_printFormat, m_printData, m_query, m_info, m_trxName);
 	}	//	layout
 
 	/**

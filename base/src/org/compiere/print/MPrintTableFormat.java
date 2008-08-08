@@ -18,17 +18,24 @@ package org.compiere.print;
 
 import java.awt.*;
 import java.math.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 import java.util.*;
 
 import org.compiere.model.*;
+
 import java.util.logging.*;
+
 import org.compiere.util.*;
 
 /**
  *	Table Print Format
  *
  * 	@author 	Jorg Janke
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * 	<li>BF [ 2011567 ] Implement Background Image for Document printed 
+ * 	<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
  * 	@version 	$Id: MPrintTableFormat.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  */
 public class MPrintTableFormat extends X_AD_PrintTableFormat
@@ -94,6 +101,8 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 	private Stroke 	lineH_Stroke;	//	-
 	private Stroke 	lineV_Stroke;	//	|
 	//
+	private Image 	m_image = null;
+	private Image 	m_image_water_mark = null;
 
 	/**************************************************************************
 	 * 	Set Standard Font to derive other fonts if not defined
@@ -586,5 +595,76 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 		return tf;
 	}	//	get
 
-
+	/**
+	 * 	Load Attachment
+	 * 	@param AD_PrintFormatItem_ID record id
+	 * @throws MalformedURLException 
+	 */
+	private void loadImages(int AD_PrintTableFormatItem_ID) 
+	{
+		if(this.isImageIsAttached())
+		{	
+			MAttachment attachment = MAttachment.get(Env.getCtx(), 
+				MPrintFormatItem.Table_ID, AD_PrintTableFormatItem_ID);
+			if (attachment == null)
+			{
+				log.log(Level.WARNING, "No Attachment - AD_PrintFormatItem_ID=" + AD_PrintTableFormatItem_ID);
+				return;
+			}
+			if (attachment.getEntryCount() != 1)
+			{
+				log.log(Level.WARNING, "Need just 1 Attachment Entry = " + attachment.getEntryCount());
+				return;
+			}
+			byte[] imageData = attachment.getEntryData(0);
+			if (imageData != null)
+				m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+			if (m_image != null)
+				log.fine(attachment.getEntryName(0) 
+					+ " - Size=" + imageData.length);
+			else
+				log.log(Level.WARNING, attachment.getEntryName(0)
+					+ " - not loaded (must be gif or jpg) - AD_PrintFormatItem_ID=" + AD_PrintTableFormatItem_ID);
+		}
+		else if (getImageURL()!= null)
+		{		
+			URL url;
+			try 
+			{
+				url = new URL(getImageURL());
+				Toolkit tk = Toolkit.getDefaultToolkit();
+				m_image = tk.getImage(url);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		else if(getAD_Image_ID() > 0)
+		m_image_water_mark = MImage.get(getCtx(), getAD_Image_ID()).getImage();
+		
+	}	//	loadAttachment
+	
+	
+	/**
+	 * 	Get the Image
+	 *	@return image
+	 */
+	public Image getImage()
+	{
+		if(m_image==null)
+			loadImages(getAD_PrintTableFormat_ID());
+		
+		return m_image;
+	}	//	getImage
+	
+	/**
+	 * 	Get the Image
+	 *	@return image
+	 */
+	public Image getImageWaterMark()
+	{
+		if(m_image_water_mark==null)
+			loadImages(getAD_PrintTableFormat_ID());
+		return m_image_water_mark;
+	}	//	getImage
 }	//	MPrintTableFormat
