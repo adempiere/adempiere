@@ -40,7 +40,7 @@ SELECT
 FROM DD_Order o
 INNER JOIN DD_OrderLine l ON (o.DD_Order_ID=l.DD_Order_ID)
 --INNER JOIN M_Locator loc ON (loc.M_Locator_ID=l.M_Locator_ID) 
-WHERE	(o.DocStatus = 'DR' AND o.IsDelivered='N')  --  Status must be CO - not CL/RE
+WHERE	(o.DocStatus = 'CO' AND o.IsDelivered='N')  --  Status must be CO - not CL/RE
 	--	not Offers and open Walkin-Receipts
 	AND o.C_DocType_ID IN (SELECT C_DocType_ID FROM C_DocType
 		WHERE DocBaseType='DOO')
