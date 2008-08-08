@@ -180,43 +180,43 @@ UPDATE AD_Process_Para SET SeqNo=40,Updated=TO_DATE('2008-08-01 14:32:43','YYYY-
 ;
 
 -- Aug 1, 2008 2:33:22 PM COT
-UPDATE AD_Process_Trl SET IsTranslated='Y',Name='Transferencia Bancaria Inmediata',Updated=TO_DATE('2008-08-01 14:33:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53152 AND AD_Language='es_MX'
+UPDATE AD_Process_Trl SET IsTranslated='Y',Name='Transferencia Bancaria Inmediata',Updated=TO_DATE('2008-08-01 14:33:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_ID=53152 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:33:34 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Cuenta Bancaria Desde',Updated=TO_DATE('2008-08-01 14:33:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53232 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Cuenta Bancaria Desde',Updated=TO_DATE('2008-08-01 14:33:34','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53232 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:33:41 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Cuenta Bancaria Hacia',Updated=TO_DATE('2008-08-01 14:33:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53233 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Cuenta Bancaria Hacia',Updated=TO_DATE('2008-08-01 14:33:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53233 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:33:50 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Cantidad a transferir',Updated=TO_DATE('2008-08-01 14:33:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53235 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Cantidad a transferir',Updated=TO_DATE('2008-08-01 14:33:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53235 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:34:03 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Caja menor intermedia',Updated=TO_DATE('2008-08-01 14:34:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53234 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Caja menor intermedia',Updated=TO_DATE('2008-08-01 14:34:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53234 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:34:11 PM COT
-UPDATE AD_Process_Para_Trl SET Description=NULL,Help=NULL,Updated=TO_DATE('2008-08-01 14:34:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53234 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET Description=NULL,Help=NULL,Updated=TO_DATE('2008-08-01 14:34:11','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53234 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:34:18 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Nombre',Updated=TO_DATE('2008-08-01 14:34:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53236 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Nombre',Updated=TO_DATE('2008-08-01 14:34:18','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53236 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:34:24 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Descripción',Updated=TO_DATE('2008-08-01 14:34:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53237 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Descripción',Updated=TO_DATE('2008-08-01 14:34:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53237 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:34:31 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Fecha Transferencia',Updated=TO_DATE('2008-08-01 14:34:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53238 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Fecha Transferencia',Updated=TO_DATE('2008-08-01 14:34:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53238 AND AD_Language LIKE 'es_%'
 ;
 
 -- Aug 1, 2008 2:34:40 PM COT
-UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Fecha contable',Updated=TO_DATE('2008-08-01 14:34:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53239 AND AD_Language='es_MX'
+UPDATE AD_Process_Para_Trl SET IsTranslated='Y',Name='Fecha contable',Updated=TO_DATE('2008-08-01 14:34:40','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53239 AND AD_Language LIKE 'es_%'
 ;
 
 
