@@ -61,7 +61,7 @@ public class MenuSearchPanel extends Panel implements EventListener
     {
         lblSearch = new Label();
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
-        lblSearch.setTooltip(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
+        lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
         
         cmbSearch = new AutoComplete();
         cmbSearch.setAutodrop(true);

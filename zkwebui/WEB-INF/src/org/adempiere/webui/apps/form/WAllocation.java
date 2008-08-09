@@ -31,9 +31,11 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
@@ -69,11 +71,14 @@ import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Space;
-import org.zkoss.zul.Vbox;
 import org.zkoss.zul.event.ListDataEvent;
 
 
@@ -101,7 +106,8 @@ public class WAllocation extends ADForm implements EventListener,
     private static final long serialVersionUID = 1L;
 
     /** */
-    private Panel m_pnlMain = new Panel();
+    //private Panel m_pnlMain = new Panel();
+    private Borderlayout m_pnlMain = new Borderlayout();
 
     /** Parameter panel. */
     private Panel m_pnlParameter = new Panel();
@@ -275,28 +281,29 @@ public class WAllocation extends ADForm implements EventListener,
      */
     private void createPaymentPanel()
     {
-        Hbox hbox = new Hbox();
+    	Div div = new Div();
 
         // Put the table label at the top of this panel
-        hbox.setWidth("100%");
         m_lblPayment.setValue(Msg.translate(Env.getCtx(), "C_Payment_ID"));
-        hbox.setStyle("text-align:left");
-        hbox.appendChild(m_lblPayment);
-        m_pnlPayment.appendChild(hbox);
+        div.setStyle("text-align:left");
+        div.appendChild(m_lblPayment);
+        m_pnlPayment.appendChild(div);
 
         // Add the payment details table
-        m_lsbPayments.setWidth(null);
-        m_lsbPayments.setRows(10);
+        m_lsbPayments.setVflex(true);
+        m_lsbPayments.setHeight("80%");
+        m_lsbPayments.setWidth("99%");
         m_pnlPayment.appendChild(m_lsbPayments);
-
+        
         // Put the selected payment information just below the table and
         // right-align it
-        hbox = new Hbox();
-        hbox.setWidth("100%");
+        div = new Div();
+        div.setWidth("99%");
         m_lblPaymentInfo.setValue(".");
-        hbox.setStyle("text-align:right");
-        hbox.appendChild(m_lblPaymentInfo);
-        m_pnlPayment.appendChild(hbox);
+        div.setStyle("text-align:right");
+        div.appendChild(m_lblPaymentInfo);
+        m_pnlPayment.appendChild(div);
+        
 
         return;
     }
@@ -309,28 +316,28 @@ public class WAllocation extends ADForm implements EventListener,
      */
     private void createInvoicePanel()
     {
-        Hbox hbox = new Hbox();
+        Div div = new Div();
 
         // Put the table label at the top of this panel
-        hbox.setWidth("100%");
         m_lblInvoice.setValue(Msg.translate(Env.getCtx(), "C_Invoice_ID"));
-        hbox.setStyle("text-align:left");
-        hbox.appendChild(m_lblInvoice);
-        m_pnlInvoice.appendChild(hbox);
+        div.setStyle("text-align:left");
+        div.appendChild(m_lblInvoice);
+        m_pnlInvoice.appendChild(div);
 
         // Add the invoice details table
-        m_lsbInvoices.setWidth(null);
-        m_lsbInvoices.setRows(10);
+        m_lsbInvoices.setHeight("80%");
+        m_lsbInvoices.setWidth("99%");
+        m_lsbInvoices.setVflex(true);
         m_pnlInvoice.appendChild(m_lsbInvoices);
 
         // Put the selected invoice information just below the table and
         // right-align it
-        hbox = new Hbox();
-        hbox.setWidth("100%");
+        div = new Div();
+        div.setWidth("99%");
         m_lblInvoiceInfo.setValue(".");
-        hbox.setStyle("text-align:right");
-        hbox.appendChild(m_lblInvoiceInfo);
-        m_pnlInvoice.appendChild(hbox);
+        div.setStyle("text-align:right");
+        div.appendChild(m_lblInvoiceInfo);
+        m_pnlInvoice.appendChild(div);
 
         return;
     }
@@ -343,28 +350,16 @@ public class WAllocation extends ADForm implements EventListener,
      */
     private void createInfoPanel()
     {
-        Vbox vbox = new Vbox();
-        Separator separator = new Separator();
-
-        vbox.setWidth("100%");
-        vbox.setHeight("200px");
-        vbox.setHeights("45%,5%,45%");
-
-        // Put the payment panel in the top half of the box
-        createPaymentPanel();
-        vbox.appendChild(m_pnlPayment);
-
-        // adda separator between the two panels
-        // this should be a splitter, but splitters don't work with Listboxes
-        separator.setBar(true);
-        vbox.appendChild(separator);
-
-        // Put the invoice panel in the bottom half of the box
-        createInvoicePanel();
-        vbox.appendChild(m_pnlInvoice);
-
-        // add the box to the panel
-        m_pnlInfo.appendChild(vbox);
+    	
+    	createPaymentPanel();
+    	m_pnlPayment.setHeight("49%");
+    	m_pnlPayment.setWidth("100%");
+    	m_pnlInfo.appendChild(m_pnlPayment);
+    	
+    	createInvoicePanel();
+    	m_pnlInvoice.setHeight("49%");
+    	m_pnlInvoice.setWidth("100%");
+    	m_pnlInfo.appendChild(m_pnlInvoice);
 
         return;
     }
@@ -424,6 +419,8 @@ public class WAllocation extends ADForm implements EventListener,
      */
     private void createParameterPanel()
     {
+    	m_grdParameter.makeNoStrip();
+    	
         Rows rows = new Rows();
         Row rowTop = new Row();
         Row rowBottom = new Row();
@@ -435,23 +432,18 @@ public class WAllocation extends ADForm implements EventListener,
         m_chbMultiCurrency.setLabel(Msg.getMsg(Env.getCtx(), "MultiCurrency"));
         m_chbMultiCurrency.addEventListener(Events.ON_CHECK, this);
 
-        rowTop.setAlign("left");
-        rowTop.setStyle("text-align:right");
-        rowBottom.setAlign("left");
-        rowBottom.setStyle("text-align:right");
-
         // add the business partner search box to the top row
-        rowTop.appendChild(m_lblBusinessPartner);
+        rowTop.appendChild(LayoutUtils.makeRightAlign(m_lblBusinessPartner));
         rowTop.appendChild(m_wedBusinessPartnerSearch.getComponent());
 
         // add the date box to the top row
-        rowTop.appendChild(m_lblDate);
+        rowTop.appendChild(LayoutUtils.makeRightAlign(m_lblDate));
         rowTop.appendChild(m_wdeDateField.getComponent());
 
         rows.appendChild(rowTop);
 
         // add the currency search box to the bottom row
-        rowBottom.appendChild(m_lblCurrency);
+        rowBottom.appendChild(LayoutUtils.makeRightAlign(m_lblCurrency));
         rowBottom.appendChild(m_wedCurrencyPick.getComponent());
 
         // add the mult-currency check-box to the bottom row
@@ -487,21 +479,34 @@ public class WAllocation extends ADForm implements EventListener,
         dynamicInitialise();
 
         createParameterPanel();
-        m_pnlMain.appendChild(m_pnlParameter);
+        North north = new North();        
+        north.appendChild(m_pnlParameter);
 
         createInfoPanel();
-        m_pnlMain.appendChild(m_pnlInfo);
+        Center center = new Center();
+        center.appendChild(m_pnlInfo);
+        m_pnlInfo.setWidth("100%");
+        m_pnlInfo.setHeight("100%");
+        center.setFlex(true);
+        center.setAutoscroll(true);
 
         createAllocationPanel();
-        m_pnlMain.appendChild(m_pnlAllocate);
-
-        m_pnlMain.setAlign("center");
+        South south = new South();
+        Div div = new Div();
+        div.appendChild(m_pnlAllocate);
+        div.appendChild(new Separator("vertical"));
+        div.appendChild(m_statusBar);
+        div.setHeight("100%");
+        south.appendChild(div);
 
         this.appendChild(m_pnlMain);
-
-        this.appendChild(m_statusBar);
-
-//        this.setWidth("850px");
+        
+        m_pnlMain.appendChild(north);
+        m_pnlMain.appendChild(center);
+        m_pnlMain.appendChild(south);
+        
+        m_pnlMain.setWidth("99%");
+        m_pnlMain.setHeight("100%");
 
         calculate();
 

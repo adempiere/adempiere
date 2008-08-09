@@ -137,6 +137,7 @@ tr.tab-desktop-tb-m {
 	overflow: auto;
 	position: absolute;
 	width: 100%;
+	margin: 3px;
 }
 
 .adwindow-status {

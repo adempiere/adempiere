@@ -763,11 +763,13 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         }
         else if(menu.getAction().equals(MMenu.ACTION_Form))
         {
-        	Window form = ADForm.openForm(menu.getAD_Form_ID());
+        	ADForm form = ADForm.openForm(menu.getAD_Form_ID());
         	
         	Tabpanel tabPanel = new Tabpanel();
         	form.setParent(tabPanel);
-        	windowContainer.addWindow(tabPanel, form.getTitle(), true);        	
+        	//do not show window title when open as tab
+        	form.setTitle(null);
+        	windowContainer.addWindow(tabPanel, form.getFormName(), true);        	
         }
         else
         {

@@ -49,12 +49,13 @@ public abstract class ADForm extends Window implements EventListener
         logger = CLogger.getCLogger(ADForm.class);
     }
     
-    /** The form's title (for display purposes) */
-    private String m_title;
     /** The unique identifier of the form type */
     private int m_adFormId;
     /** The identifying number of the window in which the form is housed */ 
     protected int m_windowNo;
+
+
+	private String m_name;
     
     /**
      * Constructor
@@ -97,22 +98,20 @@ public abstract class ADForm extends Window implements EventListener
 	   	}
         
         m_adFormId = adFormId;
-        m_title = name;
+        //window title
+        setTitle(name);
+        m_name = name;
         
         return;
     }
     
     /**
-     * Accessor for the form's title
-     * 
-     * @return	the title of the form
+     * @return form name
      */
-    public String getTitle()
-    {
-        return m_title;
+    public String getFormName() {
+    	return m_name;
     }
-
-
+    
 	/**
 	 * Convert the rich client class name for a form to its web UI equivalent 
 	 * 

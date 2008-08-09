@@ -143,69 +143,69 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnParentRecord = new ToolBarButton("");
         btnParentRecord.setName("btnParentRecord");
         btnParentRecord.setImage("/images/Parent24.gif");
-        btnParentRecord.setTooltip(Msg.getMsg(Env.getCtx(),"Parent"));
+        btnParentRecord.setTooltiptext(Msg.getMsg(Env.getCtx(),"Parent"));
 
         btnDetailRecord = new ToolBarButton("");
         btnDetailRecord.setName("btnDetailRecord");
         btnDetailRecord.setImage("/images/Detail24.gif");
-        btnDetailRecord.setTooltip(Msg.getMsg(Env.getCtx(),"Detail"));
+        btnDetailRecord.setTooltiptext(Msg.getMsg(Env.getCtx(),"Detail"));
         // --
         btnFirst = new ToolBarButton("");
         btnFirst.setName("btnFirst");
         btnFirst.setImage("/images/First24.gif");
-        btnFirst.setTooltip(Msg.getMsg(Env.getCtx(),"First"));
+        btnFirst.setTooltiptext(Msg.getMsg(Env.getCtx(),"First"));
 
         btnPrevious = new ToolBarButton("");
         btnPrevious.setName("btnPrevious");
         btnPrevious.setImage("/images/Previous24.gif");
-        btnPrevious.setTooltip(Msg.getMsg(Env.getCtx(),"Previous"));
+        btnPrevious.setTooltiptext(Msg.getMsg(Env.getCtx(),"Previous"));
 
         btnNext = new ToolBarButton("");
         btnNext.setName("btnNext");
         btnNext.setImage("/images/Next24.gif");
-        btnNext.setTooltip(Msg.getMsg(Env.getCtx(),"Next"));
+        btnNext.setTooltiptext(Msg.getMsg(Env.getCtx(),"Next"));
 
         btnLast = new ToolBarButton("");
         btnLast.setName("btnLast");
         btnLast.setImage("/images/Last24.gif");
-        btnLast.setTooltip(Msg.getMsg(Env.getCtx(),"Last"));
+        btnLast.setTooltiptext(Msg.getMsg(Env.getCtx(),"Last"));
         
         // --
         btnReport = new ToolBarButton("");
         btnReport.setName("btnReport");
         btnReport.setImage("/images/Report24.gif");
-        btnReport.setTooltip(Msg.getMsg(Env.getCtx(),"Report"));
+        btnReport.setTooltiptext(Msg.getMsg(Env.getCtx(),"Report"));
 
         btnArchive = new ToolBarButton("");
         btnArchive.setName("btnArchive");
         btnArchive.setImage("/images/Archive24.gif");
-        btnArchive.setTooltip(Msg.getMsg(Env.getCtx(),"Archive"));
+        btnArchive.setTooltiptext(Msg.getMsg(Env.getCtx(),"Archive"));
 
         btnPrint = new ToolBarButton("");
         btnPrint.setName("btnPrint");
         btnPrint.setImage("/images/Print24.gif");
-        btnPrint.setTooltip(Msg.getMsg(Env.getCtx(),"Print"));
+        btnPrint.setTooltiptext(Msg.getMsg(Env.getCtx(),"Print"));
         
         // --
         btnZoomAcross = new ToolBarButton("");
         btnZoomAcross.setName("btnZoomAcross");
         btnZoomAcross.setImage("/images/ZoomAcross24.gif");
-        btnZoomAcross.setTooltip(Msg.getMsg(Env.getCtx(),"ZoomAcross"));
+        btnZoomAcross.setTooltiptext(Msg.getMsg(Env.getCtx(),"ZoomAcross"));
 
         btnActiveWorkflows = new ToolBarButton("");
         btnActiveWorkflows.setName("btnActiveWorkflows");
         btnActiveWorkflows.setImage("/images/WorkFlow24.gif");
-        btnActiveWorkflows.setTooltip(Msg.getMsg(Env.getCtx(),"WorkFlow"));
+        btnActiveWorkflows.setTooltiptext(Msg.getMsg(Env.getCtx(),"WorkFlow"));
 
         btnRequests = new ToolBarButton("");
         btnRequests.setName("btnRequests");
         btnRequests.setImage("/images/Request24.gif");
-        btnRequests.setTooltip(Msg.getMsg(Env.getCtx(),"Request"));
+        btnRequests.setTooltiptext(Msg.getMsg(Env.getCtx(),"Request"));
 
         btnProductInfo = new ToolBarButton("");
         btnProductInfo.setName("btnProductInfo");
         btnProductInfo.setImage("/images/Product24.gif");
-        btnProductInfo.setTooltip(Msg.getMsg(Env.getCtx(),"InfoProduct"));
+        btnProductInfo.setTooltiptext(Msg.getMsg(Env.getCtx(),"InfoProduct"));
 
 //        btnExit = new ToolBarButton("");
 //        btnExit.setName("btnExit");
