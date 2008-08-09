@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,9 +16,16 @@
  *****************************************************************************/
 package compiere.model;
 
-import java.math.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+
+import org.compiere.model.MClient;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 
 /**
@@ -31,7 +38,6 @@ public class MyValidator implements ModelValidator
 {
 	/**
 	 *	Constructor.
-	 *	The class is instanciated when logging in and client is selected/known
 	 */
 	public MyValidator ()
 	{
@@ -51,18 +57,18 @@ public class MyValidator implements ModelValidator
 	 */
 	public void initialize (ModelValidationEngine engine, MClient client)
 	{
-		m_AD_Client_ID = client.getAD_Client_ID();
+		if (client != null)
+			m_AD_Client_ID = client.getAD_Client_ID();
+		else 
+			m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		log.info("" + m_AD_Client_ID);
 		if (m_AD_Client_ID != 11)	//	GardenWorld Example
 			return;
-		log.info(client.toString());
 		
 		//	We want to be informed when C_Order is created/changed
 		engine.addModelChange(MOrder.Table_Name, this);
 		//	We want to validate Order before preparing 
 		engine.addDocValidate(MOrder.Table_Name, this);
-		engine.addDocValidate(MInOut.Table_Name, this);
-		engine.addDocValidate(MPayment.Table_Name, this);
-		engine.addDocValidate(MCash.Table_Name, this);
 	}	//	initialize
 
     /**
