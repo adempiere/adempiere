@@ -49,7 +49,6 @@ public class MyValidator implements ModelValidator
 	/** Client			*/
 	private int		m_AD_Client_ID = -1;
 	
-	
 	/**
 	 *	Initialize Validation
 	 *	@param engine validation engine 
@@ -57,13 +56,14 @@ public class MyValidator implements ModelValidator
 	 */
 	public void initialize (ModelValidationEngine engine, MClient client)
 	{
-		if (client != null)
+		//client = null for global validator
+		if (client != null) {	
 			m_AD_Client_ID = client.getAD_Client_ID();
-		else 
-			m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		log.info("" + m_AD_Client_ID);
-		if (m_AD_Client_ID != 11)	//	GardenWorld Example
-			return;
+			log.info(client.toString());
+		}
+		else  {
+			log.info("Initializing global validator: "+this.toString());
+		}
 		
 		//	We want to be informed when C_Order is created/changed
 		engine.addModelChange(MOrder.Table_Name, this);
@@ -102,6 +102,7 @@ public class MyValidator implements ModelValidator
 	public String docValidate (PO po, int timing)
 	{
 		log.info(po.get_TableName() + " Timing: "+timing);
+		
 		//	Ignore all after Complete events
 		if (timing == TIMING_AFTER_COMPLETE)
 			return null;
@@ -188,7 +189,6 @@ public class MyValidator implements ModelValidator
 		return null;
 	}	//	login
 
-	
 	/**
 	 *	Get Client to be monitored
 	 *	@return AD_Client_ID client
