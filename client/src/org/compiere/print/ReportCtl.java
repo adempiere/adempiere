@@ -258,24 +258,25 @@ public class ReportCtl
 			return false;
 		}
 		
-		//if(re.getPrintFormat() != null && re.getPrintFormat().getJasperProcess_ID() > 0)
-		if(re.getPrintFormat().getJasperProcess_ID() > 0)	
+		if(re.getPrintFormat() != null)
 		{
-			ProcessInfo pi = new ProcessInfo ("", re.getPrintFormat().getJasperProcess_ID());
-			pi.setPrintPreview( !IsDirectPrint );
-			pi.setRecord_ID ( Record_ID );
-			//	Execute Process
-			ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
-		}
-		else
-		{
-			createOutput(re, !IsDirectPrint);
-			if (IsDirectPrint)
+			if(re.getPrintFormat().getJasperProcess_ID() > 0)	
 			{
-				ReportEngine.printConfirm (type, Record_ID);
+				ProcessInfo pi = new ProcessInfo ("", re.getPrintFormat().getJasperProcess_ID());
+				pi.setPrintPreview( !IsDirectPrint );
+				pi.setRecord_ID ( Record_ID );
+				//	Execute Process
+				ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
+			}
+			else
+			{
+				createOutput(re, !IsDirectPrint);
+				if (IsDirectPrint)
+				{
+					ReportEngine.printConfirm (type, Record_ID);
+				}
 			}
 		}
-		
 		return true;
 	}	//	StartDocumentPrint
 	
