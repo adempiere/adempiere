@@ -145,7 +145,7 @@ public class MProject extends X_C_Project
 		if (C_ProjectType_ID == 0)
 			super.setC_ProjectType_ID (null);
 		else
-			super.setC_ProjectType_ID (String.valueOf(C_ProjectType_ID));
+			super.set_Value("C_ProjectType_ID", C_ProjectType_ID);
 	}	//	setC_ProjectType_ID
 
 	/**
