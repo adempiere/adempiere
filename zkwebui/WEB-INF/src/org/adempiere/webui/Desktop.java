@@ -42,7 +42,6 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
 import org.adempiere.webui.window.InfoSchedule;
-import org.compiere.model.MClient;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -170,7 +169,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         hbox.appendChild(vbCol1);
         vbCol1.setWidth("100%");
 
-        Groupbox gbxFav = new Groupbox();
+        Groupbox gbxFav = new Groupbox();        
         vbCol1.appendChild(gbxFav);
         Caption caption = new Caption("Favourites");
         // Elaine 2008/07/24
@@ -189,7 +188,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         gbxFav.addEventListener(Events.ON_DROP, this);
         //
         
-        Groupbox gbxView = new Groupbox();
+        Groupbox gbxView = new Groupbox();        
         vbCol1.appendChild(gbxView);
         gbxView.appendChild(new Caption("Views"));
         gbxView.appendChild(createViewPanel());
@@ -238,7 +237,8 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         Center center = new Center();
         borderlayout.appendChild(center);
         center.appendChild(hbox);
-        center.setFlex(true);
+        center.setFlex(false);
+        center.setAutoscroll(true);
         
         //register as 0
         registerWindow(homeTab);
@@ -696,29 +696,6 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		int no = DB.executeUpdate(sql.toString(), false, null);
 		return no == 1;
 	}
-    
-    /**
-     * Retrieves the Client website url
-     * @return website url
-     */
-    private String getClientWebsiteURL()
-    {
-    	MClient client = MClient.get(Env.getCtx());
-    	String defaultUrl = "http://www.adempiere.com";
-    	String url = (String)client.get_Value("WebSiteURL");
-    	
-    	if (url == null)
-    	{
-    		url = defaultUrl;
-    	}
-    	else if (!url.startsWith("http"))
-    	{
-    		logger.log(Level.SEVERE, "Website URL provided for the client is not valid!!!");
-    		url = defaultUrl;
-    	}
-    	
-    	return url;
-    }
     
     /**
      * Event listener for menu item selection.

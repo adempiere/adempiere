@@ -388,7 +388,7 @@ public class RModel implements Serializable
 	 * @return the ArrayList of ArrayLists containing the tables data values
 	 * @author Teo Sarca [ 1734327 ]
 	 */
-	protected ArrayList<ArrayList<Object>> getRows() {
+	public ArrayList<ArrayList<Object>> getRows() {
 		return m_data.rows;
 	}
 

@@ -24,8 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
@@ -78,7 +78,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 *
 	 * @param columnNames	vector of column titles.
 	 */
-	public WListItemRenderer(Vector< ? extends String> columnNames)
+	public WListItemRenderer(List< ? extends String> columnNames)
 	{
 		super();
 		WTableColumn tableColumn;
@@ -141,12 +141,12 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			table = (WListbox)item.getListbox();
 		}
 
-		if (!(data instanceof Vector))
+		if (!(data instanceof List))
 		{
-			throw new IllegalArgumentException("A model element was not a vector");
+			throw new IllegalArgumentException("A model element was not a list");
 		}
 
-		for (Object field : (Vector)data)
+		for (Object field : (List)data)
 		{
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
 			listcell.setParent(item);
@@ -241,7 +241,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 									  int rowIndex, int columnIndex)
 	{
 		ListCell listcell = new ListCell();
-		boolean isCellEditable = table.isCellEditable(rowIndex, columnIndex);
+		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
 
 /*		Color fgColor = getForegroundColour(table, rowIndex);
 		Color bgColor = getBackgroundColour(table, rowIndex, columnIndex);
@@ -257,7 +257,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			{
 				listcell.setValue(Boolean.valueOf(field.toString()));
 
-				table.setCheckmark(false);
+				if (table != null)
+					table.setCheckmark(false);
 				Checkbox checkbox = new Checkbox();
 				checkbox.setChecked(Boolean.valueOf(field.toString()));
 
@@ -310,10 +311,13 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			else if (field instanceof IDColumn)
 			{
 				//listcell.setLabel(field.toString());
-				listcell.setValue(((IDColumn) field).getRecord_ID());
+				listcell.setValue(((IDColumn) field).getRecord_ID());				
 				//listcell.setVisible(false);
-				table.setCheckmark(true);
-				table.addEventListener(Events.ON_SELECT, this);
+				if (table != null)
+				{
+					table.setCheckmark(true);
+					table.addEventListener(Events.ON_SELECT, this);
+				}
 			}
 			else
 			{
@@ -448,8 +452,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         {
             public int compare(Object o1, Object o2)
             {
-                Object item1 = ((Vector)o1).get(columnIndex);
-                Object item2 = ((Vector)o2).get(columnIndex);
+                Object item1 = ((List)o1).get(columnIndex);
+                Object item2 = ((List)o2).get(columnIndex);
                 return sort.compare(item1, item2);
             }
         };
@@ -462,7 +466,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 *
 	 * @param head	The ListHead component to render.
 	 * @see #addColumn(String)
-	 * @see #WListItemRenderer(Vector)
+	 * @see #WListItemRenderer(List)
 	 */
 	public void renderListHead(ListHead head)
 	{

@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.adempiere.webui.event.WTableModelEvent;
@@ -74,13 +75,13 @@ public class ListModelTable extends ListModelList implements ListModelExt
 
 		for (Object row : getInnerList())
 		{
-			if (row instanceof Vector)
+			if (row instanceof List)
 			{
-				m_noColumns = Math.max(m_noColumns, ((Vector)row).size());
+				m_noColumns = Math.max(m_noColumns, ((List)row).size());
 			}
 			else
 			{
-				throw new IllegalArgumentException("The collection must contain vectors of objects");
+				throw new IllegalArgumentException("The collection must contain list of objects");
 			}
 		}
 	}
@@ -114,14 +115,31 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	 */
     private void ensureRowSize()
 	{
-		Iterator<Vector<Object>> rowIterator = this.getInnerList().iterator();
+		Iterator<List<Object>> rowIterator = this.getInnerList().iterator();
 
         while (rowIterator.hasNext())
 		{
-			rowIterator.next().setSize(m_noColumns);
+        	List<Object> list = rowIterator.next();
+        	if (list instanceof Vector)
+        		((Vector<Object>)list).setSize(m_noColumns);
+        	else 
+        	{
+        		if (m_noColumns > list.size()) 
+        		{
+        		    for(int i = list.size(); i < m_noColumns; i++) 
+        		    {
+        		    	list.add(null);
+        		    }
+        		} 
+        		else if (m_noColumns < list.size()) 
+        		{
+        		    for (int i = list.size(); i > m_noColumns; i--) 
+        		    {
+        		    	list.remove(i - 1);
+        		    }
+        		}
+        	}
 		}
-
-		return;
 	}
 
 	/**
@@ -153,12 +171,12 @@ public class ListModelTable extends ListModelList implements ListModelExt
      */
 	public Object getDataAt(int rowIndex, int columnIndex)
 	{
-		Vector modelRow;
+		List modelRow;
 		Object dataObject;
 
 		try
 		{
-			modelRow = (Vector)getElementAt(rowIndex);
+			modelRow = (List)getElementAt(rowIndex);
 
 			dataObject = modelRow.get(columnIndex);
 		}
@@ -168,7 +186,7 @@ public class ListModelTable extends ListModelList implements ListModelExt
 					+ "nonexistent ListModelTable field at "
 					+ rowIndex + ", " + columnIndex);
 		}
-
+		
 		return dataObject;
 	}
 
@@ -181,14 +199,14 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	 */
 	public void setDataAt(Object aValue, int row, int col)
 	{
-		Vector<Object> vector;
+		List<Object> vector;
 		WTableModelEvent tcEvent;
 
 		try
 		{
-			if (getElementAt(row) instanceof Vector)
+			if (getElementAt(row) instanceof List)
 			{
-				vector = (Vector<Object>)getElementAt(row);
+				vector = (List<Object>)getElementAt(row);
 
 				try
 				{
@@ -229,15 +247,25 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	 */
 	public void setNoRows(int rowCount)
 	{
-		Vector newRow = null;
-
+		List<Object> newRow = null;
+		
 		if (rowCount >= getSize())
 		{
+			boolean vector = (getInnerList() instanceof Vector) ? true : false;
 			while (getSize() < rowCount)
 			{
-				newRow = new Vector<Object>(getNoColumns());
-				newRow.setSize(getNoColumns());
-				add(newRow);
+				if (vector)
+				{
+					newRow = new Vector<Object>(getNoColumns());
+					((Vector)newRow).ensureCapacity(getNoColumns());
+					add(newRow);
+				}
+				else
+				{
+					newRow = new ArrayList<Object>(getNoColumns());
+					((ArrayList)newRow).ensureCapacity(getNoColumns());
+					add(newRow);
+				}
 			}
 		}
 		else

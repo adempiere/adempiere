@@ -18,8 +18,9 @@
 package org.adempiere.webui.acct;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
@@ -27,7 +28,6 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Tab;
@@ -36,6 +36,7 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.VerticalBox;
+import org.adempiere.webui.component.WListItemRenderer;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.session.SessionManager;
@@ -45,7 +46,6 @@ import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RModel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -60,10 +60,10 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Caption;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Paging;
 import org.zkoss.zul.Separator;
 
 /**
@@ -71,10 +71,15 @@ import org.zkoss.zul.Separator;
  *
  *  @author Niraj Sohun
  *  		July 27, 2007
+ *  
+ *  @author Elaine Tan
+ *  @author Low Heng Sin
  */
 
 public class WAcctViewer extends Window implements EventListener
 {
+	private static final int PAGE_SIZE = 1000;
+
 	private static final long serialVersionUID = 1L;
 
 	/** State Info          */
@@ -137,6 +142,7 @@ public class WAcctViewer extends Window implements EventListener
 	private Tabbox tabbedPane = new Tabbox();
 
 	private Listbox table = new Listbox();
+	private Paging paging = new Paging();
 
 	private VerticalBox displayPanel = new VerticalBox();
 	private VerticalBox selectionPanel = new VerticalBox();
@@ -151,6 +157,12 @@ public class WAcctViewer extends Window implements EventListener
 	private Hbox southPanel = new Hbox();
 
 	private int m_windowNo;
+
+	private ArrayList<ArrayList<Object>> m_queryData;
+
+	private South pagingPanel;
+
+	private Borderlayout resultPanel;
 	
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(WAcctViewer.class);
@@ -451,7 +463,7 @@ public class WAcctViewer extends Window implements EventListener
 		
 		Hbox boxQueryPanel = new Hbox();
 		
-		boxQueryPanel.setWidth("100%");
+		boxQueryPanel.setWidth("98%");
 		boxQueryPanel.setWidths("63%,1%,36%");
 
 		boxQueryPanel.appendChild(groupSelection);
@@ -489,14 +501,31 @@ public class WAcctViewer extends Window implements EventListener
 		
 		// Result Tab
 	  	
+		resultPanel = new Borderlayout();
+		resultPanel.setStyle("position: absolute");
+		resultPanel.setWidth("97%");
+		resultPanel.setHeight("96%");
+		result.appendChild(resultPanel);
+		
+		Center resultCenter = new Center();
+		resultCenter.setFlex(true);
+		resultPanel.appendChild(resultCenter);
 		table.setWidth("99%;");
-//      table.setMold("paging");
-//		table.setPageSize(10);
-//		table.setVflex(true);
+		table.setVflex(true);
+		table.setHeight("99%");
+		table.setStyle("position: absolute;");
+		resultCenter.appendChild(table);
+		
+		pagingPanel = new South();
+		resultPanel.appendChild(pagingPanel);
+		pagingPanel.appendChild(paging);
 		
 		result.setWidth("100%");
 		result.setHeight("100%");
-		result.appendChild(table);
+		result.setStyle("position: relative");
+		
+		paging.addEventListener("onPaging", this);
+		paging.setAutohide(true);
 		
 		// Query Tab
 		
@@ -506,10 +535,10 @@ public class WAcctViewer extends Window implements EventListener
 		// Tabbox
 		
 		tabQuery.addEventListener(Events.ON_SELECT, this);
-		tabQuery.setLabel(Msg.getMsg(Env.getCtx(), "ViewerQuery"));
+		tabQuery.setLabel(Msg.getMsg(Env.getCtx(), "ViewerQuery").replaceAll("[&]", ""));
 		
 		tabResult.addEventListener(Events.ON_SELECT, this);
-		tabResult.setLabel(Msg.getMsg(Env.getCtx(), "ViewerResult"));
+		tabResult.setLabel(Msg.getMsg(Env.getCtx(), "ViewerResult").replaceAll("[&]", ""));
 		
 		tabs.appendChild(tabQuery);
 		tabs.appendChild(tabResult);
@@ -705,6 +734,17 @@ public class WAcctViewer extends Window implements EventListener
 		//  InfoButtons
 		else if (source instanceof Button)
 			actionButton((Button)source);
+		else if (source == paging)
+		{
+			int pgno = paging.getActivePage();
+			int start = pgno * PAGE_SIZE;
+			int end = start + PAGE_SIZE;
+			if ( end > paging.getTotalSize())
+				end = paging.getTotalSize();
+			List<ArrayList<Object>> list = m_queryData.subList(start, end);
+			ListModelTable model = new ListModelTable(list);
+			table.setModel(model);
+		}
 	} // onEvent
 
 	/**
@@ -851,9 +891,11 @@ public class WAcctViewer extends Window implements EventListener
 		}
 		else
 		{
-			m_data.DateFrom = (Timestamp)selDateFrom.getValue();
+			m_data.DateFrom = selDateFrom.getValue() != null 
+				? new Timestamp(selDateFrom.getValue().getTime()) : null;
 			para.append(", DateFrom=").append(m_data.DateFrom);
-			m_data.DateTo = (Timestamp)selDateTo.getValue();
+			m_data.DateTo = selDateTo.getValue() != null
+				? new Timestamp(selDateTo.getValue().getTime()) : null;
 			para.append(", DateTo=").append(m_data.DateTo);
 			
 			listitem = selOrg.getSelectedItem();
@@ -867,7 +909,7 @@ public class WAcctViewer extends Window implements EventListener
 				m_data.AD_Org_ID = kp.getKey();
 			para.append(", AD_Org_ID=").append(m_data.AD_Org_ID);
 			//
-			Iterator it = m_data.whereInfo.values().iterator();
+			Iterator<String> it = m_data.whereInfo.values().iterator();
 			while (it.hasNext())
 				para.append(", ").append(it.next());
 		}
@@ -941,7 +983,6 @@ public class WAcctViewer extends Window implements EventListener
 		statusLine.setValue(" " + Msg.getMsg(Env.getCtx(), "Processing"));
 
 		log.config(para.toString());
-		Thread.yield();
 
 		//  Switch to Result pane
 		
@@ -950,7 +991,24 @@ public class WAcctViewer extends Window implements EventListener
 		//  Set TableModel with Query
 		
 		RModel rmodel = m_data.query();
-		ListModelTable listmodeltable = new ListModelTable();
+		m_queryData = rmodel.getRows();
+		List<ArrayList<Object>> list = null;
+		paging.setPageSize(PAGE_SIZE);
+		if (m_queryData.size() > PAGE_SIZE) 
+		{
+			list = m_queryData.subList(0, PAGE_SIZE);
+			paging.setTotalSize(m_queryData.size());
+			pagingPanel.setVisible(true);
+		}
+		else
+		{
+			list = m_queryData;
+			paging.setTotalSize(m_queryData.size());
+			pagingPanel.setVisible(false);
+		}
+		paging.setActivePage(0);
+		
+		ListModelTable listmodeltable = new ListModelTable(list);
 		
 		if (table.getListhead() == null)
 		{
@@ -960,6 +1018,7 @@ public class WAcctViewer extends Window implements EventListener
 			for (int i = 0; i < rmodel.getColumnCount(); i++)
 			{
 				Listheader listheader = new Listheader(rmodel.getColumnName(i));
+				listheader.setTooltiptext(rmodel.getColumnName(i));
 				listhead.appendChild(listheader);
 			}
 			
@@ -984,36 +1043,10 @@ public class WAcctViewer extends Window implements EventListener
 
 		table.getItems().clear();
 		
-		for (int i = 0; i < rmodel.getRowCount(); i++)
-		{
-			ListItem listite = new ListItem();
-			
-			for (int j = 0; j < rmodel.getColumnCount(); j++)
-			{
-				Listcell listcell = new Listcell();
-				
-				Object obj = rmodel.getValueAt(i, j);
-				
-				if (obj == null)
-				{
-					listcell.appendChild(new Label(""));
-					listite.appendChild(listcell);
-					continue;
-				}
-				
-				if ((Timestamp.class).equals(obj.getClass()))
-    			{
-    				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
-    				obj = dateFormat.format((Timestamp)obj);
-    			}
-				
-				listcell.appendChild(new Label(obj.toString()));
-				
-				listite.appendChild(listcell);
-			}
-			
-			table.appendChild(listite);
-		}
+		table.setItemRenderer(new WListItemRenderer());
+		table.setModel(listmodeltable);	
+		
+		resultPanel.invalidate();
 		
 		bQuery.setEnabled(true);
 		statusLine.setValue(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
