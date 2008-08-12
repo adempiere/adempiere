@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.*;
 import org.compiere.apps.form.*;
@@ -37,17 +38,23 @@ import org.compiere.wf.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: WFPanel.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 				<li>FR [ 2048081 ] Mf. Workflow editor should display only mf. workflows
  */
 public class WFPanel extends CPanel
 	implements PropertyChangeListener, ActionListener, FormPanel
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Create Workflow Panel.
 	 * 	FormPanel
 	 */
 	public WFPanel()
 	{
-		this (null);
+		this (null, null, -1);
 	}	//	WFPanel
 
 	/**
@@ -56,8 +63,19 @@ public class WFPanel extends CPanel
 	 */
 	public WFPanel (AMenu menu)
 	{
+		this(menu, null, -1);
+	}
+
+	/**
+	 * 	Create Workflow Panel
+	 * 	@param menu menu
+	 */
+	public WFPanel (AMenu menu, String wfWhereClause, int wfWindow_ID)
+	{
 		m_menu = menu;
 		m_readWrite = (menu == null);
+		m_WF_whereClause = wfWhereClause;
+		m_WF_Window_ID = wfWindow_ID;
 		log.info("RW=" + m_readWrite);
 		try
 		{
@@ -85,11 +103,16 @@ public class WFPanel extends CPanel
 	private WFNode 		m_activeNode = null;
 	/**	ReadWrite Mode (see WFNode)	*/
 	private boolean		m_readWrite = false;
+	
+	/** Workflows List Where Clause	*/
+	private String		m_WF_whereClause = null;
+	/** Workflow Window ID			*/
+	private int			m_WF_Window_ID = -1;
 
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WFPanel.class);
 	
-	//	IO
+	//	UI
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel southPanel = new CPanel();
 	private WFContentPanel centerPanel = new WFContentPanel(this);
@@ -208,7 +231,9 @@ public class WFPanel extends CPanel
 	private void loadPanel()
 	{
 		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT AD_Workflow_ID, Name FROM AD_Workflow ORDER BY 2",
+			"SELECT AD_Workflow_ID, Name FROM AD_Workflow "
+				+(!Util.isEmpty(m_WF_whereClause, true) ? " WHERE "+m_WF_whereClause : "")
+				+" ORDER BY 2",
 			"AD_Workflow", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);	//	all
 		KeyNamePair[] pp = DB.getKeyNamePairs(sql, true);
 		//
@@ -425,12 +450,18 @@ public class WFPanel extends CPanel
 	 */
 	private void zoom()
 	{
-		int AD_Window_ID = 113;
+		if (m_WF_Window_ID <= 0) {
+			m_WF_Window_ID = MTable.get(m_ctx, MWorkflow.Table_ID).getAD_Window_ID();
+		}
+		if (m_WF_Window_ID <= 0) {
+			throw new AdempiereException("@NotFound@ @AD_Window_ID@");
+		}
+			
 		MQuery query = null;
 		if (m_wf != null)
 			query = MQuery.getEqualQuery("AD_Workflow_ID", m_wf.getAD_Workflow_ID());
 		AWindow frame = new AWindow();
-		if (!frame.initWindow (AD_Window_ID, query))
+		if (!frame.initWindow (m_WF_Window_ID, query))
 			return;
 		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
@@ -449,7 +480,6 @@ public class WFPanel extends CPanel
 		sb.append("]");
 		return sb.toString();
 	}	//	toString
-
 
 	/**************************************************************************
 	 * 	Test
