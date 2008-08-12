@@ -364,7 +364,7 @@ public final class VPanel extends CTabbedPane
 				}
 				if (textArea)
 				{
-					m_gbc.gridheight = 3;
+					m_gbc.gridheight = 1;
 					m_gbc.weighty = 1;
 					m_gbc.fill = GridBagConstraints.BOTH;
 				}
