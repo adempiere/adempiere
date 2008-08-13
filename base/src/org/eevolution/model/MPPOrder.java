@@ -799,17 +799,19 @@ public class MPPOrder extends X_PP_Order implements DocAction {
 			// Reset workflow start node
 			DB.executeUpdate("UPDATE PP_Order_Workflow SET PP_Order_Node_ID=NULL WHERE PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			//
-			ids = PO.getAllIDs("PP_Order_Node", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
-			for (int i = 0; i < ids.length; i++) {
-				po = new MPPOrderNode(getCtx(), ids[i], get_TrxName());
-				po.deleteEx(true);
-			}
-			//
 			ids = PO.getAllIDs("PP_Order_NodeNext", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {
 				po = new MPPOrderNodeNext(getCtx(), ids[i], get_TrxName());
 				po.deleteEx(true);
 			}
+			
+			//
+			ids = PO.getAllIDs("PP_Order_Node", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
+			for (int i = 0; i < ids.length; i++) {
+				po = new MPPOrderNode(getCtx(), ids[i], get_TrxName());
+				po.deleteEx(true);
+			}
+			
 			//
 			ids = PO.getAllIDs("PP_Order_Node_Product", "PP_Order_ID=" + get_ID() + " AND AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < ids.length; i++) {

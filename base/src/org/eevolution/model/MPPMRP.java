@@ -309,7 +309,9 @@ public class MPPMRP extends X_PP_MRP
 				X_PP_Product_BOM bom = new X_PP_Product_BOM(Env.getCtx(),PP_Product_BOM_ID, trxName);
 				if (bom.getBOMType().equals(bom.BOMTYPE_Make_To_Order))
 				{
-					int S_Resource_ID = DB.getSQLValue(trxName,"SELECT S_Resource_ID FROM S_Resource r WHERE r.ManufacturingResourceType = 'PT' AND r.IsManufacturingResource = 'Y' AND r.AD_Client_ID = ? AND r.M_Warehouse_ID = ? AND ROWNUM = 1", ol.getAD_Client_ID(),ol.getM_Warehouse_ID());            
+					int S_Resource_ID = DB.getSQLValue(trxName,"SELECT S_Resource_ID FROM S_Resource r WHERE r.ManufacturingResourceType = 'PT' AND r.IsManufacturingResource = 'Y' AND r.AD_Client_ID = ? AND r.M_Warehouse_ID = ? "
+							//+ "AND ROWNUM = 1"
+							, ol.getAD_Client_ID(),ol.getM_Warehouse_ID());            
 					int AD_Workflow_ID = DB.getSQLValue(trxName,"SELECT AD_Workflow_ID FROM AD_Workflow wf WHERE wf.AD_Client_ID = ?  AND wf.Value = ? ", ol.getAD_Client_ID(),product.getValue());           
 					if (S_Resource_ID != -1 && AD_Workflow_ID != -1)
 					{
