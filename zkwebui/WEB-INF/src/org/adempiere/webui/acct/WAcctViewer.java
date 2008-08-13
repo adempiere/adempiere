@@ -526,6 +526,7 @@ public class WAcctViewer extends Window implements EventListener
 		
 		paging.addEventListener("onPaging", this);
 		paging.setAutohide(true);
+		paging.setDetailed(true);
 		
 		// Query Tab
 		

@@ -87,12 +87,12 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 	protected Button btnOk = new Button();
 	protected Button btnSelectAll = new Button();
 
-	private Label bankAccountLabel = new Label();
-	private Label bPartnerLabel = new Label();
-	private Label shipmentLabel = new Label();
-	private Label orderLabel = new Label();
-	private Label invoiceLabel = new Label();
-	private Label locatorLabel = new Label();
+	protected Label bankAccountLabel = new Label();
+	protected Label bPartnerLabel = new Label();
+	protected Label shipmentLabel = new Label();
+	protected Label orderLabel = new Label();
+	protected Label invoiceLabel = new Label();
+	protected Label locatorLabel = new Label();
 	protected Label lblStatus = new Label();
 	
 	protected WListbox dataTable = new WListbox();
@@ -227,7 +227,7 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 		
 		// Window
 		
-		this.setWidth("700px");
+//		this.setWidth("700px");
 		this.setClosable(true);
 		this.setBorder("normal");
 		

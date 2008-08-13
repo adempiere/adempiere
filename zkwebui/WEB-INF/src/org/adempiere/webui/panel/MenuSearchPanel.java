@@ -121,7 +121,7 @@ public class MenuSearchPanel extends Panel implements EventListener
     
     public void onPostSelect() {
     	Clients.showBusy(null, false);
-    	Event event = new Event(Events.ON_SELECT, menuPanel.getMenuTree());
+    	Event event = new Event(Events.ON_CLICK, menuPanel.getMenuTree().getSelectedItem().getTreerow());
     	Events.postEvent(event);
     }
 

@@ -152,6 +152,12 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
         ((HtmlBasedComponent)component).setTooltiptext(description);
         label.setTooltiptext(description);
+        
+        //init listeners
+        for (String event : this.getEvents())
+        {
+            component.addEventListener(event, this);
+        }
     }
 
     public GridField getGridField()
@@ -225,13 +231,6 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
             return;
         }
 
-        if (listeners.size() == 0)
-        {
-            for (String event : this.getEvents())
-            {
-                component.addEventListener(event, this);
-            }
-        }
         listeners.add(listener);
     }
 

@@ -29,6 +29,9 @@ public class GridTableListModel extends AbstractListModel implements ListitemRen
 	private GridTable tableModel;
 	private GridField[] gridField;
 	private int windowNo;
+	
+	private int pageSize = -1;
+	private int pageNo = 0;
 
 	public GridTableListModel(GridTable tableModel, int windowNo) {
 		this.tableModel = tableModel;
@@ -40,6 +43,9 @@ public class GridTableListModel extends AbstractListModel implements ListitemRen
 	public Object getElementAt(int rowIndex) {
 		int columnCount = tableModel.getColumnCount();
 		Object[] values = new Object[columnCount];
+		if (pageSize > 0) {
+			rowIndex = (pageNo * pageSize) + rowIndex;
+		}
 		if (rowIndex < tableModel.getRowCount()) {
 			for (int i = 0; i < columnCount; i++) {
 				values[i] = tableModel.getValueAt(rowIndex, i);
@@ -48,9 +54,53 @@ public class GridTableListModel extends AbstractListModel implements ListitemRen
 		
 		return values;
 	}
+	
+	/**
+	 * set current page no ( starting from 0 )
+	 * @param pg
+	 */
+	public void setPage(int pg) {
+		if (pageNo != pg) {
+			if (pg > 0) {
+				int start = pg * pageSize;
+				if (start >= tableModel.getRowCount()) {
+					return;
+				}
+			}
+			pageNo = pg;
+			fireEvent(ListDataEvent.CONTENTS_CHANGED, -1, -1);
+		}
+	}
+	
+	/**
+	 * @return current page no ( starting from 0 )
+	 */
+	public int getPage() {
+		return pageNo;
+	}
+	
+	public void setPageSize(int pgSize) {
+		pageSize = pgSize;
+	}
 
+	public int getPageSize() {
+		return pageSize;
+	}
+	
 	public int getSize() {
-		return tableModel.getRowCount();
+		int total = tableModel.getRowCount(); 
+		if (pageSize < 0)
+			return total;
+		else if ((total - ( pageNo * pageSize)) < 0) {
+			pageNo = 0;
+			return pageSize > total ? total : pageSize;
+		} else {
+			int end = (pageNo + 1) * pageSize;
+			if (end > total)
+				return total - ( pageNo * pageSize);
+			else
+				return pageSize;
+		}
 	}
 
 	public void render(Listitem listitem, Object data) throws Exception {
@@ -135,7 +185,10 @@ public class GridTableListModel extends AbstractListModel implements ListitemRen
 	}
 
 	public Listcell newListcell(Listitem item) {
-		return null;
+		ListCell listCell = new ListCell();
+		listCell.applyProperties();
+		listCell.setParent(item);
+		return listCell;
 	}
 
 	public Listitem newListitem(Listbox listbox) {

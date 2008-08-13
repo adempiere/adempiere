@@ -738,6 +738,10 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         	else
         		setSelectedNode(gridTab.getRecord_ID());
         }
+        
+        if (listPanel.isVisible()) {
+        	listPanel.updateListIndex();
+        }
     }
     
     private void deleteNode(int recordId) {

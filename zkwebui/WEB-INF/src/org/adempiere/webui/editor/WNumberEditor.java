@@ -37,7 +37,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WNumberEditor extends WEditor
 {
-    public final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+    public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     
     public static final int MAX_DISPLAY_LENGTH = 20;
 

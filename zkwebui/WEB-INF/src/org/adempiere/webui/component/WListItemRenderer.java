@@ -407,27 +407,34 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	{
         ListHeader header = null;
 
+        String headerText = headerValue.toString();
         if (m_headers.size() <= headerIndex)
         {
             Comparator ascComparator =  getColumnComparator(true, headerIndex);
             Comparator dscComparator =  getColumnComparator(false, headerIndex);
 
-            header = new ListHeader(headerValue.toString());
+            header = new ListHeader(headerText);
 
             header.setSort("auto");
             header.setSortAscending(ascComparator);
             header.setSortDescending(dscComparator);
 
-            header.setWidth("auto");
+            int width = headerText.trim().length() * 9;
+            if (width > 300)
+            	width = 300;
+            else if (width > 0 && width < 100)
+            	width = 100;
+            
+            header.setWidth(width + "px");
             m_headers.add(header);
         }
         else
         {
             header = m_headers.get(headerIndex);
 
-            if (!header.getLabel().equals(headerValue.toString()))
+            if (!header.getLabel().equals(headerText))
             {
-                header.setLabel(headerValue.toString());
+                header.setLabel(headerText);
             }
         }
 
@@ -480,7 +487,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
             head.appendChild(header);
 		}
 		head.setSizable(true);
-		head.setWidth("auto");
 
 		return;
 	}
@@ -671,7 +677,9 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 */
 	public Listcell newListcell(Listitem item)
 	{
-		return null;
+		ListCell cell = new ListCell();
+		cell.applyProperties();
+		return cell;
 	}
 
 	/* (non-Javadoc)
@@ -679,7 +687,10 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 */
 	public Listitem newListitem(Listbox listbox)
 	{
-		return new ListItem();
+		ListItem item = new ListItem();
+		item.applyProperties();
+		
+		return item;
 	}
 
 }

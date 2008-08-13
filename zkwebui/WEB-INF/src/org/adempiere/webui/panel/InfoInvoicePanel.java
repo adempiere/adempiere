@@ -45,6 +45,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -175,7 +176,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         contentPanel = new WListbox();
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
-        contentPanel.setStyle("overflow:auto");
+        contentPanel.setVflex(true);
     }
     
     private void init()
@@ -265,14 +266,14 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         parameterPanel.appendChild(vbox3);
         parameterPanel.setWidth("100%");
         
-        Vbox mainPanel = new Vbox();
+        Panel mainPanel = new Panel();
         mainPanel.setWidth("100%");
         mainPanel.appendChild(parameterPanel);
-        contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setStyle("overflow:auto");
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(contentPanel);
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(confirmPanel);
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(statusBar);
         
         this.appendChild(mainPanel);

@@ -69,7 +69,7 @@ public class WStatusBar extends Grid implements EventListener
             // this.setBorder("normal");
             rows.appendChild(statusBar);
             this.appendChild(rows);
-            this.setWidth("98%");
+            this.setWidth("99%");
         }
         catch (Exception e)
         {

@@ -140,10 +140,10 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 
 	    head = super.getListHead();
 
-	    //detach the old header
+	    //init only once
 	    if (head != null)
 	    {
-	    	head.detach();
+	    	return;
 	    }
 
 	    head = new ListHead();
@@ -160,7 +160,7 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 	    			+ this.getItemRenderer().getClass().getSimpleName());
 	    }
 
-	    //reattach the listhead
+	    //attach the listhead
 	    head.setParent(this);
 
 	    return;

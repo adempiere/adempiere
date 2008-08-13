@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
@@ -38,7 +39,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Vbox;
+import org.zkoss.zul.Separator;
 
 public class InfoGeneralPanel extends InfoPanel implements EventListener
 {
@@ -98,14 +99,17 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
         parameterPanel.appendChild(lbl4);
         parameterPanel.appendChild(txt4);
 		
-		Vbox mainPanel = new Vbox();
+		Panel mainPanel = new Panel();
 		mainPanel.setWidth("100%");
         mainPanel.appendChild(parameterPanel);
+        
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
-        contentPanel.setStyle("overflow:auto");
+        contentPanel.setVflex(true);
  
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(contentPanel);
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(confirmPanel);
 		
 		this.appendChild(mainPanel);

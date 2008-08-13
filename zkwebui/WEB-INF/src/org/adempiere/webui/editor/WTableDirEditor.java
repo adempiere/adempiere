@@ -49,7 +49,7 @@ import org.zkoss.zk.ui.event.Events;
 public class WTableDirEditor extends WEditor implements ListDataListener, 
 ContextMenuListener, IZoomableEditor
 {
-    public final String[] LISTENER_EVENTS = {Events.ON_SELECT};
+    public final static String[] LISTENER_EVENTS = {Events.ON_SELECT};
     
     private static final CLogger logger;
     

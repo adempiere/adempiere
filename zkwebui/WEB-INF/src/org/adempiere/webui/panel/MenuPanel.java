@@ -42,6 +42,7 @@ import org.zkoss.zul.Treechildren;
 import org.zkoss.zul.Treecol;
 import org.zkoss.zul.Treecols;
 import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.Treerow;
 
 /**
  *
@@ -85,7 +86,6 @@ public class MenuPanel extends Panel implements EventListener
         menuTree = new Tree();
         menuTree.setMultiple(false);
         menuTree.setId("mnuMain");
-        menuTree.addEventListener(Events.ON_SELECT, this);
         menuTree.setWidth("100%");
         menuTree.setHeight("100%");
         menuTree.setVflex(false);
@@ -175,15 +175,10 @@ public class MenuPanel extends Panel implements EventListener
                 
                 treeitem.getTreerow().setDraggable("favourite"); // Elaine 2008/07/24
                 pnlSearch.addTreeItem(treeitem);
+                
+                treeitem.getTreerow().addEventListener(Events.ON_CLICK, this);
             }
         }
-    }
-    
-    public ArrayList getMenuItems()
-    {
-    	ArrayList ret = new ArrayList();
-    	
-    	return ret;
     }
     
     public void addMenuListener(MenuListener menuListener)
@@ -201,16 +196,16 @@ public class MenuPanel extends Panel implements EventListener
         Component comp = event.getTarget();
         String eventName = event.getName();
         
-        if(eventName.equals(Events.ON_SELECT))
+        if (eventName.equals(Events.ON_CLICK))
         {
-            if(comp.equals(menuTree))
-            {
-                Treeitem selectedItem = menuTree.getSelectedItem();
+        	if (comp instanceof Treerow) 
+        	{
+        		Treeitem selectedItem = (Treeitem) comp.getParent();
                 if(selectedItem.getValue() != null)
                 {
                     fireMenuSelectedEvent(selectedItem);
                 }
-            }
+        	}
         }
     }
     

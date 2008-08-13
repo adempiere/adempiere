@@ -35,6 +35,7 @@ import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelListener;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.GridTab;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -96,6 +97,8 @@ public class WCreateFromShipment extends WCreateFrom implements EventListener, V
 
 		initBPartner(false);
 		bPartnerField.addValueChangeListner(this);
+		
+		locatorLabel.setMandatory(true);
 		
 		return true;
 	}
@@ -343,7 +346,7 @@ public class WCreateFromShipment extends WCreateFrom implements EventListener, V
 		
 		if (mlocator == null || mlocator.getM_Locator_ID()/*.intValue()*/ == 0) 
 		{
-/*			locatorField.setBackground(AdempierePLAF.getFieldBackground_Error());*/
+			FDialog.error(p_WindowNo, Msg.getMsg(Env.getCtx(), "FillMandatory", new Object[]{locatorField.getLabel().getValue()}));
 			return false;
 		}
 		

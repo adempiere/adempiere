@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -46,6 +47,8 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Paging;
+import org.zkoss.zul.event.ZulEvents;
 
 /**
  *	Search Information and return selection - Base Class.
@@ -55,6 +58,8 @@ import org.zkoss.zk.ui.event.Events;
  */
 public abstract class InfoPanel extends Window implements EventListener, WTableModelListener
 {
+	
+	private final static int PAGE_SIZE = 100;
 	
     public static InfoPanel create (int WindowNo,
             String tableName, String keyColumn, String value,
@@ -292,6 +297,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected CLogger log = CLogger.getCLogger(getClass());
 	
 	protected WListbox contentPanel = new WListbox();
+	private Paging paging;
+	private int pageNo;
 	
 	private static final String[] lISTENER_EVENTS = {};
 
@@ -445,16 +452,48 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     
     protected void renderItems()
     {
-        Vector<String> columnHeader = getColumnHeader(p_layout);
+    	Vector<String> columnHeader = getColumnHeader(p_layout);
         if (line != null)
         {
-            model = new ListModelTable(line);
-            model.addTableModelListener(this);
-            contentPanel.setData(model, columnHeader);
+        	if (line.size() > PAGE_SIZE) 
+        	{
+        		if (paging == null) 
+        		{
+	        		paging = new Paging();
+	    			paging.setPageSize(PAGE_SIZE);
+	    			paging.setTotalSize(line.size());
+	    			paging.setDetailed(true);
+	    			paging.addEventListener(ZulEvents.ON_PAGING, this);
+	    			contentPanel.getParent().insertBefore(paging, contentPanel.getNextSibling());
+        		}
+    			List<Object> subList = line.subList(0, PAGE_SIZE);
+    			model = new ListModelTable(subList);
+	            model.addTableModelListener(this);
+	            contentPanel.setData(model, columnHeader);
+	            
+	            pageNo = 0;
+        	}
+        	else
+        	{
+        		if (paging != null) 
+        		{
+        			paging.setTotalSize(line.size());
+        			pageNo = 0;
+        		}
+	            model = new ListModelTable(line);
+	            model.addTableModelListener(this);
+	            contentPanel.setData(model, columnHeader);	            
+        	}
         }
-        int no = contentPanel.getRowCount();
+        int no = line.size();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
+        
+        //better performance
+//        contentPanel.setFixedLayout(true);
+        
+        //workaround for scrollbar position problem
+        contentPanel.renderAll();
     }
     
    
@@ -788,6 +827,29 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
                     zoom();
                     this.detach();
                 }
+            }
+            else if (event.getTarget() == paging)
+            {
+            	int pgNo = paging.getActivePage();
+            	if (pageNo != pgNo) 
+            	{
+            	
+            		contentPanel.clearSelection();
+    			
+            		pageNo = pgNo;
+            		int start = pageNo * PAGE_SIZE;
+            		int end = start + PAGE_SIZE;
+            		if (end > line.size())
+            			end = line.size();
+            		List<Object> subList = line.subList(start, end);
+        			model = new ListModelTable(subList);
+    	            model.addTableModelListener(this);
+    	            contentPanel.setData(model, getColumnHeader(p_layout));
+    	            
+    	            //workaround for scrollbar position problem
+    	            contentPanel.renderAll();
+    				contentPanel.setSelectedIndex(0);
+    			}
             }
         }
     }  //  onEvent

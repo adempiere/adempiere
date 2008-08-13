@@ -626,7 +626,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         		if(dragged instanceof Treerow)
         		{
         			Treerow treerow = (Treerow) dragged;
-        			Treeitem treeitem = treerow.getTreeitem();
+        			Treeitem treeitem = (Treeitem) treerow.getParent();
         			
         			Object value = treeitem.getValue();
         			if(value != null)
@@ -717,7 +717,6 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 
         if(menu.getAction().equals(MMenu.ACTION_Window))
         {
-        	Integer wMenuId = Integer.valueOf(menu.getAD_Window_ID());
         	ADWindow adWindow = new ADWindow(Env.getCtx(), menu.getAD_Window_ID());
         	
         	Tabpanel tabPanel = new Tabpanel();

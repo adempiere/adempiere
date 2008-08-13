@@ -39,6 +39,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Intbox;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -171,8 +172,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		contentPanel = new WListbox();
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
-        contentPanel.setStyle("overflow:auto");
-        
+        contentPanel.setVflex(true);       
 	}
 	
 	private void init()
@@ -259,18 +259,15 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
         parameterPanel.appendChild(vbox3);
         parameterPanel.appendChild(vbox4);
 	
-        Vbox mainPanel = new Vbox();
+        Panel mainPanel = new Panel();
         mainPanel.appendChild(parameterPanel);
         
-/*        Div div = new Div();
-        div.setStyle("overflow:hidden");
-        div.setWidth("1000px");
-        div.appendChild(contentPanel);
-        mainPanel.appendChild(div);*/
-
         mainPanel.setWidth("100%");
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(contentPanel);
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(confirmPanel);
+        mainPanel.appendChild(new Separator());
         mainPanel.appendChild(statusBar);
         
         this.appendChild(mainPanel);

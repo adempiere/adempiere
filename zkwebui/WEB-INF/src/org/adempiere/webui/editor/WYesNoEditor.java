@@ -37,7 +37,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WYesNoEditor extends WEditor
 {
-    public final String[] LISTENER_EVENTS = {Events.ON_CHECK};
+    public static final String[] LISTENER_EVENTS = {Events.ON_CHECK};
     private static final CLogger logger;
     
     static

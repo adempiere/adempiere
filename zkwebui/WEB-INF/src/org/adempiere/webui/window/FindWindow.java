@@ -32,8 +32,10 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
+import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListCell;
 import org.adempiere.webui.component.ListHead;
@@ -41,6 +43,8 @@ import org.adempiere.webui.component.ListHeader;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.ToolBar;
 import org.adempiere.webui.component.ToolBarButton;
@@ -73,6 +77,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -106,7 +111,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     //
     private Listbox advancedPanel; 
     /** container of Simple Window contents   */  
-    private Vbox contentSimple; 
+    private Grid contentSimple; 
     /** Target Window No            */
     private int             m_targetWindowNo;
     /** Table ID                    */
@@ -150,6 +155,11 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     
     private int m_AD_Tab_ID = 1;
 	private MUserQuery[] userQueries;
+	private Rows contentSimpleRows;
+	private Row pnlDocument;
+	private Row pnlDescription;
+	private Row pnlValue;
+	private Row pnlName;
 	
 	/** Index ColumnName = 0		*/
 	public static final int		INDEX_COLUMNNAME = 0;
@@ -267,42 +277,38 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         hboxButton.appendChild(pnlButtonRight);
         hboxButton.setWidth("100%");
         
-        Panel pnlDocument = new Panel();
+        pnlDocument = new Row();
         pnlDocument.setId("pnlDocument");
-        pnlDocument.appendChild(lblDocumentNo);
+        pnlDocument.appendChild(LayoutUtils.makeRightAlign(lblDocumentNo));
         pnlDocument.appendChild(fieldDocumentNo);
-        pnlDocument.setWidth("70%");
-        pnlDocument.setAlign("right");
         
-        Panel pnlDescription = new Panel();
-        pnlDescription.appendChild(lblDescription);
+        pnlDescription = new Row();
+        pnlDescription.appendChild(LayoutUtils.makeRightAlign(lblDescription));
         pnlDescription.appendChild(fieldDescription);
-        pnlDescription.setWidth("70%");
-        pnlDescription.setAlign("right");
         
-        Panel pnlValue = new Panel();
-        pnlValue.appendChild(lblValue);
+        pnlValue = new Row();
+        pnlValue.appendChild(LayoutUtils.makeRightAlign(lblValue));
         pnlValue.appendChild(fieldValue);
-        pnlValue.setWidth("70%");
-        pnlValue.setAlign("right");
         
-        Panel pnlName = new Panel();
-        pnlName.appendChild(lblName);
+        pnlName = new Row();
+        pnlName.appendChild(LayoutUtils.makeRightAlign(lblName));
         pnlName.appendChild(fieldName);
-        pnlName.setWidth("70%");
-        pnlName.setAlign("right");
         
-        contentSimple = new Vbox();
+        contentSimple = new Grid();
         contentSimple.setId("contentSimple");
         contentSimple.setWidth("100%");
-        contentSimple.setStyle("padding:10px; text-align:left");
+        contentSimple.makeNoStrip();
+        
+        contentSimpleRows = new Rows();
+        contentSimple.appendChild(contentSimpleRows);
        
-        contentSimple.appendChild(pnlValue);
-        contentSimple.appendChild(pnlName);
-        contentSimple.appendChild(pnlDocument);
-        contentSimple.appendChild(pnlDescription);               
+        contentSimpleRows.appendChild(pnlValue);
+        contentSimpleRows.appendChild(pnlName);
+        contentSimpleRows.appendChild(pnlDocument);
+        contentSimpleRows.appendChild(pnlDescription);               
        
         winLookupRecord.appendChild(contentSimple);
+        winLookupRecord.appendChild(new Separator());
         winLookupRecord.appendChild(hboxButton);
         winLookupRecord.setWidth("100%");     
         winLookupRecord.addEventListener(Events.ON_OK, this);
@@ -452,20 +458,16 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         }   //  for all target tab fields
 
         //  Disable simple query fields
-        lblValue.setVisible(hasValue);
-        fieldValue.setVisible(hasValue);
+        pnlValue.setVisible(hasValue);
         if (hasValue)
             fieldValue.addEventListener(Events.ON_CHANGE,this);
-        lblDocumentNo.setVisible(hasDocNo);
-        fieldDocumentNo.setVisible(hasDocNo);
+        pnlDocument.setVisible(hasDocNo);
         if (hasDocNo)
             fieldDocumentNo.addEventListener(Events.ON_CHANGE,this);
-        lblName.setVisible(hasName);
-        fieldName.setVisible(hasName);
+        pnlName.setVisible(hasName);
         if (hasName)
             fieldName.addEventListener(Events.ON_CHANGE,this);
-        lblDescription.setVisible(hasDescription);
-        fieldDescription.setVisible(hasDescription);
+        pnlDescription.setVisible(hasDescription);
         if (hasDescription)
             fieldDescription.addEventListener(Events.ON_CHANGE,this);
         
@@ -627,17 +629,9 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         
         //  Editor
         WEditor editor = null;
-        if (mField.isLookup())
-        {
-            WTableDirEditor wd = new WTableDirEditor(mField);
-            editor = wd;
-        }
-        else
-        {
-            editor = WebEditorFactory.getEditor(mField, false);
-            editor.setMandatory(false);
-            editor.setReadWrite(true);
-        }
+        editor = WebEditorFactory.getEditor(mField, false);
+        editor.setMandatory(false);
+        editor.setReadWrite(true);
         Label label = editor.getLabel();
         Component fieldLabel = editor.getComponent();
               
@@ -645,13 +639,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         if (displayLength > 0)      //  set it back
             mField.setDisplayLength(displayLength);
         //
-        Panel panel = new Panel();
-        panel.setWidth("70%");
-        panel.setAlign("right");
-        panel.appendChild(label);
+        
+        Row panel = new Row();
+        panel.appendChild(LayoutUtils.makeRightAlign(label));
         panel.appendChild(fieldLabel);
         
-        contentSimple.appendChild(panel);
+        contentSimpleRows.appendChild(panel);
         m_sEditors.add(editor);
         
     }   // addSelectionColumn
@@ -1684,8 +1677,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             if(evt.getSource() instanceof WSearchEditor)
             {
             	WSearchEditor se = (WSearchEditor) evt.getSource();
-            	String display = se.getGridField().getLookup().getDisplay(evt.getNewValue().toString());
-            	label.setValue(display);            	
+            	se.setValue(evt.getNewValue());
+            	label.setValue(se.getDisplay());            	
             }
             else
             {

@@ -218,8 +218,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	private void actionRefresh(Object value)
 	{
-		boolean mandatory = isMandatory();
-		AEnv.actionRefresh(lookup, value, mandatory);
+//		boolean mandatory = isMandatory();
+//		AEnv.actionRefresh(lookup, value, mandatory);
     	setValue(value);
 	}
 
