@@ -1564,24 +1564,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			BigDecimal poCost = m_oLine.getPriceCost();
 			if (poCost == null || poCost.signum() == 0)
 				poCost = m_oLine.getPriceActual();
-			poCost = poCost.multiply(po.getQty());			//	Delivered so far
-			//	Different currency
-			if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())
-			{
-				MOrder order = m_oLine.getParent();
-				BigDecimal rate = MConversionRate.getRate(
-					order.getC_Currency_ID(), as.getC_Currency_ID(),
-					order.getDateAcct(), order.getC_ConversionType_ID(),
-					m_oLine.getAD_Client_ID(), m_oLine.getAD_Org_ID());
-				if (rate == null)
-				{
-					return "Purchase Order not convertible - " + as.getName();
-				}
-				poCost = poCost.multiply(rate);
-				if (poCost.scale() > as.getCostingPrecision())
-					poCost = poCost.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-			}
-						
+									
 			// Source from Doc_MatchPO.createFacts(MAcctSchema)
 			MInOutLine receiptLine = new MInOutLine (getCtx(), po.getM_InOutLine_ID(), po.get_TrxName());	
 			MInOut inOut = receiptLine.getParent(); 
@@ -1604,10 +1587,11 @@ public class MInOut extends X_M_InOut implements DocAction
 					tAmt = tAmt.add(poCost.multiply(qty));
 				}
 			}
+			
+			poCost = poCost.multiply(po.getQty());			//	Delivered so far
 			tAmt = tAmt.add(isReturnTrx ? poCost.negate() : poCost);
 			tQty = tQty.add(isReturnTrx ? po.getQty().negate() : po.getQty());
-			poCost = poCost.multiply(po.getQty());			//	Delivered so far
-						
+					
 			//	Different currency
 			String costingMethod = as.getCostingMethod();
 			if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())

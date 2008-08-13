@@ -145,9 +145,9 @@ public class Doc_MatchPO extends Doc
 				tAmt = tAmt.add(poCost.multiply(qty));
 			}
 		}
+		poCost = poCost.multiply(getQty());			//	Delivered so far
 		tAmt = tAmt.add(isReturnTrx ? poCost.negate() : poCost);
 		tQty = tQty.add(isReturnTrx ? getQty().negate() : getQty());
-		poCost = poCost.multiply(getQty());			//	Delivered so far
 		
 		//	Different currency
 		String costingMethod = as.getCostingMethod();
