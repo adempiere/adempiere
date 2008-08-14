@@ -16,14 +16,28 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.sql.RowSet;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.X_AD_PrintFormat;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.CPreparedStatement;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	AD_PrintFormat - Print Format Model.
@@ -864,8 +878,8 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 */
 	public static int getPrintFormat_ID(String formatName, int AD_Table_ID, int AD_Client_ID) {
 		final String sql = "SELECT AD_PrintFormat_ID FROM AD_PrintFormat"
-								+" WHERE Name = ? AND AD_Table_ID = ? AND AD_Client_ID IN(0, ?)"
-								+" ORDER BY AD_Client_ID DESC";
+								+ " WHERE Name = ? AND AD_Table_ID = ? AND AD_Client_ID IN (0, ?)"
+								+ " ORDER BY AD_Client_ID DESC";
 		return DB.getSQLValue(null, sql, formatName, AD_Table_ID, AD_Client_ID);
 	}
 	//end vpj-cd e-evolution

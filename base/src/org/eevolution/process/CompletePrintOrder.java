@@ -15,15 +15,19 @@
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.util.logging.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import org.compiere.model.MQuery;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 import org.eevolution.model.MPPOrder;
-import org.eevolution.model.*;
 
 /**
  * CompletePrintOrder
@@ -36,7 +40,7 @@ public class CompletePrintOrder extends SvrProcess {
 	private int p_PP_Order_ID = 0;
 	private boolean p_IsPrintPickList = false;
 	private boolean p_IsPrintWorkflow = false;
-	private boolean p_IsPrintPackList = false;
+	private boolean p_IsPrintPackList = false; // for future use
 	private boolean p_IsComplete = false;
 
 	boolean IsDirectPrint = true; // TODO - Trifon we must check(ask Victor)
@@ -100,7 +104,7 @@ public class CompletePrintOrder extends SvrProcess {
 			// Get Format & Data
 
 			format = MPrintFormat.get(getCtx(), MPrintFormat.getPrintFormat_ID(
-					"Manufacturing Order", 53027, getAD_Client_ID()), false);
+					"Manufacturing Order", MPPOrder.Table_ID, getAD_Client_ID()), false);
 			format.setLanguage(language);
 			format.setTranslationLanguage(language);
 			// query
@@ -109,7 +113,7 @@ public class CompletePrintOrder extends SvrProcess {
 					p_PP_Order_ID));
 
 			// Engine
-			PrintInfo info = new PrintInfo("PP_Order", X_PP_Order.Table_ID,
+			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID,
 					getRecord_ID());
 			ReportEngine re = new ReportEngine(getCtx(), format, query, info);
 			// new Viewer(re);
@@ -126,7 +130,7 @@ public class CompletePrintOrder extends SvrProcess {
 			// Get Format & Data
 
 			format = MPrintFormat.get(getCtx(), MPrintFormat.getPrintFormat_ID(
-					"Manufacturing Order Workflow", 53027, getAD_Client_ID()),
+					"Manufacturing Order Workflow", MPPOrder.Table_ID, getAD_Client_ID()),
 					false);
 
 			format.setLanguage(language);
@@ -137,7 +141,7 @@ public class CompletePrintOrder extends SvrProcess {
 					p_PP_Order_ID));
 
 			// Engine
-			PrintInfo info = new PrintInfo("PP_Order", X_PP_Order.Table_ID,
+			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID,
 					getRecord_ID());
 			ReportEngine re = new ReportEngine(getCtx(), format, query, info);
 			// new Viewer(re);
