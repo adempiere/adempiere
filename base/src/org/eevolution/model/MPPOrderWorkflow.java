@@ -16,12 +16,19 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MMenu;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	WorkFlow Model
@@ -48,8 +55,8 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			s_cache.put(key, retValue);
 		return retValue;
 	}	//	get
-	
-	
+
+
 	/**
 	 * 	Get Doc Value Workflow
 	 *	@param ctx context
@@ -129,16 +136,16 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		}
 		return retValue;
 	}	//	getDocValue
-	
-	
+
+
 	/**	Single Cache					*/
 	private static CCache<Integer,MPPOrderWorkflow>	s_cache = new CCache<Integer,MPPOrderWorkflow>("PP_Order_Workflow", 20);
 	/**	Document Value Cache			*/
 	private static CCache<String,MPPOrderWorkflow[]>	s_cacheDocValue = new CCache<String,MPPOrderWorkflow[]> ("PP_Order_Workflow", 5);
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MPPOrderWorkflow.class);
-	
-	
+
+
 	/**************************************************************************
 	 * 	Create/Load Workflow
 	 * 	@param ctx Context
@@ -150,9 +157,9 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		super (ctx, PP_Order_Workflow_ID, trxName);
 		if (PP_Order_Workflow_ID == 0)
 		{
-		//	setPP_Order_Workflow_ID (0);
-		//	setValue (null);
-		//	setName (null);
+			//	setPP_Order_Workflow_ID (0);
+			//	setValue (null);
+			//	setName (null);
 			setAccessLevel (ACCESSLEVEL_Organization);
 			setAuthor ("ComPiere, Inc.");
 			setDurationUnit(DURATIONUNIT_Day);
@@ -169,7 +176,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		//loadTrl();
 		loadNodes();
 	}	//	MPPOrderWorkflow
-	
+
 	/**
 	 * 	Load Constructor
 	 * 	@param ctx context
@@ -249,7 +256,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		log.fine("#" + m_nodes.size());
 	}	//	loadNodes
 
-	
+
 	/**************************************************************************
 	 * 	Get Number of Nodes
 	 * 	@return number of nodes
@@ -405,7 +412,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	{
 		MPPOrderNode node = getNode (PP_Order_Node_ID);
 		if (node != null 
-			&& (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID))
+				&& (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID))
 		{
 			if (!list.contains(node))
 				list.add(node);
@@ -414,7 +421,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			{
 				MPPOrderNode child = getNode (nexts[i].getPP_Order_Next_ID());
 				if (child.getAD_Client_ID() == 0
-					|| child.getAD_Client_ID() == AD_Client_ID)
+						|| child.getAD_Client_ID() == AD_Client_ID)
 				{
 					if (!list.contains(child))
 						list.add(child);
@@ -425,7 +432,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 				addNodesSF (list, nexts[i].getPP_Order_Next_ID(), AD_Client_ID);
 		}
 	}	//	addNodesSF
-	
+
 	/**************************************************************************
 	 * 	Get first transition (Next Node) of ID
 	 * 	@param PP_Order_Node_ID id
@@ -525,7 +532,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		return PP_Order_Node_ID == nodes[nodes.length-1].getPP_Order_Node_ID();
 	}	//	isLast
 
-	
+
 	/**************************************************************************
 	 * 	Get Name
 	 * 	@param translated translated
@@ -570,10 +577,10 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	{
 		StringBuffer sb = new StringBuffer ("MPPOrderWorkflow[");
 		sb.append(get_ID()).append("-").append(getName())
-			.append ("]");
+		.append ("]");
 		return sb.toString ();
 	} //	toString
-	
+
 	/**************************************************************************
 	 * 	Before Save
 	 *	@param newRecord new
@@ -584,7 +591,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		//validate();
 		return true;
 	}	//	beforeSave
-	
+
 	/**
 	 *  After Save.
 	 *  @param newRecord new record
@@ -601,7 +608,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			for (int i = 0; i < nodes.length; i++)
 				nodes[i].save(get_TrxName());
 		}
-		
+
 		if (newRecord)
 		{
 			int AD_Role_ID = Env.getAD_Role_ID(getCtx());
@@ -610,7 +617,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		}
 		//	Menu/Workflow
 		else if (is_ValueChanged("IsActive") || is_ValueChanged("Name") 
-			|| is_ValueChanged("Description") || is_ValueChanged("Help"))
+				|| is_ValueChanged("Description") || is_ValueChanged("Help"))
 		{
 			MMenu[] menues = MMenu.get(getCtx(), "PP_Order_Workflow_ID=" + getPP_Order_Workflow_ID());
 			for (int i = 0; i < menues.length; i++)
@@ -644,9 +651,9 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		return success;
 	}   //  afterSave
 
-	
-	
-	
+
+
+
 	/**
 	 * 	Get Duration Base in Seconds
 	 *	@return duration unit in seconds
@@ -669,7 +676,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			return 31536000;
 		return 0;
 	}	//	getDurationBaseSec
-		
+
 	/**
 	 * 	Get Duration CalendarField
 	 *	@return Calendar.MINUTE, etc.
@@ -693,11 +700,11 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		return Calendar.MINUTE;
 	}	//	getDurationCalendarField
 
-	
 
-	
-	
-	
+
+
+
+
 	/**************************************************************************
 	 * 	main
 	 *	@param args
@@ -723,7 +730,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		node10.save();
 		wf.setPP_Order_Node_ID(node10.getPP_Order_Node_ID());
 		wf.save();
-		
+
 		MPPOrderNode node20 = new MPPOrderNode (wf, "20", "(DocAuto)");
 		node20.setDescription("(Standard Node)");
 		node20.setEntityType (ENTITYTYPE_Dictionary);
@@ -736,7 +743,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		tr10_20.setDescription("(Standard Transition)");
 		tr10_20.setSeqNo(100);
 		tr10_20.save();
-		
+
 		MPPOrderNode node100 = new MPPOrderNode (wf, "100", "(DocPrepare)");
 		node100.setDescription("(Standard Node)");
 		node100.setEntityType (ENTITYTYPE_Dictionary);
@@ -750,7 +757,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		tr10_100.setIsStdUserWorkflow(true);
 		tr10_100.setSeqNo(10);
 		tr10_100.save();
-		
+
 		MPPOrderNode node200 = new MPPOrderNode (wf, "200", "(DocComplete)");
 		node200.setDescription("(Standard Node)");
 		node200.setEntityType (ENTITYTYPE_Dictionary);
@@ -763,8 +770,8 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		tr100_200.setDescription("(Standard Transition)");
 		tr100_200.setSeqNo(100);
 		tr100_200.save();
-		
-		
+
+
 		/**
 		Env.setContext(Env.getCtx(), "#AD_Client_ID ", "11");
 		Env.setContext(Env.getCtx(), "#AD_Org_ID ", "11");
@@ -778,9 +785,9 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		Log.setTraceLevel(8);
 		System.out.println("---------------------------------------------------");
 		MPPOrderWorkflow wf = MPPOrderWorkflow.get (Env.getCtx(), PP_Order_Workflow_ID);
-		**/
-	//	wf.start(M_Requsition_ID);
-		
+		 **/
+		//	wf.start(M_Requsition_ID);
+
 	}	//	main
 
 }	//	MPPOrderWorkflow_ID
