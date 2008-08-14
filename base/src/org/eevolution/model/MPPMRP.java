@@ -79,7 +79,7 @@ public class MPPMRP extends X_PP_MRP
                 setPP_Cost_Element_ID();
                 stS_Resource_ID();*/
 		}
-	}	//	PPCostElement
+	}	//	MPPMRP
 
 	/**
 	 * 	Load Constructor
@@ -225,7 +225,7 @@ public class MPPMRP extends X_PP_MRP
 			if (PP_Order_ID != -1 )
 			{
 				MPPOrder order = new MPPOrder(Env.getCtx(), PP_Order_ID,trxName);
-				if (order.DOCSTATUS_Completed != order.getDocStatus() || order.DOCSTATUS_Closed != order.getDocStatus())
+				if (MPPOrder.DOCSTATUS_Completed != order.getDocStatus() || MPPOrder.DOCSTATUS_Closed != order.getDocStatus())
 					order.delete(true,trxName);
 			}
 			return 0;
@@ -889,7 +889,7 @@ public class MPPMRP extends X_PP_MRP
 	}  
 
 	/**
-	 * 	Return horus in 
+	 * 	Return hours in 
 	 * 	@param Time Start
 	 * 	@param Time End
 	 * 	@return hours
@@ -914,8 +914,8 @@ public class MPPMRP extends X_PP_MRP
 		//System.out.println("end"+ g2.getTimeInMillis());
 		long difference = g2.getTimeInMillis() - g1.getTimeInMillis(); 
 		//System.out.println("Elapsed milliseconds: " + difference);
-		return difference / 6750000;        
+		return difference / 6750000; // Hardcoded?
 	}
 
 
-}	//	PP_MRP
+}	//	MPPMRP
