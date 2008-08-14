@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,18 +16,44 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AWindow;
+import org.compiere.model.MLocator;
+import org.compiere.model.MLocatorLookup;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.MWarehouse;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Warehouse Locator Control
@@ -449,12 +475,19 @@ public class VLocator extends JComponent
 	 */
 	private void actionZoom()
 	{
-		int AD_Window_ID = 139;				//	hardcoded
+		int AD_Window_ID = MTable.get(Env.getCtx(), MLocator.Table_ID).getAD_Window_ID();
+		if (AD_Window_ID <= 0)
+			AD_Window_ID = 139;	//	hardcoded window Warehouse & Locators
 		log.info("");
 		//
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		AWindow frame = new AWindow();
-		if (!frame.initWindow(AD_Window_ID, null))
+		
+		MQuery zoomQuery = new MQuery();
+		zoomQuery.addRestriction(MLocator.COLUMNNAME_M_Locator_ID, MQuery.EQUAL, getValue());
+		zoomQuery.setRecordCount(1);	//	guess
+		
+		if (!frame.initWindow(AD_Window_ID, zoomQuery))
 			return;
 		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
