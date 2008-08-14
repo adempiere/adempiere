@@ -16,18 +16,16 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.MMenu;
+import org.compiere.model.MClient;
+import org.compiere.model.Query;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -56,95 +54,8 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		return retValue;
 	}	//	get
 
-
-	/**
-	 * 	Get Doc Value Workflow
-	 *	@param ctx context
-	 *	@param AD_Client_ID client
-	 *	@param AD_Table_ID table
-	 *	@return document value workflow array or null
-	 */
-	public static MPPOrderWorkflow[] getDocValue (Properties ctx, int AD_Client_ID, int AD_Table_ID
-			, String trxName //Bug 1568766 Trx should be kept all along the road		
-	)
-	{
-		String key = "C" + AD_Client_ID + "T" + AD_Table_ID;
-		//	Reload
-		if (s_cacheDocValue.isReset())
-		{
-			String sql = "SELECT * FROM PP_Order_Workflow "
-				+ "WHERE WorkflowType='V' AND IsActive='Y' AND IsValid='Y' "
-				+ "ORDER BY AD_Client_ID, AD_Table_ID";
-			ArrayList<MPPOrderWorkflow> list = new ArrayList<MPPOrderWorkflow>();
-			String oldKey = "";
-			String newKey = null;
-			PreparedStatement pstmt = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, trxName); //Bug 1568766
-				ResultSet rs = pstmt.executeQuery ();
-				while (rs.next ())
-				{
-					MPPOrderWorkflow wf = new MPPOrderWorkflow (ctx, rs, null); 
-					newKey = "C" + wf.getAD_Client_ID() + "T" + wf.getAD_Table_ID();
-					if (!newKey.equals(oldKey) && list.size() > 0)
-					{
-						MPPOrderWorkflow[] wfs = new MPPOrderWorkflow[list.size()];
-						list.toArray(wfs);
-						s_cacheDocValue.put (oldKey, wfs);
-						list = new ArrayList<MPPOrderWorkflow>();
-					}
-					oldKey = newKey;
-					list.add(wf);
-				}
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				s_log.log(Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
-			//	Last one
-			if (list.size() > 0)
-			{
-				MPPOrderWorkflow[] wfs = new MPPOrderWorkflow[list.size()];
-				list.toArray(wfs);
-				s_cacheDocValue.put (oldKey, wfs);
-			}
-			s_log.config("#" + s_cacheDocValue.size());
-		}
-		//	Look for Entry
-		MPPOrderWorkflow[] retValue = (MPPOrderWorkflow[])s_cacheDocValue.get(key);
-		//set trxName to all workflow instance
-		if ( retValue != null && retValue.length > 0 )
-		{
-			for(int i = 0; i < retValue.length; i++)
-			{
-				retValue[i].set_TrxName(trxName);
-			}
-		}
-		return retValue;
-	}	//	getDocValue
-
-
 	/**	Single Cache					*/
 	private static CCache<Integer,MPPOrderWorkflow>	s_cache = new CCache<Integer,MPPOrderWorkflow>("PP_Order_Workflow", 20);
-	/**	Document Value Cache			*/
-	private static CCache<String,MPPOrderWorkflow[]>	s_cacheDocValue = new CCache<String,MPPOrderWorkflow[]> ("PP_Order_Workflow", 5);
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MPPOrderWorkflow.class);
-
 
 	/**************************************************************************
 	 * 	Create/Load Workflow
@@ -161,7 +72,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			//	setValue (null);
 			//	setName (null);
 			setAccessLevel (ACCESSLEVEL_Organization);
-			setAuthor ("ComPiere, Inc.");
+			setAuthor (MClient.get(ctx).getName());
 			setDurationUnit(DURATIONUNIT_Day);
 			setDuration (1);
 			setEntityType (ENTITYTYPE_UserMaintained);	// U
@@ -172,8 +83,6 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			setWaitingTime (0);
 			setWorkingTime (0);
 		}
-		//Tranlsation table for PP_Order_Workflow does not exist
-		//loadTrl();
 		loadNodes();
 	}	//	MPPOrderWorkflow
 
@@ -186,73 +95,21 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	public MPPOrderWorkflow (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-		loadTrl();
 		loadNodes();
 	}	//	Workflow
 
 	/**	WF Nodes				*/
-	private ArrayList<MPPOrderNode>	m_nodes = new ArrayList<MPPOrderNode>();
-
-	/**	Translated Name			*/
-	private String			m_name_trl = null;
-	/**	Translated Description	*/
-	private String			m_description_trl = null;
-	/**	Translated Help			*/
-	private String			m_help_trl = null;
-	/**	Translation Flag		*/
-	private boolean			m_translated = false;
-
-	/**
-	 * 	Load Translation
-	 */
-	private void loadTrl()
-	{
-		if (Env.isBaseLanguage(getCtx(), "PP_Order_Workflow") || get_ID() == 0)
-			return;
-		String sql = "SELECT Name, Description, Help FROM PP_Order_Workflow_Trl WHERE PP_Order_Workflow_ID=? AND AD_Language=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, get_ID());
-			pstmt.setString(2, Env.getAD_Language(getCtx()));
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_name_trl = rs.getString(1);
-				m_description_trl = rs.getString(2);
-				m_help_trl = rs.getString(3);
-				m_translated = true;
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		log.fine("Translated=" + m_translated);
-	}	//	loadTrl
+	private List<MPPOrderNode> m_nodes = null;
 
 	/**
 	 * 	Load All Nodes
 	 */
 	private void loadNodes()
 	{
-		String sql = "SELECT * FROM PP_Order_Node WHERE PP_Order_Workflow_ID=? AND IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, get_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				m_nodes.add (new MPPOrderNode (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		final String whereClause = MPPOrderNode.COLUMNNAME_PP_Order_Workflow_ID+"=? AND IsActive=?";
+		m_nodes = new Query(getCtx(), MPPOrderNode.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{get_ID(), "Y"})
+		.list();
 		log.fine("#" + m_nodes.size());
 	}	//	loadNodes
 
@@ -303,7 +160,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	 * 	@param PP_Order_Node_ID ID
 	 * 	@return node or null
 	 */
-	protected MPPOrderNode getNode (int PP_Order_Node_ID)
+	public MPPOrderNode getNode (int PP_Order_Node_ID)
 	{
 		for (int i = 0; i < m_nodes.size(); i++)
 		{
@@ -532,43 +389,6 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		return PP_Order_Node_ID == nodes[nodes.length-1].getPP_Order_Node_ID();
 	}	//	isLast
 
-
-	/**************************************************************************
-	 * 	Get Name
-	 * 	@param translated translated
-	 * 	@return Name
-	 */
-	public String getName(boolean translated)
-	{
-		if (translated && m_translated)
-			return m_name_trl;
-		return getName();
-	}	//	getName
-
-	/**
-	 * 	Get Description
-	 * 	@param translated translated
-	 * 	@return Description
-	 */
-	public String getDescription (boolean translated)
-	{
-		if (translated && m_translated)
-			return m_description_trl;
-		return getDescription();
-	}	//	getDescription
-
-	/**
-	 * 	Get Help
-	 * 	@param translated translated
-	 * 	@return Name
-	 */
-	public String getHelp (boolean translated)
-	{
-		if (translated && m_translated)
-			return m_help_trl;
-		return getHelp();
-	}	//	getHelp
-
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -606,46 +426,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			//	save all nodes -- Creating new Workflow
 			MPPOrderNode[] nodes = getNodesInOrder(0);
 			for (int i = 0; i < nodes.length; i++)
-				nodes[i].save(get_TrxName());
-		}
-
-		if (newRecord)
-		{
-			int AD_Role_ID = Env.getAD_Role_ID(getCtx());
-			//MPPOrderWorkflowAccess wa = new MPPOrderWorkflowAccess(this, AD_Role_ID);
-			//wa.save();
-		}
-		//	Menu/Workflow
-		else if (is_ValueChanged("IsActive") || is_ValueChanged("Name") 
-				|| is_ValueChanged("Description") || is_ValueChanged("Help"))
-		{
-			MMenu[] menues = MMenu.get(getCtx(), "PP_Order_Workflow_ID=" + getPP_Order_Workflow_ID());
-			for (int i = 0; i < menues.length; i++)
-			{
-				menues[i].setIsActive(isActive());
-				menues[i].setName(getName());
-				menues[i].setDescription(getDescription());
-				menues[i].save();
-			}
-			/*X_PP_Order_Node[] nodes = MWindow.getWFNodes(getCtx(), "PP_Order_Workflow_ID=" + getPP_Order_Workflow_ID());
-			for (int i = 0; i < nodes.length; i++)
-			{
-				boolean changed = false;
-				if (nodes[i].isActive() != isActive())
-				{
-					nodes[i].setIsActive(isActive());
-					changed = true;
-				}
-				if (nodes[i].isCentrallyMaintained())
-				{
-					nodes[i].setName(getName());
-					nodes[i].setDescription(getDescription());
-					nodes[i].setHelp(getHelp());
-					changed = true;
-				}
-				if (changed)
-					nodes[i].save();
-			}*/
+				nodes[i].saveEx(get_TrxName());
 		}
 
 		return success;
