@@ -111,7 +111,7 @@ public class MRP extends SvrProcess
 			else if (name.equals("S_Resource_ID"))
 			{    
 				p_S_Resource_ID = ((BigDecimal)para[i].getParameter()).intValue();    
-				MResource r = new MResource(getCtx(),p_S_Resource_ID, get_TrxName());
+				MResource r = MResource.get(getCtx(),p_S_Resource_ID);
 				Date_Planning_Horizon = TimeUtil.addDays(Today, r.getPlanningHorizon()); 
 			}
 			else if (name.equals("M_Warehouse_ID"))

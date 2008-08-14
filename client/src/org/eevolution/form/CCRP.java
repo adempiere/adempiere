@@ -338,34 +338,24 @@ public class CCRP extends CAbstractForm {
 	}
 
 	public MUOM getSourceUOM() {
-		
 	 	MResource r = getResource();
 		int uom_id = r.getResourceType().getC_UOM_ID();
-	
-	 	return (uom_id > 0) ? new MUOM(Env.getCtx(),uom_id, null) : null;
+	 	return (uom_id > 0) ? MUOM.get(Env.getCtx(),uom_id) : null;
 	}
 	
 	public MResource getResource() {
-		
 		MResource r = null;
-		
 		if(resource.getValue() != null) {
-	
-			r = new MResource(Env.getCtx(), ((Integer)resource.getValue()).intValue(), null);
+			r = MResource.get(Env.getCtx(), ((Integer)resource.getValue()).intValue());
 		}
-		
 		return r;
 	}
 
 	public MUOM getTargetUOM() {
-		
 		MUOM u = null;
-		
 		if(resource.getValue() != null) {
-	
-			u = new MUOM(Env.getCtx(), ((Integer)resource.getValue()).intValue(), null);
+			u = MUOM.get(Env.getCtx(), ((Integer)resource.getValue()).intValue());
 		}
-		
 		return u;
 	}
 	

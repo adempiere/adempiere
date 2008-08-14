@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
 
 
 /**
@@ -25,9 +27,34 @@ import java.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MResource.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 				<li>FR [ 2051056 ] MResource[Type] should be cached
  */
 public class MResource extends X_S_Resource
 {
+	/** Cache */
+	private static CCache<Integer, MResource> s_cache = new CCache<Integer, MResource>(Table_Name, 20);
+	
+	/**
+	 * Get from Cache
+	 * @param ctx
+	 * @param S_Resource_ID
+	 * @return MResource
+	 */
+	public static MResource get(Properties ctx, int S_Resource_ID)
+	{
+		if (S_Resource_ID <= 0)
+			return null;
+		MResource r = s_cache.get(S_Resource_ID);
+		if (r == null) {
+			r = new MResource(ctx, S_Resource_ID, null);
+			if (r.get_ID() == S_Resource_ID) {
+				s_cache.put(S_Resource_ID, r);
+			}
+		}
+		return r;
+	}
 
 	/**
 	 * 	Standard Constructor
@@ -62,8 +89,13 @@ public class MResource extends X_S_Resource
 	 */
 	public MResourceType getResourceType()
 	{
-		if (m_resourceType == null && getS_ResourceType_ID() != 0)
+		// Use cache if we are outside transaction:
+		if (get_TrxName() == null && getS_ResourceType_ID() > 0)
+			return MResourceType.get(getCtx(), getS_ResourceType_ID());
+		//
+		if (m_resourceType == null && getS_ResourceType_ID() != 0) {
 			m_resourceType = new MResourceType (getCtx(), getS_ResourceType_ID(), get_TrxName());
+		}
 		return m_resourceType;
 	}	//	getResourceType
 	
@@ -94,7 +126,7 @@ public class MResource extends X_S_Resource
 			if (getValue() == null || getValue().length() == 0)
 				setValue(getName());
 			m_product = new MProduct(this, getResourceType());
-			return m_product.save(get_TrxName());
+			m_product.saveEx(get_TrxName());
 		}
 		return true;
 	}	//	beforeSave
@@ -112,7 +144,7 @@ public class MResource extends X_S_Resource
 			
 		MProduct prod = getProduct();
 		if (prod.setResource(this))
-			prod.save(get_TrxName());
+			prod.saveEx(get_TrxName());
 		
 		return success;
 	}	//	afterSave

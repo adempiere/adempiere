@@ -983,7 +983,7 @@ public class VMRPDetailed extends CPanel implements FormPanel, ActionListener, V
 			 if (rs.next())
 			 {
 				 UOM = rs.getInt(1);
-				 MUOM um = new MUOM(Env.getCtx(),UOM, null);
+				 MUOM um = MUOM.get(Env.getCtx(),UOM);
 				 KeyNamePair kum = new KeyNamePair(um.getC_UOM_ID(),um.getName());
 				 fUOM.setText(kum.toString());
 

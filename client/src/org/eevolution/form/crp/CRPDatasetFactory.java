@@ -55,11 +55,11 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
 	
 	public static CRPModel get(Timestamp start, Timestamp end, MResource r) {
 		
-		MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
-		// Hardcoded UOM ID - 'Minutes' is base unit
-		final MUOM uom1 = new MUOM(Env.getCtx(), 103, null);
+		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
+		// UOM ID - 'Minutes' is base unit
+		final MUOM uom1 = MUOM.get(Env.getCtx(), MUOM.getMinute_UOM_ID(Env.getCtx()));
 		// Target UOM is the resource type's UOM
-		final MUOM uom2 = new MUOM(Env.getCtx(), t.getC_UOM_ID(), null);
+		final MUOM uom2 = MUOM.get(Env.getCtx(), t.getC_UOM_ID());
 
 		CRPDatasetFactory factory = new CRPDatasetFactory() {
 			
@@ -83,7 +83,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
 		 String labelActCap = Msg.translate(Env.getCtx(), "DailyCapacity");
 		 String labelLoadAct = Msg.translate(Env.getCtx(), "ActualLoad");
 		 
-		 MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
+		 MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 		 
 		 BigDecimal utilization = r.getPercentUtilization();
 		 BigDecimal dailyCapacity = null;
@@ -127,9 +127,9 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
 
 	public BigDecimal calculateLoad(Timestamp dateTime, MResource r, String docStatus) {
 		
-		MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
+		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 		MPPOrderNode[] nodes = getPPOrderNodes(dateTime, r);
-		MUOM uom = new MUOM(Env.getCtx(), t.getC_UOM_ID(), null);
+		MUOM uom = MUOM.get(Env.getCtx(), t.getC_UOM_ID());
 
 		MPPOrder o = null;
 		BigDecimal qtyOpen;
@@ -258,7 +258,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
         	
         	MPPOrderNode on = (MPPOrderNode)node.getUserObject();
         	MPPOrderWorkflow owf = new MPPOrderWorkflow(Env.getCtx(), on.getPP_Order_Workflow_ID(), null);
-        	MResourceType rt = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
+        	MResourceType rt = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 
         	// no function
         	//Env.getLanguage(Env.getCtx()).getTimeFormat();

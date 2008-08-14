@@ -109,7 +109,7 @@ public class CRP extends SvrProcess {
 		long nodeMillis = 0;
 		int nodeId = -1;
 
-		resource = new MResource(Env.getCtx(), p_S_Resource_ID, null);        
+		resource = MResource.get(getCtx(), p_S_Resource_ID);        
 		MPPOrder[] orders = reasoner.getPPOrdersNotCompleted(resource);
 		log.log(Level.INFO,"MPP_Order[] : " + orders.length);
 		for(int i = 0; i < orders.length; i++) {
@@ -127,17 +127,17 @@ public class CRP extends SvrProcess {
 				log.log(Level.FINE,"MPP_Order Workflow:" + owf.getName());
 				date = orders[i].getDateStartSchedule(); 
 				nodeId = owf.getPP_Order_Node_ID();
+				
 				while(nodeId != 0) {
 
 					node = new MPPOrderNode(getCtx(),nodeId , get_TrxName());
 					log.log(Level.FINE,"MPP_Order Node:" + node.getName() + " Description:" + node.getDescription());
-					resource = new MResource(Env.getCtx(), node.getS_Resource_ID(), null);
-					resourceType = new MResourceType(Env.getCtx(), resource.getS_ResourceType_ID(), null);
+					resource = MResource.get(getCtx(), node.getS_Resource_ID());
+					resourceType = MResourceType.get(getCtx(), resource.getS_ResourceType_ID());
 
 					// Checks, whether the resource type is principal available on one day a week.
 					// If not, process breaks with a Info message about.
 					if(!reasoner.checkResourceTypeAvailability(resourceType)) {
-
 						return Msg.getMsg(Env.getCtx(), "ResourceNotInSlotDay");
 					}
 
@@ -164,16 +164,14 @@ public class CRP extends SvrProcess {
 				nodeId = owf.getLast(0, getAD_Client_ID());
 
 				while(nodeId != 0) {
-
 					node = new MPPOrderNode(getCtx(),nodeId , get_TrxName());
 					log.log(Level.FINE,"MPP_Order Node:" + node.getName() + " Description:" + node.getDescription());
-					resource = new MResource(Env.getCtx(), node.getS_Resource_ID(), null);
-					resourceType = new MResourceType(Env.getCtx(), resource.getS_ResourceType_ID(), null);
+					resource = MResource.get(getCtx(), node.getS_Resource_ID());
+					resourceType = MResourceType.get(getCtx(), resource.getS_ResourceType_ID());
 
 					// Checks, whether the resource type is principal available on one day a week.
 					// If not, process breaks with a Info message about.
 					if(!reasoner.checkResourceTypeAvailability(resourceType)) {
-
 						return Msg.getMsg(Env.getCtx(), "ResourceNotInSlotDay");
 					}
 

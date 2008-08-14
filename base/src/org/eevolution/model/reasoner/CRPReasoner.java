@@ -103,8 +103,7 @@ public class CRPReasoner {
 
 	public Timestamp getBorderDayMin(Timestamp dateTime, MResource r) {
 
-		MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
-		Timestamp dMin = null;
+		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 		return (t.isTimeSlot()) ? 
 				DateTimeUtil.getDayBorder(dateTime, t.getTimeSlotStart(), false) :
 					DateTimeUtil.getDayBorder(dateTime, null, false);
@@ -112,8 +111,7 @@ public class CRPReasoner {
 
 	public Timestamp getBorderDayMax(Timestamp dateTime, MResource r) {
 
-		MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
-		Timestamp dMin = null;
+		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 		return (t.isTimeSlot()) ? 
 				DateTimeUtil.getDayBorder(dateTime, t.getTimeSlotEnd(), true) :
 					DateTimeUtil.getDayBorder(dateTime, null, true);
@@ -121,8 +119,7 @@ public class CRPReasoner {
 
 	public boolean isResourceAvailable(Timestamp dateTime, MResource r) {
 
-		MResourceType t = new MResourceType(Env.getCtx(), r.getS_ResourceType_ID(), null);
-
+		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 		return ( checkResourceAvailability(dateTime, r) && checkResourceTypeAvailability(dateTime, t) );
 	}
 

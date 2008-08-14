@@ -840,8 +840,8 @@ public class MPPMRP extends X_PP_MRP
 		if (S_Resource_ID == 0)
 			return Env.ZERO;
 
-		MResource S_Resource = new MResource(Env.getCtx(),S_Resource_ID,null);
-		MResourceType S_ResourceType = new MResourceType(Env.getCtx(),S_Resource.getS_ResourceType_ID(),null);  	
+		MResource S_Resource = MResource.get(Env.getCtx(),S_Resource_ID);
+		MResourceType S_ResourceType = MResourceType.get(Env.getCtx(),S_Resource.getS_ResourceType_ID());  	
 
 		BigDecimal AvailableDayTime  = Env.ZERO;
 		int AvailableDays = 0;

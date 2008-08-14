@@ -205,10 +205,10 @@ implements FormPanel, ActionListener
 			 if (date != null && S_Resource_ID != 0)
 			 {
 			 	System.out.println("Call createDataset(date,S_Resource_ID)");	
-			 	 MResource r = new MResource (Env.getCtx(), S_Resource_ID, null);
+			 	 MResource r = MResource.get(Env.getCtx(), S_Resource_ID);
 //	Ge�ndert Anfang 04.08.2005	 	
 			 	 int uom_id = r.getResourceType().getC_UOM_ID();
-			 	 MUOM uom = new MUOM(Env.getCtx(),uom_id,null);
+			 	 MUOM uom = MUOM.get(Env.getCtx(),uom_id);
 			 	
 			 	 CategoryDataset dataset = null;
 			 	 if(uom.isHour()) {
@@ -361,7 +361,7 @@ implements FormPanel, ActionListener
  		 String namesummary = Msg.translate(Env.getCtx(), "Summary");
  		 String namepossiblecapacity = "Possible Capacity";
  		 
- 		 MResourceType t = new MResourceType(Env.getCtx(),r.getS_ResourceType_ID(),null);
+ 		 MResourceType t = MResourceType.get(Env.getCtx(),r.getS_ResourceType_ID());
 
 		 DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		 
@@ -533,7 +533,7 @@ implements FormPanel, ActionListener
  		 System.out.println("\n Nameload :"+nameload);
  		 String namesummary = Msg.translate(Env.getCtx(), "Summary");
  		 System.out.println("\n Namesummary :"+namesummary);
-		 MResourceType t = new MResourceType(Env.getCtx(),r.getS_ResourceType_ID(),null);
+		 MResourceType t = MResourceType.get(Env.getCtx(),r.getS_ResourceType_ID());
 		 System.out.println("\n Resourcetype "+t);
 		 int days = 1;
 	     long hours = 0;
@@ -547,7 +547,7 @@ implements FormPanel, ActionListener
 		 
 		 //		Long Hours = new Long(hours); 			 		 			 
 		 int C_UOM_ID = DB.getSQLValue(null,"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , r.getS_Resource_ID());
-		 MUOM uom = new MUOM(Env.getCtx(),C_UOM_ID,null);
+		 MUOM uom = MUOM.get(Env.getCtx(),C_UOM_ID);
 		 System.out.println("\n uom1 "+uom+"\n");
 		 //System.out.println("um.isHour()"+ uom.isHour() );
 	     if (!uom.isHour())

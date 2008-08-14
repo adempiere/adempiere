@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
 
 
 /**
@@ -25,9 +27,36 @@ import java.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MResourceType.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 				<li>FR [ 2051056 ] MResource[Type] should be cached
  */
 public class MResourceType extends X_S_ResourceType
 {
+	/** Cache */
+	private static CCache<Integer, MResourceType> s_cache = new CCache<Integer, MResourceType>(Table_Name, 20);
+	
+	/**
+	 * Get from Cache
+	 * @param ctx
+	 * @param S_ResourceType_ID
+	 * @return MResourceType
+	 */
+	public static MResourceType get(Properties ctx, int S_ResourceType_ID) 
+	{
+		if (S_ResourceType_ID <= 0)
+			return null;
+		
+		MResourceType type = s_cache.get(S_ResourceType_ID);
+		if (type == null) {
+			type = new MResourceType(ctx, S_ResourceType_ID, null);
+			if (type.get_ID() == S_ResourceType_ID) {
+				s_cache.put(S_ResourceType_ID, type);
+			}
+		}
+		return type;
+	}
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -70,7 +99,7 @@ public class MResourceType extends X_S_ResourceType
 			{
 				MProduct product = products[i];
 				if (product.setResource(this))
-					product.save(get_TrxName());
+					product.saveEx(get_TrxName());
 			}
 		}
 		

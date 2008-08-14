@@ -174,7 +174,7 @@ public abstract class BOMTreeFactory implements BOMTreeModel {
         if(node.getUserObject() instanceof MPPOrder) {
         	
         	MPPOrder o = (MPPOrder)node.getUserObject();
-        	MResource r = new MResource(Env.getCtx(), o.getS_Resource_ID(), null);
+        	MResource r = MResource.get(Env.getCtx(), o.getS_Resource_ID());
         	
         	name = o.getDocumentNo()+" ("+r.getName()+")";
         }

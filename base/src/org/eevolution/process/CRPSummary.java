@@ -148,11 +148,11 @@ public class CRPSummary extends SvrProcess
                 			// Calculate Total seconds for Node 
                 			seconds = (n.getQueuingTime() + n.getSetupTime() + QtyOpen.multiply(new BigDecimal(n.getDuration())).longValue() + n.getMovingTime() + n.getWaitingTime()) * owf.getDurationBaseSec();
                 			// Calculate Factor Day
-                			MResource r = new MResource(getCtx(),n.getS_Resource_ID(),null);
+                			MResource r = MResource.get(getCtx(),n.getS_Resource_ID());
                 			if (r == null)
                 			continue;
                 			
-                			MResourceType type = new MResourceType(Env.getCtx(),r.getS_ResourceType_ID(),null);
+                			MResourceType type = MResourceType.get(Env.getCtx(),r.getS_ResourceType_ID());
                 			long hours = 0 ;
                 			
                 			if (type.isTimeSlot())                			
@@ -186,11 +186,11 @@ public class CRPSummary extends SvrProcess
                 			// Calculate Total seconds for Node 
                 			seconds = (n.getQueuingTime() + n.getSetupTime() + QtyOpen.multiply(new BigDecimal(n.getDuration())).longValue() + n.getMovingTime() + n.getWaitingTime()) * owf.getDurationBaseSec();
                 			// Calculate Factor Day
-                			MResource r = new MResource(getCtx(),n.getS_Resource_ID(),null);
+                			MResource r = MResource.get(getCtx(),n.getS_Resource_ID());
                 			if (r == null)
                     			continue;
                 			
-                			MResourceType type = new MResourceType(Env.getCtx(),r.getS_ResourceType_ID(),null);
+                			MResourceType type = MResourceType.get(Env.getCtx(),r.getS_ResourceType_ID());
                 			long hours = 0 ;
                 			
                 			if (type.isTimeSlot())                			
@@ -360,7 +360,7 @@ public class CRPSummary extends SvrProcess
 		 gc2.clear(Calendar.MINUTE);
 		 gc2.clear(Calendar.HOUR_OF_DAY);
 		 
-		 MResourceType t = new MResourceType(Env.getCtx(),r.getS_ResourceType_ID(),null);
+		 MResourceType t = MResourceType.get(Env.getCtx(),r.getS_ResourceType_ID());
 	     long hours = 0;
 	     
 		 if (t.isTimeSlot())                			
@@ -434,7 +434,7 @@ public class CRPSummary extends SvrProcess
  		 			 Long Hours = new Long(hours); 
  		 			 cols.setCapacity(Hours.intValue());
  		 			 int C_UOM_ID = DB.getSQLValue(null,"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , r.getS_Resource_ID());
- 		 			 MUOM oum = new MUOM(getCtx(),C_UOM_ID,null);
+ 		 			 MUOM oum = MUOM.get(getCtx(),C_UOM_ID);
  		 			 if (oum.isHour())
  		 			 {	
  		 			 Timestamp date = new Timestamp(gc1.getTimeInMillis()); 

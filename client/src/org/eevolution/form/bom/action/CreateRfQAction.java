@@ -105,7 +105,7 @@ public class CreateRfQAction extends ProcessPopupAction {
 
     	BOMWrapper bom = (BOMWrapper)node.getUserObject();
     	MPPOrder mo = new MPPOrder(Env.getCtx(), bom.getPP_Order_ID(), null);
-    	MResource r = new MResource(Env.getCtx(), mo.getS_Resource_ID(), null);
+    	MResource r = MResource.get(Env.getCtx(), mo.getS_Resource_ID());
     	
     	Calendar cal = Calendar.getInstance();
     	
