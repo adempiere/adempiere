@@ -676,17 +676,20 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		{
 			try
 			{
-				StringBuffer sql1=new StringBuffer("SELECT DocStatus,PP_Order_Node_ID,DurationRequiered FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=?");
-				PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(),null);
+				StringBuffer sql1= new StringBuffer("SELECT DocStatus, PP_Order_Node_ID, DurationRequiered FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=?");
+				PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(), null);
 				pstmt1.setInt(1, getPP_Order_ID());
 				ResultSet rs1 = pstmt1.executeQuery();
-				log.fine("***** SQL1 " + sql1 + " variable " +getPP_Order_ID());
+				log.finest("***** SQL1 =[" + sql1 + "]; variable =[" +getPP_Order_ID() + "]");
 				while (rs1.next())
 				{
-					System.out.println("***** Nodo " +rs1.getInt(2) +" status " +rs1.getString(1));
-					if(!rs1.getString(1).equals("CL"))
+					String docStatus = rs1.getString(1);
+					log.finest("***** PP_Order_Node_ID = [" +rs1.getInt(2) +"]; status =[" +docStatus + "]");
+					
+					
+					if(docStatus == null || !docStatus.equals("CL"))
 					{
-						MPPOrderNode onodenext =new MPPOrderNode(Env.getCtx(),rs1.getInt(2),get_TrxName());
+						MPPOrderNode onodenext = new MPPOrderNode(Env.getCtx(),rs1.getInt(2),get_TrxName());
 						onodenext.setDocStatus("CL");
 						onodenext.save();
 					}
@@ -697,7 +700,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			catch (SQLException enode)
 			{
 			}
-			closenew(getPP_Order_ID(),getPP_Order_Node_ID());
+			closenew(getPP_Order_ID(), getPP_Order_Node_ID());
 		}
 		// fjviejo e-evolution operation activity end
 		setDocAction(DOCACTION_None);
