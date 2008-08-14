@@ -42,7 +42,7 @@ public class CompletePrintOrder extends SvrProcess
         private boolean		p_IsPrintPackList = false;
         private boolean		p_IsComplete = false;
         
-        boolean IsDirectPrint = false;
+        boolean IsDirectPrint = true; // TODO - Trifon we must check(ask Victor) why it is false by default?
         
 
 	/**
