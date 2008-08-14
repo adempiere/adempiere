@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -863,7 +863,9 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 * @return AD_PrintFormat_ID
 	 */
 	public static int getPrintFormat_ID(String formatName, int AD_Table_ID, int AD_Client_ID) {
-		final String sql = "SELECT AD_PrintFormat_ID FROM AD_PrintFormat WHERE Name = ? AND AD_Table_ID = ? AND AD_Client_ID IN(0, ?)";
+		final String sql = "SELECT AD_PrintFormat_ID FROM AD_PrintFormat"
+								+" WHERE Name = ? AND AD_Table_ID = ? AND AD_Client_ID IN(0, ?)"
+								+" ORDER BY AD_Client_ID DESC";
 		return DB.getSQLValue(null, sql, formatName, AD_Table_ID, AD_Client_ID);
 	}
 	//end vpj-cd e-evolution
