@@ -15,17 +15,24 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.*;
+import java.util.List;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.wf.MWFNode;
-import org.compiere.wf.MWFNodeNext;
-import org.compiere.wf.MWorkflow;
+import org.compiere.model.MClient;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectPhase;
+import org.compiere.model.MProjectTask;
+import org.compiere.model.MRequisitionLine;
+import org.compiere.model.MTable;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
+import org.compiere.model.Query;
+import org.compiere.model.X_C_Phase;
+import org.compiere.model.X_C_Task;
+import org.compiere.model.X_M_ForecastLine;
+import org.compiere.util.CLogger;
 
 
 /**
@@ -38,7 +45,7 @@ public class LiberoValidator implements ModelValidator
 {
 	/**
 	 *	Constructor.
-	 *	The class is instanciated when logging in and client is selected/known
+	 *	The class is instantiated when logging in and client is selected/known
 	 */
 	public LiberoValidator ()
 	{
