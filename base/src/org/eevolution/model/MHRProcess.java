@@ -684,8 +684,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	
 	public static double getConcept (String pconcept)
 	{
-		String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = '" + pconcept.trim() +"'";
-		int HR_Concept_ID = DB.getSQLValue("HR_Concept", sqlConcept);
+		String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = ?";
+		int HR_Concept_ID = DB.getSQLValue("HR_Concept", sqlConcept, pconcept.trim());
 		if (HR_Concept_ID < 0)
 			return 0;
 		MHRMovement m = m_movement.get(new Integer(HR_Concept_ID));
@@ -700,9 +700,9 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	{
 		try
 		{
-			String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = '" + pconcept.trim() +"'";
-			int HR_Concept_ID = DB.getSQLValue("HR_Concept", sqlConcept);
-			if(HR_Concept_ID < 0)
+			String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = ?";
+			int HR_Concept_ID = DB.getSQLValue("HR_Concept", sqlConcept, pconcept.trim());
+			if (HR_Concept_ID < 0)
 				return;
 			MHRConcept c = new MHRConcept(Env.getCtx(),HR_Concept_ID,null); 
 			MHRMovement m = new MHRMovement(Env.getCtx(),0,null);
@@ -730,9 +730,9 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	
 	public static double getConceptGroup (String pconcept)
 	{
-		String sqlConcept = "SELECT MAX(HR_Concept_Category_ID) FROM HR_Concept_Category WHERE TRIM(VALUE) = '" + pconcept.trim() +"'";
-		int HR_Concept_Category_ID = DB.getSQLValue(null, sqlConcept);
-		if(HR_Concept_Category_ID < 0)
+		String sqlConcept = "SELECT MAX(HR_Concept_Category_ID) FROM HR_Concept_Category WHERE TRIM(VALUE) = ?";
+		int HR_Concept_Category_ID = DB.getSQLValue(null, sqlConcept, pconcept.trim());
+		if (HR_Concept_Category_ID < 0)
 			return 0;
 		Double value = Env.ZERO.doubleValue();
 		for(MHRPayrollConcept pc : linesConcept)
@@ -785,18 +785,18 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public static double getAttribute (String pConcept)
 	{
 		BigDecimal Value = Env.ZERO;
-		int HR_Concept_ID = DB.getSQLValue(null, "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = '" + pConcept.trim() +"'");
-		if(HR_Concept_ID < 0)
+		int HR_Concept_ID = DB.getSQLValue(null, "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = ?", pConcept.trim());
+		if (HR_Concept_ID < 0)
 			return 0;
-		MHRConcept concept = new MHRConcept(Env.getCtx(),HR_Concept_ID,null);
-		String campo = concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity) ? "SELECT MAX(att.QTY) " : "SELECT MAX(att.AMOUNT) ";
+		MHRConcept concept = new MHRConcept(Env.getCtx(), HR_Concept_ID, null);
+		String field = concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity) ? "SELECT MAX(att.QTY) " : "SELECT MAX(att.AMOUNT) ";
 		String sqlQ = " FROM HR_Attribute att"
 			+" INNER JOIN HR_Concept c ON (c.HR_Concept_ID=att.HR_Concept_ID)"
 			+" WHERE c.Value = '" +pConcept+ "' AND att.AD_Client_ID = ? "
 			+" AND " +m_From+ " >= att.ValidFrom "; //AND " +To+ " <= att.ValidFrom "; Put final date always in attributes
 		if (!concept.getType().equals(MHRConcept.TYPE_Information))
 			sqlQ += " AND att.C_BPartner_ID = "+m_bpartner;
-		Value = DB.getSQLValueBD(null,campo+sqlQ,Env.getAD_Client_ID(Env.getCtx()));	
+		Value = DB.getSQLValueBD(null,field+sqlQ,Env.getAD_Client_ID(Env.getCtx()));	
 		if(Value == null)
 			return 0;		
 		return Value.doubleValue();
@@ -829,8 +829,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public static Timestamp getAttributeDate (String pConcept)//(int HR_Process_ID,int HR_Employee_ID,String vConcept)
 	{
 		Timestamp valueDate = new Timestamp (System.currentTimeMillis());
-		int HR_Concept_ID = DB.getSQLValue(null, "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = '" + pConcept.trim() +"'");
-		if(HR_Concept_ID < 0)
+		int HR_Concept_ID = DB.getSQLValue(null, "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = ?", pConcept.trim());
+		if (HR_Concept_ID < 0)
 			return null;
 		MHRConcept concept = new MHRConcept(Env.getCtx(),HR_Concept_ID,null);
 		//if(m_columnType.equals(MHRConcept.COLUMNTYPE_Date))
@@ -925,11 +925,11 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public static double getConcept (String pConcept, int periodFrom,int periodTo)
 	{
 		BigDecimal Value = Env.ZERO;
-		String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = '" + pConcept.trim() +"'";
-		int HR_Concept_ID = DB.getSQLValue(null, sqlConcept);
-		if(HR_Concept_ID < 0)
+		String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = ?";
+		int HR_Concept_ID = DB.getSQLValue(null, sqlConcept, pConcept.trim());
+		if (HR_Concept_ID < 0)
 			return 0;
-		X_HR_Period p = new X_HR_Period(Env.getCtx(),m_period,null);
+		X_HR_Period p = new X_HR_Period(Env.getCtx(), m_period, null);
 		MHRConcept concept = new MHRConcept(Env.getCtx(),HR_Concept_ID,null);
 		String field = concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity) ? "SUM(QTY)" : "SUM(AMOUNT)";
 		String sql = "SELECT " +field+ " FROM HR_Movement m"
@@ -958,8 +958,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	public static double getConcept (String pConcept, String pPayroll,int periodFrom,int periodTo)
 	{
 		BigDecimal Value = Env.ZERO;
-		String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = '" + pConcept.trim() +"'";
-		int HR_Concept_ID = DB.getSQLValue(null, sqlConcept);
+		String sqlConcept = "SELECT HR_Concept_ID FROM HR_Concept WHERE TRIM(VALUE) = ?";
+		int HR_Concept_ID = DB.getSQLValue(null, sqlConcept, pConcept.trim());
 		if (HR_Concept_ID < 0)
 			return 0;
 		X_HR_Period p = new X_HR_Period(Env.getCtx(),m_period,null);
@@ -975,9 +975,9 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		if (periodTo > 0)
 			sql += " AND pr.PeriodNo <= " +p.getPeriodNo() +periodTo;
 		//
-		int record = DB.getSQLValue(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE='" + pPayroll + "'"));
+		int record = DB.getSQLValue(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE=?", pPayroll));
 		if (record > 0)
-			Value = DB.getSQLValueBD(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE='" + pPayroll + "'"));
+			Value = DB.getSQLValueBD(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE=?", pPayroll));
 		return Value.doubleValue();
 	} // getConcept
 	
