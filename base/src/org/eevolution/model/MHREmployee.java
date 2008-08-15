@@ -15,13 +15,16 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MBPartner;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 
 /**
@@ -74,7 +77,7 @@ public class MHREmployee extends X_HR_Employee //--
 	public MBPartner[] getEmployees (MHRProcess p) //, String columnSql) //int process, int payroll, int period, int department, int employee,String columnsql)
 	{
 		log.log(Level.INFO,"period: " +p.getHR_Period_ID()+ ", payroll: " +p.getHR_Payroll_ID()+ ", department: " +p.getHR_Department_ID()+ ", employee: " + p.getC_BPartner_ID());
-		ArrayList list = new ArrayList();
+		ArrayList<MBPartner> list = new ArrayList<MBPartner>();
 		String sql = "SELECT bp.C_BPartner_ID FROM C_BPartner bp  INNER JOIN HR_Employee e ON(e.C_BPartner_ID=bp.C_BPartner_ID)" +
 					 	 " WHERE  bp.IsActive = 'Y' AND e.IsActive = 'Y'";
 		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0) // this payroll not content periods, NOT IS a Regular Payroll    > ogi-cd 28Nov2007
@@ -119,4 +122,4 @@ public class MHREmployee extends X_HR_Employee //--
 		list.toArray(linesEmployee);
 		return linesEmployee;
 	}	//	getEmployees
-}	//	HREmployee
+}	//	MHREmployee
