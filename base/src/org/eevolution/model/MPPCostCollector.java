@@ -95,7 +95,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	/**
 	 * 	Set Processed.
-	 * 	Propergate to Lines/Taxes
+	 * 	Propagate to Lines/Taxes
 	 *	@param processed processed
 	 */
 	public void setProcessed (boolean processed)
@@ -697,7 +697,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					log.finest("***** PP_Order_Node_ID = [" +rs1.getInt(2) +"]; status =[" +docStatus + "]");
 					
 					
-					if(docStatus == null || !docStatus.equals(DOCSTATUS_Closed))
+					if (docStatus == null 
+							|| ( docStatus != null && !docStatus.equals(DOCSTATUS_Closed) )
+						)
 					{
 						MPPOrderNode onodenext = new MPPOrderNode(Env.getCtx(),rs1.getInt(2),get_TrxName());
 						onodenext.setDocStatus(DOCSTATUS_Closed);
