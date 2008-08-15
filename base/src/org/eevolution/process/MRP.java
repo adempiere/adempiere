@@ -66,6 +66,7 @@ public class MRP extends SvrProcess
 	private int     p_S_Resource_ID = 0 ;
 	private int     p_M_Warehouse_ID= 0;
 	private boolean p_IsRequiredDRP = false;
+	@SuppressWarnings("unused")
 	private String  p_Version = "1";       
 	private String  result = "";
 
@@ -213,7 +214,7 @@ public class MRP extends SvrProcess
 		DB.executeUpdate(sql, get_TrxName());
 
 		// Delete Action Notice
-		sql = "DELETE FROM AD_Note WHERE AD_Table_ID =  " + MPPMRP.Table_ID + " AND AD_Client_ID = " + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID;
+		sql = "DELETE FROM AD_Note WHERE AD_Table_ID = " + MPPMRP.Table_ID + " AND AD_Client_ID = " + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID;
 
 		DB.executeUpdate(sql, get_TrxName());
 
@@ -359,11 +360,11 @@ public class MRP extends SvrProcess
 				while (rs.next())
 				{
 
-					String TypeMRP = rs.getString("TypeMRP");                                    
-					String OrderType = rs.getString("OrderType");                                    
+					String TypeMRP = rs.getString(MPPMRP.COLUMNNAME_TypeMRP);
+					String OrderType = rs.getString(MPPMRP.COLUMNNAME_OrderType);
 					//Set Global Variable
-					DatePromised = rs.getTimestamp("DatePromised");
-					DateStartSchedule =   rs.getTimestamp("DateStartSchedule"); 
+					DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised);
+					DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
 
 					// if demand is a forecast and this is minor today then is ignore this QtyGrossReq
 					if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP) && MPPMRP.ORDERTYPE_Forecast.equals(OrderType) && DatePromised.compareTo(Today) <= 0)
@@ -406,8 +407,6 @@ public class MRP extends SvrProcess
 						//{
 						// DateStartSchedule =  rs.getTimestamp("DateStartSchedule");
 						//}
-
-
 					}
 
 					BeforeDateStartSchedule =  DateStartSchedule; 						                                          
@@ -416,21 +415,21 @@ public class MRP extends SvrProcess
 					// Create Notice for Demand due
 					if(DatePromised.compareTo(Today) < 0)
 					{                                        
-						MMessage MRP=MMessage.get(getCtx(), "MRP-040");	
+						MMessage MRP = MMessage.get(getCtx(), "MRP-040");	
 						MNote note = new MNote (getCtx(), MRP.getAD_Message_ID() , m_product_planning.getPlanner_ID(), MPPMRP.Table_ID , rs.getInt("PP_MRP_ID") ,  product.getValue() + " " + product.getName()  , Msg.getMsg(getCtx(), MRP.getValue()),get_TrxName());    
 						note.save();
 						log.info( Msg.getMsg(getCtx(), MRP.getValue()));  
 					}
 
-					// Verify if is ORDER_POLICY_PeriodOrderQuantity and DatePromised < DatePromisedTo then Accumaltion QtyGrossReqs 
-					if (m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity) && DatePromised.compareTo(DatePromisedTo) < 0 )
+					// Verify if is ORDER_POLICY_PeriodOrderQuantity and DatePromised < DatePromisedTo then Accumulation QtyGrossReqs 
+					if (m_product_planning != null && m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity) && DatePromised.compareTo(DatePromisedTo) < 0 )
 					{            
 						QtyGrossReqs = QtyGrossReqs.add(rs.getBigDecimal("Qty"));
 						//BeforeQty = BeforeQty + Env.ZERO;
-						log.info("Acumulation   QtyGrossReqs:" + QtyGrossReqs);
+						log.info("Accumulation   QtyGrossReqs:" + QtyGrossReqs);
 						continue;	                                              
 					}// if not then create new range for next period 
-					else if (m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity))
+					else if (m_product_planning != null && m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity))
 					{           
 
 						calculatePlan(rs.getInt("PP_MRP_ID"),product, QtyGrossReqs ,POQDateStartSchedule);
@@ -446,7 +445,7 @@ public class MRP extends SvrProcess
 						continue;
 					}
 					// If  Order_Policy = LoteForLote then always create new range for next period and put QtyGrossReqs          
-					if (m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_LoteForLote))
+					if (m_product_planning != null && m_product_planning.getOrder_Policy().equals(MPPProductPlanning.ORDER_POLICY_LoteForLote))
 					{                                                                                                                                           
 						QtyGrossReqs = rs.getBigDecimal("Qty");
 						calculatePlan(rs.getInt("PP_MRP_ID"),product,  QtyGrossReqs , rs.getTimestamp("DateStartSchedule"));
@@ -469,7 +468,7 @@ public class MRP extends SvrProcess
 		} // try
 		catch (SQLException ex)
 		{
-			log.log(Level.SEVERE,"getLines", ex);
+			log.log(Level.SEVERE, "getLines", ex);
 		}
 
 		return "ok";
@@ -933,7 +932,7 @@ public class MRP extends SvrProcess
 						order.setDatePromised(DemandDateStartSchedule);
 
 						if (m_product_planning.getDeliveryTime_Promised().compareTo(Env.ZERO) == 0)
-							order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (MPPMRP.getDays(order.getCtx(),order.getS_Resource_ID(),order.getAD_Workflow_ID(), QtyPlanned,order.get_TrxName()).add(m_product_planning.getTransfertTime())).negate().intValue()));
+							order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (MPPMRP.getDays(order.getCtx(), order.getS_Resource_ID(), order.getAD_Workflow_ID(), QtyPlanned, order.get_TrxName()).add(m_product_planning.getTransfertTime())).negate().intValue()));
 						else	                                                        	
 							order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (m_product_planning.getDeliveryTime_Promised().add(m_product_planning.getTransfertTime())).negate().intValue()));
 						order.setDateFinishSchedule(DemandDateStartSchedule);
