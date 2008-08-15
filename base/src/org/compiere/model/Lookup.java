@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import javax.swing.AbstractListModel;
+import javax.swing.MutableComboBoxModel;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Base Class for MLookup, MLocator.
@@ -277,14 +283,15 @@ public abstract class Lookup extends AbstractListModel
 			obj = m_selectedObject;
 		}
 
+		// comment next code because of bug [ 2053140 ] Mandatory lookup fields autofilled (badly)
 		//  if nothing selected & mandatory, select first
-		if (obj == null && mandatory  && p_data.size() > 0)
-		{
-			obj = p_data.get(0);
-			m_selectedObject = obj;
-			log.finest(getColumnName() + ": SelectedValue SetToFirst=" + obj);
-		//	fireContentsChanged(this, -1, -1);
-		}
+		// if (obj == null && mandatory  && p_data.size() > 0)
+		// {
+		// 	obj = p_data.get(0);
+		// 	m_selectedObject = obj;
+		// 	log.finest(getColumnName() + ": SelectedValue SetToFirst=" + obj);
+		// //	fireContentsChanged(this, -1, -1);
+		// }
 		
 		m_loaded = true; 
 		fireContentsChanged(this, 0, p_data.size());
