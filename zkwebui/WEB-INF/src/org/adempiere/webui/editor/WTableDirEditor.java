@@ -36,6 +36,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -111,7 +112,10 @@ ContextMenuListener, IZoomableEditor
             {
     			zoom= true;
             }
-            lookup.refresh();
+            
+            //no need to refresh readonly lookup
+            if (isReadWrite())
+            	lookup.refresh();
             refreshList();
         }
         
@@ -152,7 +156,8 @@ ContextMenuListener, IZoomableEditor
             
             if (getComponent().getSelectedIndex() == -1 && lookup != null)
             {
-                lookup.refresh();
+            	if (isReadWrite())
+            		lookup.refresh();
                 oldValue = value;
                 refreshList();
             }
@@ -185,27 +190,44 @@ ContextMenuListener, IZoomableEditor
     	if (getComponent().getItemCount() > 0)
     		getComponent().getItems().clear();
 
-        if (lookup != null)
-        {
-            int size = lookup.getSize();
-            
-            for (int i = 0; i < size; i++)
-            {
-                Object obj = lookup.getElementAt(i);
-                if (obj instanceof KeyNamePair)
-                {
-                    KeyNamePair lookupKNPair = (KeyNamePair) obj;
-                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getKey());
-                }
-                else if (obj instanceof ValueNamePair)
-                {
-                    ValueNamePair lookupKNPair = (ValueNamePair) obj;
-                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getValue());
-                }
-            }
-        }
-        
-        getComponent().setValue(oldValue);
+    	if (isReadWrite())
+    	{
+	        if (lookup != null)
+	        {
+	            int size = lookup.getSize();
+	            
+	            for (int i = 0; i < size; i++)
+	            {
+	                Object obj = lookup.getElementAt(i);
+	                if (obj instanceof KeyNamePair)
+	                {
+	                    KeyNamePair lookupKNPair = (KeyNamePair) obj;
+	                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getKey());
+	                }
+	                else if (obj instanceof ValueNamePair)
+	                {
+	                    ValueNamePair lookupKNPair = (ValueNamePair) obj;
+	                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getValue());
+	                }
+	            }
+	        }	        	        
+    	}
+    	else
+    	{
+    		if (lookup != null)
+	        {
+    			lookup.removeAllElements();
+    			NamePair pair = lookup.getDirect(oldValue, false, false);
+    			if (pair instanceof KeyNamePair) {
+    				int key = ((KeyNamePair)pair).getKey();
+    				getComponent().appendItem(pair.getName(), key);
+    			} else if (pair instanceof ValueNamePair) {
+    				ValueNamePair valueNamePair = (ValueNamePair) pair;
+                    getComponent().appendItem(valueNamePair.getName(), valueNamePair.getValue());
+    			}
+	        }
+    	}
+    	getComponent().setValue(oldValue);
     }
     
     public void onEvent(Event event)
@@ -242,7 +264,8 @@ ContextMenuListener, IZoomableEditor
     	Object curValue = getValue();
 		if (lookup != null)
         {
-            lookup.refresh();
+			if (isReadWrite())
+				lookup.refresh();
             refreshList();
 		    setValue(curValue);
         }
