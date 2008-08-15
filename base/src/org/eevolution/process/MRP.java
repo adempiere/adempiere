@@ -335,7 +335,7 @@ public class MRP extends SvrProcess
 
 			//String Order_Policy = MPPProductPlanning.ORDER_POLICY_LoteForLote;                       
 
-			int lowlevel = MPPMRP.getMaxLowLevel(getCtx());
+			int lowlevel = MPPMRP.getMaxLowLevel(getCtx(), get_TrxName());
 			int Level = lowlevel;
 			log.info("Low Level Is :"+lowlevel);
 			// Calculate MRP for all levels
@@ -569,7 +569,7 @@ public class MRP extends SvrProcess
 
 
 		//QtyOnHand = getOnHand(M_Product_ID);
-		QtyProjectOnHand = MPPMRP.getOnHand(AD_Client_ID , m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID());
+		QtyProjectOnHand = MPPMRP.getQtyOnHand(AD_Client_ID , m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID(), get_TrxName());
 		if(QtyProjectOnHand == null)
 			QtyProjectOnHand = Env.ZERO;    
 
@@ -933,7 +933,7 @@ public class MRP extends SvrProcess
 						order.setDatePromised(DemandDateStartSchedule);
 
 						if (m_product_planning.getDeliveryTime_Promised().compareTo(Env.ZERO) == 0)
-							order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (MPPMRP.getDays(order.getS_Resource_ID(),order.getAD_Workflow_ID(), QtyPlanned).add(m_product_planning.getTransfertTime())).negate().intValue()));
+							order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (MPPMRP.getDays(order.getCtx(),order.getS_Resource_ID(),order.getAD_Workflow_ID(), QtyPlanned,order.get_TrxName()).add(m_product_planning.getTransfertTime())).negate().intValue()));
 						else	                                                        	
 							order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (m_product_planning.getDeliveryTime_Promised().add(m_product_planning.getTransfertTime())).negate().intValue()));
 						order.setDateFinishSchedule(DemandDateStartSchedule);
