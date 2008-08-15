@@ -452,9 +452,6 @@ public class GridController extends CPanel
 	public boolean includeTab (GridController gc , APanel aPanel, GridSynchronizer sync)
 	{	
 		GridController detail = gc;
-	    int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 630;
-	    // Set screen dimension
-	    //detail.setPreferredSize(new Dimension(screenWidth, 250));	   				
 		detail.setDetailGrid(true);			
 		detail.addMouseListener(detail);
 		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
@@ -463,9 +460,9 @@ public class GridController extends CPanel
 		//BEGIN - [FR 1953734]
 		gc.setGCParent(this);
 		//END - [FR 1953734]
+		gc.getGCParent().setPreferredSize(vPanel.getPreferredSize());
 		synchronizerList.add(sync);
 		return true;
-		
 	}	//	IncludeTab
 
 	//FR [ 1757088 ]
