@@ -11,11 +11,11 @@
  * 253b-253b_XE migration script now only compile dependent procedures and views.
 
 0.6
- * The program now generates complete script automaticly. 
+ * The program now generates complete script automatically. 
    Only little adjustments of the generated needed.
 
 0.5.1
- * Bugfix for DBDifference.java - allows to insert string delimeters
+ * Bugfix for DBDifference.java - allows to insert string delimiters
  * Beta of sql statement sorting for autocreated sql statements
  
 0.5
