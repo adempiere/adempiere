@@ -13,6 +13,7 @@
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
+
 package org.eevolution.process;
 
 import java.io.File;
@@ -117,8 +118,7 @@ public class PayrollViaEMail extends SvrProcess
 		}else
 			sendBPGroup();
 		log.fine("From " + m_from);
-		
-		
+			
 
 		return "@Created@=" + m_counter + ", @Errors@=" + m_errors + " - "
 			+ (System.currentTimeMillis()-start) + "ms";
@@ -256,18 +256,12 @@ public class PayrollViaEMail extends SvrProcess
 		//	Add Parameter - Selection=Y
 		MPInstancePara ip = new MPInstancePara(instance, 10);
 		pi.setRecord_ID(m_HR_Process_ID);
-		///pi.setRecord_ID2(BPartner_ID); OJO PASAR EL OTRO PARAMETRO.
 		
 		pi.setIsBatch(true);
 		MProcess worker = new MProcess(getCtx(),AD_Process_ID,get_TrxName());
 		worker.processIt(pi, Trx.get(get_TrxName(), true));
-		//ProcessCtl worker = new ProcessCtl(this, 0, pi, trx);
-		//worker.start();     //  complete tasks in unlockUI / generateShipments_complete
-
 		attachment=pi.getPDFReport();
-		
 		return attachment;
 	}
 
 }	//	SendMailText
-
