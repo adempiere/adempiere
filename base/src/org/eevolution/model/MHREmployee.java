@@ -78,7 +78,7 @@ public class MHREmployee extends X_HR_Employee //--
 		String sql = "SELECT bp.C_BPartner_ID FROM C_BPartner bp  INNER JOIN HR_Employee e ON(e.C_BPartner_ID=bp.C_BPartner_ID)" +
 					 	 " WHERE  bp.IsActive = 'Y' AND e.IsActive = 'Y'";
 		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0) // this payroll not content periods, NOT IS a Regular Payroll    > ogi-cd 28Nov2007
-			sql += " AND e.HR_Payroll_ID = " + p.getHR_Payroll_ID() + " ";
+			sql += " AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=" + p.getHR_Payroll_ID() + ") ";
 		if(p.getHR_Period_ID() != 0)
 			sql += " AND e.StartDate <= " + DB.TO_DATE(new X_HR_Period(Env.getCtx(),p.getHR_Period_ID(),null).getEndDate());
 			else

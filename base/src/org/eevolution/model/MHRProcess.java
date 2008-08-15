@@ -21,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -248,8 +250,10 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 			X_HR_Employee employee = new X_HR_Employee(Env.getCtx(),employee_ID,get_TrxName());
 			//Env.setContext(Env.getCtx(), "_DateBird", employee.getDateBird());
 			Env.setContext(Env.getCtx(), "_DateStart", employee.getStartDate());
-			Env.setContext(Env.getCtx(), "_DateEnd", employee.getEndDate());
+			Env.setContext(Env.getCtx(), "_DateEnd", employee.getEndDate() == null ? "2999-12-31 00:00:00 0.0" : employee.getEndDate().toString());
 			Env.setContext(Env.getCtx(), "_Days", org.compiere.util.TimeUtil.getDaysBetween(period.getStartDate(),period.getEndDate())+1);
+			Env.setContext(Env.getCtx(), "_C_BPartner_ID", bp.getC_BPartner_ID());
+			
 			m_movement.clear();
 			movement();
 			//
@@ -307,9 +311,10 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 					{
 						String text = "";
 						if(rulee.getScript() != null)
-							text = rulee.getScript().trim().replace("get", "org.eevolution.model.MHRProcess.get");
+							text = rulee.getScript().trim();//.replace("get", "org.eevolution.model.MHRProcess.get");
 						String execute = 
-							 " import org.compiere.util.DB;"
+							 " import org.eevolution.model.*;"
+							+" import org.compiere.util.DB;"
 							+" import java.math.*;"
 							+" import java.sql.*;"
 							+" double result = 0;"
@@ -686,6 +691,37 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		return value;
 	}
 	
+	public static void setConcept (String pconcept,long value)
+	{
+		try
+		{
+			String sqlConcept = "SELECT HR_Concept_ID From HR_Concept WHERE TRIM(VALUE) = '" + pconcept.trim() +"'";
+			int HR_Concept_ID = DB.getSQLValue("HR_Concept", sqlConcept);
+			if(HR_Concept_ID < 0)
+				return;
+			MHRConcept c = new MHRConcept(Env.getCtx(),HR_Concept_ID,null); 
+			MHRMovement m = new MHRMovement(Env.getCtx(),0,null);
+			m.setColumnType(c.getColumnType());
+			if(c.getColumnType()=="A")
+				m.setAmount(BigDecimal.valueOf(value));
+			else if(c.getColumnType()=="Q")
+				m.setQty(BigDecimal.valueOf(value));
+			else
+				return;
+			m.setHR_Process_ID(m_process);
+			m.setHR_Concept_ID(HR_Concept_ID);
+			m.setC_BPartner_ID(m_bpartner);
+			m.setDescription("Added From Rule");
+			m.setValidFrom(m_dateTo);
+			m.setValidTo(m_dateTo);
+			m.save();
+			if(m == null||m.getHR_Concept_ID()==0)
+				System.err.println("setConcept: Not Saved");
+		}catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
 	
 	public static double getConceptGroup (String pconcept)
 	{
@@ -827,6 +863,53 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		return org.compiere.util.TimeUtil.getDaysBetween(dat1,dat2)+1;
 	}
 	
+	/**
+	 * 	Get Months, Date in Format Timestamp
+	 */ 
+	public static int getMonths(Timestamp start,Timestamp end)
+	{
+		boolean negative = false;
+		if (end.before(start))
+		{
+			negative = true;
+			Timestamp temp = start;
+			start = end;
+			end = temp;
+		}
+		
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(start);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar calEnd = new GregorianCalendar();
+		
+		calEnd.setTime(end);
+		calEnd.set(Calendar.HOUR_OF_DAY, 0);
+		calEnd.set(Calendar.MINUTE, 0);
+		calEnd.set(Calendar.SECOND, 0);
+		calEnd.set(Calendar.MILLISECOND, 0);
+		
+		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR))
+		{
+			if (negative)
+				return (calEnd.get(Calendar.MONTH) - cal.get(Calendar.MONTH)) * -1;
+			return calEnd.get(Calendar.MONTH) - cal.get(Calendar.MONTH);
+		}
+
+		//	not very efficient, but correct
+		int counter = 0;
+		while (calEnd.after(cal))
+		{
+			cal.add (Calendar.MONTH, 1);
+			counter++;
+		}
+		if (negative)
+			return counter * -1;
+		return counter;
+	}
+	
 	
 	/* Concepto por Rango desde hasta en Periodos
 	 *  -- periodos con valores de 0 -1 1, etc. actual anterior un periodo, siquiente preiodo
@@ -860,6 +943,38 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		return Value.doubleValue();
 	} // getConcept
 	
+	/* Concepto por Rango desde hasta en Periodos de una nomina diferente.
+	 *  -- periodos con valores de 0 -1 1, etc. actual anterior un periodo, siquiente preiodo
+	 *  0 corresponde al periodo actual
+	 *  Valor de HR_Movement
+	 *  pFrom y pTo se hace la búsqueda por el value del periodo, sirve para buscar de años anteriores
+	 *  pPayroll es el value de la nomina.
+	 */
+	public static double getConcept (String pConcept, String pPayroll,int periodFrom,int periodTo)
+	{
+		BigDecimal Value = Env.ZERO;
+		String sqlConcept = "SELECT HR_Concept_ID From HR_Concept WHERE TRIM(VALUE) = '" + pConcept.trim() +"'";
+		int HR_Concept_ID = DB.getSQLValue(null, sqlConcept);
+		if(HR_Concept_ID < 0)
+			return 0;
+		X_HR_Period p = new X_HR_Period(Env.getCtx(),m_period,null);
+		MHRConcept concept = new MHRConcept(Env.getCtx(),HR_Concept_ID,null);
+		String campo = concept.getColumnType().equals("Q") ? "SUM(QTY)" : "SUM(AMOUNT)";
+		String sql = "SELECT " +campo+ " From HR_Movement m"
+				+" INNER JOIN hr_process p ON p.hr_process_id=m.hr_process_id"
+				+" INNER JOIN hr_period  pr ON pr.hr_period_id=p.hr_period_id"
+				+" WHERE m.C_BPartner_ID=" +m_bpartner + " AND p.HR_Payroll_ID=?"
+				+" AND m.HR_Concept_ID = " +HR_Concept_ID+ " AND m.AD_Client_ID =" + Env.getAD_Client_ID(Env.getCtx());
+		if (periodFrom < 0)
+			sql += " AND pr.PeriodNo >= " +p.getPeriodNo() +periodFrom;
+		if (periodTo > 0)
+			sql += " AND pr.PeriodNo <= " +p.getPeriodNo() +periodTo;
+		//
+		int record = DB.getSQLValue(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE='" + pPayroll + "'"));
+		if(record > 0)
+			Value = DB.getSQLValueBD(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE='" + pPayroll + "'"));
+		return Value.doubleValue();
+	} // getConcept
 	
 	/* Atributo que tenia de tal a tal fecha,
 	 *   si encuentra solo un periodo ve por el atributo de ese periodo 
@@ -901,6 +1016,16 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 			while (rs.next ())
 			{
 				MHRMovement mvm = new MHRMovement(Env.getCtx(), rs.getInt(1), null);
+				if(m_movement.containsKey(new Integer(mvm.getHR_Concept_ID())))
+				{
+					MHRMovement lastM = m_movement.get(new Integer(mvm.getHR_Concept_ID()));
+					String type = lastM.getColumnType();
+					if(type.equals("A"))
+						mvm.setAmount(mvm.getAmount().add(lastM.getAmount()));
+					else if(type.equals("Q"))
+						mvm.setQty(mvm.getQty().add(lastM.getQty()));
+				}
+				
 				m_movement.put(new Integer(mvm.getHR_Concept_ID()), mvm);
 			}
 			rs.close ();
@@ -923,6 +1048,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		}
 		return;
 	}
+	
 }	//	MHRProcess
 
  
