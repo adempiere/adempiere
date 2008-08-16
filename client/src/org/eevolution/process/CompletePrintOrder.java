@@ -15,12 +15,12 @@
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.math.BigDecimal;
-import java.util.logging.Level;
 
+import java.util.logging.Level;
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -32,7 +32,7 @@ import org.eevolution.model.MPPOrder;
 /**
  * CompletePrintOrder
  * 
- * @author Victor Pèrez
+ * @author victor.perez@e-evolution.com
  * @version $Id: CompletePrintOrder.java,v 1.4 2004/05/07 05:52:14 vpj-cd Exp $
  */
 public class CompletePrintOrder extends SvrProcess {
@@ -42,9 +42,6 @@ public class CompletePrintOrder extends SvrProcess {
 	private boolean p_IsPrintWorkflow = false;
 	private boolean p_IsPrintPackList = false; // for future use
 	private boolean p_IsComplete = false;
-
-	boolean IsDirectPrint = true; // TODO - Trifon we must check(ask Victor)
-									// why it is false by default?
 
 	/**
 	 * Prepare - e.g., get Parameters.
@@ -56,8 +53,7 @@ public class CompletePrintOrder extends SvrProcess {
 			if (para[i].getParameter() == null)
 				;
 			else if (name.equals("PP_Order_ID"))
-				p_PP_Order_ID = ((BigDecimal) para[i].getParameter())
-						.intValue();
+				p_PP_Order_ID = para[i].getParameterAsInt();
 			else if (name.equals("IsPrintPickList"))
 				p_IsPrintPickList = "Y".equals(para[i].getParameter());
 			else if (name.equals("IsPrintWorkflow"))
@@ -84,16 +80,16 @@ public class CompletePrintOrder extends SvrProcess {
 		Language language = Language.getLoginLanguage(); // Base Language
 
 		if (p_PP_Order_ID == 0)
-			throw new IllegalArgumentException("Manufacturing Order == 0");
+			throw new IllegalArgumentException(Msg.translate(getCtx(),MPPOrder.COLUMNNAME_PP_Order_ID) + " == 0");
 
 		if (p_IsComplete) {
-			MPPOrder order = new MPPOrder(getCtx(), p_PP_Order_ID, null);
+			MPPOrder order = new MPPOrder(getCtx(), p_PP_Order_ID, get_TrxName());
 
 			if (order.isAvailable()) {
 				order.completeIt();
 				order.setDocStatus(MPPOrder.DOCACTION_Complete);
 				order.setDocAction(MPPOrder.ACTION_Close);
-				order.save(get_TrxName());
+				order.saveEx();
 			} else {
 				return Msg.translate(Env.getCtx(), "NoQtyAvailable");
 			}
@@ -102,29 +98,9 @@ public class CompletePrintOrder extends SvrProcess {
 
 		if (p_IsPrintPickList) {
 			// Get Format & Data
-
-			format = MPrintFormat.get(getCtx(), MPrintFormat.getPrintFormat_ID(
-					"Manufacturing Order", MPPOrder.Table_ID, getAD_Client_ID()), false);
-			format.setLanguage(language);
-			format.setTranslationLanguage(language);
-			// query
-			MQuery query = new MQuery("PP_Order");
-			query.addRestriction("PP_Order_ID", MQuery.EQUAL, new Integer(
-					p_PP_Order_ID));
-
-			// Engine
-			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID,
-					getRecord_ID());
-			ReportEngine re = new ReportEngine(getCtx(), format, query, info);
-			// new Viewer(re);
-
-			if (IsDirectPrint) {
-				re.print();
-				// ReportEngine.printConfirm ( 1000282 , getRecord_ID() );
-			}
-			// else
-			// new Viewer(re);
-
+			ReportEngine re = ReportEngine.get(getCtx(), ReportEngine.MANUFACTURING_ORDER,getRecord_ID());
+			ReportCtl.preview(re);
+			re.print();
 		}
 		if (p_IsPrintWorkflow) {
 			// Get Format & Data
@@ -137,23 +113,15 @@ public class CompletePrintOrder extends SvrProcess {
 			format.setTranslationLanguage(language);
 			// query
 			MQuery query = new MQuery("PP_Order");
-			query.addRestriction("PP_Order_ID", MQuery.EQUAL, new Integer(
-					p_PP_Order_ID));
-
+			query.addRestriction("PP_Order_ID", MQuery.EQUAL, p_PP_Order_ID);
 			// Engine
-			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID,
-					getRecord_ID());
+			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID,getRecord_ID());
 			ReportEngine re = new ReportEngine(getCtx(), format, query, info);
-			// new Viewer(re);
-
-			if (IsDirectPrint) {
-				re.print(); // prints only original
-			}
-			// else
-			// new Viewer(re);
+			ReportCtl.preview(re);
+			re.print(); // prints only original
 		}
 
-		return Msg.translate(Env.getCtx(), "Ok");
+		return "@OK@";
 
 	} // doIt
 
