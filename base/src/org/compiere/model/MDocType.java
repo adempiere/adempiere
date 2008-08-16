@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -44,39 +41,12 @@ public class MDocType extends X_C_DocType
 	 */
 	static public MDocType[] getOfDocBaseType (Properties ctx, String DocBaseType)
 	{
-		ArrayList<MDocType> list = new ArrayList<MDocType>();
-		String sql = "SELECT * FROM C_DocType WHERE AD_Client_ID=? AND DocBaseType=? ORDER BY IsDefault DESC, C_DocType_ID";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			pstmt.setString(2, DocBaseType);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MDocType(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		MDocType[] retValue = new MDocType[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause  = "AD_Client_ID=? AND DocBaseType=?";
+		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
+									.setParameters(new Object[]{Env.getAD_Client_ID(ctx), DocBaseType})
+									.setOrderBy("IsDefault DESC, C_DocType_ID")
+									.list();
+		return list.toArray(new MDocType[list.size()]);
 	}	//	getOfDocBaseType
 	
 	/**
@@ -86,38 +56,11 @@ public class MDocType extends X_C_DocType
 	 */
 	static public MDocType[] getOfClient (Properties ctx)
 	{
-		ArrayList<MDocType> list = new ArrayList<MDocType>();
-		String sql = "SELECT * FROM C_DocType WHERE AD_Client_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MDocType(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		MDocType[] retValue = new MDocType[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause  = "AD_Client_ID=?";
+		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
+									.setParameters(new Object[]{Env.getAD_Client_ID(ctx)})
+									.list();
+		return list.toArray(new MDocType[list.size()]);
 	}	//	getOfClient
 	
 	/**
@@ -128,21 +71,17 @@ public class MDocType extends X_C_DocType
 	 */
 	static public MDocType get (Properties ctx, int C_DocType_ID)
 	{
-		Integer key = new Integer(C_DocType_ID);
-		MDocType retValue = (MDocType)s_cache.get(key);
+		MDocType retValue = (MDocType)s_cache.get(C_DocType_ID);
 		if (retValue == null)
 		{
 			retValue = new MDocType (ctx, C_DocType_ID, null);
-			s_cache.put(key, retValue);
+			s_cache.put(C_DocType_ID, retValue);
 		}
 		return retValue; 
 	} 	//	get
 	
 	/**	Cache					*/
 	static private CCache<Integer,MDocType>	s_cache = new CCache<Integer,MDocType>("C_DocType", 20);
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MDocType.class);
-	
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -207,13 +146,10 @@ public class MDocType extends X_C_DocType
 	 */
 	public void setGL_Category_ID()
 	{
-		String sql = "SELECT * FROM GL_Category WHERE AD_Client_ID=? AND IsDefault='Y'";
+		final String sql = "SELECT GL_Category_ID FROM GL_Category"
+						+" WHERE AD_Client_ID=?"
+						+" ORDER BY IsDefault DESC, GL_Category_ID";
 		int GL_Category_ID = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID());
-		if (GL_Category_ID == 0)
-		{
-			sql = "SELECT * FROM GL_Category WHERE AD_Client_ID=?";
-			GL_Category_ID = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID());
-		}
 		setGL_Category_ID(GL_Category_ID);
 	}	//	setGL_Category_ID
 
