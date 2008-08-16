@@ -169,12 +169,14 @@ tr.tab-desktop-tb-m {
 	background-color: #9CBDFF; 
 	font-weight: bold; 
 	color: #274D5F; 
+	cursor: pointer; 
 }
 
 .adwindow-navbtn-uns {
 	background-color: #C4DCFB; 
 	font-weight: normal; 
 	color: #274D5F;
+	cursor: pointer;
 }
 
 .adwindow-navbtn-dis {

@@ -3,8 +3,9 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
+import org.zkoss.zhtml.Button;
+import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -30,25 +31,29 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		int i = 0;
 		for (ADTabLabel tabLabel : listItems) {
 			Button button = new Button();
-			button.setLabel(tabLabel.label);
+			Text text = new Text(tabLabel.label);
+			button.appendChild(text);
 			int s = tabbox.getSelectedIndex();
 			
-			if ( s == i)
-				LayoutUtils.addSclass("adwindow-navbtn-sel", button); 
-			else {
+			if ( s == i) {
+				button.setSclass("adwindow-navbtn-sel");
+				button.setDynamicProperty("disabled", null);
+			} else {
 				if (!tabbox.canNavigateTo(s, i)) {
-					button.setDisabled(true);
-					LayoutUtils.addSclass("adwindow-navbtn-dis", button);
+					button.setDynamicProperty("disabled", "disabled");
+					button.setSclass("adwindow-navbtn-dis");
 				} else {
-					LayoutUtils.addSclass("adwindow-navbtn-uns", button);
+					button.setDynamicProperty("disabled", null);
+					button.setSclass("adwindow-navbtn-uns");
 				}
 			}
 			
 			String style = "margin-left:" + (tabLabel.tabLevel*15+5) + "px";
+			String width = (195 - tabLabel.tabLevel*15)+"px";
+			style = style + "; width:" + width; 
 			button.setStyle(style);
 			
 			button.setParent(this);
-			button.setWidth((195 - tabLabel.tabLevel*15)+"px");
 			button.addEventListener(Events.ON_CLICK, this);
 			i++;
 		}
@@ -84,7 +89,8 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		Button button = (Button) event.getTarget();
 		int i = 0;
 		for (ADTabLabel tabLabel : listItems) {
-			if (tabLabel.label.equals(button.getLabel())) {
+			Text text = (Text) button.getFirstChild();
+			if (tabLabel.label.equals(text.getValue())) {
 				break;
 			}
 			i++;
