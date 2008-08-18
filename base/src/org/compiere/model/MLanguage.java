@@ -22,12 +22,13 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
@@ -61,34 +62,9 @@ public class MLanguage extends X_AD_Language
 	 */
 	public static MLanguage get (Properties ctx, String AD_Language)
 	{
-		MLanguage lang = null;
-		String sql = "SELECT * FROM AD_Language WHERE AD_Language=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, AD_Language);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				lang = new MLanguage (ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, "get", ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		return lang;
+		return new Query(ctx, Table_Name, COLUMNNAME_AD_Language+"=?", null)
+					.setParameters(new Object[]{AD_Language})
+					.first();
 	}	//	get
 
 	/**
@@ -99,37 +75,10 @@ public class MLanguage extends X_AD_Language
 	 */
 	public static MLanguage[] getWithLanguage (Properties ctx, String LanguageISO)
 	{
-		ArrayList<MLanguage> list = new ArrayList<MLanguage>();
-		String sql = "SELECT * FROM AD_Language WHERE LanguageISO=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, LanguageISO);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MLanguage (ctx, rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
-		MLanguage[] languages = new MLanguage[list.size()];
-		list.toArray(languages);
-		return languages;
+		List<MLanguage> list = new Query(ctx, Table_Name, COLUMNNAME_LanguageISO+"=?", null)
+								.setParameters(new Object[]{LanguageISO})
+								.list();
+		return list.toArray(new MLanguage[list.size()]);
 	}	//	get
 
 	/**
@@ -138,33 +87,15 @@ public class MLanguage extends X_AD_Language
 	 */
 	public static void maintain (Properties ctx)
 	{
-		String sql = "SELECT * FROM AD_Language "
-			+ "WHERE IsSystemLanguage='Y' AND IsBaseLanguage='N' AND IsActive='Y'";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MLanguage language = new MLanguage (ctx, rs, null);
-				language.maintain(true);
-			}
- 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+		List<MLanguage> list = new Query(ctx, Table_Name, "IsSystemLanguage='Y' AND IsBaseLanguage='N' AND IsActive='Y'", null)
+								.list();
+		for (MLanguage language : list) {
+			language.maintain(true);
 		}
 	}	//	maintain
 
-	/**	Logger						*/
-	private static CLogger		s_log = CLogger.getCLogger (MLanguage.class);
+//	/**	Logger						*/
+//	private static CLogger		s_log = CLogger.getCLogger (MLanguage.class);
 
 	
 	/**************************************************************************
@@ -198,6 +129,7 @@ public class MLanguage extends X_AD_Language
 	 * 	@param LanguageISO language code
 	 *	@param trxName transaction
 	 */
+	@SuppressWarnings("unused")
 	private MLanguage (Properties ctx, String AD_Language, String Name,
 		String CountryCode, String LanguageISO, String trxName)
 	{
@@ -208,8 +140,6 @@ public class MLanguage extends X_AD_Language
 		setName (Name);
 		setCountryCode(CountryCode);	//	US
 		setLanguageISO(LanguageISO);	//	en
-		String sql = "SELECT NVL(MAX(AD_Language_ID),0)+1 AS DefaultValue FROM AD_Language";
-		setAD_Language_ID(DB.getSQLValue(trxName, sql));
 	}	//	MLanguage
 
 	/**	Locale						*/
@@ -393,11 +323,12 @@ public class MLanguage extends X_AD_Language
 	{
 		String sql = "SELECT TableName FROM AD_Table WHERE TableName LIKE '%_Trl' ORDER BY 1";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int retNo = 0;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (add)
@@ -409,19 +340,14 @@ public class MLanguage extends X_AD_Language
 			pstmt.close();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return retNo;
 	}	//	maintain
@@ -456,30 +382,26 @@ public class MLanguage extends X_AD_Language
 			+ "ORDER BY 1";
 		ArrayList<String> columns = new ArrayList<String>(5);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setString(1, baseTable);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				columns.add(rs.getString(1));
 			rs.close();
 			pstmt.close();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Columns
 		if (columns.size() == 0)
@@ -542,7 +464,7 @@ public class MLanguage extends X_AD_Language
 			);
 			MLanguage lang = new MLanguage (Env.getCtx(), loc.toString(),
 				loc.getDisplayName(), loc.getCountry(), loc.getLanguage());
-			lang.save();
+			lang.saveEx();
 			System.out.println(lang);
 		}
 	   /**/
