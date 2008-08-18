@@ -1908,7 +1908,7 @@ public abstract class PO
 		catch (Exception e)
 		{
 			log.log(Level.WARNING, "beforeSave - " + toString(), e);
-			log.saveError("Error", e.toString(), false);
+			log.saveError("Error", e, false);
 			if (localTrx != null) {
 				localTrx.rollback();
 				localTrx.close();
@@ -2017,7 +2017,7 @@ public abstract class PO
 		catch (Exception e)
 		{
 			log.log(Level.WARNING, "afterSave", e);
-			log.saveError("Error", e.toString(), false);
+			log.saveError("Error", e, false);
 			success = false;
 		//	throw new DBException(e);
 		}
@@ -2703,7 +2703,7 @@ public abstract class PO
 		catch (Exception e)
 		{
 			log.log(Level.WARNING, "beforeDelete", e);
-			log.saveError("Error", e.toString(), false);
+			log.saveError("Error", e, false);
 		//	throw new DBException(e);
 			return false;
 		}
@@ -2800,7 +2800,7 @@ public abstract class PO
 		catch (Exception e)
 		{
 			log.log(Level.WARNING, "afterDelete", e);
-			log.saveError("Error", e.toString(), false);
+			log.saveError("Error", e, false);
 			success = false;
 		//	throw new DBException(e);
 		}
