@@ -15,27 +15,70 @@
  *****************************************************************************/
 package org.eevolution.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.VetoableChangeListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.apps.form.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ADialogDialog;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.StatusBar;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.apps.form.FormPanel;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLocator;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MMovement;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MPrivateAccess;
+import org.compiere.model.MProcess;
+import org.compiere.model.MQuery;
+import org.compiere.model.PrintInfo;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportEngine;
+import org.compiere.print.Viewer;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTextPane;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.eevolution.model.MDDOrder;
 
 /**
@@ -46,8 +89,10 @@ import org.eevolution.model.MDDOrder;
  */
 public class VOrderDistribution extends CPanel
 	implements FormPanel, ActionListener, VetoableChangeListener, 
-		ChangeListener, TableModelListener, ASyncProcess
+				ChangeListener, TableModelListener, ASyncProcess
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -106,13 +151,13 @@ public class VOrderDistribution extends CPanel
 	private CTextPane info = new CTextPane();
 	private JScrollPane scrollPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
-	
+
 	private CLabel     lDocType = new CLabel();
 	private VComboBox  cmbDocType = new VComboBox();
 
 	/** User selection */
 	private ArrayList<Integer> selection = null;
-	
+
 	/**
 	 *	Static Init.
 	 *  <pre>
@@ -178,19 +223,19 @@ public class VOrderDistribution extends CPanel
 		fOrder.addVetoableChangeListener(this);
 		lOrder.setVisible(false);
 		fOrder.setVisible(false);
-	
+
 		MLookup llocator= MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 53950, DisplayType.TableDir);
 		fLocator = new VLookup (MLocator.COLUMNNAME_M_Locator_ID, true, false, true, llocator);
 		lLocator.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
 		fLocator.addVetoableChangeListener(this);
 		m_M_Locator_ID = fLocator.getValue();
-		
+
 		MLookup llocatorto = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 53949, DisplayType.TableDir);
 		fLocatorTo = new VLookup ("M_LocatorTo_ID", false, false, true, llocatorto);
 		lLocatorTo.setText(Msg.translate(Env.getCtx(), "M_LocatorTo_ID"));
 		fLocatorTo.addVetoableChangeListener(this);
 		m_M_LocatorTo_ID = fLocatorTo.getValue();
-		
+
 		//	C_Order.C_BPartner_ID
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new VLookup ("C_BPartner_ID", false, false, true, bpL);
@@ -245,40 +290,40 @@ public class VOrderDistribution extends CPanel
 	 */
 	private String getOrderSQL()
 	{
-	//  Create SQL
-        StringBuffer sql = new StringBuffer(
-            "SELECT DD_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered "
-            + "FROM M_Movement_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
-            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
-            + " AND ic.AD_Client_ID=?");
+		//  Create SQL
+		StringBuffer sql = new StringBuffer(
+				"SELECT DD_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered "
+				+ "FROM M_Movement_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+				+ "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+				+ " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+				+ " AND ic.C_DocType_ID=dt.C_DocType_ID"
+				+ " AND ic.AD_Client_ID=?");
 
-        if(m_M_Locator_ID != null)
-        	sql.append(" AND ic.M_Locator_ID=").append(m_M_Locator_ID);
-        /*if (m_M_Warehouse_ID != null)
+		if(m_M_Locator_ID != null)
+			sql.append(" AND ic.M_Locator_ID=").append(m_M_Locator_ID);
+		/*if (m_M_Warehouse_ID != null)
             sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);*/
-        if(m_M_LocatorTo_ID != null)
-        	sql.append(" AND ic.M_LocatorTo_ID=").append(m_M_LocatorTo_ID);
-        if (m_C_BPartner_ID != null)
-            sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
-        
-        // bug - [ 1713317 ] Generate Shipments (manual) show locked records
-        /* begin - Exclude locked records; @Trifon */
-        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
-        if (lockedIDs != null)
-        {
-            if (sql.length() > 0)
-                sql.append(" AND ");
-            sql.append("DD_Order_ID").append(lockedIDs);
-        }
-        /* eng - Exclude locked records; @Trifon */
-          
-        //
-        sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
-        
-        return sql.toString();
+		if(m_M_LocatorTo_ID != null)
+			sql.append(" AND ic.M_LocatorTo_ID=").append(m_M_LocatorTo_ID);
+		if (m_C_BPartner_ID != null)
+			sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
+
+		// bug - [ 1713317 ] Generate Shipments (manual) show locked records
+		/* begin - Exclude locked records; @Trifon */
+		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+		String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
+		if (lockedIDs != null)
+		{
+			if (sql.length() > 0)
+				sql.append(" AND ");
+			sql.append("DD_Order_ID").append(lockedIDs);
+		}
+		/* eng - Exclude locked records; @Trifon */
+
+		//
+		sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
+
+		return sql.toString();
 	}
 
 	/**
@@ -288,12 +333,12 @@ public class VOrderDistribution extends CPanel
 	{
 		log.info("");
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		
+
 		String sql = "";
-		
+
 		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
-		
-		    sql = getOrderSQL();
+
+		sql = getOrderSQL();
 
 		log.fine(sql);
 		//  reset table
@@ -330,7 +375,7 @@ public class VOrderDistribution extends CPanel
 		}
 		//
 		miniTable.autoSize();
-	//	statusBar.setStatusDB(String.valueOf(miniTable.getRowCount()));
+		//	statusBar.setStatusDB(String.valueOf(miniTable.getRowCount()));
 	}   //  executeQuery
 
 	/**
@@ -358,15 +403,15 @@ public class VOrderDistribution extends CPanel
 		}
 		if (cmbDocType.equals(e.getSource()))
 		{
-		    executeQuery();
-		    return;
+			executeQuery();
+			return;
 		}
 		//
 		saveSelection();
 		if (selection != null
-			&& selection.size() > 0
-			&& m_selectionActive	//	on selection tab
-			&& m_M_Locator_ID != null)
+				&& selection.size() > 0
+				&& m_selectionActive	//	on selection tab
+				&& m_M_Locator_ID != null)
 			generateMovements ();
 		else
 			dispose();
@@ -380,7 +425,7 @@ public class VOrderDistribution extends CPanel
 	{
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
 		//if (e.getPropertyName().equals("M_Warehouse_ID"))
-			//m_M_Warehouse_ID = e.getNewValue();
+		//m_M_Warehouse_ID = e.getNewValue();
 		if (e.getPropertyName().equals("M_Locator_ID"))
 			m_M_Locator_ID = e.getNewValue();
 		if (e.getPropertyName().equals("M_LocatorTo_ID"))
@@ -439,7 +484,7 @@ public class VOrderDistribution extends CPanel
 		for (int i = 0; i < rows; i++)
 		{
 			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);     //  ID in column 0
-		//	log.fine( "Row=" + i + " - " + id);
+			//	log.fine( "Row=" + i + " - " + id);
 			if (id != null && id.isSelected())
 				results.add(id.getRecord_ID());
 		}
@@ -448,10 +493,10 @@ public class VOrderDistribution extends CPanel
 			return;
 		log.config("Selected #" + results.size());
 		selection = results;
-		
+
 	}	//	saveSelection
 
-	
+
 	/**************************************************************************
 	 *	Generate Shipments
 	 */
@@ -463,7 +508,7 @@ public class VOrderDistribution extends CPanel
 		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
 		//String trxName = null;
 		//Trx trx = null;
-		
+
 		m_selectionActive = false;  //  prevents from being called twice
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "M_Movement_ID"));
 		statusBar.setStatusDB(String.valueOf(selection.size()));
@@ -471,14 +516,14 @@ public class VOrderDistribution extends CPanel
 		//	Prepare Process
 		int AD_Process_ID = MProcess.getProcess_ID("M_Generate Movement", trxName);	  
 		KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem();
-		
+
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save())
 		{
 			info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
-		
+
 		//insert selection
 		StringBuffer insert = new StringBuffer();
 		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
@@ -493,7 +538,7 @@ public class VOrderDistribution extends CPanel
 			insert.append(", ");
 			insert.append(selectedId);
 			insert.append(" FROM DUAL ");
-			
+
 			if (counter == 1000) 
 			{
 				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
@@ -520,7 +565,7 @@ public class VOrderDistribution extends CPanel
 				return;
 			}
 		}
-		
+
 		//call process
 		ProcessInfo pi = new ProcessInfo ("VOrderDistribution", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
@@ -566,15 +611,15 @@ public class VOrderDistribution extends CPanel
 		ProcessInfoUtil.setLogFromDB(pi);
 		StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(pi.getSummary())
-			.append("</b><br>(")
-			.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
-			//  Shipments are generated depending on the Delivery Rule selection in the Order
-			.append(")<br>")
-			.append(pi.getLogInfo(true));
+		.append("</b><br>(")
+		.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
+		//  Shipments are generated depending on the Delivery Rule selection in the Order
+		.append(")<br>")
+		.append(pi.getLogInfo(true));
 		info.setText(iText.toString());
 
 		//	Reset Selection
-		
+
 		//String sql = "UPDATE DD_Order SET IsSelected='N' WHERE " + m_whereClause;
 		//int no = DB.executeUpdate(sql, null);
 		//log.config("Reset=" + no);
@@ -589,7 +634,7 @@ public class VOrderDistribution extends CPanel
 		//	OK to print shipments
 		if (ADialog.ask(m_WindowNo, this, "PrintShipments"))
 		{
-		//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
+			//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			int retValue = ADialogDialog.A_CANCEL;	//	see also ProcessDialog.printShipments/Invoices
 			do
@@ -598,20 +643,20 @@ public class VOrderDistribution extends CPanel
 				for (int i = 0; i < ids.length; i++)
 				{
 					int M_Movement_ID = ids[i];
-					 MPrintFormat format = MPrintFormat.get(Env.getCtx(), MPrintFormat.getPrintFormat_ID("Inventory Move Hdr (Example)", MMovement.Table_ID,  0), false);
-					 MQuery query = new MQuery(MMovement.Table_Name);
-					 query.addRestriction(MMovement.COLUMNNAME_M_Movement_ID, MQuery.EQUAL, M_Movement_ID);
-		                                
+					MPrintFormat format = MPrintFormat.get(Env.getCtx(), MPrintFormat.getPrintFormat_ID("Inventory Move Hdr (Example)", MMovement.Table_ID,  0), false);
+					MQuery query = new MQuery(MMovement.Table_Name);
+					query.addRestriction(MMovement.COLUMNNAME_M_Movement_ID, MQuery.EQUAL, M_Movement_ID);
+
 					//	Engine
-		             PrintInfo info = new PrintInfo(MMovement.Table_Name,MMovement.Table_ID, M_Movement_ID);               
-		             ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-		             re.print();
-                     new Viewer(re);
+					PrintInfo info = new PrintInfo(MMovement.Table_Name,MMovement.Table_ID, M_Movement_ID);               
+					ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
+					re.print();
+					new Viewer(re);
 				}
 				ADialogDialog d = new ADialogDialog (m_frame,
-					Env.getHeader(Env.getCtx(), m_WindowNo),
-					Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-					JOptionPane.QUESTION_MESSAGE);
+						Env.getHeader(Env.getCtx(), m_WindowNo),
+						Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+						JOptionPane.QUESTION_MESSAGE);
 				retValue = d.getReturnCode();
 			}
 			while (retValue == ADialogDialog.A_CANCEL);
@@ -622,7 +667,7 @@ public class VOrderDistribution extends CPanel
 		confirmPanelGen.getOKButton().setEnabled(true);
 	}   //  generateShipments_complete
 
-	
+
 	/**************************************************************************
 	 *  Lock User Interface.
 	 *  Called from the Worker before processing
