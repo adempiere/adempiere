@@ -70,6 +70,7 @@ import org.w3c.dom.Element;
  *			<li>BF [ 1704828 ] PO.is_Changed() and PO.is_ValueChanged are not consistent
  *			<li>FR [ 1720995 ] Add PO.saveEx() and PO.deleteEx() methods
  *			<li>BF [ 1990856 ] PO.set_Value* : truncate string more than needed
+ *			<li>FR [ 2042844 ] PO.get_Translation improvements
  */
 public abstract class PO 
 	implements Serializable, Comparator, Evaluatee
@@ -1760,49 +1761,63 @@ public abstract class PO
 	}	//	setAD_User_ID
 
 	/**
-	 * 	Get Translation of column
-	 *	@param columnName
-	 *	@param AD_Language
-	 *	@return translation or null if not found
+	 * Get Translation of column (if needed).
+	 * It checks if the base language is used or the column is not translated.
+	 * If there is no translation then it fallback to original value.
+	 * @param columnName
+	 * @param AD_Language
+	 * @return translated string
+	 * @throws IllegalArgumentException if columnName or AD_Language is null or model has multiple PK
 	 */
-	protected String get_Translation (String columnName, String AD_Language)
+	public String get_Translation (String columnName, String AD_Language)
 	{
+		//
+		// Check if columnName, AD_Language is valid or table support translation (has 1 PK) => error 
 		if (columnName == null || AD_Language == null 
 			|| m_IDs.length > 1 || m_IDs[0].equals(I_ZERO) 
 			|| !(m_IDs[0] instanceof Integer))
 		{
-			log.severe ("Invalid Argument: ColumnName" + columnName
-				+ ", AD_Language=" + AD_Language 
-				+ ", ID.length=" + m_IDs.length + ", ID=" + m_IDs[0]);
-			return null;
+			throw new IllegalArgumentException("ColumnName=" + columnName
+												+ ", AD_Language=" + AD_Language 
+												+ ", ID.length=" + m_IDs.length
+												+ ", ID=" + m_IDs[0]);
 		}
-		int ID = ((Integer)m_IDs[0]).intValue();
+		
 		String retValue = null;
-		StringBuffer sql = new StringBuffer ("SELECT ").append(columnName)
-			.append(" FROM ").append(p_info.getTableName()).append("_Trl WHERE ")
-			.append(m_KeyColumns[0]).append("=?")
-			.append(" AND AD_Language=?");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
+		//
+		// Check if NOT base language and column is translated => load trl from db 
+		if (!Env.isBaseLanguage(AD_Language, get_TableName())
+				&& p_info.isColumnTranslated(p_info.getColumnIndex(columnName))
+			)
 		{
-			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
-			pstmt.setInt (1, ID);
-			pstmt.setString (2, AD_Language);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = rs.getString(1);
+			// Load translation from database
+			int ID = ((Integer)m_IDs[0]).intValue();
+			StringBuffer sql = new StringBuffer ("SELECT ").append(columnName)
+									.append(" FROM ").append(p_info.getTableName()).append("_Trl WHERE ")
+									.append(m_KeyColumns[0]).append("=?")
+									.append(" AND AD_Language=?");
+			retValue = DB.getSQLValueString(get_TrxName(), sql.toString(), ID, AD_Language);
 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
+		//
+		// If no translation found or not translated, fallback to original:
+		if (retValue == null) {
+			Object val = get_Value(columnName);
+			retValue = (val != null ? val.toString() : null);
 		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		//
 		return retValue;
 	}	//	get_Translation
+
+	/**
+	 * Get Translation of column
+	 * @param ctx context
+	 * @param columnName
+	 * @return translation
+	 */
+	public String get_Translation (String columnName)
+	{
+		return get_Translation(columnName, Env.getAD_Language(getCtx()));
+	}
 
 	/**
 	 * 	Is new record

@@ -219,10 +219,7 @@ public class MDocType extends X_C_DocType
 	{
 		if (AD_Language == null || AD_Language.length() == 0)
 			return super.getPrintName();
-		String retValue = get_Translation ("PrintName", AD_Language);
-		if (retValue != null)
-			return retValue;
-		return super.getPrintName();
+		return get_Translation (COLUMNNAME_PrintName, AD_Language);
 	}	//	getPrintName
 	
 	/**

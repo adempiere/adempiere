@@ -204,7 +204,7 @@ public final class MCountry extends X_C_Country
 	{
 		if (m_trlName != null && s_AD_Language != null)
 		{
-			m_trlName = get_Translation("Name", s_AD_Language);
+			m_trlName = get_Translation(COLUMNNAME_Name, s_AD_Language);
 			if (m_trlName == null)
 				s_AD_Language = null;	//	assume that there is no translation
 		}
