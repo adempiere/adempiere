@@ -16,52 +16,16 @@
 
 package org.eevolution.form;
 
-import org.compiere.apps.ConfirmPanel;
-import org.compiere.apps.StatusBar;
-import org.compiere.apps.form.FormFrame;
-import org.compiere.apps.form.FormPanel;
-
-import org.compiere.grid.ed.VLookup;
-
-import org.eevolution.model.QueryDB;
-
-import org.compiere.minigrid.MiniTable;
-
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MProduct;
-import org.compiere.model.MColumn;
-import org.compiere.model.X_C_UOM;
-import org.eevolution.model.X_PP_Product_BOM;
-import org.eevolution.model.X_PP_Product_BOMLine;
-import org.compiere.model.X_M_Product;
-
-import org.compiere.swing.CCheckBox;
-import org.compiere.swing.CLabel;
-import org.compiere.swing.CPanel;
-
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.CLogger;
-import org.compiere.util.Language;
-import org.compiere.util.Msg;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
-
 import java.math.BigDecimal;
-
 import java.sql.Timestamp;
-
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
@@ -79,8 +43,32 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.StatusBar;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.apps.form.FormPanel;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
+import org.compiere.model.Query;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
+
 /**
- *	Tree Maintenance
+ * BOM Tree Maintenance
  *	
  *  @author Victor Perez,Sergio Ramazzinag
  *  @version $Id: VTreeMaintenance.java,v 1.1 2004/03/20 04:35:51 jjanke Exp $
@@ -88,10 +76,15 @@ import javax.swing.tree.DefaultMutableTreeNode;
  *	4Layers - MODIFICATIONS --------------------------------------------------------
  * 	 2005/04/12	Various improvements to the standard form (Sergio Ramazzina)
  *	4Layers -------------------------------------------------------------------- end
+ *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
 public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		ListSelectionListener, PropertyChangeListener, VetoableChangeListener,
-		TreeSelectionListener, TableModelListener {
+		TreeSelectionListener, TableModelListener
+{
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *	Tree Maintenance 
 	 */
@@ -133,8 +126,8 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	//private CTextField  fieldRevision = new CTextField(8);
 	//private CLabel          labelECN  = new CLabel();
 	//private CTextField       fieldECN = new CTextField(10);
-	//private VDate            dateFrom = new VDate ("DateFrom", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateFrom"));
-	//private VDate              dateTo = new VDate ("DateTo", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateTo"));
+	//private VDate            dateFrom = new VDate ("DateFrom", false, false, true, DisplayType.Date, Msg.translate(getCtx(), "DateFrom"));
+	//private VDate              dateTo = new VDate ("DateTo", false, false, true, DisplayType.Date, Msg.translate(getCtx(), "DateTo"));
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
@@ -148,6 +141,10 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	private final int DIVIDER_LOCATION = 240;
 	// 4Layers - end
 
+	public Properties getCtx() {
+		return Env.getCtx();
+	}
+	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -178,7 +175,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	 */
 	private void preInit() throws Exception
 	{
-		Properties ctx = Env.getCtx();
+		Properties ctx = getCtx();
 		Language language = Language.getLoginLanguage(); // Base Language
 		MLookup m_fieldProduct = MLookupFactory.get(ctx, m_WindowNo,
 				MColumn.getColumn_ID(MProduct.Table_Name, "M_Product_ID"),
@@ -191,7 +188,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
 		dataPane.getViewport().add(tableBOM , null);     
 
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_BOM_ID"));
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(getCtx(), "M_BOM_ID"));
 		m_tree = new JTree(parent);
 		splitPane.add (m_tree, JSplitPane.LEFT);
 
@@ -215,23 +212,23 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		//  Header Info
 		columnNames = new Vector<String>(18);
 
-		columnNames.add(Msg.translate(Env.getCtx(), "Select"));	        // 0		
-		columnNames.add(Msg.translate(Env.getCtx(), "IsActive"));       // 1
-		columnNames.add(Msg.translate(Env.getCtx(), "Line"));           // 2
-		columnNames.add(Msg.translate(Env.getCtx(), "ValidFrom"));      // 3
-		columnNames.add(Msg.translate(Env.getCtx(), "ValidTo"));        // 4
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));   // 5
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));       // 6
-		columnNames.add(Msg.translate(Env.getCtx(), "IsQtyPercentage"));  // 7                       
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyBatch"));   // 8
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyBOM"));   		// 9
-		columnNames.add(Msg.translate(Env.getCtx(), "IsCritical"));     // 10
-		columnNames.add(Msg.translate(Env.getCtx(), "LeadTimeOffset"));       // 11
-		columnNames.add(Msg.translate(Env.getCtx(), "Assay"));          // 12
-		columnNames.add(Msg.translate(Env.getCtx(), "Scrap"));          // 13
-		columnNames.add(Msg.translate(Env.getCtx(), "IssueMethod"));    // 14
-		columnNames.add(Msg.translate(Env.getCtx(), "BackflushGroup")); // 15
-		columnNames.add(Msg.translate(Env.getCtx(), "Forecast"));       // 16
+		columnNames.add(Msg.translate(getCtx(), "Select"));	        // 0		
+		columnNames.add(Msg.translate(getCtx(), "IsActive"));       // 1
+		columnNames.add(Msg.translate(getCtx(), "Line"));           // 2
+		columnNames.add(Msg.translate(getCtx(), "ValidFrom"));      // 3
+		columnNames.add(Msg.translate(getCtx(), "ValidTo"));        // 4
+		columnNames.add(Msg.translate(getCtx(), "M_Product_ID"));   // 5
+		columnNames.add(Msg.translate(getCtx(), "C_UOM_ID"));       // 6
+		columnNames.add(Msg.translate(getCtx(), "IsQtyPercentage"));  // 7                       
+		columnNames.add(Msg.translate(getCtx(), "QtyBatch"));   // 8
+		columnNames.add(Msg.translate(getCtx(), "QtyBOM"));   		// 9
+		columnNames.add(Msg.translate(getCtx(), "IsCritical"));     // 10
+		columnNames.add(Msg.translate(getCtx(), "LeadTimeOffset"));       // 11
+		columnNames.add(Msg.translate(getCtx(), "Assay"));          // 12
+		columnNames.add(Msg.translate(getCtx(), "Scrap"));          // 13
+		columnNames.add(Msg.translate(getCtx(), "IssueMethod"));    // 14
+		columnNames.add(Msg.translate(getCtx(), "BackflushGroup")); // 15
+		columnNames.add(Msg.translate(getCtx(), "Forecast"));       // 16
 
 		//  Remove previous listeners
 		tableBOM.getModel().removeTableModelListener(this);
@@ -281,15 +278,15 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		// 4Layers - Set initial window dimension 
 		this.setPreferredSize(new Dimension(640, 480));
 
-		//labelUOM.setText (Msg.getElement(Env.getCtx(), "C_UOM_ID"));
+		//labelUOM.setText (Msg.getElement(getCtx(), "C_UOM_ID"));
 		//fieldUOM.setEditable(false);
-		//labelDocument.setText (Msg.translate(Env.getCtx(), "Document"));
-		//labelRevision.setText (Msg.translate(Env.getCtx(), "Revision"));
-		//labelECN.setText (Msg.translate(Env.getCtx(), "ECN"));
+		//labelDocument.setText (Msg.translate(getCtx(), "Document"));
+		//labelRevision.setText (Msg.translate(getCtx(), "Revision"));
+		//labelECN.setText (Msg.translate(getCtx(), "ECN"));
 
-		labelProduct.setText (Msg.getElement(Env.getCtx(), "M_Product_ID"));
+		labelProduct.setText (Msg.getElement(getCtx(), "M_Product_ID"));
 		//implosion.setEnabled (false);
-		implosion.setText (Msg.getElement(Env.getCtx(), "Implosion"));
+		implosion.setText (Msg.getElement(getCtx(), "Implosion"));
 		//treeInfo.setText (" ");
 		//bAdd.setToolTipText("Add to Tree");
 		//bAddAll.setToolTipText("Add ALL to Tree");
@@ -406,59 +403,28 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	 */
 	private void action_loadBOM()
 	{
-
-		Integer Product = (Integer)fieldProduct.getValue();
-		if (Product == null)
-			return;
-
-		int M_Product_ID = Product.intValue(); 
-
+		int M_Product_ID = getM_Product_ID(); 
 		if (M_Product_ID == 0)
 			return;
-		//System.out.println("Product ID" + Product);
-		X_M_Product M_Product = new X_M_Product(Env.getCtx(), M_Product_ID,"M_Product");
-		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(), "C_UOM");
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_Product_ID")
-				+ " "
-				+ Msg.getElement(Env.getCtx(), "Value")
-				+ ": "
-				+ M_Product.getValue()
-				+ " "
-				+ Msg.getElement(Env.getCtx(), "Name")
-				+ ": "
-				+ M_Product.getName()
-				+ " "
-				+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
-				+ ": "
-				+ C_UOM.getName());
+		MProduct M_Product = MProduct.get(getCtx(), M_Product_ID);
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(M_Product, false));
 
 		dataBOM.clear();
 
-		if (implosion.isSelected())
+		if (isImplosion())
 		{
-			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
-			String filter = "M_Product_ID=" + M_Product_ID;
-			List<Object> results = query.execute(filter);
-			Iterator<Object> select = results.iterator();
-			while (select.hasNext())
+			for (MPPProductBOMLine bomline : getBOMLines(M_Product_ID))
 			{
-				X_PP_Product_BOMLine bomline =  (X_PP_Product_BOMLine) select.next();                      
-				parent.add(parent(bomline));               
+				parent.add(parent(bomline));
 			}     
 			m_tree = new JTree(parent);
 		}
 		else
 		{
-			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOM");
-			String filter = " IsActive='Y' AND M_Product_ID =" + M_Product_ID;
-			List<Object> results = query.execute(filter);
-			Iterator<Object> select = results.iterator();
-			while (select.hasNext())
+			for (MPPProductBOM bom : getBOMs(M_Product_ID, true))
 			{
-				X_PP_Product_BOM bom =  (X_PP_Product_BOM) select.next();                                     
 				parent.add(parent(bom));                    
 			}      
-
 			m_tree = new JTree(parent);
 		}
 
@@ -478,26 +444,13 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 
 	}	//	action_fillTree
 
-	public DefaultMutableTreeNode  parent(X_PP_Product_BOMLine bomline) 
+	public DefaultMutableTreeNode parent(MPPProductBOMLine bomline) 
 	{
 
 		//System.out.println("-------------------------Parent:" + bom.getName());
-		X_M_Product M_Product = new X_M_Product(Env.getCtx(), bomline.getM_Product_ID(),"M_Product");
-		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(),"C_UOM"); 
-
-		X_PP_Product_BOM bomproduct = new X_PP_Product_BOM(Env.getCtx(),bomline.getPP_Product_BOM_ID(),"PP_Product_BOM");
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_Product_ID")
-				+ Msg.getElement(Env.getCtx(), "Value")
-				+ ": "
-				+ M_Product.getValue()
-				+ " "
-				+ Msg.getElement(Env.getCtx(), "Name")
-				+ ": "
-				+ M_Product.getName()
-				+ " "
-				+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
-				+ ": "
-				+ C_UOM.getName());
+		MProduct M_Product = MProduct.get(getCtx(), bomline.getM_Product_ID());
+		MPPProductBOM bomproduct = new MPPProductBOM(getCtx(), bomline.getPP_Product_BOM_ID(), null);
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(M_Product, false));
 
 		Vector<Object> line = new Vector<Object>(17);
 		line.add( new Boolean(false));  //  0 Select
@@ -521,40 +474,26 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		line.add( (BigDecimal) bomline.getForecast()); // 16 Forecast
 		dataBOM.add(line);
 
-		QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOM");
-		String filter = "M_Product_ID = " +  bomproduct.getM_Product_ID();
-		List<Object> results = query.execute(filter);
-		Iterator<Object> select = results.iterator();
-		while (select.hasNext())
+		for (MPPProductBOM bom : getBOMs(bomproduct.getM_Product_ID(), false))
 		{
-			X_PP_Product_BOM bom =  (X_PP_Product_BOM) select.next();             
-			X_M_Product component = new X_M_Product(Env.getCtx(), bom.getM_Product_ID(),"M_Product");
+			MProduct component = MProduct.get(getCtx(), bom.getM_Product_ID());
 			return component(component);
 		}
 		return parent;
 	}
 
-	public DefaultMutableTreeNode  parent(X_PP_Product_BOM bom) 
+	public DefaultMutableTreeNode parent(MPPProductBOM bom) 
 	{
 
 		// System.out.println("Parent:" + bom.getName());
-		// X_M_Product product = new X_M_Product(Env.getCtx(), bom.getM_Product_ID(),"M_Product");
+		// X_M_Product product = new X_M_Product(getCtx(), bom.getM_Product_ID(),"M_Product");
 
 		//vparent.setValue(m_product_id);
-		String data = Msg.getElement(Env.getCtx(), "PP_Product_BOM_ID") + " "
-				+ Msg.getElement(Env.getCtx(), "Value") + ":" + bom.getValue()
-				+ " " + Msg.getElement(Env.getCtx(), "Name") + ": "
-				+ bom.getName(); 
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(data); 
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(bom)); 
 
-		QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
-		String filter = "PP_Product_BOM_ID=" + bom.getPP_Product_BOM_ID();
-		List<Object> results = query.execute(filter);
-		Iterator<Object> select = results.iterator();
-		while (select.hasNext())
+		for (MPPProductBOMLine bomline : bom.getLines())
 		{
-			X_PP_Product_BOMLine bomline =  (X_PP_Product_BOMLine) select.next();             
-			X_M_Product component = new X_M_Product(Env.getCtx(), bomline.getM_Product_ID(),"M_Product");
+			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
 			//System.out.println("Componente :" + component.getValue() + "[" + component.getName() + "]");
 			//component(component);
 			Vector<Object> line = new Vector<Object>(17);
@@ -585,67 +524,25 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		return parent;
 	}
 
-	public DefaultMutableTreeNode component(X_M_Product M_Product) 
+	public DefaultMutableTreeNode component(MProduct M_Product) 
 	{   
 
-		if (implosion.isSelected())
+		if (isImplosion())
 		{
-			//vparent.setValue(m_product_id);
-			//String data = Msg.getElement(Env.getCtx(), "PP_ProductBOM_ID") + ":" + Msg.getElement(Env.getCtx(), "Value") + ":"+ bom.getValue()+ " " + Msg.getElement(Env.getCtx(), "Name")  +  ": " + bom.getName(); 
-			X_C_UOM C_UOM = new X_C_UOM(Env.getCtx(), M_Product.getC_UOM_ID(), "C_UOM"); 
-			DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "M_Product_ID")
-					+ Msg.getElement(Env.getCtx(), "Value")
-					+ ": "
-					+ M_Product.getValue()
-					+ " "
-					+ Msg.getElement(Env.getCtx(), "Name")
-					+ ": "
-					+ M_Product.getName()
-					+ " "
-					+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
-					+ ": "
-					+ C_UOM.getName());
-
-			//System.out.print("Componet Product:" +  M_Product.getName());
-			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
-			String filter = "M_Product_ID=" + M_Product.getM_Product_ID();
-			List<Object> results = query.execute(filter);
-			Iterator<Object> select = results.iterator();
-			while (select.hasNext())
+			DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(M_Product, false));
+			for (MPPProductBOMLine bomline : getBOMLines(M_Product.getM_Product_ID()))
 			{
-				X_PP_Product_BOMLine bomline =  (X_PP_Product_BOMLine) select.next();                     
-				//System.out.print("--------------------------------------Componet BOM:" + bom.getName());
 				parent.add(parent(bomline));
 			}  
-
 			return parent;  
 		}
 		else
 		{
-			//System.out.print("--------------------------------------Component Product:" +  M_Product.getName());
-			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOM");
-			String filter = "Value='" + M_Product.getValue() + "'";
-			X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(),"C_UOM");
-			List<Object> results = query.execute(filter);
-			Iterator<Object> select = results.iterator();
-			while (select.hasNext())
+			for (MPPProductBOM bom : getBOMs(M_Product.getValue()))
 			{
-				X_PP_Product_BOM bom =  (X_PP_Product_BOM) select.next();
-				//System.out.print("--------------------------------------Component BOM:" + bom.getName());
 				return parent(bom);
 			}  
-
-			return new DefaultMutableTreeNode(Msg.getElement(Env.getCtx(), "Value")
-					+ ": "
-					+ M_Product.getValue()
-					+ " "
-					+ Msg.getElement(Env.getCtx(), "Name")
-					+ ": "
-					+ M_Product.getName()
-					+ " "
-					+ Msg.getElement(Env.getCtx(), "C_UOM_ID")
-					+ ": "
-					+ C_UOM.getName());
+			return new DefaultMutableTreeNode(productSummary(M_Product, true));
 		}
 	}
 
@@ -829,5 +726,80 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		}	//	toString
 
 	}	//	ListItem
-
+	
+	private String productSummary(MProduct product, boolean isLeaf) {
+		MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+		//
+		StringBuffer sb = new StringBuffer();
+		if (!isLeaf) {
+			sb.append(Msg.getElement(getCtx(), "M_Product_ID"));
+		}
+		//
+		// Product Value
+		sb.append(" ");
+		sb.append(Msg.getElement(getCtx(), "Value")).append(": ").append(product.getValue());
+		//
+		// Product Name
+		sb.append(" ");
+		sb.append(Msg.getElement(getCtx(), "Name"))
+			.append(": ")
+			.append(product.get_Translation(MProduct.COLUMNNAME_Name));
+		;
+		//
+		// UOM
+		if (uom != null) {
+			sb.append(" ")
+				.append(Msg.getElement(getCtx(), "C_UOM_ID"))
+				.append(": ")
+				.append(uom.get_Translation(MUOM.COLUMNNAME_Name));
+		}
+		//
+		return sb.toString();
+	}
+	
+	private boolean isImplosion() {
+		return implosion.isSelected();
+	}
+	
+	private int getM_Product_ID() {
+		Integer Product = (Integer)fieldProduct.getValue();
+		if (Product == null)
+			return 0;
+		return Product.intValue(); 
+	}
+	
+	private String productSummary(MPPProductBOM bom) {
+		return ""
+			+ Msg.getElement(getCtx(), "PP_Product_BOM_ID")
+			+ " " + Msg.getElement(getCtx(), "Value") + ":" + bom.getValue()
+			+ " " + Msg.getElement(getCtx(), "Name") + ": " 
+					+ bom.get_Translation(MPPProductBOM.COLUMNNAME_Name)
+		;
+	}
+	
+	private List<MPPProductBOM> getBOMs(String productValue)
+	{
+		int ad_client_id = Env.getAD_Client_ID(getCtx()); 
+		String filter = MPPProductBOM.COLUMNNAME_Value+"=? AND AD_Client_ID=?";
+		return new Query (getCtx(), MPPProductBOM.Table_Name, filter, null)
+					.setParameters(new Object[]{productValue, ad_client_id})
+					.list();
+		
+	}
+	private List<MPPProductBOM> getBOMs(int M_Product_ID, boolean onlyActiveRecords)
+	{
+		String filter = MPPProductBOM.COLUMNNAME_M_Product_ID+"=?"
+						+(onlyActiveRecords ? " AND IsActive='Y'" : "");
+		return new Query(getCtx(), MPPProductBOM.Table_Name, filter, null)
+					.setParameters(new Object[]{M_Product_ID})
+					.list();
+	}
+	
+	private List<MPPProductBOMLine> getBOMLines(int M_Product_ID) 
+	{
+		String filter = MPPProductBOMLine.COLUMNNAME_M_Product_ID+"=?";
+		return new Query(getCtx(), MPPProductBOMLine.Table_Name, filter, null)
+						.setParameters(new Object[]{M_Product_ID})
+						.list();
+	}
 }	//	VTreeMaintenance
