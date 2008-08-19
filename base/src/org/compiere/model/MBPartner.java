@@ -434,7 +434,7 @@ public class MBPartner extends X_C_BPartner
 			return m_contacts;
 		//
 		ArrayList<MUser> list = new ArrayList<MUser>();
-		String sql = "SELECT * FROM AD_User WHERE C_BPartner_ID=?";
+		final String sql = "SELECT * FROM AD_User WHERE C_BPartner_ID=? ORDER BY AD_User_ID";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -492,7 +492,8 @@ public class MBPartner extends X_C_BPartner
 			return m_locations;
 		//
 		ArrayList<MBPartnerLocation> list = new ArrayList<MBPartnerLocation>();
-		String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=? AND IsActive='Y'";
+		final String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=? AND IsActive='Y'"
+						+ " ORDER BY C_BPartner_Location_ID";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
