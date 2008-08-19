@@ -181,8 +181,15 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 				MColumn.getColumn_ID(MProduct.Table_Name, "M_Product_ID"),
 				DisplayType.Search, language, MProduct.COLUMNNAME_M_Product_ID, 0, false,
 				" M_Product.IsSummary = 'N'");
-		fieldProduct = new VLookup ("M_Product_ID", false, false, true,  m_fieldProduct);
-		fieldProduct.addActionListener(this);
+		fieldProduct = new VLookup ("M_Product_ID", false, false, true,  m_fieldProduct) {
+			private static final long serialVersionUID = 1L;
+			public void setValue(Object value) {
+				super.setValue(value);
+				action_loadBOM();
+			}
+		};
+		
+		implosion.addActionListener(this);
 
 		loadTableBOM();                   
 		splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
@@ -368,13 +375,10 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		//System.out.println("Event " + e.getSource());
-		//System.out.println("Source Event" + e.getSource());
-		if (e.getSource().equals(fieldProduct))
-		{   
+		if (e.getSource() == implosion) 
+		{
 			action_loadBOM();
 		}
-
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
 			action_loadBOM();
@@ -729,30 +733,24 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	
 	private String productSummary(MProduct product, boolean isLeaf) {
 		MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
+		String value = product.getValue();
+		String name = product.get_Translation(MProduct.COLUMNNAME_Name);
 		//
-		StringBuffer sb = new StringBuffer();
-		if (!isLeaf) {
-			sb.append(Msg.getElement(getCtx(), "M_Product_ID"));
-		}
+		StringBuffer sb = new StringBuffer(value);
+		if (name != null && !value.equals(name))
+			sb.append("_").append(product.getName());
+		sb.append(" [").append(uom.get_Translation(MUOM.COLUMNNAME_UOMSymbol)).append("]");
 		//
-		// Product Value
-		sb.append(" ");
-		sb.append(Msg.getElement(getCtx(), "Value")).append(": ").append(product.getValue());
+		return sb.toString();
+	}
+	
+	private String productSummary(MPPProductBOM bom) {
+		String value = bom.getValue();
+		String name = bom.get_Translation(MPPProductBOM.COLUMNNAME_Name);
 		//
-		// Product Name
-		sb.append(" ");
-		sb.append(Msg.getElement(getCtx(), "Name"))
-			.append(": ")
-			.append(product.get_Translation(MProduct.COLUMNNAME_Name));
-		;
-		//
-		// UOM
-		if (uom != null) {
-			sb.append(" ")
-				.append(Msg.getElement(getCtx(), "C_UOM_ID"))
-				.append(": ")
-				.append(uom.get_Translation(MUOM.COLUMNNAME_Name));
-		}
+		StringBuffer sb = new StringBuffer(value);
+		if (name != null && !name.equals(value))
+			sb.append("_").append(name);
 		//
 		return sb.toString();
 	}
@@ -766,15 +764,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		if (Product == null)
 			return 0;
 		return Product.intValue(); 
-	}
-	
-	private String productSummary(MPPProductBOM bom) {
-		return ""
-			+ Msg.getElement(getCtx(), "PP_Product_BOM_ID")
-			+ " " + Msg.getElement(getCtx(), "Value") + ":" + bom.getValue()
-			+ " " + Msg.getElement(getCtx(), "Name") + ": " 
-					+ bom.get_Translation(MPPProductBOM.COLUMNNAME_Name)
-		;
 	}
 	
 	private List<MPPProductBOM> getBOMs(String productValue)
