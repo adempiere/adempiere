@@ -16,14 +16,9 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
@@ -39,7 +34,6 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_M_Forecast;
 import org.compiere.model.X_M_ForecastLine;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
@@ -78,9 +72,6 @@ public class MPPMRP extends X_PP_MRP
 	{
 		super(ctx, rs , trxName);
 	}                
-
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(MPPMRP.class);
 
 	protected boolean afterSave(boolean newRecord, boolean success) 
 	{
@@ -429,7 +420,6 @@ public class MPPMRP extends X_PP_MRP
 	{        	   
 		String sql = null;
 		String trxName = o.get_TrxName();
-		Properties m_ctx = o.getCtx();
 		if (delete)
 		{
 			sql = "DELETE FROM PP_MRP WHERE DD_Order_ID = "+ o.getDD_Order_ID()  +" AND AD_Client_ID = " + o.getAD_Client_ID();				
@@ -621,6 +611,12 @@ public class MPPMRP extends X_PP_MRP
 		return QtyOnHand;
 	}
 
+	/**
+	 * Maximum Low Level Code
+	 * @param ctx
+	 * @param trxName
+	 * @return maximum low level
+	 */
 	public static int getMaxLowLevel(Properties ctx, String trxName)
 	{
 		int LowLevel = 0;
@@ -632,83 +628,74 @@ public class MPPMRP extends X_PP_MRP
 		return LowLevel + 1;
 	}
 
+	/**
+	 * Calculated duration of given workflow, considering resource's available days and timeslot.
+	 * @param ctx
+	 * @param S_Resource_ID
+	 * @param AD_Workflow_ID
+	 * @param QtyOrdered
+	 * @param trxName
+	 * @return duration [days]
+	 */
 	public static BigDecimal getDays(Properties ctx ,int S_Resource_ID, int AD_Workflow_ID, BigDecimal QtyOrdered, String trxName)
 	{
-		if (S_Resource_ID == 0)
+		if (S_Resource_ID <= 0)
 			return Env.ZERO;
 
-		MResource S_Resource = MResource.get(ctx,S_Resource_ID);
-		MResourceType S_ResourceType = MResourceType.get(ctx,S_Resource.getS_ResourceType_ID());  	
+		MResource S_Resource = MResource.get(ctx, S_Resource_ID);
+		MResourceType S_ResourceType = MResourceType.get(ctx, S_Resource.getS_ResourceType_ID());  	
 
 		BigDecimal AvailableDayTime  = Env.ZERO;
-		int AvailableDays = 0;
-		long hours = 0;
-
 		if (S_ResourceType.isDateSlot())
 			AvailableDayTime = new BigDecimal(getHoursAvailable(S_ResourceType.getTimeSlotStart(),S_ResourceType.getTimeSlotEnd()));
 		else
-			AvailableDayTime  = new BigDecimal(24); 
+			AvailableDayTime  = BigDecimal.valueOf(24); 
 
+		int AvailableDays = 0;
 		if (S_ResourceType.isOnMonday())
-			AvailableDays =+ 1; 
-
+			AvailableDays += 1; 
 		if (S_ResourceType.isOnTuesday())
-			AvailableDays =+ 1;
-
+			AvailableDays += 1;
 		if (S_ResourceType.isOnThursday())
-			AvailableDays =+ 1;
-
+			AvailableDays += 1;
 		if (S_ResourceType.isOnTuesday())
-			AvailableDays =+ 1;
-
+			AvailableDays += 1;
 		if (S_ResourceType.isOnWednesday())	
-			AvailableDays =+ 1;
-
+			AvailableDays += 1;
 		if (S_ResourceType.isOnFriday())	 
-			AvailableDays =+ 1;
-
+			AvailableDays += 1;
 		if (S_ResourceType.isOnSaturday())	
-			AvailableDays =+ 1;
-
+			AvailableDays += 1;
 		if (S_ResourceType.isOnSunday())
-			AvailableDays =+ 1;
+			AvailableDays += 1;
 
-		MWorkflow wf = new MWorkflow(ctx,AD_Workflow_ID,trxName);
-		BigDecimal RequiredTime = Env.ZERO ;//wf.getQueuingTime().add(wf.getSetupTime()).add(wf.getDuration().multiply(QtyOrdered)).add(wf.getWaitingTime()).add(wf.getMovingTime());
+		MWorkflow wf = MWorkflow.get(ctx, AD_Workflow_ID);
+		BigDecimal RequiredTime = BigDecimal.valueOf (	
+								(	  wf.getQueuingTime()
+									+ wf.getSetupTime()
+									+ (wf.getDuration() * QtyOrdered.doubleValue())
+									+ wf.getWaitingTime()
+									+ wf.getMovingTime()
+								)
+								* ( wf.getDurationBaseSec() / 60 / 60 ) // convert to hours
+		);
 
 		// Weekly Factor  	
-		BigDecimal WeeklyFactor = new BigDecimal(7).divide(new BigDecimal(AvailableDays),BigDecimal.ROUND_UNNECESSARY);
+		BigDecimal WeeklyFactor = BigDecimal.valueOf(7).divide(new BigDecimal(AvailableDays), 8, BigDecimal.ROUND_UP);
 
-		return (RequiredTime.multiply(WeeklyFactor)).divide(AvailableDayTime,BigDecimal.ROUND_UP);
+		return (RequiredTime.multiply(WeeklyFactor)).divide(AvailableDayTime, 0, BigDecimal.ROUND_UP);
 	}  
 
 	/**
-	 * 	Return hours in 
-	 * 	@param Time Start
-	 * 	@param Time End
-	 * 	@return hours
+	 * Return hours between time1 and time2.
+	 * Minutes, secords and millis are discarded. 
+	 * @param time1 Time Start
+	 * @param time2 Time End
+	 * @return hours between time1 and time2
 	 */
-	public static long getHoursAvailable(Timestamp time1 , Timestamp time2)
+	public static long getHoursAvailable (Timestamp time1, Timestamp time2)
 	{
-		//System.out.println("Start" +  time1);
-		//System.out.println("end" +  time2);
-		GregorianCalendar g1 = new GregorianCalendar();
-		g1.setTimeInMillis(time1.getTime());
-		g1.set(Calendar.HOUR_OF_DAY, 0);
-		g1.set(Calendar.MINUTE, 0);
-		g1.set(Calendar.SECOND, 0);
-		g1.set(Calendar.MILLISECOND, 0);
-		GregorianCalendar g2 = new GregorianCalendar();
-		g2.set(Calendar.HOUR_OF_DAY, 0);
-		g2.set(Calendar.MINUTE, 0);
-		g2.set(Calendar.SECOND, 0);
-		g2.set(Calendar.MILLISECOND, 0);
-		g2.setTimeInMillis(time2.getTime());
-		//System.out.println("start"+ g1.getTimeInMillis());
-		//System.out.println("end"+ g2.getTimeInMillis());
-		long difference = g2.getTimeInMillis() - g1.getTimeInMillis(); 
-		//System.out.println("Elapsed milliseconds: " + difference);
-		return difference / 6750000; // Hardcoded?
+		return (time2.getTime() - time1.getTime()) / (60 * 60 * 1000);
 	}
 
 
