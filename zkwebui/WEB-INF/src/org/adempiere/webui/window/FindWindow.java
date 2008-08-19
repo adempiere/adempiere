@@ -53,7 +53,6 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WStringEditor;
-import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -1286,7 +1285,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         
     }   //  cmd_ok_Simple
     
-    private void dispose()
+    public void dispose()
     {
         log.config("");
 
@@ -1305,7 +1304,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             m_targetFields.clear();
         m_targetFields = null;
         //
-        this.detach();
+        super.dispose();
     }   //  dispose
 
     /**

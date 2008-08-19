@@ -31,4 +31,13 @@ public class Grid extends org.zkoss.zul.Grid
     	setSclass("grid-no-striped");        
         setOddRowSclass("even");
     }
+
+	public Rows newRows() {
+		Rows rows = new Rows();
+		appendChild(rows);
+		
+		return rows;
+	}
+    
+    
 }

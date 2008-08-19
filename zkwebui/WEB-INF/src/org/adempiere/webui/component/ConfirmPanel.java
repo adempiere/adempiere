@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Messagebox;
 /**
@@ -35,6 +36,10 @@ public final class ConfirmPanel extends Hbox
 {
     
     private static final long serialVersionUID = 1L;
+
+	public static final String A_OK = "Ok";
+
+	public static final String A_CANCEL = "Cancel";
     
     private Map<String, Button> buttonMap = new HashMap<String, Button>();
     
@@ -353,5 +358,29 @@ public final class ConfirmPanel extends Hbox
             button.addEventListener(event, listener);
         }
     }
+
+    /**
+     * added to ease porting of swing form
+     * @param listener
+     */
+	public void addActionListener(EventListener listener) {
+		addActionListener(Events.ON_CLICK, listener);
+	}
+
+	/**
+	 * alias for addComponentsLeft for ease of porting swing form
+	 * @param selectAllButton
+	 */
+	public void addButton(Button button) {
+		addComponentsLeft(button);
+	}
+
+	/**
+	 * alias for getButton("Ok"), to ease porting of swing form
+	 * @return Button
+	 */
+	public Button getOKButton() {
+		return getButton("Ok");
+	}
     
 }   //  ConfirmPanel

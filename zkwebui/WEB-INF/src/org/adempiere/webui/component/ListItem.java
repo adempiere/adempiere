@@ -19,6 +19,9 @@ package org.adempiere.webui.component;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.ValueNamePair;
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -44,4 +47,13 @@ public class ListItem extends org.zkoss.zul.Listitem
 	{
 		m_propertyChangeListeners.addPropertyChangeListener(l);
 	}
+    
+    public KeyNamePair toKeyNamePair() 
+    {
+    	return new KeyNamePair((Integer)getValue(), getLabel());
+    }
+    
+    public ValueNamePair toValueNamePair() {
+    	return new ValueNamePair((String)getValue(), getLabel());
+    }
 }

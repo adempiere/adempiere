@@ -63,7 +63,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	
 	public WLocatorEditor()
 	{
-		this("M_Locator_ID", false, false, true, null);
+		this("M_Locator_ID", false, false, true, null, 0);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	 */
 	
 	public WLocatorEditor(	String columnName, boolean mandatory, boolean isReadOnly, 
-							boolean isUpdateable, MLocatorLookup mLocator)
+							boolean isUpdateable, MLocatorLookup mLocator, int windowNo)
 	{
 		super(new EditorBox(), "Locator", "", mandatory, isReadOnly, isUpdateable);
 		
@@ -87,6 +87,8 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		getComponent().setButtonImage("/images/Locator10.gif");
 		
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
+		
+		m_WindowNo = windowNo;
 	}
 	
 	public void setValue(Object value)

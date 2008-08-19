@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.LayoutUtils;
 import org.zkoss.zk.ui.Component;
 
 /**
@@ -81,5 +82,19 @@ public class Label extends org.zkoss.zul.Label
 			((Label)decorator).setStyle("text-decoration: none; font-size: xx-small; vertical-align: top;");
 		} else if (decorator != null)
 			decorator.setVisible(false);
+	}
+
+	/**
+	 * alias for setValue, added to ease porting of swing form
+	 * @param translate
+	 */
+	public void setText(String translate) {
+		if (translate != null)
+			translate = translate.replaceAll("[&]", "");
+		this.setValue(translate);
+	}
+	
+	public Component rightAlign() {
+		return LayoutUtils.makeRightAlign(this);
 	}
 }

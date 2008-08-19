@@ -125,6 +125,34 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
+	 * Constructor for use if a grid field is unavailable
+	 *
+	 * @param comp			The editor's component
+	 * @param label			column name (not displayed)
+	 * @param description	description of component
+	 * @param mandatory		whether a selection must be made
+	 * @param readonly		whether or not the editor is read only
+	 * @param updateable	whether the editor contents can be changed
+	 */
+    public WEditor(Component comp, String columnName, String label, String description, boolean mandatory, boolean readonly, boolean updateable)
+    {
+    	if (comp == null)
+        {
+            throw new IllegalArgumentException("Component cannot be null");
+        }
+
+    	this.setComponent(comp);
+    	this.setMandatory(mandatory);
+        this.readOnly = readonly;
+        this.description = description;
+        this.updateable = updateable;
+        this.strLabel = label;
+        this.columnName = columnName;
+        init();
+    }
+
+    
+    /**
      * Set the editor component.
      * @param comp the editor component
      */
@@ -160,11 +188,19 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         }
     }
 
+    /**
+     * 
+     * @return grid field for this editor ( can be null )
+     */
     public GridField getGridField()
     {
         return gridField;
     }
 
+    /**
+     * 
+     * @return columnNames
+     */
     public String getColumnName()
     {
         return columnName;
@@ -201,6 +237,10 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     	this.columnName = cleanColumnName;
     }
 
+    /**
+     * 
+     * @return Component
+     */
     public Component getComponent()
     {
         return component;

@@ -94,6 +94,26 @@ ContextMenuListener, IZoomableEditor
 		init();
 	}
     
+    /**
+     * For ease of porting swing form
+     * @param columnName
+     * @param mandatory
+     * @param isReadOnly
+     * @param isUpdateable
+     * @param lookup
+     */
+    public WTableDirEditor(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+    		Lookup lookup)
+    {
+    	super(new Listbox(), columnName, null, null, mandatory, isReadOnly, isUpdateable);
+    	if (lookup == null)
+		{
+			throw new IllegalArgumentException("Lookup cannot be null");
+		}
+    	this.lookup = lookup;
+    	init();
+    }
+    
     private void init()
     {
     	getComponent().setRows(0);
@@ -119,8 +139,11 @@ ContextMenuListener, IZoomableEditor
             refreshList();
         }
         
-        popupMenu = new WEditorPopupMenu(zoom, true, true);
-        getComponent().setContext(popupMenu.getId());
+        if (gridField != null) 
+        {
+        	popupMenu = new WEditorPopupMenu(zoom, true, true);
+        	getComponent().setContext(popupMenu.getId());
+        }
     }
 
     @Override

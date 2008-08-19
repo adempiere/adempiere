@@ -18,6 +18,7 @@
 package org.adempiere.webui.editor;
 
 import org.adempiere.webui.ValuePreference;
+import org.adempiere.webui.apps.form.WCreateFromStatement;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
@@ -26,6 +27,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
 /**
@@ -42,12 +44,38 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     
     private WEditorPopupMenu	popupMenu;
     
+    /**
+     * to ease porting of swing form
+     */
+    public WStringEditor() 
+    {
+    	this("String", false, false, true, 30, 30, "", null);
+    }
     
     public WStringEditor(GridField gridField)
     {
         super(new Textbox(), gridField);
         
-        init();
+        init(gridField.getObscureType());
+    }
+    
+    /**
+     * to ease porting of swing form
+     * @param columnName
+     * @param mandatory
+     * @param isReadOnly
+     * @param isUpdateable
+     * @param displayLength
+     * @param fieldLength
+     * @param vFormat
+     * @param obscureType
+     */
+    public WStringEditor(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+    		int displayLength, int fieldLength, String vFormat, String obscureType)
+    {
+    	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
+    	
+    	init(obscureType);
     }
     
     @Override
@@ -65,41 +93,49 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		getComponent().setReadonly(!readWrite);
 	}
 	
-	private void init()
+	private void init(String obscureType)
     {
-        getComponent().setMaxlength(gridField.getFieldLength());
-        int displayLength = gridField.getDisplayLength();
-        if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
-        {
-            displayLength = MAX_DISPLAY_LENGTH;
-        }
-        getComponent().setCols(displayLength);    
-        
-        if (gridField.getDisplayType() == DisplayType.Text)
-        {
-            getComponent().setMultiline(true);
-            getComponent().setRows(3);
-        }
-        else if (gridField.getDisplayType() == DisplayType.TextLong)
-        {
-            getComponent().setMultiline(true);
-            getComponent().setRows(5);
-        }
-        else if (gridField.getDisplayType() == DisplayType.Memo)
-        {
-            getComponent().setMultiline(true);
-            getComponent().setRows(8);
-        }
-        
-        popupMenu = new WEditorPopupMenu(false, false, true);
+		if (gridField != null)
+		{
+	        getComponent().setMaxlength(gridField.getFieldLength());
+	        int displayLength = gridField.getDisplayLength();
+	        if (displayLength <= 0 || displayLength > MAX_DISPLAY_LENGTH)
+	        {
+	            displayLength = MAX_DISPLAY_LENGTH;
+	        }
+	        getComponent().setCols(displayLength);    
+	        
+	        if (gridField.getDisplayType() == DisplayType.Text)
+	        {
+	            getComponent().setMultiline(true);
+	            getComponent().setRows(3);
+	        }
+	        else if (gridField.getDisplayType() == DisplayType.TextLong)
+	        {
+	            getComponent().setMultiline(true);
+	            getComponent().setRows(5);
+	        }
+	        else if (gridField.getDisplayType() == DisplayType.Memo)
+	        {
+	            getComponent().setMultiline(true);
+	            getComponent().setRows(8);
+	        }
+	        
+	        getComponent().setObscureType(obscureType);
+	        
+	        popupMenu = new WEditorPopupMenu(false, false, true);
+		}
     }
 
     public void onEvent(Event event)
     {
-        String newText = getComponent().getValue();
-        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
-        super.fireValueChange(changeEvent);
-        oldText = newText;
+    	if (Events.ON_CHANGE.equals(event.getName()))
+    	{
+	        String newText = getComponent().getValue();
+	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
+	        super.fireValueChange(changeEvent);
+	        oldText = newText;
+    	}
     }
 
     @Override

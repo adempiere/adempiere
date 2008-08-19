@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -14,262 +14,106 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-
-/**
- * 2007, Modified by Posterita Ltd.
- */
-
 package org.adempiere.webui.apps.form;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Vector;
-import java.util.logging.Level;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
+import java.math.*;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.ButtonFactory;
+import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.ListboxFactory;
+import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.WListbox;
+import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.editor.WStringEditor;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
-import org.compiere.model.GridTab;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MOrder;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
+import org.compiere.model.*;
+import org.compiere.util.*;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
+import org.zkoss.zul.Space;
 
 /**
- * Create From (Base Class) : Based on VCreateFrom
- * 
- * @author  Niraj Sohun
- * @date    Jul 16, 2007
+ *  CreateFrom (Called from GridController.startProcess)
+ *
+ *  @author  Jorg Janke
+ *  @version $Id: VCreateFrom.java,v 1.4 2006/10/11 09:52:23 comdivision Exp $
+ *
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
+ * @author Victor Perez, e-Evolucion 
+ *          <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
+ * @author Karsten Thiemann, Schaeffer AG
+ * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
  */
-
-public abstract class WCreateFrom extends Window implements EventListener, WTableModelListener, ValueChangeListener
+public abstract class WCreateFrom extends Window
+	implements EventListener, WTableModelListener
 {
-	private static CLogger s_log = CLogger.getCLogger (WCreateFrom.class);
-	protected CLogger log = CLogger.getCLogger(getClass());
-	
-	protected Hbox hboxCommon = new Hbox();
-	protected Vbox parameterShipmentPanel = new Vbox(); 
-	protected Hbox parameterBankPanel = new Hbox();
-	protected Vbox parameterInvoicePanel = new Vbox();
-	private Vbox bottomPanel = new Vbox();
-	
-	protected Listbox shipmentField = new Listbox();
-	protected Listbox orderField = new Listbox();
-	protected Listbox invoiceField = new Listbox();
-	
-	protected WEditor bankAccountField;
-	protected WEditor bPartnerField; 
-	protected WEditor locatorField;
-	
-	protected Button btnCancel = new Button();
-	protected Button btnOk = new Button();
-	protected Button btnSelectAll = new Button();
-
-	protected Label bankAccountLabel = new Label();
-	protected Label bPartnerLabel = new Label();
-	protected Label shipmentLabel = new Label();
-	protected Label orderLabel = new Label();
-	protected Label invoiceLabel = new Label();
-	protected Label locatorLabel = new Label();
-	protected Label lblStatus = new Label();
-	
-	protected WListbox dataTable = new WListbox();
-	
-	protected int p_WindowNo;
-	protected GridTab p_mTab;
-	private boolean p_initOK;
-	
-	protected MOrder p_order = null;
-	
-	private void init()
+	/**
+	 *  Factory - called from APanel
+	 *  @param  mTab        Model Tab for the trx
+	 *  @return JDialog
+	 */
+	public static WCreateFrom create (GridTab mTab)
 	{
-		// Common - BP and Purchase Order
-		
-		bPartnerLabel.setValue(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
-		
-		orderLabel.setValue(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
-		
-		orderField.setRows(0);
-        orderField.setMold("select");
-        orderField.addEventListener(Events.ON_SELECT, this);
-		
-        hboxCommon.setWidth("700px");
-        hboxCommon.setWidths("13%, 30%, 12%, 25%");
-        
-        hboxCommon.appendChild(bPartnerLabel);
-        
-        if (bPartnerField != null)
-        	hboxCommon.appendChild(bPartnerField.getComponent());
-        
-        hboxCommon.appendChild(orderLabel);
-        hboxCommon.appendChild(orderField);
-        
-        //End Common
-        
-        // WCreateFromShipment
-
-		invoiceLabel.setValue(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
-		
-		locatorLabel.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
-		
-		invoiceField.setRows(0);
-        invoiceField.setMold("select");
-        invoiceField.addEventListener(Events.ON_SELECT, this);
-        
-        Hbox boxShipment = new Hbox();
-        boxShipment.setWidth("100%");
-        boxShipment.setWidths("13%, 30%, 12%, 25%");
-        
-        boxShipment.appendChild(locatorLabel);
-        
-        if (locatorField != null)
-        	boxShipment.appendChild(locatorField.getComponent());
-        
-        boxShipment.appendChild(invoiceLabel);
-        boxShipment.appendChild(invoiceField);
-        
-        parameterShipmentPanel.setWidth("700px");
-        parameterShipmentPanel.appendChild(boxShipment);
-        
-		// WCreateFromInvoice
-		
-        shipmentLabel.setValue(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
-		
-		shipmentField.setRows(0);
-        shipmentField.setMold("select");
-        shipmentField.addEventListener(Events.ON_SELECT, this);
-        
-        Hbox boxInvoice = new Hbox();
-        boxInvoice.setWidth("100%");
-        boxInvoice.setWidths("13%, 30%, 12%, 25%");
-        
-        boxInvoice.appendChild(new Label());
-        boxInvoice.appendChild(new Label());
-        boxInvoice.appendChild(shipmentLabel);
-        boxInvoice.appendChild(shipmentField);
-        //boxInvoice.setStyle("text-align:right");
-        
-        parameterInvoicePanel.setWidth("700px");
-        parameterInvoicePanel.appendChild(boxInvoice);
-        
-		// End WCreateFromInvoice
-		
-        // WCreateFromStatement
-
-		bankAccountLabel.setValue(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
-        
-		Hbox boxStatement = new Hbox();
-		boxStatement.appendChild(bankAccountLabel);
-		
-		if (bankAccountField != null)
-			boxStatement.appendChild(bankAccountField.getComponent());
-		
-		boxStatement.setStyle("text-align:center");
-		
-		parameterBankPanel.setWidth("700px");
-		parameterBankPanel.appendChild(boxStatement);
-		
-		// End WCreateFromStatement
-		
-		// Listbox
-		
-		dataTable.setCheckmark(true);
-		dataTable.setMultiSelection(true);
-		
-		
-		// Buttons & Status
-		
-		Hbox boxButtons = new Hbox();
-		boxButtons.setWidth("100%");
-		boxButtons.setWidths("90%, 5%, 5%" );
-		boxButtons.setStyle("text-align:left");
-		
-		btnCancel.addEventListener(Events.ON_CLICK, this);
-		btnCancel.setImage("/images/Cancel24.gif");
-		
-		btnOk.addEventListener(Events.ON_CLICK, this);
-		btnOk.setImage("/images/Ok24.gif");
-		
-		btnSelectAll.addEventListener(Events.ON_CLICK, this);
-		btnSelectAll.setLabel("Select All");
-		
-		boxButtons.appendChild(btnSelectAll);
-		boxButtons.appendChild(btnCancel);
-		boxButtons.appendChild(btnOk);
-		
-		bottomPanel.setWidth("700px");
-		bottomPanel.appendChild(boxButtons);
-		bottomPanel.appendChild(lblStatus);
-		
-		// End Buttons & Status
-		
-		// Window
-		
-//		this.setWidth("700px");
-		this.setClosable(true);
-		this.setBorder("normal");
-		
-		this.appendChild(hboxCommon);
-		this.appendChild(new Separator());
-		this.appendChild(parameterInvoicePanel);
-		this.appendChild(parameterBankPanel);
-		this.appendChild(parameterShipmentPanel);
-		this.appendChild(new Separator());
-		this.appendChild(dataTable);
-		this.appendChild(new Separator());
-		this.appendChild(bottomPanel);
-	}
-	
-	public static WCreateFrom create(GridTab mTab)
-	{
-		// Dynamic init preparation
-				
+		//	dynamic init preparation
 		int AD_Table_ID = Env.getContextAsInt(Env.getCtx(), mTab.getWindowNo(), "BaseTable_ID");
 
 		WCreateFrom retValue = null;
-
-		if (AD_Table_ID == 392)             				// C_BankStatement
-			retValue = new WCreateFromStatement(mTab);		
-		else if (AD_Table_ID == 318)        				// C_Invoice
-			retValue = new WCreateFromInvoice(mTab);
-		else if (AD_Table_ID == 319)        				// M_InOut
-			retValue = new WCreateFromShipment(mTab);
-		else if (AD_Table_ID == 426)						// C_PaySelection
-			return null;									// Ignore - will call process C_PaySelection_CreateFrom			
-		else    											//  Not supported CreateFrom
+		if (AD_Table_ID == 392)             //  C_BankStatement
+			retValue = new WCreateFromStatement (mTab);
+		else if (AD_Table_ID == 318)        //  C_Invoice
+			retValue = new WCreateFromInvoice (mTab);
+		else if (AD_Table_ID == 319)        //  M_InOut
+			retValue = new WCreateFromShipment (mTab);
+		else if (AD_Table_ID == 426)		//	C_PaySelection
+			return null;	//	ignore - will call process C_PaySelection_CreateFrom
+		/**
+		 * Modification to support create Lines from for RMA
+		 * @author ashley
+		 */
+		else if (AD_Table_ID == 661)
+			retValue = new WCreateFromRMA(mTab); // RMA
+		else    //  Not supported CreateFrom
 		{
 			s_log.info("Unsupported AD_Table_ID=" + AD_Table_ID);
 			return null;
 		}
 		return retValue;
-	}
+	}   //  create
+
 	
-	public WCreateFrom (GridTab mTab)
+	/**************************************************************************
+	 *  Protected super class Constructor
+	 *  @param mTab MTab
+	 */
+	WCreateFrom (GridTab mTab)
 	{
 		super();
-
+		this.setAttribute("mode", "modal");
 		log.info(mTab.toString());
 		p_WindowNo = mTab.getWindowNo();
 		p_mTab = mTab;
@@ -278,14 +122,10 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 		{
 			if (!dynInit())
 				return;
-			
-			init();
-			
-			//confirmPanel.addActionListener(this);
-			
+			zkInit();
+			confirmPanel.addActionListener(this);
 			//  Set status
-			
-			//statusBar.setStatusDB("");
+			statusBar.setStatusDB("");
 			tableChanged(null);
 			p_initOK = true;
 		}
@@ -295,167 +135,336 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 			p_initOK = false;
 		}
 		AEnv.showWindow(this);
-	}
+	}   //  VCreateFrom
+
+	/** Window No               */
+	protected int               p_WindowNo;
+	/** Model Tab               */
+	protected GridTab         		p_mTab;
+
+	private boolean             p_initOK = false;
+
+	/** Loaded Order            */
+	protected MOrder 			p_order = null;
+	/**	Logger			*/
+	protected CLogger 		log = CLogger.getCLogger(getClass());
+	/**	Static Logger	*/
+	private static CLogger 	s_log = CLogger.getCLogger (WCreateFrom.class);
+	
+	//
+	private Borderlayout contentPane = new Borderlayout();
+	private Panel parameterPanel = new Panel();
+	protected Panel parameterBankPanel = new Panel();
+	private Borderlayout parameterLayout = new Borderlayout();
+	private Label bankAccountLabel = new Label();
+	protected Panel parameterStdPanel = new Panel();
+	private Label bPartnerLabel = new Label();
+	protected Listbox bankAccountField;
+	//RF [1811114]
+	private Label authorizationLabel = new Label();
+	protected WStringEditor authorizationField = new WStringEditor();
+	private Grid parameterStdLayout = GridFactory.newGridLayout();
+	private Grid parameterBankLayout = GridFactory.newGridLayout();
+	// Bug [1759431]
+	protected Checkbox sameWarehouseCb = new Checkbox();
+	protected WEditor bPartnerField;
+	protected Label orderLabel = new Label();
+	protected Listbox orderField = ListboxFactory.newDropdownListbox();
+	protected Label invoiceLabel = new Label();
+	protected Listbox invoiceField = ListboxFactory.newDropdownListbox();
+	protected Label shipmentLabel = new Label();
+	protected Listbox shipmentField = ListboxFactory.newDropdownListbox();
+//	private JScrollPane dataPane = new JScrollPane();
+	private Panel southPanel = new Panel();
+//	private Borderlayout southLayout = new Borderlayout();
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
+	private WStatusBar statusBar = new WStatusBar();
+	protected WListbox dataTable = ListboxFactory.newDataTable();
+	protected Label locatorLabel = new Label();
+	protected WLocatorEditor locatorField = new WLocatorEditor();
+	public static final String SELECT_ALL = "SelectAll";
+//	public static final String SELECT_ALL_TOOLTIP = "Select all records";	
+    
+    /** Label for the rma selection */
+    protected Label rmaLabel = new Label();
+    /** Combo box for selecting RMA document */
+    protected Listbox rmaField = ListboxFactory.newDropdownListbox();
+	/**
+	 *  Static Init.
+	 *  <pre>
+	 *  parameterPanel
+	 *      parameterBankPanel
+	 *      parameterStdPanel
+	 *          bPartner/order/invoice/shopment/licator Label/Field
+	 *  dataPane
+	 *  southPanel
+	 *      confirmPanel
+	 *      statusBar
+	 *  </pre>
+	 *  @throws Exception
+	 */
+	private void zkInit() throws Exception
+	{
+		parameterPanel.appendChild(parameterLayout);
+		parameterStdPanel.appendChild(parameterStdLayout);
+		parameterBankPanel.appendChild(parameterBankLayout);
+		//
+		bankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
+	    //RF [1811114]
+		authorizationLabel.setText(Msg.translate(Env.getCtx(), "R_AuthCode"));
+		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
+		orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
+		invoiceLabel.setText(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
+		shipmentLabel.setText(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
+		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+        rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
+        sameWarehouseCb.setText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", true));
+        sameWarehouseCb.setTooltiptext(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", false));
+        
+		//
+        North north = new North();
+        this.appendChild(contentPane);
+        contentPane.appendChild(north);
+        north.appendChild(parameterPanel);
+        parameterPanel.appendChild(parameterLayout);
+        north = new North();
+        parameterLayout.appendChild(north);
+		north.appendChild(parameterBankPanel);
+		
+		parameterLayout.setHeight("100px");
+		parameterLayout.setWidth("100%");
+		
+		parameterBankPanel.appendChild(parameterBankLayout);
+	    //RF [1811114]
+		Rows rows = (Rows) parameterBankLayout.newRows();		
+		Row row = rows.newRow();
+		row.appendChild(bankAccountLabel.rightAlign());
+		if (bankAccountField != null)
+			row.appendChild(bankAccountField);
+		row.appendChild(authorizationLabel.rightAlign());
+		row.appendChild(authorizationField.getComponent());
+		
+		Center center = new Center();
+		parameterLayout.appendChild(center);
+		center.appendChild(parameterStdPanel);
+		
+		parameterStdPanel.appendChild(parameterStdLayout);
+		rows = (Rows) parameterStdLayout.newRows();
+		row = rows.newRow();
+		row.appendChild(bPartnerLabel.rightAlign());
+		if (bPartnerField != null)
+			row.appendChild(bPartnerField.getComponent());
+		row.appendChild(orderLabel.rightAlign());
+		row.appendChild(orderField);
+		
+		row = rows.newRow();
+		row.appendChild(locatorLabel.rightAlign());
+		row.appendChild(locatorField.getComponent());
+		row.appendChild(invoiceLabel.rightAlign());
+		row.appendChild(invoiceField);
+		
+		row = rows.newRow();
+		row.appendChild(new Space());
+		row.appendChild(sameWarehouseCb);
+		row.appendChild(shipmentLabel.rightAlign());
+		row.appendChild(shipmentField);				
+        
+        // Add RMA document selection to panel
+		row = rows.newRow();
+		row.appendChild(new Space());
+		row.appendChild(new Space());
+        row.appendChild(rmaLabel.rightAlign());
+        row.appendChild(rmaField);
+        
+        center = new Center();
+        contentPane.appendChild(center);
+		center.appendChild(dataTable);
+		//
+ 		//
+		// @Trifon
+//		AppsAction selectAllAction = new AppsAction (SELECT_ALL, KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK), null);
+		
+		Button selectAllButton = ButtonFactory.createButton(SELECT_ALL, null);
+		confirmPanel.addComponentsLeft(selectAllButton);
+		selectAllButton.addActionListener(this);
+//		selectAllButton.setToolTipText(Msg.getMsg(Env.getCtx(), SELECT_ALL_TOOLTIP));
+		confirmPanel.addButton(selectAllButton);
+		//
+		South south = new South();
+		contentPane.appendChild(south);
+		south.appendChild(southPanel);
+		southPanel.appendChild(new Separator());
+		southPanel.appendChild(confirmPanel);
+		// Trifon End
+		southPanel.appendChild(new Separator());
+		southPanel.appendChild(statusBar);
+		
+		this.setWidth("750px");
+		this.setHeight("550px");
+		this.setSizable(true);
+		this.setBorder("normal");
+		contentPane.setWidth("100%");
+		contentPane.setHeight("100%");		
+	}   //  jbInit
 
 	/**
 	 *	Init OK to be able to make changes?
 	 *  @return on if initialized
 	 */
-	
 	public boolean isInitOK()
 	{
 		return p_initOK;
-	}
+	}	//	isInitOK
 
 	/**
 	 *  Dynamic Init
 	 *  @throws Exception if Lookups cannot be initialized
 	 *  @return true if initialized
 	 */
-	
 	abstract boolean dynInit() throws Exception;
 
 	/**
 	 *  Init Business Partner Details
 	 *  @param C_BPartner_ID BPartner
 	 */
-	
 	abstract void initBPDetails(int C_BPartner_ID);
 
 	/**
 	 *  Add Info
 	 */
-	
 	abstract void info();
 
 	/**
 	 *  Save & Insert Data
 	 *  @return true if saved
 	 */
-	
 	abstract boolean save();
-	
+
+	/*************************************************************************/
+
+	/**
+	 *  Action Listener
+	 *  @param e event
+	 * @throws Exception 
+	 */
 	public void onEvent(Event e) throws Exception
 	{
-		//log.config("Action=" + e.getActionCommand());
+		log.config("Action=" + e.getTarget().getId());
+	//	if (m_action)
+	//		return;
+	//	m_action = true;
 
 		//  OK - Save
-
-		if (e.getTarget() == btnOk)
+		if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
 			if (save())
-				this.detach();
+				dispose();
 		}
 		//  Cancel
-		else if (e.getTarget() == btnCancel)
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 		{
-			this.detach();
+			dispose();
 		}
 		// Select All
 		// Trifon
-		else if (e.getTarget() == btnSelectAll)
-		{
+		else if (e.getTarget().getId().equals(SELECT_ALL)) {
 			ListModelTable model = dataTable.getModel();
-			int rows = model.size();
-			
+			int rows = model.getSize();
 			for (int i = 0; i < rows; i++)
 			{
-				//model.setDataAt(new Boolean(true), i, 0);
-				dataTable.addItemToSelection(dataTable.getItemAtIndex(i));
-				//dataTable.setSelectedIndex(i);
+				model.setValueAt(new Boolean(true), i, 0);
 			}
-			info();			
+			//refresh
+			dataTable.setModel(model);
+			info();
 		}
 	//	m_action = false;
-	}  
-		
+	}   //  actionPerformed
+
+	/**
+	 *  Table Model Listener
+	 *  @param e event
+	 */
 	public void tableChanged (WTableModelEvent e)
 	{
 		int type = -1;
-	
-		info();
-		
 		if (e != null)
 		{
 			type = e.getType();
-		
 			if (type != WTableModelEvent.CONTENTS_CHANGED)
 				return;
 		}
 		log.config("Type=" + type);
 		info();
-	} 
+	}   //  tableChanged
+
 	
+	/**************************************************************************
+	 *  Load BPartner Field
+	 *  @param forInvoice true if Invoices are to be created, false receipts
+	 *  @throws Exception if Lookups cannot be initialized
+	 */
 	protected void initBPartner (boolean forInvoice) throws Exception
 	{
-		// Load BPartner
-		
+		//  load BPartner
 		int AD_Column_ID = 3499;        //  C_Invoice.C_BPartner_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.Search);
-		
-		bPartnerField = new WSearchEditor(lookup, Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
-		bPartnerField.addValueChangeListner(this);
-		
+		bPartnerField = new WSearchEditor ("C_BPartner_ID", true, false, true, lookup);
+		//
 		int C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
 		bPartnerField.setValue(new Integer(C_BPartner_ID));
 
-		// Initial loading
-		
+		//  initial loading
 		initBPartnerOIS(C_BPartner_ID, forInvoice);
-	}
+	}   //  initBPartner
 
 	/**
 	 *  Load PBartner dependent Order/Invoice/Shipment Field.
 	 *  @param C_BPartner_ID BPartner
 	 *  @param forInvoice for invoice
 	 */
-	
 	protected void initBPartnerOIS (int C_BPartner_ID, boolean forInvoice)
 	{
 		log.config("C_BPartner_ID=" + C_BPartner_ID);
 		KeyNamePair pp = new KeyNamePair(0,"");
-
-		// Load PO Orders - Closed, Completed
-		
-		orderField.removeEventListener(Events.ON_SELECT, this);
-		orderField.getChildren().clear();
-		orderField.appendItem(pp.getName(), pp);
-			
+		boolean sameWarehouseOnly = sameWarehouseCb.isVisible() && sameWarehouseCb.isSelected();
+		//  load PO Orders - Closed, Completed
+		orderField.removeActionListener(this);
+		orderField.removeAllItems();
+		orderField.addItem(pp);
 		//	Display
-		
 		StringBuffer display = new StringBuffer("o.DocumentNo||' - ' ||")
-				.append(DB.TO_CHAR("o.DateOrdered", DisplayType.Date, Env.getAD_Language(Env.getCtx())))
-				.append("||' - '||")
-				.append(DB.TO_CHAR("o.GrandTotal", DisplayType.Amount, Env.getAD_Language(Env.getCtx())));
-
-		String column = "m.M_InOutLine_ID";
-		
+			.append(DB.TO_CHAR("o.DateOrdered", DisplayType.Date, Env.getAD_Language(Env.getCtx())))
+			.append("||' - '||")
+			.append(DB.TO_CHAR("o.GrandTotal", DisplayType.Amount, Env.getAD_Language(Env.getCtx())));
+		//
+		String column = "ol.QtyDelivered";
 		if (forInvoice)
-				column = "m.C_InvoiceLine_ID";
-		
+			column = "ol.QtyInvoiced";
 		StringBuffer sql = new StringBuffer("SELECT o.C_Order_ID,").append(display)
-				.append(" FROM C_Order o "
-				+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx='N' AND o.DocStatus IN ('CL','CO')"
-				+ " AND o.C_Order_ID IN "
-				+ "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
-				+ " LEFT OUTER JOIN M_MatchPO m ON (ol.C_OrderLine_ID=m.C_OrderLine_ID) "
-				+ "GROUP BY ol.C_Order_ID,ol.C_OrderLine_ID, ol.QtyOrdered,").append(column)
-				.append(" HAVING (ol.QtyOrdered <> SUM(m.Qty) AND ").append(column)
-				.append(" IS NOT NULL) OR ").append(column).append(" IS NULL) "
-				+ "ORDER BY o.DateOrdered");
-		
+			.append(" FROM C_Order o "
+			+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx='N' AND o.DocStatus IN ('CL','CO')"
+			+ " AND o.C_Order_ID IN "
+				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
+				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) ");
+		if(sameWarehouseOnly) {
+			sql = sql.append(" AND o.M_Warehouse_ID=? ");
+		}
+		sql = sql.append("ORDER BY o.DateOrdered");
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
+			if(sameWarehouseOnly) {
+				//only active for material receipts
+				pstmt.setInt(2, Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID"));
+			}
 			ResultSet rs = pstmt.executeQuery();
-		
 			while (rs.next())
 			{
 				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				orderField.appendItem(pp.getName(), pp);
+				orderField.addItem(pp);
 			}
-			
 			rs.close();
 			pstmt.close();
 		}
@@ -464,86 +473,80 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
 		orderField.setSelectedIndex(0);
-		orderField.addEventListener(Events.ON_SELECT, this);
+		orderField.addActionListener(this);
 
 		initBPDetails(C_BPartner_ID);
-	}
-	
+	}   //  initBPartnerOIS
+
+	/**
+	 *  Load Data - Order
+	 *  @param C_Order_ID Order
+	 *  @param forInvoice true if for invoice vs. delivery qty
+	 */
 	protected void loadOrder (int C_Order_ID, boolean forInvoice)
 	{
 		/**
-		 *  Selected        - -
-		 *  Qty             - 0
-		 *  C_UOM_ID        - 1
-		 *  M_Product_ID    - 2
-		 *  VendorProductNo - 3
-		 *  OrderLine       - 4
-		 *  ShipmentLine    - 5
-		 *  InvoiceLine     - 6
+		 *  Selected        - 0
+		 *  Qty             - 1
+		 *  C_UOM_ID        - 2
+		 *  M_Product_ID    - 3
+		 *  VendorProductNo - 4
+		 *  OrderLine       - 5
+		 *  ShipmentLine    - 6
+		 *  InvoiceLine     - 7
 		 */
-	
 		log.config("C_Order_ID=" + C_Order_ID);
 		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);      //  save
 
 		Vector<Vector> data = new Vector<Vector>();
-		
 		StringBuffer sql = new StringBuffer("SELECT "
-			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"									//	1
-			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"		//	2
-			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"							//	3..4
+			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"					//	1
+			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"	//	2
+			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"			//	3..4
 			+ " COALESCE(l.M_Product_ID,0),COALESCE(p.Name,c.Name),po.VendorProductNo,"	//	5..7
-			+ " l.C_OrderLine_ID,l.Line "												//	8..9
+			+ " l.C_OrderLine_ID,l.Line "								//	8..9
 			+ "FROM C_OrderLine l"
 			+ " LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND l.C_BPartner_ID = po.C_BPartner_ID) "
 			+ " LEFT OUTER JOIN M_MatchPO m ON (l.C_OrderLine_ID=m.C_OrderLine_ID AND ");
-		
 		sql.append(forInvoice ? "m.C_InvoiceLine_ID" : "m.M_InOutLine_ID");
 		sql.append(" IS NOT NULL)")
 			.append(" LEFT OUTER JOIN M_Product p ON (l.M_Product_ID=p.M_Product_ID)"
 			+ " LEFT OUTER JOIN C_Charge c ON (l.C_Charge_ID=c.C_Charge_ID)");
-		
 		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
 			sql.append(" LEFT OUTER JOIN C_UOM uom ON (l.C_UOM_ID=uom.C_UOM_ID)");
 		else
 			sql.append(" LEFT OUTER JOIN C_UOM_Trl uom ON (l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='")
 				.append(Env.getAD_Language(Env.getCtx())).append("')");
-
+		//
 		sql.append(" WHERE l.C_Order_ID=? "			//	#1
 			+ "GROUP BY l.QtyOrdered,CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END, "
 			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),po.VendorProductNo, "
 				+ "l.M_Product_ID,COALESCE(p.Name,c.Name), l.Line,l.C_OrderLine_ID "
 			+ "ORDER BY l.Line");
-
+		//
 		log.finer(sql.toString());
-		
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_Order_ID);
 			ResultSet rs = pstmt.executeQuery();
-		
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>();
-				//line.add(new Boolean(false));           //  0-Selection
-			
+				line.add(new Boolean(false));           //  0-Selection
 				BigDecimal qtyOrdered = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyOrdered.multiply(multiplier);
 				line.add(new Double(qtyEntered.doubleValue()));  //  1-Qty
-				
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
-				
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
 				line.add(pp);                           //  3-Product
 				line.add(rs.getString(7));				// 4-VendorProductNo
-				
 				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
 				line.add(pp);                           //  5-OrderLine
 				line.add(null);                         //  6-Ship
 				line.add(null);                         //  7-Invoice
-				
 				data.add(line);
 			}
 			rs.close();
@@ -553,20 +556,19 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		
 		loadTableOIS (data);
-	}
+	}   //  LoadOrder
+
 
 	/**
 	 *  Load Order/Invoice/Shipment data into Table
 	 *  @param data data
 	 */
-	
 	protected void loadTableOIS (Vector data)
 	{
 		//  Header Info
-		Vector<String> columnNames = new Vector<String>(6);
-		//columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		Vector<String> columnNames = new Vector<String>(7);
+		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Quantity"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
@@ -576,25 +578,38 @@ public abstract class WCreateFrom extends Window implements EventListener, WTabl
 		columnNames.add(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
 
 		//  Remove previous listeners
-		//dataTable.getModel().removeTableModelListener(this);
-		
+		dataTable.getModel().removeTableModelListener(this);
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
-		//DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		
 		model.addTableModelListener(this);
 		dataTable.setData(model, columnNames);
-		
-		//dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
-		dataTable.setColumnClass(0, Double.class, true);        //  1-Qty
-		dataTable.setColumnClass(1, String.class, true);        //  2-UOM
-		dataTable.setColumnClass(2, String.class, true);        //  3-Product
-		dataTable.setColumnClass(3, String.class, true);        //  4-VendorProductNo
-		dataTable.setColumnClass(4, String.class, true);        //  5-Order
-		dataTable.setColumnClass(5, String.class, true);        //  6-Ship
-		dataTable.setColumnClass(6, String.class, true);        //  7-Invoice
-		
+		//
+		dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
+		dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
+		dataTable.setColumnClass(2, String.class, true);        //  2-UOM
+		dataTable.setColumnClass(3, String.class, true);        //  3-Product
+		dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo
+		dataTable.setColumnClass(5, String.class, true);        //  5-Order
+		dataTable.setColumnClass(6, String.class, true);        //  6-Ship
+		dataTable.setColumnClass(7, String.class, true);        //  7-Invoice
 		//  Table UI
-		//dataTable.autoSize();
+		dataTable.autoSize();
+	}   //  loadOrder
+
+	/**
+	 * Set form status line.
+	 * Please note, will enable/disable the OK button if the selectedRowCount > 0.
+	 * @param selectedRowCount number of selected lines
+	 * @param text additional text
+	 */
+	protected void setStatusLine(int selectedRowCount, String text) {
+		StringBuffer sb = new StringBuffer(String.valueOf(selectedRowCount));
+		if (text != null && text.trim().length() > 0) {
+			sb.append(" - ").append(text);
+		}
+		statusBar.setStatusLine(sb.toString());
+		//
+		confirmPanel.getOKButton().setEnabled(selectedRowCount > 0);
 	}
-}
+
+}   //  VCreateFrom

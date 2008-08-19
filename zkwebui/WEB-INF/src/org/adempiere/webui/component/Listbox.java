@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.adempiere.webui.apps.form.WCreateFrom;
 import org.compiere.util.KeyNamePair;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -204,5 +205,36 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 				listener.onEvent(event);
 			}
 		}
+	}
+
+	/**
+	 * shortcut for appendItem(pp.getName(), pp.getKey()), to ease porting of swing form
+	 * @param pp
+	 */
+	public void addItem(KeyNamePair pp) {
+		appendItem(pp.getName(), pp.getKey());
+	}
+
+	/**
+	 * remove all items, to ease porting of swing form
+	 */
+	public void removeAllItems() {
+		getItems().clear();
+	}
+
+	/**
+	 * alias for removeEventListener(Events.ON_SELECT, listener), to ease porting of swing form
+	 * @param listener
+	 */
+	public void removeActionListener(EventListener listener) {
+		removeEventListener(Events.ON_SELECT, listener);
+	}
+
+	/**
+	 * alias for addEventListener(Events.ON_SELECT, listener), to ease porting of swing form
+	 * @param listener
+	 */
+	public void addActionListener(EventListener listener) {
+		addEventListener(Events.ON_SELECT, listener);
 	}    
 }

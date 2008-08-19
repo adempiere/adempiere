@@ -257,7 +257,7 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 		
 		//  Locator
 		MLocatorLookup locatorLookup = new MLocatorLookup(ctx, m_WindowNo);
-		locatorField = new WLocatorEditor ("M_Locator_ID", false, false, true, locatorLookup);
+		locatorField = new WLocatorEditor ("M_Locator_ID", false, false, true, locatorLookup, m_windowNo);
 		locatorField.addValueChangeListner(this);
 		
 		//  Product

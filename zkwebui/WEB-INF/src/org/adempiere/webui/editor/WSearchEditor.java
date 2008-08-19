@@ -119,6 +119,23 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		init();
 	}
 
+	public WSearchEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
+    		Lookup lookup) 
+	{
+		super(new Searchbox(), null, null, mandatory, readonly, updateable);
+
+		if (lookup == null)
+		{
+			throw new IllegalArgumentException("Lookup cannot be null");
+		}
+
+		this.lookup = lookup;
+        this.columnName = columnName;
+		super.setColumnName(columnName);
+		init();
+	}
+
+
 	/**
      * initialise editor
      * @param columnName columnName

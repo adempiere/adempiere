@@ -17,6 +17,9 @@
 
 package org.adempiere.webui.component;
 
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -36,4 +39,38 @@ public class Checkbox extends org.zkoss.zul.Checkbox
     {
     	return !this.isDisabled();
     }
+
+    /**
+     * alias for setLabel, added to ease porting of swing form
+     * @param label
+     */
+	public void setText(String label) {
+		if (label != null)
+			label = label.replaceAll("[&]", "");
+		setLabel(label);
+	}
+
+	/**
+	 * alias for isChecked, to ease porting of swing form
+	 * @return
+	 */
+	public boolean isSelected() {
+		return isChecked();
+	}
+
+	/**
+	 * alias for setChecked, to ease porting of swing form
+	 * @param checked
+	 */
+	public void setSelected(boolean checked) {
+		setChecked(checked);
+	}
+
+	/**
+	 * alias for addEventListener(Events.ON_CHECK, listener), to ease porting of swing form
+	 * @param listener
+	 */
+	public void addActionListener(EventListener listener) {
+		addEventListener(Events.ON_CHECK, listener);
+	}
 }

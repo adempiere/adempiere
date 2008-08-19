@@ -17,6 +17,10 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.apps.form.WCreateFrom;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -58,4 +62,12 @@ public class Button extends org.zkoss.zul.Button
     {
         return !super.isDisabled();
     }
+
+    /**
+     * shortcut for addEventListener(Events.ON_CLICK, listener) to ease porting of swing form
+     * @param listener
+     */
+	public void addActionListener(EventListener listener) {
+		addEventListener(Events.ON_CLICK, listener);
+	}
 }

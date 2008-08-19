@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -14,70 +14,50 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-
-/**
- * 2007, Modified by Posterita Ltd.
- */
-
 package org.adempiere.webui.apps.form;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.util.Vector;
-import java.util.logging.Level;
+import java.math.*;
+import java.sql.*;
+import java.text.*;
+import java.util.*;
+import java.util.logging.*;
 
 import org.adempiere.webui.component.ListModelTable;
-import org.adempiere.webui.editor.WEditor;
-import org.adempiere.webui.editor.WSearchEditor;
+import org.adempiere.webui.editor.WStringEditor;
+import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.GridTab;
-import org.compiere.model.MBankStatement;
-import org.compiere.model.MBankStatementLine;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MPayment;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
-import org.zkoss.zk.ui.event.EventListener;
+import org.compiere.model.*;
+import org.compiere.util.*;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.Events;
 
 /**
- * Create From Statement : Based on VCreateFromStatement
- * 
- * @author  Niraj Sohun
- * @date    Jul 20, 2007
+ *  Create Transactions for Bank Statements
+ *
+ *  @author Jorg Janke
+ *  @version  $Id: VCreateFromStatement.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Victor Perez, e-Evolucion 
+ *  <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  */
-
-public class WCreateFromStatement extends WCreateFrom implements EventListener, ValueChangeListener, WTableModelListener
+public class WCreateFromStatement extends WCreateFrom implements ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	
 	WCreateFromStatement(GridTab mTab)
 	{
-		super(mTab);
-		//log.info("");
-	}   
-	
+		super (mTab);
+		log.info("");
+	}   //  VCreateFromStatement
+
 	/**
 	 *  Dynamic Init
 	 *  @throws Exception if Lookups cannot be initialized
 	 *  @return true if initialized
 	 */
-	
 	protected boolean dynInit() throws Exception
 	{
 		if (p_mTab.getValue("C_BankStatement_ID") == null)
@@ -85,74 +65,81 @@ public class WCreateFromStatement extends WCreateFrom implements EventListener, 
 			FDialog.error(0, this, "SaveErrorRowNotFound");
 			return false;
 		}
+        // Do not display RMA selection
+        rmaLabel.setVisible(false);
+        rmaField.setVisible(false);
+        
+        sameWarehouseCb.setVisible(false);
 
 		setTitle(Msg.translate(Env.getCtx(), "C_BankStatement_ID") + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
-	
-		parameterShipmentPanel.setVisible(false);
-		parameterInvoicePanel.setVisible(false);
-		hboxCommon.setVisible(false);
-		
+		parameterStdPanel.setVisible(false);
+
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		bankAccountField = new WSearchEditor(lookup, "label","desc", true, false, true);
-		bankAccountField.addValueChangeListner(this);
-		
+		WTableDirEditor editor = new WTableDirEditor ("C_BankAccount_ID", true, false, true, lookup);
+		bankAccountField = editor.getComponent();
+		editor.addValueChangeListner(this);
 		//  Set Default
-		
 		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
 		bankAccountField.setValue(new Integer(C_BankAccount_ID));
-	
-		// Initial Loading
-		loadBankAccount(C_BankAccount_ID);
+		//  initial Loading
+		//RF [1811114]
+		String R_AuthCode="";        
+		authorizationField = new WStringEditor ("authorization", false, false, true, 10, 30, null, null);
+		authorizationField.getComponent().addEventListener(Events.ON_CHANGE, this);
+		loadBankAccount(C_BankAccount_ID, R_AuthCode);
 
 		return true;
-	}
-	
+	}   //  dynInit
+
 	/**
 	 *  Init Details (never called)
 	 *  @param C_BPartner_ID BPartner
 	 */
-	
 	protected void initBPDetails(int C_BPartner_ID)
 	{
-	}
-	
-	public void valueChange(ValueChangeEvent evt) 
-	{
-		log.config(evt.getPropertyName() + "=" + evt.getNewValue());
-		
-		if (evt == null)
-			return;
+	}   //  initDetails
 
-		if (evt.getSource() instanceof WEditor)
+	/**
+	 *  Change Listener
+	 *  @param e event
+	 */
+	public void valueChange (ValueChangeEvent e)
+	{
+		log.config(e.getPropertyName() + "=" + e.getNewValue());
+		int C_BankAccount_ID=0;
+		//RF [1811114]
+		String R_AuthCode = (authorizationField.getValue().toString());
+
+		//  BankAccount
+		if (e.getPropertyName().equals("C_BankAccount_ID"))
 		{
-			//  BankAccount
-			
-			if (evt.getPropertyName().equals("C_BankAccount_ID"))
-			{
-				int C_BankAccount_ID = ((Integer)evt.getNewValue()).intValue();
-				loadBankAccount(C_BankAccount_ID);
-			}
-			tableChanged(null);
+			//RF [1811114]
+			C_BankAccount_ID = ((Integer)e.getNewValue()).intValue();
+			if (authorizationField.getValue().toString().equals(""))
+				loadBankAccount(C_BankAccount_ID, null);
+			else
+				loadBankAccount(C_BankAccount_ID, R_AuthCode);
 		}
-	}
-	
+		tableChanged(null);
+	}   //  vetoableChange
+
 	/**
 	 *  Load Data - Bank Account
 	 *  @param C_BankAccount_ID Bank Account
+	 *  @param Autorization Code
 	 */
-	
-	private void loadBankAccount (int C_BankAccount_ID)
+	//RF [1811114]
+	private void loadBankAccount (int C_BankAccount_ID, String R_AuthCode)
 	{
 		log.config ("C_BankAccount_ID=" + C_BankAccount_ID);
 		/**
-		 *  Selected        - -
+		 *  Selected        - 0
 		 *  Date            - 1
 		 *  C_Payment_ID    - 2
 		 *  C_Currenncy     - 3
 		 *  Amt             - 4
 		 */
-	
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		String sql = "SELECT p.DateTrx,p.C_Payment_ID,p.DocumentNo, p.C_Currency_ID,c.ISO_Code, p.PayAmt,"
 			+ "currencyConvert(p.PayAmt,p.C_Currency_ID,ba.C_Currency_ID,?,null,p.AD_Client_ID,p.AD_Org_ID),"   //  #1
@@ -163,15 +150,17 @@ public class WCreateFromStatement extends WCreateFrom implements EventListener, 
 			+ " LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE p.Processed='Y' AND p.IsReconciled='N'"
 			+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" // Bug 1564453 Added Voided payment to bank statement payement selection
-			+ " AND p.C_BankAccount_ID=?"                              	//  #2
-			+ " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
+			+ " AND p.C_BankAccount_ID=?";      //  #2
+			//RF [1811114]
+		    if (R_AuthCode!= "" && R_AuthCode!= null)
+		    	sql = sql + " AND p.R_AuthCode LIKE ?";
+		    
+		    sql = sql + " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
 			//	Voided Bank Statements have 0 StmtAmt
 				+ "WHERE p.C_Payment_ID=l.C_Payment_ID AND l.StmtAmt <> 0)";
 
 		//  Get StatementDate
-		
 		Timestamp ts = (Timestamp)p_mTab.getValue("StatementDate");
-		
 		if (ts == null)
 			ts = new Timestamp(System.currentTimeMillis());
 
@@ -180,17 +169,17 @@ public class WCreateFromStatement extends WCreateFrom implements EventListener, 
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setTimestamp(1, ts);
 			pstmt.setInt(2, C_BankAccount_ID);
+			//RF [1811114]
+			if (R_AuthCode!= "" && R_AuthCode!= null){
+				pstmt.setString(3, R_AuthCode);}
 			ResultSet rs = pstmt.executeQuery();
-		
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(6);
-				//line.add(new Boolean(false));       //  0-Selection
+				line.add(new Boolean(false));       //  0-Selection
 				line.add(rs.getTimestamp(1));       //  1-DateTrx
-			
 				KeyNamePair pp = new KeyNamePair(rs.getInt(2), rs.getString(3));
 				line.add(pp);                       //  2-C_Payment_ID
-				
 				pp = new KeyNamePair(rs.getInt(4), rs.getString(5));
 				line.add(pp);                       //  3-Currency
 				line.add(rs.getBigDecimal(6));      //  4-PayAmt
@@ -205,14 +194,9 @@ public class WCreateFromStatement extends WCreateFrom implements EventListener, 
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		
-		if (data.size() == 0)
-			return;
-		
 		//  Header Info
-		
 		Vector<String> columnNames = new Vector<String>(6);
-		//columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
 		columnNames.add(Msg.getElement(Env.getCtx(), "C_Payment_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_Currency_ID"));
@@ -221,49 +205,45 @@ public class WCreateFromStatement extends WCreateFrom implements EventListener, 
 		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 
 		//  Remove previous listeners
-		//dataTable.getModel().removeListDataListener(this);
-
-		// Set Model
+		dataTable.getModel().removeTableModelListener(this);
+		//  Set Model
 		ListModelTable model = new ListModelTable(data);
 		model.addTableModelListener(this);
 		dataTable.setData(model, columnNames);
-		
-		//dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
-		dataTable.setColumnClass(0, Timestamp.class, true);     //  1-TrxDate
-		dataTable.setColumnClass(1, String.class, true);        //  2-Payment
-		dataTable.setColumnClass(2, String.class, true);        //  3-Currency
-		dataTable.setColumnClass(3, BigDecimal.class, true);    //  4-Amount
-		dataTable.setColumnClass(4, BigDecimal.class, true);    //  5-ConvAmount
-		dataTable.setColumnClass(5, String.class, true);    	//  6-BPartner
-		
+		//
+		dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
+		dataTable.setColumnClass(1, Timestamp.class, true);     //  1-TrxDate
+		dataTable.setColumnClass(2, String.class, true);        //  2-Payment
+		dataTable.setColumnClass(3, String.class, true);        //  3-Currency
+		dataTable.setColumnClass(4, BigDecimal.class, true);    //  4-Amount
+		dataTable.setColumnClass(5, BigDecimal.class, true);    //  5-ConvAmount
+		dataTable.setColumnClass(6, String.class, true);    	//  6-BPartner
 		//  Table UI
-		//dataTable.autoSize();
-	} // loadBankAccount
-	
+		dataTable.autoSize();
+	}   //  loadBankAccount
+
 	/**
 	 *  List total amount
 	 */
-	
 	protected void info()
 	{
 		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount);
 
 		ListModelTable model = dataTable.getModel();
 		BigDecimal total = new BigDecimal(0.0);
-		int rows = model.size();
+		int rows = model.getRowCount();
 		int count = 0;
-		
 		for (int i = 0; i < rows; i++)
 		{
-			if (dataTable.getItemAtIndex(i).isSelected())//(((Boolean)model.getDataAt(i, 0)).booleanValue())
+			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
 			{
-				total = total.add((BigDecimal)model.getDataAt(i, 4));
+				total = total.add((BigDecimal)model.getValueAt(i, 4));
 				count++;
 			}
 		}
-		lblStatus.setValue(String.valueOf(count) + " - " + Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
-	} // infoStatement
-	
+		setStatusLine(count, Msg.getMsg(Env.getCtx(), "Sum") + "  " + format.format(total));
+	}   //  infoStatement
+
 	/**
 	 *  Save Statement - Insert Data
 	 *  @return true if saved
@@ -271,44 +251,61 @@ public class WCreateFromStatement extends WCreateFrom implements EventListener, 
 	protected boolean save()
 	{
 		log.config("");
-		
 		ListModelTable model = dataTable.getModel();
-		int rows = model.size();
-		
+		int rows = model.getRowCount();
 		if (rows == 0)
 			return false;
 
-		// Fixed values
-		
+		//  fixed values
 		int C_BankStatement_ID = ((Integer)p_mTab.getValue("C_BankStatement_ID")).intValue();
 		MBankStatement bs = new MBankStatement (Env.getCtx(), C_BankStatement_ID, null);
 		log.config(bs.toString());
 
 		//  Lines
-		
 		for (int i = 0; i < rows; i++)
 		{
-			if (dataTable.getItemAtIndex(i).isSelected())//(((Boolean)model.getDataAt(i, 0)).booleanValue())
+			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
 			{
-				Timestamp trxDate = (Timestamp)model.getDataAt(i, 0);  //  1-DateTrx
-				KeyNamePair pp = (KeyNamePair)model.getDataAt(i, 1);   //  2-C_Payment_ID
+				Timestamp trxDate = (Timestamp)model.getValueAt(i, 1);  //  1-DateTrx
+				KeyNamePair pp = (KeyNamePair)model.getValueAt(i, 2);   //  2-C_Payment_ID
 				int C_Payment_ID = pp.getKey();
-				pp = (KeyNamePair)model.getDataAt(i, 2);               //  3-Currency
+				pp = (KeyNamePair)model.getValueAt(i, 3);               //  3-Currency
 				int C_Currency_ID = pp.getKey();
-				BigDecimal TrxAmt = (BigDecimal)model.getDataAt(i, 3); //  4-PayAmt
-				//	BigDecimal StmtAmt = (BigDecimal)model.getValueAt(i, 5);//  5-Conv Amt
-
+				BigDecimal TrxAmt = (BigDecimal)model.getValueAt(i, 4); //  4-PayAmt
+			//	BigDecimal StmtAmt = (BigDecimal)model.getValueAt(i, 5);//  5-Conv Amt
+				//
 				log.fine("Line Date=" + trxDate
 					+ ", Payment=" + C_Payment_ID + ", Currency=" + C_Currency_ID + ", Amt=" + TrxAmt);
-
+				//	
 				MBankStatementLine bsl = new MBankStatementLine (bs);
 				bsl.setStatementLineDate(trxDate);
 				bsl.setPayment(new MPayment(Env.getCtx(), C_Payment_ID, null));
-				
 				if (!bsl.save())
 					log.log(Level.SEVERE, "Line not created #" + i);
-			} // if selected
-		} // for all rows
+			}   //   if selected
+		}   //  for all rows
 		return true;
-	} // save
-}
+	}   //  save
+	
+	/*
+	 *  Action Listener
+	 *  @param e event*/
+	//RF [1811114]
+	public void  onEvent(Event e) throws Exception
+	{
+		super.onEvent(e);
+		log.config("Action=" + e.getTarget().getId());
+		int C_BankAccount_ID  = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
+		if (e.getTarget().equals(authorizationField.getComponent()))
+		{
+			String R_AuthCode = (authorizationField.getValue().toString());
+			if (authorizationField.getValue().toString().equals(""))
+			{
+				loadBankAccount(C_BankAccount_ID, null);
+			}
+			else
+				loadBankAccount(C_BankAccount_ID, R_AuthCode);
+	 		}
+	 }
+
+}   //  VCreateFromStatement

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -14,104 +14,102 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-
-/**
- * 2007, Modified by Posterita Ltd.
- */
-
 package org.adempiere.webui.apps.form;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Vector;
-import java.util.logging.Level;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 
-import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.ListModelTable;
-import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
-import org.adempiere.webui.event.WTableModelListener;
-import org.compiere.model.GridTab;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
+import org.compiere.model.*;
+import org.compiere.util.*;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 
 /**
- * Create From Invoice : Based on VCreateFromInvoice
- * 
- * @author  Niraj Sohun
- * @date    Jul 16, 2007
+ *  Create Invoice Transactions from PO Orders or Receipt
+ *
+ *  @author Jorg Janke
+ *  @version  $Id: VCreateFromInvoice.java,v 1.4 2006/07/30 00:51:28 jjanke Exp $
  */
-
-public class WCreateFromInvoice extends WCreateFrom implements EventListener, ValueChangeListener, WTableModelListener
+public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-
-	private MInOut m_inout = null;
-
-	private boolean m_actionActive;
-	
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	
-	public WCreateFromInvoice(GridTab mTab)
+	WCreateFromInvoice(GridTab mTab)
 	{
 		super (mTab);
 		log.info(mTab.toString());
-	}
+	}   //  VCreateFromInvoice
 
-	@Override
-	protected boolean dynInit() throws Exception 
+	private boolean 	m_actionActive = false;
+	private MInOut		m_inout = null;
+	/**  Loaded RMA             */
+	private MRMA        m_rma = null;
+
+	/**
+	 *  Dynamic Init
+	 *  @throws Exception if Lookups cannot be initialized
+	 *  @return true if initialized
+	 */
+	protected boolean dynInit() throws Exception
 	{
 		log.config("");
-		
 		setTitle(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false) + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
 
 		parameterBankPanel.setVisible(false);
-		parameterShipmentPanel.setVisible(false);
+		invoiceLabel.setVisible(false);
+		invoiceField.setVisible(false);
+		locatorLabel.setVisible(false);
+		locatorField.setVisible(false);
+		sameWarehouseCb.setVisible(false);
+        
+		// RMA Selection option should only be available for AP Credit Memo
+		Integer docTypeId = (Integer)p_mTab.getValue("C_DocTypeTarget_ID");
+		MDocType docType = MDocType.get(Env.getCtx(), docTypeId);
+		if (!MDocType.DOCBASETYPE_APCreditMemo.equals(docType.getDocBaseType()))
+		{
+		    rmaLabel.setVisible(false);
+		    rmaField.setVisible(false);
+		}
 
 		initBPartner(true);
 		bPartnerField.addValueChangeListner(this);
-		
 		return true;
-	}
+	}   //  dynInit
 
+	/**
+	 *  Init Details - load receipts not invoiced
+	 *  @param C_BPartner_ID BPartner
+	 */
 	protected void initBPDetails(int C_BPartner_ID)
+	{
+		initBPShipmentDetails(C_BPartner_ID);
+	    initBPRMADetails(C_BPartner_ID);
+	}   //  initDetails
+
+	/**
+	 * 
+	 * @param C_BPartner_ID
+	 */
+	private void initBPShipmentDetails(int C_BPartner_ID)
 	{
 		log.config("C_BPartner_ID" + C_BPartner_ID);
 
-		// Load Shipments (Receipts) - Completed, Closed
-		
-		shipmentField.removeEventListener(Events.ON_SELECT, this);
-		shipmentField.getChildren().clear();
-
-		// None
-		
+		//  load Shipments (Receipts) - Completed, Closed
+		shipmentField.removeActionListener(this);
+		shipmentField.removeAllItems();
+		//	None
 		KeyNamePair pp = new KeyNamePair(0,"");
-		shipmentField.appendItem(pp.getName(), pp);
-		
+		shipmentField.addItem(pp);
 		//	Display
-		
 		StringBuffer display = new StringBuffer("s.DocumentNo||' - '||")
 			.append(DB.TO_CHAR("s.MovementDate", DisplayType.Date, Env.getAD_Language(Env.getCtx())));
-
+		//
 		StringBuffer sql = new StringBuffer("SELECT s.M_InOut_ID,").append(display)
 			.append(" FROM M_InOut s "
 			+ "WHERE s.C_BPartner_ID=? AND s.IsSOTrx='N' AND s.DocStatus IN ('CL','CO')"
@@ -122,17 +120,15 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 				+ "HAVING (sl.MovementQty<>SUM(mi.Qty) AND mi.M_InOutLine_ID IS NOT NULL)"
 				+ " OR mi.M_InOutLine_ID IS NULL) "
 			+ "ORDER BY s.MovementDate");
-		
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
 			ResultSet rs = pstmt.executeQuery();
-		
 			while (rs.next())
 			{
 				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				shipmentField.appendItem(pp.getName(), pp);
+				shipmentField.addItem(pp);
 			}
 			rs.close();
 			pstmt.close();
@@ -141,96 +137,156 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		
 		shipmentField.setSelectedIndex(0);
-		shipmentField.addEventListener(Events.ON_SELECT, this);
+		shipmentField.addActionListener(this);
 	}
 	
+	/**
+	 * Load RMA that are candidates for shipment
+	 * @param C_BPartner_ID BPartner
+	 */
+	private void initBPRMADetails(int C_BPartner_ID)
+	{
+	    rmaField.removeActionListener(this);
+	    rmaField.removeAllItems();
+	    //  None
+	    KeyNamePair pp = new KeyNamePair(0,"");
+	    rmaField.addItem(pp);
+	     
+	    String sqlStmt = "SELECT r.M_RMA_ID, r.DocumentNo || '-' || r.Amt from M_RMA r "
+	                   + "WHERE ISSOTRX='N' AND r.DocStatus in ('CO', 'CL') " 
+	                   + "AND r.C_BPartner_ID=? "
+	                   + "AND NOT EXISTS (SELECT * FROM C_Invoice inv "
+	                   + "WHERE inv.M_RMA_ID=r.M_RMA_ID AND inv.DocStatus IN ('CO', 'CL'))";
+	      
+	    PreparedStatement pstmt = null;
+	    try
+	    {
+	        pstmt = DB.prepareStatement(sqlStmt, null);
+	        pstmt.setInt(1, C_BPartner_ID);
+	        ResultSet rs = pstmt.executeQuery();
+	        while (rs.next())
+	        {
+	            pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+	            rmaField.addItem(pp);
+	        }
+	        rs.close();
+	    }
+	    catch (SQLException e)
+	    {
+	        log.log(Level.SEVERE, sqlStmt.toString(), e);
+	    }
+	    finally
+	    {
+	        if (pstmt != null)
+	        {
+	            try
+	            {
+	                pstmt.close();
+	            }
+	            catch (Exception ex)
+	            {
+	                log.severe("Could not close prepared statement");
+	            }
+	        }
+	    }
+	    rmaField.setSelectedIndex(0);
+	    rmaField.addActionListener(this);
+	}
+	
+	/**
+	 *  Action Listener
+	 *  @param e event
+	 * @throws Exception 
+	 */
 	public void onEvent(Event e) throws Exception
 	{
 		super.onEvent(e);
-		
 		if (m_actionActive)
 			return;
-		
 		m_actionActive = true;
-		log.config("Action=" + e.getTarget());
-
-		// Order
-		
-		if (e.getTarget() == orderField)
+		log.config("Action=" + e.getTarget().getId());
+		//  Order
+		if (e.getTarget().equals(orderField))
 		{
-			ListItem listitem = orderField.getSelectedItem();
-			KeyNamePair pp = (KeyNamePair)listitem.getValue();
+			KeyNamePair pp = orderField.getSelectedItem().toKeyNamePair();
 			int C_Order_ID = 0;
-			
 			if (pp != null)
 				C_Order_ID = pp.getKey();
-			
-			// Set Invoice and Shipment to Null
-			
+			//  set Invoice, RMA and Shipment to Null
 			invoiceField.setSelectedIndex(-1);
+			rmaField.setSelectedIndex(-1);
 			shipmentField.setSelectedIndex(-1);
-			
 			loadOrder(C_Order_ID, true);
 		}
 		//  Shipment
-		else if (e.getTarget() == shipmentField)
+		else if (e.getTarget().equals(shipmentField))
 		{
-			ListItem listitem = shipmentField.getSelectedItem();
-			KeyNamePair pp = (KeyNamePair)listitem.getValue();
+			KeyNamePair pp = shipmentField.getSelectedItem().toKeyNamePair();
 			int M_InOut_ID = 0;
-			
 			if (pp != null)
 				M_InOut_ID = pp.getKey();
-			
-			// Set Order and Invoice to Null
-			
+			//  set Order, RMA and Invoice to Null
 			orderField.setSelectedIndex(-1);
+			rmaField.setSelectedIndex(-1);
 			invoiceField.setSelectedIndex(-1);
 			loadShipment(M_InOut_ID);
 		}
-		m_actionActive = false;
-	}
-	
-	public void valueChange(ValueChangeEvent evt) 
-	{
-		log.config(evt.getPropertyName() + "=" + evt.getNewValue());
-		
-		if (evt == null)
-			return;
-
-		if (evt.getSource() instanceof WEditor)
+		//  RMA
+		else if (e.getTarget().equals(rmaField))
 		{
-			if (evt.getPropertyName().equals("C_BPartner_ID"))
-			{
-				int C_BPartner_ID = ((Integer)evt.getNewValue()).intValue();
-				initBPartnerOIS (C_BPartner_ID, true);
-			}
-			tableChanged(null);
+		    KeyNamePair pp = rmaField.getSelectedItem().toKeyNamePair();
+		    int M_RMA_ID = 0;
+		    if (pp != null)
+		        M_RMA_ID = pp.getKey();
+		    //  set Order and Invoice to Null
+		    orderField.setSelectedIndex(-1);
+		    invoiceField.setSelectedIndex(-1);
+		    shipmentField.setSelectedIndex(-1);
+		    loadRMA(M_RMA_ID);
 		}
-	}
-	
-	private void loadShipment(int M_InOut_ID)
+		m_actionActive = false;
+	}   //  actionPerformed
+
+	/**
+	 *  Change Listener
+	 *  @param e event
+	 */
+	public void valueChange (ValueChangeEvent e)
+	{
+		log.config(e.getPropertyName() + "=" + e.getNewValue());
+
+		//  BPartner - load Order/Invoice/Shipment
+		if (e.getPropertyName().equals("C_BPartner_ID"))
+		{
+			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
+			initBPartnerOIS (C_BPartner_ID, true);
+		}
+		tableChanged(null);
+	}   //  vetoableChange
+
+
+	/**
+	 *  Load Data - Shipment not invoiced
+	 *  @param M_InOut_ID InOut
+	 */
+	private void loadShipment (int M_InOut_ID)
 	{
 		log.config("M_InOut_ID=" + M_InOut_ID);
-		
 		m_inout = new MInOut(Env.getCtx(), M_InOut_ID, null);
 		p_order = null;
-		
 		if (m_inout.getC_Order_ID() != 0)
 			p_order = new MOrder (Env.getCtx(), m_inout.getC_Order_ID(), null);
 
+		//
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-
-		StringBuffer sql = new StringBuffer("SELECT "									// QtyEntered
+		StringBuffer sql = new StringBuffer("SELECT "	//	QtyEntered
 			+ "l.MovementQty-SUM(NVL(mi.Qty, 0)), l.QtyEntered/l.MovementQty,"
-			+ " l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name),"							// 3..4
-			+ " l.M_Product_ID, p.Name, po.VendorProductNo, l.M_InOutLine_ID, l.Line,"	// 5..9
-			+ " l.C_OrderLine_ID " 														// 10
+			+ " l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name),"			//  3..4
+			+ " l.M_Product_ID, p.Name, po.VendorProductNo, l.M_InOutLine_ID, l.Line,"        //  5..9
+			+ " l.C_OrderLine_ID " //  10
 			+ " FROM M_InOutLine l "
-			);   
-		
+			);                             		
 		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
 			sql.append(" LEFT OUTER JOIN C_UOM uom ON (l.C_UOM_ID=uom.C_UOM_ID)");
 		else
@@ -253,35 +309,27 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, M_InOut_ID);
 			ResultSet rs = pstmt.executeQuery();
-		
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(7);
-				//line.add(new Boolean(false));           //  0-Selection
-			
+				line.add(new Boolean(false));           //  0-Selection
 				BigDecimal qtyMovement = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyMovement.multiply(multiplier);
 				line.add(new Double(qtyEntered.doubleValue()));  //  1-Qty
-				
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
-				
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
 				line.add(pp);                           //  3-Product
 				line.add(rs.getString(7));				// 4-VendorProductNo
-				
 				int C_OrderLine_ID = rs.getInt(10);
-				
 				if (rs.wasNull())
 					line.add(null);                     //  5-Order
 				else
 					line.add(new KeyNamePair(C_OrderLine_ID,"."));
-				
 				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
 				line.add(pp);                           //  6-Ship
-				line.add(null);                     	//  7-Invoice
-				
+				line.add(null);                     	//  7-RMA
 				data.add(line);
 			}
 			rs.close();
@@ -291,25 +339,116 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		loadTableOIS(data);
+		loadTableOIS (data);
+	}   //  loadShipment
+	
+	/**
+	 * Load RMA details
+	 * @param M_RMA_ID RMA
+	 */
+	private void loadRMA(int M_RMA_ID)
+	{
+	    p_order = null;
+	        
+	    m_rma = new MRMA(Env.getCtx(), M_RMA_ID, null);
+	        
+	    Vector<Vector> data = new Vector<Vector>();
+	    StringBuffer sqlStmt = new StringBuffer();
+	    sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, iol.M_Product_ID, p.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
+	    sqlStmt.append("FROM M_RMALine rl INNER JOIN M_InOutLine iol ON rl.M_InOutLine_ID=iol.M_InOutLine_ID ");
+	          
+	    if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
+        {
+	        sqlStmt.append("LEFT OUTER JOIN C_UOM uom ON (uom.C_UOM_ID=iol.C_UOM_ID) ");
+        }
+	    else
+        {
+	        sqlStmt.append("LEFT OUTER JOIN C_UOM_Trl uom ON (uom.C_UOM_ID=iol.C_UOM_ID AND uom.AD_Language='");
+	        sqlStmt.append(Env.getAD_Language(Env.getCtx())).append("') ");
+        }
+	    sqlStmt.append("LEFT OUTER JOIN M_Product p ON p.M_Product_ID=iol.M_Product_ID ");
+	    sqlStmt.append("WHERE rl.M_RMA_ID=? ");
+	    sqlStmt.append("AND rl.M_INOUTLINE_ID IS NOT NULL");
+	           
+	    sqlStmt.append(" UNION ");
+	            
+	    sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, 0, c.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
+	    sqlStmt.append("FROM M_RMALine rl INNER JOIN C_Charge c ON c.C_Charge_ID = rl.C_Charge_ID ");
+	    if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
+        {
+	        sqlStmt.append("LEFT OUTER JOIN C_UOM uom ON (uom.C_UOM_ID=100) ");
+        }
+	    else
+        {
+	        sqlStmt.append("LEFT OUTER JOIN C_UOM_Trl uom ON (uom.C_UOM_ID=100 AND uom.AD_Language='");
+	        sqlStmt.append(Env.getAD_Language(Env.getCtx())).append("') ");
+        }
+	    sqlStmt.append("WHERE rl.M_RMA_ID=? ");
+	    sqlStmt.append("AND rl.C_Charge_ID IS NOT NULL");
+	         
+	    PreparedStatement pstmt = null;
+	            
+	    try
+	    {
+	        pstmt = DB.prepareStatement(sqlStmt.toString(), null);
+	        pstmt.setInt(1, M_RMA_ID);
+	        pstmt.setInt(2, M_RMA_ID);
+	        ResultSet rs = pstmt.executeQuery();
+	               
+	        while (rs.next())
+            {
+	            Vector<Object> line = new Vector<Object>(7);
+	            line.add(new Boolean(false));   // 0-Selection
+	            line.add(rs.getBigDecimal(3).doubleValue());  // 1-Qty
+	            KeyNamePair pp = new KeyNamePair(rs.getInt(6), rs.getString(7));
+	            line.add(pp); // 2-UOM
+	            pp = new KeyNamePair(rs.getInt(4), rs.getString(5));
+	            line.add(pp); // 3-Product
+	            line.add(null); //4-Vendor Product No
+	            line.add(null); //5-Order
+	            pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
+	            line.add(null);   //6-Ship
+	            line.add(pp);   //7-RMA
+	            data.add(line);
+            }
+	        rs.close();
+	    }
+	    catch (Exception ex)
+	    {
+	        log.log(Level.SEVERE, sqlStmt.toString(), ex);
+	    }
+	    finally
+	    {
+	        if (pstmt != null)
+	        {
+	            try
+	            {
+	                pstmt.close();
+	            }
+	            catch (Exception ex)
+	            {
+	                log.severe("Could not close prepared statement");
+	            }
+	        }
+	    }
+	    loadTableOIS(data);
 	}
 
-	@Override
 	/**
 	 *  List number of rows selected
 	 */
 	protected void info()
 	{
 		ListModelTable model = dataTable.getModel();
-		int rows = model.size();
+		int rows = model.getSize();
 		int count = 0;
-		
 		for (int i = 0; i < rows; i++)
 		{
-			if (dataTable.getItemAtIndex(i).isSelected())//(((Boolean)model.getDataAt(i, 0)).booleanValue())
+			if (dataTable.getItemAtIndex(i).isSelected())
 				count++;
 		}
-	}
+		setStatusLine(count, null);
+	}   //  infoInvoice
 
 	/**
 	 *  Save - Create Invoice Lines
@@ -319,99 +458,79 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 	{
 		log.config("");
 		ListModelTable model = dataTable.getModel();
-		int rows = model.size();
-		
+		int rows = model.getSize();
 		if (rows == 0)
 			return false;
 
 		//  Invoice
-		
-		Object obj = p_mTab.getValue("C_Invoice_ID");
-		
-		if (obj == null)
-			throw new IllegalStateException("Company Agent or Business Partner has not been selected");
-		
 		int C_Invoice_ID = ((Integer)p_mTab.getValue("C_Invoice_ID")).intValue();
 		MInvoice invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);
 		log.config(invoice.toString());
 
 		if (p_order != null)
 		{
-			invoice.setOrder(p_order); // Overwrite header values
+			invoice.setOrder(p_order);	//	overwrite header values
 			invoice.save();
 		}
-		
-		// Only first time
-		if (m_inout != null && m_inout.getM_InOut_ID() != 0 && m_inout.getC_Invoice_ID() == 0)
+		if (m_inout != null && m_inout.getM_InOut_ID() != 0 
+			&& m_inout.getC_Invoice_ID() == 0)	//	only first time
 		{
 			m_inout.setC_Invoice_ID(C_Invoice_ID);
 			m_inout.save();
 		}
 
+
 		//  Lines
-		
 		for (int i = 0; i < rows; i++)
 		{
-			if (dataTable.getItemAtIndex(i).isSelected())//(((Boolean)model.getDataAt(i, 0)).booleanValue())
+			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
 			{
-				// Variable values
-				
-				Double d = (Double)model.getDataAt(i, 0);              //  1-Qty
+				//  variable values
+				Double d = (Double)model.getValueAt(i, 1);              //  1-Qty
 				BigDecimal QtyEntered = new BigDecimal(d.doubleValue());
-				KeyNamePair pp = (KeyNamePair)model.getDataAt(i, 1);   //  2-UOM
+				KeyNamePair pp = (KeyNamePair)model.getValueAt(i, 2);   //  2-UOM
 				int C_UOM_ID = pp.getKey();
-				pp = (KeyNamePair)model.getDataAt(i, 2);               //  3-Product
+				//
+				pp = (KeyNamePair)model.getValueAt(i, 3);               //  3-Product
 				int M_Product_ID = 0;
-
 				if (pp != null)
 					M_Product_ID = pp.getKey();
-				
 				int C_Charge_ID = 0;
+				//
 				int C_OrderLine_ID = 0;
-				pp = (KeyNamePair)model.getDataAt(i, 4);               //  5-OrderLine
-
+				pp = (KeyNamePair)model.getValueAt(i, 5);               //  5-OrderLine
 				if (pp != null)
 					C_OrderLine_ID = pp.getKey();
-				
 				int M_InOutLine_ID = 0;
-				pp = (KeyNamePair)model.getDataAt(i, 5);               //  6-Shipment
-				
+				pp = (KeyNamePair)model.getValueAt(i, 6);               //  6-Shipment
 				if (pp != null)
 					M_InOutLine_ID = pp.getKey();
-				
 				//	Precision of Qty UOM
 				int precision = 2;
-				
 				if (M_Product_ID != 0)
 				{
 					MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
 					precision = product.getUOMPrecision();
 				}
-
 				QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+				//
 				log.fine("Line QtyEntered=" + QtyEntered
 					+ ", Product_ID=" + M_Product_ID 
 					+ ", OrderLine_ID=" + C_OrderLine_ID + ", InOutLine_ID=" + M_InOutLine_ID);
 
-				// Create new Invoice Line
-				
+				//	Create new Invoice Line
 				MInvoiceLine invoiceLine = new MInvoiceLine (invoice);
 				invoiceLine.setM_Product_ID(M_Product_ID, C_UOM_ID);	//	Line UOM
 				invoiceLine.setQty(QtyEntered);							//	Invoiced/Entered
 
-				// Info
-				
+				//  Info
 				MOrderLine orderLine = null;
-				
 				if (C_OrderLine_ID != 0)
 					orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, null);
-				
 				MInOutLine inoutLine = null;
-				
 				if (M_InOutLine_ID != 0)
 				{
 					inoutLine = new MInOutLine (Env.getCtx(), M_InOutLine_ID, null);
-				
 					if (orderLine == null && inoutLine.getC_OrderLine_ID() != 0)
 					{
 						C_OrderLine_ID = inoutLine.getC_OrderLine_ID();
@@ -421,10 +540,8 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 				else
 				{
 					MInOutLine[] lines = MInOutLine.getOfOrderLine(Env.getCtx(), 
-					C_OrderLine_ID, null, null);
-					
+						C_OrderLine_ID, null, null);
 					log.fine ("Receipt Lines with OrderLine = #" + lines.length);
-					
 					if (lines.length > 0)
 					{
 						for (int j = 0; j < lines.length; j++)
@@ -439,32 +556,28 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 						}
 						if (inoutLine == null)
 						{
-							inoutLine = lines[0]; // First as default
+							inoutLine = lines[0];	//	first as default
 							M_InOutLine_ID = inoutLine.getM_InOutLine_ID();
 						}
 					}
-				} // Get Ship info
+				}	//	get Ship info
 
 				//	Shipment Info
-				
 				if (inoutLine != null)
 				{
-					invoiceLine.setShipLine(inoutLine);	// Overwrites
-					
+					invoiceLine.setShipLine(inoutLine);		//	overwrites
 					if (inoutLine.getQtyEntered().compareTo(inoutLine.getMovementQty()) != 0)
 						invoiceLine.setQtyInvoiced(QtyEntered
-								.multiply(inoutLine.getMovementQty())
-								.divide(inoutLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
+							.multiply(inoutLine.getMovementQty())
+							.divide(inoutLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
 				}
 				else
 					log.fine("No Receipt Line");
 					
 				//	Order Info
-				
 				if (orderLine != null)
 				{
-					invoiceLine.setOrderLine(orderLine); //	Overwrites
-					
+					invoiceLine.setOrderLine(orderLine);	//	overwrites
 					if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 						invoiceLine.setQtyInvoiced(QtyEntered
 							.multiply(orderLine.getQtyOrdered())
@@ -476,12 +589,45 @@ public class WCreateFromInvoice extends WCreateFrom implements EventListener, Va
 					invoiceLine.setPrice();
 					invoiceLine.setTax();
 				}
-				
 				if (!invoiceLine.save())
 					log.log(Level.SEVERE, "Line NOT created #" + i);
-			} // if selected
-		} // for all rows
+			}   //   if selected
+		}   //  for all rows
 
 		return true;
+	}   //  saveInvoice
+
+	@Override
+	protected void loadTableOIS(Vector data) {
+	//  Header Info
+	    Vector<String> columnNames = new Vector<String>(7);
+	    columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
+	    columnNames.add(Msg.translate(Env.getCtx(), "Quantity"));
+	    columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
+	    columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
+	    columnNames.add(Msg.getElement(Env.getCtx(), "VendorProductNo", false));
+	    columnNames.add(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
+	    columnNames.add(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
+	    columnNames.add(Msg.getElement(Env.getCtx(), "M_RMA_ID", false));
+	    
+	    //  Remove previous listeners
+	    dataTable.getModel().removeTableModelListener(this);
+	    //  Set Model
+	    ListModelTable model = new ListModelTable(data);
+	    model.addTableModelListener(this);
+	    dataTable.setData(model, columnNames);
+	    //
+	    dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
+	    dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
+	    dataTable.setColumnClass(2, String.class, true);        //  2-UOM
+	    dataTable.setColumnClass(3, String.class, true);        //  3-Product
+	    dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo
+	    dataTable.setColumnClass(5, String.class, true);        //  5-Order
+	    dataTable.setColumnClass(6, String.class, true);        //  6-Ship
+	    dataTable.setColumnClass(7, String.class, true);        //  7-RMA
+	    //  Table UI
+	    dataTable.autoSize();
 	}
-}
+
+
+}   //  VCreateFromInvoice

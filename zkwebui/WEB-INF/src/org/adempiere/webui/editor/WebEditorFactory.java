@@ -57,8 +57,7 @@ public class WebEditorFactory
 
         WEditor editor = null;
         int displayType = gridField.getDisplayType();
-        int WindowNo = gridField.getWindowNo();
-
+        
         /** Not a Field */
         if (gridField.isHeading())
         {
@@ -144,7 +143,7 @@ public class WebEditorFactory
         {
         	editor = new WLocatorEditor(gridField.getColumnName(), gridField.isMandatory(false), 
         			gridField.isReadOnly(), gridField.isUpdateable(), 
-        			(MLocatorLookup)gridField.getLookup()); 
+        			(MLocatorLookup)gridField.getLookup(), gridField.getWindowNo()); 
         }
         else if (displayType == DisplayType.Account)
         {

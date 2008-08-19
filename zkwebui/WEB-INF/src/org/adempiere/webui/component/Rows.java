@@ -26,5 +26,11 @@ package org.adempiere.webui.component;
 public class Rows extends org.zkoss.zul.Rows
 {
     private static final long serialVersionUID = 1L;
+    
+    public Row newRow() {
+    	Row row = new Row();
+    	appendChild(row);
+    	return row;
+    }
 
 }

@@ -39,4 +39,12 @@ public class Window extends org.zkoss.zul.Window
     {
         super();
     }
+    
+    /**
+     * alias for detach, to ease porting of swing form
+     */
+    public void dispose()
+    {
+    	detach();
+    }
 }

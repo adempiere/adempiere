@@ -331,4 +331,32 @@ public class ListModelTable extends ListModelList implements ListModelExt
 
         return;
     }
+
+    /**
+     * alias for getDataAt, to ease porting of swing form
+     * @param rowIndex
+     * @param columnIndex
+     * @return column value
+     */
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		return getDataAt(rowIndex, columnIndex);
+	}
+
+	/**
+	 * alias for setDataAt, to ease porting of swing form
+	 * @param value
+	 * @param row
+	 * @param col
+	 */
+	public void setValueAt(Object value, int row, int col) {
+		setDataAt(value, row, col);
+	}
+
+	/**
+	 * alias for getSize, to ease porting of swing form
+	 * @return size
+	 */
+	public int getRowCount() {
+		return getSize();
+	}
 }

@@ -999,4 +999,11 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
         return;
     }
 
+    /**
+     * no op, to ease porting of swing form
+     */
+	public void autoSize() {
+		//no op
+	}
+
 }
