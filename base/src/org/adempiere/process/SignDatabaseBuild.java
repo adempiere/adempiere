@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -17,19 +17,12 @@
 package org.adempiere.process;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.model.MClient;
-import org.compiere.model.MSequence;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Trx;
 
 /**
  *	Sign Database Build
@@ -51,13 +44,11 @@ public class SignDatabaseBuild
 		
 		PreparedStatement updateStmt = null;
 		try {
-			updateStmt = DB.prepareStatement(
-							"UPDATE AD_System "
-									+ "SET LastBuildInfo = ? "
-									+ "WHERE AD_System_ID = 0",
-							null);
+			String upd = "UPDATE AD_System SET LastBuildInfo = ?";
+			updateStmt = DB.prepareStatement(upd, null);
 			updateStmt.setString(1, Adempiere.getImplementationVersion());
-			System.out.println(updateStmt);
+			s_log.info(upd);
+			System.out.println(upd);  // Also show the update to the console
 			updateStmt.executeUpdate();
 
 		} catch (Exception ex) {
