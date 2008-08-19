@@ -16,13 +16,17 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
+import org.compiere.minigrid.ColumnInfo;
+
 /**
  *  Info Column Details
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: Info_Column.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * @author 	Jorg Janke
+ * @version 	$Id: Info_Column.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * NOTE: Use {@link org.compiere.minigrid.ColumnInfo} instead
  */
-public class Info_Column
+public class Info_Column extends ColumnInfo
 {
 	/**
 	 *  Create Info Column (r/o and not color column)
@@ -31,9 +35,9 @@ public class Info_Column
 	 *  @param colSQL    SQL select code for column
 	 *  @param colClass  class of column - determines display
 	 */
-	public Info_Column (String colHeader, String colSQL, Class colClass)
+	public Info_Column (String colHeader, String colSQL, Class<?> colClass)
 	{
-		this(colHeader, colSQL, colClass, true, false, null);
+		super(colHeader, colSQL, colClass);
 	}   //  Info_Column
 
 	/**
@@ -44,9 +48,9 @@ public class Info_Column
 	 *  @param colClass  class of column - determines display
 	 *  @param IDcolSQL  SQL select for the ID of the for the displayed column (KeyNamePair)
 	 */
-	public Info_Column (String colHeader, String colSQL, Class colClass, String IDcolSQL)
+	public Info_Column (String colHeader, String colSQL, Class<?> colClass, String IDcolSQL)
 	{
-		this(colHeader, colSQL, colClass, true, false, IDcolSQL);
+		super(colHeader, colSQL, colClass, true, false, IDcolSQL);
 	}   //  Info_Column
 	
 	/**
@@ -58,9 +62,9 @@ public class Info_Column
 	 *  @param readOnly  column is read only
 	 *  @author ashley
 	 */
-	 public Info_Column (String colHeader, String colSQL, Class colClass, boolean readOnly)
+	 public Info_Column (String colHeader, String colSQL, Class<?> colClass, boolean readOnly)
 	 {
-	    this(colHeader, colSQL, colClass, readOnly, false, null);
+	    super(colHeader, colSQL, colClass, readOnly, false, null);
 	 }   //  Info_Column
 
 	/**
@@ -73,87 +77,21 @@ public class Info_Column
 	 *  @param colorColumn   if true, value of column determines foreground color
 	 *  @param IDcolSQL  SQL select for the ID of the for the displayed column
 	 */
-	public Info_Column (String colHeader, String colSQL, Class colClass, 
+	public Info_Column (String colHeader, String colSQL, Class<?> colClass, 
 		boolean readOnly, boolean colorColumn, String IDcolSQL)
 	{
-		setColHeader(colHeader);
-		setColSQL(colSQL);
-		setColClass(colClass);
-		setReadOnly(readOnly);
-		setColorColumn(colorColumn);
-		setIDcolSQL(IDcolSQL);
+		super(colHeader, colSQL, colClass, readOnly, colorColumn, IDcolSQL);
 	}   //  Info_Column
-
-
-	private String      m_colHeader;
-	private String      m_colSQL;
-	private Class       m_colClass;
-	private boolean     m_readOnly;
-	private boolean     m_colorColumn;
-	private String      m_IDcolSQL = "";
-
-	public Class getColClass()
-	{
-		return m_colClass;
-	}
-	public String getColHeader()
-	{
-		return m_colHeader;
-	}
-	public String getColSQL()
-	{
-		return m_colSQL;
-	}
-	public boolean isReadOnly()
-	{
-		return m_readOnly;
-	}
-	public void setColClass(Class colClass)
-	{
-		m_colClass = colClass;
-	}
-	public void setColHeader(String colHeader)
-	{
-		m_colHeader = colHeader;
-		if (colHeader != null)
-		{
-			int index = colHeader.indexOf('&');
-			if (index != -1)
-				m_colHeader = colHeader.substring(0, index) + colHeader.substring(index+1); 
-		}
-	}
-	public void setColSQL(String colSQL)
-	{
-		m_colSQL = colSQL;
-	}
-	public void setReadOnly(boolean readOnly)
-	{
-		m_readOnly = readOnly;
-	}
-	public void setColorColumn(boolean colorColumn)
-	{
-		m_colorColumn = colorColumn;
-	}
-	public boolean isColorColumn()
-	{
-		return m_colorColumn;
-	}
-	/**
-	 *  Add ID column SQL for the displayed column
-	 *  The Class for this should be KeyNamePair
-	 */
 	public void setIDcolSQL(String IDcolSQL)
 	{
-		m_IDcolSQL = IDcolSQL;
-		if (m_IDcolSQL == null)
-			m_IDcolSQL = "";
+		super.setKeyPairColSQL(IDcolSQL);
 	}
 	public String getIDcolSQL()
 	{
-		return m_IDcolSQL;
+		return super.getKeyPairColSQL();
 	}
 	public boolean isIDcol()
 	{
-		return m_IDcolSQL.length() > 0;
+		return super.isKeyPairCol();
 	}
 }   //  infoColumn

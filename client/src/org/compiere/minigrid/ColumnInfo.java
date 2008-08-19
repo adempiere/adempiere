@@ -31,7 +31,7 @@ public class ColumnInfo
 	 *  @param colSQL    SQL select code for column
 	 *  @param colClass  class of column - determines display
 	 */
-	public ColumnInfo (String colHeader, String colSQL, Class colClass)
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass)
 	{
 		this(colHeader, colSQL, colClass, true, false, null);
 	}   //  ColumnInfo
@@ -44,7 +44,7 @@ public class ColumnInfo
 	 *  @param colClass  class of column - determines display
 	 *  @param keyPairColSQL  SQL select for the ID of the for the displayed column
 	 */
-	public ColumnInfo (String colHeader, String colSQL, Class colClass, String keyPairColSQL)
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, String keyPairColSQL)
 	{
 		this(colHeader, colSQL, colClass, true, false, keyPairColSQL);
 	}   //  ColumnInfo
@@ -59,7 +59,7 @@ public class ColumnInfo
 	 *  @param colorColumn   if true, value of column determines foreground color
 	 *  @param keyPairColSQL  SQL select for the ID of the for the displayed column
 	 */
-	public ColumnInfo (String colHeader, String colSQL, Class colClass, 
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, 
 		boolean readOnly, boolean colorColumn, String keyPairColSQL)
 	{
 		setColHeader(colHeader);
@@ -73,7 +73,7 @@ public class ColumnInfo
 
 	private String      m_colHeader;
 	private String      m_colSQL;
-	private Class       m_colClass;
+	private Class<?>       m_colClass;
 	private boolean     m_readOnly;
 	private boolean     m_colorColumn;
 	private String      m_keyPairColSQL = "";
@@ -82,7 +82,7 @@ public class ColumnInfo
 	 * 	Get Col Class
 	 *	@return class
 	 */
-	public Class getColClass()
+	public Class<?> getColClass()
 	{
 		return m_colClass;
 	}
@@ -114,7 +114,7 @@ public class ColumnInfo
 	 * 	Set ColClass
 	 *	@param colClass class
 	 */
-	public void setColClass(Class colClass)
+	public void setColClass(Class<?> colClass)
 	{
 		m_colClass = colClass;
 	}
@@ -125,6 +125,12 @@ public class ColumnInfo
 	public void setColHeader(String colHeader)
 	{
 		m_colHeader = colHeader;
+		if (colHeader != null)
+		{
+			int index = colHeader.indexOf('&');
+			if (index != -1)
+				m_colHeader = colHeader.substring(0, index) + colHeader.substring(index+1); 
+		}
 	}
 	/**
 	 * 	Set Col SQL
