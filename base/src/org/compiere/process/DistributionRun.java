@@ -977,32 +977,64 @@ public class DistributionRun extends SvrProcess
 				continue;
 			}
 
-			//	Create Order Line
-			MDDOrderLine line = new MDDOrderLine(order);
-			if (counter && bp.getAD_OrgBP_ID_Int() > 0)
-				;	//	don't overwrite counter doc
-			/*else	//	normal - optionally overwrite
+			if(p_ConsolidateDocument)
 			{
-				line.setC_BPartner_ID(detail.getC_BPartner_ID());
-				if (detail.getC_BPartner_Location_ID() != 0)
-					line.setC_BPartner_Location_ID(detail.getC_BPartner_Location_ID());
-			}*/
-			//
-			line.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
-			line.setM_Locator_ID(m_locator.getM_Locator_ID());
-			line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
-			line.setIsInvoiced(false);
-			line.setProduct(product);
-			line.setQty(detail.getActualAllocation());
-			line.setTargetQty(detail.getActualAllocation());
-			line.setQtyEntered(detail.getActualAllocation());
-			line.setConfirmedQty(detail.getActualAllocation());
-			line.setDescription("Distribution Push");
-			if (!line.save())
-			{
-				log.log(Level.SEVERE, "OrderLine not saved");
-				return false;
+
+				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised BETWEEN ? AND ? ";
+				int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised,p_DatePromised_To});
+				
+				if (DD_OrderLine_ID  <= 0)
+				{	
+					MDDOrderLine line = new MDDOrderLine(order);
+					line.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
+					line.setM_Locator_ID(m_locator.getM_Locator_ID());
+					line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
+					line.setIsInvoiced(false);
+					line.setProduct(product);
+					line.setQty(detail.getActualAllocation());
+					line.setTargetQty(detail.getActualAllocation());
+					line.setQtyEntered(detail.getActualAllocation());
+					line.setConfirmedQty(detail.getActualAllocation());
+					line.setDescription("Distribution Push");
+					line.saveEx();
+				}
+				else 
+				{
+					MDDOrderLine line = new MDDOrderLine(getCtx(), DD_OrderLine_ID, get_TrxName());		
+					line.setDescription(line.getDescription().concat(" "+Msg.translate(getCtx(), "Qty")+" Pull " + detail.getActualAllocation()));
+					line.setConfirmedQty(line.getConfirmedQty().add(detail.getActualAllocation()));
+					line.saveEx();
+				}
 			}
+			else
+			{	
+				//	Create Order Line
+				MDDOrderLine line = new MDDOrderLine(order);
+				if (counter && bp.getAD_OrgBP_ID_Int() > 0)
+					;	//	don't overwrite counter doc
+				/*else	//	normal - optionally overwrite
+				{
+					line.setC_BPartner_ID(detail.getC_BPartner_ID());
+					if (detail.getC_BPartner_Location_ID() != 0)
+						line.setC_BPartner_Location_ID(detail.getC_BPartner_Location_ID());
+				}*/
+				//
+				line.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
+				line.setM_Locator_ID(m_locator.getM_Locator_ID());
+				line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
+				line.setIsInvoiced(false);
+				line.setProduct(product);
+				line.setQty(detail.getActualAllocation());
+				line.setTargetQty(detail.getActualAllocation());
+				line.setQtyEntered(detail.getActualAllocation());
+				line.setConfirmedQty(detail.getActualAllocation());
+				line.setDescription("Distribution Push");
+				if (!line.save())
+				{
+					log.log(Level.SEVERE, "OrderLine not saved");
+					return false;
+				}
+			}	
 			addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 
 				+ ": " + bp.getName() + " - " + product.getName());
 		}
