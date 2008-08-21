@@ -1230,7 +1230,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			if (PP_orderbomLine.getQtyBatch().compareTo(Env.ZERO) == 0
 					&& PP_orderbomLine.getQtyBOM().compareTo(Env.ZERO) == 0) {
 				// Method Variance
-				int C_DocType_ID = getDocType(X_C_DocType.DOCBASETYPE_ManufacturingOrderMethodVariation);
+				int C_DocType_ID = getDocType(X_C_DocType.DOCBASETYPE_ManufacturingOrderMethodVariance);
 				if (issue.compareTo(Env.ZERO) > 0
 						|| qtyscrap.compareTo(Env.ZERO) > 0
 						|| qtyreject.compareTo(Env.ZERO) > 0)

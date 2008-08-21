@@ -571,6 +571,9 @@ public final class MSetup
 		int GL_API = createGLCategory("AP Invoice", MGLCategory.CATEGORYTYPE_Document, false);
 		int GL_APP = createGLCategory("AP Payment", MGLCategory.CATEGORYTYPE_Document, false);
 		int GL_CASH = createGLCategory("Cash/Payments", MGLCategory.CATEGORYTYPE_Document, false);
+		int GL_Manufacturing = createGLCategory("Manufactuing", MGLCategory.CATEGORYTYPE_Document, false);
+		int GL_Distribution = createGLCategory("Distribution", MGLCategory.CATEGORYTYPE_Document, false);
+		int GL_Payroll = createGLCategory("Payroll", MGLCategory.CATEGORYTYPE_Document, false);
 
 		//	Base DocumentTypes
 		int ii = createDocType("GL Journal", Msg.getElement(m_ctx, "GL_Journal_ID"), 
@@ -667,6 +670,46 @@ public final class MSetup
 		createDocType("Warehouse Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_WarehouseOrder, 
 			DT_S, DT_I,	70000, GL_None);    //  LS
+		
+		//Manufacturing Document
+		createDocType("Manufacturing Order", "Manufacturing Order", 
+			MDocType.DOCBASETYPE_ManufacturingOrder, null,
+			0, 0, 80000, GL_Manufacturing);
+		createDocType("Manufacturing Order Planning","Order Planning", 
+			MDocType.DOCBASETYPE_ManufacturingOrder, null, 
+			0, 0, 81000, GL_Manufacturing);
+		createDocType("Manufacturing Order Receipt", "Order Receipt", 
+			MDocType.DOCBASETYPE_ManufacturingOrderReceipt, null, 
+			0, 0, 82000, GL_Manufacturing);
+		createDocType("Manufacturing Order Issue","Order Issue", 
+			MDocType.DOCBASETYPE_ManufacturingOrderIssue, null,
+			0, 0, 83000, GL_Manufacturing);
+		createDocType("Manufacturing Order Method Variance", "Method Variance", 
+			MDocType.DOCBASETYPE_ManufacturingOrderMethodVariance, null,
+			0, 0, 84000, GL_Manufacturing);
+		createDocType("Manufacturing Order Use Variance", "Use Variance", 
+			MDocType.DOCBASETYPE_ManufacturingOrderUseVariance, null, 
+			0, 0, 84100, GL_Manufacturing);
+		createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+			MDocType.DOCBASETYPE_ManufacturingOrderRateVariance, null,
+			0, 0, 84200, GL_Manufacturing);
+		createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+			MDocType.DOCBASETYPE_ManufacturingOperationActivity, null,
+			0, 0, 85000, GL_Manufacturing);
+		createDocType("Maintenance Order","Maintenance Order",
+			MDocType.DOCBASETYPE_MaintenanceOrder, null,
+			0, 0, 86000, GL_Manufacturing);
+		createDocType("Quality Order","Quality Order",
+				MDocType.DOCBASETYPE_QualityOrder, null,
+			0, 0, 87000, GL_Manufacturing);
+		createDocType("Distribution Order","Distribution Orde", 
+			MDocType.DOCBASETYPE_DistributionOrder, null,
+			0, 0, 88000, GL_Distribution);
+		//Payroll
+		createDocType("Payroll","Payroll", 
+			MDocType.DOCBASETYPE_Payroll, null,
+			0, 0, 90000, GL_Payroll);
+			
 		int DT = createDocType("POS Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_POSOrder, 
 			DT_SI, DT_II, 80000, GL_None);    // Bar

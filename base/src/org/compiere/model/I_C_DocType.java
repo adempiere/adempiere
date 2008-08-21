@@ -80,19 +80,6 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeDifference_ID();
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
 
@@ -131,6 +118,19 @@ public interface I_C_DocType
 	  * Document type used for shipments generated from this sales document
 	  */
 	public int getC_DocTypeShipment_ID();
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
 
     /** Column name DefiniteSequence_ID */
     public static final String COLUMNNAME_DefiniteSequence_ID = "DefiniteSequence_ID";
@@ -312,19 +312,6 @@ public interface I_C_DocType
 	  */
 	public boolean isDocNoControlled();
 
-    /** Column name IsIndexed */
-    public static final String COLUMNNAME_IsIndexed = "IsIndexed";
-
-	/** Set Indexed.
-	  * Index the document for the internal search engine
-	  */
-	public void setIsIndexed (boolean IsIndexed);
-
-	/** Get Indexed.
-	  * Index the document for the internal search engine
-	  */
-	public boolean isIndexed();
-
     /** Column name IsInTransit */
     public static final String COLUMNNAME_IsInTransit = "IsInTransit";
 
@@ -337,6 +324,19 @@ public interface I_C_DocType
 	  * Movement is in transit
 	  */
 	public boolean isInTransit();
+
+    /** Column name IsIndexed */
+    public static final String COLUMNNAME_IsIndexed = "IsIndexed";
+
+	/** Set Indexed.
+	  * Index the document for the internal search engine
+	  */
+	public void setIsIndexed (boolean IsIndexed);
+
+	/** Get Indexed.
+	  * Index the document for the internal search engine
+	  */
+	public boolean isIndexed();
 
     /** Column name IsOverwriteDateOnComplete */
     public static final String COLUMNNAME_IsOverwriteDateOnComplete = "IsOverwriteDateOnComplete";
@@ -369,19 +369,6 @@ public interface I_C_DocType
 	  */
 	public boolean isPickQAConfirm();
 
-    /** Column name IsShipConfirm */
-    public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
-
-	/** Set Ship/Receipt Confirmation.
-	  * Require Ship or Receipt Confirmation before processing
-	  */
-	public void setIsShipConfirm (boolean IsShipConfirm);
-
-	/** Get Ship/Receipt Confirmation.
-	  * Require Ship or Receipt Confirmation before processing
-	  */
-	public boolean isShipConfirm();
-
     /** Column name IsSOTrx */
     public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 
@@ -394,6 +381,19 @@ public interface I_C_DocType
 	  * This is a Sales Transaction
 	  */
 	public boolean isSOTrx();
+
+    /** Column name IsShipConfirm */
+    public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
+
+	/** Set Ship/Receipt Confirmation.
+	  * Require Ship or Receipt Confirmation before processing
+	  */
+	public void setIsShipConfirm (boolean IsShipConfirm);
+
+	/** Get Ship/Receipt Confirmation.
+	  * Require Ship or Receipt Confirmation before processing
+	  */
+	public boolean isShipConfirm();
 
     /** Column name IsSplitWhenDifference */
     public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";

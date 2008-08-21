@@ -42,25 +42,48 @@ public class CreateDocType extends SvrProcess
 			//MClient c = (MClient)po;
 	        Properties m_ctx = Env.getCtx();
 	        trxname = get_TrxName();
-			int GL_M = createGLCategory("Manufactuing ", MGLCategory.CATEGORYTYPE_Document, false);
-				createDocType("Maintenacne Order", Msg.getElement(m_ctx, "MPC_Order_ID", false),
-					X_C_DocType.DOCBASETYPE_MaintenanceOrder, null, 0, 0, 910000, GL_M);
-				createDocType("Manufacturing Order Issue", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrderIssue, null, 0, 0, 920000, GL_M);
-				createDocType("Manufacturing Order Method Variation", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrderMethodVariation, null, 0, 0, 930000, GL_M);
-				createDocType("Manufacturing Order", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrder, null, 0, 0, 940000, GL_M);
-				createDocType("Manufacturing Order Planning", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrder, null, 0, 0, 950000, GL_M);
-				createDocType("Manufacturing Order Receipt", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrderReceipt, null, 0, 0, 960000, GL_M);
-				createDocType("Manufacturing Order Use Variation", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrderUseVariation, null, 0, 0, 970000, GL_M);
-				createDocType("Manufaturing Order Rate Variation", Msg.getElement(m_ctx, "MPC_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_ManufacturingOrderRateVariation, null, 0, 0, 980000, GL_M);
-				createDocType("Distribution Order", Msg.getElement(m_ctx, "DD_Order_ID", false), 
-						X_C_DocType.DOCBASETYPE_DistributionOrder, null, 0, 0, 990000, GL_M);
+			//Manufacturing Document
+			int GL_Manufacturing = createGLCategory("Manufactuing", MGLCategory.CATEGORYTYPE_Document, false);
+			int GL_Distribution = createGLCategory("Distribution", MGLCategory.CATEGORYTYPE_Document, false);
+			int GL_Payroll = createGLCategory("Payroll", MGLCategory.CATEGORYTYPE_Document, false);
+			
+			createDocType("Manufacturing Order", "Manufacturing Order", 
+				MDocType.DOCBASETYPE_ManufacturingOrder, null,
+				0, 0, 80000, GL_Manufacturing);
+			createDocType("Manufacturing Order Planning","Order Planning", 
+				MDocType.DOCBASETYPE_ManufacturingOrder, null, 
+				0, 0, 81000, GL_Manufacturing);
+			createDocType("Manufacturing Order Receipt", "Order Receipt", 
+				MDocType.DOCBASETYPE_ManufacturingOrderReceipt, null, 
+				0, 0, 82000, GL_Manufacturing);
+			createDocType("Manufacturing Order Issue","Order Issue", 
+				MDocType.DOCBASETYPE_ManufacturingOrderIssue, null,
+				0, 0, 83000, GL_Manufacturing);
+			createDocType("Manufacturing Order Method Variance", "Method Variance", 
+				MDocType.DOCBASETYPE_ManufacturingOrderMethodVariance, null,
+				0, 0, 84000, GL_Manufacturing);
+			createDocType("Manufacturing Order Use Variance", "Use Variance", 
+				MDocType.DOCBASETYPE_ManufacturingOrderUseVariance, null, 
+				0, 0, 84100, GL_Manufacturing);
+			createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+				MDocType.DOCBASETYPE_ManufacturingOrderRateVariance, null,
+				0, 0, 84200, GL_Manufacturing);
+			createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+				MDocType.DOCBASETYPE_ManufacturingOperationActivity, null,
+				0, 0, 85000, GL_Manufacturing);
+			createDocType("Maintenance Order","Maintenance Order",
+				MDocType.DOCBASETYPE_MaintenanceOrder, null,
+				0, 0, 86000, GL_Manufacturing);
+			createDocType("Quality Order","Quality Order",
+					MDocType.DOCBASETYPE_QualityOrder, null,
+				0, 0, 87000, GL_Manufacturing);
+			createDocType("Distribution Order","Distribution Orde", 
+				MDocType.DOCBASETYPE_DistributionOrder, null,
+				0, 0, 88000, GL_Distribution);
+			//Payroll
+			createDocType("Payroll","Payroll", 
+				MDocType.DOCBASETYPE_Payroll, null,
+				0, 0, 90000, GL_Payroll);
             return "ok";
 	
 		}
