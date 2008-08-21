@@ -41,7 +41,7 @@ public class POResultSet<T extends PO> {
 	/** Current fetched PO */
 	private T currentPO = null;
 	/** Should we close the statement and resultSet on any exception that occur ? */
-	private boolean closeOnError = false;
+	private boolean closeOnError = true;
 
 	/**
 	 * Constructs the POResultSet.
@@ -86,6 +86,7 @@ public class POResultSet<T extends PO> {
 			if ( resultSet.next() ) {
 				return (T) table.getPO(resultSet, trxName);
 			} else {
+				this.close(); // close it if there is no more data to read
 				return null;
 			}
 		}
