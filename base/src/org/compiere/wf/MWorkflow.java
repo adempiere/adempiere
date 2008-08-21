@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -283,6 +283,8 @@ public class MWorkflow extends X_AD_Workflow
 		for (int i = 0; i < m_nodes.size(); i++)
 		{
 			MWFNode node = m_nodes.get(i);
+			if (!node.isActive())
+				continue;
 			if (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID)
 				list.add(node);
 		}
@@ -359,6 +361,8 @@ public class MWorkflow extends X_AD_Workflow
 			for (int n = 0; n < m_nodes.size(); n++)
 			{
 				MWFNode node = (MWFNode)m_nodes.get(n);
+				if (!node.isActive())
+					continue;
 				if (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID)
 				{
 					boolean found = false;
@@ -400,7 +404,10 @@ public class MWorkflow extends X_AD_Workflow
 			//	Get Dependent
 			MWFNodeNext[] nexts = node.getTransitions(AD_Client_ID);
 			for (int i = 0; i < nexts.length; i++)
-				addNodesDF (list, nexts[i].getAD_WF_Next_ID(), AD_Client_ID);
+			{
+				if (nexts[i].isActive())
+					addNodesDF (list, nexts[i].getAD_WF_Next_ID(), AD_Client_ID);
+			}
 		}
 	}	//	addNodesDF
 
@@ -412,6 +419,7 @@ public class MWorkflow extends X_AD_Workflow
 	 */
 	private void addNodesSF (ArrayList<MWFNode> list, int AD_WF_Node_ID, int AD_Client_ID)
 	{
+		ArrayList<MWFNode> tmplist = new ArrayList<MWFNode> ();
 		MWFNode node = getNode (AD_WF_Node_ID);
 		if (node != null 
 			&& (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID))
@@ -422,16 +430,20 @@ public class MWorkflow extends X_AD_Workflow
 			for (int i = 0; i < nexts.length; i++)
 			{
 				MWFNode child = getNode (nexts[i].getAD_WF_Next_ID());
+				if (!child.isActive())
+					continue;
 				if (child.getAD_Client_ID() == 0
 					|| child.getAD_Client_ID() == AD_Client_ID)
 				{
-					if (!list.contains(child))
+					if (!list.contains(child)){
 						list.add(child);
+						tmplist.add(child);
+					}
 				}
 			}
-			//	Remainder Nodes not conncetd
-			for (int i = 0; i < nexts.length; i++)
-				addNodesSF (list, nexts[i].getAD_WF_Next_ID(), AD_Client_ID);
+			//	Remainder Nodes not connected
+			for (int i = 0; i < tmplist.size(); i++)
+				addNodesSF (list, tmplist.get(i).get_ID(), AD_Client_ID);
 		}
 	}	//	addNodesSF
 	
