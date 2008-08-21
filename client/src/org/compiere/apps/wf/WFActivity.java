@@ -663,7 +663,6 @@ public class WFActivity extends CPanel
 			try
 			{
 				// ensure activity is ran within a transaction
-				m_activity.set_TrxName(Trx.createTrxName("FWFA"));
 				m_activity.setUserConfirmation(AD_User_ID, textMsg);
 			}
 			catch (Exception e)
