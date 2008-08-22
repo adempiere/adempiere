@@ -45,7 +45,8 @@ public class CreateDocType extends SvrProcess
 			//Manufacturing Document
 			int GL_Manufacturing = createGLCategory("Manufactuing", MGLCategory.CATEGORYTYPE_Document, false);
 			int GL_Distribution = createGLCategory("Distribution", MGLCategory.CATEGORYTYPE_Document, false);
-			int GL_Payroll = createGLCategory("Payroll", MGLCategory.CATEGORYTYPE_Document, false);
+			//Payroll GLCategory created in 140_FB1935325HRProcess.sql
+			//int GL_Payroll = createGLCategory("Payroll", MGLCategory.CATEGORYTYPE_Document, false);
 			
 			createDocType("Manufacturing Order", "Manufacturing Order", 
 				MDocType.DOCBASETYPE_ManufacturingOrder, null,
@@ -65,10 +66,10 @@ public class CreateDocType extends SvrProcess
 			createDocType("Manufacturing Order Use Variance", "Use Variance", 
 				MDocType.DOCBASETYPE_ManufacturingOrderUseVariance, null, 
 				0, 0, 84100, GL_Manufacturing);
-			createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+			createDocType("Manufacturing Order Rate Variance","Rate Variance", 
 				MDocType.DOCBASETYPE_ManufacturingOrderRateVariance, null,
 				0, 0, 84200, GL_Manufacturing);
-			createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+			createDocType("Manufacturing Operation Activity","Operation Activity", 
 				MDocType.DOCBASETYPE_ManufacturingOperationActivity, null,
 				0, 0, 85000, GL_Manufacturing);
 			createDocType("Maintenance Order","Maintenance Order",
@@ -80,11 +81,12 @@ public class CreateDocType extends SvrProcess
 			createDocType("Distribution Order","Distribution Orde", 
 				MDocType.DOCBASETYPE_DistributionOrder, null,
 				0, 0, 88000, GL_Distribution);
-			//Payroll
+/*			//Payroll DocType created in 140_FB1935325HRProcess.sql
 			createDocType("Payroll","Payroll", 
 				MDocType.DOCBASETYPE_Payroll, null,
 				0, 0, 90000, GL_Payroll);
-            return "ok";
+*/
+			return "ok";
 	
 		}
             

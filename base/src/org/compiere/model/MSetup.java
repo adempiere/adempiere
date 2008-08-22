@@ -700,10 +700,10 @@ public final class MSetup
 		createDocType("Manufacturing Order Use Variance", "Use Variance", 
 			MDocType.DOCBASETYPE_ManufacturingOrderUseVariance, null, 
 			0, 0, 84100, GL_Manufacturing);
-		createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+		createDocType("Manufacturing Order Rate Variance","Rate Variance", 
 			MDocType.DOCBASETYPE_ManufacturingOrderRateVariance, null,
 			0, 0, 84200, GL_Manufacturing);
-		createDocType("Manufaturing Order Rate Variance","Rate Variance", 
+		createDocType("Manufacturing Operation Activity","Operation Activity", 
 			MDocType.DOCBASETYPE_ManufacturingOperationActivity, null,
 			0, 0, 85000, GL_Manufacturing);
 		createDocType("Maintenance Order","Maintenance Order",
