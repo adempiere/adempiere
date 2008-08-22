@@ -39,6 +39,8 @@ import org.compiere.util.*;
  */
 public class VCreateFromStatement extends VCreateFrom implements VetoableChangeListener
 {
+	private MBankAccount bankAccount;
+
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
@@ -72,7 +74,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		bankAccountField = new VLookup ("C_BankAccount_ID", true, false, true, lookup);
+		bankAccountField = new VLookup ("C_BankAccount_ID", true, true, true, lookup);
 		bankAccountField.addVetoableChangeListener(this);
 		//  Set Default
 		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
@@ -83,6 +85,8 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		authorizationField = new VString ("authorization", false, false, true, 10, 30, null, null);
 		authorizationField.addActionListener(this);
 		loadBankAccount(C_BankAccount_ID, R_AuthCode);
+
+		bankAccount = new MBankAccount(Env.getCtx(), C_BankAccount_ID, null);
 
 		return true;
 	}   //  dynInit
@@ -137,10 +141,11 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		 */
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		String sql = "SELECT p.DateTrx,p.C_Payment_ID,p.DocumentNo, p.C_Currency_ID,c.ISO_Code, p.PayAmt,"
-			+ "currencyConvert(p.PayAmt,p.C_Currency_ID,ba.C_Currency_ID,?,null,p.AD_Client_ID,p.AD_Org_ID),"   //  #1
+			+ "currencyConvert(p.PayAmt,p.C_Currency_ID,ba.C_Currency_ID,pay.DateAcct,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"
 			+ " bp.Name "
 			+ "FROM C_BankAccount ba"
 			+ " INNER JOIN C_Payment_v p ON (p.C_BankAccount_ID=ba.C_BankAccount_ID)"
+			+ " INNER JOIN C_Payment pay ON (p.C_Payment_ID=pay.C_Payment_ID)"
 			+ " INNER JOIN C_Currency c ON (p.C_Currency_ID=c.C_Currency_ID)"
 			+ " LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE p.Processed='Y' AND p.IsReconciled='N'"
@@ -154,19 +159,13 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			//	Voided Bank Statements have 0 StmtAmt
 				+ "WHERE p.C_Payment_ID=l.C_Payment_ID AND l.StmtAmt <> 0)";
 
-		//  Get StatementDate
-		Timestamp ts = (Timestamp)p_mTab.getValue("StatementDate");
-		if (ts == null)
-			ts = new Timestamp(System.currentTimeMillis());
-
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setTimestamp(1, ts);
-			pstmt.setInt(2, C_BankAccount_ID);
+			pstmt.setInt(1, C_BankAccount_ID);
 			//RF [1811114]
 			if (R_AuthCode!= "" && R_AuthCode!= null){
-				pstmt.setString(3, R_AuthCode);}
+				pstmt.setString(2, R_AuthCode);}
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -266,8 +265,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 				int C_Payment_ID = pp.getKey();
 				pp = (KeyNamePair)model.getValueAt(i, 3);               //  3-Currency
 				int C_Currency_ID = pp.getKey();
-				BigDecimal TrxAmt = (BigDecimal)model.getValueAt(i, 4); //  4-PayAmt
-			//	BigDecimal StmtAmt = (BigDecimal)model.getValueAt(i, 5);//  5-Conv Amt
+				BigDecimal TrxAmt = (BigDecimal)model.getValueAt(i, 5); //  5- Conv Amt
 				//
 				log.fine("Line Date=" + trxDate
 					+ ", Payment=" + C_Payment_ID + ", Currency=" + C_Currency_ID + ", Amt=" + TrxAmt);
@@ -275,6 +273,11 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 				MBankStatementLine bsl = new MBankStatementLine (bs);
 				bsl.setStatementLineDate(trxDate);
 				bsl.setPayment(new MPayment(Env.getCtx(), C_Payment_ID, null));
+				
+				bsl.setTrxAmt(TrxAmt);
+				bsl.setStmtAmt(TrxAmt);
+				bsl.setC_Currency_ID(bankAccount.getC_Currency_ID()); 
+				
 				if (!bsl.save())
 					log.log(Level.SEVERE, "Line not created #" + i);
 			}   //   if selected
