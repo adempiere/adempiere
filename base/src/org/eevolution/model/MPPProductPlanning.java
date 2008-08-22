@@ -140,22 +140,5 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 				.setOrderBy("AD_Org_ID DESC NULLS LAST, M_Warehouse_ID DESC NULLS LAST, S_Resource_ID DESC NULLS LAST")
 				.first();
 	}
-
-
-	/**************************************************************************
-	 * 	find planning data demand & supply to this warehouse
-	 *	@param ctx Context
-	 *	@param AD_Org_ID Organization ID
-	 *  @param M_Product_ID Product ID
-	 *  @param trxName Transaction Name
-	 *  @return MPPProductPlanning Planning Data
-	 */       
-	public static MPPProductPlanning getDemandSupplyResource(Properties ctx , int  AD_Org_ID , int M_Product_ID, String trxName )
-	{           
-		String whereClause = "AD_Org_ID = ? AND "+COLUMNNAME_M_Product_ID+"=?";	
-		return new Query(ctx, MPPProductPlanning.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{AD_Org_ID, M_Product_ID})
-			.first();
-	}      
 }	//	Product Data Planning
 

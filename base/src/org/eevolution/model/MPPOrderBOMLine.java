@@ -99,8 +99,8 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		//Phantom
 		if(getComponentType().equals(MPPProductBOMLine.COMPONENTTYPE_Phantom))
 		{
-
-			int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(getCtx(), getM_Product_ID());
+			MProduct parent = MProduct.get(getCtx(), getM_Product_ID());
+			int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(getCtx(), parent);
 			if (PP_Product_BOM_ID <= 0)
 				return true;
 
@@ -111,7 +111,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 				for(int i = 0 ; i < PP_Product_BOMline.length ; i++ )
 				{
 					MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(getCtx(), 0, get_TrxName());
-					MProduct product = MProduct.get(getCtx(),PP_Product_BOMline[i].getM_Product_ID());
+					MProduct component = MProduct.get(getCtx(),PP_Product_BOMline[i].getM_Product_ID());
 					PP_Order_BOMLine.setDescription(PP_Product_BOMline[i].getDescription());
 					PP_Order_BOMLine.setHelp(PP_Product_BOMline[i].getHelp());
 					PP_Order_BOMLine.setM_ChangeNotice_ID(PP_Product_BOMline[i].getM_ChangeNotice_ID());
@@ -137,7 +137,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 					if (PP_Order_BOMLine.isQtyPercentage()) 
 					{                                            
 						BigDecimal qty = PP_Order_BOMLine.getQtyBatch().multiply(QtyOrdered);                
-						log.fine("product:"+product.getName() +" Qty:"+qty + " QtyOrdered:"+ QtyOrdered + " PP_Order_BOMLine.getQtyBatch():" + PP_Order_BOMLine.getQtyBatch());
+						log.fine("product:"+component.getName() +" Qty:"+qty + " QtyOrdered:"+ QtyOrdered + " PP_Order_BOMLine.getQtyBatch():" + PP_Order_BOMLine.getQtyBatch());
 						if(PP_Order_BOMLine.getComponentType().equals(COMPONENTTYPE_Packing))
 							PP_Order_BOMLine.setQtyRequiered(qty.divide(new BigDecimal(100),8,BigDecimal.ROUND_UP));
 						else if (PP_Order_BOMLine.getComponentType().equals(COMPONENTTYPE_Component) || PP_Order_BOMLine.getComponentType().equals(COMPONENTTYPE_Phantom))

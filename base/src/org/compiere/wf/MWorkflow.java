@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MMenu;
+import org.compiere.model.MProduct;
 import org.compiere.model.MWindow;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.model.X_AD_Workflow;
@@ -919,5 +920,18 @@ public class MWorkflow extends X_AD_Workflow
 	//	wf.start(M_Requsition_ID);
 		
 	}	//	main
+	
+	/**
+	 * Get AD_Workflow_ID for given M_Product_ID
+	 * @param M_Product_ID
+	 * @return AD_Workflow_ID
+	 */
+	public static int getWorkflowSearchKey(Properties ctx, MProduct product)
+	{
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		String sql = "SELECT AD_Workflow_ID FROM AD_Workflow "
+						+" WHERE Value = ? AND AD_Client_ID = ?";
+		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);
+	}
 
 }	//	MWorkflow_ID

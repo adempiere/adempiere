@@ -48,6 +48,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.wf.MWorkflow;
 import org.eevolution.model.MDDNetworkDistribution;
 import org.eevolution.model.MDDNetworkDistributionLine;
 import org.eevolution.model.MDDOrder;
@@ -524,8 +525,12 @@ public class MRP extends SvrProcess
 			//Find the BOM to this Product
 			if (m_product_planning.getPP_Product_BOM_ID() == 0 && product.isBOM())
 			{
-				m_product_planning.setPP_Product_BOM_ID(MPPProductBOM.getBOMSearchKey(getCtx(), m_product_planning.getM_Product_ID()));  
+				m_product_planning.setPP_Product_BOM_ID(MPPProductBOM.getBOMSearchKey(getCtx(), product));  
 			}      
+			if (m_product_planning.getAD_Workflow_ID() == 0 && product.isBOM())
+			{
+				m_product_planning.setAD_Workflow_ID(MWorkflow.getWorkflowSearchKey(getCtx(), product));  
+			} 
 			if (m_product_planning.getPlanner_ID() == 0 )
 			{
 				m_product_planning.setPlanner_ID(Planner_ID);

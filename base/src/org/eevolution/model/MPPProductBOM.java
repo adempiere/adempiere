@@ -346,11 +346,9 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 * @param M_Product_ID
 	 * @return PP_Product_BOM_ID
 	 */
-	public static int getBOMSearchKey(Properties ctx, int M_Product_ID)
+	public static int getBOMSearchKey(Properties ctx, MProduct product)
 	{
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-
-		MProduct product = MProduct.get(ctx, M_Product_ID);
 		String sql = "SELECT pb.PP_Product_BOM_ID FROM PP_Product_BOM pb"
 						+" WHERE pb.Value = ? AND pb.AD_Client_ID = ?";
 		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);
