@@ -282,7 +282,7 @@ ContextMenuListener, IZoomableEditor
     	return popupMenu;
     }
     
-    private void actionRefresh()
+    public void actionRefresh()
     {
     	Object curValue = getValue();
 		if (lookup != null)
