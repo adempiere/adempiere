@@ -57,7 +57,7 @@ public class VMerge extends CPanel
 
 	/** Tables to delete (not update) for AD_Org	*/
 	static private String[]	s_delete_Org = new String[]
-		{"AD_OrgInfo"};
+		{"AD_OrgInfo", "AD_Role_OrgAccess"};
 	/** Tables to delete (not update) for AD_User	*/
 	static private String[]	s_delete_User = new String[]
 		{"AD_User_Roles"};
