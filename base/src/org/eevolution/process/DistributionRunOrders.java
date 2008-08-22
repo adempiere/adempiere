@@ -54,7 +54,7 @@ public class DistributionRunOrders extends SvrProcess
 	/**	Date Promised			*/
 	private Timestamp			p_DatePromised = null;	
 	/**	Date Promised			*/
-	private Timestamp			p_DatePromised_To = null;	
+	//private Timestamp			p_DatePromised_To = null;	
 	/** Organization 			*/
 	private int     p_AD_Org_ID     = 0;
 	/** Is Only Test 			*/
@@ -91,7 +91,7 @@ public class DistributionRunOrders extends SvrProcess
 			else if (name.equals("DatePromised"))
 			{
 				p_DatePromised = (Timestamp)para[i].getParameter();
-				p_DatePromised_To = (Timestamp)para[i].getParameter_To();
+				//p_DatePromised_To = (Timestamp)para[i].getParameter_To();
 			}
 			else if(name.equals("ConsolidateDocument"))
 				p_ConsolidateDocument = (String)para[i].getParameter();
@@ -137,7 +137,8 @@ public class DistributionRunOrders extends SvrProcess
     	m_run.save();
     	
     	StringBuffer sql = new StringBuffer("SELECT M_Product_ID , SUM (QtyOrdered-QtyDelivered) AS TotalQty, l.M_Warehouse_ID FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
     	
  	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -145,8 +146,8 @@ public class DistributionRunOrders extends SvrProcess
  	    {
  	            pstmt = DB.prepareStatement (sql.toString(),get_TrxName());
  	    		pstmt.setTimestamp(1, p_DatePromised);
- 	    		pstmt.setTimestamp(2, p_DatePromised_To);
- 	    		pstmt.setInt(3, p_M_Warehouse_ID);
+ 	    		//pstmt.setTimestamp(2, p_DatePromised_To);
+ 	    		pstmt.setInt(2, p_M_Warehouse_ID);
  	    		
  	            rs = pstmt.executeQuery();
  	            int line = 10;
@@ -195,7 +196,8 @@ public class DistributionRunOrders extends SvrProcess
     	m_run.save();
     	
     	StringBuffer sql = new StringBuffer("SELECT M_Product_ID , SUM (TargetQty) AS MinQty, SUM (QtyOrdered-QtyDelivered) AS TotalQty, l.M_Warehouse_ID FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
 
     	
  	    PreparedStatement pstmt = null;
@@ -204,8 +206,8 @@ public class DistributionRunOrders extends SvrProcess
  	    {
  	            pstmt = DB.prepareStatement (sql.toString(),get_TrxName());
  	    		pstmt.setTimestamp(1, p_DatePromised);
- 	    		pstmt.setTimestamp(2, p_DatePromised_To);
- 	    		pstmt.setInt(3, p_M_Warehouse_ID);
+ 	    		//pstmt.setTimestamp(2, p_DatePromised_To);
+ 	    		pstmt.setInt(2, p_M_Warehouse_ID);
  	    		
  	            rs = pstmt.executeQuery();
  	            int line = 10;
@@ -345,7 +347,7 @@ public class DistributionRunOrders extends SvrProcess
 		ip = new MPInstancePara(instance, 20);
 		ip.setParameter("DatePromised", "");
 		ip.setP_Date(p_DatePromised);
-		ip.setP_Date_To(p_DatePromised_To);
+		//ip.setP_Date_To(p_DatePromised_To);
 		if (!ip.save())
 		{
 			String msg = "No Parameter added";  //  not translated

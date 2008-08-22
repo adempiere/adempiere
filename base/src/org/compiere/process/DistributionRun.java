@@ -44,7 +44,7 @@ public class DistributionRun extends SvrProcess
 	/**	Date Promised			*/
 	private Timestamp			p_DatePromised = null;
 	/**	Date Promised To			*/
-	private Timestamp			p_DatePromised_To = null;
+	//private Timestamp			p_DatePromised_To = null;
 	/** Document Type			*/
 	private int					p_C_DocType_ID = 0;
 	/** Test Mode				*/
@@ -92,7 +92,7 @@ public class DistributionRun extends SvrProcess
 			else if (name.equals("DatePromised"))
 			{	
 				p_DatePromised = (Timestamp)para[i].getParameter();
-				p_DatePromised_To = (Timestamp)para[i].getParameter_To();
+				//p_DatePromised_To = (Timestamp)para[i].getParameter_To();
 			}	
 			else if (name.equals("IsTest"))
 				p_IsTest = "Y".equals(para[i].getParameter());
@@ -595,8 +595,9 @@ public class DistributionRun extends SvrProcess
 			+"INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID) "
 			+"INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
 			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID) "
-			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) AND ol.DatePromised BETWEEN "
-			+ DB.TO_DATE(p_DatePromised_To)  +" AND "+ DB.TO_DATE(p_DatePromised) 
+			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) AND ol.DatePromised"
+			//+ " BETWEEN "+ DB.TO_DATE(p_DatePromised)  +" AND "+ DB.TO_DATE(p_DatePromised_To) 
+			+ " <= "+DB.TO_DATE(p_DatePromised) 
 			+" INNER JOIN M_Locator loc ON (loc.M_Locator_ID=ol.M_Locator_ID AND loc.M_Warehouse_ID="+p_M_Warehouse_ID+") "
 			+" WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND rl.IsActive='Y' AND ll.IsActive='Y'";	
 			no = DB.executeUpdate(sql, get_TrxName());
@@ -632,7 +633,8 @@ public class DistributionRun extends SvrProcess
 	private BigDecimal getQtyDemand(int M_Product_ID)
 	{
 		StringBuffer sql = new StringBuffer("SELECT SUM (QtyOrdered-QtyDelivered-TargetQty)  FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+		sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
 
     	
  	    PreparedStatement pstmt = null;
@@ -641,9 +643,9 @@ public class DistributionRun extends SvrProcess
  	    {
  	            pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
  	    		pstmt.setTimestamp(1, p_DatePromised);
- 	    		pstmt.setTimestamp(2, p_DatePromised_To);
- 	    		pstmt.setInt(3, p_M_Warehouse_ID);
- 	    		pstmt.setInt(4, M_Product_ID);
+ 	    		//pstmt.setTimestamp(2, p_DatePromised_To);
+ 	    		pstmt.setInt(2, p_M_Warehouse_ID);
+ 	    		pstmt.setInt(3, M_Product_ID);
  	    		
  	            rs = pstmt.executeQuery();
  	            while (rs.next())
@@ -700,8 +702,9 @@ public class DistributionRun extends SvrProcess
 			+"INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID) "
 			+"INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
 			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID) "
-			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) AND ol.DatePromised BETWEEN "
-			+ DB.TO_DATE(p_DatePromised)  +" AND "+ DB.TO_DATE(p_DatePromised_To) 
+			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) AND ol.DatePromised"
+			//+ " BETWEEN " + DB.TO_DATE(p_DatePromised)  +" AND "+ DB.TO_DATE(p_DatePromised_To) 
+			+ "<="+DB.TO_DATE(p_DatePromised)
 			+" INNER JOIN M_Locator loc ON (loc.M_Locator_ID=ol.M_Locator_ID AND loc.M_Warehouse_ID="+p_M_Warehouse_ID+") "
 			+" WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND l.RatioTotal<>0 AND rl.IsActive='Y' AND ll.IsActive='Y'";	
 			no = DB.executeUpdate(sql, get_TrxName());
@@ -755,8 +758,9 @@ public class DistributionRun extends SvrProcess
 				MDistributionRunDetail detail = m_details[i];
 				
 				StringBuffer sql = new StringBuffer("SELECT * FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID)  INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) ");
-				sql.append(" WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  l.M_Warehouse_ID=?  AND ol.DatePromised BETWEEN ? AND ? ");
-	
+				//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  l.M_Warehouse_ID=?  AND ol.DatePromised BETWEEN ? AND ? ");
+				sql.append(" WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  l.M_Warehouse_ID=?  AND ol.DatePromised <=?");
+				
 		 	    PreparedStatement pstmt = null;
 			    ResultSet rs = null; 
 		 	    try
@@ -766,7 +770,7 @@ public class DistributionRun extends SvrProcess
 		 	    		pstmt.setInt(2, detail.getM_Product_ID());
 		 	    		pstmt.setInt(3, M_Warehouse_ID);
 		 	    		pstmt.setTimestamp(4, p_DatePromised);
-		 	    		pstmt.setTimestamp(5, p_DatePromised_To);
+		 	    		//pstmt.setTimestamp(5, p_DatePromised_To);
 
 		 	            rs = pstmt.executeQuery();
 		 	            while (rs.next())
@@ -919,8 +923,10 @@ public class DistributionRun extends SvrProcess
 				Query query = table.createQuery("DocStatus IN ('DR','IN') AND AD_Org_ID=" + bp.getAD_OrgBP_ID_Int() +	" AND "	+	
 											    MDDOrder.COLUMNNAME_C_BPartner_ID  +"=? AND " +
 											    MDDOrder.COLUMNNAME_M_Warehouse_ID +"=?  AND " +
-											    MDDOrder.COLUMNNAME_DatePromised   +" BETWEEN ? AND ? ", get_TrxName());			
-					  query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised,p_DatePromised_To});
+											    MDDOrder.COLUMNNAME_DatePromised   +"<=? ", get_TrxName());	
+											    //MDDOrder.COLUMNNAME_DatePromised   +" BETWEEN ? AND ? ", get_TrxName());			
+							//query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised,p_DatePromised_To});
+							  query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised});
 				
 			    order = query.first();
 			}
@@ -980,9 +986,10 @@ public class DistributionRun extends SvrProcess
 			if(p_ConsolidateDocument)
 			{
 
-				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised BETWEEN ? AND ? ";
-				int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised,p_DatePromised_To});
-				
+				//String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised BETWEEN ? AND ? ";
+				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised <= ?";				
+				//int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised,p_DatePromised_To});
+				int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised});	
 				if (DD_OrderLine_ID  <= 0)
 				{	
 					MDDOrderLine line = new MDDOrderLine(order);
@@ -1001,7 +1008,7 @@ public class DistributionRun extends SvrProcess
 				else 
 				{
 					MDDOrderLine line = new MDDOrderLine(getCtx(), DD_OrderLine_ID, get_TrxName());		
-					line.setDescription(line.getDescription().concat(" "+Msg.translate(getCtx(), "Qty")+" Pull " + detail.getActualAllocation()));
+					line.setDescription(line.getDescription().concat(" "+Msg.translate(getCtx(), "Qty")+" Push " +m_run.getDescription()+ " " + detail.getActualAllocation()));
 					line.setConfirmedQty(line.getConfirmedQty().add(detail.getActualAllocation()));
 					line.saveEx();
 				}
