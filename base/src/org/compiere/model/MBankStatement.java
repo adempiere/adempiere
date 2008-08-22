@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,13 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
  
 /**
 *	Bank Statement Model
@@ -245,7 +252,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	{
 		if (getBeginningBalance().compareTo(Env.ZERO) == 0)
 		{
-			MBankAccount ba = MBankAccount.get(getCtx(), getC_BankAccount_ID());
+			MBankAccount ba = getBankAccount();
 			setBeginningBalance(ba.getCurrentBalance());
 		}
 		setEndingBalance(getBeginningBalance().add(getStatementDifference()));
@@ -405,7 +412,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 			}
 		}
 		//	Update Bank Account
-		MBankAccount ba = MBankAccount.get(getCtx(), getC_BankAccount_ID());
+		MBankAccount ba = getBankAccount();
 		//BF 1933645
 		ba.setCurrentBalance(ba.getCurrentBalance().add(getStatementDifference()));
 		ba.save(get_TrxName());
@@ -465,7 +472,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		
 		//Added Lines by AZ Goodwill
 		//Restore Bank Account Balance
-		MBankAccount ba = MBankAccount.get(getCtx(), getC_BankAccount_ID());		
+		MBankAccount ba = getBankAccount();		
 		ba.setCurrentBalance(ba.getCurrentBalance().subtract(getStatementDifference()));
 		ba.save(get_TrxName());
 		//End of Added Lines
@@ -475,7 +482,6 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		for (int i = 0; i < lines.length; i++)
 		{
 			MBankStatementLine line = lines[i];
-			BigDecimal old = line.getStmtAmt();
 			if (line.getStmtAmt().compareTo(Env.ZERO) != 0)
 			{
 				String description = Msg.getMsg(getCtx(), "Voided") + " ("
@@ -659,4 +665,4 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		return 0;
 	}	//	getC_Currency_ID
 	
- }	//	MBankStatement
+}	//	MBankStatement
