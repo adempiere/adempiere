@@ -10,17 +10,21 @@ if [ $# -eq 0 ]
     echo "Example:	$0 adempiere adempiere"
     exit 1
 fi
-if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" ]
+if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" -o "$ADEMPIERE_DB_SERVER" = "" -o "$ADEMPIERE_DB_PORT" = "" ]
   then
     echo "Please make sure that the environment variables are set correctly:"
     echo "	ADEMPIERE_HOME	e.g. /Adempiere"
-    echo "	ADEMPIERE_DB_NAME	e.g. adempiere.adempiere.org"
+    echo "	ADEMPIERE_DB_NAME	e.g. adempiere or xe"
+    echo "  ADEMPIERE_DB_SERVER e.g. dbserver.adempiere.org"
+    echo "  ADEMPIERE_DB_PORT e.g. 5432 or 1521"
     exit 1
 fi
 
-export PGPASSWORD=$2
-pg_dump --no-owner -U $1 $ADEMPIERE_DB_NAME > $ADEMPIERE_HOME/data/ExpDat.dmp 
-export PGPASSWORD=
+PGPASSWORD=$2
+export PGPASSWORD
+pg_dump -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT --no-owner -U $1 $ADEMPIERE_DB_NAME > $ADEMPIERE_HOME/data/ExpDat.dmp 
+PGPASSWORD=
+export PGPASSWORD
 
 cd $ADEMPIERE_HOME/data
 jar cvfM ExpDat.jar ExpDat.dmp
