@@ -77,7 +77,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
         dataTable.setModel(model);
         //
         dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
-        dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
+        dataTable.setColumnClass(1, BigDecimal.class, false);        //  1-Qty
         dataTable.setColumnClass(2, String.class, true);        //  2-UOM
         dataTable.setColumnClass(3, String.class, true);        //  3-Product
         dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo
@@ -358,7 +358,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				BigDecimal qtyInvoiced = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyInvoiced.multiply(multiplier);
-				line.add(new Double(qtyEntered.doubleValue())); // 1-Qty
+				line.add(qtyEntered); // 1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp); // 2-UOM
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
@@ -440,7 +440,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
             {
                 Vector<Object> line = new Vector<Object>(7);
                 line.add(new Boolean(false));   // 0-Selection
-                line.add(rs.getBigDecimal(3).doubleValue());  // 1-Qty
+                line.add(rs.getBigDecimal(3));  // 1-Qty
                 KeyNamePair pp = new KeyNamePair(rs.getInt(6), rs.getString(7));
                 line.add(pp); // 2-UOM
                 pp = new KeyNamePair(rs.getInt(4), rs.getString(5));
@@ -495,6 +495,8 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	 * @return true if saved
 	 */
 	protected boolean save() {
+		
+		dataTable.stopEditor(true);
 		log.config("");
 		TableModel model = dataTable.getModel();
 		int rows = model.getRowCount();
@@ -516,8 +518,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		for (int i = 0; i < rows; i++) {
 			if (((Boolean) model.getValueAt(i, 0)).booleanValue()) {
 				// variable values
-				Double d = (Double) model.getValueAt(i, 1); // 1-Qty
-				BigDecimal QtyEntered = new BigDecimal(d.doubleValue());
+				BigDecimal QtyEntered = (BigDecimal) model.getValueAt(i, 1); // 1-Qty
 				KeyNamePair pp = (KeyNamePair) model.getValueAt(i, 2); // 2-UOM
 				int C_UOM_ID = pp.getKey();
 				pp = (KeyNamePair) model.getValueAt(i, 3); // 3-Product
