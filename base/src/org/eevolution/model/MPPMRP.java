@@ -180,14 +180,19 @@ public class MPPMRP extends X_PP_MRP
 			if (PP_Order_ID != -1 )
 			{
 				MPPOrder order = new MPPOrder(m_ctx, PP_Order_ID,trxName);
-				if (MPPOrder.DOCSTATUS_Completed != order.getDocStatus() || MPPOrder.DOCSTATUS_Closed != order.getDocStatus())
-					order.delete(true,trxName);
+				if (!MPPOrder.DOCSTATUS_Completed.equals(order.getDocStatus())
+						&& !MPPOrder.DOCSTATUS_Closed.equals(order.getDocStatus())
+					)
+				{
+					order.deleteEx(true, trxName);
+				}
 			}
 			return;
 		}
 		String WhereClause = "AD_Client_ID = ? AND C_OrderLine_ID = ?";
-		MPPMRP mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(WhereClause, new Object[]{ ol.getAD_Client_ID(),ol.getC_OrderLine_ID()}, trxName);
-		if(mrp!=null)
+		MPPMRP mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID)
+							.getPO(WhereClause, new Object[]{ol.getAD_Client_ID(),ol.getC_OrderLine_ID()}, trxName);
+		if(mrp != null)
 		{	
 			mrp.setDescription(ol.getDescription());
 			mrp.setName("MRP");
@@ -646,30 +651,31 @@ public class MPPMRP extends X_PP_MRP
 		MResourceType S_ResourceType = MResourceType.get(ctx, S_Resource.getS_ResourceType_ID());  	
 
 		BigDecimal AvailableDayTime  = Env.ZERO;
-		if (S_ResourceType.isDateSlot())
-			AvailableDayTime = new BigDecimal(getHoursAvailable(S_ResourceType.getTimeSlotStart(),S_ResourceType.getTimeSlotEnd()));
+		if (S_ResourceType.isTimeSlot())
+			AvailableDayTime = BigDecimal.valueOf(getHoursAvailable(S_ResourceType.getTimeSlotStart(),S_ResourceType.getTimeSlotEnd()));
 		else
 			AvailableDayTime  = BigDecimal.valueOf(24); 
 
 		int AvailableDays = 0;
-		if (S_ResourceType.isOnMonday())
-			AvailableDays += 1; 
-		if (S_ResourceType.isOnTuesday())
-			AvailableDays += 1;
-		if (S_ResourceType.isOnThursday())
-			AvailableDays += 1;
-		if (S_ResourceType.isOnTuesday())
-			AvailableDays += 1;
-		if (S_ResourceType.isOnWednesday())	
-			AvailableDays += 1;
-		if (S_ResourceType.isOnFriday())	 
-			AvailableDays += 1;
-		if (S_ResourceType.isOnSaturday())	
-			AvailableDays += 1;
-		if (S_ResourceType.isOnSunday())
-			AvailableDays += 1;
+		if (S_ResourceType.isDateSlot()) {
+			if (S_ResourceType.isOnMonday())
+				AvailableDays += 1; 
+			if (S_ResourceType.isOnTuesday())
+				AvailableDays += 1;
+			if (S_ResourceType.isOnThursday())
+				AvailableDays += 1;
+			if (S_ResourceType.isOnWednesday())	
+				AvailableDays += 1;
+			if (S_ResourceType.isOnFriday())	 
+				AvailableDays += 1;
+			if (S_ResourceType.isOnSaturday())	
+				AvailableDays += 1;
+			if (S_ResourceType.isOnSunday())
+				AvailableDays += 1;
+		}
 
 		MWorkflow wf = MWorkflow.get(ctx, AD_Workflow_ID);
+		
 		BigDecimal RequiredTime = BigDecimal.valueOf (	
 								(	  wf.getQueuingTime()
 									+ wf.getSetupTime()
@@ -679,6 +685,7 @@ public class MPPMRP extends X_PP_MRP
 								)
 								* ( wf.getDurationBaseSec() / 60 / 60 ) // convert to hours
 		);
+		// TODO: implement here, Victor's suggestion - https://sourceforge.net/forum/message.php?msg_id=5179460
 
 		// Weekly Factor  	
 		BigDecimal WeeklyFactor = BigDecimal.valueOf(7).divide(new BigDecimal(AvailableDays), 8, BigDecimal.ROUND_UP);
