@@ -202,7 +202,7 @@ public abstract class ADForm extends Window implements EventListener
     		{
     			throw new ApplicationException("The selected web user interface custom form '" + 
     					   webClassName + 
-    					   "' is not accessible.");
+    					   "' is not accessible.", e);
     		}
     		
         	try
