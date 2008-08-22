@@ -7,14 +7,15 @@
 @if (%ADEMPIERE_HOME%) == () goto environment
 @if (%ADEMPIERE_DB_NAME%) == () goto environment
 @if (%ADEMPIERE_DB_SERVER%) == () goto environment
+@if (%ADEMPIERE_DB_PORT%) == () goto environment
 @Rem Must have parameter: userAccount
 @if (%1) == () goto usage
 
 @Rem Cleanup
-@sqlplus %1/%2@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\%ADEMPIERE_DB_PATH%\Daily.sql
+@sqlplus %1/%2@%ADEMPIERE_DB_SERVER%:%ADEMPIERE_DB_PORT%/%ADEMPIERE_DB_NAME% @%ADEMPIERE_HOME%\utils\%ADEMPIERE_DB_PATH%\Daily.sql
 
 @Rem The Export
-@exp %1/%2@%ADEMPIERE_DB_SERVER%/%ADEMPIERE_DB_NAME% FILE=%ADEMPIERE_HOME%\data\ExpDat.dmp Log=%ADEMPIERE_HOME%\data\ExpDat.log CONSISTENT=Y STATISTICS=NONE OWNER=%1
+@exp %1/%2@%ADEMPIERE_DB_SERVER%:%ADEMPIERE_DB_PORT%/%ADEMPIERE_DB_NAME% FILE=%ADEMPIERE_HOME%\data\ExpDat.dmp Log=%ADEMPIERE_HOME%\data\ExpDat.log CONSISTENT=Y STATISTICS=NONE OWNER=%1
 
 @cd %ADEMPIERE_HOME%\Data
 @copy ExpDat.jar ExpDatOld.jar

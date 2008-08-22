@@ -13,7 +13,7 @@ if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" ]
 fi
 
 # Export
-exp reference/reference@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/Adempiere.dmp Log=$ADEMPIERE_HOME/data/Adempiere.log CONSISTENT=Y OWNER=reference 
+exp reference/reference@$ADEMPIERE_DB_SERVER:$ADEMPIERE_DB_PORT/$ADEMPIERE_DB_NAME FILE=$ADEMPIERE_HOME/data/Adempiere.dmp Log=$ADEMPIERE_HOME/data/Adempiere.log CONSISTENT=Y OWNER=reference 
 
 cd $ADEMPIERE_HOME/data
 jar cvfM Adempiere.jar Adempiere.dmp Adempiere.log

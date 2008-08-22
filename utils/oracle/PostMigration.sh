@@ -18,4 +18,4 @@ fi
 echo -------------------------------------
 echo Add missing translations
 echo -------------------------------------
-echo sqlplus $2/$3@$ADEMPIERE_DB_SERVER/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/01_add_missing_Translations.sql
+echo sqlplus $2/$3@$ADEMPIERE_DB_SERVER:$ADEMPIERE_DB_PORT/$ADEMPIERE_DB_NAME @$ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/01_add_missing_Translations.sql
