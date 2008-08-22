@@ -20,8 +20,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -29,6 +31,7 @@ import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 
@@ -400,21 +403,19 @@ public class MPeriod extends X_C_Period
 			//
 			if (date1.before(first))
 			{
-				log.warning ("" + date1 + " before first day - " + first);
+				log.warning ("Automatic Period Control:" + date1 + " before first day - " + first);
 				return false;
 			}
 			if (date2.after(last))
 			{
-				log.warning ("" + date2 + " after last day - " + first);
+				log.warning ("Automatic Period Control:" + date2 + " after last day - " + first);
 				return false;
 			}
 			//	We are OK
 			if (isInPeriod(today))
 			{
-				if (as.getC_Period_ID() != getC_Period_ID()) {
-					as.setC_Period_ID(getC_Period_ID());
-					as.save();
-				}
+				as.setC_Period_ID(getC_Period_ID());
+				as.save();
 			}
 			return true;
 		}
@@ -465,6 +466,38 @@ public class MPeriod extends X_C_Period
 			setEndDate(TimeUtil.getDay(date));
 		else
 			setEndDate(TimeUtil.getMonthLastDay(getStartDate()));
+		
+		if (getEndDate().before(getStartDate()))
+		{
+			SimpleDateFormat df = DisplayType.getDateFormat(DisplayType.Date);
+			log.saveError("Error", df.format(getEndDate()) + " < " + df.format(getStartDate()));
+			return false;
+		}
+		
+		MYear year = new MYear(getCtx(), getC_Year_ID(), get_TrxName());
+		
+		Query query = MTable.get(getCtx(), "C_Period")
+		.createQuery("C_Year_ID IN (SELECT y.C_Year_ID from C_Year y WHERE" +
+				"                   y.C_Calendar_ID =?)" +
+				" AND (? BETWEEN StartDate AND EndDate" +
+				" OR ? BETWEEN StartDate AND EndDate)" +
+				" AND PeriodType=?",get_TrxName());
+		query.setParameters(new Object[] {year.getC_Calendar_ID(),
+				getStartDate(), getEndDate(),
+				getPeriodType()});
+		
+		List<MPeriod> periods = query.list();
+		
+		for ( int i=0; i < periods.size(); i++)
+		{
+			if ( periods.get(i).getC_Period_ID() != getC_Period_ID() )
+			{
+				log.log(Level.WARNING, "Period overlaps with: "
+					+ periods.get(i).getName());
+				return false;
+			}
+		}
+		
 		return true;
 	}	//	beforeSave
 	
