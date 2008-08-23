@@ -35,7 +35,7 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAttribute;
@@ -73,10 +73,8 @@ public class WAttributeGrid extends ADForm implements EventListener
 	 *	@param WindowNo
 	 *	@param frame
 	 */
-	public void init(int adFormId, String name)
+	protected void initForm()
     {
-        super.init(adFormId, name);
-        
 		m_attributes = MAttribute.getOfClient(Env.getCtx(), true, true);
 		KeyNamePair[] vector = new KeyNamePair[m_attributes.length+1];
 		vector[0] = new KeyNamePair(0, "");
@@ -192,7 +190,7 @@ public class WAttributeGrid extends ADForm implements EventListener
 		this.appendChild(tabbox);
 		tabbox.addEventListener(Events.ON_SELECT, this);
 		this.appendChild(confirmPanel);
-		confirmPanel.addEventListener(this);
+		confirmPanel.addActionListener(this);
 	}	//	init
 
 	/**	Window No			*/
@@ -236,7 +234,7 @@ public class WAttributeGrid extends ADForm implements EventListener
 	private Listbox 	pickPriceList = new Listbox();
 	private Label 		labelWarehouse = new Label(Msg.getElement(Env.getCtx(), "M_Warehouse_ID"));
 	private Listbox 	pickWarehouse = new Listbox();
-	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	//
 	private Grid 		gridView = new Grid();
 //	private CPanel		gridPanel = new CPanel(new BorderLayout());
@@ -316,14 +314,14 @@ public class WAttributeGrid extends ADForm implements EventListener
 		}
 		else if(e.getTarget() ==  modeCombo)
 			createGrid();
-		else if (e.getName().equals(WConfirmPanel.A_OK))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
 			if (tabbox.getSelectedIndex() == 0)
 				createGrid();
 			else
 				gridOK();
 		}
-		else if (e.getName().equals(WConfirmPanel.A_CANCEL))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			onClose();
 	}	//	actionPerformed
 	
@@ -370,7 +368,7 @@ public class WAttributeGrid extends ADForm implements EventListener
 		
 		if (attr1.equals(attr2))
 		{
-			FDialog.warn(m_windowNo, "Same Attribute Selected", getTitle());
+			FDialog.warn(m_WindowNo, "Same Attribute Selected", getTitle());
 			log.warning("Same Attribute Selected");
 			tabbox.setSelectedIndex(0);
 			return;

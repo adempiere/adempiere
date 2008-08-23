@@ -106,14 +106,14 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		Hbox hbox = new Hbox();
 		String label = Msg.getMsg(Env.getCtx(), "Ok");
 		bOK = new Button(label.replaceAll("&", ""));
-		bOK.setImage("/images/Ok16.gif");
+		bOK.setImage("/images/Ok16.png");
 		bOK.setName("ok");
 		bOK.addEventListener(Events.ON_CLICK, this);
 		hbox.appendChild(bOK);
 		
 		label = Msg.getMsg(Env.getCtx(), "Cancel");
 		Button btn = new Button(label.replaceAll("&", ""));
-		btn.setImage("/images/Cancel16.gif");
+		btn.setImage("/images/Cancel16.png");
 		btn.setName("cancel");
 		btn.addEventListener(Events.ON_CLICK, this);
 		

@@ -107,28 +107,28 @@ public class WButtonEditor extends WEditor
         {
             readReference(195);
 //            this.setForeground(Color.blue);
-            getComponent().setImage("/images/Payment16.gif");    //  29*14
+            getComponent().setImage("/images/Payment16.png");    //  29*14
         }
         else if (columnName.equals("DocAction"))
         {
             readReference(135);
 //            this.setForeground(Color.blue);
-            getComponent().setImage("/images/Process16.gif");    //  16*16
+            getComponent().setImage("/images/Process16.png");    //  16*16
         }
         else if (columnName.equals("CreateFrom"))
         {
-            getComponent().setImage("/images/Copy16.gif");       //  16*16
+            getComponent().setImage("/images/Copy16.png");       //  16*16
         }
         else if (columnName.equals("Record_ID"))
         {
-            getComponent().setImage("/images/Zoom16.gif");       //  16*16
+            getComponent().setImage("/images/Zoom16.png");       //  16*16
             getComponent().setLabel(Msg.getMsg(Env.getCtx(), "ZoomDocument"));
         }
         else if (columnName.equals("Posted"))
         {
             readReference(234);
 //            this.setForeground(Color.magenta);
-            getComponent().setImage("/images/InfoAccount16.gif");    //  16*16
+            getComponent().setImage("/images/InfoAccount16.png");    //  16*16
         }
         
         if (gridField.getColumnName().endsWith("_ID") && !gridField.getColumnName().equals("Record_ID"))

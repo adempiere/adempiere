@@ -67,9 +67,6 @@ public class WBOMDrop extends ADForm implements EventListener
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**	Window No					*/
-	private int m_WindowNo = 0;
-
 	/**	Product to create BOMs from	*/
 	private MProduct m_product;
 	
@@ -109,20 +106,16 @@ public class WBOMDrop extends ADForm implements EventListener
 	private Groupbox grpSelectProd = new Groupbox();
 	
 	public WBOMDrop()
-	{
-		init(super.m_windowNo);
-	}
+	{}
 	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame parent frame
 	 */
-	
-	public void init (int WindowNo)
+	protected void initForm()
 	{
 		log.info("");
-		m_WindowNo = WindowNo;
 
 		try
 		{

@@ -123,14 +123,13 @@ public class WPaySelect extends ADForm implements EventListener, WTableModelList
 	 */
 	public WPaySelect()
 	{
-		init();
 	}
 	
 	/**
 	 * 
 	 *
 	 */
-	private void init()
+	protected void initForm()
 	{
 		dataTable = new WListbox();
 		dataTable.setWidth("700px");
@@ -181,11 +180,11 @@ public class WPaySelect extends ADForm implements EventListener, WTableModelList
         lstPaymentRule.addEventListener(Events.ON_SELECT, this);
 				
 		refresh = new Button();
-		refresh.setImage("/images/Refresh24.gif");
+		refresh.setImage("/images/Refresh24.png");
 		refresh.addEventListener(Events.ON_CLICK, this);
         
         btnProcess = new Button();
-        btnProcess.setImage("/images/Process24.gif");
+        btnProcess.setImage("/images/Process24.png");
         btnProcess.setEnabled(false);
         btnProcess.addEventListener(Events.ON_CLICK, this);
 		
@@ -277,7 +276,7 @@ public class WPaySelect extends ADForm implements EventListener, WTableModelList
 		
 		if (!m_ps.save())
 		{
-			FDialog.error(super.m_windowNo, this, "SaveError", Msg.translate(Env.getCtx(), "C_PaySelection_ID"));
+			FDialog.error(m_WindowNo, this, "SaveError", Msg.translate(Env.getCtx(), "C_PaySelection_ID"));
 			m_ps = null;
 			return;
 		}
@@ -315,7 +314,7 @@ public class WPaySelect extends ADForm implements EventListener, WTableModelList
 				
 				if (!psl.save(trxName))
 				{
-					FDialog.error(this.m_windowNo, this, "SaveError", Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID"));
+					FDialog.error(m_WindowNo, this, "SaveError", Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID"));
 					return;
 				}
 				log.fine("C_Invoice_ID=" + C_Invoice_ID 
@@ -325,13 +324,13 @@ public class WPaySelect extends ADForm implements EventListener, WTableModelList
 
 		//  Ask to Post it
 
-		if (!FDialog.ask(this.m_windowNo, this, "(" + m_ps.getName() + ")"))
+		if (!FDialog.ask(m_WindowNo, this, "(" + m_ps.getName() + ")"))
 		{
 			return;
 		}
 		
 		ProcessModalDialog msg = new ProcessModalDialog(
-				this, "Payment Selection Manual", null, this.m_windowNo, adProcessId, 
+				this, "Payment Selection Manual", null, m_WindowNo, adProcessId, 
 				X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID(), true);
   
 		if (msg.isValid()) 

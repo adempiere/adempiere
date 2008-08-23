@@ -78,7 +78,7 @@ public class WCreateFromStatement extends WCreateFrom implements ValueChangeList
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		WTableDirEditor editor = new WTableDirEditor ("C_BankAccount_ID", true, false, true, lookup);
 		bankAccountField = editor.getComponent();
-		editor.addValueChangeListner(this);
+		editor.addValueChangeListener(this);
 		//  Set Default
 		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
 		bankAccountField.setValue(new Integer(C_BankAccount_ID));

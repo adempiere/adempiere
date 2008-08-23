@@ -28,7 +28,7 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WSearchEditor;
@@ -116,9 +116,9 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 				"EMail IS NOT NULL");
 			
 			fUser = new WSearchEditor(lookup, "AD_User_ID", "", false, false, true);
-			fUser.addValueChangeListner(this);
+			fUser.addValueChangeListener(this);
 			fCcUser = new WSearchEditor(lookup, "AD_User_ID", "", false, false, true);
-			fCcUser.addValueChangeListner(this);
+			fCcUser.addValueChangeListener(this);
 			jbInit();
 		}
 		catch(Exception ex)
@@ -166,7 +166,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 	private Label lAttachment = new Label();
 	private Textbox fAttachment = new Textbox();//40);
 	private Textbox fMessage = new Textbox();
-	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private WStatusBar statusBar = new WStatusBar();
 
 	/**
@@ -270,7 +270,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 		rows.appendChild(row);
 		row.setSpans("2");
 		row.appendChild(confirmPanel);
-		confirmPanel.addEventListener(this);
+		confirmPanel.addActionListener(this);
 		
 		Borderlayout layout = new Borderlayout();
 		layout.setWidth("490px");
@@ -435,7 +435,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 	 * 	Action Listener - Send email
 	 */
 	public void onEvent(Event event) throws Exception {		
-		if (event.getName().equals(WConfirmPanel.A_CANCEL))
+		if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			onClose();
 		
 		if (getTo() == null || getTo().length() == 0)
@@ -443,10 +443,8 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 			return;
 		}
 		//	Send
-		if (event.getName().equals(WConfirmPanel.A_OK))
+		if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
-//			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//			confirmPanel.getOKButton().setEnabled(false);
 
 			StringTokenizer st = new StringTokenizer(getTo(), " ,;", false);
 			String to = st.nextToken();
@@ -485,7 +483,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 //			confirmPanel.getOKButton().setEnabled(false);
 //			setCursor(Cursor.getDefaultCursor());
 		}
-		else if (event.getName().equals(WConfirmPanel.A_CANCEL))
+		else if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			onClose();
 	}
 

@@ -273,10 +273,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 		yesList.setSeltype("multiple");
 		noList.setSeltype("multiple");
 
-		bAdd.setImage("images/Detail24.gif");
+		bAdd.setImage("images/Detail24.png");
 		bAdd.addEventListener(Events.ON_CLICK, actionListener);
 
-		bRemove.setImage("images/Parent24.gif");
+		bRemove.setImage("images/Parent24.png");
 		bRemove.addEventListener(Events.ON_CLICK, actionListener);
 
 		EventListener crossListMouseListener = new DragListener();
@@ -292,10 +292,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 			}
 		};
 
-		bUp.setImage("images/Previous24.gif");
+		bUp.setImage("images/Previous24.png");
 		bUp.addEventListener(Events.ON_CLICK, actionListener);
 
-		bDown.setImage("images/Next24.gif");
+		bDown.setImage("images/Next24.png");
 		bDown.addEventListener(Events.ON_CLICK, actionListener);
 
 		EventListener yesListMouseMotionListener = new EventListener()

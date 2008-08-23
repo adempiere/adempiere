@@ -77,9 +77,6 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 {
 	private static final long serialVersionUID = 1L;
 
-	/**	Window No			*/
-	private int m_WindowNo = 0;
-	
 	/**	FormFrame			*/
 	//private FormFrame 		m_frame;
 
@@ -119,7 +116,6 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 
 	public WTrxMaterial()
 	{
-		init(super.m_windowNo);
 	}
 	
 	/**
@@ -128,10 +124,9 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 	 *  @param frame frame
 	 */
 	
-	public void init (int WindowNo)
+	protected void initForm()
 	{
 		log.info("");
-		m_WindowNo = WindowNo;
 
 		try
 		{
@@ -253,22 +248,22 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 		
 		MLookup orgLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3660, DisplayType.TableDir);
 		orgField = new WTableDirEditor(orgLookup, "AD_Org_ID", "", false, false, true);
-		orgField.addValueChangeListner(this);
+		orgField.addValueChangeListener(this);
 		
 		//  Locator
 		MLocatorLookup locatorLookup = new MLocatorLookup(ctx, m_WindowNo);
-		locatorField = new WLocatorEditor ("M_Locator_ID", false, false, true, locatorLookup, m_windowNo);
-		locatorField.addValueChangeListner(this);
+		locatorField = new WLocatorEditor ("M_Locator_ID", false, false, true, locatorLookup, m_WindowNo);
+		locatorField.addValueChangeListener(this);
 		
 		//  Product
 		MLookup productLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3668, DisplayType.Search);
 		productField = new WSearchEditor(productLookup, "M_Product_ID", "", false, false, true);
-		productField.addValueChangeListner(this);
+		productField.addValueChangeListener(this);
 		
 		//  Movement Type
 		MLookup mtypeLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3666, DisplayType.List);
 		mtypeField = new WTableDirEditor(mtypeLookup, "MovementType", "", false, false, true);
-		mtypeField.addValueChangeListner(this);
+		mtypeField.addValueChangeListener(this);
 		
 		//	Dates
 		dateFField = new Datebox();//"DateFrom", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateFrom"));
@@ -360,7 +355,7 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 	    			{
 	    				if (gridfields[j].isLookup())
 	    				{
-	    					MLookup lookup = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+	    					MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 	    							0, gridfields[j].getAD_Column_ID(), gridfields[j].getDisplayType());
 	    					
 	    					NamePair namepair = lookup.get(obj);

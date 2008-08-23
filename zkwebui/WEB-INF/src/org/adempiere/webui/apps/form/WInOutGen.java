@@ -125,11 +125,9 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 	
 	public WInOutGen()
 	{
-		init();
-		initComponents();
 	}
 	
-	private void init()
+	protected void initForm()
 	{
 		separator = new Separator();
 		separator.setHeight("5px");
@@ -159,11 +157,11 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
         lstSelect.getModel().addTableModelListener(this);
         
 		btnCancel = new Button();
-		btnCancel.setImage("/images/Cancel24.gif");
+		btnCancel.setImage("/images/Cancel24.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
 		
 		btnOk = new Button();
-		btnOk.setImage("/images/Ok24.gif");
+		btnOk.setImage("/images/Ok24.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
 		
 		lblGenerate = new Label();
@@ -182,6 +180,8 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		
 		populateWarehouse();
         showBusinessPartner();
+        
+        initComponents();
 	}
 	
 	private void initComponents()
@@ -320,26 +320,26 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 	{
 		final int AD_Column_ID = 2223;
 		
-		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 				0, AD_Column_ID, DisplayType.TableDir);
 		
 		warehouseSearch = new WTableDirEditor(lookupBP, Msg.translate(
 				Env.getCtx(), "M_Warehouse_ID"), "", true, false, true);
 
-		warehouseSearch.addValueChangeListner(this);	
+		warehouseSearch.addValueChangeListener(this);	
 	}
 	
 	private void showBusinessPartner()
 	{
 		final int AD_BPartner_ID = 3499;
 		
-		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 				0, AD_BPartner_ID, DisplayType.Search);
 		
 		bPartnerSearch = new WSearchEditor(lookupBP, Msg.translate(
 				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
 
-		bPartnerSearch.addValueChangeListner(this);
+		bPartnerSearch.addValueChangeListener(this);
 	}	
 	
 
@@ -565,7 +565,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		}
 
 		//	Execute Process
-		ProcessCtl worker = new ProcessCtl(null, super.m_windowNo, pi, trx);
+		ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, trx);
 		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
 		
 		lstSelect.clearTable();

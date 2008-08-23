@@ -249,17 +249,17 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 
         Button btnNew = new Button();
         btnNew.setName("btnNew");
-        btnNew.setSrc("/images/New24.gif");
+        btnNew.setSrc("/images/New24.png");
         btnNew.addEventListener(Events.ON_CLICK,this);
         
         Button btnOk = new Button();
         btnOk.setName("btnOkSimple");
-        btnOk.setSrc("/images/Ok24.gif");
+        btnOk.setSrc("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK,this);
         
         Button btnCancel = new Button();
         btnCancel.setName("btnCancel");
-        btnCancel.setSrc("/images/Cancel24.gif");
+        btnCancel.setSrc("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK,this);
         
         Panel pnlButtonRight = new Panel();
@@ -321,18 +321,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private void initAdvanced()
     {
         ToolBarButton btnNew = new ToolBarButton();
-        btnNew.setSrc("/images/New24.gif");
+        btnNew.setSrc("/images/New24.png");
         btnNew.setAttribute("name", "btnNewAdv");
         btnNew.addEventListener(Events.ON_CLICK, this);
         
         ToolBarButton btnDelete = new ToolBarButton();
         btnDelete.setAttribute("name","btnDeleteAdv");
-        btnDelete.setSrc("/images/Delete24.gif");
+        btnDelete.setSrc("/images/Delete24.png");
         btnDelete.addEventListener(Events.ON_CLICK, this);
 
         ToolBarButton btnSave = new ToolBarButton();
         btnSave.setAttribute("name","btnSaveAdv");
-        btnSave.setSrc("/images/Save24.gif");
+        btnSave.setSrc("/images/Save24.png");
         btnSave.addEventListener(Events.ON_CLICK, this);
 
         fQueryName = new Combobox();
@@ -349,12 +349,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		
         Button btnOk = new Button();
         btnOk.setName("btnOkAdv");
-        btnOk.setSrc("/images/Ok24.gif");
+        btnOk.setSrc("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK, this);
         
         Button btnCancel = new Button();
         btnCancel.setName("btnCancel");
-        btnCancel.setSrc("/images/Cancel24.gif");
+        btnCancel.setSrc("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK, this);
         
         Panel pnlButtonRight = new Panel();
@@ -1178,7 +1178,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             m_editor = new WStringEditor(field);
         
         field.addPropertyChangeListener(m_editor);
-        m_editor.addValueChangeListner(this);
+        m_editor.addValueChangeListener(this);
         m_editor.setValue(null);
         m_editor.setReadWrite(enabled);
         m_editor.setVisible(enabled);

@@ -63,7 +63,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
        
         m_columnName = columnName;
         m_Location = mLocation;
-        getComponent().setButtonImage("/images/Location10.gif");
+        getComponent().setButtonImage("/images/Location10.png");
     }
 
     @Override

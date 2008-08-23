@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -39,6 +40,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Space;
 
 
 
@@ -210,7 +212,6 @@ public class WDocActionPanel extends Window implements EventListener
 		lstDocAction.addEventListener(Events.ON_SELECT, this);
 		
         confirmPanel = new ConfirmPanel(true);
-        confirmPanel.addComponentsLeft(confirmPanel.createButton("Process"));
         confirmPanel.addActionListener(Events.ON_CLICK, this);
 		
 	}
@@ -218,7 +219,7 @@ public class WDocActionPanel extends Window implements EventListener
 	private void init()
 	{
 			
-		Grid grid = new Grid();
+		Grid grid = GridFactory.newGridLayout();
         grid.setId("grd");
         grid.setWidth("400px");
 		
@@ -227,7 +228,8 @@ public class WDocActionPanel extends Window implements EventListener
 		Row rowDocAction = new Row();
 		Row rowLabel = new Row();	
         Row rowConfirm = new Row();
-		
+        Row rowSpacer = new Row();
+        
 		Panel pnlDocAction = new Panel();
 		pnlDocAction.appendChild(lblDocAction);
 		pnlDocAction.appendChild(lstDocAction);
@@ -236,8 +238,10 @@ public class WDocActionPanel extends Window implements EventListener
 		rowDocAction.setAlign("right");
 		rowLabel.appendChild(label);
 		rowConfirm.appendChild(confirmPanel);
+		rowSpacer.appendChild(new Space());
 	    rows.appendChild(rowDocAction);
 	    rows.appendChild(rowLabel);
+	    rows.appendChild(rowSpacer);
 	    rows.appendChild(rowConfirm);
 	    
 	    grid.appendChild(rows);
@@ -272,11 +276,7 @@ public class WDocActionPanel extends Window implements EventListener
 			{
 				m_OKpressed = false;
 				this.detach();
-			}
-			else if (confirmPanel.getButton("Process").equals(event.getTarget()))
-			{
-				
-			}
+			}			
 		}
 		else if (Events.ON_SELECT.equals(event.getName()))
 		{

@@ -204,7 +204,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		
 		fAddress = new WLocationEditor("C_Location_ID", false, ro, true, 
 				new MLocationLookup (Env.getCtx(), m_WindowNo));
-		fAddress.addValueChangeListner(this);
+		fAddress.addValueChangeListener(this);
 		fAddress.setValue (null);
 		createLine (fAddress.getComponent(), "C_Location_ID", true)/*.setFontBold(true)*/;
 		

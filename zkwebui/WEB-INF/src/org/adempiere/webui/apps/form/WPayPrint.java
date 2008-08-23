@@ -60,8 +60,6 @@ import org.zkoss.zul.Hbox;
 
 public class WPayPrint extends ADForm implements EventListener
 {
-	/**	Window No			*/
-	private int m_WindowNo = 0;
 
 	/**	Used Bank Account	*/
 	private int	m_C_BankAccount_ID = -1;
@@ -100,13 +98,11 @@ public class WPayPrint extends ADForm implements EventListener
 	
 	public WPayPrint()
 	{
-		init(super.m_windowNo);
 	}
 	
-	public void init (int WindowNo)
+	protected void initForm()
 	{
 		log.info("");
-		m_WindowNo = WindowNo;
 
 		try
 		{
@@ -137,9 +133,9 @@ public class WPayPrint extends ADForm implements EventListener
 		fPaymentRule.setRows(1);
 		fPaymentRule.setMold("select");
 		
-		bCancel.setImage("/images/Cancel24.gif");
-		bPrint.setImage("/images/Print24.gif");
-		bExport.setImage("/images/ExportX24.gif");
+		bCancel.setImage("/images/Cancel24.png");
+		bPrint.setImage("/images/Print24.png");
+		bExport.setImage("/images/ExportX24.png");
 		
 		bPrint.addEventListener(Events.ON_CLICK, this);
 		bExport.addEventListener(Events.ON_CLICK, this);
@@ -626,7 +622,7 @@ public class WPayPrint extends ADForm implements EventListener
 		{
 			MPaySelectionCheck check = m_checks[i];
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, check.get_ID(), null, super.m_windowNo, directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, check.get_ID(), null, m_WindowNo, directPrint);
 			if (!somethingPrinted && ok)
 				somethingPrinted = true;
 		}
@@ -650,7 +646,7 @@ public class WPayPrint extends ADForm implements EventListener
 			for (int i = 0; i < m_checks.length; i++)
 			{
 				MPaySelectionCheck check = m_checks[i];
-				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), null, super.m_windowNo, directPrint);
+				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), null, m_WindowNo, directPrint);
 			}
 		}	//	remittance
 

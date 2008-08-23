@@ -18,16 +18,18 @@
 package org.adempiere.webui.panel;
 
 import java.util.Properties;
+import java.util.ResourceBundle;
 
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.db.CConnection;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Login;
-import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -37,7 +39,6 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Row;
@@ -54,6 +55,8 @@ import org.zkoss.zul.Rows;
 public class RolePanel extends Window implements EventListener
 {
     private static final long serialVersionUID = 1L;
+    
+    private static final String RESOURCE = "org.compiere.apps.ALoginRes";
 
     private LoginWindow wndLogin;
     private Login login;
@@ -94,7 +97,7 @@ public class RolePanel extends Window implements EventListener
         Row logo = new Row();
         logo.setSpans("2");
         Image image = new Image();
-        image.setSrc("images/Logo.gif");
+        image.setSrc("images/logo.png");
         logo.appendChild(image);
         
         Row rowRole = new Row();
@@ -102,27 +105,21 @@ public class RolePanel extends Window implements EventListener
         Row rowOrg = new Row();
         Row rowWarehouse = new Row();
 
-        rowRole.appendChild(lblRole);
+        rowRole.appendChild(lblRole.rightAlign());
         rowRole.appendChild(lstRole);
 
-        rowClient.appendChild(lblClient);
+        rowClient.appendChild(lblClient.rightAlign());
         rowClient.appendChild(lstClient);
 
-        rowOrg.appendChild(lblOrganisation);
+        rowOrg.appendChild(lblOrganisation.rightAlign());
         rowOrg.appendChild(lstOrganisation);
 
-        rowWarehouse.appendChild(lblWarehouse);
+        rowWarehouse.appendChild(lblWarehouse.rightAlign());
         rowWarehouse.appendChild(lstWarehouse);
 
         Row rowButtons = new Row();
-        //rowButtons.setAlign("right");
-        //Label lblButtons = new Label();
-        //rowButtons.appendChild(lblButtons);
-        //Panel pnlButtons = new Panel();
-        //divButtons.appendChild(btnOk);
-        //divButtons.appendChild(btnCancel);
-        WConfirmPanel pnlButtons = new WConfirmPanel(true, false, false, false, false, false, false);
-        pnlButtons.addEventListener(this);
+        ConfirmPanel pnlButtons = new ConfirmPanel(true);
+        pnlButtons.addActionListener(this);
         rowButtons.setSpans("2");
         rowButtons.appendChild(pnlButtons);
 
@@ -143,52 +140,56 @@ public class RolePanel extends Window implements EventListener
 
     private void initComponents()
     {
+    	Language language = Env.getLanguage(Env.getCtx());
+    	
+    	ResourceBundle res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
+    	
         lblErrorMsg = new Label();
         lblErrorMsg.setValue(" ");
 
         lblRole = new Label();
         lblRole.setId("lblRole");
-        lblRole.setValue(Msg.getMsg(Env.getCtx(),"Role")+ ":");
+        lblRole.setValue(res.getString("Role"));
 
         lblClient = new Label();
         lblClient.setId("lblClient");
-        lblClient.setValue(Msg.getMsg(Env.getCtx(),"Client")+ ":");
+        lblClient.setValue(res.getString("Client"));
 
         lblOrganisation = new Label();
         lblOrganisation.setId("lblOrganisation");
-        lblOrganisation.setValue(Msg.getMsg(Env.getCtx(),"Organization")+ " :");
+        lblOrganisation.setValue(res.getString("Organization"));
 
         lblWarehouse = new Label();
         lblWarehouse.setId("lblWarehouse");
-        lblWarehouse.setValue(Msg.getMsg(Env.getCtx(),"Warehouse")+ " :");
+        lblWarehouse.setValue(res.getString("Warehouse"));
 
         lstRole = new Listbox();
         lstRole.setId("lstRole");
         lstRole.setRows(1);
         lstRole.setMold("select");
         lstRole.addEventListener(Events.ON_SELECT, this);
-        lstRole.setWidth("180px");
+        lstRole.setWidth("220px");
 
         lstClient = new Listbox();
         lstClient.setId("lstClient");
         lstClient.setRows(1);
         lstClient.setMold("select");
         lstClient.addEventListener(Events.ON_SELECT, this);
-        lstClient.setWidth("180px");
+        lstClient.setWidth("220px");
 
         lstOrganisation = new Listbox();
         lstOrganisation.setId("lstOrganisation");
         lstOrganisation.setRows(1);
         lstOrganisation.setMold("select");
         lstOrganisation.addEventListener(Events.ON_SELECT, this);
-        lstOrganisation.setWidth("180px");
+        lstOrganisation.setWidth("220px");
 
         lstWarehouse = new Listbox();
         lstWarehouse.setId("lstWarehouse");
         lstWarehouse.setRows(1);
         lstWarehouse.setMold("select");
         lstWarehouse.addEventListener(Events.ON_SELECT, this);
-        lstWarehouse.setWidth("180px");
+        lstWarehouse.setWidth("220px");
 
         btnOk = new Button();
         btnOk.setId("btnOk");
@@ -272,22 +273,11 @@ public class RolePanel extends Window implements EventListener
             else if(eventCompId.equals(lstOrganisation.getId()))
                 updateWarehouseList();
         }
-/*        else if(eventName.equals("onClick"))
-        {
-            if(eventCompId.equals(btnOk.getId()))
-            {
-               validateRoles();
-            }
-            else if(eventCompId.equals(btnCancel.getId()))
-            {
-
-            }
-        }*/
-        if (event.getName().equals(WConfirmPanel.A_OK))
+        if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
         {
             validateRoles();
         }
-        else if (event.getName().equals(WConfirmPanel.A_CANCEL))
+        else if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
         {
             wndLogin.loginCancelled();
         }

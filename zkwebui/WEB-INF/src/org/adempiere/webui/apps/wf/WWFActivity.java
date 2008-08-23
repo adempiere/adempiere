@@ -96,20 +96,18 @@ public class WWFActivity extends ADForm implements EventListener
 		super();
 	}
 	
-    public void init(int adFormId, String name)
+    protected void initForm()
     {
-        super.init(adFormId, name);
-        
         loadActivities();
         
         fAnswerList.setMold("select");
         
-    	bPrevious.setImage("/images/Previous16.gif");
-    	bNext.setImage("/images/Next16.gif");
-    	bZoom.setImage("/images/Zoom16.gif");
-    	bOK.setImage("/images/Ok24.gif");
+    	bPrevious.setImage("/images/Previous16.png");
+    	bNext.setImage("/images/Next16.png");
+    	bZoom.setImage("/images/Zoom16.png");
+    	bOK.setImage("/images/Ok24.png");
     	
-        MLookup lookup = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+        MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
                 0, 10443, DisplayType.Search);
         fForward = new WSearchEditor(lookup, Msg.translate(
                 Env.getCtx(), "AD_User_ID"), "", true, false, true);
@@ -388,7 +386,7 @@ public class WWFActivity extends ADForm implements EventListener
 		fTextMsg.setValue ("");
 		fAnswerText.setVisible(false);
 		fAnswerList.setVisible(false);
-		fAnswerButton.setImage("/images/mWindow.gif");
+		fAnswerButton.setImage("/images/mWindow.png");
 		fAnswerButton.setVisible(false);
 		fTextMsg.setReadonly(m_activities.length == 0);
 //		fTextMsg.setReadWrite(m_activities.length != 0);

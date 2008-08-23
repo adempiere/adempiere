@@ -449,7 +449,7 @@ public class WAcctViewer extends Window implements EventListener
 		displayPanel.appendChild(boxSort3);
 		displayPanel.appendChild(boxSort4);
 		
-		//"images/InfoAccount16.gif"
+		//"images/InfoAccount16.png"
 
 		Groupbox groupDisplay = new Groupbox();
 		Caption capDisplay = new Caption("Display");
@@ -483,11 +483,11 @@ public class WAcctViewer extends Window implements EventListener
 		forcePost.setTooltiptext(Msg.getMsg(Env.getCtx(), "ForceInfo"));
 		forcePost.setVisible(false);
 		
-		bQuery.setImage("/images/Refresh16.gif");
+		bQuery.setImage("/images/Refresh16.png");
 		bQuery.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		bQuery.addEventListener(Events.ON_CLICK, this);
 		
-		bPrint.setImage("/images/Print16.gif");
+		bPrint.setImage("/images/Print16.png");
 		bPrint.setTooltiptext(Msg.getMsg(Env.getCtx(), "Print"));
 		bPrint.addEventListener(Events.ON_CLICK, this);
 		
@@ -600,7 +600,7 @@ public class WAcctViewer extends Window implements EventListener
 		m_data.fillTable(selTable);
 		selTable.addEventListener(Events.ON_SELECT, this);
 		
-		selRecord.setImage("/images/Find16.gif");
+		selRecord.setImage("/images/Find16.png");
 		selRecord.addEventListener(Events.ON_CLICK, this);
 		selRecord.setLabel("");
 
@@ -613,7 +613,7 @@ public class WAcctViewer extends Window implements EventListener
 		selAcct.setName("Account_ID");
 		selAcct.addEventListener(Events.ON_CLICK, this);
 		selAcct.setLabel("");
-		selAcct.setImage("/images/Find16.gif");
+		selAcct.setImage("/images/Find16.png");
 		
 		statusLine.setValue(" " + Msg.getMsg(Env.getCtx(), "ViewerOptions"));
 
@@ -807,7 +807,7 @@ public class WAcctViewer extends Window implements EventListener
 				labels[selectionIndex].setVisible(true);
 				buttons[selectionIndex].setName(columnName); // actionCommand
 				buttons[selectionIndex].addEventListener(Events.ON_CLICK, this);
-				buttons[selectionIndex].setImage("/images/Find16.gif");
+				buttons[selectionIndex].setImage("/images/Find16.png");
 				buttons[selectionIndex].setLabel("");
 				buttons[selectionIndex].setVisible(true);
 				selectionIndex++;

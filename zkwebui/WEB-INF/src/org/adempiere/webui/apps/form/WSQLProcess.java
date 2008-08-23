@@ -73,11 +73,8 @@ public class WSQLProcess extends ADForm implements EventListener
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.adempiere.webui.panel.ADForm#init(int, java.lang.String)
-     */
-    public void init(int adFormId, String name)
+    @Override
+    protected void initForm()
     {
         Row rwTop = new Row();
         Row rwBottom = new Row();
@@ -86,8 +83,6 @@ public class WSQLProcess extends ADForm implements EventListener
         final int maxStatementLength = 9000;
         final int noStatementRows = 3;
         final int noResultRows = 20;
-
-        super.init(adFormId, name);
 
         m_grdMain.setWidth("80%");
 
@@ -133,7 +128,7 @@ public class WSQLProcess extends ADForm implements EventListener
     {
         Button btnProcess = new Button();
 
-        btnProcess.setImage("/images/Process24.gif");
+        btnProcess.setImage("/images/Process24.png");
         btnProcess.setName(Msg.getMsg(Env.getCtx(), "Process"));
 
         return btnProcess;

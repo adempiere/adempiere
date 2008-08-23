@@ -535,9 +535,9 @@ public class WPayment extends Window implements EventListener
 		
 		Hbox boxButtons = new Hbox();
 		
-		btnCancel.setImage("/images/Cancel24.gif");
+		btnCancel.setImage("/images/Cancel24.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
-		btnOk.setImage("/images/Ok24.gif");
+		btnOk.setImage("/images/Ok24.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
 		
 		boxButtons.appendChild(btnCancel);

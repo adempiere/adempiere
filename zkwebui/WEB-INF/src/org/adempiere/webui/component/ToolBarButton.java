@@ -52,4 +52,9 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
     public void setName(String name) {
     	this.name = name;
     }
+
+	@Override
+	public void setTooltiptext(String tooltiptext) {
+		super.setTooltiptext(tooltiptext != null ? tooltiptext.replaceAll("[&]", "") : null);
+	}
 }

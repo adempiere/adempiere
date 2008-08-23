@@ -185,7 +185,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		fBPartner_ID = new WSearchEditor(	
 				MLookupFactory.get(Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
-		fBPartner_ID.addValueChangeListner(this);
+		fBPartner_ID.addValueChangeListener(this);
 		
 		boxBPartner.appendChild(fBPartner_ID.getLabel());
 		boxBPartner.appendChild(fBPartner_ID.getComponent());

@@ -28,7 +28,7 @@ import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
@@ -70,7 +70,7 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 	private Row row;
 
 	/** Confirmation panel containing Ok and Cancel button. */
-    private WConfirmPanel m_pnlConfirm;
+    private ConfirmPanel m_pnlConfirm;
 
 	private WEditor[] from = new WEditor[4];
 	private WEditor[] to = new WEditor[4];
@@ -113,26 +113,25 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 
 	public WMerge()
 	{
-		init();
-		initComponents();
 	}
 
-	public void init()
+	protected void initForm()
 	{
 		grdAll = new Grid();
 		grdAll.setWidth("700px");
 
 		/*btnCancel = new Button();
-		btnCancel.setImage("/images/Cancel24.gif");
+		btnCancel.setImage("/images/Cancel24.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
 
 		btnOk = new Button();
-		btnOk.setImage("/images/Ok24.gif");
+		btnOk.setImage("/images/Ok24.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);*/
 
-        m_pnlConfirm = new WConfirmPanel(true);
-        m_pnlConfirm.addEventListener(this);
+        m_pnlConfirm = new ConfirmPanel(true);
+        m_pnlConfirm.addActionListener(this);
 
+        initComponents();
 	}
 
 	public void initComponents()
@@ -169,36 +168,36 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 
 	private void components()
 	{
-		MLookup lookup = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+		MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 				0, AD_Column_ID[0], DisplayType.TableDir);
 
 		from[0] = new WTableDirEditor(lookup, Msg.translate(
 				Env.getCtx(), text[0]), "from", true, false, true);
 
-		from[0].addValueChangeListner(this);
+		from[0].addValueChangeListener(this);
 
 		to[0] = new WTableDirEditor(lookup, Msg.translate(
 				Env.getCtx(), text[0]), "to", true, false, true);
 
-		to[0].addValueChangeListner(this);
+		to[0].addValueChangeListener(this);
 
 
 		// Search Editors
 
 		for (int i = 1; i < AD_Column_ID.length; i++)
 		{
-			lookup = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+			lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 					0, AD_Column_ID[i], DisplayType.Search);
 
 			from[i] = new WSearchEditor(lookup, Msg.translate(
 					Env.getCtx(), text[i]), "from", true, false, true);
 
-			from[i].addValueChangeListner(this);
+			from[i].addValueChangeListener(this);
 
 			to[i] = new WSearchEditor(lookup, Msg.translate(
 					Env.getCtx(), text[i]), "to", true, false, true);
 
-			to[i].addValueChangeListner(this);
+			to[i].addValueChangeListener(this);
 		}
 	}
 
@@ -539,11 +538,11 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 
 		if (success)
 		{
-			FDialog.info (super.m_windowNo, this, msg);
+			FDialog.info (m_WindowNo, this, msg);
 		}
 		else
 		{
-			FDialog.error(super.m_windowNo, this, "MergeError", m_errorLog.toString());
+			FDialog.error(m_WindowNo, this, "MergeError", m_errorLog.toString());
 			return;
 		}
 	}
@@ -558,12 +557,12 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 	{
 		if (event != null)
 		{
-            if (event.getName().equals(WConfirmPanel.A_CANCEL))
+            if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			{
 				SessionManager.getAppDesktop().removeWindow();
 				return;
 			}
-            else if (event.getName().equals(WConfirmPanel.A_OK))
+            else if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
 			{
 				process();
 			}

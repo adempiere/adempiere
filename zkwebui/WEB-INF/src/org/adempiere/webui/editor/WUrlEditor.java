@@ -34,7 +34,7 @@ public class WUrlEditor extends WEditor
 	public WUrlEditor(GridField gridField) 
 	{
 		super(new Urlbox(), gridField);
-		getComponent().setButtonImage("/images/Online16.gif");
+		getComponent().setButtonImage("/images/Online16.png");
 	}
 	
 

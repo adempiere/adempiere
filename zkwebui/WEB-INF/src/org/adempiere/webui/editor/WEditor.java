@@ -65,6 +65,11 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
     private String columnName;
 
+    /**
+     * 
+     * @param comp
+     * @param gridField
+     */
     public WEditor(Component comp, GridField gridField)
     {
         if (comp == null)
@@ -246,16 +251,26 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         return component;
     }
 
+    /**
+     * @param gridTab
+     */
     public void setGridTab(GridTab gridTab)
     {
     	this.gridTab = gridTab;
     }
 
+    /**
+     * 
+     * @return popup menu instance ( if available )
+     */
     public WEditorPopupMenu getPopupMenu()
     {
         return null;
     }
 
+    /**
+     * @param evt
+     */
     public void propertyChange(PropertyChangeEvent evt)
     {
         if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
@@ -264,16 +279,19 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         }
     }
 
-    public void addValueChangeListner(ValueChangeListener listener)
+    /**
+     * @param listener
+     */
+    public void addValueChangeListener(ValueChangeListener listener)
     {
-        if (listener == null)
+    	if (listener == null)
         {
             return;
         }
 
         listeners.add(listener);
     }
-
+    
     protected void fireValueChange(ValueChangeEvent event)
     {
         for (ValueChangeListener listener : listeners)
@@ -282,21 +300,41 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         }
     }
 
+    /**
+     * 
+     * @return Label
+     */
     public Label getLabel()
     {
         return label;
     }
 
+    /**
+     * 
+     * @param readWrite
+     */
     public abstract void setReadWrite(boolean readWrite);
 
+    /**
+     * 
+     * @return editable
+     */
     public abstract boolean isReadWrite();
 
+    /**
+     * 
+     * @param visible
+     */
     public void setVisible(boolean visible)
     {
         label.setVisible(visible);
         component.setVisible(visible);
     }
 
+    /**
+     * 
+     * @return is visible
+     */
     public boolean isVisible()
     {
         return component.isVisible();
@@ -322,12 +360,28 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         return sb.toString();
     }
 
+    /**
+     * 
+     * @param value
+     */
     abstract public void setValue(Object value);
 
+    /**
+     * 
+     * @return Object
+     */
     abstract public Object getValue();
 
+    /**
+     * 
+     * @return display text
+     */
     abstract public String getDisplay();
 
+    /**
+     * 
+     * @return list of events
+     */
     public String[] getEvents()
     {
         return WEditor.lISTENER_EVENTS;
@@ -344,6 +398,10 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         	label.setMandatory(mandatory);
     }
 
+    /**
+     * 
+     * @return boolean
+     */
     public boolean isMandatory()
     {
         return this.mandatory;

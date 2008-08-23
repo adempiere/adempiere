@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2007 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 2008 Low Heng Sin                                            *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,39 +9,21 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2007 Low Heng Sin hengsin@avantz.com
- * _____________________________________________
  *****************************************************************************/
-package org.adempiere.webui;
+package org.adempiere.webui.component;
 
-import java.util.Properties;
-import net.sf.cglib.proxy.Enhancer;
-
-import org.adempiere.webui.session.SessionManager;
-import org.compiere.util.ContextProvider;
+import org.zkoss.zk.ui.IdSpace;
 
 /**
- * 
+ * Tabpanel use by desktop to host AD Window, implements IdSpace to avoid Id conflict 
  * @author Low Heng Sin
  *
  */
-public class ZkContextProvider implements ContextProvider {
-
-	private final ServerContextCallback callback = new ServerContextCallback();
-	private final Properties context = (Properties) Enhancer.create(Properties.class, callback);
-	
-	/**
-	 * Get server context proxy
-	 */
-	public Properties getContext() {
-		return context;
-	}
+public class DesktopTabpanel extends Tabpanel implements IdSpace {
 
 	/**
-	 * Show url at zk desktop
+	 * generated serail version id
 	 */
-	public void showURL(String url) {
-		SessionManager.getAppDesktop().showURL(url,true);
-	}	 
+	private static final long serialVersionUID = -7142048018260264752L;
+
 }

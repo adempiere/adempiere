@@ -147,15 +147,15 @@ public class WMediaDialog extends Window implements EventListener
 		
 
 		bSave.setEnabled(false);
-		bSave.setSrc("/images/Export24.gif");
+		bSave.setSrc("/images/Export24.png");
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(), "AttachmentSave"));
 		bSave.addEventListener(Events.ON_CLICK, this);
 
-		bLoad.setSrc("/images/Import24.gif");
+		bLoad.setSrc("/images/Import24.png");
 		bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load"));
 		bLoad.addEventListener(Events.ON_CLICK, this);
 
-		bDelete.setSrc("/images/Delete24.gif");
+		bDelete.setSrc("/images/Delete24.png");
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
 		bDelete.addEventListener(Events.ON_CLICK, this);
 
@@ -174,10 +174,10 @@ public class WMediaDialog extends Window implements EventListener
 		southPane.appendChild(confirmPanel);
 		southPane.setHeight("30px");
 		
-		bCancel.setImage("/images/Cancel24.gif");
+		bCancel.setImage("/images/Cancel24.png");
 		bCancel.addEventListener(Events.ON_CLICK, this);
 
-		bOk.setImage("/images/Ok24.gif");
+		bOk.setImage("/images/Ok24.png");
 		bOk.addEventListener(Events.ON_CLICK, this);
 		
 		confirmPanel.appendChild(bCancel);

@@ -29,6 +29,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.apps.graph.WPAPanel;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
@@ -173,7 +174,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         vbCol1.appendChild(gbxFav);
         Caption caption = new Caption("Favourites");
         // Elaine 2008/07/24
-        Image img = new Image("/images/Delete24.gif");
+        Image img = new Image("/images/Delete24.png");
         caption.appendChild(img);
         img.setAlign("right");
         img.setDroppable("deleteFav");
@@ -285,7 +286,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         vbox.appendChild(btnNotice);
         btnNotice.setLabel("Notice : 0");
         btnNotice.setTooltiptext("Notice");
-        btnNotice.setImage("/images/GetMail16.gif");
+        btnNotice.setImage("/images/GetMail16.png");
         int AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Notice' AND IsSummary = 'N'");
         btnNotice.setName(String.valueOf(AD_Menu_ID));
         btnNotice.addEventListener(Events.ON_CLICK, this);
@@ -294,7 +295,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         vbox.appendChild(btnRequest);
         btnRequest.setLabel("Request : 0");
         btnRequest.setTooltiptext("Request");
-        btnRequest.setImage("/images/Request16.gif");
+        btnRequest.setImage("/images/Request16.png");
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Request' AND IsSummary = 'N'");
         btnRequest.setName(String.valueOf(AD_Menu_ID));
         btnRequest.addEventListener(Events.ON_CLICK, this);
@@ -303,7 +304,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         vbox.appendChild(btnWorkflow);
         btnWorkflow.setLabel("Workflow Activities : 0");
         btnWorkflow.setTooltiptext("Workflow Activities");
-        btnWorkflow.setImage("/images/Assignment16.gif");
+        btnWorkflow.setImage("/images/Assignment16.png");
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Workflow Activities' AND IsSummary = 'N'");
         btnWorkflow.setName(String.valueOf(AD_Menu_ID));
         btnWorkflow.addEventListener(Events.ON_CLICK, this);
@@ -522,7 +523,9 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     {
     	Tabpanel tabPanel = new Tabpanel();
     	window.setParent(tabPanel);
-    	windowContainer.addWindow(tabPanel, window.getTitle(), true); 
+    	String title = window.getTitle();
+    	window.setTitle(null);
+    	windowContainer.addWindow(tabPanel, title, true); 
     }
 	
     public void onEvent(Event event)
@@ -719,7 +722,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         {
         	ADWindow adWindow = new ADWindow(Env.getCtx(), menu.getAD_Window_ID());
         	
-        	Tabpanel tabPanel = new Tabpanel();
+        	DesktopTabpanel tabPanel = new DesktopTabpanel();
         	adWindow.createPart(tabPanel);
         	windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
         }
@@ -741,7 +744,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         {
         	ADForm form = ADForm.openForm(menu.getAD_Form_ID());
         	
-        	Tabpanel tabPanel = new Tabpanel();
+        	DesktopTabpanel tabPanel = new DesktopTabpanel();
         	form.setParent(tabPanel);
         	//do not show window title when open as tab
         	form.setTitle(null);
@@ -796,7 +799,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     {
     	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
     	
-    	Tabpanel tabPanel = new Tabpanel();
+    	DesktopTabpanel tabPanel = new DesktopTabpanel();
     	wnd.createPart(tabPanel);
     	windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
 	}

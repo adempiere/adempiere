@@ -18,13 +18,14 @@
 package org.adempiere.webui.panel;
 
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.util.Env;
@@ -52,6 +53,9 @@ import org.zkoss.zul.Listbox;
 public class LoginPanel extends Window implements EventListener
 {
     private static final long serialVersionUID = 1L;
+    
+    private static final String RESOURCE = "org.compiere.apps.ALoginRes";
+    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE);
 
     private Properties ctx;
     private Label lblUserId;
@@ -79,14 +83,13 @@ public class LoginPanel extends Window implements EventListener
     private void init()
     {
         Grid grid = new Grid();
-        //grid.setSclass("grid-no-striped");
         grid.setOddRowSclass("even");
         grid.setId("grdLogin");
         Rows rows = new Rows();
         Row logo = new Row();
         logo.setSpans("2");
         Image image = new Image();
-        image.setSrc("images/Logo.gif");
+        image.setSrc("images/logo.png");
         logo.appendChild(image);        
         Row rowUser = new Row();
         rowUser.setId("rowUser");
@@ -95,24 +98,19 @@ public class LoginPanel extends Window implements EventListener
         Row rowLanguage = new Row();
         rowLanguage.setId("rowLanguage");
 
-        rowUser.appendChild(lblUserId);
-        rowUser.appendChild(this.txtUserId);
+        rowUser.appendChild(lblUserId.rightAlign());
+        rowUser.appendChild(txtUserId);
 
-        rowPassword.appendChild(lblPassword);
+        rowPassword.appendChild(lblPassword.rightAlign());
         rowPassword.appendChild(txtPassword);
 
-        rowLanguage.appendChild(lblLanguage);
+        rowLanguage.appendChild(lblLanguage.rightAlign());
         rowLanguage.appendChild(lstLanguage);
 
         Row rowButtons = new Row();
-        //rowButtons.setAlign("right");
-        //Label lblButtons = new Label();
         rowButtons.setSpans("2");
-        //rowButtons.appendChild(lblButtons);
-        WConfirmPanel pnlButtons = new WConfirmPanel(false);
-        pnlButtons.addEventListener(this);
-        //pnlButtons.appendChild(btnOk);
-        //pnlButtons.appendChild(btnCancel);
+        ConfirmPanel pnlButtons = new ConfirmPanel(false);
+        pnlButtons.addActionListener(this);
         rowButtons.appendChild(pnlButtons);
 
         rows.appendChild(logo);
@@ -128,21 +126,22 @@ public class LoginPanel extends Window implements EventListener
     {
         lblUserId = new Label();
         lblUserId.setId("lblUserId");
-        lblUserId.setValue("User ID: ");
+        lblUserId.setValue("User ID");
 
         lblPassword = new Label();
         lblPassword.setId("lblPassword");
-        lblPassword.setValue("Password: ");
+        lblPassword.setValue("Password");
 
         lblLanguage = new Label();
         lblLanguage.setId("lblLanguage");
-        lblLanguage.setValue("Language: ");
+        lblLanguage.setValue("Language");
 
         txtUserId = new Textbox();
         txtUserId.setId("txtUserId");
         txtUserId.setConstraint("no empty");
         txtUserId.setCols(25);
         txtUserId.setMaxlength(40);
+        txtUserId.setWidth("220px");
 
         txtPassword = new Textbox();
         txtPassword.setId("txtPassword");
@@ -150,13 +149,14 @@ public class LoginPanel extends Window implements EventListener
         txtPassword.setType("password");
         txtPassword.setCols(25);
         txtPassword.setMaxlength(40);
+        txtPassword.setWidth("220px");
 
         lstLanguage = new Listbox();
         lstLanguage.setId("lstLanguage");
         lstLanguage.setRows(1);
         lstLanguage.setMold("select");
         lstLanguage.addEventListener(Events.ON_SELECT, this);
-        lstLanguage.setWidth("180px");
+        lstLanguage.setWidth("220px");
         
         // Update Language List
         lstLanguage.getItems().clear();
@@ -165,23 +165,13 @@ public class LoginPanel extends Window implements EventListener
     		Language language = Language.getLanguage(langName);
 			lstLanguage.appendItem(langName, language.getAD_Language());
 		}
-
-/*        btnOk = new Button();
-        btnOk.setName("btnOk");
-        btnOk.setLabel("Ok");
-        btnOk.addEventListener(EventConstants.ONCLICK, this);
-
-        btnCancel = new Button();
-        btnCancel.setName("btnCancel");
-        btnCancel.setLabel("Cancel");
-        btnCancel.addEventListener(EventConstants.ONCLICK, this);*/
    }
 
     public void onEvent(Event event)
     {
         Component eventComp = event.getTarget();
 
-        if (event.getName().equals(WConfirmPanel.A_OK))
+        if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
         {
             validateLogin();
         }
@@ -192,6 +182,11 @@ public class LoginPanel extends Window implements EventListener
             	Env.setContext(ctx, Env.LANGUAGE, langName);
         		Language language = Language.getLanguage(langName);
             	Env.verifyLanguage(ctx, language);
+            	
+            	res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
+            	lblUserId.setValue(res.getString("User"));
+            	lblPassword.setValue(res.getString("Password"));
+            	lblLanguage.setValue(res.getString("Language"));
             }
         }
     }
@@ -209,7 +204,17 @@ public class LoginPanel extends Window implements EventListener
             throw new WrongValueException("User Id or Password invalid!!!");
 
         else
+        {
+        	String langName = null;
+        	if ( lstLanguage.getSelectedItem() != null )
+        		langName = (String) lstLanguage.getSelectedItem().getValue();
+        	else
+        		langName = Language.getBaseLanguage().getName();
+        	Env.setContext(ctx, Env.LANGUAGE, langName);
+    		Language language = Language.getLanguage(langName);
+        	Env.verifyLanguage(ctx, language);
             wndLogin.loginOk(userId, userPassword);
+        }
     }
 
     public boolean isAsap()

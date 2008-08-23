@@ -86,7 +86,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
             zoomItem = new Menuitem();
             zoomItem.setAttribute(EVENT_ATTRIBUTE, ZOOM_EVENT);
             zoomItem.setLabel("Zoom");
-            zoomItem.setImage("/images/Zoom16.gif");
+            zoomItem.setImage("/images/Zoom16.png");
             zoomItem.addEventListener(Events.ON_CLICK, this);
             
             this.appendChild(zoomItem);
@@ -97,7 +97,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
             requeryItem = new Menuitem();
             requeryItem.setAttribute(EVENT_ATTRIBUTE, REQUERY_EVENT);
             requeryItem.setLabel("ReQuery");
-            requeryItem.setImage("/images/Refresh16.gif");
+            requeryItem.setImage("/images/Refresh16.png");
             requeryItem.addEventListener(Events.ON_CLICK, this);
             this.appendChild(requeryItem);
         }
@@ -107,7 +107,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
             prefItem = new Menuitem();
             prefItem.setAttribute(EVENT_ATTRIBUTE, PREFERENCE_EVENT);
             prefItem.setLabel("Value Preference");
-            prefItem.setImage("/images/VPreference16.gif");
+            prefItem.setImage("/images/VPreference16.png");
             prefItem.addEventListener(Events.ON_CLICK, this);
             this.appendChild(prefItem);
         }
@@ -117,7 +117,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         	newItem = new Menuitem();
         	newItem.setAttribute(EVENT_ATTRIBUTE, NEW_EVENT);
         	newItem.setLabel("New Record");
-        	newItem.setImage("/images/New16.gif");
+        	newItem.setImage("/images/New16.png");
         	newItem.addEventListener(Events.ON_CLICK, this);
         	this.appendChild(newItem);
         }

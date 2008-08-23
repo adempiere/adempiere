@@ -130,7 +130,6 @@ public class WStatusBar extends Grid implements EventListener
 */        }
         statusLine.setValue(mt_text);
         //
-        Thread.yield();
     } // setStatusLine
     
     /**

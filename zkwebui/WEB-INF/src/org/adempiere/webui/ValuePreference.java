@@ -142,7 +142,7 @@ public class ValuePreference extends Window implements EventListener
 	/** The Name of the Editor      */
 	public static final String      NAME = "ValuePreference";
 	/** The Menu Icon               */
-	private static String ICON_URL = "images/VPreference16.gif";
+	private static String ICON_URL = "images/VPreference16.png";
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ValuePreference.class);
 	

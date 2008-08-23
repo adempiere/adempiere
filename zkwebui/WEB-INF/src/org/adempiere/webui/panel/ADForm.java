@@ -52,7 +52,7 @@ public abstract class ADForm extends Window implements EventListener
     /** The unique identifier of the form type */
     private int m_adFormId;
     /** The identifying number of the window in which the form is housed */ 
-    protected int m_windowNo;
+    protected int m_WindowNo;
 
 
 	private String m_name;
@@ -65,7 +65,7 @@ public abstract class ADForm extends Window implements EventListener
      */
     protected ADForm()
     {
-         m_windowNo = SessionManager.getAppDesktop().registerWindow(this);
+         m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
          
          this.setWidth("100%");
          this.setHeight("95%");
@@ -75,7 +75,7 @@ public abstract class ADForm extends Window implements EventListener
     
     protected int getWindowNo()
     {
-    	return m_windowNo;
+    	return m_WindowNo;
     }
     
     protected int getAdFormId()
@@ -102,10 +102,12 @@ public abstract class ADForm extends Window implements EventListener
         setTitle(name);
         m_name = name;
         
-        return;
+        initForm();
     }
     
-    /**
+    abstract protected void initForm();
+
+	/**
      * @return form name
      */
     public String getFormName() {

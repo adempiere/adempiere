@@ -38,7 +38,7 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
@@ -121,7 +121,7 @@ public class WCharge extends ADForm implements EventListener
     private WListbox m_tblData = new WListbox();
 
     /** confirmation panel. */
-    private WConfirmPanel m_pnlConfirm = new WConfirmPanel();
+    private ConfirmPanel m_pnlConfirm = new ConfirmPanel();
     /** Confirmation Grid. */
     private Grid m_grdConfirm = new Grid();
 
@@ -201,9 +201,8 @@ public class WCharge extends ADForm implements EventListener
      * @param adFormId  The Adempiere identifier for the form
      * @param name      The name of the form
      */
-    public void init(int adFormId, String name)
+    protected void initForm()
     {
-        super.init(adFormId, name);
         log.info("");
         try
         {
@@ -508,7 +507,7 @@ public class WCharge extends ADForm implements EventListener
     {
         log.info(event.getName());
         //
-        if (event.getName().equals(WConfirmPanel.A_OK) || m_elementId == 0)
+        if (event.getTarget().getId().equals(ConfirmPanel.A_OK) || m_elementId == 0)
         {
             close();
         }
@@ -556,17 +555,17 @@ public class WCharge extends ADForm implements EventListener
         int elementValueId = createElementValue (value, name, m_chbIsExpense.isChecked());
         if (elementValueId == 0)
         {
-            FDialog.error(m_windowNo, this, "ChargeNotCreated", name);
+            FDialog.error(m_WindowNo, this, "ChargeNotCreated", name);
             return;
         }
         //  Create Charge
         int chargeId = createCharge(name, elementValueId);
         if (chargeId == 0)
         {
-            FDialog.error(m_windowNo, this, "ChargeNotCreated", name);
+            FDialog.error(m_WindowNo, this, "ChargeNotCreated", name);
             return;
         }
-        FDialog.info(m_windowNo, this, "ChargeCreated", name);
+        FDialog.info(m_WindowNo, this, "ChargeCreated", name);
     }   //  createNew
 
 
@@ -787,11 +786,11 @@ public class WCharge extends ADForm implements EventListener
         }
         if (listCreated.length() > 0)
         {
-            FDialog.info(m_windowNo, this, "ChargeCreated", listCreated.toString());
+            FDialog.info(m_WindowNo, this, "ChargeCreated", listCreated.toString());
         }
         if (listRejected.length() > 0)
         {
-            FDialog.error(m_windowNo, this, "ChargeNotCreated", listRejected.toString());
+            FDialog.error(m_WindowNo, this, "ChargeNotCreated", listRejected.toString());
         }
 
         return;
@@ -887,7 +886,7 @@ public class WCharge extends ADForm implements EventListener
     {
         Rows rows = new Rows();
         Row row = new Row();
-        m_pnlConfirm.addEventListener(this);
+        m_pnlConfirm.addActionListener(this);
         row.appendChild(m_pnlConfirm);
         rows.appendChild(row);
         m_grdConfirm.appendChild(rows);

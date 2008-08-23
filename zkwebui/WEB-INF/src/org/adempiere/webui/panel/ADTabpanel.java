@@ -279,7 +279,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
             			else
             			{
             				ToolBar toolbar = new ToolBar();
-            				Toolbarbutton button = new Toolbarbutton(fieldGroup, "images/ns-collapse.gif");
+            				Toolbarbutton button = new Toolbarbutton(fieldGroup, "images/ns-collapse.png");
             				button.addEventListener(Events.ON_CLICK, this);
             				button.setParent(toolbar);
             				row.appendChild(toolbar);
@@ -351,7 +351,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     }
                     else
                     {
-                    	editor.addValueChangeListner(this);
+                    	editor.addValueChangeListener(this);
                     }
                     
                     if (editor.getComponent() instanceof HtmlBasedComponent) {
@@ -638,12 +638,12 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     			for (Row row : list) {
     				row.setVisible(false);
     			}
-    			button.setImage("images/ns-expand.gif");
+    			button.setImage("images/ns-expand.png");
     		} else {
     			for (Row row : list) {
     				row.setVisible(true);
     			}
-    			button.setImage("images/ns-collapse.gif");
+    			button.setImage("images/ns-collapse.png");
     		}
     	} else if (event.getTarget() instanceof Listbox) 
     	{

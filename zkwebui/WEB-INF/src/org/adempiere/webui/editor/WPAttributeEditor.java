@@ -65,7 +65,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	}
 	
 	private void initComponents() {
-		getComponent().setButtonImage("images/PAttribute10.gif");
+		getComponent().setButtonImage("images/PAttribute10.png");
 		getComponent().addEventListener(Events.ON_CLICK, this);
 		
 		m_WindowNo = gridField.getWindowNo();

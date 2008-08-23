@@ -124,7 +124,7 @@ public class AboutWindow extends Window implements EventListener {
 		hbox.setPack("end");
 		hbox.setWidth("100%");
 		Button btnOk = new Button();
-		btnOk.setImage("/images/Ok24.gif");
+		btnOk.setImage("/images/Ok24.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
 		btnOk.setParent(hbox);
 		

@@ -41,6 +41,15 @@ html,body {
 	font-size: 10px;
 }
 
+.action-button {
+	height: 32px;
+	width: 48px;
+}
+
+div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
+	background-color: white;
+}
+
 <%-- desktop tabbox --%>
 .desktop-tb {
 	position:absolute;

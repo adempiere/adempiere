@@ -42,7 +42,7 @@ public class WFilenameEditor extends WEditor
 	public WFilenameEditor(GridField gridField) 
 	{
 		super(new FilenameBox(), gridField);
-		getComponent().setButtonImage("/images/Open16.gif");
+		getComponent().setButtonImage("/images/Open16.png");
 		getComponent().addEventListener(Events.ON_CLICK, this);
 	}
 	

@@ -29,9 +29,9 @@ import org.compiere.util.Language;
  * @version $Revision: 0.10 $
  */
 @SuppressWarnings("serial")
-public final class WebContext extends Properties
+public final class ServerContext extends Properties
 {
-    public WebContext()
+    private ServerContext()
     {
         super();
         /**
@@ -40,21 +40,46 @@ public final class WebContext extends Properties
         this.put(Env.LANGUAGE, Language.getBaseAD_Language());        
     }
     
-    private static InheritableThreadLocal context = new InheritableThreadLocal() {
-        protected WebContext initialValue()
+    private static InheritableThreadLocal<ServerContext> context = new InheritableThreadLocal<ServerContext>() {
+        protected ServerContext initialValue()
         {
-            return new WebContext();
+            return new ServerContext();
         }
     };
     
-    public static WebContext getCurrentInstance()
+    /**
+     * Get server context for current thread
+     * @return ServerContext
+     */
+    public static ServerContext getCurrentInstance()
     {
-        return (WebContext)context.get();
+        return (ServerContext)context.get();
     }
     
-    @SuppressWarnings("unchecked")
-    public static void setCurrentInstance(WebContext webCtx)
+    /**
+     * dispose server context for current thread
+     */
+    public static void dispose()
     {
-        context.set(webCtx);
+    	context.remove();
+    }
+    
+    /**
+     * Allocate new server context for current thread
+     * @return ServerContext
+     */
+    public static ServerContext newInstance() 
+    {
+    	dispose();
+    	return getCurrentInstance();
+    }
+    
+    /**
+     * Set server context for current thread
+     * @param ctx
+     */
+    public static void setCurrentInstance(ServerContext ctx)
+    {
+        context.set(ctx);
     }
 }

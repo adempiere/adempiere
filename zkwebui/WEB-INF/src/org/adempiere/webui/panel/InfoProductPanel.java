@@ -172,7 +172,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		lblVendor.setValue(Msg.translate(Env.getCtx(), "Vendor"));	
 		
 	/*	p_attributeInfo = new Button();
-		p_attributeInfo.setImage("/images/PAttribute16.gif");
+		p_attributeInfo.setImage("/images/PAttribute16.png");
 		p_attributeInfo.setTooltiptext("Poduct Atribute Info");
 		p_attributeInfo.addEventListener(Events.ON_CLICK,this);*/
 		

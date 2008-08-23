@@ -34,7 +34,7 @@ import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.WConfirmPanel;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
@@ -147,7 +147,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	private Iframe iframe;
 	
 	private Window winExportFile = null;
-	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Listbox cboType = new Listbox();
 //	private ArrayList<ValueNamePair> fileTypes = new ArrayList<ValueNamePair>();
 	
@@ -208,38 +208,38 @@ public class ZkReportViewer extends Window implements EventListener {
 		comboReport.setTooltiptext(Msg.translate(m_ctx, "AD_PrintFormat_ID"));
 		toolBar.appendChild(comboReport);
 		
-		bCustomize.setImage("/images/Preference24.gif");
+		bCustomize.setImage("/images/Preference24.png");
 		bCustomize.setTooltiptext("Customize Report");
 		toolBar.appendChild(bCustomize);
 		bCustomize.addEventListener(Events.ON_CLICK, this);
 		
-		bFind.setImage("/images/Find24.gif");
+		bFind.setImage("/images/Find24.png");
 		bFind.setTooltiptext("Lookup Record");
 		toolBar.appendChild(bFind);
 		bFind.addEventListener(Events.ON_CLICK, this);
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
-//		bPrint.setImage("/images/Print24.gif");
+//		bPrint.setImage("/images/Print24.png");
 //		bPrint.setTooltiptext("Print");
 //		toolBar.appendChild(bPrint);
 //		bPrint.addEventListener(Events.ON_CLICK, this);
 //
 //		toolBar.appendChild(new Separator("vertical"));
 
-		bSendMail.setImage("/images/SendMail24.gif");
+		bSendMail.setImage("/images/SendMail24.png");
 		bSendMail.setTooltiptext("Send Mail");
 		toolBar.appendChild(bSendMail);
 		bSendMail.addEventListener(Events.ON_CLICK, this);
 		
-		bArchive.setImage("/images/Archive24.gif");
+		bArchive.setImage("/images/Archive24.png");
 		bArchive.setTooltiptext("Archived Documents/Reports");
 		toolBar.appendChild(bArchive);
 		bArchive.addEventListener(Events.ON_CLICK, this);
 		
 		if (m_isCanExport)
 		{
-			bExport.setImage("/images/ExportX24.gif");
+			bExport.setImage("/images/ExportX24.png");
 			bExport.setTooltiptext("Export");
 			toolBar.appendChild(bExport);
 			bExport.addEventListener(Events.ON_CLICK, this);
@@ -247,7 +247,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
-		bRefresh.setImage("/images/Refresh24.gif");
+		bRefresh.setImage("/images/Refresh24.png");
 		bRefresh.setTooltiptext("Refresh");
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
@@ -423,9 +423,9 @@ public class ZkReportViewer extends Window implements EventListener {
 
 	public void onEvent(Event event) throws Exception {
 		
-		if(event.getName().equals(WConfirmPanel.A_CANCEL))
+		if(event.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			winExportFile.onClose();
-		else if(event.getName().equals(WConfirmPanel.A_OK))			
+		else if(event.getTarget().getId().equals(ConfirmPanel.A_OK))			
 			exportFile();
 		else if(event.getName().equals(Events.ON_CLICK) || event.getName().equals(Events.ON_SELECT)) 
 			actionPerformed(event);
@@ -527,7 +527,7 @@ public class ZkReportViewer extends Window implements EventListener {
 				return;
 			//	Create Menu
 			Menupopup pop = new Menupopup();
-//			Icon wi = Env.getImageIcon("mWindow.gif");
+//			Icon wi = Env.getImageIcon("mWindow.png");
 			if (m_ddQ != null)
 			{
 				m_ddM = new Menuitem(m_ddQ.getDisplayName(Env.getCtx()));
@@ -707,7 +707,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			winExportFile.appendChild(vb);
 			vb.appendChild(hb);
 			vb.appendChild(confirmPanel);	
-			confirmPanel.addEventListener(this);
+			confirmPanel.addActionListener(this);
 		}
 		
 		AEnv.showCenterScreen(winExportFile);

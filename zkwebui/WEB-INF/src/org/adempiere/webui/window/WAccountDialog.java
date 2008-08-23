@@ -169,13 +169,13 @@ public final class WAccountDialog extends Window
 		toolBar.setOrient("vertical");
 		toolBar.setStyle("border: none; margin: 5px");
 		
-		bSave.setImage("images/Save24.gif");
+		bSave.setImage("images/Save24.png");
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"AccountNewUpdate"));
 		bSave.addEventListener(Events.ON_CLICK, this);
-		bRefresh.setImage("images/Refresh24.gif");
+		bRefresh.setImage("images/Refresh24.png");
 		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(),"Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
-		bIgnore.setImage("images/Ignore24.gif");
+		bIgnore.setImage("images/Ignore24.png");
 		bIgnore.setTooltiptext(Msg.getMsg(Env.getCtx(),"Ignore"));
 		bIgnore.addEventListener(Events.ON_CLICK, this);
 		//
@@ -320,7 +320,7 @@ public final class WAccountDialog extends Window
 				f_Account_ID = WebEditorFactory.getEditor(field, false);
 			//	((VLookup)f_Account_ID).setWidth(400);
 				addLine(field, f_Account_ID, isMandatory);
-				f_Account_ID.addValueChangeListner(this);
+				f_Account_ID.addValueChangeListener(this);
 			}
 			else if (type.equals(MAcctSchemaElement.ELEMENTTYPE_SubAccount))
 			{

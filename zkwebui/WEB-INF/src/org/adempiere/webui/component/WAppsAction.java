@@ -17,28 +17,23 @@
 
 package org.adempiere.webui.component;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URI;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-
-
 
 /**
  *  Application Action.
- *      Creates Action with MenuItem and Button, delegate execution of action to an attached ActionListener instance
+ *      Creates Action with Button
  *      The ActionCommand is translated for display
  *      If translated text contains &, the next character is the Mnemonic
  *
  *  @author     Andrew Kimball
  */
-public class WAppsAction implements EventListener
+public class WAppsAction
 {
     /**
     *
@@ -88,7 +83,6 @@ public class WAppsAction implements EventListener
        int pos = newToolTipText.indexOf('&');
        if (pos != -1  && newToolTipText.length() > pos)   //  We have a nemonic - creates ALT-_
        {
-           // TODO create mnemonic
            Character ch = new Character(newToolTipText.toLowerCase().charAt(pos + 1));
            if (ch != ' ')
            {
@@ -100,38 +94,31 @@ public class WAppsAction implements EventListener
            }
        }
        //
-       //Image small = getImage(action, true);
        URI large = getImage(action, false);
-       //Image largePressed = null;
-
-       //  Attributes
-
-       m_button = new Button();
-
-       m_button.setTooltiptext(newToolTipText);                 //  Display
 
        //  Create Button
-
-       m_button.setName(action);
-       //  Correcting Action items
+       m_button = new Button();
+       m_button.setTooltiptext(newToolTipText);                 //  Display
+       m_button.setName("btn" + action);
+       m_button.setId(action);
+       
+       //Image only if image is available
        if (large != null)
        {
            m_button.setImage(large.getPath());
-           //m_button.setImage("/images/Cancel16.gif");
            m_button.setLabel(null);
        }
-       m_button.setWidth(Integer.toString(Double.valueOf(BUTTON_SIZE.getWidth()).intValue()));
-       m_button.setHeight(Integer.toString(Double.valueOf(BUTTON_SIZE.getHeight()).intValue()));
+       else
+       {
+    	   m_button.setLabel(newToolTipText);
+       }
+       LayoutUtils.addSclass("action-button", m_button);
    }   //  Action
-
-   /** Button Size                 */
-   public static final Dimension   BUTTON_SIZE = new Dimension(28,28);
-   /** CButton or CToggelButton    */
+   
    private Button  m_button;
 
    private String m_action = null;
    private String m_accelerator = null;
-   private EventListener m_delegate = null;
 
    /**
     *  Get Icon with name action
@@ -142,7 +129,7 @@ public class WAppsAction implements EventListener
    private URI getImage(String name, boolean small) throws IOException
    {
        String fullName = name + (small ? "16" : "24");
-       URI uri = AEnv.getImage2(fullName);
+       URI uri = AEnv.getImage(fullName + ".png");
        return uri;
    }   //  getIcon
 
@@ -164,44 +151,6 @@ public class WAppsAction implements EventListener
        return m_button;
    }   //  getButton
 
-
-    /**
-     *  Set Delegate to receive the actionPerformed calls
-     *  @param listener listener
-     *  @throws IllegalArgumentException if the listener is not a window. This
-     *  exception can be ignored as events will still be fired for button presses.
-     */
-    public void setDelegate(EventListener listener) throws IllegalArgumentException
-    {
-        m_button.addEventListener(Events.ON_CLICK, this);
-        m_delegate = listener;
-
-        if (listener instanceof Window)
-        {
-            ((Window) listener).setCtrlKeys(this.m_accelerator);
-            ((Window) listener).addEventListener(Events.ON_CTRL_KEY, this);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Functionality has been restricted. "
-                    + " as a result of the listener not being a Window. "
-                    + "Consequently, it is unable to respond to keystrokes");
-        }
-
-        return;
-    }   //  setDelegate
-
-    /* (non-Javadoc)
-     * @see org.zkoss.zk.ui.event.EventListener#onEvent(org.zkoss.zk.ui.event.Event)
-     */
-    public void onEvent(Event event) throws Exception
-    {
-        // TODO Auto-generated method stub
-        Event newEvent = new Event(this.m_action, event.getTarget());
-        m_delegate.onEvent(newEvent);
-
-        return;
-    }
 
     public String getCtrlKeys()
     {

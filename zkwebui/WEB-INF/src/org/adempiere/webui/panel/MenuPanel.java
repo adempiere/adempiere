@@ -165,13 +165,13 @@ public class MenuPanel extends Panel implements EventListener
                 treeitem.setValue(String.valueOf(mChildNode.getNode_ID()));
                 
                 if (mChildNode.isReport())
-                	treeitem.setImage("/images/mReport.gif");
+                	treeitem.setImage("/images/mReport.png");
                 else if (mChildNode.isProcess())
-                	treeitem.setImage("/images/mProcess.gif");
+                	treeitem.setImage("/images/mProcess.png");
                 else if (mChildNode.isWorkFlow())
-                	treeitem.setImage("/images/mWorkFlow.gif");
+                	treeitem.setImage("/images/mWorkFlow.png");
                 else
-                	treeitem.setImage("/images/mWindow.gif");
+                	treeitem.setImage("/images/mWindow.png");
                 
                 treeitem.getTreerow().setDraggable("favourite"); // Elaine 2008/07/24
                 pnlSearch.addTreeItem(treeitem);

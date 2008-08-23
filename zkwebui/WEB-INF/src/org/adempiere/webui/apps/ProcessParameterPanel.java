@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
@@ -72,7 +73,7 @@ implements ValueChangeListener, IProcessParameter
 		}	//	ProcessParameterPanel
 
 		private void initComponent() {
-			centerPanel = new Grid();
+			centerPanel = GridFactory.newGridLayout();
 			this.appendChild(centerPanel);
 		}
 
@@ -233,7 +234,7 @@ implements ValueChangeListener, IProcessParameter
 			
 			//	The Editor
 			WEditor wEditor = WebEditorFactory.getEditor(mField, false);
-			wEditor.addValueChangeListner(this);
+			wEditor.addValueChangeListener(this);
 			//  MField => VEditor - New Field value to be updated to editor
 			mField.addPropertyChangeListener(wEditor);
 			//  Set Default
@@ -422,13 +423,6 @@ implements ValueChangeListener, IProcessParameter
 		public void valueChange(ValueChangeEvent evt) 
 		{
 			String value = evt.getNewValue() == null ? "" : evt.getNewValue().toString();
-            
-            if (evt.getSource() instanceof WEditor)
-            {
-                WEditor comp = (WEditor)(evt.getSource());
-                comp.setValue(value);
-                
-            }
 			Env.setContext(Env.getCtx(), m_WindowNo, evt.getPropertyName(), value);
 			
 		}

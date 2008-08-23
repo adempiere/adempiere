@@ -84,7 +84,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		
 		m_columnName = columnName;
 		m_mLocator = mLocator;
-		getComponent().setButtonImage("/images/Locator10.gif");
+		getComponent().setButtonImage("/images/Locator10.png");
 		
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
 		

@@ -75,7 +75,7 @@ public class WPerformanceIndicator extends Panel implements EventListener
 	private static DecimalFormat	s_format = DisplayType.getNumberFormat(DisplayType.Integer);
 
 	Menupopup 					popupMenu = new Menupopup();
-	private Menuitem 			mRefresh = new Menuitem(Msg.getMsg(Env.getCtx(), "Refresh"), "/images/Refresh16.gif");
+	private Menuitem 			mRefresh = new Menuitem(Msg.getMsg(Env.getCtx(), "Refresh"), "/images/Refresh16.png");
         
     //Insert Pie Graph Kinamo (pelgrim)
 //	private static Color				colorOK = Color.magenta;

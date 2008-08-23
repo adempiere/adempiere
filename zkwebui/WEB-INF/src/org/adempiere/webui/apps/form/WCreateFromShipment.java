@@ -114,7 +114,7 @@ public class WCreateFromShipment extends WCreateFrom implements ValueChangeListe
 		locatorField = new WLocatorEditor ("M_Locator_ID", true, false, true,	locator, p_WindowNo);
 
 		initBPartner(false);
-		bPartnerField.addValueChangeListner(this);
+		bPartnerField.addValueChangeListener(this);
 		
 		locatorLabel.setMandatory(true);
 		return true;

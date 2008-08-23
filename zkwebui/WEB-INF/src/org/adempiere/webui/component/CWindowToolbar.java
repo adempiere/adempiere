@@ -86,130 +86,130 @@ public class CWindowToolbar extends FToolbar implements EventListener
     	
         btnIgnore = new ToolBarButton();
         btnIgnore.setName("btnIgnore");
-        btnIgnore.setImage("/images/Ignore16.gif");
+        btnIgnore.setImage("/images/Ignore16.png");
         btnIgnore.setTooltiptext(Msg.getMsg(Env.getCtx(),"Ignore"));
         // --
         btnHelp = new ToolBarButton("");
         btnHelp.setName("btnHelp");
-        btnHelp.setImage("/images/Help24.gif");
+        btnHelp.setImage("/images/Help24.png");
         btnHelp.setTooltiptext(Msg.getMsg(Env.getCtx(),"Help"));
 
         btnNew = new ToolBarButton("");
         btnNew.setName("btnNew");
-        btnNew.setImage("/images/New24.gif");
+        btnNew.setImage("/images/New24.png");
         btnNew.setTooltiptext(Msg.getMsg(Env.getCtx(),"New"));
         
         btnDelete = new ToolBarButton("");
         btnDelete.setName("btnDelete");
-        btnDelete.setImage("/images/Delete24.gif");
+        btnDelete.setImage("/images/Delete24.png");
         btnDelete.setTooltiptext(Msg.getMsg(Env.getCtx(),"Delete"));
 
         btnSave = new ToolBarButton("");
         btnSave.setName("btnSave");
-        btnSave.setImage("/images/Save24.gif");
+        btnSave.setImage("/images/Save24.png");
         btnSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"Save"));
         // --
         btnRefresh = new ToolBarButton("");
         btnRefresh.setName("btnRefresh");
-        btnRefresh.setImage("/images/Refresh24.gif");
+        btnRefresh.setImage("/images/Refresh24.png");
         btnRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(),"Refresh"));
 
         btnFind = new ToolBarButton("");
         btnFind.setName("btnFind");
-        btnFind.setImage("/images/Find24.gif");
+        btnFind.setImage("/images/Find24.png");
         btnFind.setTooltiptext(Msg.getMsg(Env.getCtx(),"Find"));
 
         btnAttachment = new ToolBarButton("");
         btnAttachment.setName("btnAttachment");
-        btnAttachment.setImage("/images/Attachment24.gif");
+        btnAttachment.setImage("/images/Attachment24.png");
         btnAttachment.setTooltiptext(Msg.getMsg(Env.getCtx(),"Attachment"));
         // --
         
         btnGridToggle = new ToolBarButton("");
         btnGridToggle.setName("btnGridToggle");
-        btnGridToggle.setImage("/images/Multi24.gif");
+        btnGridToggle.setImage("/images/Multi24.png");
         btnGridToggle.setTooltiptext(Msg.getMsg(Env.getCtx(),"Multi"));
         
         btnHistoryRecords = new ToolBarButton("");
         btnHistoryRecords.setName("btnHistoryRecords");
-        btnHistoryRecords.setImage("/images/HistoryX24.gif");
+        btnHistoryRecords.setImage("/images/HistoryX24.png");
         btnHistoryRecords.setTooltiptext(Msg.getMsg(Env.getCtx(),"History"));
 
         btnMenu = new ToolBarButton("");
         btnMenu.setName("btnHome");
-        btnMenu.setImage("/images/Home24.gif");
+        btnMenu.setImage("/images/Home24.png");
         btnMenu.setTooltiptext(Msg.getMsg(Env.getCtx(),"Home"));
 
         btnParentRecord = new ToolBarButton("");
         btnParentRecord.setName("btnParentRecord");
-        btnParentRecord.setImage("/images/Parent24.gif");
+        btnParentRecord.setImage("/images/Parent24.png");
         btnParentRecord.setTooltiptext(Msg.getMsg(Env.getCtx(),"Parent"));
 
         btnDetailRecord = new ToolBarButton("");
         btnDetailRecord.setName("btnDetailRecord");
-        btnDetailRecord.setImage("/images/Detail24.gif");
+        btnDetailRecord.setImage("/images/Detail24.png");
         btnDetailRecord.setTooltiptext(Msg.getMsg(Env.getCtx(),"Detail"));
         // --
         btnFirst = new ToolBarButton("");
         btnFirst.setName("btnFirst");
-        btnFirst.setImage("/images/First24.gif");
+        btnFirst.setImage("/images/First24.png");
         btnFirst.setTooltiptext(Msg.getMsg(Env.getCtx(),"First"));
 
         btnPrevious = new ToolBarButton("");
         btnPrevious.setName("btnPrevious");
-        btnPrevious.setImage("/images/Previous24.gif");
+        btnPrevious.setImage("/images/Previous24.png");
         btnPrevious.setTooltiptext(Msg.getMsg(Env.getCtx(),"Previous"));
 
         btnNext = new ToolBarButton("");
         btnNext.setName("btnNext");
-        btnNext.setImage("/images/Next24.gif");
+        btnNext.setImage("/images/Next24.png");
         btnNext.setTooltiptext(Msg.getMsg(Env.getCtx(),"Next"));
 
         btnLast = new ToolBarButton("");
         btnLast.setName("btnLast");
-        btnLast.setImage("/images/Last24.gif");
+        btnLast.setImage("/images/Last24.png");
         btnLast.setTooltiptext(Msg.getMsg(Env.getCtx(),"Last"));
         
         // --
         btnReport = new ToolBarButton("");
         btnReport.setName("btnReport");
-        btnReport.setImage("/images/Report24.gif");
+        btnReport.setImage("/images/Report24.png");
         btnReport.setTooltiptext(Msg.getMsg(Env.getCtx(),"Report"));
 
         btnArchive = new ToolBarButton("");
         btnArchive.setName("btnArchive");
-        btnArchive.setImage("/images/Archive24.gif");
+        btnArchive.setImage("/images/Archive24.png");
         btnArchive.setTooltiptext(Msg.getMsg(Env.getCtx(),"Archive"));
 
         btnPrint = new ToolBarButton("");
         btnPrint.setName("btnPrint");
-        btnPrint.setImage("/images/Print24.gif");
+        btnPrint.setImage("/images/Print24.png");
         btnPrint.setTooltiptext(Msg.getMsg(Env.getCtx(),"Print"));
         
         // --
         btnZoomAcross = new ToolBarButton("");
         btnZoomAcross.setName("btnZoomAcross");
-        btnZoomAcross.setImage("/images/ZoomAcross24.gif");
+        btnZoomAcross.setImage("/images/ZoomAcross24.png");
         btnZoomAcross.setTooltiptext(Msg.getMsg(Env.getCtx(),"ZoomAcross"));
 
         btnActiveWorkflows = new ToolBarButton("");
         btnActiveWorkflows.setName("btnActiveWorkflows");
-        btnActiveWorkflows.setImage("/images/WorkFlow24.gif");
+        btnActiveWorkflows.setImage("/images/WorkFlow24.png");
         btnActiveWorkflows.setTooltiptext(Msg.getMsg(Env.getCtx(),"WorkFlow"));
 
         btnRequests = new ToolBarButton("");
         btnRequests.setName("btnRequests");
-        btnRequests.setImage("/images/Request24.gif");
+        btnRequests.setImage("/images/Request24.png");
         btnRequests.setTooltiptext(Msg.getMsg(Env.getCtx(),"Request"));
 
         btnProductInfo = new ToolBarButton("");
         btnProductInfo.setName("btnProductInfo");
-        btnProductInfo.setImage("/images/Product24.gif");
+        btnProductInfo.setImage("/images/Product24.png");
         btnProductInfo.setTooltiptext(Msg.getMsg(Env.getCtx(),"InfoProduct"));
 
 //        btnExit = new ToolBarButton("");
 //        btnExit.setName("btnExit");
-//        btnExit.setImage("/images/End24.gif");
+//        btnExit.setImage("/images/End24.png");
 
         this.appendChild(btnIgnore);
         addSeparator();

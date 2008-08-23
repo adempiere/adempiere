@@ -23,7 +23,6 @@ import java.math.*;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.ButtonFactory;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -35,6 +34,7 @@ import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.WAppsAction;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.component.Window;
@@ -42,7 +42,6 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WStringEditor;
-import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.compiere.model.*;
@@ -231,7 +230,7 @@ public abstract class WCreateFrom extends Window
         parameterLayout.appendChild(north);
 		north.appendChild(parameterBankPanel);
 		
-		parameterLayout.setHeight("100px");
+		parameterLayout.setHeight("110px");
 		parameterLayout.setWidth("100%");
 		
 		parameterBankPanel.appendChild(parameterBankLayout);
@@ -282,13 +281,11 @@ public abstract class WCreateFrom extends Window
 		//
  		//
 		// @Trifon
-//		AppsAction selectAllAction = new AppsAction (SELECT_ALL, KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK), null);
+		WAppsAction selectAllAction = new WAppsAction (SELECT_ALL, null, null);
 		
-		Button selectAllButton = ButtonFactory.createButton(SELECT_ALL, null);
+		Button selectAllButton = selectAllAction.getButton();
 		confirmPanel.addComponentsLeft(selectAllButton);
 		selectAllButton.addActionListener(this);
-//		selectAllButton.setToolTipText(Msg.getMsg(Env.getCtx(), SELECT_ALL_TOOLTIP));
-		confirmPanel.addButton(selectAllButton);
 		//
 		South south = new South();
 		contentPane.appendChild(south);
@@ -498,7 +495,7 @@ public abstract class WCreateFrom extends Window
 		log.config("C_Order_ID=" + C_Order_ID);
 		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);      //  save
 
-		Vector<Vector> data = new Vector<Vector>();
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT "
 			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"					//	1
 			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"	//	2
@@ -564,7 +561,7 @@ public abstract class WCreateFrom extends Window
 	 *  Load Order/Invoice/Shipment data into Table
 	 *  @param data data
 	 */
-	protected void loadTableOIS (Vector data)
+	protected void loadTableOIS (Vector<Vector<Object>> data)
 	{
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(7);

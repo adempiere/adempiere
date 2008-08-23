@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.adempiere.webui.LayoutUtils;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
@@ -37,9 +38,35 @@ public final class ConfirmPanel extends Hbox
     
     private static final long serialVersionUID = 1L;
 
-	public static final String A_OK = "Ok";
+    /** Action String OK.        */
+    public static final String A_OK = "Ok";
+    /** Action String Cancel.    */
+    public static final String A_CANCEL = "Cancel";
+    /** Action String Refresh.   */
+    public static final String A_REFRESH = "Refresh";
+    /** Action String Reset.     */
+    public static final String A_RESET = "Reset";
+    /** Action String Customize. */
+    public static final String A_CUSTOMIZE = "Customize";
+    /** Action String History.   */
+    public static final String A_HISTORY = "History";
+    /** Action String Zoom.      */
+    public static final String A_ZOOM = "Zoom";
 
-	public static final String A_CANCEL = "Cancel";
+    /** Action String Process.   */
+    public static final String A_PROCESS = "Process";
+    /** Action String Print.     */
+    public static final String A_PRINT = "Print";
+    /** Action String Export.    */
+    public static final String A_EXPORT = "Export";
+    /** Action String Help.      */
+    public static final String A_HELP = "Help";
+    /** Action String Delete.    */
+    public static final String A_DELETE = "Delete";
+    /** Action String PAttribute.    */
+    public static final String A_PATTRIBUTE = "PAttribute";
+    /** Action String New.   */
+    public static final String A_NEW = "New";
     
     private Map<String, Button> buttonMap = new HashMap<String, Button>();
     
@@ -71,7 +98,9 @@ public final class ConfirmPanel extends Hbox
         Button button = new Button();
         button.setName("btn"+name);
         button.setId(name);
-        button.setSrc("images/"+name+"24.gif");
+        button.setSrc("images/"+name+"24.png");
+        
+        LayoutUtils.addSclass("action-button", button);
         
         buttonMap.put(name, button);
         
@@ -96,29 +125,29 @@ public final class ConfirmPanel extends Hbox
     {
         init();
         
-        setVisible("Cancel", withCancelButton);      
-        addComponentsRight(createButton("Ok"));
-        addComponentsRight(createButton("Cancel"));   
+        setVisible(A_CANCEL, withCancelButton);      
+        addComponentsRight(createButton(A_OK));
+        addComponentsRight(createButton(A_CANCEL));   
                  
         if (withRefreshButton)
         {
-             addComponentsLeft(createButton("Refresh"));
+             addComponentsLeft(createButton(A_REFRESH));
         }
         if (withResetButton)
         {
-            addComponentsLeft(createButton("Reset"));
+            addComponentsLeft(createButton(A_RESET));
         }
         if (withCustomizeButton)
         {
-            addComponentsLeft(createButton("Customize"));
+            addComponentsLeft(createButton(A_CUSTOMIZE));
         }
         if (withHistoryButton)
         {
-            addComponentsLeft(createButton("History"));
+            addComponentsLeft(createButton(A_HISTORY));
         }
         if (withZoomButton)
         {
-            addComponentsLeft(createButton("Zoom"));
+            addComponentsLeft(createButton(A_ZOOM));
         }                  
     }    
     
@@ -178,6 +207,8 @@ public final class ConfirmPanel extends Hbox
      */
     public void addComponentsLeft(Button button)
     {  
+    	if (!buttonMap.containsKey(button.getId()))
+    		buttonMap.put(button.getId(), button);
         pnlBtnLeft.appendChild(button);        
     }
     
@@ -187,6 +218,8 @@ public final class ConfirmPanel extends Hbox
      */
     public void addComponentsRight(Button button)
     {
+    	if (!buttonMap.containsKey(button.getId()))
+    		buttonMap.put(button.getId(), button);
         pnlBtnRight.appendChild(button);
     } 
     
@@ -380,7 +413,7 @@ public final class ConfirmPanel extends Hbox
 	 * @return Button
 	 */
 	public Button getOKButton() {
-		return getButton("Ok");
+		return getButton(A_OK);
 	}
     
 }   //  ConfirmPanel

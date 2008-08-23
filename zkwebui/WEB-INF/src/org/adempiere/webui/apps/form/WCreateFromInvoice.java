@@ -78,7 +78,7 @@ public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListen
 		}
 
 		initBPartner(true);
-		bPartnerField.addValueChangeListner(this);
+		bPartnerField.addValueChangeListener(this);
 		return true;
 	}   //  dynInit
 

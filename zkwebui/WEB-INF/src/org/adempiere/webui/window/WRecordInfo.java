@@ -256,7 +256,7 @@ public class WRecordInfo extends Window implements EventListener
 		
 		for (int i = 0; i < columnNames.size(); i++)
 		{
-			Listheader listheader = new Listheader(columnNames.get(i));
+			Listheader listheader = new Listheader(columnNames.get(i).replaceAll("[&]", ""));
 			listhead.appendChild(listheader);
 		}
 		

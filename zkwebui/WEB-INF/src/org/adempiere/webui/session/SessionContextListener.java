@@ -44,13 +44,16 @@ public class SessionContextListener implements ExecutionInit,
     {
         if (parent == null)
         { 
-            WebContext ctx = (WebContext)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
+            ServerContext ctx = (ServerContext)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
             if (ctx == null)
             {
-                ctx = new WebContext();                
+            	ctx = ServerContext.newInstance();                
                 exec.getDesktop().getSession().setAttribute(SESSION_CTX, ctx);
             }
-            setWebContext(ctx);
+            else
+            {
+            	ServerContext.setCurrentInstance(ctx);
+            }
             exec.setAttribute(SESSION_CTX, ctx);
         }
     }
@@ -60,7 +63,8 @@ public class SessionContextListener implements ExecutionInit,
         if (parent == null)
         {
             exec.removeAttribute(SESSION_CTX);
-        }
+            ServerContext.dispose();
+        }        
     }
 
     public void prepare(Component comp, Event evt)
@@ -69,9 +73,9 @@ public class SessionContextListener implements ExecutionInit,
 
     public boolean init(Component comp, Event evt)
     {
-        WebContext ctx = (WebContext) Executions.getCurrent().getAttribute(
+        ServerContext ctx = (ServerContext) Executions.getCurrent().getAttribute(
                 SESSION_CTX);
-        setWebContext(ctx);
+        ServerContext.setCurrentInstance(ctx);
         
 		return true; 
     }
@@ -82,26 +86,13 @@ public class SessionContextListener implements ExecutionInit,
 
     public void afterResume(Component comp, Event evt)
     {
-        WebContext ctx = (WebContext) Executions.getCurrent().getAttribute(
+        ServerContext ctx = (ServerContext) Executions.getCurrent().getAttribute(
                 SESSION_CTX);
-        setWebContext(ctx);
+        ServerContext.setCurrentInstance(ctx);
     }
 
     public void abortResume(Component comp, Event evt)
     {
         // do nothing
-    }
-
-    @SuppressWarnings("unchecked")
-    public void setWebContext(WebContext ctx)
-    {
-        getContextThreadLocal().set(ctx);
-        WebContext.setCurrentInstance(ctx);
-    }
-
-    private ThreadLocal getContextThreadLocal()
-    {
-        return ThreadLocals.getThreadLocal(
-                "org.adempiere.webui.session.WebContext", "context");
-    }
+    }    
 }

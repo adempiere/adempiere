@@ -33,6 +33,8 @@ import org.zkoss.zkex.zul.Borderlayout;
 public class WindowContainer extends AbstractUIPart implements EventListener
 {
     private static final long serialVersionUID = 1L;
+
+	private static final int MAX_TITLE_LENGTH = 30;
     
     private Tabbox           tabbox;
 
@@ -79,7 +81,17 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     public void addWindow(Component comp, String title, boolean closeable, boolean enable)
     {
         Tab tab = new Tab();
-        tab.setLabel(title);
+        title = title.replaceAll("[&]", "");
+        if (title.length() <= MAX_TITLE_LENGTH) 
+        {
+        	tab.setLabel(title);
+        }
+        else
+        {
+        	tab.setTooltiptext(title);
+        	title = title.substring(0, 27) + "...";
+        	tab.setLabel(title);
+        }
         tab.setClosable(closeable);
 //        tab.setHeight("20px");
 

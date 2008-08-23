@@ -150,7 +150,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		fBPartner_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8065, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
-		fBPartner_ID.addValueChangeListner(this);
+		fBPartner_ID.addValueChangeListener(this);
 		
 		boxBPartner.setWidth("100%");
 		boxBPartner.setWidths("40%, ");
@@ -164,7 +164,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		fProduct_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8047, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "M_Product_ID"), "", false, false, true);
-		fProduct_ID.addValueChangeListner(this);
+		fProduct_ID.addValueChangeListener(this);
 		
 		boxProduct.appendChild(fProduct_ID.getLabel());
 		boxProduct.appendChild(fProduct_ID.getComponent());

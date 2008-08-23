@@ -76,9 +76,6 @@ public class WFileImport extends ADForm implements EventListener
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WFileImport.class);
 	
-	/**	Window No			*/
-	private int m_WindowNo = 0;
-	
 	private int	m_record = -1;
 	
 	private Listbox pickFormat = new Listbox();
@@ -115,18 +112,15 @@ public class WFileImport extends ADForm implements EventListener
 
 	public WFileImport()
 	{
-		init(super.m_windowNo);
 	}
 	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 */
-	
-	public void init (int WindowNo)
+	protected void initForm()
 	{
 		log.info("");
-		m_WindowNo = WindowNo;
 		try
 		{
 			jbInit();

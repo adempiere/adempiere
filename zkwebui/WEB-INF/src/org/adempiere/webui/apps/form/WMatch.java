@@ -163,11 +163,9 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 	
 	public WMatch()
 	{
-		init();
-		initComponents();
 	}
 	
-	private void init()
+	protected void initForm()
 	{
 		try
 		{
@@ -202,11 +200,11 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 		lstReceipt.setWidth("700px");
 		
 		cmdSearch = new Button();
-		cmdSearch.setImage("/images/FindX24.gif");
+		cmdSearch.setImage("/images/FindX24.png");
 		cmdSearch.addEventListener(Events.ON_CLICK, this);
 		
 		cmdProcess = new Button();
-		cmdProcess.setImage("/images/Process24.gif");
+		cmdProcess.setImage("/images/Process24.png");
 		cmdProcess.addEventListener(Events.ON_CLICK, this);
 		
 		dateFrom = new Datebox();
@@ -269,6 +267,8 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
         xMatchedToTable.setHeight("150px");
         xMatchedToTable.getModel().addTableModelListener(this);
         xMatchedToTable.addEventListener(Events.ON_SELECT, this);
+        
+        initComponents();
 	}
 	
 	private void initComponents()
@@ -439,26 +439,26 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 	{
 		final int AD_Column_ID = 3499;
 		
-		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 				0, AD_Column_ID, DisplayType.Search);
 		
 		bPartnerSearch = new WSearchEditor(lookupBP, Msg.translate(
 				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
 
-		bPartnerSearch.addValueChangeListner(this);
+		bPartnerSearch.addValueChangeListener(this);
 	}
 	
 	private void showProduct()
 	{
 		final int AD_Column_ID = 3840;
 		
-		MLookup lookupP = MLookupFactory.get(Env.getCtx(), super.m_windowNo,
+		MLookup lookupP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
 				0, AD_Column_ID, DisplayType.Search);
 		
 		productSearch = new WSearchEditor(lookupP, Msg.translate(
 				Env.getCtx(), "M_Product_ID"), "", true, false, true);
 
-		productSearch.addValueChangeListner(this);
+		productSearch.addValueChangeListener(this);
 	}
 	
 	private void prepareTable()

@@ -37,6 +37,11 @@ import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.event.ZulEvents;
 
+/**
+ * 
+ * @author Low Heng Sin
+ *
+ */
 public class GridPanel extends Borderlayout implements EventListener
 {
 	private static final int MIN_COLUMN_WIDTH = 100;

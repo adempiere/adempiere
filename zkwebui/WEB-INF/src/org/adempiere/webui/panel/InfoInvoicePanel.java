@@ -165,13 +165,13 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
                 0, 3499, DisplayType.Search);
         editorBPartner = new WSearchEditor(lookupBP, Msg.translate(
                 Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
-        editorBPartner.addValueChangeListner(this);
+        editorBPartner.addValueChangeListener(this);
         
         MLookup lookupOrder = MLookupFactory.get(Env.getCtx(), p_WindowNo,
                 0, 4247, DisplayType.Search);
         editorOrder = new WSearchEditor(lookupOrder, Msg.translate(
                 Env.getCtx(), "C_Order_ID"), "", false, false, true);
-        editorOrder.addValueChangeListner(this);
+        editorOrder.addValueChangeListener(this);
         
         contentPanel = new WListbox();
         contentPanel.setWidth("99%");

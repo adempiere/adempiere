@@ -28,6 +28,7 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
@@ -41,7 +42,6 @@ import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WConfirmPanel;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -77,9 +77,6 @@ import org.zkoss.zul.Iframe;
 public class WArchiveViewer extends ADForm implements EventListener, ValueChangeListener
 {
 	private static final long serialVersionUID = 1L;
-	
-	/**	Window No			*/
-	private int m_WindowNo = 0;
 	
 	/**	The Archives		*/
 	private MArchive[] m_archives = new MArchive[0];
@@ -131,7 +128,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	private Textbox descriptionField = new Textbox();
 	private Label helpLabel = new Label(Msg.translate(Env.getCtx(), "Help"));
 	private Textbox helpField = new Textbox();
-	private WConfirmPanel confirmPanel = new WConfirmPanel(true);
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Button updateArchive = new Button(); 
 		
 	private Tabbox tabbox = new Tabbox();
@@ -143,7 +140,6 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	
 	public WArchiveViewer()
 	{
-		init(super.m_windowNo);
 	}
 	
 	/**
@@ -151,10 +147,9 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	 *  @param WindowNo window
 	 */
 	
-	public void init (int WindowNo)
+	protected void initForm()
 	{
 		log.info("");
-		m_WindowNo = WindowNo;
 
 		try
 		{
@@ -236,7 +231,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 
 		bPartnerField = new WSearchEditor(lookup, Msg.translate(
 				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
-		bPartnerField.addValueChangeListner(this);
+		bPartnerField.addValueChangeListener(this);
 	}	//	dynInit
 
 	private void reportViewer(byte[] data)
@@ -268,19 +263,19 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		createdByQField.setMold("select");
 		createdByQField.setRows(1);
 		
-		updateArchive.setImage("/images/Ok24.gif");
+		updateArchive.setImage("/images/Ok24.png");
 		updateArchive.setTooltiptext("Save Archive");
 		updateArchive.addEventListener(Events.ON_CLICK, this);
 		
-		bRefresh.setImage("/images/Refresh24.gif");
+		bRefresh.setImage("/images/Refresh24.png");
 		bRefresh.setTooltiptext("Refresh");
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 		
-		bBack.setImage("/images/Parent24.gif");
+		bBack.setImage("/images/Parent24.png");
 		bBack.setTooltiptext("Back");
 		bBack.addEventListener(Events.ON_CLICK, this);
 		
-		bNext.setImage("/images/Detail24.gif");
+		bNext.setImage("/images/Detail24.png");
 		bNext.setTooltiptext("Next");
 		bNext.addEventListener(Events.ON_CLICK, this);
 		
@@ -506,7 +501,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		tabs.appendChild(tabView);
 		tabpanels.appendChild(tabViewPanel);
 		
-		confirmPanel.addEventListener(this);
+		confirmPanel.addActionListener(this);
 		updateQDisplay();
 
 		iframe.setId("reportFrame");
@@ -528,9 +523,9 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		
 		if (e.getTarget() == updateArchive)
 			cmd_updateArchive();
-		else if (e.getName().equals(WConfirmPanel.A_CANCEL))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			SessionManager.getAppDesktop().removeWindow();
-		else if (e.getName().equals(WConfirmPanel.A_OK))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
 			if (tabbox.getSelectedIndex() == 1)
 				SessionManager.getAppDesktop().removeWindow();

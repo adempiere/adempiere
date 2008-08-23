@@ -150,7 +150,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
                 0, 3499, DisplayType.Search);
         editorBPartner = new WSearchEditor(lookupBP, Msg.translate(
                 Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
-        editorBPartner.addValueChangeListner(this);
+        editorBPartner.addValueChangeListener(this);
         contentPanel = new WListbox();
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");

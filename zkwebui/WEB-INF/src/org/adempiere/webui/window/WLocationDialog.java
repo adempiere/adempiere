@@ -165,10 +165,10 @@ public class WLocationDialog extends Window implements EventListener
         lstCountry.setRows(0);
         
         btnOk = new Button();
-        btnOk.setImage("/images/Ok16.gif");
+        btnOk.setImage("/images/Ok16.png");
         btnOk.addEventListener(Events.ON_CLICK,this);
         btnCancel = new Button();
-        btnCancel.setImage("/images/Cancel16.gif");
+        btnCancel.setImage("/images/Cancel16.png");
         btnCancel.addEventListener(Events.ON_CLICK,this);
         
         mainPanel = new VerticalBox();

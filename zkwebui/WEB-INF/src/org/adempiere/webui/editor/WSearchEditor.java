@@ -151,15 +151,15 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 		if (columnName.equals("C_BPartner_ID"))
 		{
-			getComponent().setButtonImage("/images/BPartner10.gif");
+			getComponent().setButtonImage("/images/BPartner10.png");
 		}
 		else if (columnName.equals("M_Product_ID"))
 		{
-			getComponent().setButtonImage("/images/Product10.gif");
+			getComponent().setButtonImage("/images/Product10.png");
 		}
 		else
 		{
-			getComponent().setButtonImage("/images/PickOpen10.gif");
+			getComponent().setButtonImage("/images/PickOpen10.png");
 		}
 
 		return;

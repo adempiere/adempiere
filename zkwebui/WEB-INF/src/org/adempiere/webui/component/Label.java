@@ -41,7 +41,7 @@ public class Label extends org.zkoss.zul.Label
     
     public Label(String value)
     {
-        super(value);
+        super(value != null ? value.replaceAll("[&]", "") : null);
     }
 
 	public boolean isMandatory() {
@@ -59,7 +59,7 @@ public class Label extends org.zkoss.zul.Label
 
 	@Override
 	public void setValue(String value) {
-		super.setValue(value);
+		super.setValue(value != null ? value.replaceAll("[&]", "") : null);
 		setupMandatoryDecorator();
 	}		
 	

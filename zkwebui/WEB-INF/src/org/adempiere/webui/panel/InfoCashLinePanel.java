@@ -187,7 +187,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		fCashBook_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 5249, DisplayType.TableDir), 
 				Msg.translate(Env.getCtx(), "C_CashBook_ID"), "", false, false, true);
-		fCashBook_ID.addValueChangeListner(this);
+		fCashBook_ID.addValueChangeListener(this);
 		
 		boxCashBook.appendChild(fCashBook_ID.getLabel());
 		boxCashBook.appendChild(fCashBook_ID.getComponent());
@@ -198,7 +198,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		fInvoice_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 5354, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "C_Invoice_ID"), "", false, false, true);
-		fInvoice_ID.addValueChangeListner(this);
+		fInvoice_ID.addValueChangeListener(this);
 		
 		boxInvoice.appendChild(fInvoice_ID.getLabel());
 		boxInvoice.appendChild(fInvoice_ID.getComponent());
@@ -209,7 +209,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		fBankAccount_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 5295, DisplayType.TableDir), 
 				Msg.translate(Env.getCtx(), "C_BankAccount_ID"), "", false, false, true);
-		fBankAccount_ID.addValueChangeListner(this);
+		fBankAccount_ID.addValueChangeListener(this);
 		
 		boxBankAcct.appendChild(fBankAccount_ID.getLabel());
 		boxBankAcct.appendChild(fBankAccount_ID.getComponent());

@@ -50,7 +50,7 @@ public class NumberBox extends Bandbox
     
     private void init()
     {
-        this.setImage("/images/Calculator16.gif");
+        this.setImage("/images/Calculator16.png");
         this.setAction("onKeyPress : return calc.validate('" + 
                 this.getId() + "'," + integral + ", event);");
         this.appendChild(getBandPopup());

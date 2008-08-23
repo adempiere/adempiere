@@ -101,19 +101,19 @@ public class Messagebox extends Window implements EventListener
 		lblMsg.setValue(msg);
 		
 		btnOk.setLabel("OK");
-		btnOk.setImage("/images/Ok24.gif");
+		btnOk.setImage("/images/Ok24.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
 			
 		btnCancel.setLabel("Cancel");
-		btnCancel.setImage("/images/Cancel24.gif");
+		btnCancel.setImage("/images/Cancel24.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
 
 		btnYes.setLabel("Yes");
-		btnYes.setImage("/images/Ok24.gif");
+		btnYes.setImage("/images/Ok24.png");
 		btnYes.addEventListener(Events.ON_CLICK, this);
 		
 		btnNo.setLabel("No");
-		btnNo.setImage("/images/Cancel24.gif");
+		btnNo.setImage("/images/Cancel24.png");
 		btnNo.addEventListener(Events.ON_CLICK, this);
 		
 		btnAbort.setLabel("Abort");
@@ -125,7 +125,7 @@ public class Messagebox extends Window implements EventListener
 		btnRetry.addEventListener(Events.ON_CLICK, this);
 		
 		btnIgnore.setLabel("Ignore");
-		btnIgnore.setImage("/images/Ignore24.gif");
+		btnIgnore.setImage("/images/Ignore24.png");
 		btnIgnore.addEventListener(Events.ON_CLICK, this);
 		
 		Panel pnlMessage = new Panel();

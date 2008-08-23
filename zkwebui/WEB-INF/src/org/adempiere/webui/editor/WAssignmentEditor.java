@@ -38,7 +38,7 @@ public class WAssignmentEditor extends WEditor {
 	
 	private void initComponents() {
 		getComponent().getTextBox().setReadonly(true);
-		getComponent().setButtonImage("images/Assignment10.gif");
+		getComponent().setButtonImage("images/Assignment10.png");
 		getComponent().addEventListener(Events.ON_CLICK, this);		
 	}
 

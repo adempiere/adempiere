@@ -150,7 +150,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 			return false;
 		}
 
-		bNew.setImage("/images/New16.gif");
+		bNew.setImage("/images/New16.png");
 		
 		return true;
 	} // initLookups

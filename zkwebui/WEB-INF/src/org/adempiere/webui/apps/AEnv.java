@@ -21,7 +21,6 @@ import java.io.InvalidClassException;
 import java.io.NotSerializableException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +31,6 @@ import java.util.logging.Level;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.Adempiere;
 import org.compiere.apps.ALogin;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
@@ -73,21 +71,18 @@ public final class AEnv
 	 */
 	public static void positionCenterScreen(Window window)
 	{
-		// positionScreen (window, SwingConstants.CENTER);
+		showCenterScreen(window);
 	}	//	positionCenterScreen
 
 	/**
 	 *  Show in the center of the screen.
 	 *  (pack, set location and set visibility)
 	 * 	@param window Window to position
-	 * 	@param position SwingConstants
+	 * 	@param position 
 	 */
-	public static void showScreen(Window window, int position)
+	public static void showScreen(Window window, String position)
 	{
-	/*	positionScreen(window, position);
-		window.setVisible(true);
-		window.toFront();
-	*/
+		SessionManager.getAppDesktop().showWindow(window, position);
 	}   //  showScreen
 
 	/**
@@ -98,153 +93,9 @@ public final class AEnv
 	 */
 	public static void showCenterWindow(Window parent, Window window)
 	{
-		/*
-		positionCenterWindow(parent, window);
-		window.setVisible(true);
-		window.toFront();
-		*/
+		parent.appendChild(window);
+		showScreen(window, "parent,center");
 	}   //  showCenterWindow
-
-	/**
-	 *  Perform action command for common menu items.
-	 * 	Created in AMenu.createMenu(), APanel.createMenu(), FormFrame.createMenu()
-	 *  @param actionCommand known action command
-	 *  @param WindowNo window no
-	 *  @param c Container parent
-	 *  @return true if actionCommand was found and performed
-	 */
-	/*	public static boolean actionPerformed (String actionCommand, int WindowNo, Container c)
-	{
-
-		MRole role = MRole.getDefault();
-		//  File Menu   ------------------------
-		if (actionCommand.equals("PrintScreen"))
-		{
-			PrintScreenPainter.printScreen (Env.getFrame(c));
-		}
-		else if (actionCommand.equals("ScreenShot"))
-		{
-			ScreenShot.createJPEG(Env.getFrame(c), null);
-		}
-	//	else if (actionCommand.equals("Report"))
-	//	{
-	//		AEnv.showCenterScreen (new ProcessStart());
-	//	}
-		else if (actionCommand.equals("Exit"))
-		{
-			if (ADialog.ask(WindowNo, c, "ExitApplication?"))
-				Env.exitEnv(0);
-		}
-		else if (actionCommand.equals("Logout"))
-		{
-			AMenu aMenu = (AMenu)Env.getWindow(0);
-			aMenu.logout();
-		}
-
-		//  View Menu   ------------------------
-		else if (actionCommand.equals("InfoProduct") && AEnv.canAccessInfo("PRODUCT"))
-		{
-			org.compiere.apps.search.Info.showProduct (Env.getFrame(c), WindowNo);
-		}
-		else if (actionCommand.equals("InfoBPartner") && AEnv.canAccessInfo("BPARTNER"))
-		{
-			org.compiere.apps.search.Info.showBPartner (Env.getFrame(c), WindowNo);
-		}
-		else if (actionCommand.equals("InfoAsset") && AEnv.canAccessInfo("ASSET"))
-		{
-			org.compiere.apps.search.Info.showAsset (Env.getFrame(c), WindowNo);
-		}
-		else if (actionCommand.equals("InfoAccount") &&
-				  MRole.getDefault().isShowAcct() &&
-				  AEnv.canAccessInfo("ACCOUNT"))
-		{
-			new org.compiere.acct.AcctViewer();
-		}
-		else if (actionCommand.equals("InfoSchedule") && AEnv.canAccessInfo("SCHEDULE"))
-		{
-			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
-		}
-		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
-		{
-			org.compiere.apps.search.Info.showOrder (Env.getFrame(c), WindowNo, "");
-		}
-		else if (actionCommand.equals("InfoInvoice") && AEnv.canAccessInfo("INVOICE"))
-		{
-			org.compiere.apps.search.Info.showInvoice (Env.getFrame(c), WindowNo, "");
-		}
-		else if (actionCommand.equals("InfoInOut") && AEnv.canAccessInfo("INOUT"))
-		{
-			org.compiere.apps.search.Info.showInOut (Env.getFrame(c), WindowNo, "");
-		}
-		else if (actionCommand.equals("InfoPayment") && AEnv.canAccessInfo("PAYMENT"))
-		{
-			org.compiere.apps.search.Info.showPayment (Env.getFrame(c), WindowNo, "");
-		}
-		else if (actionCommand.equals("InfoCashLine") && AEnv.canAccessInfo("CASHJOURNAL"))
-		{
-			org.compiere.apps.search.Info.showCashLine (Env.getFrame(c), WindowNo, "");
-		}
-		else if (actionCommand.equals("InfoAssignment") && AEnv.canAccessInfo("RESOURCE"))
-		{
-			org.compiere.apps.search.Info.showAssignment (Env.getFrame(c), WindowNo, "");
-		}
-
-		//  Go Menu     ------------------------
-		else if (actionCommand.equals("WorkFlow"))
-		{
-			startWorkflowProcess(0,0);
-		}
-		else if (actionCommand.equals("Home"))
-		{
-			Env.getWindow(0).toFront();
-		}
-
-		//  Tools Menu  ------------------------
-		else if (actionCommand.equals("Calculator"))
-		{
-			Calculator calc = new org.compiere.grid.ed.Calculator(Env.getFrame(c));
-			calc.setDisposeOnEqual(false);
-			AEnv.showCenterScreen (calc);
-		}
-		else if (actionCommand.equals("Calendar"))
-		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Calendar(Env.getFrame(c)));
-		}
-		else if (actionCommand.equals("Editor"))
-		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Editor(Env.getFrame(c)));
-		}
-		else if (actionCommand.equals("Script"))
-		{
-			new ScriptEditor();
-		}
-		else if (actionCommand.equals("Preference"))
-		{
-			if (role.isShowPreference()) {
-				AEnv.showCenterScreen(new Preference (Env.getFrame(c), WindowNo));
-			}
-		}
-
-		//  Help Menu   ------------------------
-		else if (actionCommand.equals("Online"))
-		{
-			Env.startBrowser(org.compiere.Adempiere.getOnlineHelpURL());
-		}
-		else if (actionCommand.equals("EMailSupport"))
-		{
-			ADialog.createSupportEMail(Env.getFrame(c), Env.getFrame(c).getTitle(), "\n\n");
-		}
-		else if (actionCommand.equals("About"))
-		{
-			AEnv.showCenterScreen(new AboutBox(Env.getFrame(c)));
-		}
-		else
-			return false;
-		//
-		return true;
-
-	}   //  actionPerformed
-*/
 
 	/**
 	 *  Get Mnemonic character from text.
@@ -551,7 +402,7 @@ public final class AEnv
 		{
 			//  Remote Context is called by value, not reference
 			//  Add Window properties to context
-			Enumeration keyEnum = mWindowVO.ctx.keys();
+			Enumeration<Object> keyEnum = mWindowVO.ctx.keys();
 			while (keyEnum.hasMoreElements())
 			{
 				String key = (String)keyEnum.nextElement();
@@ -823,7 +674,7 @@ public final class AEnv
 	/**
 	 *  Get ImageIcon.
 	 *
-	 *  @param fileNameInImageDir full file name in imgaes folder (e.g. Bean16.gif)
+	 *  @param fileNameInImageDir full file name in imgaes folder (e.g. Bean16.png)
 	 *  @return image
 	 */
     public static URI getImage(String fileNameInImageDir)
@@ -840,39 +691,4 @@ public final class AEnv
         }
         return uri;
     }   //  getImageIcon
-
-    /**
-     *  Get ImageIcon. This method different from getImageIcon
-     *  where the fileName parameter is without extension. The
-     *  method will first try .gif and then .png if .gif does not
-     *  exists.
-     *
-     *  @param fileName file name in imgaes folder without the extension(e.g. Bean16)
-     *  @return image
-     */
-    public static URI getImage2 (String fileName)
-    {
-        String relativePath;
-        URI uri = null;
-        URL absoluteUrl = null;
-        final String imageDir = "images/";
-
-        relativePath = imageDir + fileName + ".png";
-        uri = URI.create("/" + relativePath);
-        absoluteUrl = Adempiere.class.getResource(relativePath);
-        if (absoluteUrl == null)
-        {
-            relativePath = imageDir + fileName + ".gif";
-            uri = URI.create("/" + relativePath);
-            absoluteUrl = Adempiere.class.getResource(relativePath);
-            if (absoluteUrl == null)
-            {
-                log.log(Level.WARNING, "GIF/PNG Not found: " + fileName);
-                return null;
-            }
-        }
-
-        return uri;
-    }   //  getImageIcon2
-
 }	//	AEnv
