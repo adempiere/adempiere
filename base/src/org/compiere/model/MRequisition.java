@@ -192,7 +192,14 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		return true;
 	}	//	beforeSave
 	
-	
+	@Override
+	protected boolean beforeDelete() {
+		for (MRequisitionLine line : getLines()) {
+			line.deleteEx(true);
+		}
+		return true;
+	}
+
 	/**************************************************************************
 	 * 	Process document
 	 *	@param processAction document action
