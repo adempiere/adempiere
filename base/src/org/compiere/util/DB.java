@@ -70,6 +70,8 @@ import org.compiere.process.SequenceCheck;
  * 		<li>FR [ 1884435 ] Add more DB.getSQLValue helper methods
  * 		<li>FR [ 1904460 ] DB.executeUpdate should handle Boolean params
  * 		<li>BF [ 1962568 ] DB.executeUpdate should handle null params
+ * 		<li>FR [ 1984268 ] DB.executeUpdateEx should throw DBException
+ * 		<li>FR [ 1986583 ] Add DB.executeUpdateEx(String, Object[], String)
  * 		<li>BF [ 2030233 ] Remove duplicate code from DB class
  */
 public final class DB
@@ -788,7 +790,7 @@ public final class DB
 	/**
 	 * Set parameters for given statement
 	 * @param stmt statements
-	 * @param params parameters array
+	 * @param params parameters array; if null or empty array, no parameters are set
 	 */
 	private static void setParameters(PreparedStatement stmt, Object[] params) throws SQLException
 	{
@@ -947,6 +949,44 @@ public final class DB
 		}
 		return no;
 	}	//	executeUpdate
+	
+	/**
+	 * Execute Update and throw exception.
+	 * @param sql
+	 * @param params statement parameters
+	 * @param trxName transaction
+	 * @return number of rows updated
+	 * @throws SQLException
+	 */
+	public static int executeUpdateEx (String sql, Object[] params, String trxName) throws DBException
+	{
+		if (sql == null || sql.length() == 0)
+			throw new IllegalArgumentException("Required parameter missing - " + sql);
+		//
+		int no = -1;
+		CPreparedStatement cs = new CPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
+			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
+		
+		try
+		{
+			setParameters(cs, params);
+			no = cs.executeUpdate();
+			//	No Transaction - Commit
+			if (trxName == null)
+			{
+				cs.commit();	//	Local commit
+			}
+		}
+		catch (Exception e)
+		{
+			throw new DBException(e);
+		}
+		finally
+		{
+			DB.close(cs);
+		}
+		return no;
+	}
 
 	/**
 	 *	Execute multiple Update statements.
@@ -976,47 +1016,13 @@ public final class DB
 	}	//	executeUpdareMultiple
 
 	/**
-	 *	Execute Update and throw exception.
-	 *  @param sql
-	 *  @return number of rows updated or -1 if error
-	 * 	@param trxName transaction
-	 * 	@throws SQLException
+	 * Execute Update and throw exception.
+	 * @see {@link #executeUpdateEx(String, Object[], String)}
 	 */
-	public static int executeUpdateEx (String sql, String trxName) throws SQLException
+	public static int executeUpdateEx (String sql, String trxName) throws DBException
 	{
-		if (sql == null || sql.length() == 0)
-			throw new IllegalArgumentException("Required parameter missing - " + sql);
-		//
-		int no = -1;
-		CPreparedStatement cs = new CPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
-			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
-		
-		SQLException ex = null;
-		try
-		{
-			no = cs.executeUpdate();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql + " [" + trxName + "]", e);
-			ex = e;
-		}
-		finally
-		{
-			//  Always close cursor
-			try
-			{
-				cs.close();
-			}
-			catch (SQLException e2)
-			{
-				log.log(Level.SEVERE, "Cannot close statement");
-			}
-		}
-		if (ex != null)
-			throw ex;
-		return no;
-	}	//	execute Update
+		return executeUpdateEx(sql, null, trxName);
+	}	//	executeUpdateEx
 
 	/**
 	 *	Commit - commit on RW connection.
