@@ -673,6 +673,9 @@ public class MPPMRP extends X_PP_MRP
 			if (S_ResourceType.isOnSunday())
 				AvailableDays += 1;
 		}
+		else {
+			AvailableDays = 7;
+		}
 
 		MWorkflow wf = MWorkflow.get(ctx, AD_Workflow_ID);
 		
@@ -688,7 +691,7 @@ public class MPPMRP extends X_PP_MRP
 		// TODO: implement here, Victor's suggestion - https://sourceforge.net/forum/message.php?msg_id=5179460
 
 		// Weekly Factor  	
-		BigDecimal WeeklyFactor = BigDecimal.valueOf(7).divide(new BigDecimal(AvailableDays), 8, BigDecimal.ROUND_UP);
+		BigDecimal WeeklyFactor = BigDecimal.valueOf(7).divide(BigDecimal.valueOf(AvailableDays), 8, BigDecimal.ROUND_UP);
 
 		return (RequiredTime.multiply(WeeklyFactor)).divide(AvailableDayTime, 0, BigDecimal.ROUND_UP);
 	}  
