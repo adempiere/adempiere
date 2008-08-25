@@ -1,0 +1,5 @@
+-- Aug 25, 2008 7:52:50 PM EEST
+-- 
+UPDATE AD_Table SET AD_Window_ID=53014,Updated=TO_DATE('2008-08-25 19:52:50','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Table_ID=53035
+;
+
