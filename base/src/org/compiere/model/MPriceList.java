@@ -16,20 +16,29 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 /**
  *	Price List Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MPriceList.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2073484 ] MPriceList.getDefault is not working correctly
  */
 public class MPriceList extends X_M_PriceList
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Get Price List (cached)
 	 *	@param ctx context
@@ -60,52 +69,29 @@ public class MPriceList extends X_M_PriceList
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		MPriceList retValue = null;
 		//	Search for it in cache
-		Iterator it = s_cache.values().iterator();
+		Iterator<MPriceList> it = s_cache.values().iterator();
 		while (it.hasNext())
 		{
-			retValue = (MPriceList)it.next();
-			if (retValue.isDefault() && retValue.getAD_Client_ID() == AD_Client_ID)
+			retValue = it.next();
+			if (retValue.isDefault()
+					&& retValue.getAD_Client_ID() == AD_Client_ID
+					&& retValue.isSOPriceList() == IsSOPriceList)
+			{
 				return retValue;
+			}
 		}
 		
-		/**	Get from DB **/
-		retValue = null;
-		String sql = "SELECT * FROM M_PriceList "
-			+ "WHERE AD_Client_ID=?"
-			+ " AND IsDefault='Y'"
-			+ " AND IsSOPriceList='Y'"
-			+ "ORDER BY M_PriceList_ID";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = new MPriceList (ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//	Get from DB
+		final String whereClause = "AD_Client_ID=? AND IsDefault=? AND IsSOPriceList=?";
+		retValue = new Query(ctx, Table_Name, whereClause, null)
+						.setParameters(new Object[]{AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N"})
+						.setOrderBy("M_PriceList_ID")
+						.first();
+		
 		//	Return value
 		if (retValue != null)
 		{
-			Integer key = new Integer (retValue.getM_PriceList_ID());
-			s_cache.put(key, retValue);
+			s_cache.put(retValue.get_ID(), retValue);
 		}
 		return retValue;
 	}	//	getDefault
@@ -134,10 +120,8 @@ public class MPriceList extends X_M_PriceList
 		return pl.getPricePrecisionInt();
 	}	//	getPricePrecision
 	
-	/** Static Logger					*/
-	private static CLogger 	s_log = CLogger.getCLogger(MPriceList.class);
 	/** Cache of Price Lists			*/
-	private static CCache<Integer,MPriceList> s_cache = new CCache<Integer,MPriceList>("M_PriceList", 5);
+	private static CCache<Integer,MPriceList> s_cache = new CCache<Integer,MPriceList>(Table_Name, 5);
 	
 	
 	/**************************************************************************
@@ -190,40 +174,13 @@ public class MPriceList extends X_M_PriceList
 		if (m_plv != null && m_plv.getValidFrom().before(valid))
 			return m_plv;
 
-		String sql = "SELECT * FROM M_PriceList_Version "
-			+ "WHERE M_PriceList_ID=?"
-			+ " AND TRUNC(ValidFrom)<=? AND IsActive='Y'"
-			+ "ORDER BY ValidFrom DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getM_PriceList_ID());
-			pstmt.setTimestamp(2, valid);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				m_plv = new MPriceListVersion (getCtx(), rs, get_TrxName());
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = "M_PriceList_ID=? AND TRUNC(ValidFrom)<=? AND IsActive=?";
+		m_plv = new Query(getCtx(), MPriceListVersion.Table_Name, whereClause, get_TrxName())
+					.setParameters(new Object[]{getM_PriceList_ID(), valid, "Y"})
+					.setOrderBy("ValidFrom DESC")
+					.first();
 		if (m_plv == null)
-			log.warning("None found M_PriceList_ID=" 
-				+ getM_PriceList_ID() + " - " + valid + " - " + sql);
+			log.warning("None found M_PriceList_ID=" + getM_PriceList_ID() + " - " + valid);
 		else
 			log.fine(m_plv.toString());
 		return m_plv;
@@ -250,7 +207,7 @@ public class MPriceList extends X_M_PriceList
 	 */
 	public void setPricePrecision (int PricePrecision)
 	{
-		setPricePrecision (new BigDecimal(PricePrecision));
+		setPricePrecision (BigDecimal.valueOf(PricePrecision));
 	}	//	setPricePrecision
 	
 	
