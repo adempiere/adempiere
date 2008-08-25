@@ -16,10 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
 
 /**
  *	Product PO Model
@@ -29,6 +28,9 @@ import org.compiere.util.*;
  */
 public class MProductPO extends X_M_Product_PO
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Get current PO of Product
 	 * 	@param ctx context
@@ -38,44 +40,13 @@ public class MProductPO extends X_M_Product_PO
 	 */
 	public static MProductPO[] getOfProduct (Properties ctx, int M_Product_ID, String trxName)
 	{
-		ArrayList<MProductPO> list = new ArrayList<MProductPO>();
-		String sql = "SELECT * FROM M_Product_PO "
-			+ "WHERE M_Product_ID=? AND IsActive='Y' "
-			+ "ORDER BY IsCurrentVendor DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MProductPO (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
-		MProductPO[] retValue = new MProductPO[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		final String whereClause = "M_Product_ID=? AND IsActive=?";
+		List<MProductPO> list = new Query(ctx, Table_Name, whereClause, trxName)
+									.setParameters(new Object[]{M_Product_ID, "Y"})
+									.setOrderBy("IsCurrentVendor DESC")
+									.list();
+		return list.toArray(new MProductPO[list.size()]);
 	}	//	getOfProduct
-
-	
-	/** Static Logger					*/
-	private static CLogger s_log = CLogger.getCLogger(MProductPO.class);
 
 	/**
 	 * 	Persistency Constructor
