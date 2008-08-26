@@ -173,7 +173,7 @@ public class WebDoc
 			m_topRight.addElement(new img("http://www.adempiere.com/images/adempiere64x32.png")
 				.setAlign(AlignType.RIGHT).setAlt("Adempiere Inc."));
 		else
-			if(title == "")
+			if(title.equals(""))
 				m_topRight.addElement(WebEnv.getLogo());
 			else
 				m_topRight.addElement(new h1(title));

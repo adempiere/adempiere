@@ -112,18 +112,18 @@ public class CalloutFA extends CalloutEngine
 				if (rs.next())
 				{
 //					Charges - Set Context
-					if (rs.getString("DepreciationType")!= "TAB" | rs.getString("DepreciationType")!= "MAN")
+					if (  (!rs.getString("DepreciationType").equals("TAB")) || (!rs.getString("DepreciationType").equals("MAN")) )
 					{
 						Env.setContext(ctx, WindowNo, "A_DEPRECIATION_MANUAL_PERIOD", "");					
 						//mTab.setValue ("A_Depreciation_Manual_Period", null);
 						mTab.setValue ("A_Depreciation_Manual_Amount", null);
 						mTab.setValue ("A_Depreciation_Table_Header_ID", null);
 					}
-					if (rs.getString("DepreciationType")== "TAB")
+					if (rs.getString("DepreciationType").equals("TAB"))
 					{						
 						mTab.setValue ("A_Depreciation_Manual_Amount", null);
 					}
-					if (rs.getString("DepreciationType")== "MAN")
+					if (rs.getString("DepreciationType").equals("MAN"))
 					{
 						mTab.setValue ("A_Depreciation_Table_Header_ID", null);
 					}	

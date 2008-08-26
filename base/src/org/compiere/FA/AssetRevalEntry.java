@@ -127,24 +127,24 @@ public class AssetRevalEntry extends SvrProcess
 				 X_A_Asset_Reval_Index ARevalIndex = new X_A_Asset_Reval_Index (getCtx(), DB.getSQLValue(null ,sql), null);
 				 MAsset Asset = new MAsset (getCtx(), rs.getInt("A_Asset_ID"), null);
 				 
-				 if (AssetReval.getA_Reval_Multiplier() == "IND")
+				 if (AssetReval.getA_Reval_Multiplier().equals(X_A_Asset_Reval_Entry.A_REVAL_MULTIPLIER_Index))
 				 {
 				 	
-				 	if (AssetReval.getA_Reval_Effective_Date() == "DA"){
+				 	if (AssetReval.getA_Reval_Effective_Date().equals(X_A_Asset_Reval_Entry.A_REVAL_EFFECTIVE_DATE_DateAquired)){
 				 		sql2 = "Select A_REVAL_MULTIPLIER from A_ASSET_REVAL_INDEX where A_REVAL_CODE = " + AssetReval.getA_Rev_Code()
 						   + " and A_EFFECTIVE_DATE = (select MAX(A_EFFECTIVE_DATE) from A_ASSET_REVAL_INDEX where  A_EFFECTIVE_DATE < "
 						   + Asset.getA_Asset_CreateDate()
 						   + ")";
 				 		
 				 	}
-				 	else if (AssetReval.getA_Reval_Effective_Date() == "RD"){
+				 	else if (AssetReval.getA_Reval_Effective_Date().equals(X_A_Asset_Reval_Entry.A_REVAL_EFFECTIVE_DATE_RevaluationDate)){
 				 		sql2 = "Select A_REVAL_MULTIPLIER from A_ASSET_REVAL_INDEX where A_REVAL_CODE = " + AssetReval.getA_Rev_Code()
 						   + " and A_EFFECTIVE_DATE = (select MAX(A_EFFECTIVE_DATE) from A_ASSET_REVAL_INDEX where  A_EFFECTIVE_DATE < "
 						   + Asset.getA_Asset_RevalDate()
 						   + ")";
 				 		
 				 	}
-				 	else if (AssetReval.getA_Reval_Effective_Date() == "SD"){
+				 	else if (AssetReval.getA_Reval_Effective_Date().equals(X_A_Asset_Reval_Entry.A_REVAL_EFFECTIVE_DATE_DateDepreciationStarted)){
 				 		sql2 = "Select A_REVAL_MULTIPLIER from A_ASSET_REVAL_INDEX where A_REVAL_CODE = " + AssetReval.getA_Rev_Code()
 						   + " and A_EFFECTIVE_DATE = (select MAX(A_EFFECTIVE_DATE) from A_ASSET_REVAL_INDEX where  A_EFFECTIVE_DATE < "
 						   + Asset.getAssetServiceDate()
@@ -269,25 +269,25 @@ public class AssetRevalEntry extends SvrProcess
 							  DB.close(rs, pstmt);
 							  rs = null; pstmt = null;
 						  }				 }
-				 else if (AssetReval.getA_Reval_Multiplier() == "FAC")
+				 else if (AssetReval.getA_Reval_Multiplier().equals(X_A_Asset_Reval_Entry.A_REVAL_MULTIPLIER_Factor))
 				 {
 
 				 	
-				 	if (AssetReval.getA_Reval_Effective_Date() == "DA"){
+				 	if (AssetReval.getA_Reval_Effective_Date().equals(X_A_Asset_Reval_Entry.A_REVAL_EFFECTIVE_DATE_DateAquired)){
 				 		sql2 = "Select A_REVAL_MULTIPLIER from A_ASSET_REVAL_INDEX where A_REVAL_CODE = " + AssetReval.getA_Rev_Code()
 						   + " and A_EFFECTIVE_DATE = (select MAX(A_EFFECTIVE_DATE) from A_ASSET_REVAL_INDEX where  A_EFFECTIVE_DATE < "
 						   + Asset.getA_Asset_CreateDate()
 						   + ")";
 				 		
 				 	}
-				 	else if (AssetReval.getA_Reval_Effective_Date() == "RD"){
+				 	else if (AssetReval.getA_Reval_Effective_Date().equals(X_A_Asset_Reval_Entry.A_REVAL_EFFECTIVE_DATE_RevaluationDate)){
 				 		sql2 = "Select A_REVAL_MULTIPLIER from A_ASSET_REVAL_INDEX where A_REVAL_CODE = " + AssetReval.getA_Rev_Code()
 						   + " and A_EFFECTIVE_DATE = (select MAX(A_EFFECTIVE_DATE) from A_ASSET_REVAL_INDEX where  A_EFFECTIVE_DATE < "
 						   + Asset.getA_Asset_RevalDate()
 						   + ")";
 				 		
 				 	}
-				 	else if (AssetReval.getA_Reval_Effective_Date() == "SD"){
+				 	else if (AssetReval.getA_Reval_Effective_Date().equals(X_A_Asset_Reval_Entry.A_REVAL_EFFECTIVE_DATE_DateDepreciationStarted)){
 				 		sql2 = "Select A_REVAL_MULTIPLIER from A_ASSET_REVAL_INDEX where A_REVAL_CODE = " + AssetReval.getA_Rev_Code()
 						   + " and A_EFFECTIVE_DATE = (select MAX(A_EFFECTIVE_DATE) from A_ASSET_REVAL_INDEX where  A_EFFECTIVE_DATE < "
 						   + Asset.getAssetServiceDate()

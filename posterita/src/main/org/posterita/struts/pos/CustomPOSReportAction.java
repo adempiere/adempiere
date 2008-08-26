@@ -329,14 +329,14 @@ public class CustomPOSReportAction extends POSDispatchAction
         else if(dateRange.endsWith(Constants.CUSTOM_DATE_RANGE))
         {	
         	
-        	if((fromDate == null)||(fromDate == ""))
+        	if((fromDate == null)||(fromDate.equals("")))
             {            	
             	message = new ActionMessage("error.required.fromDate");
             	messages.add(ActionMessages.GLOBAL_MESSAGE, message);
             	error = true;
             }
             
-            if((toDate == null)||(toDate == ""))
+            if((toDate == null)||(toDate.equals("")))
             {
             	message = new ActionMessage("error.required.toDate");            	
             	messages.add(ActionMessages.GLOBAL_MESSAGE, message);

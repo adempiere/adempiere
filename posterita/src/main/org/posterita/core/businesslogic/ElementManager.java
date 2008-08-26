@@ -191,12 +191,12 @@ public class ElementManager
 		
 		String msg = Msg.getElement(language, text, true);
 		
-		if (msg == null || msg == "")
+		if (msg == null || msg.equals(""))
 		{
 			msg = Msg.translate(language, text);
 		}
 		
-		if (msg == null || msg == "")
+		if (msg == null || msg.equals(""))
 		{
 			msg = text;
 		}

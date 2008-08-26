@@ -553,7 +553,7 @@ public class PartialPOSOrderAction extends POSDispatchAction
         
         for(String s : discountPercentage)
         {
-        	if(s == null || s == "")
+        	if(s == null || s.equals(""))
         	{
         		continue;
         	}
@@ -571,7 +571,7 @@ public class PartialPOSOrderAction extends POSDispatchAction
         
         for(String s : actualPrice)
         {
-        	if(s == null || s == "")
+        	if(s == null || s.equals(""))
         	{
         		continue;
         	}

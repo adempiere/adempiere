@@ -217,7 +217,7 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 
 		if (name.equals("AD_Org_ID"))
 		{
-			if (des == "from")
+			if (des.equals("from"))
 			{
 				from[0].setValue(value);
 				fromIDs[0] = ((Integer)value).intValue();
@@ -230,7 +230,7 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 		}
 		else if (name.equals("C_BPartner_ID"))
 		{
-			if (des == "from")
+			if (des.equals("from"))
 			{
 				from[1].setValue(value);
 				fromIDs[1] = ((Integer)value).intValue();
@@ -243,7 +243,7 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 		}
 		else if (name.equals("M_Product_ID"))
 		{
-			if (des == "from")
+			if (des.equals("from"))
 			{
 				from[3].setValue(value);
 				fromIDs[3] = ((Integer)value).intValue();
@@ -256,7 +256,7 @@ public class WMerge extends ADForm implements EventListener, ValueChangeListener
 		}
 		else if (name.equals("AD_User_ID"))
 		{
-			if (des == "from")
+			if (des.equals("from"))
 			{
 				from[2].setValue(value);
 				fromIDs[2] = ((Integer)value).intValue();

@@ -161,7 +161,7 @@ public class POSManager
         	
     		for(String discount : discounts)
     		{
-    			if( discount == null || discount == "" )
+    			if( discount == null || discount.equals("") )
     			{
     				discount = "0.0";
     			}

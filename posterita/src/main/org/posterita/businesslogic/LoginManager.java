@@ -424,7 +424,7 @@ public class LoginManager
             //  load Orgs
             while (rs.next())
             {
-                if(orgIds=="")
+                if(orgIds.equals(""))
                     orgIds = orgIds+rs.getInt(1)+"";
                 else
                     orgIds = orgIds+","+rs.getInt(1)+"";

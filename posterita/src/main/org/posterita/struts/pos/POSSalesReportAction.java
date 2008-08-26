@@ -197,13 +197,13 @@ public class POSSalesReportAction extends POSDispatchAction
         
         boolean error = false;
         
-        if((salesReportForm.getFromDate()==null)||(salesReportForm.getFromDate()==""))
+        if((salesReportForm.getFromDate()==null)||(salesReportForm.getFromDate().equals("")))
         {
         	postGlobalError("error.required.startDate",request);
         	error = true;
         }
         
-        if((salesReportForm.getToDate()==null)||(salesReportForm.getToDate()==""))
+        if((salesReportForm.getToDate()==null)||(salesReportForm.getToDate().equals("")))
         {
         	postGlobalError("error.required.endDate",request);
         	error = true;

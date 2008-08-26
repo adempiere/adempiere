@@ -111,7 +111,7 @@ public class AssetDisposed extends SvrProcess
 		try {
 			rs = pstmt.executeQuery();		
 			while (rs.next()){
-			if (v_PostingType != rs.getString("PostingType") & v_PostingType != null)
+			if (v_PostingType != null && (!v_PostingType.equals(rs.getString("PostingType"))))
 			{
 			      sql = "UPDATE A_DEPRECIATION_WORKFILE "
 			      	  + "SET A_ACCUMULATED_DEPR = " + v_Balance 

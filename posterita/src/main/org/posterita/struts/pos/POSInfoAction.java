@@ -157,14 +157,14 @@ public class POSInfoAction extends POSDispatchAction
         	ActionMessage message = null;
         	
         	
-        	if((bean.getFromDate()==null)||(bean.getFromDate()==""))
+        	if((bean.getFromDate()==null)||(bean.getFromDate().equals("")))
             {            	
             	message = new ActionMessage("error.required.fromDate");
             	messages.add(ActionMessages.GLOBAL_MESSAGE, message);            	
             	error = true;
             }
             
-            if((bean.getToDate()==null)||(bean.getToDate()==""))
+            if((bean.getToDate()==null)||(bean.getToDate().equals("")))
             {
             	message = new ActionMessage("error.required.toDate");            	
             	messages.add(ActionMessages.GLOBAL_MESSAGE, message);
