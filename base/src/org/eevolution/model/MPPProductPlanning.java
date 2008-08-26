@@ -85,7 +85,8 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		if(m_M_Warehouse_ID <= 0)
 			return null;
 
-		final String sql = "SELECT MAX(S_Resource_ID) FROM S_Resource"
+		// Get plant resource for warehouse. If more than one resource is found, first will be used
+		final String sql = "SELECT MIN(S_Resource_ID) FROM S_Resource"
 							+" WHERE IsManufacturingResource=? AND ManufacturingResourceType=?"
 									+" AND AD_Client_ID=? AND M_Warehouse_ID= ?"; 
 		int m_S_Resource_ID = DB.getSQLValue(trxname, sql, "Y", MResource.MANUFACTURINGRESOURCETYPE_Plant, ad_client_id, m_M_Warehouse_ID);
