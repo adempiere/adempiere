@@ -52,6 +52,7 @@ import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Language;
+import org.compiere.util.Util;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
@@ -259,7 +260,7 @@ public final class VPanel extends CTabbedPane
 		//[ 1757088 ]              		//	sets top
 		String fieldGroup = mField.getFieldGroup();
 		String fieldGroupType = mField.getFieldGroupType();
-		if (fieldGroup == "")
+		if (Util.isEmpty(fieldGroup))
 		{	
 			fieldGroup = m_oldFieldGroup;
 			fieldGroupType = m_oldFieldGroupType;
