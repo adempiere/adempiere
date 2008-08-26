@@ -18,9 +18,11 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MResource;
 import org.compiere.model.Query;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -30,10 +32,12 @@ import org.compiere.util.DB;
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MPProductPlannning.java,v 1.4 2004/05/13 06:05:22 vpj-cd Exp $
  * 
- *  @author Teo Sarca, www.arhipac.ro
+ * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPProductPlanning extends X_PP_Product_Planning
 {
+	private static final long serialVersionUID = 1L;
+	
 	/** Log									*/
 	private static CLogger log = CLogger.getCLogger(MPPProductPlanning.class); 
 
@@ -45,9 +49,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 *	@param trxName
 	 *  @return MPPProductPlanning Data Product Planning 
 	 */
-	public MPPProductPlanning(Properties ctx, int pp_product_planning_id,String trxname)
+	public MPPProductPlanning(Properties ctx, int pp_product_planning_id, String trxname)
 	{
-		super(ctx, pp_product_planning_id,trxname);
+		super(ctx, pp_product_planning_id, trxname);
 		if (pp_product_planning_id == 0)
 		{    
 		}
@@ -60,7 +64,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 *	@param trxName Transaction Name
 	 *	@return MPPProductPlanning Data Product Planning 
 	 */
-	public MPPProductPlanning(Properties ctx, ResultSet rs,String trxname)
+	public MPPProductPlanning(Properties ctx, ResultSet rs, String trxname)
 	{
 		super(ctx, rs,trxname);
 	}
@@ -73,15 +77,19 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name 
 	 * @return MPPProductPlanning
 	 */    
-	public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_product_id, String trxname)               
+	public static MPPProductPlanning get(Properties ctx, int ad_client_id, int ad_org_id,
+											int m_product_id,
+											String trxname)               
 	{
 		int m_M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
 		if(m_M_Warehouse_ID <= 0)
 			return null;
 
-		int m_S_Resource_ID = DB.getSQLValue(trxname, "SELECT MAX(S_Resource_ID) FROM S_Resource WHERE IsManufacturingResource='Y' AND ManufacturingResourceType ='" + MResource.MANUFACTURINGRESOURCETYPE_Plant +"' AND AD_Client_ID=? AND M_Warehouse_ID= ?", ad_client_id, m_M_Warehouse_ID);
-
-		if (m_S_Resource_ID <=0 )
+		final String sql = "SELECT MAX(S_Resource_ID) FROM S_Resource"
+							+" WHERE IsManufacturingResource=? AND ManufacturingResourceType=?"
+									+" AND AD_Client_ID=? AND M_Warehouse_ID= ?"; 
+		int m_S_Resource_ID = DB.getSQLValue(trxname, sql, "Y", MResource.MANUFACTURINGRESOURCETYPE_Plant, ad_client_id, m_M_Warehouse_ID);
+		if (m_S_Resource_ID <= 0)
 			return null;
 
 		return get(ctx, ad_client_id,ad_org_id, m_M_Warehouse_ID, m_S_Resource_ID, m_product_id, trxname);
@@ -98,7 +106,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxname Trx Name
 	 * @return MPPProductPlanning
 	 */     
-	public static MPPProductPlanning get(Properties ctx,int ad_client_id, int ad_org_id , int m_warehouse_id, int s_resource_id, int m_product_id, String trxname)
+	public static MPPProductPlanning get(Properties ctx, int ad_client_id, int ad_org_id,
+											int m_warehouse_id, int s_resource_id, int m_product_id,
+											String trxname)
 	{
 		log.info("AD_Client_ID="  + ad_client_id + " AD_Org_ID=" + ad_org_id + " M_Product_ID=" + m_product_id + " M_Warehouse_ID=" + m_warehouse_id + " S_Resource_ID=" + s_resource_id );
 		String  sql_warehouse = COLUMNNAME_M_Warehouse_ID+"=?";
@@ -118,7 +128,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	}       
 
 
-	/**************************************************************************
+	/**
 	 * Find data planning, try find the specific planning data
 	 * if do not found then try find data planning general 
 	 * @param ctx Context
@@ -129,7 +139,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name
 	 *	@return MPPProductPlanning Planning Data
 	 **/
-	public static MPPProductPlanning find(Properties ctx ,int  AD_Client_ID, int  AD_Org_ID ,int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID, String trxName)
+	public static MPPProductPlanning find (Properties ctx, int AD_Client_ID, int AD_Org_ID,
+											int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID,
+											String trxName)
 	{          
 		final String whereClause = "AD_Client_ID=? AND M_Product_ID=?"
 								+ " AND (AD_Org_ID IN (0,?) OR AD_Org_ID IS NULL)"
@@ -139,6 +151,42 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 				.setParameters(new Object[]{AD_Client_ID, M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID})
 				.setOrderBy("AD_Org_ID DESC NULLS LAST, M_Warehouse_ID DESC NULLS LAST, S_Resource_ID DESC NULLS LAST")
 				.first();
+	}
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		// Check Order_Min < Order_Max
+		if (getOrder_Min().signum() > 0
+				&& getOrder_Max().signum() > 0
+				&& getOrder_Min().compareTo(getOrder_Max()) > 0)
+		{
+			throw new AdempiereException("@Order_Min@ > @Order_Max@");
+		}
+		return true;
+	}
+
+	public void dump()
+	{
+		if (!CLogMgt.isLevelInfo())
+			return;
+		log.info("------------ Planning Data --------------");
+		log.info("              Resource: " + getS_Resource_ID());
+		log.info("                   BOM: " + getPP_Product_BOM_ID());
+		log.info("  Network Distribution: " + getDD_NetworkDistribution_ID());
+		log.info("              Workflow: " + getAD_Workflow_ID());
+		log.info("Delivery Time Promised: " + getDeliveryTime_Promised());
+		log.info("         TransfertTime: " + getTransfertTime ());
+		log.info("           Create Plan: " + isCreatePlan());
+		log.info("             Max Order: " + getOrder_Max());
+		log.info("             Min Order: " + getOrder_Min());
+		log.info("            Pack Order: " + getOrder_Pack());
+		log.info("          Safety Stock: " + getSafetyStock());
+		log.info("          Order Period: " + getOrder_Period());
+		log.info("          Order Policy: " + getOrder_Policy());
+		log.info("             Warehouse: " + getM_Warehouse_ID());
+		log.info("               Planner: " + getPlanner_ID());
+		log.info("     PP_Product_BOM_ID: " + getPP_Product_BOM_ID()); 
 	}
 }	//	Product Data Planning
 
