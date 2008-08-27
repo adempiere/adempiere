@@ -30,6 +30,7 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1801842 ] DB connection fix & improvements for concurrent threads
+ * 			<li>BF [ 1943723 ] WF Activity History is not translated
  */
 public class MWFEventAudit extends X_AD_WF_EventAudit
 {
@@ -182,7 +183,7 @@ public class MWFEventAudit extends X_AD_WF_EventAudit
 		MWFNode node = MWFNode.get(getCtx(), getAD_WF_Node_ID());
 		if (node.get_ID() == 0)
 			return "?";
-		return node.getName(true);
+		return node.get_Translation(MWFNode.COLUMNNAME_Name);
 	}	//	getNodeName
 	
 	
