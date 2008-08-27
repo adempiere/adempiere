@@ -227,7 +227,7 @@ public class MRP extends SvrProcess
 		{
 			//Delete Distribution Order with Draft Status
 			String whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=?"
-								+" AND EXISTS (SELECT 1 FROM DD_OrderLine ol, M_Locator l"
+								+" AND EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN  M_Locator l ON (l.M_Locator_ID=ol.M_LocatorTo_ID) "
 										+" WHERE ol.DD_Order_ID=DD_Order.DD_Order_ID AND l.M_Warehouse_ID=?)";
 			deletePO(MDDOrder.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID});
 		}
