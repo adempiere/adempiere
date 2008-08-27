@@ -219,7 +219,10 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 	 * remove all items, to ease porting of swing form
 	 */
 	public void removeAllItems() {
-		getItems().clear();
+		int cnt = getItemCount();
+		for (int i = cnt - 1; i >=0; i--) {
+			removeItemAt(i);
+		}
 	}
 
 	/**

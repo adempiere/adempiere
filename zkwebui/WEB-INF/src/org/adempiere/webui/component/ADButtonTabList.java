@@ -18,6 +18,7 @@ import java.util.List;
 import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
 import org.zkoss.zhtml.Button;
 import org.zkoss.zhtml.Text;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -38,10 +39,15 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		this.setStyle("margin:0;padding:0");
 	}
 	
-	public void refresh() {
-		this.getChildren().clear();
-		int i = 0;
-		for (ADTabLabel tabLabel : listItems) {
+	public synchronized void refresh() {
+		List childs = getChildren();
+		int childCount = childs.size();
+		for (int c = childCount - 1; c >=0; c--) {
+			removeChild((Component) childs.get(c));
+		}
+		Object[] items = listItems.toArray();
+		for (int i = 0; i < items.length; i++) {
+			ADTabLabel tabLabel = (ADTabLabel) items[i];
 			Button button = new Button();
 			Text text = new Text(tabLabel.label);
 			button.appendChild(text);
@@ -67,7 +73,6 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 			
 			button.setParent(this);
 			button.addEventListener(Events.ON_CLICK, this);
-			i++;
 		}
 	}
 
@@ -79,7 +84,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		this.selectedIndex = index;		
 	}
 	
-	public void setItems(List<ADTabLabel> listItems) {
+	public synchronized void setItems(List<ADTabLabel> listItems) {
 		this.listItems = listItems;
 		refresh();
 	}

@@ -101,32 +101,39 @@ public class Messagebox extends Window implements EventListener
 		lblMsg.setValue(msg);
 		
 		btnOk.setLabel("OK");
-		btnOk.setImage("/images/Ok24.png");
+		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
+		btnOk.setSclass("action-text-button");
 			
 		btnCancel.setLabel("Cancel");
-		btnCancel.setImage("/images/Cancel24.png");
+		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
+		btnCancel.setSclass("action-text-button");
 
 		btnYes.setLabel("Yes");
-		btnYes.setImage("/images/Ok24.png");
+		btnYes.setImage("/images/Ok16.png");
 		btnYes.addEventListener(Events.ON_CLICK, this);
+		btnYes.setSclass("action-text-button");
 		
 		btnNo.setLabel("No");
-		btnNo.setImage("/images/Cancel24.png");
+		btnNo.setImage("/images/Cancel16.png");
 		btnNo.addEventListener(Events.ON_CLICK, this);
+		btnNo.setSclass("action-text-button");
 		
 		btnAbort.setLabel("Abort");
 		//btnAbort.setImage("/images/");
 		btnAbort.addEventListener(Events.ON_CLICK, this);
+		btnAbort.setSclass("action-text-button");
 		
 		btnRetry.setLabel("Retry");
 		//btnRetry.setImage("/images/");
 		btnRetry.addEventListener(Events.ON_CLICK, this);
+		btnRetry.setSclass("action-text-button");
 		
 		btnIgnore.setLabel("Ignore");
-		btnIgnore.setImage("/images/Ignore24.png");
+		btnIgnore.setImage("/images/Ignore16.png");
 		btnIgnore.addEventListener(Events.ON_CLICK, this);
+		btnIgnore.setSclass("action-text-button");
 		
 		Panel pnlMessage = new Panel();
 		pnlMessage.setWidth("100%");

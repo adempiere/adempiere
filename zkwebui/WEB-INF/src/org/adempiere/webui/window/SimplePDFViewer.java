@@ -10,27 +10,40 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.adempiere.webui;
+package org.adempiere.webui.window;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
+import java.io.InputStream;
 
-import org.adempiere.webui.session.ServerContext;
-
-import net.sf.cglib.proxy.InvocationHandler;
+import org.adempiere.webui.component.Window;
+import org.adempiere.webui.session.SessionManager;
+import org.zkoss.util.media.AMedia;
+import org.zkoss.zul.Iframe;
 
 /**
- * Intercaptor for Server context properties that delegate to the threadlocal instance
+ * 
  * @author Low Heng Sin
  *
  */
-public class ServerContextCallback implements InvocationHandler, Serializable {
+public class SimplePDFViewer extends Window {
 
-	public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
-		ServerContext context = ServerContext.getCurrentInstance();
-		Method m = context.getClass().getMethod(method.getName(), method.getParameterTypes());
-		return m.invoke(context, args);
+	public SimplePDFViewer(String title, InputStream pdfInput) {
+		Iframe iframe = new Iframe();
+		iframe.setId("reportFrame");
+		int height = Double.valueOf(SessionManager.getAppDesktop().getClientInfo().desktopHeight * 0.85).intValue();
+		this.setHeight(height + "px");
+		
+		height = height - 30;
+		iframe.setHeight(height + "px");
+		iframe.setWidth("100%");
+		AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", pdfInput);
+		iframe.setContent(media);
+		
+		this.setBorder("normal");
+		this.appendChild(iframe);
+		this.setClosable(true);
+		this.setTitle(title);
+		
+		int width = Double.valueOf(SessionManager.getAppDesktop().getClientInfo().desktopWidth * 0.80).intValue();
+		this.setWidth(width + "px");
 	}
-
 }

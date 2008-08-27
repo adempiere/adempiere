@@ -34,7 +34,6 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
@@ -43,6 +42,7 @@ import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.*;
 import org.compiere.process.*;
@@ -85,7 +85,6 @@ public class WAllocation extends ADForm
 			calculate();
 			southPanel.appendChild(new Separator());
 			southPanel.appendChild(statusBar);
-			statusBar.setWidth("100%");
 		}
 		catch(Exception e)
 		{
@@ -140,7 +139,7 @@ public class WAllocation extends ADForm
 	private WTableDirEditor currencyPick = null;
 	private Checkbox multiCurrency = new Checkbox();
 	private Label allocCurrencyLabel = new Label();
-	private WStatusBar statusBar = new WStatusBar();
+	private StatusBarPanel statusBar = new StatusBarPanel();
 	private Label dateLabel = new Label();
 	private WDateEditor dateField = new WDateEditor();
 	private Checkbox autoWriteOff = new Checkbox();

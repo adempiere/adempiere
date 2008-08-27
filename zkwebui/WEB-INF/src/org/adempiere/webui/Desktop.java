@@ -734,10 +734,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	        	pd.setPage(page);
 	        	pd.setClosable(true);
 	        	pd.setWidth("500px");
-	        	try {
-					pd.doModal();
-				} catch (InterruptedException e) {
-				}
+	        	pd.doHighlighted();
         	}
         }
         else if(menu.getAction().equals(MMenu.ACTION_Form))

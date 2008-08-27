@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -14,128 +14,94 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-
-/**
- * 2007, Modified by Posterita Ltd.
- */
-
 package org.adempiere.webui.apps.form;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.logging.Level;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 
-import javax.swing.table.AbstractTableModel;
-
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Column;
-import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.VerticalBox;
-import org.adempiere.webui.component.WStatusBar;
-import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.editor.WDateEditor;
 import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.GridTable;
-import org.compiere.model.GridWindow;
-import org.compiere.model.GridWindowVO;
-import org.compiere.model.MLocatorLookup;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MQuery;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.NamePair;
+import org.adempiere.webui.panel.ADTabpanel;
+import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionManager;
+import org.compiere.model.*;
+import org.compiere.util.*;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Separator;
 
-public class WTrxMaterial extends ADForm implements EventListener, ValueChangeListener 
+/**
+ * Material Transaction History
+ *
+ * @author Jorg Janke
+ * @version $Id: VTrxMaterial.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ */
+public class WTrxMaterial extends ADForm
+	implements EventListener, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-
-	/**	FormFrame			*/
-	//private FormFrame 		m_frame;
 
 	/** GridController          */
-	private Grid m_gridController = new Grid();
-	private Columns columns = new Columns();
-	private Rows rows = new Rows();
-	
+	private ADTabpanel  m_gridController = null;
 	/** MWindow                 */
-	private GridWindow m_mWindow = null;
-	
+	private GridWindow         m_mWindow = null;
 	/** MTab pointer            */
-	private GridTab m_mTab = null;
+	private GridTab            m_mTab = null;
 
-	private MQuery m_staticQuery = null;
-	
+	private MQuery          m_staticQuery = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WTrxMaterial.class);
-	
-	private VerticalBox mainPanel = new VerticalBox();
-	private Hbox parameterPanel = new Hbox();
+	//
+	private Panel mainPanel = new Panel();
+	private Borderlayout mainLayout = new Borderlayout();
+	private Panel parameterPanel = new Panel();
 	private Label orgLabel = new Label();
-	private WEditor orgField;
+	private WTableDirEditor orgField;
 	private Label locatorLabel = new Label();
 	private WLocatorEditor locatorField;
 	private Label productLabel = new Label();
-	private WEditor productField;
+	private WSearchEditor productField;
 	private Label dateFLabel = new Label();
-	private Datebox dateFField;
+	private WDateEditor dateFField;
 	private Label dateTLabel = new Label();
-	private Datebox dateTField;
+	private WDateEditor dateTField;
 	private Label mtypeLabel = new Label();
-	private WEditor mtypeField;
+	private WTableDirEditor mtypeField;
+	private Grid parameterLayout = GridFactory.newGridLayout();
 	private Panel southPanel = new Panel();
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true, true, false, false, false, true);
-	private WStatusBar statusBar = new WStatusBar();
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true, true, false, false, false, true, false);
+	private StatusBarPanel statusBar = new StatusBarPanel();
 
-	public WTrxMaterial()
-	{
-	}
-	
+
 	/**
 	 *	Initialize Panel
-	 *  @param WindowNo window
-	 *  @param frame frame
 	 */
-	
 	protected void initForm()
 	{
 		log.info("");
-
 		try
 		{
 			dynParameter();
-			jbInit();
-			dynInit();
-			
-			this.appendChild(mainPanel);
-			this.appendChild(statusBar);
+			zkInit();
+			dynInit();			
 		}
 		catch(Exception ex)
 		{
@@ -147,129 +113,81 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 	 *  Static Init
 	 *  @throws Exception
 	 */
-	
-	void jbInit() throws Exception
+	void zkInit() throws Exception
 	{
-		orgLabel.setValue(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		locatorLabel.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
-		productLabel.setValue(Msg.translate(Env.getCtx(), "Product"));
-		dateFLabel.setValue(Msg.translate(Env.getCtx(), "DateFrom"));
-		dateTLabel.setValue(Msg.translate(Env.getCtx(), "DateTo"));
-		mtypeLabel.setValue(Msg.translate(Env.getCtx(), "MovementType"));
+		this.appendChild(mainPanel);
+		mainPanel.setStyle("width: 99%; height: 100%; border: none; padding: 0; margin: 0");
+		mainPanel.appendChild(mainLayout);
+		mainLayout.setWidth("100%");
+		mainLayout.setHeight("100%");
+		parameterPanel.appendChild(parameterLayout);
+		//
+		orgLabel.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		productLabel.setText(Msg.translate(Env.getCtx(), "Product"));
+		dateFLabel.setText(Msg.translate(Env.getCtx(), "DateFrom"));
+		dateTLabel.setText(Msg.translate(Env.getCtx(), "DateTo"));
+		mtypeLabel.setText(Msg.translate(Env.getCtx(), "MovementType"));
+		//
+		North north = new North();
+		mainLayout.appendChild(north);
+		north.appendChild(parameterPanel);
 		
-		m_gridController.setWidth("900px");
-		m_gridController.setHeight("550px");
-		
-		mainPanel.setWidth("100%");
-		mainPanel.appendChild(new Separator());
-		mainPanel.appendChild(parameterPanel);
-		mainPanel.appendChild(new Separator());
-		mainPanel.appendChild(m_gridController);
-		mainPanel.appendChild(new Separator());
-		
-		Hbox boxOrg = new Hbox();
-		boxOrg.setWidth("100%");
-		boxOrg.setWidth("35%, 75%");
-		boxOrg.appendChild(orgLabel);
-		boxOrg.appendChild(orgField.getComponent());
+		Rows rows = parameterLayout.newRows();
+		Row row = rows.newRow();
+		row.appendChild(orgLabel.rightAlign());
+		row.appendChild(orgField.getComponent());
+		row.appendChild(mtypeLabel.rightAlign());
+		row.appendChild(mtypeField.getComponent());
+		row.appendChild(dateFLabel.rightAlign());
+		row.appendChild(dateFField.getComponent());
 
-		Hbox boxMType = new Hbox();
-		boxMType.setWidth("100%");
-		boxMType.setWidth("35%, 75%");
-		boxMType.appendChild(mtypeLabel);
-		boxMType.appendChild(mtypeField.getComponent());
-		
-		Hbox boxDateF = new Hbox();
-		boxDateF.setWidth("100%");
-		boxDateF.setWidth("35%, 75%");
-		boxDateF.appendChild(dateFLabel);
-		boxDateF.appendChild(dateFField);
-
-		Hbox boxLocator = new Hbox();
-		boxLocator.setWidth("100%");
-		boxLocator.setWidth("35%, 75%");
-		boxLocator.appendChild(locatorLabel);
-		boxLocator.appendChild(locatorField.getComponent());
-
-		Hbox boxProduct = new Hbox();
-		boxProduct.setWidth("100%");
-		boxProduct.setWidth("35%, 75%");
-		boxProduct.appendChild(productLabel);
-		boxProduct.appendChild(productField.getComponent());
-
-		Hbox boxDateT = new Hbox();
-		boxDateT.setWidth("100%");
-		boxDateT.setWidth("35%, 75%");
-		boxDateT.appendChild(dateTLabel);
-		boxDateT.appendChild(dateTField);
-
-		VerticalBox boxCol1 = new VerticalBox();
-		boxCol1.setWidth("100%");
-		boxCol1.appendChild(boxOrg);
-		boxCol1.appendChild(boxLocator);
-		
-		VerticalBox boxCol2 = new VerticalBox();
-		boxCol2.setWidth("100%");
-		boxCol2.appendChild(boxMType);
-		boxCol2.appendChild(boxProduct);
-		
-		VerticalBox boxCol3 = new VerticalBox();
-		boxCol3.setWidth("100%");
-		boxCol3.appendChild(boxDateF);
-		boxCol3.appendChild(boxDateT);
-		
-		parameterPanel.setWidth("100%");
-		parameterPanel.setStyle("text-align:right");
-		parameterPanel.appendChild(boxCol1);
-		parameterPanel.appendChild(new Separator());
-		parameterPanel.appendChild(boxCol2);
-		parameterPanel.appendChild(new Separator());
-		parameterPanel.appendChild(boxCol3);
-		
+		row = rows.newRow();
+		row.appendChild(locatorLabel.rightAlign());
+		row.appendChild(locatorField.getComponent());
+		row.appendChild(productLabel.rightAlign());
+		row.appendChild(productField.getComponent());
+		row.appendChild(dateTLabel.rightAlign());
+		row.appendChild(dateTField.getComponent());
+		//
 		southPanel.appendChild(confirmPanel);
 		southPanel.appendChild(new Separator());
 		southPanel.appendChild(statusBar);
+		South south = new South();
+		south.setStyle("border: none");
+		mainLayout.appendChild(south);
+		south.appendChild(southPanel);
 		
-		mainPanel.appendChild(southPanel);
-		
-		this.setWidth("100%");
-		this.appendChild(mainPanel);
-	}
-	
+		LayoutUtils.addSclass("status-border", statusBar);
+	}   //  jbInit
+
 	/**
 	 *  Initialize Parameter fields
 	 *  @throws Exception if Lookups cannot be initialized
 	 */
-	
 	private void dynParameter() throws Exception
 	{
 		Properties ctx = Env.getCtx();
 		//  Organization
-		
 		MLookup orgLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3660, DisplayType.TableDir);
-		orgField = new WTableDirEditor(orgLookup, "AD_Org_ID", "", false, false, true);
-		orgField.addValueChangeListener(this);
-		
+		orgField = new WTableDirEditor("AD_Org_ID", false, false, true, orgLookup);
+	//	orgField.addVetoableChangeListener(this);
 		//  Locator
 		MLocatorLookup locatorLookup = new MLocatorLookup(ctx, m_WindowNo);
 		locatorField = new WLocatorEditor ("M_Locator_ID", false, false, true, locatorLookup, m_WindowNo);
-		locatorField.addValueChangeListener(this);
-		
+	//	locatorField.addVetoableChangeListener(this);
 		//  Product
 		MLookup productLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3668, DisplayType.Search);
-		productField = new WSearchEditor(productLookup, "M_Product_ID", "", false, false, true);
+		productField = new WSearchEditor("M_Product_ID", false, false, true, productLookup);
 		productField.addValueChangeListener(this);
-		
 		//  Movement Type
 		MLookup mtypeLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3666, DisplayType.List);
-		mtypeField = new WTableDirEditor(mtypeLookup, "MovementType", "", false, false, true);
-		mtypeField.addValueChangeListener(this);
-		
-		//	Dates
-		dateFField = new Datebox();//"DateFrom", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateFrom"));
-		dateTField = new Datebox();//"DateTo", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateTo"));
-		
-		confirmPanel.addActionListener(Events.ON_CLICK, this);
+		mtypeField = new WTableDirEditor("MovementType", false, false, true, mtypeLookup);
+		//  Dates
+		dateFField = new WDateEditor("DateFrom", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateFrom"));
+		dateTField = new WDateEditor("DateTo", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateTo"));
+		//
+		confirmPanel.addActionListener(this);
 		statusBar.setStatusLine("");
 	}   //  dynParameter
 
@@ -283,127 +201,33 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 		m_staticQuery.addRestriction("AD_Client_ID", MQuery.EQUAL, Env.getAD_Client_ID(Env.getCtx()));
 		int AD_Window_ID = 223;		//	Hardcoded
 		GridWindowVO wVO = AEnv.getMWindowVO (m_WindowNo, AD_Window_ID, 0);
-		
 		if (wVO == null)
 			return;
-		
 		m_mWindow = new GridWindow (wVO);
 		m_mTab = m_mWindow.getTab(0);
 		m_mWindow.initTab(0);
-		
-		populateGrid();
-		
-		//m_gridController.initGrid(m_mTab, true, m_WindowNo, null, null);
-		//mainPanel.add(m_gridController, BorderLayout.CENTER);
-		
+		//
+		m_gridController = new ADTabpanel();
+		m_gridController.init(null, m_WindowNo, m_mTab, m_mWindow);
+		m_gridController.switchRowPresentation();
+		Center center = new Center();
+		mainLayout.appendChild(center);
+		center.setFlex(true);
+		center.appendChild(m_gridController);
+		//
 		m_mTab.setQuery(MQuery.getEqualQuery("1", "2"));
 		m_mTab.query(false);
 		statusBar.setStatusLine(" ", false);
 		statusBar.setStatusDB(" ");
 	}   //  dynInit
 
-	private void populateGrid()
-	{
-		m_gridController.getChildren().clear();
-		m_gridController.appendChild(columns);
-		m_gridController.appendChild(rows);
-		
-		columns.getChildren().clear();
-		
-		Column column = new Column();
-		
-		AbstractTableModel tableModel = m_mTab.getTableModel();
-    	GridField[] gridfields = ((GridTable)tableModel).getFields();
-    	
-    	for (int i = 0; i < gridfields.length; i++)
-    	{
-    		if (gridfields[i].isDisplayed())
-    		{
-    			column = new Column(gridfields[i].getHeader());
-    			columns.appendChild(column);
-    		}
-    	}
-    	
-	   	rows.getChildren().clear();
-	   	
-    	for (int i = 0; i < tableModel.getRowCount(); i++)
-    	{
-    		Row row = new Row();
-    		
-			for (int j = 0; j < tableModel.getColumnCount(); j++)
-    		{
-				Label lab = new Label();
-				
-    			Label label = new Label("");
-    			
-    			if (!gridfields[j].isDisplayed())
-    				break;
-    			
-    			Object obj = tableModel.getValueAt(i, j);
-    			
-    			if (obj != null)
-    			{
-	    			if (tableModel.getColumnClass(j).equals(String.class))
-	    			{
-	    				label.setValue(obj.toString());
-	    			}
-	    			else if (tableModel.getColumnClass(j).equals(BigDecimal.class))
-	    			{
-	    				label.setValue(obj.toString());
-	    			}
-	    			else if (tableModel.getColumnClass(j).equals(Integer.class))
-	    			{
-	    				if (gridfields[j].isLookup())
-	    				{
-	    					MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
-	    							0, gridfields[j].getAD_Column_ID(), gridfields[j].getDisplayType());
-	    					
-	    					NamePair namepair = lookup.get(obj);
-	    					
-	    					if (namepair != null)
-	    						label.setValue(namepair.getName());
-	    					else
-	    						label.setValue("");
-	    				}
-	    			}
-	    			else if (tableModel.getColumnClass(j).equals(Timestamp.class))
-	    			{
-	    				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
-	    				label.setValue(dateFormat.format((Timestamp)obj));
-	    			}
-	    			else
-	    				label.setValue("Missing Class");
-    			}
-    			
-    			 lab = new Label(label.getValue());
-    			 row.appendChild(lab);
-    		}
-    		rows.appendChild(row);
-    	}
-	}
-	
+
 	/**
 	 * 	Dispose
 	 */
 	public void dispose()
 	{
-		/*if (m_gridController != null)
-			m_gridController.dispose();
-		*/
-		m_gridController = null;
-		m_mTab = null;
-		
-		if (m_mWindow != null)
-			m_mWindow.dispose();
-		
-		m_mWindow = null;
-
-		orgField = null;
-		locatorField = null;
-		productField = null;
-		mtypeField = null;
-		dateFField = null;
-		dateTField = null;
+		SessionManager.getAppDesktop().removeWindow();
 	}	//	dispose
 
 	
@@ -411,93 +235,61 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 	 *  Action Listener
 	 *  @param e event
 	 */
-	
-	public void onEvent(Event event) throws Exception 
+	public void onEvent (Event e)
 	{
-		if (confirmPanel.getButton("Cancel").equals(event.getTarget()))
+		if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 			dispose();
-		else if (confirmPanel.getButton("Refresh").equals(event.getTarget())
-				|| confirmPanel.getButton("Ok").equals(event.getTarget()))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_REFRESH)
+				|| e.getTarget().getId().equals(ConfirmPanel.A_OK))
 			refresh();
-		else if (confirmPanel.getButton("Zoom").equals(event.getTarget()))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_ZOOM))
 			zoom();
-		
-	}
+	}   //  actionPerformed
+
 	
 	/**************************************************************************
 	 *  Property Listener
 	 *  @param e event
 	 */
-	
-	public void valueChange(ValueChangeEvent evt) 
+	public void valueChange (ValueChangeEvent e)
 	{
-		if (evt.getPropertyName().equals("M_Product_ID"))
-			productField.setValue(evt.getNewValue());
-	}
+		if (e.getPropertyName().equals("M_Product_ID"))
+			productField.setValue(e.getNewValue());
+	}   //  vetoableChange
 
+
+	
 	/**************************************************************************
 	 *  Refresh - Create Query and refresh grid
 	 */
-	
 	private void refresh()
 	{
 		/**
 		 *  Create Where Clause
 		 */
-		
 		MQuery query = m_staticQuery.deepCopy();
-		
 		//  Organization
-		Object value = null;
-		if (orgField.getDisplay() != "")
-			value = orgField.getValue();
+		Object value = orgField.getValue();
 		if (value != null && value.toString().length() > 0)
 			query.addRestriction("AD_Org_ID", MQuery.EQUAL, value);
-		
 		//  Locator
-		value = null;
-		if (locatorField.getDisplay() != "")
-			value = locatorField.getValue();
+		value = locatorField.getValue();
 		if (value != null && value.toString().length() > 0)
 			query.addRestriction("M_Locator_ID", MQuery.EQUAL, value);
-		
 		//  Product
-		value = null;
-		if (productField.getDisplay() != "")
-			value = productField.getValue();
+		value = productField.getValue();
 		if (value != null && value.toString().length() > 0)
 			query.addRestriction("M_Product_ID", MQuery.EQUAL, value);
-		
 		//  MovementType
-		value = null;
-		if (mtypeField.getDisplay() != "")
-			value = mtypeField.getValue();
+		value = mtypeField.getValue();
 		if (value != null && value.toString().length() > 0)
 			query.addRestriction("MovementType", MQuery.EQUAL, value);
-		
 		//  DateFrom
-		Date f = null;
-		Timestamp ts  =null;
-		
-		if (dateFField.getValue() != null)
-		{
-			f = dateFField.getValue();
-			ts = new Timestamp(f.getTime());
-		}
-		
+		Timestamp ts = (Timestamp)dateFField.getValue();
 		if (ts != null)
 			query.addRestriction("TRUNC(MovementDate)", MQuery.GREATER_EQUAL, ts);
-		
 		//  DateTO
-		Date t = null;
-		ts = null;
-		
-		if (dateTField.getValue() != null)
-		{
-			t = dateTField.getValue();
-			ts = new Timestamp(t.getTime());
-		}
-
+		ts = (Timestamp)dateTField.getValue();
 		if (ts != null)
 			query.addRestriction("TRUNC(MovementDate)", MQuery.LESS_EQUAL, ts);
 		log.info( "VTrxMaterial.refresh query=" + query.toString());
@@ -505,37 +297,31 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 		/**
 		 *  Refresh/Requery
 		 */
-		
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-
+		//
 		m_mTab.setQuery(query);
 		m_mTab.query(false);
-
+		//
 		int no = m_mTab.getRowCount();
 		statusBar.setStatusLine(" ", false);
 		statusBar.setStatusDB(Integer.toString(no));
-		
-		populateGrid();
 	}   //  refresh
 
 	/**
 	 *  Zoom
 	 */
-	
 	private void zoom()
 	{
 		log.info("");
-		
+		//
 		int AD_Window_ID = 0;
 		String ColumnName = null;
 		String SQL = null;
-		
+		//
 		int lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_InOutLine_ID");
-		
 		if (lineID != 0)
 		{
 			log.fine("M_InOutLine_ID=" + lineID);
-		
 			if (Env.getContext(Env.getCtx(), m_WindowNo, "MovementType").startsWith("C"))
 				AD_Window_ID = 169;     //  Customer
 			else
@@ -546,7 +332,6 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 		else
 		{
 			lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_InventoryLine_ID");
-			
 			if (lineID != 0)
 			{
 				log.fine("M_InventoryLine_ID=" + lineID);
@@ -557,7 +342,6 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 			else
 			{
 				lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_MovementLine_ID");
-			
 				if (lineID != 0)
 				{
 					log.fine("M_MovementLine_ID=" + lineID);
@@ -568,7 +352,6 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 				else
 				{
 					lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_ProductionLine_ID");
-				
 					if (lineID != 0)
 					{
 						log.fine("M_ProductionLine_ID=" + lineID);
@@ -581,19 +364,16 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 				}
 			}
 		}
-		
 		if (AD_Window_ID == 0)
 			return;
 
 		//  Get Parent ID
 		int parentID = 0;
-		
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
 			pstmt.setInt(1, lineID);
 			ResultSet rs = pstmt.executeQuery();
-		
 			if (rs.next())
 				parentID = rs.getInt(1);
 			rs.close();
@@ -603,21 +383,13 @@ public class WTrxMaterial extends ADForm implements EventListener, ValueChangeLi
 		{
 			log.log(Level.SEVERE, SQL, e);
 		}
-		
 		MQuery query = MQuery.getEqualQuery(ColumnName, parentID);
 		log.config("AD_Window_ID=" + AD_Window_ID + " - " + query);
-		
 		if (parentID == 0)
 			log.log(Level.SEVERE, "No ParentValue - " + SQL + " - " + lineID);
 
 		//  Zoom
 		AEnv.zoom(AD_Window_ID, query);
-/*		ADWindow frame = new ADWindow(Env.getCtx(), AD_Window_ID);
-		
-		if (frame == null)
-			return;
-		
-		SessionManager.getAppDesktop().showWindow(frame);
-		frame = null;
-*/	}   //  zoom
-}
+	}   //  zoom
+
+}   //  VTrxMaterial

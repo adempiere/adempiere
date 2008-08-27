@@ -29,11 +29,11 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.compiere.model.Lookup;
 import org.compiere.model.MClient;
 import org.compiere.model.MLookupFactory;
@@ -167,7 +167,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 	private Textbox fAttachment = new Textbox();//40);
 	private Textbox fMessage = new Textbox();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
-	private WStatusBar statusBar = new WStatusBar();
+	private StatusBarPanel statusBar = new StatusBarPanel();
 
 	/**
 	 *	Static Init
@@ -284,7 +284,6 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 		
 		South south = new South();
 		south.appendChild(statusBar);
-		statusBar.setWidth("100%");
 		layout.appendChild(south);
 		south.setStyle("background-color: white");
 		

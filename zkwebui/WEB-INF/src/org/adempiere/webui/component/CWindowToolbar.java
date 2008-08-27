@@ -441,7 +441,6 @@ public class CWindowToolbar extends FToolbar implements EventListener
     public void enableChanges(boolean enabled)
     {
         this.btnNew.setDisabled(!enabled);
-        this.btnIgnore.setDisabled(!enabled);
     }
     
     public void enableIgnore(boolean enabled)

@@ -309,7 +309,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			row = new Row();
 			row.setParent(rows);
 			m_row++;
-			rows.appendChild(label);
+			row.appendChild(label);
 			row.appendChild(fieldLot);
 			if (m_masi.getM_Lot_ID() != 0)
 			{

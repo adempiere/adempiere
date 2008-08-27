@@ -132,7 +132,7 @@ public class FDialog
 
     	if (title == null)
     	{
-    		newTitle = Env.getHeader(ctx, windowNo);
+    		newTitle = windowNo > 0 ? Env.getHeader(ctx, windowNo) : null;
     	}
     	else
     	{
@@ -141,7 +141,8 @@ public class FDialog
     	
 		try
 		{
-			Messagebox.showDialog(out.toString(), newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
+			String s = out.toString().replace("\n", "<br>");
+			Messagebox.showDialog(s, newTitle, Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 		catch (InterruptedException exception)
 		{
@@ -239,7 +240,8 @@ public class FDialog
 		
 		try
 		{
-			Messagebox.showDialog(out.toString(), Env.getHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
+			String s = out.toString().replace("\n", "<br>");
+			Messagebox.showDialog(s, (windowNo > 0 ? Env.getHeader(ctx, windowNo) : null), Messagebox.OK, Messagebox.ERROR);
 		}
 		catch (InterruptedException exception)
 		{
@@ -267,7 +269,8 @@ public class FDialog
 			out.append(Msg.getMsg(Env.getCtx(), adMessage));
 		if (msg != null && msg.length() > 0)
 			out.append("\n").append(msg);
-		return ask(windowNo, comp, out.toString());
+		String s = out.toString().replace("\n", "<br>");
+		return ask(windowNo, comp, s);
     }
     
 	/**************************************************************************
@@ -284,7 +287,8 @@ public class FDialog
     {
         try
         {
-            int response = Messagebox.showDialog(Msg.getMsg(Env.getCtx(), adMessage), "Confirmation", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION);
+        	String s = Msg.getMsg(Env.getCtx(), adMessage).replace("\n", "<br>");
+            int response = Messagebox.showDialog(s, "Confirmation", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION);
 
             return (response == Messagebox.YES);
         }
@@ -343,7 +347,8 @@ public class FDialog
 
         try
         {
-        	Messagebox.showDialog(out.toString(), Env.getHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
+        	String s = out.toString().replace("\n", "<br>");
+        	Messagebox.showDialog(s, Env.getHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
         }
         catch (InterruptedException exception)
         {

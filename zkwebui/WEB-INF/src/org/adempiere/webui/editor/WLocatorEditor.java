@@ -53,7 +53,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
     
 	private String m_columnName;
 	private MLocatorLookup m_mLocator;
-	private MLocator m_value;
+	private Object m_value;
 	private int m_WindowNo;
 	
 	private static CLogger log = CLogger.getCLogger(WLocatorEditor.class);
@@ -113,7 +113,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 				value = null;
 		}
 
-		m_value = m_mLocator.getMLocator(value, null);
+		m_value = value;
 		getComponent().setText(m_mLocator.getDisplay(value));	//	loads value
 		
 		//	Data Binding
@@ -159,8 +159,9 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	
 	public int getM_Locator_ID()
 	{
-		if (m_value != null/*	&& m_value instanceof Integer*/)
-			return m_value.getM_Locator_ID();
+		if (m_value != null 
+				&& m_value instanceof Integer)
+				return ((Integer)m_value).intValue();
 		
 		return 0;
 	} // getM_Locator_ID
@@ -193,9 +194,8 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		
 		int M_Locator_ID = 0;
 		
-		//if (m_value instanceof Integer)
-		if (m_value != null)
-			M_Locator_ID = m_value.getM_Locator_ID();
+		if (m_value instanceof Integer)
+			M_Locator_ID = ((Integer)m_value).intValue();
 
 		m_mLocator.setOnly_Warehouse_ID(only_Warehouse_ID);
 		m_mLocator.setOnly_Product_ID(getOnly_Product_ID());

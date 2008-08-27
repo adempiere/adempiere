@@ -28,6 +28,9 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
@@ -44,6 +47,9 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.zkoss.web.servlet.Servlets;
+import org.zkoss.zk.ui.Execution;
+import org.zkoss.zk.ui.Executions;
 
 /**
  *  Windows Application Environment and utilities
@@ -691,4 +697,22 @@ public final class AEnv
         }
         return uri;
     }   //  getImageIcon
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public static boolean isFirefox2() {
+    	Execution execution = Executions.getCurrent();
+    	if (execution == null)
+    		return false;
+    	
+    	Object n = execution.getNativeRequest();
+    	if (n instanceof ServletRequest) {
+    		String userAgent = Servlets.getUserAgent((ServletRequest) n);
+    		return userAgent.indexOf("Firefox/2") >= 0;
+    	} else {
+    		return false;
+    	}
+    }
 }	//	AEnv

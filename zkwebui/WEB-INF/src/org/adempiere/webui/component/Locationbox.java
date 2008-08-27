@@ -20,6 +20,7 @@ package org.adempiere.webui.component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 
 /** Location Editor component
@@ -53,8 +54,13 @@ public class Locationbox extends Panel
      {
          txt = new Textbox();
          btn = new Button();
+         btn.setHeight("22px");
+         btn.setWidth("26px");
          this.appendChild(txt);
          this.appendChild(btn);
+         
+         String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	     this.setStyle(style);
      }
      
      public Textbox getTextBox()

@@ -257,13 +257,16 @@ public class ListModelTable extends ListModelList implements ListModelExt
 				if (vector)
 				{
 					newRow = new Vector<Object>(getNoColumns());
-					((Vector)newRow).ensureCapacity(getNoColumns());
+					((Vector)newRow).setSize(getNoColumns());
 					add(newRow);
 				}
 				else
 				{
 					newRow = new ArrayList<Object>(getNoColumns());
-					((ArrayList)newRow).ensureCapacity(getNoColumns());
+					for(int i = 0; i < getNoColumns(); i++) 
+					{
+						newRow.add(null);
+					}
 					add(newRow);
 				}
 			}

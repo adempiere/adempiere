@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Bandbox;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
@@ -347,7 +348,8 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     
                     if (editor instanceof WButtonEditor)
                     {
-                    	((WButtonEditor)editor).addActionListener(windowPanel);
+                    	if (windowPanel != null)
+                    		((WButtonEditor)editor).addActionListener(windowPanel);
                     }
                     else
                     {
@@ -356,8 +358,11 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     
                     if (editor.getComponent() instanceof HtmlBasedComponent) {
                     	//can't stretch bandbox & datebox
-                    	if (!(editor.getComponent() instanceof Bandbox) && !(editor.getComponent() instanceof Datebox))
-                    		((HtmlBasedComponent)editor.getComponent()).setWidth("100%");
+                    	if (!(editor.getComponent() instanceof Bandbox) && 
+                    		!(editor.getComponent() instanceof Datebox)) {
+                    		String width = AEnv.isFirefox2() ? "99%" : "100%";
+                    		((HtmlBasedComponent)editor.getComponent()).setWidth(width);
+                    	}
                     }
                     
                     WEditorPopupMenu popupMenu = editor.getPopupMenu();
@@ -460,14 +465,20 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     }
                     else
                     {
+                    	comp.dynamicDisplay();
                         boolean rw = mField.isEditable(true);   //  r/w - check Context
                         comp.setReadWrite(rw);
+                        if (comp.getLabel() != null)
+                        {
+                        	comp.setMandatory(mField.isMandatory(true));    //  check context
+                        }
+                        /*
                         boolean manMissing = false;
                         if (rw && mField.getValue() == null && mField.isMandatory(true))    //  check context
                         {
                             manMissing = true;
                         }
-                        comp.setBackground(manMissing || mField.isError());
+                        comp.setBackground(manMissing || mField.isError());*/
                     }
                 }
                 else if (comp.isVisible())
@@ -724,6 +735,8 @@ DataStatusListener, ValueChangeListener, IADTabpanel
             
         }
         //if (col >= 0)
+        if (!uiCreated)
+        	createUI();
         dynamicDisplay(col);
         
         //sync tree 
@@ -835,7 +848,9 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         //
         if (e.getNewValue() == null && e.getOldValue() != null 
             && e.getOldValue().toString().length() > 0)     //  some editors return "" instead of null
-            mTable.setChanged (true);
+//        	  this is the original code from GridController, don't know what it does there but it breaks ignore button for web ui        
+//            mTable.setChanged (true);  
+        	mTable.setValueAt (e.getNewValue(), row, col);
         else
         {
         //  mTable.setValueAt (e.getNewValue(), row, col, true);

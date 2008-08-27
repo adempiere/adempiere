@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -14,35 +14,29 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-
-/**
- * 2007, Modified by Posterita Ltd.
- */
-
 package org.adempiere.webui.apps.form;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.logging.Level;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 
-import org.adempiere.webui.component.Button;
+import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListHead;
-import org.adempiere.webui.component.ListHeader;
-import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
-import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -50,372 +44,362 @@ import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MOrder;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
-import org.compiere.model.MPrivateAccess;
-import org.compiere.process.ProcessInfo;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
+import org.compiere.model.*;
+import org.compiere.print.*;
+import org.compiere.process.*;
+import org.compiere.util.*;
+import org.zkoss.zk.au.out.AuEcho;
+import org.zkoss.zk.ui.DesktopUnavailableException;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Separator;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Html;
+import org.zkoss.zul.Space;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * Generate Shipments Manual : Based on VInOutGen
- * 
- * @author  Niraj Sohun
- * @date    Jul 9, 2007
+ *	Manual Shipment Selection
+ *
+ *  @author Jorg Janke
+ *  @version $Id: VInOutGen.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-
 public class WInOutGen extends ADForm implements EventListener, ValueChangeListener, WTableModelListener
 {
-	private static final long serialVersionUID = 1L;
-
-	private Separator separator;
-	
-	private Tabbox tabbox;
-	
-	private Tabs tabs;
-	private Tab tabSelect;
-	private Tab tabGenerate;
-	
-	private Tabpanels tabpanels;
-	private Tabpanel pnlSelect;
-	private Tabpanel pnlGenerate;
-	
-	// Panel Select
-	
-	private WEditor warehouseSearch;
-	private WEditor bPartnerSearch;
-	private WListbox lstSelect;
-	
-	// Panel Generate
-	
-	private Label lblGenerate;
-	private Label lblNote;
-	private Listbox lstGenerate;
-	
-	private Button btnOk;
-	private Button btnCancel;
-	
-	private Label lblStatus;
-	private Label lblNumSelected;
-	
-	private boolean	m_selectionActive = true;
-	private ArrayList<Integer> selections = null;
-
-	@SuppressWarnings("unused")
-	private Object m_C_BPartner_ID;
-	private Object m_M_Warehouse_ID;
-	
-	private static CLogger log = CLogger.getCLogger(WInvoiceGen.class);
-	
-	public WInOutGen()
-	{
-	}
-	
+	@Override
 	protected void initForm()
 	{
-		separator = new Separator();
-		separator.setHeight("5px");
+		log.info("");
+		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "Y");
+		try
+		{
+			fillPicks();
+			zkInit();
+			dynInit();
+			Borderlayout contentPane = new Borderlayout();
+			this.appendChild(contentPane);
+			contentPane.setWidth("99%");
+			contentPane.setHeight("100%");
+			Center center = new Center();
+			center.setStyle("border: none");
+			contentPane.appendChild(center);
+			center.appendChild(tabbedPane);
+			center.setFlex(true);
+			South south = new South();
+			south.setStyle("border: none");
+			contentPane.appendChild(south);
+			south.appendChild(statusBar);
+			LayoutUtils.addSclass("status-border", statusBar);
+			south.setHeight("22px");
+		}
+		catch(Exception ex)
+		{
+			log.log(Level.SEVERE, "init", ex);
+		}
+	}	//	init
+
+	private boolean			m_selectionActive = true;
+	private Object 			m_M_Warehouse_ID = null;
+	private Object 			m_C_BPartner_ID = null;
+	/**	Logger			*/
+	private static CLogger log = CLogger.getCLogger(WInOutGen.class);
+	//
+	private Tabbox tabbedPane = new Tabbox();
+	private Borderlayout selPanel = new Borderlayout();
+	private Panel selNorthPanel = new Panel();
+	private Label lWarehouse = new Label();
+	private WTableDirEditor fWarehouse;
+	private Label lBPartner = new Label();
+	private WSearchEditor fBPartner;
+//	private FlowLayout northPanelLayout = new FlowLayout();
+	private ConfirmPanel confirmPanelSel = new ConfirmPanel(true);
+	private ConfirmPanel confirmPanelGen = new ConfirmPanel(false, true, false, false, false, false, false);
+	private StatusBarPanel statusBar = new StatusBarPanel();
+	private Borderlayout genPanel = new Borderlayout();
+	private Html info = new Html();
+//	private JScrollPane scrollPane = new JScrollPane();
+	private WListbox miniTable = ListboxFactory.newDataTable();
+	
+	private Label     lDocType = new Label();
+	private Listbox  cmbDocType = ListboxFactory.newDropdownListbox();
+
+	/** User selection */
+	private ArrayList<Integer> selection = null;
+	private int[] m_ids;
+	private ProcessInfo m_pi;
+	
+	/**
+	 *	Static Init.
+	 *  <pre>
+	 *  selPanel (tabbed)
+	 *      fOrg, fBPartner
+	 *      scrollPane & miniTable
+	 *  genPanel
+	 *      info
+	 *  </pre>
+	 *  @throws Exception
+	 */
+	void zkInit() throws Exception
+	{
+		//
+		selPanel.setWidth("99%");
+		selPanel.setHeight("90%");
+		selPanel.setStyle("border: none; position: absolute");
+		lBPartner.setText("BPartner");
+		DesktopTabpanel tabpanel = new DesktopTabpanel();
+		tabpanel.appendChild(selPanel);
+		Tabpanels tabPanels = new Tabpanels();
+		tabPanels.appendChild(tabpanel);
+		tabbedPane.appendChild(tabPanels);
+		Tabs tabs = new Tabs();
+		tabbedPane.appendChild(tabs);
+		Tab tab = new Tab(Msg.getMsg(Env.getCtx(), "Select"));
+		tabs.appendChild(tab);
+		tabbedPane.getTabpanels();
 		
-		tabbox = new Tabbox();
-		tabbox.setWidth("700px");
-				
-		tabs = new Tabs();
+		North north = new North();
+		selPanel.appendChild(north);
+		north.appendChild(selNorthPanel);
+		selNorthPanel.appendChild(lWarehouse);
+		selNorthPanel.appendChild(fWarehouse.getComponent());
+		selNorthPanel.appendChild(new Space());
+		selNorthPanel.appendChild(lBPartner);
+		selNorthPanel.appendChild(fBPartner.getComponent());
+		selNorthPanel.appendChild(new Space());
 		
-		tabSelect = new Tab();
-		tabSelect.setLabel("Select");
-		tabSelect.addEventListener(Events.ON_SELECT, this);
+		South south = new South();
+		selPanel.appendChild(south);
+		south.appendChild(confirmPanelSel);
 		
-		tabGenerate = new Tab();
-		tabGenerate.setLabel("Generate");
-		tabGenerate.addEventListener(Events.ON_SELECT, this);
+		Center center = new Center();
+		selPanel.appendChild(center);
+		center.appendChild(miniTable);
+		center.setFlex(true);
+		miniTable.setHeight("99%");
+		confirmPanelSel.addActionListener(this);
+		//
+		tabpanel = new DesktopTabpanel();
+		tabPanels.appendChild(tabpanel);
+		tabpanel.appendChild(genPanel);
+		tab = new Tab(Msg.getMsg(Env.getCtx(), "Generate"));
+		tabs.appendChild(tab);
+		genPanel.setWidth("99%");
+		genPanel.setHeight("90%");
+		genPanel.setStyle("border: none; position: absolute");
+		center = new Center();
+		genPanel.appendChild(center);
+		Div div = new Div();
+		div.appendChild(info);
+		center.appendChild(div);
+		south = new South();
+		genPanel.appendChild(south);
+		south.appendChild(confirmPanelGen);
+		confirmPanelGen.addActionListener(this);
 		
-		tabpanels = new Tabpanels();
-						
-		pnlSelect = new Tabpanel();
-		pnlGenerate = new Tabpanel();
-		
-        lstSelect = new WListbox();
-        lstSelect.setWidth("690px");
-        lstSelect.setHeight("250px");
-        lstSelect.addEventListener(Events.ON_CLICK, this);
-        lstSelect.getModel().addTableModelListener(this);
+		selNorthPanel.appendChild(lDocType);
+		selNorthPanel.appendChild(cmbDocType);
+	}	//	jbInit
+
+	/**
+	 *	Fill Picks.
+	 *		Column_ID from C_Order
+	 *  @throws Exception if Lookups cannot be initialized
+	 */
+	private void fillPicks() throws Exception
+	{
+		//	C_OrderLine.M_Warehouse_ID
+		MLookup orgL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2223, DisplayType.TableDir);
+		fWarehouse = new WTableDirEditor ("M_Warehouse_ID", true, false, true, orgL);
+		lWarehouse.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
+		fWarehouse.addValueChangeListener(this);
+		m_M_Warehouse_ID = fWarehouse.getValue();
+		//	C_Order.C_BPartner_ID
+		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
+		fBPartner = new WSearchEditor("C_BPartner_ID", false, false, true, bpL);
+		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		fBPartner.addValueChangeListener(this);
+		//Document Type Sales Order/Vendor RMA
+		lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
+		cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
+		cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
+		cmbDocType.addActionListener(this);
+		cmbDocType.setSelectedIndex(0);
+	}	//	fillPicks
+
+	/**
+	 *	Dynamic Init.
+	 *	- Create GridController & Panel
+	 *	- AD_Column_ID from C_Order
+	 */
+	private void dynInit()
+	{
+		//  create Columns
+		miniTable.addColumn("C_Order_ID");
+		miniTable.addColumn("AD_Org_ID");
+		miniTable.addColumn("C_DocType_ID");
+		miniTable.addColumn("DocumentNo");
+		miniTable.addColumn("C_BPartner_ID");
+		miniTable.addColumn("DateOrdered");
+		miniTable.addColumn("TotalLines");
+		//
+		miniTable.setMultiSelection(true);
+//		miniTable.setRowSelectionAllowed(true);
+		//  set details
+		miniTable.setColumnClass(0, IDColumn.class, false, " ");
+		miniTable.setColumnClass(1, String.class, true, Msg.translate(Env.getCtx(), "AD_Org_ID"));
+		miniTable.setColumnClass(2, String.class, true, Msg.translate(Env.getCtx(), "C_DocType_ID"));
+		miniTable.setColumnClass(3, String.class, true, Msg.translate(Env.getCtx(), "DocumentNo"));
+		miniTable.setColumnClass(4, String.class, true, Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		miniTable.setColumnClass(5, Timestamp.class, true, Msg.translate(Env.getCtx(), "DateOrdered"));
+		miniTable.setColumnClass(6, BigDecimal.class, true, Msg.translate(Env.getCtx(), "TotalLines"));
+		//
+		miniTable.autoSize();
+		miniTable.getModel().addTableModelListener(this);
+		//	Info
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
+		statusBar.setStatusDB(" ");
+		//	Tabbed Pane Listener
+		tabbedPane.addEventListener(Events.ON_SELECT, this);
+	}	//	dynInit
+
+	/**
+	 * Get SQL for Orders that needs to be shipped
+	 * @return sql
+	 */
+	private String getOrderSQL()
+	{
+	//  Create SQL
+        StringBuffer sql = new StringBuffer(
+            "SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
+            + "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
+            + " AND ic.AD_Client_ID=?");
+
+        if (m_M_Warehouse_ID != null)
+            sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        if (m_C_BPartner_ID != null)
+            sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
         
-		btnCancel = new Button();
-		btnCancel.setImage("/images/Cancel24.png");
-		btnCancel.addEventListener(Events.ON_CLICK, this);
-		
-		btnOk = new Button();
-		btnOk.setImage("/images/Ok24.png");
-		btnOk.addEventListener(Events.ON_CLICK, this);
-		
-		lblGenerate = new Label();
-		lblGenerate.setWidth("690px");
-		lblGenerate.setMultiline(true);
-		
-		lblNote = new Label();
-		lblNote.setWidth("690px");
-		lblNote.setMultiline(true);
-		
-		lblStatus = new Label(" ");
-		lblNumSelected = new Label("Number of Records Selected : 0");
-		
-		lstGenerate = new Listbox();
-		lstGenerate.setWidth("300px");
-		
-		populateWarehouse();
-        showBusinessPartner();
+        // bug - [ 1713317 ] Generate Shipments (manual) show locked records
+        /* begin - Exclude locked records; @Trifon */
+        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
+        if (lockedIDs != null)
+        {
+            if (sql.length() > 0)
+                sql.append(" AND ");
+            sql.append("C_Order_ID").append(lockedIDs);
+        }
+        /* eng - Exclude locked records; @Trifon */
+          
+        //
+        sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
         
-        initComponents();
+        return sql.toString();
 	}
 	
-	private void initComponents()
+	/**
+	 * Get SQL for Vendor RMA that need to be shipped
+	 * @return sql
+	 */
+	private String getRMASql()
 	{
-		this.setWidth("710px");
+	    StringBuffer sql = new StringBuffer();
+	    
+	    sql.append("SELECT rma.M_RMA_ID, org.Name, dt.Name, rma.DocumentNo, bp.Name, rma.Created, rma.Amt ");
+	    sql.append("FROM M_RMA rma INNER JOIN AD_Org org ON rma.AD_Org_ID=org.AD_Org_ID ");
+	    sql.append("INNER JOIN C_DocType dt ON rma.C_DocType_ID=dt.C_DocType_ID ");
+	    sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
+	    sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
+	    sql.append("WHERE rma.DocStatus='CO' ");
+	    sql.append("AND dt.DocBaseType = 'POO' ");
+	    sql.append("AND EXISTS (SELECT * FROM M_RMA r INNER JOIN M_RMALine rl ");
+	    sql.append("ON r.M_RMA_ID=rl.M_RMA_ID WHERE r.M_RMA_ID=rma.M_RMA_ID ");
+	    sql.append("AND rl.IsActive='Y' AND rl.M_InOutLine_ID > 0 AND rl.QtyDelivered < rl.Qty) ");
+	    sql.append("AND NOT EXISTS (SELECT * FROM M_InOut oio WHERE oio.M_RMA_ID=rma.M_RMA_ID ");
+	    sql.append("AND oio.DocStatus IN ('IP', 'CO', 'CL')) " );
+	    sql.append("AND rma.AD_Client_ID=?");
+	    
+	    if (m_M_Warehouse_ID != null)
+            sql.append(" AND io.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        if (m_C_BPartner_ID != null)
+            sql.append(" AND bp.C_BPartner_ID=").append(m_C_BPartner_ID);
+        
+        int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
+        String lockedIDs = MPrivateAccess.getLockedRecordWhere(MRMA.Table_ID, AD_User_ID);
+        if (lockedIDs != null)
+        {
+            sql.append(" AND rma.M_RMA_ID").append(lockedIDs);
+        }
+	    
+	    sql.append(" ORDER BY org.Name, bp.Name, rma.Created ");
 
-		tabs.appendChild(tabSelect);
-		tabs.appendChild(tabGenerate);
-		
-		tabpanels.appendChild(pnlSelect);
-		tabpanels.appendChild(pnlGenerate);
-		
-		tabbox.appendChild(tabs);
-		tabbox.appendChild(tabpanels);
-		
-		Hbox mainBox = new Hbox();
-		mainBox.setWidth("100%");
-		mainBox.setStyle("text-align:center");
-		
-		Hbox hOrg = new Hbox();
-		hOrg.setWidth("100%");
-				
-		Hbox hBP = new Hbox();
-		hBP.setWidth("100%");
-		
-		mainBox.appendChild(hOrg);
-		mainBox.appendChild(hBP);
-		
-		Panel pnl1 = new Panel();
-		pnl1.appendChild(warehouseSearch.getLabel());
-		pnl1.setStyle("text-align:right");
-		
-		Panel pnl2 = new Panel();
-		pnl2.appendChild(warehouseSearch.getComponent());
-		pnl2.setStyle("text-align:left");
-		
-		Panel pnl3 = new Panel();
-		pnl3.appendChild(bPartnerSearch.getLabel());
-		pnl3.setStyle("text-align:right");
-		
-		Panel pnl4 = new Panel();
-		pnl4.appendChild(bPartnerSearch.getComponent());
-		pnl4.setStyle("text-align:left");
-		
-		hOrg.appendChild(pnl1);
-		hOrg.appendChild(pnl2);
-		
-		hBP.appendChild(pnl3);
-		hBP.appendChild(pnl4);
-		
-		pnlSelect.setStyle("text-align:center");
-		pnlSelect.appendChild(mainBox);
-		pnlSelect.appendChild(new Separator());
-		pnlSelect.appendChild(lstSelect);
-		pnlSelect.appendChild(new Separator());
-		pnlSelect.addEventListener(Events.ON_SELECT, this);
-		
-		pnlGenerate.appendChild(lblGenerate);
-		pnlGenerate.appendChild(lblNote);
-		pnlGenerate.appendChild(new Separator());
-		pnlGenerate.appendChild(lstGenerate);
-		
-		this.appendChild(tabbox);
-		this.appendChild(new Separator());
-		
-		Hbox hbox = new Hbox();
-		hbox.setWidth("80px");
-		hbox.appendChild(btnCancel);
-		hbox.appendChild(btnOk);
-		
-		this.appendChild(hbox);
-		this.appendChild(new Separator());
-		
-		hbox = new Hbox();
-		hbox.setWidth("700px");
-				
-		Panel p = new Panel();
-		p.setStyle("text-align:left");
-		p.appendChild(lblStatus);
-		hbox.appendChild(p);
-		
-		p = new Panel();
-		p.setStyle("text-align:right");
-		p.appendChild(lblNumSelected);
-		hbox.appendChild(p);
-		
-		this.appendChild(hbox);
-		
-		prepareTable();
-	}
-
-	private void prepareTable()
-	{
-		// Create Columns
-		
-		ListHead listhead = new ListHead();
-		listhead.setSizable(true);
-		
-		listhead.appendChild(new ListHeader(""));
-		listhead.appendChild(new ListHeader("Organization"));
-		listhead.appendChild(new ListHeader("Document Type"));
-		listhead.appendChild(new ListHeader("Document No"));
-		listhead.appendChild(new ListHeader("Business Partner"));
-		listhead.appendChild(new ListHeader("Date Ordered"));
-		listhead.appendChild(new ListHeader("Total Lines"));
-
-		lstSelect.appendChild(listhead);
-		
-		lstSelect.addColumn("C_Order_ID");
-		lstSelect.addColumn("AD_Org_ID");
-		lstSelect.addColumn("C_DocType_ID");
-		lstSelect.addColumn("DocumentNo");
-		lstSelect.addColumn("C_BPartner_ID");
-		lstSelect.addColumn("DateOrdered");
-		lstSelect.addColumn("TotalLines");
-
-		lstSelect.setMultiSelection(true);
-			  
-		// Set Details
-		
-		lstSelect.setColumnClass(0, IDColumn.class, false, " ");
-		lstSelect.setColumnClass(1, String.class, true, Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		lstSelect.setColumnClass(2, String.class, true, Msg.translate(Env.getCtx(), "C_DocType_ID"));
-		lstSelect.setColumnClass(3, String.class, true, Msg.translate(Env.getCtx(), "DocumentNo"));
-		lstSelect.setColumnClass(4, String.class, true, Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		lstSelect.setColumnClass(5, Timestamp.class, true, Msg.translate(Env.getCtx(), "DateOrdered"));
-		lstSelect.setColumnClass(6, BigDecimal.class, true, Msg.translate(Env.getCtx(), "TotalLines"));
-
-		//	Set Status
-		
-		lblStatus.setValue(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));
-		//statusBar.setStatusDB(" ");
+	    return sql.toString();
 	}
 	
-	private void populateWarehouse()
-	{
-		final int AD_Column_ID = 2223;
-		
-		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
-				0, AD_Column_ID, DisplayType.TableDir);
-		
-		warehouseSearch = new WTableDirEditor(lookupBP, Msg.translate(
-				Env.getCtx(), "M_Warehouse_ID"), "", true, false, true);
-
-		warehouseSearch.addValueChangeListener(this);	
-	}
-	
-	private void showBusinessPartner()
-	{
-		final int AD_BPartner_ID = 3499;
-		
-		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
-				0, AD_BPartner_ID, DisplayType.Search);
-		
-		bPartnerSearch = new WSearchEditor(lookupBP, Msg.translate(
-				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
-
-		bPartnerSearch.addValueChangeListener(this);
-	}	
-	
-
+	/**
+	 *  Query Info
+	 */
 	private void executeQuery()
 	{
 		log.info("");
-		
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		
-		//  Create SQL
+		String sql = "";
 		
-		StringBuffer sql = new StringBuffer(
-			"SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
-			+ "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-			+ "WHERE ic.AD_Org_ID=o.AD_Org_ID"
-			+ " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-			+ " AND ic.C_DocType_ID=dt.C_DocType_ID"
-			+ " AND ic.AD_Client_ID=?");
-
-		if (m_M_Warehouse_ID != null)
-			sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+		KeyNamePair docTypeKNPair = cmbDocType.getSelectedItem().toKeyNamePair();
 		
-		if (m_C_BPartner_ID != null)
-			sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
-		
-		// bug - [ 1713317 ] Generate Shipments (manual) show locked records
-		
-		/* begin - Exclude locked records; @Trifon */
-		
-		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-		String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
-		
-		if (lockedIDs != null)
+		if (docTypeKNPair.getKey() == MRMA.Table_ID)
 		{
-			if (sql.length() > 0)
-				sql.append(" AND ");
-			sql.append("C_Order_ID").append(lockedIDs);
+		    sql = getRMASql();
 		}
-		
-		/* end - Exclude locked records; @Trifon */
-		  
-		sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
-		log.fine(sql.toString());
+		else
+		{
+		    sql = getOrderSQL();
+		}
 
-		// Reset table
-
+		log.fine(sql);
+		//  reset table
 		int row = 0;
-		
-		if (lstSelect != null)
-			lstSelect.clearTable();
-
+		miniTable.setRowCount(row);
 		//  Execute
-		
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, AD_Client_ID);
 			ResultSet rs = pstmt.executeQuery();
-
+			//
 			while (rs.next())
 			{
-				// Extend table
-				
-				lstSelect.setRowCount(row+1);
-				
-				// Set values
-				
-				lstSelect.setValueAt(new IDColumn(rs.getInt(1)), row, 0);   //  C_Order_ID
-				lstSelect.setValueAt(rs.getString(2), row, 1);              //  Org
-				lstSelect.setValueAt(rs.getString(3), row, 2);              //  DocType
-				lstSelect.setValueAt(rs.getString(4), row, 3);              //  Doc No
-				lstSelect.setValueAt(rs.getString(5), row, 4);              //  BPartner
-				lstSelect.setValueAt(rs.getTimestamp(6), row, 5);           //  DateOrdered
-				lstSelect.setValueAt(rs.getBigDecimal(7), row, 6);          //  TotalLines
-
-				// Prepare next
+				//  extend table
+				miniTable.setRowCount(row+1);
+				//  set values
+				miniTable.setValueAt(new IDColumn(rs.getInt(1)), row, 0);   //  C_Order_ID
+				miniTable.setValueAt(rs.getString(2), row, 1);              //  Org
+				miniTable.setValueAt(rs.getString(3), row, 2);              //  DocType
+				miniTable.setValueAt(rs.getString(4), row, 3);              //  Doc No
+				miniTable.setValueAt(rs.getString(5), row, 4);              //  BPartner
+				miniTable.setValueAt(rs.getTimestamp(6), row, 5);           //  DateOrdered
+				miniTable.setValueAt(rs.getBigDecimal(7), row, 6);          //  TotalLines
+				//  prepare next
 				row++;
 			}
 			rs.close();
@@ -425,79 +409,156 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-	}
+		//
+		miniTable.repaint();
+		this.invalidate();
+	//	statusBar.setStatusDB(String.valueOf(miniTable.getRowCount()));
+	}   //  executeQuery
 
+	/**
+	 *	Action Listener
+	 *  @param e event
+	 */
+	public void onEvent(Event e)
+	{
+		log.info("Cmd=" + e.getTarget().getId());
+		//
+		if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
+		{
+			dispose();
+			return;
+		}
+		else if (e.getTarget() instanceof Tab)
+		{
+			int index = tabbedPane.getSelectedIndex();
+			m_selectionActive = (index == 0);
+			return;
+		}
+		else if (cmbDocType.equals(e.getTarget()))
+		{
+		    executeQuery();
+		    return;
+		}
+		//
+		saveSelection();
+		if (selection != null
+			&& selection.size() > 0
+			&& m_selectionActive	//	on selection tab
+			&& m_M_Warehouse_ID != null)
+			generateShipments ();
+		else
+			dispose();
+	}	//	actionPerformed
+
+	/**
+	 *	Value Change Listener - requery
+	 *  @param e event
+	 */
+	public void valueChange(ValueChangeEvent e)
+	{
+		log.info(e.getPropertyName() + "=" + e.getNewValue());
+		if (e.getPropertyName().equals("M_Warehouse_ID"))
+			m_M_Warehouse_ID = e.getNewValue();
+		if (e.getPropertyName().equals("C_BPartner_ID"))
+		{
+			m_C_BPartner_ID = e.getNewValue();
+			fBPartner.setValue(m_C_BPartner_ID);	//	display value
+		}
+		executeQuery();
+	}	//	vetoableChange
+
+
+	/**
+	 *  Table Model Listener
+	 *  @param e event
+	 */
+	public void tableChanged(WTableModelEvent e)
+	{
+		int rowsSelected = 0;
+		int rows = miniTable.getRowCount();
+		for (int i = 0; i < rows; i++)
+		{
+			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);     //  ID in column 0
+			if (id != null && id.isSelected())
+				rowsSelected++;
+		}
+		statusBar.setStatusDB(" " + rowsSelected + " ");
+	}   //  tableChanged
+
+	/**
+	 *	Save Selection & return selecion Query or ""
+	 *  @return where clause like C_Order_ID IN (...)
+	 */
 	private void saveSelection()
 	{
 		log.info("");
-		
-		// Array of Integers
-
+		//  ID selection may be pending
+//		miniTable.editingStopped(new ChangeEvent(this));
+		//  Array of Integers
 		ArrayList<Integer> results = new ArrayList<Integer>();
-		
-		if (selections != null)
-			selections.clear();
-		
-		// Get Selected Entries
-		
-		int rows = lstSelect.getItemCount();
-		
+		selection = null;
+
+		//	Get selected entries
+		int rows = miniTable.getRowCount();
 		for (int i = 0; i < rows; i++)
 		{
-		    //  ID in Column 0
-			
-			IDColumn id = (IDColumn)lstSelect.getValueAt(i, 0); 
-
+			IDColumn id = (IDColumn)miniTable.getValueAt(i, 0);     //  ID in column 0
+		//	log.fine( "Row=" + i + " - " + id);
 			if (id != null && id.isSelected())
 				results.add(id.getRecord_ID());
 		}
 
 		if (results.size() == 0)
 			return;
+		log.config("Selected #" + results.size());
+		selection = results;
+	}	//	saveSelection
 
-		selections = results;
-	}
 	
-	private void generateShipments()
+	/**************************************************************************
+	 *	Generate Shipments
+	 */
+	private void generateShipments ()
 	{
 		log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
-		
-		// Trx needs to be committed too
 		String trxName = Trx.createTrxName("IOG");	
-		Trx trx = Trx.get(trxName, true);	
-		
-		// Prevents from being called twice
-		m_selectionActive = false;  
-		
-		//lblStatus.setValue(Msg.getMsg(Env.getCtx(), "InOutGenerateGen"));
-		//statusBar.setStatusDB(String.valueOf(selection.size()));
+		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
+//		String trxName = null;
+//		Trx trx = null;
+
+		m_selectionActive = false;  //  prevents from being called twice
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateGen"));
+		statusBar.setStatusDB(String.valueOf(selection.size()));
 
 		//	Prepare Process
+        int AD_Process_ID = 0;    
+        KeyNamePair docTypeKNPair = (KeyNamePair)cmbDocType.getSelectedItem().toKeyNamePair();
+        
+        if (docTypeKNPair.getKey() == MRMA.Table_ID)
+        {
+            AD_Process_ID = 52001; // M_InOut_GenerateRMA - org.adempiere.process.InOutGenerateRMA
+        }
+        else
+        {
+            AD_Process_ID = 199;      // M_InOut_Generate - org.compiere.process.InOutGenerate
+        }
 		
-		// M_InOutCreate
-		
-		int AD_Process_ID = 199;	  
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
-		
 		if (!instance.save())
 		{
-			//info.setText(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
+			info.setContent(Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
 			return;
 		}
 		
-		// Insert selection
-		
+		//insert selection
 		StringBuffer insert = new StringBuffer();
 		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
 		int counter = 0;
-		
-		for(Integer selectedId : selections)
+		for(Integer selectedId : selection)
 		{
 			counter++;
-			
 			if (counter > 1)
 				insert.append(" UNION ");
-			
 			insert.append("SELECT ");
 			insert.append(instance.getAD_PInstance_ID());
 			insert.append(", ");
@@ -510,183 +571,204 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 				{
 					String msg = "No Shipments";     //  not translated!
 					log.config(msg);
-					//info.setText(msg);
+					info.setContent(msg);
 					trx.rollback();
 					return;
 				}
-				
 				insert = new StringBuffer();
 				insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
 				counter = 0;
 			}
 		}
-		
 		if (counter > 0)
 		{
 			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
 			{
 				String msg = "No Shipments";     //  not translated!
 				log.config(msg);
-				//info.setText(msg);
+				info.setContent(msg);
 				trx.rollback();
 				return;
 			}
 		}
 		
-		// Call process
-		
-		ProcessInfo pi = new ProcessInfo ("WInOutGen", AD_Process_ID);
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		//call process
+		m_pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
+		m_pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
-		//	Add Parameter - Selection = Y
-		
+		//	Add Parameter - Selection=Y
 		MPInstancePara ip = new MPInstancePara(instance, 10);
 		ip.setParameter("Selection","Y");
-		
 		if (!ip.save())
 		{
 			String msg = "No Parameter added";  //  not translated
-			//info.setText(msg);
+			info.setContent(msg);
 			log.log(Level.SEVERE, msg);
 			return;
 		}
-		
-		// Add Parameter - M_Warehouse_ID = x
-		
+		//	Add Parameter - M_Warehouse_ID=x
 		ip = new MPInstancePara(instance, 20);
 		ip.setParameter("M_Warehouse_ID", Integer.parseInt(m_M_Warehouse_ID.toString()));
-		
 		if (!ip.save())
 		{
 			String msg = "No Parameter added";  //  not translated
-			//info.setText(msg);
+			info.setContent(msg);
 			log.log(Level.SEVERE, msg);
 			return;
 		}
 
 		//	Execute Process
-		ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, trx);
-		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
-		
-		lstSelect.clearTable();
-		
-		displayInfo();
-	}
+		if (!getDesktop().isServerPushEnabled())
+			getDesktop().enableServerPush(true);
 
-	private void displayInfo()
-	{
-		lblGenerate.setValue("Created = " + selections.size());
-		lblNote.setValue("(Shipments are generated depending on the 'Delivery Rule' selection in the Order)");
-		
-		lstGenerate.getChildren().clear();
-		
-		for (int i = 0; i < selections.size(); i++)
-		{
-			ListItem listitem = new ListItem();
-			Timestamp time = new Timestamp(System.currentTimeMillis());
-			listitem.appendChild(new Listcell(time.toString()));
-			listitem.appendChild(new Listcell(selections.get(i).toString()));
-			
-			lstGenerate.appendChild(listitem);
-		}
-	
-		tabbox.setSelectedPanel(pnlGenerate);
-	}
-	
-	private void generateInvoiceComplete (ProcessInfo pi)
-	{
-	}
+		this.lockUI();
+		final ProcessCtl worker = new ProcessCtl(null, m_WindowNo, m_pi, trx);
+		Runnable runnable = new Runnable() {
+			public void run() {
+				//get full control of desktop
+				org.zkoss.zk.ui.Desktop desktop = WInOutGen.this.getDesktop();
+				try {
+					Executions.activate(desktop);
+					try {                    						
+						worker.run();     //  complete tasks in unlockUI / generateShipments_complete						
+					} finally{						
+						unlockUI();
+						//release full control of desktop
+						Executions.deactivate(desktop);
+					}
+				} catch (DesktopUnavailableException e) {
+					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				} catch (InterruptedException e) {
+					log.log(Level.WARNING, e.getLocalizedMessage(), e);
+				}												
+			}			
+		};
+		new Thread(runnable).start();				
+		//
+	}	//	generateShipments
 
+	/**
+	 *  Complete generating shipments.
+	 *  Called from Unlock UI
+	 *  @param pi process info
+	 */
+	private void generateShipments_complete ()
+	{
+		Clients.showBusy(null, false);
+		
+		//  Switch Tabs
+		tabbedPane.setSelectedIndex(1);
+		//
+		ProcessInfoUtil.setLogFromDB(m_pi);
+		StringBuffer iText = new StringBuffer();
+		iText.append("<b>").append(m_pi.getSummary())
+			.append("</b><br>(")
+			.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
+			//  Shipments are generated depending on the Delivery Rule selection in the Order
+			.append(")<br>")
+			.append(m_pi.getLogInfo(true));
+		info.setContent(iText.toString());
 
-	
-	public void onEvent(Event evt)
-	{
-		if (evt != null)
-		{
-			if (evt.getTarget() == tabSelect)
-			{
-				m_selectionActive = true;
-				
-				executeQuery();
-			}
-			
-			if ((evt.getTarget() == warehouseSearch) || (evt.getTarget() == bPartnerSearch))
-			{
-				if (evt.getTarget() == warehouseSearch)
-				{
-					m_M_Warehouse_ID = warehouseSearch.getValue();
-				}
-				
-				if (evt.getTarget() == bPartnerSearch)
-				{
-					m_C_BPartner_ID = bPartnerSearch.getValue();
-				}
-				
-				executeQuery();
-			}
-			
-			if ((evt.getTarget() == btnOk) || (evt.getTarget() == btnCancel))
-			{
-				if (evt.getTarget() == btnCancel)
-				{
-					SessionManager.getAppDesktop().removeWindow();
-				}
-			
-				saveSelection();
-				
-				if (selections != null && selections.size() > 0 && m_selectionActive)
-					generateShipments();
-				else
-					SessionManager.getAppDesktop().removeWindow();
-			}
-		}
-	}
-	
-	public void valueChange(ValueChangeEvent evt) 
-	{
-		if (evt == null)
+		//	Get results
+		int[] ids = m_pi.getIDs();
+		if (ids == null || ids.length == 0)
 			return;
-
-		if (evt.getSource() instanceof WEditor)
-		{
-			String name = evt.getPropertyName();
-			Object value = evt.getNewValue() == null ? "" : evt.getNewValue();
-
-			if (name.equals("C_BPartner_ID"))
-			{
-				bPartnerSearch.setValue(value);
-				m_C_BPartner_ID = ((Integer) value).intValue();
-				
-				executeQuery();
-			}
-			
-			if (name.equals("M_Warehouse_ID"))
-			{
-				warehouseSearch.setValue(value);
-				m_M_Warehouse_ID = ((Integer) value).intValue();
-				
-				executeQuery();
-			}
-		}
-	}
-
-	public void tableChanged(WTableModelEvent event) 
+		log.config("PrintItems=" + ids.length);
+		
+		m_ids = ids;
+		Clients.response(new AuEcho(this, "onAfterProcess", null));
+		
+	}   //  generateShipments_complete
+	
+	
+	public void onAfterProcess()
 	{
-		int rowsSelected = 0;
-		int rows = lstSelect.getItemCount();
-		
-		for (int i = 0; i < rows; i++)
+		//	OK to print shipments
+		if (FDialog.ask(m_WindowNo, this, "PrintShipments"))
 		{
-		     // ID in column 0
-			IDColumn id = (IDColumn)lstSelect.getValueAt(i, 0);
-			
-			if (id != null && id.isSelected())
-				rowsSelected++;
+			//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
+			Clients.showBusy("Processing...", true);
+			Clients.response(new AuEcho(this, "onPrintShipments", null));			
+		}	//	OK to print shipments
+	}
+	
+	public void onPrintShipments() 
+	{
+//		Loop through all items
+		List<File> pdfList = new ArrayList<File>();
+		for (int i = 0; i < m_ids.length; i++)
+		{
+			int M_InOut_ID = m_ids[i];
+			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.SHIPMENT, M_InOut_ID);
+			pdfList.add(re.getPDF());				
 		}
 		
-		// Set Status
-		
-		Integer size = rowsSelected;
-		lblNumSelected.setValue("Number of Records Selected : " + size.toString());
+		if (pdfList.size() > 1) {
+			try {
+				File outFile = File.createTempFile("WInOutGen", ".pdf");					
+				Document document = null;
+				PdfWriter copy = null;					
+				for (File f : pdfList) 
+				{
+					PdfReader reader = new PdfReader(f.getAbsolutePath());
+					if (document == null)
+					{
+						document = new Document(reader.getPageSizeWithRotation(1));							
+						copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
+						document.open();
+					}
+					int pages = reader.getNumberOfPages();
+					PdfContentByte cb = copy.getDirectContent();
+					for (int i = 1; i <= pages; i++) {
+						document.newPage();
+						PdfImportedPage page = copy.getImportedPage(reader, i);
+						cb.addTemplate(page, 0, 0);
+					}
+				}
+				document.close();
+
+				Clients.showBusy(null, false);
+				Window win = new SimplePDFViewer(this.getFormName(), new FileInputStream(outFile));
+				SessionManager.getAppDesktop().showWindow(win, "center");
+			} catch (Exception e) {
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			}
+		} else if (pdfList.size() > 0) {
+			Clients.showBusy(null, false);
+			try {
+				Window win = new SimplePDFViewer(this.getFormName(), new FileInputStream(pdfList.get(0)));
+				SessionManager.getAppDesktop().showWindow(win, "center");
+			} catch (Exception e)
+			{
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			}
+		}
 	}
-}
+
+	
+	/**************************************************************************
+	 *  Lock User Interface.
+	 *  Called from the Worker before processing
+	 *  @param pi process info
+	 */
+	public void lockUI ()
+	{
+		Clients.showBusy("Processing...", true);
+	}   //  lockUI
+
+	/**
+	 *  Unlock User Interface.
+	 *  Called from the Worker when processing is done
+	 *  @param pi result of execute ASync call
+	 */
+	public void unlockUI ()
+	{		
+		generateShipments_complete();
+	}   //  unlockUI
+	
+	@Override
+	public void dispose() {
+		SessionManager.getAppDesktop().removeWindow();
+	}
+
+}	//	VInOutGen

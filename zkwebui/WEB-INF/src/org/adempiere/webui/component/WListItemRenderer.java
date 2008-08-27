@@ -400,10 +400,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 *
 	 * @param headerValue	The object to use for generating the header text.
      * @param headerIndex   The column index of the header
+	 * @param classType 
 	 * @return The generated ListHeader
 	 * @see #renderListHead(ListHead)
 	 */
-	private Component getListHeaderComponent(Object headerValue, int headerIndex)
+	private Component getListHeaderComponent(Object headerValue, int headerIndex, Class classType)
 	{
         ListHeader header = null;
 
@@ -422,6 +423,22 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
             int width = headerText.trim().length() * 9;
             if (width > 300)
             	width = 300;
+            else if (classType != null)
+            {
+            	if (classType.equals(String.class)) 
+            	{
+            		if (width > 0 && width < 180)
+            			width = 180;
+            	}
+            	else if (classType.equals(IDColumn.class))
+            	{
+            		header.setSort("none");
+            		if (width == 0)
+            			width = 30;
+            	}
+            	else if (width > 0 && width < 100)
+            		width = 100;
+            }
             else if (width > 0 && width < 100)
             	width = 100;
             
@@ -483,7 +500,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		for (int columnIndex = 0; columnIndex < m_tableColumns.size(); columnIndex++)
         {
             column = m_tableColumns.get(columnIndex);
-			header = getListHeaderComponent(column.getHeaderValue(), columnIndex);
+			header = getListHeaderComponent(column.getHeaderValue(), columnIndex, column.getColumnClass());
             head.appendChild(header);
 		}
 		head.setSizable(true);
@@ -691,6 +708,26 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		item.applyProperties();
 		
 		return item;
+	}
+
+	/**
+	 * @param index
+	 * @param header
+	 */
+	public void setColumnHeader(int index, String header) 
+	{
+		if (index >= 0 && index < m_tableColumns.size()) 
+		{
+			m_tableColumns.get(index).setHeaderValue(Util.cleanAmp(header));
+		}
+		
+	}
+
+	public void setColumnClass(int index, Class classType) {
+		if (index >= 0 && index < m_tableColumns.size()) 
+		{
+			m_tableColumns.get(index).setColumnClass(classType);
+		}		
 	}
 
 }

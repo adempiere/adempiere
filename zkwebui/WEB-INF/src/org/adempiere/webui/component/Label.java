@@ -60,7 +60,8 @@ public class Label extends org.zkoss.zul.Label
 	@Override
 	public void setValue(String value) {
 		super.setValue(value != null ? value.replaceAll("[&]", "") : null);
-		setupMandatoryDecorator();
+		if ((value == null || value.trim().length() == 0) && decorator != null)
+			decorator.setVisible(false);
 	}		
 	
 	@Override
@@ -75,13 +76,18 @@ public class Label extends org.zkoss.zul.Label
 	}
 
 	private void setupMandatoryDecorator() {
+		if (decorator == null)
+			createMandatoryDecorator();
 		String value = getValue();
-		if (value != null && (value.trim().length() > 0) && mandatory) {
-			if (decorator == null)
-				decorator = new Label("*");
-			((Label)decorator).setStyle("text-decoration: none; font-size: xx-small; vertical-align: top;");
-		} else if (decorator != null)
+		if (mandatory && value != null && value.trim().length() > 0) {
+			decorator.setVisible(true);
+		} else 
 			decorator.setVisible(false);
+	}
+
+	private void createMandatoryDecorator() {
+		decorator = new Label("*");
+		((Label)decorator).setStyle("text-decoration: none; font-size: xx-small; vertical-align: top;");
 	}
 
 	/**

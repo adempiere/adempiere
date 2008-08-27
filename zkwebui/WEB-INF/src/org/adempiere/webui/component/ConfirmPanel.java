@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.adempiere.webui.LayoutUtils;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Hbox;
@@ -68,6 +70,8 @@ public final class ConfirmPanel extends Hbox
     /** Action String New.   */
     public static final String A_NEW = "New";
     
+    private boolean  m_withText = false;
+    
     private Map<String, Button> buttonMap = new HashMap<String, Button>();
     
     /**
@@ -98,15 +102,50 @@ public final class ConfirmPanel extends Hbox
         Button button = new Button();
         button.setName("btn"+name);
         button.setId(name);
-        button.setSrc("images/"+name+"24.png");
+        String text = Msg.translate(Env.getCtx(), name);
+        if (!name.equals(text))
+        	text = text.replaceAll("[&]", "");
+        else
+        	text = null;
         
-        LayoutUtils.addSclass("action-button", button);
+        if (m_withText && text != null) 
+        {
+        	button.setSrc("images/"+name+"16.png");
+        	button.setLabel(text);
+        	LayoutUtils.addSclass("action-text-button", button);
+        }
+        else
+        {
+        	button.setSrc("images/"+name+"24.png");
+        	if (text != null)
+        		button.setTooltiptext(text);
+        	LayoutUtils.addSclass("action-button", button);
+        }
         
         buttonMap.put(name, button);
         
         return button;
     }
     
+    /**
+     * create confirm panel with multiple options
+     * @param withCancelButton       with cancel
+     * @param withRefreshButton      with refresh
+     * @param withResetButton        with reset
+     * @param withCustomizeButton    with customize
+     * @param withHistoryButton      with history
+     * @param withZoomButton         with zoom
+     */
+     public ConfirmPanel(boolean withCancelButton,
+             boolean withRefreshButton, 
+             boolean withResetButton, 
+             boolean withCustomizeButton,
+             boolean withHistoryButton, 
+             boolean withZoomButton)
+     {
+    	 this(withCancelButton, withRefreshButton, withResetButton, withCustomizeButton, withHistoryButton, withZoomButton, false);
+     }
+     
    /**
     * create confirm panel with multiple options
     * @param withCancelButton       with cancel
@@ -121,8 +160,11 @@ public final class ConfirmPanel extends Hbox
             boolean withResetButton, 
             boolean withCustomizeButton,
             boolean withHistoryButton, 
-            boolean withZoomButton)
+            boolean withZoomButton,
+            boolean withText)
     {
+    	m_withText = withText;
+    	
         init();
         
         setVisible(A_CANCEL, withCancelButton);      

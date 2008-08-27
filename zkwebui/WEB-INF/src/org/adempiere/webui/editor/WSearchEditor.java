@@ -827,16 +827,16 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void valueChange(ValueChangeEvent evt)
 	{
-		if (getColumnName().equals(evt.getPropertyName()))
-		{
-			if (evt.getNewValue() != null)
+        if ("zoom".equals(evt.getPropertyName()))
+        {
+            actionZoom(evt.getNewValue());
+        }
+        else
+        {
+        	if (evt.getNewValue() != null)
 			{
 				actionCombo(evt.getNewValue());
 			}
-		}
-        else if ("zoom".equals(evt.getPropertyName()))
-        {
-            actionZoom(evt.getNewValue());
         }
 
 	}

@@ -443,9 +443,15 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
 
 		setColumnReadOnly(index, readOnly);
+		
+		renderer.setColumnHeader(index, header);
+		
+		renderer.setColumnClass(index, classType);
 
-		// TODO transfer this to Renderer
- 		m_modelHeaderClass.add(classType);
+		if (index < m_modelHeaderClass.size())
+			m_modelHeaderClass.set(index, classType);
+		else
+			m_modelHeaderClass.add(classType);
 
  		return;
 	}
@@ -466,6 +472,10 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
     {
         setColumnReadOnly(index, readOnly);
 
+        WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
+        
+        renderer.setColumnClass(index, classType);
+        
         m_modelHeaderClass.add(classType);
 
         return;
@@ -488,6 +498,9 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 		setColumnReadOnly(m_modelHeaderClass.size() - 1, readOnly);
 
 		addColumn(header);
+		
+		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
+		renderer.setColumnClass((renderer.getNoColumns() - 1), classType);
 
  		return;
 	}

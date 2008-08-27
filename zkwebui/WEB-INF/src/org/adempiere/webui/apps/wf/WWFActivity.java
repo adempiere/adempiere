@@ -14,10 +14,10 @@ import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
@@ -89,7 +89,7 @@ public class WWFActivity extends ADForm implements EventListener
 	private WSearchEditor fForward = null;	//	dynInit
 	private Label lForward = new Label(Msg.getMsg(Env.getCtx(), "Forward"));
 	private Label lOptional = new Label("(" + Msg.translate(Env.getCtx(), "Optional") + ")");
-	private WStatusBar statusBar = new WStatusBar(); 
+	private StatusBarPanel statusBar = new StatusBarPanel(); 
 	
 	public WWFActivity()
 	{
@@ -226,7 +226,6 @@ public class WWFActivity extends ADForm implements EventListener
 		
 		South south = new South();
 		south.appendChild(statusBar);
-		statusBar.setWidth("100%");
 		layout.appendChild(south);
 		south.setStyle("background-color: transparent");
 		

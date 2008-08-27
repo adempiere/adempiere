@@ -16,14 +16,14 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Hbox;
 
 /**
  * Product Attribute Box
  * @author Low Heng Sin
  */
-public class PAttributebox extends Hbox
+public class PAttributebox extends Panel
 {
 
     private static final long serialVersionUID = 1L;
@@ -51,11 +51,14 @@ public class PAttributebox extends Hbox
     private void initComponents()
     {
         textBox = new Textbox();
-        textBox.setWidth("100%");
         button = new Button();
-        button.setHeight("98%");
+        button.setHeight("22px");
+        button.setWidth("26px");
         appendChild(textBox);
         appendChild(button);
+        
+        String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	    this.setStyle(style);
     }
 
     public void setText(String value)

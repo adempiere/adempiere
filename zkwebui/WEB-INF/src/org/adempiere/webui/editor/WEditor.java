@@ -411,4 +411,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     {
         return true;
     }
+    
+    public void dynamicDisplay()
+    {    	
+    }
 }

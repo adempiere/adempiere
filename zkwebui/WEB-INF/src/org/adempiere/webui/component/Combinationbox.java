@@ -13,15 +13,15 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Hbox;
 
 /**
  * 
  * @author Low Heng Sin
  *
  */
-public class Combinationbox extends Hbox
+public class Combinationbox extends Panel
 {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +49,14 @@ public class Combinationbox extends Hbox
     private void initComponents()
     {
         textbox = new Textbox();
-        textbox.setWidth("100%");
         button = new Button();
-        button.setHeight("98%");
+        button.setHeight("22px");
+        button.setWidth("26px");
         appendChild(textbox);
         appendChild(button);
+        
+        String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	    this.setStyle(style);
     }
 
     public void setText(String value)

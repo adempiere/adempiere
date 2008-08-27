@@ -17,13 +17,14 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Hbox;
 
 /**
  * URL Box
  */
-public class Urlbox extends Hbox
+public class Urlbox extends Panel
 {
 
     private static final long serialVersionUID = 1L;
@@ -51,11 +52,14 @@ public class Urlbox extends Hbox
     private void initComponents()
     {
         txtUrl = new Textbox();
-        txtUrl.setWidth("100%");
         btnUrl = new Button();
-        btnUrl.setHeight("98%");
+        btnUrl.setHeight("22px");
+        btnUrl.setWidth("26px");
         appendChild(txtUrl);
         appendChild(btnUrl);
+        
+        String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	    this.setStyle(style);
     }
 
     public void setText(String value)

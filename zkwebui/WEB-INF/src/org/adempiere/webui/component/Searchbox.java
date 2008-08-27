@@ -20,9 +20,10 @@ package org.adempiere.webui.component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 
-public class Searchbox extends Panel//Hbox
+public class Searchbox extends Panel
 {
 	private static final long serialVersionUID = 1L;
 	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
@@ -48,13 +49,14 @@ public class Searchbox extends Panel//Hbox
 	 private void initComponents()
 	 {
 	     txt = new Textbox();
-//	     txt.setWidth("100%");
 	     btn = new Button();
-	     btn.setHeight("98%");
+	     btn.setHeight("22px");
+	     btn.setWidth("26px");
 	     appendChild(txt);
 	     appendChild(btn);
 	     
-	     this.setStyle("display: inline-block");
+	     String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	     this.setStyle(style);
 	 }
 
 	 public Textbox getTextBox()

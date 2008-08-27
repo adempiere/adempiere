@@ -211,7 +211,7 @@ ContextMenuListener, IZoomableEditor
 	private void refreshList()
     {
     	if (getComponent().getItemCount() > 0)
-    		getComponent().getItems().clear();
+    		getComponent().removeAllItems();
 
     	if (isReadWrite())
     	{
@@ -327,4 +327,11 @@ ContextMenuListener, IZoomableEditor
 			setValue(evt.getNewValue());
 		}
 	}
+	
+	@Override
+	public void dynamicDisplay()
+    {    	
+		if (isReadWrite() && (!lookup.isValidated() || !lookup.isLoaded()))
+			this.actionRefresh();
+    }
 }

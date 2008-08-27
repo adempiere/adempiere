@@ -31,7 +31,6 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.component.WStatusBar;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -266,7 +265,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected boolean			p_multipleSelection;
 	/** Initial WHERE Clause    */
 	protected String			p_whereClause = "";
-	protected WStatusBar statusBar = new WStatusBar();
+	protected StatusBarPanel statusBar = new StatusBarPanel();
 	/**                    */
     private Vector<Object> line;
 	private boolean			    m_ok = false;

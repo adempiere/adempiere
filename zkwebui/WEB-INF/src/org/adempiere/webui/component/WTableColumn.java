@@ -40,6 +40,8 @@ public class WTableColumn
 
     /** The header value of the column. */
     protected Object		headerValue;
+    
+    protected Class columnClass;
 
     /** 
      *  Cover method, using a default width of 75 
@@ -252,4 +254,22 @@ public class WTableColumn
     {
     	return isResizable;
     }
+
+    /**
+     * 
+     * @return Class
+     */
+	public Class getColumnClass() 
+	{
+		return columnClass;
+	}
+
+	/**
+	 * 
+	 * @param columnClass
+	 */
+	public void setColumnClass(Class columnClass) 
+	{
+		this.columnClass = columnClass;
+	}
 }

@@ -77,7 +77,23 @@ public class WDateEditor extends WEditor
 		this("Date", "Date", false, false, true);
 	}   // VDate
     
-    public void onEvent(Event event)
+	/**
+	 * 
+	 * @param columnName
+	 * @param mandatory
+	 * @param readonly
+	 * @param updateable
+	 * @param displayType
+	 * @param label
+	 */
+    public WDateEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
+			int displayType, String label) {
+    	//TODO: support for displayType
+		super(new Datebox(), columnName, label, null, mandatory, readonly, updateable);
+	}
+
+
+	public void onEvent(Event event)
     {
         Date date = getComponent().getValue();
         Timestamp newValue = null;
@@ -85,7 +101,7 @@ public class WDateEditor extends WEditor
         if (date != null)
         {
             newValue = new Timestamp(date.getTime());
-        }
+        }        
         
         ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
         super.fireValueChange(changeEvent);
@@ -126,6 +142,7 @@ public class WDateEditor extends WEditor
     	if (value == null)
     	{
     		oldValue = null;
+    		getComponent().setValue(null);
     	}
     	else if (value instanceof Timestamp)
         {

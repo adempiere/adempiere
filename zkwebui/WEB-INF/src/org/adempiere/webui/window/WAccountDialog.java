@@ -70,8 +70,8 @@ public final class WAccountDialog extends Window
 	{
 		super ();
 		this.setTitle(title);
-		this.setHeight("450px");
-		this.setWidth("650px");
+		this.setHeight("500px");
+		this.setWidth("700px");
 		
 		log.config("C_AcctSchema_ID=" + C_AcctSchema_ID 
 			+ ", C_ValidCombination_ID=" + mAccount.C_ValidCombination_ID);
@@ -185,7 +185,7 @@ public final class WAccountDialog extends Window
 		//
 		
 		northPanel.appendChild(parameterPanel);
-		parameterPanel.setWidth("80%");
+		parameterPanel.setWidth("95%");
 		northPanel.appendChild(toolBar);
 		northPanel.setWidth("100%");
 		
@@ -193,15 +193,25 @@ public final class WAccountDialog extends Window
 		
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);
-		layout.setHeight("100%");
-		layout.setWidth("100%");
-		layout.setStyle("background-color: transparent;");
+		if (AEnv.isFirefox2())
+		{
+			layout.setHeight("93%");
+			layout.setWidth("98%");
+			layout.setStyle("background-color: transparent; position: absolute;");
+			this.setStyle("position: relative;");
+		}
+		else
+		{
+			layout.setHeight("100%");
+			layout.setWidth("100%");
+			layout.setStyle("background-color: transparent;");
+		}
 		
 		North nRegion = new North();
 		nRegion.setParent(layout);
-		nRegion.setFlex(true);
+		nRegion.setFlex(false);
 		nRegion.appendChild(northPanel);
-		nRegion.setStyle("background-color: transparent;");
+		nRegion.setStyle("background-color: transparent; border: none");
 		northPanel.setStyle("background-color: transparent;");
 		
 		Center cRegion = new Center();
@@ -216,7 +226,7 @@ public final class WAccountDialog extends Window
 		confirmPanel.setStyle("margin-top: 5px; margin-bottom: 5px");
 		div.appendChild(statusBar);
 		sRegion.appendChild(div);
-		sRegion.setStyle("background-color: transparent;");
+		sRegion.setStyle("background-color: transparent; border: none");
 		
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
 		

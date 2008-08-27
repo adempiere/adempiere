@@ -1,8 +1,13 @@
 package org.adempiere.webui.apps;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -11,13 +16,17 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.DesktopUnavailableException;
 import org.zkoss.zk.ui.Executions;
@@ -28,6 +37,13 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
 
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
@@ -334,8 +350,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		m_isLocked = false;
 		if (Executions.getCurrent() != null)
 		{
-			updateUI(pi);
 			Clients.showBusy(null, false);
+			updateUI(pi);			
 		}
 		else
 		{
@@ -366,22 +382,25 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		message.setContent(m_messageText.toString());
 		//message.setCaretPosition(message.getDocument().getLength());	//	scroll down
 		m_ids = pi.getIDs();
-		//
-		bOK.setEnabled(true);
 		
 		//no longer needed, hide to give more space to display log
 		centerPanel.detach();
 		invalidate();
 		
+		Clients.response(new AuEcho(this, "onAfterProcess", null));
+	}
+	
+	public void onAfterProcess() 
+	{
 		//
 		afterProcessTask();
 		//	Close automatically
-		if (m_IsReport && !pi.isError())
+		if (m_IsReport && !m_pi.isError())
 			this.dispose();
 		
 		// If the process is a silent one and no errors occured, close the dialog
 		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
-			this.dispose();
+			this.dispose();	
 	}
 	
 	/**************************************************************************
@@ -406,63 +425,139 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	 *	Print Shipments
 	 */
 	private void printShipments()
-	{
-		/*
+	{		
 		if (m_ids == null)
 			return;
-		if (!ADialog.ask(m_WindowNo, this, "PrintShipments"))
+		if (!FDialog.ask(m_WindowNo, this, "PrintShipments"))
 			return;
+				
 		m_messageText.append("<p>").append(Msg.getMsg(Env.getCtx(), "PrintShipments")).append("</p>");
-		message.setText(m_messageText.toString());
-		int retValue = ADialogDialog.A_CANCEL;
-		do
-		{
-			//	Loop through all items
-			for (int i = 0; i < m_ids.length; i++)
-			{
-				int M_InOut_ID = m_ids[i];
-				ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
-			}
-			ADialogDialog d = new ADialogDialog (this,
-				Env.getHeader(Env.getCtx(), m_WindowNo),
-				Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-				JOptionPane.QUESTION_MESSAGE);
-			retValue = d.getReturnCode();
-		}
-		while (retValue == ADialogDialog.A_CANCEL);
-		*/
+		message.setContent(m_messageText.toString());
+		Clients.showBusy("Processing...", true);
+		Clients.response(new AuEcho(this, "onPrintShipments", null));
 	}	//	printInvoices
+	
+	public void onPrintShipments() 
+	{		
+		//	Loop through all items
+		List<File> pdfList = new ArrayList<File>();
+		for (int i = 0; i < m_ids.length; i++)
+		{
+			int M_InOut_ID = m_ids[i];
+			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.SHIPMENT, M_InOut_ID);
+			pdfList.add(re.getPDF());				
+		}
+		
+		if (pdfList.size() > 1) {
+			try {
+				File outFile = File.createTempFile("PrintShipments", ".pdf");					
+				Document document = null;
+				PdfWriter copy = null;					
+				for (File f : pdfList) 
+				{
+					String fileName = f.getAbsolutePath();
+					PdfReader reader = new PdfReader(fileName);
+					reader.consolidateNamedDestinations();
+					if (document == null)
+					{
+						document = new Document(reader.getPageSizeWithRotation(1));
+						copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
+						document.open();
+					}
+					int pages = reader.getNumberOfPages();
+					PdfContentByte cb = copy.getDirectContent();
+					for (int i = 1; i <= pages; i++) {
+						document.newPage();
+						PdfImportedPage page = copy.getImportedPage(reader, i);
+						cb.addTemplate(page, 0, 0);
+					}
+				}
+				document.close();
+
+				Clients.showBusy(null, false);
+				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(outFile));
+				SessionManager.getAppDesktop().showWindow(win, "center");
+			} catch (Exception e) {
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			}
+		} else if (pdfList.size() > 0) {
+			Clients.showBusy(null, false);
+			try {
+				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(pdfList.get(0)));
+				SessionManager.getAppDesktop().showWindow(win, "center");
+			} catch (Exception e)
+			{
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			}
+		}
+	}
 
 	/**
 	 *	Print Invoices
 	 */
 	private void printInvoices()
 	{
-		/*
 		if (m_ids == null)
 			return;
-		if (!ADialog.ask(m_WindowNo, this, "PrintInvoices"))
+		if (!FDialog.ask(m_WindowNo, this, "PrintInvoices"))
 			return;
 		m_messageText.append("<p>").append(Msg.getMsg(Env.getCtx(), "PrintInvoices")).append("</p>");
-		message.setText(m_messageText.toString());
-		int retValue = ADialogDialog.A_CANCEL;
-		do
-		{
-			//	Loop through all items
-			for (int i = 0; i < m_ids.length; i++)
-			{
-				int AD_Invoice_ID = m_ids[i];
-				ReportCtl.startDocumentPrint(ReportEngine.INVOICE, AD_Invoice_ID, this, Env.getWindowNo(this), true);
-			}
-			ADialogDialog d = new ADialogDialog (this,
-				Env.getHeader(Env.getCtx(), m_WindowNo),
-				Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-				JOptionPane.QUESTION_MESSAGE);
-			retValue = d.getReturnCode();
-		}
-		while (retValue == ADialogDialog.A_CANCEL);
-		*/
+		message.setContent(m_messageText.toString());
+		Clients.showBusy("Processing...", true);
+		Clients.response(new AuEcho(this, "onPrintInvoices", null));				
 	}	//	printInvoices
+	
+	public void onPrintInvoices()
+	{
+		//	Loop through all items
+		List<File> pdfList = new ArrayList<File>();
+		for (int i = 0; i < m_ids.length; i++)
+		{
+			int C_Invoice_ID = m_ids[i];
+			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.INVOICE, C_Invoice_ID);
+			pdfList.add(re.getPDF());				
+		}
+		
+		if (pdfList.size() > 1) {
+			try {
+				File outFile = File.createTempFile("PrintInvoices", ".pdf");					
+				Document document = null;
+				PdfWriter copy = null;					
+				for (File f : pdfList) 
+				{
+					PdfReader reader = new PdfReader(f.getAbsolutePath());
+					if (document == null)
+					{
+						document = new Document(reader.getPageSizeWithRotation(1));
+						copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
+						document.open();						
+					}
+					PdfContentByte cb = copy.getDirectContent(); // Holds the PDF
+					int pages = reader.getNumberOfPages();
+					for (int i = 1; i <= pages; i++) {
+						document.newPage();
+						PdfImportedPage page = copy.getImportedPage(reader, i);
+						cb.addTemplate(page, 0, 0);
+					}
+				}
+				document.close();
+
+				Clients.showBusy(null, false);
+				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(outFile));
+				SessionManager.getAppDesktop().showWindow(win, "center");
+			} catch (Exception e) {
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			}
+		} else if (pdfList.size() > 0) {
+			try {
+				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(pdfList.get(0)));
+				SessionManager.getAppDesktop().showWindow(win, "center");
+			} catch (Exception e)
+			{
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			}
+		}
+	}
 
 	public boolean isValid() {
 		return valid;

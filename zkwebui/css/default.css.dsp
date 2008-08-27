@@ -46,6 +46,11 @@ html,body {
 	width: 48px;
 }
 
+.action-text-button {
+	height: 32px;
+	width: 80px;
+}
+
 div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	background-color: white;
 }
@@ -253,4 +258,9 @@ tr.tab-desktop-tb-m {
 
 .status-info {
 	padding-right: 10px;
+	border-left: solid 1px #9CBDFF;
+}
+
+.status-border {
+	border: solid 1px #9CBDFF;
 }

@@ -142,7 +142,7 @@ public class WPAttributeInstance extends Window implements EventListener
 		South south = new South();
 		south.setParent(mainLayout);
 		south.appendChild(confirmPanel);
-		confirmPanel.addEventListener(Events.ON_CLICK, this);
+		confirmPanel.addActionListener(this);
 	}	//	jbInit
 
 	/**	Table Column Layout Info			*/
