@@ -307,8 +307,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 				return false;
 			}
 			setPosted(false);
-			if (MFactAcct.delete (Table_ID, get_ID(), trxName) < 0)
-				return false;
+			MFactAcct.deleteEx (Table_ID, get_ID(), trxName);
 		}
 		//	Mark as Inactive
 		setIsActive(false);		//	updated DB for line delete/process
@@ -721,8 +720,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			throw new IllegalStateException("Cannot de-activate allocation");
 			
 		//	Delete Posting
-		int no = MFactAcct.delete(MAllocationHdr.Table_ID, getC_AllocationHdr_ID(), get_TrxName());
-		log.fine("Fact_Acct deleted #" + no);
+		MFactAcct.deleteEx(MAllocationHdr.Table_ID, getC_AllocationHdr_ID(), get_TrxName());
 		
 		//	Unlink Invoices
 		getLines(true);

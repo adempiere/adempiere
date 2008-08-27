@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.adempiere.exceptions.DBException;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 
 /**
@@ -27,29 +30,51 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MFactAcct.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  @author Teo Sarca, http://www.arhipac.ro
+ *  			<li>FR [ 2079083 ] Add MFactAcct.deleteEx method
  */
 public class MFactAcct extends X_Fact_Acct
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
-	 * 	Delete Accounting
-	 *	@param AD_Table_ID table
-	 *	@param Record_ID record
-	 *	@param trxName transaction
-	 *	@return number of rows or -1 for error
+	 * Delete Accounting
+	 * @param AD_Table_ID table
+	 * @param Record_ID record
+	 * @param trxName transaction
+	 * @return number of rows or -1 for error
+	 * @deprecated Since ADempiere 3.5.2a; please use {@link #deleteEx(int, int, String)} instead.
 	 */
-	public static int delete (int AD_Table_ID, int Record_ID, String trxName)
+	public static int delete00 (int AD_Table_ID, int Record_ID, String trxName)
 	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("DELETE Fact_Acct WHERE AD_Table_ID=").append(AD_Table_ID)
-			.append(" AND Record_ID=").append(Record_ID);
-		int no = DB.executeUpdate(sb.toString(), trxName);
-		if (no == -1)
-			s_log.log(Level.SEVERE, "failed: AD_Table_ID=" + AD_Table_ID + ", Record_ID" + Record_ID);
-		else
-			s_log.fine("delete - AD_Table_ID=" + AD_Table_ID 
-				+ ", Record_ID=" + Record_ID + " - #" + no);
+		int no = -1;
+		try {
+			no = deleteEx(AD_Table_ID, Record_ID, trxName);
+		}
+		catch (DBException e) {
+			s_log.log(Level.SEVERE, "failed: AD_Table_ID=" + AD_Table_ID + ", Record_ID" + Record_ID, e);
+			no = -1;
+		}
 		return no;
 	}	//	delete
+	
+	/**
+	 * Delete Accounting
+	 * @param AD_Table_ID table
+	 * @param Record_ID record
+	 * @param trxName transaction
+	 * @return number of rows deleted
+	 * @throws DBException on database exception
+	 */
+	public static int deleteEx(int AD_Table_ID, int Record_ID, String trxName)
+	throws DBException
+	{
+		final String sql = "DELETE Fact_Acct WHERE AD_Table_ID=? AND Record_ID=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{AD_Table_ID, Record_ID}, trxName);
+		s_log.fine("delete - AD_Table_ID=" + AD_Table_ID + ", Record_ID=" + Record_ID + " - #" + no);
+		return no;
+	}
 
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MFactAcct.class);

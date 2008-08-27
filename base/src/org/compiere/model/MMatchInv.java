@@ -39,6 +39,9 @@ import org.compiere.util.Env;
  */
 public class MMatchInv extends X_M_MatchInv
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Get InOut-Invoice Matches
 	 *	@param ctx context
@@ -356,10 +359,9 @@ public class MMatchInv extends X_M_MatchInv
 	{
 		if (isPosted())
 		{
-			if (!MPeriod.isOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_MatchInvoice))
-				return false;
+			MPeriod.testPeriodOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_MatchInvoice);
 			setPosted(false);
-			return MFactAcct.delete (Table_ID, get_ID(), get_TrxName()) >= 0;
+			MFactAcct.deleteEx (Table_ID, get_ID(), get_TrxName());
 		}
 		return true;
 	}	//	beforeDelete

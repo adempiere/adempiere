@@ -658,10 +658,9 @@ public class MMatchPO extends X_M_MatchPO
 	{
 		if (isPosted())
 		{
-			if (!MPeriod.isOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_MatchPO))
-				return false;
+			MPeriod.testPeriodOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_MatchPO);
 			setPosted(false);
-			return MFactAcct.delete (Table_ID, get_ID(), get_TrxName()) >= 0;
+			MFactAcct.deleteEx (Table_ID, get_ID(), get_TrxName());
 		}
 		return true;
 	}	//	beforeDelete

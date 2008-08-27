@@ -466,8 +466,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 				m_processMsg = "@PeriodClosed@";
 				return false;
 			}
-			if (MFactAcct.delete(Table_ID, getC_BankStatement_ID(), get_TrxName()) < 0)
-				return false;	//	could not delete
+			MFactAcct.deleteEx(Table_ID, getC_BankStatement_ID(), get_TrxName());
 		}
 		
 		//Added Lines by AZ Goodwill

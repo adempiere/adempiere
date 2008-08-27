@@ -680,10 +680,8 @@ public class MCash extends X_C_Cash implements DocAction
 			throw new IllegalStateException("Cannot save journal cash");
 			
 		//	Delete Posting
-		String sql = "DELETE FROM Fact_Acct WHERE AD_Table_ID=" + MCash.Table_ID
-			+ " AND Record_ID=" + getC_Cash_ID();
-		int no = DB.executeUpdate(sql, get_TrxName());
-		log.fine("Fact_Acct deleted #" + no);
+		MFactAcct.deleteEx(Table_ID, getC_Cash_ID(), get_TrxName());
+		
 		return true;
 	}	//	reverse
 	
