@@ -1128,11 +1128,8 @@ public class MOrder extends X_C_Order implements DocAction
 		if (isProcessed())
 			return false;
 		
-		getLines();
-		for (int i = 0; i < m_lines.length; i++)
-		{
-			if (!m_lines[i].beforeDelete())
-				return false;
+		for (MOrderLine line : getLines()) {
+			line.deleteEx(true);
 		}
 		return true;
 	}	//	beforeDelete
