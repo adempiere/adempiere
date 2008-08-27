@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -36,11 +36,13 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MMatchInv.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1926113 ] MMatchInv.getNewerDateAcct() should work in trx
  */
 public class MMatchInv extends X_M_MatchInv
 {
 	private static final long serialVersionUID = 1L;
-
 
 	/**
 	 * 	Get InOut-Invoice Matches
@@ -296,51 +298,20 @@ public class MMatchInv extends X_M_MatchInv
 	 * 	Get the later Date Acct from invoice or shipment
 	 *	@return date or null
 	 */
-	private Timestamp getNewerDateAcct()
+	public Timestamp getNewerDateAcct()
 	{
-		Timestamp invoiceDate = null;
-		Timestamp shipDate = null;
-		
 		String sql = "SELECT i.DateAcct "
 			+ "FROM C_InvoiceLine il"
 			+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID) "
 			+ "WHERE C_InvoiceLine_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getC_InvoiceLine_ID());
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				invoiceDate = rs.getTimestamp(1);
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
+		Timestamp invoiceDate = DB.getSQLValueTS(get_TrxName(), sql, getC_InvoiceLine_ID());
+		//
 		sql = "SELECT io.DateAcct "
 			+ "FROM M_InOutLine iol"
 			+ " INNER JOIN M_InOut io ON (io.M_InOut_ID=iol.M_InOut_ID) "
 			+ "WHERE iol.M_InOutLine_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getM_InOutLine_ID());
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				shipDate = rs.getTimestamp(1);
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
+		Timestamp shipDate = DB.getSQLValueTS(get_TrxName(), sql, getM_InOutLine_ID());
 		//
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
 		if (invoiceDate == null)
 			return shipDate;
 		if (shipDate == null)
