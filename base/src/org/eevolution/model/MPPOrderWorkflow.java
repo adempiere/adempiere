@@ -26,16 +26,20 @@ import java.util.logging.Level;
 import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
-import org.compiere.util.Env;
+import org.compiere.wf.MWorkflow;
 
 /**
- *	WorkFlow Model
+ *	PP Order WorkFlow Model
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPPOrderWorkflow.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ *  @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderWorkflow extends X_PP_Order_Workflow
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Get Workflow from Cache
 	 *	@param ctx context
@@ -97,6 +101,50 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		super(ctx, rs, trxName);
 		loadNodes();
 	}	//	Workflow
+	
+	/**
+	 * Peer constructor
+	 * @param workflow
+	 * @param PP_Order_ID
+	 * @param trxName
+	 */
+	public MPPOrderWorkflow (MWorkflow workflow, int PP_Order_ID, String trxName)
+	{
+		this(workflow.getCtx(), 0, trxName);
+		setPP_Order_ID(PP_Order_ID);
+		//
+		setValue(workflow.getValue());
+		setWorkflowType(workflow.getWorkflowType());
+		setQtyBatchSize(workflow.getQtyBatchSize());
+		setName(workflow.getName());
+		setAccessLevel(workflow.getAccessLevel());
+		setAuthor(workflow.getAuthor());
+		setDurationUnit(workflow.getDurationUnit());
+		setDuration(workflow.getDuration());
+		setEntityType(workflow.getEntityType());
+		setIsDefault(workflow.isDefault());
+		setPublishStatus(workflow.getPublishStatus());
+		setVersion(workflow.getVersion());
+		setCost(workflow.getCost());
+		setWaitingTime(workflow.getWaitingTime());
+		setWorkingTime(workflow.getWorkingTime());
+		setAD_WF_Responsible_ID(workflow.getAD_WF_Responsible_ID());
+		setAD_Workflow_ID(workflow.getAD_Workflow_ID());
+		setLimit(workflow.getLimit());
+		setPriority(workflow.getPriority());
+		setValidateWorkflow(workflow.getValidateWorkflow());
+		setS_Resource_ID(workflow.getS_Resource_ID());
+		setQueuingTime(workflow.getQueuingTime());
+		setSetupTime(workflow.getSetupTime());
+		setMovingTime(workflow.getMovingTime());
+		setProcessType(workflow.getProcessType());
+		setAD_Table_ID(workflow.getAD_Table_ID());
+		setAD_WF_Node_ID(workflow.getAD_WF_Node_ID());
+		setAD_WorkflowProcessor_ID(workflow.getAD_WorkflowProcessor_ID());
+		setDescription(workflow.getDescription());
+		setValidFrom(workflow.getValidFrom());
+		setValidTo(workflow.getValidTo());
+	}
 
 	/**	WF Nodes				*/
 	private List<MPPOrderNode> m_nodes = null;
@@ -104,17 +152,16 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	/**
 	 * 	Load All Nodes
 	 */
-	private void loadNodes()
+	protected void loadNodes()
 	{
 		final String whereClause = MPPOrderNode.COLUMNNAME_PP_Order_Workflow_ID+"=? AND IsActive=?";
 		m_nodes = new Query(getCtx(), MPPOrderNode.Table_Name, whereClause, get_TrxName())
-		.setParameters(new Object[]{get_ID(), "Y"})
-		.list();
+						.setParameters(new Object[]{get_ID(), "Y"})
+						.list();
 		log.fine("#" + m_nodes.size());
 	}	//	loadNodes
 
-
-	/**************************************************************************
+	/**
 	 * 	Get Number of Nodes
 	 * 	@return number of nodes
 	 */
@@ -401,23 +448,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		return sb.toString ();
 	} //	toString
 
-	/**************************************************************************
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true
-	 */
-	protected boolean beforeSave (boolean newRecord)
-	{
-		//validate();
-		return true;
-	}	//	beforeSave
-
-	/**
-	 *  After Save.
-	 *  @param newRecord new record
-	 *  @param success success
-	 *  @return true if save complete (if not overwritten true)
-	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		log.fine("Success=" + success);
@@ -431,9 +462,6 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 
 		return success;
 	}   //  afterSave
-
-
-
 
 	/**
 	 * 	Get Duration Base in Seconds
@@ -480,95 +508,4 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			return Calendar.YEAR;
 		return Calendar.MINUTE;
 	}	//	getDurationCalendarField
-
-
-
-
-
-
-	/**************************************************************************
-	 * 	main
-	 *	@param args
-	 */
-	public static void main (String[] args)
-	{
-		org.compiere.Adempiere.startup(true);
-
-		//	Create Standard Document Process
-		MPPOrderWorkflow wf = new MPPOrderWorkflow(Env.getCtx(), 0, null);
-		wf.setValue ("Process_xx");
-		wf.setName (wf.getValue());
-		wf.setDescription("(Standard " + wf.getValue());
-		wf.setEntityType (ENTITYTYPE_Dictionary);
-		wf.save();
-		//
-		MPPOrderNode node10 = new MPPOrderNode (wf, "10", "(Start)");
-		node10.setDescription("(Standard Node)");
-		node10.setEntityType (ENTITYTYPE_Dictionary);
-		node10.setAction(MPPOrderNode.ACTION_WaitSleep);
-		//node10.setWaitTime(0);
-		node10.setPosition(5, 5);
-		node10.save();
-		wf.setPP_Order_Node_ID(node10.getPP_Order_Node_ID());
-		wf.save();
-
-		MPPOrderNode node20 = new MPPOrderNode (wf, "20", "(DocAuto)");
-		node20.setDescription("(Standard Node)");
-		node20.setEntityType (ENTITYTYPE_Dictionary);
-		node20.setAction(MPPOrderNode.ACTION_DocumentAction);
-		node20.setDocAction(MPPOrderNode.DOCACTION_None);
-		node20.setPosition(5, 120);
-		node20.save();
-		MPPOrderNodeNext tr10_20 = new MPPOrderNodeNext(node10, node20.getPP_Order_Node_ID());
-		tr10_20.setEntityType (ENTITYTYPE_Dictionary);
-		tr10_20.setDescription("(Standard Transition)");
-		tr10_20.setSeqNo(100);
-		tr10_20.save();
-
-		MPPOrderNode node100 = new MPPOrderNode (wf, "100", "(DocPrepare)");
-		node100.setDescription("(Standard Node)");
-		node100.setEntityType (ENTITYTYPE_Dictionary);
-		node100.setAction(MPPOrderNode.ACTION_DocumentAction);
-		node100.setDocAction(MPPOrderNode.DOCACTION_Prepare);
-		node100.setPosition(170, 5);
-		node100.save();
-		MPPOrderNodeNext tr10_100 = new MPPOrderNodeNext(node10, node100.getPP_Order_Node_ID());
-		tr10_100.setEntityType (ENTITYTYPE_Dictionary);
-		tr10_100.setDescription("(Standard Approval)");
-		tr10_100.setIsStdUserWorkflow(true);
-		tr10_100.setSeqNo(10);
-		tr10_100.save();
-
-		MPPOrderNode node200 = new MPPOrderNode (wf, "200", "(DocComplete)");
-		node200.setDescription("(Standard Node)");
-		node200.setEntityType (ENTITYTYPE_Dictionary);
-		node200.setAction(MPPOrderNode.ACTION_DocumentAction);
-		node200.setDocAction(MPPOrderNode.DOCACTION_Complete);
-		node200.setPosition(170, 120);
-		node200.save();
-		MPPOrderNodeNext tr100_200 = new MPPOrderNodeNext(node100, node200.getPP_Order_Node_ID());
-		tr100_200.setEntityType (ENTITYTYPE_Dictionary);
-		tr100_200.setDescription("(Standard Transition)");
-		tr100_200.setSeqNo(100);
-		tr100_200.save();
-
-
-		/**
-		Env.setContext(Env.getCtx(), "#AD_Client_ID ", "11");
-		Env.setContext(Env.getCtx(), "#AD_Org_ID ", "11");
-		Env.setContext(Env.getCtx(), "#AD_User_ID ", "100");
-		//
-		int PP_Order_Workflow_ID = 115;			//	Requisition WF
-		int M_Requsition_ID = 100;
-		MRequisition req = new MRequisition (Env.getCtx(), M_Requsition_ID);
-		req.setDocStatus(DocAction.DOCSTATUS_Drafted);
-		req.save();
-		Log.setTraceLevel(8);
-		System.out.println("---------------------------------------------------");
-		MPPOrderWorkflow wf = MPPOrderWorkflow.get (Env.getCtx(), PP_Order_Workflow_ID);
-		 **/
-		//	wf.start(M_Requsition_ID);
-
-	}	//	main
-
 }	//	MPPOrderWorkflow_ID

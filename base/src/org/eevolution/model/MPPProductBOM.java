@@ -37,7 +37,7 @@ import org.compiere.util.Env;
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrder.java,v 1.40 2004/04/13 04:19:30 vpj-cd Exp $
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPProductBOM extends X_PP_Product_BOM
 {
@@ -46,7 +46,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	/** Static Logger */
 	private static CLogger log = CLogger.getCLogger(MPPProductBOM.class);
 	/**	Cache						*/
-	private static CCache<Integer,MPPProductBOM> s_cache = new CCache<Integer,MPPProductBOM>(Table_Name, 40, 5);	//	5 minutes
+	private static CCache<Integer,MPPProductBOM> s_cache = new CCache<Integer,MPPProductBOM>(Table_Name, 40, 5);
 	
 	/**
 	 * Load/Get Product BOM by ID (cached) 
@@ -78,49 +78,8 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 */
 	public MPPProductBOM(Properties ctx, int PP_Product_BOM_ID,String trxName)
 	{
-		super (ctx,  PP_Product_BOM_ID,trxName);
-		//  New
-		if ( PP_Product_BOM_ID == 0)
-		{
-			//setDocStatus(DOCSTATUS_Drafted);
-			//setDocAction (DOCACTION_Prepare);
-			//
-			//setDeliveryRule (DELIVERYRULE_Availability);
-			//setFreightCostRule (FREIGHTCOSTRULE_FreightIncluded);
-			//setInvoiceRule (INVOICERULE_Immediate);
-			//setPaymentRule(PAYMENTRULE_OnCredit);
-			//setPriorityRule (PRIORITYRULE_Medium);
-			//setDeliveryViaRule (DELIVERYVIARULE_Pickup);
-			//
-			//setIsDiscountPrinted (false);
-			//setIsSelected (false);
-			//setIsTaxIncluded (false);
-			//setIsSOTrx (true);
-			///setIsDropShip(false);
-			//setSendEMail (false);
-			//
-			//setIsApproved(false);
-			//setIsPrinted(false);
-			//setIsCreditApproved(false);
-			//setIsDelivered(false);
-			//setIsInvoiced(false);
-			//setIsTransferred(false);
-			//setIsSelfService(false);
-			//
-			//setProcessed(false);
-			//setProcessing(false);
-			//setPosted(false);
-
-			//setDateAcct (new Timestamp(System.currentTimeMillis()));
-			//setDatePromised (new Timestamp(System.currentTimeMillis()));
-			//setDateOrdered (new Timestamp(System.currentTimeMillis()));
-
-			//setFreightAmt (Env.ZERO);
-			//setChargeAmt (Env.ZERO);
-			//setTotalLines (Env.ZERO);
-			//setGrandTotal (Env.ZERO);
-		}
-	}	//	MOrder
+		super (ctx, PP_Product_BOM_ID, trxName);
+	}	//	MPPProductBOM
 
 
 	/**
@@ -132,21 +91,6 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	{
 		super (ctx, rs,trxName);
 	}	//	MOrder
-
-
-
-
-
-	/**
-	 * 	Overwrite Client/Org if required
-	 * 	@param AD_Client_ID client
-	 * 	@param AD_Org_ID org
-	 */
-	public void setClientOrg (int AD_Client_ID, int AD_Org_ID)
-	{
-		super.setClientOrg(AD_Client_ID, AD_Org_ID);
-	}	//	setClientOrg
-
 
 	/**
 	 * 	Copy Lines From other BOM
@@ -164,15 +108,6 @@ public class MPPProductBOM extends X_PP_Product_BOM
 			MPPProductBOMLine line = new MPPProductBOMLine (this);
 			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
 			line.setPP_Product_BOM_ID(getPP_Product_BOM_ID());
-			//line.setOrder(bom);
-			line.setPP_Product_BOMLine_ID(0);
-			//
-			//line.setQtyDelivered(Env.ZERO);
-			//line.setQtyInvoiced(Env.ZERO);
-			//line.setDateDelivered(null);
-			//line.setDateInvoiced(null);
-			//line.setRef_OrderLine_ID(0);
-			//line.setTax();
 			if (line.save(get_TrxName()))
 				count++;
 		}
@@ -187,7 +122,8 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 * BUG #104
 	 * @param lines
 	 */
-	private void setLines(List<MPPProductBOMLine> lines) {
+	private void setLines(List<MPPProductBOMLine> lines)
+	{
 		this.lines = lines;
 	}
 
@@ -272,28 +208,10 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	public static MPPProductBOM get(MProduct product, int ad_org_id, Timestamp valid, String trxName)
 	{
 		MPPProductBOM bom = get(product, ad_org_id, trxName);
-		//
-		// Validate date
-		if (bom != null)
+		if (bom != null && bom.isValidFromTo(valid))
 		{	
-			boolean ValidFromBOM = true;
-			boolean ValidToBOM = true;
-			if (bom.getValidFrom() != null)
-			{		
-				ValidFromBOM = valid.compareTo(bom.getValidFrom()) >= 0 ? true : false;
-			}
-			if (bom.getValidTo() != null )
-			{		
-				ValidToBOM = valid.compareTo(bom.getValidTo()) <= 0 ? true : false;
-			}
-			if(ValidFromBOM && ValidToBOM)
-			{ 
-				return bom;
-			}
-			else
-				return null;
+			return bom;
 		}	
-
 		return null;
 
 	}	//	getBOM
@@ -308,20 +226,9 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		MPPProductBOMLine[] bomlines = getLines(); // All BOM Lines
 		List<MPPProductBOMLine> list = new ArrayList<MPPProductBOMLine>(); // Selected BOM Lines Only
 		for (MPPProductBOMLine bl : bomlines) {
-			boolean ValidFromBOMLine = true;
-			boolean ValidToBOMLine = true;
-			if (bl.getValidFrom() != null)
-			{		
-				ValidFromBOMLine = valid.compareTo(bl.getValidFrom()) >= 0 ? true : false;
-			}
-			if (bl.getValidTo() != null )
-			{		
-				ValidToBOMLine = valid.compareTo(bl.getValidTo()) <= 0 ? true : false;
-			}        	        	
-			if(ValidFromBOMLine && ValidToBOMLine)
-			{ 
+			if (bl.isValidFromTo(valid)) {
 				list.add(bl);
-			}	
+			}
 		}
 		//
 		return list.toArray(new MPPProductBOMLine[list.size()]);
@@ -333,12 +240,14 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 */
 	public  MPPProductBOMLine[] getLines()
 	{
-		// TODO: add caching support
-		String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?";
-		List<MPPProductBOMLine> list = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause, get_TrxName())
+		if (this.lines == null)
+		{
+			final String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?";
+			this.lines = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause, get_TrxName())
 											.setParameters(new Object[]{getPP_Product_BOM_ID()})
 											.list();
-		return list.toArray(new MPPProductBOMLine[list.size()]);
+		}
+		return this.lines.toArray(new MPPProductBOMLine[this.lines.size()]);
 	}	//	getLines    		
 
 	/**
@@ -350,8 +259,8 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	{
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		String sql = "SELECT pb.PP_Product_BOM_ID FROM PP_Product_BOM pb"
-						+" WHERE pb.Value = ? AND pb.AD_Client_ID = ?";
-		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);
+						+" WHERE pb.Value = ? AND pb.M_Product_ID=? AND pb.AD_Client_ID = ?";
+		return DB.getSQLValue(null, sql, product.getValue(), product.get_ID(), AD_Client_ID);
 	}
 	
 	/**
@@ -364,7 +273,17 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		return new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
 				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()})
 				.first();
-		
 	}
-
+	
+	public boolean isValidFromTo(Timestamp date)
+	{
+		Timestamp validFrom = getValidFrom();
+		Timestamp validTo = getValidTo();
+		
+		if (validFrom != null && date.before(validFrom))
+			return false;
+		if (validTo != null && date.after(validTo))
+			return false;
+		return true;
+	}
 }	//	MPPProductBOM

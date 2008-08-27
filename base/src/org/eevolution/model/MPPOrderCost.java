@@ -16,12 +16,10 @@
 
 package org.eevolution.model;
 
-import java.util.*;
-import java.sql.*;
-import java.math.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MCost;
 
 /**
  *  Order Model.
@@ -31,9 +29,13 @@ import org.compiere.model.*;
  *
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrder.java,v 1.40 2004/04/13 04:19:30 vpj-cd Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPOrderCost extends X_PP_Order_Cost
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *  Default Constructor
 	 *  @param ctx context
@@ -41,63 +43,36 @@ public class MPPOrderCost extends X_PP_Order_Cost
 	 */
 	public MPPOrderCost(Properties ctx, int PP_Order_Cost_ID,String trxName)
 	{
-		super (ctx,  PP_Order_Cost_ID,trxName);
-		//  New
-		if ( PP_Order_Cost_ID == 0)
-		{
-
-		}
+		super (ctx, PP_Order_Cost_ID, trxName);
 	}	//	MOrder
-        
-        	/**
-	 *  Load Constructor
-	 *  @param ctx context
-	 *  @param rs result set record
+
+	/**
+	 * Peer constructor
+	 * @param cost
+	 * @param PP_Order_ID
 	 */
-	public MPPOrderCost(Properties ctx, MCost m_cost, int PP_Order_ID, String trxName)
+	public MPPOrderCost(MCost cost, int PP_Order_ID, String trxName)
 	{
-		super (ctx, 0,trxName);
-                
-                setC_AcctSchema_ID(m_cost.getC_AcctSchema_ID());
-                
-                setCumulatedAmt(m_cost.getCumulatedAmt());
-                setCumulatedQty(m_cost.getCumulatedQty()); 
-                setCurrentCostPrice(m_cost.getCurrentCostPrice());
-                setCurrentCostPriceLL(m_cost.getCurrentCostPriceLL());
-                setM_Product_ID(m_cost.getM_Product_ID());               
-                setM_CostElement_ID(m_cost.getM_CostElement_ID());
-                setM_AttributeSetInstance_ID(m_cost.getM_AttributeSetInstance_ID());
-                save(get_TrxName());
-                
-	}	//	MOrder
+		this(cost.getCtx(), 0, trxName);
 
-        
-        
-	
+		setPP_Order_ID(PP_Order_ID);
+		setC_AcctSchema_ID(cost.getC_AcctSchema_ID());
+		setCumulatedAmt(cost.getCumulatedAmt());
+		setCumulatedQty(cost.getCumulatedQty());
+		setCurrentCostPriceLL(cost.getCurrentCostPriceLL());
+		setCurrentCostPrice(cost.getCurrentCostPrice());
+		setM_Product_ID(cost.getM_Product_ID());
+		setM_AttributeSetInstance_ID(cost.getM_AttributeSetInstance_ID());
+		setM_CostElement_ID(cost.getM_CostElement_ID());
+	}
+
 	/**
 	 *  Load Constructor
 	 *  @param ctx context
 	 *  @param rs result set record
 	 */
-	public MPPOrderCost(Properties ctx, ResultSet rs,String trxName)
+	 public MPPOrderCost(Properties ctx, ResultSet rs, String trxName)
 	{
-		super (ctx, rs,"PP_Order_Cost");
+		 super (ctx, rs, trxName);
 	}	//	MOrder
-
-	/**
-	 * 	Overwrite Client/Org if required
-	 * 	@param AD_Client_ID client
-	 * 	@param AD_Org_ID org
-	 */
-	public void setClientOrg (int AD_Client_ID, int AD_Org_ID)
-	{
-		super.setClientOrg(AD_Client_ID, AD_Org_ID);
-	}	//	setClientOrg
-
-
-	//	save
-
-	
-	
-
-}	//	MOrder
+}

@@ -24,9 +24,13 @@ import java.util.Properties;
  *
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrder.java,v 1.40 2004/04/13 04:19:30 vpj-cd Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
  */
 public class MPPOrderBOM extends X_PP_Order_BOM
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *  Default Constructor
 	 *  @param ctx context
@@ -51,6 +55,37 @@ public class MPPOrderBOM extends X_PP_Order_BOM
 	{
 		super (ctx, rs, trxName);
 	}	//	MOrder
+	
+	/**
+	 * Peer constructor
+	 * @param bom
+	 * @param PP_Order_ID
+	 * @param trxName
+	 */
+	public MPPOrderBOM(MPPProductBOM bom, int PP_Order_ID, String trxName)
+	{
+		this(bom.getCtx(), 0, trxName);
+		//
+		setBOMType(bom.getBOMType());
+		setBOMUse(bom.getBOMUse());
+		setM_ChangeNotice_ID(bom.getM_ChangeNotice_ID());
+		setHelp(bom.getHelp());
+		//setCopyFrom(bom.getCopyFrom());
+		setProcessing(bom.isProcessing());
+		setHelp(bom.getHelp());
+		setDescription(bom.getDescription());
+		setM_AttributeSetInstance_ID(bom.getM_AttributeSetInstance_ID());
+		setM_Product_ID(bom.getM_Product_ID());
+		setName(bom.getName());
+		setRevision(bom.getRevision());
+		setValidFrom(bom.getValidFrom());
+		setValidTo(bom.getValidTo());
+		setValue(bom.getValue());
+		setDocumentNo(bom.getDocumentNo());
+		setC_UOM_ID(bom.getC_UOM_ID());
+		//
+		setPP_Order_ID(PP_Order_ID);
+	}
 
 	/**
 	 * 	String Representation

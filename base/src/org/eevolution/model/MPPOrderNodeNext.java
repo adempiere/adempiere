@@ -16,22 +16,24 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.model.*;
-import org.compiere.process.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.DB;
+import org.compiere.wf.MWFNodeNext;
 
 /**
- *	Workflow Node Next - Transition
+ *	PP Order Workflow Node Next - Transition
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPPOrdeNodeNext.java,v 1.3 2006/10/06 00:42:24 jjanke Exp $
+ * 
+ * @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Standard Costructor
 	 *	@param ctx context
@@ -75,8 +77,28 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 		setPP_Order_Next_ID(PP_Order_Next_ID);
 	}	//	MPPOrderNodeNext
 
-	/** Transition Conditions			*/
-	//private MWFNextCondition[] 	m_conditions = null;
+	/**
+	 * Peer constructor
+	 * @param wfNodeNext
+	 * @param PP_Order_Node
+	 * @param trxName
+	 */
+	public MPPOrderNodeNext (MWFNodeNext wfNodeNext, MPPOrderNode PP_Order_Node, String trxName)
+	{
+		this(wfNodeNext.getCtx(), 0, trxName);
+		setPP_Order_Node_ID(PP_Order_Node.get_ID());
+		setPP_Order_ID(PP_Order_Node.getPP_Order_ID());
+		setPP_Order_Next_ID(0);
+		//
+		setAD_WF_Node_ID(wfNodeNext.getAD_WF_Node_ID());
+		setAD_WF_Next_ID(wfNodeNext.getAD_WF_Next_ID());
+		setDescription(wfNodeNext.getDescription());
+		setEntityType(wfNodeNext.getEntityType());
+		setIsStdUserWorkflow(wfNodeNext.isStdUserWorkflow());
+		setSeqNo(wfNodeNext.getSeqNo());
+		setTransitionCode(wfNodeNext.getTransitionCode());
+	}
+
 	/**	From (Split Eleemnt) is AND		*/
 	public Boolean				m_fromSplitAnd = null;
 	/**	To (Join Element) is AND		*/
@@ -108,11 +130,6 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 		sb.append ("]");
 		return sb.toString ();
 	}	//	toString
-	
-	
-	
-
-	
 	
 	/**
 	 * 	Split Element is AND
@@ -160,4 +177,12 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 		m_toJoinAnd = new Boolean(toJoinAnd);
 	}	//	setToJoinAnd
 
+	public void setPP_Order_Next_ID()
+	{
+		final String sql = "SELECT PP_Order_Node_ID FROM PP_Order_Node "
+							+ " WHERE PP_Order_ID=? AND AD_WF_Node_ID=? AND AD_Client_ID=?";
+		int id = DB.getSQLValue(get_TrxName(), sql, getPP_Order_ID(), getAD_WF_Next_ID(), getAD_Client_ID());
+		if (id > 0)
+			setPP_Order_Next_ID(id);
+	}
 }	//	MPPOrderNodeNext

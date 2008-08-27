@@ -628,4 +628,20 @@ public class MWFNode extends X_AD_WF_Node
 		return success;
 	}	//	afterDelete
 
+	/**
+	 * Check if the workflow node is valid for given date
+	 * @param date
+	 * @return true if valid
+	 */
+	public boolean isValidFromTo(Timestamp date)
+	{
+		Timestamp validFrom = getValidFrom();
+		Timestamp validTo = getValidTo();
+		
+		if (validFrom != null && date.before(validFrom))
+			return false;
+		if (validTo != null && date.after(validTo))
+			return false;
+		return true;
+	}
 }	//	M_WFNext

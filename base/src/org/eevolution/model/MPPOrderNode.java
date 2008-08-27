@@ -17,6 +17,7 @@
 package org.eevolution.model;
 
 import java.awt.Point;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +28,21 @@ import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.wf.MWFNode;
 
 /**
- *	Workflow Node Model
+ *	PP Order Workflow Node Model
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MWFNode.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- * 			<li>BF [ 2041799 ] Can't delete PP_Order_Node (Not found=PP_Order_Node_Trl)
+ * @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderNode extends X_PP_Order_Node
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Get WF Node from Cache
 	 *	@param ctx context
@@ -107,6 +111,62 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setName (Name);
 		m_durationBaseMS = wf.getDurationBaseSec() * 1000;
 	}	//	MPPOrderNode
+	
+	/**
+	 * Peer constructor
+	 * @param wfNode
+	 * @param PP_Order_Workflow
+	 * @param qtyOrdered
+	 * @param trxName
+	 */
+	public MPPOrderNode (MWFNode wfNode, MPPOrderWorkflow PP_Order_Workflow,
+							BigDecimal qtyOrdered,
+							String trxName)
+	{
+		this(wfNode.getCtx(), 0, trxName);
+		setPP_Order_ID(PP_Order_Workflow.getPP_Order_ID());
+		setPP_Order_Workflow_ID(PP_Order_Workflow.getPP_Order_Workflow_ID());
+		//
+		setAction(wfNode.getAction());
+		setAD_WF_Node_ID(wfNode.getAD_WF_Node_ID());
+		setAD_WF_Responsible_ID(wfNode.getAD_WF_Responsible_ID());
+		setAD_Workflow_ID(wfNode.getAD_Workflow_ID());
+		setCost(wfNode.getCost());
+		setDuration(wfNode.getDuration());
+		setEntityType(wfNode.getEntityType());
+		setIsCentrallyMaintained(wfNode.isCentrallyMaintained());
+		setJoinElement(wfNode.getJoinElement()); // X
+		setLimit(wfNode.getLimit());
+		setName(wfNode.getName());
+		setPriority(wfNode.getPriority());
+		setSplitElement(wfNode.getSplitElement()); // X
+		setSubflowExecution(wfNode.getSubflowExecution());
+		setValue(wfNode.getValue());
+		setS_Resource_ID(wfNode.getS_Resource_ID());
+		setSetupTime(wfNode.getSetupTime());
+		setSetupTimeRequiered(wfNode.getSetupTime());
+		BigDecimal time = new BigDecimal(wfNode.getDuration()).multiply(qtyOrdered);
+		setDurationRequiered(time.intValue());
+		setMovingTime(wfNode.getMovingTime());
+		setWaitingTime(wfNode.getWaitingTime());
+		setWorkingTime(wfNode.getWorkingTime());
+		setQueuingTime(wfNode.getQueuingTime());
+		setXPosition(wfNode.getXPosition());
+		setYPosition(wfNode.getYPosition());
+		setDocAction(wfNode.getDocAction());
+		setAD_Column_ID(wfNode.getAD_Column_ID());
+		setAD_Form_ID(wfNode.getAD_Form_ID());
+		setAD_Image_ID(wfNode.getAD_Image_ID());
+		setAD_Window_ID(wfNode.getAD_Window_ID());
+		setAD_Process_ID(wfNode.getAD_Process_ID());
+		setAttributeName(wfNode.getAttributeName());
+		setAttributeValue(wfNode.getAttributeValue());
+		setC_BPartner_ID(wfNode.getC_BPartner_ID());
+		setStartMode(wfNode.getStartMode());
+		setFinishMode(wfNode.getFinishMode());
+		setValidFrom(wfNode.getValidFrom());
+		setValidTo(wfNode.getValidTo());
+	}
 	
 	/**
 	 * 	Load Constructor - save to cache

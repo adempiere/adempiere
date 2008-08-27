@@ -19,6 +19,7 @@ package org.compiere.wf;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
@@ -934,4 +935,20 @@ public class MWorkflow extends X_AD_Workflow
 		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);
 	}
 
+	/**
+	 * Check if the workflow is valid for given date
+	 * @param date
+	 * @return true if valid
+	 */
+	public boolean isValidFromTo(Timestamp date)
+	{
+		Timestamp validFrom = getValidFrom();
+		Timestamp validTo = getValidTo();
+		
+		if (validFrom != null && date.before(validFrom))
+			return false;
+		if (validTo != null && date.after(validTo))
+			return false;
+		return true;
+	}
 }	//	MWorkflow_ID

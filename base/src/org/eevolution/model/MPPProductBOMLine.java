@@ -18,6 +18,7 @@ package org.eevolution.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Hashtable;
 import java.util.Properties;
 
@@ -113,6 +114,18 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 			product.setLowLevel(lowlevel); //update lowlevel
 			product.saveEx();
 		}
+		return true;
+	}
+	
+	public boolean isValidFromTo(Timestamp date)
+	{
+		Timestamp validFrom = getValidFrom();
+		Timestamp validTo = getValidTo();
+		
+		if (validFrom != null && date.before(validFrom))
+			return false;
+		if (validTo != null && date.after(validTo))
+			return false;
 		return true;
 	}
 }
