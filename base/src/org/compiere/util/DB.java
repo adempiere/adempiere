@@ -792,7 +792,8 @@ public final class DB
 	 * @param stmt statements
 	 * @param params parameters array; if null or empty array, no parameters are set
 	 */
-	private static void setParameters(PreparedStatement stmt, Object[] params) throws SQLException
+	private static void setParameters(PreparedStatement stmt, Object[] params)
+	throws SQLException
 	{
 		if (params == null || params.length == 0) {
 			return;
@@ -800,20 +801,33 @@ public final class DB
 		//
 		for (int i = 0; i < params.length; i++)
 		{
-			Object param = params[i];
-			if (param == null)
-				stmt.setObject(i+1, null);
-			else if (param instanceof String)
-				stmt.setString(i+1, (String)param);
-			else if (param instanceof Integer)
-				stmt.setInt(i+1, ((Integer)param).intValue());
-			else if (param instanceof BigDecimal)
-				stmt.setBigDecimal(i+1, (BigDecimal)param);
-			else if (param instanceof Timestamp)
-				stmt.setTimestamp(i+1, (Timestamp)param);
-			else if (param instanceof Boolean)
-				stmt.setString(i+1, ((Boolean)param).booleanValue() ? "Y" : "N");
+			setParameter(stmt, i+1, params[i]);
 		}
+	}
+	
+	/**
+	 * Set PreparedStatement's parameter.
+	 * Similar with calling <code>pstmt.setObject(index, param)</code> 
+	 * @param pstmt
+	 * @param index
+	 * @param param
+	 * @throws SQLException
+	 */
+	public static void setParameter(PreparedStatement pstmt, int index, Object param)
+	throws SQLException
+	{
+		if (param == null)
+			pstmt.setObject(index, null);
+		else if (param instanceof String)
+			pstmt.setString(index, (String)param);
+		else if (param instanceof Integer)
+			pstmt.setInt(index, ((Integer)param).intValue());
+		else if (param instanceof BigDecimal)
+			pstmt.setBigDecimal(index, (BigDecimal)param);
+		else if (param instanceof Timestamp)
+			pstmt.setTimestamp(index, (Timestamp)param);
+		else if (param instanceof Boolean)
+			pstmt.setString(index, ((Boolean)param).booleanValue() ? "Y" : "N");
 	}
 
 	/**

@@ -353,12 +353,12 @@ public class Query {
 	{
 		if (parameters != null && parameters.length > 0) 
 		{
+			
 			for (int i = 0; i < parameters.length; i++)
 			{
-				pstmt.setObject(i+1, parameters[i]);
+				DB.setParameter(pstmt, i+1, parameters[i]);
 			}
 		}
 		return pstmt.executeQuery();
 	}
-	
 }
